@@ -1,0 +1,49 @@
+--- ESQUISSE_READERS_checkpoint_01.zip!/scripts/bootstrap_tex.py
++++ final!/scripts/bootstrap_tex.py
+@@ -6,10 +6,10 @@
+ """
+ import argparse, concurrent.futures, json, os, pathlib, subprocess, tarfile, urllib.request
+ PACKAGES = ['luatex','luaotfload','luatexbase','lualibs','lua-alt-getopt','lua-uni-algos','luacode','hyph-utf8','hyphen-english','hyphen-french','babel-french','ulem','soul']
+-MIRROR = 'https://mirrors.mit.edu/CTAN/systems/texlive/tlnet/archive/'
++MIRROR = 'https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2024/tlnet-final/archive/'
+ def prepare(root):
+     root=pathlib.Path(root).resolve(); tree=root/'texmf'; tree.mkdir(parents=True,exist_ok=True)
+-    pkgdir=root/'packages';pkgdir.mkdir(exist_ok=True)
++    pkgdir=root/'packages-2024';pkgdir.mkdir(exist_ok=True)
+     def fetch(name):
+         archive=pkgdir/(name+'.tar.xz')
+         if not archive.exists():
+@@ -31,9 +31,16 @@
+     # A small map assembled from installed maps is enough for the AMS and CM math fonts.
+     maps=tree/'fonts/map/pdftex/updmap';maps.mkdir(parents=True,exist_ok=True)
+     mapsrc=[]
+-    for d in [pathlib.Path('[redacted local path; sha256=2a92cf472cdf23c568e778338f05901a6e82af719cf8689718852706696d9f79]'),pathlib.Path('[redacted local path; sha256=c551465b7517e68822eb1b8b6539b38032022ac4440981d2b2da24fee0d97385]')]:
+-        mapsrc.extend(d.glob('*.map'))
+-    (maps/'pdftex.map').write_text('\n'.join(p.read_text() for p in mapsrc))
++    probe_env=tex_env(root)
++    for mapname in ['cm.map','lm.map','cmextra.map','latxfont.map','cyrillic.map','euler.map','symbols.map']:
++        found=subprocess.run(['kpsewhich',mapname],env=probe_env,capture_output=True,text=True).stdout.strip()
++        if found and pathlib.Path(found).exists():mapsrc.append(pathlib.Path(found))
++    maplines={}
++    for p in mapsrc:
++        for line in p.read_text().splitlines():
++            if line.strip() and not line.lstrip().startswith('%'):
++                maplines.setdefault(line.split()[0],line)
++    (maps/'pdftex.map').write_text('\n'.join(maplines.values())+'\n')
+     env=tex_env(root)
+     fmtdir=root/'var/web2c/luahbtex';fmtdir.mkdir(parents=True,exist_ok=True)
+     if not (fmtdir/'lualatex.fmt').exists():
+@@ -46,10 +53,11 @@
+ def tex_env(root):
+     root=pathlib.Path(root).resolve();env=os.environ.copy()
+     for d in ['cache','config','var']: (root/d).mkdir(parents=True,exist_ok=True)
+-    env['TEXMF']='{'+str(root/'texmf')+',[redacted local path; sha256=39a99c8f3003f04fe3db6eea37143498b4f318a21da2d3b97a3133ab35d2244f]}'
++    system_texmf=subprocess.run(['kpsewhich','--var-value=TEXMF'],capture_output=True,text=True).stdout.strip().replace('!!','')
++    env['TEXMF']='{'+str(root/'texmf')+','+system_texmf+'}'
+     env['openout_any']='a'
+     env['TEXMFVAR']=str(root/'var');env['TEXMFCACHE']=str(root/'cache');env['TEXMFCONFIG']=str(root/'config')
+-    env['TEXFORMATS']=str(root/'var/web2c/luahbtex')+':';env['OSFONTDIR']='[redacted local path; sha256=b150ec3af36b22cc74a46669430b3db27a52bd26459059224c964f7fcd3df7c2]'
++    env['TEXFORMATS']=str(root/'var/web2c/luahbtex')+':'
+     return env
+ 
+ if __name__=='__main__':

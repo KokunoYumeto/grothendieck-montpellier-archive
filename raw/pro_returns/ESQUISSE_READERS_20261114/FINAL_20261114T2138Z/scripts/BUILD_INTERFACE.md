@@ -1,0 +1,173 @@
+# Build interface
+
+All paths below are relative to the edition folder. Each reader and each master
+is a standalone LuaLaTeX source. Compile any of those files directly on a standard
+TeX Live installation with `lualatex` three times.
+
+## Source and generation
+
+- `checked_pages/` is the scan-checked diplomatic source of record.
+- `editorial_variants.json` supplies individually justified editorial changes.
+- `annotated_pages/` is generated from those inputs, without overwriting them.
+- `translated_pages/` contains complete English translations with the same source
+  page keys. A translated variant uses `\var{page reading}{corrected reading}{kind}{id}`.
+  A French correction whose English is unchanged carries no English wording
+  variant. Its English clause carries `\frapparatus{French variant id}` for the
+  English account of that source-language correction. Translator explanations
+  use `\tnote{id}{text}`; they disappear in the English reading form.
+- `copy2_annotations.json`, when present, anchors copy 2 evidence in the corrected
+  apparatus by source page key. Entries provide `id`, `key`, `kind`, `text_fr`,
+  `text_en`, and an optional exact `anchor`; without an anchor the note is set at
+  the end of that source page. `anchor_fr` and `anchor_en` select language-specific
+  anchors; `copy2_key` identifies the evidence scan. An annotation whose
+  `merged_into_variant` field names a French correction remains in the record but
+  is printed through that correction's entry, once. Counts distinguish these
+  retained records from separately printed copy2 annotations.
+- `guide_fragments/` contains the separately authored guide paragraphs in order.
+- `templates/retained_usages_fr.tex` lists the recurring French usages retained in the
+  reading text, for its preface.
+
+Run `python scripts/apply_mechanical_cleanup.py` after finalized scan reviews.
+It applies only syntax repairs or exact individually approved repairs, records
+their hash transitions in `records/MECHANICAL_PATCHES.json`, and adds their
+decision/cleanup rows. It uses the same lock as the scan-review writer. The
+generator also locks the source snapshot while reading it.
+
+Run `python scripts/build_edition.py annotate` after a scan correction; run
+`python scripts/build_edition.py generate` to rebuild all forms. It writes the
+French and English standalone sources, their annotated masters, and the guide.
+Every visible change is carried by a variant with a kind and source reference.
+The generators never infer a new reading from grammar or mathematics.
+
+A lexical variant entry has `id`, `key`, `old`, `new`, `kind`, `reason_fr`,
+`reason_en`, and `source_ids`. `old` and `new` are exact TeX strings. Optional
+fields are `line`, `occurrence` (one-based; default 1), `math`, and evidence fields.
+The generator rejects an absent target. Original line-end hyphens are preserved.
+An exact variant ending in a TeX percent comment absorbs the existing source
+newline into both arguments; the resulting diplomatic recovery remains exact.
+There is no general rule joining words across a hyphen or a source-page boundary.
+
+## Compilation and mechanical checks
+
+`python scripts/compile_readers.py` compiles all generated sources and writes
+sanitized logs and measured PDF properties. `--names` selects individual stems;
+`--passes` defaults to three. The sources use Latin Modern fonts, fontspec,
+babel (French and English), amsmath/amssymb, ulem, xcolor, tikz-cd, marginnote,
+etoolbox, microtype and hyperref.
+
+`bootstrap_tex.py` is a fallback for an incomplete execution installation. It
+prepares a private TeX support tree and LuaLaTeX format from archived TeX Live
+2024 packages. It is unnecessary on a standard working TeX Live installation.
+Runtime package archives, font caches and temporary TeX outputs are excluded from
+publication files. The standalone reader sources do not depend on this helper.
+
+The generated records include:
+
+- `SOURCE_COVERAGE.tsv`: source hashes and exact diplomatic recovery checks.
+- `MASTER_FORM_EQUIVALENCE.json`: exact identity of every form's body and
+  declarations with the corresponding annotated master.
+- `TRANSLATION_COVERAGE.tsv`: literal math-string comparison and note counts.
+- `VARIANTS.json` and `CHANGES.tsv`: the complete French variant register.
+- `NOTE_LINKS.json`: note definitions and all return links.
+- `CLEANUP_LOG.tsv`: purely syntactic repairs and their decision references.
+- `APPARATUS_COUNTS.md`: counts by language, form and kind.
+- `BUILD_HISTORY.jsonl`, `PDF_CHECKS.json`, and `build_logs/`: actual build results.
+- `BUILD_INPUTS.json`: included source counts and a hash snapshot of the inputs.
+- `records/RENDERING_PROBE.json`: the exercised three-/four-line margin boundary,
+  durable grouped note bodies, their text-occurrence counts, and visual observation.
+
+`PDF_CHECKS.json` measures log errors, overfull boxes, missing characters, PDF
+links, source-page starts, landscape pages and ink bounds. These measurements do
+not claim visual review. The visual review record is completed only after the
+rendered pages are inspected.
+
+## Final PDF audit and visual observations
+
+`python scripts/pdf_final_audit.py --render` compares the actual compiled PDFs
+with the generated source. It writes `FINAL_PDF_AUDIT.json` and the typesetting
+report, and renders the forty-page sample plus every recorded overflow/landscape
+and designated repair page. The renderings are reproducible working files.
+
+Each per-reader result includes `compiled_source_matches`, `compiled_pdf_matches`,
+`upstream_input_mismatches`, per-ID `apparatus_entry_mismatches`, and detailed
+geometry failures. Paths and images are checked, including exact butt-capped
+rule geometry; the reserved marginal-note lane and conservative rule-box
+exclusions are individually recorded. Optical margin protrusion is disabled.
+
+`author_footnote_placements` gives each source (*)/(**) pair's actual physical PDF
+pages and a `same_physical_page` result. `endnote_link_audit` gives the calls,
+definitions, resolved PDF destinations, forward/return links and problems.
+`required_visual_pages` includes the forty spread pages and repair requirements.
+`uninspected_required_pages` is computed against the exact current PDF hash.
+
+After looking at the actual rendered pages, write an observation JSON list with
+`reader`, `pdf_sha256`, `pdf_page`, `phase`, and `observation`, and run
+`python scripts/record_visual_qa.py observations.json`. The helper validates the
+current PDF hash and appends safely to `VISUAL_QA.tsv` under a dedicated lock.
+Regenerate the PDF audit after appending observations.
+
+Final publication uses `RELEASE_STATUS.json` only after the source/collation and
+content work is complete. Working sources and PDFs explicitly identify their
+partial coverage. The final packaging groups FR/ in the French ZIP, EN/ and
+GUIDE/ in the English ZIP, and the remaining edition paths in the records ZIP;
+each ZIP also carries README.md. Extract all three into one directory to rebuild.
+
+## Renderer details and audit freshness
+
+`handcircle` preserves black typed contents inside a handwriting-colored oval.
+`sourceglyph` dispatches the recorded 119A contour and the two independently
+checked site118 spacing-bracket contours. All definitions are embedded in each
+standalone file; their provenance is in `records/SOURCE_GLYPHS.md`.
+
+The generated `margincluster` wrapper stacks adjacent short marginal notes in
+source order. Removing that wrapper recovers the exact input body. Each margin
+placement records `lines`, `box_height_pt`, `footnote_baseline_pt`,
+`within_three_line_height`, `labelled_block`, and the optional
+`vertical_offset_pt`. `marginal_note_audit.problems` reports any count, height,
+or block-label discrepancy.
+
+Each executed external link embeds a private `EsquisseLinkID` field in every
+PDF annotation rectangle it creates. `pdf_external_logical_links` counts these
+IDs; `pdf_external_link_annotations` counts the physical rectangles separately.
+`logical_link_rectangles` preserves their per-page geometry and target mapping.
+`logical_link_tracking_issues` reports absent IDs or conflicting targets, and
+`executed_external_link_count` records the TeX counter. The projected, executed
+and PDF logical-link counts must agree. Wrapped links may have several rectangles.
+
+Every final PDF audit result stores `audit_input_sha256`, with ZIP-relative
+names for its review/build dependencies, and `audit_inputs_unchanged_during_run`.
+The pure function `pdf_final_audit.audit_dependency_snapshot(root)` recomputes
+those hashes. Any appended visual observation or new build requires rerunning
+the audit. `rendering_probe_verification` compares the recorded probe with its
+current pure source projection and generation-input hashes; the pure function
+`probe_rendering.current_probe_verification(root)` recomputes that comparison.
+A passed historical probe alone does not certify a changed renderer.
+
+Compilation records also retain `measurement_code_sha256` and
+`measurement_code_unchanged_during_run`. The PDF audit's
+`measurement_code_matches` compares these with the current compiler, geometry
+checker and link tracker. This prevents an older measurement result from silently
+certifying a subsequently changed QA routine. The geometry exception applies
+only to one alphabetic character at a line edge; punctuation, multiple characters,
+paths and images remain subject to the full frame check.
+
+Starred author-note marks are wrapped in invisible `authorstar` destinations in
+the generated body. `records/STAR_NOTE_ANCHORS.json` records every literal mark
+and proves exact recovery after removing the wrapper. The physical-page audit
+resolves those source destinations, including the source `handcircle` call,
+and records apparatus quotations in a separate text count. Its `source_anchors`
+entries retain the resolved page, position, source-span test and handcircle
+context; `same_physical_page` requires the complete source pair on one page.
+
+`logical_link_source_events` records the exact projected URI sequence, with
+apparatus links deferred until their source page's apparatus prints. The audit
+compares each event to its PDF `edlink-N` identifier. Thus
+`logical_link_sequence_mismatches` must be empty as well as the count and
+tracking checks; exchanged targets cannot pass merely by preserving totals.
+
+The geometric frame uses the declared 22mm top and bottom boundaries. A separate
+40pt-wide footer frame, centered on the text block and extending from 18pt above
+to 5pt below the nominal bottom boundary, admits only the printed numeric folio.
+Every such use retains its measured box and reason in
+`justified_geometry_exclusions`. Main text, marginal notes, vector paths and
+images receive no general vertical padding.

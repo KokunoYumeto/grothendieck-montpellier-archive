@@ -1,0 +1,32 @@
+--- ESQUISSE_READERS_checkpoint_09.zip!/scripts/edition_core.py
++++ final!/scripts/edition_core.py
+@@ -14,6 +14,29 @@
+ 
+ ARITIES={'DeclareVariant':2,'DeclareScan':4,'DeclareNoteReturns':2,'frapparatus':1,'scancontext':2,'href':2,'hyperlink':2,'sourceglyph':1,'scanpage':1,'mspage':1,'hand':1,'handcircle':1,'over':2,'inserted':1,'margin':1,'deleted':1,'xout':1,'uline':1,'uuline':1,'unsure':1,'illegible':1,'diagram':1,'var':4,'tnote':2,'copytwo':2,'authornote':1,'notecall':3,'notedef':2}
+ ARITIES['margincluster']=1
++ARITIES['authorstar']=2
++
++STAR_PATTERN=re.compile(r'\(\s*(\*\s*(?:\*\s*)?)\)')
++
++def anchor_author_stars(text,key):
++    """Wrap source star marks in invisible PDF destinations; retain literal ink."""
++    protected=[(m.start,m.end) for m in macros(text,{'tnote','copytwo'},recursive=True)]
++    offset=0
++    for line in text.splitlines(keepends=True):
++        cut=next((i for i,c in enumerate(line) if c=='%' and not escaped(line,i)),None)
++        if cut is not None:protected.append((offset+cut,offset+len(line)))
++        offset+=len(line)
++    replacements=[];events=[]
++    for match in STAR_PATTERN.finditer(text):
++        if any(a<=match.start()<b for a,b in protected):continue
++        ident=f'{key}-star-{len(events)+1}'
++        value=r'\authorstar{'+ident+'}{'+match.group()+'}'
++        replacements.append((match.start(),match.end(),value))
++        events.append({'id':ident,'literal_mark':match.group(),'before':match.group(),'after':value,'operation':'invisible named destination for the source star mark'})
++    result=replace_ranges(text,replacements)
++    recovered=replace_ranges(result,[(m.start,m.end,m.arguments[1]) for m in macros(result,{'authorstar'},recursive=True)])
++    if recovered!=text:raise ValueError('Star-anchor wrapping changed the source body: '+key)
++    return result,events
+ 
+ def escaped(s: str,i: int)->bool:
+     n=0;i-=1

@@ -1,0 +1,84 @@
+--- ESQUISSE_READERS_checkpoint_04.zip!/scripts/edition_core.py
++++ final!/scripts/edition_core.py
+@@ -12,7 +12,31 @@
+     optional: str | None = None
+     line: int = 0
+ 
+-ARITIES={'scanpage':1,'mspage':1,'hand':1,'over':2,'inserted':1,'margin':1,'deleted':1,'xout':1,'uline':1,'uuline':1,'unsure':1,'illegible':1,'diagram':1,'var':4,'tnote':2,'copytwo':2,'authornote':1,'notecall':3,'notedef':2}
++ARITIES={'DeclareVariant':2,'DeclareScan':4,'DeclareNoteReturns':2,'frapparatus':1,'scancontext':2,'href':2,'hyperlink':2,'sourceglyph':1,'scanpage':1,'mspage':1,'hand':1,'handcircle':1,'over':2,'inserted':1,'margin':1,'deleted':1,'xout':1,'uline':1,'uuline':1,'unsure':1,'illegible':1,'diagram':1,'var':4,'tnote':2,'copytwo':2,'authornote':1,'notecall':3,'notedef':2}
++ARITIES['margincluster']=1
++ARITIES['authorstar']=2
++
++STAR_PATTERN=re.compile(r'\(\s*(\*\s*(?:\*\s*)?)\)')
++
++def anchor_author_stars(text,key):
++    """Wrap source star marks in invisible PDF destinations; retain literal ink."""
++    protected=[(m.start,m.end) for m in macros(text,{'tnote','copytwo'},recursive=True)]
++    offset=0
++    for line in text.splitlines(keepends=True):
++        cut=next((i for i,c in enumerate(line) if c=='%' and not escaped(line,i)),None)
++        if cut is not None:protected.append((offset+cut,offset+len(line)))
++        offset+=len(line)
++    replacements=[];events=[]
++    for match in STAR_PATTERN.finditer(text):
++        if any(a<=match.start()<b for a,b in protected):continue
++        ident=f'{key}-star-{len(events)+1}'
++        value=r'\authorstar{'+ident+'}{'+match.group()+'}'
++        replacements.append((match.start(),match.end(),value))
++        events.append({'id':ident,'literal_mark':match.group(),'before':match.group(),'after':value,'operation':'invisible named destination for the source star mark'})
++    result=replace_ranges(text,replacements)
++    recovered=replace_ranges(result,[(m.start,m.end,m.arguments[1]) for m in macros(result,{'authorstar'},recursive=True)])
++    if recovered!=text:raise ValueError('Star-anchor wrapping changed the source body: '+key)
++    return result,events
+ 
+ def escaped(s: str,i: int)->bool:
+     n=0;i-=1
+@@ -71,6 +95,33 @@
+         if cut is None:out.append(line)
+         else:out.append(line[:cut])
+     return ''.join(out)
++
++def ends_in_comment(s):
++    line=s.rsplit('\n',1)[-1]
++    return any(c=='%' and not escaped(line,i) for i,c in enumerate(line))
++
++def argument_text(s):
++    """Terminate a final TeX comment before appending a generated closing brace."""
++    return s+'\n' if ends_in_comment(s) else s
++
++def cluster_margins(s):
++    """Stack adjacent marginal notes without changing their contents or source."""
++    marks=list(macros(s,{'margin'}));groups=[];run=[]
++    for mark in marks:
++        if run and strip_comments(s[run[-1].end:mark.start]).strip():
++            if len(run)>1:groups.append(run)
++            run=[]
++        run.append(mark)
++    if len(run)>1:groups.append(run)
++    replacements=[];events=[]
++    for run in groups:
++        original=s[run[0].start:run[-1].end];wrapped=r'\margincluster{'+original+'}'
++        replacements.append((run[0].start,run[-1].end,wrapped))
++        events.append({'first_line':run[0].line,'notes':len(run),'original':original,'generated':wrapped})
++    transformed=replace_ranges(s,replacements)
++    recovered=replace_ranges(transformed,[(m.start,m.end,m.arguments[0]) for m in macros(transformed,{'margincluster'})])
++    if recovered!=s:raise ValueError('Margin clustering changed source content')
++    return transformed,events
+ 
+ def body(s):
+     return '\n'.join(l for l in s.splitlines() if not l.lstrip().startswith('%')).strip()+'\n'
+@@ -156,7 +207,13 @@
+         for _ in range(occ):pos=result.find(old,pos+1)
+         if pos<0:raise ValueError(f"Editorial variant {edit['id']} target absent")
+         vid=edit['id'];kind=edit.get('kind','slip-corrected')
+-        result=result[:pos]+'\\var{'+old+'}{'+new+'}{'+kind+'}{'+vid+'}'+result[pos+len(old):]
++        end=pos+len(old);printed_old=old;printed_new=new
++        if ends_in_comment(old):
++            if result[end:end+1]!='\n' or not ends_in_comment(new):raise ValueError('Trailing-comment variant requires the matching source newline: '+vid)
++            # Absorb the source newline, so generated braces cannot be swallowed
++            # by the comment and cannot introduce a space after its printed hyphen.
++            printed_old+='\n';printed_new+='\n';end+=1
++        result=result[:pos]+'\\var{'+printed_old+'}{'+printed_new+'}{'+kind+'}{'+vid+'}'+result[end:]
+         variants.append({'id':vid,'key':key,'line':edit.get('line',s[:s.find(old)].count('\n')+1),'page_reading':old,'corrected_reading':new,'kind':kind,'source_id':edit.get('source_id',','.join(edit.get('source_ids',[])) or vid),'reason_fr':edit['reason_fr'],'reason_en':edit['reason_en'],'math':edit.get('math',False)})
+     return result,[{k:v for k,v in item.items() if k not in ('start','end')} for item in variants]
+ 

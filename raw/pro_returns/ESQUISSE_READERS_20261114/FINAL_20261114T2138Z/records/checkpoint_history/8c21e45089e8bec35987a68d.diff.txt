@@ -1,0 +1,71 @@
+--- ESQUISSE_READERS_checkpoint_05.zip!/scripts/apply_mechanical_cleanup.py
++++ final!/scripts/apply_mechanical_cleanup.py
+@@ -5,17 +5,45 @@
+ revision can reconstruct a page from its review; rerun this idempotent cleanup
+ command afterwards. No substantive reading is inferred or corrected here.
+ """
+-import argparse,hashlib,json,pathlib
++import argparse,csv,fcntl,io,json,os,pathlib,tempfile
+ from edition_core import clean_latex,sha256
+ from build_edition import get_metadata,load_json,read_tsv,write_tsv
+ 
++def atomic_text(path,text):
++    path.parent.mkdir(parents=True,exist_ok=True)
++    with tempfile.NamedTemporaryFile('w',encoding='utf-8',dir=path.parent,prefix='.'+path.name+'.',delete=False) as f:
++        f.write(text);temporary=pathlib.Path(f.name)
++    os.replace(temporary,path)
++
++def atomic_tsv(path,rows,fields):
++    data=io.StringIO(newline='');w=csv.DictWriter(data,fieldnames=fields,delimiter='\t',extrasaction='ignore');w.writeheader();w.writerows(rows)
++    atomic_text(path,data.getvalue())
++
+ def apply(root):
++    # This is the same lock used by audit_apply.py. Read-modify-write of the
++    # shared decision table and checked-page hashes must form one transaction.
++    with (root/'.audit-records.lock').open('a') as lock:
++        fcntl.flock(lock.fileno(),fcntl.LOCK_EX)
++        return apply_locked(root)
++
++def apply_locked(root):
+     metadata=get_metadata(root);prior=load_json(root/'MECHANICAL_CLEANUP.json',[]);rows=read_tsv(root/'CHECK_DECISIONS.tsv');byid={r['decision_id']:r for r in rows}
+-    changes=[];replay=load_json(root/'records/MECHANICAL_PATCHES.json',[])
++    changes=[];replay=load_json(root/'records/MECHANICAL_PATCHES.json',[]);approved=load_json(root/'records/APPROVED_MECHANICAL_REPAIRS.json',[])
+     for page in sorted((root/'checked_pages').glob('*.tex')):
+         key=page.stem;statuspath=root/'reviews'/(key+'_status.json');status=load_json(statuspath,{})
+         if not status.get('finalized'):raise ValueError('Page lacks finalized scan review: '+key)
+-        before=page.read_text();after,events=clean_latex(before)
++        before=page.read_text();prepared=before;events=[]
++        for repair in approved:
++            if repair['key']!=key:continue
++            old,new=repair['before'],repair['after'];count=prepared.count(old)
++            if not count:
++                if new not in prepared:raise ValueError('Approved mechanical target is absent: '+repair['id'])
++                continue
++            if count!=1:raise ValueError('Approved mechanical target is not unique: '+repair['id'])
++            line=prepared[:prepared.index(old)].count('\n')+1
++            prepared=prepared.replace(old,new,1)
++            events.append({'line':line,'before':old,'after':new,'operation':repair['operation'],'reason':repair['reason'],'approval_id':repair['id']})
++        after,syntax_events=clean_latex(prepared);events+=syntax_events
+         if not events:continue
+         m=metadata[key]
+         for n,event in enumerate(events,1):
+@@ -28,13 +56,14 @@
+         # Preserve the scan-review hash before the syntax-only source rewrite.
+         history=root/'reviews/history';history.mkdir(exist_ok=True)
+         h=history/(key+'_status_before_mechanical_'+sha256(before)[:12]+'.json')
+-        if not h.exists():h.write_text(json.dumps(status,ensure_ascii=False,indent=2)+'\n')
+-        page.write_text(after);status['checked_sha256']=sha256(after);status['mechanical_cleanup_ids']=[f'SYNTAX-{key}-{n:03d}' for n in range(1,len(events)+1)];statuspath.write_text(json.dumps(status,ensure_ascii=False,indent=2)+'\n')
++        if not h.exists():atomic_text(h,json.dumps(status,ensure_ascii=False,indent=2)+'\n')
++        atomic_text(page,after);status['checked_sha256']=sha256(after);status['mechanical_cleanup_ids']=[f'SYNTAX-{key}-{n:03d}' for n in range(1,len(events)+1)];atomic_text(statuspath,json.dumps(status,ensure_ascii=False,indent=2)+'\n')
+         changes.append({'key':key,'operations':len(events)})
+     fields=['decision_id','source_item_id','key','cote','site','line','transcription_reading','image_reading','decision','reason','images']
+-    write_tsv(root/'CHECK_DECISIONS.tsv',list(byid.values()),fields)
+-    (root/'MECHANICAL_CLEANUP.json').write_text(json.dumps(prior,ensure_ascii=False,indent=2)+'\n')
+-    (root/'records/MECHANICAL_PATCHES.json').write_text(json.dumps(replay,ensure_ascii=False,indent=2)+'\n')
++    if changes:
++        atomic_tsv(root/'CHECK_DECISIONS.tsv',list(byid.values()),fields)
++        atomic_text(root/'MECHANICAL_CLEANUP.json',json.dumps(prior,ensure_ascii=False,indent=2)+'\n')
++        atomic_text(root/'records/MECHANICAL_PATCHES.json',json.dumps(replay,ensure_ascii=False,indent=2)+'\n')
+     return changes
+ 
+ if __name__=='__main__':

@@ -1,0 +1,211 @@
+--- ESQUISSE_READERS_checkpoint_04.zip!/scripts/build_edition.py
++++ final!/scripts/build_edition.py
+@@ -1,7 +1,7 @@
+ #!/usr/bin/env python3
+ """Generate standalone LuaLaTeX readers from one annotated master per language."""
+ from __future__ import annotations
+-import argparse,csv,hashlib,json,pathlib,re,sys
++import argparse,csv,fcntl,hashlib,json,pathlib,re,sys
+ from collections import Counter
+ from edition_core import *
+ 
+@@ -35,6 +35,28 @@
+ def tex_text(s):
+     return s.replace('\\',r'\textbackslash{}').replace('&',r'\&').replace('%',r'\%').replace('_',r'\_').replace('#',r'\#')
+ 
++def input_snapshot(root):
++    patterns=['checked_pages/*.tex','translated_pages/*.tex','guide_fragments/*.tex','templates/*.tex']
++    paths={p.relative_to(root).as_posix():p for pattern in patterns for p in root.glob(pattern)}
++    for name in ['editorial_variants.json','copy2_annotations.json','RELEASE_STATUS.json','records/PAGE_MAP.tsv','scripts/build_edition.py','scripts/edition_core.py']:
++        paths[name]=root/name
++    return {name:hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None for name,p in sorted(paths.items())}
++
++def check_master_forms(root,generated):
++    reports={}
++    def payload(path):
++        text=path.read_text();pages=re.findall(r'% BEGIN PAGE \S+\n.*?\n% END PAGE \S+',text,re.S)
++        declarations=[text[m.start:m.end] for m in macros(text,{'DeclareScan','DeclareVariant','DeclareNoteReturns'}) if m.arguments[0]!='#1']
++        return '\n'.join(declarations+pages)
++    for lang in ['FR','EN']:
++        paths=[root/p for p in generated if p.startswith(lang+'/')];master=root/lang/('ESQUISSE_'+lang+'_master_annotated.tex');reference=payload(master)
++        reports[lang]={'master':master.relative_to(root).as_posix(),'shared_body_and_declarations_sha256':sha256(reference),'forms':[]}
++        for path in paths:
++            match=payload(path)==reference
++            reports[lang]['forms'].append({'source':path.relative_to(root).as_posix(),'same_body_and_declarations':match})
++            if not match:raise ValueError('A generated form differs from its annotated master body: '+path.name)
++    (root/'MASTER_FORM_EQUIVALENCE.json').write_text(json.dumps(reports,ensure_ascii=False,indent=2)+'\n')
++
+ def get_metadata(root):
+     source=root.parent/'source/records/PAGES_ESQUISSE.tsv'
+     derived=root/'records/PAGE_MAP.tsv'
+@@ -46,7 +68,7 @@
+ 
+ def annotate_all(root):
+     ed=load_json(root/'editorial_variants.json',[]);metadata=get_metadata(root)
+-    decisions=read_tsv(root/'CHECK_DECISIONS.tsv');variants=[];cleanup=load_json(root/'MECHANICAL_CLEANUP.json',[]);coverage=[];annotated={}
++    decisions=read_tsv(root/'CHECK_DECISIONS.tsv');variants=[];cleanup=load_json(root/'MECHANICAL_CLEANUP.json',[])+load_json(root/'REVIEW_STAGE_CLEANUP.json',[]);coverage=[];annotated={}
+     out=root/'annotated_pages';out.mkdir(exist_ok=True)
+     for p in sorted((root/'checked_pages').glob('*.tex'),key=lambda p:(p.stem.startswith('esq119'),int(p.stem.rsplit('_',1)[-1]))):
+         key=p.stem;s=p.read_text();clean,events=clean_latex(s)
+@@ -72,6 +94,12 @@
+     (root/'VARIANTS.json').write_text(json.dumps(variants,ensure_ascii=False,indent=2)+'\n')
+     write_tsv(root/'CLEANUP_LOG.tsv',cleanup,['key','line','before','after','operation','reason','source_id','status'])
+     write_tsv(root/'SOURCE_COVERAGE.tsv',coverage,['key','checked_sha256','cleaned_sha256','annotated_sha256','diplomatic_recovery_equal','variants','pending_cleanup'])
++    glyph_rows=[]
++    for key,text in annotated.items():
++        doubts=list(macros(text,{'unsure'},recursive=True))
++        for glyph in macros(text,{'sourceglyph'},recursive=True):
++            glyph_rows.append({'key':key,'glyph_id':glyph.arguments[0],'line':glyph.line,'uncertainty_marked':str(any(d.start<=glyph.start and glyph.end<=d.end for d in doubts)).lower(),'viewer':metadata[key]['viewer']})
++    write_tsv(root/'records/SOURCE_GLYPH_USAGE.tsv',glyph_rows,['key','glyph_id','line','uncertainty_marked','viewer'])
+     changes=[]
+     for v in variants:
+         m=metadata[v['key']]
+@@ -116,21 +144,32 @@
+     for v in variants:
+         old=v['page_reading'];new=v['corrected_reading'];reason=v['reason_fr' if lang=='FR' else 'reason_en']
+         if v.get('math'):old='$'+old+'$';new='$'+new+'$' if new else ''
+-        old=r'\AppReading{'+old+'}' if old else r'\EmptyReading{}'
+-        new=r'\AppReading{'+new+'}' if new else r'\EmptyReading{}'
++        old=r'\AppReading{'+argument_text(old)+'}' if old else r'\EmptyReading{}'
++        new=r'\AppReading{'+argument_text(new)+'}' if new else r'\EmptyReading{}'
+         label=(KIND_LABEL_FR if lang=='FR' else KIND_LABEL_EN).get(v['kind'],v['kind'])
+-        note=r'\textit{'+label+'}. '+old+r' \(\rightarrow\) '+new+'. '+reason
++        if v.get('source_apparatus'):
++            note=r'\textit{French source apparatus: '+label+'}. Page reading: '+old+'; corrected French: '+new+'. '+reason
++        else:note=r'\textit{'+label+'}. '+old+r' \(\rightarrow\) '+new+'. '+reason
+         lines.append(r'\DeclareVariant{'+v['id']+'}{'+note+'}')
+     return '\n'.join(lines)
+ 
+-def attach_copy2(pages,annotations,lang):
++def attach_copy2(pages,annotations,lang,metadata):
+     out=dict(pages)
+     for a in annotations:
++        if a.get('merged_into_variant'):continue
+         key=a['key']
+         if key not in out:continue
+         text=a.get('text_fr' if lang=='FR' else 'text_en')
+         if not text:raise ValueError(f"Missing {lang} apparatus text for {a['id']}")
+-        mark=r'\copytwo{'+a['id']+'}{'+text+'}'
++        copy2_key=a.get('copy2_key')
++        if not copy2_key:
++            site=str(int(metadata[key]['site'])+76)
++            copy2_key=next((k for k,m in metadata.items() if m['site']==site),None)
++        if copy2_key not in metadata:raise ValueError('Missing copy2 source coordinates for '+a['id'])
++        m2=metadata[copy2_key];url=m2['viewer'].replace('#',r'\#')
++        label=('copie 2' if lang=='FR' else 'copy 2')+', scan '+m2['cote']+'/'+m2['site']
++        linked=r'\scancontext{'+url+'}{'+r'\href{'+url+'}{['+label+']} '+text+'}'
++        mark=r'\copytwo{'+a['id']+'}{'+linked+'}'
+         anchor=a.get('anchor_fr' if lang=='FR' else 'anchor_en',a.get('anchor'))
+         if anchor:
+             pos=out[key].find(anchor)
+@@ -143,7 +182,8 @@
+     lang,name,formtitle,dipl,reading=FORMS[form]
+     template=(root/'templates/preamble.tex').read_text();front=(root/'templates/frontmatter.tex').read_text()
+     french=lang=='FR';title="Esquisse d'un programme" if french else 'Sketch of a Program'
+-    retained=(root/'retained_usages_fr.tex').read_text() if (root/'retained_usages_fr.tex').exists() else 'Le relevé des usages conservés accompagne les fichiers de travail.'
++    retained_path=root/'templates/retained_usages_fr.tex'
++    retained=retained_path.read_text() if retained_path.exists() else 'Le relevé des usages conservés accompagne les fichiers de travail.'
+     pref=PREFACES[form].replace('@RETAINED_USAGE@',retained)
+     release=load_json(root/'RELEASE_STATUS.json',{'final':False})
+     included=len(pages) if dipl or not french else sum(k.startswith('esq_') for k in pages)
+@@ -168,18 +208,22 @@
+         if copy=='copy2':parts.append(r'\ifdiplomatic')
+         if french:parts.append(r'\EditionPart{'+copy+'}{'+('Copie 1' if copy=='copy1' else 'Copie 2')+'}')
+         for key in sorted(keys,key=lambda k:int(metadata[k]['site'])):
+-            parts.extend(['% BEGIN PAGE '+key,body(pages[key]),r'\finishscan','% END PAGE '+key])
++            pagebody,_=cluster_margins(body(pages[key]));pagebody,_=anchor_author_stars(pagebody,key)
++            parts.extend(['% BEGIN PAGE '+key,pagebody,r'\finishscan','% END PAGE '+key])
+         if copy=='copy2':parts.append(r'\fi')
+-    mapping={'LANGUAGES':'english,french' if french else 'french,english','FORM_SWITCHES':('\\diplomatictrue' if dipl else '\\diplomaticfalse')+'\n'+('\\readingtrue' if reading else '\\readingfalse')+'\n'+('\\englishfalse' if french else '\\englishtrue'),'EDITION_TITLE':title,'EDITION_FORM':formtitle+(' — annotated master' if master else ''),'PDF_TITLE':title+' — '+formtitle,'SCAN_DECLARATIONS':'\n'.join(scan_decl),'VARIANT_DECLARATIONS':variant_declarations(variants,lang),'NOTE_DECLARATIONS':notedecls,'FRONT_MATTER':front,'BODY':'\n'.join(parts)}
++    mapping={'LINK_TRACKING':(root/'templates/link_tracking.tex').read_text(),'HAND_RENDERER':(root/'templates/hand_renderer.tex').read_text(), 'SOURCE_GLYPH_DEFINITIONS':'\n'.join((root/'templates'/name).read_text() for name in ['source_glyphs.tex','source_brackets.tex'] if (root/'templates'/name).exists()), 'LANGUAGES':'english,french' if french else 'french,english','FORM_SWITCHES':('\\diplomatictrue' if dipl else '\\diplomaticfalse')+'\n'+('\\readingtrue' if reading else '\\readingfalse')+'\n'+('\\englishfalse' if french else '\\englishtrue'),'EDITION_TITLE':title,'EDITION_FORM':formtitle+(' — annotated master' if master else ''),'PDF_TITLE':title+' — '+formtitle,'SCAN_DECLARATIONS':'\n'.join(scan_decl),'VARIANT_DECLARATIONS':variant_declarations(variants,lang),'NOTE_DECLARATIONS':notedecls,'FRONT_MATTER':front,'BODY':'\n'.join(parts)}
+     for k,v in mapping.items():template=template.replace('@'+k+'@',v)
+     status='final' if release.get('final') else 'partial'
+     return '% EDITION STATUS: '+status+'; source units '+str(included)+'/'+str(required)+'\n'+template
+ 
+ def generate(root):
+     metadata,annotated,frvars=annotate_all(root);c2=load_json(root/'copy2_annotations.json',[])
+-    frpages,frnotes,frnotestatus=link_notes(annotated,metadata);frpages=attach_copy2(frpages,c2,'FR')
++    c2printed=[a for a in c2 if not a.get('merged_into_variant')]
++    for a in c2:
++        if a.get('merged_into_variant') and not any(v['id']==a['merged_into_variant'] for v in frvars):raise ValueError('Merged copy2 annotation lacks its printed French variant: '+a['id'])
++    frpages,frnotes,frnotestatus=link_notes(annotated,metadata);frpages=attach_copy2(frpages,c2,'FR',metadata)
+     enpages={p.stem:p.read_text() for p in sorted((root/'translated_pages').glob('*.tex'))}
+-    envers=[];frbyid={v['id']:v for v in frvars}
++    envers=[];ensourcenotes=[];frbyid={v['id']:v for v in frvars}
+     for key,text in list(enpages.items()):
+         clean,_=clean_latex(text)
+         # Explicit translated variants carry the same ids as the French master.
+@@ -187,8 +231,21 @@
+             old,new,kind,vid=m.arguments
+             if vid not in frbyid:raise ValueError('English variant has no French source: '+vid)
+             v=dict(frbyid[vid]);v.update(page_reading=old,corrected_reading=new,kind=kind);envers.append(v)
++        for m in macros(clean,{'frapparatus'}):
++            vid=m.arguments[0]
++            if vid not in frbyid:raise ValueError('English source-apparatus marker has no French source: '+vid)
++            v=dict(frbyid[vid]);v['source_apparatus']=True;ensourcenotes.append(v)
+         enpages[key]=clean
+-    enpages,ennotes,ennotestatus=link_notes(enpages,metadata);enpages=attach_copy2(enpages,c2,'EN')
++    enpages,ennotes,ennotestatus=link_notes(enpages,metadata);enpages=attach_copy2(enpages,c2,'EN',metadata)
++    layouts=[];star_anchors=[]
++    for lang,language_pages in [('FR',frpages),('EN',enpages)]:
++        for key,text in language_pages.items():
++            original=body(text);transformed,events=cluster_margins(original)
++            for event in events:layouts.append({'language':lang,'key':key,**event,'source_body_sha256':sha256(original),'generated_body_sha256':sha256(transformed),'source_recovery_equal':True})
++            anchored,stars=anchor_author_stars(transformed,key)
++            for event in stars:star_anchors.append({'language':lang,'key':key,**event,'source_recovery_equal':True})
++    (root/'records/TYPESETTING_LAYOUTS.json').write_text(json.dumps(layouts,ensure_ascii=False,indent=2)+'\n')
++    (root/'records/STAR_NOTE_ANCHORS.json').write_text(json.dumps(star_anchors,ensure_ascii=False,indent=2)+'\n')
+     coverage=[]
+     for key,text in enpages.items():
+         fr=resolve_variants(annotated.get(key,''),True);en=resolve_variants(text,True)
+@@ -202,36 +259,41 @@
+     (root/'NOTE_LINKS.json').write_text(json.dumps({'FR':frnotestatus,'EN':ennotestatus},ensure_ascii=False,indent=2)+'\n')
+     generated=[]
+     for form,(lang,name,_,_,_) in FORMS.items():
+-        pages,vs,notes=(frpages,frvars,frnotes) if lang=='FR' else (enpages,envers,ennotes)
++        pages,vs,notes=(frpages,frvars,frnotes) if lang=='FR' else (enpages,envers+ensourcenotes,ennotes)
+         d=root/lang;d.mkdir(exist_ok=True);path=d/(name+'.tex');path.write_text(make_document(root,form,metadata,pages,vs,notes));generated.append(path.relative_to(root).as_posix())
+     for lang,form in [('FR','FR_corrige_apparat'),('EN','EN_corrected_translator_notes')]:
+-        pages,vs,notes=(frpages,frvars,frnotes) if lang=='FR' else (enpages,envers,ennotes)
++        pages,vs,notes=(frpages,frvars,frnotes) if lang=='FR' else (enpages,envers+ensourcenotes,ennotes)
+         path=root/lang/('ESQUISSE_'+lang+'_master_annotated.tex');path.write_text(make_document(root,form,metadata,pages,vs,notes,True));generated.append(path.relative_to(root).as_posix())
+     # The guide uses the same credits and rights; content is owned by the guide author.
+     guidefragments=sorted((root/'guide_fragments').glob('*.tex'))
+     if guidefragments:
+         guidebody='\n\n'.join(p.read_text() for p in guidefragments)
+         document=make_document(root,'EN_corrected_translator_notes',metadata,{},[], '',guide=True)
+-        start=document.index('\\begin{document}');after=document.index('\\end{document}')
++        start=document.index('\\begin{document}');after=document.index('\\typeout{EDITION-APPARATUS-COUNT:')
+         document=document[:after]+guidebody+'\n'+document[after:]
+         document=document.replace(r'\newcommand{\EditionTitle}{Sketch of a Program}',r'\newcommand{\EditionTitle}{A Guide to the Esquisse}')
+         document=document.replace(r'\newcommand{\EditionForm}{Corrected text with translator’s notes}',r'\newcommand{\EditionForm}{Commentary for a mathematical reader}')
+         document=document.replace(PREFACES['EN_corrected_translator_notes'],'This guide follows the sommaire, sections 1–10 and notes (1)–(7) in the order of the typescript. Page references give the original typescript pagination and link to the archive. The guide is based on the checked text and collation; it does not change the text’s mathematics.')
+         document=document.replace('AI-translated by GPT-6 Astra (OpenAI, ChatGPT Pro mode).','')
+         (root/'GUIDE').mkdir(exist_ok=True);p=root/'GUIDE/ESQUISSE_GUIDE.tex';p.write_text(document);generated.append(p.relative_to(root).as_posix())
+-    (root/'BUILD_INPUTS.json').write_text(json.dumps({'status':'final' if load_json(root/'RELEASE_STATUS.json',{'final':False}).get('final') else 'partial','generated':generated,'checked_pages':len(annotated),'translated_pages':len(enpages),'french_variants':len(frvars),'english_variants':len(envers),'copy2_annotations':len(c2)},indent=2)+'\n')
++    check_master_forms(root,generated)
++    (root/'BUILD_INPUTS.json').write_text(json.dumps({'status':'final' if load_json(root/'RELEASE_STATUS.json',{'final':False}).get('final') else 'partial','generated':generated,'checked_pages':len(annotated),'translated_pages':len(enpages),'french_variants':len(frvars),'english_variants':len(envers),'english_source_apparatus_notes':len(ensourcenotes),'copy2_annotations':len(c2printed),'copy2_annotation_records':len(c2),'copy2_annotations_merged_into_variants':len(c2)-len(c2printed),'input_sha256':input_snapshot(root)},indent=2)+'\n')
+     kinds=Counter(v['kind'] for v in frvars);enkinds=Counter(v['kind'] for v in envers);notes=sum(int(r['translator_notes']) for r in coverage)
+     counts=['# Apparatus counts','', '| Cote | Form | Kind | Count |','|---|---|---|---:|']
+     for form,(_,_,_,dipl,reading) in FORMS.items():
+         if dipl or reading:counts.append(f'| 119 | {form} | apparatus entries | 0 |');continue
+         for kind,n in (kinds if form.startswith('FR') else enkinds).items():counts.append(f'| 119 | {form} | {kind} | {n} |')
+-        for kind,n in Counter(a['kind'] for a in c2).items():counts.append(f'| 119 | {form} | {kind} | {n} |')
+-        if form.startswith('EN'):counts.append(f'| 119 | {form} | translator note | {notes} |')
+-    counts+=['','Counts are derived from the annotated masters. Unchanged handwriting receives no variant solely because it is handwritten.']
++        for kind,n in Counter(a['kind'] for a in c2printed).items():counts.append(f'| 119 | {form} | copy 2: {kind} | {n} |')
++        if form.startswith('EN'):
++            for kind,n in Counter(v['kind'] for v in ensourcenotes).items():counts.append(f'| 119 | {form} | French source apparatus: {kind} | {n} |')
++            counts.append(f'| 119 | {form} | translator note | {notes} |')
++    counts+=['','Counts are derived from the annotated masters. Unchanged handwriting receives no variant solely because it is handwritten.',f"Copy 2 annotation records: {len(c2)}; separately printed: {len(c2printed)}; merged into an explicitly identified correction variant: {len(c2)-len(c2printed)}. Merged records are retained but are not printed twice."]
+     (root/'APPARATUS_COUNTS.md').write_text('\n'.join(counts)+'\n')
+     return generated
+ 
+ if __name__=='__main__':
+     p=argparse.ArgumentParser();p.add_argument('command',choices=['annotate','generate']);p.add_argument('--root',type=pathlib.Path,default=pathlib.Path(__file__).resolve().parents[1]);a=p.parse_args()
+-    if a.command=='annotate':m,pg,v=annotate_all(a.root);print(json.dumps({'checked_pages':len(pg),'variants':len(v)}))
+-    else:print(json.dumps({'generated':generate(a.root)},indent=2))
++    with (a.root/'.audit-records.lock').open('a') as lock:
++        fcntl.flock(lock.fileno(),fcntl.LOCK_EX)
++        if a.command=='annotate':m,pg,v=annotate_all(a.root);print(json.dumps({'checked_pages':len(pg),'variants':len(v)}))
++        else:print(json.dumps({'generated':generate(a.root)},indent=2))

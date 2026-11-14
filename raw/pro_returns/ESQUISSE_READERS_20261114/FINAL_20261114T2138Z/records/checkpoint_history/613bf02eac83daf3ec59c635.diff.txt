@@ -1,0 +1,176 @@
+--- ESQUISSE_READERS_checkpoint_09.zip!/scripts/write_readme.py
++++ final!/scripts/write_readme.py
+@@ -21,6 +21,8 @@
+ from build_edition import (
+     FORMS, PREFACES, attach_copy2, link_notes, make_document,
+ )
++from pdf_final_audit import audit_dependency_snapshot
++from probe_rendering import current_probe_verification
+ 
+ 
+ TICK = chr(96)
+@@ -197,8 +199,9 @@
+     if guide_paths:
+         document = make_document(
+             s.root, "EN_corrected_translator_notes", metadata, {}, [], "", guide=True)
+-        end = document.index(r"\end{document}")
+-        document = document[:end] + "\n\n".join(s.text(p) for p in guide_paths) + "\n" + document[end:]
++        # Keep the executed-count footer after the guide, exactly as build_edition does.
++        after = document.index(r"\typeout{EDITION-APPARATUS-COUNT:")
++        document = document[:after] + "\n\n".join(s.text(p) for p in guide_paths) + "\n" + document[after:]
+         document = document.replace(
+             r"\newcommand{\EditionTitle}{Sketch of a Program}",
+             r"\newcommand{\EditionTitle}{A Guide to the Esquisse}")
+@@ -222,6 +225,13 @@
+     checks = s.json("PDF_CHECKS.json", {})
+     audits = s.json("FINAL_PDF_AUDIT.json", {})
+     observations = s.tsv("VISUAL_QA.tsv")
++    audit_inputs = {name: s.sha(name) for name in audit_dependency_snapshot(s.root)}
++    probe = current_probe_verification(s.root)
++    s.files("templates", "*.tex")
++    probe_inputs = {name: s.sha(name) for name in probe.get("generation_inputs_sha256", {})}
++    probe_ready = (probe.get("passed") is True and probe.get("source_matches") is True
++                   and probe.get("generation_inputs_match") is True
++                   and probe.get("generation_inputs_sha256") == probe_inputs)
+     output = []
+     for stem, role, purpose in DOCUMENTS:
+         name = stem.rsplit("/", 1)[1]
+@@ -234,11 +244,19 @@
+         compiled = bool(source_sha and build.get("source_sha256") == source_sha)
+         compiled_pdf = bool(pdf_sha and build.get("pdf_sha256") == pdf_sha
+                             and build.get("pdf_compilation_succeeded") is True)
++        audit_dependencies_current = (
++            audit.get("audit_input_sha256") == audit_inputs
++            and audit.get("audit_inputs_unchanged_during_run") is True
++            and not audit.get("audit_inputs_changed_during_run")
++            and audit.get("rendering_probe_verification") == probe
++            and audit.get("measurement_code_matches") is True
++        )
+         current = bool(pdf_sha and audit.get("pdf_sha256") == pdf_sha
+                        and audit.get("source_sha256") == source_sha
+                        and audit.get("compiled_source_matches")
+                        and audit.get("compiled_pdf_matches")
+-                       and not audit.get("upstream_input_mismatches"))
++                       and not audit.get("upstream_input_mismatches")
++                       and audit_dependencies_current)
+         seen = sorted({int(r["pdf_page"]) for r in observations
+                        if r["reader"] == name and r["pdf_sha256"] == pdf_sha
+                        and r["status"] == "visually inspected"})
+@@ -251,17 +269,26 @@
+             "ink_outside_sheet", "ink_outside_type_area",
+         ]) and not any(float(box.get("points", 0)) > 2 for box in build.get("overfull", []))
+         passes = bool(build.get("runs")) and all(x.get("exit_code") == 0 for x in build["runs"])
+-        links = current and not audit.get("link_count_mismatches")
++        link_counts = [audit.get(name) for name in [
++            "expected_link_count", "executed_external_link_count", "pdf_external_logical_links",
++        ]]
++        links = (current and all(isinstance(n, int) and n >= 0 for n in link_counts)
++                 and len(set(link_counts)) == 1
++                 and "link_count_mismatches" in audit and not audit["link_count_mismatches"]
++                 and "logical_link_tracking_issues" in audit and not audit["logical_link_tracking_issues"]
++                 and "logical_link_sequence_mismatches" in audit and not audit["logical_link_sequence_mismatches"])
+         apparatus = (current and "apparatus_entry_mismatches" in audit
+                      and not audit["apparatus_entry_mismatches"])
+         notes = current and audit.get("endnote_link_audit", {}).get("problems") == 0
+         footnotes = current and all(x.get("same_physical_page") for x in audit.get("author_footnote_placements", []))
+         visual = current and bool(required) and set(required) <= set(seen)
+-        ready = fresh and compiled and compiled_pdf and passes and clean and links and apparatus and notes and footnotes and visual
++        ready = fresh and compiled and compiled_pdf and passes and clean and links and apparatus and notes and footnotes and visual and probe_ready
+         output.append({
+             "name": name, "stem": stem, "role": role, "purpose": purpose,
+             "tex": tex, "pdf": pdf, "source_sha": source_sha, "pdf_sha": pdf_sha,
+             "build": build, "audit": audit, "audit_current": current,
++            "audit_dependencies_current": audit_dependencies_current,
++            "rendering_probe_current_and_passed": probe_ready,
+             "compiled_current": compiled, "source_current": fresh,
+             "compiled_pdf_current": compiled_pdf,
+             "seen": seen, "required": required,
+@@ -469,6 +496,8 @@
+         "Copy 2 revisions are recorded in the collation and in "
+         + code("copy2_annotations.json") + ". A copy 2 correction enters the corrected copy 1 text only when explicitly approved as correcting a typing slip shared by the two copies. "
+         "The source annotation then names its " + code("merged_into_variant") + " ID; its evidence remains in the records, while its printed explanation is merged into that one shared variant. "
++        "Obscured lower-layer characters in that copy 2 evidence retain their uncertainty marks and copy 2 scan context within the merged explanation; "
++        + link("records/MERGED_ANNOTATION_UNCERTAINTIES.tsv") + " records those placements. "
+         "Other copy 2 deletions, additions, move marks and marginal marks remain identified as copy 2 evidence. "
+         "Common handwriting is recorded under the explicitly approved collation kind “handwriting in both copies”, with both readings and evidence links; "
+         + link("records/COLLATION_COMMON_MARKS.tsv") + " is a verbatim companion subset of the full collation.",
+@@ -605,7 +634,9 @@
+         "",
+         "The build columns report the latest sanitized build record for each named file. "
+         "A PDF is current only after its standalone source matches the current inputs, its compiled-source hash matches that source, "
+-        "and the final audit records the exact current PDF hash. A row with a stale or absent audit does not certify current links or geometry.",
++        "and the final audit records the exact current PDF hash and unchanged current audit dependencies. "
++        "The rendering probe must also match the current templates and pass. "
++        "A row with a stale or absent audit does not certify current links or geometry.",
+         "",
+         table(["Document", "PDF pages", "Errors", "Warnings", "Overfull / widest pt", "Missing glyphs", "Source / compiled source / compiled PDF current"], [
+             (p["role"], p["build"].get("pdf_pages", "—"),
+@@ -616,14 +647,20 @@
+             for p in pdfs
+         ]),
+         "",
+-        table(["Document", "Archive / all external / internal link annotations", "Final audit current", "Required pages inspected for exact PDF", "Outside sheet / text area"], [
++        table(["Document", "Expected / executed / PDF logical external links", "Archive / all external / internal annotation rectangles", "Final audit current", "Required pages inspected for exact PDF", "Outside sheet / text area"], [
+             (p["role"],
++             f"{p['audit'].get('expected_link_count', '—')} / {p['audit'].get('executed_external_link_count', '—')} / {p['audit'].get('pdf_external_logical_links', '—')}",
+              f"{p['build'].get('archive_link_annotations', '—')} / {p['build'].get('external_link_annotations', '—')} / {p['build'].get('internal_link_annotations', '—')}",
+              yes(p["audit_current"]),
+              f"{len(set(p['seen']) & set(p['required']))}/{len(p['required'])}" if p["audit_current"] else "current audit required",
+              f"{len(p['build'].get('ink_outside_sheet', []))} / {len(p['build'].get('ink_outside_type_area', []))}")
+             for p in pdfs
+         ]),
++        "",
++        "A wrapped link label can occupy several clickable PDF annotation rectangles. "
++        "Logical-link identifiers group those rectangles into their original links; the strict check requires exact agreement among source, executed and PDF logical counts, "
++        "with no target-count discrepancy or tracking issue. Every projected link must also match the PDF logical identifier and URL in execution order. "
++        "Rectangle totals are reported separately.",
+         "",
+         "The required visual sample consists of forty pages spread through each reader and annotated master, or every page of a shorter document, "
+         "plus every mandatory overflow/repair, landscape and special-glyph/diagram page identified by the audit. "
+@@ -648,10 +685,14 @@
+             + "; compiled-source hash matches source: " + yes(p["compiled_current"])
+             + "; successful compilation PDF hash matches current PDF: " + yes(p["compiled_pdf_current"])
+             + "; final audit matches current PDF and source: " + yes(p["audit_current"]) + ".",
++            "- Audit dependency hashes current and stable during measurement: " + yes(p["audit_dependencies_current"])
++            + "; current rendering-probe source and input hashes match a passing probe: " + yes(p["rendering_probe_current_and_passed"]) + ".",
++            "- Recorded compiler, geometry and link-tracker code matches current measurement code: " + yes(a.get("measurement_code_matches")) + ".",
+         ]
+         if p["audit_current"]:
+             lines += [
+-                f"- Logical external links expected: {a.get('expected_link_count', 'unrecorded')}; PDF external annotations: {a.get('pdf_external_link_annotations', 'unrecorded')}; target-count discrepancies: {len(a.get('link_count_mismatches', []))}.",
++                f"- Logical external links expected: {a.get('expected_link_count', 'unrecorded')}; executed: {a.get('executed_external_link_count', 'unrecorded')}; identified in the PDF: {a.get('pdf_external_logical_links', 'unrecorded')}; target-count discrepancies: {len(a.get('link_count_mismatches', []))}; tracking issues: {len(a.get('logical_link_tracking_issues', []))}; sequence/URL discrepancies: {len(a.get('logical_link_sequence_mismatches', []))}.",
++                f"- External-link annotation rectangles: {a.get('pdf_external_link_annotations', 'unrecorded')}.",
+                 f"- Projected apparatus entries: {a.get('source_apparatus_entries', 'unrecorded')}; executed: {a.get('executed_apparatus_entries', 'unrecorded')}; printed: {a.get('printed_apparatus_entries', 'unrecorded')}; ID discrepancies: {len(a.get('apparatus_entry_mismatches', [])) if 'apparatus_entry_mismatches' in a else 'audit required'}.",
+                 f"- Authorial endnote-link problems: {a.get('endnote_link_audit', {}).get('problems', 'audit required')}; local-footnote placement problems: {sum(not x.get('same_physical_page') for x in a.get('author_footnote_placements', []))}.",
+                 "- Required pages: " + page_list(p["required"]) + ".",
+@@ -764,7 +805,8 @@
+             ("COLLATION.tsv; collation_reviews/; records/COLLATION_PAGE_COVERAGE.tsv", "Both readings at each collated locus, full four-image declarations and current checked-source hashes."),
+             ("records/COLLATION_COMMON_MARKS.tsv", "Shared-handwriting rows reproduced from the complete collation."),
+             ("editorial_variants.json; records/EDITORIAL_CANDIDATES.tsv; records/EDITORIAL_ADJUDICATIONS.tsv", "Approved corrections, their candidate evidence, and explicit correction/retention decisions."),
+-            ("copy2_annotations.json", "Bilingual copy 2 apparatus text and links, including records merged into a shared correction."),
++            ("copy2_annotations.json; records/MERGED_ANNOTATION_UNCERTAINTIES.tsv", "Bilingual copy 2 apparatus text and links, including merged shared corrections and their preserved, copy-specific underlayer uncertainties."),
++            ("records/COPY2_APPARATUS_LANGUAGE_REVIEW.json", "Independent reading of every final French/English apparatus pair, including merged entries, with exact input and per-entry hashes and the two resolved language/context findings."),
+             ("checked_pages/; annotated_pages/", "Checked diplomatic source files and the generated variant-bearing versions."),
+             ("translated_pages/; guide_fragments/", "Complete English page translations, translator review history, math index, apparatus alignment and ordered guide prose."),
+             ("guide_fragments/GUIDE_MATH_REVIEW.tsv; guide_fragments/verify_icosahedron_graph.py; guide_fragments/ICOSAHEDRON_GRAPH_CHECK.tsv", "Independent source-and-mathematics review of all 18 commentary units and seven explicit arguments, with a reproducible exact arithmetic check of the displayed 12-vertex graph."),
+@@ -781,12 +823,19 @@
+             ("records/SOURCE_GLYPHS.md; records/SOURCE_GLYPH_119A.json; glyphs/", "Observed special-glyph provenance, vector transformations and inspected rendering probes."),
+             ("scripts/; templates/", "Reproducible review, collation, generation, compilation, audit and rendering code plus reusable TeX definitions."),
+             ("records/CHECKPOINTS.tsv; records/OMITTED_CHECKPOINT_FILES.tsv", "Earlier checkpoint identities and explicit reconciliation of files not repeated in the final archives."),
+-            ("records/CHECKPOINT_RECONCILIATION.tsv; records/CHECKPOINT_RECONCILIATION.md; records/FINAL_CONTENTS.tsv", "Every checkpoint member's final disposition, exact replacement diffs and the final three-archive content manifest."),
++            ("records/CHECKPOINT_RECONCILIATION.tsv; records/CHECKPOINT_RECONCILIATION.md; records/FINAL_CONTENTS.tsv", "Every checkpoint member's final disposition, replacement diffs with individually labelled historical path redactions, and the final three-archive content manifest."),
++            ("records/CHECKPOINT_PRIVACY_REDACTIONS.tsv", "Checkpoint member identities, removed-span hashes and coordinates, and reasons for local environment paths redacted from historical textual diffs; original-file hashes are recorded in the reconciliation."),
++            ("records/CHECKPOINT_MANIFEST_PROVENANCE.tsv", "Immutable checkpoint ZIP hashes, inventory hashes and counts, and the recorded origin of each embedded or newly derived inventory."),
+         ]),
+         "",
+         "The records ZIP retains the authored review history and reproducibility files. "
+         "Unmodified input-table duplicates removed from earlier checkpoints are identified in "
+         + link("records/OMITTED_CHECKPOINT_FILES.tsv") + " with their original archive location and reason. "
++        "Historical textual diffs preserve the replaced passages exactly except for individually labelled redactions of local environment paths in early scripts. "
++        + link("records/CHECKPOINT_PRIVACY_REDACTIONS.tsv") + " identifies each checkpoint member, removed-span SHA-256 and coordinates, and the reason; the reconciliation supplies the original-file SHA-256. "
++        "The original immutable checkpoint ZIPs remain untouched; the final reconciliation validates the redaction records and complete redacted diffs against their original bytes. "
++        "Checkpoints01–04 predate embedded inventories, so their numbered inventories were derived from the preserved ZIP bytes. Later inventories preserve the embedded CHECKPOINT_CONTENTS.tsv verbatim. "
++        + link("records/CHECKPOINT_MANIFEST_PROVENANCE.tsv") + " records that distinction together with ZIP and inventory hashes and counts. "
+         "Runtime downloads, font caches, temporary TeX outputs and duplicate intermediate diagnostic renderings are reproducible intermediates; "
+         "they are excluded from publication while sanitized logs, source hashes, measured results and actual review observations are retained. "
+         "The diagnostic build baseline is recorded in " + link("ORIGINAL_BUILD_BASELINE.json") + "; its unchecked PDFs are not readers.",

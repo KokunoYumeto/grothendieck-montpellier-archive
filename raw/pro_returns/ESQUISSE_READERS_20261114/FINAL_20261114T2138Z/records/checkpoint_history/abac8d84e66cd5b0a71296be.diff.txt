@@ -1,0 +1,313 @@
+--- ESQUISSE_READERS_checkpoint_09.zip!/scripts/validate_release.py
++++ final!/scripts/validate_release.py
+@@ -9,6 +9,7 @@
+ 
+ import collections
+ import csv
++import difflib
+ import hashlib
+ import json
+ from pathlib import Path
+@@ -22,6 +23,9 @@
+ from edition_core import clean_latex, macros, math_payloads, math_spans, replace_ranges, resolve_variants
+ from build_edition import FRENCH_RIGHTS, check_master_forms, input_snapshot
+ from release_bundle import eligible
++from pdf_final_audit import audit_dependency_snapshot
++from probe_rendering import current_probe_verification
++from privacy_rules import LOCAL_PATH, EMAIL, findings as privacy_matches, redact_history
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+ COPY1 = [f"esq_119_{n:03d}" for n in range(2, 60)]
+@@ -47,11 +51,13 @@
+     "NOTE_LINKS.json", "PDF_CHECKS.json", "FINAL_PDF_AUDIT.json", "VISUAL_QA.tsv",
+     "MASTER_FORM_EQUIVALENCE.json", "BUILD_INPUTS.json", "RELEASE_STATUS.json",
+     "records/CHECKPOINT_RECONCILIATION.tsv", "records/CHECKPOINT_RECONCILIATION.md",
++    "records/CHECKPOINT_PRIVACY_REDACTIONS.tsv",
++    "records/CHECKPOINT_MANIFEST_PROVENANCE.tsv",
+     "records/INDEPENDENT_TEXT_REVIEW.tsv", "records/EDITORIAL_ADJUDICATIONS.tsv",
++    "records/MERGED_ANNOTATION_UNCERTAINTIES.tsv",
++    "records/COPY2_APPARATUS_LANGUAGE_REVIEW.json",
+ ]
+ TEXT_SUFFIXES = {".py", ".tex", ".tsv", ".json", ".jsonl", ".md", ".txt", ".log"}
+-LOCAL_PATH = re.compile(r"/(?:workspace|home|mnt|tmp|usr|opt|var)/[^\s<>\"\)\}]+")
+-EMAIL = re.compile(r"(?<![\w@])[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?\.[A-Za-z]{2,}")
+ 
+ 
+ def digest(path):
+@@ -241,6 +247,66 @@
+           and collections.Counter(english_variants + english_source_notes) == collections.Counter(variant_ids), {
+               "English_wording_variants": len(english_variants), "French_source_apparatus_notes": len(english_source_notes),
+               "empty_variants": empty_variants, "wrong_page_or_variant_class": misplaced_variants})
++    merged_doubts = read_tsv("records/MERGED_ANNOTATION_UNCERTAINTIES.tsv")
++    merged_doubt_failures = []
++    map_by_key = {r["key"]: r for r in page_map}
++    for row in merged_doubts:
++        variant = approved_variants.get(row["variant_id"], {})
++        page = map_by_key.get(row["copy2_key"], {})
++        marked = r"\unsure{" + row["uncertain_reading"] + "}"
++        scoped = r"\scancontext{" + row["viewer"].replace("#", r"\#") + "}{" + marked + "}"
++        checked_path = ROOT / "checked_pages" / (row["copy2_key"] + ".tex")
++        if (row["viewer"] != page.get("viewer") or not checked_path.exists() or marked not in checked_path.read_text()
++                or any(scoped not in variant.get(field, "") for field in ["reason_fr", "reason_en"])):
++            merged_doubt_failures.append(row["variant_id"])
++    for annotation in read_json("copy2_annotations.json", []):
++        identity = annotation.get("merged_into_variant")
++        if not identity:
++            continue
++        for mark in macros(annotation.get("text_fr", ""), {"unsure"}):
++            if not any(row["variant_id"] == identity and row["uncertain_reading"] == mark.arguments[0]
++                       for row in merged_doubts):
++                merged_doubt_failures.append(identity)
++    check("Merged copy2 underlayer doubts remain marked and linked", bool(merged_doubts) and not merged_doubt_failures,
++          {"recorded_doubts": len(merged_doubts), "failures": sorted(set(merged_doubt_failures))})
++    annotations = read_json("copy2_annotations.json", [])
++    apparatus_review = read_json("records/COPY2_APPARATUS_LANGUAGE_REVIEW.json", {})
++    reviewed_entries = apparatus_review.get("entry_coverage", [])
++    expected_entries = [{"id": item["id"], "merged_into_variant": item.get("merged_into_variant"),
++                         "text_fr_sha256": hashlib.sha256(item["text_fr"].encode()).hexdigest(),
++                         "text_en_sha256": hashlib.sha256(item["text_en"].encode()).hexdigest()}
++                        for item in annotations]
++    check("Current bilingual copy2 apparatus independently reviewed",
++          apparatus_review.get("source_sha256") == digest(ROOT / "copy2_annotations.json")
++          and apparatus_review.get("records_read") == len(annotations)
++          and sorted(reviewed_entries, key=lambda item: item["id"]) == sorted(expected_entries, key=lambda item: item["id"]),
++          {"records": len(annotations), "reviewed_entries": len(reviewed_entries)})
++    additional_doubt_failures = []
++    additional_doubt_count = 0
++
++    def doubt_payloads(source):
++        return collections.Counter((m.name, m.arguments[0]) for m in macros(source, {"unsure", "illegible"}))
++
++    for copy1_key, copy2_key in zip(COPY1, COPY2):
++        paths = [ROOT / "checked_pages" / (key + ".tex") for key in [copy1_key, copy2_key]]
++        if not all(p.exists() for p in paths):
++            continue
++        additional = doubt_payloads(paths[1].read_text()) - doubt_payloads(paths[0].read_text())
++        additional_doubt_count += sum(additional.values())
++        page_notes = [a for a in annotations if a["key"] == copy1_key]
++        for language in ["fr", "en"]:
++            texts = []
++            for annotation in page_notes:
++                identity = annotation.get("merged_into_variant")
++                texts.append(approved_variants.get(identity, {}).get("reason_" + language, "") if identity
++                             else annotation.get("text_" + language, ""))
++            absent = additional - doubt_payloads("\n".join(texts))
++            if absent:
++                additional_doubt_failures.append({"key": copy2_key, "language": language,
++                    "missing": [{"macro": name, "reading": reading, "count": count}
++                                for (name, reading), count in sorted(absent.items())]})
++    check("Additional copy2 uncertainties retained in both apparatus languages", not additional_doubt_failures,
++          {"additional_doubt_payloads": additional_doubt_count, "failures": additional_doubt_failures})
+ 
+     guide_files = sorted(p for p in (ROOT / "guide_fragments").glob("*.tex") if p.name != "00_preface.tex")
+     headings = sum(len(re.findall(r"\\subsection\*\{", p.read_text())) for p in guide_files)
+@@ -279,10 +345,15 @@
+     check("All language forms share their annotated master body", masters_ok, read_json("MASTER_FORM_EQUIVALENCE.json", {}))
+ 
+     probe = read_json("records/RENDERING_PROBE.json", {})
++    current_probe = current_probe_verification(ROOT)
+     check("Marginal and grouped-note rendering probe passes", probe.get("passed") is True and not probe.get("errors")
+-          and not probe.get("missing_characters"), {k: probe.get(k) for k in ["passed", "errors", "missing_characters", "note_text_occurrences", "printed_block_labels"]})
++          and not probe.get("missing_characters") and current_probe.get("source_matches") is True
++          and current_probe.get("generation_inputs_match") is True,
++          {"measurements": {k: probe.get(k) for k in ["passed", "errors", "missing_characters", "note_text_occurrences", "printed_block_labels"]},
++           "current_probe_verification": current_probe})
+ 
+     pdf_audits = read_json("FINAL_PDF_AUDIT.json", {})
++    current_audit_inputs = audit_dependency_snapshot(ROOT)
+     pdf_records = {}
+     for name, (directory, expected_keys) in DOCUMENTS.items():
+         tex = ROOT / directory / (name + ".tex")
+@@ -297,6 +368,12 @@
+                 problems.append("PDF audit hashes absent or stale")
+             if not r.get("compiled_source_matches") or not r.get("compiled_pdf_matches"):
+                 problems.append("successful compilation hashes do not match")
++            if r.get("measurement_code_matches") is not True:
++                problems.append("PDF measurements were made with stale or changing measurement code")
++            if (r.get("audit_input_sha256") != current_audit_inputs
++                    or r.get("audit_inputs_unchanged_during_run") is not True or r.get("audit_inputs_changed_during_run")
++                    or r.get("rendering_probe_verification") != current_probe):
++                problems.append("PDF audit dependencies absent, changed during measurement, or stale")
+             if r.get("source_keys") != expected_keys:
+                 problems.append("source-page projection differs from required ordered pages")
+             if not source.startswith("% EDITION STATUS: final;"):
+@@ -312,11 +389,15 @@
+             if directory == "EN" and TRANSLATION_CREDIT not in source:
+                 problems.append("translation credit missing")
+             for field in ["upstream_input_mismatches", "errors", "missing_characters", "ink_outside_sheet", "ink_outside_type_area",
+-                          "link_count_mismatches", "apparatus_entry_mismatches", "uninspected_required_pages"]:
++                          "link_count_mismatches", "logical_link_tracking_issues", "logical_link_sequence_mismatches",
++                          "apparatus_entry_mismatches", "uninspected_required_pages"]:
+                 if field not in r or r[field]:
+                     problems.append(field)
+             if any(float(box["points"]) > 2 for box in r.get("overfull", [])):
+                 problems.append("overfull box exceeds2pt")
++            if (r.get("expected_link_count") != r.get("pdf_external_logical_links")
++                    or r.get("expected_link_count") != r.get("executed_external_link_count")):
++                problems.append("external-link source, execution and PDF logical counts differ")
+             if r.get("source_apparatus_entries") != r.get("executed_apparatus_entries") or r.get("source_apparatus_entries") != r.get("printed_apparatus_entries"):
+                 problems.append("apparatus projection/execution/printed counts differ")
+             if any(not item.get("same_physical_page") for item in r.get("author_footnote_placements", [])):
+@@ -344,7 +425,7 @@
+                 else:
+                     problems.append("unknown marginal-note placement")
+         check("PDF " + name, not problems, problems)
+-        pdf_records[name] = {k: r.get(k) for k in ["source_sha256", "pdf_sha256", "source_pages", "pdf_pages", "expected_link_count", "pdf_external_link_annotations", "source_apparatus_entries", "required_visual_pages", "visually_inspected_pages"]}
++        pdf_records[name] = {k: r.get(k) for k in ["source_sha256", "pdf_sha256", "source_pages", "pdf_pages", "expected_link_count", "pdf_external_logical_links", "pdf_external_link_annotations", "source_apparatus_entries", "required_visual_pages", "visually_inspected_pages"]}
+ 
+     privacy_findings = []
+     scanned_files = 0
+@@ -360,21 +441,21 @@
+         else:
+             continue
+         scanned_files += 1
+-        for pattern, kind in [(LOCAL_PATH, "local path"), (EMAIL, "email address")]:
+-            for match in pattern.finditer(text):
+-                # A portable interpreter directive is code, not a copied
+-                # execution-environment path or documentary source reference.
+-                if path.suffix == ".py" and match.group() == "/".join(["", "usr", "bin", "env"]) and text.startswith("#!") and match.start() == 2:
+-                    continue
+-                privacy_findings.append({"path": relative, "line": text[:match.start()].count("\n") + 1, "kind": kind})
++        for match in privacy_matches(text, relative):
++            privacy_findings.append({"path": relative, "line": match["line"], "kind": match["kind"]})
+     check("No private local paths or email addresses in outputs", not privacy_findings, {"findings": privacy_findings})
+ 
+     reconciliation = read_tsv("records/CHECKPOINT_RECONCILIATION.tsv")
+     acceptable = {"unchanged", "superseded", "omitted supplied duplicate", "preserved with explicit archival name"}
+     unresolved = [r for r in reconciliation if not r.get("reason") or r.get("status") not in acceptable]
+     checkpoint_rows = read_tsv("records/CHECKPOINTS.tsv")
++    manifest_provenance = read_tsv("records/CHECKPOINT_MANIFEST_PROVENANCE.tsv")
++    provenance_by_checkpoint = {row["checkpoint"]: row for row in manifest_provenance}
+     expected_members = {}
+     reconciliation_problems = []
++    if (len(provenance_by_checkpoint) != len(manifest_provenance)
++            or set(provenance_by_checkpoint) != {row["checkpoint"] for row in checkpoint_rows}):
++        reconciliation_problems.append("checkpoint-manifest-provenance-coverage")
+     for checkpoint in checkpoint_rows:
+         archive_name = checkpoint["checkpoint"]
+         number = int(Path(archive_name).stem.rsplit("_", 1)[1])
+@@ -384,20 +465,35 @@
+             reconciliation_problems.append(archive_name + "!/missing-manifest")
+             continue
+         manifest = read_tsv(manifest_name)
++        provenance = provenance_by_checkpoint.get(archive_name, {})
++        origin = provenance.get("origin")
++        embedded = origin == "embedded checkpoint manifest"
++        valid_origin = embedded or origin == "derived from immutable checkpoint bytes; no embedded manifest"
++        if (not valid_origin or provenance.get("manifest_path") != manifest_name
++                or provenance.get("manifest_sha256") != digest(manifest_path)
++                or provenance.get("manifest_entries") != str(len(manifest))
++                or provenance.get("archive_members") != str(len(manifest) + int(embedded))):
++            reconciliation_problems.append(archive_name + "!/inventory-provenance-mismatch")
+         for item in manifest:
+             pair = (archive_name, item["path"])
+             if pair in expected_members:
+                 reconciliation_problems.append(archive_name + "!/duplicate-manifest-member")
+             expected_members[pair] = item["sha256"]
+-        expected_members[(archive_name, "CHECKPOINT_CONTENTS.tsv")] = digest(manifest_path)
++        if embedded:
++            expected_members[(archive_name, "CHECKPOINT_CONTENTS.tsv")] = digest(manifest_path)
+         archived = ROOT.parent.parent / "output" / archive_name
+         if archived.exists():
+             with ZipFile(archived) as bundle:
+                 actual = {name: hashlib.sha256(bundle.read(name)).hexdigest()
+                           for name in bundle.namelist() if not name.endswith("/")}
++                actual_sizes = {name: bundle.getinfo(name).file_size for name in actual}
++            expected_sizes = {item["path"]: int(item["bytes"]) for item in manifest}
++            if embedded:
++                expected_sizes["CHECKPOINT_CONTENTS.tsv"] = manifest_path.stat().st_size
+             expected_archive = {name: checksum for (checkpoint_name, name), checksum in expected_members.items()
+                                 if checkpoint_name == archive_name}
+-            if actual != expected_archive:
++            if (actual != expected_archive or actual_sizes != expected_sizes
++                    or digest(archived) != provenance.get("checkpoint_sha256")):
+                 reconciliation_problems.append(archive_name + "!/archive-manifest-mismatch")
+     actual_pairs = [(r.get("checkpoint"), r.get("path")) for r in reconciliation]
+     if len(set(actual_pairs)) != len(actual_pairs) or set(actual_pairs) != set(expected_members):
+@@ -423,6 +519,86 @@
+           "unresolved": [{"checkpoint": r.get("checkpoint"), "path": r.get("path"), "status": r.get("status")} for r in unresolved],
+           "integrity_problems": sorted(set(reconciliation_problems))})
+ 
++    redactions = read_tsv("records/CHECKPOINT_PRIVACY_REDACTIONS.tsv")
++    redaction_problems = []
++    reconciliation_by_pair = {(r.get("checkpoint"), r.get("path")): r for r in reconciliation}
++    recorded_redactions = collections.Counter()
++
++    def redaction_identity(checkpoint, name, side, item):
++        return (checkpoint, name, side, int(item["line"]), int(item["column"]),
++                int(item["start_character"]), int(item["removed_characters"]),
++                item["kind"], item["removed_sha256"])
++
++    for row in redactions:
++        pair = (row.get("checkpoint"), row.get("path"))
++        entry = reconciliation_by_pair.get(pair, {})
++        try:
++            identity = redaction_identity(*pair, row.get("side"), row)
++            valid = (row.get("side") in {"checkpoint", "final"} and identity[3] >= 1
++                     and identity[4] >= 1 and identity[5] >= 0 and identity[6] > 0
++                     and row.get("kind") in {"local path", "email address"}
++                     and re.fullmatch(r"[0-9a-f]{64}", row.get("removed_sha256", ""))
++                     and row.get("reason") and entry.get("status") == "superseded"
++                     and row.get("diff") == entry.get("exact_passage_diff"))
++        except (ValueError, KeyError, TypeError):
++            valid = False
++        diff_path = ROOT / row.get("diff", "")
++        marker = "[redacted " + row.get("kind", "") + "; sha256=" + row.get("removed_sha256", "") + "]"
++        if not valid or not diff_path.is_file() or marker not in diff_path.read_text():
++            redaction_problems.append("!/".join(str(value) for value in pair))
++        else:
++            recorded_redactions[identity] += 1
++    replayed_redactions = collections.Counter()
++    original_archives_available = set()
++    exact_diff_problems = []
++    for checkpoint in checkpoint_rows:
++        archive_name = checkpoint["checkpoint"]
++        archived = ROOT.parent.parent / "output" / archive_name
++        if not archived.is_file():
++            continue
++        original_archives_available.add(archive_name)
++        with ZipFile(archived) as bundle:
++            for name in bundle.namelist():
++                entry = reconciliation_by_pair.get((archive_name, name), {})
++                if entry.get("status") not in {"unchanged", "superseded"}:
++                    continue
++                target = ROOT / entry["final_path"]
++                if not target.is_file():
++                    exact_diff_problems.append(archive_name + "!/" + name)
++                    continue
++                try:
++                    before_text = bundle.read(name).decode("utf-8")
++                    after_text = target.read_bytes().decode("utf-8")
++                except UnicodeDecodeError:
++                    continue
++                redacted_before, _ = redact_history(before_text, name)
++                redacted_after, _ = redact_history(after_text, name)
++                expected_patch = "".join(difflib.unified_diff(
++                    redacted_before.splitlines(keepends=True), redacted_after.splitlines(keepends=True),
++                    fromfile=archive_name + "!/" + name, tofile="final!/" + name))
++                recorded_diff = entry.get("exact_passage_diff", "")
++                if expected_patch:
++                    if (not recorded_diff or not (ROOT / recorded_diff).is_file()
++                            or (ROOT / recorded_diff).read_bytes() != expected_patch.encode("utf-8")):
++                        exact_diff_problems.append(archive_name + "!/" + name)
++                elif recorded_diff and (not (ROOT / recorded_diff).is_file() or (ROOT / recorded_diff).read_bytes()):
++                    exact_diff_problems.append(archive_name + "!/" + name)
++                for side, historical_text in [("checkpoint", before_text), ("final", after_text)]:
++                    for found in privacy_matches(historical_text, name):
++                        item = dict(found, start_character=found["start"],
++                                    removed_characters=found["end"] - found["start"])
++                        replayed_redactions[redaction_identity(archive_name, name, side, item)] += 1
++    available_records = collections.Counter({key: count for key, count in recorded_redactions.items()
++                                             if key[0] in original_archives_available})
++    if available_records != replayed_redactions:
++        redaction_problems.append("original-byte-redaction-replay")
++    check("Historical privacy omissions have exact span records", not redaction_problems,
++          {"redactions": len(redactions), "original_archives_replayed": len(original_archives_available),
++           "replayed_spans": sum(replayed_redactions.values()), "problems": sorted(set(redaction_problems))})
++    check("Checkpoint text diffs replay exactly", not exact_diff_problems,
++          {"original_archives_replayed": len(original_archives_available),
++           "problems": sorted(set(exact_diff_problems))})
++
+     report = {
+         "passed": all(c["passed"] for c in checks),
+         "edition_date": release.get("edition_date", "2026-11-14"),

@@ -1,0 +1,58 @@
+--- ESQUISSE_READERS_checkpoint_01.zip!/scripts/audit_inventory.py
++++ final!/scripts/audit_inventory.py
+@@ -5,13 +5,13 @@
+ This program never assigns a visual outcome.
+ """
+ from __future__ import annotations
+-import argparse, collections, csv, hashlib, json, re
++import argparse, collections, csv, hashlib, json, re, tempfile
+ from pathlib import Path
+ 
+-MACROS = {"hand":1,"over":2,"inserted":1,"margin":1,"deleted":1,"xout":1,
++MACROS = {"hand":1,"handcircle":1,"over":2,"inserted":1,"margin":1,"deleted":1,"xout":1,
+           "unsure":1,"illegible":1,"uline":1,"uuline":1,"diagram":1,
+           "mspage":1,"scanpage":1}
+-HAND = {"hand","over","inserted","margin","deleted","xout"}
++HAND = {"hand","handcircle","over","inserted","margin","deleted","xout"}
+ 
+ def read_tsv(path):
+     with Path(path).open(encoding="utf-8", newline="") as f:
+@@ -19,9 +19,11 @@
+ 
+ def write_tsv(path, rows, fields):
+     path=Path(path); path.parent.mkdir(parents=True,exist_ok=True)
+-    with path.open("w",encoding="utf-8",newline="") as f:
++    with tempfile.NamedTemporaryFile("w",encoding="utf-8",newline="",dir=path.parent,prefix=path.name+".",delete=False) as f:
+         w=csv.DictWriter(f,fieldnames=fields,delimiter="\t",lineterminator="\n",extrasaction="ignore")
+         w.writeheader(); w.writerows(rows)
++        temporary=Path(f.name)
++    temporary.replace(path)
+ 
+ def escaped(text, pos):
+     n=0; pos-=1
+@@ -139,16 +141,6 @@
+     write_tsv(records/"SOURCE_PAGE_INVENTORY.tsv",page_counts,list(page_counts[0]))
+     write_tsv(records/"REVIEW_TARGETS.tsv",targets,["key","source_item_id","target_type","line","original"])
+     write_tsv(records/"DIFFERENCES_SOURCE_INDEX.tsv",all_diffs,["difference_id","copy","source_record","source_row","key","cote","site","typescript_page","class","draft","page","note"])
+-    raw=records/"source_records";raw.mkdir(exist_ok=True)
+-    # Copies are limited to the records needed to reconstruct coverage; paths already
+-    # use names inside the supplied ZIP. No host filesystem path is added.
+-    copies=["records/PAGES_ESQUISSE.tsv"]
+-    for folder in ["esquisse","esquisse_copy2"]:
+-        copies.extend(f"transcription/{folder}/{f}" for f in ["NOTES.tsv","DIFFERENCES.tsv","COMPILE_FIXES.tsv"])
+-    for rel in copies:
+-        content=(source/rel).read_text()
+-        content=re.sub(r"(?<![\w.])[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}(?![\w.])","[email omitted]",content)
+-        p=raw/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(content)
+     total=counts[1]+counts[2]
+     report=["# Source inventory","", "This inventory is mechanical. It assigns no scan-reading outcome.","",
+         "Both attached manifests were read before the inventories were prepared. Every listed file matched its byte count and SHA-256 digest.","",
+@@ -158,7 +150,7 @@
+     for k in ["pages","note_items","difference_rows",*MACROS]:report.append(f"| {k} | {counts[1][k]} | {counts[2][k]} | {total[k]} |")
+     report += ["","The source inventory counts parsed content commands, including nested commands and a content command unintentionally suppressed after an inline percent sign (flagged in its packet). Full comment lines are excluded. Original uncertainty and handwriting assignments remain unverified until an explicit review is recorded.","",
+         "## Stable identifiers","","Difference identifiers retain original row order: D1-001 through D1-327 and D2-001 through D2-141. Macro identifiers are M-<page key>-<three-digit occurrence>; note identifiers are N-<page key>-<three-digit item>. Each packet records the original file hash, complete text, numbered lines, exact macro spans, all note items, original difference rows, archive metadata, and both required image names.","",
+-        "The original record copies in `records/source_records/` preserve ZIP-relative source names. No scan images or original page files are duplicated there. Review packet strings use LF line endings; the recorded source hash always describes the original bytes in the attachment. This newline decoding has no printed effect.",""]
++        "Original input tables are read directly from the supplied text archive; they are not duplicated among the deliverables. The authored inventories add stable IDs, parsed targets and integrity outcomes. Review packet strings use LF line endings; the recorded source hash always describes the original bytes in the attachment. This newline decoding has no printed effect.",""]
+     (records/"SOURCE_INVENTORY.md").write_text("\n".join(report))
+     print(json.dumps({"pages":len(pages),"packets":len(pages),"counts":{str(k):dict(v) for k,v in counts.items()},"integrity_verified":True},ensure_ascii=False))
+ 

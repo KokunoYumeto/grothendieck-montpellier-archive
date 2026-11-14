@@ -1,0 +1,32 @@
+--- ESQUISSE_READERS_checkpoint_06.zip!/scripts/trace_source_glyph.py
++++ final!/scripts/trace_source_glyph.py
+@@ -47,11 +47,15 @@
+ % Its conventional alphabet assignment remains uncertain; use with \unsure.
+ % The contour is a vector traced from the reviewed scan detail, not a font alias.
+ \makeatletter
+-\newcommand{\sourceglyph}[1]{\mathord{\mathpalette{\EditionSourceGlyph{#1}}{}}}
++\newcommand{\sourceglyph}[1]{\ensuremath{\mathord{\mathpalette{\EditionSourceGlyph{#1}}{}}}}
+ \newcommand{\EditionSourceGlyph}[3]{%
+   \begingroup
+   \setbox0=\hbox{$#2 A$}%
+-  \resizebox{!}{\ht0}{\csname EditionGlyph@#1\endcsname}%
++  \ifcsname EditionGlyphHeight@#1\endcsname
++    \resizebox{!}{\csname EditionGlyphHeight@#1\endcsname}{\csname EditionGlyph@#1\endcsname}%
++  \else
++    \resizebox{!}{\ht0}{\csname EditionGlyph@#1\endcsname}%
++  \fi
+   \endgroup}
+ \expandafter\newcommand\csname EditionGlyph@119A\endcsname{%
+   \begin{tikzpicture}[x=1pt,y=1pt,baseline=0pt]
+@@ -62,7 +66,10 @@
+ '''
+     output.parent.mkdir(parents=True,exist_ok=True);output.write_text(tex)
+     data={'glyph_id':'119A','source_scan':'scans/esq_119_042_a.jpg','source_pdf_page':43,'typescript_page':40,'crop_sha256':hashlib.sha256(pathlib.Path(crop).read_bytes()).hexdigest(),'reviewed_crop_size':list(image.size),'detail_box':list(box),'luminance_threshold':125,'connectivity':4,'component':'all dark components in the isolated glyph box','component_areas_pixels':sorted([len(c) for c in components],reverse=True),'polygon_tolerance_pixels':.45,'vertices_by_contour':vertices,'source_alphabet':'unresolved; explicitly marked with unsure','vector_tex_sha256':hashlib.sha256(tex.encode()).hexdigest()}
+-    record.parent.mkdir(parents=True,exist_ok=True);record.write_text(json.dumps(data,indent=2)+'\n')
++    record.parent.mkdir(parents=True,exist_ok=True)
++    prior=json.loads(record.read_text()) if record.exists() else {}
++    data={**prior,**data}
++    record.write_text(json.dumps(data,indent=2)+'\n')
+     print(json.dumps({'glyph_id':'119A','vertices':vertices,'contours':len(paths)}))
+ 
+ if __name__=='__main__':

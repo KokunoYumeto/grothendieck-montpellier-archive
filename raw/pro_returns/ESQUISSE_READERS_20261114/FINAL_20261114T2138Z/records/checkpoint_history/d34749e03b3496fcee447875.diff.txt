@@ -1,0 +1,133 @@
+--- ESQUISSE_READERS_checkpoint_05.zip!/scripts/audit_editorial_adjudication.py
++++ final!/scripts/audit_editorial_adjudication.py
+@@ -9,8 +9,21 @@
+ import hashlib,json
+ from audit_inventory import read_tsv,write_tsv
+ 
++EXTRA_EDITORIAL_IDS={
++    'D1-003','D1-045','D1-049','D1-050','D1-053','D1-055','D1-058','D1-060',
++    'D1-088','D1-094','D1-095','D1-114','D1-159','D1-193','D1-237','D1-248',
++    'D1-250','D1-258','D1-260',
++}
++
++def needs_editorial(difference):
++    """The wording classes plus individually identified lexical-normalization loci."""
++    return difference['class'] in {'silent-correction','wording'} or difference['difference_id'] in EXTRA_EDITORIAL_IDS
+ 
+ RETAIN = {
++    'D2-031': 'Retain trcuve|trouve as an unresolved shared scan reading. Both copies have the open third-letter impression; an editorial replacement would erase the uncertainty. No lexical variant is assigned.',
++    'D2-035': 'Retain the copy2 dotted-e versus unaccented-e doubt in Yves. The visible point has no slanted grave form, and its origin remains unresolved. This copy2 mark is documented in collation and apparatus; it establishes no base-text spelling correction.',
++    'D2-139': 'Retain the second point after topologie in copy2 as an uncertain graphic trace, with its origin and textual role unresolved. The paired enlargement shows only the ordinary final full stop in copy1. Preserve the extra copy2 mark in the diplomatic source and bilingual apparatus; the evidence establishes no shared typing-slip correction.',
++    'D1-003': 'Retain Légo-Teichmüller with its checked accent. The spelling recurs throughout the discussion; no naming convention is substituted.',
+     'D1-005': 'Retain the checked heading et corps finis. The alternative sur les corps finis changes the wording; no letter-level slip is established.',
+     'D1-006': 'Retain bidimensionelle. The same single-n spelling recurs in the checked text, including pages 2 and 26; it is not treated as an isolated typing slip.',
+     'D1-008': 'Retain astéristiques. No checked same-word parallel establishes an isolated corruption of this particular form.',
+@@ -32,18 +45,18 @@
+     'D1-062': 'Retain pendant quelque temps. The singular expression is the checked authorial wording.',
+     'D1-068': 'Retain développé tant soit peu. The surrounding passage includes dictionnaire as well as existence, so no unique letter-level correction is established.',
+     'D1-075': 'Retain de genre zéro. The wording is explicit in the checked source.',
+-    'D1-093': 'Retain trésaillir. No checked parallel of the same word yet establishes an isolated accent error.',
++    'D1-093': 'Retain trésaillir. The complete checked copy supplies no tressaillir parallel establishing an isolated accent error.',
+     'D1-103': 'Retain correspondants. The passage refers to subgroups and Tate modules; no unique agreement correction is established from the checked wording.',
+     'D1-104': 'Retain bien peu de choses. The plural wording is explicit in the checked source.',
+     'D1-110': 'Retain sens pour des polyèdres réguliers. The alternative phrasing does not establish an isolated source slip.',
+     'D1-111': 'Retain polygônes. The same circumflex spelling appears on page 26 and is preserved as recurring usage.',
+     'D1-119': 'Retain sur les corps premiers. The plural wording is explicitly checked; no isolated omission or substitution is established.',
+-    'D1-124': 'Retain restreint pending a checked restreints parallel. The plural context suggests a possible ending omission, but no isolated correction is established from the evidence presently checked.',
++    'D1-124': 'Retain restreint. The complete checked copy supplies no restreints parallel; plural context alone is not used to regularize this agreement ending.',
+     'D1-126': 'Retain arguments de spécialisation standards. The adjective agrees with the written plural arguments; no correction is warranted.',
+     'D1-128': 'Retain crû. No checked occurrence of the corresponding unaccented form establishes an isolated typing error.',
+     'D1-129': 'Retain réunisse. The alternative réussisse is not yet supported by a checked same-word parallel; do not infer a source correction from its presence in a draft.',
+     'D1-135': 'Retain déduits. No checked déduites parallel establishes an isolated ending error, and recurring agreement forms are not globally changed.',
+-    'D1-137': 'Retain degénérescence. No checked occurrence of the same word with the proposed first accent yet establishes an isolated accent omission.',
++    'D1-137': 'Retain degénérescence. The complete checked copy supplies no dégénérescence parallel establishing an isolated accent omission.',
+     'D1-139': 'Retain bidimensionelle. The single-n stem recurs on the contents page and page 2.',
+     'D1-140': 'Retain the second bidimensionelle on this page for the same reason: it repeats the checked authorial spelling.',
+     'D1-144': 'Retain polygônes, also written on page 20. The recurring circumflex is not corrected as an isolated slip.',
+@@ -52,16 +65,16 @@
+     'D1-167': 'Retain développés. No checked feminine plural of the same participle establishes an isolated omission; related masculine agreement forms recur in this discussion.',
+     'D1-168': 'Retain occurence, also written on pages 6 and 35. The recurring spelling is preserved.',
+     'D1-189': 'Retain équisingularité convenables. The source accent is present and convenables qualifies the plural hypothèses.',
+-    'D1-194': 'Retain articielle pending an exact checked artificielle parallel. The missing-letter proposal has not yet met the evidence rule used for isolated slips.',
++    'D1-194': 'Retain articielle. The complete checked copy supplies no exact artificielle parallel; the proposed missing letters have not met the evidence rule used for isolated slips.',
+     'D1-195': 'Retain développé. This masculine form participates in recurring agreement choices in the discussion; no isolated same-form correction is established.',
+     'D1-196': "Retain tout ce qu'il y a de plausible. The checked wording is a complete expression; the alternative plural is not required by the written construction.",
+     'D1-198': 'Retain occurence, a spelling already checked on pages 6 and 30.',
+     'D1-199': 'Retain dévissage général. Général can qualify the written masculine noun dévissage; no isolated correction is established.',
+     'D1-200': 'Retain développé. The passage includes the masculine dévissage; no unique correction is established by the alternative agreement.',
+-    'D1-201': 'Retain révélé pending an exact checked révélée parallel. The surrounding agreement forms are not silently regularized.',
++    'D1-201': 'Retain révélé. The complete checked copy supplies no exact révélée parallel; the surrounding agreement forms are not silently regularized.',
+     'D1-204': 'Retain the second occurence on this page as recurring checked spelling.',
+     'D1-208': 'Retain topologies étale. The draft changes topologies to singular, while another possible intervention would change étale to plural; the checked evidence does not establish one unique isolated correction.',
+-    'D1-210': 'Retain progressées pending an exact checked progressé parallel. Do not replace the source solely with the draft reading.',
++    'D1-210': 'Retain progressées. The complete checked copy supplies no exact progressé parallel; the draft reading alone does not establish the correction.',
+     'D1-214': 'Retain ils sont obtenus. The preceding explanation names both strates and espaces; no unique source pronoun correction is established.',
+     'D1-219': 'Retain compactifications schématique pending a checked schématiques parallel. The plural context alone is not used to regularize all agreement endings.',
+     'D1-226': 'Retain où with its visible accent. It introduces the cases in which the automorphism-group property holds; the unaccented draft form loses a source mark.',
+@@ -70,13 +83,47 @@
+     'D1-236': "Retain L'idée ici est d'introduire. The checked order is clear, and no isolated typing error supports moving ici.",
+     'D1-242': 'Retain dans le cas de strates lisses. The checked indefinite construction is complete; adding s to de would change the wording without an established slip.',
+     'D1-245': 'Retain les premiers dans une série. The checked construction is complete; substituting de changes the wording without an established typing slip.',
+-    'D1-247': 'Retain déserpoir pending an exact checked désespoir parallel. The draft reading alone is not used to establish the correction.',
++    'D1-247': 'Retain déserpoir. The complete checked copy supplies no exact désespoir parallel; the draft reading alone does not establish the correction.',
+     'D1-252': 'Retain Histoire de Modèles in the singular. Both title mentions on the same page repeat Histoire, and the next page does too.',
+     'D1-254': 'Retain Eilenberg-Maclane as written. No alternative spelling of this name occurs in the checked pages; the source naming is not replaced from external convention.',
+     'D1-259': 'Retain chapître. No checked chapitre parallel establishes an isolated circumflex insertion in this source occurrence.',
+     'D1-263': 'Retain serai. The future form can present the anticipated solitary work from the narrative viewpoint; the draft conditional alone does not prove an accidental missing s.',
+     'D1-265': 'Retain répéré. The intended verb has not been established by an exact checked parallel; root explicitly rejected an automatic choice between repéré and répété.',
+     'D1-266': 'Retain A. Campo with the checked period and space. No same-name parallel in the checked text establishes a source apostrophe; external naming convention is not substituted.',
++    'D1-269': 'Retain occurence and its source line division. The same spelling is repeatedly checked on pages 6, 30 and 35.',
++    'D1-271': 'Retain téléscopage. No checked télescopage parallel establishes an isolated accent insertion.',
++    'D1-278': 'Retain métier de mathématiciens. The plural names the practitioners collectively; no unique accidental ending is established by the draft singular.',
++    'D1-282': 'Retain aux dépens with the checked plural article. The draft removes a source letter; no correction is warranted.',
++    'D1-283': 'Retain sibyllin with the checked order of i and y. The alternate draft spelling supplies no reason to alter the source.',
++    'D1-045': 'Retain boite without a circumflex. This spelling repeats in the same discussion and was explicitly designated for preservation by root.',
++    'D1-049': 'Retain boite without a circumflex, following the repeated checked spelling on this page.',
++    'D1-050': 'Retain the same unaccented boite in La boite la plus petite; no isolated accent omission is established.',
++    'D1-053': 'Retain the unaccented grande boite, matching the other source occurrences.',
++    'D1-055': 'Retain arètes. Root explicitly designated this source spelling for preservation; the difference in accent is not silently regularized.',
++    'D1-058': 'Retain petite boite without a circumflex, matching the repeated source usage on pages 8 and 9.',
++    'D1-060': 'Retain grande boite without a circumflex, matching the repeated source usage on pages 8 and 9.',
++    'D1-088': 'Retain grosso-modo with the source hyphen. The draft spacing is a normalization, not evidence of a unique typing slip.',
++    'D1-094': 'Retain quelques 1 300 pages. No checked same-construction parallel establishes an isolated final-s error; the authorial approximate-quantity phrasing is preserved.',
++    'D1-095': "Retain Assez vite il s'oriente in the source present tense. The retrospective narrative permits this change of viewpoint; replacing it with another tense would edit the wording.",
++    'D1-114': 'Retain polygône with the circumflex. The same stem is written polygônes on pages 20 and 26; the existence of other spellings does not make this repeated form an isolated slip.',
++    'D1-159': "Retain c'est à dire with the source spacing. No global hyphen standardization is applied.",
++    'D1-193': 'Retain celà. The same page also has cela, but the coexistence of the two spellings does not by itself establish that the grave accent was accidental; no isolated correction has been approved.',
++    'D1-237': 'Retain fonction de 0 variables. The source wording and numeral are explicit; no reformulation of the zero-variable case is made.',
++    'D1-248': "Retain d'Illusie with the checked apostrophe and capitalization. The original difference concerns draft presentation, not a proven source slip.",
++    'D1-250': 'Retain au delà with the source spacing. No global hyphen standardization is applied.',
++    'D1-258': 'Retain van Kampen with the source capitalization. External naming style is not substituted for the checked source.',
++    'D1-260': 'Retain terre à terre with the source spacing. The same phrase elsewhere has hyphens; this typographic variation is preserved.',
++    'D1-289': "Retain que j'ai laissé passer. The source has laissé followed by an infinitive; the checked material does not establish this construction as an accidental omission of e. The alternate agreement is not imposed.",
++    'D1-294': 'Retain impréssionné. The visible acute accent is confirmed, and the complete checked copy supplies no exact impressionné parallel establishing an isolated accidental accent.',
++    'D1-297': "Retain s'est dégagé. The checked text supplies no exact dégagée parallel. Copy2 adds a faint looped letter, provisionally read as e; its interior entry stroke remains unresolved on the paired enlargement. Preserve that uncertain addition in the copy2 apparatus. This evidence does not settle a shared typing-slip correction.",
++    'D1-301': 'Retain occurence. The single-r spelling recurs on pages 6, 30, 35 and 47 and is preserved throughout the French forms.',
++    'D1-303': 'Retain en termes d\'un monde algébrique with its source quotation marks. The indefinite article is explicit and the passage supplies no evidence of an accidental added word.',
++    'D1-315': 'Retain cartes de congruence. Congruence names the qualifying property in this phrase; adding a plural s is not an established correction of an isolated typing slip.',
++    'D1-316': 'Retain les cartes de congruence. The definite article identifies the maps described in the parenthesis; the draft des does not establish an accidental letter substitution.',
++    'D1-317': 'Retain ce système d\'espaces. The checked spelling système is complete; the draft sytème drops a source letter.',
++    'D1-319': 'Retain the second prose arrow X_{i,j} to X_i as printed. The diagram gives the ordinary proper-fibration arrow to X_i and the hooked bordering-inclusion arrow to X_j. The discrepancy concerns the first prose target, which is also X_i; the guide records the actual map labels and targets. Mathematical source notation is unchanged.',
++    'D1-320': 'Retain les strates d\'indice i et j. The singular indice can distribute over the two named strata; the source gives no evidence of an accidentally omitted s.',
++    'D1-321': 'Retain les deux carrés de droite. Droite is the directional noun in de droite; the draft droites adds a source letter without an established typing correction.',
+ }
+ 
+ 
+@@ -93,7 +140,7 @@
+     for key,path in sorted(checked.items()):
+         packet=json.loads((work/'review_packets'/(key+'.json')).read_text())
+         for d in packet['differences']:
+-            if d['class'] not in {'silent-correction','wording'}:continue
++            if not needs_editorial(d):continue
+             did=d['difference_id'];candidate=by_diff.get(did);variant=None
+             source_ids=[did]+[f'L-{key}-{n:03d}' for n in d['literal_matching_lines']]
+             if candidate:
+@@ -105,6 +152,8 @@
+             elif did in RETAIN:
+                 outcome='retained after editorial consideration'
+                 reason=RETAIN[did]
++                if did == 'D1-297':
++                    source_ids.extend(['D2-131','M-esq119_119_131-005','M-esq119_119_131-006','COL-119-055-001'])
+             else:
+                 outcome='pending editorial consideration'
+                 reason='This newly checked locus has not yet received an editorial decision; no correction or retention is inferred automatically.'

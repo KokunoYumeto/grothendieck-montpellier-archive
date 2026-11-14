@@ -1,0 +1,35 @@
+--- ESQUISSE_READERS_checkpoint_04.zip!/scripts/audit_approve.py
++++ final!/scripts/audit_approve.py
+@@ -1,7 +1,7 @@
+ #!/usr/bin/env python3
+ """Record an explicitly authorized editorial candidate in the master inputs."""
+ from pathlib import Path
+-import argparse,json
++import argparse,json,os,tempfile
+ from audit_inventory import read_tsv
+ 
+ def approve(candidate_ids, *, approval, english_variant_needed=False):
+@@ -19,13 +19,21 @@
+         serial=1
+         while any(v['id']==f"V-FR-{int(r['site']):03d}-{serial:03d}" for v in variants):serial+=1
+         vid=f"V-FR-{int(r['site']):03d}-{serial:03d}"
++        source_ids=[f"L-{r['key']}-{int(r['line']):03d}"]
++        source_ids.extend(x for x in r.get('difference_ids','').split(';') if x)
++        if r['evidence_key'] and r['evidence_line']:
++            evidence_id=f"L-{r['evidence_key']}-{int(r['evidence_line']):03d}"
++            if evidence_id not in source_ids:source_ids.append(evidence_id)
+         variants.append({'id':vid,'key':r['key'],'line':int(r['line']),'old':r['page_reading'],'new':r['proposed_reading'],
+             'kind':r['kind'],'reason_fr':r['reason_fr'],'reason_en':r['reason_en'].replace('The proposed correction','The correction'),
+-            'source_ids':[f"L-{r['key']}-{int(r['line']):03d}"],
++            'source_ids':source_ids,
+             'evidence_key':r['evidence_key'],'evidence_line':int(r['evidence_line']) if r['evidence_line'] else '',
+             'evidence_reading':r['evidence_reading'],'approval':approval,'english_variant_needed':english_variant_needed})
+         results.append(vid)
+-    path.write_text(json.dumps(variants,ensure_ascii=False,indent=2)+'\n')
++    with tempfile.NamedTemporaryFile('w',encoding='utf-8',dir=path.parent,prefix='.editorial-',suffix='.json',delete=False) as f:
++        f.write(json.dumps(variants,ensure_ascii=False,indent=2)+'\n')
++        tmp=f.name
++    os.replace(tmp,path)
+     print(json.dumps({'approved_variants':results,'checked_pages_changed':0}))
+     return results
+ 

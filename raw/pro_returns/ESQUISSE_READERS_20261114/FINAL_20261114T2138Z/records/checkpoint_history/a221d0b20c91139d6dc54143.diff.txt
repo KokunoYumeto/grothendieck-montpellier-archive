@@ -1,0 +1,20 @@
+--- ESQUISSE_READERS_checkpoint_01.zip!/scripts/audit_apply.py
++++ final!/scripts/audit_apply.py
+@@ -5,7 +5,7 @@
+ The JSON records exactly which images the reviewer viewed and the decisions made.
+ """
+ from __future__ import annotations
+-import argparse, csv, hashlib, json, re
++import argparse, csv, hashlib, json, re, fcntl
+ from pathlib import Path
+ from audit_inventory import read_tsv, write_tsv, parse_marks
+ 
+@@ -29,6 +29,8 @@
+ def main():
+     ap=argparse.ArgumentParser();ap.add_argument("review");ap.add_argument("--work",default="work");args=ap.parse_args()
+     root=Path(args.work);out=root/"edition";review=json.loads(Path(args.review).read_text())
++    lock=(out/".audit-records.lock").open("w")
++    fcntl.flock(lock.fileno(),fcntl.LOCK_EX)
+     key=review["key"];packet=json.loads((root/"review_packets"/f"{key}.json").read_text())
+     source=packet["source_text"];meta=packet["metadata"]
+     if set(review.get("inspected_images",[]))!=set(packet["required_images"]):

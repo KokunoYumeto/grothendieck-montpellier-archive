@@ -1,0 +1,40 @@
+--- ESQUISSE_READERS_checkpoint_07.zip!/scripts/build_edition.py
++++ final!/scripts/build_edition.py
+@@ -208,9 +208,10 @@
+         if copy=='copy2':parts.append(r'\ifdiplomatic')
+         if french:parts.append(r'\EditionPart{'+copy+'}{'+('Copie 1' if copy=='copy1' else 'Copie 2')+'}')
+         for key in sorted(keys,key=lambda k:int(metadata[k]['site'])):
+-            parts.extend(['% BEGIN PAGE '+key,body(pages[key]),r'\finishscan','% END PAGE '+key])
++            pagebody,_=cluster_margins(body(pages[key]));pagebody,_=anchor_author_stars(pagebody,key)
++            parts.extend(['% BEGIN PAGE '+key,pagebody,r'\finishscan','% END PAGE '+key])
+         if copy=='copy2':parts.append(r'\fi')
+-    mapping={'HAND_RENDERER':(root/'templates/hand_renderer.tex').read_text(), 'SOURCE_GLYPH_DEFINITIONS':(root/'templates/source_glyphs.tex').read_text() if (root/'templates/source_glyphs.tex').exists() else '', 'LANGUAGES':'english,french' if french else 'french,english','FORM_SWITCHES':('\\diplomatictrue' if dipl else '\\diplomaticfalse')+'\n'+('\\readingtrue' if reading else '\\readingfalse')+'\n'+('\\englishfalse' if french else '\\englishtrue'),'EDITION_TITLE':title,'EDITION_FORM':formtitle+(' — annotated master' if master else ''),'PDF_TITLE':title+' — '+formtitle,'SCAN_DECLARATIONS':'\n'.join(scan_decl),'VARIANT_DECLARATIONS':variant_declarations(variants,lang),'NOTE_DECLARATIONS':notedecls,'FRONT_MATTER':front,'BODY':'\n'.join(parts)}
++    mapping={'LINK_TRACKING':(root/'templates/link_tracking.tex').read_text(),'HAND_RENDERER':(root/'templates/hand_renderer.tex').read_text(), 'SOURCE_GLYPH_DEFINITIONS':'\n'.join((root/'templates'/name).read_text() for name in ['source_glyphs.tex','source_brackets.tex'] if (root/'templates'/name).exists()), 'LANGUAGES':'english,french' if french else 'french,english','FORM_SWITCHES':('\\diplomatictrue' if dipl else '\\diplomaticfalse')+'\n'+('\\readingtrue' if reading else '\\readingfalse')+'\n'+('\\englishfalse' if french else '\\englishtrue'),'EDITION_TITLE':title,'EDITION_FORM':formtitle+(' — annotated master' if master else ''),'PDF_TITLE':title+' — '+formtitle,'SCAN_DECLARATIONS':'\n'.join(scan_decl),'VARIANT_DECLARATIONS':variant_declarations(variants,lang),'NOTE_DECLARATIONS':notedecls,'FRONT_MATTER':front,'BODY':'\n'.join(parts)}
+     for k,v in mapping.items():template=template.replace('@'+k+'@',v)
+     status='final' if release.get('final') else 'partial'
+     return '% EDITION STATUS: '+status+'; source units '+str(included)+'/'+str(required)+'\n'+template
+@@ -236,6 +237,15 @@
+             v=dict(frbyid[vid]);v['source_apparatus']=True;ensourcenotes.append(v)
+         enpages[key]=clean
+     enpages,ennotes,ennotestatus=link_notes(enpages,metadata);enpages=attach_copy2(enpages,c2,'EN',metadata)
++    layouts=[];star_anchors=[]
++    for lang,language_pages in [('FR',frpages),('EN',enpages)]:
++        for key,text in language_pages.items():
++            original=body(text);transformed,events=cluster_margins(original)
++            for event in events:layouts.append({'language':lang,'key':key,**event,'source_body_sha256':sha256(original),'generated_body_sha256':sha256(transformed),'source_recovery_equal':True})
++            anchored,stars=anchor_author_stars(transformed,key)
++            for event in stars:star_anchors.append({'language':lang,'key':key,**event,'source_recovery_equal':True})
++    (root/'records/TYPESETTING_LAYOUTS.json').write_text(json.dumps(layouts,ensure_ascii=False,indent=2)+'\n')
++    (root/'records/STAR_NOTE_ANCHORS.json').write_text(json.dumps(star_anchors,ensure_ascii=False,indent=2)+'\n')
+     coverage=[]
+     for key,text in enpages.items():
+         fr=resolve_variants(annotated.get(key,''),True);en=resolve_variants(text,True)
+@@ -259,7 +269,7 @@
+     if guidefragments:
+         guidebody='\n\n'.join(p.read_text() for p in guidefragments)
+         document=make_document(root,'EN_corrected_translator_notes',metadata,{},[], '',guide=True)
+-        start=document.index('\\begin{document}');after=document.index('\\end{document}')
++        start=document.index('\\begin{document}');after=document.index('\\typeout{EDITION-APPARATUS-COUNT:')
+         document=document[:after]+guidebody+'\n'+document[after:]
+         document=document.replace(r'\newcommand{\EditionTitle}{Sketch of a Program}',r'\newcommand{\EditionTitle}{A Guide to the Esquisse}')
+         document=document.replace(r'\newcommand{\EditionForm}{Corrected text with translator’s notes}',r'\newcommand{\EditionForm}{Commentary for a mathematical reader}')

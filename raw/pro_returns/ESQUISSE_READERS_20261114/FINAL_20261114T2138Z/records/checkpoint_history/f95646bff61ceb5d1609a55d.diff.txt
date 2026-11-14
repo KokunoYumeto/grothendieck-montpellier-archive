@@ -1,0 +1,36 @@
+--- ESQUISSE_READERS_checkpoint_13.zip!/scripts/write_readme.py
++++ final!/scripts/write_readme.py
+@@ -199,8 +199,9 @@
+     if guide_paths:
+         document = make_document(
+             s.root, "EN_corrected_translator_notes", metadata, {}, [], "", guide=True)
+-        end = document.index(r"\end{document}")
+-        document = document[:end] + "\n\n".join(s.text(p) for p in guide_paths) + "\n" + document[end:]
++        # Keep the executed-count footer after the guide, exactly as build_edition does.
++        after = document.index(r"\typeout{EDITION-APPARATUS-COUNT:")
++        document = document[:after] + "\n\n".join(s.text(p) for p in guide_paths) + "\n" + document[after:]
+         document = document.replace(
+             r"\newcommand{\EditionTitle}{Sketch of a Program}",
+             r"\newcommand{\EditionTitle}{A Guide to the Esquisse}")
+@@ -823,15 +824,18 @@
+             ("scripts/; templates/", "Reproducible review, collation, generation, compilation, audit and rendering code plus reusable TeX definitions."),
+             ("records/CHECKPOINTS.tsv; records/OMITTED_CHECKPOINT_FILES.tsv", "Earlier checkpoint identities and explicit reconciliation of files not repeated in the final archives."),
+             ("records/CHECKPOINT_RECONCILIATION.tsv; records/CHECKPOINT_RECONCILIATION.md; records/FINAL_CONTENTS.tsv", "Every checkpoint member's final disposition, replacement diffs with individually labelled historical path redactions, and the final three-archive content manifest."),
+-            ("records/CHECKPOINT_PRIVACY_REDACTIONS.tsv", "Checkpoint member and original-file hashes, removed-span hashes and coordinates, and reasons for local environment paths redacted from historical textual diffs."),
++            ("records/CHECKPOINT_PRIVACY_REDACTIONS.tsv", "Checkpoint member identities, removed-span hashes and coordinates, and reasons for local environment paths redacted from historical textual diffs; original-file hashes are recorded in the reconciliation."),
++            ("records/CHECKPOINT_MANIFEST_PROVENANCE.tsv", "Immutable checkpoint ZIP hashes, inventory hashes and counts, and the recorded origin of each embedded or newly derived inventory."),
+         ]),
+         "",
+         "The records ZIP retains the authored review history and reproducibility files. "
+         "Unmodified input-table duplicates removed from earlier checkpoints are identified in "
+         + link("records/OMITTED_CHECKPOINT_FILES.tsv") + " with their original archive location and reason. "
+         "Historical textual diffs preserve the replaced passages exactly except for individually labelled redactions of local environment paths in early scripts. "
+-        + link("records/CHECKPOINT_PRIVACY_REDACTIONS.tsv") + " identifies each checkpoint member, original-file SHA-256, removed-span SHA-256 and coordinates, and the reason. "
+-        "The original immutable checkpoint ZIPs remain untouched; the final reconciliation validates the redaction records against their original bytes. "
++        + link("records/CHECKPOINT_PRIVACY_REDACTIONS.tsv") + " identifies each checkpoint member, removed-span SHA-256 and coordinates, and the reason; the reconciliation supplies the original-file SHA-256. "
++        "The original immutable checkpoint ZIPs remain untouched; the final reconciliation validates the redaction records and complete redacted diffs against their original bytes. "
++        "Checkpoints01–04 predate embedded inventories, so their numbered inventories were derived from the preserved ZIP bytes. Later inventories preserve the embedded CHECKPOINT_CONTENTS.tsv verbatim. "
++        + link("records/CHECKPOINT_MANIFEST_PROVENANCE.tsv") + " records that distinction together with ZIP and inventory hashes and counts. "
+         "Runtime downloads, font caches, temporary TeX outputs and duplicate intermediate diagnostic renderings are reproducible intermediates; "
+         "they are excluded from publication while sanitized logs, source hashes, measured results and actual review observations are retained. "
+         "The diagnostic build baseline is recorded in " + link("ORIGINAL_BUILD_BASELINE.json") + "; its unchecked PDFs are not readers.",

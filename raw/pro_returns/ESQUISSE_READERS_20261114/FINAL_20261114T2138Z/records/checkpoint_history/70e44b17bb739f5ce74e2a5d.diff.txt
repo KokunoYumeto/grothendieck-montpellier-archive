@@ -1,0 +1,75 @@
+--- ESQUISSE_READERS_checkpoint_04.zip!/scripts/audit_validate.py
++++ final!/scripts/audit_validate.py
+@@ -3,6 +3,7 @@
+ from pathlib import Path
+ import argparse,collections,hashlib,json,re
+ from audit_inventory import read_tsv,parse_marks
++from audit_editorial_adjudication import needs_editorial
+ 
+ def main():
+     ap=argparse.ArgumentParser();ap.add_argument("--complete",action="store_true");args=ap.parse_args()
+@@ -12,6 +13,10 @@
+     coll=read_tsv(edition/"COLLATION.tsv") if (edition/"COLLATION.tsv").exists() else []
+     cpath=edition/"records/COLLATION_PAGE_COVERAGE.tsv"
+     coverage=read_tsv(cpath) if cpath.exists() else []
++    common_path=edition/'records/COLLATION_COMMON_MARKS.tsv'
++    common=read_tsv(common_path) if common_path.exists() else []
++    annotation_path=edition/'copy2_annotations.json'
++    annotations=json.loads(annotation_path.read_text()) if annotation_path.exists() else []
+     mpath=edition/'records/MECHANICAL_PATCHES.json'
+     mechanical=json.loads(mpath.read_text()) if mpath.exists() else []
+     errors=[];pages=[];totals_before=collections.Counter();totals_after=collections.Counter()
+@@ -54,6 +59,7 @@
+         actual_scan=re.findall(r"\\scanpage\{([^}]*)\}",actual)
+         if actual_scan!=[packet["metadata"]["cote"]+"/"+packet["metadata"]["site"]]:errors.append(f"{key}: scan marker mismatch")
+         required={m["item_id"] for m in packet["marks"]}|{n["item_id"] for n in packet["note_items"]}|{d["difference_id"] for d in packet["differences"]}
++        required|={f"L-{key}-{l['line']:03d}" for l in packet['source_lines'] if l['text'].strip() and not l['text'].lstrip().startswith('%')}
+         covered={r["source_item_id"] for r in checks if r["key"]==key}
+         missing=sorted(required-covered)
+         if missing:errors.append(f"{key}: {len(missing)} required review targets absent")
+@@ -65,7 +71,7 @@
+             "checks":sum(r["key"]==key for r in checks),"target_count":len(required),
+             "covered_target_count":len(required&covered),"difference_count":len(expected),
+             "sha256":hashlib.sha256(path.read_bytes()).hexdigest()})
+-    for what,rows,idkey in [("decision",checks,"decision_id"),("difference",diffs,"difference_id")]:
++    for what,rows,idkey in [("decision",checks,"decision_id"),("difference",diffs,"difference_id"),("collation",coll,"collation_id")]:
+         counter=collections.Counter(r[idkey] for r in rows)
+         if any(n>1 for n in counter.values()):errors.append(f"Duplicate {what} identifiers")
+     missing_pages=sorted(set(packets)-{p["key"] for p in pages})
+@@ -80,16 +86,36 @@
+                 errors.append(f"{key}: collation image coverage mismatch")
+         actual=sum(r['copy2_key']==c['copy2_key'] for r in coll)
+         if actual!=int(c['entry_count']):errors.append(f"{c['copy2_key']}: collation locus count mismatch")
++        shared=sum(r['copy2_key']==c['copy2_key'] and r['kind']=='handwriting in both copies' for r in coll)
++        if shared!=int(c.get('shared_mark_count',0)):errors.append(f"{c['copy2_key']}: common-mark count mismatch")
++        apparatus=sum(a.get('copy2_key')==c['copy2_key'] for a in annotations)
++        if apparatus!=int(c.get('copy2_annotation_count',0)):errors.append(f"{c['copy2_key']}: copy2 apparatus count mismatch")
+         if not c['full_inspection'].strip() or not c['original_transcription_comparison'].strip():
+             errors.append(f"{c['copy2_key']}: explicit collation declaration incomplete")
+     if len(coverage)!=len(covered_pairs):errors.append('Duplicate collation page-coverage declarations')
++    if common!=[r for r in coll if r['kind']=='handwriting in both copies']:errors.append('Shared-mark companion table differs from complete collation')
++    if len({a['id'] for a in annotations})!=len(annotations):errors.append('Duplicate copy2 apparatus identifiers')
++    for a in annotations:
++        if not all(a.get(f) for f in ['text_fr','text_en','kind','source_ids']):errors.append(f"{a.get('id')}: incomplete bilingual copy2 apparatus entry")
+     if args.complete and missing_pages:errors.append(f"{len(missing_pages)} pages remain unreviewed")
+     if args.complete and len(diffs)!=468:errors.append("Complete edition requires 468 difference outcomes")
+     if args.complete and expected_pairs!=covered_pairs:errors.append(f"{len(expected_pairs-covered_pairs)} page pairs remain uncollated")
++    editorial_path=edition/'records/EDITORIAL_ADJUDICATIONS.tsv'
++    editorial=read_tsv(editorial_path) if editorial_path.exists() else []
++    expected_editorial={d['difference_id'] for p in packets.values() if p['key'] in {x['key'] for x in pages} for d in p['differences'] if needs_editorial(d)}
++    editorial_ids={r['difference_id'] for r in editorial}
++    if args.complete:
++        if expected_editorial!=editorial_ids:errors.append('Editorial wording-locus coverage is incomplete or contains unchecked pages')
++        if any(r['editorial_outcome'].startswith(('pending','proposed')) for r in editorial):errors.append('Editorial wording decisions remain pending')
++        for r in editorial:
++            path=edition/'checked_pages'/(r['key']+'.tex')
++            if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest()!=r['checked_sha256']:
++                errors.append(f"{r['difference_id']}: editorial record source hash is absent or stale")
+     report={"status":"complete" if not errors and not missing_pages and covered_pairs==expected_pairs else "in progress" if not errors else "validation errors",
+         "checked_pages":len(pages),"expected_pages":len(packets),"images_declared_reviewed":2*len(pages),
+         "decision_rows":len(checks),"difference_outcomes":len(diffs),"expected_difference_outcomes":468,
+         "collation_rows":len(coll),"collated_page_pairs":len(coverage),"expected_collated_page_pairs":58,
++        "editorial_wording_loci":len(editorial),"expected_editorial_wording_loci_checked_pages":len(expected_editorial),
+         "source_macro_counts_all_pages":dict(totals_before),
+         "checked_macro_counts_reviewed_pages":dict(totals_after),"pages":pages,"unreviewed_pages":missing_pages,"errors":errors}
+     (edition/"records/AUDIT_PROGRESS.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")

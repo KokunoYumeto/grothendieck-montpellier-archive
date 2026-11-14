@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+"""Exercise deferred notes and the actual three-line marginal-note boundary.
+
+The temporary diagnostic PDF remains outside the edition. Its sanitized log and
+measured outcome document the reusable renderer, not a source-page reading.
+"""
+import argparse,hashlib,json,pathlib,re,subprocess
+import fitz
+from bootstrap_tex import tex_env
+from build_edition import make_document,get_metadata
+from compile_readers import parse_log,sanitized
+from pdf_links import external_link_groups
+from edition_core import anchor_author_stars,macros
+
+BODY=r'''
+\noindent Circled annotation: \textcolor{HandInk}{\textcircled{17}}. Typed call with handwritten oval: \handcircle{(*).}\par\bigskip
+\def\CurrentScanURL{https://example.org/rendering-probe}
+\noindent Wrapped nested uncertainty link: \parbox[t]{90pt}{\unsure{a deliberately wrapped uncertain \illegible{mark}}}\par\bigskip
+\def\CurrentPageKey{probe-bracket-lower}
+\noindent Upper-position spacing mark.\margin{\sourceglyph{119bracketlower}}
+\par\vspace{32pt}
+\def\CurrentPageKey{probe-bracket-upper}
+\noindent Lower-position spacing mark.\margin{\sourceglyph{119bracketupper}}
+\par\vspace{42pt}
+\def\CurrentPageKey{probe-three}
+\noindent Three-line note.\margin{first\\second\\third\tnote{PROBE-SHORT}{Short marginal translator note retained.}}
+\par\vspace{60pt}
+\def\CurrentPageKey{probe-four}
+\noindent Four-line note.\margin{first\\second\\third\\fourth}
+\par\bigskip
+{\uline{Grouped translator marker\tnote{PROBE-TN}{Grouped translator note retained.} within underlining.}}
+\par\bigskip
+{\textit{Grouped copy marker\copytwo{PROBE-C2}{Grouped copy-two note retained, including the quoted (*) mark.} within italics.}}
+\par\bigskip
+\def\CurrentPageKey{probe-four-with-note}
+\noindent Four-line note with a nested marker.\margin{first\\second\\third\\fourth\tnote{PROBE-LONG}{Long marginal translator note occurs once.}}
+\par\noindent (*) This source footnote belongs to the circled call above.
+\finishscan
+\typeout{EDITION-APPARATUS-COUNT: \theappnote}
+\typeout{EDITION-EXTERNAL-LINK-COUNT: \theeditionexternallink}
+\end{document}
+'''
+
+def probe_source(root):
+    """Pure current projection, also used by the release gate to reject staleness."""
+    doc=make_document(root,'EN_corrected_translator_notes',{}, {},[], '')
+    anchored,_=anchor_author_stars(BODY,'probe')
+    return doc.split(r'\begin{document}',1)[0]+r'\begin{document}'+anchored
+
+def probe_inputs(root):
+    paths=sorted((root/'templates').glob('*.tex'))+[root/'scripts'/p for p in ['probe_rendering.py','build_edition.py','edition_core.py','compile_readers.py','bootstrap_tex.py','pdf_links.py']]
+    return {p.relative_to(root).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+
+def current_probe_verification(root):
+    record=root/'records/RENDERING_PROBE.json';stored=json.loads(record.read_text()) if record.exists() else {}
+    current=hashlib.sha256(probe_source(root).encode()).hexdigest();inputs=probe_inputs(root)
+    return {'current_source_sha256':current,'recorded_source_sha256':stored.get('source_sha256'),'source_matches':stored.get('source_sha256')==current,'generation_inputs_sha256':inputs,'generation_inputs_match':stored.get('generation_inputs_sha256')==inputs,'passed':stored.get('passed') is True}
+
+def run(root):
+    runtime=root.parent/'tex-runtime';scratch=root.parent/'build/rendering-probe';scratch.mkdir(parents=True,exist_ok=True)
+    doc=probe_source(root)
+    path=scratch/'rendering-probe.tex';path.write_text(doc);runs=[]
+    env=tex_env(runtime);env['max_print_line']='10000'
+    for n in range(3):
+        process=subprocess.run(['lualatex','-interaction=nonstopmode','-halt-on-error','-file-line-error',path.name],cwd=scratch,env=env,capture_output=True,text=True);runs.append(process.returncode)
+        if process.returncode:break
+    log=(scratch/'rendering-probe.log').read_text(errors='replace');result=parse_log(log,doc);result.update(runs=runs,source_sha256=hashlib.sha256(doc.encode()).hexdigest(),generation_inputs_sha256=probe_inputs(root))
+    if not process.returncode:
+        pdf=fitz.open(scratch/'rendering-probe.pdf');text='\n'.join(p.get_text() for p in pdf)
+        phrases=['Short marginal translator note retained.','Grouped translator note retained.','Grouped copy-two note retained, including the quoted (*) mark.','Long marginal translator note occurs once.']
+        result['note_text_occurrences']={phrase:text.count(phrase) for phrase in phrases}
+        result['expected_marginal_placements']=[{'key':'probe-bracket-lower','placement':'margin','lines':1},{'key':'probe-bracket-upper','placement':'margin','lines':1},{'key':'probe-three','placement':'margin','lines':3},{'key':'probe-four','placement':'block','lines':4},{'key':'probe-four-with-note','placement':'block','lines':4}]
+        observed=[{k:r[k] for k in ['key','placement','lines']} for r in result['marginal_note_placements']]
+        result['printed_block_labels']=text.count('Marginal note:')
+        groups=external_link_groups(pdf);result['external_links']=groups
+        names=pdf.resolve_names();source_marks=list(macros(doc.split(r'\begin{document}',1)[1],{'authorstar'},recursive=True))
+        result['source_star_anchor_pages']={m.arguments[0]:names.get('star-'+m.arguments[0],{}).get('page',-2)+1 for m in source_marks}
+        result['pdf_star_mark_instances_including_apparatus']=len(re.findall(r'\(\s*\*\s*\)',text))
+        stars_pass=len(source_marks)==2 and set(result['source_star_anchor_pages'].values())=={1} and result['pdf_star_mark_instances_including_apparatus']==3
+        result['passed']=not result['errors'] and not result['warnings'] and not result['missing_characters'] and not result['overfull'] and observed==result['expected_marginal_placements'] and all(n==1 for n in result['note_text_occurrences'].values()) and result['executed_apparatus_entries']==4 and len(result['printed_apparatus_entries'])==4 and result['printed_block_labels']==2 and result['executed_external_link_count']==len(groups['logical_links'])==2 and not groups['issues'] and stars_pass
+        for i,page in enumerate(pdf):page.get_pixmap(matrix=fitz.Matrix(1.5,1.5)).save(scratch/f'page_{i+1:03d}.png')
+    else:result['passed']=False
+    current=root/'records/RENDERING_PROBE.json';history=root/'records/RENDERING_PROBE_HISTORY.jsonl'
+    records=[json.loads(line) for line in history.read_text().splitlines()] if history.exists() else []
+    for item in ([json.loads(current.read_text())] if current.exists() else [])+[result]:
+        if not any(x.get('source_sha256')==item.get('source_sha256') for x in records):records.append(item)
+    history.write_text(''.join(json.dumps(x,ensure_ascii=False)+'\n' for x in records))
+    current.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+    (root/'build_logs/RENDERING_PROBE.log').write_text(sanitized(log,root.resolve(),runtime.resolve()))
+    return result
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--root',type=pathlib.Path,default=pathlib.Path(__file__).resolve().parents[1]);a=p.parse_args();result=run(a.root.resolve());print(json.dumps(result,ensure_ascii=False,indent=2));raise SystemExit(0 if result['passed'] else 1)

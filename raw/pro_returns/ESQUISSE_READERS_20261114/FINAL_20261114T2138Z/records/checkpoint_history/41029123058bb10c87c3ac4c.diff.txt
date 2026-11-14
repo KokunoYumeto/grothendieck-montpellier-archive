@@ -1,0 +1,887 @@
+--- ESQUISSE_READERS_checkpoint_04.zip!/GUIDE/ESQUISSE_GUIDE.tex
++++ final!/GUIDE/ESQUISSE_GUIDE.tex
+@@ -1,4 +1,4 @@
+-% EDITION STATUS: partial; source units 5/18
++% EDITION STATUS: final; source units 18/18
+ \documentclass[11pt,a4paper]{article}
+ \usepackage[no-math]{fontspec}
+ \setmainfont{Latin Modern Roman}
+@@ -8,7 +8,9 @@
+ \usepackage[left=22mm,right=34mm,top=22mm,bottom=22mm,marginparwidth=23mm,marginparsep=5mm,includeheadfoot]{geometry}
+ \usepackage{amsmath,amssymb}
+ \usepackage[normalem]{ulem}
+-\usepackage{xcolor,tikz-cd,marginnote,etoolbox,microtype}
++\usepackage{xcolor,tikz-cd,marginnote,etoolbox,microtype,graphicx}
++\usetikzlibrary{shapes.geometric}
++\microtypesetup{protrusion=false}
+ \usepackage[unicode,colorlinks=true,linkcolor=LinkInk,urlcolor=LinkInk,bookmarksopen=true]{hyperref}
+ \definecolor{LinkInk}{HTML}{254E70}
+ \definecolor{HandInk}{HTML}{254E70}
+@@ -20,6 +22,10 @@
+ \raggedbottom
+ \normalmarginpar
+ \frenchspacing
++\renewcommand{\textcircled}[1]{%
++  \tikz[baseline=(editionnumber.base)]{%
++    \node[draw=.,text=.,circle,inner sep=.4pt,outer sep=0pt,
++      line width=.35pt] (editionnumber) {#1};}}
+ \newif\ifdiplomatic
+ \newif\ifreading
+ \newif\ifenglish
+@@ -29,6 +35,21 @@
+ \newcommand{\EditionTitle}{A Guide to the Esquisse}
+ \newcommand{\EditionForm}{Commentary for a mathematical reader}
+ \hypersetup{pdftitle={Sketch of a Program — Corrected text with translator’s notes},pdfauthor={Alexander Grothendieck},pdfsubject={A scan-checked edition of Esquisse d'un programme, January 1984, Montpellier cote 119}}
++% Private PDF metadata identifies one logical URI link across its wrapped
++% annotation rectangles. It changes no visible text, target or link geometry.
++\newcounter{editionexternallink}
++\makeatletter
++\let\EditionBaseLinkURL\hyper@linkurl
++\let\EditionBasePDFBorder\Hy@setpdfborder
++\def\hyper@linkurl#1#2{%
++  \begingroup
++  \stepcounter{editionexternallink}%
++  \edef\EditionLinkIdentifier{edlink-\theeditionexternallink}%
++  \def\Hy@setpdfborder{\EditionBasePDFBorder /EsquisseLinkID (\EditionLinkIdentifier)}%
++  \EditionBaseLinkURL{#1}{#2}%
++  \endgroup}
++\makeatother
++
+ \newcommand{\DeclareScan}[4]{%
+   \expandafter\def\csname edurl@#1\endcsname{#2}%
+   \expandafter\def\csname edkey@#1\endcsname{#3}%
+@@ -54,7 +75,26 @@
+ \newcommand{\mspage}[1]{%
+   \ifreading\marginnote{\raggedright\scriptsize\sffamily p.\,#1}[2\baselineskip]%
+   \else\noindent{\small\sffamily[p.\,#1]}\par\smallskip\fi}
+-\newcommand{\hand}[1]{\ifdiplomatic\textcolor{HandInk}{#1}\else#1\fi}
++% A hand macro around a tikz-cd arrow marks that edge only. TikZ defers edge
++% drawing, so its explicit color option is required; a surrounding text color
++% group alone would not survive until the arrow is drawn.
++\ExplSyntaxOn
++\NewDocumentCommand{\EditionHand}{m}
++  {
++    \tl_if_head_eq_meaning:nNTF {#1} \arrow
++      {\ifdiplomatic \EditionColorArrow #1 \else #1\fi}
++      {\ifdiplomatic \textcolor{HandInk}{#1}\else #1\fi}
++  }
++\cs_new_protected:Npn \EditionColorArrow \arrow [#1]
++  {\arrow[#1,color=HandInk]}
++\ExplSyntaxOff
++\newcommand{\hand}[1]{\EditionHand{#1}}
++% The source oval is handwriting; its already typed contents retain black ink.
++\newcommand{\handcircle}[1]{%
++  \tikz[baseline=(editioncircled.base)]{%
++    \node[draw=HandInk,ellipse,inner xsep=.9pt,inner ysep=.2pt,
++      outer sep=0pt,line width=.4pt,text=black] (editioncircled) {#1};}}
++
+ \let\over\relax
+ \newcommand{\over}[2]{\textcolor{QuietInk}{#1}\textcolor{HandInk}{\ensuremath{^{\!\nearrow}}#2}}
+ \newcommand{\inserted}[2][]{\textcolor{HandInk}{\ensuremath{\langle}#2\ensuremath{\rangle}}}
+@@ -62,41 +102,141 @@
+ \renewcommand{\xout}[1]{\ifmmode\textcolor{QuietInk}{[#1]_{\scriptscriptstyle\mathrm{x}}}\else\textcolor{QuietInk}{\sout{#1}}\fi}
+ \let\TextUline\uline
+ \let\TextUuline\uuline
++\makeatletter
++\UL@pixel=0pt
++\makeatother
+ \renewcommand{\uline}[1]{\ifmmode\underline{#1}\else\TextUline{#1}\fi}
+ \renewcommand{\uuline}[1]{\ifmmode\underline{\underline{#1}}\else\TextUuline{#1}\fi}
+ \newcommand{\unsure}[1]{\href{\CurrentScanURL}{[#1?]}}
+ \newcommand{\illegible}[1]{\href{\CurrentScanURL}{[\ifenglish illegible\else illisible\fi\ #1]}}
+ \newsavebox{\MarginalTestBox}
++\newdimen\MarginalLineHeight
++\newcount\MarginalLineCount
++\newif\ifMarginalFits
++\newif\ifMarginCluster
++\newdimen\MarginalClusterOffset
++\newdimen\MarginalPlacementOffset
++\newcommand{\margincluster}[1]{%
++  \begingroup\MarginClustertrue\global\MarginalClusterOffset=0pt #1\endgroup}
+ \newcommand{\margin}[1]{%
+-  \sbox{\MarginalTestBox}{\parbox{\marginparwidth}{\raggedright\footnotesize#1}}%
+-  \ifdim\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax>3\baselineskip
+-    \par\smallskip\noindent\begin{minipage}{\linewidth}\hrule\smallskip
++  \begingroup
++  \let\MarginalSavedApparatus\CurrentApparatus
++  \edef\MarginalSavedAppNumber{\the\value{appnote}}%
++  \edef\MarginalSavedLinkNumber{\the\value{editionexternallink}}%
++  \setbox\MarginalTestBox=\vbox{%
++    \hsize=\marginparwidth\linewidth=\marginparwidth
++    \parindent=0pt\parskip=0pt\footnotesize
++    \global\MarginalLineHeight=\baselineskip
++    \raggedright\noindent\textcolor{HandInk}{#1}\par}%
++  \directlua{
++    local lines = 0
++    for n in node.traverse_id(node.id("hlist"), tex.box["MarginalTestBox"].head) do
++      lines = lines + 1
++    end
++    tex.count["MarginalLineCount"] = lines
++  }%
++  \MarginalFitstrue
++  \ifnum\MarginalLineCount>3\relax\MarginalFitsfalse\fi
++  \ifdim\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax>3\MarginalLineHeight\relax\MarginalFitsfalse\fi
++  \ifMarginalFits
++    \MarginalPlacementOffset=0pt
++    \ifMarginCluster\MarginalPlacementOffset=\MarginalClusterOffset\fi
++    \typeout{EDITION-MARGIN: \CurrentPageKey; PLACEMENT: margin; LINES: \the\MarginalLineCount; BOX-HEIGHT: \the\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax; BASELINE: \the\MarginalLineHeight; LABELLED: no; OFFSET: \the\MarginalPlacementOffset}%
++    \marginnote{\usebox{\MarginalTestBox}}[\MarginalPlacementOffset]%
++    \ifMarginCluster\global\advance\MarginalClusterOffset by\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox+3pt\relax\fi
++  \else
++    \typeout{EDITION-MARGIN: \CurrentPageKey; PLACEMENT: block; LINES: \the\MarginalLineCount; BOX-HEIGHT: \the\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax; BASELINE: \the\MarginalLineHeight; LABELLED: yes}%
++    \setcounter{appnote}{\MarginalSavedAppNumber}%
++    \setcounter{editionexternallink}{\MarginalSavedLinkNumber}%
++    \global\let\CurrentApparatus\MarginalSavedApparatus
++    \par\nobreak\smallskip\nobreak\noindent\begin{minipage}{\linewidth}\hrule\smallskip
+     {\footnotesize\textcolor{HandInk}{\ifenglish Marginal note:\else Note marginale :\fi\ #1}}\smallskip\hrule\end{minipage}\par\smallskip
+-  \else
+-    \marginnote{\raggedright\footnotesize\textcolor{HandInk}{#1}}%
+-  \fi}
++    \ifMarginCluster\global\MarginalClusterOffset=0pt\fi
++  \fi
++  \endgroup}
+ \newcommand{\authornote}[1]{\margin{#1}}
+ \newcommand{\diagram}[1]{\par\smallskip{\centering#1\par}\smallskip}
+ \newenvironment{diagramblock}{\par\begin{center}}{\end{center}\par}
+-\newcommand{\DeclareVariant}[2]{\expandafter\def\csname edvariant@#1\endcsname{#2}}
+-\newcommand{\AppItem}[2]{\par\noindent\textsuperscript{#1}\csname edvariant@#2\endcsname}
++\newcommand{\DeclareVariant}[2]{\expandafter\gdef\csname edvariant@#1\endcsname{#2}}
++\newcommand{\AppItem}[2]{%
++  \ifcsdef{edvariant@#2}{%
++    \ifcsempty{edvariant@#2}{\PackageError{Esquisse}{Empty apparatus entry #2}{Every executed apparatus marker requires its printed note.}}{}%
++  }{\PackageError{Esquisse}{Undefined apparatus entry #2}{Every executed apparatus marker requires its printed note.}}%
++  \typeout{EDITION-APP-ENTRY: #2; NUMBER: #1}%
++  \par\noindent\textsuperscript{#1}\csname edvariant@#2\endcsname}
+ \newcommand{\EditionApp}[1]{%
+   \stepcounter{appnote}%
+   \ifmmode{}^{\scriptscriptstyle\theappnote}\else\textsuperscript{\theappnote}\fi
+   \begingroup\edef\x{\endgroup\noexpand\gappto\noexpand\CurrentApparatus{\noexpand\AppItem{\theappnote}{#1}}}\x}
+ \newcommand{\var}[4]{\ifdiplomatic#1\else#2\ifreading\else\EditionApp{#4}\fi\fi}
++\newcommand{\scancontext}[2]{\begingroup\def\CurrentScanURL{#1}#2\endgroup}
+ \newcommand{\copytwo}[2]{\ifdiplomatic\else\ifreading\else\DeclareVariant{#1}{#2}\EditionApp{#1}\fi\fi}
++\newcommand{\frapparatus}[1]{\ifreading\else\EditionApp{#1}\fi}
+ \newcommand{\tnote}[2]{\ifreading\else\DeclareVariant{#1}{\textit{Translator's note.} #2}\EditionApp{#1}\fi}
+ \newcommand{\finishscan}{\ifx\CurrentApparatus\empty\else\par\bigskip\noindent\rule{.35\linewidth}{.35pt}\par\smallskip{\footnotesize\setlength{\parskip}{3pt}\CurrentApparatus}\fi}
+ \newcommand{\DeclareNoteReturns}[2]{\expandafter\def\csname edreturns@#1\endcsname{#2}}
+ \newcommand{\notecall}[3]{\hypertarget{#2}{\hyperlink{note-#1}{#3}}}
+ \newcommand{\notedef}[2]{\hypertarget{note-#1}{#2}\,{\scriptsize[\csname edreturns@#1\endcsname]}}
++\newcommand{\authorstar}[2]{\hypertarget{star-#1}{#2}}
+ \newcommand{\AppReading}[1]{{\def\margin##1{##1}\def\authornote##1{##1}#1}}
+ \newcommand{\EmptyReading}{\ifenglish\textit{omitted}\else\textit{supprimé}\fi}
++% Observed rounded source glyph, cote 119, site 42, PDF page 43.
++% Its conventional alphabet assignment remains uncertain; use with \unsure.
++% The contour is a vector traced from the reviewed scan detail, not a font alias.
++\makeatletter
++\newcommand{\sourceglyph}[1]{\ensuremath{\mathord{\mathpalette{\EditionSourceGlyph{#1}}{}}}}
++\newcommand{\EditionSourceGlyph}[3]{%
++  \begingroup
++  \setbox0=\hbox{$#2 A$}%
++  \ifcsname EditionGlyphHeight@#1\endcsname
++    \resizebox{!}{\csname EditionGlyphHeight@#1\endcsname}{\csname EditionGlyph@#1\endcsname}%
++  \else
++    \resizebox{!}{\ht0}{\csname EditionGlyph@#1\endcsname}%
++  \fi
++  \endgroup}
++\expandafter\newcommand\csname EditionGlyph@119A\endcsname{%
++  \begin{tikzpicture}[x=1pt,y=1pt,baseline=0pt]
++  \path[fill,even odd rule]
++(3.450,10.100) -- (4.950,10.100) -- (5.050,10.000) -- (5.550,10.000) -- (5.650,9.900) -- (5.950,9.900) -- (6.050,9.800) -- (6.250,9.800) -- (6.650,9.600) -- (6.950,9.300) -- (7.050,9.300) -- (7.600,8.750) -- (7.800,8.350) -- (7.800,8.050) -- (7.550,7.800) -- (7.050,7.800) -- (6.250,8.400) -- (6.050,8.500) -- (5.850,8.500) -- (5.350,8.800) -- (3.950,8.800) -- (3.850,8.900) -- (3.650,8.900) -- (3.550,8.800) -- (3.350,8.800) -- (3.150,8.700) -- (2.250,7.900) -- (2.100,7.850) -- (2.100,7.750) -- (1.900,7.550) -- (1.500,6.750) -- (1.500,6.450) -- (1.400,6.350) -- (1.400,5.850) -- (1.300,5.750) -- (1.300,4.650) -- (1.200,4.550) -- (1.200,4.050) -- (1.300,3.950) -- (1.300,2.450) -- (1.400,2.350) -- (1.400,2.150) -- (1.700,1.850) -- (1.900,1.450) -- (1.900,1.250) -- (2.000,1.050) -- (2.150,1.000) -- (2.550,0.600) -- (2.850,0.500) -- (3.100,0.250) -- (3.100,0.150) -- (2.850,0.000) -- (2.250,0.000) -- (2.050,0.100) -- (1.750,0.400) -- (1.650,0.400) -- (0.900,1.150) -- (0.900,1.350) -- (0.700,1.650) -- (0.700,1.850) -- (0.500,2.050) -- (0.300,2.450) -- (0.300,2.750) -- (0.200,2.850) -- (0.200,3.150) -- (0.100,3.250) -- (0.100,3.850) -- (0.000,3.950) -- (0.000,6.650) -- (0.300,7.050) -- (0.400,7.250) -- (0.400,7.450) -- (0.500,7.550) -- (0.500,7.750) -- (0.700,7.950) -- (0.800,8.250) -- (1.950,9.300) -- (2.050,9.300) -- (2.550,9.700) -- (3.150,10.000) -- (3.350,10.000) -- (3.450,10.100) -- cycle
++(6.050,5.700) -- (6.250,5.700) -- (6.500,5.450) -- (6.500,5.250) -- (6.600,5.150) -- (6.600,4.650) -- (6.500,4.550) -- (6.500,2.850) -- (6.400,2.750) -- (6.500,2.550) -- (6.500,2.050) -- (6.600,1.950) -- (6.600,1.250) -- (6.950,0.900) -- (7.500,0.750) -- (7.400,0.550) -- (7.400,0.350) -- (7.250,0.100) -- (6.850,0.100) -- (6.250,0.400) -- (5.850,0.400) -- (5.150,0.000) -- (4.750,0.000) -- (4.650,0.100) -- (4.550,0.000) -- (3.650,0.000) -- (3.500,0.150) -- (3.550,0.300) -- (3.750,0.400) -- (4.250,0.400) -- (4.350,0.500) -- (4.850,0.500) -- (4.950,0.600) -- (5.150,0.600) -- (5.500,0.950) -- (5.600,1.150) -- (5.600,1.350) -- (5.700,1.450) -- (5.700,1.950) -- (5.600,2.050) -- (5.600,2.350) -- (5.500,2.450) -- (5.500,2.750) -- (5.400,2.850) -- (5.400,3.350) -- (5.500,3.450) -- (5.500,4.050) -- (5.600,4.150) -- (5.600,5.050) -- (5.800,5.450) -- (6.050,5.700) -- cycle
++(7.950,1.900) -- (8.300,1.850) -- (8.300,1.050) -- (8.150,0.900) -- (7.950,0.900) -- (7.850,0.800) -- (7.550,0.800) -- (7.500,0.950) -- (7.600,1.050) -- (7.600,1.450) -- (7.950,1.900) -- cycle;
++  \end{tikzpicture}}
++\makeatother
++
++% Two separately reviewed handwritten spacing marks, copy 2, site 118, p. 40.
++% Centreline paths follow the supplied scan detail; their shape is independent
++% of any conventional mathematical bracket. The apparatus records the extent.
++\makeatletter
++\expandafter\newcommand\csname EditionGlyphHeight@119bracketlower\endcsname{2\baselineskip}
++\expandafter\newcommand\csname EditionGlyphHeight@119bracketupper\endcsname{2.75\baselineskip}
++\expandafter\newcommand\csname EditionGlyph@119bracketlower\endcsname{%
++  \begin{tikzpicture}[x=.1pt,y=.1pt,baseline=0pt]
++  \draw[line width=.17pt,line cap=round,line join=round]
++    (23,104) .. controls (27,83) and (29,66) .. (27,53)
++    .. controls (26,40) and (22,24) .. (21,15)
++    .. controls (18,7) and (21,3) .. (29,1)
++    .. controls (40,-3) and (56,3) .. (72,7)
++    .. controls (93,12) and (113,17) .. (127,14)
++    .. controls (130,13) and (132,12) .. (134,11);
++  \end{tikzpicture}}
++\expandafter\newcommand\csname EditionGlyph@119bracketupper\endcsname{%
++  \begin{tikzpicture}[x=.1pt,y=.1pt,baseline=0pt]
++  \draw[line width=.2pt,line cap=round,line join=round]
++    (30,171) .. controls (47,172) and (69,176) .. (84,177)
++    .. controls (99,178) and (111,175) .. (124,176)
++    .. controls (138,176) and (154,178) .. (165,176);
++  \draw[line width=.17pt,line cap=round,line join=round]
++    (25,166) .. controls (28,143) and (28,119) .. (26,94)
++    .. controls (25,66) and (20,33) .. (15,0)
++    -- (7,5);
++  \end{tikzpicture}}
++\makeatother
++
+ 
+ 
+ 
+ \begin{document}
++\hypersetup{pageanchor=false}
+ \begin{titlepage}
+ \centering
+ \vspace*{18mm}
+@@ -114,9 +254,10 @@
+ \vspace{8mm}
+ {\normalsize Edition dated 14 November 2026\par}
+ \end{titlepage}
++\hypersetup{pageanchor=true}
+ \thispagestyle{plain}
+ \section*{Preface}
+-\noindent\textbf{Working checkpoint.} This guide currently contains 5 of the 18 requested commentary units. Its scope is recorded with the checked-page coverage.\par\smallskip
++
+ This guide follows the sommaire, sections 1–10 and notes (1)–(7) in the order of the typescript. Page references give the original typescript pagination and link to the archive. The guide is based on the checked text and collation; it does not change the text’s mathematics.
+ 
+ \smallskip
+@@ -133,8 +274,76 @@
+ \clearpage
+ 
+ 
++% This prefatory unit is excluded from the eighteen commentary units.
++\section*{Collation note}
++The two copies each transmit a sommaire and fifty-seven typescript pages.
++The completed collation covers all fifty-eight page pairs and records 236
++individual loci. Both supplied image halves of all 116 scan pages have been
++checked. The comparison
++distinguishes the common typewriting, punctuation and underline strokes from
++the handwriting visible in both copies and the additions specific to copy 2.
++It also corrects earlier transcription errors: repeated $\ell$ and $\mathbb{Z}$
++glyphs, for example, had been marked as handwritten although their repeated
++typed contours are shared by the impressions
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=6}{copy 1, p.~3, site 5};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=85}{copy 2, p.~6, site 84}).
++The handwritten 1 and 7 in the sommaire's N.B., including the pilot's missed
++hand classifications, occur in both copies; shared handwriting also includes
++later note calls, the script $\mathcal{T}$ signs on pp.~31, 33 and 42, and the
++six diagonal arrows in the p.~56 diagram.
++Each copy's distinct handwritten archive foliation is retained separately,
++without identifying its writer
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=3}{copy 1 sommaire, site 2};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{copy 2 sommaire, site 78};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=110}{copy 2, p.~31, site 109};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=59}{copy 1, p.~56, site 58};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=135}{copy 2, p.~56, site 134}).
++
++Copy 2 crosses out the title and author line on p.~1. Its other interventions
++include the relocation of \textit{dans ce jeu} on p.~8, the two Greek-letter
++overwritings in the p.~9 relations discussed in \S2 below, and the change from
++two to three letters in the Breen correspondence on p.~44. On p.~45 it writes
++\textit{ét} over the middle letters of \textit{pitié}, producing \textit{piété};
++on p.~46 it inserts \textit{algébrique} after the first \textit{géométrie}.
++These readings are reported as copy 2 evidence in the apparatus
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{p.~1, site 79};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{p.~8, site 86};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=88}{p.~9, site 87};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=123}{p.~44, site 122};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=124}{p.~45, site 123};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=125}{p.~46, site 124}).
++Marginal matter includes numbered groups in the sommaire, correction marks,
++question marks beside the p.~17 kernel passage and its footnote, and brackets
++with a doubtful \textit{espacer} on p.~40
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{site 78};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=96}{site 95};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=119}{site 118}).
++The small gray point beside \textit{dant par} on p.~45 remains uncertain in
++physical origin and textual role; its presence does not establish a pen mark.
++The obscured letters beneath overwriting and deletion also retain their
++individual doubts.
++
++Copy 1 supplies the running base text. Nine copy 2 annotations now support
++corrections of shared typing slips and are merged with those corrections under
++their common apparatus identifiers; examples are the deleted \textit{n} in
++\textit{inadéquante} and the deletion in \textit{hyperquadratique}
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=81}{copy 2, p.~2, site 80};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=103}{copy 2, p.~24, site 102}).
++Other revisions remain copy 2 readings: copy 1 retains its recurring
++\textit{résidual}, its plural \textit{mathématiciens}, and
++\textit{dégagé}, while copy 2 supplies respectively an \textit{e} replacing
++\textit{a}, a deletion of the final \textit{s}, and a faint added letter read
++with doubt as \textit{e}
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=112}{copy 2, p.~33, site 111};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=128}{p.~49, site 127};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=132}{p.~53, site 131}).
++The full diplomatic reader displays both copies; the following commentary
++uses copy 1's pagination and records mathematical difficulties at their
++passages without changing the readers' formulas.
++
++
+ \subsection*{Sommaire}
+-The contents page arranges the programme in ten parts: the \emph{Envoi}; the
++The contents page arranges the program in ten parts: the \emph{Envoi}; the
+ ``jeu de Légo-Teichmüller'' and the Galois group; number fields attached to a
+ ``dessin d'enfant''; regular polyhedra and finite fields; the passages toward
+ ``topologie modérée'' and ``théories modérées''; ``A la Poursuite des Champs'';
+@@ -155,7 +364,7 @@
+ 
+ 
+ \subsection*{1. Envoi}
+-The opening locates the programme within Grothendieck's application to the
++The opening locates the program within Grothendieck's application to the
+ CNRS and explains the work he intends to carry forward. He refers to the
+ 1972 account of his ``Titres et Travaux'', with its list of publications,
+ and to two boxes of subsequent manuscript notes that have passed through
+@@ -168,18 +377,20 @@
+ operation: an inadequate image is exposed, and the objects previously
+ encountered askew acquire their mutual coherence. The final paragraph
+ assigns the ensuing sketch both a retrospective role, covering ten or
+-twelve years of reflection, and a prospective role as a programme for the
++twelve years of reflection, and a prospective role as a program for the
+ coming years. Its stated readers include the Comité National and other
+ colleagues, former students, and friends. The 1972 report and the manuscript
+ ``Réflexions Mathématiques'' are named here as the author's own points of
+ reference; the checked passage supplies their role in this application.
++\S7 returns to the projected \emph{Réflexions Mathématiques}, while
++\S\S9--10 return to the teaching appraisal and the CNRS application.
+ (\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=4}{Copy 1, p.~1, site 3};
+ \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=5}{p.~2, site 4}.)
+ 
+ 
+ 
+ \subsection*{2. A ``jeu de Légo-Teichmüller'' and the Galois group}
+-The second section develops the programme from the shared geometric
++The second section develops the program from the shared geometric
+ intuition of surfaces that Grothendieck describes as emerging from his
+ teaching (pp.~2--3). The transition from combinatorial topology to complex
+ algebraic curves brings back the fields, rings, and groups named on p.~3,
+@@ -191,8 +402,10 @@
+ nontrivial level and asks for a description of the tower's action in terms
+ of that level; p.~5 explicitly says that he has no conjecture yet for a
+ characterization of the Galois group inside the outer automorphism group.
++Note (1), added on p.~52, later withdraws the accompanying judgment
++``hors de portée'' and reports a renewed step toward that characterization.
+ The groupoid language keeps the chosen collections of base points visible
+-under the symmetries. On pp.~6--7 he formulates the construction principle
++under the symmetries. On pp.~6--7 he formulates the explicitly unproved construction principle
+ in which the first two moduli dimensions supply generators and relations,
+ sets it beside Demazure's rank principle, and describes the remaining
+ topological work in terms of the fundamental group at infinity and
+@@ -207,17 +420,26 @@
+ $\rho=1$, and $\sigma^2=1$. The resulting presentation has mutually
+ inverse maps to the cyclic group of order two, sending $\rho$ to its
+ identity and $\sigma$ to its generator, and sending that generator back
+-to $\sigma$. The matrix $\left(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right)$
+-has infinite order in $\mathrm{SL}_2(\mathbb Z)$, which establishes the
++to $\sigma$. In contrast, the map
++$n\longmapsto M_n=\left(\begin{smallmatrix}1&n\\0&1\end{smallmatrix}\right)$
++from $\mathbb Z$ to $\mathrm{SL}_2(\mathbb Z)$ is an injective
++homomorphism: $M_mM_n=M_{m+n}$, and its upper-right entry recovers $n$.
++This establishes the
+ failure of the displayed presentation to present the group named there.
+-The readers retain the scanned exponents. For subsequent work on the
+-Galois-group programme, one may name \emph{La Longue Marche à travers la
++Copy 2 records an actual handwritten correction: a pen $\sigma$ covers
++the typed $\rho$ before exponent $4$, and a pen $\rho$ covers the typed
++$\sigma$ before exponent $6$, producing $\sigma^4=\rho^6=1$ after the
++unchanged relation $\rho^3=\sigma^2$; two oblique strokes stand beside
++the formula in the left margin
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=88}{copy 2, p.~9, site 87}).
++The corrected readers preserve copy 1's typed formula and record these
++copy 2 overwritings separately. For subsequent work on the
++Galois-group program, one may name \emph{La Longue Marche à travers la
+ théorie de Galois} and Drinfeld's
+ \href{https://www.mathnet.ru/eng/aa199}{\emph{On quasitriangular quasi-Hopf algebras and on a group that is closely connected with}
+ $\mathrm{Gal}(\overline{\mathbb Q}/\mathbb Q)$}.
+ (\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=5}{Copy 1, pp.~2--9, beginning at site 4};
+ \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=12}{mathematical slip on p.~9, site 11}.)
+-% Complete the explicit backward reference to note (1) when its scan check is finished.
+ 
+ 
+ 
+@@ -235,7 +457,8 @@
+ $0,1,\infty$ (p.~12); the footnote on that page also treats real curves
+ and unoriented maps. The rational function on p.~13 makes the Galois
+ action on coefficients explicit. He describes the discovery as a decisive
+-change in his mathematical center of interest on p.~12, and recounts
++change in his mathematical center of interest on p.~12, later qualified
++by the childhood recollection in note (2), pp.~52--53, and recounts
+ another change on pp.~14--15: the supposition he and Deligne had found
+ ``dingue'' becomes the result announced by ``Bielyi''. The discussion then
+ names \emph{La Longue Marche à travers la théorie de Galois}, describes
+@@ -244,7 +467,10 @@
+ name from ``Théorie de Galois'' to ``théorie de Galois-Teichmüller'', while
+ returning to the faithful outer action already used in \S2. The p.~17
+ discussion carries these fundamental groups and their abelianizations
+-toward the representations associated with Jacobians. Its footnote (*)
++toward the representations associated with Jacobians. Note (3),
++pp.~53--54, enlarges the reconstruction program through étale topoi
++and localization; note (4), pp.~54--55, develops the ``machine à motifs''
++and the provisional priority list. The p.~17 footnote (*)
+ contains a mathematical slip in the stated general description of the
+ quotient kernels as abelian products of Tate modules. The puncture-filling
+ morphism
+@@ -258,12 +484,13 @@
+ commuting pair remains commuting. This concrete morphism locates the
+ problem in the footnote's kernel description; its wording is preserved
+ in the readers. The closing paragraph on p.~18 returns to the role of
+-dreams and visions in mathematical work. Among subsequent texts one may
++dreams and visions in mathematical work. The archive catalogue names
++\href{https://grothendieck.umontpellier.fr/archives-grothendieck/}{\emph{Cartes. Étude arithmétique} (cote 138) and \emph{La Longue Marche à travers la théorie de Galois} (cotes 140-1--140-4)}.
++Among subsequent texts one may
+ name Shabat and Voevodsky's
+ \href{https://www.math.ias.edu/vladimir/node/79}{\emph{Drawing Curves over Number Fields}}.
+ (\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=12}{Copy 1, pp.~9--18, beginning at site 11};
+ \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=20}{kernel description on p.~17, site 19}.)
+-% Complete links to notes (2), (3), and (4) after their scan checks.
+ 
+ 
+ 
+@@ -286,14 +513,21 @@
+ $\{(0,\pm1,\pm\varphi),(\pm1,\pm\varphi,0),(\pm\varphi,0,\pm1)\}$,
+ $\varphi=(1+\sqrt5)/2$, the map $j:v\mapsto-v$ preserves vertices,
+ distances, and hence all incidences. It is a central involution in its
+-orthogonal symmetry group. The cyclic coordinate permutation
++orthogonal symmetry group. The edge graph of the displayed vertex set
++has, from each vertex $v$, five vertices at distance one, five at
++distance two, and the unique vertex $-v$ at distance three. Thus every
++incidence automorphism $h$ satisfies $h(-v)=-h(v)$, so $j$ is also
++central in the full incidence automorphism group. The cyclic coordinate permutation
+ $(x,y,z)\mapsto(y,z,x)$ also preserves that vertex set and has order three,
+ so $\langle j\rangle$ is a nontrivial proper central subgroup of the full
+-group. The determinant morphism to $\{1,-1\}$ selects the
+-orientation-preserving subgroup as its kernel. The earlier projective
++group. On the orthogonal symmetry group, the morphism
++$g\mapsto\det(g)\in\{1,-1\}$ has the orientation-preserving subgroup
++as its kernel. The earlier projective
+ context leaves this calculation intact: on the affine chart of projective
+ three-space the same map is represented by
+ $\operatorname{diag}(-1,-1,-1,1)$ and sends $[v:1]$ to $[-v:1]$.
++These projective points are distinct: their last coordinate fixes the
++possible proportionality factor to $1$, and every vertex $v$ is nonzero.
+ The readers preserve the scanned statement. On pp.~23--24 the
+ ``paradigme combinatoire'' names a further direction suggested by
+ specialization in exceptional characteristics; the discussion also names
+@@ -301,13 +535,424 @@
+ retained. Grothendieck records the limits of the work he has actually
+ pursued, introduces the circumscribed hyperquadric, and on p.~25 proposes
+ a modern rewriting of Klein's book as a task for a young researcher.
++Note (5), on p.~55, supplements the account of preliminary work with
++the arithmetic action on congruence maps and the ``bi-icosaèdre''.
+ Coxeter's books and Klein's book are the works explicitly invoked here;
+ the geometric-combinatorial viewpoint continues into the foundational
+ questions of \S5.
+ (\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=21}{Copy 1, pp.~18--25, beginning at site 20};
+ \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=24}{reflection-group wording on pp.~21--22, site 23};
+ \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=25}{site 24}.)
+-% Complete the reference to note (5) when its scan check is finished.
+-
+-
++
++
++
++\subsection*{5. A hue and cry against so-called ``general'' topology, and heuristic reflections toward a so-called ``tame'' topology}
++The fifth section starts on p.~25 with the problem of reconstructing a
++stratified structure from canonical ``pièces de construction'', and
++retraces a change from the successive singular loci of a variety to the
++stratifications arising from degeneracy in moduli problems. The
++Mumford-Deligne compactifications on p.~26 connect this problem with the
++Teichmüller tower of \S2. The two-stratum model uses a tubular neighborhood
++$T$ of $Y$ in $X$, its complement $U=X\setminus\mathrm{Int}(T)$, and a
++gluing map $f:\partial U\longrightarrow Y$; p.~27 reconstructs the space
++by the stated amalgamated sum. The description on p.~26 contains a
++mathematical slip in the base of the associated cone bundle: the preceding
++bundle has projection $p:\partial T\longrightarrow Y$, and its fiberwise
++cone is explicitly
++$((\partial T\times[0,1])\amalg Y)/((z,0)\sim p(z))$,
++with projection $[z,t]\mapsto p(z)$ and $y\mapsto y$ to $Y$.
++This formula exhibits the base of that construction; the printed phrase
++``fibré en cônes sur $T$'' remains unchanged in the readers. On pp.~27--28
++the lack of canonical choices leads to ``catégories isotopiques'',
++resuming Ladegaillerie's work from \S3, and then to the author's account
++of the limits of his initial hopes in the presence of wild phenomena.
++Hironaka's work prompts the renewed search for a ``topologie modérée''
++(pp.~28--29). The polemic on pp.~29--30 explains the geometric
++requirements behind that search. From p.~30 onward Grothendieck prefers
++an axiomatic treatment encompassing several tame theories, with
++comparison maps between spaces of isomorphisms and their homotopy types
++(p.~31); triangulability is the strongest axiom in his provisional system,
++and he explicitly records the unproved state of the proposed comparison
++theorem (p.~32). The discussion of fields and point dimensions on
++pp.~32--33 explains one advantage he sees in retaining several theories.
++Another mathematical slip occurs in the collar description on p.~33,
++where the product is written with $T$ as its factor. The elementary collar
++of $T=[-1,1]$ is the map
++$c:\{-1,1\}\times[0,\tfrac12)\longrightarrow[-1,1]$,
++$c(s,t)=s(1-t)$; its inverse on the two endpoint
++neighborhoods is $x\mapsto(\operatorname{sgn}(x),1-|x|)$.
++The displayed isomorphism uses $\partial T$ as the product factor;
++the source's plain $T$ is preserved. On p.~34 he allows that the proposed
++equivalence of isotopy categories may be too optimistic, while defending
++the content of the dévissage already developed. Local retractions provide
++additional structure and lead to spaces indexed by flags in the ordered
++set of strata, but he immediately notes that these extra data are absent
++from the geometric situations that motivated the work. On p.~35 the
++moduli example replaces the index set by the category of ``graphes MD'',
++and the argument returns to the combinatorial tower of \S2. The
++``topossique'' test on pp.~35--36 carries the same heuristic into étale
++topoi and the Galois-compatible dévissage of profinite Teichmüller groups;
++Grothendieck proposes a ``voisinage tubulaire canonique d'un sous-topos''
++and a comparison with the transcendental setting. The final change of
++emphasis, on p.~36, is that direct geometric arguments can probably
++short-circuit much of this theory for the moduli applications, although
++he retains its value as a guide. The later note (6), pp.~55--56,
++qualifies the polemic by recognizing the place and beauty of wild
++phenomena; note (7), pp.~56--57, gives the morphism data and the hexagonal
++diagram behind the flag-indexed construction. Related titles are
++\href{https://grothendieck.umontpellier.fr/archives-grothendieck/}{\emph{Topologie modérée} (cotes 120--121), \emph{Espaces stratifiés et voisinages côniques} (cote 150), and \emph{Topos stratifié} (cote 151)},
++and Lou van den Dries's
++\href{https://assets.cambridge.org/97805215/98385/frontmatter/9780521598385_frontmatter.pdf}{\emph{Tame Topology and O-minimal Structures}}.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=28}{Copy 1, pp.~25--36, beginning at site 27};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=29}{cone-bundle passage on p.~26, site 28};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=36}{collar passage on p.~33, site 35};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=39}{closing reassessment on p.~36, site 38}.)
++
++
++\subsection*{6. ``Differentiable theories'' (in the manner of Nash) and ``tame theories''}
++The sixth section first continues the foundational program of \S5:
++p.~37 proposes a dévissage of a proper tame map, simultaneous with a
++finite family of closed subspaces, and introduces ``espaces globalement
++modérés'' through complements in compact tame spaces. The specified
++comparison of compactifications is the map
++$g:X'^{\wedge}\longrightarrow X^{\wedge}$ restricting to the stated
++bijection over $X$; p.~38 uses scheme compactifications in the examples
++and extends the proposed framework to maps without the initial properness
++requirement. There is an index slip on p.~37: the filtration is explicitly
++decreasing, so its inclusion maps
++$Y^i\hookrightarrow Y^{i-1}$ send every point of $Y^i$ into
++$Y^{i-1}$. Consequently the printed ``open stratum''
++$Y^i\setminus Y^{i-1}$ is empty. The readers preserve the exponent
++$i-1$. After reporting what he had learned from Mebkhout, Grothendieck
++states the ``principe des choix anodins'' on pp.~38--39: his criterion
++examines the homotopy types of the spaces in which arbitrary construction
++choices are made. This leads from isotopy categories, retaining the
++components of isomorphism spaces, to the full homotopy types in the
++``$\infty$-isotopique'' viewpoint. The surface examples return to the
++anabelian cases and to Ladegaillerie's thesis from \S3; the discussion of
++1-isotopy categories gives the corresponding bicategorical language.
++At the end of p.~39 and the beginning of p.~40 he explains why he has
++argued at such length for foundational work he does not intend to make
++his own immediate priority. He then turns back to ideas from the late
++1960s inspired by Nash, replacing the axioms for tame subsets by axioms
++for rings of germs and the resulting smooth manifolds. The rounded
++ring-system symbol on pp.~40--42 has an unresolved alphabet assignment;
++the readers reproduce its checked contour and keep the doubt marks.
++The stability requirements successively concern differential constructions,
++the Weierstrass preparation condition and the footnote's henselian
++formulation (p.~40), analytic continuation, and integration of Pfaff
++systems (p.~41). The refusal to require algebras over all of
++$\mathbb R$ leaves room for a smaller field of constants, pointwise
++residue fields, and a hierarchy of ``fonctions élémentaires'' and
++``constantes élémentaires''; these notions return to the fields discussed
++in \S5, pp.~32--33. On p.~42 he judges the interesting questions about
++the relation between a finitely generated theory and its field of
++rationality ``out of reach'', a judgment explicitly withdrawn in note (1)
++on p.~52, then explains how the older differentiable
++ideas have become relevant again through the tame program. The final
++proposal associates a tame theory with a differentiable one and studies
++the differentiable structure off a closed nowhere dense tame subset,
++with agreement of two such structures away from a further nowhere dense
++subset. The closing sentence presents this as a setting for the more
++precise comparison questions raised by the stratified dévissage of \S5.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=40}{Copy 1, pp.~37--42, beginning at site 39};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=41}{principle of choices on pp.~38--39, beginning at site 40};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=43}{Nash-inspired axioms on pp.~40--42, beginning at site 42};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=45}{closing comparison on p.~42, site 44}.)
++
++
++\subsection*{7. Pursuing Stacks}
++The seventh section opens on p.~42 with the work begun in March of the
++previous year on the ``fondements de l'algèbre (co)homologique non
++commutative'', also called ``algèbre homotopique''. On p.~43 Grothendieck
++describes the intended two-volume \emph{A la Poursuite des Champs}, its
++successive expansions, and its place at the beginning of
++\emph{Réflexions Mathématiques}, already announced in \S1. His assessment
++first places this work somewhat at the margin of the newer interests
++described in the preceding sections, as a return to questions from before
++1970. He names Verdier, Giraud, and Illusie, acknowledges Quillen's model
++categories, and on p.~44 explains the internal structures and
++noncommutative coefficients that remain the focus of his own inquiry.
++The correspondence with Breen in 1975 leads into the proposed role of
++$\infty$-groupoids as models of homotopy types, with truncated types for
++n-groupoids; the subsequent correspondence with Brown brings him back
++to this problem. The account records two changes on p.~44: a broader
++notion initially called an $\infty$-groupoid is renamed ``champ en
++$\infty$-groupoïdes'', or ``champ'' over the punctual topos, and
++\emph{Histoire de Modèles} becomes a large, unforeseen digression before
++the intended treatment of stacks. The relation to \S6 is through these
++homotopy types and higher groupoids; p.~45 also explicitly reconnects the
++work with the moduli multiplicities and their stratifications from
++\S\S2 and 5, through a higher-dimensional van Kampen question. The same
++page returns to the 1975--76 reflections on a ``complexe de De Rham à
++puissances divisées'' and to ``schématisation'' of homotopy types, while
++qualifying the corresponding chapter as particularly hypothetical.
++The final paragraph revises the image of merely paying a debt to the
++1955--70 period: unforeseen developments, represented by the nested tales
++of the \emph{Thousand and One Nights}, account for the present work's
++unexpected scale. The archive catalogue names
++\href{https://grothendieck.umontpellier.fr/archives-grothendieck/}{\emph{Pursuing stacks. The Modelizing Story} (cotes 134-1--134-8) and \emph{Complexe de De Rham à puissance divisée} (cote 136)};
++among later literature one may name Denis-Charles Cisinski's
++\href{https://smf.emath.fr/publications/les-prefaisceaux-comme-modeles-des-types-dhomotopie}{\emph{Les préfaisceaux comme modèles des types d'homotopie}}.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=45}{Copy 1, pp.~42--45, beginning at site 44};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=47}{renaming and digression on p.~44, site 46};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=48}{connections and closing reassessment on p.~45, site 47}.)
++
++
++\subsection*{8. Digressions in two-dimensional geometry}
++The eighth section, beginning on p.~45, gathers the more concrete
++two-dimensional questions arising from teaching and research supervision.
++On p.~46 Grothendieck describes a repeated sequence: a promising initial
++exploration fails to become a shared undertaking with students, and
++stronger interests then displace it. Plane polygons and their moduli
++varieties form the first theme, including the unexpected appearance of
++algebraic geometry. The next theme concerns immersed curves and surfaces
++with boundary. The ``stable'' and ``cellulaire'' conditions lead back to
++the maps of \S3, while the ``balayage'' of a branch across a double point
++and the erasure or creation of a ``bigône'' supply the elementary
++operations for a dynamic study (pp.~46--47). The stated questions concern
++classes of immersions and the extensions of a prescribed boundary
++immersion; the reported tangible result is a canonical dévissage of a
++stable cellular immersion of a circle in a surface into indecomposable
++immersions by ``téléscopage''. His assessment changes with
++the third theme on p.~47: work on systems of lines and pseudolines has
++brought more productive exchanges with students, although their joint
++work has remained elementary. On p.~48 he describes the recent
++combinatorial construction of a ``surface modulaire'' parametrizing an
++additional pseudoline's relative positions, or the system's
++``affinisations'' through a choice of pseudoline at infinity. The
++catalogue names the related archive dossier
++\href{https://grothendieck.umontpellier.fr/archives-grothendieck/}{\emph{Système de pseudo-droites} (cote 154)}.
++The final movement returns explicitly to \S3: since 1977, the conformal
++realization of maps, their algebraic curves in the oriented compact case,
++and the associated metric possibilities have remained behind these
++combinatorial questions. Thurston's geometric ideas reinforce that
++expectation. At the transition to p.~49, however, the account of his
++students' difficulties leads to the judgment that teaching has often
++burdened rather than stimulated his geometric reflection; this judgment
++opens the broader appraisal in \S9.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=48}{Copy 1, pp.~45--49, beginning at site 47};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=49}{elementary operations on pp.~46--47, beginning at site 48};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=51}{moduli surface and conformal viewpoint on p.~48, site 50};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=52}{transition to the teaching appraisal on p.~49, site 51}.)
++
++
++\subsection*{9. An appraisal of teaching activity}
++The ninth section returns on p.~49 to the university teaching begun in
++1970 and to the change of professional milieu described at the beginning
++of the report. Grothendieck recognizes what this experience taught him
++and its part in renewing his mathematical outlook, then calls his
++research-level teaching a failure by the criterion of creating a place
++where something happens and something ``passe'' among people engaged in
++a common adventure. The two exceptions he records, around 1974--76, are
++Ladegaillerie's isotopy work already discussed in \S3, and
++Contou-Carrère's work on local and global Jacobians over general base
++schemes. The rest of the appraisal concerns teaching the rudiments of
++the mathematicians' craft to some twenty research students. Its final
++paragraph on p.~50 qualifies the negative account by recalling work
++better than merely acceptable, sometimes pursued beyond a single
++project and carried through with taste. He nevertheless anticipates few
++opportunities for these students to practice that craft professionally.
++This reassessment develops the disappointment described at the end of
++\S8 and supplies the immediate background to his application for
++secondment in \S10; it is the author's account at the date of the report.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=52}{Copy 1, pp.~49--50, beginning at site 51};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=53}{closing paragraph on p.~50, site 52}.)
++
++
++\subsection*{10. Epilogue}
++The epilogue on pp.~50--51 connects the program to the CNRS application
++announced in \S1. Following the teaching appraisal of \S9, Grothendieck
++states that this university activity has ceased to be useful to him or
++to others, and explains his request for secondment, the competing claims
++on scarce research posts, and the university position that his departure
++would release. The application itself has prompted the present sketch;
++the table of contents was added afterward to help readers, while the
++remarks about ten or a hundred years of work measure the scope he
++perceives in its themes. On p.~51 he states their unity through the
++geometry of surfaces, bringing together the tower and maps of \S\S2--3,
++the geometric constructions of \S4, and the later foundational and
++teaching discussions. His final retrospective change is a renewal of
++approach to ``motifs'', whose fascination he says has persisted from his
++earlier mathematical work; the footnote directs the reader to the
++``divagations motiviques'' at the end of the 1972 \emph{Esquisse
++Thématique}, pp.~17--18. The archive catalogue also names
++\href{https://grothendieck.umontpellier.fr/archives-grothendieck/}{\emph{Motifs et théorie de Hodge} (cote 18)}.
++The closing sentences describe his release from the self-imposed burden
++of endless ``tâches'' and the greater lightness he associates with age.
++The main report ends with the date January 1984; the subsequently added
++numbered notes follow it.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=53}{Copy 1, pp.~50--51, beginning at site 52};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=54}{motives, retrospective footnote, and closing date on p.~51, site 53}.)
++
++
++\subsection*{Note (1)}
++The first later note, on p.~52, explicitly retracts the judgment ``hors
++de portée'' used in \S2, p.~5, and again in \S6, p.~42. Grothendieck now
++calls the expression hasty and unfounded, treating it as a report on the
++speaker's ideas and engagement rather than a measure of a problem's
++mathematical possibilities. The joke about La Palisse accompanies his
++references to the conjectures of Mordell, Tate, and Chafarévitch. He then
++describes a change occurring in the days after he wrote the main report:
++renewed contact with the earlier questions has brought a further property
++of the outer Galois action on the fundamental group of an algebraic curve
++to his attention. He presents this as progress toward the algebraic
++characterization sought in \S2 and places it, together with the
++``conjecture fondamentale'' of \S3, at the center of his anabelian
++interests. The note gives neither that new property's statement nor a
++proof; its function here is to record the reassessment and the renewed
++direction of work.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=55}{Copy 1, p.~52, site 54};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=8}{first call on p.~5, site 7};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=45}{second call on p.~42, site 44}.)
++
++
++\subsection*{Note (2)}
++The second note, beginning on p.~52 and ending on p.~53, qualifies the
++claim in \S3, p.~12, that no mathematical fact had made an impression
++comparable to the discovery attached to a child's drawing. Grothendieck
++recalls learning the definition of a circle from Maria, an internee
++who gave him lessons at Rieucros when he was about twelve. The definition's
++simplicity and obviousness transformed what had seemed the mysterious
++``rotondité parfaite'' of the circle. He identifies this retrospectively
++as his first glimpse of the creative power of a good definition, a
++``formulation qui décrit l'essence'', and says that its fascination has
++persisted. The note thus supplies the explicit earlier exception to the
++turning point narrated in \S3 while returning to the role of finding a
++formulation that the opening discussion of writing in \S1 had already
++emphasized.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=55}{Copy 1, pp.~52--53, beginning at site 54};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=56}{ending at site 55};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=15}{call in \S3, p.~12, site 14}.)
++
++
++\subsection*{Note (3)}
++The third note, on pp.~53--54, extends the program attached to \S3,
++p.~16, beyond the varieties called anabelian. Grothendieck proposes a
++description of the category of schemes of finite type over the absolute
++base through systems of profinite groups expressing their étale topoi,
++and then envisages passage to more general schemes by limits. His phrase
++``qui fait semblant'' marks the presentation's deliberate avoidance of
++rings and equations while retaining the schemes' étale topoi. The
++explicit qualification, introduced as ``un grain de sel'', is that the
++reconstruction is to concern the category obtained by making universal
++homeomorphisms invertible; in the finite-type setting under discussion
++he describes these morphisms as finite, radicial, and surjective. This
++places the proposed dictionary of \S3 in the language of categories and
++localization and supplies further context for the priorities listed in
++note (4). The closing paragraph on p.~54 presents this ambition as an
++outcome of Galois theory and answers the familiar complaints about its
++purpose and generality. The note enlarges and qualifies the proposed
++reconstruction; it does not supply a completed construction of that
++dictionary. The related archive title \emph{La Longue Marche à travers
++la théorie de Galois} is already named with \S3.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=56}{Copy 1, pp.~53--54, beginning at site 55};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=57}{closing paragraph at site 56};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=19}{call in \S3, p.~16, site 18}.)
++
++
++\subsection*{Note (4)}
++The fourth note, on pp.~54--55, expands the motivic direction attached to
++\S3, p.~17. Grothendieck describes the arithmetic structure on
++$S\ell(2,\mathbb Z)$ as a ``machine à motifs'', recalls experiments begun
++in 1981, and specifies the input homomorphisms into $G_o(\mathbb Z)$ and
++the group-scheme extensions used for the resulting Galois
++representations. The tautological case leads in his account to an
++extension of $G\ell(2)_{\mathbb Z}$ by a two-dimensional torus and to the
++representations associated with the two named complex multiplication
++fields. He records that this construction principle has not yet been
++followed through. The passage from that unfinished exploration to the
++five-part priority list on p.~55 makes the program's current order
++explicit while calling the order provisional: construction of the
++Teichmüller tower, its profinite automorphism group and the Galois
++subgroup, the motivic machine, the anabelian dictionary and fundamental
++conjecture, and Fermat's problem. Thus items a) and b) return to \S2,
++item c) to the Jacobian representations of \S3, and item d) to the broader
++reconstruction of note (3). The parenthesis saying that the fundamental
++conjecture may be less ``hors de portée'' than supposed continues the
++explicit change of mind recorded in note (1). The ``paradigme profini'',
++inertia subgroups, positive characteristic, and the absolute ring are
++named here as parts of the intended expansion, without a proposed full
++formulation being supplied.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=57}{Copy 1, pp.~54--55, beginning at site 56};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=58}{priority list on p.~55, site 57};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=20}{call in \S3, p.~17, site 19}.)
++
++
++\subsection*{Note (5)}
++The fifth note, on p.~55, adds an exception to the account in \S4,
++p.~24, of preliminary work and geometric housekeeping. It identifies
++the more delicate combinatorial interpretation of regular maps attached
++to congruence subgroups and the effort to express their arithmetic
++Galois action through the cyclotomic character. The ``cartes de
++congruence'' thus return to both the regular maps of \S4 and the
++cartographic arithmetic of \S3. The concrete change of perspective is
++the one recorded in the final sentence: the combinatorial
++``bi-icosaèdre'', first developed in a C4 course for geometric reasons,
++subsequently provided a way to express the action on the category of
++icosahedral maps, called here ``cartes de congruence d'indice 5''.
++That wording is retained. The note also recalls, without developing it
++further, the earlier work on cubic complexes; its emphasis is the
++arithmetic use that emerged from a teaching construction.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=58}{Copy 1, p.~55, site 57};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=27}{call in \S4, p.~24, site 26}.)
++
++
++\subsection*{Note (6)}
++The sixth note, beginning on p.~55 and ending on p.~56, qualifies the
++tame-topology discussion attached to \S5, p.~31. Grothendieck identifies
++the isomorphism classes of compact tame spaces with those of the
++piecewise linear theory, while recalling the stability requirements that
++motivate his earlier objections to the latter as a complete context for
++the program. He presents this as a rehabilitation, in the intended
++setting, of the ``Hauptvermutung''. The important change of emphasis
++comes on p.~56: the polemic against wild phenomena as obstacles in the
++chosen foundations is accompanied by an explicit recognition of their
++reason for being and their own beauty. The proposed foundations are to
++place them as ``cas limites'' rather than make them disappear. This
++reassessment belongs beside the construction and comparison requirements
++of \S5, pp.~27--33, and the treatment of full homotopy types in \S6,
++pp.~38--39. The note states the intended comparison and its interpretation;
++the comparison's proof is not developed here.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=58}{Copy 1, pp.~55--56, beginning at site 57};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=59}{closing qualification on p.~56, site 58};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=34}{call in \S5, p.~31, site 33}.)
++
++
++\subsection*{Note (7)}
++The final note, on pp.~56--57, supplies the data behind the flag-indexed
++system of spaces mentioned in \S5, p.~34. Its ``strates déployées'',
++``tubes de raccord'', ``fibres de raccord'', and ``espaces de jonction''
++describe the unfolding of the stratified structure. A target-index slip
++occurs in the prose on p.~56: the first morphism is written
++$X_{i,j}\longrightarrow X_i$ and described as a bordering inclusion;
++the second is written $X_{i,j}\rightarrow X_i$ and described as a proper
++fibration. The diagram and its stated legend
++instead give the hooked immersion
++$a_{ij}:X_{ij}\hookrightarrow X_j$ and the ordinary proper fibration
++$b_{ij}:X_{ij}\longrightarrow X_i$. Thus it is the target of the first
++prose morphism that conflicts with the diagram; both printed prose
++targets remain in the readers. The lower right cartesian square identifies
++$X_{ijk}$ with $X_{ij}\times_{X_j}X_{jk}$ through its two projections,
++using $a_{ij}$ and $b_{jk}$ as the maps to $X_j$. The author's NB stresses
++that the data still include the morphism
++$X_{ijk}\longrightarrow X_{ik}$, since the immersion into the target
++$X_k$ is not required to be an embedding. The scan has two faint marks
++forming a colon-like trace at subscript height after this final $k$; their
++physical origin and textual role remain unresolved. On p.~57
++he recasts the unfolding of a stratified tame space using the sum $X_*$
++of its unfolded strata and the order relation with graph $X_{**}$:
++$pr_1:X_{**}\longrightarrow X_*$ is the proper locally trivial fibration,
++and $pr_2:X_{**}\longrightarrow X_*$ the bordering embedding. For tame
++multiplicities the account uses a category structure in place of that
++ordered-object structure, with the maps
++$X_{ijk}\longrightarrow X_{ik}$ furnishing composition. The note thus
++turns the extra structures and reconstruction problem of \S5 into
++explicit morphism data and clarifies the role of the junction spaces.
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=59}{Copy 1, pp.~56--57, beginning at site 58};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=60}{ordered and categorical descriptions on p.~57, site 59};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=37}{call in \S5, p.~34, site 36}.)
++
++\typeout{EDITION-APPARATUS-COUNT: \theappnote}
++\typeout{EDITION-EXTERNAL-LINK-COUNT: \theeditionexternallink}
+ \end{document}

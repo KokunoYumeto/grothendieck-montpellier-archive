@@ -1,0 +1,58 @@
+--- ESQUISSE_READERS_checkpoint_04.zip!/scripts/ENVIRONMENT.md
++++ final!/scripts/ENVIRONMENT.md
+@@ -15,10 +15,55 @@
+ math font encodings intact, including Greek characters inside `\mathrm`. The
+ formula strings are unchanged by that setting.
+ 
++The renderer uses LuaLaTeX's own node inspection to count the actual lines in a
++footnote-size marginal-note box. This is embedded in each standalone source and
++requires no external Lua file. Its three-/four-line boundary and deferred notes
++inside groups are exercised by `python scripts/probe_rendering.py`.
++
+ `compile_readers.py` uses PyMuPDF for PDF link and geometry measurements. The
+ PDFs are rendered for visual inspection with PyMuPDF or Poppler. Python 3 and
+ standard-library modules provide source, TSV, JSON and archive processing.
++`compile_readers.py` fixes `SOURCE_DATE_EPOCH` to 14 November 2026 at 00:00 UTC
++unless the caller supplies another value, and enables `FORCE_SOURCE_DATE`, so
++wall-clock compile time does not change the PDF creation date. Successful output
++PDF hashes are recorded separately from the standalone source hashes.
+ 
+ The raw runtime format log, download caches, font cache and temporary compilation
+ folders are reproducible intermediates. Publication records contain sanitized
+ build logs, measured outputs, source hashes and visual-review observations.
++
++The optional source-glyph tracing script uses Pillow, NumPy and Matplotlib to
++record the contour transformation. Its output is ordinary embedded TikZ; none of
++those Python dependencies is needed to compile a reader.
++
++## Rebuilding and checking
++
++After extracting the three final ZIPs into one folder, the ordinary regeneration
++commands are:
++
++```sh
++python scripts/build_edition.py generate
++python scripts/probe_rendering.py
++python scripts/compile_readers.py
++python scripts/pdf_final_audit.py --render
++```
++
++The supplied `checked_pages` already include their recorded mechanical repairs;
++rerunning `apply_mechanical_cleanup.py` is idempotent. Source images and original
++input manifests are needed to repeat the scan adjudications, but are not needed
++to compile a standalone reader. `records/PAGE_MAP.tsv` supplies the derived
++archive coordinate table for regeneration when the original input archive is
++not extracted alongside the edition.
++
++`records/BUILD_ENVIRONMENT.json` records the actual Python and package versions
++used for PDF measurements and optional tracing. It can be regenerated with
++`python scripts/record_environment.py`, which records no installation paths or
++host identifiers. The build/audit dependencies are PyMuPDF and Pillow; NumPy and
++Matplotlib are needed only to repeat the recorded source-glyph tracing.
++
++Each completed PDF publishes its measurement record before the next reader
++starts, under a dedicated build-record lock. This permits parallel human visual
++inspection of stable PDFs while other forms compile. After all visual observations
++are appended, rerun `pdf_final_audit.py` so its dependency hashes include the
++complete observation table. A compilation with errors, missing characters,
++overfull boxes above 2pt or disallowed page/type-frame ink returns a failure status.

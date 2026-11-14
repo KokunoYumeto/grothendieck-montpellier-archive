@@ -1,0 +1,38 @@
+--- ESQUISSE_READERS_checkpoint_09.zip!/scripts/ENVIRONMENT.md
++++ final!/scripts/ENVIRONMENT.md
+@@ -35,3 +35,35 @@
+ The optional source-glyph tracing script uses Pillow, NumPy and Matplotlib to
+ record the contour transformation. Its output is ordinary embedded TikZ; none of
+ those Python dependencies is needed to compile a reader.
++
++## Rebuilding and checking
++
++After extracting the three final ZIPs into one folder, the ordinary regeneration
++commands are:
++
++```sh
++python scripts/build_edition.py generate
++python scripts/probe_rendering.py
++python scripts/compile_readers.py
++python scripts/pdf_final_audit.py --render
++```
++
++The supplied `checked_pages` already include their recorded mechanical repairs;
++rerunning `apply_mechanical_cleanup.py` is idempotent. Source images and original
++input manifests are needed to repeat the scan adjudications, but are not needed
++to compile a standalone reader. `records/PAGE_MAP.tsv` supplies the derived
++archive coordinate table for regeneration when the original input archive is
++not extracted alongside the edition.
++
++`records/BUILD_ENVIRONMENT.json` records the actual Python and package versions
++used for PDF measurements and optional tracing. It can be regenerated with
++`python scripts/record_environment.py`, which records no installation paths or
++host identifiers. The build/audit dependencies are PyMuPDF and Pillow; NumPy and
++Matplotlib are needed only to repeat the recorded source-glyph tracing.
++
++Each completed PDF publishes its measurement record before the next reader
++starts, under a dedicated build-record lock. This permits parallel human visual
++inspection of stable PDFs while other forms compile. After all visual observations
++are appended, rerun `pdf_final_audit.py` so its dependency hashes include the
++complete observation table. A compilation with errors, missing characters,
++overfull boxes above 2pt or disallowed page/type-frame ink returns a failure status.

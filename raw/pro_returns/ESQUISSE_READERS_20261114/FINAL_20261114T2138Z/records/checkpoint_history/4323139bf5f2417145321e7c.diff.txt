@@ -1,0 +1,1919 @@
+--- ESQUISSE_READERS_checkpoint_05.zip!/EN/ESQUISSE_EN_corrected_translator_notes.tex
++++ final!/EN/ESQUISSE_EN_corrected_translator_notes.tex
+@@ -1,4 +1,4 @@
+-% EDITION STATUS: partial; source units 43/58
++% EDITION STATUS: final; source units 58/58
+ \documentclass[11pt,a4paper]{article}
+ \usepackage[no-math]{fontspec}
+ \setmainfont{Latin Modern Roman}
+@@ -9,6 +9,8 @@
+ \usepackage{amsmath,amssymb}
+ \usepackage[normalem]{ulem}
+ \usepackage{xcolor,tikz-cd,marginnote,etoolbox,microtype,graphicx}
++\usetikzlibrary{shapes.geometric}
++\microtypesetup{protrusion=false}
+ \usepackage[unicode,colorlinks=true,linkcolor=LinkInk,urlcolor=LinkInk,bookmarksopen=true]{hyperref}
+ \definecolor{LinkInk}{HTML}{254E70}
+ \definecolor{HandInk}{HTML}{254E70}
+@@ -20,6 +22,10 @@
+ \raggedbottom
+ \normalmarginpar
+ \frenchspacing
++\renewcommand{\textcircled}[1]{%
++  \tikz[baseline=(editionnumber.base)]{%
++    \node[draw=.,text=.,circle,inner sep=.4pt,outer sep=0pt,
++      line width=.35pt] (editionnumber) {#1};}}
+ \newif\ifdiplomatic
+ \newif\ifreading
+ \newif\ifenglish
+@@ -29,6 +35,21 @@
+ \newcommand{\EditionTitle}{Sketch of a Program}
+ \newcommand{\EditionForm}{Corrected text with translator’s notes}
+ \hypersetup{pdftitle={Sketch of a Program — Corrected text with translator’s notes},pdfauthor={Alexander Grothendieck},pdfsubject={A scan-checked edition of Esquisse d'un programme, January 1984, Montpellier cote 119}}
++% Private PDF metadata identifies one logical URI link across its wrapped
++% annotation rectangles. It changes no visible text, target or link geometry.
++\newcounter{editionexternallink}
++\makeatletter
++\let\EditionBaseLinkURL\hyper@linkurl
++\let\EditionBasePDFBorder\Hy@setpdfborder
++\def\hyper@linkurl#1#2{%
++  \begingroup
++  \stepcounter{editionexternallink}%
++  \edef\EditionLinkIdentifier{edlink-\theeditionexternallink}%
++  \def\Hy@setpdfborder{\EditionBasePDFBorder /EsquisseLinkID (\EditionLinkIdentifier)}%
++  \EditionBaseLinkURL{#1}{#2}%
++  \endgroup}
++\makeatother
++
+ \newcommand{\DeclareScan}[4]{%
+   \expandafter\def\csname edurl@#1\endcsname{#2}%
+   \expandafter\def\csname edkey@#1\endcsname{#3}%
+@@ -54,7 +75,26 @@
+ \newcommand{\mspage}[1]{%
+   \ifreading\marginnote{\raggedright\scriptsize\sffamily p.\,#1}[2\baselineskip]%
+   \else\noindent{\small\sffamily[p.\,#1]}\par\smallskip\fi}
+-\newcommand{\hand}[1]{\ifdiplomatic\textcolor{HandInk}{#1}\else#1\fi}
++% A hand macro around a tikz-cd arrow marks that edge only. TikZ defers edge
++% drawing, so its explicit color option is required; a surrounding text color
++% group alone would not survive until the arrow is drawn.
++\ExplSyntaxOn
++\NewDocumentCommand{\EditionHand}{m}
++  {
++    \tl_if_head_eq_meaning:nNTF {#1} \arrow
++      {\ifdiplomatic \EditionColorArrow #1 \else #1\fi}
++      {\ifdiplomatic \textcolor{HandInk}{#1}\else #1\fi}
++  }
++\cs_new_protected:Npn \EditionColorArrow \arrow [#1]
++  {\arrow[#1,color=HandInk]}
++\ExplSyntaxOff
++\newcommand{\hand}[1]{\EditionHand{#1}}
++% The source oval is handwriting; its already typed contents retain black ink.
++\newcommand{\handcircle}[1]{%
++  \tikz[baseline=(editioncircled.base)]{%
++    \node[draw=HandInk,ellipse,inner xsep=.9pt,inner ysep=.2pt,
++      outer sep=0pt,line width=.4pt,text=black] (editioncircled) {#1};}}
++
+ \let\over\relax
+ \newcommand{\over}[2]{\textcolor{QuietInk}{#1}\textcolor{HandInk}{\ensuremath{^{\!\nearrow}}#2}}
+ \newcommand{\inserted}[2][]{\textcolor{HandInk}{\ensuremath{\langle}#2\ensuremath{\rangle}}}
+@@ -62,46 +102,97 @@
+ \renewcommand{\xout}[1]{\ifmmode\textcolor{QuietInk}{[#1]_{\scriptscriptstyle\mathrm{x}}}\else\textcolor{QuietInk}{\sout{#1}}\fi}
+ \let\TextUline\uline
+ \let\TextUuline\uuline
++\makeatletter
++\UL@pixel=0pt
++\makeatother
+ \renewcommand{\uline}[1]{\ifmmode\underline{#1}\else\TextUline{#1}\fi}
+ \renewcommand{\uuline}[1]{\ifmmode\underline{\underline{#1}}\else\TextUuline{#1}\fi}
+ \newcommand{\unsure}[1]{\href{\CurrentScanURL}{[#1?]}}
+ \newcommand{\illegible}[1]{\href{\CurrentScanURL}{[\ifenglish illegible\else illisible\fi\ #1]}}
+ \newsavebox{\MarginalTestBox}
++\newdimen\MarginalLineHeight
++\newcount\MarginalLineCount
++\newif\ifMarginalFits
++\newif\ifMarginCluster
++\newdimen\MarginalClusterOffset
++\newdimen\MarginalPlacementOffset
++\newcommand{\margincluster}[1]{%
++  \begingroup\MarginClustertrue\global\MarginalClusterOffset=0pt #1\endgroup}
+ \newcommand{\margin}[1]{%
+-  \sbox{\MarginalTestBox}{\parbox{\marginparwidth}{\raggedright\footnotesize#1}}%
+-  \ifdim\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax>3\baselineskip
+-    \par\smallskip\noindent\begin{minipage}{\linewidth}\hrule\smallskip
++  \begingroup
++  \let\MarginalSavedApparatus\CurrentApparatus
++  \edef\MarginalSavedAppNumber{\the\value{appnote}}%
++  \edef\MarginalSavedLinkNumber{\the\value{editionexternallink}}%
++  \setbox\MarginalTestBox=\vbox{%
++    \hsize=\marginparwidth\linewidth=\marginparwidth
++    \parindent=0pt\parskip=0pt\footnotesize
++    \global\MarginalLineHeight=\baselineskip
++    \raggedright\noindent\textcolor{HandInk}{#1}\par}%
++  \directlua{
++    local lines = 0
++    for n in node.traverse_id(node.id("hlist"), tex.box["MarginalTestBox"].head) do
++      lines = lines + 1
++    end
++    tex.count["MarginalLineCount"] = lines
++  }%
++  \MarginalFitstrue
++  \ifnum\MarginalLineCount>3\relax\MarginalFitsfalse\fi
++  \ifdim\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax>3\MarginalLineHeight\relax\MarginalFitsfalse\fi
++  \ifMarginalFits
++    \MarginalPlacementOffset=0pt
++    \ifMarginCluster\MarginalPlacementOffset=\MarginalClusterOffset\fi
++    \typeout{EDITION-MARGIN: \CurrentPageKey; PLACEMENT: margin; LINES: \the\MarginalLineCount; BOX-HEIGHT: \the\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax; BASELINE: \the\MarginalLineHeight; LABELLED: no; OFFSET: \the\MarginalPlacementOffset}%
++    \marginnote{\usebox{\MarginalTestBox}}[\MarginalPlacementOffset]%
++    \ifMarginCluster\global\advance\MarginalClusterOffset by\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox+3pt\relax\fi
++  \else
++    \typeout{EDITION-MARGIN: \CurrentPageKey; PLACEMENT: block; LINES: \the\MarginalLineCount; BOX-HEIGHT: \the\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax; BASELINE: \the\MarginalLineHeight; LABELLED: yes}%
++    \setcounter{appnote}{\MarginalSavedAppNumber}%
++    \setcounter{editionexternallink}{\MarginalSavedLinkNumber}%
++    \global\let\CurrentApparatus\MarginalSavedApparatus
++    \par\nobreak\smallskip\nobreak\noindent\begin{minipage}{\linewidth}\hrule\smallskip
+     {\footnotesize\textcolor{HandInk}{\ifenglish Marginal note:\else Note marginale :\fi\ #1}}\smallskip\hrule\end{minipage}\par\smallskip
+-  \else
+-    \marginnote{\raggedright\footnotesize\textcolor{HandInk}{#1}}%
+-  \fi}
++    \ifMarginCluster\global\MarginalClusterOffset=0pt\fi
++  \fi
++  \endgroup}
+ \newcommand{\authornote}[1]{\margin{#1}}
+ \newcommand{\diagram}[1]{\par\smallskip{\centering#1\par}\smallskip}
+ \newenvironment{diagramblock}{\par\begin{center}}{\end{center}\par}
+-\newcommand{\DeclareVariant}[2]{\expandafter\def\csname edvariant@#1\endcsname{#2}}
+-\newcommand{\AppItem}[2]{\par\noindent\textsuperscript{#1}\csname edvariant@#2\endcsname}
++\newcommand{\DeclareVariant}[2]{\expandafter\gdef\csname edvariant@#1\endcsname{#2}}
++\newcommand{\AppItem}[2]{%
++  \ifcsdef{edvariant@#2}{%
++    \ifcsempty{edvariant@#2}{\PackageError{Esquisse}{Empty apparatus entry #2}{Every executed apparatus marker requires its printed note.}}{}%
++  }{\PackageError{Esquisse}{Undefined apparatus entry #2}{Every executed apparatus marker requires its printed note.}}%
++  \typeout{EDITION-APP-ENTRY: #2; NUMBER: #1}%
++  \par\noindent\textsuperscript{#1}\csname edvariant@#2\endcsname}
+ \newcommand{\EditionApp}[1]{%
+   \stepcounter{appnote}%
+   \ifmmode{}^{\scriptscriptstyle\theappnote}\else\textsuperscript{\theappnote}\fi
+   \begingroup\edef\x{\endgroup\noexpand\gappto\noexpand\CurrentApparatus{\noexpand\AppItem{\theappnote}{#1}}}\x}
+ \newcommand{\var}[4]{\ifdiplomatic#1\else#2\ifreading\else\EditionApp{#4}\fi\fi}
++\newcommand{\scancontext}[2]{\begingroup\def\CurrentScanURL{#1}#2\endgroup}
+ \newcommand{\copytwo}[2]{\ifdiplomatic\else\ifreading\else\DeclareVariant{#1}{#2}\EditionApp{#1}\fi\fi}
++\newcommand{\frapparatus}[1]{\ifreading\else\EditionApp{#1}\fi}
+ \newcommand{\tnote}[2]{\ifreading\else\DeclareVariant{#1}{\textit{Translator's note.} #2}\EditionApp{#1}\fi}
+ \newcommand{\finishscan}{\ifx\CurrentApparatus\empty\else\par\bigskip\noindent\rule{.35\linewidth}{.35pt}\par\smallskip{\footnotesize\setlength{\parskip}{3pt}\CurrentApparatus}\fi}
+ \newcommand{\DeclareNoteReturns}[2]{\expandafter\def\csname edreturns@#1\endcsname{#2}}
+ \newcommand{\notecall}[3]{\hypertarget{#2}{\hyperlink{note-#1}{#3}}}
+ \newcommand{\notedef}[2]{\hypertarget{note-#1}{#2}\,{\scriptsize[\csname edreturns@#1\endcsname]}}
++\newcommand{\authorstar}[2]{\hypertarget{star-#1}{#2}}
+ \newcommand{\AppReading}[1]{{\def\margin##1{##1}\def\authornote##1{##1}#1}}
+ \newcommand{\EmptyReading}{\ifenglish\textit{omitted}\else\textit{supprimé}\fi}
+ % Observed rounded source glyph, cote 119, site 42, PDF page 43.
+ % Its conventional alphabet assignment remains uncertain; use with \unsure.
+ % The contour is a vector traced from the reviewed scan detail, not a font alias.
+ \makeatletter
+-\newcommand{\sourceglyph}[1]{\mathord{\mathpalette{\EditionSourceGlyph{#1}}{}}}
++\newcommand{\sourceglyph}[1]{\ensuremath{\mathord{\mathpalette{\EditionSourceGlyph{#1}}{}}}}
+ \newcommand{\EditionSourceGlyph}[3]{%
+   \begingroup
+   \setbox0=\hbox{$#2 A$}%
+-  \resizebox{!}{\ht0}{\csname EditionGlyph@#1\endcsname}%
++  \ifcsname EditionGlyphHeight@#1\endcsname
++    \resizebox{!}{\csname EditionGlyphHeight@#1\endcsname}{\csname EditionGlyph@#1\endcsname}%
++  \else
++    \resizebox{!}{\ht0}{\csname EditionGlyph@#1\endcsname}%
++  \fi
+   \endgroup}
+ \expandafter\newcommand\csname EditionGlyph@119A\endcsname{%
+   \begin{tikzpicture}[x=1pt,y=1pt,baseline=0pt]
+@@ -109,6 +200,35 @@
+ (3.450,10.100) -- (4.950,10.100) -- (5.050,10.000) -- (5.550,10.000) -- (5.650,9.900) -- (5.950,9.900) -- (6.050,9.800) -- (6.250,9.800) -- (6.650,9.600) -- (6.950,9.300) -- (7.050,9.300) -- (7.600,8.750) -- (7.800,8.350) -- (7.800,8.050) -- (7.550,7.800) -- (7.050,7.800) -- (6.250,8.400) -- (6.050,8.500) -- (5.850,8.500) -- (5.350,8.800) -- (3.950,8.800) -- (3.850,8.900) -- (3.650,8.900) -- (3.550,8.800) -- (3.350,8.800) -- (3.150,8.700) -- (2.250,7.900) -- (2.100,7.850) -- (2.100,7.750) -- (1.900,7.550) -- (1.500,6.750) -- (1.500,6.450) -- (1.400,6.350) -- (1.400,5.850) -- (1.300,5.750) -- (1.300,4.650) -- (1.200,4.550) -- (1.200,4.050) -- (1.300,3.950) -- (1.300,2.450) -- (1.400,2.350) -- (1.400,2.150) -- (1.700,1.850) -- (1.900,1.450) -- (1.900,1.250) -- (2.000,1.050) -- (2.150,1.000) -- (2.550,0.600) -- (2.850,0.500) -- (3.100,0.250) -- (3.100,0.150) -- (2.850,0.000) -- (2.250,0.000) -- (2.050,0.100) -- (1.750,0.400) -- (1.650,0.400) -- (0.900,1.150) -- (0.900,1.350) -- (0.700,1.650) -- (0.700,1.850) -- (0.500,2.050) -- (0.300,2.450) -- (0.300,2.750) -- (0.200,2.850) -- (0.200,3.150) -- (0.100,3.250) -- (0.100,3.850) -- (0.000,3.950) -- (0.000,6.650) -- (0.300,7.050) -- (0.400,7.250) -- (0.400,7.450) -- (0.500,7.550) -- (0.500,7.750) -- (0.700,7.950) -- (0.800,8.250) -- (1.950,9.300) -- (2.050,9.300) -- (2.550,9.700) -- (3.150,10.000) -- (3.350,10.000) -- (3.450,10.100) -- cycle
+ (6.050,5.700) -- (6.250,5.700) -- (6.500,5.450) -- (6.500,5.250) -- (6.600,5.150) -- (6.600,4.650) -- (6.500,4.550) -- (6.500,2.850) -- (6.400,2.750) -- (6.500,2.550) -- (6.500,2.050) -- (6.600,1.950) -- (6.600,1.250) -- (6.950,0.900) -- (7.500,0.750) -- (7.400,0.550) -- (7.400,0.350) -- (7.250,0.100) -- (6.850,0.100) -- (6.250,0.400) -- (5.850,0.400) -- (5.150,0.000) -- (4.750,0.000) -- (4.650,0.100) -- (4.550,0.000) -- (3.650,0.000) -- (3.500,0.150) -- (3.550,0.300) -- (3.750,0.400) -- (4.250,0.400) -- (4.350,0.500) -- (4.850,0.500) -- (4.950,0.600) -- (5.150,0.600) -- (5.500,0.950) -- (5.600,1.150) -- (5.600,1.350) -- (5.700,1.450) -- (5.700,1.950) -- (5.600,2.050) -- (5.600,2.350) -- (5.500,2.450) -- (5.500,2.750) -- (5.400,2.850) -- (5.400,3.350) -- (5.500,3.450) -- (5.500,4.050) -- (5.600,4.150) -- (5.600,5.050) -- (5.800,5.450) -- (6.050,5.700) -- cycle
+ (7.950,1.900) -- (8.300,1.850) -- (8.300,1.050) -- (8.150,0.900) -- (7.950,0.900) -- (7.850,0.800) -- (7.550,0.800) -- (7.500,0.950) -- (7.600,1.050) -- (7.600,1.450) -- (7.950,1.900) -- cycle;
++  \end{tikzpicture}}
++\makeatother
++
++% Two separately reviewed handwritten spacing marks, copy 2, site 118, p. 40.
++% Centreline paths follow the supplied scan detail; their shape is independent
++% of any conventional mathematical bracket. The apparatus records the extent.
++\makeatletter
++\expandafter\newcommand\csname EditionGlyphHeight@119bracketlower\endcsname{2\baselineskip}
++\expandafter\newcommand\csname EditionGlyphHeight@119bracketupper\endcsname{2.75\baselineskip}
++\expandafter\newcommand\csname EditionGlyph@119bracketlower\endcsname{%
++  \begin{tikzpicture}[x=.1pt,y=.1pt,baseline=0pt]
++  \draw[line width=.17pt,line cap=round,line join=round]
++    (23,104) .. controls (27,83) and (29,66) .. (27,53)
++    .. controls (26,40) and (22,24) .. (21,15)
++    .. controls (18,7) and (21,3) .. (29,1)
++    .. controls (40,-3) and (56,3) .. (72,7)
++    .. controls (93,12) and (113,17) .. (127,14)
++    .. controls (130,13) and (132,12) .. (134,11);
++  \end{tikzpicture}}
++\expandafter\newcommand\csname EditionGlyph@119bracketupper\endcsname{%
++  \begin{tikzpicture}[x=.1pt,y=.1pt,baseline=0pt]
++  \draw[line width=.2pt,line cap=round,line join=round]
++    (30,171) .. controls (47,172) and (69,176) .. (84,177)
++    .. controls (99,178) and (111,175) .. (124,176)
++    .. controls (138,176) and (154,178) .. (165,176);
++  \draw[line width=.17pt,line cap=round,line join=round]
++    (25,166) .. controls (28,143) and (28,119) .. (26,94)
++    .. controls (25,66) and (20,33) .. (15,0)
++    -- (7,5);
+   \end{tikzpicture}}
+ \makeatother
+ 
+@@ -155,9 +275,89 @@
+ \DeclareScan{119/42}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=43}{esq_119_042}{42}
+ \DeclareScan{119/43}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=44}{esq_119_043}{43}
+ \DeclareScan{119/44}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=45}{esq_119_044}{44}
++\DeclareScan{119/45}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=46}{esq_119_045}{45}
++\DeclareScan{119/46}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=47}{esq_119_046}{46}
++\DeclareScan{119/47}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=48}{esq_119_047}{47}
++\DeclareScan{119/48}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=49}{esq_119_048}{48}
++\DeclareScan{119/49}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=50}{esq_119_049}{49}
++\DeclareScan{119/50}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=51}{esq_119_050}{50}
++\DeclareScan{119/51}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=52}{esq_119_051}{51}
++\DeclareScan{119/52}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=53}{esq_119_052}{52}
++\DeclareScan{119/53}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=54}{esq_119_053}{53}
++\DeclareScan{119/54}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=55}{esq_119_054}{54}
++\DeclareScan{119/55}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=56}{esq_119_055}{55}
++\DeclareScan{119/56}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=57}{esq_119_056}{56}
++\DeclareScan{119/57}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=58}{esq_119_057}{57}
++\DeclareScan{119/58}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=59}{esq_119_058}{58}
++\DeclareScan{119/59}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=60}{esq_119_059}{59}
+ \DeclareVariant{V-FR-010-001}{\textit{slip corrected}. \AppReading{Ladegraillerie} \(\rightarrow\) \AppReading{Ladegaillerie}. The preceding line gives Yves Ladegaillerie for the same participant; the second occurrence interposes an r.}
+-
++\DeclareVariant{V-FR-026-002}{\textit{slip corrected}. \AppReading{hyperquadratic} \(\rightarrow\) \AppReading{hyperquadric}. Copy 2 has a handwritten deletion of the two positions between hyperquadr and ique; the covered letters remain partly unreadable, compatible with \scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=103}{\unsure{at}}. Copy 1 clearly reads hyperquadratique. The body of the same page already names the circumscribed hyperquadrique. This deletion now supplies an explicit correction of the shared typing slip: hyperquadrique. See \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=103}{copy 2, p.~24}.}
++\DeclareVariant{V-FR-004-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{inadéquante}; corrected French: \AppReading{inadéquate}. Copy 2 has a handwritten slash through the n of inadéquante, a typing slip shared by both copies. Its correction gives inadéquate and enters the corrected copy1 text here. See \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=81}{copy 2, p.~2, site 80}.}
++\DeclareVariant{V-FR-006-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{des surface.}; corrected French: \AppReading{des surfaces.}. The local article des requires the plural; the same noun is written surfaces on page 3. The correction supplies the missing final s.}
++\DeclareVariant{V-FR-006-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{d'automorphisme d'un groupe profini}; corrected French: \AppReading{d'automorphismes d'un groupe profini}. The text speaks of a group whose elements are automorphisms. Page 7 has the construction un groupe d'automorphismes; the final s is absent here in the same phrase.}
++\DeclareVariant{V-FR-007-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{voir indispensable}; corrected French: \AppReading{voire indispensable}. The progression from more elegant to indispensable uses the intensifying adverb; voire occurs on page 2 (voire conformes) and page 3. The correction supplies its omitted final e here.}
++\DeclareVariant{V-FR-009-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{convenanble}; corrected French: \AppReading{convenable}. An extra n is interposed immediately before b; convenable occurs in the same discussion on page 5. Copy 2 has a blue slash through that n of the typing slip shared by both copies, confirming the correction. See \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=86}{copy 2, p.~7, site 85}.}
++\DeclareVariant{V-FR-010-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{se trouve muni d'une décomposition}; corrected French: \AppReading{se trouve munie d'une décomposition}. The subject is chacune des douze pièces; the same page also uses munies for the surfaces. The exact feminine singular munie occurs on page 42. The final e is missing in this local agreement.}
++\DeclareVariant{V-FR-012-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{Iladmet}; corrected French: \AppReading{Il admet}. The pronoun Il and verb admet are run together in the typing. The same page separately writes Il va and admet une description; the cartographic group is the subject of this sentence.}
++\DeclareVariant{V-FR-013-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{les trois point 0, 1}; corrected French: \AppReading{les trois points 0, 1}. The number trois requires the plural; the same page earlier has de trois points, numérotés. The final s is missing in the second occurrence.}
++\DeclareVariant{V-FR-014-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{ramifié seulement on}; corrected French: \AppReading{ramifié seulement en}. The preposition en introduces the ramification points; page 11 has the same construction, ramifiés au plus en les points. The o in on replaces e here.}
++\DeclareVariant{V-FR-015-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{quels exactement}; corrected French: \AppReading{quelles exactement}. The explicit subject is the feminine plural les conjuguées de telle carte orientée; the next page has quelles sont les courbes. The proposal agrees the pronoun with that written subject.}
++\DeclareVariant{V-FR-016-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{une directions}; corrected French: \AppReading{une direction}. The article une and adjective conceptuelle require the singular; page 25 has dans une direction toute différente. The s is added in error here.}
++\DeclareVariant{V-FR-017-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{dingueen effet}; corrected French: \AppReading{dingue en effet}. The adjective dingue qualifies la supposition; en effet follows as an adverbial phrase. Page 19 explicitly separates en effet. A space is missing after dingue.}
++\DeclareVariant{V-FR-019-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{est connu à isomorphisme près}; corrected French: \AppReading{est connue à isomorphisme près}. The written subject is une courbe algébrique anabélienne; the feminine form connue occurs on page 11. The final e is missing in this local agreement.}
++\DeclareVariant{V-FR-024-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{nouveau ;}; corrected French: \AppReading{nouveaux ;}. Des charmes is plural; the form nouveaux occurs on page 20. The final x is missing in this occurrence.}
++\DeclareVariant{V-FR-024-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{l'isosaèdre}; corrected French: \AppReading{l'icosaèdre}. The immediately following text gives un icosaèdre for the same polyhedron. The first occurrence has s in place of c.}
++\DeclareVariant{V-FR-025-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{les caractéristique 2 et 5}; corrected French: \AppReading{les caractéristiques 2 et 5}. The article les and the two listed characteristics require the plural; the preceding line already has l'une des caractéristiques. The final s is absent here.}
++\DeclareVariant{V-FR-026-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{réunisse même à le dégager}; corrected French: \AppReading{réussisse même à le dégager}. The context concerns succeeding in drawing out a principle, with à followed by an infinitive; page 46 writes je réussisse à communiquer in the same construction. The n in réunisse occupies the place of the double s in réussisse here.}
++\DeclareVariant{V-FR-027-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{sphèrique}; corrected French: \AppReading{sphérique}. Page 13 gives sphérique with an acute accent, and the plural sphériques also occurs on page 26. The isolated grave accent in this occurrence is proposed as a typing slip.}
++\DeclareVariant{V-FR-027-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{variété algèbrique}; corrected French: \AppReading{variété algébrique}. This page twice has géométrie algébrique with an acute accent, and also courbes algébriques. The isolated grave accent in variété algèbrique appears to be a typing slip; this proposal concerns that occurrence alone.}
++\DeclareVariant{V-FR-028-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{rigidifidation}; corrected French: \AppReading{rigidification}. The term rigidification occurs on page 14 for the same kind of additional data; the page 26 occurrence has d in place of c.}
++\DeclareVariant{V-FR-028-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{ces multiplicité}; corrected French: \AppReading{ces multiplicités}. Ces refers to the multiplicities named in the plural at the beginning of the page; the final s is missing in this later occurrence.}
++\DeclareVariant{V-FR-028-003}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{s'identifisant au}; corrected French: \AppReading{s'identifiant au}. Copy 1 types s'identifisant; copy 2 has a handwritten stroke deleting precisely the s between identifi and ant, with both loops still visible. The deletion corrects that extra letter shared by the two typed copies, giving s'identifiant. See \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=105}{copy 2, p.~26}.}
++\DeclareVariant{V-FR-029-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{des homéomorphisme de telles paires}; corrected French: \AppReading{des homéomorphismes de telles paires}. The passage describes the morphisms in the category of pairs and uses plural des. Page 53 writes homéomorphismes; the final s is missing here. The later parallel supersedes the earlier editorial reservation.}
++\DeclareVariant{V-FR-032-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{espaces semianalytique}; corrected French: \AppReading{espaces semianalytiques}. The adjective qualifies plural espaces; the next page gives semianalytiques for these same Hironaka spaces. The final s is missing here.}
++\DeclareVariant{V-FR-033-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{stricte de toutes, celles des}; corrected French: \AppReading{stricte de toutes, celle des}. The sentence moves from the strictest theory to the broadest; vers celle qui and savoir celle on the same page supply the singular reference. The s in celles is proposed as an isolated addition.}
++\DeclareVariant{V-FR-033-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{les catégories ``$\infty$-isotopique''}; corrected French: \AppReading{les catégories ``$\infty$-isotopiques''}. The same adjective is written in the plural earlier for the same categories; the final s is missing in this later occurrence.}
++\DeclareVariant{V-FR-034-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{simple-%
++mement}; corrected French: \AppReading{simple-%
++ment}. The continuation mement repeats me at the line break; simplement is written on page 23. The correction removes that repetition while retaining the line break.}
++\DeclareVariant{V-FR-035-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{mais à part}; corrected French: \AppReading{mis à part}. The passage sets the comparison theorems aside within a list; page 24 has Mis à part in the same expression. An extra a is interposed in mis here. Copy 2 has a handwritten stroke deleting precisely that a. See \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=112}{copy 2, p.~33}.}
++\DeclareVariant{V-FR-035-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{toute application modéré}; corrected French: \AppReading{toute application modérée}. Toute application is feminine; page 37 gives une application modérée propre. The final e is missing in this occurrence.}
++\DeclareVariant{V-FR-036-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{voisinages tubulaire}; corrected French: \AppReading{voisinages tubulaires}. The noun voisinages is plural; page 36 has the same phrase voisinages tubulaires. The final s is missing here.}
++\DeclareVariant{V-FR-036-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{de façon toute aussi canonique}; corrected French: \AppReading{de façon tout aussi canonique}. Tout modifies aussi canonique here; page 8 already has tout aussi concrètes with a feminine adjective. The final e in toute is proposed as an isolated addition.}
++\DeclareVariant{V-FR-038-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{j'étais parvenue}; corrected French: \AppReading{j'étais parvenu}. The same page gives auquel je suis parvenu for the same speaker and formalism; the e in parvenue is proposed as an isolated addition.}
++\DeclareVariant{V-FR-038-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{gressées depuis}; corrected French: \AppReading{gressée depuis}. Copy 2 has a handwritten stroke deleting only the final s of pro-gressées, an extra letter shared by both typed copies. The correction follows that deletion exactly and retains the preceding e and the pro-gressée line division. No further change to progressé is made. See \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=115}{copy 2, p.~36}.}
++\DeclareVariant{V-FR-039-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{d'espace modérés}; corrected French: \AppReading{d'espaces modérés}. The adjective modérés is plural and the map connects two spaces; the same passage writes deux espaces modérés. The noun lacks s in this occurrence.}
++\DeclareVariant{V-FR-040-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{schématique (qui existent}; corrected French: \AppReading{schématiques (qui existent}. The adjective qualifies plural compactifications, followed by qui existent. Page 53 supplies the form schématiques. The correction adds only the missing final s in this occurrence.}
++\DeclareVariant{V-FR-042-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{s'est agit de dégager}; corrected French: \AppReading{s'est agi de dégager}. Page 28 has exactly the construction il s'est agi de followed by an infinitive. The final t in agit is proposed as an isolated addition in the same construction on page 40; this parallel supersedes the earlier provisional reservation.}
++\DeclareVariant{V-FR-043-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{divers expaces}; corrected French: \AppReading{divers espaces}. The same noun is written espaces earlier on this page. The occurrence expaces has x in place of s; the correction concerns that single letter.}
++\DeclareVariant{V-FR-044-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{tout $\unsure{\sourceglyph{119A}}$-variété}; corrected French: \AppReading{toute $\unsure{\sourceglyph{119A}}$-variété}. Tout here determines the feminine noun variété. Page 14 has toute before the feminine noun courbe; the final e is missing in this occurrence. The distinctive glyph and its uncertainty are preserved.}
++\DeclareVariant{V-FR-045-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{le manuscript}; corrected French: \AppReading{le manuscrit}. Page 45 gives manuscrit without p for another written work. The isolated form manuscript on page 43 has an extra p; only this occurrence is proposed for review, without changing other lexical choices.}
++\DeclareVariant{V-FR-045-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{déserpoir}; corrected French: \AppReading{désespoir}. Copy 1 clearly types déserpoir. Copy 2 has a handwritten s in the r position, with much of the underlying letter covered by the overstroke. This explicit correction of the wrong letter shared by both typed copies gives désespoir; the lower-layer reading remains uncertain: \scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=122}{\unsure{r}}. See \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=122}{copy 2, p.~43}.}
++\DeclareVariant{V-FR-046-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{d'espacesd'Eilenberg}; corrected French: \AppReading{d'espaces d'Eilenberg}. Espaces and the elided preposition d' are run together; page 39 already separates espaces d'isomorphismes. The correction supplies only the missing space, preserving the following compound name.}
++\DeclareVariant{V-FR-048-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{répéré}; corrected French: \AppReading{répété}. Copy 2 has a handwritten t over the r position in répéré, giving répété. The largely covered lower letter remains doubtful: \scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=125}{\unsure{r}}. This overstroke supplies the explicit correction of the wrong letter shared by both typed copies, superseding the earlier retention of répéré while the intended reading was unsettled. See \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=125}{copy 2, p.~46}.}
++\DeclareVariant{V-FR-050-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{pen-%
++dans ces dix}; corrected French: \AppReading{pen-%
++dant ces dix}. The duration construction matches pendant une quinzaine on page 45. Only final s changes to t; the line break and the observed double space after dix remain intact.}
++\DeclareVariant{V-FR-052-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{plus qu'en seul travail}; corrected French: \AppReading{plus qu'un seul travail}. The same paragraph counts written works and already has à un travail mieux. Only e in en changes to u to supply that article; the observed double space after goût remains intact. Copy 2 confirms this correction with a handwritten u over the e position; the lower character remains partly covered: \scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=129}{\unsure{e}}. See \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=129}{copy 2, p.~50}.}
++\DeclareVariant{V-FR-054-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{échappée jusqu'à présent}; corrected French: \AppReading{échappé jusqu'à présent}. The property is the subject of avait échappé and m' names the person it escaped. Page 34 has the same construction qui m'auraient échappé. The correction removes the isolated final e without changing subject or tense.}
++\DeclareVariant{V-FR-055-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{(voir
++même}; corrected French: \AppReading{(voire
++même}. The passage extends the base from Q to Z using the intensifying adverb. The same phrase voire même occurs on pages 28, 32 and 34. The correction adds the missing e and preserves the line division; no formula changes.}
++\DeclareVariant{V-FR-059-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{de l'espaces mo-%
++}; corrected French: \AppReading{de l'espace mo-%
++}. The article l' and adjective modéré refer to the single space named $X_*$. Page 37 writes l'espace in the same noun phrase. The added s is removed; the mo-déré line division and the formula remain unchanged.}
++\DeclareVariant{V-FR-059-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{qui est munie d'une}; corrected French: \AppReading{qui est muni d'une}. The relative qui refers to the space $X_*$. Page 33 uses muni for the space T, and page 10 uses muni for K. The isolated final e is removed in this local agreement.}
++\DeclareVariant{V-FR-059-003}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{est une plongement}; corrected French: \AppReading{est un plongement}. The preceding page has exactly un plongement. The noun and its adjective bordant are masculine in this occurrence; the extra e in une is removed.}
++\DeclareNoteReturns{copy1-1}{\hyperlink{call-esq_119_007-1-1}{p.\,5}, \hyperlink{call-esq_119_044-1-2}{p.\,42}}
++\DeclareNoteReturns{copy1-2}{\hyperlink{call-esq_119_014-2-1}{p.\,12}}
++\DeclareNoteReturns{copy1-3}{\hyperlink{call-esq_119_018-3-1}{p.\,16}}
++\DeclareNoteReturns{copy1-4}{\hyperlink{call-esq_119_019-4-1}{p.\,17}}
++\DeclareNoteReturns{copy1-5}{\hyperlink{call-esq_119_026-5-1}{p.\,24}}
++\DeclareNoteReturns{copy1-6}{\hyperlink{call-esq_119_033-6-1}{p.\,31}}
++\DeclareNoteReturns{copy1-7}{\hyperlink{call-esq_119_036-7-1}{p.\,34}}
+ \begin{document}
++\hypersetup{pageanchor=false}
+ \begin{titlepage}
+ \centering
+ \vspace*{18mm}
+@@ -175,9 +375,10 @@
+ \vspace{8mm}
+ {\normalsize Edition dated 14 November 2026\par}
+ \end{titlepage}
++\hypersetup{pageanchor=true}
+ \thispagestyle{plain}
+ \section*{Preface}
+-\noindent\textbf{Partial working edition.} This file contains 43 of the 58 source pages required for this form. Collation and final validation remain in progress.\par\smallskip
++
+ This English translation follows the corrected French text of copy 1. Authorial changes and justified corrections of isolated typing slips are recorded in the apparatus. Copy 2 annotations are identified separately. Translator’s notes explain words, wordplay, abbreviations and notation at the place where an explanation is needed. Unresolved readings remain marked and linked to their scans. The author’s notes (1)–(7) remain at the end, with links in both directions. The formulas retain the exact French source strings; terminology follows the supplied unified English glossary.
+ 
+ \smallskip
+@@ -224,11 +425,16 @@
+ 
+ Notes.
+ 
+-N.B. The asterisks (*) refer to the notes appearing at the bottom of
++N.B. The asterisks \authorstar{esq_119_002-star-1}{(*)} refer to the notes appearing at the bottom of
+ the same page, the numbered references from (\textsuperscript{\hand{1}}) to (\textsuperscript{\hand{7}}\unsure{.}) to the notes (added
+ later) collected at the end of the report.
+ 
+ \mspage{\hand{2}}
++\copytwo{A2-119-078-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{[copy 2, scan 119/78]} Copy 2 has in the upper-left margin: \unsure{45,49,53}. A dark mark obscures part of the digits.}}
++\copytwo{A2-119-078-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{[copy 2, scan 119/78]} Copy 2 next has: \unsure{33,3\illegible{1}},26,8,. The illegibility mark here denotes an unresolved numerical token.}}
++\copytwo{A2-119-078-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{[copy 2, scan 119/78]} Copy 2 has the handwritten numbers 1,2,9,10 on the next margin line.}}
++\copytwo{A2-119-078-004}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{[copy 2, scan 119/78]} Copy 2 has the handwritten circled number \textcircled{17} in the margin.}}
++\copytwo{A2-119-078-005}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{[copy 2, scan 119/78]} Copy 2 has handwritten archive foliation 78.}}
+ 
+ \finishscan
+ % END PAGE esq_119_002
+@@ -274,6 +480,9 @@
+ with sudden openings of light when some stubborn
+ 
+ \margin{3}
++\copytwo{A2-119-079-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{[copy 2, scan 119/79]} Copy 2 has the title ‘ESQUISSE D'UN PROGRAMME’ crossed out with oblique strokes.}}
++\copytwo{A2-119-079-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{[copy 2, scan 119/79]} Copy 2 has the line ‘par A. Grothendieck’ crossed out with the same oblique strokes.}}
++\copytwo{A2-119-079-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{[copy 2, scan 119/79]} Copy 2 has the handwritten foliation 79 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_003
+@@ -281,7 +490,7 @@
+ \scanpage{119/4}
+ \mspage{2}
+ 
+-false, or merely inadequate, image is finally flushed out
++false, or merely inadequate\frapparatus{V-FR-004-001}, image is finally flushed out
+ and brought to light, and the things that seemed askew
+ fall into place, in the mutual harmony proper to them.
+ \qquad Be that as it may, the following sketch of some
+@@ -318,6 +527,7 @@
+ the other algebraic varieties. Whereas in my research before
+ 
+ \margin{4}
++\copytwo{A2-119-080-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=81}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=81}{[copy 2, scan 119/80]} Copy 2 has the handwritten foliation 80 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_004
+@@ -362,6 +572,8 @@
+ ``stable'' algebraic curves of genus $g$, with $\nu$ marked points, which
+ 
+ \margin{5}
++\copytwo{A2-119-081-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=82}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=82}{[copy 2, scan 119/81]} Copy 2 has the handwritten foliation 81 at the lower left.}}
++\copytwo{A2-119-081-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=82}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=82}{[copy 2, scan 119/81]} Copy 2 has “algébriques\unsure{.}”: the small point after the word is visible, but its origin and textual status remain unresolved.}}
+ 
+ \finishscan
+ % END PAGE esq_119_005
+@@ -380,7 +592,7 @@
+ and the inverse operations), which reflect, in absolute algebraic
+ geometry of characteristic zero (for the moment), familiar geometric
+ operations from the viewpoint of topological or conformal ``surgery''
+-on surfaces. The principal reason for this fascination is probably
++on surfaces.\frapparatus{V-FR-006-001} The principal reason for this fascination is probably
+ that this very rich geometric structure on the
+ system of ``open'' moduli multiplicities $M_{g,\nu}$ is reflected
+ in an analogous structure on the corresponding fundamental
+@@ -394,7 +606,7 @@
+ action of $\mathrm{I}\!\Gamma$ on the fundamental group $\hat{\pi}_{0,3}$ of the standard
+ projective line $\mathbb{P}^1$ over $\mathbb{Q}$, with the three points $0,\ 1,\ \infty$ removed, is
+ already faithful. Thus \uline{the Galois group} $\mathrm{I}\!\Gamma$ \uline{is realized as a group}
+-\uline{of automorphisms of a most concrete profinite group}, moreover respecting
++\uline{of automorphisms of a most concrete profinite group}\frapparatus{V-FR-006-002}, moreover respecting
+ certain essential structures of that group. It follows
+ that an element of $\mathrm{I}\!\Gamma$ can be ``parametrized'' (in various equivalent
+ ways, moreover) by a suitable element of this profinite group
+@@ -406,6 +618,7 @@
+ necessary \uline{and} sufficient conditions on an outer automorphism
+ 
+ \margin{6}
++\copytwo{A2-119-082-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=83}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=83}{[copy 2, scan 119/82]} Copy 2 has the handwritten foliation 82 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_006
+@@ -442,7 +655,7 @@
+ a whole collection invariant under the symmetries of the
+ situation, which are thereby lost along the way. In certain situations
+ (such as descent theorems in the manner of Van Kampen for fundamental
+-groups), it is much more elegant, even indispensable for understanding
++groups), it is much more elegant, even indispensable\frapparatus{V-FR-007-001} for understanding
+ anything about them, to work with fundamental groupoids
+ relative to a suitable collection of base points , and this is certainly
+ so for the Teichmüller tower. It would seem (incredible,
+@@ -450,6 +663,7 @@
+ Teichmüller tower (thus corresponding to ``moduli'' either for projective
+ 
+ \margin{7}
++\copytwo{A2-119-083-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=84}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=84}{[copy 2, scan 119/83]} Copy 2 has the handwritten foliation 83 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_007
+@@ -496,6 +710,7 @@
+ cf. par. 5) from an extremely plausible property of the open
+ 
+ \margin{8}
++\copytwo{A2-119-084-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=85}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=85}{[copy 2, scan 119/84]} Copy 2 has the handwritten foliation 84 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_008
+@@ -513,7 +728,7 @@
+ dimension $N \geq 3$. It is true that the moduli multiplicities are
+ not affine (except for small values of $g$), but it would suffice
+ for such an $M_{g,\nu}$ of dimension $N$ (or rather, a suitable finite
+-covering) to be the union of $N$-2 affine open sets, thus
++covering)\frapparatus{V-FR-009-001} to be the union of $N$-2 affine open sets, thus
+ for $M_{g,\nu}$ not to be ``too close to a compact variety''.
+ 
+ Having no doubt about this principle for constructing the
+@@ -524,16 +739,16 @@
+ Teichmüller tower by generators and relations, this time in the
+ discrete setting and not the profinite one - which amounts, essentially,
+ to a complete understanding of the four moduli multiplicities
+-$M_{0,4}$, $M_{1,1}$, $M_{0,5}$, $M_{1,2}$, and of their fundamental groupoids relative
++$M_{0,4}$, $M_{1,1}$, $M_{0,5}$, $M_{1,2}$ , and of their fundamental groupoids relative
+ to suitably chosen ``base points''. These present themselves
+ quite naturally as the complex algebraic curves of the type
+ $(g,\nu)$ under consideration whose automorphism group (necessarily
+-finite) is larger than in the generic case (*). Including among them the
++finite) is larger than in the generic case \authorstar{esq_119_009-star-1}{(*)}. Including among them the
+ holomorphic sphere with three marked points (coming from $M_{0,3}$, i.e.
+ 
+ \rule{4cm}{0.4pt}
+ 
+-(*) One must also add the ``base points'' arising from operations
++\authorstar{esq_119_009-star-2}{(*)} One must also add the ``base points'' arising from operations
+ of gluing ``pieces'' of the same type in lower moduli dimension.
+ On the other hand, in moduli dimension 2 (the cases of $M_{0,5}$ and $M_{1,2}$),
+ one should exclude the points of certain one-parameter families
+@@ -543,6 +758,8 @@
+ of the structure of these multiplicities.
+ 
+ \margin{9}
++\copytwo{A2-119-085-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=86}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=86}{[copy 2, scan 119/85]} Copy 2 has a blue correction mark in the left margin, approximately \unsure{$\frown$}, beside ‘convena\deleted{n}ble’.}}
++\copytwo{A2-119-085-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=86}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=86}{[copy 2, scan 119/85]} Copy 2 has the handwritten foliation 85 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_009
+@@ -576,7 +793,7 @@
+ the two viewpoints, which complement each other.
+ 
+ I add that each of the twelve building blocks in
+-the ``large box'' is equipped with a canonical cellular decomposition,
++the ``large box'' is equipped with a canonical cellular decomposition\frapparatus{V-FR-010-002},
+ stable under all symmetries, whose only vertices are the
+ ``marked points'' (or centers of the holes), and whose edges are certain
+ geodesic paths (for the canonical riemannian structure on the sphere
+@@ -587,6 +804,10 @@
+ with canonical cellular structures, which in their turn (cf.§3 below)
+ 
+ \margin{10}
++\copytwo{A2-119-086-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{[copy 2, scan 119/86]} Copy 2 has a handwritten sign \unsure{*} after ‘Teichmüller’; its exact form and any possible covered letter or punctuation remain uncertain.}}
++\copytwo{A2-119-086-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{[copy 2, scan 119/86]} Copy 2 has a handwritten sign \unsure{*} in the right margin on the same line.}}
++\copytwo{A2-119-086-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{[copy 2, scan 119/86]} Copy 2 circles the typed words ‘dans ce jeu’ and connects them by a line to the position after ‘Par suite,’; the words are not crossed out.}}
++\copytwo{A2-119-086-004}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{[copy 2, scan 119/86]} Copy 2 has the handwritten foliation 86 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_010
+@@ -633,6 +854,10 @@
+ a remarkable isotopy theorem, giving a complete algebraic description
+ 
+ \margin{11}
++\copytwo{A2-119-087-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=88}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=88}{[copy 2, scan 119/87]} Copy 2 has $\over{\rho}{\sigma}^4 = \over{\sigma}{\rho}^6 = 1$: handwritten $\sigma$ and $\rho$ cover the typed letters $\rho$ and $\sigma$ respectively.}}
++\copytwo{A2-119-087-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=88}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=88}{[copy 2, scan 119/87]} Copy 2 has two oblique strokes // in the left margin beside the overwritten formula.}}
++\copytwo{A2-119-087-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=88}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=88}{[copy 2, scan 119/87]} Copy 2 has a small point above the e in ‘Yv\unsure{ė|e}s’; its origin remains uncertain.}}
++\copytwo{A2-119-087-004}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=88}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=88}{[copy 2, scan 119/87]} Copy 2 has the handwritten foliation 87 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_011
+@@ -670,12 +895,15 @@
+ with the structure of a set with a group of operators, under the group
+ \[ \underline{C}_2 = \langle \sigma_0,\sigma_1,\sigma_2 \,|\, \sigma_0^{\,2} = \sigma_1^{\,2} = \sigma_2^{\,2} = (\sigma_0\sigma_2)^2 = 1 \rangle \ , \]
+ which I call the (unoriented) \uline{cartographic group} of dimension 2.
+-It admits as a subgroup of index 2 the \uline{oriented cartographic group},
++It admits\frapparatus{V-FR-012-001} as a subgroup of index 2 the \uline{oriented cartographic group},
+ generated by products of even numbers of the generators, which can
+ also be described as
+ \[ \underline{C}_2^{+} = \langle \rho_s,\rho_f,\sigma \,|\, \rho_s\rho_f = \sigma,\ \sigma^2 = 1 \rangle \ , \]
+ 
+ \margin{12}
++\copytwo{A2-119-088-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=89}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=89}{[copy 2, scan 119/88]} Copy 2 has ‘i\over{m}{n}publia-ble’: a handwritten n covers the typed m.}}
++\copytwo{A2-119-088-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=89}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=89}{[copy 2, scan 119/88]} Copy 2 also has a handwritten n in the right margin of this line.}}
++\copytwo{A2-119-088-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=89}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=89}{[copy 2, scan 119/88]} Copy 2 has the handwritten foliation 88 at the lower left, preceded by a point of uncertain origin: \unsure{.}88.}}
+ 
+ \finishscan
+ % END PAGE esq_119_012
+@@ -713,7 +941,7 @@
+ isotopy category equivalent to that of these coverings, subject
+ to the further condition of being finite coverings.
+ Taking now as the reference sphere the Riemann sphere,
+-or complex projective line, rigidified by the three points 0, 1
++or complex projective line, rigidified by the three points 0, 1\frapparatus{V-FR-013-001}
+ and $\infty$ (the last thus replacing 2), and recalling that every
+ finite ramified covering of a complex algebraic curve itself inherits
+ the structure of a complex algebraic curve, one arrives at this
+@@ -722,6 +950,7 @@
+ \uline{on a complex algebraic curve} ! Better still, since the complex projective
+ 
+ \margin{13}
++\copytwo{A2-119-089-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=90}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=90}{[copy 2, scan 119/89]} Copy 2 has the handwritten foliation 89 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_013
+@@ -736,7 +965,7 @@
+ is recovered on the algebraic curve as the inverse image of the real
+ segment $[0,1]$ (where $0$ is regarded as a vertex, and $1$ as
+ the midpoint of a ``folded edge'' with 1 as its center), which constitutes
+-the ``universal oriented 2-map'' on the Riemann sphere (*).
++the ``universal oriented 2-map'' on the Riemann sphere \authorstar{esq_119_014-star-1}{(*)}.
+ The points of the algebraic curve $X$ above 0, 1 and $\infty$
+ are precisely the vertices and the ``centers'' of the edges and
+ faces respectively of the map $(X,K)$, and the orders of the vertices
+@@ -760,15 +989,18 @@
+ 
+ \noindent\rule{4cm}{0.4pt}
+ 
+-(*) There is an analogous description of finite unoriented maps,
++\authorstar{esq_119_014-star-2}{(*)} There is an analogous description of finite unoriented maps,
+ possibly with boundary, in terms of \uline{real} algebraic curves,
+-more precisely of a covering of $\mathbb{P}^1_{\mathbb{R}}$ ramified only at 0, 1, $\infty$,
++more precisely of a covering of $\mathbb{P}^1_{\mathbb{R}}$ ramified only at 0, 1, $\infty$\frapparatus{V-FR-014-001},
+ the surface with boundary associated with such a covering being $X(\mathbb{C})/\tau$, where $\tau$
+ is complex conjugation. The ``universal'' unoriented map is
+ here the disk, or upper hemisphere of the Riemann sphere, equipped,
+ as before, with the embedded 1-complex $K = [0,1]$.
+ 
+ \margin{14}
++\copytwo{A2-119-090-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=91}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=91}{[copy 2, scan 119/90]} Copy 2 has \inserted{re} above the beginning of “trouvé”, producing “retrouvé”.}}
++\copytwo{A2-119-090-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=91}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=91}{[copy 2, scan 119/90]} Copy 2 has two small point-shaped traces immediately to the right of the comma after “disque”. Their origin and textual value remain unresolved; they are described as traces, without a character reading or attribution to handwriting.}}
++\copytwo{A2-119-090-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=91}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=91}{[copy 2, scan 119/90]} Copy 2 has the handwritten foliation 90 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_014
+@@ -804,7 +1036,7 @@
+ a transforming agent on topological-combinatorial shapes of the
+ most elementary kind imaginable, prompting questions
+ such as: are these given oriented maps ``conjugate'',
+-or: what exactly are the conjugates of this given oriented
++or: what exactly are the conjugates\frapparatus{V-FR-015-001} of this given oriented
+ map ? (There are, visibly, only finitely many.)
+ 
+ I have dealt with a few concrete cases (for coverings
+@@ -813,6 +1045,7 @@
+ answering them by computer calculations. My reflection very quickly
+ 
+ \margin{15}
++\copytwo{A2-119-091-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=92}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=92}{[copy 2, scan 119/91]} Copy 2 has the handwritten foliation 91 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_015
+@@ -820,7 +1053,7 @@
+ \scanpage{119/16}
+ \mspage{14}
+ 
+-set off in a more conceptual direction, to come to
++set off in a more conceptual direction\frapparatus{V-FR-016-001}, to come to
+ grasp the nature of this action of $\mathrm{I\!\Gamma}$. One immediately sees
+ that, roughly speaking, this action is expressed by a certain
+ ``outer'' action of $\mathrm{I\!\Gamma}$ on the profinite compactification\tnote{TN-016-01}{``Profinite compactification'' renders ``compactifié profini'', the expression used here. The source used ``complétions profinies'' on p.~6, translated there as ``profinite completions''.}
+@@ -859,6 +1092,7 @@
+ supposition looked so crazy that I was almost
+ 
+ \margin{16}
++\copytwo{A2-119-092-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=93}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=93}{[copy 2, scan 119/92]} Copy 2 has the handwritten foliation 92 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_016
+@@ -867,7 +1101,7 @@
+ \mspage{15}
+ 
+ embarrassed to submit it to the experts in the subject. Deligne, consulted,
+-did indeed find the supposition crazy, but had no counterexample
++did indeed find the supposition crazy\frapparatus{V-FR-017-001}, but had no counterexample
+ up his sleeve. Less than a year later, at the International
+ Congress in Helsinki, the Soviet mathematician Bielyi\tnote{TN-017-01}{The source's spelling ``Bielyi'' is retained.}
+ announced precisely this result, with a proof of disconcerting simplicity
+@@ -904,6 +1138,7 @@
+ in the course of this work (but developed in separate notes)
+ 
+ \margin{17}
++\copytwo{A2-119-093-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=94}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=94}{[copy 2, scan 119/93]} Copy 2 has the handwritten foliation 93 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_017
+@@ -918,7 +1153,7 @@
+ ``fundamental conjecture of anabelian algebraic geometry'' emerged,
+ close to the conjectures of Mordell and Tate that Faltings
+ has just proved\notecall{copy1-3}{call-esq_119_018-3-1}{($^3$)}. It was also there that a first reflection on
+-Teichmüller groups and the first intuitions about the manifold
++Teichmüller groups and the first intuitions about the multiple
+ structure of the ``Teichmüller tower'' began - the open moduli
+ multiplicities $M_{g,\nu}$ appearing, moreover, as the first important
+ examples, in dimension $> 1$, of varieties (or rather,
+@@ -949,6 +1184,7 @@
+ remarkable infinite discrete group one has encountered, which appears
+ 
+ \margin{18}
++\copytwo{A2-119-094-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=95}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=95}{[copy 2, scan 119/94]} Copy 2 has the handwritten foliation 94 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_018
+@@ -969,10 +1205,10 @@
+ \uline{of all algebraic curves} (not necessarily compact)
+ \uline{defined over number fields} $K$, \uline{and the outer action of}
+ $\mathrm{Gal}(\bar{K}/K)$ \uline{on them} - at least it is true that every such fundamental
+-group appears as a quotient of one of the former groups (*).
++group appears as a quotient of one of the former groups \authorstar{esq_119_019-star-1}{(*)}.
+ Taking into account the ``anabelian yoga'' (which remains conjectural),
+ according to which an anabelian algebraic curve over a number field $K$
+-(a finite extension of $\mathbb{Q}$) is known up to isomorphism when
++(a finite extension of $\mathbb{Q}$) is known up to isomorphism\frapparatus{V-FR-019-001} when
+ its mixed fundamental group is known (or, what amounts to the same thing,
+ the outer action of $\mathrm{Gal}(\bar{K}/K)$ on its geometric profinite
+ fundamental group), one can thus say that \uline{all algebraic curves}
+@@ -988,11 +1224,15 @@
+ 
+ \rule{5cm}{0.4pt}
+ 
+-(*) In fact, these are quotients of a particularly trivial
++\authorstar{esq_119_019-star-2}{(*)} In fact, these are quotients of a particularly trivial
+ kind, by abelian subgroups that are products of ``Tate modules''
+ $\hat{\mathbb{Z}}(1)$, corresponding to ``groups of loops'' about points at infinity.\tnote{TN-019-01}{The expression is ``groupes-lacets'' in the French; the wording ``groups of loops'' preserves the author's phrase at this place.}
+ 
+ \margin{19}
++\copytwo{A2-119-095-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=96}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=96}{[copy 2, scan 119/95]} Copy 2 has a handwritten question mark in the left margin beside “damental apparaît comme quotient”.}}
++\copytwo{A2-119-095-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=96}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=96}{[copy 2, scan 119/95]} Copy 2 has a handwritten oval around the typed footnote call “(*).”, including its following full stop.}}
++\copytwo{A2-119-095-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=96}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=96}{[copy 2, scan 119/95]} Copy 2 has another handwritten question mark in the left margin beside “viale, par des sous-groupes” in the footnote.}}
++\copytwo{A2-119-095-004}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=96}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=96}{[copy 2, scan 119/95]} Copy 2 has the handwritten foliation 95 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_019
+@@ -1033,6 +1273,7 @@
+ regular spherical maps; the case in which it is infinite gives the regular tessellations
+ 
+ \margin{20}
++\copytwo{A2-119-096-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=97}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=97}{[copy 2, scan 119/96]} Copy 2 has the handwritten foliation 96 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_020
+@@ -1040,7 +1281,7 @@
+ \scanpage{119/21}
+ \mspage{19}
+ 
+-of the euclidean or hyperbolic plane (*). The connection
++of the euclidean or hyperbolic plane \authorstar{esq_119_021-star-1}{(*)}. The connection
+ of the combinatorial theory with the ``conformal'' theory of regular
+ tessellations of the hyperbolic plane was sensed before
+ the connection of finite maps with finite coverings of the
+@@ -1073,12 +1314,13 @@
+ 
+ \rule{4cm}{0.4pt}
+ 
+-(*) In these statements, one should not exclude the case in which $p$, $q$
++\authorstar{esq_119_021-star-2}{(*)} In these statements, one should not exclude the case in which $p$, $q$
+ can take the value $+\infty$, which one encounters in particular very
+ naturally in tessellations associated with certain infinite regular
+ polyhedra, cf. below.
+ 
+ \margin{21}
++\copytwo{A2-119-097-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=98}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=98}{[copy 2, scan 119/97]} Copy 2 has the handwritten foliation 97 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_021
+@@ -1114,17 +1356,18 @@
+ $\mathbb{R}$ or $\mathbb{C}$ to a general base ring seems to me to have,
+ in this part of geometry, a scope comparable to the analogous
+ extension that has taken place since the beginning of the century in algebraic
+-geometry, or over the last twenty years or so in topology ( *),
++geometry, or over the last twenty years or so in topology \authorstar{esq_119_022-star-1}{( *)},
+ with the introduction of the language of schemes and that of topoi.
+ 
+ \rule{4cm}{0.4pt}
+ 
+-(*) In writing this, I am aware that few topologists,
++\authorstar{esq_119_022-star-2}{(*)} In writing this, I am aware that few topologists,
+ even today, recognize this conceptual and technical
+ broadening of topology and the resources
+ it offers.
+ 
+ \margin{22}
++\copytwo{A2-119-098-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=99}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=99}{[copy 2, scan 119/98]} Copy 2 has the handwritten foliation 98 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_022
+@@ -1137,8 +1380,8 @@
+ first directing my attention to \uline{pinned} regular
+ polyhedra,\tnote{TN-023-01}{``Pinned'' renders ``épinglé'', continuing the source's language of fixing a polyhedron by choosing a frame.}
+ which reduces the necessary conceptual baggage to a minimum
+-and practically eliminates any moderately delicate rationality
+-questions. For such a polyhedron one finds a canonical basis (or
++and practically eliminates rationality questions that are at all
++delicate. For such a polyhedron one finds a canonical basis (or
+ frame) of the ambient affine or projective space, in
+ such a way that the operations of the cartographic group $\underline{C}_n$, generated
+ by the fundamental reflections $\sigma_i$ $(0 \leq i \leq n)$, are written in it
+@@ -1169,6 +1412,7 @@
+ reflections, which is also the automorphism group of the
+ 
+ \margin{23}
++\copytwo{A2-119-099-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=100}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=100}{[copy 2, scan 119/99]} Copy 2 has the handwritten foliation 99 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_023
+@@ -1179,8 +1423,8 @@
+ regular polyhedron under consideration is finite. In the case of the
+ base field $\mathbb{R}$ (or $\mathbb{C}$, which amounts to the same thing), and for $n = 2$, the finite
+ cases have been well known since antiquity - which does not exclude
+-the scheme-theoretic viewpoint's revealing new charms
+-in them; one can say, however, that by specializing the icosahedron
++the scheme-theoretic viewpoint's revealing new charms\frapparatus{V-FR-024-001}
++in them; one can say, however, that by specializing the icosahedron\frapparatus{V-FR-024-002}
+ (for example) over finite base fields of arbitrary
+ characteristic, one always obtains an icosahedron, with its own
+ combinatorics and the same simple automorphism group of order 60.
+@@ -1212,6 +1456,7 @@
+ 2-maps, or, what amounts to the same thing, \unsure{.}the finite quotient groups\tnote{TN-024-02}{The unresolved dot before the French ``les'' is retained before the corresponding English ``the''.}
+ 
+ \margin{24}
++\copytwo{A2-119-100-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=101}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=101}{[copy 2, scan 119/100]} Copy 2 has the handwritten foliation 100 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_024
+@@ -1220,7 +1465,7 @@
+ \mspage{23}
+ 
+ of the 2-cartographic group that arise from regular 2-polyhedra
+-over finite fields (*) ? Would one obtain them all,
++over finite fields \authorstar{esq_119_025-star-1}{(*)} ? Would one obtain them all,
+ and, if so, how ?
+ 
+ These reflections bring into full light the fact,
+@@ -1232,7 +1477,7 @@
+ case considered up to now, where the base fields were restricted
+ to $\mathbb{R}$ ,or, at a stretch, $\mathbb{C}$ (in the case of what Coxeter
+ calls ``complex regular polyhedra'', which I prefer
+-to call ``regular pseudo-polyhedra defined over $\mathbb{C}$ '') (**). Moreover,
++to call ``regular pseudo-polyhedra defined over $\mathbb{C}$ '') \authorstar{esq_119_025-star-2}{(**)}. Moreover,
+ it seems that this broadening of viewpoint should also cast
+ new light on the cases already known. Thus, examining the
+ Pythagorean polyhedra one after another, I saw
+@@ -1240,15 +1485,15 @@
+ paradigm} of the polyhedron in question. Speaking vaguely, it can be
+ described by saying that, on looking at the specialization of the polyhedron
+ in the characteristic, or one of the characteristics, that is
+-the most singular one (or ones) (these are characteristics 2 and 5
++the most singular one (or ones) (these are characteristics 2 and 5\frapparatus{V-FR-025-001}
+ 
+ \rule{5cm}{0.4pt}
+ 
+-(*) These are, moreover, the same as those arising from regular
++\authorstar{esq_119_025-star-3}{(*)} These are, moreover, the same as those arising from regular
+ polyhedra over any fields, or over algebraically closed fields, as
+ one sees by standard specialization arguments.
+ 
+-(**) Pinned pseudo-polyhedra are described in the same way as
++\authorstar{esq_119_025-star-4}{(**)} Pinned pseudo-polyhedra are described in the same way as
+ pinned polyhedra, with the sole difference that the fundamental
+ reflections $\sigma_i$ $(0 \leq i \leq n)$ are replaced here by \uline{pseudo-reflections}
+ (which Coxeter moreover assumes to have finite order, as he
+@@ -1259,6 +1504,7 @@
+ the n+(n+1) variables $\underline{\alpha}_i$ $(1 \leq i \leq n)$ and $\underline{\beta}_j$ $(0 \leq j \leq n)$.
+ 
+ \margin{25}
++\copytwo{A2-119-101-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=102}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=102}{[copy 2, scan 119/101]} Copy 2 has the handwritten foliation 101 at the lower left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_025
+@@ -1275,15 +1521,15 @@
+ a later reflection on the combinatorics of the system of 27
+ lines on a cubic surface and its relations with the root
+ system $E_7$. Whether such a principle really exists and one
+-even succeeds in bringing it out of its cloak of mist, or whether it
++even succeeds in bringing it out\frapparatus{V-FR-026-001} of its cloak of mist, or whether it
+ recedes as one pursues it and ends by
+ vanishing like a Fata Morgana,\tnote{TN-026-01}{``Fata Morgana'' is retained as the author's image of an elusive mirage.}
+ for my part I \unsure{find}\tnote{TN-026-02}{The French alternatives remain ``trcuve|trouve''; both are represented by ``find'', with the doubt linked to the scan.}
+ in it an uncommon motivating force and fascination,
+-like that of a dream, perhaps. Probably, following such a call from the
++like that of a dream, perhaps. There is no doubt that following such a call from the
+ unformulated, from the formless seeking form, from an elusive
+ glimpse that seems to take pleasure both in evading one and in
+-revealing itself, can only lead far, while no one could
++revealing itself can only lead far, while no one could
+ predict where ...
+ 
+ Yet, occupied with other interests and tasks, I have
+@@ -1296,17 +1542,20 @@
+ mention is the existence and uniqueness of the hyperquadric circumscribed
+ about a given regular n-polyhedron, whose equation can be made
+ explicit by simple formulas in terms of the fundamental parameters
+-$\alpha_i$ (*). The case that interests me most is the one where $n = 2$, and the
++$\alpha_i$ \authorstar{esq_119_026-star-1}{(*)}. The case that interests me most is the one where $n = 2$, and the
+ 
+ \rule{5cm}{0.4pt}
+ 
+-(*) An analogous result holds for pseudo-polyhedra\unsure{.|:} It would seem
++\authorstar{esq_119_026-star-2}{(*)} An analogous result holds for pseudo-polyhedra\unsure{.|:} It would seem
+ that the ``exceptional characteristics'' discussed above,
+ for the specializations of a given polyhedron, are those for
+-which the circumscribed hyperquadratic\tnote{TN-026-03}{The footnote has ``hyperquadratique'', used nominally, while the main text has ``hyperquadrique''. The differing form is retained here as ``hyperquadratic''.} is either degenerate or
++which the circumscribed \var{hyperquadratic}{hyperquadric}{slip corrected}{V-FR-026-002} is either degenerate or
+ tangent to the hyperplane at infinity.
+ 
+ \margin{26}
++\copytwo{A2-119-102-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=103}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=103}{[copy 2, scan 119/102]} Copy 2 has a small handwritten cross in the left margin of the footnote, beside the line beginning “lesquelles”.}}
++\copytwo{A2-119-102-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=103}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=103}{[copy 2, scan 119/102]} Copy 2 has a period after “pseudo-polyèdres”; copy 1 retains the doubtful reading \scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=27}{\unsure{.|:}} at this position.}}
++\copytwo{A2-119-102-004}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=103}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=103}{[copy 2, scan 119/102]} Copy 2 has handwritten “102” at bottom left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_026
+@@ -1319,7 +1568,7 @@
+ Pythagorean polyhedra. Writing such an account of regular
+ 2-polyhedra would be a splendid opportunity for a young researcher
+ to become familiar both with the geometry of polyhedra and
+-their connections with spherical, euclidean and hyperbolic geometries,
++their connections with spherical\frapparatus{V-FR-027-002}, euclidean and hyperbolic geometries,
+ and with algebraic curves, and with the language and
+ basic techniques of modern algebraic geometry. Will one
+ ever be found to seize this opportunity ?
+@@ -1336,7 +1585,7 @@
+ from ``building blocks'' canonically deduced from the given
+ structure. Probably the principal example that had then led me
+ to this question was the canonical stratification of a
+-singular algebraic variety (or a singular complex or real analytic
++singular algebraic variety\frapparatus{V-FR-027-001} (or a singular complex or real analytic
+ space) by the decreasing sequence of its successive
+ ``singular loci''. But I probably already sensed the ubiquity
+ of stratified structures in practically every domain of
+@@ -1349,6 +1598,7 @@
+ (or to the associated combinatorial types) of the objects considered.
+ 
+ \margin{27}
++\copytwo{A2-119-103-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=104}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=104}{[copy 2, scan 119/103]} Copy 2 has handwritten “103” at bottom left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_027
+@@ -1363,9 +1613,9 @@
+ on stratified structures, from December 1981 to January
+ 1982. Two-dimensional geometry provides many other
+ examples of such stratified moduli structures, all of which,
+-moreover (apart from expedients of rigidification), appear
++moreover (apart from expedients of rigidification\frapparatus{V-FR-028-001}), appear
+ as ``multiplicities'' rather than as spaces or varieties
+-in the ordinary sense (the points of these multiplicities can have
++in the ordinary sense (the points of these multiplicities\frapparatus{V-FR-028-002} can have
+ nontrivial automorphism groups). Among the objects of
+ two-dimensional geometry giving rise to such stratified moduli
+ structures of arbitrary dimension, or even infinite
+@@ -1383,7 +1633,7 @@
+ topological \uline{manifolds}. The naive idea, in such a situation,
+ is to take ``the'' tubular neighborhood $T$ of $Y$ in $X$, whose
+ boundary $\partial T$ should also be a smooth manifold, fibered over
+-$Y$ with smooth compact fibers, $T$ itself being identified with
++$Y$ with smooth compact fibers, $T$ itself being identified\frapparatus{V-FR-028-003} with
+ the bundle of cones over $T$ associated with the preceding bundle. Setting
+ \[ U = X \setminus \mathrm{Int}(T), \]
+ one finds a manifold with boundary whose boundary is canonically
+@@ -1392,6 +1642,7 @@
+ replacing the ``open'' stratum $X\setminus Y$ while making it more precise) and the manifold
+ 
+ \margin{28}
++\copytwo{A2-119-104-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=105}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=105}{[copy 2, scan 119/104]} Copy 2 has handwritten “104” at bottom left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_028
+@@ -1411,7 +1662,7 @@
+ 
+ This naive vision immediately encounters various
+ difficulties. The first is the somewhat vague nature of the
+-very notion of a tubular neighborhood, which acquires any reasonably
++very notion of a tubular neighborhood, which acquires an at all
+ precise meaning only in the presence of much more rigid structures
+ than the topological structure alone, such as the ``piecewise
+ linear'' or riemannian structure (more generally, that of a space with a
+@@ -1430,10 +1681,11 @@
+ what is not so, is to work systematically in
+ ``\uline{isotopy categories}'' associated with the categories of a topological
+ kind that arise in these questions (such as the category of
+-admissible pairs (X,Y) and homeomorphisms of such pairs,
++admissible pairs (X,Y) and homeomorphisms of such pairs\frapparatus{V-FR-029-001},
+ etc.), keeping the same objects but taking as ``morphisms''
+ 
+ \margin{29}
++\copytwo{A2-119-105-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=106}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=106}{[copy 2, scan 119/105]} Copy 2 has handwritten “105” at bottom left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_029
+@@ -1478,6 +1730,8 @@
+ stability conditions (probably even all of them)
+ 
+ \margin{30}
++\copytwo{A2-119-106-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=107}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=107}{[copy 2, scan 119/106]} Copy 2 has a small baseline point before “essentielles”: \unsure{.}. Its origin and punctuation status remain unresolved.}}
++\copytwo{A2-119-106-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=107}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=107}{[copy 2, scan 119/106]} Copy 2 has handwritten “106” at bottom left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_030
+@@ -1521,6 +1775,7 @@
+ i.e. stable under the most obvious topological operations,
+ 
+ \margin{31}
++\copytwo{A2-119-107-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=108}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=108}{[copy 2, scan 119/107]} Copy 2 has handwritten “107” at bottom left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_031
+@@ -1550,7 +1805,7 @@
+ topology was an axiomatic one. Rather than declaring
+ (which would certainly be perfectly reasonable) that
+ the ``tame spaces'' sought are precisely, say,
+-Hironaka's semianalytic spaces, and then developing in
++Hironaka's semianalytic spaces\frapparatus{V-FR-032-001}, and then developing in
+ this context the arsenal of constructions and notions familiar in
+ topology, together, certainly, with those that until now had been
+ unable to be developed, and for good reason, I preferred to try to bring out
+@@ -1565,6 +1820,7 @@
+ \uline{one} ``tame theory'', but a vast infinitude, ranging from the most
+ 
+ \margin{32}
++\copytwo{A2-119-108-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=109}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=109}{[copy 2, scan 119/108]} Copy 2 has handwritten “108” at bottom left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_032
+@@ -1572,7 +1828,7 @@
+ \scanpage{119/33}
+ \mspage{31}
+ 
+-restrictive of all, that of ``piecewise $\bar{\mathbb{Q}}_r$-algebraic spaces''
++restrictive of all, that of ``piecewise $\bar{\mathbb{Q}}_r$-algebraic spaces''\frapparatus{V-FR-033-001}
+ (where $\bar{\mathbb{Q}}_r = \bar{\mathbb{Q}} \cap \mathbb{R}$), to the one that (rightly or wrongly) appears to me
+ probably the broadest, namely that of ``piecewise real analytic
+ spaces'' (or semianalytic in Hironaka's terminology).
+@@ -1592,7 +1848,7 @@
+ will imply that the isotopy category of T-spaces is equivalent
+ to that of T'-spaces), and is even a homotopy
+ equivalence (which means that one even has an equivalence for
+-the ``$\infty$-isotopy'' categories, finer than the isotopy categories
++the ``$\infty$-isotopy'' categories\frapparatus{V-FR-033-002}, finer than the isotopy categories
+ in which only the $\pi_0$ of the isomorphism spaces is retained).
+ Here the \uline{Isom} can be defined in an obvious way as
+ semi-simplicial sets, for example, to give a precise meaning
+@@ -1607,6 +1863,8 @@
+ sense, this dévissage theory too will be essentially
+ 
+ \margin{33}
++\copytwo{A2-119-109-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=110}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=110}{[copy 2, scan 119/109]} Copy 2 has a small baseline point after “elle aussi,”: \unsure{.}. Its origin and punctuation status remain unresolved.}}
++\copytwo{A2-119-109-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=110}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=110}{[copy 2, scan 119/109]} Copy 2 has handwritten “109” at bottom left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_033
+@@ -1622,7 +1880,7 @@
+ of proving such comparison theorems. So far I have
+ been content to draw out a plausible provisional system of axioms,
+ without any assurance that further axioms will not have to be
+-added, which probably only ``work on concrete examples''\tnote{TN-034-01}{``Work on concrete examples'' renders ``travail sur pièces'', the author's phrase for work that exposes the axioms needed in actual instances.}
++added, which probably only ``work on the actual material''\tnote{TN-034-01}{``Work on the actual material'' renders ``travail sur pièces'', preserving the author's expression for direct work on the material under study.}
+ will bring to light. The strongest of the axioms I have
+ introduced, and probably the one whose verification in specific
+ cases is (or will be) most delicate, is an \uline{axiom of}
+@@ -1639,7 +1897,7 @@
+ have essentially already been overcome by triangulability
+ theorems in the manner of Lojasiewicz and Hironaka. What is lacking,
+ once again, is by no means mathematicians' sometimes impressive
+-technical virtuosity, but the daring (or simply
++technical virtuosity, but the daring (or simply\frapparatus{V-FR-034-001}
+ the innocence ...) to free oneself from a familiar context
+ accepted by an unbroken consensus ...
+ 
+@@ -1652,6 +1910,7 @@
+ theory (where $\overline{\mathbb{Q}}_r = \overline{\mathbb{Q}} \cap \mathbb{R}$) when dealing with varieties defined
+ 
+ \margin{34}
++\copytwo{A2-119-110-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=111}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=111}{[copy 2, scan 119/110]} Copy 2 has handwritten “110” at bottom left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_034
+@@ -1676,11 +1935,11 @@
+ 
+ Among the first theorems one expects in
+ a tame topology as I envisage it, apart from comparison
+-theorems, are statements establishing, in an
++theorems\frapparatus{V-FR-035-001}, are statements establishing, in an
+ appropriate sense, the existence and uniqueness of ``the'' tubular neighborhood
+ of a closed tame subspace in a tame space (compact, for
+ simplicity), the concrete ways of obtaining it (for example from
+-any tame map $X \longrightarrow \mathbb{R}^{+}$ having $Y$ as
++any tame map\frapparatus{V-FR-035-002} $X \longrightarrow \mathbb{R}^{+}$ having $Y$ as
+ its zero set), the description of its ``boundary'' (although in
+ general it is by no means a manifold with boundary !) $\partial T$, which has
+ in $T$ a neighborhood isomorphic to the product of $T$ with an interval,
+@@ -1697,6 +1956,9 @@
+ isotopy categories envisaged at the beginning, taking into account the fact that
+ 
+ \margin{35}
++\copytwo{A2-119-111-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=112}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=112}{[copy 2, scan 119/111]} Copy 2 deletes the “a” in “résidual” and has a handwritten “e” in the left margin, giving “résiduel”.}}
++\copytwo{A2-119-111-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=112}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=112}{[copy 2, scan 119/111]} Copy 2 has a handwritten oblique stroke in the left margin beside the line containing “mais à part”.}}
++\copytwo{A2-119-111-004}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=112}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=112}{[copy 2, scan 119/111]} Copy 2 has handwritten “111” at bottom left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_035
+@@ -1705,13 +1967,13 @@
+ \mspage{34}
+ 
+ the functor $(U,Y,f) \longmapsto (X,Y)$ is defined in an obvious way,
+-independently of any theory of tubular neighborhoods.
++independently of any theory of tubular neighborhoods\frapparatus{V-FR-036-002}.
+ 
+ It will probably be said, not without some reason, that all
+ this is perhaps only dreams, which will vanish into smoke as soon
+ as one attempts detailed work, or even before that,
+ in the face of certain known or quite obvious facts that may have
+-escaped me. Certainly, only work on concrete examples will make it possible to
++escaped me. Certainly, only work on the actual material will make it possible to
+ separate the true from the false and to know the actual substance. The
+ only thing in all this about which I have no
+ doubt is the need for such work on foundations, in
+@@ -1735,12 +1997,13 @@
+ of the ordered set $I$ indexing the strata, these spaces playing
+ the role of the spaces $(U,Y)$ from earlier, linked to one another by
+ embedding maps and proper fibrations, which make it
+-possible to reconstruct, in just as canonical a way, the initial
++possible to reconstruct, in just as canonical a way\frapparatus{V-FR-036-001}, the initial
+ stratified structure, including those ``additional structures''\notecall{copy1-7}{call-esq_119_036-7-1}{(${}^{7}$)}.
+ The only trouble is that these latter seem to be a superfluous element of
+ structure, which is by no means given in ordinary geometric
+ 
+ \margin{36}
++\copytwo{A2-119-112-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=113}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=113}{[copy 2, scan 119/112]} Copy 2 has handwritten “112” at bottom left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_036
+@@ -1771,8 +2034,8 @@
+ 
+ Another satisfactory test of coherence comes from the
+ ``topossic'' viewpoint.\tnote{TN-037-02}{``Topossic'' renders the author's adjective ``topossique'', referring here to the context of topoi.} Indeed, since my interest in moduli
+-multiplicities stems above all from their algebraic-geometric
+-and arithmetic meaning, it is the \uline{algebraic} moduli
++multiplicities stems above all from their \unsure{.} algebraic-geometric
++and arithmetic meaning,\tnote{TN-037-03}{The source has a doubtful dot between ``leur'' and ``sens''; it is retained after ``their'', beside the corresponding English phrase.} it is the \uline{algebraic} moduli
+ multiplicities, over the absolute base field $\mathbb{Q}$, that have
+ primarily interested me, and a dévissage ``at infinity'' of their
+ geometric fundamental groups (i.e. the \uline{profinite} Teichmüller
+@@ -1785,6 +2048,7 @@
+ into the context of the topoi (in this case the étale topoi)
+ 
+ \margin{37}
++\copytwo{A2-119-113-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=114}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=114}{[copy 2, scan 119/113]} Copy 2 has handwritten “113” at bottom left.}}
+ 
+ \finishscan
+ % END PAGE esq_119_037
+@@ -1793,7 +2057,7 @@
+ \mspage{36}
+ 
+ involved in the situation, the theory of dévissage that
+-I had reached in an entirely different context --- with the
++I had reached\frapparatus{V-FR-038-001} in an entirely different context --- with the
+ additional task, subsequently, of drawing out a general comparison
+ theorem, on the model of the well-known theorems, to
+ compare the invariants obtained (in particular the homotopy types of
+@@ -1813,7 +2077,7 @@
+ has still not been done, that is, that no one (in the more
+ than twenty years that a context of étale topologies has existed) seems
+ to have needed it; surely a sign that the understanding
+-of the topological structure of schemes has not progressed all that
++of the topological structure of schemes has not progressed\frapparatus{V-FR-038-002} all that
+ much since the work of Artin-Mazur ...
+ 
+ Once the double task of preliminary work
+@@ -1829,6 +2093,8 @@
+ it to be given its full meaning.
+ 
+ \margin{38}
++\copytwo{A2-119-114-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=115}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=115}{[copy 2, scan 119/114]} Copy 2 has “contexte de \unsure{.}topologies”: the small point before “topologies” is visible, but its origin and textual status remain unresolved.}}
++\copytwo{A2-119-114-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=115}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=115}{[copy 2, scan 119/114]} Copy 2 has the handwritten number 114 in the lower left margin.}}
+ 
+ \finishscan
+ % END PAGE esq_119_038
+@@ -1839,7 +2105,7 @@
+ 6. One of the most interesting foundational theorems of (tame)
+ topology that ought to be developed would be a theorem
+ of ``dévissage'' (again !) of a proper tame map
+-of tame spaces,
++of tame spaces,\frapparatus{V-FR-039-001}
+ 
+ \[ f : X \longrightarrow Y , \]
+ 
+@@ -1873,6 +2139,7 @@
+ starts from a separated scheme of finite type over $\mathbb{C}$ or over $\mathbb{R}$, taking
+ 
+ \margin{39}
++\copytwo{A2-119-115-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=116}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=116}{[copy 2, scan 119/115]} Copy 2 has the handwritten number 115 in the lower left margin.}}
+ 
+ \finishscan
+ % END PAGE esq_119_039
+@@ -1882,7 +2149,7 @@
+ 
+ for $X$ its set of complex or real points, which inherits
+ a global tame structure by means of the scheme-theoretic
+-compactifications (which exist by Nagata) of the initial scheme.
++compactifications\frapparatus{V-FR-040-001} (which exist by Nagata) of the initial scheme.
+ This notion of a globally tame space is associated with a notion
+ of a \uline{globally tame map}, which in turn makes it possible to
+ strengthen accordingly the notion of a locally trivial
+@@ -1918,6 +2185,8 @@
+ canonical'' and will not really cause trouble, whenever
+ 
+ \margin{40}
++\copytwo{A2-119-116-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=117}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=117}{[copy 2, scan 119/116]} Copy 2 has “des données \unsure{.}introduites”: the small point before “introduites” is visible, but its origin and textual status remain unresolved.}}
++\copytwo{A2-119-116-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=117}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=117}{[copy 2, scan 119/116]} Copy 2 has the handwritten number 116 in the lower left margin.}}
+ 
+ \finishscan
+ % END PAGE esq_119_040
+@@ -1933,7 +2202,7 @@
+ (= 0-isotopy) categories, obtained by retaining only the $\pi_0$
+ of the spaces of isomorphisms that arise in the situation,
+ whereas the $\infty$-isotopy viewpoint retains their entire
+-homotopy type. For example, the naïve isotopy viewpoint for
++homotopy type. For example, the naïve isotopy \unsure{.}viewpoint\tnote{TN-041-01}{The source has a small baseline dot immediately before ``vue'' in ``point de vue''; its textual status remains uncertain. It is retained before ``viewpoint''.} for
+ oriented compact surfaces with boundary of type $(g,\nu)$ is ``good''
+ (with no hidden boomerang !) exactly in the cases that I call
+ ``anabelian'' (and that Thurston calls ``hyperbolic''), i.e. distinct
+@@ -1962,6 +2231,7 @@
+ geometry, it is not pleas that overcome the inertia
+ 
+ \margin{41}
++\copytwo{A2-119-117-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=118}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=118}{[copy 2, scan 119/117]} Copy 2 has the handwritten number 117 in the lower left margin.}}
+ 
+ \finishscan
+ % END PAGE esq_119_041
+@@ -1985,7 +2255,7 @@
+ $\unsure{\sourceglyph{119A}}_n$ of the ring of germs of real functions at the origin in $\mathbb{R}^n$.\tnote{TN-042-01}{The visible typed symbol used for this system of rings is reproduced from the scan. Its alphabet remains unresolved; the doubt marks preserve that uncertainty without assigning a letter family.}
+ These are the functions that will be admitted for expressing the ``changes
+ of chart'' for the corresponding notion of a $\unsure{\sourceglyph{119A}}$-manifold, and the
+-first task was to draw out a system of axioms on the
++first task was to draw out\frapparatus{V-FR-042-001} a system of axioms on the
+ system $\unsure{\sourceglyph{119A}} = (\unsure{\sourceglyph{119A}}_n)_{n\in\underline{N}}$ that ensures this notion of a manifold a
+ flexibility comparable to that of a $C^\infty$, or real analytic
+ (or Nash), manifold. Depending on the kind of familiar constructions that
+@@ -1997,17 +2267,21 @@
+ finite'' (for a map in a neighborhood of a point), which
+ emerged as a key statement in the local theory of analytic
+ spaces, one needs a stability axiom of a more delicate nature,
+-in Weierstrass's ``Vorbereitungssatz''\tnote{TN-042-02}{The German term ``Vorbereitungssatz'' means ``preparation theorem''.} (*). In other
++in Weierstrass's ``Vorbereitungssatz''\tnote{TN-042-02}{The German term ``Vorbereitungssatz'' means ``preparation theorem''.} \authorstar{esq_119_042-star-1}{(*)}. In other
+ 
+ \rule{4cm}{0.4pt}
+ 
+-(*) It may seem simpler to say that the (local) rings
++\authorstar{esq_119_042-star-2}{(*)} It may seem simpler to say that the (local) rings
+ $\unsure{\sourceglyph{119A}}_n$ are \uline{henselian}, which is equivalent. But in this latter
+ form it is by no means clear a priori that the condition in
+ question is in the nature of a stability condition, an
+ important circumstance, as will emerge in the reflections that follow.
+ 
+ \margin{42}
++\copytwo{A2-119-118-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=119}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=119}{[copy 2, scan 119/118]} Copy 2 has a handwritten vertical stroke to the left of “doute” and “éloquentes”, curving below the latter word.}}
++\copytwo{A2-119-118-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=119}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=119}{[copy 2, scan 119/118]} Copy 2 has the handwritten word \unsure{espacer} in the left margin; its middle letters remain doubtful.}}
++\copytwo{A2-119-118-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=119}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=119}{[copy 2, scan 119/118]} Copy 2 has a second handwritten bracket, with a horizontal arm beside “Je voudrais” and a descending stroke reaching “beaucoup frappé”.}}
++\copytwo{A2-119-118-004}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=119}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=119}{[copy 2, scan 119/118]} Copy 2 has the handwritten number 118 in the lower left margin.}}
+ 
+ \finishscan
+ % END PAGE esq_119_042
+@@ -2021,7 +2295,7 @@
+ concerns the integration of Pfaff systems, ensuring that certain
+ Lie groups, or even all of them, are $\unsure{\sourceglyph{119A}}$-manifolds. In all
+ this, \uline{I have taken care not to assume that the} $\unsure{\sourceglyph{119A}}_{n}$ \uline{are}
+-\uline{$\mathbb{R}$-algebras}, so a constant function on an $\unsure{\sourceglyph{119A}}$-manifold is
++\uline{$\mathbb{R}$}-\uline{algebras}, so a constant function on an $\unsure{\sourceglyph{119A}}$-manifold is
+ ``admissible'' only when its value belongs to a certain subfield
+ $K$ of $\mathbb{R}$ (this is, if one wishes, $\unsure{\sourceglyph{119A}}_{0}$). This subfield may very well
+ be $\mathbb{Q}$, or its algebraic closure $\bar{\mathbb{Q}}_{r}$ in $\mathbb{R}$, or any other
+@@ -2034,11 +2308,11 @@
+ the system of axioms does \uline{not} imply that one must have $K = \mathbb{R}$. More
+ precisely, since \uline{all} the axioms are stability
+ axioms, it follows that for a given set $S$ of germs
+-of real analytic functions at the origin (in various spaces
++of real analytic functions at the origin (in various spaces\frapparatus{V-FR-043-001}
+ $\mathbb{R}^{n}$), there exists a smallest theory $\unsure{\sourceglyph{119A}}$ for which these germs
+ are admissible, and that this theory is ``countable'', i.e. the $\unsure{\sourceglyph{119A}}_{n}$
+ are countable, as soon as $S$ is countable. A fortiori, $K$ is then
+-countable, i.e. of countable transcendence degree over $\mathbb{Q}$.
++countable, i.e. of countable transcendence degree over $\mathrm{Q}$.
+ 
+ The idea here is to introduce, by means of this
+ axiomatic approach, a notion of an ``\uline{elementary}'' (real analytic) function,
+@@ -2052,6 +2326,9 @@
+ between the system $\unsure{\sourceglyph{119A}} = (\unsure{\sourceglyph{119A}}_{n})_{n\in\underline{N}}$ and the field of rationality $K$
+ 
+ \margin{43}
++\copytwo{A2-119-119-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=120}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=120}{[copy 2, scan 119/119]} At the end of “de transcendance dénombrable sur $\mathrm{Q}$”, copy 2 has $\unsure{\mathbb{Q}}$, with an inner vertical stroke absent from copy 1. The stroke is visible; the doubt concerns its origin, without attribution to handwriting.}}
++\copytwo{A2-119-119-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=120}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=120}{[copy 2, scan 119/119]} Copy 2 has a small handwritten cross in the left margin beside the line beginning “nombrable”.}}
++\copytwo{A2-119-119-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=120}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=120}{[copy 2, scan 119/119]} Copy 2 has the handwritten number 119 in the lower left margin.}}
+ 
+ \finishscan
+ % END PAGE esq_119_043
+@@ -2062,7 +2339,7 @@
+ corresponding to it must be very close, at least for $\unsure{\sourceglyph{119A}}$ that
+ can be generated by a finite ``system of generators'' S ---
+ but it is to be feared that the slightest interesting question one
+-might ask about this situation is currently beyond
++might ask about this situation is currently out of
+ reach \notecall{copy1-1}{call-esq_119_044-1-2}{($^1$)}.
+ 
+ These earlier reflections regained some relevance
+@@ -2070,7 +2347,7 @@
+ It seems to me, indeed, that it is possible to associate naturally
+ with a ``differentiable theory'' $\unsure{\sourceglyph{119A}}$ a tame theory $\hand{\mathcal{T}}$
+ (probably having the same field of constants), in such a way that
+-every $\unsure{\sourceglyph{119A}}$-manifold is automatically endowed with a $\hand{\mathcal{T}}$-tame structure,
++every $\unsure{\sourceglyph{119A}}$-manifold\frapparatus{V-FR-044-001} is automatically endowed with a $\hand{\mathcal{T}}$-tame structure,
+ and conversely that for every compact $\hand{\mathcal{T}}$-tame space $X$, one can
+ find a closed nowhere dense tame subset $Y$ in $X$, such that $X \smallsetminus Y$
+ comes from an $\unsure{\sourceglyph{119A}}$-manifold, and that moreover this $\unsure{\sourceglyph{119A}}$-manifold
+@@ -2096,7 +2373,677 @@
+ volume (currently nearing completion) of a work in two
+ 
+ \margin{44}
++\copytwo{A2-119-120-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=121}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=121}{[copy 2, scan 119/120]} Copy 2 has the handwritten number 120 in the lower left margin.}}
+ 
+ \finishscan
+ % END PAGE esq_119_044
++% BEGIN PAGE esq_119_045
++\scanpage{119/45}
++\mspage{43}
++
++volumes to be published by Hermann, under the common title ``\uline{Pursuing}
++\uline{Stacks}''. I currently expect (after successive expansions
++of the initial undertaking) that the manuscript\frapparatus{V-FR-045-001} of the two
++volumes together, which I hope to finish during the year so as not
++to have to return to it, will run to about 1,500 typewritten pages.
++These two volumes are moreover, for me, the first in a
++larger series, under the common title ``\uline{Mathematical Reflections}'',
++in which I intend to develop to some extent certain of the themes sketched
++in the present report.
++
++Since this is a work currently being written,
++and indeed approaching completion, whose first volume will probably appear
++this year and will contain a detailed introduction, it
++is probably less interesting for me to dwell here on this theme
++of reflection, and I shall therefore be content to speak of it very briefly.
++This work seems to me somewhat marginal in relation to the themes
++I have just sketched, and does not represent (it seems to me)
++a real renewal of outlook or approach in relation to
++my mathematical interests and vision before 1970. If I
++suddenly resolved to undertake it, this was almost out of desperation\frapparatus{V-FR-045-002},
++when nearly twenty years have elapsed since a number of visibly
++fundamental questions, ripe to be carried through to completion,
++were posed in quite clear terms, without
++anyone seeing them or taking the trouble to probe them. Even
++today, the basic structures involved in the
++homotopy viewpoint in topology, including even commutative
++homological algebra, are not understood, and to my
++knowledge, after the work of Verdier, Giraud, and Illusie on
++this theme (which constitute so many ``kick-offs'' still
++awaiting a continuation ...), there has been no effort in this direction. I
++should probably make an exception for\unsure{.}\tnote{TN-045-01}{A visible baseline dot follows ``pour'' in the scan. Its punctuation status remains uncertain; the mark is retained after ``for'' here.} the axiomatization
++carried out by Quillen on the notion of a model category, in
++the late 60s, and taken up in various forms by
++various authors. This work, at the time and still today, has
++greatly attracted me and taught me much, while going in a rather
++
++\margin{45}
++\copytwo{A2-119-121-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=122}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=122}{[copy 2, scan 119/121]} Copy 2 has the handwritten number 121 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_045
++% BEGIN PAGE esq_119_046
++\scanpage{119/46}
++\mspage{44}
++
++different direction from the one that was and is close to my heart. It certainly
++introduces derived categories in various noncommutative
++contexts, but without entering into the question of the essential internal
++structures of such a category, also left open
++in the commutative case by Verdier and, after him, by Illusie. Likewise,
++the question of identifying the natural ``coefficients''
++for a noncommutative cohomological formalism, beyond
++the stacks (which should be called 1-stacks) studied in Giraud's
++book, remained open --- or rather, the rich and
++precise intuitions that answer it, drawn from many examples
++coming in particular from algebraic geometry, still await
++a precise and flexible language to give them form.
++
++I return to certain aspects of these foundational
++questions in 1975, on the occasion (if I remember correctly) of a
++correspondence with Larry Breen (two letters from this correspondence
++will be reproduced as an appendix to Chap. I of volume 1,
++``History of Models'',\tnote{TN-046-01}{The French volume title is ``Histoire de Modèles''. ``Histoire'' can mean either a history or a story; ``History of Models'' preserves the singular title.} of Pursuing Stacks). At this point
++the intuition emerges that $\infty$-groupoids must constitute
++particularly adequate models for homotopy types,
++n-groupoids corresponding to \uline{truncated} homotopy types
++(with $\pi_i = 0$ for $i > n$). This same intuition, by very
++different paths, was rediscovered by Ronnie Brown in Bangor and
++some of his students, but using a rather restrictive notion of an $\infty$-groupoid
++(which, among 1-connected homotopy types,
++models only products of Eilenberg-Maclane spaces\frapparatus{V-FR-046-001}). It was
++stimulated by a discursive correspondence with Ronnie Brown
++that I finally resumed reflection, beginning with an attempt
++to define a broader notion of an $\infty$-groupoid (subsequently renamed
++``stack in $\infty$-groupoids'' or simply ``stack'', with the
++understanding: over the punctual topos), which, one thing leading to another,
++brought me to Pursuing Stacks. The volume ``History of Models''
++moreover constitutes an entirely unforeseen digression
++from the initial undertaking (the famous stacks being temporarily
++forgotten, and not expected to reappear until around
++page 1,000 ...).
++
++\margin{46}
++\copytwo{A2-119-122-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=123}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=123}{[copy 2, scan 119/122]} Copy 2 crosses out “deux” and adds “trois” above it, changing the number of letters from the correspondence with Larry Breen from two to three.}}
++\copytwo{A2-119-122-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=123}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=123}{[copy 2, scan 119/122]} Copy 2 has the handwritten number 122 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_046
++% BEGIN PAGE esq_119_047
++\scanpage{119/47}
++\mspage{45}
++
++This work is not entirely isolated in relation to
++my more recent interests. For example, my reflection on the
++moduli multiplicities $M^{\wedge}_{g,\nu}$ and their stratified structure
++revived reflection on a van Kampen theorem of dimension
++$>$ 1 (also one of the favorite themes of the Bangor
++group), and may have helped prepare the ground for
++the work of greater scope the following year. The latter
++also connects at times with a reflection dating from the same
++year 1975 (or the following year) on a ``De Rham complex with
++divided powers'', which was the subject of my last public
++lecture, at IHES\tnote{TN-047-01}{IHES is the Institut des Hautes Études Scientifiques; see the \href{https://www.ihes.fr/en/}{institute's website}.} in 1976, and whose manuscript, entrusted
++to someone I no longer remember after the lecture, is moreover lost.
++It was at the time of this reflection that the intuition
++of a ``schematization'' of homotopy types also began to germinate, which,
++seven years later, I am trying to make precise in a (particularly
++hypothetical) chapter of History of Models.
++
++The work of reflection undertaken in Pursuing
++Stacks is a little like a debt I would be discharging
++toward a scientific past in which, for some fifteen
++years (between 1955 and 1970), the development of cohomological
++tools was the constant leitmotif in my work on the
++foundations of algebraic geometry. If the present resumption of this
++theme has taken on unexpected dimensions, it is not,
++however, out of pity for a past, but because of the many unforeseen
++things constantly breaking in, mercilessly upsetting the
++plans and intentions envisaged --- a little like a tale from the Thousand and
++One Nights, in which one's attention is kept in suspense through
++twenty other tales before learning the final word of the first.
++
++
++8. I have as yet said very little about the more down-to-earth
++reflections on two-dimensional topological geometry, associated
++in particular with my activities as a teacher and those called ``research
++supervision''. On several occasions, I have seen\unsure{.}\tnote{TN-047-02}{The doubtful dot after ``vu'' is retained after the corresponding ``seen''.} opening up before
++
++\margin{47}
++\copytwo{A2-119-123-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=124}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=124}{[copy 2, scan 119/123]} Copy 2 has “pi\over{\unsure{ti}}{ét}é”: the handwritten letters ét are clear and give “piété”. The reading ti in the largely covered lower layer remains uncertain in this impression.}}
++\copytwo{A2-119-123-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=124}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=124}{[copy 2, scan 119/123]} Copy 2 has a small gray point-shaped trace, \unsure{.}, in the left margin beside “dant par”. Its origin and textual role remain unresolved; no attribution to handwriting is established.}}
++\copytwo{A2-119-123-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=124}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=124}{[copy 2, scan 119/123]} Copy 2 has the handwritten number 123 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_047
++% BEGIN PAGE esq_119_048
++\scanpage{119/48}
++\mspage{46}
++
++me vast and rich fields ripe for harvest, without
++ever managing to communicate this vision, and the spark
++that accompanies it, to a male (or female) student of mine, or to make it
++lead to a common exploration of greater or lesser
++duration. Each time, right up to the present day, after an exploration
++of a few days or a few weeks, in which I discovered,
++as a scout, riches unsuspected at the outset, the journey
++was cut short when it became clear that I would be alone in
++continuing it. Stronger interests then took precedence over
++a journey that consequently appeared as a digression, or even
++a scattering of effort, rather than an adventure pursued together.
++
++One of these themes was that of plane polygons, centered
++on the moduli varieties that can be associated with them. One of
++the surprises here was the irruption of algebraic geometry into
++a context that had seemed to me quite far removed from it. This kind of
++surprise, linked to the ubiquity of geometry in geometry as
++such, has moreover recurred\frapparatus{V-FR-048-001} on several occasions.\tnote{TN-048-01}{The copy 1 source repeats ``géométrie'' without an added adjective; the English retains that repetition.}
++
++Another theme was that of curves (in particular
++circles) immersed in a surface, with particular attention
++to the ``stable'' case in which the singular points are ordinary
++double points (and also the more general case in which the
++different branches at a point cross one another), often with
++the additional assumption that the immersion is ``cellular'',
++i.e. gives rise to a map. A variant of situations of
++this type is that of immersions of a surface with nonempty boundary,
++and first and foremost of a disk (which had been pointed out to me by
++A. Campo some ten years ago). Beyond the question of
++various combinatorial formulations of such situations, which
++is scarcely more than an exercise in syntax, I have been interested
++above all in a dynamic view of the possible configurations,
++with\unsure{.}\tnote{TN-048-02}{The doubtful dot after ``avec'' is retained after ``with''.} the passage from one to another by continuous deformations, which
++can be decomposed into composites of two types of \uline{elementary}
++\uline{operations} and their inverses, namely the ``\uline{sweeping}'' of a branch
++of a curve across a double point, and the \uline{erasure} or \uline{creation}
++
++\margin{48}
++\copytwo{A2-119-124-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=125}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=125}{[copy 2, scan 119/124]} Copy 2 adds \inserted{algébrique} above the line, with a curved stroke placing the word between “géométrie” and “dans”.}}
++\copytwo{A2-119-124-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=125}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=125}{[copy 2, scan 119/124]} Copy 2 has the handwritten number 124 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_048
++% BEGIN PAGE esq_119_049
++\scanpage{119/49}
++\mspage{47}
++
++\uline{of a bigon}. (The first of these operations also plays a
++key role in a "dynamic" theory of systems of pseudolines
++in a real projective plane.) One of the first questions
++that arise here is to determine the different \uline{immersion
++classes} of a circle or a disk (say) modulo these elementary
++operations; another is to see which immersions
++of the boundary of the disk come from an immersion of the
++disk, and to what extent the former determine the latter.
++Here again, it seemed to me that a systematic study
++of the relevant moduli varieties (of infinite dimension in this
++case, unless one manages to give a purely combinatorial
++version of them) should provide the most effective ``focus'',
++in a sense forcing us to ask ourselves the most pertinent
++questions. Unfortunately, reflection on even the
++most obvious and down-to-earth questions has remained embryonic.
++As the only tangible result, I can point to a
++theory of canonical ``dévissage'' of a stable cellular immersion
++of the circle in a surface into ``indecomposable'' immersions,
++by ``telescoping'' such immersions. Unfortunately, I have not
++succeeded in seeing my insights into the question turn into
++a DEA research project, nor other insights (into a complete
++theoretical description, in terms of fundamental groups of
++topological 1-complexes, of the immersions of a surface with boundary
++that extend a given immersion of its boundary) into the beginning of a
++state doctorate thesis\tnote{TN-049-01}{``State doctorate'' renders ``doctorat d'état''. The later ``third-cycle theses'' renders ``thèses de troisième cycle''; the source uses these degree designations.}...
++
++A third theme, pursued simultaneously for three
++years at various teaching levels (from the elective for
++first-year students to three third-cycle theses currently
++being pursued on this theme), concerns the topological-combinatorial
++classification of systems of lines or pseudolines.
++On the whole, my students' participation here has been less
++disappointing than elsewhere, and I have sometimes had the pleasure of learning
++from them interesting things that would not have occurred to me.
++Our joint reflection has of necessity, however, been limited
++
++\margin{49}
++\copytwo{A2-119-125-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=126}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=126}{[copy 2, scan 119/125]} Copy 2 adds \inserted{les} above the line, with a stroke placing the word between “et” and “plus terre-à-terre”.}}
++\copytwo{A2-119-125-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=126}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=126}{[copy 2, scan 119/125]} Copy 2 has the handwritten number 125 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_049
++% BEGIN PAGE esq_119_050
++\scanpage{119/50}
++\mspage{48}
++
++to a very elementary level. Recently I finally
++devoted a month of intensive reflection to developing a
++purely combinatorial construction of a kind of ``moduli surface''
++associated with a system of $n$ pseudolines, which classifies the
++different possible ``relative positions'' (stable or otherwise) of an
++$(n+1)$th pseudoline with respect to the given system, or again:
++the different possible ``affinizations'' of this system, through the
++different possible choices of a ``pseudoline at infinity''. I
++have the impression of having put my finger on a remarkable object,
++bringing to light an unforeseen order in classification
++questions that until now appeared rather chaotic !
++But the present report is not the place to dwell further
++on this subject.
++
++Since 1977, in all questions (as in the
++last two themes I have just mentioned) involving
++two-dimensional maps, the possibility of realizing them canonically
++on a conformal surface, hence on a complex algebraic
++curve in the oriented compact case, remains a constant watermark
++in my reflection. In practically all cases (in fact, all
++cases except that of certain spherical maps with ``few automorphisms''),
++such a conformal realization actually implies a
++\uline{canonical riemannian metric}, or at least one canonical up to a
++multiplicative constant. These new elements of structure
++(even without taking into account the arithmetic element discussed
++in par. 3) are such as to transform profoundly
++the initial appearance of the questions addressed, and the methods of
++approach. The beginnings of familiarity with Thurston's beautiful ideas
++on the construction of Teichmüller space, in terms of a very
++simple game of hyperbolic riemannian surgery, confirm me
++in this presentiment. Unfortunately, the very modest level of knowledge
++of almost all the students who have worked with me during\frapparatus{V-FR-050-001}
++these last ten\ \ years does not allow me to broach such possibilities
++with them, even by allusion, whereas
++the assimilation of a minimal combinatorial language already encounters,
++
++\margin{50}
++\copytwo{A2-119-126-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=127}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=127}{[copy 2, scan 119/126]} Copy 2 has the handwritten number 126 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_050
++% BEGIN PAGE esq_119_051
++\scanpage{119/51}
++\mspage{49}
++
++quite often, considerable psychological obstacles. That is why,
++in certain respects and increasingly in recent years,
++my teaching activities have often acted as a burden,
++rather than as a stimulus to the development of geometric
++reflection that is at all advanced, or merely delicate.
++
++9. This seems an opportune occasion to make a brief
++appraisal of my teaching activity since 1970, that is, since
++it has taken place in a university setting. This contact
++with a very different reality has taught me a great
++deal, of an order quite different, moreover, from the
++merely pedagogical or scientific. This is not the place to
++dwell on that subject. I also spoke at the beginning of this report of the
++role played by this change of professional milieu in the
++renewal of my approach to mathematics, and of my
++mathematical centers of interest. On the other hand, when I take stock
++of my teaching activity at the level of research properly
++speaking, I arrive at a finding of clear and unambiguous failure. In the more
++than ten years that this activity has continued year after year within
++the same university institution, I have not, at any time, managed
++to bring about a place where ``something is happening'' --- where something
++``passes'',\tnote{TN-051-01}{The French repeats the verb ``passer'': ``il se passe quelque chose'' means that something is happening, and ``quelque chose passe'' says that something passes among the people. The second literal phrasing retains that verbal echo.} among a group, however small, of people
++linked by a common adventure. On two occasions, it is true, around
++the years 74 to 76, I had the pleasure and privilege of inspiring
++a student to undertake work of scope, pursued with enthusiasm:
++Yves Ladegaillerie's work mentioned earlier (par. 3) on
++questions of isotopy in dimension 2, and Carlos Contou-Carrère's
++(whose mathematical passion had not waited for his encounter
++with me to blossom) unpublished work on local and global
++Jacobians over general base schemes (part of which
++was announced in a note in CR).\tnote{TN-051-02}{CR abbreviates \emph{Comptes Rendus} of the Académie des sciences; see the \href{https://comptes-rendus.academie-sciences.fr/page/history-comptes-rendus/}{journal's historical account}.} Apart from these two cases,
++my role over these ten years has been confined to passing on,
++as best I could, the rudiments of the mathematicians' craft to some
++twenty students\unsure{.}\tnote{TN-051-03}{The doubtful dot after ``élèves'' is retained after ``students''.} at the research level, or at least to
++
++\margin{51}
++\copytwo{A2-119-127-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=128}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=128}{[copy 2, scan 119/127]} Copy 2 has “une \unsure{\textperiodcentered}aventure”: a small point-shaped trace appears at mid-letter height in this gap. Its origin and textual value remain unresolved.}}
++\copytwo{A2-119-127-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=128}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=128}{[copy 2, scan 119/127]} Copy 2 has “mathématicien\deleted{\unsure{s}}”: an oblique handwritten stroke crosses the final letter. The lower s remains partly covered and its reading remains uncertain in this impression.}}
++\copytwo{A2-119-127-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=128}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=128}{[copy 2, scan 119/127]} Copy 2 has a gray point-shaped trace, \unsure{.}, in the left margin beside “tant bien”. Its origin and role remain unresolved, without attribution to handwriting.}}
++\copytwo{A2-119-127-004}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=128}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=128}{[copy 2, scan 119/127]} Copy 2 has the handwritten number 127 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_051
++% BEGIN PAGE esq_119_052
++\scanpage{119/52}
++\mspage{50}
++
++those among them who persevered long enough with me, reputed
++to be more demanding than others, to produce a first acceptable
++piece of work in black and white (sometimes also work better
++than acceptable and more than a single piece of work\frapparatus{V-FR-052-001}, done with taste\ \ and
++carried through to the end). Given the circumstances, even among the few who
++persevered, fewer still will have the opportunity
++to practice this craft and thereby, while earning their bread,
++to deepen it.
++
++10. Since last year I have felt that, in the course of my
++activity as a university teacher, I have learned all I had
++to learn from it and taught all I can teach there, and
++that it has ceased to be truly useful, to me as well as to
++others. Persisting in continuing it under these conditions would
++seem to me a waste, both of human resources and of public
++funds. That is why I have requested secondment to the CNRS (which
++I had left in 1959 as a newly minted research director,
++to enter IHES). I am aware, moreover, that the employment
++situation is tight at the CNRS as elsewhere, that the outcome of my
++application is doubtful, and that a position awarded to me would
++be at the expense of a younger researcher who would remain without one.
++But it is also true that this would free my position at USTL\tnote{TN-052-01}{USTL is the Université des Sciences et Techniques du Languedoc; the expansion is given in the \href{https://grothendieck.umontpellier.fr/}{archive's list of abbreviations}.}
++for someone else. That is why I have no scruples about
++making this application, and, should it be necessary, about returning to the charge
++if it is not accepted this year.
++
++In any event, this application will have given me
++the occasion to write this sketch of a program, which otherwise would
++probably never have seen the light of day. I have tried to be brief without being
++sibylline and also, afterward, to make it easier and
++more attractive to read by adding a table of contents. If despite
++this it may seem long for the occasion, I apologize.
++It seems short to me for its contents, knowing well that ten years of
++work would not be too much to follow through to the end even the least
++
++\margin{52}
++\copytwo{A2-119-128-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=129}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=129}{[copy 2, scan 119/128]} Copy 2 has “aboutir à\unsure{.|-} un”: the small low trace after “à” is horizontally elongated. Dot and short-stroke readings remain open; its origin and textual role remain unresolved.}}
++\copytwo{A2-119-128-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=129}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=129}{[copy 2, scan 119/128]} Copy 2 has a dark point, \unsure{.}, in the left margin beside “qu\textquotesingle acceptable”. Its origin and role remain unresolved, without attribution to handwriting.}}
++\copytwo{A2-119-128-004}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=129}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=129}{[copy 2, scan 119/128]} Copy 2 has “pour \unsure{\textperiodcentered}aller”: a small point-shaped trace sits at mid-letter height in the gap. Its origin and textual value remain unresolved.}}
++\copytwo{A2-119-128-005}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=129}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=129}{[copy 2, scan 119/128]} Copy 2 has “du \unsure{.}moindre”: the small low point before “moindre” is visible, but its origin and textual value remain unresolved.}}
++\copytwo{A2-119-128-006}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=129}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=129}{[copy 2, scan 119/128]} Copy 2 has the handwritten number 128 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_052
++% BEGIN PAGE esq_119_053
++\scanpage{119/53}
++\mspage{51}
++
++of the themes sketched (assuming there is an ``end''...), and
++a hundred years would be little for the richest of them !
++
++Behind the apparent disparity of the themes mentioned here,
++an attentive reader will perceive, as I do, a deep unity. This
++manifests itself in particular through a common source of inspiration,
++the geometry of surfaces, present in all these themes, most
++often in the foreground. This source, in relation to my mathematical
++``past'', represents a renewal, but by no means a
++break. Rather, it points the way toward a new approach
++to that still mysterious reality, that of ``\uline{motives}'', which
++fascinated me more than any other in the last years of that
++past \authorstar{esq_119_053-star-1}{(* )}. This fascination has by no means vanished;
++rather, it forms part of that of the most burning for me of all
++the themes mentioned earlier. But today I am no longer,
++as I once was, the willing prisoner of endless tasks,
++which so often prevented me from launching into the unknown,
++mathematical or otherwise. The time of \uline{tasks} is over for me. If
++age has brought me anything, it is to be lighter.
++
++January 1984
++
++\authorstar{esq_119_053-star-2}{(* )} On this subject, see my comments in the ``Thematic Sketch''
++of 1972 attached to the present report, under the final heading
++``motivic ramblings'',\tnote{TN-053-01}{The French titles are ``Esquisse Thématique'' and ``divagations motiviques''.} (loc. cit. pages 17--18).
++
++\margin{53}
++\copytwo{A2-119-129-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=130}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=130}{[copy 2, scan 119/129]} Copy 2 has the handwritten number 129 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_053
++% BEGIN PAGE esq_119_054
++\scanpage{119/54}
++\mspage{52}
++
++\notedef{copy1-1}{(\textsuperscript{1})} The expression ``out of reach'' here (and again further on for
++an entirely different question), which I let pass despite
++a reluctance, now strikes me as decidedly hasty and
++unfounded. I have already been able to observe on other occasions that when
++oracles (here myself !) declare with a knowing
++(or doubtful) air that such-and-such a problem is ``out of reach'', this is
++at bottom an entirely subjective assertion. It means
++simply, apart from the fact that the problem is supposed not to have been
++solved yet, that the speaker is short of ideas on the
++question, or, probably more precisely, that he faces
++it without feeling or enthusiasm, that it ``does nothing for him'', and
++that he has no desire to do anything with it --- which
++is often reason enough to want to discourage others
++from doing so. This did not prevent the beautiful and lamented conjectures
++of Mordell, Tate, and Chafarévitch, like Mr. de la Palisse,\tnote{TN-054-01}{The allusion evokes the proverbially obvious observation of a man still alive moments before dying. Here the joke concerns conjectures still declared out of reach just before they succumb. On the French allusion, see the entry ``truisme'' in the \href{https://oqlf.gouv.qc.ca/ressources/bibliotheque/dictionnaires/VocabulairesPDF/terminologie_figuresdestyle.pdf}{OQLF vocabulary of figures of speech}.}
++from still being reputed ``out of reach'' at the very moment
++of succumbing, the poor things ! --- Moreover, already in the days
++following the writing of the present report, which brought me back
++into contact with questions from which I had somewhat distanced myself
++over the past year, I became aware of a new remarkable
++property of the outer action of an absolute Galois
++group on the fundamental group of an algebraic curve, which had
++escaped me until now\frapparatus{V-FR-054-001} and which probably constitutes, at the very least,
++a new step forward toward formulating an algebraic
++characterization of $\mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$. This, together with the ``fundamental
++conjecture'' (mentioned in par. 3 below), now appears as
++the principal open question for the foundations of an ``anabelian
++algebraic geometry'', which for several years has represented
++(by far) my strongest focus of interest in mathematics.
++
++\notedef{copy1-2}{(\textsuperscript{2})} I can nevertheless make an exception for another ``fact'', from the time
++when, at around twelve years of age, I was interned in the concentration
++camp of Rieucros (near Mende). It was there that I learned, from an
++internee, Maria, who voluntarily gave me private lessons,
++
++\margin{54'}
++\copytwo{A2-119-130-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=131}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=131}{[copy 2, scan 119/130]} Copy 2 has the handwritten number 130 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_054
++% BEGIN PAGE esq_119_055
++\scanpage{119/55}
++\mspage{53}
++
++the definition of the circle. It had impressed me by its
++simplicity and obviousness, whereas the circle's property of ``perfect
++roundness'' had previously seemed to me a mysterious reality
++beyond words. It was at that moment, I believe, that I
++glimpsed for the first time (without, of course, formulating it to myself
++in these terms) the creative power of a ``good'' mathematical
++definition, of a \uline{formulation} that describes the essence. Even today,
++it seems that the fascination this power has exercised over
++me has lost none of its force.
++
++\notedef{copy1-3}{(\textsuperscript{3})} More generally, beyond so-called ``anabelian'' varieties
++over fields of finite type, anabelian algebraic geometry
++(as it emerged a few years ago) leads to a
++description, in terms of profinite groups alone, of the category
++of schemes of finite type over the absolute base $\mathbb{Q}$ (or
++even $\mathbb{Z}$\frapparatus{V-FR-055-001}), and thereby, in principle, of the category of
++arbitrary schemes (by suitable passages to the limit). It
++is thus a construction that ``pretends'' to ignore rings
++(such as $\mathbb{Q}$, algebras of finite type over $\mathbb{Q}$, etc.) and
++the algebraic equations traditionally used to describe
++schemes, by working directly with their étale topoi,
++expressible in terms of systems of profinite groups. A
++grain of salt, however: to be able to hope to reconstruct a
++scheme (of finite type over $\mathbb{Q}$, say) from its étale topos,
++which is a purely topological invariant, one should place oneself
++not in the category of schemes (of finite type over $\mathbb{Q}$ in
++this case), but in the one obtained from it by ``localization'',
++making invertible the morphisms that are ``universal
++homeomorphisms'', i.e. that are finite, radicial, and surjective. The
++development of such a translation of a ``geometric world''
++(namely that of schemes, scheme-theoretic multiplicities, etc.) into
++terms of an ``algebraic world'' (that of profinite groups, and
++systems of profinite groups describing suitable topoi (called ``étale''))
++may be regarded as an ultimate outcome
++
++\margin{55}
++\copytwo{A2-119-131-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=132}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=132}{[copy 2, scan 119/131]} Copy 2 adds a small handwritten letter after “dégagé”, read as \hand{\unsure{e}}. Its looped trace is visible, but the reading remains uncertain.}}
++\copytwo{A2-119-131-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=132}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=132}{[copy 2, scan 119/131]} Copy 2 has an oblique handwritten stroke / in the left margin beside the line containing “dégagé”.}}
++\copytwo{A2-119-131-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=132}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=132}{[copy 2, scan 119/131]} Copy 2 has “\unsure{.}les équations algébriques”: a small low point precedes “les”. Its origin and textual role remain unresolved.}}
++\copytwo{A2-119-131-004}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=132}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=132}{[copy 2, scan 119/131]} Copy 2 has the handwritten number 131 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_055
++% BEGIN PAGE esq_119_056
++\scanpage{119/56}
++\mspage{54}
++
++of Galois theory, probably in the very spirit of Galois.
++The perpetual question ``and what is all this for ?'' seems to me to have
++neither more nor less meaning in the case of the anabelian algebraic
++geometry now coming into being than for Galois theory in
++Galois's time (or even today, when the question is asked
++by an overwhelmed student ...), and likewise for the comment
++that generally accompanies it: ``all that is very general !''.
++
++\notedef{copy1-4}{($^4$)} It is therefore easy to conceive that a group such as $S\ell(2,\mathbb{Z})$, with
++its ``arithmetic'' structure, is a veritable machine for constructing
++``motivic'' representations of $\mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$ and of its
++open subgroups, and that one thus obtains, at least in
++principle, all motivic representations of weight 1,
++or contained in a tensor product of such representations
++(which already makes quite a bundle !). In 1981 I had begun
++to experiment with this machine in a few particular cases,
++obtaining various remarkable representations of $\mathrm{I}\!\Gamma$ in
++groups $G(\mathbb{Z}^{\wedge})$, where $G$ is a group scheme (not necessarily
++reductive) over $\mathbb{Z}$, starting from suitable homomorphisms
++\[ S\ell(2,\mathbb{Z}) \longrightarrow G_o(\mathbb{Z}) , \]
++where $G_o$ is a group scheme over $\mathbb{Z}$, and $G$ is constructed
++from this as an extension of $G_o$ by a suitable group
++scheme. In the ``tautological'' case $G_o = S\ell(2)_{\mathbb{Z}}$,
++one finds for $G$ a remarkable extension of $G\ell(2)_{\mathbb{Z}}$ by a torus of
++dimension 2, with a motivic representation that ``caps''\tnote{TN-056-01}{The quoted verb ``caps'' translates the figurative ``coiffe'', literally puts a cap on.} those
++associated with the class fields of the extensions $\mathbb{Q}(i)$ and $\mathbb{Q}(j)$
++(as chance would have it, the ``complex multiplication fields'' of the two
++``anharmonic'' elliptic curves). There is a construction principle here
++that seemed to me very general and very effective, but
++I have not had (or taken) the leisure to work through its dévissage and follow it
++to the end --- this is one of the many ``hot spots'' in the
++program of foundations for anabelian algebraic geometry (or
++``Galois theory'' in an enlarged version) that I propose to
++develop. At present, and in an order of priority that is
++
++\margin{56}
++\copytwo{A2-119-132-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=133}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=133}{[copy 2, scan 119/132]} Copy 2 has the handwritten number 132 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_056
++% BEGIN PAGE esq_119_057
++\scanpage{119/57}
++\mspage{55}
++
++probably very provisional, these points are:
++
++a) Combinatorial construction of the Teichmüller Tower.
++
++b) Description of the automorphism group of the profinite
++compactification of this tower, and reflection on a characterization
++of $\mathrm{I}\!\Gamma = \mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$ as a subgroup of the latter.
++
++c) The ``machine for motives'' $S\ell(2,\mathbb{Z})$ and its variants.
++
++d) The anabelian dictionary and the fundamental conjecture
++(which is perhaps not so ``out of reach'' as all that !). Among
++the crucial points of this dictionary, I envisage the ``profinite
++paradigm'' for the fields $\mathbb{Q}$ (cf. b)), $\mathbb{R}$ and $\mathbb{C}$, for which a plausible
++formulation remains to be drawn out, as well as a description of the
++inertia subgroups of $\mathrm{I}\!\Gamma$, through which the passage from characteristic
++zero to characteristic $p > 0$, and to the absolute ring $\mathbb{Z}$, begins.
++
++e) Fermat's problem.
++
++\notedef{copy1-5}{($^5$)} I shall nevertheless mention a more delicate piece of work (apart from
++the work on cubic complexes mentioned in passing), on
++the combinatorial interpretation of the regular maps associated with
++the congruence subgroups of $S\ell(2,\mathbb{Z})$. This work was developed
++above all with a view to expressing the ``arithmetic'' action of $\mathrm{I}\!\Gamma = \mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$
++on these ``\uline{congruence maps}'', which takes place, essentially,
++through the cyclotomic character of $\mathrm{I}\!\Gamma$. A starting
++point was the combinatorial theory of the ``bi-icosahedron'' developed
++in a C4 course from purely geometric motivations,
++which (as it subsequently turned out) makes it possible to express conveniently
++the action of $\mathrm{I}\!\Gamma$ on the category of icosahedral maps (i.e.
++congruence maps of index 5).
++
++\notedef{copy1-6}{($^6$)} Let us point out in this connection that the isomorphism classes of
++compact tame spaces are \unsure{.}the same\tnote{TN-057-01}{The doubtful dot before ``les'' in ``les mêmes'' is retained before the corresponding ``the same''.} as in the ``piecewise
++linear'' theory (which, I recall, is \uline{not} a tame theory).
++This is, in a sense, a rehabilitation of the ``Hauptvermutung'',\tnote{TN-057-02}{The German name ``Hauptvermutung'' means ``main conjecture''. It is retained as the name used in the source.}
++which is ``false'' only because, for historical reasons
++that it would probably be interesting to examine more closely, the
++
++\margin{57}
++\copytwo{A2-119-133-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=134}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=134}{[copy 2, scan 119/133]} Copy 2 has a thin, slightly curved stroke descending to the right, \unsure{\textbackslash}, at the far left beside the lines from “l’interprétation” to “surtout en vue”. Its origin and role remain unresolved, without attribution to handwriting.}}
++\copytwo{A2-119-133-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=134}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=134}{[copy 2, scan 119/133]} Copy 2 has the handwritten number 133 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_057
++% BEGIN PAGE esq_119_058
++\scanpage{119/58}
++\mspage{56}
++
++foundations of topology used to formulate it did not exclude
++phenomena of wildness. It goes (I hope) without saying
++that the need to develop new foundations for
++``geometric'' topology by no means excludes the fact that these phenomena,
++like everything under the sun, have their reason for being
++and their own beauty. More adequate foundations will not eliminate
++these phenomena, but will allow us to place them where they
++belong, as ``limiting cases'' of phenomena of ``true''
++topology.
++
++\notedef{copy1-7}{($^7$)} In fact, to reconstruct this system of spaces
++\[ (i_o,\ldots,i_n) \longmapsto X_{i_o,\ldots,i_n} \]
++contravariant on Drap(I) (for inclusion of flags), it
++suffices to know the $X_i$ (or ``\uline{unfolded strata}'') and the $X_{i,j}$
++(or ``\uline{connecting tubes}'') for $i,j \in I$, $i < j$, and the morphisms
++$X_{i,j} \longrightarrow X_i$ (which are ``bordering'' inclusions)\tnote{TN-058-01}{``Bordering'' renders the author's quoted ``bordantes''; the corresponding adjective appears again with ``embedding'' on the following page.} and $X_{i,j} \rightarrow X_i$
++(which are proper fibrations, whose fibers $F_{i,j}$ are
++called ``\uline{connecting fibers}'' for the strata with indices $i$ and $j$).
++In the case of a tame multiplicity, however, one must
++also know the ``\uline{junction spaces}'' $X_{i,j,k}$ $(i < j < k)$ and their
++morphisms into $X_{i,j}$, $X_{j,k}$, and above all $X_{i,k}$, fitting into
++the following commutative hexagonal diagram, in which the two squares on
++the right are cartesian, the arrows $\hookrightarrow$ are immersions (not
++necessarily embeddings here), and the other arrows are
++proper fibrations:
++
++\diagram{
++\begin{tikzcd}[ampersand replacement=\&]
++ \& X_{ik} \arrow[rr, hook] \hand{\arrow[dl]} \& \& X_k \& \\
++X_i \& \& X_{ijk} \hand{\arrow[ul, hook]} \arrow[rr, hook] \hand{\arrow[dl]} \& \& X_{jk} \hand{\arrow[ul, hook]} \hand{\arrow[dl]} \\
++ \& X_{ij} \hand{\arrow[ul]} \arrow[rr, hook] \& \& X_j \&
++\end{tikzcd}
++}
++
++(NB. This diagram defines $X_{ijk}$ in terms of $X_{ij}$ and $X_{jk}$ over $X_j$,
++but not the arrow $X_{ijk} \longrightarrow X_{ik}$, because $X_{ik} \longrightarrow X_{k\unsure{:}}$\tnote{TN-058-02}{Two faint separated marks follow the final subscript k. The colon-shaped reading retains their position; their physical origin and textual role remain unresolved.} is \uline{not} necessarily
++an embedding.)
++
++\margin{58}
++\copytwo{A2-119-134-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=135}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=135}{[copy 2, scan 119/134]} Copy 2 has “topologie.\unsure{.}”: a small low point follows the typed full stop. Its origin and textual role remain unresolved.}}
++\copytwo{A2-119-134-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=135}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=135}{[copy 2, scan 119/134]} Copy 2 has a small point below and to the left of the descender of p in “plongement”, rendered as “\raisebox{-0.6ex}{\unsure{.}}plongement”. This graphic trace has unresolved origin and textual role; no punctuation function or handwriting origin is assigned to it.}}
++\copytwo{A2-119-134-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=135}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=135}{[copy 2, scan 119/134]} Copy 2 has the handwritten number 134 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_058
++% BEGIN PAGE esq_119_059
++\scanpage{119/59}
++\mspage{57}
++
++In the case of stratified tame spaces properly so called (which
++are not multiplicities strictly speaking), one can express
++the ``unfolding'' of this structure conveniently, i.e.
++the system of spaces $X_{i_o,\ldots,i_n}$, in terms of the tame
++space $X_*$\frapparatus{V-FR-059-001} that is the sum of the $X_i$, which is endowed\frapparatus{V-FR-059-002} with the \uline{structure of an}
++\uline{ordered object} (in the category of tame spaces), having as the graph
++$X_{**}$ of the order relation the sum of the $X_{i,j}$ and the $X_i$
++(the latter constituting the diagonal). Among the essential
++properties of this ordered structure, let us note only
++here that $pr_1 : X_{**} \longrightarrow X_*$ is a proper (locally trivial)
++fibration, and $pr_2 : X_{**} \longrightarrow X_*$ is a ``bordering'' embedding.\frapparatus{V-FR-059-003}
++There is an analogous interpretation of the unfolding of a stratified
++tame multiplicity, in terms of a \uline{category structure}
++(replacing a simple ordered structure) ``in the sense of tame
++multiplicities'', whose composition map is given
++by the morphisms $X_{ijk} \longrightarrow X_{ik}$ above.
++
++\margin{59}
++\copytwo{A2-119-135-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=136}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=136}{[copy 2, scan 119/135]} Copy 2 has the handwritten number 135 in the lower left margin.}}
++
++\finishscan
++% END PAGE esq_119_059
++\typeout{EDITION-APPARATUS-COUNT: \theappnote}
++\typeout{EDITION-EXTERNAL-LINK-COUNT: \theeditionexternallink}
+ \end{document}

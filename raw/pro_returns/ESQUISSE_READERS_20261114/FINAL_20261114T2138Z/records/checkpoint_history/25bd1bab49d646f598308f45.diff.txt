@@ -1,0 +1,84 @@
+--- ESQUISSE_READERS_checkpoint_04.zip!/scripts/collate_page.py
++++ final!/scripts/collate_page.py
+@@ -4,12 +4,17 @@
+ copies. No source-string difference is assigned an outcome by this utility.
+ """
+ from pathlib import Path
+-import csv,difflib,fcntl,hashlib,json
++import csv,difflib,fcntl,hashlib,json,os,tempfile
+ from audit_inventory import read_tsv,write_tsv
+ from audit_apply import COLLATION_FIELDS
+ 
+-KINDS={'typed difference','misreading in one transcription','handwriting only in copy 1','handwriting only in copy 2'}
+-COVERAGE_FIELDS=['pair_id','typescript_page','copy1_key','copy2_key','full_inspection','original_transcription_comparison','copy1_images','copy2_images','entry_count','copy1_checked_sha256','copy2_checked_sha256']
++KINDS={'typed difference','misreading in one transcription','handwriting only in copy 1','handwriting only in copy 2','handwriting in both copies'}
++COVERAGE_FIELDS=['pair_id','typescript_page','copy1_key','copy2_key','full_inspection','original_transcription_comparison','copy1_images','copy2_images','entry_count','shared_mark_count','copy2_annotation_count','copy1_checked_sha256','copy2_checked_sha256']
++
++def write_json(path,data):
++    with tempfile.NamedTemporaryFile('w',encoding='utf-8',dir=path.parent,prefix='.collation-',suffix='.json',delete=False) as f:
++        f.write(json.dumps(data,ensure_ascii=False,indent=2)+'\n');temporary=f.name
++    os.replace(temporary,path)
+ 
+ def require(value,name):
+     if not isinstance(value,str) or not value.strip():raise ValueError(f'{name} requires an explicit observation')
+@@ -38,13 +43,16 @@
+     result['literal_comparison']=''.join(difflib.unified_diff(a.splitlines(keepends=True),b.splitlines(keepends=True),fromfile='copy 1',tofile='copy 2'))
+     return result
+ 
+-def collate(key2, *, full, originals, entries, folio1=None, folio2=None):
++def collate(key2, *, full, originals, entries, folio1=None, folio2=None, annotations=()):
+     """Commit reviewed loci plus a full-page inspection declaration.
+ 
+     entries: dictionaries containing line, copy1_reading, copy2_reading, kind,
+     decision, reason, and optional source_ids (a list of stable source IDs).
+     folio1/folio2: optional dictionaries with reading, place, reason, source_ids;
+     supplying either explicitly records that observed copy-specific foliation.
++    annotations: explicit bilingual copy2 apparatus entries. Each supplies kind,
++    text_fr, text_en and source_ids; optional collation_loci (one-based indices)
++    add the exact resulting collation IDs. All entries attach to this copy1 page.
+     """
+     require(full,'full-page inspection');require(originals,'original-transcription comparison')
+     edition=Path(__file__).resolve().parent.parent
+@@ -79,6 +87,20 @@
+     review={'pair_id':pair,'copy1_key':key1,'copy2_key':key2,'inspected_images':packet['required_images'],
+         'full_inspection':full,'original_transcription_comparison':originals,'entries':explicit_entries,
+         'copy1_checked_sha256':packet['copy1_checked_sha256'],'copy2_checked_sha256':packet['copy2_checked_sha256']}
++    apparatus=[]
++    for i,a0 in enumerate(annotations,1):
++        a=dict(a0)
++        for field in ['kind','text_fr','text_en']:require(a.get(field),field)
++        ids=a.get('source_ids',[])
++        if not isinstance(ids,list):raise ValueError('Annotation source_ids must be a list')
++        for index in a.pop('collation_loci',[]):
++            if not isinstance(index,int) or not 1<=index<=len(rows):raise ValueError('Annotation collation_loci must address an observed locus')
++            ids.append(rows[index-1]['collation_id'])
++        if not ids:raise ValueError('Each copy2 apparatus entry requires observed source or collation IDs')
++        a.update(id=a.get('id',f'A2-119-{int(key2.rsplit("_",1)[-1]):03d}-{i:03d}'),
++            key=key1,copy2_key=key2,source_ids=list(dict.fromkeys(ids)))
++        apparatus.append(a)
++    review['copy2_annotations']=apparatus
+     dest=edition/'collation_reviews'/(key2+'.json');dest.parent.mkdir(exist_ok=True)
+     serialized=json.dumps(review,ensure_ascii=False,indent=2)+'\n'
+     if dest.exists() and dest.read_text()!=serialized:
+@@ -90,11 +112,19 @@
+         if prior:write_tsv(history/f'{key2}_{serial:03d}_COLLATION.tsv',prior,COLLATION_FIELDS)
+     dest.write_text(serialized)
+     path=edition/'COLLATION.tsv';old=read_tsv(path) if path.exists() else []
+-    write_tsv(path,[r for r in old if r['copy2_key']!=key2]+rows,COLLATION_FIELDS)
++    all_rows=[r for r in old if r['copy2_key']!=key2]+rows
++    write_tsv(path,all_rows,COLLATION_FIELDS)
++    write_tsv(edition/'records/COLLATION_COMMON_MARKS.tsv',[r for r in all_rows if r['kind']=='handwriting in both copies'],COLLATION_FIELDS)
++    annotation_path=edition/'copy2_annotations.json'
++    old_annotations=json.loads(annotation_path.read_text()) if annotation_path.exists() else []
++    all_annotations=[a for a in old_annotations if a.get('copy2_key')!=key2]+apparatus
++    if len({a['id'] for a in all_annotations})!=len(all_annotations):raise ValueError('Duplicate copy2 apparatus identifiers')
++    write_json(annotation_path,all_annotations)
+     coverage={'pair_id':pair,'typescript_page':packet['typescript_page'] or 'sommaire',
+         'copy1_key':key1,'copy2_key':key2,'full_inspection':full,'original_transcription_comparison':originals,
+         'copy1_images':' '.join(packet['required_images'][:2]),'copy2_images':' '.join(packet['required_images'][2:]),
+-        'entry_count':len(rows),'copy1_checked_sha256':packet['copy1_checked_sha256'],
++        'entry_count':len(rows),'shared_mark_count':sum(r['kind']=='handwriting in both copies' for r in rows),
++        'copy2_annotation_count':len(apparatus),'copy1_checked_sha256':packet['copy1_checked_sha256'],
+         'copy2_checked_sha256':packet['copy2_checked_sha256']}
+     path=edition/'records/COLLATION_PAGE_COVERAGE.tsv';old=read_tsv(path) if path.exists() else []
+     write_tsv(path,[r for r in old if r['copy2_key']!=key2]+[coverage],COVERAGE_FIELDS)

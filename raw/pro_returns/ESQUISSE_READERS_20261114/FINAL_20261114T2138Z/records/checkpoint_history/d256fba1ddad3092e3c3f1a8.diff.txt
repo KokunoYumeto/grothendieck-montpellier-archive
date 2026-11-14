@@ -1,0 +1,365 @@
+--- ESQUISSE_READERS_checkpoint_08.zip!/GUIDE/ESQUISSE_GUIDE.tex
++++ final!/GUIDE/ESQUISSE_GUIDE.tex
+@@ -1,4 +1,4 @@
+-% EDITION STATUS: partial; source units 18/18
++% EDITION STATUS: final; source units 18/18
+ \documentclass[11pt,a4paper]{article}
+ \usepackage[no-math]{fontspec}
+ \setmainfont{Latin Modern Roman}
+@@ -9,6 +9,7 @@
+ \usepackage{amsmath,amssymb}
+ \usepackage[normalem]{ulem}
+ \usepackage{xcolor,tikz-cd,marginnote,etoolbox,microtype,graphicx}
++\usetikzlibrary{shapes.geometric}
+ \microtypesetup{protrusion=false}
+ \usepackage[unicode,colorlinks=true,linkcolor=LinkInk,urlcolor=LinkInk,bookmarksopen=true]{hyperref}
+ \definecolor{LinkInk}{HTML}{254E70}
+@@ -21,6 +22,10 @@
+ \raggedbottom
+ \normalmarginpar
+ \frenchspacing
++\renewcommand{\textcircled}[1]{%
++  \tikz[baseline=(editionnumber.base)]{%
++    \node[draw=.,text=.,circle,inner sep=.4pt,outer sep=0pt,
++      line width=.35pt] (editionnumber) {#1};}}
+ \newif\ifdiplomatic
+ \newif\ifreading
+ \newif\ifenglish
+@@ -30,6 +35,21 @@
+ \newcommand{\EditionTitle}{A Guide to the Esquisse}
+ \newcommand{\EditionForm}{Commentary for a mathematical reader}
+ \hypersetup{pdftitle={Sketch of a Program — Corrected text with translator’s notes},pdfauthor={Alexander Grothendieck},pdfsubject={A scan-checked edition of Esquisse d'un programme, January 1984, Montpellier cote 119}}
++% Private PDF metadata identifies one logical URI link across its wrapped
++% annotation rectangles. It changes no visible text, target or link geometry.
++\newcounter{editionexternallink}
++\makeatletter
++\let\EditionBaseLinkURL\hyper@linkurl
++\let\EditionBasePDFBorder\Hy@setpdfborder
++\def\hyper@linkurl#1#2{%
++  \begingroup
++  \stepcounter{editionexternallink}%
++  \edef\EditionLinkIdentifier{edlink-\theeditionexternallink}%
++  \def\Hy@setpdfborder{\EditionBasePDFBorder /EsquisseLinkID (\EditionLinkIdentifier)}%
++  \EditionBaseLinkURL{#1}{#2}%
++  \endgroup}
++\makeatother
++
+ \newcommand{\DeclareScan}[4]{%
+   \expandafter\def\csname edurl@#1\endcsname{#2}%
+   \expandafter\def\csname edkey@#1\endcsname{#3}%
+@@ -69,6 +89,11 @@
+   {\arrow[#1,color=HandInk]}
+ \ExplSyntaxOff
+ \newcommand{\hand}[1]{\EditionHand{#1}}
++% The source oval is handwriting; its already typed contents retain black ink.
++\newcommand{\handcircle}[1]{%
++  \tikz[baseline=(editioncircled.base)]{%
++    \node[draw=HandInk,ellipse,inner xsep=.9pt,inner ysep=.2pt,
++      outer sep=0pt,line width=.4pt,text=black] (editioncircled) {#1};}}
+ 
+ \let\over\relax
+ \newcommand{\over}[2]{\textcolor{QuietInk}{#1}\textcolor{HandInk}{\ensuremath{^{\!\nearrow}}#2}}
+@@ -88,10 +113,16 @@
+ \newdimen\MarginalLineHeight
+ \newcount\MarginalLineCount
+ \newif\ifMarginalFits
++\newif\ifMarginCluster
++\newdimen\MarginalClusterOffset
++\newdimen\MarginalPlacementOffset
++\newcommand{\margincluster}[1]{%
++  \begingroup\MarginClustertrue\global\MarginalClusterOffset=0pt #1\endgroup}
+ \newcommand{\margin}[1]{%
+   \begingroup
+   \let\MarginalSavedApparatus\CurrentApparatus
+   \edef\MarginalSavedAppNumber{\the\value{appnote}}%
++  \edef\MarginalSavedLinkNumber{\the\value{editionexternallink}}%
+   \setbox\MarginalTestBox=\vbox{%
+     \hsize=\marginparwidth\linewidth=\marginparwidth
+     \parindent=0pt\parskip=0pt\footnotesize
+@@ -108,14 +139,19 @@
+   \ifnum\MarginalLineCount>3\relax\MarginalFitsfalse\fi
+   \ifdim\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax>3\MarginalLineHeight\relax\MarginalFitsfalse\fi
+   \ifMarginalFits
+-    \typeout{EDITION-MARGIN: \CurrentPageKey; PLACEMENT: margin; LINES: \the\MarginalLineCount}%
+-    \marginnote{\usebox{\MarginalTestBox}}%
++    \MarginalPlacementOffset=0pt
++    \ifMarginCluster\MarginalPlacementOffset=\MarginalClusterOffset\fi
++    \typeout{EDITION-MARGIN: \CurrentPageKey; PLACEMENT: margin; LINES: \the\MarginalLineCount; BOX-HEIGHT: \the\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax; BASELINE: \the\MarginalLineHeight; LABELLED: no; OFFSET: \the\MarginalPlacementOffset}%
++    \marginnote{\usebox{\MarginalTestBox}}[\MarginalPlacementOffset]%
++    \ifMarginCluster\global\advance\MarginalClusterOffset by\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox+3pt\relax\fi
+   \else
+-    \typeout{EDITION-MARGIN: \CurrentPageKey; PLACEMENT: block; LINES: \the\MarginalLineCount}%
++    \typeout{EDITION-MARGIN: \CurrentPageKey; PLACEMENT: block; LINES: \the\MarginalLineCount; BOX-HEIGHT: \the\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax; BASELINE: \the\MarginalLineHeight; LABELLED: yes}%
+     \setcounter{appnote}{\MarginalSavedAppNumber}%
++    \setcounter{editionexternallink}{\MarginalSavedLinkNumber}%
+     \global\let\CurrentApparatus\MarginalSavedApparatus
+     \par\nobreak\smallskip\nobreak\noindent\begin{minipage}{\linewidth}\hrule\smallskip
+     {\footnotesize\textcolor{HandInk}{\ifenglish Marginal note:\else Note marginale :\fi\ #1}}\smallskip\hrule\end{minipage}\par\smallskip
++    \ifMarginCluster\global\MarginalClusterOffset=0pt\fi
+   \fi
+   \endgroup}
+ \newcommand{\authornote}[1]{\margin{#1}}
+@@ -141,17 +177,22 @@
+ \newcommand{\DeclareNoteReturns}[2]{\expandafter\def\csname edreturns@#1\endcsname{#2}}
+ \newcommand{\notecall}[3]{\hypertarget{#2}{\hyperlink{note-#1}{#3}}}
+ \newcommand{\notedef}[2]{\hypertarget{note-#1}{#2}\,{\scriptsize[\csname edreturns@#1\endcsname]}}
++\newcommand{\authorstar}[2]{\hypertarget{star-#1}{#2}}
+ \newcommand{\AppReading}[1]{{\def\margin##1{##1}\def\authornote##1{##1}#1}}
+ \newcommand{\EmptyReading}{\ifenglish\textit{omitted}\else\textit{supprimé}\fi}
+ % Observed rounded source glyph, cote 119, site 42, PDF page 43.
+ % Its conventional alphabet assignment remains uncertain; use with \unsure.
+ % The contour is a vector traced from the reviewed scan detail, not a font alias.
+ \makeatletter
+-\newcommand{\sourceglyph}[1]{\mathord{\mathpalette{\EditionSourceGlyph{#1}}{}}}
++\newcommand{\sourceglyph}[1]{\ensuremath{\mathord{\mathpalette{\EditionSourceGlyph{#1}}{}}}}
+ \newcommand{\EditionSourceGlyph}[3]{%
+   \begingroup
+   \setbox0=\hbox{$#2 A$}%
+-  \resizebox{!}{\ht0}{\csname EditionGlyph@#1\endcsname}%
++  \ifcsname EditionGlyphHeight@#1\endcsname
++    \resizebox{!}{\csname EditionGlyphHeight@#1\endcsname}{\csname EditionGlyph@#1\endcsname}%
++  \else
++    \resizebox{!}{\ht0}{\csname EditionGlyph@#1\endcsname}%
++  \fi
+   \endgroup}
+ \expandafter\newcommand\csname EditionGlyph@119A\endcsname{%
+   \begin{tikzpicture}[x=1pt,y=1pt,baseline=0pt]
+@@ -162,10 +203,40 @@
+   \end{tikzpicture}}
+ \makeatother
+ 
++% Two separately reviewed handwritten spacing marks, copy 2, site 118, p. 40.
++% Centreline paths follow the supplied scan detail; their shape is independent
++% of any conventional mathematical bracket. The apparatus records the extent.
++\makeatletter
++\expandafter\newcommand\csname EditionGlyphHeight@119bracketlower\endcsname{2\baselineskip}
++\expandafter\newcommand\csname EditionGlyphHeight@119bracketupper\endcsname{2.75\baselineskip}
++\expandafter\newcommand\csname EditionGlyph@119bracketlower\endcsname{%
++  \begin{tikzpicture}[x=.1pt,y=.1pt,baseline=0pt]
++  \draw[line width=.17pt,line cap=round,line join=round]
++    (23,104) .. controls (27,83) and (29,66) .. (27,53)
++    .. controls (26,40) and (22,24) .. (21,15)
++    .. controls (18,7) and (21,3) .. (29,1)
++    .. controls (40,-3) and (56,3) .. (72,7)
++    .. controls (93,12) and (113,17) .. (127,14)
++    .. controls (130,13) and (132,12) .. (134,11);
++  \end{tikzpicture}}
++\expandafter\newcommand\csname EditionGlyph@119bracketupper\endcsname{%
++  \begin{tikzpicture}[x=.1pt,y=.1pt,baseline=0pt]
++  \draw[line width=.2pt,line cap=round,line join=round]
++    (30,171) .. controls (47,172) and (69,176) .. (84,177)
++    .. controls (99,178) and (111,175) .. (124,176)
++    .. controls (138,176) and (154,178) .. (165,176);
++  \draw[line width=.17pt,line cap=round,line join=round]
++    (25,166) .. controls (28,143) and (28,119) .. (26,94)
++    .. controls (25,66) and (20,33) .. (15,0)
++    -- (7,5);
++  \end{tikzpicture}}
++\makeatother
++
+ 
+ 
+ 
+ \begin{document}
++\hypersetup{pageanchor=false}
+ \begin{titlepage}
+ \centering
+ \vspace*{18mm}
+@@ -183,9 +254,10 @@
+ \vspace{8mm}
+ {\normalsize Edition dated 14 November 2026\par}
+ \end{titlepage}
++\hypersetup{pageanchor=true}
+ \thispagestyle{plain}
+ \section*{Preface}
+-\noindent\textbf{Working checkpoint.} This guide currently contains 18 of the 18 requested commentary units. Its scope is recorded with the checked-page coverage.\par\smallskip
++
+ This guide follows the sommaire, sections 1–10 and notes (1)–(7) in the order of the typescript. Page references give the original typescript pagination and link to the archive. The guide is based on the checked text and collation; it does not change the text’s mathematics.
+ 
+ \smallskip
+@@ -202,11 +274,72 @@
+ \clearpage
+ 
+ 
+-\typeout{EDITION-APPARATUS-COUNT: \theappnote}
+-% WORKING COLLATION PREFACE: revise after the explicit comparison reaches copy2 site135.
+ % This prefatory unit is excluded from the eighteen commentary units.
+-\section*{Collation note (working)}
+-The collation accompanying this working guide is still in progress. In the checked portion, copy 2 has oblique pen strokes through the title and author line that remain uncrossed in copy 1 (\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{copy 2, p.~1, site 79}; \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=4}{copy 1, p.~1, site 3}). Its deletions of the extra \textit{n} in \textit{inadéquante} and \textit{convenanble} correct typing slips shared by the two copies and therefore enter the corrected copy 1 text under the corresponding shared variant identifiers (\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=81}{copy 2, p.~2, site 80}; \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=86}{copy 2, p.~7, site 85}). On p.~8 an oval and connecting line move the typed words \textit{dans ce jeu} to the position after \textit{Par suite,}; this revision is recorded in the copy 2 apparatus while the base text retains copy 1's order (\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{copy 2, site 86}). The numbered groups in copy 2's upper-left contents margin, its later proof sign and its doubtful star-like signs remain separately described, including their unresolved readings (\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{sommaire, site 78}; \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=86}{p.~7, site 85}; \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{p.~8, site 86}). The handwritten note calls in both contents pages and the two copies' handwritten archive foliations are recorded as shared handwriting, with each observed reading retained; the foliation is not attributed to the author (\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=3}{copy 1 sommaire, site 2}; \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{copy 2 sommaire, site 78}). The final account of the complete collation and its counts will replace this working notice after all fifty-eight page pairs have been inspected.
++\section*{Collation note}
++The two copies each transmit a sommaire and fifty-seven typescript pages.
++The completed collation covers all fifty-eight page pairs and records 236
++individual loci. Both supplied image halves of all 116 scan pages have been
++checked. The comparison
++distinguishes the common typewriting, punctuation and underline strokes from
++the handwriting visible in both copies and the additions specific to copy 2.
++It also corrects earlier transcription errors: repeated $\ell$ and $\mathbb{Z}$
++glyphs, for example, had been marked as handwritten although their repeated
++typed contours are shared by the impressions
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=6}{copy 1, p.~3, site 5};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=85}{copy 2, p.~6, site 84}).
++The handwritten 1 and 7 in the sommaire's N.B., including the pilot's missed
++hand classifications, occur in both copies; shared handwriting also includes
++later note calls, the script $\mathcal{T}$ signs on pp.~31, 33 and 42, and the
++six diagonal arrows in the p.~56 diagram.
++Each copy's distinct handwritten archive foliation is retained separately,
++without identifying its writer
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=3}{copy 1 sommaire, site 2};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{copy 2 sommaire, site 78};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=110}{copy 2, p.~31, site 109};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=59}{copy 1, p.~56, site 58};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=135}{copy 2, p.~56, site 134}).
++
++Copy 2 crosses out the title and author line on p.~1. Its other interventions
++include the relocation of \textit{dans ce jeu} on p.~8, the two Greek-letter
++overwritings in the p.~9 relations discussed in \S2 below, and the change from
++two to three letters in the Breen correspondence on p.~44. On p.~45 it writes
++\textit{ét} over the middle letters of \textit{pitié}, producing \textit{piété};
++on p.~46 it inserts \textit{algébrique} after the first \textit{géométrie}.
++These readings are reported as copy 2 evidence in the apparatus
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{p.~1, site 79};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{p.~8, site 86};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=88}{p.~9, site 87};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=123}{p.~44, site 122};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=124}{p.~45, site 123};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=125}{p.~46, site 124}).
++Marginal matter includes numbered groups in the sommaire, correction marks,
++question marks beside the p.~17 kernel passage and its footnote, and brackets
++with a doubtful \textit{espacer} on p.~40
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{site 78};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=96}{site 95};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=119}{site 118}).
++The small gray point beside \textit{dant par} on p.~45 remains uncertain in
++physical origin and textual role; its presence does not establish a pen mark.
++The obscured letters beneath overwriting and deletion also retain their
++individual doubts.
++
++Copy 1 supplies the running base text. Nine copy 2 annotations now support
++corrections of shared typing slips and are merged with those corrections under
++their common apparatus identifiers; examples are the deleted \textit{n} in
++\textit{inadéquante} and the deletion in \textit{hyperquadratique}
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=81}{copy 2, p.~2, site 80};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=103}{copy 2, p.~24, site 102}).
++Other revisions remain copy 2 readings: copy 1 retains its recurring
++\textit{résidual}, its plural \textit{mathématiciens}, and
++\textit{dégagé}, while copy 2 supplies respectively an \textit{e} replacing
++\textit{a}, a deletion of the final \textit{s}, and a faint added letter read
++with doubt as \textit{e}
++(\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=112}{copy 2, p.~33, site 111};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=128}{p.~49, site 127};
++\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=132}{p.~53, site 131}).
++The full diplomatic reader displays both copies; the following commentary
++uses copy 1's pagination and records mathematical difficulties at their
++passages without changing the readers' formulas.
+ 
+ 
+ \subsection*{Sommaire}
+@@ -272,7 +405,7 @@
+ Note (1), added on p.~52, later withdraws the accompanying judgment
+ ``hors de portée'' and reports a renewed step toward that characterization.
+ The groupoid language keeps the chosen collections of base points visible
+-under the symmetries. On pp.~6--7 he formulates the construction principle
++under the symmetries. On pp.~6--7 he formulates the explicitly unproved construction principle
+ in which the first two moduli dimensions supply generators and relations,
+ sets it beside Demazure's rank principle, and describes the remaining
+ topological work in terms of the fundamental group at infinity and
+@@ -380,14 +513,21 @@
+ $\{(0,\pm1,\pm\varphi),(\pm1,\pm\varphi,0),(\pm\varphi,0,\pm1)\}$,
+ $\varphi=(1+\sqrt5)/2$, the map $j:v\mapsto-v$ preserves vertices,
+ distances, and hence all incidences. It is a central involution in its
+-orthogonal symmetry group. The cyclic coordinate permutation
++orthogonal symmetry group. The edge graph of the displayed vertex set
++has, from each vertex $v$, five vertices at distance one, five at
++distance two, and the unique vertex $-v$ at distance three. Thus every
++incidence automorphism $h$ satisfies $h(-v)=-h(v)$, so $j$ is also
++central in the full incidence automorphism group. The cyclic coordinate permutation
+ $(x,y,z)\mapsto(y,z,x)$ also preserves that vertex set and has order three,
+ so $\langle j\rangle$ is a nontrivial proper central subgroup of the full
+-group. The determinant morphism to $\{1,-1\}$ selects the
+-orientation-preserving subgroup as its kernel. The earlier projective
++group. On the orthogonal symmetry group, the morphism
++$g\mapsto\det(g)\in\{1,-1\}$ has the orientation-preserving subgroup
++as its kernel. The earlier projective
+ context leaves this calculation intact: on the affine chart of projective
+ three-space the same map is represented by
+ $\operatorname{diag}(-1,-1,-1,1)$ and sends $[v:1]$ to $[-v:1]$.
++These projective points are distinct: their last coordinate fixes the
++possible proportionality factor to $1$, and every vertex $v$ is nonzero.
+ The readers preserve the scanned statement. On pp.~23--24 the
+ ``paradigme combinatoire'' names a further direction suggested by
+ specialization in exceptional characteristics; the discussion also names
+@@ -410,7 +550,7 @@
+ The fifth section starts on p.~25 with the problem of reconstructing a
+ stratified structure from canonical ``pièces de construction'', and
+ retraces a change from the successive singular loci of a variety to the
+-stratifications arising from degeneration in moduli problems. The
++stratifications arising from degeneracy in moduli problems. The
+ Mumford-Deligne compactifications on p.~26 connect this problem with the
+ Teichmüller tower of \S2. The two-stratum model uses a tubular neighborhood
+ $T$ of $Y$ in $X$, its complement $U=X\setminus\mathrm{Int}(T)$, and a
+@@ -438,8 +578,8 @@
+ Another mathematical slip occurs in the collar description on p.~33,
+ where the product is written with $T$ as its factor. The elementary collar
+ of $T=[-1,1]$ is the map
+-$c:\{-1,1\}\times[0,\varepsilon)\longrightarrow[-1,1]$,
+-$c(s,t)=s(1-t)$, with $0<\varepsilon<1$; its inverse on the two endpoint
++$c:\{-1,1\}\times[0,\tfrac12)\longrightarrow[-1,1]$,
++$c(s,t)=s(1-t)$; its inverse on the two endpoint
+ neighborhoods is $x\mapsto(\operatorname{sgn}(x),1-|x|)$.
+ The displayed isomorphism uses $\partial T$ as the product factor;
+ the source's plain $T$ is preserved. On p.~34 he allows that the proposed
+@@ -572,8 +712,9 @@
+ and the erasure or creation of a ``bigône'' supply the elementary
+ operations for a dynamic study (pp.~46--47). The stated questions concern
+ classes of immersions and the extensions of a prescribed boundary
+-immersion; the reported tangible result is a canonical dévissage into
+-indecomposable immersions by ``téléscopage''. His assessment changes with
++immersion; the reported tangible result is a canonical dévissage of a
++stable cellular immersion of a circle in a surface into indecomposable
++immersions by ``téléscopage''. His assessment changes with
+ the third theme on p.~47: work on systems of lines and pseudolines has
+ brought more productive exchanges with students, although their joint
+ work has remained elementary. On p.~48 he describes the recent
+@@ -607,7 +748,7 @@
+ Ladegaillerie's isotopy work already discussed in \S3, and
+ Contou-Carrère's work on local and global Jacobians over general base
+ schemes. The rest of the appraisal concerns teaching the rudiments of
+-the mathematician's craft to some twenty research students. Its final
++the mathematicians' craft to some twenty research students. Its final
+ paragraph on p.~50 qualifies the negative account by recalling work
+ better than merely acceptable, sometimes pursued beyond a single
+ project and carried through with taste. He nevertheless anticipates few
+@@ -783,9 +924,10 @@
+ system of spaces mentioned in \S5, p.~34. Its ``strates déployées'',
+ ``tubes de raccord'', ``fibres de raccord'', and ``espaces de jonction''
+ describe the unfolding of the stratified structure. A target-index slip
+-occurs in the prose on p.~56: both displayed morphisms there are written
+-$X_{i,j}\longrightarrow X_i$, the first described as a bordering inclusion
+-and the second as a proper fibration. The diagram and its stated legend
++occurs in the prose on p.~56: the first morphism is written
++$X_{i,j}\longrightarrow X_i$ and described as a bordering inclusion;
++the second is written $X_{i,j}\rightarrow X_i$ and described as a proper
++fibration. The diagram and its stated legend
+ instead give the hooked immersion
+ $a_{ij}:X_{ij}\hookrightarrow X_j$ and the ordinary proper fibration
+ $b_{ij}:X_{ij}\longrightarrow X_i$. Thus it is the target of the first
+@@ -794,8 +936,10 @@
+ $X_{ijk}$ with $X_{ij}\times_{X_j}X_{jk}$ through its two projections,
+ using $a_{ij}$ and $b_{jk}$ as the maps to $X_j$. The author's NB stresses
+ that the data still include the morphism
+-$X_{ijk}\longrightarrow X_{ik}$, since the immersion
+-$X_{ik}\longrightarrow X_k$ is not required to be an embedding. On p.~57
++$X_{ijk}\longrightarrow X_{ik}$, since the immersion into the target
++$X_k$ is not required to be an embedding. The scan has two faint marks
++forming a colon-like trace at subscript height after this final $k$; their
++physical origin and textual role remain unresolved. On p.~57
+ he recasts the unfolding of a stratified tame space using the sum $X_*$
+ of its unfolded strata and the order relation with graph $X_{**}$:
+ $pr_1:X_{**}\longrightarrow X_*$ is the proper locally trivial fibration,
+@@ -809,4 +953,6 @@
+ \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=60}{ordered and categorical descriptions on p.~57, site 59};
+ \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=37}{call in \S5, p.~34, site 36}.)
+ 
++\typeout{EDITION-APPARATUS-COUNT: \theappnote}
++\typeout{EDITION-EXTERNAL-LINK-COUNT: \theeditionexternallink}
+ \end{document}

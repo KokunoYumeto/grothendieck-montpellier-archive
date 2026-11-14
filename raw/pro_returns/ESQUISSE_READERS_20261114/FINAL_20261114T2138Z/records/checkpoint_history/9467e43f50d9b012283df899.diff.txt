@@ -1,0 +1,134 @@
+--- ESQUISSE_READERS_checkpoint_15.zip!/scripts/validate_release.py
++++ final!/scripts/validate_release.py
+@@ -9,6 +9,7 @@
+ 
+ import collections
+ import csv
++import difflib
+ import hashlib
+ import json
+ from pathlib import Path
+@@ -24,7 +25,7 @@
+ from release_bundle import eligible
+ from pdf_final_audit import audit_dependency_snapshot
+ from probe_rendering import current_probe_verification
+-from privacy_rules import LOCAL_PATH, EMAIL, findings as privacy_matches
++from privacy_rules import LOCAL_PATH, EMAIL, findings as privacy_matches, redact_history
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+ COPY1 = [f"esq_119_{n:03d}" for n in range(2, 60)]
+@@ -51,6 +52,7 @@
+     "MASTER_FORM_EQUIVALENCE.json", "BUILD_INPUTS.json", "RELEASE_STATUS.json",
+     "records/CHECKPOINT_RECONCILIATION.tsv", "records/CHECKPOINT_RECONCILIATION.md",
+     "records/CHECKPOINT_PRIVACY_REDACTIONS.tsv",
++    "records/CHECKPOINT_MANIFEST_PROVENANCE.tsv",
+     "records/INDEPENDENT_TEXT_REVIEW.tsv", "records/EDITORIAL_ADJUDICATIONS.tsv",
+     "records/MERGED_ANNOTATION_UNCERTAINTIES.tsv",
+     "records/COPY2_APPARATUS_LANGUAGE_REVIEW.json",
+@@ -447,8 +449,13 @@
+     acceptable = {"unchanged", "superseded", "omitted supplied duplicate", "preserved with explicit archival name"}
+     unresolved = [r for r in reconciliation if not r.get("reason") or r.get("status") not in acceptable]
+     checkpoint_rows = read_tsv("records/CHECKPOINTS.tsv")
++    manifest_provenance = read_tsv("records/CHECKPOINT_MANIFEST_PROVENANCE.tsv")
++    provenance_by_checkpoint = {row["checkpoint"]: row for row in manifest_provenance}
+     expected_members = {}
+     reconciliation_problems = []
++    if (len(provenance_by_checkpoint) != len(manifest_provenance)
++            or set(provenance_by_checkpoint) != {row["checkpoint"] for row in checkpoint_rows}):
++        reconciliation_problems.append("checkpoint-manifest-provenance-coverage")
+     for checkpoint in checkpoint_rows:
+         archive_name = checkpoint["checkpoint"]
+         number = int(Path(archive_name).stem.rsplit("_", 1)[1])
+@@ -458,20 +465,35 @@
+             reconciliation_problems.append(archive_name + "!/missing-manifest")
+             continue
+         manifest = read_tsv(manifest_name)
++        provenance = provenance_by_checkpoint.get(archive_name, {})
++        origin = provenance.get("origin")
++        embedded = origin == "embedded checkpoint manifest"
++        valid_origin = embedded or origin == "derived from immutable checkpoint bytes; no embedded manifest"
++        if (not valid_origin or provenance.get("manifest_path") != manifest_name
++                or provenance.get("manifest_sha256") != digest(manifest_path)
++                or provenance.get("manifest_entries") != str(len(manifest))
++                or provenance.get("archive_members") != str(len(manifest) + int(embedded))):
++            reconciliation_problems.append(archive_name + "!/inventory-provenance-mismatch")
+         for item in manifest:
+             pair = (archive_name, item["path"])
+             if pair in expected_members:
+                 reconciliation_problems.append(archive_name + "!/duplicate-manifest-member")
+             expected_members[pair] = item["sha256"]
+-        expected_members[(archive_name, "CHECKPOINT_CONTENTS.tsv")] = digest(manifest_path)
++        if embedded:
++            expected_members[(archive_name, "CHECKPOINT_CONTENTS.tsv")] = digest(manifest_path)
+         archived = ROOT.parent.parent / "output" / archive_name
+         if archived.exists():
+             with ZipFile(archived) as bundle:
+                 actual = {name: hashlib.sha256(bundle.read(name)).hexdigest()
+                           for name in bundle.namelist() if not name.endswith("/")}
++                actual_sizes = {name: bundle.getinfo(name).file_size for name in actual}
++            expected_sizes = {item["path"]: int(item["bytes"]) for item in manifest}
++            if embedded:
++                expected_sizes["CHECKPOINT_CONTENTS.tsv"] = manifest_path.stat().st_size
+             expected_archive = {name: checksum for (checkpoint_name, name), checksum in expected_members.items()
+                                 if checkpoint_name == archive_name}
+-            if actual != expected_archive:
++            if (actual != expected_archive or actual_sizes != expected_sizes
++                    or digest(archived) != provenance.get("checkpoint_sha256")):
+                 reconciliation_problems.append(archive_name + "!/archive-manifest-mismatch")
+     actual_pairs = [(r.get("checkpoint"), r.get("path")) for r in reconciliation]
+     if len(set(actual_pairs)) != len(actual_pairs) or set(actual_pairs) != set(expected_members):
+@@ -528,6 +550,7 @@
+             recorded_redactions[identity] += 1
+     replayed_redactions = collections.Counter()
+     original_archives_available = set()
++    exact_diff_problems = []
+     for checkpoint in checkpoint_rows:
+         archive_name = checkpoint["checkpoint"]
+         archived = ROOT.parent.parent / "output" / archive_name
+@@ -537,14 +560,30 @@
+         with ZipFile(archived) as bundle:
+             for name in bundle.namelist():
+                 entry = reconciliation_by_pair.get((archive_name, name), {})
+-                if entry.get("status") != "superseded" or not entry.get("exact_passage_diff"):
++                if entry.get("status") not in {"unchanged", "superseded"}:
+                     continue
+                 target = ROOT / entry["final_path"]
+-                for side, data in [("checkpoint", bundle.read(name)), ("final", target.read_bytes())]:
+-                    try:
+-                        historical_text = data.decode("utf-8")
+-                    except UnicodeDecodeError:
+-                        continue
++                if not target.is_file():
++                    exact_diff_problems.append(archive_name + "!/" + name)
++                    continue
++                try:
++                    before_text = bundle.read(name).decode("utf-8")
++                    after_text = target.read_bytes().decode("utf-8")
++                except UnicodeDecodeError:
++                    continue
++                redacted_before, _ = redact_history(before_text, name)
++                redacted_after, _ = redact_history(after_text, name)
++                expected_patch = "".join(difflib.unified_diff(
++                    redacted_before.splitlines(keepends=True), redacted_after.splitlines(keepends=True),
++                    fromfile=archive_name + "!/" + name, tofile="final!/" + name))
++                recorded_diff = entry.get("exact_passage_diff", "")
++                if expected_patch:
++                    if (not recorded_diff or not (ROOT / recorded_diff).is_file()
++                            or (ROOT / recorded_diff).read_bytes() != expected_patch.encode("utf-8")):
++                        exact_diff_problems.append(archive_name + "!/" + name)
++                elif recorded_diff and (not (ROOT / recorded_diff).is_file() or (ROOT / recorded_diff).read_bytes()):
++                    exact_diff_problems.append(archive_name + "!/" + name)
++                for side, historical_text in [("checkpoint", before_text), ("final", after_text)]:
+                     for found in privacy_matches(historical_text, name):
+                         item = dict(found, start_character=found["start"],
+                                     removed_characters=found["end"] - found["start"])
+@@ -556,6 +595,9 @@
+     check("Historical privacy omissions have exact span records", not redaction_problems,
+           {"redactions": len(redactions), "original_archives_replayed": len(original_archives_available),
+            "replayed_spans": sum(replayed_redactions.values()), "problems": sorted(set(redaction_problems))})
++    check("Checkpoint text diffs replay exactly", not exact_diff_problems,
++          {"original_archives_replayed": len(original_archives_available),
++           "problems": sorted(set(exact_diff_problems))})
+ 
+     report = {
+         "passed": all(c["passed"] for c in checks),

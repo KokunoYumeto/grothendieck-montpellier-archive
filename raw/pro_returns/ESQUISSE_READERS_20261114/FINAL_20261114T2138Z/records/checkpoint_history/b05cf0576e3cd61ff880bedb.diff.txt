@@ -1,0 +1,74 @@
+--- ESQUISSE_READERS_checkpoint_13.zip!/scripts/release_bundle.py
++++ final!/scripts/release_bundle.py
+@@ -165,9 +165,27 @@
+     files = snapshot()
+     rows = []
+     redactions = []
++    manifest_provenance = []
+     for source in sorted(OUTPUT.glob("ESQUISSE_READERS_checkpoint_*.zip")):
+         number = int(source.stem.rsplit("_",1)[1])
+         with ZipFile(source) as archive:
++            members = [name for name in archive.namelist() if not name.endswith("/")]
++            manifest_name = f"records/checkpoint_manifests/checkpoint_{number:02d}.tsv"
++            embedded_manifest = "CHECKPOINT_CONTENTS.tsv" in members
++            if embedded_manifest:
++                manifest_data = archive.read("CHECKPOINT_CONTENTS.tsv")
++                manifest_origin = "embedded checkpoint manifest"
++            else:
++                manifest_data = tsv_bytes([
++                    {"path": name, "bytes": archive.getinfo(name).file_size, "sha256": sha(archive.read(name))}
++                    for name in sorted(members)], ["path", "bytes", "sha256"])
++                manifest_origin = "derived from immutable checkpoint bytes; no embedded manifest"
++            (ROOT / manifest_name).write_bytes(manifest_data)
++            manifest_entries = len(list(csv.DictReader(io.StringIO(manifest_data.decode("utf-8")), delimiter="\t")))
++            manifest_provenance.append({"checkpoint": source.name, "checkpoint_sha256": sha(source.read_bytes()),
++                                        "manifest_path": manifest_name, "manifest_sha256": sha(manifest_data),
++                                        "origin": manifest_origin, "manifest_entries": manifest_entries,
++                                        "archive_members": len(members)})
+             for name in archive.namelist():
+                 if name.endswith("/"):
+                     continue
+@@ -191,7 +209,7 @@
+                         except UnicodeDecodeError:
+                             reason += " Binary replacement is identified by both hashes; no old reader PDF is presented as the final reader."
+                         else:
+-                            diff_name = "records/checkpoint_history/" + sha((name + sha(old) + sha(current)).encode())[:24] + ".diff.txt"
++                            diff_name = "records/checkpoint_history/" + sha((source.name + "!/" + name + sha(old) + sha(current)).encode())[:24] + ".diff.txt"
+                             before_text, old_redactions = redact_history(before_text, name)
+                             after_text, new_redactions = redact_history(after_text, name)
+                             for side, items in [("checkpoint", old_redactions), ("final", new_redactions)]:
+@@ -215,14 +233,24 @@
+                 else:
+                     raise RuntimeError("Unaccounted checkpoint member: " + source.name + "!/" + name)
+                 rows.append({"checkpoint": source.name, "path": name, "checkpoint_sha256": sha(old), "final_path": target_name, "final_sha256": sha(current) if current else "", "status": status, "reason": reason, "exact_passage_diff": diff_name})
++    referenced_diffs = {row["exact_passage_diff"] for row in rows if row["exact_passage_diff"]}
++    archived_diffs = {row["path"] for row in rows if row["path"].startswith("records/checkpoint_history/")}
++    for previous_diff in history.glob("*.diff.txt"):
++        relative = previous_diff.relative_to(ROOT).as_posix()
++        if (re.fullmatch(r"[0-9a-f]{24}\.diff\.txt", previous_diff.name)
++                and relative not in referenced_diffs and relative not in archived_diffs):
++            previous_diff.unlink()
+     fields = ["checkpoint", "path", "checkpoint_sha256", "final_path", "final_sha256", "status", "reason", "exact_passage_diff"]
+     (ROOT / "records" / "CHECKPOINT_RECONCILIATION.tsv").write_bytes(tsv_bytes(rows, fields))
++    (ROOT / "records" / "CHECKPOINT_MANIFEST_PROVENANCE.tsv").write_bytes(tsv_bytes(
++        manifest_provenance, ["checkpoint", "checkpoint_sha256", "manifest_path", "manifest_sha256", "origin", "manifest_entries", "archive_members"]))
+     redaction_fields=["checkpoint","path","side","line","column","start_character","removed_characters","kind","removed_sha256","diff","reason"]
+     (ROOT / "records" / "CHECKPOINT_PRIVACY_REDACTIONS.tsv").write_bytes(tsv_bytes(redactions, redaction_fields))
+     counts = {state:sum(r["status"] == state for r in rows) for state in sorted({r["status"] for r in rows})}
+     text = "# Checkpoint reconciliation\n\nEvery member of every immutable checkpoint is accounted for in CHECKPOINT_RECONCILIATION.tsv. Its earlier hash, final destination and hash, status, and reason are explicit. For replaced UTF-8 files, the linked unified diff lists removed passages and their replacements, with the privacy redactions described below. Earlier partial reader PDFs are identified by hash and superseded by the final compiled PDF; their build measurements remain in BUILD_HISTORY.jsonl.\n\n"
+     text += "| Status | Checkpoint members |\n|---|---:|\n" + "".join(f"| {state} | {count} |\n" for state,count in counts.items())
+     text += "\nThe supplied input-table duplicates removed after checkpoint03 remain in the original TEXT archive and are individually listed in OMITTED_CHECKPOINT_FILES.tsv. No original archive or earlier checkpoint ZIP is embedded in these final packages.\n"
++    text += "\nCHECKPOINT_MANIFEST_PROVENANCE.tsv records each immutable ZIP hash and the origin and hash of its inventory. Checkpoints01--04 predate embedded inventories; their numbered inventories are derived from the exact preserved ZIP bytes. Later numbered inventories preserve CHECKPOINT_CONTENTS.tsv verbatim. The derived inventories add no member to, and change no byte of, an earlier checkpoint.\n"
+     text += f"\nHistorical text diffs contain {len(redactions)} explicit path/address-span redactions, individually listed in CHECKPOINT_PRIVACY_REDACTIONS.tsv by checkpoint, relative file, original line/column, character range, removed-span SHA-256 and reason. Each redacted span is replaced by a labelled hash marker; the other diff text is exact. This accounts for the omitted path strings without copying them into the final records. The immutable earlier checkpoints are unchanged.\n"
+     (ROOT / "records" / "CHECKPOINT_RECONCILIATION.md").write_text(text)
+     print(json.dumps({"checkpoint_members":len(rows), "statuses":counts, "privacy_redactions":len(redactions), "unaccounted":0}))
+@@ -250,6 +278,9 @@
+     if second.returncode or gate_path.read_bytes() != approved_gate:
+         raise RuntimeError("Release evidence changed during final reconciliation; review the gate before packaging")
+     files = snapshot()
++    # The content manifest deliberately excludes itself. A previous attempt's
++    # generated manifest must not become a stale self-entry in a retry.
++    files.pop("records/FINAL_CONTENTS.tsv", None)
+     groups = {"ESQUISSE_READERS_FR.zip":{}, "ESQUISSE_READERS_EN.zip":{}, "ESQUISSE_READERS_RECORDS.zip":{}}
+     for name, data in files.items():
+         if name.startswith("FR/"):

@@ -1,0 +1,43 @@
+--- ESQUISSE_READERS_checkpoint_10.zip!/scripts/write_readme.py
++++ final!/scripts/write_readme.py
+@@ -199,8 +199,9 @@
+     if guide_paths:
+         document = make_document(
+             s.root, "EN_corrected_translator_notes", metadata, {}, [], "", guide=True)
+-        end = document.index(r"\end{document}")
+-        document = document[:end] + "\n\n".join(s.text(p) for p in guide_paths) + "\n" + document[end:]
++        # Keep the executed-count footer after the guide, exactly as build_edition does.
++        after = document.index(r"\typeout{EDITION-APPARATUS-COUNT:")
++        document = document[:after] + "\n\n".join(s.text(p) for p in guide_paths) + "\n" + document[after:]
+         document = document.replace(
+             r"\newcommand{\EditionTitle}{Sketch of a Program}",
+             r"\newcommand{\EditionTitle}{A Guide to the Esquisse}")
+@@ -805,6 +806,7 @@
+             ("records/COLLATION_COMMON_MARKS.tsv", "Shared-handwriting rows reproduced from the complete collation."),
+             ("editorial_variants.json; records/EDITORIAL_CANDIDATES.tsv; records/EDITORIAL_ADJUDICATIONS.tsv", "Approved corrections, their candidate evidence, and explicit correction/retention decisions."),
+             ("copy2_annotations.json; records/MERGED_ANNOTATION_UNCERTAINTIES.tsv", "Bilingual copy 2 apparatus text and links, including merged shared corrections and their preserved, copy-specific underlayer uncertainties."),
++            ("records/COPY2_APPARATUS_LANGUAGE_REVIEW.json", "Independent reading of every final French/English apparatus pair, including merged entries, with exact input and per-entry hashes and the two resolved language/context findings."),
+             ("checked_pages/; annotated_pages/", "Checked diplomatic source files and the generated variant-bearing versions."),
+             ("translated_pages/; guide_fragments/", "Complete English page translations, translator review history, math index, apparatus alignment and ordered guide prose."),
+             ("guide_fragments/GUIDE_MATH_REVIEW.tsv; guide_fragments/verify_icosahedron_graph.py; guide_fragments/ICOSAHEDRON_GRAPH_CHECK.tsv", "Independent source-and-mathematics review of all 18 commentary units and seven explicit arguments, with a reproducible exact arithmetic check of the displayed 12-vertex graph."),
+@@ -821,12 +823,19 @@
+             ("records/SOURCE_GLYPHS.md; records/SOURCE_GLYPH_119A.json; glyphs/", "Observed special-glyph provenance, vector transformations and inspected rendering probes."),
+             ("scripts/; templates/", "Reproducible review, collation, generation, compilation, audit and rendering code plus reusable TeX definitions."),
+             ("records/CHECKPOINTS.tsv; records/OMITTED_CHECKPOINT_FILES.tsv", "Earlier checkpoint identities and explicit reconciliation of files not repeated in the final archives."),
+-            ("records/CHECKPOINT_RECONCILIATION.tsv; records/CHECKPOINT_RECONCILIATION.md; records/FINAL_CONTENTS.tsv", "Every checkpoint member's final disposition, exact replacement diffs and the final three-archive content manifest."),
++            ("records/CHECKPOINT_RECONCILIATION.tsv; records/CHECKPOINT_RECONCILIATION.md; records/FINAL_CONTENTS.tsv", "Every checkpoint member's final disposition, replacement diffs with individually labelled historical path redactions, and the final three-archive content manifest."),
++            ("records/CHECKPOINT_PRIVACY_REDACTIONS.tsv", "Checkpoint member identities, removed-span hashes and coordinates, and reasons for local environment paths redacted from historical textual diffs; original-file hashes are recorded in the reconciliation."),
++            ("records/CHECKPOINT_MANIFEST_PROVENANCE.tsv", "Immutable checkpoint ZIP hashes, inventory hashes and counts, and the recorded origin of each embedded or newly derived inventory."),
+         ]),
+         "",
+         "The records ZIP retains the authored review history and reproducibility files. "
+         "Unmodified input-table duplicates removed from earlier checkpoints are identified in "
+         + link("records/OMITTED_CHECKPOINT_FILES.tsv") + " with their original archive location and reason. "
++        "Historical textual diffs preserve the replaced passages exactly except for individually labelled redactions of local environment paths in early scripts. "
++        + link("records/CHECKPOINT_PRIVACY_REDACTIONS.tsv") + " identifies each checkpoint member, removed-span SHA-256 and coordinates, and the reason; the reconciliation supplies the original-file SHA-256. "
++        "The original immutable checkpoint ZIPs remain untouched; the final reconciliation validates the redaction records and complete redacted diffs against their original bytes. "
++        "Checkpoints01–04 predate embedded inventories, so their numbered inventories were derived from the preserved ZIP bytes. Later inventories preserve the embedded CHECKPOINT_CONTENTS.tsv verbatim. "
++        + link("records/CHECKPOINT_MANIFEST_PROVENANCE.tsv") + " records that distinction together with ZIP and inventory hashes and counts. "
+         "Runtime downloads, font caches, temporary TeX outputs and duplicate intermediate diagnostic renderings are reproducible intermediates; "
+         "they are excluded from publication while sanitized logs, source hashes, measured results and actual review observations are retained. "
+         "The diagnostic build baseline is recorded in " + link("ORIGINAL_BUILD_BASELINE.json") + "; its unchecked PDFs are not readers.",

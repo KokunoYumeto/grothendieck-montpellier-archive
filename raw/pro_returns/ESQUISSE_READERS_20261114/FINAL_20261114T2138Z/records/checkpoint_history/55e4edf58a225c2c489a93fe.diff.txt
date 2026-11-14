@@ -1,0 +1,26 @@
+--- ESQUISSE_READERS_checkpoint_01.zip!/scripts/review_page.py
++++ final!/scripts/review_page.py
+@@ -30,7 +30,22 @@
+         "differences_confirmation_reason":diffs,"difference_outcomes":difference_overrides or {},
+         "additional_decisions":additional or [],"finalize":True}
+     path=edition/"reviews"/f"{key}.json";path.parent.mkdir(parents=True,exist_ok=True)
+-    path.write_text(json.dumps(review,ensure_ascii=False,indent=2)+"\n")
++    serialized=json.dumps(review,ensure_ascii=False,indent=2)+"\n"
++    if path.exists() and path.read_text()!=serialized:
++        # Preserve an earlier explicit judgment when further image evidence
++        # changes a classification or reading. The active TSV is regenerated,
++        # while this history retains the superseded declaration and rows.
++        history=edition/"reviews/history";history.mkdir(parents=True,exist_ok=True)
++        serial=1
++        while (history/f"{key}_review_{serial:03d}.json").exists():serial+=1
++        (history/f"{key}_review_{serial:03d}.json").write_text(path.read_text())
++        from audit_inventory import read_tsv,write_tsv
++        for name in ["CHECK_DECISIONS.tsv","DIFFERENCES_OUTCOMES.tsv"]:
++            record=edition/name
++            if record.exists():
++                rows=[r for r in read_tsv(record) if r.get("key")==key]
++                if rows:write_tsv(history/f"{key}_{serial:03d}_{name}",rows,list(rows[0]))
++    path.write_text(serialized)
+     result=subprocess.run([sys.executable,str(edition/"scripts/audit_apply.py"),str(path),"--work",str(root)],
+                           check=True,capture_output=True,text=True)
+     print(result.stdout.strip())
