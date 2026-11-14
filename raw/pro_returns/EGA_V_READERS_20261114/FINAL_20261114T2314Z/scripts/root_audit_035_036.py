@@ -1,0 +1,56 @@
+from pathlib import Path
+import sys
+sys.path.insert(0,str(Path(__file__).parent))
+import audit_record as ar
+from root_review_support import ReviewedPage
+
+key='ega25_25_035';p=ReviewedPage(ar.source_path(key).read_text())
+p.change(r'\zeta',r'\xi','The vertically curled handwritten point signs are xi.','corrected-reading')
+p.change(r'\hand{\check{}}P',r'\overset{\hand{\vee}}{P}','Only the pen check lies above the typed P; the empty-accent encoding is replaced without changing the mark.','corrected-layer')
+p.change(r'\xout{xxxxxx} f(T)',r'\xout{et tel} f(T)','The crossed opening words read et tel.','recovered-cancelled-reading')
+p.change(r'tel\unsure{\hand{s}}',r'tels','The enlarged final s has the typewriter outline and spacing of the word; no separate pen stroke is visible.','doubt-resolved;corrected-layer')
+p.change(r'f(T) $\subset$ H',r'f(T) \hand{$\subset$} H','The first containment sign is penned.','corrected-layer')
+p.change(r'\xout{\illegible{3}} avec',r"\xout{s'il existe un} avec",'The cancelled phrase is readable beneath the x impressions.','recovered-cancelled-reading')
+p.change(r"\xout{(d'après \illegible{2} hypothèse}",r"\xout{(d'après la \illegible{1} hypothèse}",'The article la is readable; the remaining intervening word is still obscured.','partly-recovered-cancelled-reading')
+p.change(r'\xout{\unsure{P} \unsure{$Z_o$})}',r'\xout{\unsure{P} \unsure{$-$|$\neq$} \unsure{$Z_o$}) on aura}','The cancelled line continues through an earlier on aura, omitted in the draft; the relation between P and Z_o remains obscured.','recovered-cancelled-reading')
+p.change(r'\over{)}{\unsure{$\neq$}}',r'\deleted{)}','The original parenthesis is scratched out. The dense zigzags do not form a live not-equal sign; the replacement closing parenthesis is separately placed after d\'.','corrected-cancellation-layer')
+p.change(r'\unsure{plus simplement ce qui suit}',r'plus simplement ce qui suit','The rotated margin is legible in full.','doubt-resolved')
+p.change(r'\over{X}{\unsure{T}}',r'\over{X}{T}','The handwritten replacement has a wide upper bar and single stem and reads T.','doubt-resolved')
+p.note('19-22','floppy paragraph and sideline','floppy paragraph and sideline','confirmed','The pencil sideline, bien insertion and the author\'s own word floppy remain as on the sheet.')
+p.note('24-29','cancelled corollary','cancelled corollary','confirmed','The frame and diagonals include the handwritten hypothesis and the entire Cela résulte line; the new Corollaire8.5 below it remains live.')
+p.note('25','F over F','F over F','confirmed','The repeated F shape in the old corollary was inspected and retained as the page\'s overprinted correction.')
+p.note('30','new handwritten heading and clipped ending','new handwritten heading and clipped ending','doubt-retained','The heading is underlined. The initial Supposons remains tentative, and the end after dimf(R) is cut by the sheet edge; no inequality is supplied.')
+p.note('32','struck handwritten word under S_k','struck handwritten word under S_k','unresolved','The heavy loops beneath the underline do not yield a secure word.')
+p.note('33-35','margin hypothesis and support','margin hypothesis and support','confirmed','The second margin note adds the S_k hypothesis; the replacement T and inserted =suppF sit above the former X.')
+p.note('6-38','remaining lines','remaining lines','confirmed','All words, formulas, x strings and right-edge cuts were read, including the unchanged P in trace sur P-Z_o and the absent right-edge end after coprof_x(F)>.','full-line-check')
+s,d=p.finish()
+bottom=r'\hand{$\delta$} \inserted{Utilisant 8.4. 5.7.4. et la fin de 8.2. on obtient :}'
+target=r'\deleted{Complément} \hand{$\delta$}'
+assert bottom in s and target in s
+insert=r'\inserted{Utilisant 8.4. 5.7.4. et la fin de 8.2. on obtient :}'
+s=s.replace(bottom,'').replace(target,r'\deleted{Complément} '+insert)
+s=s.replace(r'\scanpage{25/35}',r'\scanpage{25/35}'+'\n% NOTE: Matching loop-and-stem insertion marks place the bottom Utilisant sentence before the new Corollaire8.5; the marks are not Greek delta letters.',1)
+d.append(dict(line='30,37',before=target+' / '+bottom,image=r'\deleted{Complément} '+insert,decision='corrected-placement',reason='The two matching pen call marks link the bottom introduction to the new corollary. Their shapes are editorial markers; no literal delta is transcribed.',category='placement'))
+ar.save(key,s,d,0,'Both native halves and enlarged typewriter s, cancelled phrases, parenthesis and rotated marginal note read completely; matching placement marks followed.')
+
+key='ega25_25_036';p=ReviewedPage(ar.source_path(key).read_text())
+for n in (32,36):p.change('\\mspage{'+str(n)+'}','\\mspage{\\hand{'+str(n)+'}}','The page numeral is handwritten.','corrected-layer')
+p.change(r'n+k+\unsure{1}',r'n+k+\unsure{1|k}','The last position visibly contains overlapping1 and k impressions.','doubt-refined')
+p.change(r'f(\xout{Z}T$_j$)',r'f(\unsure{T|Z}$_j$)','The typewriter letters overlap at one position; there is no separate x cancellation followed by a second letter. Both visible shapes are retained.','corrected-layer;doubt-refined')
+p.change(r'co\unsure{prof}ondeur',r'co\unsure{ppf|prof}ondeur','The enlarged medial impressions include two descending p-like stems and an overprinted f; ppf is retained alongside the original prof candidate.','doubt-refined')
+p.change(r'\inserted{i.e. fini}',r'\inserted[typed]{i.e. fini}','The letters are typewritten, with a pen bracket for placement.','corrected-layer')
+p.change(r'\inserted{point fermé}',r'\inserted[typed]{point fermé}','The words above the boxed line are typed; their placement curve is penned.','corrected-layer')
+p.change(r'\over{La}{la}',r'\over{L}{l}a','The pen correction affects the initial L/l; the following a remains typed.','corrected-layer')
+p.change(r'\zeta',r'\xi','The point signs have the curled xi form.','corrected-reading')
+p.change(r'\hand{-}régulier',r'\hand{\unsure{$-$|$+$}}régulier','The enlarged pen mark includes a long upright/curved stroke as well as a horizontal bar; its exact sign remains unsettled.','doubt-added')
+p.change(r'\over{F}{G}',r'\unsure{\over{F}{G}|F|G}','The enlarged letter shows competing F/G outlines; the ink does not securely establish a final G or distinguish pen correction from overlapping type impressions.','doubt-added;layer-unresolved')
+p.change(r'\unsure{énoncé en cor.}',r'énoncé en cor.','The enlarged handwritten abbreviation is legible above the crossed joint à.','doubt-resolved')
+p.note('11-15','typed insertions and cancellations','typed insertions and cancellations','confirmed','The two-line il n\'existe pas de point isolé insertion was traced to tel que; dim and the old alternatives are crossed on the typewriter.')
+p.note('19','i.e. fini placement','i.e. fini placement','confirmed','The bracket spans the adjacent d/en vertu region. The draft\'s placement after d is retained; the pen downstroke at the adjacent gap is not a slash character.')
+p.note('24-25','replacement sentence','replacement sentence','confirmed','The typed Lorsqu\'on ne suppose plus F replaces the two hand-cancelled lines before the live équidimensionnel continuation.')
+p.note('28','boxed8.6','boxed8.6','confirmed','The top horizontal line belongs to the box frame and does not delete the introductory sentence. The numeral is circled at left; inequalities and the final1 in k+1 are pen additions.')
+p.note('30-38','Greek and relation signs','Greek and relation signs','confirmed','Every remaining handwritten point, inequality and membership mark was compared against the page. X in X_{k(xi)}-régulier is visibly typed and remains unrepaired.')
+p.note('38','right edge and sideline','right edge and sideline','confirmed','The final8.6 and earlier l\'hyp/impli are clipped; the pencil stroke spans the last lines. No lost text is completed.')
+p.note('7-40','remaining words/formulas','remaining words/formulas','confirmed','All lines read, preserving compos ante, d éfaut, d es, the colon after S_k and the stated codimension/depth formulas.','full-line-check')
+s,d=p.finish();ar.save(key,s,d,0,'Both native halves and enlarged first overprint, coprofondeur, regularity marker, F/G and final reference insertion read completely.')
+print('Saved sites35–36;',ar.aggregate(),'pages checked.')

@@ -1,0 +1,21 @@
+import sys
+sys.path.insert(0,'edition/scripts')
+from audit_blass_late_helpers import complete
+R=[(r'\margin{* Ask A.G.}',r'\margin{\hand{* Ask A.G.}}','The footer star and Ask A.G. are handwritten. Enlargement shows the first low dot afterA and the small final dot afterG; retain the written punctuation without adding a further faint spot below/right.')]
+M={33:'The footnote star and Ask A.G. are penned; both indicated dots are visible, with the first low betweenA andG and the second to the right. A still farther faint spot has no textual structure.'}
+N=['The Z AG’s errorP.B. phrase and its underline are typed. The straight underline starts underZ and ends after the final period ofP.B.; the enclosing parentheses are outside it.','Enlargement shows the standard typed phi and a visibly lowered typedxi. Its loop/descender matches the other xi symbols; no pen substitution occurs.','The handwritten note is * Ask A.G., with low first period and final period visible. It refers to the typed star after the underlined translator comment.','The upper-left isolated dark speck is not readable writing; the margins were inspected beyond the body.','No long handwritten passage occurs; only the short starred footer is penned.']
+E=[]
+def d(line,before,image,decision,reason,category='visual-check'):
+ E.append(dict(line=line,before=before,image=image,decision=decision,reason=reason,category=category))
+d(8,"(Z AG’s error P.B.)*",'Typed underlined translator comment and star','retained_query_with_french_crossreference','Checked cote25 site58 literally says “une droiteL ... ne rencontrant pas k”. Blass keepsk in his sentence and adds the quoted comment proposingZ. The comment is preserved as Blass’s attribution; no editorial replacement is made.','cote24-query')
+d(33,'* Ask A.G.','Handwritten starred note','retained_query_with_french_crossreference','This points to Blass’s comment after not meetingk, corresponding to checked cote25 site58’s literal ne rencontrant pask.','cote24-query')
+d(8,'one(a single)','Printed parenthesized alternative','retained_query_with_french_crossreference','Checked cote25 site58 underlines une in the same sentence. Blass’s parenthesized alternative remains.','cote24-query')
+d('7,10','secondZ in firstline andZ after does not meet','BothZ letters are unbarred','comparison-recorded','Checked cote25 site58 places a bar over the correspondingZ in “ou encoreZ” and in the infinite-field sentence. Blass omits those bars.','cote24-comparison')
+d('8,10,12','L inP','All threeP occurrences lack dual marks','comparison-recorded','Checked cote25 site58 has pen dual marks overP in these line/pencil phrases. EnglishP is retained as printed.','cote24-comparison')
+d(11,'sections ofx','The lastx is lowercase','comparison-recorded','Checked cote25 site58 has “sections hyperplanes deX” with uppercaseX. Blass’s lowercasex remains.','cote24-comparison')
+d(18,'P1=P','Full raised digit1','comparison-recorded','Checked cote25 site58 calls the combined propertyP′. Blass’s digit1 remains, without conversion to prime.','cote24-comparison')
+d(17,'f(T)','The argument is capitalT','comparison-recorded','Checked cote25 site58 retainsF|T uncertainty at this letter. The EnglishT is secure, but it is not used to resolve the French.','cote24-comparison')
+d('29–31','Minimum reformulation paragraph','Typed final paragraph corresponds to the start of French59','comparison-recorded','Checked cote25 site59 opens “Comme minimum dans ce sens ... reformulation de9.5 ... applications géométriques”. This establishes the exact coverage end for Blass67.','cote24-comparison')
+d('7–31','All body text and formulas','Every word, index, parenthesis, underline, arrow and punctuation mark checked.','confirmed','Retain the literal AG comment, k, repeatedZ, No’s., lowercasex, ununderlinedY_L, and all typed property notation. Both image halves, overlap and margins read fully.','full-text')
+rec=complete('ega24_24_067',R,M,N,E,visual_notes='Both supplied images read completely. Enlarged phi_xi and the starred footer; confirmed the typed loweredxi and the pen wording/periods. Blass’s explicit correction comment, its star, and the alternative a single have separate checked French58 links; the final paragraph maps to59.')
+print(rec['key'],rec['lines_read'],len(rec['decisions']))

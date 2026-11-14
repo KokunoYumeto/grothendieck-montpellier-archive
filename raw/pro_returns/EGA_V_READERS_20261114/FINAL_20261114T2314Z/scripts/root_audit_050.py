@@ -1,0 +1,28 @@
+from pathlib import Path
+import sys
+sys.path.insert(0,str(Path(__file__).parent))
+import audit_record as ar
+from root_review_support import ReviewedPage
+k='ega25_25_050';p=ReviewedPage(ar.source_path(k).read_text())
+p.change(r'\mspage{46}',r'\mspage{\hand{46}}','The upper46 is handwritten.','corrected-layer')
+p.change(r'\margin{50}',r'\margin{\hand{50}}','The lower50 is pencil foliation.','corrected-layer')
+p.change(r'\inserted{non}',r'\inserted[typed]{non}','The interlinear non has the typewriter shapes and spacing.','corrected-layer')
+p.change(r'\unsure{2}+1',r'\unsure{R|2|k}+1','The overprinted cell has an R-like upper bowl and diagonal leg, with2/k traces also possible. Independent review agrees that neither one value nor overwrite order is secure.','doubt-refined')
+p.change(r'\zeta',r'\xi','The curled pen letters are xi at every occurrence, including each subscript.','corrected-reading')
+p.change(r'$\hand{$\check{\ }$}$P',r'$\overset{\hand{\vee}}{P}$','The check is handwritten directly over the typed P.','corrected-layer;mechanical-encoding')
+p.note('23',r'\hand{$\phi_\xi$}',r'\hand{$\phi_\xi$}','confirmed-after-reread','Both phi and xi are penned; the earlier typed-phi interpretation was superseded by a focused enlarged comparison recorded in the canonical audit JSON.')
+p.change(r'\xout{$\phi$ soit',r'\xout{\hand{$\phi$} soit','The canceled phi also has the same freehand oblique stem, rounded upper endpoint and uneven loop.','corrected-layer-after-reread')
+p.change(r'\uline{tous\xout{es}}',r'\uline{tou\unsure{t|s}\xout{es}}','The fourth type position has competing t/s outlines. The following crossed es and the underline are clear; the uncertain fourth letter is not normalized to tous.','doubt-added')
+p.change(r'\inserted{X}',r'\inserted[typed]{X}','The inserted X has the typewriter serif form.','corrected-layer')
+p.change(r'\unsure{les sections par}',r'en effet tous','The handwritten addition reads en effet tous, with two consecutive tall f strokes. Independent visual inspection confirms it. The resulting wording is retained without a mathematical repair.','doubt-resolved;corrected-reading')
+p.change('(est\nconstructible',r'(e\unsure{st|sst}'+'\nconstructible','The last positions of est are overtyped and have competing st/sst traces.','doubt-added')
+p.note('7','cancelled first heading','cancelled first heading','confirmed','The entire typewriter-cancelled proposition line is readable; its blank f:X P connector is retained.')
+p.note('9-18','remorse and proposition','remorse and proposition','confirmed','The de supposer insertion is penned; non is typed. Every inequality and arrow was inspected. The cancelled phi formula has empty parentheses after k, preserved without supplying xi.')
+p.note('20-25','proof','proof','confirmed','The proof was read in full, including the source sss abbreviation, reference6.1 and geometric connectedness/normality wording.')
+p.note('27','typed dimensional note','typed dimensional note','confirmed','The entire typed sentence is placed before Il est possible by its enclosure and hook; its inequality is penned.')
+p.note('30-31','contientpas','contientpas','doubt-retained','The middle positions of contient are densely overtyped. The existing doubt mark and absent space before pas remain; no word is silently regularized.')
+p.note('35-38','quadric example','quadric example','confirmed','The complete example was read, including the original doubled r in concourrantes and the live wording hyperplans tangents sont réductibles after the handwritten addition.','full-line-check')
+p.note('38','last deleted word','last deleted word','doubt-retained','The final word after cancelled est remains compatible with une but its dense cancellation does not settle the letters.')
+s,d=p.finish()
+ar.save(k,s,d,0,'Both full halves read; overprinted codimension character, tous/toutes position, handwritten en effet tous, typed insertions, contientpas and final deleted word enlarged and checked.')
+print('Saved50;',ar.aggregate(),'pages checked.')
