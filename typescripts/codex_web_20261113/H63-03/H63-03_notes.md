@@ -1,0 +1,30 @@
+# H63-03 · Notes on these nine sheets
+
+## Steps the pages mark for checking
+
+| Scan | Words or expression beside the mark | What the sheet shows |
+|---|---|---|
+| 16 | “de genre arithmétique 1” | Two pencil underlines pick out “genre arithmétique”. A question mark in the left margin faces the second word. |
+| 17 | “un seul groupe de cohomologie non nulle” | A right-margin word ends in f. The readings réf and vérif are both possible. A second faint réf/ref stands by “à tout changement de base”. Only the reading vérif would explicitly ask for verification. |
+| 18 | “et que pour la flèche adjointe à la flèche inverse”, followed by the map from p* ω to Ω with reg above and E/S below | A free-standing question mark in the right margin faces this map. The star on p is raised; the arrow carries a tilde. |
+| 19 | “présentant un point d’inflexion en (0,1,0) avec la droite de l’infini pour tangente d’inflexion” | A tall curved stroke groups the lines at the right. A question mark is written beside it. |
+| 20 | Second expression for Δ, ending in “+ b₈ (36 b₄ − b₂²)” | The upper 2 at the end is circled. A question mark stands to its right above the level of the typed period. |
+| 22 | Universal curve following Proposition 2.5 | The underlined right-margin words can be read “section unité”, followed by a distinct question mark. The inner letters are faint. |
+| 23 | “d₆ = 0 ? i.e. a₂ a₄ − 9 a₆ = 0” | A small, low question mark is visible between the first zero and i.e. The source gives no further explanation of its placement. |
+
+Scans 17–19 also give verification arguments in the body, including “on vérifie fibre par fibre” (17) and “Pour vérifier l’existence et l’unicité de cette équation, on utilise (1.1)” (18–19). Scan 23 twice explains what suffices to check, first “pour 3 inversible et a₂ = 0”, then “en caractéristique 0”. These passages contain no additional mark of uncertainty. Scan 21's handwritten table states three cases. Scan 24 has a loop around a heading stop and a correction in its final line; there is no explicit question on either.
+
+## Title, dates and page counts
+
+Scan 16 bears the title **COURBES ELLIPTIQUES : FORMULAIRE** and the credit on two lines, “d’après J. Tate” and “mis au goût du jour par P. Deligne”. The same sheet begins section 1, “Formules générales.” There is no separate cover in this group.
+
+| Scan | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 |
+|---|---|---|---|---|---|---|---|---|---|
+| Typed page number | none | − 2 − | − 3 − | − 4 − | − 5 − | − 6 − | − 7 − | − 8 − | − 9 − |
+
+| Other information | On these sheets |
+|---|---|
+| Date | none |
+| Explicit total page count | none |
+
+Scan 24 ends mid-sentence at “forme”. Lower-left pencilled folio numbers are recorded separately in LaTeX comments.
