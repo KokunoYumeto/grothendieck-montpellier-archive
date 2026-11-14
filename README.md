@@ -14,6 +14,13 @@ it is made, with the prompts that produced it.
   [esquisse-readers-2026-11-14](https://github.com/KokunoYumeto/grothendieck-montpellier-archive/releases/tag/esquisse-readers-2026-11-14).
   Built by GPT-6 Astra (ChatGPT Pro mode) from the transcription by Claude Opus 5.5 at effort high (Message Batches
   API); the run's records are in `raw/pro_returns/ESQUISSE_READERS_20261114/FINAL_20261114T2138Z/`.
+- *Nouveau EGA V* (cote 25) and Piotr Blass's 1987 translation typescript of it (cote 24), final edition of
+  14 November 2026: French diplomatic text, corrected text with apparatus and reading text; a new English translation
+  (with apparatus and translator's notes, and reading text); Blass's translation in three forms; a guide; each as PDF
+  and LaTeX, in the release
+  [ega-v-readers-2026-11-14](https://github.com/KokunoYumeto/grothendieck-montpellier-archive/releases/tag/ega-v-readers-2026-11-14).
+  Built by GPT-6 Astra (ChatGPT Pro mode) from the transcription by Claude Opus 5.5 at effort high (Message Batches
+  API); the run's records are in `raw/pro_returns/EGA_V_READERS_20261114/FINAL_20261114T2314Z/`.
 
 ## What is here
 
