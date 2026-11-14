@@ -1,0 +1,19 @@
+% A hand macro around a tikz-cd arrow marks that edge only. TikZ defers edge
+% drawing, so its explicit color option is required; a surrounding text color
+% group alone would not survive until the arrow is drawn.
+\ExplSyntaxOn
+\NewDocumentCommand{\EditionHand}{m}
+  {
+    \tl_if_head_eq_meaning:nNTF {#1} \arrow
+      {\ifdiplomatic \EditionColorArrow #1 \else #1\fi}
+      {\ifdiplomatic \textcolor{HandInk}{#1}\else #1\fi}
+  }
+\cs_new_protected:Npn \EditionColorArrow \arrow [#1]
+  {\arrow[#1,color=HandInk]}
+\ExplSyntaxOff
+\newcommand{\hand}[1]{\EditionHand{#1}}
+% The source oval is handwriting; its already typed contents retain black ink.
+\newcommand{\handcircle}[1]{%
+  \tikz[baseline=(editioncircled.base)]{%
+    \node[draw=HandInk,ellipse,inner xsep=.9pt,inner ysep=.2pt,
+      outer sep=0pt,line width=.4pt,text=black] (editioncircled) {#1};}}

@@ -1,0 +1,156 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[no-math]{fontspec}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+\usepackage[@LANGUAGES@]{babel}
+\usepackage[left=22mm,right=34mm,top=22mm,bottom=22mm,marginparwidth=23mm,marginparsep=5mm,includeheadfoot]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage[normalem]{ulem}
+\usepackage{xcolor,tikz-cd,marginnote,etoolbox,microtype,graphicx}
+\usetikzlibrary{shapes.geometric}
+\microtypesetup{protrusion=false}
+\usepackage[unicode,colorlinks=true,linkcolor=LinkInk,urlcolor=LinkInk,bookmarksopen=true]{hyperref}
+\definecolor{LinkInk}{HTML}{254E70}
+\definecolor{HandInk}{HTML}{254E70}
+\definecolor{DeletionInk}{HTML}{8B3A3A}
+\definecolor{QuietInk}{HTML}{555555}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{3pt plus 1pt}
+\setlength{\emergencystretch}{1.5em}
+\raggedbottom
+\normalmarginpar
+\frenchspacing
+\renewcommand{\textcircled}[1]{%
+  \tikz[baseline=(editionnumber.base)]{%
+    \node[draw=.,text=.,circle,inner sep=.4pt,outer sep=0pt,
+      line width=.35pt] (editionnumber) {#1};}}
+\newif\ifdiplomatic
+\newif\ifreading
+\newif\ifenglish
+@FORM_SWITCHES@
+\newcommand{\EditionTitle}{@EDITION_TITLE@}
+\newcommand{\EditionForm}{@EDITION_FORM@}
+\hypersetup{pdftitle={@PDF_TITLE@},pdfauthor={Alexander Grothendieck},pdfsubject={A scan-checked edition of Esquisse d'un programme, January 1984, Montpellier cote 119}}
+@LINK_TRACKING@
+\newcommand{\DeclareScan}[4]{%
+  \expandafter\def\csname edurl@#1\endcsname{#2}%
+  \expandafter\def\csname edkey@#1\endcsname{#3}%
+  \expandafter\def\csname edpage@#1\endcsname{#4}}
+\def\CurrentScanURL{}
+\def\CurrentPageKey{}
+\def\CurrentCopy{copy1}
+\def\CurrentApparatus{}
+\newcounter{appnote}
+\newcommand{\EditionPart}[2]{\clearpage\def\CurrentCopy{#1}\section*{#2}}
+\newcommand{\scanpage}[1]{%
+  \clearpage
+  \expandafter\let\expandafter\CurrentScanURL\csname edurl@#1\endcsname
+  \expandafter\let\expandafter\CurrentPageKey\csname edkey@#1\endcsname
+  \def\CurrentApparatus{}%
+  \hypertarget{scan-\CurrentPageKey}{}%
+  \typeout{EDITION-SCAN: \CurrentPageKey; PDFPAGE: \the\numexpr\ReadonlyShipoutCounter+1\relax}%
+  \ifreading
+    \marginnote{\raggedright\scriptsize\sffamily\href{\CurrentScanURL}{119 / \csname edpage@#1\endcsname}}%
+  \else
+    \noindent{\small\sffamily\href{\CurrentScanURL}{[scan #1]}}\par\smallskip
+  \fi}
+\newcommand{\mspage}[1]{%
+  \ifreading\marginnote{\raggedright\scriptsize\sffamily p.\,#1}[2\baselineskip]%
+  \else\noindent{\small\sffamily[p.\,#1]}\par\smallskip\fi}
+@HAND_RENDERER@
+\let\over\relax
+\newcommand{\over}[2]{\textcolor{QuietInk}{#1}\textcolor{HandInk}{\ensuremath{^{\!\nearrow}}#2}}
+\newcommand{\inserted}[2][]{\textcolor{HandInk}{\ensuremath{\langle}#2\ensuremath{\rangle}}}
+\newcommand{\deleted}[1]{\ifmmode\textcolor{DeletionInk}{[#1]_{\scriptscriptstyle\mathrm{del}}}\else\textcolor{DeletionInk}{\sout{#1}}\fi}
+\renewcommand{\xout}[1]{\ifmmode\textcolor{QuietInk}{[#1]_{\scriptscriptstyle\mathrm{x}}}\else\textcolor{QuietInk}{\sout{#1}}\fi}
+\let\TextUline\uline
+\let\TextUuline\uuline
+\makeatletter
+\UL@pixel=0pt
+\makeatother
+\renewcommand{\uline}[1]{\ifmmode\underline{#1}\else\TextUline{#1}\fi}
+\renewcommand{\uuline}[1]{\ifmmode\underline{\underline{#1}}\else\TextUuline{#1}\fi}
+\newcommand{\unsure}[1]{\href{\CurrentScanURL}{[#1?]}}
+\newcommand{\illegible}[1]{\href{\CurrentScanURL}{[\ifenglish illegible\else illisible\fi\ #1]}}
+\newsavebox{\MarginalTestBox}
+\newdimen\MarginalLineHeight
+\newcount\MarginalLineCount
+\newif\ifMarginalFits
+\newif\ifMarginCluster
+\newdimen\MarginalClusterOffset
+\newdimen\MarginalPlacementOffset
+\newcommand{\margincluster}[1]{%
+  \begingroup\MarginClustertrue\global\MarginalClusterOffset=0pt #1\endgroup}
+\newcommand{\margin}[1]{%
+  \begingroup
+  \let\MarginalSavedApparatus\CurrentApparatus
+  \edef\MarginalSavedAppNumber{\the\value{appnote}}%
+  \edef\MarginalSavedLinkNumber{\the\value{editionexternallink}}%
+  \setbox\MarginalTestBox=\vbox{%
+    \hsize=\marginparwidth\linewidth=\marginparwidth
+    \parindent=0pt\parskip=0pt\footnotesize
+    \global\MarginalLineHeight=\baselineskip
+    \raggedright\noindent\textcolor{HandInk}{#1}\par}%
+  \directlua{
+    local lines = 0
+    for n in node.traverse_id(node.id("hlist"), tex.box["MarginalTestBox"].head) do
+      lines = lines + 1
+    end
+    tex.count["MarginalLineCount"] = lines
+  }%
+  \MarginalFitstrue
+  \ifnum\MarginalLineCount>3\relax\MarginalFitsfalse\fi
+  \ifdim\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax>3\MarginalLineHeight\relax\MarginalFitsfalse\fi
+  \ifMarginalFits
+    \MarginalPlacementOffset=0pt
+    \ifMarginCluster\MarginalPlacementOffset=\MarginalClusterOffset\fi
+    \typeout{EDITION-MARGIN: \CurrentPageKey; PLACEMENT: margin; LINES: \the\MarginalLineCount; BOX-HEIGHT: \the\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax; BASELINE: \the\MarginalLineHeight; LABELLED: no; OFFSET: \the\MarginalPlacementOffset}%
+    \marginnote{\usebox{\MarginalTestBox}}[\MarginalPlacementOffset]%
+    \ifMarginCluster\global\advance\MarginalClusterOffset by\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox+3pt\relax\fi
+  \else
+    \typeout{EDITION-MARGIN: \CurrentPageKey; PLACEMENT: block; LINES: \the\MarginalLineCount; BOX-HEIGHT: \the\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax; BASELINE: \the\MarginalLineHeight; LABELLED: yes}%
+    \setcounter{appnote}{\MarginalSavedAppNumber}%
+    \setcounter{editionexternallink}{\MarginalSavedLinkNumber}%
+    \global\let\CurrentApparatus\MarginalSavedApparatus
+    \par\nobreak\smallskip\nobreak\noindent\begin{minipage}{\linewidth}\hrule\smallskip
+    {\footnotesize\textcolor{HandInk}{\ifenglish Marginal note:\else Note marginale :\fi\ #1}}\smallskip\hrule\end{minipage}\par\smallskip
+    \ifMarginCluster\global\MarginalClusterOffset=0pt\fi
+  \fi
+  \endgroup}
+\newcommand{\authornote}[1]{\margin{#1}}
+\newcommand{\diagram}[1]{\par\smallskip{\centering#1\par}\smallskip}
+\newenvironment{diagramblock}{\par\begin{center}}{\end{center}\par}
+\newcommand{\DeclareVariant}[2]{\expandafter\gdef\csname edvariant@#1\endcsname{#2}}
+\newcommand{\AppItem}[2]{%
+  \ifcsdef{edvariant@#2}{%
+    \ifcsempty{edvariant@#2}{\PackageError{Esquisse}{Empty apparatus entry #2}{Every executed apparatus marker requires its printed note.}}{}%
+  }{\PackageError{Esquisse}{Undefined apparatus entry #2}{Every executed apparatus marker requires its printed note.}}%
+  \typeout{EDITION-APP-ENTRY: #2; NUMBER: #1}%
+  \par\noindent\textsuperscript{#1}\csname edvariant@#2\endcsname}
+\newcommand{\EditionApp}[1]{%
+  \stepcounter{appnote}%
+  \ifmmode{}^{\scriptscriptstyle\theappnote}\else\textsuperscript{\theappnote}\fi
+  \begingroup\edef\x{\endgroup\noexpand\gappto\noexpand\CurrentApparatus{\noexpand\AppItem{\theappnote}{#1}}}\x}
+\newcommand{\var}[4]{\ifdiplomatic#1\else#2\ifreading\else\EditionApp{#4}\fi\fi}
+\newcommand{\scancontext}[2]{\begingroup\def\CurrentScanURL{#1}#2\endgroup}
+\newcommand{\copytwo}[2]{\ifdiplomatic\else\ifreading\else\DeclareVariant{#1}{#2}\EditionApp{#1}\fi\fi}
+\newcommand{\frapparatus}[1]{\ifreading\else\EditionApp{#1}\fi}
+\newcommand{\tnote}[2]{\ifreading\else\DeclareVariant{#1}{\textit{Translator's note.} #2}\EditionApp{#1}\fi}
+\newcommand{\finishscan}{\ifx\CurrentApparatus\empty\else\par\bigskip\noindent\rule{.35\linewidth}{.35pt}\par\smallskip{\footnotesize\setlength{\parskip}{3pt}\CurrentApparatus}\fi}
+\newcommand{\DeclareNoteReturns}[2]{\expandafter\def\csname edreturns@#1\endcsname{#2}}
+\newcommand{\notecall}[3]{\hypertarget{#2}{\hyperlink{note-#1}{#3}}}
+\newcommand{\notedef}[2]{\hypertarget{note-#1}{#2}\,{\scriptsize[\csname edreturns@#1\endcsname]}}
+\newcommand{\authorstar}[2]{\hypertarget{star-#1}{#2}}
+\newcommand{\AppReading}[1]{{\def\margin##1{##1}\def\authornote##1{##1}#1}}
+\newcommand{\EmptyReading}{\ifenglish\textit{omitted}\else\textit{supprimé}\fi}
+@SOURCE_GLYPH_DEFINITIONS@
+@SCAN_DECLARATIONS@
+@VARIANT_DECLARATIONS@
+@NOTE_DECLARATIONS@
+\begin{document}
+@FRONT_MATTER@
+@BODY@
+\typeout{EDITION-APPARATUS-COUNT: \theappnote}
+\typeout{EDITION-EXTERNAL-LINK-COUNT: \theeditionexternallink}
+\end{document}
