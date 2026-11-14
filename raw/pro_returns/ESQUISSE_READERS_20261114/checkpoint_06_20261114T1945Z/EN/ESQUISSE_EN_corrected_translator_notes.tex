@@ -1,0 +1,2879 @@
+% EDITION STATUS: partial; source units 58/58
+\documentclass[11pt,a4paper]{article}
+\usepackage[no-math]{fontspec}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+\usepackage[french,english]{babel}
+\usepackage[left=22mm,right=34mm,top=22mm,bottom=22mm,marginparwidth=23mm,marginparsep=5mm,includeheadfoot]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage[normalem]{ulem}
+\usepackage{xcolor,tikz-cd,marginnote,etoolbox,microtype,graphicx}
+\usepackage[unicode,colorlinks=true,linkcolor=LinkInk,urlcolor=LinkInk,bookmarksopen=true]{hyperref}
+\definecolor{LinkInk}{HTML}{254E70}
+\definecolor{HandInk}{HTML}{254E70}
+\definecolor{DeletionInk}{HTML}{8B3A3A}
+\definecolor{QuietInk}{HTML}{555555}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{3pt plus 1pt}
+\setlength{\emergencystretch}{1.5em}
+\raggedbottom
+\normalmarginpar
+\frenchspacing
+\newif\ifdiplomatic
+\newif\ifreading
+\newif\ifenglish
+\diplomaticfalse
+\readingfalse
+\englishtrue
+\newcommand{\EditionTitle}{Sketch of a Program}
+\newcommand{\EditionForm}{Corrected text with translator’s notes}
+\hypersetup{pdftitle={Sketch of a Program — Corrected text with translator’s notes},pdfauthor={Alexander Grothendieck},pdfsubject={A scan-checked edition of Esquisse d'un programme, January 1984, Montpellier cote 119}}
+\newcommand{\DeclareScan}[4]{%
+  \expandafter\def\csname edurl@#1\endcsname{#2}%
+  \expandafter\def\csname edkey@#1\endcsname{#3}%
+  \expandafter\def\csname edpage@#1\endcsname{#4}}
+\def\CurrentScanURL{}
+\def\CurrentPageKey{}
+\def\CurrentCopy{copy1}
+\def\CurrentApparatus{}
+\newcounter{appnote}
+\newcommand{\EditionPart}[2]{\clearpage\def\CurrentCopy{#1}\section*{#2}}
+\newcommand{\scanpage}[1]{%
+  \clearpage
+  \expandafter\let\expandafter\CurrentScanURL\csname edurl@#1\endcsname
+  \expandafter\let\expandafter\CurrentPageKey\csname edkey@#1\endcsname
+  \def\CurrentApparatus{}%
+  \hypertarget{scan-\CurrentPageKey}{}%
+  \typeout{EDITION-SCAN: \CurrentPageKey; PDFPAGE: \the\numexpr\ReadonlyShipoutCounter+1\relax}%
+  \ifreading
+    \marginnote{\raggedright\scriptsize\sffamily\href{\CurrentScanURL}{119 / \csname edpage@#1\endcsname}}%
+  \else
+    \noindent{\small\sffamily\href{\CurrentScanURL}{[scan #1]}}\par\smallskip
+  \fi}
+\newcommand{\mspage}[1]{%
+  \ifreading\marginnote{\raggedright\scriptsize\sffamily p.\,#1}[2\baselineskip]%
+  \else\noindent{\small\sffamily[p.\,#1]}\par\smallskip\fi}
+% A hand macro around a tikz-cd arrow marks that edge only. TikZ defers edge
+% drawing, so its explicit color option is required; a surrounding text color
+% group alone would not survive until the arrow is drawn.
+\ExplSyntaxOn
+\NewDocumentCommand{\EditionHand}{m}
+  {
+    \tl_if_head_eq_meaning:nNTF {#1} \arrow
+      {\ifdiplomatic \EditionColorArrow #1 \else #1\fi}
+      {\ifdiplomatic \textcolor{HandInk}{#1}\else #1\fi}
+  }
+\cs_new_protected:Npn \EditionColorArrow \arrow [#1]
+  {\arrow[#1,color=HandInk]}
+\ExplSyntaxOff
+\newcommand{\hand}[1]{\EditionHand{#1}}
+
+\let\over\relax
+\newcommand{\over}[2]{\textcolor{QuietInk}{#1}\textcolor{HandInk}{\ensuremath{^{\!\nearrow}}#2}}
+\newcommand{\inserted}[2][]{\textcolor{HandInk}{\ensuremath{\langle}#2\ensuremath{\rangle}}}
+\newcommand{\deleted}[1]{\ifmmode\textcolor{DeletionInk}{[#1]_{\scriptscriptstyle\mathrm{del}}}\else\textcolor{DeletionInk}{\sout{#1}}\fi}
+\renewcommand{\xout}[1]{\ifmmode\textcolor{QuietInk}{[#1]_{\scriptscriptstyle\mathrm{x}}}\else\textcolor{QuietInk}{\sout{#1}}\fi}
+\let\TextUline\uline
+\let\TextUuline\uuline
+\makeatletter
+\UL@pixel=0pt
+\makeatother
+\renewcommand{\uline}[1]{\ifmmode\underline{#1}\else\TextUline{#1}\fi}
+\renewcommand{\uuline}[1]{\ifmmode\underline{\underline{#1}}\else\TextUuline{#1}\fi}
+\newcommand{\unsure}[1]{\href{\CurrentScanURL}{[#1?]}}
+\newcommand{\illegible}[1]{\href{\CurrentScanURL}{[\ifenglish illegible\else illisible\fi\ #1]}}
+\newsavebox{\MarginalTestBox}
+\newdimen\MarginalLineHeight
+\newcount\MarginalLineCount
+\newif\ifMarginalFits
+\newcommand{\margin}[1]{%
+  \begingroup
+  \let\MarginalSavedApparatus\CurrentApparatus
+  \edef\MarginalSavedAppNumber{\the\value{appnote}}%
+  \setbox\MarginalTestBox=\vbox{%
+    \hsize=\marginparwidth\linewidth=\marginparwidth
+    \parindent=0pt\parskip=0pt\footnotesize
+    \global\MarginalLineHeight=\baselineskip
+    \raggedright\noindent\textcolor{HandInk}{#1}\par}%
+  \directlua{
+    local lines = 0
+    for n in node.traverse_id(node.id("hlist"), tex.box["MarginalTestBox"].head) do
+      lines = lines + 1
+    end
+    tex.count["MarginalLineCount"] = lines
+  }%
+  \MarginalFitstrue
+  \ifnum\MarginalLineCount>3\relax\MarginalFitsfalse\fi
+  \ifdim\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax>3\MarginalLineHeight\relax\MarginalFitsfalse\fi
+  \ifMarginalFits
+    \typeout{EDITION-MARGIN: \CurrentPageKey; PLACEMENT: margin; LINES: \the\MarginalLineCount}%
+    \marginnote{\usebox{\MarginalTestBox}}%
+  \else
+    \typeout{EDITION-MARGIN: \CurrentPageKey; PLACEMENT: block; LINES: \the\MarginalLineCount}%
+    \setcounter{appnote}{\MarginalSavedAppNumber}%
+    \global\let\CurrentApparatus\MarginalSavedApparatus
+    \par\smallskip\noindent\begin{minipage}{\linewidth}\hrule\smallskip
+    {\footnotesize\textcolor{HandInk}{\ifenglish Marginal note:\else Note marginale :\fi\ #1}}\smallskip\hrule\end{minipage}\par\smallskip
+  \fi
+  \endgroup}
+\newcommand{\authornote}[1]{\margin{#1}}
+\newcommand{\diagram}[1]{\par\smallskip{\centering#1\par}\smallskip}
+\newenvironment{diagramblock}{\par\begin{center}}{\end{center}\par}
+\newcommand{\DeclareVariant}[2]{\expandafter\gdef\csname edvariant@#1\endcsname{#2}}
+\newcommand{\AppItem}[2]{%
+  \ifcsdef{edvariant@#2}{%
+    \ifcsempty{edvariant@#2}{\PackageError{Esquisse}{Empty apparatus entry #2}{Every executed apparatus marker requires its printed note.}}{}%
+  }{\PackageError{Esquisse}{Undefined apparatus entry #2}{Every executed apparatus marker requires its printed note.}}%
+  \typeout{EDITION-APP-ENTRY: #2; NUMBER: #1}%
+  \par\noindent\textsuperscript{#1}\csname edvariant@#2\endcsname}
+\newcommand{\EditionApp}[1]{%
+  \stepcounter{appnote}%
+  \ifmmode{}^{\scriptscriptstyle\theappnote}\else\textsuperscript{\theappnote}\fi
+  \begingroup\edef\x{\endgroup\noexpand\gappto\noexpand\CurrentApparatus{\noexpand\AppItem{\theappnote}{#1}}}\x}
+\newcommand{\var}[4]{\ifdiplomatic#1\else#2\ifreading\else\EditionApp{#4}\fi\fi}
+\newcommand{\scancontext}[2]{\begingroup\def\CurrentScanURL{#1}#2\endgroup}
+\newcommand{\copytwo}[2]{\ifdiplomatic\else\ifreading\else\DeclareVariant{#1}{#2}\EditionApp{#1}\fi\fi}
+\newcommand{\frapparatus}[1]{\ifreading\else\EditionApp{#1}\fi}
+\newcommand{\tnote}[2]{\ifreading\else\DeclareVariant{#1}{\textit{Translator's note.} #2}\EditionApp{#1}\fi}
+\newcommand{\finishscan}{\ifx\CurrentApparatus\empty\else\par\bigskip\noindent\rule{.35\linewidth}{.35pt}\par\smallskip{\footnotesize\setlength{\parskip}{3pt}\CurrentApparatus}\fi}
+\newcommand{\DeclareNoteReturns}[2]{\expandafter\def\csname edreturns@#1\endcsname{#2}}
+\newcommand{\notecall}[3]{\hypertarget{#2}{\hyperlink{note-#1}{#3}}}
+\newcommand{\notedef}[2]{\hypertarget{note-#1}{#2}\,{\scriptsize[\csname edreturns@#1\endcsname]}}
+\newcommand{\AppReading}[1]{{\def\margin##1{##1}\def\authornote##1{##1}#1}}
+\newcommand{\EmptyReading}{\ifenglish\textit{omitted}\else\textit{supprimé}\fi}
+% Observed rounded source glyph, cote 119, site 42, PDF page 43.
+% Its conventional alphabet assignment remains uncertain; use with \unsure.
+% The contour is a vector traced from the reviewed scan detail, not a font alias.
+\makeatletter
+\newcommand{\sourceglyph}[1]{\mathord{\mathpalette{\EditionSourceGlyph{#1}}{}}}
+\newcommand{\EditionSourceGlyph}[3]{%
+  \begingroup
+  \setbox0=\hbox{$#2 A$}%
+  \resizebox{!}{\ht0}{\csname EditionGlyph@#1\endcsname}%
+  \endgroup}
+\expandafter\newcommand\csname EditionGlyph@119A\endcsname{%
+  \begin{tikzpicture}[x=1pt,y=1pt,baseline=0pt]
+  \path[fill,even odd rule]
+(3.450,10.100) -- (4.950,10.100) -- (5.050,10.000) -- (5.550,10.000) -- (5.650,9.900) -- (5.950,9.900) -- (6.050,9.800) -- (6.250,9.800) -- (6.650,9.600) -- (6.950,9.300) -- (7.050,9.300) -- (7.600,8.750) -- (7.800,8.350) -- (7.800,8.050) -- (7.550,7.800) -- (7.050,7.800) -- (6.250,8.400) -- (6.050,8.500) -- (5.850,8.500) -- (5.350,8.800) -- (3.950,8.800) -- (3.850,8.900) -- (3.650,8.900) -- (3.550,8.800) -- (3.350,8.800) -- (3.150,8.700) -- (2.250,7.900) -- (2.100,7.850) -- (2.100,7.750) -- (1.900,7.550) -- (1.500,6.750) -- (1.500,6.450) -- (1.400,6.350) -- (1.400,5.850) -- (1.300,5.750) -- (1.300,4.650) -- (1.200,4.550) -- (1.200,4.050) -- (1.300,3.950) -- (1.300,2.450) -- (1.400,2.350) -- (1.400,2.150) -- (1.700,1.850) -- (1.900,1.450) -- (1.900,1.250) -- (2.000,1.050) -- (2.150,1.000) -- (2.550,0.600) -- (2.850,0.500) -- (3.100,0.250) -- (3.100,0.150) -- (2.850,0.000) -- (2.250,0.000) -- (2.050,0.100) -- (1.750,0.400) -- (1.650,0.400) -- (0.900,1.150) -- (0.900,1.350) -- (0.700,1.650) -- (0.700,1.850) -- (0.500,2.050) -- (0.300,2.450) -- (0.300,2.750) -- (0.200,2.850) -- (0.200,3.150) -- (0.100,3.250) -- (0.100,3.850) -- (0.000,3.950) -- (0.000,6.650) -- (0.300,7.050) -- (0.400,7.250) -- (0.400,7.450) -- (0.500,7.550) -- (0.500,7.750) -- (0.700,7.950) -- (0.800,8.250) -- (1.950,9.300) -- (2.050,9.300) -- (2.550,9.700) -- (3.150,10.000) -- (3.350,10.000) -- (3.450,10.100) -- cycle
+(6.050,5.700) -- (6.250,5.700) -- (6.500,5.450) -- (6.500,5.250) -- (6.600,5.150) -- (6.600,4.650) -- (6.500,4.550) -- (6.500,2.850) -- (6.400,2.750) -- (6.500,2.550) -- (6.500,2.050) -- (6.600,1.950) -- (6.600,1.250) -- (6.950,0.900) -- (7.500,0.750) -- (7.400,0.550) -- (7.400,0.350) -- (7.250,0.100) -- (6.850,0.100) -- (6.250,0.400) -- (5.850,0.400) -- (5.150,0.000) -- (4.750,0.000) -- (4.650,0.100) -- (4.550,0.000) -- (3.650,0.000) -- (3.500,0.150) -- (3.550,0.300) -- (3.750,0.400) -- (4.250,0.400) -- (4.350,0.500) -- (4.850,0.500) -- (4.950,0.600) -- (5.150,0.600) -- (5.500,0.950) -- (5.600,1.150) -- (5.600,1.350) -- (5.700,1.450) -- (5.700,1.950) -- (5.600,2.050) -- (5.600,2.350) -- (5.500,2.450) -- (5.500,2.750) -- (5.400,2.850) -- (5.400,3.350) -- (5.500,3.450) -- (5.500,4.050) -- (5.600,4.150) -- (5.600,5.050) -- (5.800,5.450) -- (6.050,5.700) -- cycle
+(7.950,1.900) -- (8.300,1.850) -- (8.300,1.050) -- (8.150,0.900) -- (7.950,0.900) -- (7.850,0.800) -- (7.550,0.800) -- (7.500,0.950) -- (7.600,1.050) -- (7.600,1.450) -- (7.950,1.900) -- cycle;
+  \end{tikzpicture}}
+\makeatother
+
+\DeclareScan{119/2}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=3}{esq_119_002}{2}
+\DeclareScan{119/3}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=4}{esq_119_003}{3}
+\DeclareScan{119/4}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=5}{esq_119_004}{4}
+\DeclareScan{119/5}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=6}{esq_119_005}{5}
+\DeclareScan{119/6}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=7}{esq_119_006}{6}
+\DeclareScan{119/7}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=8}{esq_119_007}{7}
+\DeclareScan{119/8}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=9}{esq_119_008}{8}
+\DeclareScan{119/9}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=10}{esq_119_009}{9}
+\DeclareScan{119/10}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=11}{esq_119_010}{10}
+\DeclareScan{119/11}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=12}{esq_119_011}{11}
+\DeclareScan{119/12}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=13}{esq_119_012}{12}
+\DeclareScan{119/13}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=14}{esq_119_013}{13}
+\DeclareScan{119/14}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=15}{esq_119_014}{14}
+\DeclareScan{119/15}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=16}{esq_119_015}{15}
+\DeclareScan{119/16}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=17}{esq_119_016}{16}
+\DeclareScan{119/17}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=18}{esq_119_017}{17}
+\DeclareScan{119/18}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=19}{esq_119_018}{18}
+\DeclareScan{119/19}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=20}{esq_119_019}{19}
+\DeclareScan{119/20}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=21}{esq_119_020}{20}
+\DeclareScan{119/21}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=22}{esq_119_021}{21}
+\DeclareScan{119/22}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=23}{esq_119_022}{22}
+\DeclareScan{119/23}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=24}{esq_119_023}{23}
+\DeclareScan{119/24}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=25}{esq_119_024}{24}
+\DeclareScan{119/25}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=26}{esq_119_025}{25}
+\DeclareScan{119/26}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=27}{esq_119_026}{26}
+\DeclareScan{119/27}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=28}{esq_119_027}{27}
+\DeclareScan{119/28}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=29}{esq_119_028}{28}
+\DeclareScan{119/29}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=30}{esq_119_029}{29}
+\DeclareScan{119/30}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=31}{esq_119_030}{30}
+\DeclareScan{119/31}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=32}{esq_119_031}{31}
+\DeclareScan{119/32}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=33}{esq_119_032}{32}
+\DeclareScan{119/33}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=34}{esq_119_033}{33}
+\DeclareScan{119/34}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=35}{esq_119_034}{34}
+\DeclareScan{119/35}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=36}{esq_119_035}{35}
+\DeclareScan{119/36}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=37}{esq_119_036}{36}
+\DeclareScan{119/37}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=38}{esq_119_037}{37}
+\DeclareScan{119/38}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=39}{esq_119_038}{38}
+\DeclareScan{119/39}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=40}{esq_119_039}{39}
+\DeclareScan{119/40}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=41}{esq_119_040}{40}
+\DeclareScan{119/41}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=42}{esq_119_041}{41}
+\DeclareScan{119/42}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=43}{esq_119_042}{42}
+\DeclareScan{119/43}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=44}{esq_119_043}{43}
+\DeclareScan{119/44}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=45}{esq_119_044}{44}
+\DeclareScan{119/45}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=46}{esq_119_045}{45}
+\DeclareScan{119/46}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=47}{esq_119_046}{46}
+\DeclareScan{119/47}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=48}{esq_119_047}{47}
+\DeclareScan{119/48}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=49}{esq_119_048}{48}
+\DeclareScan{119/49}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=50}{esq_119_049}{49}
+\DeclareScan{119/50}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=51}{esq_119_050}{50}
+\DeclareScan{119/51}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=52}{esq_119_051}{51}
+\DeclareScan{119/52}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=53}{esq_119_052}{52}
+\DeclareScan{119/53}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=54}{esq_119_053}{53}
+\DeclareScan{119/54}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=55}{esq_119_054}{54}
+\DeclareScan{119/55}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=56}{esq_119_055}{55}
+\DeclareScan{119/56}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=57}{esq_119_056}{56}
+\DeclareScan{119/57}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=58}{esq_119_057}{57}
+\DeclareScan{119/58}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=59}{esq_119_058}{58}
+\DeclareScan{119/59}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=60}{esq_119_059}{59}
+\DeclareVariant{V-FR-010-001}{\textit{slip corrected}. \AppReading{Ladegraillerie} \(\rightarrow\) \AppReading{Ladegaillerie}. The preceding line gives Yves Ladegaillerie for the same participant; the second occurrence interposes an r.}
+\DeclareVariant{V-FR-004-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{inadéquante}; corrected French: \AppReading{inadéquate}. Copy 2 has a handwritten slash through the n of inadéquante, a typing slip shared by both copies. Its correction gives inadéquate and enters the corrected copy1 text here. See \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=81}{copy 2, p.~2, site 80}.}
+\DeclareVariant{V-FR-006-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{des surface.}; corrected French: \AppReading{des surfaces.}. The local article des requires the plural; the same noun is written surfaces on page 3. The correction supplies the missing final s.}
+\DeclareVariant{V-FR-006-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{d'automorphisme d'un groupe profini}; corrected French: \AppReading{d'automorphismes d'un groupe profini}. The text speaks of a group whose elements are automorphisms. Page 7 has the construction un groupe d'automorphismes; the final s is absent here in the same phrase.}
+\DeclareVariant{V-FR-007-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{voir indispensable}; corrected French: \AppReading{voire indispensable}. The progression from more elegant to indispensable uses the intensifying adverb; voire occurs on page 2 (voire conformes) and page 3. The correction supplies its omitted final e here.}
+\DeclareVariant{V-FR-009-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{convenanble}; corrected French: \AppReading{convenable}. An extra n is interposed immediately before b; convenable occurs in the same discussion on page 5. Copy 2 has a blue slash through that n of the typing slip shared by both copies, confirming the correction. See \href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=86}{copy 2, p.~7, site 85}.}
+\DeclareVariant{V-FR-010-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{se trouve muni d'une décomposition}; corrected French: \AppReading{se trouve munie d'une décomposition}. The subject is chacune des douze pièces; the same page also uses munies for the surfaces. The exact feminine singular munie occurs on page 42. The final e is missing in this local agreement.}
+\DeclareVariant{V-FR-012-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{Iladmet}; corrected French: \AppReading{Il admet}. The pronoun Il and verb admet are run together in the typing. The same page separately writes Il va and admet une description; the cartographic group is the subject of this sentence.}
+\DeclareVariant{V-FR-013-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{les trois point 0, 1}; corrected French: \AppReading{les trois points 0, 1}. The number trois requires the plural; the same page earlier has de trois points, numérotés. The final s is missing in the second occurrence.}
+\DeclareVariant{V-FR-014-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{ramifié seulement on}; corrected French: \AppReading{ramifié seulement en}. The preposition en introduces the ramification points; page 11 has the same construction, ramifiés au plus en les points. The o in on replaces e here.}
+\DeclareVariant{V-FR-015-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{quels exactement}; corrected French: \AppReading{quelles exactement}. The explicit subject is the feminine plural les conjuguées de telle carte orientée; the next page has quelles sont les courbes. The proposal agrees the pronoun with that written subject.}
+\DeclareVariant{V-FR-016-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{une directions}; corrected French: \AppReading{une direction}. The article une and adjective conceptuelle require the singular; page 25 has dans une direction toute différente. The s is added in error here.}
+\DeclareVariant{V-FR-017-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{dingueen effet}; corrected French: \AppReading{dingue en effet}. The adjective dingue qualifies la supposition; en effet follows as an adverbial phrase. Page 19 explicitly separates en effet. A space is missing after dingue.}
+\DeclareVariant{V-FR-019-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{est connu à isomorphisme près}; corrected French: \AppReading{est connue à isomorphisme près}. The written subject is une courbe algébrique anabélienne; the feminine form connue occurs on page 11. The final e is missing in this local agreement.}
+\DeclareVariant{V-FR-024-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{nouveau ;}; corrected French: \AppReading{nouveaux ;}. Des charmes is plural; the form nouveaux occurs on page 20. The final x is missing in this occurrence.}
+\DeclareVariant{V-FR-024-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{l'isosaèdre}; corrected French: \AppReading{l'icosaèdre}. The immediately following text gives un icosaèdre for the same polyhedron. The first occurrence has s in place of c.}
+\DeclareVariant{V-FR-025-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{les caractéristique 2 et 5}; corrected French: \AppReading{les caractéristiques 2 et 5}. The article les and the two listed characteristics require the plural; the preceding line already has l'une des caractéristiques. The final s is absent here.}
+\DeclareVariant{V-FR-026-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{réunisse même à le dégager}; corrected French: \AppReading{réussisse même à le dégager}. The context concerns succeeding in drawing out a principle, with à followed by an infinitive; page 46 writes je réussisse à communiquer in the same construction. The n in réunisse occupies the place of the double s in réussisse here.}
+\DeclareVariant{V-FR-027-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{sphèrique}; corrected French: \AppReading{sphérique}. Page 13 gives sphérique with an acute accent, and the plural sphériques also occurs on page 26. The isolated grave accent in this occurrence is proposed as a typing slip.}
+\DeclareVariant{V-FR-027-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{variété algèbrique}; corrected French: \AppReading{variété algébrique}. This page twice has géométrie algébrique with an acute accent, and also courbes algébriques. The isolated grave accent in variété algèbrique appears to be a typing slip; this proposal concerns that occurrence alone.}
+\DeclareVariant{V-FR-028-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{rigidifidation}; corrected French: \AppReading{rigidification}. The term rigidification occurs on page 14 for the same kind of additional data; the page 26 occurrence has d in place of c.}
+\DeclareVariant{V-FR-028-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{ces multiplicité}; corrected French: \AppReading{ces multiplicités}. Ces refers to the multiplicities named in the plural at the beginning of the page; the final s is missing in this later occurrence.}
+\DeclareVariant{V-FR-029-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{des homéomorphisme de telles paires}; corrected French: \AppReading{des homéomorphismes de telles paires}. The passage describes the morphisms in the category of pairs and uses plural des. Page 53 writes homéomorphismes; the final s is missing here. The later parallel supersedes the earlier editorial reservation.}
+\DeclareVariant{V-FR-032-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{espaces semianalytique}; corrected French: \AppReading{espaces semianalytiques}. The adjective qualifies plural espaces; the next page gives semianalytiques for these same Hironaka spaces. The final s is missing here.}
+\DeclareVariant{V-FR-033-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{stricte de toutes, celles des}; corrected French: \AppReading{stricte de toutes, celle des}. The sentence moves from the strictest theory to the broadest; vers celle qui and savoir celle on the same page supply the singular reference. The s in celles is proposed as an isolated addition.}
+\DeclareVariant{V-FR-033-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{les catégories ``$\infty$-isotopique''}; corrected French: \AppReading{les catégories ``$\infty$-isotopiques''}. The same adjective is written in the plural earlier for the same categories; the final s is missing in this later occurrence.}
+\DeclareVariant{V-FR-034-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{simple-%
+mement}; corrected French: \AppReading{simple-%
+ment}. The continuation mement repeats me at the line break; simplement is written on page 23. The correction removes that repetition while retaining the line break.}
+\DeclareVariant{V-FR-035-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{mais à part}; corrected French: \AppReading{mis à part}. The passage sets the comparison theorems aside within a list; page 24 has Mis à part in the same expression. An extra a is interposed in mis here.}
+\DeclareVariant{V-FR-035-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{toute application modéré}; corrected French: \AppReading{toute application modérée}. Toute application is feminine; page 37 gives une application modérée propre. The final e is missing in this occurrence.}
+\DeclareVariant{V-FR-036-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{voisinages tubulaire}; corrected French: \AppReading{voisinages tubulaires}. The noun voisinages is plural; page 36 has the same phrase voisinages tubulaires. The final s is missing here.}
+\DeclareVariant{V-FR-036-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{de façon toute aussi canonique}; corrected French: \AppReading{de façon tout aussi canonique}. Tout modifies aussi canonique here; page 8 already has tout aussi concrètes with a feminine adjective. The final e in toute is proposed as an isolated addition.}
+\DeclareVariant{V-FR-038-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{j'étais parvenue}; corrected French: \AppReading{j'étais parvenu}. The same page gives auquel je suis parvenu for the same speaker and formalism; the e in parvenue is proposed as an isolated addition.}
+\DeclareVariant{V-FR-039-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{d'espace modérés}; corrected French: \AppReading{d'espaces modérés}. The adjective modérés is plural and the map connects two spaces; the same passage writes deux espaces modérés. The noun lacks s in this occurrence.}
+\DeclareVariant{V-FR-040-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{schématique (qui existent}; corrected French: \AppReading{schématiques (qui existent}. The adjective qualifies plural compactifications, followed by qui existent. Page 53 supplies the form schématiques. The correction adds only the missing final s in this occurrence.}
+\DeclareVariant{V-FR-042-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{s'est agit de dégager}; corrected French: \AppReading{s'est agi de dégager}. Page 28 has exactly the construction il s'est agi de followed by an infinitive. The final t in agit is proposed as an isolated addition in the same construction on page 40; this parallel supersedes the earlier provisional reservation.}
+\DeclareVariant{V-FR-043-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{divers expaces}; corrected French: \AppReading{divers espaces}. The same noun is written espaces earlier on this page. The occurrence expaces has x in place of s; the correction concerns that single letter.}
+\DeclareVariant{V-FR-044-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{tout $\unsure{\sourceglyph{119A}}$-variété}; corrected French: \AppReading{toute $\unsure{\sourceglyph{119A}}$-variété}. Tout here determines the feminine noun variété. Page 14 has toute before the feminine noun courbe; the final e is missing in this occurrence. The distinctive glyph and its uncertainty are preserved.}
+\DeclareVariant{V-FR-045-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{le manuscript}; corrected French: \AppReading{le manuscrit}. Page 45 gives manuscrit without p for another written work. The isolated form manuscript on page 43 has an extra p; only this occurrence is proposed for review, without changing other lexical choices.}
+\DeclareVariant{V-FR-046-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{d'espacesd'Eilenberg}; corrected French: \AppReading{d'espaces d'Eilenberg}. Espaces and the elided preposition d' are run together; page 39 already separates espaces d'isomorphismes. The correction supplies only the missing space, preserving the following compound name.}
+\DeclareVariant{V-FR-050-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{pen-%
+dans ces dix}; corrected French: \AppReading{pen-%
+dant ces dix}. The duration construction matches pendant une quinzaine on page 45. Only final s changes to t; the line break and the observed double space after dix remain intact.}
+\DeclareVariant{V-FR-052-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{plus qu'en seul travail}; corrected French: \AppReading{plus qu'un seul travail}. The same paragraph counts written works and already has à un travail mieux. Only e in en changes to u to supply that article; the observed double space after goût remains intact.}
+\DeclareVariant{V-FR-054-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{échappée jusqu'à présent}; corrected French: \AppReading{échappé jusqu'à présent}. The property is the subject of avait échappé and m' names the person it escaped. Page 34 has the same construction qui m'auraient échappé. The correction removes the isolated final e without changing subject or tense.}
+\DeclareVariant{V-FR-055-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{(voir
+même}; corrected French: \AppReading{(voire
+même}. The passage extends the base from Q to Z using the intensifying adverb. The same phrase voire même occurs on pages 28, 32 and 34. The correction adds the missing e and preserves the line division; no formula changes.}
+\DeclareVariant{V-FR-059-001}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{de l'espaces mo-%
+}; corrected French: \AppReading{de l'espace mo-%
+}. The article l' and adjective modéré refer to the single space named $X_*$. Page 37 writes l'espace in the same noun phrase. The added s is removed; the mo-déré line division and the formula remain unchanged.}
+\DeclareVariant{V-FR-059-002}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{qui est munie d'une}; corrected French: \AppReading{qui est muni d'une}. The relative qui refers to the space $X_*$. Page 33 uses muni for the space T, and page 10 uses muni for K. The isolated final e is removed in this local agreement.}
+\DeclareVariant{V-FR-059-003}{\textit{French source apparatus: slip corrected}. Page reading: \AppReading{est une plongement}; corrected French: \AppReading{est un plongement}. The preceding page has exactly un plongement. The noun and its adjective bordant are masculine in this occurrence; the extra e in une is removed.}
+\DeclareNoteReturns{copy1-1}{\hyperlink{call-esq_119_007-1-1}{p.\,5}, \hyperlink{call-esq_119_044-1-2}{p.\,42}}
+\DeclareNoteReturns{copy1-2}{\hyperlink{call-esq_119_014-2-1}{p.\,12}}
+\DeclareNoteReturns{copy1-3}{\hyperlink{call-esq_119_018-3-1}{p.\,16}}
+\DeclareNoteReturns{copy1-4}{\hyperlink{call-esq_119_019-4-1}{p.\,17}}
+\DeclareNoteReturns{copy1-5}{\hyperlink{call-esq_119_026-5-1}{p.\,24}}
+\DeclareNoteReturns{copy1-6}{\hyperlink{call-esq_119_033-6-1}{p.\,31}}
+\DeclareNoteReturns{copy1-7}{\hyperlink{call-esq_119_036-7-1}{p.\,34}}
+\begin{document}
+\begin{titlepage}
+\centering
+\vspace*{18mm}
+{\Large Alexander Grothendieck\par}
+\vspace{12mm}
+{\Huge\bfseries\EditionTitle\par}
+\vspace{8mm}
+{\Large\EditionForm\par}
+\vspace{14mm}
+{\large January 1984\par}
+\vfill
+{\large Université de Montpellier\par fonds Grothendieck, cote 119\par}
+\vspace{8mm}
+{\normalsize Two typescript copies: sites 2--59 and 78--135\par}
+\vspace{8mm}
+{\normalsize Edition dated 14 November 2026\par}
+\end{titlepage}
+\thispagestyle{plain}
+\section*{Preface}
+\noindent\textbf{Partial working edition.} This file contains 58 of the 58 source pages required for this form. Collation and final validation remain in progress.\par\smallskip
+This English translation follows the corrected French text of copy 1. Authorial changes and justified corrections of isolated typing slips are recorded in the apparatus. Copy 2 annotations are identified separately. Translator’s notes explain words, wordplay, abbreviations and notation at the place where an explanation is needed. Unresolved readings remain marked and linked to their scans. The author’s notes (1)–(7) remain at the end, with links in both directions. The formulas retain the exact French source strings; terminology follows the supplied unified English glossary.
+
+\smallskip
+AI-transcribed by Claude Opus 5.5 (Anthropic, effort high, Message Batches API); checked against the scans, and this edition built, by GPT-6 Astra (OpenAI, ChatGPT Pro mode); prompts and records by Claude (Anthropic).
+AI-translated by GPT-6 Astra (OpenAI, ChatGPT Pro mode).
+
+The transcription of copy 1 was made with the text layer of the Grothendieck Circle's typeset \textit{Esquisse} (\texttt{EsquisseFr.pdf}) given to the transcribing model as a draft, to compare with after it had transcribed each page; every reading of this edition was decided on the scans.
+
+The published French text and English translation in \textit{Geometric Galois Actions 1}, edited by L. Schneps and P. Lochak (Cambridge University Press, 1997), the Grothendieck Circle's typeset \texttt{EsquisseFr.pdf}, and the Centre for Grothendieckian Studies' draft transcription G94d are named as published texts. They are not reproduced here.
+
+\section*{Rights and credits}
+The rights in the original work belong to its author or the author's representatives or heirs. Where we hold rights, in the AI-produced transcription, translation, corrections and typesetting, they are dedicated to the public domain under CC0 1.0. This edition is published for educational, non-profit purposes, and we claim no rights we do not hold. If you hold rights in this work and object to its publication here, please open a GitHub issue and we will take it down.
+
+\clearpage
+
+% BEGIN PAGE esq_119_002
+\scanpage{119/2}
+\uline{SKETCH OF A PROGRAM}
+
+by Alexandre Grothendieck
+
+\uline{Contents} :
+
+1. Opening.\tnote{TN-002-01}{The French heading is ``Envoi'', a word for a sending or dispatch, used here to introduce the text addressed to the application committee and other readers.}
+
+2. A "Légo-Teichmüller game", and the Galois group of $\overline{\mathbb{Q}}$ over $\mathbb{Q}$.
+
+3. Number fields associated with a child's drawing.\tnote{TN-002-02}{``Child's drawing'' translates ``dessin d'enfant''. The phrase becomes a mathematical term in the discussion.}
+
+4. Regular polyhedra and finite fields.
+
+5. A hue and cry against so-called ``general'' topology, and heuristic reflections
+toward a so-called ``tame'' topology.\tnote{TN-002-03}{``Haro sur'' is a denunciatory cry directed against something; ``modérée'' is rendered ``tame'' throughout, following the terminology standard supplied for this edition.}
+
+6. ``Differentiable theories'' (in the manner of Nash) and ``tame theories''.
+
+7. Pursuing Stacks.\tnote{TN-002-04}{The French title is ``A la Poursuite des Champs''. ``Champ'' is translated ``stack'' in accordance with the supplied terminology standard.}
+
+8. Digressions in two-dimensional geometry.
+
+9. An appraisal of teaching activity.
+
+10. Epilogue.
+
+Notes.
+
+N.B. The asterisks (*) refer to the notes appearing at the bottom of
+the same page, the numbered references from (\textsuperscript{\hand{1}}) to (\textsuperscript{\hand{7}}\unsure{.}) to the notes (added
+later) collected at the end of the report.
+
+\mspage{\hand{2}}
+\copytwo{A2-119-078-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{[copy 2, scan 119/78]} Copy 2 has in the upper-left margin: \unsure{45,49,53}. Rust obscures part of the digits.}}
+\copytwo{A2-119-078-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{[copy 2, scan 119/78]} Copy 2 next has: \unsure{33,3\illegible{1}},26,8,. The illegibility mark here denotes an unresolved numerical token.}}
+\copytwo{A2-119-078-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{[copy 2, scan 119/78]} Copy 2 has the handwritten numbers 1,2,9,10 on the next margin line.}}
+\copytwo{A2-119-078-004}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{[copy 2, scan 119/78]} Copy 2 has the handwritten circled number \textcircled{17} in the margin.}}
+\copytwo{A2-119-078-005}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=79}{[copy 2, scan 119/78]} Copy 2 has handwritten archive foliation 78.}}
+
+\finishscan
+% END PAGE esq_119_002
+% BEGIN PAGE esq_119_003
+\scanpage{119/3}
+\mspage{1}
+
+SKETCH OF A PROGRAM
+
+by A. Grothendieck
+
+1. As the present circumstances make the prospects of teaching at research level
+at the University increasingly illusory for me, I have resolved to apply for
+admission to the CNRS,\tnote{TN-003-01}{CNRS: \href{https://aissai.cnrs.fr/en/legal-notice/}{Centre national de la recherche scientifique}, the French National Center for Scientific Research.}
+so that I may devote my energy to developing work and perspectives
+that, it is becoming clear, no student (nor even, it seems,
+any fellow mathematician) will be found to develop in my
+stead.
+
+In place of a ``Qualifications and Works'' document,\tnote{TN-003-02}{``Titres et Travaux'' is the French designation of the document listing qualifications and scholarly work.}
+following this text will be found the full reproduction of a sketch, arranged by themes,
+of what I regarded as my main mathematical contributions at the time
+of writing that report, in 1972. It also contains
+a list of articles published by that date. I have published no scientific
+articles since 1970. In the lines that follow,
+I propose to give at least a glimpse of some principal themes
+of my mathematical reflections since then. Over the years these reflections
+have taken material form in two bulky boxes of
+manuscript notes, probably difficult for anyone other than
+myself to decipher, which, after successive stages of decantation,
+are perhaps awaiting their moment for an overall write-up, at least
+a provisional one, intended for the mathematical community. The
+term ``write-up'' here is somewhat inappropriate,\tnote{TN-003-03}{``Write-up'' renders ``rédaction''. The source itself immediately explains the continuing work of discovery meant by this word.}
+since it is much more a matter of developing the many ideas and visions begun
+over these last twelve years, making them more precise and exploring them
+more deeply, with all the unforeseen turns that constantly
+accompany this kind of work - a work of discovery, then, and
+not of compiling notes piously accumulated. And I fully intend,
+in writing the ``Mathematical Reflections'' begun in February
+1983,\tnote{TN-003-04}{The French title is ``Réflexions Mathématiques''.}
+to let the course of thought that probes and discovers appear
+clearly through the pages, often groping in the half-light,
+with sudden openings of light when some stubborn
+
+\margin{3}
+\copytwo{A2-119-079-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{[copy 2, scan 119/79]} Copy 2 has the title ‘ESQUISSE D'UN PROGRAMME’ crossed out with oblique strokes.}}
+\copytwo{A2-119-079-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{[copy 2, scan 119/79]} Copy 2 has the line ‘par A. Grothendieck’ crossed out with the same oblique strokes.}}
+\copytwo{A2-119-079-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=80}{[copy 2, scan 119/79]} Copy 2 has the handwritten foliation 79 at the lower left.}}
+
+\finishscan
+% END PAGE esq_119_003
+% BEGIN PAGE esq_119_004
+\scanpage{119/4}
+\mspage{2}
+
+false, or merely inadequate\frapparatus{V-FR-004-001}, image is finally flushed out
+and brought to light, and the things that seemed askew
+fall into place, in the mutual harmony proper to them.
+\qquad Be that as it may, the following sketch of some
+themes of reflection from the last ten or twelve years will
+serve at the same time as a sketch of a work program for the
+coming years, which I intend to devote to developing
+these themes, or at least some of them. It is intended,
+on the one hand, for the colleagues on the National Committee called upon to rule
+on my application,\tnote{TN-004-01}{``National Committee'' translates ``Comité National'', the committee named in the source in connection with the CNRS application.}
+and, on the other, for a few other colleagues, former
+students, and friends, in the event that some of the ideas sketched
+here might interest one of them.
+
+2. \qquad The demands of university teaching, addressed
+therefore to students (including so-called ``advanced'' students) whose
+mathematical background is modest (and often less than modest), have led me
+to renew drastically the themes of reflection to propose
+to my students, and, one thing leading to another and increasingly, to myself
+as well. It had seemed important to me to start from a common
+intuitive background, independent of any technical language meant to express it,
+far earlier than any such language - it turned out that the geometric
+and topological intuition of shapes, and more particularly of
+two-dimensional shapes, was such a common ground. Thus the themes in question
+can be grouped under the name ``topology of surfaces'' or
+``geometry of surfaces'', with the understanding, in the latter name,
+that the principal emphasis falls on the topological properties
+of surfaces, or on the combinatorial aspects that constitute
+their most down-to-earth technical expression, and not on the differential
+aspects, or even the conformal, riemannian, holomorphic and (thence)
+the ``complex algebraic curves'' aspect. Once this last step
+has been taken, however, suddenly algebraic geometry (my old
+love !) bursts in again, through the very objects that
+can be regarded as the ultimate building blocks of all
+the other algebraic varieties. Whereas in my research before
+
+\margin{4}
+\copytwo{A2-119-080-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=81}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=81}{[copy 2, scan 119/80]} Copy 2 has the handwritten foliation 80 at the lower left.}}
+
+\finishscan
+% END PAGE esq_119_004
+% BEGIN PAGE esq_119_005
+\scanpage{119/5}
+\mspage{3}
+
+1970, my attention was systematically directed toward objects
+of the greatest generality, in order to draw out an adequate overall language
+for the world of algebraic geometry, and I lingered
+over algebraic curves only to the strict extent that this proved
+indispensable (particularly in étale cohomology) for developing
+``all-purpose'' techniques and statements valid in every dimension
+and in every place (I mean, over all base schemes, or even
+all ringed base topoi ...), here I am thus brought back, through
+objects so simple that a child can come to know them through play,
+to the beginnings and origins of algebraic geometry, familiar to Riemann
+and his followers !
+
+Since about 1975, then, the geometry of (real)
+surfaces, and from 1977 onward the connections between questions in
+the geometry of surfaces and the algebraic geometry of algebraic curves
+defined over fields such as $\mathbb{C}$, $\mathbb{R}$ or extensions of finite
+type of $\mathbb{Q}$, have been my principal source of inspiration, as well
+as my constant guiding thread. It was with surprise and wonder
+that over the years I discovered (or rather, probably,
+rediscovered) the prodigious, truly inexhaustible richness, the
+unsuspected depth of this seemingly so innocuous theme. I believe
+I sense in it a particularly vital point, a privileged point of convergence
+of the main currents of mathematical ideas, as also
+of the main structures and the visions of things they express,
+from the most specific (such as the rings $\mathbb{Z}$, $\mathbb{Q}$, $\bar{\mathbb{Q}}$, $\mathbb{R}$, $\mathbb{C}$,
+or the group $S\ell(2)$ over one of these rings, or general reductive
+algebraic groups) to the most ``abstract'', such as algebraic,
+complex analytic or real analytic ``multiplicities''.\tnote{TN-005-01}{``Multiplicity'' consistently renders the author's ``multiplicité''. His parenthesis here explains its role in retaining the automorphisms of the objects under study.}
+(These enter naturally when one sets out to study
+``moduli varieties'' systematically for the geometric objects
+under consideration, seeking to go beyond the notoriously insufficient
+viewpoint of ``coarse moduli'', which amounts, most unfortunately,
+to ``killing'' the automorphism groups of these objects .) Among these
+moduli multiplicities, it is those of Mumford-Deligne for
+``stable'' algebraic curves of genus $g$, with $\nu$ marked points, which
+
+\margin{5}
+\copytwo{A2-119-081-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=82}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=82}{[copy 2, scan 119/81]} Copy 2 has the handwritten foliation 81 at the lower left.}}
+
+\finishscan
+% END PAGE esq_119_005
+% BEGIN PAGE esq_119_006
+\scanpage{119/6}
+\mspage{4}
+
+I denote by $M^{\wedge}_{g,\nu}$ (the compactification of the ``open'' multiplicity
+$M_{g,\nu}$ corresponding to smooth curves), that for some two
+or three years have exerted a particular fascination upon me,
+perhaps stronger than that of any other mathematical object to date.
+To tell the truth, it is rather the system of \uline{all} the multiplicities
+$M_{g,\nu}$ for varying $g,\nu$, connected with one another by a certain number
+of fundamental operations (such as the operations of ``filling
+holes'', i.e. ``erasing'' marked points, that of ``gluing'',
+and the inverse operations), which reflect, in absolute algebraic
+geometry of characteristic zero (for the moment), familiar geometric
+operations from the viewpoint of topological or conformal ``surgery''
+on surfaces.\frapparatus{V-FR-006-001} The principal reason for this fascination is probably
+that this very rich geometric structure on the
+system of ``open'' moduli multiplicities $M_{g,\nu}$ is reflected
+in an analogous structure on the corresponding fundamental
+groupoids, the ``Teichmüller groupoids'' $\hat{T}_{g,\nu}$ ,and that these operations
+at the level of the $\hat{T}_{g,\nu}$ have a sufficiently intrinsic character
+for the Galois group $\mathrm{I}\!\Gamma$ of $\overline{\mathbb{Q}}/\mathbb{Q}$ to act on this entire ``tower'' of
+Teichmüller groupoids, respecting all these structures. More
+extraordinary still, this action is \uline{faithful} - in fact,
+it is already faithful on the first nontrivial ``level'' of this tower,
+namely $\hat{T}_{0,4}$ - which also means, essentially, that the outer
+action of $\mathrm{I}\!\Gamma$ on the fundamental group $\hat{\pi}_{0,3}$ of the standard
+projective line $\mathbb{P}^1$ over $\mathbb{Q}$, with the three points $0,\ 1,\ \infty$ removed, is
+already faithful. Thus \uline{the Galois group} $\mathrm{I}\!\Gamma$ \uline{is realized as a group}
+\uline{of automorphisms of a most concrete profinite group}\frapparatus{V-FR-006-002}, moreover respecting
+certain essential structures of that group. It follows
+that an element of $\mathrm{I}\!\Gamma$ can be ``parametrized'' (in various equivalent
+ways, moreover) by a suitable element of this profinite group
+$\hat{\pi}_{0,3}$ (a free profinite group on two generators), or by a system
+of such elements, this element or these elements being, moreover, subject
+to certain simple conditions, necessary (and probably insufficient)
+for this element or these elements actually to correspond to an element of $\mathrm{I}\!\Gamma$.
+One of the most fascinating tasks here is precisely to grasp
+necessary \uline{and} sufficient conditions on an outer automorphism
+
+\margin{6}
+\copytwo{A2-119-082-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=83}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=83}{[copy 2, scan 119/82]} Copy 2 has the handwritten foliation 82 at the lower left.}}
+
+\finishscan
+% END PAGE esq_119_006
+% BEGIN PAGE esq_119_007
+\scanpage{119/7}
+\mspage{5}
+
+of $\hat{\pi}_{0,3}$, i.e. on the corresponding parameter or parameters, for it
+to come from an element of $\mathrm{I}\!\Gamma$ - which would provide a
+``purely algebraic'' description, in terms of profinite groups and without
+reference to the Galois theory of number fields, of the Galois
+group $\mathrm{I}\!\Gamma = \mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$ !
+
+Perhaps even a conjectural characterization of $\mathrm{I}\!\Gamma$
+as a subgroup of Autext($\hat{\pi}_{0,3}$) is for the moment out of
+reach\notecall{copy1-1}{call-esq_119_007-1-1}{($^1$)} ; I have no conjecture to propose yet. Another
+task, however, can be approached immediately: describing
+the action of $\mathrm{I}\!\Gamma$ on the entire Teichmüller tower in terms of its
+action on the ``first level'' $\hat{\pi}_{0,3}$ , i.e. expressing an automorphism
+of this tower in terms of the ``parameter'' in $\hat{\pi}_{0,3}$ that specifies
+the varying element $\gamma$ of $\mathrm{I}\!\Gamma$. This is connected with a representation of the
+Teichmüller tower (as a groupoid equipped with a ``gluing''
+operation) by generators and relations, which will in particular give
+a presentation by generators and relations, in the ordinary sense, of
+each of the $\hat{T}_{g,\nu}$ (as a profinite groupoid). Here, even for
+$g = 0$ (thus when the corresponding Teichmüller groups are
+``well-known'' braid groups), the generators and relations
+known to date that have come to my attention seem unusable
+as they stand, because they lack the invariance and
+symmetry properties indispensable for the action of $\mathrm{I}\!\Gamma$ to be directly
+readable from this presentation. This is connected in particular with the fact that
+people still persist, when calculating with fundamental
+groups, in fixing a single base point, instead of cleverly choosing
+a whole collection invariant under the symmetries of the
+situation, which are thereby lost along the way. In certain situations
+(such as descent theorems in the manner of Van Kampen for fundamental
+groups), it is much more elegant, even indispensable\frapparatus{V-FR-007-001} for understanding
+anything about them, to work with fundamental groupoids
+relative to a suitable collection of base points , and this is certainly
+so for the Teichmüller tower. It would seem (incredible,
+but true !) that the very geometry of the first level of the
+Teichmüller tower (thus corresponding to ``moduli'' either for projective
+
+\margin{7}
+\copytwo{A2-119-083-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=84}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=84}{[copy 2, scan 119/83]} Copy 2 has the handwritten foliation 83 at the lower left.}}
+
+\finishscan
+% END PAGE esq_119_007
+% BEGIN PAGE esq_119_008
+\scanpage{119/8}
+\mspage{6}
+
+lines with four marked points or for elliptic
+curves (!)) has never been properly made explicit, for example the relation
+between the genus 0 case and the geometry of the octahedron and of the
+tetrahedron. A fortiori, the moduli multiplicities $M_{0,5}$ (for
+projective lines with five marked points) and $M_{1,2}$ (for
+curves of genus 1 with two marked points), which are moreover almost
+isomorphic to one another, seem virgin territory - braid groups
+will not enlighten us about them ! I have begun to
+look at $M_{0,5}$ in spare moments; it is a true jewel, with a
+very rich geometry closely connected with that of the icosahedron.
+
+The a priori interest of a complete knowledge of the first two
+levels of the tower (namely, the cases in which the moduli dimension
+$N = 3g-3+\nu$ is $\leq 2$) lies in this principle, that \uline{the entire tower
+is reconstructed from the first two levels}, in the sense that, through
+the fundamental ``gluing'' operation, level 1 supplies a
+complete system of generators, and level 2 a complete system of
+relations. There is a striking analogy, and I am convinced it is
+more than formal, between this principle and Demazure's analogous
+principle for the structure of reductive algebraic groups, when
+the term ``level'' or ``moduli dimension'' is replaced by ``semisimple
+rank of the reductive group''. The connection becomes still more striking
+when one recalls that the Teichmüller group $T_{1,1}$ (now in the
+discrete transcendental context, and not in the profinite algebraic
+context, where one finds the profinite completions of the former) is
+precisely $S\ell(2,\mathbb{Z})$, i.e. the group of integral points of the
+``absolute'' simple group scheme of rank 1 $S\ell(2)_{\mathbb{Z}}$. Thus, \uline{the fundamental
+building block for the Teichmüller tower} \uline{is essentially
+the same as that for ``the tower'' of reductive groups of all ranks} -
+a group of which one can probably say, moreover, that it is present
+in all the essential disciplines of mathematics.
+
+This principle for constructing the Teichmüller tower has
+not been proved at present - but I have no doubt that it
+is valid. It would follow (through a theory of dévissage of stratified
+structures - in this instance the $M^{\wedge}_{g,\nu}$ - still to be written,
+cf. par. 5) from an extremely plausible property of the open
+
+\margin{8}
+\copytwo{A2-119-084-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=85}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=85}{[copy 2, scan 119/84]} Copy 2 has the handwritten foliation 84 at the lower left.}}
+
+\finishscan
+% END PAGE esq_119_008
+% BEGIN PAGE esq_119_009
+\scanpage{119/9}
+\mspage{7}
+
+\unsure{moduli}\tnote{TN-009-01}{The checked French retains the alternatives ``mcdulaires|modulaires'' for the unclear typed letter. Both lead to ``moduli'' in this phrase; the doubt remains marked and linked to the scan.}
+multiplicities $M_{g,\nu}$ in the complex analytic context,
+namely that, for a moduli dimension $N \geq 3$, the fundamental
+group of $M_{g,\nu}$ (i.e. the usual Teichmüller group $T_{g,\nu}$)
+is isomorphic to the ``fundamental group at infinity'', i.e. that of a
+``tubular neighborhood of infinity''. This is a very familiar fact
+(due essentially to Lefschetz) for a smooth \uline{affine} variety of
+dimension $N \geq 3$. It is true that the moduli multiplicities are
+not affine (except for small values of $g$), but it would suffice
+for such an $M_{g,\nu}$ of dimension $N$ (or rather, a suitable finite
+covering)\frapparatus{V-FR-009-001} to be the union of $N$-2 affine open sets, thus
+for $M_{g,\nu}$ not to be ``too close to a compact variety''.
+
+Having no doubt about this principle for constructing the
+Teichmüller tower, I prefer to leave it to the experts in the transcendental
+theory, better equipped than I am, to prove what is needed
+(should any be interested), and instead to make explicit,
+with all the care it deserves, the resulting structure of the
+Teichmüller tower by generators and relations, this time in the
+discrete setting and not the profinite one - which amounts, essentially,
+to a complete understanding of the four moduli multiplicities
+$M_{0,4}$, $M_{1,1}$, $M_{0,5}$, $M_{1,2}$ , and of their fundamental groupoids relative
+to suitably chosen ``base points''. These present themselves
+quite naturally as the complex algebraic curves of the type
+$(g,\nu)$ under consideration whose automorphism group (necessarily
+finite) is larger than in the generic case (*). Including among them the
+holomorphic sphere with three marked points (coming from $M_{0,3}$, i.e.
+
+\rule{4cm}{0.4pt}
+
+(*) One must also add the ``base points'' arising from operations
+of gluing ``pieces'' of the same type in lower moduli dimension.
+On the other hand, in moduli dimension 2 (the cases of $M_{0,5}$ and $M_{1,2}$),
+one should exclude the points of certain one-parameter families
+of curves admitting an exceptional automorphism of order 2. These
+families, moreover, constitute remarkable rational curves on the multiplicities
+under consideration, which seem to me an important ingredient
+of the structure of these multiplicities.
+
+\margin{9}
+\copytwo{A2-119-085-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=86}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=86}{[copy 2, scan 119/85]} Copy 2 has a blue proof sign in the left margin, approximately \unsure{$\frown$}, beside ‘convena\deleted{n}ble’.}}
+\copytwo{A2-119-085-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=86}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=86}{[copy 2, scan 119/85]} Copy 2 has the handwritten foliation 85 at the lower left.}}
+
+\finishscan
+% END PAGE esq_119_009
+% BEGIN PAGE esq_119_010
+\scanpage{119/10}
+\mspage{8}
+
+from level O), one finds \uline{twelve} \uline{fundamental} ``\uline{building blocks}''
+(6 of genus O, 6 of genus 1) in a ``Légo-Teichmüller game (large
+box), where the marked points on the surfaces under consideration are replaced
+by ``holes'' with boundary, so as to obtain surfaces with boundary,
+thus building blocks that can be fitted together with gentle
+friction, as in the ordinary Légo game dear to our children
+(or grandchildren...). Assembling them provides a thoroughly
+visual way of constructing every type of surface (it is essentially
+these assemblies that will be the ``base points'' for
+our famous tower), and also of visualizing the \uline{elementary} ``\uline{paths}''
+through equally concrete operations, such as ``twists'', or
+automorphisms of the pieces in the game, and of writing the \uline{fundamental relations}
+between composite paths. Depending on the size (and the price !) of the
+construction box used, one moreover \unsure{finds}\tnote{TN-010-01}{The French reading is retained as ``trcuve|trouve'' because the letterform is unresolved. Both alternatives are represented here by ``finds'', with the source doubt retained.}
+many different descriptions of the Teichmüller tower by generators and
+relations. The smallest box is reduced to pieces that are all
+identical, of type (O,3) - these are Thurston's ``pairs of pants'',\tnote{TN-010-02}{``Pairs of pants'' translates ``pantalons'', the surface name used by the author. The letter O in the scanned type expressions is retained.}
+and the Légo-Teichmüller game I am trying to describe, arising from
+motivations and reflections in absolute algebraic geometry over the field $\mathbb{Q}$,
+is very close to Thurston's game of ``hyperbolic geodesic surgery'',
+whose existence I learned of last year from Yves Ladegaillerie.
+In a microseminar with Carlos Contou-Carrère and Yves \var{Ladegraillerie}{Ladegaillerie}{slip corrected}{V-FR-010-001},
+we have begun a reflection one of whose aims is to confront
+the two viewpoints, which complement each other.
+
+I add that each of the twelve building blocks in
+the ``large box'' is equipped with a canonical cellular decomposition\frapparatus{V-FR-010-002},
+stable under all symmetries, whose only vertices are the
+``marked points'' (or centers of the holes), and whose edges are certain
+geodesic paths (for the canonical riemannian structure on the sphere
+or torus under consideration) between certain pairs of vertices (namely those
+that lie on the same ``real locus'', for a suitable real structure
+on the complex algebraic curve under consideration). Consequently,
+all the surfaces obtained in this game by assembly are equipped
+with canonical cellular structures, which in their turn (cf.§3 below)
+
+\margin{10}
+\copytwo{A2-119-086-001}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{[copy 2, scan 119/86]} Copy 2 has a handwritten sign \unsure{*} after ‘Teichmüller’; its exact form and any possible covered letter or punctuation remain uncertain.}}
+\copytwo{A2-119-086-002}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{[copy 2, scan 119/86]} Copy 2 has a handwritten sign \unsure{*} in the right margin on the same line.}}
+\copytwo{A2-119-086-003}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{[copy 2, scan 119/86]} Copy 2 circles the typed words ‘dans ce jeu’ and connects them by a line to the position after ‘Par suite,’; the words are not crossed out.}}
+\copytwo{A2-119-086-004}{\scancontext{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=87}{[copy 2, scan 119/86]} Copy 2 has the handwritten foliation 86 at the lower left.}}
+
+\finishscan
+% END PAGE esq_119_010
+% BEGIN PAGE esq_119_011
+\scanpage{119/11}
+\mspage{9}
+
+allow these surfaces to be considered as associated with
+canonically determined complex algebraic curves (and even curves over $\overline{\mathbb{Q}}$).
+Here there is a typical interplay between the combinatorial
+and the complex algebraic (or better, the algebraic over $\overline{\mathbb{Q}}$).
+
+The ``small box'', with its identical pieces, which has
+the charm of economy, will probably give a relatively
+complicated description of the relations (complicated, but by no means
+inextricable !). The large box will give rise to more numerous
+relations (because there are many more base points and
+remarkable paths between them), but with a more transparent structure. I
+expect that in moduli dimension 2, just as in the more or
+less familiar case of moduli dimension 1 (with, in particular, the
+description of $S\ell(2,\mathbb{Z})$ by $(\rho,\sigma \mid \rho^3 = \sigma^2,\ \rho^4 = \sigma^6 = 1)$), one will find
+generation by the automorphism groups of the three relevant types
+of pieces, with simple relations that I have not worked out
+at the time of writing these lines. Perhaps one will even find a
+principle of this kind for all the $T_{g,\nu}$, as well as a cellular
+decomposition of $M^{\wedge}_{g,\nu}$ generalizing those that present themselves spontaneously
+for $M^{\wedge}_{0,4}$ and $M^{\wedge}_{1,1}$, and that I already glimpse for
+moduli dimension 2, using the hypersurfaces corresponding
+to the various \uline{real structures} on the complex structures
+under consideration to carry out the desired cellular decomposition.
+
+
+3. Instead of following (as planned) a rigorous thematic
+order, I have let myself be carried away by my predilection for a
+particularly rich and burning theme, to which I moreover intend to
+devote myself as a priority for some time, beginning with the start
+of the 84/85 academic year. I therefore resume the thematic account where I left it,
+at the very beginning of the preceding paragraph.
+
+My interest in topological surfaces begins to emerge
+in 1974, when I propose to Yves Ladegaillerie the theme of studying
+isotopically the embeddings of a topological 1-complex in a compact
+surface. In the two years that follow, this study leads him to
+a remarkable isotopy theorem, giving a complete algebraic description
+
+\margin{11}
+
+\finishscan
+% END PAGE esq_119_011
+% BEGIN PAGE esq_119_012
+\scanpage{119/12}
+\mspage{10}
+
+of the isotopy classes of embeddings of such 1-complexes,
+or of compact surfaces with boundary, in a compact oriented surface,
+in terms of certain very simple combinatorial invariants and the
+fundamental groups of the participants. This theorem, which should
+extend without difficulty to embeddings of any compact space
+(triangulable, to simplify matters) in a compact oriented surface,
+recovers as easy corollaries several deep classical results
+of surface theory, and in particular Baer's isotopy theorem.
+It is finally going to be published, separately from the rest (and
+ten years later, given the harshness of the times...), in Topology. Ladegaillerie's
+work also contains a purely algebraic description,
+in terms of fundamental groupoids, of the
+``isotopy'' category of compact surfaces $X$, equipped with a topological
+1-complex $K$ embedded in $X$. This description, which had the misfortune
+to go against the ``taste of the day'' and consequently seems unpublishable,
+has nevertheless served (and still serves) as a valuable guide in
+my subsequent reflections, particularly in the context of absolute
+algebraic geometry of characteristic zero.
+
+The case in which $(X,K)$ is a 2-dimensional ``map'',\tnote{TN-012-01}{``Map'' here translates ``carte'', a surface equipped with the embedded graph and cell conditions specified in the sentence.}
+i.e. in which the connected components of $X\backslash K$ are open 2-cells \unsure{.}
+(and in which $K$ is moreover equipped with a finite set $S$ of ``vertices'',
+such that the connected components of $K\backslash S$ are open 1-cells)
+gradually attracts my attention in the following years.
+The isotopy category of these maps admits a particularly
+simple algebraic description, through the set of ``frames'' (or ``flags'',
+or ``biarcs'') associated with the map, which is naturally equipped
+with the structure of a set with a group of operators, under the group
+\[ \underline{C}_2 = \langle \sigma_0,\sigma_1,\sigma_2 \,|\, \sigma_0^{\,2} = \sigma_1^{\,2} = \sigma_2^{\,2} = (\sigma_0\sigma_2)^2 = 1 \rangle \ , \]
+which I call the (unoriented) \uline{cartographic group} of dimension 2.
+It admits\frapparatus{V-FR-012-001} as a subgroup of index 2 the \uline{oriented cartographic group},
+generated by products of even numbers of the generators, which can
+also be described as
+\[ \underline{C}_2^{+} = \langle \rho_s,\rho_f,\sigma \,|\, \rho_s\rho_f = \sigma,\ \sigma^2 = 1 \rangle \ , \]
+
+\margin{12}
+
+\finishscan
+% END PAGE esq_119_012
+% BEGIN PAGE esq_119_013
+\scanpage{119/13}
+\mspage{11}
+
+(with
+\[ \rho_s = \sigma_2\sigma_1 \ , \quad \rho_f = \sigma_1\sigma_0 \ , \quad \sigma = \sigma_0\sigma_2 = \sigma_2\sigma_0 \ , \]
+the operations of \uline{elementary rotation} of a frame about a vertex,
+a face and an edge respectively). There is a perfect dictionary
+between the topological situation of compact maps, resp.
+compact oriented maps, on the one hand, and finite sets with
+operator group $\underline{C}_2$ resp. $\underline{C}_2^+$ on the other, a dictionary whose
+existence was, moreover, more or less known, but never
+stated with the necessary precision or developed to any extent.
+This foundational work is carried out with the care it deserves in
+an excellent DEA project,\tnote{TN-013-01}{DEA abbreviates ``diplôme d'études approfondies'', an advanced studies diploma.}
+undertaken jointly by Jean Malgoire and
+Christine Voisin in 1976.
+
+This reflection suddenly takes on a new dimension
+with the simple observation that the group $\underline{C}_2^+$ can be interpreted
+as a quotient of the fundamental group of an oriented sphere with
+three points removed, numbered 0, 1, 2, the operations $\rho_s$, $\sigma$, $\rho_f$
+being interpreted as the loops about these points, satisfying
+the familiar relation
+\[ \ell_0\ell_1\ell_2 = 1 \ , \]
+while the additional relation $\sigma^2 = 1$, i.e. $\ell_1^{\,2} = 1$, means
+that one is interested in the quotient of the fundamental group corresponding
+to an imposed ramification index 2 at the point 1, which therefore classifies
+coverings of the sphere ramified at most at the
+points 0, 1, 2, with ramification equal to 1 or 2 at the points
+above 1. Thus compact oriented maps form an
+isotopy category equivalent to that of these coverings, subject
+to the further condition of being finite coverings.
+Taking now as the reference sphere the Riemann sphere,
+or complex projective line, rigidified by the three points 0, 1\frapparatus{V-FR-013-001}
+and $\infty$ (the last thus replacing 2), and recalling that every
+finite ramified covering of a complex algebraic curve itself inherits
+the structure of a complex algebraic curve, one arrives at this
+observation, which eight years later still seems to me just as
+extraordinary: \uline{every oriented} ``\uline{finite}'' \uline{map is canonically realized}
+\uline{on a complex algebraic curve} ! Better still, since the complex projective
+
+\margin{13}
+
+\finishscan
+% END PAGE esq_119_013
+% BEGIN PAGE esq_119_014
+\scanpage{119/14}
+\mspage{12}
+
+line is defined over the absolute base field $\mathbb{Q}$ ,
+as are the allowed ramification points, the algebraic curves
+obtained are defined not only over $\mathbb{C}$, but over the algebraic
+closure $\overline{\mathbb{Q}}$ of $\mathbb{Q}$ in $\mathbb{C}$. As for the original map, it
+is recovered on the algebraic curve as the inverse image of the real
+segment $[0,1]$ (where $0$ is regarded as a vertex, and $1$ as
+the midpoint of a ``folded edge'' with 1 as its center), which constitutes
+the ``universal oriented 2-map'' on the Riemann sphere (*).
+The points of the algebraic curve $X$ above 0, 1 and $\infty$
+are precisely the vertices and the ``centers'' of the edges and
+faces respectively of the map $(X,K)$, and the orders of the vertices
+and faces are precisely the multiplicities of the zeros and
+poles of the rational function (defined over $\overline{\mathbb{Q}}$) on $X$,
+expressing its structural projection to $\mathbb{P}^1_{\mathbb{C}}$.
+
+This discovery, which technically amounts to so little,
+made a very strong impression on me, and represents
+a decisive turning point in the course of my reflections, in particular
+a shift in my center of interest in mathematics, which
+suddenly became sharply localized. I do not believe that a
+mathematical fact has ever struck me as much as this one, or had
+a comparable psychological impact \notecall{copy1-2}{call-esq_119_014-2-1}{($^2$)}. This surely has to do with the
+so familiar, nontechnical nature of the objects under consideration,
+of which any child's drawing scribbled on a scrap of paper (provided
+the drawing is all in one piece) gives a perfectly
+explicit example. With such a drawing are associated subtle arithmetic
+invariants, which will be completely upset as soon as
+one adds another stroke. Since we are dealing here with spherical maps, necessarily
+
+\noindent\rule{4cm}{0.4pt}
+
+(*) There is an analogous description of finite unoriented maps,
+possibly with boundary, in terms of \uline{real} algebraic curves,
+more precisely of a covering of $\mathbb{P}^1_{\mathbb{R}}$ ramified only at 0, 1, $\infty$\frapparatus{V-FR-014-001},
+the surface with boundary associated with such a covering being $X(\mathbb{C})/\tau$, where $\tau$
+is complex conjugation. The ``universal'' unoriented map is
+here the disk, or upper hemisphere of the Riemann sphere, equipped,
+as before, with the embedded 1-complex $K = [0,1]$.
+
+\margin{14}
+
+\finishscan
+% END PAGE esq_119_014
+% BEGIN PAGE esq_119_015
+\scanpage{119/15}
+\mspage{13}
+
+giving rise to curves of genus zero (which therefore
+provide no ``moduli''), one can say that the curve
+in question is ``pinned down'' as soon as three of its points are fixed, for
+example three vertices of the map, or more generally three
+centers of facets (vertices, edges or faces) - from that point on, the structural
+map $f : X \to \mathbb{P}^{1}_{\mathbb{C}}$ can be interpreted as a
+well-determined rational function
+\[ f(z) = P(z)/Q(z) \in \mathbb{C}(z) \]
+the quotient of two well-determined relatively prime polynomials,
+with $Q$ monic, satisfying algebraic conditions
+that express, in particular, the fact that $f$ is
+unramified outside the values $0$, $1$, $\infty$, and imply that the
+coefficients of these polynomials are \uline{algebraic numbers}; thus
+their zeros are algebraic numbers, representing respectively
+the vertices and the centers of the faces of the map under
+consideration.
+
+Returning to the general case, since finite maps are interpreted
+as coverings over $\bar{\mathbb{Q}}$ of an algebraic curve defined
+over the prime field $\mathbb{Q}$ itself, it follows that the Galois
+group $\mathrm{I}\!\Gamma$ of $\bar{\mathbb{Q}}$ over $\mathbb{Q}$ acts naturally on the category of these
+maps. For example, the action of an automorphism
+$\gamma \in \mathrm{I}\!\Gamma$ on a spherical map given by the rational function
+above is obtained by applying $\gamma$ to the coefficients of the
+polynomials $P$, $Q$. Here, then, is this mysterious group $\mathrm{I}\!\Gamma$ intervening as
+a transforming agent on topological-combinatorial shapes of the
+most elementary kind imaginable, prompting questions
+such as: are these given oriented maps ``conjugate'',
+or: what exactly are the conjugates\frapparatus{V-FR-015-001} of this given oriented
+map ? (There are, visibly, only finitely many.)
+
+I have dealt with a few concrete cases (for coverings
+of low degrees) by various expedients; J. Malgoire has dealt with
+a few others - I doubt that there is a uniform method of
+answering them by computer calculations. My reflection very quickly
+
+\margin{15}
+
+\finishscan
+% END PAGE esq_119_015
+% BEGIN PAGE esq_119_016
+\scanpage{119/16}
+\mspage{14}
+
+set off in a more conceptual direction\frapparatus{V-FR-016-001}, to come to
+grasp the nature of this action of $\mathrm{I\!\Gamma}$. One immediately sees
+that, roughly speaking, this action is expressed by a certain
+``outer'' action of $\mathrm{I\!\Gamma}$ on the profinite compactification\tnote{TN-016-01}{``Profinite compactification'' renders ``compactifié profini'', the expression used here. The source used ``complétions profinies'' on p.~6, translated there as ``profinite completions''.}
+of the oriented cartographic group $\underline{C}_2^{+}$ , and this action in turn
+is deduced, by passage to the quotient, from the canonical outer
+action of $\mathrm{I\!\Gamma}$ on the profinite fundamental group $\hat{\pi}_{0,3}$ of $(U_{0,3})_{\bar{\mathbb{Q}}}$ ,
+where $U_{0,3}$ denotes the standard curve of genus $0$ over the prime field
+$\mathbb{Q}$ with three points removed. This is how my attention
+turned toward what I have since called ``\uline{anabelian}
+\uline{algebraic geometry}'', whose starting point is precisely a study
+(for the moment restricted to characteristic zero) of the action
+of ``absolute'' Galois groups (\unsure{in particular}\tnote{TN-016-02}{The French alternatives are ``nctamment|notamment''. Both are represented by ``in particular''; the letterform doubt remains linked to the source.}
+the groups $\mathrm{Gal}(\bar{K}/K)$,
+where $K$ is an extension of finite type of the prime field) on
+geometric (profinite) fundamental groups of algebraic varieties
+(defined over $K$), and more particularly (breaking with
+a deeply rooted tradition) fundamental groups that are
+very far from abelian groups (and that I therefore
+call ``\uline{anabelian}''). Among these groups, and very close to the group
+$\hat{\pi}_{0,3}$ , is the profinite compactification of the modular group $S\ell(2,\mathbb{Z})$,
+whose quotient by the center $\pm 1$ contains the preceding group as
+the congruence subgroup mod 2, and can moreover also be interpreted
+as an oriented ``cartographic'' group, namely the one
+that classifies \uline{triangulated} oriented maps (i.e. those whose
+faces are triangles or monogons).
+
+Every finite oriented map gives rise to a smooth projective
+algebraic curve defined over $\bar{\mathbb{Q}}$ , and the question then immediately
+arises: which algebraic curves over $\bar{\mathbb{Q}}$ are obtained
+in this way - might one obtain them all, who knows ?
+In more learned terms, might it be true that every smooth projective
+algebraic curve defined over a number field would occur
+as a possible ``modular \unsure{curve}''\tnote{TN-016-03}{The French reading remains ``ccurbe|courbe''. The English keeps the doubt on ``curve'' and supplies both source candidates here.}
+parametrizing elliptic curves
+equipped with a suitable rigidification ? Such a
+supposition looked so crazy that I was almost
+
+\margin{16}
+
+\finishscan
+% END PAGE esq_119_016
+% BEGIN PAGE esq_119_017
+\scanpage{119/17}
+\mspage{15}
+
+embarrassed to submit it to the experts in the subject. Deligne, consulted,
+did indeed find the supposition crazy\frapparatus{V-FR-017-001}, but had no counterexample
+up his sleeve. Less than a year later, at the International
+Congress in Helsinki, the Soviet mathematician Bielyi\tnote{TN-017-01}{The source's spelling ``Bielyi'' is retained.}
+announced precisely this result, with a proof of disconcerting simplicity
+occupying two short pages of a letter from Deligne - probably never
+has a deep and bewildering result been proved
+in so few lines !
+
+In the form in which Bielyi states it, his result says essentially
+that \uline{every algebraic curve defined over a number}
+\uline{field can be obtained as a covering of the projective line ramified}
+\uline{only at the points} 0, 1, $\infty$. This result seems to have passed
+more or less unnoticed. Yet it appears to me to have considerable
+scope. For me, its essential message was that \uline{there is a deep}
+\uline{identity between the combinatorics of finite maps on the one hand}, \uline{and the}
+\uline{geometry of algebraic curves defined over number fields}
+\uline{on the other}. This deep result, together with the algebraic-geometric
+interpretation of finite maps, opens the door onto a new,
+unexplored world - and within reach of everyone, who passes by without seeing it.
+
+It was only almost three years later, seeing that the vast
+horizons opening up here decidedly stirred
+nothing in any of my students, or even in any of the three or
+four colleagues of the highest caliber to whom I had the opportunity
+to speak about it in detail, that I made a first exploratory
+journey into this ``new world'', from January to June 1981. This first venture
+took material form in a packet of some 1 300 manuscript pages,
+christened ``The Long March through Galois Theory''.\tnote{TN-017-02}{The French title is ``La Longue Marche à travers la théorie de Galois''.}
+It is above all an effort to understand the relations between
+``arithmetic'' Galois groups and ``geometric'' profinite fundamental
+groups. Fairly quickly it turned toward formulating
+the action of $\mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$ on $\hat{\pi}_{0,3}$ in calculational terms, and at a
+later stage, on the slightly larger group $S\ell(2,\mathbb{Z})^{\wedge}$, which
+gives rise to a more elegant and more effective formalism. It was also
+in the course of this work (but developed in separate notes)
+
+\margin{17}
+
+\finishscan
+% END PAGE esq_119_017
+% BEGIN PAGE esq_119_018
+\scanpage{119/18}
+\mspage{16}
+
+that the central theme of anabelian algebraic geometry appeared:
+reconstructing certain varieties $X$ called ``anabelian''
+over an absolute field $K$ from their mixed fundamental group,
+an extension of $\mathrm{Gal}(\bar{K}/K)$ by $\pi_1(X_{\bar{K}})$; it was then that the
+``fundamental conjecture of anabelian algebraic geometry'' emerged,
+close to the conjectures of Mordell and Tate that Faltings
+has just proved\notecall{copy1-3}{call-esq_119_018-3-1}{($^3$)}. It was also there that a first reflection on
+Teichmüller groups and the first intuitions about the multiple
+structure of the ``Teichmüller tower'' began - the open moduli
+multiplicities $M_{g,\nu}$ appearing, moreover, as the first important
+examples, in dimension $> 1$, of varieties (or rather,
+multiplicities) that seem well deserving of the name ``anabelian''.
+Toward the end of this period of reflection, it appeared to me
+as a foundational reflection on a theory still in
+limbo, for which the name ``\uline{Galois-Teichmüller theory}''
+seemed more appropriate than ``Galois Theory'', the name I had initially
+given to my notes.
+
+This is not the place to give a more detailed account
+of this whole collection of questions, intuitions, ideas - including
+tangible results, certainly. The most important seems to me to be the one
+mentioned in passing in par. 2, namely the faithfulness of the outer
+action of $\mathrm{I}\!\Gamma = \mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$ (and of its open subgroups) on $\hat{\pi}_{0,3}$,
+and more generally (if I remember correctly) on the fundamental
+group of any ``anabelian'' algebraic curve (i.e. whose genus
+$g$ and ``number of holes'' $\nu$ satisfy the inequality $2g + \nu \geq 3$,
+i.e. such that $\chi(X) < 0$) defined over a finite extension of $\mathbb{Q}$. This
+result can be regarded as essentially equivalent to
+Bielyi's theorem - it is the first concrete manifestation, through
+a precise mathematical statement, of the ``message'' discussed
+above.
+
+I would like to finish this rapid overview with a few words
+of commentary on the truly unimaginable richness of a typical
+anabelian group such as the group $S\ell(2,\mathbb{Z})$ - probably the most
+remarkable infinite discrete group one has encountered, which appears
+
+\margin{18}
+
+\finishscan
+% END PAGE esq_119_018
+% BEGIN PAGE esq_119_019
+\scanpage{119/19}
+\mspage{17}
+
+in a multitude of guises (some of which have been touched on
+in the present report), and which, from the viewpoint of
+Galois-Teichmüller theory, can be regarded as the fundamental
+``building block'' of the ``Teichmüller tower''. The structural
+element of $S\ell(2,\mathbb{Z})$ that fascinates me above all is of course
+the outer action of the Galois group $\mathrm{I}\!\Gamma$ on its profinite
+compactification. By Bielyi's theorem, taking the profinite
+compactifications of subgroups of finite index of $S\ell(2,\mathbb{Z})$, and the induced
+outer action (passing also to an open subgroup of $\mathrm{I}\!\Gamma$
+as necessary), \uline{one essentially obtains the fundamental groups}
+\uline{of all algebraic curves} (not necessarily compact)
+\uline{defined over number fields} $K$, \uline{and the outer action of}
+$\mathrm{Gal}(\bar{K}/K)$ \uline{on them} - at least it is true that every such fundamental
+group appears as a quotient of one of the former groups (*).
+Taking into account the ``anabelian yoga'' (which remains conjectural),
+according to which an anabelian algebraic curve over a number field $K$
+(a finite extension of $\mathbb{Q}$) is known up to isomorphism\frapparatus{V-FR-019-001} when
+its mixed fundamental group is known (or, what amounts to the same thing,
+the outer action of $\mathrm{Gal}(\bar{K}/K)$ on its geometric profinite
+fundamental group), one can thus say that \uline{all algebraic curves}
+\uline{defined over number fields are} ``\uline{contained}'' \uline{in the profinite}
+\uline{compactification} $S\ell(2,\mathbb{Z})\hat{}$, \uline{and in the knowledge of a certain}
+\uline{subgroup} $\mathrm{I}\!\Gamma$ \uline{of its group of outer automorphisms} !
+Passing to the abelianizations of the preceding fundamental groups, one sees,
+in particular, that all the abelian $\ell$-adic representations dear
+to Tate and his associates, defined by Jacobians and generalized
+Jacobians of algebraic curves defined over number fields,
+are contained in this single action of $\mathrm{I}\!\Gamma$ on the anabelian profinite
+group $S\ell(2,\mathbb{Z})\hat{}$!\notecall{copy1-4}{call-esq_119_019-4-1}{($^{4}$)}
+
+\rule{5cm}{0.4pt}
+
+(*) In fact, these are quotients of a particularly trivial
+kind, by abelian subgroups that are products of ``Tate modules''
+$\hat{\mathbb{Z}}(1)$, corresponding to ``groups of loops'' about points at infinity.\tnote{TN-019-01}{The expression is ``groupes-lacets'' in the French; the wording ``groups of loops'' preserves the author's phrase at this place.}
+
+\margin{19}
+
+\finishscan
+% END PAGE esq_119_019
+% BEGIN PAGE esq_119_020
+\scanpage{119/20}
+\mspage{18}
+
+Faced with this, some are content to shrug their shoulders
+with a disillusioned air and bet that nothing can be drawn
+from it all except dreams. They forget, or are unaware,
+that our science, and every science, would amount to very little
+if, since its beginnings, it had not been nourished by the dreams and visions
+of those who devote themselves to it with passion.
+
+4.        From the beginning of my reflection on two-dimensional maps,
+I was especially interested in the so-called
+``\uline{regular}'' maps, that is, those whose automorphism group
+acts transitively (and consequently, simply transitively)
+on the set of frames. In the oriented case and in terms of
+the algebraic-geometric interpretation in the preceding paragraph,
+these are the maps that correspond to a \uline{Galois} covering of
+the projective line. Very quickly, too, and even before the connection
+with algebraic geometry appeared, it also became
+necessary not to exclude infinite maps, which in particular enter
+naturally as universal coverings of
+finite maps. It appears (as an immediate consequence of the ``dictionary''
+of maps, extended to maps that need not be finite)
+that for every pair of natural numbers $p, q$ $\geq$ 1, there exists up to
+(nonunique) isomorphism one and only one 1-\uline{connected} map
+of type $(p,q)$, i.e. all of whose vertices have order $p$
+and all of whose faces have order $q$, and this map is regular.
+It is pinned down by the choice of a frame, and its
+automorphism group is then canonically isomorphic to the quotient
+of the cartographic group (resp. of the oriented cartographic
+group in the oriented case) by the additional relations
+\[ \rho_s^{\,p} = \rho_f^{\,q} = 1. \]
+The case in which this group is finite is the ``Pythagorean'' case of
+regular spherical maps; the case in which it is infinite gives the regular tessellations
+
+\margin{20}
+
+\finishscan
+% END PAGE esq_119_020
+% BEGIN PAGE esq_119_021
+\scanpage{119/21}
+\mspage{19}
+
+of the euclidean or hyperbolic plane (*). The connection
+of the combinatorial theory with the ``conformal'' theory of regular
+tessellations of the hyperbolic plane was sensed before
+the connection of finite maps with finite coverings of the
+projective line appeared. Once this connection is understood, it becomes obvious
+that it must also extend to infinite maps (regular
+or otherwise): \uline{every map, finite or otherwise, is canonically realized on
+a conformal surface} (compact if and only if the map is
+finite), \uline{as a ramified covering of the complex projective line,
+ramified only at the points} 0, 1, $\infty$. The only difficulty
+here was to work out the dictionary between topological
+maps and sets with operators, which posed some conceptual
+problems in the infinite case, beginning with the very notion of
+a ``topological map''. In particular, both for the
+internal coherence of the dictionary and so as not to miss
+certain interesting cases of infinite maps, it proves necessary
+not to exclude vertices and faces of infinite order. This foundational
+work was also carried out by J. Malgoire and C. Voisin, following
+on from their first work on finite maps, and their theory
+indeed supplies everything one was entitled to expect from it
+(and even more...).
+
+It was in 1977 and 1978, alongside two C 4 courses\tnote{TN-021-01}{``C 4'' is the course designation used in the source; it is retained here.}
+on the geometry of the cube and that of the icosahedron, that I
+began to take an interest in regular polyhedra, which then appeared
+to me as particularly concrete ``geometric realizations''
+of combinatorial maps, the vertices, edges and faces being
+realized respectively as points, lines and planes
+in a suitable three-dimensional affine space, with the incidence
+relations respected. This notion of geometric realization
+
+\rule{4cm}{0.4pt}
+
+(*) In these statements, one should not exclude the case in which $p$, $q$
+can take the value $+\infty$, which one encounters in particular very
+naturally in tessellations associated with certain infinite regular
+polyhedra, cf. below.
+
+\margin{21}
+
+\finishscan
+% END PAGE esq_119_021
+% BEGIN PAGE esq_119_022
+\scanpage{119/22}
+\mspage{20}
+
+of a combinatorial map retains a meaning over a base field, and
+even over an arbitrary base ring. It also retains a
+meaning for regular polyhedra of any dimension, by
+replacing the cartographic group $\underline{C}_2$ with a suitable n-dimensional
+variant $\underline{C}_n$. The case n = 1, i.e. the theory of
+regular polygons in any characteristic, was the subject
+of a DEA course in 1977/78, and already brought out some
+new phenomena, as well as the usefulness of working in a \uline{projective}
+space rather than an affine ambient space (here the affine plane).
+This is due in particular to the fact that in certain
+characteristics (and especially in characteristic 2) the
+center of a regular polyhedron is thrust out to infinity. On the other
+hand, the projective context, unlike the affine context,
+allows one to develop with ease a duality formalism for
+regular polyhedra, corresponding to the duality formalism
+of combinatorial or topological maps (where the roles of vertices
+and faces, in the case n = 2, say, are interchanged).
+It turns out that for every projective regular polyhedron, one can
+define an associated canonical hyperplane, which plays the role of
+a canonical hyperplane at infinity and allows one to regard the given
+polyhedron as an affine regular polyhedron.
+
+The extension of the theory of regular polyhedra (and,
+more generally, of all sorts of geometric-combinatorial
+configurations, including root systems...) from the base field
+$\mathbb{R}$ or $\mathbb{C}$ to a general base ring seems to me to have,
+in this part of geometry, a scope comparable to the analogous
+extension that has taken place since the beginning of the century in algebraic
+geometry, or over the last twenty years or so in topology ( *),
+with the introduction of the language of schemes and that of topoi.
+
+\rule{4cm}{0.4pt}
+
+(*) In writing this, I am aware that few topologists,
+even today, recognize this conceptual and technical
+broadening of topology and the resources
+it offers.
+
+\margin{22}
+
+\finishscan
+% END PAGE esq_119_022
+% BEGIN PAGE esq_119_023
+\scanpage{119/23}
+\mspage{21}
+
+My sporadic reflection on this question over several years
+was confined to bringing out a few simple basic principles, at
+first directing my attention to \uline{pinned} regular
+polyhedra,\tnote{TN-023-01}{``Pinned'' renders ``épinglé'', continuing the source's language of fixing a polyhedron by choosing a frame.}
+which reduces the necessary conceptual baggage to a minimum
+and practically eliminates rationality questions that are at all
+delicate. For such a polyhedron one finds a canonical basis (or
+frame) of the ambient affine or projective space, in
+such a way that the operations of the cartographic group $\underline{C}_n$, generated
+by the fundamental reflections $\sigma_i$ $(0 \leq i \leq n)$, are written in it
+by universal formulas in terms of $n$ parameters
+$\alpha_1,\ldots,\alpha_n$ , which geometrically are interpreted as twice
+the cosines of the ``fundamental angles'' of the polyhedron. The polyhedron
+is reconstructed from this action and the affine or
+projective flag associated with the chosen basis, by transforming that flag
+by all the elements of the group generated by the fundamental
+reflections. Thus the ``universal'' pinned n-polyhedron is
+canonically defined over the polynomial ring in $n$ indeterminates
+\[ \mathbb{Z}[\underline{\alpha}_1,\ldots,\underline{\alpha}_n] , \]
+its specializations over arbitrary base fields $k$ (through
+values $\alpha_i \in k$ assigned to the indeterminates $\underline{\alpha}_i$) giving
+regular polyhedra corresponding to various combinatorial
+types. In this game there is no question of restricting oneself to
+finite regular polyhedra, or even to regular polyhedra whose
+facets have finite order, i.e. for which the parameters
+$\alpha_i$ are roots of suitable ``semicyclotomic'' equations
+expressing that the ``fundamental angles'' (in the
+case where the base field is $\mathbb{R}$) are commensurable with $2\pi$. Already
+when $n = 1$, perhaps the most interesting regular polygon
+of all (morally, the regular polygon with just one side !)
+is the one corresponding to $\alpha = 2$, giving rise to a circumscribed
+parabolic conic, i.e. tangent to the line at infinity.
+
+The finite case is the one in which the group generated by the fundamental
+reflections, which is also the automorphism group of the
+
+\margin{23}
+
+\finishscan
+% END PAGE esq_119_023
+% BEGIN PAGE esq_119_024
+\scanpage{119/24}
+\mspage{22}
+
+regular polyhedron under consideration is finite. In the case of the
+base field $\mathbb{R}$ (or $\mathbb{C}$, which amounts to the same thing), and for $n = 2$, the finite
+cases have been well known since antiquity - which does not exclude
+the scheme-theoretic viewpoint's revealing new charms\frapparatus{V-FR-024-001}
+in them; one can say, however, that by specializing the icosahedron\frapparatus{V-FR-024-002}
+(for example) over finite base fields of arbitrary
+characteristic, one always obtains an icosahedron, with its own
+combinatorics and the same simple automorphism group of order 60.
+The same remark applies to finite regular polyhedra
+of higher dimension, studied systematically in two
+fine books by Coxeter. The situation is quite different on starting
+with an \uline{infinite} regular polyhedron, over a field such as $\mathbb{Q}$, say,
+and ``specializing'' it over the prime fields $\mathbb{F}_p$ (an operation
+well defined for every $p$ except finitely many primes).
+It is clear that every regular polyhedron over a finite field is finite -
+\uline{one thus finds infinitely many finite regular polyhedra for} $p$
+\uline{varying}, \uline{whose combinatorial type}, or, what amounts to the same thing,
+whose automorphism group, \uline{varies} ``\uline{arithmetically}'' with p.
+This situation is particularly intriguing in the case
+$n = 2$, where one has the relation made explicit in the preceding
+paragraph between combinatorial 2-maps and algebraic curves
+defined over number fields. In this case an infinite regular
+polyhedron defined over any infinite field (and hence
+over a sub-$\mathbb{Z}$-algebra with two generators \unsure{.}of it)\tnote{TN-024-01}{The small dot before the French ``de'' is unresolved; it remains at the corresponding ``of'' in the translation.}
+thus gives rise to infinitely many algebraic curves defined over
+number fields, which are Galois coverings of the standard projective
+line ramified only at 0, 1, $\infty$. The optimal case is of course
+that in which one starts with the universal regular 2-polyhedron,
+or rather with the one deduced from it by passing to the fraction
+field $\mathbb{Q}(\alpha_1,\alpha_2)$ of its base ring. This raises a host of
+new questions, vague as well as precise, none of which
+I have yet had the leisure to examine more closely - I shall
+mention only this one: what exactly are the finite regular
+2-maps, or, what amounts to the same thing, \unsure{.}the finite quotient groups\tnote{TN-024-02}{The unresolved dot before the French ``les'' is retained before the corresponding English ``the''.}
+
+\margin{24}
+
+\finishscan
+% END PAGE esq_119_024
+% BEGIN PAGE esq_119_025
+\scanpage{119/25}
+\mspage{23}
+
+of the 2-cartographic group that arise from regular 2-polyhedra
+over finite fields (*) ? Would one obtain them all,
+and, if so, how ?
+
+These reflections bring into full light the fact,
+which for me was entirely unexpected, that the theory of
+finite regular polyhedra, already in the case of dimension
+$n = 2$, is infinitely richer, and in particular gives infinitely
+more different combinatorial forms, when one admits
+base fields of nonzero characteristic,\quad than in the
+case considered up to now, where the base fields were restricted
+to $\mathbb{R}$ ,or, at a stretch, $\mathbb{C}$ (in the case of what Coxeter
+calls ``complex regular polyhedra'', which I prefer
+to call ``regular pseudo-polyhedra defined over $\mathbb{C}$ '') (**). Moreover,
+it seems that this broadening of viewpoint should also cast
+new light on the cases already known. Thus, examining the
+Pythagorean polyhedra one after another, I saw
+the same little miracle repeated each time, which I called the \uline{combinatorial
+paradigm} of the polyhedron in question. Speaking vaguely, it can be
+described by saying that, on looking at the specialization of the polyhedron
+in the characteristic, or one of the characteristics, that is
+the most singular one (or ones) (these are characteristics 2 and 5\frapparatus{V-FR-025-001}
+
+\rule{5cm}{0.4pt}
+
+(*) These are, moreover, the same as those arising from regular
+polyhedra over any fields, or over algebraically closed fields, as
+one sees by standard specialization arguments.
+
+(**) Pinned pseudo-polyhedra are described in the same way as
+pinned polyhedra, with the sole difference that the fundamental
+reflections $\sigma_i$ $(0 \leq i \leq n)$ are replaced here by \uline{pseudo-reflections}
+(which Coxeter moreover assumes to have finite order, as he
+restricts himself to finite combinatorial structures). This simply leads
+to the introduction, for each of the \unsure{.}$\sigma_i$, of an additional numerical
+invariant $\beta_i$ , so that the universal n-pseudo-polyhedron can still be
+defined over a polynomial ring with integer coefficients, in
+the n+(n+1) variables $\underline{\alpha}_i$ $(1 \leq i \leq n)$ and $\underline{\beta}_j$ $(0 \leq j \leq n)$.
+
+\margin{25}
+
+\finishscan
+% END PAGE esq_119_025
+% BEGIN PAGE esq_119_026
+\scanpage{119/26}
+\mspage{24}
+
+for the icosahedron, characteristic 2 for the octahedron), one reads
+off the geometric regular polyhedron over the finite field concerned
+($\mathbb{F}_4$ and $\mathbb{F}_5$ for the icosahedron, $\mathbb{F}_2$ for the octahedron) a particularly
+elegant (and unexpected) description of the combinatorics
+of the polyhedron. I even seemed to glimpse here a principle
+of great generality, which I believed I found again, in particular, in
+a later reflection on the combinatorics of the system of 27
+lines on a cubic surface and its relations with the root
+system $E_7$. Whether such a principle really exists and one
+even succeeds in bringing it out\frapparatus{V-FR-026-001} of its cloak of mist, or whether it
+recedes as one pursues it and ends by
+vanishing like a Fata Morgana,\tnote{TN-026-01}{``Fata Morgana'' is retained as the author's image of an elusive mirage.}
+for my part I \unsure{find}\tnote{TN-026-02}{The French alternatives remain ``trcuve|trouve''; both are represented by ``find'', with the doubt linked to the scan.}
+in it an uncommon motivating force and fascination,
+like that of a dream, perhaps. There is no doubt that following such a call from the
+unformulated, from the formless seeking form, from an elusive
+glimpse that seems to take pleasure both in evading one and in
+revealing itself can only lead far, while no one could
+predict where ...
+
+Yet, occupied with other interests and tasks, I have
+not so far followed this call, nor met anyone else
+who wished to hear it, still less to follow it. Apart from
+a few digressions toward other kinds of geometric-combinatorial
+structures, my work here too has been confined to an initial
+roughing-out and housekeeping, on which it is unnecessary
+to dwell further here\notecall{copy1-5}{call-esq_119_026-5-1}{\hand{$^{(5)}$}}. The only point that perhaps still deserves
+mention is the existence and uniqueness of the hyperquadric circumscribed
+about a given regular n-polyhedron, whose equation can be made
+explicit by simple formulas in terms of the fundamental parameters
+$\alpha_i$ (*). The case that interests me most is the one where $n = 2$, and the
+
+\rule{5cm}{0.4pt}
+
+(*) An analogous result holds for pseudo-polyhedra\unsure{.|:} It would seem
+that the ``exceptional characteristics'' discussed above,
+for the specializations of a given polyhedron, are those for
+which the circumscribed hyperquadratic\tnote{TN-026-03}{The footnote has ``hyperquadratique'', used nominally, while the main text has ``hyperquadrique''. The differing form is retained here as ``hyperquadratic''.} is either degenerate or
+tangent to the hyperplane at infinity.
+
+\margin{26}
+
+\finishscan
+% END PAGE esq_119_026
+% BEGIN PAGE esq_119_027
+\scanpage{119/27}
+\mspage{25}
+
+time seems ripe to rewrite a new version, in a modern
+style, of Klein's classical book on the icosahedron and the other
+Pythagorean polyhedra. Writing such an account of regular
+2-polyhedra would be a splendid opportunity for a young researcher
+to become familiar both with the geometry of polyhedra and
+their connections with spherical\frapparatus{V-FR-027-002}, euclidean and hyperbolic geometries,
+and with algebraic curves, and with the language and
+basic techniques of modern algebraic geometry. Will one
+ever be found to seize this opportunity ?
+
+5. \qquad I would now like to say a few words about certain
+reflections that led me to understand the need for new foundations
+for ``geometric'' topology, in a direction quite
+different from the notion of a topos, and independent even of the needs
+of so-called ``abstract'' algebraic geometry (over general base fields
+and rings). The initial problem, which began to
+intrigue me what must already be some fifteen years ago, was
+that of defining a theory of ``dévissage''\tnote{TN-027-01}{``Dévissage'' is retained, following the terminology standard. The source explains it here through reconstruction from canonical building pieces.}
+of stratified structures, in order to reconstruct them by a canonical process
+from ``building blocks'' canonically deduced from the given
+structure. Probably the principal example that had then led me
+to this question was the canonical stratification of a
+singular algebraic variety\frapparatus{V-FR-027-001} (or a singular complex or real analytic
+space) by the decreasing sequence of its successive
+``singular loci''. But I probably already sensed the ubiquity
+of stratified structures in practically every domain of
+geometry (which others surely saw clearly long before
+I did). Since then, I have seen such structures appear, in particular,
+in every ``moduli'' situation for geometric objects susceptible
+not only to continuous variation but, at the same time,
+to phenomena of ``degeneracy'' (or ``specialization'') - the
+strata then corresponding to the various ``levels of singularity''
+(or to the associated combinatorial types) of the objects considered.
+
+\margin{27}
+
+\finishscan
+% END PAGE esq_119_027
+% BEGIN PAGE esq_119_028
+\scanpage{119/28}
+\mspage{26}
+
+The compactified Mumford-Deligne moduli multiplicities $M^{\wedge}_{g,\nu}$
+for stable algebraic curves of type $(g,\nu)$
+provide a typical and particularly inspiring example, which
+played an important motivating role in the resumption of my reflection
+on stratified structures, from December 1981 to January
+1982. Two-dimensional geometry provides many other
+examples of such stratified moduli structures, all of which,
+moreover (apart from expedients of rigidification\frapparatus{V-FR-028-001}), appear
+as ``multiplicities'' rather than as spaces or varieties
+in the ordinary sense (the points of these multiplicities\frapparatus{V-FR-028-002} can have
+nontrivial automorphism groups). Among the objects of
+two-dimensional geometry giving rise to such stratified moduli
+structures of arbitrary dimension, or even infinite
+dimension, I shall mention polygons (euclidean, spherical or
+hyperbolic), systems of lines in a plane (projective,
+say), systems of ``pseudolines'' in a topological projective
+plane, or more general immersed curves with normal \unsure{crossings}\tnote{TN-028-01}{The French alternatives are ``crc isements|croisements''. Both are represented by ``crossings'', with the unresolved letterform still marked and linked.}
+in a given surface (compact, say).
+
+The simplest nontrivial example of a stratified
+structure is obtained by considering a pair $(X,Y)$ consisting of a space
+$X$ and a closed subspace $Y$, making a suitable equisingularity
+assumption on $X$ along $Y$, and assuming
+further (to fix ideas) that the two strata $Y$ and $X\setminus Y$ are
+topological \uline{manifolds}. The naive idea, in such a situation,
+is to take ``the'' tubular neighborhood $T$ of $Y$ in $X$, whose
+boundary $\partial T$ should also be a smooth manifold, fibered over
+$Y$ with smooth compact fibers, $T$ itself being identified with
+the bundle of cones over $T$ associated with the preceding bundle. Setting
+\[ U = X \setminus \mathrm{Int}(T), \]
+one finds a manifold with boundary whose boundary is canonically
+isomorphic to that of $T$. That said, the envisaged ``building blocks''
+are the manifold with boundary $U$ (compact when $X$ was compact, and
+replacing the ``open'' stratum $X\setminus Y$ while making it more precise) and the manifold
+
+\margin{28}
+
+\finishscan
+% END PAGE esq_119_028
+% BEGIN PAGE esq_119_029
+\scanpage{119/29}
+\mspage{27}
+
+(without boundary) Y, with, as additional structure linking them,
+the so-called ``gluing'' map
+\[ f : \partial U \longrightarrow Y \]
+which is a proper smooth fibration. The initial situation
+(X,Y) is reconstructed from $(U,Y, f : \partial U \longrightarrow Y)$ by the
+formula
+\[ X \simeq U \amalg_{\partial U} Y \]
+(amalgamated sum under $\partial U$, mapping to U and Y through the inclusion,
+resp. the gluing map).
+
+This naive vision immediately encounters various
+difficulties. The first is the somewhat vague nature of the
+very notion of a tubular neighborhood, which acquires an at all
+precise meaning only in the presence of much more rigid structures
+than the topological structure alone, such as the ``piecewise
+linear'' or riemannian structure (more generally, that of a space with a
+distance function); the trouble here is that in none of the examples
+that come spontaneously to mind does one naturally have
+a structure of this kind - at best one has an equivalence class
+of such structures, allowing one to rigidify the situation
+just a little. If one moreover admits that an expedient
+has been found for obtaining a tubular neighborhood with the desired
+properties, which is also unique modulo an automorphism
+(topological, say) of the situation, an automorphism that also
+respects the fibered structure supplied by the gluing function,
+there remains the difficulty that the choices made are not canonical,
+the automorphism in question visibly failing to be unique, whatever
+one does to ``normalize'' it. The idea here, to make canonical
+what is not so, is to work systematically in
+``\uline{isotopy categories}'' associated with the categories of a topological
+kind that arise in these questions (such as the category of
+admissible pairs (X,Y) and homeomorphisms of such pairs\frapparatus{V-FR-029-001},
+etc.), keeping the same objects but taking as ``morphisms''
+
+\margin{29}
+
+\finishscan
+% END PAGE esq_119_029
+% BEGIN PAGE esq_119_030
+\scanpage{119/30}
+\mspage{28}
+
+the isotopy classes (in a sense dictated unambiguously by the
+context) of isomorphisms (or even of morphisms more general
+than isomorphisms). This idea, taken up successfully
+in Yves Ladegaillerie's thesis in particular (cf. the beginning of par. 3),
+has served me systematically in all my subsequent reflections
+on combinatorial topology, whenever it was a matter of formulating
+precise theorems translating topological situations
+into combinatorial ones. In the present situation,
+my hope was to reach the formulation (and proof !)
+of an equivalence theorem between two suitable isotopy categories,
+one being the category of ``admissible pairs'' $(X,Y)$,
+the other that of ``admissible triples'' $(U,Y,f)$, where $Y$ is a
+manifold, $U$ a manifold with boundary, and $f : \partial U \longrightarrow Y$ a proper
+smooth fibration. Moreover, of course, I hoped that such a statement,
+modulo work of an essentially algebraic nature, would
+extend of itself to a more sophisticated statement applying to
+general stratified structures.
+
+Very quickly it became apparent that there could be no question
+of obtaining so ambitious a statement in the context of
+topological spaces, because of the perpetual phenomena of
+``wildness''. Already when $X$ itself is a manifold and $Y$ is
+reduced to a point, one runs up against the difficulty that the cone over
+a compact space $Z$ can be a manifold at its vertex without
+$Z$ being homeomorphic to a sphere, or even being a manifold. It
+was also clear that the contexts of more rigid structures
+existing at the time, such as the ``piecewise linear'' context,
+were likewise inadequate - one of the prohibitive reasons they
+shared being that, for a pair $(U,S)$ consisting of a
+``space'' $U$ and a closed subspace $S$, and a gluing
+map $f : S \longrightarrow T$, they did not allow one to construct the corresponding
+amalgamated sum. It was a few years later that I was informed
+of Hironaka's theory of the sets he calls, I believe,
+``semianalytic'' (real), which satisfy some of the essential
+stability conditions (probably even all of them)
+
+\margin{30}
+
+\finishscan
+% END PAGE esq_119_030
+% BEGIN PAGE esq_119_031
+\scanpage{119/31}
+\mspage{29}
+
+needed to develop a usable context of ``tame
+topology''. This immediately restarts a reflection on the foundations
+of such a topology, whose need becomes increasingly clear
+to me.
+
+With some ten years' hindsight, I would now say,
+on this subject, that ``\uline{general topology}'' \uline{was developed}
+(in the thirties and forties) \uline{by analysts and for}
+\uline{the needs of analysis}, not for the needs of topology
+properly speaking, that is, the study of the \uline{topological properties}
+\uline{of various geometric shapes}. This inadequacy of the foundations
+of topology manifests itself from the outset through
+``false problems'' (at least from the viewpoint of the topological
+intuition of shapes), such as ``invariance of domain'',
+even though Brouwer's solution of the latter leads him to
+introduce important new geometric ideas. Even today,
+as in the heroic times when one saw for the first time, with anxiety,
+curves cheerfully filling squares and cubes,
+when one proposes to do topological geometry in the technical
+context of topological spaces, one meets parasitic difficulties at
+every step arising from wild phenomena.
+Thus, outside cases of (very) low dimension, it can
+hardly be possible, for a given space $X$ (a compact manifold,
+say), to study the homotopy type (say) of the automorphism
+group of $X$, or of the space of embeddings, or immersions, etc.,
+of $X$ into some other space $Y$ - although one feels that these
+invariants should belong to the arsenal of essential invariants associated
+with $X$, or with the pair $(X,Y)$, etc., on the same footing
+as the function space $\underline{\mathrm{Hom}}\,(X,Y)$ familiar in homotopy
+topology. Topologists evade the difficulty without confronting it,
+falling back on contexts close to the topological context and
+less marked by wildness, such as differentiable manifolds,
+PL (piecewise linear) spaces, etc., visibly none of which is ``good'',
+i.e. stable under the most obvious topological operations,
+
+\margin{31}
+
+\finishscan
+% END PAGE esq_119_031
+% BEGIN PAGE esq_119_032
+\scanpage{119/32}
+\mspage{30}
+
+such as the operations of contraction and gluing (without even proceeding
+to operations of the type $X \longrightarrow \mathrm{Aut}(X)$, which take one out of the
+paradise of finite-dimensional ``spaces''). That is a way of
+beating around the bush ! This situation, as so many times already in
+the history of our science, simply brings to light the almost
+insurmountable inertia of the mind, burdened by conditioning
+of considerable weight, when it comes to looking at a
+foundational question, and therefore at the very context in which one lives,
+breathes and works - instead of accepting it as an immutable
+given. It is surely because of this inertia that it took
+millennia for an idea or a reality as childlike as
+zero, a group or a topological shape to gain citizenship
+in mathematics. It is also surely because of it that the straitjacket
+of general topology continues to be patiently dragged along by
+generations of topologists, ``wildness'' being borne as
+an inescapable fate supposedly rooted in the very nature
+of things.
+
+My approach toward possible foundations for a tame
+topology was an axiomatic one. Rather than declaring
+(which would certainly be perfectly reasonable) that
+the ``tame spaces'' sought are precisely, say,
+Hironaka's semianalytic spaces\frapparatus{V-FR-032-001}, and then developing in
+this context the arsenal of constructions and notions familiar in
+topology, together, certainly, with those that until now had been
+unable to be developed, and for good reason, I preferred to try to bring out
+which of the geometric properties of the notion of a semianalytic
+set in a space $\mathbb{R}^{n}$ allow such sets to be used as
+local ``models'' for a notion of ``\uline{tame space}'' (in this case,
+semianalytic), and what (one hopes !) makes this notion of a
+tame space sufficiently flexible actually to serve
+as a basic notion for a ``tame topology'' capable of expressing
+the topological intuition of shapes with ease. Thus, once
+the necessary foundational work has been accomplished, there will appear not
+\uline{one} ``tame theory'', but a vast infinitude, ranging from the most
+
+\margin{32}
+
+\finishscan
+% END PAGE esq_119_032
+% BEGIN PAGE esq_119_033
+\scanpage{119/33}
+\mspage{31}
+
+restrictive of all, that of ``piecewise $\bar{\mathbb{Q}}_r$-algebraic spaces''\frapparatus{V-FR-033-001}
+(where $\bar{\mathbb{Q}}_r = \bar{\mathbb{Q}} \cap \mathbb{R}$), to the one that (rightly or wrongly) appears to me
+probably the broadest, namely that of ``piecewise real analytic
+spaces'' (or semianalytic in Hironaka's terminology).
+Among the foundational theorems envisaged
+in my program is a \uline{comparison theorem} which, speaking
+vaguely, will say that \uline{one finds essentially the same isotopy
+categories} (or even $\infty$-isotopy categories), whatever
+tame theory one works with\notecall{copy1-6}{call-esq_119_033-6-1}{\hand{$^{(6)}$}}. More precisely,
+it is a matter of putting one's finger on a system of axioms sufficiently
+rich to imply (among many other things !) that, given
+two tame theories \hand{$\mathcal{T}$}, \hand{$\mathcal{T}$}' with \hand{$\mathcal{T}$} finer than \hand{$\mathcal{T}$}' (in
+an obvious sense), and two T-tame spaces X, Y, which
+therefore also define corresponding T'-tame spaces,
+the canonical map
+\[ \underline{\mathrm{Isom}}_{\hand{\mathcal{T}}}(X,Y) \longrightarrow \underline{\mathrm{Isom}}_{\hand{\mathcal{T}}'}(X,Y) \]
+induces a bijection on the set of connected components (which
+will imply that the isotopy category of T-spaces is equivalent
+to that of T'-spaces), and is even a homotopy
+equivalence (which means that one even has an equivalence for
+the ``$\infty$-isotopy'' categories\frapparatus{V-FR-033-002}, finer than the isotopy categories
+in which only the $\pi_0$ of the isomorphism spaces is retained).
+Here the \uline{Isom} can be defined in an obvious way as
+semi-simplicial sets, for example, to give a precise meaning
+to the preceding statement. Analogous statements should
+hold on replacing the \uline{Isom} ``spaces'' by other spaces of
+maps subject to \unsure{.}standard geometric conditions, such as
+being embeddings, immersions, smooth, étale,
+fibrations, etc. One likewise expects analogous
+statements in which X, Y are replaced by systems of tame spaces,
+such as those entering a theory of dévissage of
+stratified structures - so that, in a precise technical
+sense, this dévissage theory too will be essentially
+
+\margin{33}
+
+\finishscan
+% END PAGE esq_119_033
+% BEGIN PAGE esq_119_034
+\scanpage{119/34}
+\mspage{32}
+
+independent of the tame theory chosen to express
+it.
+
+The first decisive test for a good system of axioms
+for a notion of a ``tame subset of $\mathbb{R}^n$ '' seems to me to be the possibility
+of proving such comparison theorems. So far I have
+been content to draw out a plausible provisional system of axioms,
+without any assurance that further axioms will not have to be
+added, which probably only ``work on concrete examples''\tnote{TN-034-01}{``Work on concrete examples'' renders ``travail sur pièces'', the author's phrase for work that exposes the axioms needed in actual instances.}
+will bring to light. The strongest of the axioms I have
+introduced, and probably the one whose verification in specific
+cases is (or will be) most delicate, is an \uline{axiom of}
+\uline{triangulability} (tame, it goes without saying) of a tame subset of $\mathbb{R}^n$.
+I have not attempted to prove the comparison theorem from these axioms
+alone; nevertheless I have had the impression (rightly
+or wrongly again !) that this proof, whether or not it requires
+the introduction of some additional axiom, will present
+no great technical difficulty. It is quite possible
+that the technical difficulties in developing
+satisfactory foundations for tame topology, including a
+theory of dévissage of stratified tame structures, are
+already concentrated for the most part in the axioms, and consequently
+have essentially already been overcome by triangulability
+theorems in the manner of Lojasiewicz and Hironaka. What is lacking,
+once again, is by no means mathematicians' sometimes impressive
+technical virtuosity, but the daring (or simply\frapparatus{V-FR-034-001}
+the innocence ...) to free oneself from a familiar context
+accepted by an unbroken consensus ...
+
+The advantages of an axiomatic approach toward foundations
+for tame topology seem fairly obvious to me. Thus,
+to regard a complex algebraic variety, or the set of
+real points of an algebraic variety defined over $\mathbb{R}$, as a
+tame space, it seems preferable to work in the
+``piecewise $\mathbb{R}$-algebraic'' theory, or even in the piecewise $\overline{\mathbb{Q}}_r$-algebraic
+theory (where $\overline{\mathbb{Q}}_r = \overline{\mathbb{Q}} \cap \mathbb{R}$) when dealing with varieties defined
+
+\margin{34}
+
+\finishscan
+% END PAGE esq_119_034
+% BEGIN PAGE esq_119_035
+\scanpage{119/35}
+\mspage{33}
+
+over number fields, etc. The introduction of a subfield
+$K \subset \mathbb{R}$ associated with the theory $\hand{\mathcal{T}}$ (formed by the points of $\mathbb{R}$ that are
+$T$-\uline{tame}, i.e. such that the corresponding one-point set
+is tame) makes it possible to introduce, for every point $x$ of a tame space
+$X$, a residue field $k(x)$, which is a subextension of $\mathbb{R}/K$
+algebraically closed in $\mathbb{R}$, and of finite transcendence degree
+over $K$ (bounded above by the topological dimension of $X$). When the
+transcendence degree of $\mathbb{R}$ over $K$ is infinite, one obtains a
+notion of the transcendence degree (or ``dimension'') of a point of a
+tame space, close to the familiar notion in algebraic
+geometry. Such notions are absent from ``semianalytic'' tame
+topology, which, on the other hand, appears to be the most appropriate
+topological context for including real
+and complex analytic spaces.
+
+Among the first theorems one expects in
+a tame topology as I envisage it, apart from comparison
+theorems\frapparatus{V-FR-035-001}, are statements establishing, in an
+appropriate sense, the existence and uniqueness of ``the'' tubular neighborhood
+of a closed tame subspace in a tame space (compact, for
+simplicity), the concrete ways of obtaining it (for example from
+any tame map\frapparatus{V-FR-035-002} $X \longrightarrow \mathbb{R}^{+}$ having $Y$ as
+its zero set), the description of its ``boundary'' (although in
+general it is by no means a manifold with boundary !) $\partial T$, which has
+in $T$ a neighborhood isomorphic to the product of $T$ with an interval,
+etc. Under suitable equisingularity hypotheses, one
+expects $T$ to be endowed, in an essentially unique way,
+with the structure of a locally trivial bundle over $Y$, having $\partial T$
+as a subbundle. This is one of the least clear points in
+my provisional intuition of the situation, whereas the
+homotopy class of the anticipated structural map $T \longrightarrow Y$
+has an obvious meaning, independently of any equisingularity
+hypothesis, as a homotopy inverse of the inclusion map $Y \longrightarrow T$,
+which must be a homotopy equivalence. One way of obtaining
+such a structure a posteriori would be through the hypothetical equivalence of
+isotopy categories envisaged at the beginning, taking into account the fact that
+
+\margin{35}
+
+\finishscan
+% END PAGE esq_119_035
+% BEGIN PAGE esq_119_036
+\scanpage{119/36}
+\mspage{34}
+
+the functor $(U,Y,f) \longmapsto (X,Y)$ is defined in an obvious way,
+independently of any theory of tubular neighborhoods\frapparatus{V-FR-036-002}.
+
+It will probably be said, not without some reason, that all
+this is perhaps only dreams, which will vanish into smoke as soon
+as one attempts detailed work, or even before that,
+in the face of certain known or quite obvious facts that may have
+escaped me. Certainly, only work on concrete examples will make it possible to
+separate the true from the false and to know the actual substance. The
+only thing in all this about which I have no
+doubt is the need for such work on foundations, in
+other words, the artificial nature of the present foundations of
+topology, and of the difficulties they raise at every
+step. On the other hand, it is quite possible that my formulation
+of a theory of dévissage of stratified structures, as
+an equivalence theorem for suitable isotopy (or even
+$\infty$-isotopy) categories, is too optimistic. I should add,
+however, that I also have scarcely any doubt that the theory
+of these dévissages that I developed two years ago, although
+it remains partly heuristic, does indeed express a reality
+that is as tangible as can be. In part of my work,
+for want of a ready-made ``tame'' context, and
+in order nonetheless to have precise and provable statements,
+I was led to postulate on the initial stratified structure
+some entirely plausible additional structures,
+in the nature of given local retractions in particular,
+which then do indeed allow the construction of a canonical system
+of spaces, parametrized by the ordered set of ``flags'' Drap(I)
+of the ordered set $I$ indexing the strata, these spaces playing
+the role of the spaces $(U,Y)$ from earlier, linked to one another by
+embedding maps and proper fibrations, which make it
+possible to reconstruct, in just as canonical a way\frapparatus{V-FR-036-001}, the initial
+stratified structure, including those ``additional structures''\notecall{copy1-7}{call-esq_119_036-7-1}{(${}^{7}$)}.
+The only trouble is that these latter seem to be a superfluous element of
+structure, which is by no means given in ordinary geometric
+
+\margin{36}
+
+\finishscan
+% END PAGE esq_119_036
+% BEGIN PAGE esq_119_037
+\scanpage{119/37}
+\mspage{35}
+
+situations, for example for the compact moduli space
+$M^{\wedge}_{g,\nu}$ with its canonical ``stratification at infinity'', given
+by the Mumford-Deligne normal crossings divisor. Another
+difficulty, probably less serious, is that the so-called
+moduli ``space'' is in fact a \uline{multiplicity} --- technically,
+this is expressed above all by the need to replace
+the index set $I$ for the strata by an (essentially finite)
+index \uline{category}, in this case that of
+``MD graphs'', which ``parametrize'' the possible ``combinatorial structures''
+of a stable curve of type $(g,\nu)$. That said, I can
+affirm that the general theory of dévissage, developed especially
+under the pressure of the needs of \uline{this} cause, has indeed proved
+a valuable guide, leading to a progressive understanding,
+with unfailing coherence, of certain essential aspects
+of the Teichmüller tower (that is, essentially
+of the ``structure at infinity'' of the ordinary Teichmüller groups).
+It is this approach that finally led me, in the following
+months, toward the principle of a purely combinatorial
+construction of the tower of Teichmüller groupoids, in the spirit
+sketched \unsure{.}above\tnote{TN-037-01}{The scan has a doubtful dot between ``plus'' and ``haut'' in ``plus haut''; it is retained beside the corresponding English word.} (cf. par. 2).
+
+Another satisfactory test of coherence comes from the
+``topossic'' viewpoint.\tnote{TN-037-02}{``Topossic'' renders the author's adjective ``topossique'', referring here to the context of topoi.} Indeed, since my interest in moduli
+multiplicities stems above all from their algebraic-geometric
+and arithmetic meaning, it is the \uline{algebraic} moduli
+multiplicities, over the absolute base field $\mathbb{Q}$, that have
+primarily interested me, and a dévissage ``at infinity'' of their
+geometric fundamental groups (i.e. the \uline{profinite} Teichmüller
+groups) compatible with the natural actions of
+$\mathrm{I}\!\Gamma = \mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$. This seemed from the outset to exclude the possibility of
+referring to a hypothetical theory of dévissage of stratified
+structures in a context of ``tame topology'' (or even of
+ordinary topology, after a fashion), except as an
+entirely heuristic guiding thread. The question then arose of translating,
+into the context of the topoi (in this case the étale topoi)
+
+\margin{37}
+
+\finishscan
+% END PAGE esq_119_037
+% BEGIN PAGE esq_119_038
+\scanpage{119/38}
+\mspage{36}
+
+involved in the situation, the theory of dévissage that
+I had reached\frapparatus{V-FR-038-001} in an entirely different context --- with the
+additional task, subsequently, of drawing out a general comparison
+theorem, on the model of the well-known theorems, to
+compare the invariants obtained (in particular the homotopy types of
+various tubular neighborhoods) in the transcendental setting and in
+the scheme-theoretic setting. I was able to convince myself that such a formalism
+of dévissage did indeed make sense in the (so-called
+``abstract'' !) context of general topoi, or at least of noetherian
+topoi (such as those that arise here), through a suitable
+notion of the \uline{canonical tubular neighborhood of a subtopos} in an
+ambient topos. Once this notion has been acquired, with certain simple
+formal properties, the description of the ``dévissage'' of a
+stratified topos is considerably simpler even in this
+setting than in the topological (tame) setting. It is true that
+here too work on foundations remains to be done, in particular on
+the very notion of the tubular neighborhood of a subtopos --- and it is
+surprising, moreover, that this work (as far as I know)
+has still not been done, that is, that no one (in the more
+than twenty years that a context of étale topologies has existed) seems
+to have needed it; surely a sign that the understanding
+of the topological structure of schemes has not progressed all that
+much since the work of Artin-Mazur ...
+
+Once the double task of preliminary work
+(more or less heuristic) around the notion of the dévissage of a
+stratified space or topos had been accomplished, which was a crucial stage in
+my understanding of moduli multiplicities, it moreover
+became apparent that for the needs of the latter, one can probably
+short-circuit at least a good part of this theory by
+direct geometric arguments. The fact remains that for
+me, the formalism of dévissage that I reached has proved
+its usefulness and coherence, independently of any
+question about the most appropriate foundations that would allow
+it to be given its full meaning.
+
+\margin{38}
+
+\finishscan
+% END PAGE esq_119_038
+% BEGIN PAGE esq_119_039
+\scanpage{119/39}
+\mspage{37}
+
+6. One of the most interesting foundational theorems of (tame)
+topology that ought to be developed would be a theorem
+of ``dévissage'' (again !) of a proper tame map
+of tame spaces,\frapparatus{V-FR-039-001}
+
+\[ f : X \longrightarrow Y , \]
+
+through a decreasing filtration of $Y$ by closed tame
+subspaces $Y^{i}$, such that over the ``open strata''
+$Y^{i} \setminus Y^{i-1}$ of this filtration, $f$ induces a locally
+trivial fibration (from the tame viewpoint, it goes without saying). Such
+a statement should further be generalized and made more precise in various
+ways, in particular by requiring the existence of an analogous
+\uline{simultaneous} dévissage for $X$ and a given finite family of closed
+(tame) subspaces of $X$. The very notion of a locally
+trivial fibration in the tame sense can also be strengthened
+considerably, taking into account the fact that the open
+strata $U_{i}$ are \uline{better} than spaces with a purely local tame
+structure, because they are obtained as the difference of
+two tame spaces, compact when $Y$ was compact. Between the
+notion of a compact tame space (which can be realized as one of the
+initial ``models'' in an $\mathbb{R}^{n}$) and that of a ``locally
+tame'' (locally compact) space, which follows from it in a fairly obvious
+way, there is a somewhat more delicate notion of a \uline{``globally}
+\uline{tame'' space} $X$, obtained as the difference $X^{\wedge}\setminus Y$ of two compact
+tame spaces, it being understood that no distinction is made between
+the space defined by a pair $(X^{\wedge},Y)$ and that defined by a
+pair $(X'^{\wedge},Y')$ obtained from it by a tame
+(necessarily proper) map
+
+\[ g : X'^{\wedge} \longrightarrow X^{\wedge} \]
+
+inducing a bijection $g^{-1}(X) \xrightarrow{\ \sim\ } X$, taking $Y' = g^{-1}(Y)$.
+Perhaps the most interesting natural example is that in which one
+starts from a separated scheme of finite type over $\mathbb{C}$ or over $\mathbb{R}$, taking
+
+\margin{39}
+
+\finishscan
+% END PAGE esq_119_039
+% BEGIN PAGE esq_119_040
+\scanpage{119/40}
+\mspage{38}
+
+for $X$ its set of complex or real points, which inherits
+a global tame structure by means of the scheme-theoretic
+compactifications\frapparatus{V-FR-040-001} (which exist by Nagata) of the initial scheme.
+This notion of a globally tame space is associated with a notion
+of a \uline{globally tame map}, which in turn makes it possible to
+strengthen accordingly the notion of a locally trivial
+fibration, in the statement of a dévissage theorem for a
+map $f : X \longrightarrow Y$ (no longer necessarily proper) in
+the context of globally tame spaces.
+
+Last summer Zoghman Mebkhout informed me
+that a dévissage theorem in this spirit had recently been obtained
+in the context of real and/or complex analytic spaces,
+with $Y^{i}$ that, this time, are analytic subspaces
+of $Y$. This result makes it plausible that we already have
+sufficiently powerful technical means to prove
+a dévissage theorem in the tame context as well, apparently
+more general, but probably less arduous.
+
+It is also the context of a tame topology
+that should, it seems to me, make it possible to formulate precisely
+a very reliable general principle that I have long used in
+a great many geometric situations, which I call the
+``\uline{principle of harmless choices}'' --- as useful as it appears vague !
+It says that when, for the needs of some construction
+of one geometric object in terms of others, one is led to make
+a certain number of arbitrary choices along the way, so
+that the object obtained apparently depends on these choices, and is
+therefore marred by a lack of canonicity, this defect is indeed
+serious (and removing it requires a more careful analysis of
+the situation, of the notions used, of the data introduced, etc.)
+whenever at least one of these choices is made in a
+``space'' that is not ``contractible'', i.e. whose $\pi_{0}$ \uline{or} one of
+the higher invariants $\pi_{i}$ is nontrivial; whereas this defect is
+merely apparent, the construction is ``essentially
+canonical'' and will not really cause trouble, whenever
+
+\margin{40}
+
+\finishscan
+% END PAGE esq_119_040
+% BEGIN PAGE esq_119_041
+\scanpage{119/41}
+\mspage{39}
+
+the choices made are all ``harmless'', i.e. are made
+in \uline{contractible} spaces. When one tries, in particular
+cases, to pin down this principle more closely, it seems that one comes
+each time to the notion of ``$\infty$-isotopy categories'' expressing
+a given situation, finer than the more naïve isotopy
+(= 0-isotopy) categories, obtained by retaining only the $\pi_0$
+of the spaces of isomorphisms that arise in the situation,
+whereas the $\infty$-isotopy viewpoint retains their entire
+homotopy type. For example, the naïve isotopy viewpoint for
+oriented compact surfaces with boundary of type $(g,\nu)$ is ``good''
+(with no hidden boomerang !) exactly in the cases that I call
+``anabelian'' (and that Thurston calls ``hyperbolic''), i.e. distinct
+from $(0,0)$, $(0,1)$, $(0,2)$, $(1,0)$ --- which are also precisely the cases
+in which the automorphism group of the surface has a
+\uline{contractible} identity component. In the other cases, except
+the case $(0,0)$ of the sphere with no holes, it suffices to work with
+1-isotopy categories to express the essential geometric-topological
+facts satisfactorily by algebraic means, since
+the said connected component is then a $K(\pi,1)$. Working
+in a 1-isotopy category moreover amounts to working
+in a bicategory, i.e. with $\underline{\mathrm{Hom}}(X,Y)$ that are (no longer
+discrete sets as in the 0-isotopy viewpoint,
+but) groupoids (whose $\pi_0$ are precisely the
+0-isotopy Hom). It is the description in purely algebraic
+terms of this bicategory that is given in the final part
+of Yves Ladegaillerie's thesis (cf. par. 3).
+
+If I have dwelt here at greater length on the theme
+of the foundations of tame topology, which is by no means one of
+those to which I intend to devote myself as a priority in the
+coming years, it is probably precisely because I feel that
+there is all the more a cause here that needs to be pleaded, or
+rather: work of great current relevance that needs hands !
+As formerly with new foundations for algebraic
+geometry, it is not pleas that overcome the inertia
+
+\margin{41}
+
+\finishscan
+% END PAGE esq_119_041
+% BEGIN PAGE esq_119_042
+\scanpage{119/42}
+\mspage{40}
+
+of acquired habits, but tenacious, meticulous work,
+probably over a long period, yielding eloquent harvests
+day by day.
+
+I would like to say a few more words about an earlier
+reflection (late 60s ?), very close to the one just
+discussed, inspired by Nash's ideas, which had
+greatly struck me. Here, instead of defining axiomatically a notion
+of a ``tame theory'' by giving a notion of a ``tame subset
+of $\mathbb{R}^n$ '' satisfying certain conditions (chiefly of stability),
+what I was after was an axiomatization of the notion of a ``smooth manifold'' and of the
+differentiable formalism on such manifolds,
+by giving, for each natural number $n$, a subring
+$\unsure{\sourceglyph{119A}}_n$ of the ring of germs of real functions at the origin in $\mathbb{R}^n$.\tnote{TN-042-01}{The visible typed symbol used for this system of rings is reproduced from the scan. Its alphabet remains unresolved; the doubt marks preserve that uncertainty without assigning a letter family.}
+These are the functions that will be admitted for expressing the ``changes
+of chart'' for the corresponding notion of a $\unsure{\sourceglyph{119A}}$-manifold, and the
+first task was to draw out\frapparatus{V-FR-042-001} a system of axioms on the
+system $\unsure{\sourceglyph{119A}} = (\unsure{\sourceglyph{119A}}_n)_{n\in\underline{N}}$ that ensures this notion of a manifold a
+flexibility comparable to that of a $C^\infty$, or real analytic
+(or Nash), manifold. Depending on the kind of familiar constructions that
+one wants to be able to carry out in the context of $\unsure{\sourceglyph{119A}}$-manifolds, the
+relevant system of axioms is more or less restricted, or rich.
+Very little suffices when it is only a matter of developing the
+differential formalism, with the construction of jet bundles, De Rham
+complexes, etc. To obtain a statement of the type ``quasi-finite implies
+finite'' (for a map in a neighborhood of a point), which
+emerged as a key statement in the local theory of analytic
+spaces, one needs a stability axiom of a more delicate nature,
+in Weierstrass's ``Vorbereitungssatz''\tnote{TN-042-02}{The German term ``Vorbereitungssatz'' means ``preparation theorem''.} (*). In other
+
+\rule{4cm}{0.4pt}
+
+(*) It may seem simpler to say that the (local) rings
+$\unsure{\sourceglyph{119A}}_n$ are \uline{henselian}, which is equivalent. But in this latter
+form it is by no means clear a priori that the condition in
+question is in the nature of a stability condition, an
+important circumstance, as will emerge in the reflections that follow.
+
+\margin{42}
+
+\finishscan
+% END PAGE esq_119_042
+% BEGIN PAGE esq_119_043
+\scanpage{119/43}
+\mspage{41}
+
+questions, an axiom of stability under analytic continuation
+(in $\mathbb{C}^{n}$) appears necessary. The most draconian axiom that
+I have been led to introduce, also a stability axiom,
+concerns the integration of Pfaff systems, ensuring that certain
+Lie groups, or even all of them, are $\unsure{\sourceglyph{119A}}$-manifolds. In all
+this, \uline{I have taken care not to assume that the} $\unsure{\sourceglyph{119A}}_{n}$ \uline{are}
+\uline{$\mathbb{R}$-algebras}, so a constant function on an $\unsure{\sourceglyph{119A}}$-manifold is
+``admissible'' only when its value belongs to a certain subfield
+$K$ of $\mathbb{R}$ (this is, if one wishes, $\unsure{\sourceglyph{119A}}_{0}$). This subfield may very well
+be $\mathbb{Q}$, or its algebraic closure $\bar{\mathbb{Q}}_{r}$ in $\mathbb{R}$, or any other
+subextension of $\mathbb{R}/\mathbb{Q}$, preferably even of finite,
+or at least countable, transcendence degree over $\mathbb{Q}$. This makes it possible,
+for example, as earlier for tame spaces, to associate
+with every point $x$ of a manifold (of type $\unsure{\sourceglyph{119A}}$) a residue
+field $k(x)$, which is a subextension of $\mathbb{R}/K$. A fact that
+seems important to me here is that, even in its strongest form,
+the system of axioms does \uline{not} imply that one must have $K = \mathbb{R}$. More
+precisely, since \uline{all} the axioms are stability
+axioms, it follows that for a given set $S$ of germs
+of real analytic functions at the origin (in various spaces\frapparatus{V-FR-043-001}
+$\mathbb{R}^{n}$), there exists a smallest theory $\unsure{\sourceglyph{119A}}$ for which these germs
+are admissible, and that this theory is ``countable'', i.e. the $\unsure{\sourceglyph{119A}}_{n}$
+are countable, as soon as $S$ is countable. A fortiori, $K$ is then
+countable, i.e. of countable transcendence degree over $\mathbb{Q}$.
+
+The idea here is to introduce, by means of this
+axiomatic approach, a notion of an ``\uline{elementary}'' (real analytic) function,
+or rather, a whole hierarchy of such notions. For a function
+of 0 variables, i.e. a constant, this notion gives that
+of an ``elementary constant'', including in particular (in the case of
+the strongest system of axioms) constants such as $\pi$, $e$, and
+a multitude of others, by taking values of admissible functions
+(such as the exponential, the logarithm, etc.) for systems
+of ``admissible'' values of the argument. One feels that the relationship
+between the system $\unsure{\sourceglyph{119A}} = (\unsure{\sourceglyph{119A}}_{n})_{n\in\underline{N}}$ and the field of rationality $K$
+
+\margin{43}
+
+\finishscan
+% END PAGE esq_119_043
+% BEGIN PAGE esq_119_044
+\scanpage{119/44}
+\mspage{42}
+
+corresponding to it must be very close, at least for $\unsure{\sourceglyph{119A}}$ that
+can be generated by a finite ``system of generators'' S ---
+but it is to be feared that the slightest interesting question one
+might ask about this situation is currently out of
+reach \notecall{copy1-1}{call-esq_119_044-1-2}{($^1$)}.
+
+These earlier reflections regained some relevance
+for me with my later reflection on tame theories.
+It seems to me, indeed, that it is possible to associate naturally
+with a ``differentiable theory'' $\unsure{\sourceglyph{119A}}$ a tame theory $\hand{\mathcal{T}}$
+(probably having the same field of constants), in such a way that
+every $\unsure{\sourceglyph{119A}}$-manifold\frapparatus{V-FR-044-001} is automatically endowed with a $\hand{\mathcal{T}}$-tame structure,
+and conversely that for every compact $\hand{\mathcal{T}}$-tame space $X$, one can
+find a closed nowhere dense tame subset $Y$ in $X$, such that $X \smallsetminus Y$
+comes from an $\unsure{\sourceglyph{119A}}$-manifold, and that moreover this $\unsure{\sourceglyph{119A}}$-manifold
+structure is unique at least in the following sense: two such
+structures coincide in the complement of a nowhere dense tame
+subset $Y' \supset Y$ of $X$. The theory of dévissage of
+stratified tame structures (discussed in the preceding paragraph),
+in the case of smooth strata, should moreover raise
+much more precise questions still about the comparison of tame
+structures with structures of differentiable type (or rather,
+$\mathbb{R}$-analytic type). I suspect that the kind of axiomatization proposed
+here for the notion of a ``differentiable theory'' would provide a
+natural setting for formulating such questions with all the precision
+and generality one could wish for.
+
+
+7. Since March of last year, thus for nearly
+a year, the greater part of my energy has been devoted to
+reflection on the \uline{foundations of noncommutative} (\uline{co})\uline{homological}
+\uline{algebra}, or what ultimately amounts to the same thing, \uline{homotopical}
+\uline{algebra}. These reflections have taken concrete form in a voluminous
+bundle of typewritten notes, intended to form the first
+volume (currently nearing completion) of a work in two
+
+\margin{44}
+
+\finishscan
+% END PAGE esq_119_044
+% BEGIN PAGE esq_119_045
+\scanpage{119/45}
+\mspage{43}
+
+volumes to be published by Hermann, under the common title ``\uline{Pursuing}
+\uline{Stacks}''. I currently expect (after successive expansions
+of the initial undertaking) that the manuscript\frapparatus{V-FR-045-001} of the two
+volumes together, which I hope to finish during the year so as not
+to have to return to it, will run to about 1,500 typewritten pages.
+These two volumes are moreover, for me, the first in a
+larger series, under the common title ``\uline{Mathematical Reflections}'',
+in which I intend to develop to some extent certain of the themes sketched
+in the present report.
+
+Since this is a work currently being written,
+and indeed approaching completion, whose first volume will probably appear
+this year and will contain a detailed introduction, it
+is probably less interesting for me to dwell here on this theme
+of reflection, and I shall therefore be content to speak of it very briefly.
+This work seems to me somewhat marginal in relation to the themes
+I have just sketched, and does not represent (it seems to me)
+a real renewal of outlook or approach in relation to
+my mathematical interests and vision before 1970. If I
+suddenly resolved to undertake it, this was almost out of desperation,
+when nearly twenty years have elapsed since a number of visibly
+fundamental questions, ripe to be carried through to completion,
+were posed in quite clear terms, without
+anyone seeing them or taking the trouble to probe them. Even
+today, the basic structures involved in the
+homotopy viewpoint in topology, including even commutative
+homological algebra, are not understood, and to my
+knowledge, after the work of Verdier, Giraud, and Illusie on
+this theme (which constitute so many ``kick-offs'' still
+awaiting a continuation ...), there has been no effort in this direction. I
+should probably make an exception for\unsure{.}\tnote{TN-045-01}{A visible baseline dot follows ``pour'' in the scan. Its punctuation status remains uncertain; the mark is retained after ``for'' here.} the axiomatization
+carried out by Quillen on the notion of a model category, in
+the late 60s, and taken up in various forms by
+various authors. This work, at the time and still today, has
+greatly attracted me and taught me much, while going in a rather
+
+\margin{45}
+
+\finishscan
+% END PAGE esq_119_045
+% BEGIN PAGE esq_119_046
+\scanpage{119/46}
+\mspage{44}
+
+different direction from the one that was and is close to my heart. It certainly
+introduces derived categories in various noncommutative
+contexts, but without entering into the question of the essential internal
+structures of such a category, also left open
+in the commutative case by Verdier and, after him, by Illusie. Likewise,
+the question of identifying the natural ``coefficients''
+for a noncommutative cohomological formalism, beyond
+the stacks (which should be called 1-stacks) studied in Giraud's
+book, remained open --- or rather, the rich and
+precise intuitions that answer it, drawn from many examples
+coming in particular from algebraic geometry, still await
+a precise and flexible language to give them form.
+
+I return to certain aspects of these foundational
+questions in 1975, on the occasion (if I remember correctly) of a
+correspondence with Larry Breen (two letters from this correspondence
+will be reproduced as an appendix to Chap. I of volume 1,
+``History of Models'',\tnote{TN-046-01}{The French volume title is ``Histoire de Modèles''. ``Histoire'' can mean either a history or a story; ``History of Models'' preserves the singular title.} of Pursuing Stacks). At this point
+the intuition emerges that $\infty$-groupoids must constitute
+particularly adequate models for homotopy types,
+n-groupoids corresponding to \uline{truncated} homotopy types
+(with $\pi_i = 0$ for $i > n$). This same intuition, by very
+different paths, was rediscovered by Ronnie Brown in Bangor and
+some of his students, but using a rather restrictive notion of an $\infty$-groupoid
+(which, among 1-connected homotopy types,
+models only products of Eilenberg-Maclane spaces\frapparatus{V-FR-046-001}). It was
+stimulated by a discursive correspondence with Ronnie Brown
+that I finally resumed reflection, beginning with an attempt
+to define a broader notion of an $\infty$-groupoid (subsequently renamed
+``stack in $\infty$-groupoids'' or simply ``stack'', with the
+understanding: over the punctual topos), which, one thing leading to another,
+brought me to Pursuing Stacks. The volume ``History of Models''
+moreover constitutes an entirely unforeseen digression
+from the initial undertaking (the famous stacks being temporarily
+forgotten, and not expected to reappear until around
+page 1,000 ...).
+
+\margin{46}
+
+\finishscan
+% END PAGE esq_119_046
+% BEGIN PAGE esq_119_047
+\scanpage{119/47}
+\mspage{45}
+
+This work is not entirely isolated in relation to
+my more recent interests. For example, my reflection on the
+moduli multiplicities $M^{\wedge}_{g,\nu}$ and their stratified structure
+revived reflection on a van Kampen theorem of dimension
+$>$ 1 (also one of the favorite themes of the Bangor
+group), and may have helped prepare the ground for
+the work of greater scope the following year. The latter
+also connects at times with a reflection dating from the same
+year 1975 (or the following year) on a ``De Rham complex with
+divided powers'', which was the subject of my last public
+lecture, at IHES\tnote{TN-047-01}{IHES is the Institut des Hautes Études Scientifiques; see the \href{https://www.ihes.fr/en/}{institute's website}.} in 1976, and whose manuscript, entrusted
+to someone I no longer remember after the lecture, is moreover lost.
+It was at the time of this reflection that the intuition
+of a ``schematization'' of homotopy types also began to germinate, which,
+seven years later, I am trying to make precise in a (particularly
+hypothetical) chapter of History of Models.
+
+The work of reflection undertaken in Pursuing
+Stacks is a little like a debt I would be discharging
+toward a scientific past in which, for some fifteen
+years (between 1955 and 1970), the development of cohomological
+tools was the constant leitmotif in my work on the
+foundations of algebraic geometry. If the present resumption of this
+theme has taken on unexpected dimensions, it is not,
+however, out of pity for a past, but because of the many unforeseen
+things constantly breaking in, mercilessly upsetting the
+plans and intentions envisaged --- a little like a tale from the Thousand and
+One Nights, in which one's attention is kept in suspense through
+twenty other tales before learning the final word of the first.
+
+
+8. I have as yet said very little about the more down-to-earth
+reflections on two-dimensional topological geometry, associated
+in particular with my activities as a teacher and those called ``research
+supervision''. On several occasions, I have seen\unsure{.}\tnote{TN-047-02}{The doubtful dot after ``vu'' is retained after the corresponding ``seen''.} opening up before
+
+\margin{47}
+
+\finishscan
+% END PAGE esq_119_047
+% BEGIN PAGE esq_119_048
+\scanpage{119/48}
+\mspage{46}
+
+me vast and rich fields ripe for harvest, without
+ever managing to communicate this vision, and the spark
+that accompanies it, to a male (or female) student of mine, or to make it
+lead to a common exploration of greater or lesser
+duration. Each time, right up to the present day, after an exploration
+of a few days or a few weeks, in which I discovered,
+as a scout, riches unsuspected at the outset, the journey
+was cut short when it became clear that I would be alone in
+continuing it. Stronger interests then took precedence over
+a journey that consequently appeared as a digression, or even
+a scattering of effort, rather than an adventure pursued together.
+
+One of these themes was that of plane polygons, centered
+on the moduli varieties that can be associated with them. One of
+the surprises here was the irruption of algebraic geometry into
+a context that had seemed to me quite far removed from it. This kind of
+surprise, linked to the ubiquity of geometry in geometry as
+such, has moreover recurred on several occasions.\tnote{TN-048-01}{The source repeats ``géométrie'' without an added adjective and has the form ``répéré''. ``Recurred'' follows the repetition expressed by ``à plusieurs reprises''; the intended French verb remains uncertain, and the checked French wording is retained.}
+
+Another theme was that of curves (in particular
+circles) immersed in a surface, with particular attention
+to the ``stable'' case in which the singular points are ordinary
+double points (and also the more general case in which the
+different branches at a point cross one another), often with
+the additional assumption that the immersion is ``cellular'',
+i.e. gives rise to a map. A variant of situations of
+this type is that of immersions of a surface with nonempty boundary,
+and first and foremost of a disk (which had been pointed out to me by
+A. Campo some ten years ago). Beyond the question of
+various combinatorial formulations of such situations, which
+is scarcely more than an exercise in syntax, I have been interested
+above all in a dynamic view of the possible configurations,
+with\unsure{.}\tnote{TN-048-02}{The doubtful dot after ``avec'' is retained after ``with''.} the passage from one to another by continuous deformations, which
+can be decomposed into composites of two types of \uline{elementary}
+\uline{operations} and their inverses, namely the ``\uline{sweeping}'' of a branch
+of a curve across a double point, and the \uline{erasure} or \uline{creation}
+
+\margin{48}
+
+\finishscan
+% END PAGE esq_119_048
+% BEGIN PAGE esq_119_049
+\scanpage{119/49}
+\mspage{47}
+
+\uline{of a bigon}. (The first of these operations also plays a
+key role in a "dynamic" theory of systems of pseudolines
+in a real projective plane.) One of the first questions
+that arise here is to determine the different \uline{immersion
+classes} of a circle or a disk (say) modulo these elementary
+operations; another is to see which immersions
+of the boundary of the disk come from an immersion of the
+disk, and to what extent the former determine the latter.
+Here again, it seemed to me that a systematic study
+of the relevant moduli varieties (of infinite dimension in this
+case, unless one manages to give a purely combinatorial
+version of them) should provide the most effective ``focus'',
+in a sense forcing us to ask ourselves the most pertinent
+questions. Unfortunately, reflection on even the
+most obvious and down-to-earth questions has remained embryonic.
+As the only tangible result, I can point to a
+theory of canonical ``dévissage'' of a stable cellular immersion
+of the circle in a surface into ``indecomposable'' immersions,
+by ``telescoping'' such immersions. Unfortunately, I have not
+succeeded in seeing my insights into the question turn into
+a DEA research project, nor other insights (into a complete
+theoretical description, in terms of fundamental groups of
+topological 1-complexes, of the immersions of a surface with boundary
+that extend a given immersion of its boundary) into the beginning of a
+state doctorate thesis\tnote{TN-049-01}{``State doctorate'' renders ``doctorat d'état''. The later ``third-cycle theses'' renders ``thèses de troisième cycle''; the source uses these degree designations.}...
+
+A third theme, pursued simultaneously for three
+years at various teaching levels (from the elective for
+first-year students to three third-cycle theses currently
+being pursued on this theme), concerns the topological-combinatorial
+classification of systems of lines or pseudolines.
+On the whole, my students' participation here has been less
+disappointing than elsewhere, and I have sometimes had the pleasure of learning
+from them interesting things that would not have occurred to me.
+Our joint reflection has of necessity, however, been limited
+
+\margin{49}
+
+\finishscan
+% END PAGE esq_119_049
+% BEGIN PAGE esq_119_050
+\scanpage{119/50}
+\mspage{48}
+
+to a very elementary level. Recently I finally
+devoted a month of intensive reflection to developing a
+purely combinatorial construction of a kind of ``moduli surface''
+associated with a system of $n$ pseudolines, which classifies the
+different possible ``relative positions'' (stable or otherwise) of an
+$(n+1)$th pseudoline with respect to the given system, or again:
+the different possible ``affinizations'' of this system, through the
+different possible choices of a ``pseudoline at infinity''. I
+have the impression of having put my finger on a remarkable object,
+bringing to light an unforeseen order in classification
+questions that until now appeared rather chaotic !
+But the present report is not the place to dwell further
+on this subject.
+
+Since 1977, in all questions (as in the
+last two themes I have just mentioned) involving
+two-dimensional maps, the possibility of realizing them canonically
+on a conformal surface, hence on a complex algebraic
+curve in the oriented compact case, remains a constant watermark
+in my reflection. In practically all cases (in fact, all
+cases except that of certain spherical maps with ``few automorphisms''),
+such a conformal realization actually implies a
+\uline{canonical riemannian metric}, or at least one canonical up to a
+multiplicative constant. These new elements of structure
+(even without taking into account the arithmetic element discussed
+in par. 3) are such as to transform profoundly
+the initial appearance of the questions addressed, and the methods of
+approach. The beginnings of familiarity with Thurston's beautiful ideas
+on the construction of Teichmüller space, in terms of a very
+simple game of hyperbolic riemannian surgery, confirm me
+in this presentiment. Unfortunately, the very modest level of knowledge
+of almost all the students who have worked with me during\frapparatus{V-FR-050-001}
+these last ten\ \ years does not allow me to broach such possibilities
+with them, even by allusion, whereas
+the assimilation of a minimal combinatorial language already encounters,
+
+\margin{50}
+
+\finishscan
+% END PAGE esq_119_050
+% BEGIN PAGE esq_119_051
+\scanpage{119/51}
+\mspage{49}
+
+quite often, considerable psychological obstacles. That is why,
+in certain respects and increasingly in recent years,
+my teaching activities have often acted as a burden,
+rather than as a stimulus to the development of geometric
+reflection that is at all advanced, or merely delicate.
+
+9. This seems an opportune occasion to make a brief
+appraisal of my teaching activity since 1970, that is, since
+it has taken place in a university setting. This contact
+with a very different reality has taught me a great
+deal, of an order quite different, moreover, from the
+merely pedagogical or scientific. This is not the place to
+dwell on that subject. I also spoke at the beginning of this report of the
+role played by this change of professional milieu in the
+renewal of my approach to mathematics, and of my
+mathematical centers of interest. On the other hand, when I take stock
+of my teaching activity at the level of research properly
+speaking, I arrive at a finding of clear and unambiguous failure. In the more
+than ten years that this activity has continued year after year within
+the same university institution, I have not, at any time, managed
+to bring about a place where ``something is happening'' --- where something
+``passes'',\tnote{TN-051-01}{The French repeats the verb ``passer'': ``il se passe quelque chose'' means that something is happening, and ``quelque chose passe'' says that something passes among the people. The second literal phrasing retains that verbal echo.} among a group, however small, of people
+linked by a common adventure. On two occasions, it is true, around
+the years 74 to 76, I had the pleasure and privilege of inspiring
+a student to undertake work of scope, pursued with enthusiasm:
+Yves Ladegaillerie's work mentioned earlier (par. 3) on
+questions of isotopy in dimension 2, and Carlos Contou-Carrère's
+(whose mathematical passion had not waited for his encounter
+with me to blossom) unpublished work on local and global
+Jacobians over general base schemes (part of which
+was announced in a note in CR).\tnote{TN-051-02}{CR abbreviates \emph{Comptes Rendus} of the Académie des sciences; see the \href{https://comptes-rendus.academie-sciences.fr/page/history-comptes-rendus/}{journal's historical account}.} Apart from these two cases,
+my role over these ten years has been confined to passing on,
+as best I could, the rudiments of the mathematician's craft to some
+twenty students\unsure{.}\tnote{TN-051-03}{The doubtful dot after ``élèves'' is retained after ``students''.} at the research level, or at least to
+
+\margin{51}
+
+\finishscan
+% END PAGE esq_119_051
+% BEGIN PAGE esq_119_052
+\scanpage{119/52}
+\mspage{50}
+
+those among them who persevered long enough with me, reputed
+to be more demanding than others, to produce a first acceptable
+piece of work in black and white (sometimes also work better
+than acceptable and more than a single piece of work\frapparatus{V-FR-052-001}, done with taste\ \ and
+carried through to the end). Given the circumstances, even among the few who
+persevered, fewer still will have the opportunity
+to practice this craft and thereby, while earning their bread,
+to deepen it.
+
+10. Since last year I have felt that, in the course of my
+activity as a university teacher, I have learned all I had
+to learn from it and taught all I can teach there, and
+that it has ceased to be truly useful, to me as well as to
+others. Persisting in continuing it under these conditions would
+seem to me a waste, both of human resources and of public
+funds. That is why I have requested secondment to the CNRS (which
+I had left in 1959 as a newly minted research director,
+to enter IHES). I am aware, moreover, that the employment
+situation is tight at the CNRS as elsewhere, that the outcome of my
+application is doubtful, and that a position awarded to me would
+be at the expense of a younger researcher who would remain without one.
+But it is also true that this would free my position at USTL\tnote{TN-052-01}{USTL is the Université des Sciences et Techniques du Languedoc; the expansion is given in the \href{https://grothendieck.umontpellier.fr/}{archive's list of abbreviations}.}
+for someone else. That is why I have no scruples about
+making this application, and, should it be necessary, about returning to the charge
+if it is not accepted this year.
+
+In any event, this application will have given me
+the occasion to write this sketch of a program, which otherwise would
+probably never have seen the light of day. I have tried to be brief without being
+sibylline and also, afterward, to make it easier and
+more attractive to read by adding a table of contents. If despite
+this it may seem long for the occasion, I apologize.
+It seems short to me for its contents, knowing well that ten years of
+work would not be too much to follow through to the end even the least
+
+\margin{52}
+
+\finishscan
+% END PAGE esq_119_052
+% BEGIN PAGE esq_119_053
+\scanpage{119/53}
+\mspage{51}
+
+of the themes sketched (assuming there is an ``end''...), and
+a hundred years would be little for the richest of them !
+
+Behind the apparent disparity of the themes mentioned here,
+an attentive reader will perceive, as I do, a deep unity. This
+manifests itself in particular through a common source of inspiration,
+the geometry of surfaces, present in all these themes, most
+often in the foreground. This source, in relation to my mathematical
+``past'', represents a renewal, but by no means a
+break. Rather, it points the way toward a new approach
+to that still mysterious reality, that of ``\uline{motives}'', which
+fascinated me more than any other in the last years of that
+past (* ). This fascination has by no means vanished;
+rather, it forms part of that of the most burning for me of all
+the themes mentioned earlier. But today I am no longer,
+as I once was, the willing prisoner of endless tasks,
+which so often prevented me from launching into the unknown,
+mathematical or otherwise. The time of \uline{tasks} is over for me. If
+age has brought me anything, it is to be lighter.
+
+January 1984
+
+(* ) On this subject, see my comments in the ``Thematic Sketch''
+of 1972 attached to the present report, under the final heading
+``motivic ramblings'',\tnote{TN-053-01}{The French titles are ``Esquisse Thématique'' and ``divagations motiviques''.} (loc. cit. pages 17--18).
+
+\margin{53}
+
+\finishscan
+% END PAGE esq_119_053
+% BEGIN PAGE esq_119_054
+\scanpage{119/54}
+\mspage{52}
+
+\notedef{copy1-1}{(\textsuperscript{1})} The expression ``out of reach'' here (and again further on for
+an entirely different question), which I let pass despite
+a reluctance, now strikes me as decidedly hasty and
+unfounded. I have already been able to observe on other occasions that when
+oracles (here myself !) declare with a knowing
+(or doubtful) air that such-and-such a problem is ``out of reach'', this is
+at bottom an entirely subjective assertion. It means
+simply, apart from the fact that the problem is supposed not to have been
+solved yet, that the speaker is short of ideas on the
+question, or, probably more precisely, that he faces
+it without feeling or enthusiasm, that it ``does nothing for him'', and
+that he has no desire to do anything with it --- which
+is often reason enough to want to discourage others
+from doing so. This did not prevent the beautiful and lamented conjectures
+of Mordell, Tate, and Chafarévitch, like Mr. de la Palisse,\tnote{TN-054-01}{The allusion evokes the proverbially obvious observation of a man still alive moments before dying. Here the joke concerns conjectures still declared out of reach just before they succumb. On the French allusion, see the entry ``truisme'' in the \href{https://oqlf.gouv.qc.ca/ressources/bibliotheque/dictionnaires/VocabulairesPDF/terminologie_figuresdestyle.pdf}{OQLF vocabulary of figures of speech}.}
+from still being reputed ``out of reach'' at the very moment
+of succumbing, the poor things ! --- Moreover, already in the days
+following the writing of the present report, which brought me back
+into contact with questions from which I had somewhat distanced myself
+over the past year, I became aware of a new remarkable
+property of the outer action of an absolute Galois
+group on the fundamental group of an algebraic curve, which had
+escaped me until now\frapparatus{V-FR-054-001} and which probably constitutes, at the very least,
+a new step forward toward formulating an algebraic
+characterization of $\mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$. This, together with the ``fundamental
+conjecture'' (mentioned in par. 3 below), now appears as
+the principal open question for the foundations of an ``anabelian
+algebraic geometry'', which for several years has represented
+(by far) my strongest focus of interest in mathematics.
+
+\notedef{copy1-2}{(\textsuperscript{2})} I can nevertheless make an exception for another ``fact'', from the time
+when, at around twelve years of age, I was interned in the concentration
+camp of Rieucros (near Mende). It was there that I learned, from a
+internee, Maria, who voluntarily gave me private lessons,
+
+\margin{54'}
+
+\finishscan
+% END PAGE esq_119_054
+% BEGIN PAGE esq_119_055
+\scanpage{119/55}
+\mspage{53}
+
+the definition of the circle. It had impressed me by its
+simplicity and obviousness, whereas the circle's property of ``perfect
+roundness'' had previously seemed to me a mysterious reality
+beyond words. It was at that moment, I believe, that I
+glimpsed for the first time (without, of course, formulating it to myself
+in these terms) the creative power of a ``good'' mathematical
+definition, of a \uline{formulation} that describes the essence. Even today,
+it seems that the fascination this power has exercised over
+me has lost none of its force.
+
+\notedef{copy1-3}{(\textsuperscript{3})} More generally, beyond so-called ``anabelian'' varieties
+over fields of finite type, anabelian algebraic geometry
+(as it emerged a few years ago) leads to a
+description, in terms of profinite groups alone, of the category
+of schemes of finite type over the absolute base $\mathbb{Q}$ (or
+even $\mathbb{Z}$\frapparatus{V-FR-055-001}), and thereby, in principle, of the category of
+arbitrary schemes (by suitable passages to the limit). It
+is thus a construction that ``pretends'' to ignore rings
+(such as $\mathbb{Q}$, algebras of finite type over $\mathbb{Q}$, etc.) and
+the algebraic equations traditionally used to describe
+schemes, by working directly with their étale topoi,
+expressible in terms of systems of profinite groups. A
+grain of salt, however: to be able to hope to reconstruct a
+scheme (of finite type over $\mathbb{Q}$, say) from its étale topos,
+which is a purely topological invariant, one should place oneself
+not in the category of schemes (of finite type over $\mathbb{Q}$ in
+this case), but in the one obtained from it by ``localization'',
+making invertible the morphisms that are ``universal
+homeomorphisms'', i.e. that are finite, radicial, and surjective. The
+development of such a translation of a ``geometric world''
+(namely that of schemes, scheme-theoretic multiplicities, etc.) into
+terms of an ``algebraic world'' (that of profinite groups, and
+systems of profinite groups describing suitable topoi (called ``étale''))
+may be regarded as an ultimate outcome
+
+\margin{55}
+
+\finishscan
+% END PAGE esq_119_055
+% BEGIN PAGE esq_119_056
+\scanpage{119/56}
+\mspage{54}
+
+of Galois theory, probably in the very spirit of Galois.
+The perpetual question ``and what is all this for ?'' seems to me to have
+neither more nor less meaning in the case of the anabelian algebraic
+geometry now coming into being than for Galois theory in
+Galois's time (or even today, when the question is asked
+by an overwhelmed student ...), and likewise for the comment
+that generally accompanies it: ``all that is very general !''.
+
+\notedef{copy1-4}{($^4$)} It is therefore easy to conceive that a group such as $S\ell(2,\mathbb{Z})$, with
+its ``arithmetic'' structure, is a veritable machine for constructing
+``motivic'' representations of $\mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$ and of its
+open subgroups, and that one thus obtains, at least in
+principle, all motivic representations of weight 1,
+or contained in a tensor product of such representations
+(which already makes quite a bundle !). In 1981 I had begun
+to experiment with this machine in a few particular cases,
+obtaining various remarkable representations of $\mathrm{I}\!\Gamma$ in
+groups $G(\mathbb{Z}^{\wedge})$, where $G$ is a group scheme (not necessarily
+reductive) over $\mathbb{Z}$, starting from suitable homomorphisms
+\[ S\ell(2,\mathbb{Z}) \longrightarrow G_o(\mathbb{Z}) , \]
+where $G_o$ is a group scheme over $\mathbb{Z}$, and $G$ is constructed
+from this as an extension of $G_o$ by a suitable group
+scheme. In the ``tautological'' case $G_o = S\ell(2)_{\mathbb{Z}}$,
+one finds for $G$ a remarkable extension of $G\ell(2)_{\mathbb{Z}}$ by a torus of
+dimension 2, with a motivic representation that ``caps''\tnote{TN-056-01}{The quoted verb ``caps'' translates the figurative ``coiffe'', literally puts a cap on.} those
+associated with the class fields of the extensions $\mathbb{Q}(i)$ and $\mathbb{Q}(j)$
+(as chance would have it, the ``complex multiplication fields'' of the two
+``anharmonic'' elliptic curves). There is a construction principle here
+that seemed to me very general and very effective, but
+I have not had (or taken) the leisure to work through its dévissage and follow it
+to the end --- this is one of the many ``hot spots'' in the
+program of foundations for anabelian algebraic geometry (or
+``Galois theory'' in an enlarged version) that I propose to
+develop. At present, and in an order of priority that is
+
+\margin{56}
+
+\finishscan
+% END PAGE esq_119_056
+% BEGIN PAGE esq_119_057
+\scanpage{119/57}
+\mspage{55}
+
+probably very provisional, these points are:
+
+a) Combinatorial construction of the Teichmüller Tower.
+
+b) Description of the automorphism group of the profinite
+compactification of this tower, and reflection on a characterization
+of $\mathrm{I}\!\Gamma = \mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$ as a subgroup of the latter.
+
+c) The ``machine for motives'' $S\ell(2,\mathbb{Z})$ and its variants.
+
+d) The anabelian dictionary and the fundamental conjecture
+(which is perhaps not so ``out of reach'' as all that !). Among
+the crucial points of this dictionary, I envisage the ``profinite
+paradigm'' for the fields $\mathbb{Q}$ (cf. b)), $\mathbb{R}$ and $\mathbb{C}$, for which a plausible
+formulation remains to be drawn out, as well as a description of the
+inertia subgroups of $\mathrm{I}\!\Gamma$, through which the passage from characteristic
+zero to characteristic $p > 0$, and to the absolute ring $\mathbb{Z}$, begins.
+
+e) Fermat's problem.
+
+\notedef{copy1-5}{($^5$)} I shall nevertheless mention a more delicate piece of work (apart from
+the work on cubic complexes mentioned in passing), on
+the combinatorial interpretation of the regular maps associated with
+the congruence subgroups of $S\ell(2,\mathbb{Z})$. This work was developed
+above all with a view to expressing the ``arithmetic'' action of $\mathrm{I}\!\Gamma = \mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$
+on these ``\uline{congruence maps}'', which takes place, essentially,
+through the cyclotomic character of $\mathrm{I}\!\Gamma$. A starting
+point was the combinatorial theory of the ``bi-icosahedron'' developed
+in a C4 course from purely geometric motivations,
+which (as it subsequently turned out) makes it possible to express conveniently
+the action of $\mathrm{I}\!\Gamma$ on the category of icosahedral maps (i.e.
+congruence maps of index 5).
+
+\notedef{copy1-6}{($^6$)} Let us point out in this connection that the isomorphism classes of
+compact tame spaces are \unsure{.}the same\tnote{TN-057-01}{The doubtful dot before ``les'' in ``les mêmes'' is retained before the corresponding ``the same''.} as in the ``piecewise
+linear'' theory (which, I recall, is \uline{not} a tame theory).
+This is, in a sense, a rehabilitation of the ``Hauptvermutung'',\tnote{TN-057-02}{The German name ``Hauptvermutung'' means ``main conjecture''. It is retained as the name used in the source.}
+which is ``false'' only because, for historical reasons
+that it would probably be interesting to examine more closely, the
+
+\margin{57}
+
+\finishscan
+% END PAGE esq_119_057
+% BEGIN PAGE esq_119_058
+\scanpage{119/58}
+\mspage{56}
+
+foundations of topology used to formulate it did not exclude
+phenomena of wildness. It goes (I hope) without saying
+that the need to develop new foundations for
+``geometric'' topology by no means excludes the fact that these phenomena,
+like everything under the sun, have their reason for being
+and their own beauty. More adequate foundations will not eliminate
+these phenomena, but will allow us to place them where they
+belong, as ``limiting cases'' of phenomena of ``true''
+topology.
+
+\notedef{copy1-7}{($^7$)} In fact, to reconstruct this system of spaces
+\[ (i_o,\ldots,i_n) \longmapsto X_{i_o,\ldots,i_n} \]
+contravariant on Drap(I) (for inclusion of flags), it
+suffices to know the $X_i$ (or ``\uline{unfolded strata}'') and the $X_{i,j}$
+(or ``\uline{connecting tubes}'') for $i,j \in I$, $i < j$, and the morphisms
+$X_{i,j} \longrightarrow X_i$ (which are ``bordering'' inclusions)\tnote{TN-058-01}{``Bordering'' renders the author's quoted ``bordantes''; the corresponding adjective appears again with ``embedding'' on the following page.} and $X_{i,j} \longrightarrow X_i$
+(which are proper fibrations, whose fibers $F_{i,j}$ are
+called ``\uline{connecting fibers}'' for the strata with indices $i$ and $j$).
+In the case of a tame multiplicity, however, one must
+also know the ``\uline{junction spaces}'' $X_{i,j,k}$ $(i < j < k)$ and their
+morphisms into $X_{i,j}$, $X_{j,k}$, and above all $X_{i,k}$, fitting into
+the following commutative hexagonal diagram, in which the two squares on
+the right are cartesian, the arrows $\hookrightarrow$ are immersions (not
+necessarily embeddings here), and the other arrows are
+proper fibrations:
+
+\diagram{
+\begin{tikzcd}[ampersand replacement=\&]
+ \& X_{ik} \arrow[rr, hook] \hand{\arrow[dl]} \& \& X_k \& \\
+X_i \& \& X_{ijk} \hand{\arrow[ul, hook]} \arrow[rr, hook] \hand{\arrow[dl]} \& \& X_{jk} \hand{\arrow[ul, hook]} \hand{\arrow[dl]} \\
+ \& X_{ij} \hand{\arrow[ul]} \arrow[rr, hook] \& \& X_j \&
+\end{tikzcd}
+}
+
+(NB. This diagram defines $X_{ijk}$ in terms of $X_{ij}$ and $X_{jk}$ over $X_j$,
+but not the arrow $X_{ijk} \longrightarrow X_{ik}$, because $X_{ik} \longrightarrow X_k$ is \uline{not} necessarily
+an embedding.)
+
+\margin{58}
+
+\finishscan
+% END PAGE esq_119_058
+% BEGIN PAGE esq_119_059
+\scanpage{119/59}
+\mspage{57}
+
+In the case of stratified tame spaces properly so called (which
+are not multiplicities strictly speaking), one can express
+the ``unfolding'' of this structure conveniently, i.e.
+the system of spaces $X_{i_o,\ldots,i_n}$, in terms of the tame
+space $X_*$\frapparatus{V-FR-059-001} that is the sum of the $X_i$, which is endowed\frapparatus{V-FR-059-002} with the \uline{structure of an}
+\uline{ordered object} (in the category of tame spaces), having as the graph
+$X_{**}$ of the order relation the sum of the $X_{i,j}$ and the $X_i$
+(the latter constituting the diagonal). Among the essential
+properties of this ordered structure, let us note only
+here that $pr_1 : X_{**} \longrightarrow X_*$ is a proper (locally trivial)
+fibration, and $pr_2 : X_{**} \longrightarrow X_*$ is a ``bordering'' embedding.\frapparatus{V-FR-059-003}
+There is an analogous interpretation of the unfolding of a stratified
+tame multiplicity, in terms of a \uline{category structure}
+(replacing a simple ordered structure) ``in the sense of tame
+multiplicities'', whose composition map is given
+by the morphisms $X_{ijk} \longrightarrow X_{ik}$ above.
+
+\margin{59}
+
+\finishscan
+% END PAGE esq_119_059
+\typeout{EDITION-APPARATUS-COUNT: \theappnote}
+\end{document}
