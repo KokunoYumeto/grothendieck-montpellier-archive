@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+"""Check review-record coverage and exact replay, without assigning new outcomes."""
+from pathlib import Path
+import argparse,collections,hashlib,json,re
+from audit_inventory import read_tsv,parse_marks
+
+def main():
+    ap=argparse.ArgumentParser();ap.add_argument("--complete",action="store_true");args=ap.parse_args()
+    edition=Path(__file__).resolve().parent.parent;work=edition.parent
+    checks=read_tsv(edition/"CHECK_DECISIONS.tsv") if (edition/"CHECK_DECISIONS.tsv").exists() else []
+    diffs=read_tsv(edition/"DIFFERENCES_OUTCOMES.tsv") if (edition/"DIFFERENCES_OUTCOMES.tsv").exists() else []
+    coll=read_tsv(edition/"COLLATION.tsv") if (edition/"COLLATION.tsv").exists() else []
+    cpath=edition/"records/COLLATION_PAGE_COVERAGE.tsv"
+    coverage=read_tsv(cpath) if cpath.exists() else []
+    errors=[];pages=[];totals_before=collections.Counter();totals_after=collections.Counter()
+    packets={p.stem:json.loads(p.read_text()) for p in (work/"review_packets").glob("*.json")}
+    for packet in packets.values():totals_before.update(m["macro"] for m in packet["marks"])
+    for path in sorted((edition/"checked_pages").glob("*.tex")):
+        key=path.stem;packet=packets[key]
+        rpath=edition/"reviews"/(key+".json")
+        if not rpath.exists():errors.append(f"{key}: checked file has no explicit review declaration");continue
+        review=json.loads(rpath.read_text());current=packet["source_text"]
+        if set(review.get("inspected_images",[]))!=set(packet["required_images"]):errors.append(f"{key}: image evidence declaration incomplete")
+        if not review.get("full_text_confirmation"):errors.append(f"{key}: full text confirmation absent")
+        for i,p in enumerate(review.get("patches",[]),1):
+            old,new=p["old"],p["new"]
+            matches=[m.start() for m in re.finditer(re.escape(old),current)] if old else []
+            if not matches:errors.append(f"{key}: patch {i} does not replay");continue
+            chosen=matches if p.get("replace_all") else [matches[int(p.get("occurrence",1))-1]]
+            for pos in reversed(chosen):current=current[:pos]+new+current[pos+len(old):]
+        current=current.replace("not yet checked by eye.","source transcription; scan review recorded in CHECK_DECISIONS.tsv.")
+        current="% Scan-checked edition: both supplied image halves reviewed; see CHECK_DECISIONS.tsv.\n"+current
+        actual=path.read_text()
+        # Mechanical cleanup is a separate derived stage. Checked source must replay.
+        if current!=actual:errors.append(f"{key}: checked text differs from explicit recorded patches")
+        actual_scan=re.findall(r"\\scanpage\{([^}]*)\}",actual)
+        if actual_scan!=[packet["metadata"]["cote"]+"/"+packet["metadata"]["site"]]:errors.append(f"{key}: scan marker mismatch")
+        required={m["item_id"] for m in packet["marks"]}|{n["item_id"] for n in packet["note_items"]}|{d["difference_id"] for d in packet["differences"]}
+        covered={r["source_item_id"] for r in checks if r["key"]==key}
+        missing=sorted(required-covered)
+        if missing:errors.append(f"{key}: {len(missing)} required review targets absent")
+        expected={d["difference_id"] for d in packet["differences"]}
+        actual_diff={d["difference_id"] for d in diffs if d["key"]==key}
+        if expected!=actual_diff:errors.append(f"{key}: difference outcome coverage mismatch")
+        marks=parse_marks(actual,key);totals_after.update(m["macro"] for m in marks)
+        pages.append({"key":key,"copy":packet["copy"],"typescript_page":packet["metadata"]["ts_page"],
+            "checks":sum(r["key"]==key for r in checks),"target_count":len(required),
+            "covered_target_count":len(required&covered),"difference_count":len(expected),
+            "sha256":hashlib.sha256(path.read_bytes()).hexdigest()})
+    for what,rows,idkey in [("decision",checks,"decision_id"),("difference",diffs,"difference_id")]:
+        counter=collections.Counter(r[idkey] for r in rows)
+        if any(n>1 for n in counter.values()):errors.append(f"Duplicate {what} identifiers")
+    missing_pages=sorted(set(packets)-{p["key"] for p in pages})
+    expected_pairs={k for k,p in packets.items() if p['copy']==2}
+    covered_pairs={r['copy2_key'] for r in coverage}
+    for c in coverage:
+        for number in [1,2]:
+            key=c[f'copy{number}_key'];path=edition/'checked_pages'/(key+'.tex')
+            if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest()!=c[f'copy{number}_checked_sha256']:
+                errors.append(f"{key}: collation source hash is absent or stale")
+            if c[f'copy{number}_images'].split()!=packets[key]['required_images']:
+                errors.append(f"{key}: collation image coverage mismatch")
+        actual=sum(r['copy2_key']==c['copy2_key'] for r in coll)
+        if actual!=int(c['entry_count']):errors.append(f"{c['copy2_key']}: collation locus count mismatch")
+        if not c['full_inspection'].strip() or not c['original_transcription_comparison'].strip():
+            errors.append(f"{c['copy2_key']}: explicit collation declaration incomplete")
+    if len(coverage)!=len(covered_pairs):errors.append('Duplicate collation page-coverage declarations')
+    if args.complete and missing_pages:errors.append(f"{len(missing_pages)} pages remain unreviewed")
+    if args.complete and len(diffs)!=468:errors.append("Complete edition requires 468 difference outcomes")
+    if args.complete and expected_pairs!=covered_pairs:errors.append(f"{len(expected_pairs-covered_pairs)} page pairs remain uncollated")
+    report={"status":"complete" if not errors and not missing_pages else "in progress" if not errors else "validation errors",
+        "checked_pages":len(pages),"expected_pages":len(packets),"images_declared_reviewed":2*len(pages),
+        "decision_rows":len(checks),"difference_outcomes":len(diffs),"expected_difference_outcomes":468,
+        "collation_rows":len(coll),"collated_page_pairs":len(coverage),"expected_collated_page_pairs":58,
+        "source_macro_counts_all_pages":dict(totals_before),
+        "checked_macro_counts_reviewed_pages":dict(totals_after),"pages":pages,"unreviewed_pages":missing_pages,"errors":errors}
+    (edition/"records/AUDIT_PROGRESS.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
+    print(json.dumps({k:v for k,v in report.items() if k not in ["pages","unreviewed_pages"]},ensure_ascii=False))
+    raise SystemExit(1 if errors else 0)
+
+if __name__=="__main__":main()

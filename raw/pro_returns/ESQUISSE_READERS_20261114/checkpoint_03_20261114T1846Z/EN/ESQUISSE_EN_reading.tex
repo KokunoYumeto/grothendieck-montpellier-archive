@@ -1,0 +1,996 @@
+% EDITION STATUS: partial; source units 19/58
+\documentclass[11pt,a4paper]{article}
+\usepackage[no-math]{fontspec}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+\usepackage[french,english]{babel}
+\usepackage[left=22mm,right=34mm,top=22mm,bottom=22mm,marginparwidth=23mm,marginparsep=5mm,includeheadfoot]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage[normalem]{ulem}
+\usepackage{xcolor,tikz-cd,marginnote,etoolbox,microtype}
+\usepackage[unicode,colorlinks=true,linkcolor=LinkInk,urlcolor=LinkInk,bookmarksopen=true]{hyperref}
+\definecolor{LinkInk}{HTML}{254E70}
+\definecolor{HandInk}{HTML}{254E70}
+\definecolor{DeletionInk}{HTML}{8B3A3A}
+\definecolor{QuietInk}{HTML}{555555}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{3pt plus 1pt}
+\setlength{\emergencystretch}{1.5em}
+\raggedbottom
+\normalmarginpar
+\frenchspacing
+\newif\ifdiplomatic
+\newif\ifreading
+\newif\ifenglish
+\diplomaticfalse
+\readingtrue
+\englishtrue
+\newcommand{\EditionTitle}{Sketch of a Program}
+\newcommand{\EditionForm}{Reading text}
+\hypersetup{pdftitle={Sketch of a Program — Reading text},pdfauthor={Alexander Grothendieck},pdfsubject={A scan-checked edition of Esquisse d'un programme, January 1984, Montpellier cote 119}}
+\newcommand{\DeclareScan}[4]{%
+  \expandafter\def\csname edurl@#1\endcsname{#2}%
+  \expandafter\def\csname edkey@#1\endcsname{#3}%
+  \expandafter\def\csname edpage@#1\endcsname{#4}}
+\def\CurrentScanURL{}
+\def\CurrentPageKey{}
+\def\CurrentCopy{copy1}
+\def\CurrentApparatus{}
+\newcounter{appnote}
+\newcommand{\EditionPart}[2]{\clearpage\def\CurrentCopy{#1}\section*{#2}}
+\newcommand{\scanpage}[1]{%
+  \clearpage
+  \expandafter\let\expandafter\CurrentScanURL\csname edurl@#1\endcsname
+  \expandafter\let\expandafter\CurrentPageKey\csname edkey@#1\endcsname
+  \def\CurrentApparatus{}%
+  \hypertarget{scan-\CurrentPageKey}{}%
+  \typeout{EDITION-SCAN: \CurrentPageKey; PDFPAGE: \the\numexpr\ReadonlyShipoutCounter+1\relax}%
+  \ifreading
+    \marginnote{\raggedright\scriptsize\sffamily\href{\CurrentScanURL}{119 / \csname edpage@#1\endcsname}}%
+  \else
+    \noindent{\small\sffamily\href{\CurrentScanURL}{[scan #1]}}\par\smallskip
+  \fi}
+\newcommand{\mspage}[1]{%
+  \ifreading\marginnote{\raggedright\scriptsize\sffamily p.\,#1}[2\baselineskip]%
+  \else\noindent{\small\sffamily[p.\,#1]}\par\smallskip\fi}
+\newcommand{\hand}[1]{\ifdiplomatic\textcolor{HandInk}{#1}\else#1\fi}
+\let\over\relax
+\newcommand{\over}[2]{\textcolor{QuietInk}{#1}\textcolor{HandInk}{\ensuremath{^{\!\nearrow}}#2}}
+\newcommand{\inserted}[2][]{\textcolor{HandInk}{\ensuremath{\langle}#2\ensuremath{\rangle}}}
+\newcommand{\deleted}[1]{\ifmmode\textcolor{DeletionInk}{[#1]_{\scriptscriptstyle\mathrm{del}}}\else\textcolor{DeletionInk}{\sout{#1}}\fi}
+\renewcommand{\xout}[1]{\ifmmode\textcolor{QuietInk}{[#1]_{\scriptscriptstyle\mathrm{x}}}\else\textcolor{QuietInk}{\sout{#1}}\fi}
+\let\TextUline\uline
+\let\TextUuline\uuline
+\renewcommand{\uline}[1]{\ifmmode\underline{#1}\else\TextUline{#1}\fi}
+\renewcommand{\uuline}[1]{\ifmmode\underline{\underline{#1}}\else\TextUuline{#1}\fi}
+\newcommand{\unsure}[1]{\href{\CurrentScanURL}{[#1?]}}
+\newcommand{\illegible}[1]{\href{\CurrentScanURL}{[\ifenglish illegible\else illisible\fi\ #1]}}
+\newsavebox{\MarginalTestBox}
+\newcommand{\margin}[1]{%
+  \sbox{\MarginalTestBox}{\parbox{\marginparwidth}{\raggedright\footnotesize#1}}%
+  \ifdim\dimexpr\ht\MarginalTestBox+\dp\MarginalTestBox\relax>3\baselineskip
+    \par\smallskip\noindent\begin{minipage}{\linewidth}\hrule\smallskip
+    {\footnotesize\textcolor{HandInk}{\ifenglish Marginal note:\else Note marginale :\fi\ #1}}\smallskip\hrule\end{minipage}\par\smallskip
+  \else
+    \marginnote{\raggedright\footnotesize\textcolor{HandInk}{#1}}%
+  \fi}
+\newcommand{\authornote}[1]{\margin{#1}}
+\newcommand{\diagram}[1]{\par\smallskip{\centering#1\par}\smallskip}
+\newenvironment{diagramblock}{\par\begin{center}}{\end{center}\par}
+\newcommand{\DeclareVariant}[2]{\expandafter\def\csname edvariant@#1\endcsname{#2}}
+\newcommand{\AppItem}[2]{\par\noindent\textsuperscript{#1}\csname edvariant@#2\endcsname}
+\newcommand{\EditionApp}[1]{%
+  \stepcounter{appnote}%
+  \ifmmode{}^{\scriptscriptstyle\theappnote}\else\textsuperscript{\theappnote}\fi
+  \begingroup\edef\x{\endgroup\noexpand\gappto\noexpand\CurrentApparatus{\noexpand\AppItem{\theappnote}{#1}}}\x}
+\newcommand{\var}[4]{\ifdiplomatic#1\else#2\ifreading\else\EditionApp{#4}\fi\fi}
+\newcommand{\copytwo}[2]{\ifdiplomatic\else\ifreading\else\DeclareVariant{#1}{#2}\EditionApp{#1}\fi\fi}
+\newcommand{\tnote}[2]{\ifreading\else\DeclareVariant{#1}{\textit{Translator's note.} #2}\EditionApp{#1}\fi}
+\newcommand{\finishscan}{\ifx\CurrentApparatus\empty\else\par\bigskip\noindent\rule{.35\linewidth}{.35pt}\par\smallskip{\footnotesize\setlength{\parskip}{3pt}\CurrentApparatus}\fi}
+\newcommand{\DeclareNoteReturns}[2]{\expandafter\def\csname edreturns@#1\endcsname{#2}}
+\newcommand{\notecall}[3]{\hypertarget{#2}{\hyperlink{note-#1}{#3}}}
+\newcommand{\notedef}[2]{\hypertarget{note-#1}{#2}\,{\scriptsize[\csname edreturns@#1\endcsname]}}
+\newcommand{\AppReading}[1]{{\def\margin##1{##1}\def\authornote##1{##1}#1}}
+\newcommand{\EmptyReading}{\ifenglish\textit{omitted}\else\textit{supprimé}\fi}
+\DeclareScan{119/2}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=3}{esq_119_002}{2}
+\DeclareScan{119/3}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=4}{esq_119_003}{3}
+\DeclareScan{119/4}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=5}{esq_119_004}{4}
+\DeclareScan{119/5}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=6}{esq_119_005}{5}
+\DeclareScan{119/6}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=7}{esq_119_006}{6}
+\DeclareScan{119/7}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=8}{esq_119_007}{7}
+\DeclareScan{119/8}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=9}{esq_119_008}{8}
+\DeclareScan{119/9}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=10}{esq_119_009}{9}
+\DeclareScan{119/10}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=11}{esq_119_010}{10}
+\DeclareScan{119/11}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=12}{esq_119_011}{11}
+\DeclareScan{119/12}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=13}{esq_119_012}{12}
+\DeclareScan{119/13}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=14}{esq_119_013}{13}
+\DeclareScan{119/14}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=15}{esq_119_014}{14}
+\DeclareScan{119/15}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=16}{esq_119_015}{15}
+\DeclareScan{119/16}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=17}{esq_119_016}{16}
+\DeclareScan{119/17}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=18}{esq_119_017}{17}
+\DeclareScan{119/18}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=19}{esq_119_018}{18}
+\DeclareScan{119/19}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=20}{esq_119_019}{19}
+\DeclareScan{119/20}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\#page=21}{esq_119_020}{20}
+\DeclareVariant{V-FR-010-001}{\textit{slip corrected}. \AppReading{Ladegraillerie} \(\rightarrow\) \AppReading{Ladegaillerie}. The preceding line gives Yves Ladegaillerie for the same participant; the second occurrence interposes an r.}
+
+\begin{document}
+\begin{titlepage}
+\centering
+\vspace*{18mm}
+{\Large Alexander Grothendieck\par}
+\vspace{12mm}
+{\Huge\bfseries\EditionTitle\par}
+\vspace{8mm}
+{\Large\EditionForm\par}
+\vspace{14mm}
+{\large January 1984\par}
+\vfill
+{\large Université de Montpellier\par fonds Grothendieck, cote 119\par}
+\vspace{8mm}
+{\normalsize Two typescript copies: sites 2--59 and 78--135\par}
+\vspace{8mm}
+{\normalsize Edition dated 14 November 2026\par}
+\end{titlepage}
+\thispagestyle{plain}
+\section*{Preface}
+\noindent\textbf{Partial working edition.} This file contains 19 of the 58 source pages required for this form. Collation and final validation remain in progress.\par\smallskip
+This reading text is generated from the same English annotated master as the form with translator’s notes. The editorial apparatus, translator’s notes and correction markers are omitted. The author’s notes and unresolved readings remain. Scan marks and source page numbers appear only in the margin. The author’s notes (1)–(7) remain at the end with links in both directions. The formulas retain the exact French source strings.
+
+\smallskip
+AI-transcribed by Claude Opus 5.5 (Anthropic, effort high, Message Batches API); checked against the scans, and this edition built, by GPT-6 Astra (OpenAI, ChatGPT Pro mode); prompts and records by Claude (Anthropic).
+AI-translated by GPT-6 Astra (OpenAI, ChatGPT Pro mode).
+
+The transcription of copy 1 was made with the text layer of the Grothendieck Circle's typeset \textit{Esquisse} (\texttt{EsquisseFr.pdf}) given to the transcribing model as a draft, to compare with after it had transcribed each page; every reading of this edition was decided on the scans.
+
+The published French text and English translation in \textit{Geometric Galois Actions 1}, edited by L. Schneps and P. Lochak (Cambridge University Press, 1997), the Grothendieck Circle's typeset \texttt{EsquisseFr.pdf}, and the Centre for Grothendieckian Studies' draft transcription G94d are named as published texts. They are not reproduced here.
+
+\section*{Rights and credits}
+The rights in the original work belong to its author or the author's representatives or heirs. Where we hold rights, in the AI-produced transcription, translation, corrections and typesetting, they are dedicated to the public domain under CC0 1.0. This edition is published for educational, non-profit purposes, and we claim no rights we do not hold. If you hold rights in this work and object to its publication here, please open a GitHub issue and we will take it down.
+
+\clearpage
+
+% BEGIN PAGE esq_119_002
+\scanpage{119/2}
+\uline{SKETCH OF A PROGRAM}
+
+by Alexandre Grothendieck
+
+\uline{Contents} :
+
+1. Opening.\tnote{TN-002-01}{The French heading is ``Envoi'', a word for a sending or dispatch, used here to introduce the text addressed to the application committee and other readers.}
+
+2. A "Légo-Teichmüller game", and the Galois group of $\overline{\mathbb{Q}}$ over $\mathbb{Q}$.
+
+3. Number fields associated with a child's drawing.\tnote{TN-002-02}{``Child's drawing'' translates ``dessin d'enfant''. The phrase becomes a mathematical term in the discussion.}
+
+4. Regular polyhedra and finite fields.
+
+5. A hue and cry against so-called ``general'' topology, and heuristic reflections
+toward a so-called ``tame'' topology.\tnote{TN-002-03}{``Haro sur'' is a denunciatory cry directed against something; ``modérée'' is rendered ``tame'' throughout, following the terminology standard supplied for this edition.}
+
+6. ``Differentiable theories'' (in the manner of Nash) and ``tame theories''.
+
+7. Pursuing Stacks.\tnote{TN-002-04}{The French title is ``A la Poursuite des Champs''. ``Champ'' is translated ``stack'' in accordance with the supplied terminology standard.}
+
+8. Digressions in two-dimensional geometry.
+
+9. An appraisal of teaching activity.
+
+10. Epilogue.
+
+Notes.
+
+N.B. The asterisks (*) refer to the notes appearing at the bottom of
+the same page, the numbered references from (\textsuperscript{\hand{1}}) to (\textsuperscript{\hand{7}}\unsure{.}) to the notes (added
+later) collected at the end of the report.
+
+\mspage{\hand{2}}
+
+\finishscan
+% END PAGE esq_119_002
+% BEGIN PAGE esq_119_003
+\scanpage{119/3}
+\mspage{1}
+
+SKETCH OF A PROGRAM
+
+by A. Grothendieck
+
+1. As the present circumstances make the prospects of teaching at research level
+at the University increasingly illusory for me, I have resolved to apply for
+admission to the CNRS,\tnote{TN-003-01}{CNRS: \href{https://aissai.cnrs.fr/en/legal-notice/}{Centre national de la recherche scientifique}, the French National Center for Scientific Research.}
+so that I may devote my energy to developing work and perspectives
+that, it is becoming clear, no student (nor even, it seems,
+any fellow mathematician) will be found to develop in my
+stead.
+
+In place of a ``Qualifications and Works'' document,\tnote{TN-003-02}{``Titres et Travaux'' is the French designation of the document listing qualifications and scholarly work.}
+following this text will be found the full reproduction of a sketch, arranged by themes,
+of what I regarded as my main mathematical contributions at the time
+of writing that report, in 1972. It also contains
+a list of articles published by that date. I have published no scientific
+articles since 1970. In the lines that follow,
+I propose to give at least a glimpse of some principal themes
+of my mathematical reflections since then. Over the years these reflections
+have taken material form in two bulky boxes of
+manuscript notes, probably difficult for anyone other than
+myself to decipher, which, after successive stages of decantation,
+are perhaps awaiting their moment for an overall write-up, at least
+a provisional one, intended for the mathematical community. The
+term ``write-up'' here is somewhat inappropriate,\tnote{TN-003-03}{``Write-up'' renders ``rédaction''. The source itself immediately explains the continuing work of discovery meant by this word.}
+since it is much more a matter of developing the many ideas and visions begun
+over these last twelve years, making them more precise and exploring them
+more deeply, with all the unforeseen turns that constantly
+accompany this kind of work - a work of discovery, then, and
+not of compiling notes piously accumulated. And I fully intend,
+in writing the ``Mathematical Reflections'' begun in February
+1983,\tnote{TN-003-04}{The French title is ``Réflexions Mathématiques''.}
+to let the course of thought that probes and discovers appear
+clearly through the pages, often groping in the half-light,
+with sudden openings of light when some stubborn
+
+\margin{3}
+
+\finishscan
+% END PAGE esq_119_003
+% BEGIN PAGE esq_119_004
+\scanpage{119/4}
+\mspage{2}
+
+false, or merely inadequate, image is finally flushed out
+and brought to light, and the things that seemed askew
+fall into place, in the mutual harmony proper to them.
+\qquad Be that as it may, the following sketch of some
+themes of reflection from the last ten or twelve years will
+serve at the same time as a sketch of a work program for the
+coming years, which I intend to devote to developing
+these themes, or at least some of them. It is intended,
+on the one hand, for the colleagues on the National Committee called upon to rule
+on my application,\tnote{TN-004-01}{``National Committee'' translates ``Comité National'', the committee named in the source in connection with the CNRS application.}
+and, on the other, for a few other colleagues, former
+students, and friends, in the event that some of the ideas sketched
+here might interest one of them.
+
+2. \qquad The demands of university teaching, addressed
+therefore to students (including so-called ``advanced'' students) whose
+mathematical background is modest (and often less than modest), have led me
+to renew drastically the themes of reflection to propose
+to my students, and, one thing leading to another and increasingly, to myself
+as well. It had seemed important to me to start from a common
+intuitive background, independent of any technical language meant to express it,
+far earlier than any such language - it turned out that the geometric
+and topological intuition of shapes, and more particularly of
+two-dimensional shapes, was such a common ground. Thus the themes in question
+can be grouped under the name ``topology of surfaces'' or
+``geometry of surfaces'', with the understanding, in the latter name,
+that the principal emphasis falls on the topological properties
+of surfaces, or on the combinatorial aspects that constitute
+their most down-to-earth technical expression, and not on the differential
+aspects, or even the conformal, riemannian, holomorphic and (thence)
+the ``complex algebraic curves'' aspect. Once this last step
+has been taken, however, suddenly algebraic geometry (my old
+love !) bursts in again, through the very objects that
+can be regarded as the ultimate building blocks of all
+the other algebraic varieties. Whereas in my research before
+
+\margin{4}
+
+\finishscan
+% END PAGE esq_119_004
+% BEGIN PAGE esq_119_005
+\scanpage{119/5}
+\mspage{3}
+
+1970, my attention was systematically directed toward objects
+of the greatest generality, in order to draw out an adequate overall language
+for the world of algebraic geometry, and I lingered
+over algebraic curves only to the strict extent that this proved
+indispensable (particularly in étale cohomology) for developing
+``all-purpose'' techniques and statements valid in every dimension
+and in every place (I mean, over all base schemes, or even
+all ringed base topoi ...), here I am thus brought back, through
+objects so simple that a child can come to know them through play,
+to the beginnings and origins of algebraic geometry, familiar to Riemann
+and his followers !
+
+Since about 1975, then, the geometry of (real)
+surfaces, and from 1977 onward the connections between questions in
+the geometry of surfaces and the algebraic geometry of algebraic curves
+defined over fields such as $\mathbb{C}$, $\mathbb{R}$ or extensions of finite
+type of $\mathbb{Q}$, have been my principal source of inspiration, as well
+as my constant guiding thread. It was with surprise and wonder
+that over the years I discovered (or rather, probably,
+rediscovered) the prodigious, truly inexhaustible richness, the
+unsuspected depth of this seemingly so innocuous theme. I believe
+I sense in it a particularly vital point, a privileged point of convergence
+of the main currents of mathematical ideas, as also
+of the main structures and the visions of things they express,
+from the most specific (such as the rings $\mathbb{Z}$, $\mathbb{Q}$, $\bar{\mathbb{Q}}$, $\mathbb{R}$, $\mathbb{C}$,
+or the group $S\ell(2)$ over one of these rings, or general reductive
+algebraic groups) to the most ``abstract'', such as algebraic,
+complex analytic or real analytic ``multiplicities''.\tnote{TN-005-01}{``Multiplicity'' consistently renders the author's ``multiplicité''. His parenthesis here explains its role in retaining the automorphisms of the objects under study.}
+(These enter naturally when one sets out to study
+``moduli varieties'' systematically for the geometric objects
+under consideration, seeking to go beyond the notoriously insufficient
+viewpoint of ``coarse moduli'', which amounts, most unfortunately,
+to ``killing'' the automorphism groups of these objects .) Among these
+moduli multiplicities, it is those of Mumford-Deligne for
+``stable'' algebraic curves of genus $g$, with $\nu$ marked points, which
+
+\margin{5}
+
+\finishscan
+% END PAGE esq_119_005
+% BEGIN PAGE esq_119_006
+\scanpage{119/6}
+\mspage{4}
+
+I denote by $M^{\wedge}_{g,\nu}$ (the compactification of the ``open'' multiplicity
+$M_{g,\nu}$ corresponding to smooth curves), that for some two
+or three years have exerted a particular fascination upon me,
+perhaps stronger than that of any other mathematical object to date.
+To tell the truth, it is rather the system of \uline{all} the multiplicities
+$M_{g,\nu}$ for varying $g,\nu$, connected with one another by a certain number
+of fundamental operations (such as the operations of ``filling
+holes'', i.e. ``erasing'' marked points, that of ``gluing'',
+and the inverse operations), which reflect, in absolute algebraic
+geometry of characteristic zero (for the moment), familiar geometric
+operations from the viewpoint of topological or conformal ``surgery''
+on surfaces. The principal reason for this fascination is probably
+that this very rich geometric structure on the
+system of ``open'' moduli multiplicities $M_{g,\nu}$ is reflected
+in an analogous structure on the corresponding fundamental
+groupoids, the ``Teichmüller groupoids'' $\hat{T}_{g,\nu}$ ,and that these operations
+at the level of the $\hat{T}_{g,\nu}$ have a sufficiently intrinsic character
+for the Galois group $\mathrm{I}\!\Gamma$ of $\overline{\mathbb{Q}}/\mathbb{Q}$ to act on this entire ``tower'' of
+Teichmüller groupoids, respecting all these structures. More
+extraordinary still, this action is \uline{faithful} - in fact,
+it is already faithful on the first nontrivial ``level'' of this tower,
+namely $\hat{T}_{0,4}$ - which also means, essentially, that the outer
+action of $\mathrm{I}\!\Gamma$ on the fundamental group $\hat{\pi}_{0,3}$ of the standard
+projective line $\mathbb{P}^1$ over $\mathbb{Q}$, with the three points $0,\ 1,\ \infty$ removed, is
+already faithful. Thus \uline{the Galois group} $\mathrm{I}\!\Gamma$ \uline{is realized as a group}
+\uline{of automorphisms of a most concrete profinite group}, moreover respecting
+certain essential structures of that group. It follows
+that an element of $\mathrm{I}\!\Gamma$ can be ``parametrized'' (in various equivalent
+ways, moreover) by a suitable element of this profinite group
+$\hat{\pi}_{0,3}$ (a free profinite group on two generators), or by a system
+of such elements, this element or these elements being, moreover, subject
+to certain simple conditions, necessary (and probably insufficient)
+for this element or these elements actually to correspond to an element of $\mathrm{I}\!\Gamma$.
+One of the most fascinating tasks here is precisely to grasp
+necessary \uline{and} sufficient conditions on an outer automorphism
+
+\margin{6}
+
+\finishscan
+% END PAGE esq_119_006
+% BEGIN PAGE esq_119_007
+\scanpage{119/7}
+\mspage{5}
+
+of $\hat{\pi}_{0,3}$, i.e. on the corresponding parameter or parameters, for it
+to come from an element of $\mathrm{I}\!\Gamma$ - which would provide a
+``purely algebraic'' description, in terms of profinite groups and without
+reference to the Galois theory of number fields, of the Galois
+group $\mathrm{I}\!\Gamma = \mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$ !
+
+Perhaps even a conjectural characterization of $\mathrm{I}\!\Gamma$
+as a subgroup of Autext($\hat{\pi}_{0,3}$) is for the moment out of
+reach\notecall{copy1-1}{call-esq_119_007-1-1}{($^1$)} ; I have no conjecture to propose yet. Another
+task, however, can be approached immediately: describing
+the action of $\mathrm{I}\!\Gamma$ on the entire Teichmüller tower in terms of its
+action on the ``first level'' $\hat{\pi}_{0,3}$ , i.e. expressing an automorphism
+of this tower in terms of the ``parameter'' in $\hat{\pi}_{0,3}$ that specifies
+the varying element $\gamma$ of $\mathrm{I}\!\Gamma$. This is connected with a representation of the
+Teichmüller tower (as a groupoid equipped with a ``gluing''
+operation) by generators and relations, which will in particular give
+a presentation by generators and relations, in the ordinary sense, of
+each of the $\hat{T}_{g,\nu}$ (as a profinite groupoid). Here, even for
+$g = 0$ (thus when the corresponding Teichmüller groups are
+``well-known'' braid groups), the generators and relations
+known to date that have come to my attention seem unusable
+as they stand, because they lack the invariance and
+symmetry properties indispensable for the action of $\mathrm{I}\!\Gamma$ to be directly
+readable from this presentation. This is connected in particular with the fact that
+people still persist, when calculating with fundamental
+groups, in fixing a single base point, instead of cleverly choosing
+a whole collection invariant under the symmetries of the
+situation, which are thereby lost along the way. In certain situations
+(such as descent theorems in the manner of Van Kampen for fundamental
+groups), it is much more elegant, even indispensable for understanding
+anything about them, to work with fundamental groupoids
+relative to a suitable collection of base points , and this is certainly
+so for the Teichmüller tower. It would seem (incredible,
+but true !) that the very geometry of the first level of the
+Teichmüller tower (thus corresponding to ``moduli'' either for projective
+
+\margin{7}
+
+\finishscan
+% END PAGE esq_119_007
+% BEGIN PAGE esq_119_008
+\scanpage{119/8}
+\mspage{6}
+
+lines with four marked points or for elliptic
+curves (!)) has never been properly made explicit, for example the relation
+between the genus 0 case and the geometry of the octahedron and of the
+tetrahedron. A fortiori, the moduli multiplicities $M_{0,5}$ (for
+projective lines with five marked points) and $M_{1,2}$ (for
+curves of genus 1 with two marked points), which are moreover almost
+isomorphic to one another, seem virgin territory - braid groups
+will not enlighten us about them ! I have begun to
+look at $M_{0,5}$ in spare moments; it is a true jewel, with a
+very rich geometry closely connected with that of the icosahedron.
+
+The a priori interest of a complete knowledge of the first two
+levels of the tower (namely, the cases in which the moduli dimension
+$N = 3g-3+\nu$ is $\leq 2$) lies in this principle, that \uline{the entire tower
+is reconstructed from the first two levels}, in the sense that, through
+the fundamental ``gluing'' operation, level 1 supplies a
+complete system of generators, and level 2 a complete system of
+relations. There is a striking analogy, and I am convinced it is
+more than formal, between this principle and Demazure's analogous
+principle for the structure of reductive algebraic groups, when
+the term ``level'' or ``moduli dimension'' is replaced by ``semisimple
+rank of the reductive group''. The connection becomes still more striking
+when one recalls that the Teichmüller group $T_{1,1}$ (now in the
+discrete transcendental context, and not in the profinite algebraic
+context, where one finds the profinite completions of the former) is
+precisely $S\ell(2,\mathbb{Z})$, i.e. the group of integral points of the
+``absolute'' simple group scheme of rank 1 $S\ell(2)_{\mathbb{Z}}$. Thus, \uline{the fundamental
+building block for the Teichmüller tower} \uline{is essentially
+the same as that for ``the tower'' of reductive groups of all ranks} -
+a group of which one can probably say, moreover, that it is present
+in all the essential disciplines of mathematics.
+
+This principle for constructing the Teichmüller tower has
+not been proved at present - but I have no doubt that it
+is valid. It would follow (through a theory of dévissage of stratified
+structures - in this instance the $M^{\wedge}_{g,\nu}$ - still to be written,
+cf. par. 5) from an extremely plausible property of the open
+
+\margin{8}
+
+\finishscan
+% END PAGE esq_119_008
+% BEGIN PAGE esq_119_009
+\scanpage{119/9}
+\mspage{7}
+
+\unsure{moduli}\tnote{TN-009-01}{The checked French retains the alternatives ``mcdulaires|modulaires'' for the unclear typed letter. Both lead to ``moduli'' in this phrase; the doubt remains marked and linked to the scan.}
+multiplicities $M_{g,\nu}$ in the complex analytic context,
+namely that, for a moduli dimension $N \geq 3$, the fundamental
+group of $M_{g,\nu}$ (i.e. the usual Teichmüller group $T_{g,\nu}$)
+is isomorphic to the ``fundamental group at infinity'', i.e. that of a
+``tubular neighborhood of infinity''. This is a very familiar fact
+(due essentially to Lefschetz) for a smooth \uline{affine} variety of
+dimension $N \geq 3$. It is true that the moduli multiplicities are
+not affine (except for small values of $g$), but it would suffice
+for such an $M_{g,\nu}$ of dimension $N$ (or rather, a suitable finite
+covering) to be the union of $N$-2 affine open sets, thus
+for $M_{g,\nu}$ not to be ``too close to a compact variety''.
+
+Having no doubt about this principle for constructing the
+Teichmüller tower, I prefer to leave it to the experts in the transcendental
+theory, better equipped than I am, to prove what is needed
+(should any be interested), and instead to make explicit,
+with all the care it deserves, the resulting structure of the
+Teichmüller tower by generators and relations, this time in the
+discrete setting and not the profinite one - which amounts, essentially,
+to a complete understanding of the four moduli multiplicities
+$M_{0,4}$, $M_{1,1}$, $M_{0,5}$, $M_{1,2}$, and of their fundamental groupoids relative
+to suitably chosen ``base points''. These present themselves
+quite naturally as the complex algebraic curves of the type
+$(g,\nu)$ under consideration whose automorphism group (necessarily
+finite) is larger than in the generic case (*). Including among them the
+holomorphic sphere with three marked points (coming from $M_{0,3}$, i.e.
+
+\rule{4cm}{0.4pt}
+
+(*) One must also add the ``base points'' arising from operations
+of gluing ``pieces'' of the same type in lower moduli dimension.
+On the other hand, in moduli dimension 2 (the cases of $M_{0,5}$ and $M_{1,2}$),
+one should exclude the points of certain one-parameter families
+of curves admitting an exceptional automorphism of order 2. These
+families, moreover, constitute remarkable rational curves on the multiplicities
+under consideration, which seem to me an important ingredient
+of the structure of these multiplicities.
+
+\margin{9}
+
+\finishscan
+% END PAGE esq_119_009
+% BEGIN PAGE esq_119_010
+\scanpage{119/10}
+\mspage{8}
+
+from level O), one finds \uline{twelve} \uline{fundamental} ``\uline{building blocks}''
+(6 of genus O, 6 of genus 1) in a ``Légo-Teichmüller game (large
+box), where the marked points on the surfaces under consideration are replaced
+by ``holes'' with boundary, so as to obtain surfaces with boundary,
+thus building blocks that can be fitted together with gentle
+friction, as in the ordinary Légo game dear to our children
+(or grandchildren...). Assembling them provides a thoroughly
+visual way of constructing every type of surface (it is essentially
+these assemblies that will be the ``base points'' for
+our famous tower), and also of visualizing the \uline{elementary} ``\uline{paths}''
+through equally concrete operations, such as ``twists'', or
+automorphisms of the pieces in the game, and of writing the \uline{fundamental relations}
+between composite paths. Depending on the size (and the price !) of the
+construction box used, one moreover \unsure{finds}\tnote{TN-010-01}{The French reading is retained as ``trcuve|trouve'' because the letterform is unresolved. Both alternatives are represented here by ``finds'', with the source doubt retained.}
+many different descriptions of the Teichmüller tower by generators and
+relations. The smallest box is reduced to pieces that are all
+identical, of type (O,3) - these are Thurston's ``pairs of pants'',\tnote{TN-010-02}{``Pairs of pants'' translates ``pantalons'', the surface name used by the author. The letter O in the scanned type expressions is retained.}
+and the Légo-Teichmüller game I am trying to describe, arising from
+motivations and reflections in absolute algebraic geometry over the field $\mathbb{Q}$,
+is very close to Thurston's game of ``hyperbolic geodesic surgery'',
+whose existence I learned of last year from Yves Ladegaillerie.
+In a microseminar with Carlos Contou-Carrère and Yves \var{Ladegraillerie}{Ladegaillerie}{slip corrected}{V-FR-010-001},
+we have begun a reflection one of whose aims is to confront
+the two viewpoints, which complement each other.
+
+I add that each of the twelve building blocks in
+the ``large box'' is equipped with a canonical cellular decomposition,
+stable under all symmetries, whose only vertices are the
+``marked points'' (or centers of the holes), and whose edges are certain
+geodesic paths (for the canonical riemannian structure on the sphere
+or torus under consideration) between certain pairs of vertices (namely those
+that lie on the same ``real locus'', for a suitable real structure
+on the complex algebraic curve under consideration). Consequently,
+all the surfaces obtained in this game by assembly are equipped
+with canonical cellular structures, which in their turn (cf.§3 below)
+
+\margin{10}
+
+\finishscan
+% END PAGE esq_119_010
+% BEGIN PAGE esq_119_011
+\scanpage{119/11}
+\mspage{9}
+
+allow these surfaces to be considered as associated with
+canonically determined complex algebraic curves (and even curves over $\overline{\mathbb{Q}}$).
+Here there is a typical interplay between the combinatorial
+and the complex algebraic (or better, the algebraic over $\overline{\mathbb{Q}}$).
+
+The ``small box'', with its identical pieces, which has
+the charm of economy, will probably give a relatively
+complicated description of the relations (complicated, but by no means
+inextricable !). The large box will give rise to more numerous
+relations (because there are many more base points and
+remarkable paths between them), but with a more transparent structure. I
+expect that in moduli dimension 2, just as in the more or
+less familiar case of moduli dimension 1 (with, in particular, the
+description of $S\ell(2,\mathbb{Z})$ by $(\rho,\sigma \mid \rho^3 = \sigma^2,\ \rho^4 = \sigma^6 = 1)$), one will find
+generation by the automorphism groups of the three relevant types
+of pieces, with simple relations that I have not worked out
+at the time of writing these lines. Perhaps one will even find a
+principle of this kind for all the $T_{g,\nu}$, as well as a cellular
+decomposition of $M^{\wedge}_{g,\nu}$ generalizing those that present themselves spontaneously
+for $M^{\wedge}_{0,4}$ and $M^{\wedge}_{1,1}$, and that I already glimpse for
+moduli dimension 2, using the hypersurfaces corresponding
+to the various \uline{real structures} on the complex structures
+under consideration to carry out the desired cellular decomposition.
+
+
+3. Instead of following (as planned) a rigorous thematic
+order, I have let myself be carried away by my predilection for a
+particularly rich and burning theme, to which I moreover intend to
+devote myself as a priority for some time, beginning with the start
+of the 84/85 academic year. I therefore resume the thematic account where I left it,
+at the very beginning of the preceding paragraph.
+
+My interest in topological surfaces begins to emerge
+in 1974, when I propose to Yves Ladegaillerie the theme of studying
+isotopically the embeddings of a topological 1-complex in a compact
+surface. In the two years that follow, this study leads him to
+a remarkable isotopy theorem, giving a complete algebraic description
+
+\margin{11}
+
+\finishscan
+% END PAGE esq_119_011
+% BEGIN PAGE esq_119_012
+\scanpage{119/12}
+\mspage{10}
+
+of the isotopy classes of embeddings of such 1-complexes,
+or of compact surfaces with boundary, in a compact oriented surface,
+in terms of certain very simple combinatorial invariants and the
+fundamental groups of the participants. This theorem, which should
+extend without difficulty to embeddings of any compact space
+(triangulable, to simplify matters) in a compact oriented surface,
+recovers as easy corollaries several deep classical results
+of surface theory, and in particular Baer's isotopy theorem.
+It is finally going to be published, separately from the rest (and
+ten years later, given the harshness of the times...), in Topology. Ladegaillerie's
+work also contains a purely algebraic description,
+in terms of fundamental groupoids, of the
+``isotopy'' category of compact surfaces $X$, equipped with a topological
+1-complex $K$ embedded in $X$. This description, which had the misfortune
+to go against the ``taste of the day'' and consequently seems unpublishable,
+has nevertheless served (and still serves) as a valuable guide in
+my subsequent reflections, particularly in the context of absolute
+algebraic geometry of characteristic zero.
+
+The case in which $(X,K)$ is a 2-dimensional ``map'',\tnote{TN-012-01}{``Map'' here translates ``carte'', a surface equipped with the embedded graph and cell conditions specified in the sentence.}
+i.e. in which the connected components of $X\backslash K$ are open 2-cells \unsure{.}
+(and in which $K$ is moreover equipped with a finite set $S$ of ``vertices'',
+such that the connected components of $K\backslash S$ are open 1-cells)
+gradually attracts my attention in the following years.
+The isotopy category of these maps admits a particularly
+simple algebraic description, through the set of ``frames'' (or ``flags'',
+or ``biarcs'') associated with the map, which is naturally equipped
+with the structure of a set with a group of operators, under the group
+\[ \underline{C}_2 = \langle \sigma_0,\sigma_1,\sigma_2 \,|\, \sigma_0^{\,2} = \sigma_1^{\,2} = \sigma_2^{\,2} = (\sigma_0\sigma_2)^2 = 1 \rangle \ , \]
+which I call the (unoriented) \uline{cartographic group} of dimension 2.
+It admits as a subgroup of index 2 the \uline{oriented cartographic group},
+generated by products of even numbers of the generators, which can
+also be described as
+\[ \underline{C}_2^{+} = \langle \rho_s,\rho_f,\sigma \,|\, \rho_s\rho_f = \sigma,\ \sigma^2 = 1 \rangle \ , \]
+
+\margin{12}
+
+\finishscan
+% END PAGE esq_119_012
+% BEGIN PAGE esq_119_013
+\scanpage{119/13}
+\mspage{11}
+
+(with
+\[ \rho_s = \sigma_2\sigma_1 \ , \quad \rho_f = \sigma_1\sigma_0 \ , \quad \sigma = \sigma_0\sigma_2 = \sigma_2\sigma_0 \ , \]
+the operations of \uline{elementary rotation} of a frame about a vertex,
+a face and an edge respectively). There is a perfect dictionary
+between the topological situation of compact maps, resp.
+compact oriented maps, on the one hand, and finite sets with
+operator group $\underline{C}_2$ resp. $\underline{C}_2^+$ on the other, a dictionary whose
+existence was, moreover, more or less known, but never
+stated with the necessary precision or developed to any extent.
+This foundational work is carried out with the care it deserves in
+an excellent DEA project,\tnote{TN-013-01}{DEA abbreviates ``diplôme d'études approfondies'', an advanced studies diploma.}
+undertaken jointly by Jean Malgoire and
+Christine Voisin in 1976.
+
+This reflection suddenly takes on a new dimension
+with the simple observation that the group $\underline{C}_2^+$ can be interpreted
+as a quotient of the fundamental group of an oriented sphere with
+three points removed, numbered 0, 1, 2, the operations $\rho_s$, $\sigma$, $\rho_f$
+being interpreted as the loops about these points, satisfying
+the familiar relation
+\[ \ell_0\ell_1\ell_2 = 1 \ , \]
+while the additional relation $\sigma^2 = 1$, i.e. $\ell_1^{\,2} = 1$, means
+that one is interested in the quotient of the fundamental group corresponding
+to an imposed ramification index 2 at the point 1, which therefore classifies
+coverings of the sphere ramified at most at the
+points 0, 1, 2, with ramification equal to 1 or 2 at the points
+above 1. Thus compact oriented maps form an
+isotopy category equivalent to that of these coverings, subject
+to the further condition of being finite coverings.
+Taking now as the reference sphere the Riemann sphere,
+or complex projective line, rigidified by the three points 0, 1
+and $\infty$ (the last thus replacing 2), and recalling that every
+finite ramified covering of a complex algebraic curve itself inherits
+the structure of a complex algebraic curve, one arrives at this
+observation, which eight years later still seems to me just as
+extraordinary: \uline{every oriented} ``\uline{finite}'' \uline{map is canonically realized}
+\uline{on a complex algebraic curve} ! Better still, since the complex projective
+
+\margin{13}
+
+\finishscan
+% END PAGE esq_119_013
+% BEGIN PAGE esq_119_014
+\scanpage{119/14}
+\mspage{12}
+
+line is defined over the absolute base field $\mathbb{Q}$ ,
+as are the allowed ramification points, the algebraic curves
+obtained are defined not only over $\mathbb{C}$, but over the algebraic
+closure $\overline{\mathbb{Q}}$ of $\mathbb{Q}$ in $\mathbb{C}$. As for the original map, it
+is recovered on the algebraic curve as the inverse image of the real
+segment $[0,1]$ (where $0$ is regarded as a vertex, and $1$ as
+the midpoint of a ``folded edge'' with 1 as its center), which constitutes
+the ``universal oriented 2-map'' on the Riemann sphere (*).
+The points of the algebraic curve $X$ above 0, 1 and $\infty$
+are precisely the vertices and the ``centers'' of the edges and
+faces respectively of the map $(X,K)$, and the orders of the vertices
+and faces are precisely the multiplicities of the zeros and
+poles of the rational function (defined over $\overline{\mathbb{Q}}$) on $X$,
+expressing its structural projection to $\mathbb{P}^1_{\mathbb{C}}$.
+
+This discovery, which technically amounts to so little,
+made a very strong impression on me, and represents
+a decisive turning point in the course of my reflections, in particular
+a shift in my center of interest in mathematics, which
+suddenly became sharply localized. I do not believe that a
+mathematical fact has ever struck me as much as this one, or had
+a comparable psychological impact \notecall{copy1-2}{call-esq_119_014-2-1}{($^2$)}. This surely has to do with the
+so familiar, nontechnical nature of the objects under consideration,
+of which any child's drawing scribbled on a scrap of paper (provided
+the drawing is all in one piece) gives a perfectly
+explicit example. With such a drawing are associated subtle arithmetic
+invariants, which will be completely upset as soon as
+one adds another stroke. Since we are dealing here with spherical maps, necessarily
+
+\noindent\rule{4cm}{0.4pt}
+
+(*) There is an analogous description of finite unoriented maps,
+possibly with boundary, in terms of \uline{real} algebraic curves,
+more precisely of a covering of $\mathbb{P}^1_{\mathbb{R}}$ ramified only at 0, 1, $\infty$,
+the surface with boundary associated with such a covering being $X(\mathbb{C})/\tau$, where $\tau$
+is complex conjugation. The ``universal'' unoriented map is
+here the disk, or upper hemisphere of the Riemann sphere, equipped,
+as before, with the embedded 1-complex $K = [0,1]$.
+
+\margin{14}
+
+\finishscan
+% END PAGE esq_119_014
+% BEGIN PAGE esq_119_015
+\scanpage{119/15}
+\mspage{13}
+
+giving rise to curves of genus zero (which therefore
+provide no ``moduli''), one can say that the curve
+in question is ``pinned down'' as soon as three of its points are fixed, for
+example three vertices of the map, or more generally three
+centers of facets (vertices, edges or faces) - from that point on, the structural
+map $f : X \to \mathbb{P}^{1}_{\mathbb{C}}$ can be interpreted as a
+well-determined rational function
+\[ f(z) = P(z)/Q(z) \in \mathbb{C}(z) \]
+the quotient of two well-determined relatively prime polynomials,
+with $Q$ monic, satisfying algebraic conditions
+that express, in particular, the fact that $f$ is
+unramified outside the values $0$, $1$, $\infty$, and imply that the
+coefficients of these polynomials are \uline{algebraic numbers}; thus
+their zeros are algebraic numbers, representing respectively
+the vertices and the centers of the faces of the map under
+consideration.
+
+Returning to the general case, since finite maps are interpreted
+as coverings over $\bar{\mathbb{Q}}$ of an algebraic curve defined
+over the prime field $\mathbb{Q}$ itself, it follows that the Galois
+group $\mathrm{I}\!\Gamma$ of $\bar{\mathbb{Q}}$ over $\mathbb{Q}$ acts naturally on the category of these
+maps. For example, the action of an automorphism
+$\gamma \in \mathrm{I}\!\Gamma$ on a spherical map given by the rational function
+above is obtained by applying $\gamma$ to the coefficients of the
+polynomials $P$, $Q$. Here, then, is this mysterious group $\mathrm{I}\!\Gamma$ intervening as
+a transforming agent on topological-combinatorial shapes of the
+most elementary kind imaginable, prompting questions
+such as: are these given oriented maps ``conjugate'',
+or: what exactly are the conjugates of this given oriented
+map ? (There are, visibly, only finitely many.)
+
+I have dealt with a few concrete cases (for coverings
+of low degrees) by various expedients; J. Malgoire has dealt with
+a few others - I doubt that there is a uniform method of
+answering them by computer calculations. My reflection very quickly
+
+\margin{15}
+
+\finishscan
+% END PAGE esq_119_015
+% BEGIN PAGE esq_119_016
+\scanpage{119/16}
+\mspage{14}
+
+set off in a more conceptual direction, to come to
+grasp the nature of this action of $\mathrm{I\!\Gamma}$. One immediately sees
+that, roughly speaking, this action is expressed by a certain
+``outer'' action of $\mathrm{I\!\Gamma}$ on the profinite compactification\tnote{TN-016-01}{``Profinite compactification'' renders ``compactifié profini'', the expression used here. The source used ``complétions profinies'' on p.~6, translated there as ``profinite completions''.}
+of the oriented cartographic group $\underline{C}_2^{+}$ , and this action in turn
+is deduced, by passage to the quotient, from the canonical outer
+action of $\mathrm{I\!\Gamma}$ on the profinite fundamental group $\hat{\pi}_{0,3}$ of $(U_{0,3})_{\bar{\mathbb{Q}}}$ ,
+where $U_{0,3}$ denotes the standard curve of genus $0$ over the prime field
+$\mathbb{Q}$ with three points removed. This is how my attention
+turned toward what I have since called ``\uline{anabelian}
+\uline{algebraic geometry}'', whose starting point is precisely a study
+(for the moment restricted to characteristic zero) of the action
+of ``absolute'' Galois groups (\unsure{in particular}\tnote{TN-016-02}{The French alternatives are ``nctamment|notamment''. Both are represented by ``in particular''; the letterform doubt remains linked to the source.}
+the groups $\mathrm{Gal}(\bar{K}/K)$,
+where $K$ is an extension of finite type of the prime field) on
+geometric (profinite) fundamental groups of algebraic varieties
+(defined over $K$), and more particularly (breaking with
+a deeply rooted tradition) fundamental groups that are
+very far from abelian groups (and that I therefore
+call ``\uline{anabelian}''). Among these groups, and very close to the group
+$\hat{\pi}_{0,3}$ , is the profinite compactification of the modular group $S\ell(2,\mathbb{Z})$,
+whose quotient by the center $\pm 1$ contains the preceding group as
+the congruence subgroup mod 2, and can moreover also be interpreted
+as an oriented ``cartographic'' group, namely the one
+that classifies \uline{triangulated} oriented maps (i.e. those whose
+faces are triangles or monogons).
+
+Every finite oriented map gives rise to a smooth projective
+algebraic curve defined over $\bar{\mathbb{Q}}$ , and the question then immediately
+arises: which algebraic curves over $\bar{\mathbb{Q}}$ are obtained
+in this way - might one obtain them all, who knows ?
+In more learned terms, might it be true that every smooth projective
+algebraic curve defined over a number field would occur
+as a possible ``modular \unsure{curve}''\tnote{TN-016-03}{The French reading remains ``ccurbe|courbe''. The English keeps the doubt on ``curve'' and supplies both source candidates here.}
+parametrizing elliptic curves
+equipped with a suitable rigidification ? Such a
+supposition looked so crazy that I was almost
+
+\margin{16}
+
+\finishscan
+% END PAGE esq_119_016
+% BEGIN PAGE esq_119_017
+\scanpage{119/17}
+\mspage{15}
+
+embarrassed to submit it to the experts in the subject. Deligne, consulted,
+did indeed find the supposition crazy, but had no counterexample
+up his sleeve. Less than a year later, at the International
+Congress in Helsinki, the Soviet mathematician Bielyi\tnote{TN-017-01}{The source's spelling ``Bielyi'' is retained.}
+announced precisely this result, with a proof of disconcerting simplicity
+occupying two short pages of a letter from Deligne - probably never
+has a deep and bewildering result been proved
+in so few lines !
+
+In the form in which Bielyi states it, his result says essentially
+that \uline{every algebraic curve defined over a number}
+\uline{field can be obtained as a covering of the projective line ramified}
+\uline{only at the points} 0, 1, $\infty$. This result seems to have passed
+more or less unnoticed. Yet it appears to me to have considerable
+scope. For me, its essential message was that \uline{there is a deep}
+\uline{identity between the combinatorics of finite maps on the one hand}, \uline{and the}
+\uline{geometry of algebraic curves defined over number fields}
+\uline{on the other}. This deep result, together with the algebraic-geometric
+interpretation of finite maps, opens the door onto a new,
+unexplored world - and within reach of everyone, who passes by without seeing it.
+
+It was only almost three years later, seeing that the vast
+horizons opening up here decidedly stirred
+nothing in any of my students, or even in any of the three or
+four colleagues of the highest caliber to whom I had the opportunity
+to speak about it in detail, that I made a first exploratory
+journey into this ``new world'', from January to June 1981. This first venture
+took material form in a packet of some 1 300 manuscript pages,
+christened ``The Long March through Galois Theory''.\tnote{TN-017-02}{The French title is ``La Longue Marche à travers la théorie de Galois''.}
+It is above all an effort to understand the relations between
+``arithmetic'' Galois groups and ``geometric'' profinite fundamental
+groups. Fairly quickly it turned toward formulating
+the action of $\mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$ on $\hat{\pi}_{0,3}$ in calculational terms, and at a
+later stage, on the slightly larger group $S\ell(2,\mathbb{Z})^{\wedge}$, which
+gives rise to a more elegant and more effective formalism. It was also
+in the course of this work (but developed in separate notes)
+
+\margin{17}
+
+\finishscan
+% END PAGE esq_119_017
+% BEGIN PAGE esq_119_018
+\scanpage{119/18}
+\mspage{16}
+
+that the central theme of anabelian algebraic geometry appeared:
+reconstructing certain varieties $X$ called ``anabelian''
+over an absolute field $K$ from their mixed fundamental group,
+an extension of $\mathrm{Gal}(\bar{K}/K)$ by $\pi_1(X_{\bar{K}})$; it was then that the
+``fundamental conjecture of anabelian algebraic geometry'' emerged,
+close to the conjectures of Mordell and Tate that Faltings
+has just proved\notecall{copy1-3}{call-esq_119_018-3-1}{($^3$)}. It was also there that a first reflection on
+Teichmüller groups and the first intuitions about the manifold
+structure of the ``Teichmüller tower'' began - the open moduli
+multiplicities $M_{g,\nu}$ appearing, moreover, as the first important
+examples, in dimension $> 1$, of varieties (or rather,
+multiplicities) that seem well deserving of the name ``anabelian''.
+Toward the end of this period of reflection, it appeared to me
+as a foundational reflection on a theory still in
+limbo, for which the name ``\uline{Galois-Teichmüller theory}''
+seemed more appropriate than ``Galois Theory'', the name I had initially
+given to my notes.
+
+This is not the place to give a more detailed account
+of this whole collection of questions, intuitions, ideas - including
+tangible results, certainly. The most important seems to me to be the one
+mentioned in passing in par. 2, namely the faithfulness of the outer
+action of $\mathrm{I}\!\Gamma = \mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$ (and of its open subgroups) on $\hat{\pi}_{0,3}$,
+and more generally (if I remember correctly) on the fundamental
+group of any ``anabelian'' algebraic curve (i.e. whose genus
+$g$ and ``number of holes'' $\nu$ satisfy the inequality $2g + \nu \geq 3$,
+i.e. such that $\chi(X) < 0$) defined over a finite extension of $\mathbb{Q}$. This
+result can be regarded as essentially equivalent to
+Bielyi's theorem - it is the first concrete manifestation, through
+a precise mathematical statement, of the ``message'' discussed
+above.
+
+I would like to finish this rapid overview with a few words
+of commentary on the truly unimaginable richness of a typical
+anabelian group such as the group $S\ell(2,\mathbb{Z})$ - probably the most
+remarkable infinite discrete group one has encountered, which appears
+
+\margin{18}
+
+\finishscan
+% END PAGE esq_119_018
+% BEGIN PAGE esq_119_019
+\scanpage{119/19}
+\mspage{17}
+
+in a multitude of guises (some of which have been touched on
+in the present report), and which, from the viewpoint of
+Galois-Teichmüller theory, can be regarded as the fundamental
+``building block'' of the ``Teichmüller tower''. The structural
+element of $S\ell(2,\mathbb{Z})$ that fascinates me above all is of course
+the outer action of the Galois group $\mathrm{I}\!\Gamma$ on its profinite
+compactification. By Bielyi's theorem, taking the profinite
+compactifications of subgroups of finite index of $S\ell(2,\mathbb{Z})$, and the induced
+outer action (passing also to an open subgroup of $\mathrm{I}\!\Gamma$
+as necessary), \uline{one essentially obtains the fundamental groups}
+\uline{of all algebraic curves} (not necessarily compact)
+\uline{defined over number fields} $K$, \uline{and the outer action of}
+$\mathrm{Gal}(\bar{K}/K)$ \uline{on them} - at least it is true that every such fundamental
+group appears as a quotient of one of the former groups (*).
+Taking into account the ``anabelian yoga'' (which remains conjectural),
+according to which an anabelian algebraic curve over a number field $K$
+(a finite extension of $\mathbb{Q}$) is known up to isomorphism when
+its mixed fundamental group is known (or, what amounts to the same thing,
+the outer action of $\mathrm{Gal}(\bar{K}/K)$ on its geometric profinite
+fundamental group), one can thus say that \uline{all algebraic curves}
+\uline{defined over number fields are} ``\uline{contained}'' \uline{in the profinite}
+\uline{compactification} $S\ell(2,\mathbb{Z})\hat{}$, \uline{and in the knowledge of a certain sub-}%
+\uline{group} $\mathrm{I}\!\Gamma$ \uline{of its group of outer automorphisms} !
+Passing to the abelianizations of the preceding fundamental groups, one sees,
+in particular, that all the abelian $\ell$-adic representations dear
+to Tate and his associates, defined by Jacobians and generalized
+Jacobians of algebraic curves defined over number fields,
+are contained in this single action of $\mathrm{I}\!\Gamma$ on the anabelian profinite
+group $S\ell(2,\mathbb{Z})\hat{}$!\notecall{copy1-4}{call-esq_119_019-4-1}{($^{4}$)}
+
+\rule{5cm}{0.4pt}
+
+(*) In fact, these are quotients of a particularly trivial
+kind, by abelian subgroups that are products of ``Tate modules''
+$\hat{\mathbb{Z}}(1)$, corresponding to ``loop groups'' about points at infinity.
+
+\margin{19}
+
+\finishscan
+% END PAGE esq_119_019
+% BEGIN PAGE esq_119_020
+\scanpage{119/20}
+\mspage{18}
+
+Faced with this, some are content to shrug their shoulders
+with a disillusioned air and bet that nothing can be drawn
+from it all except dreams. They forget, or are unaware,
+that our science, and every science, would amount to very little
+if, since its beginnings, it had not been nourished by the dreams and visions
+of those who devote themselves to it with passion.
+
+4.        From the beginning of my reflection on two-dimensional maps,
+I was especially interested in the so-called
+``\uline{regular}'' maps, that is, those whose automorphism group
+acts transitively (and consequently, simply transitively)
+on the set of frames. In the oriented case and in terms of
+the algebraic-geometric interpretation in the preceding paragraph,
+these are the maps that correspond to a \uline{Galois} covering of
+the projective line. Very quickly, too, and even before the connection
+with algebraic geometry appeared, it also became
+necessary not to exclude infinite maps, which in particular enter
+naturally as universal coverings of
+finite maps. It appears (as an immediate consequence of the ``dictionary''
+of maps, extended to maps that need not be finite)
+that for every pair of natural numbers $p, q$ $\geq$ 1, there exists up to
+(nonunique) isomorphism one and only one 1-\uline{connected} map
+of type $(p,q)$, i.e. all of whose vertices have order $p$
+and all of whose faces have order $q$, and this map is regular.
+It is pinned down by the choice of a frame, and its
+automorphism group is then canonically isomorphic to the quotient
+of the cartographic group (resp. of the oriented cartographic
+group in the oriented case) by the additional relations
+\[ \rho_s^{\,p} = \rho_f^{\,q} = 1. \]
+The case in which this group is finite is the ``Pythagorean'' case of
+regular spherical maps; the case in which it is infinite gives the tessellations
+
+\margin{20}
+
+\finishscan
+% END PAGE esq_119_020
+\end{document}
