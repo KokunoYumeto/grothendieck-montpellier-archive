@@ -6,6 +6,15 @@ https://grothendieck.umontpellier.fr/archives-grothendieck/ and are not copied h
 AI-transcribed text, AI-written research notes, AI-produced checks and corrections. It is work in progress, published as
 it is made, with the prompts that produced it.
 
+## Readers
+
+- *Esquisse d'un programme* (1984, cote 119), final edition of 14 November 2026: French diplomatic text (both
+  typescript copies), French corrected text with apparatus, French reading text, English translation with
+  translator's notes, English reading text and a guide, each as PDF and LaTeX, in the release
+  [esquisse-readers-2026-11-14](https://github.com/KokunoYumeto/grothendieck-montpellier-archive/releases/tag/esquisse-readers-2026-11-14).
+  Built by GPT-6 Astra (ChatGPT Pro mode) from the transcription by Claude Opus 5.5 at effort high (Message Batches
+  API); the run's records are in `raw/pro_returns/ESQUISSE_READERS_20261114/FINAL_20261114T2138Z/`.
+
 ## What is here
 
 - `packages/<package>/first_pass/`: the transcription of one package of scans (cote and scan range in its name), as
