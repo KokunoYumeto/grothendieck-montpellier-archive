@@ -1,0 +1,27 @@
+from pathlib import Path
+import sys
+sys.path.insert(0,str(Path(__file__).parent))
+import audit_record as ar
+from root_review_support import ReviewedPage
+k='ega25_25_039';p=ReviewedPage(ar.source_path(k).read_text())
+p.change(r'\unsure{sorites|soritites}',r'\unsure{sorites|sorttes}','The word occupies seven type positions; the two central stems have overlapping i/t forms. The longer soritites is not supported by the visible spacing.','doubt-refined')
+p.change(r'\margin{\hand{|}}',r'\margin{\hand{||}}','Two parallel pencil strokes stand beside the paragraph.','corrected-mark')
+p.change(r'\unsure{\underline{\nu}}',r'\unsure{\underline{\nu}|\check{\underline{\nu}}}','The angular nu is legible; a small curved stroke above it leaves a possible check unresolved.','doubt-refined')
+p.change('conditions favorables','conditions fav'+r'\unsure{o|n}'+'rables','The letter after fav contains overlapping o/n outlines; the typescript spelling is not regularized.','doubt-added')
+p.change(r'\underline{s}\ \text{réd}',r'\overline{s}\ \text{réd}','The short bar is above the subscript s, not below it.','corrected-reading')
+p.change(r'\inserted{de $\underline{Y}$}',r'\inserted[typed]{de $\underline{Y}$}','The interlinear de Y is typed, with a pen insertion bracket.','corrected-layer')
+p.change(r'\unsure{suites exactes}',r'suites exactes','The handwritten replacement is legible.','doubt-resolved')
+p.change(r'\phi',r'\hand{\phi}','The phi signs are written in pen.','corrected-layer')
+p.change(r'\mu',r'\hand{\mu}','Every mu in the cancelled draft has the handwritten angular form.','corrected-layer')
+p.change(r'\underline{\Omega}',r'\hand{\underline{\Omega}}','The two Omegas and their underlines in the final section formula are penned.','corrected-layer')
+p.change(r'\check{P}',r'\overset{\hand{\vee}}{P}','The checks are penned above typed P.','corrected-layer')
+p.note('5','35|33 foliation','35|33 foliation','doubt-retained','The enlarged second digit has a lower3/5 shape; no contextual choice is imposed.')
+p.note('16','d +(r-d-1)','d +(r-d-1)','doubt-retained','The sign includes a dense extra diagonal/loop; the recorded plus remains uncertain rather than being regularized.')
+p.note('17-28','cancelled proof block','cancelled proof block','confirmed','The frame and diagonals run from Pour vérifier through di de plus Z; a separate line cancels the final les mu_i sont transverssalement passage. The joining curve reaches the live Pour le vérifier.')
+p.note('19','et P^1(O(1,1))','et P^1(O(1,1))','confirmed','The typed interlinear insertion and its superscript1 are visible; no missing arrow before S is supplied.')
+p.note('21-28','cancelled mathematical notation','cancelled mathematical notation','confirmed','The source has x V(mu)=Z without a membership sign, dimension n-m, rank n but O_X^m, and the spelling di. Each is retained for comment in the guide.')
+p.note('30','psi insertion and section formula','psi insertion and section formula','confirmed','The hand-written psi= is clearly forked with a descending stem. The tensor symbols have overlapping typewriter circular/cross impressions and remain typed.')
+p.note('33-36','final insertions and checked P','final insertions and checked P','confirmed','The replacement suites exactes and the inserted quelconque are penned; their bracket placement was followed.')
+p.note('7-38','remaining words and formulas','remaining words and formulas','confirmed','Both complete halves were read, including every underlined letter, index, dimension, cancelled word and the unfinished introduction of the following diagram.','full-line-check')
+s,d=p.finish();ar.save(k,s,d,0,'Both halves and enlarged foliation, sorites overprint, nu/check, plus, favorables, barred s and suites exactes inspected; full cancelled proof compared.')
+print('Saved39;',ar.aggregate(),'pages checked.')

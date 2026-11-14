@@ -1,0 +1,20 @@
+import sys
+sys.path.insert(0,'edition/scripts')
+from audit_blass_late_helpers import complete
+M={29:'The broad grey open-right curve between the field expression and K is handwritten; it has a continuous curved left side and two rightward ends, matching the earlier pen subset signs. Retain subset and its hand layer.'}
+N=['The upper-right61 is in the separate serif face; no pen alteration is visible.','The subset sign is a broad grey pen addition in the typed blank. Its curved form is secure and uncancelled.','The p in the numerator tp is at the ordinary baseline, while the denominator1 is lowered. The earlier t1 has two following commas and four dots; the duplicate the the is printed. All are retained.','There is no long handwritten passage; the subset sign is the only secure pen addition.']
+E=[]
+def d(line,before,image,decision,reason,category='visual-check'):
+ E.append(dict(line=line,before=before,image=image,decision=decision,reason=reason,category=category))
+d(18,'[(cunutesque?) Fr]','Typed word underlined, followed by a question mark inside parentheses and square brackets','retained_query_with_french_crossreference','Checked cote25 site54 begins the paragraph “Du point de vue cunutesque, ... et en termes de théorie des corps”. Blass’s question mark, brackets and Fr remain.','cote24-query')
+d(11,'dim f(X)=2','Clear typed equality and numeral2','comparison-recorded','Checked cote25 site53, parenthetical proposed reciprocal, has a handwritten not-equal sign and doubtful numeral2|1. Blass’s equality2 is preserved and does not settle the French numeral.','cote24-comparison')
+d('13,31','over k','Both occurrences have ordinary unbarredk','comparison-recorded','The corresponding passages on checked cote25 sites53 and54 use a handwritten bar over k. No bar is visible at either Blass occurrence.','cote24-comparison')
+d(24,'vanishing onL','L without raised ring','comparison-recorded','Checked cote25 site54 says forms “nulles sur L^o”. Blass’s unmarkedL remains.','cote24-comparison')
+d(29,'K(a1,...a p-1)','CapitalK at the start of the field expression','comparison-recorded','Checked cote25 site54 writes lowercasek(a1,..,a_{p-1}) insideK. Blass’s capitalK is unambiguous and retained.','cote24-comparison')
+d(32,'of dimension at most one','Literal typed phrase','comparison-recorded','Checked cote25 site54 has “et de dimension une de plus”. The two wordings remain independently; no mathematical replacement is made.','cote24-comparison')
+d(33,'g:X1→g(X1)','No bar over the target g(X1)','comparison-recorded','Checked cote25 site54, handwritten final clause, puts an overline over the target g(X′). The Blass target is visibly unbarred.','cote24-comparison')
+for line,word in [(11,'or'),(18,'cunutesque'),(32,'generic')]:d(line,word,word+' underlined','confirmed','This exact underline is a straight typed rule; the question mark after cunutesque lies beyond the underline.','underline')
+d('21–33','Indices, rings, and punctuation','All raised1 groups, small raised rings, loweredT/t/a indices and the baselinep numerator checked.','confirmed','Paired enlargement ofT_p and the adjacent ordinaryp confirms a genuine lowered index. Preserve the a_{p-1}) extra close, doubled commas, four-dot groups, missing parenthesis after codim, and the large typed gap before the lastp-1 index.','formula')
+d('7–33','Entire text and margins','Every line, arrow, relation and border inspected.','confirmed','Keep all quoted provisional statements as source text; no extra theorem or conclusion is supplied. Upper and side margins contain only isolated specks, and the bottom is blank.','full-text')
+rec=complete('ega24_24_061',[],M,N,E,visual_notes='Both supplied image parts read completely, including every mathematical index, ellipsis and source query. Enlarged pairedT_p/ordinaryp and the small raised ring. The pen subset is confirmed; all wording and symbol departures are retained with checked French53–54 comparisons.')
+print(rec['key'],rec['lines_read'],len(rec['decisions']))
