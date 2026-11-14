@@ -1,0 +1,203 @@
+#!/usr/bin/env python3
+"""Record editorial candidates with checked-text evidence; apply no correction."""
+from pathlib import Path
+import csv,json
+from audit_inventory import read_tsv,write_tsv
+
+def main():
+    edition=Path(__file__).resolve().parent.parent
+    work=edition.parent
+    sources={p.stem:p.read_text() for p in (edition/"checked_pages").glob("*.tex")}
+    decisions=read_tsv(edition/"CHECK_DECISIONS.tsv") if (edition/"CHECK_DECISIONS.tsv").exists() else []
+    specs=[
+      ("EC-001","esq_119_004","inadéquante","inadéquate","esq119_119_080","inadéqua\\deleted{n}te",
+       "La copie 2 porte une barre manuscrite qui raye le n de inadéquante, faute de frappe commune aux deux copies. Cette correction donne inadéquate et entre ici dans le texte corrigé de la copie 1. Voir \\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\\#page=81}{copie 2, p.~2, site 80}.",
+       "Copy 2 has a handwritten slash through the n of inadéquante, a typing slip shared by both copies. Its correction gives inadéquate and enters the corrected copy1 text here. See \\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\\#page=81}{copy 2, p.~2, site 80}.","approved by root after the four-image collation and independent crop review"),
+      ("EC-002","esq_119_006","des surface.","des surfaces.","esq_119_005","surfaces",
+       "Le pluriel est imposé localement par « des »; le même substantif est écrit « surfaces » à la page 3. La correction ajoute le s final manquant.",
+       "The local article des requires the plural; the same noun is written surfaces on page 3. The proposed correction supplies the missing final s.","proposed; root review required"),
+      ("EC-003","esq_119_007","voir indispensable","voire indispensable","esq_119_004","voire conformes",
+       "La progression « bien plus élégant, voire indispensable » appelle l'adverbe d'enchérissement; la forme « voire » figure à la page 2 (« voire conformes ») et à la page 3. Le e final a été omis ici.",
+       "The progression from more elegant to indispensable uses the intensifying adverb; voire occurs on page 2 (voire conformes) and page 3. The proposed correction supplies its omitted final e here.","proposed; root review required"),
+      ("EC-004","esq_119_009","convenanble","convenable","esq_119_007","convenable",
+       "Un n supplémentaire est intercalé avant le b; « convenable » figure dans le même développement à la page 5. La copie 2 porte une barre bleue qui raye précisément ce n de la faute commune aux deux copies, confirmant la correction. Voir \\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\\#page=86}{copie 2, p.~7, site 85}.",
+       "An extra n is interposed immediately before b; convenable occurs in the same discussion on page 5. Copy 2 has a blue slash through that n of the typing slip shared by both copies, confirming the correction. See \\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\\#page=86}{copy 2, p.~7, site 85}.","approved by root with additional copy2 deletion evidence"),
+      ("EC-005","esq_119_010","Ladegraillerie","Ladegaillerie","esq_119_010","Yves Ladegaillerie.",
+       "Le nom « Yves Ladegaillerie » figure à la ligne précédente pour le même participant; le second emploi intercale un r.",
+       "The preceding line gives Yves Ladegaillerie for the same participant; the second occurrence interposes an r.","proposed; root review required"),
+      ("EC-006","esq_119_014","ramifié seulement on","ramifié seulement en","esq_119_013","ramifiés au plus en les",
+       "La préposition « en » introduit les points de ramification; la même construction est écrite « ramifiés au plus en les points » à la page 11. Le o de « on » remplace ici le e.",
+       "The preposition en introduces the ramification points; page 11 has the same construction, ramifiés au plus en les points. The o in on replaces e here.","proposed; root review required"),
+      ("EC-007","esq_119_016","une directions","une direction","esq_119_027","dans une direction toute",
+       "L'article « une » et l'adjectif « conceptuelle » commandent le singulier; la page 25 écrit « dans une direction toute différente ». Le s est ajouté par erreur ici.",
+       "The article une and adjective conceptuelle require the singular; page 25 has dans une direction toute différente. The s is added in error here.","proposed; root review required"),
+      ("EC-008","esq_119_017","dingueen effet","dingue en effet","esq_119_021","fournit en effet",
+       "L'adjectif « dingue » qualifie « la supposition »; « en effet » suit comme locution adverbiale. La séparation « en effet » est explicitement écrite à la page 19. Le blanc manque après « dingue ».",
+       "The adjective dingue qualifies la supposition; en effet follows as an adverbial phrase. Page 19 explicitly separates en effet. A space is missing after dingue.","proposed; root review required"),
+      ("EC-009","esq_119_012","Iladmet","Il admet","esq_119_012","admet une description",
+       "Le pronom « Il » et le verbe « admet » sont soudés dans la frappe. La même page écrit séparément « Il va » et « admet une description »; le groupe cartographique est le sujet de cette phrase.",
+       "The pronoun Il and verb admet are run together in the typing. The same page separately writes Il va and admet une description; the cartographic group is the subject of this sentence.","proposed; root review required"),
+      ("EC-010","esq_119_013","les trois point 0, 1","les trois points 0, 1","esq_119_013","de trois points, numérotés",
+       "Le nombre « trois » impose le pluriel; la même page écrit plus haut « de trois points, numérotés ». Le s final manque au second emploi.",
+       "The number trois requires the plural; the same page earlier has de trois points, numérotés. The final s is missing in the second occurrence.","proposed; root review required"),
+      ("EC-011","esq_119_006","d'automorphisme d'un groupe profini","d'automorphismes d'un groupe profini","esq_119_009","un groupe d'automorphismes",
+       "Le texte parle d'un groupe dont les éléments sont des automorphismes. La construction « un groupe d'automorphismes » figure à la page 7; ici le s final manque dans le même syntagme.",
+       "The text speaks of a group whose elements are automorphisms. Page 7 has the construction un groupe d'automorphismes; the final s is absent here in the same phrase.","proposed; root review required"),
+      ("EC-012","esq_119_024","nouveau ;","nouveaux ;","esq_119_022","nouveaux",
+       "« Des charmes » est au pluriel; la forme « nouveaux » figure à la page 20. Le x final manque dans cette occurrence.",
+       "Des charmes is plural; the form nouveaux occurs on page 20. The final x is missing in this occurrence.","proposed; root review required"),
+      ("EC-013","esq_119_024","l'isosaèdre","l'icosaèdre","esq_119_024","un icosaèdre",
+       "La suite immédiate donne « un icosaèdre » pour le même polyèdre. Le premier emploi porte un s à la place du c.",
+       "The immediately following text gives un icosaèdre for the same polyhedron. The first occurrence has s in place of c.","proposed; root review required"),
+      ("EC-014","esq_119_025","les caractéristique 2 et 5","les caractéristiques 2 et 5","esq_119_025","l'une des caractéristiques",
+       "L'article « les » et les deux caractéristiques énumérées imposent le pluriel; la ligne précédente comporte déjà « l'une des caractéristiques ». Le s final manque ici.",
+       "The article les and the two listed characteristics require the plural; the preceding line already has l'une des caractéristiques. The final s is absent here.","proposed; root review required"),
+      ("EC-015","esq_119_027","variété algèbrique","variété algébrique","esq_119_027","géométrie algébrique moderne",
+       "Cette page donne deux fois « géométrie algébrique » avec un accent aigu, ainsi que « courbes algébriques ». L'accent grave isolé de « variété algèbrique » paraît être une faute de frappe; la proposition vise cette occurrence seule.",
+       "This page twice has géométrie algébrique with an acute accent, and also courbes algébriques. The isolated grave accent in variété algèbrique appears to be a typing slip; this proposal concerns that occurrence alone.","proposed; root review required"),
+      ("EC-016","esq_119_034","simple-%\nmement","simple-%\nment","esq_119_025","Cela conduit simplement",
+       "La continuation « mement » répète la syllabe me à la coupure; « simplement » est écrit à la page 23. La correction supprime cette seule répétition et conserve la coupure de ligne.",
+       "The continuation mement repeats me at the line break; simplement is written on page 23. The correction removes that repetition while retaining the line break.","approved by root; awaiting recording in corrected master"),
+      ("EC-017","esq_119_035","mais à part","mis à part","esq_119_026","Mis à part",
+       "Le passage réserve les théorèmes de comparaison dans une énumération; « Mis à part » figure à la page 24 dans la même locution. Un a supplémentaire est intercalé ici dans mis. La copie 2 porte un trait manuscrit qui barre précisément ce a. Voir \\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\\#page=112}{copie 2, p.~33}.",
+       "The passage sets the comparison theorems aside within a list; page 24 has Mis à part in the same expression. An extra a is interposed in mis here. Copy 2 has a handwritten stroke deleting precisely that a. See \\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\\#page=112}{copy 2, p.~33}.","approved by root subject to exact checked parallel"),
+      ("EC-018","esq_119_028","rigidifidation","rigidification","esq_119_016","rigidification convenable",
+       "Le terme « rigidification » figure à la page 14 dans le même sens de donnée supplémentaire; l'occurrence de la page 26 porte d à la place du c.",
+       "The term rigidification occurs on page 14 for the same kind of additional data; the page 26 occurrence has d in place of c.","proposed; root review required"),
+      ("EC-019","esq_119_028","ces multiplicité","ces multiplicités","esq_119_028","Les multiplicités modulaires",
+       "« Ces » renvoie aux multiplicités nommées au pluriel au début de la page; le s final manque à ce second emploi.",
+       "Ces refers to the multiplicities named in the plural at the beginning of the page; the final s is missing in this later occurrence.","proposed; root review required"),
+      ("EC-020","esq_119_027","sphèrique","sphérique","esq_119_015","une carte sphérique",
+       "La page 13 donne « sphérique » avec un accent aigu; la forme au pluriel « sphériques » figure aussi à la page 26. L'accent grave isolé de cette occurrence est proposé comme faute de frappe.",
+       "Page 13 gives sphérique with an acute accent, and the plural sphériques also occurs on page 26. The isolated grave accent in this occurrence is proposed as a typing slip.","proposed; root review required"),
+      ("EC-021","esq_119_026","l'hyperquadratique circonscrite","l'hyperquadrique circonscrite","esq_119_026","l'existence et l'unicité de l'hyperquadrique","La copie 2 porte une suppression manuscrite des deux positions entre hyperquadr et ique; les lettres couvertes restent partiellement illisibles, compatibles avec at. La copie 1 donne clairement hyperquadratique. Le corps de la même page nomme déjà l'hyperquadrique circonscrite. Cette suppression fournit désormais une correction explicite de la coquille commune : hyperquadrique. Voir \\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\\#page=103}{copie 2, p.~24}.","Copy 2 has a handwritten deletion of the two positions between hyperquadr and ique; the covered letters remain partly unreadable, compatible with at. Copy 1 clearly reads hyperquadratique. The body of the same page already names the circumscribed hyperquadrique. This deletion now supplies an explicit correction of the shared typing slip: hyperquadrique. See \\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\\#page=103}{copy 2, p.~24}.","approved by root after direct copy2 deletion evidence"),
+      ("EC-022","esq_119_015","quels exactement","quelles exactement","esq_119_016","quelles sont les courbes",
+       "Le sujet explicite est « les conjuguées de telle carte orientée », au féminin pluriel; la page suivante donne la construction « quelles sont les courbes ». La proposition accorde le pronom avec ce sujet écrit.",
+       "The explicit subject is the feminine plural les conjuguées de telle carte orientée; the next page has quelles sont les courbes. The proposal agrees the pronoun with that written subject.","proposed; root review required"),
+      ("EC-023","esq_119_019","est connu à isomorphisme près","est connue à isomorphisme près","esq_119_013","plus ou moins connue",
+       "Le sujet écrit est « une courbe algébrique anabélienne »; la forme féminine connue figure à la page 11. Le e final manque dans cet accord local.",
+       "The written subject is une courbe algébrique anabélienne; the feminine form connue occurs on page 11. The final e is missing in this local agreement.","proposed; root review required"),
+      ("EC-024","esq_119_032","espaces semianalytique","espaces semianalytiques","esq_119_033","ou semianalytiques dans la termi-",
+       "L'adjectif porte sur espaces, au pluriel; la page suivante donne semianalytiques pour ces mêmes espaces de Hironaka. Le s final manque ici.",
+       "The adjective qualifies plural espaces; the next page gives semianalytiques for these same Hironaka spaces. The final s is missing here.","proposed; root review required"),
+      ("EC-025","esq_119_033","stricte de toutes, celles des","stricte de toutes, celle des","esq_119_033","vers celle qui",
+       "Le mouvement de la phrase va de la théorie la plus stricte à la plus vaste; « vers celle qui » et « savoir celle » donnent sur la même page la reprise au singulier. Le s de celles est proposé comme ajout isolé.",
+       "The sentence moves from the strictest theory to the broadest; vers celle qui and savoir celle on the same page supply the singular reference. The s in celles is proposed as an isolated addition.","proposed; root review required"),
+      ("EC-026","esq_119_033","les catégories ``$\\infty$-isotopique''","les catégories ``$\\infty$-isotopiques''","esq_119_033","ou même $\\infty$-isotopiques",
+       "Le même qualificatif est écrit au pluriel plus haut pour les mêmes catégories; le s final manque à ce second emploi.",
+       "The same adjective is written in the plural earlier for the same categories; the final s is missing in this later occurrence.","proposed; root review required"),
+      ("EC-027","esq_119_035","toute application modéré","toute application modérée","esq_119_039","une application modérée propre",
+       "Le groupe « toute application » est féminin; la page 37 donne « une application modérée propre ». Le e final manque dans cette occurrence.",
+       "Toute application is feminine; page 37 gives une application modérée propre. The final e is missing in this occurrence.","proposed; root review required"),
+      ("EC-028","esq_119_036","de façon toute aussi canonique","de façon tout aussi canonique","esq_119_010","tout aussi concrètes",
+       "Tout porte ici sur aussi canonique; le texte emploie déjà « tout aussi concrètes » à la page 8 avec un adjectif féminin. Le e final de toute est proposé comme ajout isolé.",
+       "Tout modifies aussi canonique here; page 8 already has tout aussi concrètes with a feminine adjective. The final e in toute is proposed as an isolated addition.","proposed; root review required"),
+      ("EC-029","esq_119_036","voisinages tubulaire","voisinages tubulaires","esq_119_038","voisinages tubulaires divers",
+       "Le substantif voisinages est au pluriel; la page 36 comporte le syntagme identique « voisinages tubulaires ». Le s final manque ici.",
+       "The noun voisinages is plural; page 36 has the same phrase voisinages tubulaires. The final s is missing here.","proposed; root review required"),
+      ("EC-030","esq_119_038","j'étais parvenue","j'étais parvenu","esq_119_038","auquel je suis parvenu",
+       "La même page donne « auquel je suis parvenu » pour le même locuteur et le même formalisme; le e de parvenue est proposé comme ajout isolé.",
+       "The same page gives auquel je suis parvenu for the same speaker and formalism; the e in parvenue is proposed as an isolated addition.","proposed; root review required"),
+      ("EC-031","esq_119_039","d'espace modérés","d'espaces modérés","esq_119_039","deux espaces modérés",
+       "L'adjectif modérés est au pluriel et l'application relie deux espaces; le même passage écrit « deux espaces modérés ». Le s manque au substantif dans cette occurrence.",
+       "The adjective modérés is plural and the map connects two spaces; the same passage writes deux espaces modérés. The noun lacks s in this occurrence.","proposed; root review required"),
+      ("EC-032","esq_119_043","divers expaces","divers espaces","esq_119_043","pour les espaces modérés",
+       "Le même substantif est écrit espaces plus haut sur cette page. L'occurrence expaces porte x à la place du s; la correction concerne cette seule lettre.",
+       "The same noun is written espaces earlier on this page. The occurrence expaces has x in place of s; the correction concerns that single letter.","proposed; root review required"),
+      ("EC-033","esq_119_044","tout $\\unsure{\\sourceglyph{119A}}$-variété","toute $\\unsure{\\sourceglyph{119A}}$-variété","esq_119_016","toute courbe algébrique",
+       "Tout détermine ici le substantif féminin variété. La page 14 donne toute devant le substantif féminin courbe; le e final manque dans cette occurrence. Le glyphe distinctif et son incertitude sont conservés.",
+       "Tout here determines the feminine noun variété. Page 14 has toute before the feminine noun courbe; the final e is missing in this occurrence. The distinctive glyph and its uncertainty are preserved.","proposed; root review required"),
+      ("EC-034","esq_119_046","d'espacesd'Eilenberg","d'espaces d'Eilenberg","esq_119_041","des espaces d'isomorphismes",
+       "Espaces et la préposition élidée d' sont soudés; le texte sépare déjà « espaces d'isomorphismes » à la page 39. La correction ajoute seulement le blanc manquant, sans modifier le nom composé qui suit.",
+       "Espaces and the elided preposition d' are run together; page 39 already separates espaces d'isomorphismes. The correction supplies only the missing space, preserving the following compound name.","proposed; root review required"),
+      ("EC-035","esq_119_042","s'est agit de dégager","s'est agi de dégager","esq_119_030","quand il s'est agi de formuler",
+       "La page 28 comporte exactement la construction « il s'est agi de » suivie d'un infinitif. Le t final de agit est proposé comme ajout isolé dans la même construction à la page 40; ce parallèle remplace la réserve provisoire antérieure.",
+       "Page 28 has exactly the construction il s'est agi de followed by an infinitive. The final t in agit is proposed as an isolated addition in the same construction on page 40; this parallel supersedes the earlier provisional reservation.","proposed; root review required"),
+      ("EC-036","esq_119_026","réunisse même à le dégager","réussisse même à le dégager","esq_119_048","je réussisse à communiquer",
+       "Le contexte porte sur la réussite à dégager un principe, avec à suivi de l'infinitif; la page 46 écrit « je réussisse à communiquer » dans la même construction. Le n de réunisse occupe ici la place du double s de réussisse.",
+       "The context concerns succeeding in drawing out a principle, with à followed by an infinitive; page 46 writes je réussisse à communiquer in the same construction. The n in réunisse occupies the place of the double s in réussisse here.","approved by root using the checked page 46 parallel"),
+      ("EC-037","esq_119_045","le manuscript","le manuscrit","esq_119_047","dont le manuscrit, confié",
+       "La page 45 donne manuscrit sans p pour un autre écrit. La forme isolée manuscript à la page 43 comporte un p supplémentaire; cette occurrence seule est proposée à la révision, sans modification des autres choix lexicaux.",
+       "Page 45 gives manuscrit without p for another written work. The isolated form manuscript on page 43 has an extra p; only this occurrence is proposed for review, without changing other lexical choices.","proposed; root review required"),
+      ("EC-038","esq_119_010","se trouve muni d'une décomposition","se trouve munie d'une décomposition","esq_119_044","soit automatiquement munie d'une structure",
+       "Le sujet est « chacune des douze pièces »; la même page emploie aussi munies pour les surfaces. La forme féminine singulière exacte munie figure à la page 42. Le e final manque dans cet accord local.",
+       "The subject is chacune des douze pièces; the same page also uses munies for the surfaces. The exact feminine singular munie occurs on page 42. The final e is missing in this local agreement.","proposed; root review required"),
+      ("EC-039","esq_119_050","pen-%\ndans ces dix","pen-%\ndant ces dix","esq_119_047","pendant une quinzaine",
+       "La construction de durée correspond exactement à « pendant une quinzaine » à la page 45. Seul le s final est remplacé par t; la coupure de ligne et le double blanc observé après dix restent intacts.",
+       "The duration construction matches pendant une quinzaine on page 45. Only final s changes to t; the line break and the observed double space after dix remain intact.","approved by root using the checked duration parallel"),
+      ("EC-040","esq_119_052","plus qu'en seul travail","plus qu'un seul travail","esq_119_052","à un travail mieux",
+       "Le même paragraphe compte les travaux et écrit déjà « à un travail mieux ». Seul le e de en est remplacé par u pour retrouver cet article; le double blanc observé après goût reste intact.",
+       "The same paragraph counts written works and already has à un travail mieux. Only e in en changes to u to supply that article; the observed double space after goût remains intact.","approved by root using the same-paragraph article parallel"),
+      ("EC-041","esq_119_029","des homéomorphisme de telles paires","des homéomorphismes de telles paires","esq_119_055","homéomorphismes",
+       "Le passage décrit les morphismes de la catégorie des paires et emploie des au pluriel. La forme homéomorphismes est écrite à la page 53; le s final manque ici. Le parallèle tardif remplace la réserve éditoriale antérieure.",
+       "The passage describes the morphisms in the category of pairs and uses plural des. Page 53 writes homéomorphismes; the final s is missing here. The later parallel supersedes the earlier editorial reservation.","approved by root after complete copy 1 review"),
+      ("EC-042","esq_119_040","schématique (qui existent","schématiques (qui existent","esq_119_055","multiplicités schématiques",
+       "L'adjectif qualifie compactifications au pluriel, repris par qui existent. La page 53 donne la forme schématiques. La correction ajoute seulement le s final absent dans cet emploi.",
+       "The adjective qualifies plural compactifications, followed by qui existent. Page 53 supplies the form schématiques. The correction adds only the missing final s in this occurrence.","approved by root after complete copy 1 review"),
+      ("EC-043","esq_119_054","échappée jusqu'à présent","échappé jusqu'à présent","esq_119_036","échappé. Certes",
+       "La propriété est le sujet de avait échappé et m' désigne son destinataire. La page 34 donne la même construction qui m'auraient échappé. La correction retire le e final isolé, sans changer le sujet ni le temps.",
+       "The property is the subject of avait échappé and m' names the person it escaped. Page 34 has the same construction qui m'auraient échappé. The correction removes the isolated final e without changing subject or tense.","approved by root after complete copy 1 review"),
+      ("EC-044","esq_119_055","(voir\nmême","(voire\nmême","esq_119_036","voire même dès avant",
+       "Le passage élargit la base de Q à Z par l'adverbe d'enchérissement. La même locution voire même figure aux pages 28, 32 et 34. La correction ajoute le e manquant et conserve la division de ligne; elle ne modifie aucune formule.",
+       "The passage extends the base from Q to Z using the intensifying adverb. The same phrase voire même occurs on pages 28, 32 and 34. The correction adds the missing e and preserves the line division; no formula changes.","approved by root after complete copy 1 review"),
+      ("EC-045","esq_119_059","de l'espaces mo-%","de l'espace mo-%","esq_119_039","l'espace défini par une paire",
+       "L'article l' et l'adjectif modéré portent sur un espace singulier nommé $X_*$. La page 37 écrit l'espace dans la même construction nominale. Le s ajouté à espaces est supprimé; la coupure mo-déré et la formule restent inchangées.",
+       "The article l' and adjective modéré refer to the single space named $X_*$. Page 37 writes l'espace in the same noun phrase. The added s is removed; the mo-déré line division and the formula remain unchanged.","approved by root after complete copy 1 review"),
+      ("EC-046","esq_119_059","qui est munie d'une","qui est muni d'une","esq_119_035","soit muni, de façon",
+       "Le relatif qui reprend l'espace $X_*$. La page 33 emploie muni pour l'espace T; la page 10 emploie aussi muni pour K. Le e final isolé est retiré dans cet accord local.",
+       "The relative qui refers to the space $X_*$. Page 33 uses muni for the space T, and page 10 uses muni for K. The isolated final e is removed in this local agreement.","approved by root after complete copy 1 review"),
+      ("EC-047","esq_119_059","est une plongement","est un plongement","esq_119_058","un plongement.)",
+       "La page précédente donne exactement un plongement. Le substantif et son qualificatif bordant sont masculins dans cette occurrence; le e supplémentaire de une est supprimé.",
+       "The preceding page has exactly un plongement. The noun and its adjective bordant are masculine in this occurrence; the extra e in une is removed.","approved by root after complete copy 1 review"),
+      ("EC-048","esq_119_028","s'identifisant au","s'identifiant au","esq119_119_104","s'identifi\\deleted{s}ant","La copie 1 tape s'identifisant; la copie 2 porte un trait manuscrit qui barre précisément le s entre identifi et ant, dont les deux boucles restent visibles. La suppression corrige cette lettre supplémentaire commune aux deux dactylographies et donne s'identifiant. Voir \\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\\#page=105}{copie 2, p.~26}.","Copy 1 types s'identifisant; copy 2 has a handwritten stroke deleting precisely the s between identifi and ant, with both loops still visible. The deletion corrects that extra letter shared by the two typed copies, giving s'identifiant. See \\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\\#page=105}{copy 2, p.~26}.","approved by root after direct copy2 deletion evidence"),
+      ("EC-049","esq_119_035","résidual","résiduel","esq_119_043","corps rési-%\ndual","La copie 2 barre le a de résidual et porte e dans la marge, mais la copie 1 emploie de nouveau résidual, avec la coupure rési-dual, à la page 41. Cette graphie récurrente reste dans le texte de base selon la règle de conservation des usages; la révision de la copie 2 est enregistrée séparément, sans être traitée comme une coquille isolée.","Copy 2 deletes the a of résidual and supplies e in the margin, but copy 1 uses résidual again, with the rési-dual line division, on page41. This recurring spelling remains in the base text under the rule preserving repeated usages; the copy2 revision is recorded separately and is not treated as an isolated typing slip.","retained by root: recurring spelling; copy2 marginal replacement recorded separately"),
+      ("EC-050","esq_119_038","gressées depuis","gressée depuis","esq119_119_114","gressée\\deleted{s}","La copie 2 porte un trait manuscrit qui raye uniquement le s final de pro-gressées, lettre supplémentaire commune aux deux frappes. La correction suit exactement cette suppression et conserve le e précédent ainsi que la coupure pro-gressée. Le texte ne reçoit aucune correction supplémentaire en progressé. Voir \\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\\#page=115}{copie 2, p.~36}.","Copy 2 has a handwritten stroke deleting only the final s of pro-gressées, an extra letter shared by both typed copies. The correction follows that deletion exactly and retains the preceding e and the pro-gressée line division. No further change to progressé is made. See \\href{https://grothendieck.umontpellier.fr/web/viewer.html?file=../119.pdf\\#page=115}{copy 2, p.~36}.","approved by root after independent paired-crop review of the exact deleted letter"),
+    ]
+    difference_links={
+        "EC-001":"D2-011",
+        "EC-002":"D1-024","EC-003":"D1-029","EC-004":"D1-042","EC-005":"D1-052",
+        "EC-006":"D1-074","EC-007":"D1-087","EC-009":"D1-066","EC-010":"D1-069",
+        "EC-011":"D1-028","EC-012":"D1-117","EC-013":"D1-118","EC-014":"D1-125",
+        "EC-015":"D1-136","EC-016":"D1-179","EC-017":"D1-185","EC-018":"D1-142",
+        "EC-019":"D1-143","EC-020":"D1-133","EC-021":"D1-132;D2-065","EC-022":"D1-079",
+        "EC-023":"D1-099","EC-024":"D1-166","EC-025":"D1-171","EC-026":"D1-176",
+        "EC-027":"D1-186","EC-028":"D1-197","EC-029":"D1-192","EC-030":"D1-206",
+        "EC-031":"D1-213","EC-032":"D1-235","EC-033":"D1-240",
+        "EC-034":"D1-253","EC-035":"D1-230","EC-036":"D1-129","EC-037":"D1-243","EC-038":"D1-054",
+        "EC-039":"D1-277","EC-040":"D1-281",
+        "EC-041":"D1-153","EC-042":"D1-219","EC-043":"D1-293","EC-044":"D1-298",
+        "EC-045":"D1-323","EC-046":"D1-324","EC-047":"D1-325",
+        "EC-048":"D2-071",
+        "EC-049":"D2-085;D2-086",
+        "EC-050":"D1-210;D2-093",
+    }
+    approved_path=edition/"editorial_variants.json"
+    approved=json.loads(approved_path.read_text()) if approved_path.exists() else []
+    approval_set={(v["key"],v["old"],v["new"]) for v in approved}
+    rows=[]
+    for cid,key,old,new,evkey,ev,fr,en,status in specs:
+        if key not in sources or old not in sources[key]:continue
+        if evkey and (evkey not in sources or ev not in sources[evkey]):continue
+        packet=json.loads((work/"review_packets"/(key+".json")).read_text())
+        oldpos=packet['source_text'].find(old)
+        oldline=packet['source_text'][:oldpos].count('\n')+1 if oldpos>=0 else ""
+        if not oldline:
+            oldline=next((int(d['line']) for d in decisions if d['key']==key and old in d['image_reading'] and d['line'].isdigit()),'')
+        ids=[r["decision_id"] for r in decisions if r["key"]==key and r["source_item_id"]==f"L-{key}-{oldline:03d}"] if isinstance(oldline,int) else []
+        evline=""
+        if evkey:
+            ep=json.loads((work/"review_packets"/(evkey+".json")).read_text())
+            evpos=ep['source_text'].find(ev)
+            evline=ep['source_text'][:evpos].count('\n')+1 if evpos>=0 else ""
+            if not evline:
+                evline=next((int(d['line']) for d in decisions if d['key']==evkey and ev in d.get('image_reading','') and d['line'].isdigit()),'')
+        if (key,old,new) in approval_set:status="approved by root for corrected master; diplomatic source unchanged"
+        rows.append(dict(candidate_id=cid,key=key,cote="119",site=packet["metadata"]["site"],
+            typescript_page=packet["metadata"]["ts_page"],line=oldline,page_reading=old,proposed_reading=new,
+            kind="lexical variation retained" if status.startswith('retained') else "slip corrected",reason_fr=fr,reason_en=en,evidence_key=evkey,evidence_line=evline,
+            evidence_reading=ev,decision_ids=";".join(ids),difference_ids=difference_links.get(cid,""),status=status))
+    fields=["candidate_id","key","cote","site","typescript_page","line","page_reading","proposed_reading","kind","reason_fr","reason_en","evidence_key","evidence_line","evidence_reading","decision_ids","difference_ids","status"]
+    write_tsv(edition/"records/EDITORIAL_CANDIDATES.tsv",rows,fields)
+    print(json.dumps({"candidates":len(rows),"approved_for_master":sum(r['status'].startswith('approved') for r in rows),"retained":sum(r['status'].startswith('retained') for r in rows),"applied_to_checked_pages":0,"pending_root_decisions":sum(not r['status'].startswith(('approved','retained')) for r in rows)}))
+
+if __name__=="__main__":main()

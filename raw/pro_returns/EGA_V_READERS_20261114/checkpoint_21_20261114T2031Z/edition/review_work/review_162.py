@@ -1,0 +1,23 @@
+import sys
+sys.path.insert(0,'edition/scripts')
+from audit_late_helpers import complete
+k='ega25_25_162'
+r=[
+(r'\margin{\unsure{5}}',r'\mspage{\hand{\unsure{5}}}','The upper mark occupies the folio position but its sparse5-like shape remains tentative.'),
+(r'$\geqslant$ 2',r'$\hand{\geqslant}$ 2','The initial comparison sign is drawn by hand, with uneven pen strokes rather than a typewriter underscore.'),
+(r'cette \xout{\illegible{1}}',r'cette \xout{notion}','The cancelled word notion is legible beneath the x strokes.'),
+('singularité quadratique élémentaire','singularité quadrat'+r'\unsure{i|t}'+'que élémentaire','The i position in quadratique has a t overprint; the uncertain cell is retained.'),
+('On introduit','On int'+r'\unsure{r|o}'+'oduit','The r position is overprinted with a rounded o-like trace; the two readings remain explicit.'),
+(r'\inserted{$\in X$}',r'\inserted[typed]{$\hand{\in} X$}','The inserted X is typed, while the membership sign and placement leader are handwritten.'),
+(r'même\unsure{,}',r'même\over{\unsure{;}}{\unsure{,}}','The punctuation has a crossed upper part and a long retraced lower comma; semicolon under comma remains tentative in both layers.'),
+('et tout\n','et '+r'\unsure{t|d}'+'out\n','The first letter of tout is overtyped, with t/d traces.'),
+('zéro singulier quadratique élémentaire',r'zéro si\unsure{n|g}\over{\unsure{g|q}}{g}\unsure{u|l}\unsure{l|u}ier quadrat\unsure{i|t}q\unsure{u|q}e élémentaire','The second singulier has several typed overprints and a long handwritten g descender; the adjoining quadratique has i/t and u/q overprints. These are retained rather than normalized.'),
+(r'\unsure{\over{X}{x}|x}',r'\unsure{x|X}','The point letter is a thick typed x/X superposition; no distinct handwritten replacement is secure.'),
+(r'\emptyset',r'\hand{\phi}','Every slashed-loop glyph here is handwritten phi, not a typed empty-set symbol.'),
+(r"d'ail\xout{\illegible{1}}",r"d'ail\xout{\unsure{ieu|leu}}",'The short cancelled tail permits ieu/leu traces; it is retained tentatively rather than filled from the expected continuation.'),
+(r'15\unsure{.}4.',r'15\unsure{.|1}4.','The punctuation cell has a vertical1-like overprint beneath its dot-like base; both remain tentative.'),
+(r'\margin{$|$}',r'\margin{$\Vert$}','Two close parallel vertical pen strokes stand beside the final two lines, not a single bar.'),
+(r'\mspage{162}',r'\mspage{\hand{162}}','The lower162 is handwritten.')]
+d={5:'The sparse upper mark remains a tentative5 in folio position.',7:'The >= sign and membership sign are handwritten.',9:'The cancelled word is notion, readable under its x strokes.',14:'The inserted X is typed, with handwritten membership and placement line.',15:'The punctuation after même is a retraced/crossed semicolon/comma combination, still uncertain in its layers. The first t of tout is overtyped.',31:'The first membership is handwritten; the later point letter is a thick typed x/X overprint without a secure separate pen replacement.',32:'The extra e is typewriter-cancelled.',36:'Two parallel pen strokes mark the margin. The short cancelled word-tail allows ieu/leu remnants and remains tentative.',37:'The middle punctuation of15.4 has dot/1 overprinting, still tentative.',39:'The lower162 is handwritten.'}
+n=['The upper5-like mark remains tentative and is recorded as a folio.','The >= sign is hand-drawn, as are the membership signs; the typewriter hypothesis is not supported by the uneven strokes.','The cancelled word notion is legible and recovered.','The i/t, r/o and t/d overprints in the three named words are now explicit, rather than silently rendered as intended clean spelling.','The punctuation has both an upper cancellation and a lower curved retracing; its semicolon/comma layers remain doubtful.','Singulier has a handwritten g descender over an obscured typed letter and several neighbouring typed overprints; quadratique also has two ambiguous cells, all retained.','The point letter is a typed x/X overprint; a separate handwriting layer is not established.','The glyphs are handwritten phi forms, with varying pen strokes, not typed slashed o or empty-set signs.','The cancelled tail has tentative ieu/leu traces and is not completed from the word on the next line.','The middle punctuation retains both dot and1-like traces.','The last two lines have two parallel vertical pen strokes, now recorded.','The lower162 is clear handwriting.','The faint reverse-looking background was inspected but does not establish another foreground line.','Both complete scans, all numbered items, formulas, interlinear material, overprints and margins were inspected; the ambiguous cells were enlarged.']
+x=complete(k,r,d,n);print(k,len(x['decisions']))
