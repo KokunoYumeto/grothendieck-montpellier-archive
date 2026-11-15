@@ -104,17 +104,13 @@ API) and by GPT-6 Astra at its maximum reasoning setting in Codex web; coordinat
 
 ## Droits / Rights
 
-Les droits sur l'œuvre originale appartiennent à son auteur ou à ses représentants ou ayants droit. Là où nous détenons
-des droits, sur la transcription, la traduction, les corrections et la composition produites par IA, ils sont versés au
-domaine public sous CC0 1.0. Cette édition est publiée à des fins éducatives et non lucratives, et nous ne revendiquons
+Les droits sur l'œuvre originale appartiennent à son auteur ou à ses représentants ou ayants droit. Notre transcription, notre traduction, nos corrections et notre composition ont été produites par IA. Elles n'ont pas d'auteur humain et, selon notre compréhension, ne sont pas protégées par le droit d'auteur ; là où un droit nous appartiendrait malgré tout, il est versé au domaine public sous CC0 1.0. Tout ce travail reproduit ou traduit le texte de Grothendieck, dont les droits appartiennent à ses ayants droit : rien ici n'accorde de licence ni n'autorise une reproduction, une traduction ou un autre usage de son œuvre. Cette édition est publiée à des fins éducatives et non lucratives, et nous ne revendiquons
 aucun droit que nous ne détenons pas. Si vous détenez des droits sur cette œuvre et vous opposez à sa publication ici,
 veuillez ouvrir une issue GitHub et nous la retirerons.
 
 **Prompts et méthode.** Les prompts, les gabarits, les scripts et la méthode de travail publiés ici sont versés au domaine public sous CC0 1.0. Si vous voulez faire un travail semblable, utilisez-les librement ; nous n'y revendiquons aucun droit.
 
-The rights in the original work belong to its author or the author's representatives or heirs. Where we hold rights,
-in the AI-produced transcription, translation, corrections and typesetting, they are dedicated to the public domain
-under CC0 1.0. This edition is published for educational, non-profit purposes, and we claim no rights we do not hold.
+The rights in the original work belong to its author or the author's representatives or heirs. Our transcription, translation, corrections and typesetting were produced by AI. They have no human author and, in our understanding, are not protected by copyright; where any right of ours exists nonetheless, it is dedicated to the public domain under CC0 1.0. All of this work reproduces or translates Grothendieck's text, whose rights belong to his heirs, so nothing here licenses or authorizes any reproduction, translation or other use of his work. This edition is published for educational, non-profit purposes, and we claim no rights we do not hold.
 If you hold rights in this work and object to its publication here, please open a GitHub issue and we will take it
 down.
 
