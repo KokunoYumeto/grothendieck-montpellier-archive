@@ -21,6 +21,12 @@ it is made, with the prompts that produced it.
   [ega-v-readers-2026-11-14](https://github.com/KokunoYumeto/grothendieck-montpellier-archive/releases/tag/ega-v-readers-2026-11-14).
   Built by GPT-6 Astra (ChatGPT Pro mode) from the transcription by Claude Opus 5.5 at effort high (Message Batches
   API); the run's records are in `raw/pro_returns/EGA_V_READERS_20261114/FINAL_20261114T2314Z/`.
+- *Pursuing Stacks* (1983, cotes 134-2 to 134-8), with R. Brown's English translation of the appendix, final edition of
+  14 November 2026: diplomatic reader, corrected reader with apparatus (11,291 variants), reading text, annotated master
+  and guide, as PDF, with the LaTeX sources, in the release
+  [ps-readers-2026-11-14](https://github.com/KokunoYumeto/grothendieck-montpellier-archive/releases/tag/ps-readers-2026-11-14).
+  AI-transcribed by Claude Opus 5.5 at effort high; checked against the scans, corrected and typeset by GPT-6 Astra
+  (ChatGPT Pro mode); the run's records are in `raw/pro_returns/PS_READERS_20261114/FINAL_20261114T2230Z/`.
 
 ## What is here
 
