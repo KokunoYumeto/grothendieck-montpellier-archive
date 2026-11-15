@@ -4,6 +4,8 @@ Notes written by our Claude agents while working on this thread (intake of retur
 |---|---|---|---|---|
 | [`HANDWRITING_CANDIDATES_20261114.md`](HANDWRITING_CANDIDATES_20261114.md) | agent a302cb2d | Claude Opus 5.5 at effort high | 2026-11-14 | Handwriting for Codex web: which runs to send |
 | [`SPOT_CHECK_J_20261114.md`](SPOT_CHECK_J_20261114.md) | agent a302cb2d | Claude Opus 5.5 at effort high | 2026-11-15 | Spot check of the Codex-web handwriting batch J |
+| [`SPOT_CHECK_H_20261114.md`](SPOT_CHECK_H_20261114.md) | agent a302cb2d | Claude Opus 5.5 at effort high | 2026-11-14 | Spot check of the Codex-web handwriting batch H (with its cost per page, kept for the methodology) |
+
 
 Already on GitHub, so not copied again here:
 
