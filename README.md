@@ -110,8 +110,13 @@ domaine public sous CC0 1.0. Cette édition est publiée à des fins éducatives
 aucun droit que nous ne détenons pas. Si vous détenez des droits sur cette œuvre et vous opposez à sa publication ici,
 veuillez ouvrir une issue GitHub et nous la retirerons.
 
+**Prompts et méthode.** Les prompts, les gabarits, les scripts et la méthode de travail publiés ici sont versés au domaine public sous CC0 1.0. Si vous voulez faire un travail semblable, utilisez-les librement ; nous n'y revendiquons aucun droit.
+
 The rights in the original work belong to its author or the author's representatives or heirs. Where we hold rights,
 in the AI-produced transcription, translation, corrections and typesetting, they are dedicated to the public domain
 under CC0 1.0. This edition is published for educational, non-profit purposes, and we claim no rights we do not hold.
 If you hold rights in this work and object to its publication here, please open a GitHub issue and we will take it
 down.
+
+
+**Prompts and method.** The prompts, templates, scripts and working method published here are dedicated to the public domain under CC0 1.0. If you want to do similar work, use them freely; we claim no rights in them.
