@@ -1,0 +1,404 @@
+\def\EditionMode{0}\def\EditionLabel{Diplomatic local review proof}\def\EditionStatus{Local proof}
+\documentclass[10pt,oneside]{book}
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{unicode-math}
+\setmathfont{Latin Modern Math}
+\usepackage{xcolor,tikz-cd,lua-ul,marginnote,pdflscape}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing,calc,shapes.geometric}
+\tikzcdset{ampersand replacement=\&}
+\tikzcdset{every label/.append style={text=black}}
+\usepackage[a4paper,left=18mm,right=45mm,top=18mm,bottom=22mm,marginparwidth=28mm,marginparsep=7mm]{geometry}
+\usepackage[unicode,colorlinks=true,urlcolor=black,linkcolor=black]{hyperref}
+\usepackage{bookmark}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt plus 1pt minus 1pt}
+\setlength{\emergencystretch}{1.5em}
+\raggedbottom
+\definecolor{PSHand}{RGB}{25,58,132}
+\definecolor{PSDelete}{RGB}{146,37,37}
+\definecolor{PSTypedOld}{RGB}{95,95,95}
+\ifnum\EditionMode=2\colorlet{blue}{black}\else\colorlet{blue}{PSHand}\fi
+\RenewDocumentCommand{\textcircled}{m}{\tikz[baseline=(PSCircle.base)]\node[draw,circle,inner sep=.5pt,line width=.4pt](PSCircle){#1};}
+\newif\ifPSInApparatus
+\newcounter{psnote}
+\newcounter{psvariant}
+\newcounter{pslinkmark}
+\newif\ifPSInLink
+\newsavebox{\PSNoteBox}
+\newdimen\PSNoteLimit
+{\footnotesize\global\PSNoteLimit=3\baselineskip}
+\newcommand{\CurrentScanURL}{}
+\newcommand{\CurrentKey}{}
+\newcommand{\CurrentScan}{}
+\newcommand{\pssource}[3]{\psflushmargins\clearpage\gdef\CurrentKey{#1}\gdef\CurrentScan{#2}\gdef\CurrentScanURL{#3}\setcounter{psvariant}{0}\typeout{PS-SOURCE: #1}}
+\newcommand{\psdivision}[2]{\pdfbookmark[0]{#1}{#2}\par\noindent{\large\bfseries #1\par}\medskip}
+\newcommand{\pslinkmarker}[2]{\stepcounter{pslinkmark}\latelua{texio.write_nl('log','PS-LINK-SHIP|#1|\CurrentKey|\arabic{pslinkmark}|#2')}}
+\newcommand{\pslink}[2]{\ifPSInLink\pslinkmarker{#1}{nested}#2\else\begingroup\PSInLinktrue\href{\CurrentScanURL}{\pslinkmarker{#1}{outer}#2}\endgroup\fi}
+\newcommand{\scanpage}[1]{\ifnum\EditionMode=2\leavevmode\marginpar{\scriptsize\sffamily\pslink{scanpage}{scan #1}}\else\par\noindent{\small\sffamily\pslink{scanpage}{[scan #1]}}\par\medskip\fi}
+\newcommand{\mspage}[1]{\ifnum\EditionMode=2\leavevmode\marginpar{\scriptsize\sffamily p.\,#1}\else{\small\sffamily[p.\,#1]}\fi}
+\newcommand{\hand}[1]{{\ifnum\EditionMode=2\color{black}\else\color{PSHand}\fi #1}}
+\let\over\relax
+\NewDocumentCommand{\over}{O{} m m}{{\textcolor{PSTypedOld}{#2}\ensuremath{^{\!\nearrow}}\if\relax\detokenize{#1}\relax\hand{#3}\else #3\fi}}
+\NewDocumentCommand{\inserted}{O{} m}{{\if\relax\detokenize{#1}\relax\hand{\ensuremath{\langle}#2\ensuremath{\rangle}}\else\ensuremath{\langle}#2\ensuremath{\rangle}\fi}}
+\newcommand{\deleted}[1]{{\color{PSDelete}\ifmmode\text{[del.: }#1\text{]}\else[\textsf{del.:} #1]\fi}}
+\newcommand{\xout}[1]{{\color{PSTypedOld}\ifmmode\text{[x: }#1\text{]}\else[\textsf{x:} #1]\fi}}
+\let\PSMathUnderline\underline
+\RenewDocumentCommand{\underline}{+m}{\ifmmode\PSMathUnderline{#1}\else\underLine{#1}\fi}
+\NewDocumentCommand{\uline}{+m}{\underline{#1}}
+\NewDocumentCommand{\uuline}{+m}{\ifmmode\PSMathUnderline{\PSMathUnderline{#1}}\else\underLine{\underLine{#1}}\fi}
+\newunderlinetype\PSWaveLine{\leaders\hbox{\lower.7ex\hbox{\tikz[x=1pt,y=1pt,baseline=0pt]{\draw[line width=.3pt] (0,0) .. controls (1,1) and (2,1) .. (3,0) .. controls (4,-1) and (5,-1) .. (6,0);}}}}
+\NewDocumentCommand{\uwave}{+m}{{\PSWaveLine #1}}
+\newcommand{\unsure}[1]{\pslink{unsure}{[#1\ifmmode\,?\else\,?\fi]}}
+\newcommand{\illegible}[1]{\ifmmode\text{\pslink{illegible}{[illeg.\ #1]}}\else\pslink{illegible}{[illeg.\ #1]}\fi}
+\NewDocumentCommand{\diagram}{+m}{\ifmmode\vcenter{\hbox{#1}}\else\par\medskip{\centering #1\par}\medskip\psflushmargins\fi}
+\newenvironment{diagramblock}{\par\begin{center}}{\end{center}\par}
+\newcommand{\PSMathNotes}{}
+\makeatletter
+\NewDocumentCommand{\psplacednote}{m +m}{%
+      \sbox{\PSNoteBox}{\parbox{\marginparwidth}{\footnotesize\raggedright\hand{\textsf{m#1.} #2}}}%
+      \ifdim\dimexpr\ht\PSNoteBox+\dp\PSNoteBox\relax<\PSNoteLimit
+        \leavevmode\marginpar{\usebox{\PSNoteBox}}%
+      \else
+        \par\nobreak\smallskip\hrule\nobreak\smallskip
+        {\footnotesize\textsf{Marginal note m#1.}\quad\hand{#2}\par}
+        \nobreak\smallskip\hrule\smallskip
+      \fi}
+\newcommand{\psflushmargins}{\ifmmode\else\ifinner\else\ifx\PSMathNotes\@empty\else\let\PSTempNotes\PSMathNotes\global\let\PSMathNotes\@empty\PSTempNotes\fi\fi\fi}
+\NewDocumentCommand{\margin}{+m}{%
+  \ifPSInApparatus\ifmmode\hand{\text{[marg.: }#1\text{]}}\else\hand{\textsf{[marg.: }#1\textsf{]}}\fi
+  \else\stepcounter{psnote}%
+    \ifmmode
+      \text{\textsuperscript{m\arabic{psnote}}}%
+      \begingroup\edef\PSQueue{\endgroup\noexpand\g@addto@macro\noexpand\PSMathNotes{\noexpand\psplacednote{\arabic{psnote}}{\unexpanded{$#1$}}}}\PSQueue
+    \else
+      \textsuperscript{m\arabic{psnote}}\psplacednote{\arabic{psnote}}{#1}%
+    \fi
+  \fi}
+\AtBeginDocument{\everymath\expandafter{\the\everymath\aftergroup\psflushmargins}\everydisplay\expandafter{\the\everydisplay\aftergroup\psflushmargins}}
+\makeatother
+\newcommand{\psnumber}[2]{\expandafter\gdef\csname psnum@#1\endcsname{#2}}
+\NewDocumentCommand{\var}{+m +m m m}{\ifnum\EditionMode=0 #1\else\ifnum\EditionMode=1\ifmmode\text{\textsuperscript{\tiny\csname psnum@#4\endcsname}}\else\textsuperscript{\tiny\csname psnum@#4\endcsname}\fi\fi #2\fi}
+\newcommand{\psapparatusstart}{\par\bigskip\hrule\smallskip\PSInApparatustrue\begingroup\footnotesize\raggedright\textsf{Apparatus for scan \CurrentScan}\par}
+\newcommand{\psapparatusend}{\par\endgroup\PSInApparatusfalse}
+\NewDocumentCommand{\psentry}{m m m +m +m m}{\par\noindent\textbf{#2. #3.}\quad\textit{Typescript:} #4\quad\textit{Corrected:} \if\relax\detokenize{#5}\relax\textnormal{[omitted]}\else #5\fi\quad #6\par}
+\newcommand{\psfrontmatter}{%
+\hypersetup{pageanchor=false}\begin{titlepage}\raggedright
+{\Large Alexander Grothendieck\par}\vspace{12mm}
+{\Huge Pursuing Stacks\par}\medskip{\LARGE 1983\par}\vspace{12mm}
+{\Large\EditionLabel\par}\vspace{8mm}
+{\large\EditionStatus\par}\vfill
+Université de Montpellier, Grothendieck archive, cotes 134-2--134-8.\par
+Including the 26 source pages of R. Brown's translation at cote 134-2, sites 115--143.\par
+\vspace*{2mm}\end{titlepage}\hypersetup{pageanchor=true}
+\chapter*{Editorial statement}
+AI-transcribed by Claude Opus 5.5 (Anthropic, effort high); checked against the scans, and this edition built, by GPT-6 Astra (OpenAI, ChatGPT Pro mode); prompts and records by Claude (Anthropic).
+
+The witness consulted and not reproduced is the LaTeX edition of Mateo Carmona with the collaboration of Ulrik Buchholtz (arXiv 2111.01000 v2, 2021), extended from the 2015 edition by ``the scrivener'', CC0 1.0.
+
+The translation in the appendix is R. Brown's, prepared with assistance from L. Breen and J-L. Loday, as his note says; the rights in it belong to its translator or his heirs.
+
+The rights in the original work belong to its author or the author's representatives or heirs. Where we hold rights, in the AI-produced transcription, translation, corrections and typesetting, they are dedicated to the public domain under CC0 1.0. This edition is published for educational, non-profit purposes, and we claim no rights we do not hold. If you hold rights in this work and object to its publication here, please open a GitHub issue and we will take it down.
+
+\section*{How to read this form}
+\ifnum\EditionMode=0
+The diplomatic form preserves typed and handwritten wording, cancellations, insertions, overwritten readings, underlining, doubts, and original page numbers. Blue marks handwriting; red labels handwritten cancellations; gray labels typewriter cancellations and underlying overwritten text. Angle brackets mark insertions; a superscript arrow separates an overwritten reading from its replacement. Typed insertions and typed overwriting remain plain. The disposition of long marginal notes is identified explicitly.
+\else
+The corrected text applies the author's insertions, replacements, cancellations, and recorded transpositions. It retains his English and notation, including consistent forms such as ``standart'', ``developped'', ``it's'' for ``its'', and ``A la''. An isolated slip is corrected only when specifically recorded and justified. Mathematical anomalies are preserved and discussed in the guide.
+\ifnum\EditionMode=1
+Blue continues to identify handwriting. A numbered call identifies each maximal editorial operation, with its full diplomatic and corrected readings and reason in the apparatus following the source page. Internal layers of a wholly replaced or deleted passage are preserved within that entry rather than duplicated as separate entries. These entries are generated from the same variants that govern the running text.
+\else
+This reading form omits the apparatus, cancelled material, superseded readings, insertion brackets, and color distinctions. It retains the resulting text, marginal notes, underlining, and unresolved doubts. Scan and source-page references appear in the margin.
+\fi\fi
+
+Every scan mark and remaining doubt links to its source page in the archive viewer. Doubts are editorial reading marks, not emendations. The source-page breaks identify the archival sequence; a source page may occupy more than one printed page. A partial working edition is explicitly labelled and contains only reviewed source pages.
+\clearpage}
+
+\begin{document}
+\pssource{ps_134-6_075}{134-6/75}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../134-6.pdf\#page=76}
+% Pursuing Stacks (cotes 134-2 to 134-8): archive cote 134-6, site page 75 (PDF page 76), typescript page 393.
+% typescript. Draft compared: ps5.tex:5233-5298.
+% AI-transcribed by Claude Opus 5.5 (claude-opus-5-5, adaptive thinking, effort high), Message Batches API, batch ps3 (msgbatch_01XdFmuVVBAcgc7EFxdtCqsj), 2026-11-12; image review recorded in records/CHECK_DECISIONS_134_3_4.tsv.
+\scanpage{134-6/75}
+\mspage{393}
+an arbitrary \hand{$\mathcal{A}$} satisfying our assumptions, even when \hand{$\mathcal{A}$} is a topos and
+even when it is of the special type A\^{}, as I do not know of any \hand{$\mathcal{M}$} such
+that
+\[ (*) \qquad \hand{\mathcal{A}^{\mathcal{M}}\simeq\mathcal{A}}_{\mathrm{ab}} \qquad . \]
+However, in case \hand{$\mathcal{A}$} = A\^{}, introducing the dual category B=A$^{\mathrm{o}}$ and \hand{$\mathcal{B}$} = B\^{},
+we get (see D) below)
+\[ (**) \qquad \hand{\mathcal{A}^{\mathcal{M}} \approxeq \mathcal{B}_{\mathcal{M}} \approxeq \mathcal{B}}_{\overset{\hand{\unsure{\illegible{1}}}}{\mathrm{ab}}} \qquad \text{if} \quad \hand{\mathcal{M}} = \text{(Ab)} \quad , \]
+hence we do get a canonical isomorphism \xout{provided} (*) provided A=B say
+and hence \hand{$\mathcal{A}=\mathcal{B}$} . Let's look at any rate at the simplest case, namely
+when A is \xout{the}\inserted[typed]{a} final object in (Cat), hence \hand{$\mathcal{A}$} can be identified with
+(Sets), and \hand{$\mathcal{A}$}$_{\mathrm{ab}}$ with (Ab), the identification between the categor\over[typed]{j}{i}es
+\xout{\unsure{(Ab) and Hom(}} (Ab) and \uline{Hom}\hand{$_!$}(\xout{A}(Ab),(Ab)) being obtained \inserted[typed]{(we hope !)} by associating
+to every object L in (Ab), the functor
+\[ F \hand{\longmapsto} L\otimes F \; : \; \text{(Ab)} \hand{\longrightarrow} \text{(Ab)} \qquad . \]
+This being so, the external operation (22) of (Ab) on \uline{Hom}\hand{$_!$} \hand{$\approxeq$} (Ab)
+can be interpreted (using th\over[typed]{\unsure{a}}{i}s identification) as the interior tensor
+product operation in (Ab). On the other hand, the operation $*$ of (23)
+is equally interpreted as nothing but the tensor product in (Ab), which
+justifies the notation suggesting a tensor product. It would be nice
+checking corresponding compatibilities for \deleted{more}\inserted{a} general object\deleted{s} A in (Cat)
+satisfying A=A$^{\mathrm{o}}$ , namely a direct sum of one-object cate\over{q}{g}ories A$_{\mathrm{i}}$ defi\xout{\unsure{n}}%
+ned each in terms of a \uline{commutative} monoid M$_{\mathrm{i}}$ - I did'nt work it out
+myself, sorry !
+
+It should be noted that the relationship between the two \inserted[typed]{exterior} Hom's in
+(29) and (31) is essentially the same as between the two exterior tensor-
+type operations (26) and (23), Hom(F,K) designating an object in \hand{$\mathcal{N}$} and
+\margin{$*$} \uline{Hom}(F,K) an \hand{$\mathcal{N}$}-valued sheaf on \hand{$\mathcal{A}$}, just as F \hand{$*$} L designates an object
+\margin{$\circledast$} \xout{of} in \hand{$\mathcal{M}$} and F \ensuremath{\diagram{\begin{tikzpicture}[baseline=(s.base)]\node[inner sep=0pt] (s) {$*$};\draw[color=blue,line width=.5pt] (s.center) circle (.42em);\end{tikzpicture}}} L an \hand{$\mathcal{M}$}-valued cosheaf on \hand{$\mathcal{A}$}; the graphical device of
+\uline{underlining} the symbol Hom (used for sheaves) corresponds to the device
+\margin{$*$} of \uline{circling} the symbol $*$ (used for cosheaves). With this luxury of
+explanations, I hope the notations int\unsure{\over[typed]{o}{r}}\over[typed]{o}{o}duced here are getting through...
+
+\margin{75}
+
+\pssource{ps_134-6_076}{134-6/76}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../134-6.pdf\#page=77}
+% Pursuing Stacks (cotes 134-2 to 134-8): archive cote 134-6, site page 76 (PDF page 77), typescript page 394.
+% typescript. Draft compared: ps5.tex:5278-5361.
+% AI-transcribed by Claude Opus 5.5 (claude-opus-5-5, adaptive thinking, effort high), Message Batches API, batch ps3 (msgbatch_01XdFmuVVBAcgc7EFxdtCqsj), 2026-11-12; image review recorded in records/CHECK_DECISIONS_134_3_4.tsv.
+\scanpage{134-6/76}
+\mspage{394}
+
+1\over{\unsure{2}}{2}.8. \hand{and 13.8.}
+
+105.    Let's go on with the overall review of abelianization.
+
+D)  \uline{Duality for topoi} \hand{\uline{of the type $A^\wedge$}, \uline{and} \uline{tentative} \uline{generalizations}.}
+
+The main fact it seems which will give rise to duality statements
+for topoi of the type $A^\wedge$ is the following, rather familiar one:
+
+\uline{Proposition} 3.   Let A be a small category, \hand{$\mathcal{M}$} a \uline{U}-category \xout{such that}
+stable under small direct limits,
+\[ (32) \qquad \hand{\varepsilon}_A : A \hand{\hookrightarrow} A^\wedge \]
+the canonical inclusion functor.  Then the following functor is an
+equivalence of categories:
+\[ (3\over[typed]{2}{3}) \qquad F \hand{\longmapsto} F \circ \hand{\varepsilon}_A : \quad \underline{\mathrm{Hom}}_{\hand{!}}(A^\wedge,\hand{\mathcal{M}}) \hand{\longrightarrow} \underline{\mathrm{Hom}}(A,\hand{\mathcal{M}}) \quad . \]
+
+\over[typed]{I}{A}s I am at a loss to give a reference for this standard fact of cate-%
+gory theory,  I'll give in guise of a proof the indication that a quasi-
+inverse functor for (33) is given by the familiar construction
+\[ (34) \qquad i \hand{\longmapsto} i_{\hand{!}} : \quad \underline{\mathrm{Hom}}(A,\hand{\mathcal{M}}) \hand{\longrightarrow} \underline{\mathrm{Hom}}_{\hand{!}}(A^\wedge,\hand{\mathcal{M}}) \quad , \]
+where for any functor
+\[ i: A \hand{\longrightarrow} \hand{\mathcal{M}} \quad , \]
+the functor  \xout{i}\hand{$_!$}
+\[ i_{\hand{!}}: A^\wedge \hand{\longrightarrow} \hand{\mathcal{M}} \]
+is defined by the formula
+\[ (35) \qquad i_{\hand{!}}(F) = \mathop{\underset{\hand{\longrightarrow}}{\mathrm{lim}}}\limits_{a \text{ in } A_{/F}} \; i(a) \qquad . \]
+It is readily checked (and we have already used a number of times)  that
+this functor admits a right adjoint
+\[ (36) \qquad i^{*} : \hand{\mathcal{M}} \hand{\longrightarrow} A^\wedge \quad , \quad i^{*}(x) = ( a \hand{\longmapsto} \mathrm{Hom}(i(a),x)) \quad , \]
+and hence $i_{\hand{!}}$ commutes to small direct limits i.e. is in $\underline{\mathrm{Hom}}_{\hand{!}}(\underset{\hand{\unsure{\illegible{1}}}}{A^{\wedge}},\hand{\mathcal{M}})$ ,
+hence (34).
+
+\uline{Remark}. If \hand{$\mathcal{M}$} is a pseudocotopos,  then by \inserted[typed]{prop.3 above and} \inserted{by} coro\deleted{\unsure{a|t}}llary 2 of prop.1 (p.385)
+the functor
+\[ (37) \qquad i \hand{\longmapsto} i^{*} : \quad \underline{\mathrm{Hom}}(A,\hand{\mathcal{M}}) \hand{\longrightarrow} \underline{\mathrm{Hom}}^{\hand{!}}(\hand{\mathcal{M}}, A^\wedge) \]
+(which in any case is fully faithful) is equally an equivalence of catego-%
+ries.
+
+\margin{76}
+
+\pssource{ps_134-6_077}{134-6/77}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../134-6.pdf\#page=78}
+% Pursuing Stacks (cotes 134-2 to 134-8): archive cote 134-6, site page 77 (PDF page 78), typescript page 395.
+% typescript. Draft compared: ps5.tex:5343-5420.
+% AI-transcribed by Claude Opus 5.5 (claude-opus-5-5, adaptive thinking, effort high), Message Batches API, batch ps3 (msgbatch_01XdFmuVVBAcgc7EFxdtCqsj), 2026-11-12; image review recorded in records/CHECK_DECISIONS_134_3_4.tsv.
+\scanpage{134-6/77}
+\mspage{395}
+
+The equivalence (33) of prop.3 can be interpreted by saying that the
+\xout{functor} canonical functor (32) from A to $A^{\wedge}$ is 2-\uline{universal} , for \inserted[typed]{functors} \xout{maps}
+of A into $\underline{U}$-categories stable under small direct limits, taking as ``map\over{s}{s}\unsure{''}
+between such categories functors which commute to small direct limits.
+Thus, \over{t}{t}he $\underline{U}$-category $A^{\wedge}$\ensuremath{\diagram{\begin{tikzpicture}[baseline=-.3ex,x=1em,y=1ex]\draw[color=blue,line width=.4pt] (0,-.7)--(.55,2.3);\end{tikzpicture}}} may be viewed as \xout{the} ``the'' category deduced from
+A by \over[typed]{q}{a}dding arbitrary direct limits (disregarding the direct limits which
+may \inserted[typed]{perchance} already exist in A ...).
+
+Taking the duals of the two members of (33), we get \xout{the} an equivalent
+statement of prop.3 ; \xout{to the effect}
+
+\uline{Corollary} 1 . Let \hand{$\mathcal{N}$} be a $\underline{U}$-category stable under small inverse limits.
+Then the functor
+\[ (38) \qquad F \hand{\mapsto} F \circ \hand{\varepsilon}_A{}^{o} : \underline{Hom}^{\hand{!}}(A^{\wedge o}, \hand{\mathcal{N}}) \hand{\to} \underline{Hom}(A^{o}, \hand{\mathcal{N}}) \]
+is an equivalence of categories.
+
+In terms of the topos
+\[ \hand{\mathcal{A}} = A^{\wedge} , \]
+we may interprete the left-hand side of (33) as the category of \hand{$\mathcal{M}$}-valued
+\uline{cosheaves} on this topos, which by prop.3 \over[typed]{i}{c}an be interpreted (up to equi-%
+valence) as the category of functors from A to \hand{$\mathcal{M}$}. Dually, the left
+hand side of (38) can be viewed as the category of \hand{$\mathcal{N}$}-valued \uline{sheaves} on
+the topos \hand{$\mathcal{A}$}, which (via the right hand side) can be interpreted up to
+equivalence as the category of functors $A^{o} \hand{\to}$ \hand{$\mathcal{N}$}, i.e. as the category of
+\hand{$\mathcal{N}$}-valued \uline{presheaves} o\unsure{\over[typed]{f}{n}} A . As A endowed with the coarsest (``chaotic'')
+site structure is a generating site for the topos \inserted{$\mathcal{A}$}, the equivalence (38)
+\over{may}{may} be viewed as a particular case of the familiar fact, according to
+which (up to equivalence) the category of \hand{$\mathcal{N}$}-valued \xout{pre}sheaves on a topos
+can be constructed in terms of \hand{$\mathcal{N}$}-valued sheaves on any $\underline{U}$-site defining
+this topos. (When the site structure is chaotic, then those sheaves are
+just arbitrary \hand{$\mathcal{N}$}-valued presheaves .)
+
+Assume now that the $\underline{U}$-category \hand{$\mathcal{M}$} is stable under \uline{both} types of
+small limits (direct and inverse). Then applying (33) for (A,\hand{$\mathcal{M}$}) and
+(38) for (B,\hand{$\mathcal{M}$}) where B=$A^{o}$ , we get \over{the}{an} equivalence
+\inserted{(39)} \deleted{\xout{Coroll\unsure{ary} \illegible{1}}} \hand{$\delta_A^{\mathcal{M}}$}\hand{:} $\underline{Hom}_{\hand{!}}(A^{\wedge}, \hand{\mathcal{M}}) \hand{\xrightarrow{\approx}} \underline{Hom}^{\hand{!}}(B^{\wedge\hand{o}}\hand{,} \hand{\mathcal{M}})$ ,
+
+i.e. (as announced in yesterday's notes, p.390) we get :
+
+\uline{Corollary} 2. Let A be a small category, B=$A^{o}$ the dual category, \hand{$\mathcal{M}$} any
+$\underline{U}$-category stable under small direct and inverse limits. Than the catego-%
+ry of \hand{$\mathcal{M}$}-valued \uline{cosheaves} on the topos $A^{\wedge}$ is equivalent \deleted{canonically} to
+
+\margin{77}
+
+\pssource{ps_134-6_078}{134-6/78}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../134-6.pdf\#page=79}
+% Pursuing Stacks (cotes 134-2 to 134-8): archive cote 134-6, site page 78 (PDF page 79), typescript page 396.
+% typescript. Draft compared: ps5.tex:5403-5493.
+% AI-transcribed by Claude Opus 5.5 (claude-opus-5-5, adaptive thinking, effort high), Message Batches API, batch ps3 (msgbatch_01XdFmuVVBAcgc7EFxdtCqsj), 2026-11-12; image review recorded in records/CHECK_DECISIONS_134_3_4.tsv.
+\scanpage{134-6/78}
+\mspage{396}
+
+the category of \hand{$\mathcal{M}$}-val\unsure{\over[typed]{a}{u}}\over[typed]{e}{e}d \uline{sheaves} on the topos $B^{\wedge}$.
+
+This equivalence, defined up to unique isomorphism, is deduced
+from the diagram of canonical equivalences
+% Hand-drawn arrows are marked blue; typed objects remain plain.
+\diagram{\begin{tikzcd}[column sep=small]
+\underline{\mathrm{Hom}}_{\hand{!}}(A^{\wedge},\hand{\mathcal{M}})\hand{\overset{\mathrm{def}}{=}(A^{\wedge})^{\mathcal{M}}} \arrow[dr,color=blue, "\hand{\approx}"] \& \& \hand{(B^{\wedge})_{\mathcal{M}}\overset{\mathrm{def}}{=}}\underline{\mathrm{Hom}}^{\hand{!}}(B^{\wedge\circ}\hand{,}\hand{\mathcal{M}}) \arrow[dl,color=blue, "\hand{\approx}"'] \\
+(40) \& \underline{\mathrm{Hom}}(A,\hand{\mathcal{M}}) = \underline{\mathrm{Hom}}(B^{\circ},\hand{\mathcal{M}}) \& ,
+\end{tikzcd}}
+
+and depends upon the choice of a quasi-inverse of the second vertical
+equivalence in (40) (which choice can be made, via the dual of (35),
+via the choice of small inverse limits in \hand{$\mathcal{M}$}).
+
+\uline{R\unsure{\over[typed]{g}{e}}mark.} It is felt that the way we got the equivalence (39) via (40),
+the rôle of A and B in it is symmetric. To give a more precise statement,
+consider the equivalence deduced from (39) by passing to the dual catego-%
+ries of the two members - using the tautological isomorphisms (6) of
+page 385, we get an equivalence \deleted{\hand{\unsure{$(\delta_{\illegible{1}}^{\mathcal M})^\circ$}}}
+\[ (39')\quad \hand{(\delta^{\mathcal{M}}_{A})^{\circ}}:\ \underline{\mathrm{Hom}}^{\hand{!}}(A^{\wedge\circ},\hand{\mathcal{N}}) \hand{\xrightarrow{\approx}} \underline{\mathrm{Hom}}_{\hand{!}}(B^{\wedge},\hand{\mathcal{N}}) \quad , \quad \text{\over[typed]{w}{W}here } \hand{\mathcal{N}=\mathcal{M}^{\circ}}\ ; \]
+th\unsure{\over[typed]{i}{e}}s equivalence is \uline{canonicall\unsure{\illegible{1}}y} \uline{quasi-inverse} \uline{to the equivalence} \unsure{\illegible{1}}\xout{\illegible{1}}
+\hand{$\delta^{\mathcal{N}}_{B}$} \uline{in opposite direction}, associated to the pair (B,\hand{$\mathcal{N}=\mathcal{M}^{\circ}$}) instead of
+(A,\hand{$\mathcal{M}$}) .
+
+In the rest of this subsection D), we'll elaborate on some particu-%
+lar cases of the eq\unsure{\over[typed]{m}{u}}ivalence (39) between cosheaves and sheaves.
+
+\inserted{\uline{Case}}\over{1}{1}\textsuperscript{\uline{o}}). Assume \hand{$\mathcal{M}$} = (Sets), then by prop.1 (p.384) the right hand
+side of (39) is canonically equivalent to $B^{\wedge}$ itself, hence we get an
+equivalence
+\[ (41)\qquad B^{\wedge} \hand{\xrightarrow{\approx}} \underline{\mathrm{Hom}}_{\hand{!}}(A^{\wedge},\ (\mathrm{Sets})) \quad . \]
+If we want to keep track of the symmetry aspect described in the remark
+above, we may consider \xout{(41) as} the functor (41) as being deduced from a
+canonical"pairing" between the categories $A^{\wedge}$ and $B^{\wedge}$
+\[ (42)\qquad \hand{\delta_{A}}:\ A^{\wedge}\ \mathrm{x}\ B^{\wedge} \hand{\longrightarrow} (\mathrm{Sets}) \hand{,} \]
+which is an object in
+\[ \underline{\mathrm{Hom}}_{\hand{!!}}(A^{\wedge},\ B^{\wedge};\ (\mathrm{Sets})) \]
+i.e. which commutes to small direct limits in e ach variable. (For this
+interpretation, compare the dual statement contained in f\unsure{\over[typed]{b}{o}}rmula (7) of
+page 385 - and note that (41), being an equivalence, commutes to
+small direct limits i.e. is in a category $\underline{\mathrm{Hom}}_{\hand{!}}(B^{\wedge},\ \underline{\mathrm{Hom}}_{\hand{!}}(\ \ ,\ \ ))$ .)
+
+\margin{78}
+
+\pssource{ps_134-6_079}{134-6/79}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../134-6.pdf\#page=80}
+% Pursuing Stacks (cotes 134-2 to 134-8): archive cote 134-6, site page 79 (PDF page 80), typescript page 397.
+% typescript. Draft compared: ps5.tex:5476-5549.
+% AI-transcribed by Claude Opus 5.5 (claude-opus-5-5, adaptive thinking, effort high), Message Batches API, batch ps3 (msgbatch_01XdFmuVVBAcgc7EFxdtCqsj), 2026-11-12; image review recorded in records/CHECK_DECISIONS_134_3_4.tsv.
+\scanpage{134-6/79}
+\mspage{397}
+
+This pairing gives rise, in a symmetric way,  to \deleted{a}\inserted{the} functor (41) (which is
+an e quivalence)  \uline{and} to a functor
+\[ (41\hand{')}\xout{)} \qquad A\hat{\ } \hand{\xrightarrow{\approx}} \underline{Hom}_{\hand{!}}(B\hat{\ }, (Sets)) \]
+which (it turns out) is no\over{ne}{ne}  other (up to canonical isomorphism) than
+(41) with B replaces by A (and hence A replaced by B ),  and therefore is
+equally an e quivalence.  \uline{Thus the pairing }(42)  \uline{between the two topoi}
+\uline{A$\hat{\ }$ and B$\hat{\ }$ has the remarkable property that it defines an equivalence of}
+\uline{each of these topoi with the category of} (\uline{set-valued}) \uline{cosheaves on the}
+\uline{other}.  I do not know of any other example of a pair of topoi related
+in such a remarkable way\xout{s},  which we may express by saying that the two
+topoi are ``\uline{dual}'' to each other.
+
+We still have to give an explicit expression for the pairing (42),
+plus a convenient notation.  I'll write
+\[ (43) \qquad \hand{\delta_A}(F,G) \overset{\hand{def}}{=} F \ast G \qquad \text{for  F in A$\hat{\ }$, G in B$\hat{\ }$ } , \]
+and I'll use the canonical equivalence (valid for any pair of small
+categories A,B  - not necessarily dual to each other -  and any \uline{U}-catego-%
+ry  stable under direct limits),  deduced by twofold application of
+prop.3 ,  plus the tautological isomorphism similar to (7) p.385  :
+\[ (44) \qquad \underline{Hom}_{\hand{!!}}(A^{\hand{\wedge}},B^{\hand{\wedge}}; \hand{\mathcal{M}}) \hand{\xrightarrow{\approx}} \underline{Hom}(AxB, \hand{\mathcal{M}}) \quad , \quad F \hand{\mapsto} Fo(\hand{\varepsilon}_{A} x \hand{\varepsilon}_B) , \]
+which shows that (42) is known up to canonical isomorphis\over[typed]{p}{m}  \over[typed]{o}{w}hen we know
+it's restriction to the full subcategory AxB = AxA$^{o}$ ,  identifying as
+usual an object a of A to it's image in A$\hat{\ }$, and similarly for B.  If
+b is an object in A,  we'll denote by b$^{o}$  the same object viewed as an
+object of A$^{o}$ = B.  With these conventions (including (43)) we get the
+nice formula
+\[ (45) \qquad a \ast b^{o} = Hom_A(b,a) \quad ( = Hom_B(a^{o},b^{o}) ) \hand{, \text{for } a,b \text{ in } A,} \]
+which has the required symmetry property  -  which,  for general
+objects  F in A$\hat{\ }$ and G in B$\hat{\ }$,  can be stated as  a bifunctorial isomor\inserted[typed]{phism}
+\[ (46) \qquad F \ast G \hand{\simeq} G \ast F \qquad , \]
+where the operation $\ast$  in the first member refers to the pair (A,B),  and
+in the second to the pair  (B,A)).
+
+From (45)  we easily deduce the more general formula for F$\ast$G , when
+either F or G is in A resp. B ,  namely
+
+\margin{79}
+
+\pssource{ps_134-6_080}{134-6/80}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../134-6.pdf\#page=81}
+% Pursuing Stacks (cotes 134-2 to 134-8): archive cote 134-6, site page 80 (PDF page 81), typescript page 398.
+% typescript. Draft compared: ps5.tex:5529-5604.
+% AI-transcribed by Claude Opus 5.5 (claude-opus-5-5, adaptive thinking, effort high), Message Batches API, batch ps3 (msgbatch_01XdFmuVVBAcgc7EFxdtCqsj), 2026-11-12; image review recorded in records/CHECK_DECISIONS_134_3_4.tsv.
+\scanpage{134-6/80}
+\mspage{398}
+
+(47) \[ a * G \hand{\simeq} G(a) \quad , \quad F \underset{\hand{\unsure{\illegible{1}}}}{*} b^{o} \underset{\hand{\unsure{\illegible{1}}}}{\hand{\simeq}} F(b) \quad . \]
+
+\uline{Remarks}.  \unsure{\over[typed]{We}{As}} we are mainly interested \inserted[typed]{here} in abelianization\xout{,} and  (commutati-%
+ve) homology and cohomology,  and hence in \xout{commutative} sheaves and
+cosheaves with values in additive (even abelian) categories,  we are not
+going to use for the time being the relationship between $A^{\wedge}$\xout{and} and $B^{\wedge}$
+just touched upon.  We could elaborate a great deal more on it,  for
+instance introducing a canonical pairing \inserted[typed]{(more accurately, a bi-sheaf)} with opposite variance to (42)
+(48) \[ A^{\wedge o} \mathrm{x} B^{\wedge o} \hand{\longrightarrow} (\mathrm{Sets}) \]
+(or what amounts to the same,  canonical functors adjoint to each other
+\[ A^{\wedge o} \hand{\to} B^{\wedge} \quad , \quad B^{\wedge o} \hand{\to} A^{\wedge} \quad ) \ , \]
+deduced (via the \xout{isom} equivalence dual to (44)
+\[ \underline{\mathrm{Hom}}^{\hand{!!}}(A^{\wedge o},B^{\wedge o};\hand{\mathcal{N}}) \overset{\unsure{\approx}}{\hand{\longrightarrow}} \underline{\mathrm{Hom}}(A^{o}\mathrm{x} B^{o},\hand{\mathcal{N}}) \quad ) \]
+from the co-pairing
+\[ A^{o} \mathrm{x} B^{o} = B \mathrm{x} A \hand{\longrightarrow} (\mathrm{Sets}) \]
+given by
+\[ (b^{o},a) \hand{\longrightarrow} \mathrm{Hom}(b,a) \qquad (\text{for } a,b \ \text{ in } A\ ) \ . \]
+\margin{other description (48) via $\times$ cf 397}
+The two pairings (42) and (48) can be given a common interpretation as
+Hom  sets in a suitable category
+\[ \hand{\mathcal{E}} = \hand{\mathcal{E}}(A) \quad , \]
+which is the union of the two full subcategories  $A^{\wedge}$ and $B^{\wedge o}$  (which may
+be interpreted as deduced from A by adjoining respectively small direct
+and small inverse limits to it) intersecting in the common subcategory A,
+the Hom sets in the two directions between an object F of $A^{\wedge}$ and an object
+$G^{o}$ of $B^{\wedge o}$ (corresponding to an object G of $B^{\wedge}$ )  being given \xout{by the} respec-%
+\xout{formulas} tively by the pairings (48) and (42).  The full relationship \margin{$\times$ cf p. 40\unsure{4|9}-405}
+between these pairings is most conveniently expressed,  it seems,  by the
+composition law of \xout{homo} maps in $\hand{\mathcal{E}}(A)$,  and associativity for this law.
+T\over[typed]{h}{h}e symmetry of the situation with respect to the pair (A,B)  is expressed
+by the canonical isomorphism of categories
+\[ \hand{\mathcal{E}}(A)^{o} \hand{\simeq} \hand{\mathcal{E}}(B) \qquad (\ \text{where } B = A^{o}\ ) \quad . \]
+
+\inserted{\uline{Case}} 2\textsuperscript{\uline{o}}).  Of direct relevance for the abelianization story is the particu-%
+lar case of the equivalence (39),  obtained by taking
+\[ \hand{\mathcal{M}} = (\mathrm{Ab}) \quad . \]
+Using formula(12\over{)}{)}(page 387) for the pair $(A^{\wedge},(\mathrm{Ab}))$  and formula (14)
+for $B^{\wedge}$ in guise of $\hand{\mathcal{A}}$,  we get  the canonical equivalence
+
+\margin{80}
+
+\end{document}

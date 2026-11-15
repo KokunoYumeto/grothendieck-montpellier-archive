@@ -1,0 +1,217 @@
+\def\EditionMode{1}
+\def\EditionLabel{Local math-prose proof}
+\def\EditionStatus{Proposed wrappers; canonical source unchanged}
+\documentclass[10pt,oneside]{book}
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{unicode-math}
+\setmathfont{Latin Modern Math}
+\usepackage{xcolor,tikz-cd,lua-ul,marginnote,pdflscape}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing,calc,shapes.geometric}
+\tikzcdset{ampersand replacement=\&}
+\tikzcdset{every label/.append style={text=black}}
+\usepackage[a4paper,left=18mm,right=45mm,top=18mm,bottom=22mm,marginparwidth=28mm,marginparsep=7mm]{geometry}
+\usepackage[unicode,colorlinks=true,urlcolor=black,linkcolor=black]{hyperref}
+\usepackage{bookmark}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt plus 1pt minus 1pt}
+\setlength{\emergencystretch}{1.5em}
+\raggedbottom
+% Include final-line descenders inside the declared text-height rectangle.
+\maxdepth=0pt
+\definecolor{PSHand}{RGB}{25,58,132}
+\definecolor{PSDelete}{RGB}{146,37,37}
+\definecolor{PSTypedOld}{RGB}{95,95,95}
+\ifnum\EditionMode=2\colorlet{blue}{black}\else\colorlet{blue}{PSHand}\fi
+\RenewDocumentCommand{\textcircled}{m}{\tikz[baseline=(PSCircle.base)]\node[draw,circle,inner sep=.5pt,line width=.4pt](PSCircle){#1};}
+\newif\ifPSInApparatus
+\newcounter{psnote}
+\newcounter{psvariant}
+\newcounter{pslinkmark}
+\newif\ifPSInLink
+\newsavebox{\PSNoteBox}
+\newdimen\PSNoteLimit
+{\footnotesize\global\PSNoteLimit=3\baselineskip}
+\newcommand{\CurrentScanURL}{}
+\newcommand{\CurrentKey}{}
+\newcommand{\CurrentScan}{}
+\newcommand{\pssource}[3]{\psflushmargins\clearpage\gdef\CurrentKey{#1}\gdef\CurrentScan{#2}\gdef\CurrentScanURL{#3}\setcounter{psvariant}{0}\typeout{PS-SOURCE: #1}}
+\newcommand{\psdivision}[2]{\pdfbookmark[0]{#1}{#2}\par\noindent{\large\bfseries #1\par}\medskip}
+\newcommand{\pslinkmarker}[2]{\stepcounter{pslinkmark}\latelua{texio.write_nl('log','PS-LINK-SHIP|#1|\CurrentKey|\arabic{pslinkmark}|#2')}}
+\newcommand{\pslink}[2]{\ifPSInLink\pslinkmarker{#1}{nested}#2\else\begingroup\PSInLinktrue\href{\CurrentScanURL}{\pslinkmarker{#1}{outer}#2}\endgroup\fi}
+\newcommand{\scanpage}[1]{\ifnum\EditionMode=2\leavevmode\marginpar{\scriptsize\sffamily\pslink{scanpage}{scan #1}}\else\par\noindent{\small\sffamily\pslink{scanpage}{[scan #1]}}\par\medskip\fi}
+\newcommand{\mspage}[1]{\ifnum\EditionMode=2\leavevmode\marginpar{\scriptsize\sffamily p.\,#1}\else{\small\sffamily[p.\,#1]}\fi}
+\newcommand{\hand}[1]{{\ifnum\EditionMode=2\color{black}\else\color{PSHand}\fi #1}}
+\let\over\relax
+\NewDocumentCommand{\over}{O{} m m}{{\textcolor{PSTypedOld}{#2}\ensuremath{^{\!\nearrow}}\if\relax\detokenize{#1}\relax\hand{#3}\else #3\fi}}
+\NewDocumentCommand{\inserted}{O{} m}{{\if\relax\detokenize{#1}\relax\hand{\ensuremath{\langle}#2\ensuremath{\rangle}}\else\ensuremath{\langle}#2\ensuremath{\rangle}\fi}}
+\newcommand{\deleted}[1]{{\color{PSDelete}\ifmmode\text{[del.: }#1\text{]}\else[\textsf{del.:} #1]\fi}}
+\newcommand{\xout}[1]{{\color{PSTypedOld}\ifmmode\text{[x: }#1\text{]}\else[\textsf{x:} #1]\fi}}
+\let\PSMathUnderline\underline
+\RenewDocumentCommand{\underline}{+m}{\ifmmode\PSMathUnderline{#1}\else\underLine{#1}\fi}
+\NewDocumentCommand{\uline}{+m}{\underline{#1}}
+\NewDocumentCommand{\uuline}{+m}{\ifmmode\PSMathUnderline{\PSMathUnderline{#1}}\else\underLine{\underLine{#1}}\fi}
+\newunderlinetype\PSWaveLine{\leaders\hbox{\lower.7ex\hbox{\tikz[x=1pt,y=1pt,baseline=0pt]{\draw[line width=.3pt] (0,0) .. controls (1,1) and (2,1) .. (3,0) .. controls (4,-1) and (5,-1) .. (6,0);}}}}
+\NewDocumentCommand{\uwave}{+m}{{\PSWaveLine #1}}
+\newcommand{\unsure}[1]{\pslink{unsure}{[#1\ifmmode\,?\else\,?\fi]}}
+\newcommand{\illegible}[1]{\ifmmode\text{\pslink{illegible}{[illeg.\ #1]}}\else\pslink{illegible}{[illeg.\ #1]}\fi}
+\NewDocumentCommand{\diagram}{+m}{\ifmmode\vcenter{\hbox{#1}}\else\par\medskip{\centering #1\par}\medskip\psflushmargins\fi}
+\newenvironment{diagramblock}{\par\begin{center}}{\end{center}\par}
+\newcommand{\PSMathNotes}{}
+\makeatletter
+\NewDocumentCommand{\psplacednote}{m +m}{%
+      \sbox{\PSNoteBox}{\parbox{\marginparwidth}{\footnotesize\raggedright\hand{\textsf{m#1.} #2}}}%
+      \ifdim\dimexpr\ht\PSNoteBox+\dp\PSNoteBox\relax<\PSNoteLimit
+        \leavevmode\marginpar{\usebox{\PSNoteBox}}%
+      \else
+        \par\nobreak\smallskip\hrule\nobreak\smallskip
+        {\footnotesize\textsf{Marginal note m#1.}\quad\hand{#2}\par}
+        \nobreak\smallskip\hrule\smallskip
+      \fi}
+\newcommand{\psflushmargins}{\ifmmode\else\ifinner\else\ifx\PSMathNotes\@empty\else\let\PSTempNotes\PSMathNotes\global\let\PSMathNotes\@empty\PSTempNotes\fi\fi\fi}
+\NewDocumentCommand{\margin}{+m}{%
+  \ifPSInApparatus\ifmmode\hand{\text{[marg.: }#1\text{]}}\else\hand{\textsf{[marg.: }#1\textsf{]}}\fi
+  \else\stepcounter{psnote}%
+    \ifmmode
+      \text{\textsuperscript{m\arabic{psnote}}}%
+      \begingroup\edef\PSQueue{\endgroup\noexpand\g@addto@macro\noexpand\PSMathNotes{\noexpand\psplacednote{\arabic{psnote}}{\unexpanded{$#1$}}}}\PSQueue
+    \else
+      \textsuperscript{m\arabic{psnote}}\psplacednote{\arabic{psnote}}{#1}%
+    \fi
+  \fi}
+\AtBeginDocument{\everymath\expandafter{\the\everymath\aftergroup\psflushmargins}\everydisplay\expandafter{\the\everydisplay\aftergroup\psflushmargins}}
+\makeatother
+\newcommand{\psnumber}[2]{\expandafter\gdef\csname psnum@#1\endcsname{#2}}
+\NewDocumentCommand{\var}{+m +m m m}{\ifnum\EditionMode=0 #1\else\ifnum\EditionMode=1\ifmmode\text{\textsuperscript{\tiny\csname psnum@#4\endcsname}}\else\textsuperscript{\tiny\csname psnum@#4\endcsname}\fi\fi #2\fi}
+\newcommand{\psapparatusstart}{\par\bigskip\hrule\smallskip\PSInApparatustrue\begingroup\footnotesize\raggedright\textsf{Apparatus for scan \CurrentScan}\par}
+\newcommand{\psapparatusend}{\par\endgroup\PSInApparatusfalse}
+\NewDocumentCommand{\psentry}{m m m +m +m m}{\par\noindent\textbf{#2. #3.}\quad\textit{Typescript:} #4\quad\textit{Corrected:} \if\relax\detokenize{#5}\relax\textnormal{[omitted]}\else #5\fi\quad #6\par}
+\newcommand{\psfrontmatter}{%
+\hypersetup{pageanchor=false}\begin{titlepage}\raggedright
+{\Large Alexander Grothendieck\par}\vspace{12mm}
+{\Huge Pursuing Stacks\par}\medskip{\LARGE 1983\par}\vspace{12mm}
+{\Large\EditionLabel\par}\vspace{8mm}
+{\large\EditionStatus\par}\vfill
+Université de Montpellier, Grothendieck archive, cotes 134-2--134-8.\par
+Including the 26 source pages of R. Brown's translation at cote 134-2, sites 115--143.\par
+\vspace*{2mm}\end{titlepage}\hypersetup{pageanchor=true}
+\chapter*{Editorial statement}
+AI-transcribed by Claude Opus 5.5 (Anthropic, effort high); checked against the scans, and this edition built, by GPT-6 Astra (OpenAI, ChatGPT Pro mode); prompts and records by Claude (Anthropic).
+
+The witness consulted and not reproduced is the LaTeX edition of Mateo Carmona with the collaboration of Ulrik Buchholtz (arXiv 2111.01000 v2, 2021), extended from the 2015 edition by ``the scrivener'', CC0 1.0.
+
+The translation in the appendix is R. Brown's, prepared with assistance from L. Breen and J-L. Loday, as his note says; the rights in it belong to its translator or his heirs.
+
+The rights in the original work belong to its author or the author's representatives or heirs. Where we hold rights, in the AI-produced transcription, translation, corrections and typesetting, they are dedicated to the public domain under CC0 1.0. This edition is published for educational, non-profit purposes, and we claim no rights we do not hold. If you hold rights in this work and object to its publication here, please open a GitHub issue and we will take it down.
+
+\section*{How to read this form}
+\ifnum\EditionMode=0
+The diplomatic form preserves typed and handwritten wording, cancellations, insertions, overwritten readings, underlining, doubts, and original page numbers. Blue marks handwriting; red labels handwritten cancellations; gray labels typewriter cancellations and underlying overwritten text. Angle brackets mark insertions; a superscript arrow separates an overwritten reading from its replacement. Typed insertions and typed overwriting remain plain. The disposition of long marginal notes is identified explicitly.
+\else
+The corrected text applies the author's insertions, replacements, cancellations, and recorded transpositions. It retains his English and notation, including consistent forms such as ``standart'', ``developped'', ``it's'' for ``its'', and ``A la''. An isolated slip is corrected only when specifically recorded and justified. Mathematical anomalies are preserved and discussed in the guide.
+\ifnum\EditionMode=1
+Blue continues to identify handwriting. A numbered call identifies each maximal editorial operation, with its full diplomatic and corrected readings and reason in the apparatus following the source page. Internal layers of a wholly replaced or deleted passage are preserved within that entry rather than duplicated as separate entries. These entries are generated from the same variants that govern the running text.
+\else
+This reading form omits the apparatus, cancelled material, superseded readings, insertion brackets, and color distinctions. It retains the resulting text, marginal notes, underlining, and unresolved doubts. Scan and source-page references appear in the margin.
+\fi\fi
+
+Every scan mark and remaining doubt links to its source page in the archive viewer. Doubts are editorial reading marks, not emendations. The source-page breaks identify the archival sequence; a source page may occupy more than one printed page. A partial working edition is explicitly labelled and contains only reviewed source pages.
+\clearpage}
+
+\begin{document}
+\pssource{ps_134-6_061}{134-6/61}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../134-6.pdf\#page=62}
+\psnumber{ps_134-6_061-v0001}{1}
+\psnumber{ps_134-6_061-v0002}{2}
+\psnumber{ps_134-6_061-v0003}{3}
+\psnumber{ps_134-6_061-v0004}{4}
+\psnumber{ps_134-6_061-v0005}{5}
+\psnumber{ps_134-6_061-v0006}{6}
+\psnumber{ps_134-6_061-v0007}{7}
+\psnumber{ps_134-6_061-v0008}{8}
+\psnumber{ps_134-6_061-v0009}{9}
+\psnumber{ps_134-6_061-v0010}{10}
+\psnumber{ps_134-6_061-v0011}{11}
+\psnumber{ps_134-6_061-v0012}{12}
+\psnumber{ps_134-6_061-v0013}{13}
+\psnumber{ps_134-6_061-v0014}{14}
+\psnumber{ps_134-6_061-v0015}{15}
+\psnumber{ps_134-6_061-v0016}{16}
+\psnumber{ps_134-6_061-v0017}{17}
+\psnumber{ps_134-6_061-v0018}{18}
+% Pursuing Stacks (cotes 134-2 to 134-8): archive cote 134-6, site page 61 (PDF page 62), typescript page 379.
+% typescript. Draft compared: ps5.tex:4443-4519.
+% AI-transcribed by Claude Opus 5.5 (claude-opus-5-5, adaptive thinking, effort high), Message Batches API, batch ps3 (msgbatch_01XdFmuVVBAcgc7EFxdtCqsj), 2026-11-12; reviewed against both supplied scan halves; see CHECK_DECISIONS.tsv.
+\scanpage{134-6/61}
+\mspage{379}
+
+to equivalence)  each left hand factor to the category of functors
+from the other functor to (Ab)  which commute with small direct limits
+\var{\xout{\unsure{(}}}{}{typewriter deletion}{ps_134-6_061-v0001}( much in the same way as the corresponding relationship between $A^{\wedge}$and
+$B^{\wedge}$, with (A\var{\over[typed]{\illegible{1}}{b}}{b}{typewriter overwriting}{ps_134-6_061-v0002})  being replaced by (Sets))\var{\xout{\unsure{)}}}{}{typewriter deletion}{ps_134-6_061-v0003} ,  and that accordingly the
+functor (5) is equally fully faithful,  and extends to a fully faithful
+functor from $B^{\wedge}_{ab}$ to  \uline{Homadd}$(A^{\wedge}_{ab},(Ab))$ ,  inducing in fact an equivalence
+between $B^{\wedge}_{ab}$  and the full subcategory  \hand{\uline{\textcolor{black}{Hom}}}$_{\hand{!}}(A^{\wedge}_{ab},(Ab))$ of \hand{\uline{\textcolor{black}{Hom}}}$(A^{\wedge}_{ab},(Ab))$
+made up by all functors  $A^{\wedge}_{ab}\hand{\to}(Ab)$  which commute to small direct limits\hand{.}
+But for what we have in mind at present,  th\var{\over[typed]{i}{e}}{e}{typewriter overwriting}{ps_134-6_061-v0004}se niceties are not too re-%
+levant yet it seems  -  all what matters is that an object L of Addinf(B)
+defines an\var{\xout{functorx}}{}{typewriter deletion}{ps_134-6_061-v0005} exact functor
+\[ \overset{\hand{\sim}}{L} \ : \ A^{\wedge}_{ab} \hand{\longrightarrow} (Ab) \ , \]
+depending functorially on L,  in an infinitely additive way.  Thus,  as
+noted in section 92  (but w\var{\over{ith}{here}}{\hand{here}}{writing over}{ps_134-6_061-v0006} Addinf(B) \var{\deleted{being}}{}{deletion}{ps_134-6_061-v0007}\var{\inserted{was}}{\hand{was}}{insertion}{ps_134-6_061-v0008} replaced by the smaller
+category Add(B),  which has turned out unsufficient for our purposes),
+whenever we have a chain complex L.  in Addinf(B),  we get a corresponding
+functor
+\[ \text{(7)} \qquad \overset{\hand{\sim}}{L}. \ : \ A^{\wedge}_{ab} \hand{\longrightarrow} Ch.(Ab) \]
+from $A^{\wedge}_{ab}$ to the category of chain complexes of (Ab),  which is moreover
+an \hand{\uline{\textcolor{black}{exact}}} functor.  Generalizing slightly the \var{\xout{xxx}}{}{typewriter deletion}{ps_134-6_061-v0009} terminology introduced
+in \var{\inserted{section}}{\hand{section}}{insertion}{ps_134-6_061-v0010} 93,  \var{\xout{xxxxx}}{}{typewriter deletion}{ps_134-6_061-v0011} where we restricted to chain complexes with components in
+Add(B) rather than in Addinf(B),  we'll say that  $\overset{\hand{\sim}}{L}.$  is an \hand{\uline{\textcolor{black}{abelianizator}}}
+\hand{\uline{\textcolor{black}{for}}}  A  ,  if the  following diagram commutes up to \var{\over[typed]{a}{i}}{i}{typewriter overwriting}{ps_134-6_061-v0012}somorphism :
+\diagram{
+\[ \text{(8)} \qquad
+% Hand-drawn arrows are marked blue; typed objects remain plain.
+\begin{tikzcd}
+A^{\var{\over[typed]{\illegible{1}}{\wedge}}{\wedge}{typewriter overwriting}{ps_134-6_061-v0013}} \arrow[color=blue,r] \arrow[color=blue,d, "\begin{array}{c} Wh_A \\ \hand{\text{(abelianization)}} \end{array}"'] \& Hot_A \arrow[color=blue,r] \& (Hot) \arrow[color=blue,d, "\begin{array}{c} \hand{\text{``absolute''}} \\ \text{abelianization} \\ \text{functor} \end{array}"] \\
+A^{\wedge}_{ab} \arrow[color=blue,r, "\hand{\widetilde{L.}}"] \& Ch.(Ab) \arrow[color=blue,r] \& (Hotab)
+\end{tikzcd}
+\qquad . \]
+}
+More accurately,  an abelianizator is a pair (L. ,\hand{$\lambda$} ) ,  where \hand{$\lambda$} is an
+isomorphism of functors   $A^{\wedge} \hand{\longrightarrow} (Hotab)$  making the diagram commute.
+Here \var{\xout{xxx}}{}{typewriter deletion}{ps_134-6_061-v0014} I like to view the abelianization functor
+\[ \text{(9)} \qquad (Hot) \hand{\longrightarrow} (Hotab) \overset{def}{=} D.(Ab) \]
+as the one described directly in section (100) via integrators of arbi-%
+trary modelizing objects i\var{\xout{h}}{}{typewriter deletion}{ps_134-6_061-v0015}n (Cat),  without any reference to an auxiliary
+test category such as $\Delta$ or the like. \var{\hand{\tikz[x=.4em,y=.4em,baseline=0]{\draw (-2,0)--(0,0)--(0,1.3)--(2,1.3);\draw (.15,0)--(.15,1.3);}}}{}{placement}{ps_134-6_061-v0016}
+% The stepped paragraph locator runs below like, then rises to a stroke below without any.
+
+\var{T\(\underset{\text{h}}{\text{h}}\)e}{The}{typed correction}{ps_134-6_061-v0017} point \var{\inserted{of (8)}}{\hand{of (8)}}{insertion}{ps_134-6_061-v0018} is that  via an
+"abelianizator" for A,  we want to be able to give  a)  a \hand{\uline{\textcolor{black}{simultaneous}}}
+handy expression,  in terms of ``computable'' chain complexes in (Ab),  of
+
+\margin{61}
+
+\psapparatusstart
+\psentry{ps_134-6_061-v0001}{1}{typewriter deletion}{\xout{\unsure{(}}}{}{The typewriter strikes out this material; it leaves the corrected running text.}
+\psentry{ps_134-6_061-v0002}{2}{typewriter overwriting}{\over[typed]{\illegible{1}}{b}}{b}{The superposed typed reading replaces the underlying reading.}
+\psentry{ps_134-6_061-v0003}{3}{typewriter deletion}{\xout{\unsure{)}}}{}{The typewriter strikes out this material; it leaves the corrected running text.}
+\psentry{ps_134-6_061-v0004}{4}{typewriter overwriting}{\over[typed]{i}{e}}{e}{The superposed typed reading replaces the underlying reading.}
+\psentry{ps_134-6_061-v0005}{5}{typewriter deletion}{\xout{functorx}}{}{The typewriter strikes out this material; it leaves the corrected running text.}
+\psentry{ps_134-6_061-v0006}{6}{writing over}{\over{ith}{here}}{\hand{here}}{The superposed handwritten reading replaces the underlying reading.}
+\psentry{ps_134-6_061-v0007}{7}{deletion}{\deleted{being}}{}{The author cancels this material by hand; it leaves the corrected running text.}
+\psentry{ps_134-6_061-v0008}{8}{insertion}{\inserted{was}}{\hand{was}}{The handwritten insertion is incorporated at its indicated position; insertion brackets leave the running text.}
+\psentry{ps_134-6_061-v0009}{9}{typewriter deletion}{\xout{xxx}}{}{The typewriter strikes out this material; it leaves the corrected running text.}
+\psentry{ps_134-6_061-v0010}{10}{insertion}{\inserted{section}}{\hand{section}}{The handwritten insertion is incorporated at its indicated position; insertion brackets leave the running text.}
+\psentry{ps_134-6_061-v0011}{11}{typewriter deletion}{\xout{xxxxx}}{}{The typewriter strikes out this material; it leaves the corrected running text.}
+\psentry{ps_134-6_061-v0012}{12}{typewriter overwriting}{\over[typed]{a}{i}}{i}{The superposed typed reading replaces the underlying reading.}
+\psentry{ps_134-6_061-v0013}{13}{typewriter overwriting}{$\over[typed]{\illegible{1}}{\wedge}$}{$\wedge$}{The superposed typed reading replaces the underlying reading.}
+\psentry{ps_134-6_061-v0014}{14}{typewriter deletion}{\xout{xxx}}{}{The typewriter strikes out this material; it leaves the corrected running text.}
+\psentry{ps_134-6_061-v0015}{15}{typewriter deletion}{\xout{h}}{}{The typewriter strikes out this material; it leaves the corrected running text.}
+\psentry{ps_134-6_061-v0016}{16}{placement}{\hand{\tikz[x=.4em,y=.4em,baseline=0]{\draw (-2,0)--(0,0)--(0,1.3)--(2,1.3);\draw (.15,0)--(.15,1.3);}}}{}{The stepped pen mark indicates the paragraph division already present in the reading.}
+\psentry{ps_134-6_061-v0017}{17}{typed correction}{T\(\underset{\text{h}}{\text{h}}\)e}{The}{The lower h is a displaced additional impression beneath the intact baseline word.}
+\psentry{ps_134-6_061-v0018}{18}{insertion}{\inserted{of (8)}}{\hand{of (8)}}{The handwritten insertion is incorporated at its indicated position; insertion brackets leave the running text.}
+\psapparatusend
+
+\end{document}

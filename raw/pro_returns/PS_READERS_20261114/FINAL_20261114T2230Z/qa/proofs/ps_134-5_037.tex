@@ -1,0 +1,170 @@
+\def\EditionMode{0}
+\def\EditionLabel{Isolated diplomatic proof}
+\def\EditionStatus{Local layout verification}
+\documentclass[10pt,oneside]{book}
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{unicode-math}
+\setmathfont{Latin Modern Math}
+\usepackage{xcolor,tikz-cd,lua-ul,marginnote,pdflscape}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing,calc,shapes.geometric}
+\tikzcdset{ampersand replacement=\&}
+\tikzcdset{every label/.append style={text=black}}
+\usepackage[a4paper,left=18mm,right=45mm,top=18mm,bottom=22mm,marginparwidth=28mm,marginparsep=7mm]{geometry}
+\usepackage[unicode,colorlinks=true,urlcolor=black,linkcolor=black]{hyperref}
+\usepackage{bookmark}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt plus 1pt minus 1pt}
+\setlength{\emergencystretch}{1.5em}
+\raggedbottom
+\definecolor{PSHand}{RGB}{25,58,132}
+\definecolor{PSDelete}{RGB}{146,37,37}
+\definecolor{PSTypedOld}{RGB}{95,95,95}
+\ifnum\EditionMode=2\colorlet{blue}{black}\else\colorlet{blue}{PSHand}\fi
+\RenewDocumentCommand{\textcircled}{m}{\tikz[baseline=(PSCircle.base)]\node[draw,circle,inner sep=.5pt,line width=.4pt](PSCircle){#1};}
+\newif\ifPSInApparatus
+\newcounter{psnote}
+\newcounter{psvariant}
+\newcounter{pslinkmark}
+\newif\ifPSInLink
+\newsavebox{\PSNoteBox}
+\newdimen\PSNoteLimit
+{\footnotesize\global\PSNoteLimit=3\baselineskip}
+\newcommand{\CurrentScanURL}{}
+\newcommand{\CurrentKey}{}
+\newcommand{\CurrentScan}{}
+\newcommand{\pssource}[3]{\psflushmargins\clearpage\gdef\CurrentKey{#1}\gdef\CurrentScan{#2}\gdef\CurrentScanURL{#3}\setcounter{psvariant}{0}\typeout{PS-SOURCE: #1}}
+\newcommand{\psdivision}[2]{\pdfbookmark[0]{#1}{#2}\par\noindent{\large\bfseries #1\par}\medskip}
+\newcommand{\pslinkmarker}[2]{\stepcounter{pslinkmark}\latelua{texio.write_nl('log','PS-LINK-SHIP|#1|\CurrentKey|\arabic{pslinkmark}|#2')}}
+\newcommand{\pslink}[2]{\ifPSInLink\pslinkmarker{#1}{nested}#2\else\begingroup\PSInLinktrue\href{\CurrentScanURL}{\pslinkmarker{#1}{outer}#2}\endgroup\fi}
+\newcommand{\scanpage}[1]{\ifnum\EditionMode=2\leavevmode\marginpar{\scriptsize\sffamily\pslink{scanpage}{scan #1}}\else\par\noindent{\small\sffamily\pslink{scanpage}{[scan #1]}}\par\medskip\fi}
+\newcommand{\mspage}[1]{\ifnum\EditionMode=2\leavevmode\marginpar{\scriptsize\sffamily p.\,#1}\else{\small\sffamily[p.\,#1]}\fi}
+\newcommand{\hand}[1]{{\ifnum\EditionMode=2\color{black}\else\color{PSHand}\fi #1}}
+\let\over\relax
+\NewDocumentCommand{\over}{O{} m m}{{\textcolor{PSTypedOld}{#2}\ensuremath{^{\!\nearrow}}\if\relax\detokenize{#1}\relax\hand{#3}\else #3\fi}}
+\NewDocumentCommand{\inserted}{O{} m}{{\if\relax\detokenize{#1}\relax\hand{\ensuremath{\langle}#2\ensuremath{\rangle}}\else\ensuremath{\langle}#2\ensuremath{\rangle}\fi}}
+\newcommand{\deleted}[1]{{\color{PSDelete}\ifmmode\text{[del.: }#1\text{]}\else[\textsf{del.:} #1]\fi}}
+\newcommand{\xout}[1]{{\color{PSTypedOld}\ifmmode\text{[x: }#1\text{]}\else[\textsf{x:} #1]\fi}}
+\let\PSMathUnderline\underline
+\RenewDocumentCommand{\underline}{+m}{\ifmmode\PSMathUnderline{#1}\else\underLine{#1}\fi}
+\NewDocumentCommand{\uline}{+m}{\underline{#1}}
+\NewDocumentCommand{\uuline}{+m}{\ifmmode\PSMathUnderline{\PSMathUnderline{#1}}\else\underLine{\underLine{#1}}\fi}
+\newunderlinetype\PSWaveLine{\leaders\hbox{\lower.7ex\hbox{\tikz[x=1pt,y=1pt,baseline=0pt]{\draw[line width=.3pt] (0,0) .. controls (1,1) and (2,1) .. (3,0) .. controls (4,-1) and (5,-1) .. (6,0);}}}}
+\NewDocumentCommand{\uwave}{+m}{{\PSWaveLine #1}}
+\newcommand{\unsure}[1]{\pslink{unsure}{[#1\ifmmode\,?\else\,?\fi]}}
+\newcommand{\illegible}[1]{\ifmmode\text{\pslink{illegible}{[illeg.\ #1]}}\else\pslink{illegible}{[illeg.\ #1]}\fi}
+\NewDocumentCommand{\diagram}{+m}{\ifmmode\vcenter{\hbox{#1}}\else\par\medskip{\centering #1\par}\medskip\psflushmargins\fi}
+\newenvironment{diagramblock}{\par\begin{center}}{\end{center}\par}
+\newcommand{\PSMathNotes}{}
+\makeatletter
+\NewDocumentCommand{\psplacednote}{m +m}{%
+      \sbox{\PSNoteBox}{\parbox{\marginparwidth}{\footnotesize\raggedright\hand{\textsf{m#1.} #2}}}%
+      \ifdim\dimexpr\ht\PSNoteBox+\dp\PSNoteBox\relax<\PSNoteLimit
+        \leavevmode\marginpar{\usebox{\PSNoteBox}}%
+      \else
+        \par\nobreak\smallskip\hrule\nobreak\smallskip
+        {\footnotesize\textsf{Marginal note m#1.}\quad\hand{#2}\par}
+        \nobreak\smallskip\hrule\smallskip
+      \fi}
+\newcommand{\psflushmargins}{\ifmmode\else\ifinner\else\ifx\PSMathNotes\@empty\else\let\PSTempNotes\PSMathNotes\global\let\PSMathNotes\@empty\PSTempNotes\fi\fi\fi}
+\NewDocumentCommand{\margin}{+m}{%
+  \ifPSInApparatus\ifmmode\hand{\text{[marg.: }#1\text{]}}\else\hand{\textsf{[marg.: }#1\textsf{]}}\fi
+  \else\stepcounter{psnote}%
+    \ifmmode
+      \text{\textsuperscript{m\arabic{psnote}}}%
+      \begingroup\edef\PSQueue{\endgroup\noexpand\g@addto@macro\noexpand\PSMathNotes{\noexpand\psplacednote{\arabic{psnote}}{\unexpanded{$#1$}}}}\PSQueue
+    \else
+      \textsuperscript{m\arabic{psnote}}\psplacednote{\arabic{psnote}}{#1}%
+    \fi
+  \fi}
+\AtBeginDocument{\everymath\expandafter{\the\everymath\aftergroup\psflushmargins}\everydisplay\expandafter{\the\everydisplay\aftergroup\psflushmargins}}
+\makeatother
+\newcommand{\psnumber}[2]{\expandafter\gdef\csname psnum@#1\endcsname{#2}}
+\NewDocumentCommand{\var}{+m +m m m}{\ifnum\EditionMode=0 #1\else\ifnum\EditionMode=1\ifmmode\text{\textsuperscript{\tiny\csname psnum@#4\endcsname}}\else\textsuperscript{\tiny\csname psnum@#4\endcsname}\fi\fi #2\fi}
+\newcommand{\psapparatusstart}{\par\bigskip\hrule\smallskip\PSInApparatustrue\begingroup\footnotesize\raggedright\textsf{Apparatus for scan \CurrentScan}\par}
+\newcommand{\psapparatusend}{\par\endgroup\PSInApparatusfalse}
+\NewDocumentCommand{\psentry}{m m m +m +m m}{\par\noindent\textbf{#2. #3.}\quad\textit{Typescript:} #4\quad\textit{Corrected:} \if\relax\detokenize{#5}\relax\textnormal{[omitted]}\else #5\fi\quad #6\par}
+\newcommand{\psfrontmatter}{%
+\hypersetup{pageanchor=false}\begin{titlepage}\raggedright
+{\Large Alexander Grothendieck\par}\vspace{12mm}
+{\Huge Pursuing Stacks\par}\medskip{\LARGE 1983\par}\vspace{12mm}
+{\Large\EditionLabel\par}\vspace{8mm}
+{\large\EditionStatus\par}\vfill
+Université de Montpellier, Grothendieck archive, cotes 134-2--134-8.\par
+Including the 26 source pages of R. Brown's translation at cote 134-2, sites 115--143.\par
+\vspace*{2mm}\end{titlepage}\hypersetup{pageanchor=true}
+\chapter*{Editorial statement}
+AI-transcribed by Claude Opus 5.5 (Anthropic, effort high); checked against the scans, and this edition built, by GPT-6 Astra (OpenAI, ChatGPT Pro mode); prompts and records by Claude (Anthropic).
+
+The witness consulted and not reproduced is the LaTeX edition of Mateo Carmona with the collaboration of Ulrik Buchholtz (arXiv 2111.01000 v2, 2021), extended from the 2015 edition by ``the scrivener'', CC0 1.0.
+
+The translation in the appendix is R. Brown's, prepared with assistance from L. Breen and J-L. Loday, as his note says; the rights in it belong to its translator or his heirs.
+
+The rights in the original work belong to its author or the author's representatives or heirs. Where we hold rights, in the AI-produced transcription, translation, corrections and typesetting, they are dedicated to the public domain under CC0 1.0. This edition is published for educational, non-profit purposes, and we claim no rights we do not hold. If you hold rights in this work and object to its publication here, please open a GitHub issue and we will take it down.
+
+\section*{How to read this form}
+\ifnum\EditionMode=0
+The diplomatic form preserves typed and handwritten wording, cancellations, insertions, overwritten readings, underlining, doubts, and original page numbers. Blue marks handwriting; red labels handwritten cancellations; gray labels typewriter cancellations and underlying overwritten text. Angle brackets mark insertions; a superscript arrow separates an overwritten reading from its replacement. Typed insertions and typed overwriting remain plain. The disposition of long marginal notes is identified explicitly.
+\else
+The corrected text applies the author's insertions, replacements, cancellations, and recorded transpositions. It retains his English and notation, including consistent forms such as ``standart'', ``developped'', ``it's'' for ``its'', and ``A la''. An isolated slip is corrected only when specifically recorded and justified. Mathematical anomalies are preserved and discussed in the guide.
+\ifnum\EditionMode=1
+Blue continues to identify handwriting. A numbered call identifies each maximal editorial operation, with its full diplomatic and corrected readings and reason in the apparatus following the source page. Internal layers of a wholly replaced or deleted passage are preserved within that entry rather than duplicated as separate entries. These entries are generated from the same variants that govern the running text.
+\else
+This reading form omits the apparatus, cancelled material, superseded readings, insertion brackets, and color distinctions. It retains the resulting text, marginal notes, underlining, and unresolved doubts. Scan and source-page references appear in the margin.
+\fi\fi
+
+Every scan mark and remaining doubt links to its source page in the archive viewer. Doubts are editorial reading marks, not emendations. The source-page breaks identify the archival sequence; a source page may occupy more than one printed page. A partial working edition is explicitly labelled and contains only reviewed source pages.
+\clearpage}
+
+\begin{document}
+\pssource{ps_134-5_037}{134-5/37}{https://grothendieck.umontpellier.fr/web/viewer.html?file=../134-5.pdf\#page=38}
+% Pursuing Stacks (cotes 134-2 to 134-8): archive cote 134-5, site page 37 (PDF page 38), typescript page 224.
+% typescript. Draft compared: ps4.tex:1791-1864.
+% AI-transcribed by Claude Opus 5.5 (claude-opus-5-5, adaptive thinking, effort high), Message Batches API, batch ps2 (msgbatch_01NVwr1Yuo8qJf5rykeGBXPK), 2026-11-12; reviewed against both supplied scan halves; see CHECK_DECISIONS.tsv.
+\scanpage{134-5/37}
+\mspage{224}
+to $\overline{i_{B}}$ , using the \xout{fxx} canonical functor
+\[ j_B = i_B^{*} : \ (Cat) \hand{\longrightarrow} B^{\wedge} \ , \qquad X \hand{\longrightarrow} B_{/X} \ \xout{\illegible{2}Hom} \ . \]
+Thus we get a description of an equivalence
+(\over{**}{\unsure{1'}}) \[ \overline{j_B}\ \overline{i_A} \ : \ Hot_A \hand{\xrightarrow{\approx}} Hot_B \ , \]
+whose quasi-inverse of course is just the similar $\overline{j_A}\ \overline{i_B}$ . We can vary
+a little this description, admittedly cumbersome in practice, by repla-%
+cing $\overline{\over{i}{j}_{B}}$ by the isomorphic functor $\overline{i^{*}}$, where $i : B \hand{\to} (Cat)$ is
+any test functor from B to (Cat) (while we have to keep however $\overline{i_A}$ as it
+is , without the possibility of replacing $i_A$ by a more amenable test
+functor).
+
+Another way for comparing $Hot_A$ and $Hot_B$ arises, as we saw yester%
+day, whenever we have an \hand{\uline{\textcolor{black}{aspheric}}} functor
+\hand{(2)} \[ i : A \hand{\longrightarrow} B \ , \]
+by just taking
+\hand{(2')} \[ \overline{i^{*}} \ : \ Hot_B \hand{\xrightarrow{\approx}} Hot_A \ . \]
+This of course is about the \xout{most} simplest way imaginable, all the more
+as the functor $i^{*} : B^{\wedge} \hand{\to} A^{\wedge}$ commutes to arbitrary direct and inverse
+limits, just perfect for comparing constructions in $B^{\wedge}$and constructions
+in $A^{\wedge}$ - whereas the functor $j_B i_A : A^{\wedge} \hand{\longrightarrow} B^{\wedge}$ , giving rise to (*) above,
+commutes just to sums and fiber\unsure{\"{e}}d products, not to amalgamated sums nor
+to products, sad enough! We could add here that if we got \hand{\uline{\textcolor{black}{two}}}
+aspheric functors from A to B, namely i plus
+\[ i' : \ A \hand{\longrightarrow} B \ , \]
+then (as immediately checked) any map between these functors
+\[ u : \ i \hand{\longrightarrow} i' \]
+gives rise to an \xout{equivalence}\inserted[typed]{isomorphism} between the corresponding equivalences
+% Hand-drawn arrows are marked blue; typed objects remain plain.
+\diagram{\begin{tikzcd}[column sep=large]
+Hot_B \ar[color=blue, r, bend left, "\overline{i^{*}}", ""{name=U, below}] \ar[color=blue, r, bend right, "\overline{i'^{*}}"', ""{name=D, above}] \& Hot_A \ar[color=blue, from=D, to=U, "\hand{\overline{u}}"']
+\end{tikzcd}} ,
+
+which is nothing but the canonical\xout{x}isomorphism referred to yesterday
+\margin{(*)} (both functors being canonically isomorphic to (\over{**}{\unsure{1'}})), and yields the
+most evident way for \xout{x}\allowbreak{}``computing'' the latter. Thus it turns out that
+the isomorphism $\overline{u}$ does not depend upon the choice of u. If we want
+to ignore this fact and look at the situation sternly, in a wholly compu-%
+tational spirit, we could present things by stating that we get a
+contravariant functor, from aspheric maps $i: A \hand{\to} B$ to equivalences
+$Hot_B \hand{\to} Hot_A$ :
+\margin{37}
+
+\end{document}
