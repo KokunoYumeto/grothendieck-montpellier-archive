@@ -38,6 +38,8 @@ The notes of each release open with the same list for its own books.
   14 November 2026: diplomatic reader, corrected reader with apparatus (11,291 variants), reading text, annotated master
   and guide, as PDF, with the LaTeX sources, in the release
   [ps-readers-2026-11-14](https://github.com/KokunoYumeto/grothendieck-montpellier-archive/releases/tag/ps-readers-2026-11-14).
+  Rebuilt on 15 November 2026 with changes to the layout only: each book now opens with the list of the five books and a
+  key to its marks, and has running heads (book, archive scan, page) and bookmarks for the numbered sections.
   AI-transcribed by Claude Opus 5.5 at effort high; checked against the scans, corrected and typeset by GPT-6 Astra
   (ChatGPT Pro mode); the run's records are in `raw/pro_returns/PS_READERS_20261114/FINAL_20261114T2230Z/`.
 
