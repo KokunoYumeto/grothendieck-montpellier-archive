@@ -8,6 +8,19 @@ it is made, with the prompts that produced it.
 
 ## Readers
 
+### Which book to read
+
+Each work comes in several books, all made from one checked transcription. **Start with the reading text** (the English one where there is one): the clean corrected text, for reading the mathematics.
+
+- **Diplomatic**: the typescript or manuscript as it is, page for page, with the author's own corrections shown as they stand, for checking against the archive.
+- **Corrected, with apparatus**: the corrected text with every editorial change numbered and listed, for anyone who wants to see what was changed and why. An apparatus entry records one change: what the source has, what the corrected text has, and why.
+- **Corrected, with translator's notes** (Esquisse, EGA V): the English translation with the same apparatus and the translator's notes, for seeing how the French was rendered.
+- **Annotated master** (Pursuing Stacks): the editors' copy from which the other books are printed; as a PDF it shows the same content as the corrected reader with apparatus.
+- **Guide**: a companion on the text and its mathematics.
+- **Blass's typescript** (EGA V, cote 24): Piotr Blass's 1987 English translation in the same three forms, a historical witness.
+
+The notes of each release open with the same list for its own books.
+
 - *Esquisse d'un programme* (1984, cote 119), final edition of 14 November 2026: French diplomatic text (both
   typescript copies), French corrected text with apparatus, French reading text, English translation with
   translator's notes, English reading text and a guide, each as PDF and LaTeX, in the release
