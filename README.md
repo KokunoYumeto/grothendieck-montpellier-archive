@@ -6,6 +6,8 @@ https://grothendieck.umontpellier.fr/archives-grothendieck/ and are not copied h
 AI-transcribed text, AI-written research notes, AI-produced checks and corrections. It is work in progress, published as
 it is made, with the prompts that produced it.
 
+**Where the work stands (17 Nov 2026):** [status/STATUS_2026-11-17.html](status/STATUS_2026-11-17.html), a snapshot of the whole project on that date (an HTML page: download it and open it in a browser).
+
 ## Comment ce travail a été fait : les défaillances de l'IA, et ce que nous faisons contre elles
 
 Tout ce qui se trouve ici a été produit par IA. La transcription par IA de mathématiques manuscrites échoue de façons
