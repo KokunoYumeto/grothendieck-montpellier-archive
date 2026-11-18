@@ -87,7 +87,8 @@ def next_index(cote, ids):
 
 NAME_DIRS = ["packages_done", "returns", "packages", "packages_chrome", "packages_chrome_sent",
              "packages_held_for_codex_web", "packages_covered_by_codex_web", "packages_moved_to_codex_20261117",
-             "second_pass/out", "second_pass_returns", "second_pass_pro_20261114"]
+             "second_pass/out", "second_pass_returns", "second_pass_pro_20261114",
+             "packages_deprecated_20261118/queue", "packages_deprecated_20261118/chrome"]
 # Cotes 90-97 % and 70-90 % transcribed whose gaps go first, as round 7a (the main session, 18 Nov 01:2x UTC)
 GAP_COTES = ["2", "6", "8", "11", "56", "68", "75", "81", "103", "105", "116", "121", "122", "131", "133", "134-8",
              "144", "146", "161-5", "13", "15", "35", "39", "71", "109", "119", "134-1", "134-2", "136", "162-5"]
