@@ -111,3 +111,11 @@ for ID in [i for i in drive_moves if not i.startswith(("K", "CTRL"))]:
                        encoding="utf-8", errors="replace")
     log(ID, "Drive ->_done:", "ok" if r.returncode == 0 else "FAILED " + r.stderr[-300:])
 log("=== end; drag/ now holds", len([p for p in (CW / "drag").iterdir() if p.is_dir()]), "folders")
+# 18 Nov 2026 (GitHub housekeeper, Claude Opus 5.5 at effort high; the user: "keep everything synchronized to the
+# GitHub"): after filing, push the returns, the prompts as sent and the batch records to grothendieck-montpellier-archive
+# (typescripts/codex_web_20261113/). Idempotent; skipped with --dry or --no-push.
+if not dry and "--no-push" not in sys.argv:
+    r = subprocess.run([sys.executable, "-I", "-B", "C:/Users/user/Documents/github_housekeeping_20261114/raw_sync/push_work_returns.py"],
+                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+    for line in (r.stdout + r.stderr).strip().splitlines()[-6:]:
+        log("github:", line)
