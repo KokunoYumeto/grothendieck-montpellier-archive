@@ -1,0 +1,37 @@
+# Steps the pages themselves mark as unverified
+
+| Scan | Words on the page | Step or question |
+|---:|---|---|
+| 47 | “par un sorite sur l'exponentielle sur lequel nous reviendrons” | The return to the exponential argument is deferred. The last paragraph also announces “nous donnerons deux constructions”. |
+| 48 | “Le résultat essentiel sera”; “en postulant un tel isomorphisme”; “par voie heuristique” | The comparison is announced. The pencilled addition explains how postulating it suggests the definition for a BT group. A cancelled problem asks for “le foncteur des F-cristaux filtrés vers … faisceaux $p$-adiques”. |
+| 49 | “Définition provisoire”; “a l'inconvénient de ne pas fournir un champ”; “devrait peut-être être reconsidérée ...” | The author questions the proposed definition of isogroups over a general base. |
+| 49 | “prouvée plus tard”; “Expliciter le cas d'un anneau de val. discrète d'inégales car.” | The proof of the restriction equivalence and the explicit mixed-characteristic case remain to be supplied. |
+| 49, 51 | “Quel est l'image essentielle dudit foncteur ?”; “y a-t-il un critère valuatif”; “l'image essentielle est elle un ouvert de Zariski” | Problem 4 ends on scan 51, across an intervening exercise sheet. |
+| 51 | “Expliciter le foncteur naturel”; “Peut-on même définir ce foncteur … sans se borner à cette sous-catégorie pleine”; “peut-on trouver un foncteur” | Problems 5 and 6 ask for constructions and for the hypotheses under which they exist. The struck “Conjecture 7. On peut” starts a further proposal and breaks off. |
+| 53 | “Devrait venir avec foncteur mystérieux !”; “la question se pose donc”; “De caractériser”; “De trouver un foncteur” | The parenthesis is an instruction about presentation. The following two tasks concern Galois modules attached to BT groups. |
+| 53–54 | “suggère de plus”; “qu'on doit pouvoir donc … expliciter un foncteur quasi-inverse”; “sans doute contenue”; “on conjecture” | The functor's full faithfulness, its possible inverse and the removal of the characteristic-zero hypothesis are proposed. |
+| 54 | “supposant résolu le Pb 1”; “Est-il vrai”; “ou du moins le foncteur analogue pour F-cristaux”; “Il semble que si la réponse au Pb précédent est affirmative” | The proposed equal-characteristic argument depends on a restriction theorem and on perfect-base Dieudonné theory with equivalence of categories. |
+| 60 | “avec léger grain de sel”; “sous réserve qu'on sache”; “Il faut prouver”; “Marche tout au moins si” | The author qualifies the fibration formula, singles out finiteness of the second page of the spectral sequence, then gives a finite cellular filtration as a case for the local-system lemma. |
+
+On scans 50 and 52, “Prouver”, “montrer” and “déterminer” are instructions to the reader of the reused exercise text. Scan 57's “sous réserve qu'il contribue” is a condition on research funding.
+
+# Title sheets, dates and page counts
+
+| Scan | Heading, numbering or other evidence |
+|---:|---|
+| 47 | Opens in mid-sentence. The only internal heading is “Remarque”. |
+| 48 | “3) Relations entre les deux théories (pour schémas abéliens et pour groupes de BT)”. At the foot, two cancelled headings start with 4), including “Passage à la limite”. |
+| 49 | “Rabiots pour l'exposé précédent:”. The sheet introduces items a), b), a proposition and “Problème 4”. |
+| 50 | Typescript n° 393, printed “- 36 -”. Carries the end of the previous exercise, 23 a)–c), and the beginning of 24 a). |
+| 51 | End of Problem 4, “Problème 5”, “Problème 6” and a struck “4) Question des relations entre cohomologie cristalline et $p$-adique” followed by “Conjecture 7”. |
+| 52 | Typescript n° 393, printed “- 35 -”. Exercises 21 a)–e) and 22 a)–b). Its last sentence continues at the top of scan 50. |
+| 53 | “Sur un théorème de Tate.” follows the pencil calculations and a horizontal rule. |
+| 54 | “Problème” is followed by nᵒ and dots in place of a number. |
+| 55 | Cover. Its sole caption at upper right is “$\chi$ et $\chi_!$”. |
+| 56 | No separate title. Starts “$k$ corps” and carries circled items a–e. |
+| 57 | Printed “10.” Sections “5.2. Evaluation de la politique de recherche des établissements” and “5.3. La responsabilité de la D.E.S.U.R.” Ends with “…/…”. |
+| 58 | Underlined “Conclusions premières”. Circled 1 in a box at upper right, an ambiguous circled numeral at the left, then circled 3. |
+| 59 | Printed “9.” Sections “4.3. - La politique de recherche des établissements”, “5 - La politique "recherche" de la D.E.S.U.R.” and 5.1 on its “mission de complexe”. |
+| 60 | No separate title. Circled f and g continue the rules. “Dém.” and “Lemme” mark the lower blocks. |
+
+There is no written date or explicit total page count on these sheets. The archive's corner numbers run from 46 to 59. The two reused typescripts have their own printed pagination as listed above.

@@ -1,0 +1,50 @@
+# K35-01 · Second reading
+
+## Cote 35, scan 6
+
+**UTC start** 2026-11-18T01:40:36Z  
+**UTC end** 2026-11-18T01:45:24Z
+
+### Read from the crops before opening the checkpoint
+
+Read from the three original thirds, with the writing at the left turned clockwise and the pencilled oval at the right levelled.
+
+- U1 has two lowercase words on separate lines in an oval, “notations” and “terminologie”. No heading or date precedes I. Group VII has V and two strokes. VI, X and XI have separate head and foot rules. The last stroke of the second word is inside the oval.
+- U2–U4 have IV, II, III, VIII, XII, V and XIII. The tiny dark loop beside VI–V has a left fork, a loop below the fork and an isolated speck to its right. “y”, “g” and a question-shaped sign are possible. The two narrow vertical links with left feet have no distinct V-shaped heads.
+- U5–U8 have IX in an oval, XVII, XIV, XV, XVIII, XVI, then XIX and XX individually ringed, XXI and XXII. Faint groups and a pale question-shaped mark are visible below XVIII. The black and grey strokes continue through text, white space and arrows. One long rule separates the two drawings.
+- M1 reads underlined “NB”, VI, comma, VII, VIII, a caret and X, XXII, “sont”. No further comma is plain. M2 “tout à fait indépendants”. The mark over à is short and oblique. The compressed word has the ending -ants but the é is hard to separate. M3 starts with a d, a separate high apostrophe, then the tall h of histoire(s). No space for an article between them. Then “de monodromie,” with a comma. M4 “et du” and, above the line, what looks like “reste du” or “but du”, followed by “séminaire”. The acute and the number of final dots remain doubtful.
+- L1–L4 have a pale two-line remark. Its first word has a g with a conspicuous lower loop and a high terminal accent, its second has a long l and a reduced ending. Read “singularité / isolée !” with uncertain words but a clear exclamation mark. The mark in the dashed descending-left line is a separate small wedge or hook and dot, “?” or “!”.
+- Lower captions give “Théorèmes qualitatifs / sur monodromie / (et auxiliaires / techniques”. Théorèmes has a small acute-like stroke on the first e and a slant down to the right for the second. There is no article after sur. Auxiliaires has a legible x and l and a reduced ending. The opening parenthesis is visible. No right parenthesis closes the words or the row of numbers. Techniques ends in a short run after q. The q dips to the head rule below. The first barred numeral in this row has both a crossing at the left and a V-shaped stroke at the right. VI, XV and IV are possible. The next two are VII and VIII. The right-hand caption reads “Théorèmes / quantitatifs”. At the foot the pencil numeral is 5.
+- Checked plain I versus bundles of descenders in III, VIII, XIII and XVIII, the order XIV, XV, XVI, and the final two uprights of XXII at the right sheet edge. There are no alphabetic indices, exponents, external references or dates. Neither a digit 1 nor a lowercase l replaces a Roman I in the two sets of main nodes.
+
+### Comparison with the page file
+
+| Part | Items checked against the ink |
+|---|---|
+| Upper left | From I, the four shafts end at II, III, IV and V. The one above III intersects the broad grey cancellation. III descends to IX. From VI, two fine diagonals descend left towards V and IX. The thick two-track diagonal descends right towards XIII. VII and VIII have a vertical two-track link with a left foot. VIII points down-right to the circled IX. The dotted or broken leader above I reaches the oval with “notations / terminologie”. |
+| Upper right and foot | X and XI are distinct. The detached broken diagonal begins below the top annotation, to the left of X, and descends towards XIII. The foot below XI turns left above XII. The two tracks under XII end in a shallow curved foot. From XIII there is a heavy downstroke towards XV, a down-left arrow towards XIV and a broken left arrow towards XVII. XIV has a broken left arrow towards XVIII. XVII descends to XVIII. XV descends to XVI. XVIII and XVI point down towards the vicinity of XIX and XX respectively. XXII points left to XXI, and XXI points left towards XX. Each bottom oval and the long separator survives the cancellation. |
+| Upper pale layer | Two ruled remnants across the low left and two more, one above the other, beside XVIII. A faint two-track diagonal descends from near XVIII towards the lower of the latter two. A question-shaped trace stands to its right. A pale transverse broken stroke, curls and the large graphite loops were checked independently of the stronger arrows. |
+| Lower left | I points separately towards II, III, IV and V. III points down to IX. IX points **up** to V. VI points down-left to V. VII points down to VIII, and VIII points down-left to IX. The much longer broken arrow coming from the vicinity of XVI also points **towards IX**, beside the VIII arrowhead. A hatched barred group sits below that broken line. The outline around IX and the long lower brace are both present. |
+| Lower centre and right | A broken arrow leaves I down-right and a solid two-track arrow leaves VI down-right. Both end by XIII. The dashed diagonal leaving the vicinity of X ends by V and carries the small punctuation mark. Two small pencil ovals and a leader run from the overwritten group below X towards the slanted note. The re-entered XI stands to the right. XI descends to XII, XII to XIII. XIII descends to XV and points diagonally towards XIV. The dashed outward branch begins in open space between the XII and XIII levels and points to XVII. Beside the heavier arrow to XIV lies a lighter arrow and a pale ruled group. The diagonal XIV to XVIII has an unambiguous head at XVIII but is hatched out. XV descends through an older label towards circled XVI. XVII descends to XVIII. |
+| Lower foot | XVI points towards the left end of the shared brace and XVIII towards its right end. XIX and XX have separate pencil ovals beneath the brace. XXII points left to XXI and XXI points left to XX. The final I of XXII is at the cropped right edge. Two fainter groups are visible to the left of XIX. A second long brace runs below the right group. The pale surrounding line and the small crossing marks beside the long return arrow were checked separately. |
+| Inline notation and prose | The label strings checked separately in each plan were I, II, III, IV, V, VI, VII, VIII, IX, X, XI, XII, XIII, XIV, XV, XVI, XVII, XVIII, XIX, XX, XXI, XXII. The sideways line has VI, VII, VIII, inserted X, XXII. The left caption has the overwritten first group, VII, VIII. The two diagrams and these inline label strings exhaust the mathematical material. There are no displayed equations, alphabetic i or j indices, exponents or primed signs. |
+
+### Margins, cancellations and letterforms
+
+- The left box reads from the bottom of the upright sheet towards its top. The caret goes **between VIII and XXII**. On M3 the tall stroke of *fait* descends across the next line. The small added words occupy the gap before *séminaire* on M4. The long rising insertion stroke passes below these words. The comma follows *monodromie*.
+- The paler oval at upper right in the lower drawing was reread along its own baseline. In *singularité* the g descends deeply, l and t rise above the line and the final accent is separated. In *isolée* the middle is faint. The final black exclamation point is distinct from the light pencil letters. The hand cannot be identified from that oval alone.
+- The upper diagram is cancelled as one object. All of its main numerals, both words of the top note and all its connectors are inside the cancellation. A stroke runs into *terminologie*. The word remains readable within the cancelled block. The separate long rule lies under that block.
+- In the lower drawing the scribble below X crosses a descending stroke and the old numeral to the left of the re-entered XI. A second hatch covers the numeral just right of IX. Older ruled marks under XV and in the shaft above XVI, and the loopy cancellation over XIV to XVIII, were followed to their ends. No words are promoted out of a deleted diagram. The lower XXI and XXII are heavily inked but their strokes and leftward arrows remain distinguishable.
+- Neither the rule below *NB* nor the braces above the captions cancel prose. The q of *techniques* touches the upper rule of the following numeral. The final short strokes of *qualitatifs* and *quantitatifs* belong to the words. The left caption opens a parenthesis. A small curved trace far to its right lies nearly horizontal. There is no identifiable closing parenthesis.
+- Bold-looking X, V and I forms in the lower panel are retraced pen, not a change of alphabet. Upper XI has a second slant across the X. The tall initials in both occurrences of *Théorèmes* are text capitals. No typed double-struck, script-mathematical or blackboard glyph is present. The nearly erased type lies sideways in a different register from the face writing. The foot numeral 5 is recorded only in the archive comment.
+
+### Changes on the second reading
+
+| Place | Before → after | Evidence |
+|---|---|---|
+| M3 | de l’histoire → d’ + histoires / histoire | A looped d is followed by a high apostrophe and a tall h. The ending overlaps the small addition below. |
+| U3 | g / ? → y / g / ? | The left fork is distinct on enlargement. The ink loops back up under the fork. |
+| C5 | VI / IV → VI / XV / IV | The crossing at left and the V-shaped stroke at right allow XV as well. |
+| U3–U4 | double arrowhead below XII → two tracks ending in a shallow curved foot | Both pen tracks stop at the same shallow curve. |
+| L1–L5 | uniformly broken I–XIII shaft → broken shaft with a fine, more continuous lower stretch | Below the intersection with X–V the lighter trace follows the dark segments towards XIII. |
+| Elsewhere | no change | Both sets of main labels, the other heads, the captions, the insertions and the corners were compared with the three thirds. |

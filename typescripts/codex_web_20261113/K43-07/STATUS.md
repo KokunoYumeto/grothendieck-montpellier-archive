@@ -1,0 +1,1 @@
+RECOVERY CHECKPOINT — not the final delivery. All 15 first-pass pages exist; independent audits through 156 complete. Audits 158–160, full reports, final checks, freeze and mathematical notes remain to be finished.

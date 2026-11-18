@@ -1,0 +1,13 @@
+# Steps the pages themselves mark as unverified
+
+- Scan 91, slanted left margin: `O^Γ → O/m est surjectif` has an inserted `??` pointing to the surjectivity assertion. The note begins “Nous supposerons plus précisément…” and concerns the hypothesis `A^Γ → A/mA`.
+
+No other uncancelled explicit “à vérifier”, “sauf erreur”, or comparable verification warning was identified. The marginal instruction “dégager un lemme” on scan 87 is a drafting instruction, with a doubtful initial verb; it does not explicitly call the lemma unproved.
+
+# Title sheets, dates, and page counts
+
+- Scan 94 is a nearly blank title sheet: “Contre exemples à passage au quotient”; passage and quotient are marked unsure in the transcription. No hyphen is visible between Contre and exemples.
+- Scan 95 has the upper-right marginal heading “Impossibilité du passage au quotient”; du/de and passage remain doubtful.
+- Scan 85 carries the section headings “Cas particulier” and “Généralisation”, with a cancelled tentative “Corollaire”.
+
+Dates: none. Authorial page counts or document page numbering: none. The lower-corner archive sheet numbers 80–94 are recorded only as comments, not as authorial pagination.

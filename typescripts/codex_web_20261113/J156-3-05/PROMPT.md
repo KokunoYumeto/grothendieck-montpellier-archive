@@ -190,13 +190,7 @@ There is no draft for these pages: transcribe them from the images alone.
    gap.
 4. **As soon as a page is done**, write it to its own file `out/pages/J156-3-05_156-3_scanNNN.tex`, add its rows to
    `out/J156-3-05_inventory.csv`, append a line `scan NNN done <current UTC time>` to `out/progress.log`. Saving these
-   files is your checkpoint. Then save a checkpoint ZIP of the whole `out/` folder beside it (not inside it),
-   `J156-3-05_checkpoint_<NN>.zip` with `NN` counting up, after every finished page, after every audited page
-   (method 6), and whenever an hour of work has passed since the last checkpoint, whichever comes first. Never
-   overwrite, rename or delete an earlier checkpoint, and put no checkpoint ZIP inside another. A checkpoint holds
-   every deliverable written so far and everything that documents the work (page files, inventory, notation table
-   and doubts so far, audit, progress.log), not the attached scans. It is never a JSON file, a recovery file or a
-   summary. If the workspace comes back empty, restore it from the newest checkpoint before you continue. Only then
+   files is your checkpoint. Only then
    go to the next page.
 5. **One stream, one notation.** Transcribe the pages yourself, in one stream, in order: do not split them among
    parallel workers or sub-agents. When the pages of an earlier package of this archive were split among workers,
