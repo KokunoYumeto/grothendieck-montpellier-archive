@@ -1,0 +1,168 @@
+# Second pass, MPL_16+47+54+44, cote 16, scans 19-36: changes
+
+Checker: Claude Opus 5.5 at effort max, 17 Nov 2026, against the scans (both halves of every scan, enlarged crops where
+a reading was in doubt; crops in `second_pass/work/MPL_16+47+54+44_16-019-16-036/`). First pass: GPT-6 Astra (ChatGPT
+Pro mode). Seventeen scans: 19-23 and 25-36 (scan 24 is blank and was left out of the package).
+
+Second witness: Michel Hua's transcription of cote 16 (`transcripts/16/batch-01.fr.tex` pp. 18-20 and
+`batch-02.fr.tex` pp. 21, 24, 26, 28, 32, 33, 35). His page N is our scan N+1 (his numbers are the pencilled archive
+numbers, which our first pass records as the bottom `\mspage`). He skips the reused typescripts (our scans 23, 26, 28,
+30, 35) and the title leaves (our 31, 32), and his batch-01 stops in the middle of our scan 21. I read the ink first
+and opened his text only for the places still open after that and for the places where my reading and the first
+pass's differed. Where his reading supports or settles a place, the evidence column says so; where the ink does not
+decide, his reading is now one of the alternatives in `\unsure{...}`.
+
+## Counts
+
+- Changes: 43 rows (9 high, 14 medium, 20 low confidence). 26 rows change or settle a reading; 17 rows only add
+  Hua's reading as an alternative where the ink does not decide.
+- Unresolved places (`\unsure` and `\illegible` marks): first pass @@N0@@; after my reading of the ink, before Hua
+  @@N1@@; after consulting Hua @@N2@@. Hua settled 3 places (scan 21 "du"; the two cancelled ranges on scan 33). His
+  divergent readings opened 9 places where the first pass had no doubt mark and the ink does not rule his reading
+  out (listed in the table, rows 9, 11, 13, 21, 22, 29, 31, 38, 40).
+
+@@COUNTS@@
+
+## Conventions followed
+
+- The first pass's macros and diplomatic conventions are kept throughout (`\deleted`, `\inserted`, `\margin`,
+  `\uline`, `\unsure{reading|alternative}` with the ink's reading first).
+- One feature was treated in two ways: the small crosses in the left margin of the Brauer-group typescript are drawn
+  as a two-stroke TikZ figure on scan 19 (the first occurrence in the cote) and written `\margin{$\times$}` on scan
+  23. Scan 23 now follows scan 19 (row 15).
+- The underlined bold letters of the typescripts are written `\uline{\mathrm Z}` (scan 19), `\uline Z` (scan 21) and
+  `\underline Z` (scan 23). These are three spellings of the same treatment (an underline) and are left as they are.
+- Typed x-ed letters are written `\deleted{\unsure{...}}`, as the first pass does elsewhere on scans 21 and 23
+  (row 5).
+
+## Changes
+
+Line numbers are those of the first-pass file; no correction adds or removes a line, so they hold for the corrected
+file too.
+
+| # | Scan | Line | First pass | Corrected | Evidence (what the image shows; Hua) | Confidence |
+|---:|---|---:|---|---|---|---|
+| 1 | 019 | 36 | `dont l'\unsure{ordre}` | `dont l'ordre` | The overtyped r and d are a typist's correction; the word reads "ordre" letter by letter. Hua batch-01 p.18 reads "ordre". | high |
+| 2 | 020 | 61 | `\bar L'{}^2=\unsure{\overline{\bar L'}\|\bar L'}` | `\bar L'{}^2=\bar L'` | One overline over the right-hand L', level with the other bars of the line; the extra ink is on the L's foot (retraced), not a second bar (crops c020b, c020c). | medium |
+| 3 | 020 | 64 | `L^2,L',LL'.` | `L^{\unsure{4\|2}},L',LL'.` | The exponent is a closed loop with a tail to the lower right, the same form as the 4 of `(L^4,\ L'^2-LL',\dots)` on l.39 (Hua reads that one "L^q"); the 2s of this page have a flat base (crop c020c panel 4). | medium |
+| 4 | 021 | 13 | `de torsion de $\uline Z_\ell$-module` | `de torsion du $\uline Z_\ell$-module` | The article is overtyped: a u struck on another letter (crop c021 panel 1). Hua batch-01 p.20 reads "du". | medium |
+| 5 | 021 | 23 | `\deleted{les suites exactes}\inserted{la suite exacte}` | `la\deleted{\unsure{s}} suite\deleted{\unsure{s}} exacte\deleted{\unsure{s}}` | "la", "suite", "exacte" are typed clean, each followed by one x-ed letter (crop c021 panel 3); no "les" was typed and nothing was added. | high |
+| 6 | 021 | 27 | `Néron--Sévéri` | `Néron-Sévéri` | A typed hyphen, not a dash; both acute accents confirmed (crop c021 panel 2). | high |
+| 7 | 022 | 13 | `=L_0^{\unsure{n\|\prime n}}\circ\alpha\beta\pi_0` | `=L_0^{\unsure{n\|\prime n}}\alpha\beta\pi_0` | Only one small circle follows the L, at the foot of the exponent: the subscript 0. There is no separate composition sign (crop c022c panel 2). Hua batch-02 p.21: `L^{n}_{0}\,\alpha\beta\,\pi_{0}`. | medium |
+| 8 | 022 | 15 | `$L_0^{\unsure{\prime n\|n}}$ et $\Lambda_0^{\unsure{\prime n\|n}}$` | `$\unsure{L_0^{\prime n}\|L_0^n\|L'{}^n}$ et $\unsure{\Lambda_0^{\prime n}\|\Lambda_0^n\|\Lambda'{}^n}$` | The ticks before n are there (crop c022c panel 3). The small o's under L and Λ may be show-through of typed o's of scan 23 ("l'orthogonal", "canoniquement" at the mirror position). Hua reads `L'^{n}` and `\Lambda'^{n}`, which is what αβ = 1 gives. | low |
+| 9 | 022 | 17 | `D'où` | `\unsure{D'où\|Donc}` | A capital D and a flat stroke; Hua reads "Donc". | low |
+| 10 | 022 | 27 | `On \unsure{veut\|peut} prouver` | `On \unsure{veut\|peut\|sait} prouver` | Hook, loop, hump, crossed t; no p descender (crop c022c panel 5). Hua reads "sait" (marked uncertain). With "sait" the sentence states a converse instead of seeking one. | low |
+| 11 | 022 | 27 | `sur $A$` | `sur \unsure{$k$\|$A$}` | A tall stroke with a loop and a leg, his k; no apex or crossbar of an A (crop h1 panel 1). Hua reads k. Scan 18 ends on "ℰ étant une algèbre sur un anneau commutatif k". | medium |
+| 12 | 022 | 27 | `\unsure{Ça\|Ce}` | `Ça` | A cedilla hook under the C (crops c022c panel 6, h1 panel 1). Hua reads "Ce". | medium |
+| 13 | 022 | 36 | `\text{de base}` | `\text{\unsure{de\|dont} base}` | The first word is d, a loop and a long flat stroke (crop h1 panel 2); Hua reads "dont \uncertain{une base}". | low |
+| 14 | 022 | 40 | `\text{degré}` | `\text{deg:}` | "deg" and a colon; no "ré" (crop c022d panel 3). Hua: "(deg : 0 2 4)". | high |
+| 15 | 023 | 13, 15, 31 | `\margin{$\times$}` (3 times) | the two-stroke TikZ cross of scan 19 | Convention only: the same left-margin crosses as on scan 19, where the first pass drew them (first occurrence). | high |
+| 16 | 025 | 33 | `\deleted{\unsure{donc}}` | `\deleted{\unsure{donc\|dont}}` | Struck short word; Hua `\struck{dont}`. | low |
+| 17 | 025 | 36 | `\unsure{\rho'\|\rho^1}(w,x)` | `\unsure{\rho'\|\rho^1\|\rho}(w,x)` | A tall thin stroke stands after ρ (crop h4 panel 2); Hua reads plain ρ. | low |
+| 18 | 025 | 38 | `\unsure{\langle x,y'\rangle\|+\langle x,y'\rangle}` | `\unsure{\langle x,y'\rangle\|+\langle x,y'\rangle\|\deleted{+}\langle x,y'\rangle\|\deleted{-}\langle x,y'\rangle}` | A heavy vertical blot between "=" and "⟨" (crop h4 panel 3); Hua reads a struck illegible sign. No reading gives a live minus, and associativity (xy)ξ = x(yξ) with the footnote's ⟨x, φ̃(y)⟩ = φ(x,y) needs the live sign +. | low |
+| 19 | 025 | 55 | `\unsure{Quelle que soit la donnée}` | `\unsure{Quels que soient les choix\|Quelle que soit la donnée}` | Five words; the fifth ends in x (choix), the fourth has one ascender (les) (crop h3 panel 6). Hua: "Quels que soient les choix de φ, ψ, Q". | medium |
+| 20 | 025 | 64 | `\margin{Exprime` | `\margin{exprime` | A looped lower-case e (crop c025b panel 2); Hua "exprime". | medium |
+| 21 | 025 | 72 | `\text{ssi}` | `\text{\unsure{sss\|ssi}}` | Three s-loops and no i-dot (crop h2 panel 5); Hua reads "sss" and glosses it "si et seulement si". The meaning is the same either way. | medium |
+| 22 | 025 | 81 | `\text{non dég ssi}` | `\text{non dég \unsure{sss\|ssi}}` | Same form (crop h2 panel 6); Hua "sss". | medium |
+| 23 | 025 | 80 | `\uline{\text{it\unsure{ou}}}` | `\uline{\text{\unsure{itou\|idem}}}` | i, a crossed t, then a run (crop h2 panel 7): this favours "itou"; Hua reads "idem". | low |
+| 24 | 026 | 4 | `Après` | `Aprés` | The typed accent is acute (crop c027 panel 7). | high |
+| 25 | 026 | 10 | `\unsure{diogramme\|diagramme}` | `diagramme` | The typed a is clear (crop c027 panel 8). | high |
+| 26 | 027 | 3 | `(H^1)\unsure{H^3\|(H^1)^3}` | `(H^1)\unsure{H^3\|(H^1)^3\|{}^{\deleted{\otimes}3}}` | The glyph after (H^1) is hatched over and followed by a raised 3 (crop h3 panel 1); Hua reads `(H^{1})^{\struck{\otimes}3}`. | low |
+| 27 | 027 | 7 | `\unsure{étant donné}` | `\unsure{étant donné\|étant donnée}` | The ending is not decided by the ink; Hua "étant donnée". | low |
+| 28 | 027 | 7 | `une droite isotrope $D$ dans` | `une droite isotrope \inserted{$D$} dans` | The D is written above the line at the end of "isotrope", as an addition. | high |
+| 29 | 027 | 35 | `\uline{Condition de non dégénérescence}` | `\uline{\unsure{Conditions\|Condition} de non dégénérescence}` | A final s-stroke after "Condition" (crop h3 panel 5); Hua "Conditions". | medium |
+| 30 | 027 | 39 | `Q(\alpha(xy),\xi)` | `Q(\alpha(x\wedge y),\xi)` | A wedge between x and y (crop c027 panel 4). Hua "α(x ∧ y)". | high |
+| 31 | 029 | 16 | `($V$ est de dim paire)` | `(\unsure{$W$\|$V$} \unsure{est\|étant} de dim paire)` | The letter after "(" has two valleys like the W̃ of l.14, unlike the simple V of "dim V ≥ 4" just before it (crops c029a panel 2, h4 panel 1); Hua reads "(W \ill{} de dim. paire)". The verb begins with an ascender; "est" is not secured (crop c029c panel 2). V is what a nondegenerate alternating φ needs. | medium |
+| 32 | 029 | 16 | `\unsure{au facteur scalaire}` (twice) | `\unsure{au facteur scalaire\|à un facteur scalaire}` | Hua reads "à un facteur scalaire" both times; the ink between "voulue," and "scalaire" does not decide. | low |
+| 33 | 033 | 34, 35 | `\sum_{\unsure{0\leq i\leq2n}}` (twice, in the cancelled 4')) | `\sum_{0\leq i\leq2n}` | "0≤i≤2n" under both handwritten Σ; Hua reads `0 \le i \le 2n` in both. | medium |
+| 34 | 033 | 58 | `\inserted{\unsure{3*\|3'}}` | `\inserted{\unsure{3*\|3'\|\deleted{3}*}}` | An ink 3 over the typed reference, then a hash-like mark (crop c033 panel 4); Hua reads `\struck{3}\add{*}`. Formula 7) follows from 3) (see the notes). | low |
+| 35 | 033 | 61 | `\deleted{\unsure{4L_X(\dots)+2(\dots)L_X}}` | the same, with the alternative `L_X(\mathrm{id}_X+\phi_*\Lambda_Y\phi^*)+(\mathrm{id}_X+\phi_*\Lambda_Y\phi^*)L_X` | Hua's reading of the struck right side of 7); the ink under the ruling does not decide. | low |
+| 36 | 033 | 69 | `H^{\unsure{(2n)-2\|(2n)+2}}` | `H^{\unsure{(2n)-2\|(2n)+2\|(2n+1)-2}}` | Overwritten first exponent; after ")" a short dash next to a vertical (crop c033 panel 3); Hua reads "(2n+1)−2". | low |
+| 37 | 034 | 6 | `\deleted{\unsure{\text{si }i}}` | `\deleted{\unsure{\text{si }i\|\text{si }i=n-1}}` | Hua reads `\struck{si $i = n-1$}`. | low |
+| 38 | 034 | 22 | `\uline{\unsure{Cor}}\qquad Notons` | `\uline{\unsure{Cor}}\qquad \unsure{Non\|Notons} ---` | N, two humps, then a long stroke; no t and no final s (crop h5 panel 2). Hua: "Non →", with the heading before it struck. | medium |
+| 39 | 034 | 38 | `\inserted{\unsure{égal à celui de $L_X$, i.e.}}` | adds the alternative `cf. 2 : celui de $L_X$, i.e.` | The first word looks like "c'f.2" (crop c034 panel 3); Hua reads "cf. 2 :". | low |
+| 40 | 034 | 44 | `\varphi_{n-1}` | `\varphi_{\unsure{n-1\|*}}` | The subscript is not secured; Hua reads φ_*. Both name the Gysin map. | low |
+| 41 | 036 | 4 | `(\unsure{\alpha})` | `(\unsure{\alpha\|b})` | Hua reads "(b)" here (and "α" at l.10). | low |
+| 42 | 036 | 27 | `\unsure{n+1}\leq i` | `\unsure{n+1\|\deleted{n+1}}\leq i` | A heavily overwritten lower bound; Hua reads it struck. | low |
+| 43 | 036 | 42 | `\unsure{variante}` | `\unsure{variante\|variantes}` | Hua "variantes". | low |
+
+## Edition matters on these scans (from `edition_matters_20261117/MPL_16+47+54+44.md`)
+
+All four were checked on the image; none needs a change in the transcription. Their mathematics is in the checked
+notes under the same numbers.
+
+- @1111 (scan 19, l.29-32): "en vertu de MUMFORD [28], cette matrice est définie négative" confirmed; "[28]" is a
+  handwritten addition with a leader to the comma after MUMFORD.
+- #988 (scan 19, l.36-44): "ce groupe est canoniquement autodual (par un accouplement symétrique à valeurs dans
+  Q/Z), d'où une autodualité symétrique (8.16)" confirmed; see the unchanged place on scan 19 below.
+- @1148 (scan 25, l.58-63): the boxed identity φ(x,y)φ(t,z) + Q(ψ(x,y),ψ(t,z)) = φ(t,x)φ(y,z) + Q(ψ(t,x),ψ(y,z))
+  and "(xy)(tz) = (tx)(yz)" confirmed letter by letter.
+- @1150 (scan 29, l.16): "si dim V ≥ 4 (ou 6?)" confirmed: the sign is ≥, the 4 is clear, the "(ou 6?)" has its
+  question mark (crop c029a panel 2). The parenthesis after it now reads `(\unsure{$W$|$V$} \unsure{est|étant} de dim
+  paire)` (row 31).
+
+## Places checked and left as the first pass has them
+
+These are places where Hua's reading differs, or where a first-pass reading looked doubtful, and the image supports
+the first pass.
+
+- Scan 19, l.36: the handwritten "symétrique" written over the typed adjective of "accouplement" is kept as an
+  insertion over a deleted typed word. Hua reads the ink as a cancellation of a typed "symétrique", moved after
+  "autodualité". The ink forms legible cursive letters; this stays open: is it a rewrite or a cancellation?
+- Scan 19, l.47: "Pic(U)_0": the typed o sits on the baseline; Hua normalises to a superscript.
+- Scan 20, l.16: ℰ^{n−i}. Hua reads ℰ^{(n−i)}, but the parentheses are thin grey typed glyphs at the mirror image of
+  "H^i(X,Z_ℓ[1])" in (8.3) of scan 21 (show-through; crop c020a panel 1).
+- Scan 20, l.21: M^0 → M^{2n} without a label. Hua reads an L over the arrow. The mark is the show-through of the
+  handwritten crossed ℓ of μ_{ℓ∞} in (8.4) of scan 21, at the mirror position (x ≈ 1680 − 985).
+- Scan 20, l.16: λ^{(n−i)b_i}. Hua reads Σ_i (n−i)b_i; the glyph is a λ with a long leg.
+- Scan 20, l.32: Δ(L)^{−N}. Hua omits the exponent; "−N" is black ink, absent from the mirrored scan 21 (crop h4
+  panels 4-5).
+- Scan 20, l.55: `\unsure{V}` is heavy black ink, not the grey show-through ℓ of scan 21, which lies about 50 px to
+  the right (crop c020c panels 1-2).
+- Scan 22, l.19: `L^{\unsure{\prime|*}}`: Hua reads L'; both alternatives stay.
+- Scan 22, l.29: "Mais ça ne marche pas non plus pour les endom. associés aux élémts de degré 2 d'une alg. de
+  Lefschetz, pour la dim 6". Hua's reading of it is fragmentary ("plus précises"); "aux" is not struck (crop c022d
+  panel 1).
+- Scan 22, l.11: "(βΛ_0^n)": the n stands over the apex of the Λ (crop c025a panel 1); the first pass is right.
+- Scan 25, l.23-24: "isom." with no "à" before it on the line (crop h2 panel 1); Hua adds "à".
+- Scan 25, l.27: "clair par"; Hua reads "clair, \struck{pour}". The p-word is lightly written, not struck (crop h2
+  panel 2).
+- Scan 27, l.4: `\unsure{un}`: Hua reads "un" (support), but the letter shapes are not secured.
+- Scan 27, l.15-19: "se factorise en [épi.] ∧⁴V moyennant χ, et donc les données sont les suivantes". Hua reads "se
+  factorise via ∧⁴V, engendrant χ, et d'où les données", but the word before χ shows "-yen-" (crop h3 panel 2).
+- Scan 27, l.7: "(si k [struck] alg. clos disons)" in this order on the page; Hua reads "(si k est alg. clos)
+  [struck]".
+- Scan 27, l.31: "[on dira que W̃, Q̃ est une extension": Hua reads "[i.e. disant que"; the crops do not decide. Left
+  for the user's eye.
+- Scan 29, l.2: "\deleted{Exemple Prenons φ non dég.}": Hua reads "Prenons pour \ill{} dég.".
+- Scan 29, l.16: "pourront être infinis". Hua reads "peuvent \struck{jamais} être infinis", but there is no struck
+  word between the verb and "être" (crop h1 panel 5).
+- Scan 29, l.16: `\bigwedge^*V\otimes\bigwedge^*V`: Hua reads Λ̌V (a check over Λ). The mark sits above the Λ where he
+  writes the degree (as in ∧²V) and looks like a small star (crop h1 panel 4).
+- Scan 29, l.16: "(quand ∈∧²V)" after "dans ∧^*V": the insertion's leader ends there. Hua reads "(qui ∈ ∧⁴V̌)" at
+  another place.
+- Scan 29, l.16: "linéairement engendrées et pleines", "non bornée", "(quand dim V croissant…)". Hua reads
+  "plusieurs \ill{}", "non bornés", "(qui dès V \ill{})". All stay open.
+- Scan 33, l.69: "(condition ``du degré critique''". Hua reads "(correspondances « en dim. critique »", but the word
+  after the quotation mark starts with an ascender (d) (crop h5 panel 1).
+- Scan 34, l.11-12: `\unsure{\wr|2}` twice: Hua reads ≃ on both vertical arrows (support for the iso reading); kept
+  open.
+- Scan 34, l.12: `\unsure{-|+}` in H^{2(n−1)∓i}(Y): Hua reads −, marked uncertain (support for the first reading).
+- Scan 34, l.12: the label φ_{2(n−1)+i}: Hua reads φ_*; the ink shows "2(n−1)+i" (crop c034 panel 1).
+- Scan 34, l.25-27 and scan 36, l.4, 7: H^*: Hua reads H^d (and "H^{d+2}(X)" as the target of φ_* on scan 36). The
+  exponent has the same small star-like form in all these places, and the sign on scan 36 l.4 is a plain "=" (crop h5
+  panels 3-5).
+- Scan 34, l.30: "Cor" (underlined like the other headings); Hua reads "Car".
+- Scan 36, l.8: "s'identifie donc à"; Hua reads "s'interprète donc :".
+- Scan 36, l.27: `\unsure{j}` twice: Hua reads j and j−2 (support); kept open.
+- Scan 36, l.12-14: E^{n−1} is outside the zigzag cancellation (Hua includes it); φ_* does vanish on E^{n−1}.
+- Scan 36, l.19: "≃ Ker" lies inside the cancellation (Hua reads it live: "≃ Ker E^{n−1}(Y)").
+- Scan 36, l.46-51: the paragraph "Pour la dernière formule …" is struck by a long rule and diagonals; Hua transcribes
+  it as live text.
+
+## Places still unresolved (every `\unsure` and `\illegible` in the corrected files)
+
+Each entry gives the scan, the line, and the reading with its alternatives, ink first; "(in \deleted)" etc. marks
+the frame the place sits in.
+
+@@UNRESOLVED@@

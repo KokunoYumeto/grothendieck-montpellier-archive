@@ -1,0 +1,15 @@
+- 047 (1): l.17 `X`
+- 048 (3): l.15 `(\Delta_r)|\{\Delta_r\}`; l.30 `les|des`; l.35 `o�|d'o�`
+- 049 (4): l.15 `au cas`; l.17 `X|x|i`; l.22 `ad`; l.23 `\Longleftrightarrow|=`
+- 050 (3): l.5 `\alpha`; l.23 `i^1_*|i_*`; l.23 `i'{}^*|i'_*`
+- 051 (4): l.3 `\Delta`; l.4 `X|I`; l.4 `est un`; l.14 `des`
+- 052 (7): l.12 `pouvoir en d�duire`; l.12 `e`; l.31 `X_{\Delta_1}`; l.31 `est une partie ferm�e`; l.32 `i`; l.32 `famille`; l.33 `supposons`
+- 053 (7): l.8 `en`; l.11 `ds`; l.16 `�tale|et alors`; l.19 `les $X_i$`; l.20 `-|\longrightarrow`; l.30 `existe|existent`; l.32 `X`
+- 054 (4): l.12 `des|du`; l.12 `cercles|cercle`; l.15 `d'un sommet`; l.45 `I|i`
+- 055 (19): l.10 `certains|dans`; l.10 `X_i^*|X_i`; l.10 `inconv�nient`; l.10 `ord.`; l.10 `form� des`; l.10 `clairement`; l.10 `d'ailleurs`; l.10 `satisfont`; l.10 `satisfont`; l.14 `alors`; l.14 `car`; l.15 `k\leq i\ \text{ou}\ k\leq j`; l.16 `\subset|=`; l.17 `Or|On a`; l.27 `par`; l.32 `a_r|\sigma_r`; l.33 `\Delta_r|\Delta_0`; l.34 `X_0|\Delta_0`; l.35 `a_r|\sigma_r`
+- 056 (3): l.8 `-|\longrightarrow`; l.14 `Dans le cas`; l.18 `ferm�`
+- 057 (10): l.9 `\ell`; l.14 `\overline V_{ij}`; l.14 `R_j`; l.14 `*`; l.18 `*`; l.19 `X_k`; l.22 `\bigcup`; l.22 `\text{tel q}`; l.33 `\text{et}`; l.33 `\dot X|\dot X_i`
+- 058 (5): l.13 `i`; l.14 `-`; l.22 `�videntes|incidentes`; l.25 `V_{ij}^*|X_{ij}^*`; l.29 `comprenant|comprennent`
+- 059 (11): l.3 `particuliers|particulier`; l.5 `c�tes|cotes|c�t�s`; l.5 `g�n�raux|g�n�reux|g�n�rales`; l.5 `ou pas assez. Pas assez`; l.5 `V|\overline V`; l.5 `\cong|\simeq`; l.5 `ainsi dire`; l.6 `est`; l.8 `str.te|str.`; l.15 `des cas`; l.29 `\overline V_{ij}`
+- 060 (11): l.2 `---|ou`; l.2 `V_{ij}`; l.8 `j`; l.8 `S_{j,k}|\Sigma_{j,k}`; l.8 `m`; l.17 `l<k|l\leq k`; l.19 `I^{*(k)'}|I^{(k)'}`; l.20 `I^{(k)''}|I^{(k)'}`; l.33 `V_{ij}`; l.38 `un`; l.38 `homotope`
+- 061 (4): l.3 `g�n�ral`; l.3 `tant soit peu`; l.3 `ce sont`; l.3 `z|Z`

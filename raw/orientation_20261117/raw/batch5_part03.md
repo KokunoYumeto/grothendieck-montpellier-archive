@@ -1,0 +1,14 @@
+=== FILE: 65_MPL_134-1+134-2_146-185.md ===
+## Orientation for this package (curated 17 Nov 2026 by Claude Opus 5.5 at effort max from our records; leads, unrefereed)
+
+- **What these pages are:** cote 134-1 (scans 2-7), "Lettres Breen 75,76": letters and copies of letters with Larry Breen, Pierre Deligne and Daniel Quillen (1974-1976, 1984); cote 134-2 (scans 146-185), from the folder of chapter I, "Take off" (pages 1-65), and a provisional table of contents: annotated typescripts (19-22 February 1983), a handwritten note and copies of letters (the title is cut in our digest).
+- **Where they sit:** plan rank 9, the handwritten leaves of Pursuing Stacks, cote 158 and the dossier; same package as cotes 103 and 104 (folder 72) and 109. It opens the homotopy line (programme map, item 2).
+- **Our open questions they may bear on:** the matched rows audit later chapters of Pursuing Stacks and Les Dérivateurs. Nearest to an opening chapter on what models homotopy types, possibly: **CATHOT D.6** (is [BC, S²] countable for every finite category C?), if finite models come up; **BISITE F.18** (indexing a derivator by strict higher categories), if strict and weak ∞-groupoids are weighed; **GALOIS G.6** (higher-coefficient constructions), for the stacks of the letters.
+- **Our results to use and check:** from the programme map, if finite models come up: S2COUNT (no sequence of finite categories represents S² on finite tests) and FINMON (the least finite monoid with classifying space CP² has 23 elements).
+- **What other packages' notes say about these cotes:** **MPL_152+120 Q1-02** (a dated 1975 "étale-tubular" passage, used as a historical source) and that package's source and search ledger cite this cote.
+- **Michel Hua's project:** our digest is cut before his findings and his reading of 134-1 and 134-2: take them from the results block and credit each use (Hua, modernised reading of cote 134-2; Hua, findings register, id).
+- **What the notes should look for:**
+  1. What scans 146-185 of 134-2 are: which typescript pages, the table of contents, the note, or copies of letters (to whom, when).
+  2. On typescript pages: his handwritten corrections, exactly, against the published text of Pursuing Stacks.
+  3. The 1975 "étale-tubular" passage of MPL_152+120 Q1-02: find it (possibly in the 1975 Breen letters, by its date) and check that note's reading.
+  4. Each letter: date, correspondent, and any definition or conjecture (stacks, n-groupoids, homotopy types), with scans.
