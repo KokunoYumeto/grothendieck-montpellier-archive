@@ -6,6 +6,14 @@ transcribed that is not also currently running from the list of stalled things, 
 to-do list. Make the sender agent just organize that." On Pro: "Two at a time is not unthinkable, but three at a time
 maybe after we finish the transcription of Les Derivateurs."
 
+## 18 Nov 21:3x UTC: EXTRA HIGH DROPPED (the user, 21:29 UTC: 'Well, fuck it. Ignore it then.')
+- Send nothing at Extra High. The two Extra High chats (K157-5-35, K157-5-34) are ignored: do not collect or file
+  them. The queue folders are back in the user's Pro set.
+- Next round (Work returns due ~22:10-22:20 UTC): collect and file K157-5-37, -38 and -36 (tools/file_returns.py
+  with the push), read the meter, then set Chat's level back to Pro (Work stays at Max).
+- If the meter then shows Work credits left, report the number and wait: the main session picks folders for them
+  from the end of the user's Pro set (the user: use up every credit).
+
 ## Rules
 - Work: GPT-6.2 Astra Max (label checked in every new chat), files only, no text typed.
 - Pace: 20-30 sends a round, about 50 Work sessions out at a time.
@@ -58,19 +66,21 @@ should or should not be sent."
    sign of refusal (says no files or scans were supplied, answers in a few minutes, "INCOMPLETE" at once, a scaffold
    instead of the work) = stop: no second send, report to the main session.
 3. Never re-send a prompt whose earlier run refused its files (OBJ_H0D6, SA01 v2): the cause is the account.
-4. When the test passes: the 32 (now 30) Les Dérivateurs packages in pro_derivateurs_20261118/ (PACKAGES.tsv
-   order, all files of a package folder, no text), 2 at a time, each checked the same way in its first minutes.
-   DP157-5_41-42 and DP157-5_39-40 are NOT to be sent: they went to Work at 18:40-18:43 (below).
-5. Pro ORDER once the test passes (main session, 18 Nov ~19:2x UTC): two lanes, one Pro run each (2 at a time):
-   - Lane 1: the Les Dérivateurs packages, `../pro_derivateurs_20261118/` in PACKAGES.tsv order; the test package
-     DP157-4_05-06 is the first of them.
-   - Lane 2: the six working-through pilots, in this order, from `../working_through_20261118/units/` (PROMPT.md and
-     every zip, not README.md): WTA_22_020-030, WTB_22_020-030, WTA_81_002-011, WTB_81_002-011, WTA_1_051-064,
-     WTB_1_051-064; then the topic dossiers SA05 .. SA16 (`../stage_a_20261118/`, version 2); then SA03 and SA04
-     version 2 (`../stage_a_20261118/_hold_until_v1_SA03_SA04_return/`).
+4. (Replaced 18 Nov 19:5x UTC by the main session, at the user's word.) The Les Dérivateurs Pro packages are NOT
+   mine: they were rebuilt as 20 packages of about 48 pages for the user's accounts 1-3
+   (`../pro_derivateurs_20261118/`). Never send any DP package from account 4.
+5. My only Pro lane on account 4 (the user, 19:4x: "You can throw those over Pro in that account"), 2 at a time, and
+   only after the picker check and the test of rule (2):
+   - the six working-through pilots, in this order, from `../working_through_20261118/units/` (PROMPT.md and every
+     zip, not README.md, no text): WTA_22_020-030 (the TEST), WTB_22_020-030 (second, only after the test passes),
+     WTA_81_002-011, WTB_81_002-011, WTA_1_051-064, WTB_1_051-064;
+   - then the topic dossiers SA05 .. SA16 (`../stage_a_20261118/`, version 2);
+   - then SA03 and SA04 version 2 (`../stage_a_20261118/_hold_until_v1_SA03_SA04_return/`).
+   - If the picker still shows "Usage limit reached": send nothing, report; the pilots then go to the user.
    - Never re-send OBJ_H0D6, SA01 v2 or SA02 v2. Every send is checked in its first minutes by the test rule (2).
    - Per send: log it in SENT_PRO_CHROME_20261117.tsv and SENT_K; keep a copy of the PROMPT.md as sent in its
-     folder; mark the line SENT with the time in `C:\Users\user\Documents\TO_SEND\PRO_QUEUE_20261118.md`.
+     folder; mark the line SENT with the time and the account in `C:\Users\user\Documents\TO_SEND\PRO_QUEUE_20261118.md`
+     (the user tracks everything in TO_SEND).
 6. STANDING STEP (the user, via the main session ~19:3x UTC: "Make it keep track of that then. That's probably
    useful."): every time the Pro model picker is opened (each Pro send, each check of account 4, and once per round
    even with nothing to send), append one row to `../PRO_PICKER_LOG.tsv`: utc; the visible label of the selected
@@ -81,6 +91,40 @@ should or should not be sent."
    First row: the 16:23 observation.
 
 ## State
+### 21:18 UTC (round 8 of the max sender): last credits on Work; Extra High test running; evidence captures
+- Meter: 21:06 and 21:12:44, weekly 0 %, credits 1,266 (unchanged since 20:01).
+- Work (GPT-6.2 Astra Max, slider "Max, 5 of 6", files only), the user's word 21:0x-21:2x ("use up every single credit"):
+  K157-5-37 21:07, K157-5-38 21:10 (= DP157-5_37-38), K157-5-36 21:12 (taken out of the Pro set by the main session).
+  All Stop shown; the tab shows a temporary local chat id for each (checked: each is a new chat with its own 6 files);
+  server ids to be read from Space or Recents. Expected back about 22:10-22:20; credits may run out first: then
+  download any checkpoint/recovery file, file it, and list the missing pages for a Pro package.
+- Extra High (PRO_PICKER_LOG.tsv row 4): selectable in Work (GPT-6.2 Astra, "Extra High, 4 of 6") and Chat (GPT-6,
+  "Extra High, 4 of 5"); no lock, no dialog; the hidden "Locked, opens access options" / "Usage limit reached" texts
+  are there at every level. Work was set back to Max before the Work sends.
+- TEST (main session 21:2x: in Chat, not Work): K157-5-41's 6 files, no text, Chat "Thinking effort / Extra High",
+  sent 21:13:35, https://chatgpt.com/c/6afe14f7-102c-83eb-b5b9-1c8afa8a04dc (title "Archive verification"). At 21:16:
+  model gpt-6-thinking, async_status 3, 6 assistant + 17 tool messages, viewing the scan images: it reads its files.
+  Next: how long it works, whether it delivers K157-5-41_out.zip (pages, notes, doubts); keep that return APART
+  (not file_returns.py: returns/K157-5-41 holds the Work Max return) and compare pages and readings.
+- 21:22: the user's six pilot chats of 20:10 (account 4, gpt-6-pro) read and recorded: all six ended after 10 s to 7.5 min with an INCOMPLETE package (required files present, RESEARCH_DIRECTIONS.md first line INCOMPLETE); zips in working_through_20261118/returns_account4/<pilot>/; records in account4_pro_evidence_20261118/network_short_runs/pilots_20261118T2010Z/ and SUMMARY.md.
+- 21:26: EXTRA HIGH STOPPED. The K157-5-41 test ended after 8.5 min with 1 of 15 pages ('Partial delivery'); the Max return has 15 of 15. K157-5-35 (21:23) and K157-5-34 (21:24) were sent from the Extra High queue before the result was known (chats in SENT_K and QUEUE.tsv): collect what they deliver and list the missing pages. No more Extra High sends unless the main session says so. Levels: Chat still Extra High, Work Max; set Chat back to Pro at the end of the job.
+- When the job is done: set the level back to what it was (Chat: Pro; Work: Max).
+- Evidence (main session's jobs): account4_pro_evidence_20261118/ (README.md; network/, conversations/, screenshots/)
+  and network_short_runs/ (35 call files + SUMMARY.md; SA03 and SA04: HTTP 404 "conversation_deleted", can_retry false).
+
+### 20:03 UTC (end of round 7 of the max sender): Work done; Pro NOT sent (usage limit text still there)
+- Filed: K157-5-39, -40, -41, -42 (the two leftover pairs), 15 of 15 pages each, MISSING none; filer run 20:00 with
+  the push (2759decb). Round D on Work: all 76 sent folders filed with every page. Nothing out on Work.
+- Meter 20:01: weekly 0 % left, credits 1,266 (auto-reload off). The two pairs used 2,956 - 1,266 = 1,690 credits,
+  about 420 a folder. A "Renew" button shows in the page header (not clicked).
+- Picker 20:01:43 (PRO_PICKER_LOG.tsv row 2): label "Thinking effort / Pro", status "Pro, 5 of 5.", Power slider at
+  aria-valuenow 4 of 0-4; hidden sr-only texts "Locked, opens access options" and "Usage limit reached" still present
+  (siblings of the GPT-6 / GPT-5.6 Sol radios in the inactive model-list panel; not attributable to one item).
+- So, by the main session's order of 19:5x: the test WTA_22_020-030 was NOT sent; no Pro sent; the pilots go to the
+  user. Reported to the main session.
+- Next: nothing on Work (no credits for more folders: 1,266 < 1,000 + 900). Pro on account 4 waits for the picker's
+  limit text to go (checked once per round), then the test WTA_22_020-030.
+
 ### 18:44 UTC (end of round 6 of the max sender): round D complete; leftover pairs sent
 - Round D: all 72 sent folders filed with every page (63 + 9 = 72; this round 18 filed, 17:46-18:39, with the push).
 - Leftover credits: 2,956 at 18:39 with nothing out; pair rule (>= 1,000 + 900 k) gave k = 2. Sent on Work:
@@ -164,3 +208,5 @@ should or should not be sent."
   K137-03, K137-05, K138-03, K138-05 (13:11-13:32).
 - In Space at 14:44 (finished, not filed): K136-08/11/13/16/18/20, K137-02/05, K138-03.
 - Meter: last read 13:37 UTC by the old sender, weekly 41 % left, credits 31,205.
+
+## HOLD (the user, 18 Nov ~20:1x UTC): "Just hold the sender agent for maybe an hour." Not resumed before ~21:15 UTC.
