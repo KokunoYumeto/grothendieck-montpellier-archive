@@ -33,7 +33,32 @@ maybe after we finish the transcription of Les Derivateurs."
   user's accounts 1-3, never from here. Mark each send SENT with the time in that file. After round D.
 - Also on account 4: P072 (sent 09:55), FRAISSE (sent 01:34; no Stop control; checkpoint_10 at 11:58). States to check.
 
+## Round D: unsent after the credit-guard stop (17:26 UTC), for the 30-page Pro packages
+64 folders, 998 pages, in ROUNDS.tsv order (pages in brackets). Each folder is split for Chrome in
+`drag_split_next/<ID>/` (scans in `<ID>_scans_part*.zip`); none of them has been sent anywhere.
+K157-4-05 (16), K157-4-06 (16), K157-4-07 (16), K157-4-08 (16), K157-4-09 (16), K157-4-10 (16), K157-4-11 (16),
+K157-4-12 (16), K157-4-13 (16), K157-4-14 (16), K157-4-15 (15), K157-4-16 (15), K157-4-17 (15), K157-4-18 (15),
+K157-4-19 (15), K157-4-20 (15), K157-4-21 (15), K157-4-22 (15), K157-4-23 (15), K157-4-24 (15), K157-4-25 (15),
+K157-4-26 (15), K157-5-01 (16), K157-5-02 (16), K157-5-03 (16), K157-5-04 (16), K157-5-05 (16), K157-5-06 (16),
+K157-5-07 (16), K157-5-08 (16), K157-5-09 (16), K157-5-10 (16), K157-5-11 (16), K157-5-12 (16), K157-5-13 (16),
+K157-5-14 (16), K157-5-15 (16), K157-5-16 (16), K157-5-17 (16), K157-5-18 (16), K157-5-19 (16), K157-5-20 (16),
+K157-5-21 (16), K157-5-22 (16), K157-5-23 (16), K157-5-24 (16), K157-5-25 (16), K157-5-26 (16), K157-5-27 (16),
+K157-5-28 (16), K157-5-29 (15), K157-5-30 (15), K157-5-31 (15), K157-5-32 (15), K157-5-33 (15), K157-5-34 (15),
+K157-5-35 (15), K157-5-36 (15), K157-5-37 (15), K157-5-38 (15), K157-5-39 (15), K157-5-40 (15), K157-5-41 (15),
+K157-5-42 (15)
+
 ## State
+### 17:27 UTC (end of round 4 of the max sender): ROUND D SENDING STOPPED BY THE CREDIT GUARD
+- Round D: 72 of 136 sent (round 4 added K157-3-14 .. K157-3-23 and K157-4-01 .. K157-4-04, 17:18-17:26). 40
+  returned and filed with every page (28 more this round, filed 17:16 with the GitHub push). 32 out; they finish on
+  the credits left. Unsent: the 64 folders above.
+- Guard at 17:26 (9,551 credits, 32 out): the out folders still need about 6,700-7,900 credits plus the 1,500
+  margin, leaving room for 0-3 more, so sending stopped (conservative case).
+- Cost: 6.3 credits per session-minute (16:53-17:17, about 750 session-minutes); the 40 finished folders ran 42-82
+  min, mean 61 (about 63 with the slow ones still out): about 400-420 credits a folder.
+- Next rounds: collect and file the 32 out as they finish (filer with push); no round-D sends; Pro held.
+- Meter: 17:17 credits 10,804; 17:26 credits 9,551 (weekly 0 %).
+
 ### 16:54 UTC (end of round 3 of the max sender)
 - Round D: 58 of 136 sent (round 3 added K157-3-06 .. K157-3-13, 16:48-16:52). 12 returned and filed, every page
   (190 pages): K157-1-01/02/03/08/09/11/12/17, K157-2-01/03/04/12 (filed with --no-push 16:46 and 16:53; the next
