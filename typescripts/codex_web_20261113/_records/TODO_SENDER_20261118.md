@@ -47,7 +47,49 @@ K157-5-28 (16), K157-5-29 (15), K157-5-30 (15), K157-5-31 (15), K157-5-32 (15), 
 K157-5-35 (15), K157-5-36 (15), K157-5-37 (15), K157-5-38 (15), K157-5-39 (15), K157-5-40 (15), K157-5-41 (15),
 K157-5-42 (15)
 
+## Pro on account 4: standing rule (the user's word via the main session, 18 Nov ~18:4x UTC)
+The user: "I wanted to hold the pro so that stuff didn't stall again, not because it's bad ... It does not mean that
+those pro prompts cannot be sent or sent by you. I hope that the max agent is more able to discern when something
+should or should not be sent."
+1. Pro stays held while any Work session of round D is running (the stall risk).
+2. After that, Pro only if the model picker no longer shows "Usage limit reached" (sr-only text in the Pro picker,
+   seen 16:23), and then ONE test send first. It passes only if within its first minutes the run visibly reads its
+   attached files (names them, unpacks them, checks the manifest) and is still working after about 10 minutes. Any
+   sign of refusal (says no files or scans were supplied, answers in a few minutes, "INCOMPLETE" at once, a scaffold
+   instead of the work) = stop: no second send, report to the main session.
+3. Never re-send a prompt whose earlier run refused its files (OBJ_H0D6, SA01 v2): the cause is the account.
+4. When the test passes: the 32 (now 30) Les Dérivateurs packages in pro_derivateurs_20261118/ (PACKAGES.tsv
+   order, all files of a package folder, no text), 2 at a time, each checked the same way in its first minutes.
+   DP157-5_41-42 and DP157-5_39-40 are NOT to be sent: they went to Work at 18:40-18:43 (below).
+5. Pro ORDER once the test passes (main session, 18 Nov ~19:2x UTC): two lanes, one Pro run each (2 at a time):
+   - Lane 1: the Les Dérivateurs packages, `../pro_derivateurs_20261118/` in PACKAGES.tsv order; the test package
+     DP157-4_05-06 is the first of them.
+   - Lane 2: the six working-through pilots, in this order, from `../working_through_20261118/units/` (PROMPT.md and
+     every zip, not README.md): WTA_22_020-030, WTB_22_020-030, WTA_81_002-011, WTB_81_002-011, WTA_1_051-064,
+     WTB_1_051-064; then the topic dossiers SA05 .. SA16 (`../stage_a_20261118/`, version 2); then SA03 and SA04
+     version 2 (`../stage_a_20261118/_hold_until_v1_SA03_SA04_return/`).
+   - Never re-send OBJ_H0D6, SA01 v2 or SA02 v2. Every send is checked in its first minutes by the test rule (2).
+   - Per send: log it in SENT_PRO_CHROME_20261117.tsv and SENT_K; keep a copy of the PROMPT.md as sent in its
+     folder; mark the line SENT with the time in `C:\Users\user\Documents\TO_SEND\PRO_QUEUE_20261118.md`.
+6. STANDING STEP (the user, via the main session ~19:3x UTC: "Make it keep track of that then. That's probably
+   useful."): every time the Pro model picker is opened (each Pro send, each check of account 4, and once per round
+   even with nothing to send), append one row to `../PRO_PICKER_LOG.tsv`: utc; the visible label of the selected
+   mode; every screen-reader-only or aria text in the picker, verbatim; which option or element each belongs to as
+   far as the accessibility tree shows it (or "not attributable"); the state of Pro on the account (runs going, the
+   last run's outcome). Open it with a real click on "Select ChatGPT model" in Chat mode; read the menu's text nodes
+   (TreeWalker over [role=menu]); close by clicking empty space, never Escape. It changes nothing in the send rules.
+   First row: the 16:23 observation.
+
 ## State
+### 18:44 UTC (end of round 6 of the max sender): round D complete; leftover pairs sent
+- Round D: all 72 sent folders filed with every page (63 + 9 = 72; this round 18 filed, 17:46-18:39, with the push).
+- Leftover credits: 2,956 at 18:39 with nothing out; pair rule (>= 1,000 + 900 k) gave k = 2. Sent on Work:
+  K157-5-41 18:40 https://chatgpt.com/c/6afdf117-2550-83ed-8e87-ffedea24af6c, K157-5-42 18:41
+  https://chatgpt.com/c/6afdf13f-c7a8-83eb-9aae-9539fd95a20c (= DP157-5_41-42); K157-5-39 18:42
+  https://chatgpt.com/c/6afdf168-916c-83ed-9c61-b1401300479e, K157-5-40 18:43
+  https://chatgpt.com/c/6afdf1b4-60d8-83ed-9f15-fb91a4afa365 (= DP157-5_39-40). Due about 19:45; then file them.
+- Pro: held while these 4 run (rule 1); then the picker check and one test (rules 2-4).
+
 ### 17:49 UTC (end of round 5 of the max sender): collecting only
 - Round D: 72 sent, 54 filed with every page (14 this round: K157-2-05/16/17/22/26/27, K157-3-02/03/04/07/08/09/11/12;
   filed 17:46 and 17:47 with the GitHub push), 18 out: K157-3-01, -06, -10, -13 .. -23, K157-4-01 .. -04.

@@ -1,5 +1,5 @@
 """Les Derivateurs, the folders of round D that the Work credits could not carry (18 Nov 2026), as Pro packages of
-about 30 pages for GPT-6 Astra (ChatGPT Pro mode). Written by the main session, Claude Opus 5.5 at effort max.
+about 48 pages (three folders) for GPT-6 Astra (ChatGPT Pro mode); 30-page pairs until 18 Nov ~19:5x UTC. Written by the main session, Claude Opus 5.5 at effort max.
 
 The user, 18 Nov 2026 ~16:2x UTC: "Or just transcription, where de Vateurs isn't yet done ... Then we just need to
 finish it anyway. I mean, that's the easiest one. Just like 30-page transcription packages, which would take an hour."
@@ -27,6 +27,19 @@ OUT = CW / "pro_derivateurs_20261118"
 LINT = pathlib.Path.home() / "Documents/claude_tools/push_rule_pro_prompts.py"
 WORK_WHO = "GPT-6.2 Astra at reasoning effort max (ChatGPT Work), run {id}"
 PRO_WHO = "GPT-6 Astra (ChatGPT Pro mode), run {id}, package {pkg}"
+
+
+GROUP = 3
+
+
+def groups(xs, size=GROUP):
+    """Consecutive folders of one cote in groups of `size`; a remainder of one folder joins the last group, a remainder
+    of two is a package of its own. The user, 18 Nov 2026 ~19:5x UTC, for accounts 1-3: not 30 prompts but 15 to 20."""
+    out = [xs[i:i + size] for i in range(0, len(xs), size)]
+    if len(out) > 1 and len(out[-1]) == 1:
+        last = out.pop()
+        out[-1] = out[-1] + last
+    return out
 
 
 def sent_ids():
@@ -111,10 +124,9 @@ def main():
     OUT.mkdir(exist_ok=True)
     rows, bad = [], []
     for cote, xs in by_cote.items():
-        for i in range(0, len(xs), 2):
-            tasks = xs[i:i + 2]
+        for tasks in groups(xs):
             nums = [t["id"].rsplit("-", 1)[1] for t in tasks]
-            pkg = f"DP{cote}_{'-'.join(nums)}"
+            pkg = f"DP{cote}_{nums[0]}-{nums[-1]}"
             d = OUT / pkg
             if d.exists():
                 shutil.rmtree(d)
