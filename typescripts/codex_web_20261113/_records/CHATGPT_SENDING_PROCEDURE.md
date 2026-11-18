@@ -103,3 +103,6 @@ The user: "unless there's an outage, it just keeps going ... none of the threads
 ## Pro concurrency (18 Nov 2026, 02:3x UTC)
 
 Pro on account 4: 3 runs; when a Pro session has a real workspace failure, down to 2; after two hours of cooling off, up to 3 again (the user, 18 Nov 02:3x UTC: "3 runs cuts down to 2 when the pro sessions have a workspace bullshit. And then like let it cool off for 2 hours and then try 3 again").
+
+## When sends fail: stop, do not spam (the user, 18 Nov 2026 ~14:0x UTC)
+"Chill on the pro prompts because you're clearly getting guardrailed and they're not even responding anymore." "Your agent needs to be told, if shit's failing, don't start spamming." If a run dies within seconds or minutes, gives no reply, asks back instead of working, or says it cannot read its files, send no further prompt of that kind: stop at the first such failure, report it with the chat links, and wait for the main session. Never resend in bulk, never refill slots while failures repeat. Case: 18 Nov 12:13-13:38 UTC, SA01-SA04 on account 4 failed in 9 s to 3 min while the sender kept filling the freed slots.
