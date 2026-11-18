@@ -6,6 +6,9 @@ transcribed that is not also currently running from the list of stalled things, 
 to-do list. Make the sender agent just organize that." On Pro: "Two at a time is not unthinkable, but three at a time
 maybe after we finish the transcription of Les Derivateurs."
 
+## 18 Nov 22:4x UTC: THE LAST 145 CREDITS (the user: "might as well use the credit. It's just there.")
+- After the reset (morning of 19 Nov), the main session builds one small Work task of reading questions on the scans the sweep left undecided (about 5-6 scans at ~25 credits a page: e.g. 29/125 the month of the Serre letter, 136/326 the factor i, 106/002 'Brown', 129/108, 129/115, 114/004, 115/008, H134-01's date; see the part-2 check-ins in results_register/horizontal/sweep2/CHECKINS/). The sender sends it at GPT-6.2 Astra Max, files only, and files the return. Nothing else on account 4.
+
 ## 18 Nov 21:3x UTC: EXTRA HIGH DROPPED (the user, 21:29 UTC: 'Well, fuck it. Ignore it then.')
 - Send nothing at Extra High. The two Extra High chats (K157-5-35, K157-5-34) are ignored: do not collect or file
   them. The queue folders are back in the user's Pro set.
@@ -91,6 +94,13 @@ should or should not be sent."
    First row: the 16:23 observation.
 
 ## State
+### 22:30 UTC (round 9 of the max sender): last Work folders filed; levels back; 145 credits left
+- Filed 22:29 with the push (0e17d378): K157-5-36, K157-5-37, K157-5-38, each 15 of 15 pages, MISSING none.
+  Round D on Work: 79 folders filed in all (76 + these 3). Nothing out on Work.
+- Meter 22:29: weekly 0 %, credits 145 (the 3 folders used 1,121, about 374 each). Too few for a folder; reported, waiting.
+- Levels set back 22:29: Chat 'Thinking effort / Pro' (Pro, 5 of 5); Work 'GPT-6.2 Astra Max'. Composer left in Chat.
+- Extra High dropped by the user: K157-5-35 and K157-5-34 chats left alone (main session, 23:0x). No Pro, nothing at Extra High.
+
 ### 21:18 UTC (round 8 of the max sender): last credits on Work; Extra High test running; evidence captures
 - Meter: 21:06 and 21:12:44, weekly 0 %, credits 1,266 (unchanged since 20:01).
 - Work (GPT-6.2 Astra Max, slider "Max, 5 of 6", files only), the user's word 21:0x-21:2x ("use up every single credit"):
