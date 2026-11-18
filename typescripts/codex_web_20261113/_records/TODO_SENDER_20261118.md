@@ -48,6 +48,21 @@ K157-5-35 (15), K157-5-36 (15), K157-5-37 (15), K157-5-38 (15), K157-5-39 (15), 
 K157-5-42 (15)
 
 ## State
+### 17:49 UTC (end of round 5 of the max sender): collecting only
+- Round D: 72 sent, 54 filed with every page (14 this round: K157-2-05/16/17/22/26/27, K157-3-02/03/04/07/08/09/11/12;
+  filed 17:46 and 17:47 with the GitHub push), 18 out: K157-3-01, -06, -10, -13 .. -23, K157-4-01 .. -04.
+  K157-3-01 (87 min) shows Stop and is writing its notes; the rest are within their normal runtime.
+- The 64 unsent folders are now 32 Pro packages built by the main session in pro_derivateurs_20261118/ (not mine).
+- Credits: 6,063 at 17:48 (9,551 at 17:26); the 18 out need about 3,500 more, so about 2,500 to spare.
+- Next round: collect and file the rest; no sends; Pro held.
+- THEN (main session, 17:5x UTC; the user: "The hope is the credits serve to do all of the devateurs"): when NOTHING
+  of round D is out any more, read the meter. Send k pairs from the END of the unsent list only if
+  credits >= 1,000 + 900 k (450 a folder), never more:
+  pair 1 K157-5-41 + K157-5-42 (Pro package DP157-5_41-42), pair 2 K157-5-39 + -40 (DP157-5_39-40),
+  pair 3 K157-5-37 + -38 (DP157-5_37-38), and so on down the list. GPT-6.2 Astra Max, files only, from
+  drag_split_next/, logged in SENT_K. Then tell the main session which packages were taken (it removes them from the
+  Pro set). Fewer than 1,900 credits: send nothing. Expected at about 18:30: about 2,500 credits, so 1 pair.
+
 ### 17:27 UTC (end of round 4 of the max sender): ROUND D SENDING STOPPED BY THE CREDIT GUARD
 - Round D: 72 of 136 sent (round 4 added K157-3-14 .. K157-3-23 and K157-4-01 .. K157-4-04, 17:18-17:26). 40
   returned and filed with every page (28 more this round, filed 17:16 with the GitHub push). 32 out; they finish on
