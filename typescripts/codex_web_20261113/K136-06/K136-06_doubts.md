@@ -61,7 +61,7 @@ IDs follow the order of the original marks and remain stable across the two read
 | 39 | 39 | 16–17 | <code>d&#x27;où</code> | <code>i.e.</code> | low | Both are possible introductions to a consequence. |
 | 40 | 39 | 16–17 | <code>&gt;</code> | <code>\geq</code> | medium | The strict case condition in b favours >. |
 | 41 | 39 | 18–19, diagonally struck | <code>\sim</code> | <code>\text{inj.}</code> | low | An abbreviation for injective fits a map; there is little room below the arrow. |
-| 42 | 40 | 29–32 | <code>O</code> | — | medium | The second, unobscured ROUZAUD on the same page favours O. |
+| 42 | 40 | 29–32 | <code>O</code> | — | medium | The second, unobscured [name redacted] on the same page favours O. |
 | 44 | 41 | 2–5, note attached to left side | <code>ds</code> | <code>dans</code> | medium | The same note later spells out dans; both the abbreviation and the word fit here. |
 | 46 | 41 | 16 | <code>\beta-d+1</code> | — | low | The explicit list just above ends at β−d, which could account for an earlier bound one higher. |
 | 48 | 41 | 19, left | <code>*</code> | <code>\prime</code> | medium | The preceding ordinary M is starred. |
@@ -80,7 +80,7 @@ IDs follow the order of the original marks and remain stable across the two read
 | 63 | 43 | 22, foot and right corner | <code>T_\nu</code> | — | low | The next live factor starts with T_ν. |
 | 64 | 43 | 22, foot and right corner | <code>p-1</code> | — | low | The outer power is p−1, the same reading suggested for the abandoned inner power. |
 | 65 | 43 | 22, foot and right corner | <code>y est ssi</code> | <code>y est si</code> | low | The preceding underbrace also singles out s>r; ssi and si are both possible locally. |
-| 66 | 44 | 31–33 | <code>:</code> | <code>;</code> | medium | The parallel heading about MALEVILLE ends in a colon. |
+| 66 | 44 | 31–33 | <code>:</code> | <code>;</code> | medium | The parallel heading about [name redacted] ends in a colon. |
 | 67 | 45 | 2–3 | <code>y</code> | <code>\eta</code> | medium | It names the coefficient introduced on scan 43. |
 | 69 | 45 | 2–3 | <code>\nu-1</code> | <code>\nu+1</code> | medium | The following ordered digit factors favour ν+1; the lower stroke alone resembles a minus. |
 | 70 | 45 | 7 | <code>\gamma</code> | <code>\nu</code> | medium | On scan 43 the primed unit is defined from the unprimed factorial ratio. |
@@ -100,7 +100,7 @@ IDs follow the order of the original marks and remain stable across the two read
 | 38 | Near the end of Remarque 13.4.18 | a servie de modèle | a servi de modèle | There is a distinct typed e after servi. Nothing preceding the verb supplies a direct object for agreement. |
 | 38 | Paragraph beginning Alors le couple | abéloide | abéloïde | The i has one dot, while the accent on é is separate and clear. |
 | 41 | Last row of the system and the next display | last index β−d, then j<β−d | A list ending at β−d−1 if the strict bound is intended | The endpoint lies in the list but outside the following range. The old bound is overwritten. |
-| 42 | MATTAUER, paragraph after the first underlined request | Conseil Scientique | Conseil Scientifique | The type moves directly from ti to que. The full spelling occurs elsewhere on the very same sheet. |
+| 42 | [name redacted], paragraph after the first underlined request | Conseil Scientique | Conseil Scientifique | The type moves directly from ti to que. The full spelling occurs elsewhere on the very same sheet. |
 | 42 | Last request, title of the meeting | Rencontres de Chimie Thérapeutiques | Chimie Thérapeutique if the adjective qualifies Chimie | The terminal s is visible. It might instead be associated with the plural Rencontres. The minutes supply no official title for comparison. |
 | 45 | Display after se factorise | The two Hom groups both have the target with a small 0 | The larger target in the second group might have been meant to omit 0 | The previous line names the map into N and its factorisation through N₀. The small indices are difficult to separate. |
 

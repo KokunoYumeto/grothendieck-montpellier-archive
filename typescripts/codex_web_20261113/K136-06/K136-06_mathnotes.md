@@ -44,7 +44,7 @@ Scans 40, 42 and 44 are university minutes. Their dates, headings and page numbe
 | S1 | 33, cancelled prose after (b) | « celà détermine » | « cela ». The final a carries a grave accent on the crossed-out line. | Low for attribution of a slip in cancelled text |
 | S2 | 38, last paragraph | « a servie de modèle » | « a servi de modèle ». The enlarged typescript has a separate e after servi. The verb has no preceding direct object here. | High |
 | S3 | 38, paragraph before the remark | « groupe abéloide » | « groupe abéloïde ». The typewritten i has one dot. The é has its own acute accent. | High |
-| S4 | 42, MATTAUER’s first request | « Conseil Scientique » | « Conseil Scientifique ». Reading the enlarged word gives Scien-ti-que. The same sheet repeatedly types the full name. | High |
+| S4 | 42, [name redacted]’s first request | « Conseil Scientique » | « Conseil Scientifique ». Reading the enlarged word gives Scien-ti-que. The same sheet repeatedly types the full name. | High |
 | S5 | 41, final brace entry and following inequality | $C_{d,\beta-d}u=0$, then $\alpha\le j<\beta-d$ | If the strict inequality governs the list, its last index should be $\beta-d-1$. If the list governs, the inequality would be non-strict. An older bound is crossed out. | Low for the intended correction |
 | S6 | 45, display following « se factorise par » | Both Hom groups have the target with subscript 0. | The preceding factorisation suggests removing 0 from the right-hand target. The small subscripts and the left end of the arrow make the intended display uncertain. | Low |
 
@@ -59,7 +59,7 @@ Scans 40, 42 and 44 are university minutes. Their dates, headings and page numbe
 | 38 | « avec les conventions de degrés (13.4.6) », « cf. a) », « première relation (*) », « comme expliqué après (13.4.4) » | Internal references of the typescript. The degree convention and (13.4.4) occur on scan 46. |
 | 38 | « Dans la terminologie de DELIGNE [4] » and « énoncées dans [9, 9.8 à 9.13] » | Deligne’s terminology and the reference for the conjectures. The bibliography is absent from these sheets. |
 | 43–45 | « avec les relations », $(R_s)$, then « La relation $(R_s)$ » | The named relation for the coefficients on 43 is used on 45. |
-| 40, 44 | « voir Page 4 du procès-verbal », « P.5 du procès verbal », « voir texte en annexe », « la lettre de M. ESCOUFFIER » | Documentary references in the minutes. The cited letter and annex do not appear here. |
+| 40, 44 | « voir Page 4 du procès-verbal », « P.5 du procès verbal », « voir texte en annexe », « la lettre de M. [name redacted] » | Documentary references in the minutes. The cited letter and annex do not appear here. |
 
 ## Remarks of the model
 
