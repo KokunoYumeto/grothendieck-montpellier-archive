@@ -1,0 +1,25 @@
+# Independent audit of C.3ac
+
+Reviewer: `/root/frobenius`. Date: 19 November 2026. Result: **passed**, with the stated 2026 source dependency retained.
+
+## Scope checked
+
+We independently read the complete `cycles/finite_field_abelian.tex` fragment. Its unconditional conclusions are the vanishing of every nonzero Beauville grade, the vanishing of ordinary algebraically trivial Chow groups after tensoring with Q, and Chow hard Lefschetz for abelian varieties over the algebraic closure of a finite field. The rational–numerical comparison, strict positivity, and equivalence with the corresponding numerical category remain explicitly conditional on the source-qualified 2026 CM Hodge input already audited in D.4c–e. Nothing here independently verifies that preprint's analytical proof.
+
+## Primary source inspection
+
+1. Künnemann, *A Lefschetz decomposition for Chow motives of abelian schemes*, Inventiones Mathematicae 113 (1993): we independently viewed the primary scans of printed pp. 99–100. Theorem 7.1 is exactly `CH^p(h^i(A),Q)=0` for `i != 2p`, over a finite field. Its proof on p. 100 uses purity of `h^1` and tensor powers. Theorem 7.3 on p. 100 is exactly the ample-divisor Chow hard Lefschetz isomorphism. Item 7.2 is a definition, not this theorem. The independent primary URL opened in this audit chain was <https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0113/LOG_0011.pdf>; local decisive scans are `research/agents/cycles/output/Kunnemann1993-16.png` and `Kunnemann1993-17.png`.
+2. Kahn, *Équivalences rationnelle et numérique sur certaines variétés de type abélien sur un corps fini*, Annales scientifiques de l'École Normale Supérieure 36 (2003): we opened the primary PDF <https://www.numdam.org/item/ASENS_2003_4_36_6_977_0.pdf>, read Definition 1, printed p. 978, and independently viewed Theorem 1.10 and its complete proof, printed p. 982. The theorem concerns the actual rational-equivalence Chow groups and requires the product to lie in `B_tate`, not merely that the Frobenius grading be pure. Its proof explicitly invokes Kimura finiteness, Frobenius semisimplicity, and Proposition 1.7. The category in Definition 1 includes Artin motives and abelian motives. The decisive scan is `research/agents/cycles/output/Kahn2003-06.png`.
+3. Soulé, *Groupes de Chow et K-théorie de variétés sur un corps fini*, Mathematische Annalen 268 (1984): we independently viewed printed p. 343, §3.5.5, Corollary 3, in the local primary scan `research/agents/cycles/output/Soule1984_pages/page-28.png`. The hypothesis is explicitly `Y_j = X_j tensor K` with `X_j` defined over the finite field. It does not cover arbitrary nonconstant varieties over a function field. The direct web retrieval of <https://gdz.sub.uni-goettingen.de/download/pdf/PPN235181684_0268/LOG_0047.pdf> failed during this check; the local primary page was successfully inspected. No failed retrieval is represented as opened.
+
+## Mathematical checks
+
+* Cycles and rational-equivalence witnesses descend to finite extensions. This justifies taking the filtered union of finite-field Chow groups. The canonical multiplication projectors commute with base change; the grading convention `i = 2r-s` is correct.
+* The argument works for every ample class. Over the algebraic closure of a finite field its antisymmetric Picard component is torsion, so the rational symmetric-class convention introduces no restriction.
+* For the asserted Gysin surjectivity, the range `2r >= g-1` makes both exponents in the displayed factorization nonnegative. Hard Lefschetz supplies `z = h^(2r+2-g) a`; then `z = i_* i^*(h^(2r+1-g) a)`. The dimensions and Chow codimensions agree. Ordinary Chow localization, rather than a nonexistent homological-equivalence localization sequence, supplies the complement assertion.
+* Under the qualified Tate input, Tate surjectivity passes through products, algebraic projectors, direct sums, Tate twists, and Artin factors. Kahn's `B_tate` hypothesis is therefore available for the claimed abelian-type Chow motives.
+* A geometric numerically trivial cycle descends to a finite field and is numerically trivial there: every finite-field complementary test cycle is among the geometric test cycles. Kahn then makes the descended representative rationally zero. This proves the geometric injectivity without an unsupported descent of every geometric numerical test cycle.
+* Applying the same argument to products proves full faithfulness on correspondences. Idempotent splitting gives the stated equivalence only onto the corresponding generated numerical category. The manuscript correctly excludes arbitrary source varieties outside this category.
+* Strict positivity uses the separate qualified Hodge-standard-conjecture input. Chow hard Lefschetz alone is not used to infer positivity or injectivity of grade-zero cycle classes.
+
+No correction to the typed fragment is required by this audit. The constant-variety warning and the qualification of the recent CM Hodge theorem are mathematically material and should remain.

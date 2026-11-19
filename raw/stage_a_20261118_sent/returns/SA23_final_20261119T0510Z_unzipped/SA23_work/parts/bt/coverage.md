@@ -1,0 +1,19 @@
+# Source coverage (updated during work)
+
+All 99 indexed entries in MPL_93_221-236+161-5 have been read individually. Entire Pro transcription, physical lines1–1552, was read; the truncated first rendering was followed by a specific repeat of108–189. Entire overlapping Codex K161-5-01 (445 lines) and K161-5-02 (453 lines) were read. Doubts mathematical table, lines1–233, was read. The full source excerpts used in reads are in read_logs/; those records indicate reading, not proof certification.
+
+The same package contains cote93/221–236 in addition to topic cote161-5. These retained pages are included because all99 notes require them. Other cote93 leaves cited by earlier contextual notes are not supplied and are recorded only as leads, never as verified two-ended archival links.
+
+Three witness disagreements matter mathematically:161-5/025 action inverse placement;161-5/026 positive versus negative Tate twist;161-5/029 scope of deletion of cohomology question. Neither transcription wins by mathematical plausibility. No second-pass scan adjudication is supplied.
+
+## Completed core stages
+
+Stages1–6 for this core are complete. There are99 verdict rows (89kept,6merged,4corrected) and93 merged items. The full-source register contains89 claim/check records:77 source assertions,7 earlier-run ideas, and5 present-run reconstructions, manually distinguished by record_origin. Attached Serre results retain their authorship. These records include the unresolved opening quotient on93/221, the marginal weakening of smoothness, and the standard p-series/torsion inputs to Serre's valuation argument. The register therefore extends beyond the indexed note headings. The original 25 task records were audited against literal source cues. The final Stage3 register has 16 authorial questions or explicitly deferred steps and the ancillary editorial register has 9 reader-generated tasks. Bare assertions, known proof sketches and conditional existence assumptions are not counted as authorial questions. The provisional Serre lemma remains an answered deferred step. Exact decisions and verbatim evidence are saved in problem_origin_audit.json.
+
+All89 claims map to issued literature queries in search_log.jsonl. Exact primary-source locators and reading extent appear in reference_checks.json and external_read_log.tsv. zbMATH retrieval limitations and failed/unrelated leads are logged; no failure to find a result is used as proof of novelty. There are32 opened bibliography links; metadata verification is distinguished from reading a theorem or checking a proof. The entirely downloaded EGAIV4 PDF is outside the deliverable part, under SA23_work/external/bt; only§16.8.1–16.8.4 was read for this contribution, not the whole volume.
+
+The42 mathematical reading flags include the three Pro/Codex disagreements. The40 link rows contain19 checked internal/published-work links and21 explicitly quarantined earlier-project leads with absent endpoints; project_leads.tsv duplicates just that quarantine for separate presentation. Four ranked directions specify actual retained item, claim and surviving authorial problem IDs, known results, first steps and feasible scope. Three additional editorial follow-ups are outside Stage6 in editorial_directions.json. The lower torus diagram is a Stage4 editorial prerequisite rather than an invented authorial problem. The arithmetic bridge remains a quarantined earlier-run contextual lead. No direction has been developed as a new research programme here.
+
+Seventeen computation output blocks and a conceptual proof audit document the checks; finite enumeration and background inputs are labelled. All identifiers, references, search coverage and event coverage pass validate.py. Counts are in validation.json. Claim classes:A14,B28,C16,E25,F6; no classD is assigned merely from an inconclusive search.
+
+Later assignments161-3,161-4,API24 and162-5 belong to separate parts and are not claimed covered in this core.

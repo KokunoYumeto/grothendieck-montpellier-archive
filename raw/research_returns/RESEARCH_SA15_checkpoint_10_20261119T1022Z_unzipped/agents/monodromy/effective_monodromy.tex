@@ -1,0 +1,262 @@
+% /root/monodromy, 19 November 2026; independently audited by /root.
+\subsection{A terminating finite-field algorithm for the entire monodromy image}
+\label{subsec:effective-entire-monodromy}
+\status{Proved; independent parent proof audit and exact quartic computation passed.
+This is an effective answer for specified finite-field inputs, not a structural
+classification for arbitrary perfect base fields.}
+
+\begin{theorem}\label{thm:effective-monodromy-matrices}
+Suppose $k=\mathbf F_q$ and the fixed smooth projective
+embedding $X\subset\mathbf P^m_k$ is given by homogeneous
+equations.  For every
+\[
+ d\geq d_{\rm coh}=\max\{1,\operatorname{reg}(\omega_X)-1\},
+\]
+there is an explicit terminating algorithm that outputs,
+up to a simultaneous choice of basis, the complete finite
+lists of matrices
+\[
+ G_{\rm geom},G_{\rm arith}\subset\GL_{r_d}(\mathbf F_p)
+\]
+for the local system in A.4.  It also decides geometric
+and arithmetic irreducibility and outputs the determinant
+images.  The algorithm uses only finite linear algebra,
+Groebner-basis computations, construction of finite fields,
+and bounded enumeration of polynomials and matrices.
+It does not call an oracle for Galois groups or for
+factorization over an algebraic closure.
+\end{theorem}
+
+\begin{proof}
+We give the steps and their termination proofs.
+
+\emph{Step 1: the stable matrix.}
+Use Proposition~\ref{prop:effective-generic-rank} over
+the rational function field $K=\mathbf F_q(t_1,\ldots,t_M)$
+of an affine chart of the ambient degree-$d$ parameter
+space.  Let $B$ be its coherent Frobenius matrix and
+$b$ the coherent dimension.  Compute the image of
+$B B^{[p]}\cdots B^{[p^{b-1}]}$ by Gaussian elimination.
+The Frobenius-linearized map on that image is invertible;
+a chosen basis gives an explicit $A\in\GL_r(K)$, where
+$r=r_d$.  If $r=0$, output the trivial groups and the zero
+representation (which is not called irreducible), and stop.
+This construction is valid even though $K$ is imperfect.
+
+\emph{Step 2: the frame algebra.}
+Let $T=(T_{ij})$ be an $r\times r$ matrix of indeterminates
+and introduce one more indeterminate $z$.  Form
+\begin{equation}\label{eq:effective-frame-algebra}
+ R=K[T_{ij},z]/
+        (A T^{[p]}-T,\ z\det T-1),\qquad
+ D=\prod_{i=0}^{r-1}(p^r-p^i)=|\GL_r(\mathbf F_p)|.
+\end{equation}
+This is a finite etale $K$-algebra of dimension $D$.
+Indeed the equations for one column, $Av^{[p]}-v=0$,
+have Jacobian $-1$.  Their leading homogeneous forms
+are an invertible linear combination of the $p$-th
+powers of the coordinates, so they have no common
+projective zero at infinity and define a scheme of
+length $p^r$.  Its geometric points form an
+$\mathbf F_p$-space of dimension $r$ and span the
+whole $r$-dimensional vector space: otherwise their
+span, of dimension $s<r$, would itself have only
+$p^s$ fixed points by the same argument.
+The invertible frames are thus a torsor under
+$\GL_r(\mathbf F_p)$ and number exactly $D$.
+Compute a Groebner basis of the displayed ideal,
+a $K$-basis of $R$, and its multiplication table.
+
+\emph{Step 3: a primitive element from a finite list.}
+Let $e_1,\ldots,e_D$ be the computed basis and put
+$N=D(D-1)/2$.  Choose the finite set
+$S=\{1,t_1,t_1^2,\ldots,t_1^N\}\subset K$.
+Test the elements
+\[
+ \theta=\sum_{j=1}^D a_j e_j,\qquad (a_1,\ldots,a_D)\in S^D,
+\]
+until the vectors $1,\theta,\ldots,\theta^{D-1}$ are
+linearly independent.  At least one test succeeds.
+Over a separable closure, the algebra has $D$ distinct
+embeddings.  The product of the pairwise differences
+of their values at $\sum a_je_j$ is a nonzero polynomial
+of degree $N$ in the $a_j$.  A nonzero polynomial of
+degree at most $N$ cannot vanish on a grid having more
+than $N$ distinct values in every coordinate, by
+induction on the number of variables.  The successful
+$\theta$ has a square-free monic minimal polynomial
+$f\in K[Z]$ of degree $D$, computed by linear algebra,
+and $R=K[\theta]\simeq K[Z]/(f)$.
+
+\emph{Step 4: factorization by bounded enumeration.}
+Clear the denominators of $f$ to obtain a nonzero
+$F\in\mathbf F_q[t_1,\ldots,t_M,Z]$.
+Enumerate all normalized polynomials over $\mathbf F_q$
+of total degree at most $\deg F$, and test divisibility
+by polynomial division or Groebner reduction.
+This is a finite list.  The irreducible factors of
+$F$ are among it, since total degrees add in a
+polynomial domain.  Repeated exact division therefore
+factors $F$ completely.  Discard factors independent
+of $Z$, which are units over $K$, and normalize the
+remaining ones to be monic in $Z$.
+Gauss's lemma proves that these are precisely the
+irreducible factors of $f$ over $K$.
+Thus this step is a fully specified finite algorithm;
+practical multivariate factorization can replace the
+enumeration without changing its correctness.
+
+Choose one factor $f_0$ by a fixed lexicographic rule.
+It defines a field component $R_0$ of $R$ and the
+corresponding maximal ideal
+\[
+ I_0=(A T^{[p]}-T,\ z\det T-1,\ f_0(\theta))
+       \subset K[T_{ij},z].
+\]
+
+\emph{Step 5: the arithmetic matrices.}
+Enumerate all $g\in\GL_r(\mathbf F_p)$.
+Its action on the frame algebra is the substitution
+\[
+ T\longmapsto Tg,\qquad z\longmapsto(\det g)^{-1}z.
+\]
+Retain exactly those $g$ for which $f_0(\theta)$ after
+this substitution reduces to zero modulo $I_0$.
+This is a finite collection of Groebner reductions.
+The retained list is the stabilizer of the chosen
+field component, hence exactly $G_{\rm arith}$ in
+the corresponding frame.  Preservation of the one
+extra equation suffices because the frame ideal is
+already preserved; inclusion between the resulting
+maximal ideals is equality.
+
+To justify the monodromy identification explicitly,
+choose a geometric frame in the chosen component.
+Its Galois orbit is the image of $\operatorname{Gal}(K)$
+acting on the frames.  Under the simply transitive
+right frame action, the stabilizer of its connected
+component is the same subgroup of $\GL_r(\mathbf F_p)$,
+up to the common initial choice of frame.
+Restricting the original local system to any dense
+open does not change its image: the fundamental group
+of a dense open in a normal connected scheme surjects
+onto that of the scheme.  Thus the generic calculation
+computes the image over the stated $U_d$.
+
+\emph{Step 6: the geometric matrices with a finite
+constant-field bound.}
+Construct the finite field $k_D=\mathbf F_{q^D}$ and
+put $K_D=k_D(t_1,\ldots,t_M)$.
+A finite field of this degree is constructed by
+enumerating monic degree-$D$ polynomials and testing
+irreducibility; the elementary existence theorem
+for finite fields guarantees termination.
+Factor $f_0$ over $K_D$ by Step 4, now over $k_D$,
+choose one factor $f_{00}$, and repeat the matrix
+preservation test with its component ideal.
+The resulting subgroup is $G_{\rm geom}$, and it is
+a subgroup of the already chosen arithmetic image.
+
+Here is the reason the finite extension degree $D$
+suffices.  The selected field component is a connected
+torsor under its stabilizer $H$, so its degree over
+$K$ is $|H|$, a divisor of $D$.  Its full algebraic
+constant field is some $\mathbf F_{q^c}$, where
+$c\mid |H|$, hence $c\mid D$.
+After extending to $k_D$, every resulting field
+component has its constant field algebraically closed
+in it.  A finitely generated field over a perfect
+field is separably generated; therefore each such
+component is geometrically integral.
+Consequently these are exactly the geometric
+components, and their stabilizers give the geometric
+image, not an upper approximation to it.
+
+\emph{Step 7: irreducibility and determinant.}
+For each of the two finite matrix lists, enumerate
+all row-echelon matrices representing the proper
+nonzero subspaces of $\mathbf F_p^r$ and test
+invariance under every listed element.
+There is an invariant subspace if and only if the
+representation is reducible.  Taking determinants
+of the listed matrices gives both determinant
+images.  Proposition~\ref{prop:exact-general-determinant-image}
+is a much smaller independent calculation of the
+same images and provides a consistency check.
+
+Every step has a finite bound or an explicitly proved
+termination criterion.  This proves the theorem.
+\end{proof}
+
+\begin{remark}\label{rem:effective-monodromy-scope}
+The theorem outputs the whole finite group for each
+specified finite-field input, with a proved finite
+algorithm.  Its worst-case complexity is enormous:
+even the frame dimension is $|\GL_r(\mathbf F_p)|$.
+It does not supply a uniform structural description
+of the groups as $X$ and $d$ vary.  Nor does it supply
+a uniform algorithm for arithmetic monodromy over
+an arbitrary perfect field presented without effective
+field operations and factorization data.
+Those distinctions are retained in the result ledger.
+\end{remark}
+
+\begin{example}\label{ex:effective-quartic-frame-algebra}
+The retained program \path{lang_frame_quartic.py}
+executes a nontrivial small frame calculation for a genuine
+smooth plane-quartic family.  Over $\mathbf F_2(t)$ take
+\[
+ f_t=x^4+y^4+z^4+x^2yz+xz^3+txy^3+xyz^2.
+\]
+In the standard genus-three monomial basis its Hasse matrix is
+\[
+ A_t=\begin{pmatrix}1&0&0\\0&0&1\\0&t&1\end{pmatrix}.
+\]
+The program extracts these coefficients from $f_t$ and checks
+that all three affine-chart singularity ideals have Groebner
+basis $[1]$ over $\mathbf F_2(t)$.
+Thus the generic curve is smooth and ordinary, since
+$\det A_t=t\ne0$.
+
+The first coordinate is a constant summand.  A frame of the
+remaining rank-two Lang module has columns $(c^2,c)^t$ and
+$(d^2,d)^t$, with algebra
+\[
+ R=\mathbf F_2(t)[c,d]/
+ \left(c^3+\frac{c+1}{t},\quad
+              d^2+cd+c^2+\frac1t\right).
+\]
+Its basis is $1,c,c^2,d,cd,c^2d$, and its frame determinant
+is $cd(c+d)=1/t$.
+The program verifies all six substitutions from
+$\GL_2(\mathbf F_2)$ preserve this algebra.
+It also finds the primitive element $\theta=c+td$,
+whose minimal polynomial, after clearing denominators, is
+\[
+ t^2 Z^6+(t^3+t^2)Z^3+(t^4+t^2+1)Z^2
+       +(t^4+t)Z+t^6+t^5+1.
+\]
+Linear independence of $1,\theta,\ldots,\theta^5$ and
+annihilation by this polynomial are checked exactly.
+
+Its geometric irreducibility has a direct certificate.
+The first equation gives $t=(c+1)/c^3$, a separable
+degree-three map of rational function fields.
+Setting $u=d/c$ transforms the second equation into
+\[
+ u^2+u=\frac1{c+1}.
+\]
+The right side has a simple pole and is not an
+Artin--Schreier coboundary over $\overline{\mathbf F}_2(c)$:
+every pole of $v^2+v$ has even order.
+Thus the frame algebra remains a field of degree six
+after extending constants to the algebraic closure.
+Both monodromy images of this particular curve family
+are exactly
+$\operatorname{diag}(1,\GL_2(\mathbf F_2))\subset\GL_3(\mathbf F_2)$.
+This is a restricted one-parameter family, not the full
+space of plane quartics, whose image was determined
+earlier.  Its exact coefficient matrix, basis, six group
+elements, minimal polynomial and smoothness certificates
+are retained in \texttt{lang\_frame\_quartic.json}.
+\end{example}

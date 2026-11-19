@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import json
+P=Path(__file__).parent;c=json.loads((P/'claims.json').read_text());p=json.loads((P/'problems.json').read_text())
+def U(n,fate,refs):
+ x=c[n-1];x['literature_fate']=x['fate']=fate;x['references']=x['refs']=refs
+U(28,'Classical adjunction follows by taking determinants of the short exact conormal sequence. Stacks37.63 (06BB), item2, explicitly gives exactness when the composite to the base is smooth; the manuscript’s complete-intersection normal bundle identifies its determinant. This independently verifies the relative formula. Degree sum r+1 gives a line pulled back from S, not automatic global triviality. First historical circulation of this exact bundle convention is not established here.',['Stacks06BB'])
+U(29,'The relative Weierstrass calculation agrees with Stacks105.6.1 (072T): changes of x,y have weights2,3, and the cubic equation has weight6. The manuscript’s determinant calculation is independently redone and yields M=L^6. No dependence on the discriminant exponent on the next leaf.',['Stacks072T','Stacks06BB'])
+U(35,'The nilpotent logarithm/exponential correspondence over Q is established classical algebra. Adamus–Hajto2026 §2 explicitly states it and traces the converse to van den Essen2000 Proposition2.1.3; both the current article and the earlier book’s publisher record were opened. The manuscript’s nilpotent coefficient ideal makes the operators globally nilpotent, so the finite formulas apply. No characteristic-p extension or novelty claim is made.',['AdamusHajto2026','VanDenEssen2000'])
+U(36,'Stacks10.131.3 (universal derivations) and10.131.12 (00RM, arbitrary base change) give the exact module identities; tensor-Hom adjunction then yields the manuscript’s derivation description. The finite-free coefficient ideal permits the displayed tensor identification. The group law is the nilpotent BCH law from claim035.',['Stacks00RM','AdamusHajto2026'])
+U(37,'Stacks37.2.1 (04EW) defines a finite-order thickening by a nilpotent ideal. The finite augmented algebra and locally free associated graded do not imply that condition, as the k×k counterexample proves. Once nilpotence is imposed, the subsequent infinitesimal/Weil-restriction constructions have the explicitly stated setting.',['Stacks04EW','StacksWeilRestriction'])
+U(42,'Exact modern comparison: Stacks33.12 Example33.12.7 (038S) gives the same regular but not geometrically regular curve y²−x^p+t over F_p(t), p>2, and proves it. The independent proof here allows any a not in k^p. The overwritten example(i) remains ambiguous, and its coefficient assumptions are not supplied from the modern example.',['Stacks038S'])
+U(43,'Stacks35.3 (023F), the faithfully flat Amitsur exact complex, gives the repaired equalizer assertion; Stacks10.131 (00RM) identifies differentials with the diagonal conormal module and its base change. These do not turn vanishing on all infinitesimal diagonals into descent for an arbitrary extension. The p-basis identity needs the actual p-basis hypotheses.',['Stacks023F','Stacks00RM'])
+U(73,'Exact-word searches for catégories graduées and translation find standard later triangulated/graded-category language, but no uniquely matching formulation of this overwritten partial-category draft. The archive lacks coherent surviving degree conventions and axioms. Class F concerns identification, not evidence of a still-open mathematical conjecture.',[])
+x=c[60]
+old='EGAIII4.3.6 is tracked separately pending its exact primary statement.'
+x['present_check']=x['present_check'].replace(old,'Original EGAIII1,4.3.6 printedp133, has the alleged false equality. For A=Q[x,y]_(x,y), the prime (y−(exp(x)−1)) in Ahat contracts to0 and survives localization by A minus0, so Frac(A) tensor_A Ahat is not a field. The desired analytically-integral implies unibranch argument nevertheless works with the natural inclusion into Frac(Ahat). Full details are in proof_notes.md §11.')
+x['present_status']='As of 19 November2026: '+x['present_check']
+x['literature_fate']=x['fate']=x['fate'].replace('and the EGA III4.3.6 allegation are separate bounded verification questions.','remain separate bounded verification questions. The III4.3.6 equality is now verified false in the original print, while its conclusion is independently recovered using the natural injection.')
+p[30]['state_of_art']=x['present_check']+' '+x['fate']
+for pr in p:
+ if 'C-SA23-ega-042' in pr.get('claims',[]):pr['state_of_art']+=' Exact later example: Stacks033.12.7/038S matches example(ii); example(i) remains a reading problem.';pr['refs']=list(dict.fromkeys(pr['refs']+['Stacks038S']))
+(P/'claims.json').write_text(json.dumps(c,ensure_ascii=False,indent=2)+'\n');(P/'problems.json').write_text(json.dumps(p,ensure_ascii=False,indent=2)+'\n')
+print('Closed elementary-fate searches and the EGAIII4.3.6 primary comparison.')

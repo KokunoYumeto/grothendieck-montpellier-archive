@@ -1,0 +1,371 @@
+#!/usr/bin/env python3
+"""Manually composed open-flag register, including questions answered on the pages."""
+from pathlib import Path
+import json
+P=Path(__file__).parent
+C={int(x['id'].rsplit('-',1)[1]):x for x in json.loads((P/'claims.json').read_text())}
+rows=[]
+def add(title,nums,as_he,plausible,art,why,worth,refs=(),extra=()):
+    cs=[C[n] for n in nums]
+    rows.append(dict(id=f'MP-SA23-ega-{len(rows)+1:02d}',title=title,
+       claims=[x['id'] for x in cs],occurrences=[dict(source=x['source'],cote=x['cote'],scan=x['scans'],line=x['lines']) for x in cs]+list(extra),
+       as_he_states=as_he,plausible_today=plausible,state_of_art=art,why_open=why,
+       worth=worth,refs=list(refs),date='2026-11-19'))
+U='The surviving sources do not document a reason for abandonment; no psychological or institutional explanation is inferred.'
+add('Differential regularity and the corrected coefficient module',[1,2],
+ 'The annotations replace D(A) by D(A/a) and question how often the differential-flatness hypotheses hold.',
+ 'Keep the reduced quotient, equicharacteristic regular local base, and all differential finiteness/flatness hypotheses separately; do not infer the full Tor theorem just from a type correction.',
+ 'Jouanolou’s two printed 1963 notes are the actual publications. Stacks07EK gives geometric-regularity criteria but does not identify the infinite-module Tor criterion with no further hypotheses.',
+ 'A corrected first occurrence and an uncorrected repeated occurrence survive; the main text gives announcements rather than proofs.',
+ 'Worth a short source-comparison task because a false module argument can otherwise propagate into the dossier.', ['Jouanolou1963Etude','Jouanolou1963Differentielles','Stacks07EK'])
+add('Regular group schemes and the scope of the Hopf applications',[3,8,34],
+ 'Question marks challenge the regular-group/Hopf applications and the compressed Cartier reconstruction.',
+ 'A locally finite-type group scheme over a characteristic-zero field is smooth; a connected cocommutative Hopf algebra in characteristic zero is an enveloping algebra in the precise Cartier–Milnor–Moore setting.',
+ 'Stacks0BF6 supplies the finite-type group theorem. Cartier Exp.2 HA3 supplies a connected filtration, absent from the compressed checklist. Loday §3.1 states the connected cocommutative structure theorem. The real function Hopf algebra on C3 refutes the weakened checklist.',
+ 'The author flags missing scope; the surviving leaves do not say that the finite-type or connectedness hypotheses were intentionally dropped.',
+ 'Worth developing as an exact hypothesis audit, not as a new unrestricted Hopf theorem.', ['Stacks0BF6','Cartier1956','CartierExamples1956','Loday2008'])
+add('The alleged gap in Lang’s C1 argument',[6],
+ 'Jouanolou says the one-variable convergent-series C1 result seems to fill a gap in Lang.',
+ 'The fraction field of one-variable convergent series over the stated complete algebraically closed valued field is the object; no several-variable claim is supported.',
+ 'The printed note identifies Lang, Annals55(1952),373–390. The exact proof step alleged to be missing was not located by title/back-reference searches. This is a matched historical attribution with an unresolved proof-comparison question.',
+ 'No location or account of the supposed gap is supplied.',
+ 'Worth only after obtaining the exact Lang passage and fixing the valued-field conventions.', ['Lang1952','Jouanolou1963Etude'])
+add('Injectivity in analytic reducedness and normalization',[7,8],
+ 'Margins say the lemma is false without A→B injective, insert C⊃A, and question the Hopf consequence.',
+ 'Use a finite inclusion of domains and separability of the generic formal fibre; distinguish that from quotients and universal Japanese/G-ring properties.',
+ 'The inclusion proof embeds the completed finite module into a generically reduced algebra. Modern Nagata conditions track all relevant finite extensions/formal fibres. The annotation alone does not refute localization-stability of generic characteristic zero.',
+ 'The hypotheses are being repaired on the sheet; the broad application remains an announcement.',
+ 'Worth a focused archival-to-modern comparison because the earlier notes misidentify the source of the defect.', ['Jouanolou1963Etude','Nagata1962'])
+add('General Cohen lifting existence',[18,19,20],
+ 'The draft says general existence is unknown, proves a separable-residue case, and later regrets the broad Cohen terminology.',
+ 'For complete noetherian local A and a complete formally smooth local algebra over its residue field, a complete local Cohen lift exists; the broad nonlocal topological version is a separate problem.',
+ 'Stacks07EK, Lemma15.41.6, gives the local existence theorem; Stacks07NQ gives flatness plus geometrically regular closed fibre iff adic formal smoothness. EGA IV0.22.5.8–9 gives the final field/localization formulation.',
+ 'The manuscript itself narrows the definition and marks the earlier radicial restriction unnecessary after a conversation with Serre.',
+ 'Worth documenting the precise quantifier change; the local existence problem is established.', ['Stacks07EK','Stacks07NQ','EGAIV1'])
+add('Discrete versus adic formal smoothness',[21,22],
+ 'Does adic formal simplicity imply discrete formal simplicity? Characteristic-zero power series are suspected counterexamples.',
+ 'The implication is false for K[[t1,…,tn]]/K in characteristic zero and n>0; finite relative p-basis situations in characteristic p require a separate positive argument.',
+ 'Stacks00TH makes projective differentials necessary for discrete formal smoothness and Stacks0593 makes projective modules over local rings free. The independent rank proof in proof_notes.md settles the displayed Q and C examples.',
+ 'The text says the issue matters for choosing terminology and explicitly expresses pessimism.',
+ 'Worth preserving as a clean distinction in any companion commentary; a full historical priority claim needs further bibliography.', ['Stacks00TH','Stacks0593'])
+add('Open geometric-regularity locus for arbitrary noetherian maps',[24],
+ 'For flat noetherian A→B, is the geometrically regular fibre locus open, at least for good rings?',
+ 'For a finitely presented flat morphism the geometrically regular locus is the smooth locus and is open. Beyond finite presentation, the undefined good-ring condition must be made precise.',
+ 'Opened Stacks formal-smoothness and smooth-locus statements establish the finite-presentation case. They do not settle every arbitrary-noetherian formulation suggested by the sheet.',
+ 'The draft itself points to good rings and tries localization/resolution reductions without a final theorem.',
+ 'Worth one run to compare the exact intended good-ring condition with EGA IV’s J-2 and G-ring hypotheses.', ['Stacks07EK','Stacks00R8','EGAIV1'])
+add('Open flat locus without finite presentation',[25],
+ 'Is the locus in Spec B where B is A-flat open for every map of noetherian rings?',
+ 'No: in characteristic p, Frobenius on a noetherian ring with nonopen regular locus has nonopen flat locus.',
+ 'Stacks0EC0 verifies Kunz’s equivalence of Frobenius flatness and regularity. Murayama’s original MO answer identifies this exact application and points to Brodmann–Rotthaus Proposition21 and Nishimura Example2.7. The Nishimura full text was blocked; the bad-locus example is cited with that access limitation, not as a proof read here.',
+ U,
+ 'The proposed unrestricted theorem is false; worth retaining the counterexample and checking the primary construction in a later source-access run.', ['Stacks0EC0','Kunz1969','BrodmannRotthaus1982','Nishimura2012','MO500040'])
+add('Completing the infinite-differential nonsplitting argument',[23],
+ 'The last coefficient choice in the direct-sum-versus-product proof is left unfinished.',
+ 'For n>0 and dim_K Omega_K/k infinite, the coefficient differential map into Omega_K[[t]]/k has no left inverse. Nonprojectivity of the whole differential module is a separately attributed strengthening.',
+ 'The independent proof in proof_notes.md supplies the missing coefficient construction. Stacks00TH and0593 identify the consequences for discrete formal smoothness; they are not citations for priority of this exact obstruction.',
+ 'The manuscript stops after describing the infinite-support contradiction.',
+ 'The missing step is now checked; a new research task should concern historical identification or stronger generalizations, not repeat this proof.', ['Stacks00TH','Stacks0593'])
+add('Differential-kernel counterexamples and the EGA printed field',[26],
+ 'The pages seek counterexamples to descent of the kernel of the differential map, with k∩K^p=k^p.',
+ 'Explicit transcendental and finite examples exist; the coefficient of the kernel line need not belong to k.',
+ 'The two field calculations in proof_notes.md check every hypothesis. Printed EGA IV0.22.5.10(i),p204, omits adjoining Z; as printed it is a purely transcendental extension and fails. The candidate K=k(Z,T) repairs it.',
+ 'The manuscript has overwritten field formulas, while the final printed example has a separate verifiable defect.',
+ 'Worth a source-by-source erratum record, preserving both versions instead of silently normalizing them.', ['EGAIV1'])
+add('Trace, norm and idèle formulas on reused leaves',[27],
+ 'Several identities are left to easy verification; the page order and preceding valuation hypotheses are missing.',
+ 'The formulas hold in the global/discrete no-defect setting, with ramification e and residue degree f, and norm∘extension equal to the degree operation.',
+ 'The placewise equalities are independently recomputed; modern divisor-norm formulas are checked in StacksNorms. An exact identification of the reused typescript was not found.',
+ 'This is a detached continuation, not a self-contained statement with all valuation hypotheses visible.',
+ 'Worth identifying the reused source before drawing historical conclusions.', ['StacksNorms'])
+add('Extending adjunction beyond the smooth case',[28,29,30],
+ 'The notes mention a map that exists in all cases and a discriminant smoothness criterion.',
+ 'A regular complete intersection has a dualizing line with the adjunction formula; top exterior Kähler differentials need smoothness. The elliptic equation line is L^6.',
+ 'The determinant calculation is independently checked. Buse–Jouanolou Proposition4.7 supplies the corrected discriminant degree and4.13 the coordinate-change weight.',
+ 'The leaf switches between smooth differentials and a broader construction without fully spelling out duality hypotheses.',
+ 'Worth a precise companion explanation; the elementary determinant calculation is already settled.', ['BuseJouanolou2012'])
+add('Primitive base change and the Cartier checklist',[33,34],
+ 'Universal exactness of the primitive kernel and a shortened hyperalgebra characterization are asserted or queried.',
+ 'A field extension preserves the kernel; arbitrary base change requires flatness/purity hypotheses. The enveloping-algebra characterization needs connectedness, not merely the listed rational group-likes.',
+ 'Cartier Exp.2 HA3 and Exp.3 Proposition8 were inspected. The latter gives an injection, not unrestricted surjectivity. The counterexample R^(C3) satisfies the weak rational-point checklist and refutes its conclusion.',
+ 'The notes compress several sources and leave question marks at the dual and reconstruction.',
+ 'Worth a tightly scoped comparison of Cartier’s actual axioms with the manuscript checklist.', ['Cartier1956','CartierExamples1956','Loday2008'])
+add('Exponentials, primitive targets and derivation base change',[32,33,35,36],
+ 'The text asks for exactness/base change and contains log-product, primitive-target and A/Λ quotient anomalies.',
+ 'For suitable nilpotent or complete Q-algebra ideals, exp/log exchange primitive and group-like elements and nilpotent derivations with unipotent automorphisms. Derivation base change needs the finite-presentation or projectivity hypotheses on differentials.',
+ 'The symbolic certificates check the literal failures and low-order inverse identities; the algebraic derivation proof uses finite nilpotence, not finite truncation as proof of a general analytic identity.',
+ 'Several formal identities are written rapidly and one target changes type.',
+ 'Worth scan checking the three high-impact formulas; the corrected algebraic mechanism is standard.', ['Cartier1956','Stacks09CH'])
+add('Infinitesimal augmentation and the Greenberg extension',[37,38],
+ 'The draft asks whether the construction can be used without an augmentation, with a Greenberg comparison.',
+ 'Finite locally free coefficient algebras support Weil restriction, but being infinitesimal requires a nilpotent augmentation ideal; a general finite algebra is a different construction.',
+ 'Stacks05Y8 Proposition97.11.5 gives algebraic-space representability for finite locally free restriction of scalars. The k×k example shows the missing infinitesimal condition is not automatic.',
+ 'The page itself leaves the unaugmented case as a question.',
+ 'Worth distinguishing the two functors before attempting a historical Greenberg identification.', ['StacksWeilRestriction'])
+add('Locality and representability of principal-parts functors',[39],
+ 'The sheets ask whether the construction is local and identify sections of the jet object with infinitesimal maps.',
+ 'For finite-order principal parts, the representing module and its localization/base-change maps are standard; representability of a section functor still has the stated finite locally free hypotheses.',
+ 'Stacks09CH gives universal principal parts and localization; Stacks05Y8 handles the finite locally free Weil restriction. EGA IV16.8 is the exact published comparison target, separately recorded where its PDF is available.',
+ 'Locality is explicitly marked for checking rather than proved in the draft.',
+ 'Worth a short exact comparison with EGA IV16.8, retaining the two O_X-actions.', ['Stacks09CH','StacksWeilRestriction','EGAIV4'])
+add('Natural finite-order differential constructions',[40,41,45],
+ 'The author asks how to characterize constructions depending on a finite jet of changes of coordinates.',
+ 'An equivalence with suitable jet-group/frame-bundle data requires a fixed dimension, category of spaces, regularity and naturality conditions; the leaf does not determine one unrestricted theorem.',
+ 'Principal-parts and functoriality sources verify the basic objects. Searches for natural bundles and finite-order differential functors did not establish a unique theorem with exactly the page’s quantifiers.',
+ 'The formulation remains exploratory and its category is not fully fixed.',
+ 'Worth only after reconstructing a precise category and order condition from the scans and neighboring leaves.', ['EGAIV4','Stacks09CH'])
+add('Two inseparable curve constructions',[42],
+ 'Example(i) is overwritten; example(ii) claims regularity before an inseparable extension and singularity after it.',
+ 'The odd-characteristic curve y²=x^p−a, a not a pth power, is regular and becomes cuspidal after adjoining a^(1/p). No unique reconstruction of example(i) is imposed.',
+ 'The local-ring and Jacobian computations are independent checks; the geometric-regularity distinction is exactly the one in EGA IV0.22.5.',
+ 'The first construction is a working draft with incompatible surviving formulas.',
+ 'Worth checking the ink of example(i); example(ii) is already mathematically verified.', ['EGAIV1','Stacks07EK'])
+add('Differential vanishing and formal-diagonal descent',[43],
+ 'The sheet tests whether vanishing under the differential/diagonal maps forces descent to the base.',
+ 'Faithful flatness gives the usual equalizer; flatness alone does not. Formal diagonal invariants also require a connected/infinitesimal condition excluding nontrivial finite étale extensions.',
+ 'The examples Z→Q and a nontrivial finite separable field extension disprove the unrestricted versions. Opened principal-parts sources distinguish first and all infinitesimal neighborhoods.',
+ U,
+ 'Worth recording the exact missing hypotheses, not pursuing the false unrestricted claim.', ['Stacks09CH','EGAIV4'])
+add('Meromorphic denominators under restriction',[46],
+ 'Lê’s letter says a purported meromorphic denominator may become a zero divisor after restriction and lists corrections.',
+ 'The sheaf of meromorphic functions uses sections which are nonzerodivisors on each relevant open; stalk/total-quotient identifications require noetherian or other explicit hypotheses.',
+ 'Stacks01X1 defines meromorphic functions without collapsing the sheaf and presheaf constructions; Stacks0EMG gives the locally noetherian comparison. These match the type of obstruction, not every numerical correction in the letter.',
+ 'The dated letter is itself a correction, not an unresolved universal meromorphic-function conjecture.',
+ 'Worth a line-by-line EGA IV21 erratum concordance with the original printed edition.', ['StacksMeromorphic','Stacks0EMG','EGAIV4'])
+add('Gluing an unramified section over a dense open and a thickening',[47],
+ 'Compatible sections over a schematically dense open U and a closed Y0 with |Y0|=|Y| should extend uniquely to Y.',
+ 'The stated unramified gluing assertion is plausible via an étale envelope/local closed immersion, nilpotent lifting and schematic density; the noetherian convention must be made explicit.',
+ 'Unramified local factorization and étale invariance under thickenings give a route; an exact theorem under every locally nilpotent, nonnoetherian hypothesis was not found in the opened sources. No unrestricted settlement is inferred from étale descent alone.',
+ 'No proof is supplied on the leaf.',
+ 'Worth one proof-focused run; first prove the nilpotent noetherian case with an explicit étale local factorization.', ['StacksUnramified','RydhDescent'])
+add('Finite epimorphism descent for unramified sections',[48],
+ 'For finite epimorphic Y′→Y, locally noetherian Y, and a surjective Y″→Y′×Y Y′, the section equalizer is asserted; a margin asks to replace finite by integral and remove noetherianity.',
+ 'One must distinguish epimorphism in schemes from universal schematic dominance and distinguish equality after a merely surjective test from scheme-theoretic equality. Integral effective descent for étale objects is a verified neighboring theorem.',
+ 'Rydh’s subtrusive-descent theorem proves effective descent of étale morphisms, not automatically this unramified section statement with its shortened surjectivity hypothesis.',
+ 'The nonnoetherian/integral extension is explicitly left as a hope and the corollary is truncated.',
+ 'Worth a precise formulation and counterexample search before importing an étale theorem.', ['RydhDescent','SGA4VIII'])
+add('A nonnoetherian definition of regular immersion',[49],
+ 'The text asks for a definition stable under a change of generators, permutation and base change.',
+ 'Koszul-regular immersions supply the permutation-invariant definition; all usual regular-sequence notions agree locally in the noetherian case.',
+ 'SGA6 VII1.1–1.5, pp416–421, expressly replaces EGA IV16.9.2. Stacks0638 distinguishes regular, Koszul-regular, H1-regular and quasi-regular immersions and their permanence properties.',
+ 'The old definition fails in nonnoetherian settings; the manuscript is the correction process.',
+ 'Historically valuable and mathematically settled in the cited scope.', ['SGA6VII','Stacks0638'])
+add('Separation of A-subquotients and finite-presentation kernels',[50,51],
+ 'Deligne doubts a separation claim for A-subquotients and asks whether a finite-presentation algebra has a finitely generated kernel from the base.',
+ 'Arbitrary A-subquotients need not be separated, and the finite-presentation kernel assertion is false without noetherianity.',
+ 'The independent examples in proof_notes.md verify both failures. EGA IV16.1.5–6 is the cited printed target; no correction of its ink is made from the letter alone.',
+ 'Deligne explicitly distinguishes module structures and marks the kernel question doubtful.',
+ 'Worth carrying the counterexamples into the commentary and checking exactly which printed hypotheses already exclude them.', ['EGAIV4','Stacks09CH'])
+add('Dropping separation in the regular-sequence criterion',[52,58],
+ 'Deligne proposes a proof of EGA IV19.5.5(b)⇒(c) without the separation hypothesis.',
+ 'Retain the finite noetherian module and ideal hypotheses; Koszul, Tor, associated-graded and Ext criteria then agree in the documented setting.',
+ 'The manuscript’s proof is checked as a filtered/regular-sequence argument. Stacks0638 supplies the modern hierarchy, but the exact printed b/c labels need direct EGA IV4 comparison.',
+ 'The letter seeks a hypothesis improvement, not a counterexample to the full theorem.',
+ 'Worth an exact printed-edition comparison; the final statement must identify which implication loses separation.', ['EGAIV4','Stacks0638'])
+add('Nonlinear solution sets in EGA0.19.3.12',[53],
+ 'Deligne objects that sets of algebra-homomorphism lifts are not closed linear varieties.',
+ 'The linear compactness argument cannot be applied to multiplicative equations. The theorem’s conclusion under all its topology and square-open hypotheses remains a separate question.',
+ 'Printed EGA IV1 pp85–86 was inspected and contains precisely the criticised step. The polynomial-system counterexample in proof_notes.md shows why finite solvability alone is inadequate for nonlinear equations.',
+ 'The letter identifies a proof defect; it does not provide a full counterexample to the theorem.',
+ 'High value for one run: reconstruct a valid replacement proof or isolate a genuine counterexample to the exact theorem.', ['EGAIV1'])
+add('Relative Auslander–Buchsbaum and finite Tor dimension',[54,55],
+ 'Deligne gives a spectral-sequence argument and asks about the relative analogue under finite Tor dimension.',
+ 'For a finite module of finite projective dimension over a noetherian local ring, pd M+depth M=depth A. Relative versions need a specified local homomorphism, finiteness and depth convention.',
+ 'Stacks090U verifies the classical formula. The finite corner-degree certificate checks the manuscript indexing; it does not settle every relative formulation.',
+ 'The passage explicitly leaves the relative adaptation to be completed.',
+ 'Worth formulating the exact relative statement before comparing later depth formulas.', ['StacksAuslanderBuchsbaum'])
+add('Minimal Cohen factorization and algebraic field extensions',[56,57],
+ 'Deligne seeks a flat local factorization with geometrically regular closed fibre and minimal cotangent generators; algebraic extensions are reduced to finite complete intersections.',
+ 'A local map to a complete noetherian local ring admits a Cohen factorization; minimality is expressed by the embedding dimension of the closed fibre.',
+ 'Stacks09Q9 defines and uses the factorization; Stacks07NN constructs a regular formal presentation, whose base change gives the intermediate ring. Avramov–Foxby–Herzog(1994) is the established systematic treatment.',
+ 'The letter supplies a construction and asks for a more conceptual organization.',
+ 'Worth a historical comparison with the modern theorem, not a claim of a still-open existence problem.', ['Stacks09Q9','Stacks07NN','AvramovFoxbyHerzog1994'])
+add('Tor and pro-completion',[55,60],
+ 'At the end of his letter Deligne regrets his complicated proof and says he cannot prove the proposed simple pro-Tor vanishing reduction.',
+ 'In the noetherian finite-module setting Artin–Rees yields pro-vanishing of positive Tor for powers of an ideal; the relative B-finite/A-flat formulation requires its exact module hypotheses.',
+ 'Modern adic and Tor comparison results match the Artin–Rees mechanism. The current proof audit retains the distinction between a zero inverse limit and a zero pro-object.',
+ 'The source gives the reason explicitly: the suggested easier reduction was not completed.',
+ 'Worth a short proof task with explicit transition indices; do not replace pro-zero by limit-zero.', ['EGAIV1','StacksCompletion'])
+add('Flatness and topological formal projectivity',[60],
+ 'Deligne proposes equivalence for a finite B-module over a local noetherian A→B, with maximal-ideal topologies.',
+ 'Use precisely these local noetherian and finite-module conditions; ordinary projectivity over A is not the assertion.',
+ 'The letter’s Ext/Tor pro-object proof is matched against EGA0.19.2/19.7 and modern completion-flatness results. No discrete projectivity conclusion is inferred.',
+ 'The letter says the general proposition is missing from the exposition and notes a special case already proved.',
+ 'Worth making this topology distinction explicit in the companion edition.', ['EGAIV1','StacksCompletion'])
+add('Deligne’s numbered errata and convention changes',[61],
+ 'The letter proposes weaker assumptions at0.16.1.9,0.19.4.6/7,0.20.4.13; inserts local at0.19.8.3; reverses the universal-differential sign; rejects III4.3.6’s displayed completion formula.',
+ 'Each is a separate edition-specific check; a sign convention is not a false theorem, and a suggested weakening is not an already established erratum.',
+ 'EGA IV1 is opened and the principal-parts sign convention compared. EGA III4.3.6 and all dependent preceding definitions need direct comparison; the register states this limit rather than asserting a memory-based counterexample.',
+ 'The dated letter is an editorial check and ends with an explicit admission of an unfinished proof.',
+ 'Worth a line-level errata concordance; no mathematical novelty claim is justified by numbering alone.', ['EGAIV1','EGAIII','EGAIV4'])
+add('Zariski Main Theorem without finite presentation',[62],
+ 'The notes consider removing presentation hypotheses by a factorization/limit argument.',
+ 'A separated quasi-finite morphism to a quasi-compact quasi-separated base admits the appropriate open-then-finite factorization under the standard finite-type hypotheses; finite type and finite presentation are not interchangeable over nonnoetherian bases.',
+ 'Opened Stacks Zariski Main Theorem and Rydh approximation results identify the finite-type/limit route. No arbitrary non-quasi-compact statement is inferred.',
+ 'The page records a proposed organization of the proof.',
+ 'Worth comparing proof architecture with the final EGA/modern version once all compactness hypotheses are lined up.', ['StacksZMT','RydhApproximation'])
+add('Approximation type and normal approximation',[63,64],
+ 'The author asks for finite-presentation approximants and separately whether normal/geometrically unibranch inputs admit suitable approximants.',
+ 'Quasi-compact quasi-separated schemes admit approximation by finite-presentation schemes with affine transition maps. Preservation of normality/unibranchness is an additional assertion and not a formal consequence.',
+ 'Rydh, Noetherian approximation of algebraic spaces and stacks, arXiv2009/final2015, gives general approximation. The exact stronger normal-approximation question of the sheet was not matched to a numbered theorem.',
+ 'The normal case appears as a separate margin question.',
+ 'Worth a focused search on preservation properties; do not cite general approximation as settling the stronger question.', ['RydhApproximation','EGAIV3'])
+add('Étale descent under nonflat coverings',[66],
+ 'The sheet lists four classes of coverings and asserts effective descent of étale sheaves.',
+ 'Use the exact covering hypotheses of SGA4 VIII9.4; modern universally subtrusive surjections furnish a broad effective-descent theorem for étale morphisms.',
+ 'SGA4 VIII and Rydh identify the development. Integral, proper, universally open and universal-submersion language must not be silently interchanged.',
+ 'This is a stated descent theorem with proof planning, not a conjecture that all surjections work.',
+ 'Worth maintaining a four-case concordance with the final theorem.', ['SGA4VIII','RydhDescent'])
+add('Full faithfulness for finite étale covers',[67,68],
+ 'The author tests the comparison by clopens, geometric points and h0 after base change.',
+ 'Finite étale morphisms encode locally constant finite sets; full faithfulness can be checked by the relevant connected-component/clopen conditions after finite étale base change.',
+ 'SGA1 and SGA4 VIII supply the finite étale/fibre-functor framework. The algebraic clopen calculations on the page were independently checked; their exact hypotheses are retained.',
+ 'The draft is organizing equivalent descent criteria.',
+ 'Worth preserving the equivalences and the distinction between faithfulness, fullness and essential surjectivity.', ['SGA1','SGA4VIII'])
+add('All étale schemes and the submersiveness caveat',[69],
+ 'A margin questions extending the finite étale criterion to all étale schemes and marks separatedness/submersiveness.',
+ 'Descent of arbitrary étale objects requires stronger topological control; finite étale covers do not alone capture all nonseparated étale spaces.',
+ 'Rydh’s universally subtrusive theorem handles a verified broad class; it does not justify dropping its hypotheses. The page’s caveat is mathematically substantive.',
+ 'The author explicitly flags the extension as needing more care.',
+ 'Worth testing with a nonseparated étale counterexample once the exact proposed criterion is recovered.', ['RydhDescent','SGA4VIII'])
+add('Truncated constructibility and derived-comparison diagram',[70],
+ 'A constructibility sentence and a cohomological comparison diagram survive without enough labels to identify all maps.',
+ 'No strongest exact modern theorem can be assigned before the missing objects, degrees and base-change assumptions are fixed.',
+ 'Searches of SGA4 constructibility/base-change material identify neighboring results only; none licenses a unique completion of this fragment.',
+ 'The fragment itself is incomplete and contains unresolved reading alternatives.',
+ 'First task is ink and neighboring-leaf identification, not proving an inferred theorem.', ['SGA4VIII'])
+add('Dimension drop and systems of parameters',[71,72],
+ 'The text claims equality after cutting by one equation under an existence-of-component condition, then places parameters of p in A/p.',
+ 'One must avoid all relevant maximal-dimensional components at an appropriate point. Parameters chosen in p can be parameters in A, not nonzero parameters in A/p.',
+ 'The ring k[x,y,z]/(xy) with f=x refutes the literal quantifier; the parameter images in A/p vanish identically. These are independent algebraic checks.',
+ 'Both anomalies may be transcriptional; no scans are available.',
+ 'High priority for ink checking because one quantifier and one quotient change the theorem.', ['StacksDimension'])
+add('Normalization by codimension-one data',[74,75],
+ 'The author tries to characterize normality of a finite birational algebra through S2 and codimension-one agreement, with a dubious definition of Z.',
+ 'A finite birational S2 extension is determined by the appropriate codimension-one data under noetherian hypotheses; agreement in codimension one must be an assumption or separately proved.',
+ 'The standard S2-extension/normalization criteria support the intended mechanism. The cusp example shows Supp(B/A) need not have codimension greater than1.',
+ 'The leaf asks to check the construction of the closed exceptional set.',
+ 'Worth a precise reconstruction after checking whether the codimension-one assumption was cancelled or moved.', ['StacksNormalization','StacksDepth'])
+add('Lefschetz and parafactorial margin questions',[76],
+ 'Margins ask for Lefschetz-type consequences and parafactorial statements from the depth discussion.',
+ 'Local complete intersections of sufficiently large dimension satisfy the classical parafactorial theorem; arbitrary S_k rings are not covered by that assertion.',
+ 'SGA2’s local Lefschetz/parafactorial results are the matching published family. The exact margin formulation is too abbreviated to identify a stronger theorem.',
+ 'These are cross-references and research prompts, not complete hypotheses.',
+ 'Worth only a tightly scoped comparison with the exact SGA2 theorem before proposing an extension.', ['SGA2'])
+add('A non-Cohen–Macaulay locus with an unusual codimension jump',[77],
+ 'The fibre-product construction is said to produce the desired behavior after selecting a normal non-Cohen–Macaulay projective input and a hypersurface.',
+ 'The fibre-product depth mechanism works under explicit regular-element hypotheses; selecting a single hypersurface needs an appropriately isolated bad locus, not arbitrary non-Cohen–Macaulay input.',
+ 'The exact sequence and Tor term are independently checked. The preliminary geometric existence argument is not established by general S2/normalization theorems.',
+ 'The sheet leaves the geometric choice informal.',
+ 'High value for one run: choose a concrete projective cone and calculate the entire depth stratification.', ['StacksDepth','StacksNormalization'])
+add('Missing graded compatibility and independence of sections',[78,79],
+ 'The draft asks whether the decomposition condition is independent of the chosen section.',
+ 'With nonnegative grading, compatible augmentation and phi∘psi(A+)=0, degree induction and a triangular transition operator give section independence. Without compatibility it is false.',
+ 'The k[x,y]→k[t] two-section counterexample checks the missing hypothesis. The corrected triangular proof is in proof_notes.md.',
+ 'The compatibility is not visible in the surviving initial hypotheses.',
+ 'Worth checking the previous leaf or ink before deciding whether the omission is original.', ['StacksGraded'])
+add('Poincaré series as a criterion',[80],
+ 'Rank inequalities and equality are used to infer the graded decomposition.',
+ 'Retain prior surjectivity, degreewise finiteness and the stated base-ring rank assumptions. Equality of Hilbert series alone does not force the proposed map to be an isomorphism.',
+ 'The explicit zero action of k[x] on k[u,v] gives equal series but a non-surjective map. Under finite free degree pieces and surjectivity, equal ranks force an isomorphism.',
+ 'The text suppresses a preceding condition when restating the criterion.',
+ 'Worth retaining the counterexample and checking the scope of the cross-reference b.', ['StacksGraded'])
+add('The three graded flatness questions',[81,82],
+ 'Three implications among A/K, B/A, C/K and the graded splitting are queried; the polynomial special case is considered.',
+ 'The first implication is false, witnessed by A=B=k[t], C=k; the remaining tensor-product and transitivity implications hold under the corrected splitting.',
+ 'Tor1(k,k)=k is computed. The positive implications and polynomial-section construction have independent proofs in proof_notes.md.',
+ 'The first implication is a genuine mathematical overreach rather than an unsettled literature issue.',
+ 'The finite counterexample and corrected implications complete the local task.', ['StacksGraded'])
+add('Ordering and scope of the EGA V plan',[83],
+ 'Interchange §§1/2? Move permanence after§12? Include excellent functors/morphisms? Replace fpqc by covering wherever possible?',
+ 'These are editorial/programmatic choices. The term excellent functor has no uniquely specified modern definition on this leaf.',
+ 'FGA and the subsequently separate EGA/SGA developments provide context; they do not settle an editorial choice or define the ambiguous phrase.',
+ 'The source itself rearranges and cancels the plan.',
+ 'Worth preserving in the historical outline; no new theorem should be manufactured.', ['FGA'])
+add('Elementary representability and Greenberg’s case',[38,83],
+ 'The plan asks whether the restriction-of-scalars paragraph fits a common treatment and includes the Greenberg case; it cites SGAD VIII6 and XI6.8.',
+ 'Finite locally free restriction of scalars is representable by an algebraic space; representability by a scheme or a Greenberg transform needs the corresponding hypotheses.',
+ 'Stacks05Y8 Proposition97.11.5 is an exact modern finite locally free theorem. The SGAD notation remains an archival cross-reference whose target edition is not conclusively identified.',
+ 'The margin is an organizational query with an explicit uncertain comparison.',
+ 'Worth checking SGAD against the intended seminar edition before asserting an exact published link.', ['StacksWeilRestriction'])
+add('Picard from a pencil and the missing qualitative theory',[83],
+ 'The plan says qualitative Picard results, Mumford’s smoothness criterion, and study through a hyperplane pencil are missing; van Kampen belongs elsewhere.',
+ 'A hyperplane-pencil method must specify smoothness, dimension, base and the desired Picard comparison; no single exact theorem is supplied.',
+ 'Kleiman’s Picard account and SGA2/SGA7 identify established Lefschetz/Picard developments. They do not fix the unclear phrase following Picard genre.',
+ 'The text expressly allocates these topics to other chapters rather than claiming they are false or unknown.',
+ 'Worth as a cross-folder search prompt after ink clarification, not a stand-alone unrestricted conjecture.', ['Kleiman2005','SGA2','SGA7'])
+H=lambda scan,line:dict(source='sources/texts/codex/H26-01_transcription.tex',cote='26',scan=scan,line=line)
+add('Rings of definition without automorphisms',[],
+ 'Cote26 a): rings of definition for structures without automorphisms.',
+ 'For a specified descent problem, uniqueness of descent data may follow from absence of automorphisms, but existence/effectivity and the field/ring of moduli must still be stated.',
+ 'FGA’s descent/representability framework and modern algebraic-space theory provide the setting. The bare phrase does not determine an exact theorem or a universal field-of-moduli assertion.',
+ 'No objects, base category or descent hypotheses are supplied.',
+ 'Worth only after locating the corresponding §7 discussion.', ['FGA'],[H('11','296–299')])
+add('Hilbert and Picard without projectivity',[],
+ 'Cote26 b): Hilbert and Picard without a projectivity hypothesis, annotated partial results.',
+ 'For separated finitely presented X/B, the Hilbert functor of proper flat finitely presented subspaces is an algebraic space locally of finite presentation. For proper flat finitely presented X/B with universally O_T≅f_*O_XT, the Picard functor is an algebraic space.',
+ 'Stacks0D01 and0D2C give these exact statements. They answer broad representability in algebraic spaces, not an unconditional scheme-representability claim.',
+ 'The manuscript explicitly records only partial results at that time.',
+ 'Historically important; the next run should compare the category of representing objects the plan intended.', ['Stacks0D01','Stacks0D2C','Kleiman2005'],[H('11','300–303'),H('8','247–263')])
+add('Dual of a nonprojective abelian scheme',[],
+ 'The question is marked OK par Raynaud.',
+ 'The dual abelian scheme exists without a projectivity hypothesis; the proof passes through the Picard algebraic space and the theorem that abelian algebraic spaces are schemes.',
+ 'Faltings–Chai I.1.9 is the precise reference found through later primary exposition; Raynaud’s1970 book and its contents were opened, but the complete original proof was not read here.',
+ 'The page itself records the question as answered by Raynaud, with no date.',
+ 'Worth verifying the attribution/date against Raynaud’s original proof; do not leave it labelled open.', ['Raynaud1970','FaltingsChai1990'],[H('11','304–308')])
+add('Quotients without flatness',[],
+ 'Cote26 c) and the plan§5 ask for passage to the quotient without flatness.',
+ 'There is no unrestricted quotient theorem for arbitrary relations. Modern results distinguish algebraic spaces, stacks, categorical quotients, and hypotheses on the relation/group.',
+ 'Stacks06PH proves the free flat locally finitely presented group case and therefore does not resolve the proposed nonflat extension. Rydh’s descent theorem addresses a different nonflat issue.',
+ 'The phrase supplies neither a quotient category nor conditions replacing flatness.',
+ 'Worth only after selecting a precise relation and quotient functor.', ['Stacks06PH','RydhDescent'],[H('3','23–25'),H('11','309–312')])
+add('GLn acting without fixed points',[],
+ 'Cote26 d): quotient by GLn operating sans point fixe, associated in the margin with Mumford.',
+ 'A scheme-theoretically free GLn-action has an algebraic-space quotient and gives a torsor. Having no global fixed point is weaker and does not by itself imply freeness or a geometric quotient.',
+ 'Stacks06PH is exact for free actions of flat locally finitely presented groups. The quotation marks on the manuscript phrase prevent identifying it automatically with that hypothesis.',
+ 'The plan does not define sans point fixe and has a named comparison, not a proof.',
+ 'Worth a terminology check against the intended Mumford text; do not replace the phrase silently by free.', ['Stacks06PH','MumfordGIT'],[H('11','315–320')])
+add('Moduli of general varieties and abelian schemes',[],
+ 'Cote26 e): moduli of more or less arbitrary varieties, especially abelian schemes.',
+ 'Specify polarization, Hilbert polynomial, level structure and allowed automorphisms before choosing schemes, algebraic spaces or stacks. Arbitrary isomorphism classes do not form one universal scheme-valued moduli functor.',
+ 'Artin’s algebraization framework, Hilbert/Picard representability and established polarized-abelian moduli give major later developments. They do not settle a single precise claim in the abbreviated line.',
+ 'The plan supplies no boundedness or rigidity hypotheses.',
+ 'Worth historical mapping to the separate moduli programs; too broad for one proof task.', ['Artin1969','Stacks0D01','FaltingsChai1990'],[H('11','319–322')])
+add('Principal bundles with affine structural group',[],
+ 'Cote26 f): classification of principal G-bundles on X/Y, separating commutative and noncommutative affine G; Mumford, Seshadri and Narasimhan are noted.',
+ 'For a smooth projective curve and a suitable smooth affine group, Bun_G is an algebraic stack; coarse moduli require stability and reductivity hypotheses. This is not a classification for every X/Y and every affine G.',
+ 'Heinloth–Schmitt §2.1 gives a precise curve/reductive-group framework. The manuscript’s references point to vector-bundle developments but do not fix a general theorem.',
+ 'The text itself splits several cases instead of asserting a common classification.',
+ 'Worth one narrowly defined curve/group comparison, keeping stack and coarse-space results separate.', ['HeinlothSchmitt2010'],[H('11','324–335')])
+add('The finite structural group case',[],
+ 'Cote26 g) isolates finite G, with a margin which may read rédiger, vérifier or vérifié.',
+ 'Finite étale torsors are governed by the étale fundamental group; non-étale finite flat group schemes require fppf torsors and are a different case.',
+ 'SGA1 gives the finite étale classification. The manuscript does not say finite étale, so that theorem is only a stated subcase, not a complete answer to all finite G.',
+ 'The ink of the status annotation is unresolved.',
+ 'Worth scan checking that annotation and then distinguishing étale from finite-flat cases.', ['SGA1'],[H('11','324–341')])
+add('Vector bundles on relative P1',[],
+ 'Cote26 h) asks for X=P1_Y, G=GLn, annotated Pb mal posé?',
+ 'Over a field, vector bundles on P1 split into sums of line bundles; over a varying base splitting types can jump, so a relative classification requires stratification and a moduli-stack formulation.',
+ 'Grothendieck’s1957 paper was opened: it treats holomorphic bundles on the complex sphere and its structural group theorem. It is not an arbitrary-base relative splitting theorem.',
+ 'The page itself suspects that the formulation is ill-posed.',
+ 'Worth a concrete family showing a jump of splitting type; do not present the field theorem as the relative answer.', ['Grothendieck1957Bundles'],[H('11','341–343')])
+add('Formal moduli of an abelian variety',[],
+ 'Cote26 i): are the formal moduli simples over the base? A margin circles oui.',
+ 'For an unpolarized g-dimensional abelian variety over a perfect field of characteristic p, its deformation functor has a formally smooth base of dimension g²; adding polarization changes the deformation problem.',
+ 'Serre–Tate theory and deformation of p-divisible groups provide the modern result. The exact meaning of simples must be matched to formal smoothness, and the margin already records an affirmative answer.',
+ 'No proof or date for the affirmative margin is supplied.',
+ 'Worth identifying the precise deformation problem and publication route; do not relabel the margin as an unanswered question.', ['KatzSerreTate','FaltingsChai1990'],[H('11','345–347')])
+add('The theorem of the square without projectivity',[],
+ 'Cote26 j): theorem of the square in the nonprojective case.',
+ 'For abelian schemes, the cubical/Picard formalism gives the square/cube identities without a globally chosen relative ample line bundle, with rigidifications stated explicitly.',
+ 'Raynaud’s book has a dedicated theorem-of-the-cube chapter and nonprojective abelian examples; the opened contents verify the relevant program. An exact numbered proof of the nonprojective square statement was not read here.',
+ 'The question is listed without further hypotheses or resolution.',
+ 'Worth a precise chapter-level follow-through; retain the difference between the square and cube statements.', ['Raynaud1970','FaltingsChai1990'],[H('11','349–350')])
+add('Cancelled projective-construction questions and notation', [83],
+ 'The crossed-out list includes Hilbert finiteness, Matsusaka automorphisms, generic curves, theta divisors, nonprojective Picard and reducible fibres; another margin asks whether the Hom notation is suitable.',
+ 'These are withdrawn program items and notation choices, not active claims. The overlaps with Hilbert/Picard and bundles are merged in the preceding problems.',
+ 'Opened Hilbert/Picard sources identify the mathematical families but cannot tell why the author cancelled this particular list.',
+ 'Cancellation is visible in the transcription; no reason is given.',
+ 'Preserve the cancellations and cross-links; no independent research problem is cut from the notation alone.', ['FGA','Kleiman2005','Stacks0D01','Stacks0D2C'])
+(P/'problems.json').write_text(json.dumps(rows,ensure_ascii=False,indent=2)+'\n')
+print(f'{len(rows)} manually composed problem records saved')

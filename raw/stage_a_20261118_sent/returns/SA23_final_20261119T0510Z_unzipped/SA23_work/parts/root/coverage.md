@@ -1,0 +1,10 @@
+# Root owner coverage
+
+- Read all92 indexed MPL_2 entries, all41 retained scan passages in its1434-line transcription, and the full doubts file. Read logs preserve exact one-based physical line ranges. The independent rereads of lines700–731 and1333–1343 remove the initial truncated-output gaps.
+- All92 entries have individually authored verdicts. There are79 consolidated items. The mapping of notesS05/S06 was audited and corrected: source#46 is the universal-homeomorphism fragment, #47 the chronology/source-identification note.
+- Claims include the main GRR diagram, the scalar polarization identities and the scalar-extension opening, which are not separate indexed note headings. Refined statements are explicitly labelled present-run formulations, not replacement readings.
+- Every root claim has a fate trace insearch_log.jsonl, mapped to actual query batches and opened exact references. DirectPDF visual checks supplement the web trace. A source match is not a priority claim, and the selected-family universal ring is not identified withMackall’s different functor.
+- Exact computation outputs are in computations_output.json. General proofs are inproofs.md. The first expensive expansion was interrupted without output; the completed coefficient-vector implementation is the one used.
+- The14 authorial problems include answered questions and withdrawn unfinished proposals. A final individual provenance audit moved the cancelled effective-divisor example to ED-SA23-root-15: it is an asserted example with an explicit replacement, not a question. Its mathematics remains in the item and claim registers. Source-level reading alarms remain undecided because manuscript scans were not supplied.
+- The cited earlier-run records and external project register are absent from the attachments. Their leads are explicitly unverified at the external endpoint and are not used as evidence.
+- Third-party fullPDFs, rendered pages and raw web excerpts inexternal/ andsearch_*.json are research caches, not intended for redistribution. The concise query metadata, exact locators, download hashes, bibliography, programs and results document the work.

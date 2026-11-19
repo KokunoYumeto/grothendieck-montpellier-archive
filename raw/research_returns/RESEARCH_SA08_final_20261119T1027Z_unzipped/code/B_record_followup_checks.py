@@ -1,0 +1,27 @@
+"""Append the final B source and independent A audit events, idempotently."""
+from pathlib import Path
+
+root = Path(__file__).resolve().parents[1]
+who = "GPT-6 Astra, automorphisms parallel agent"
+events = [
+    ("A-006-A-008-independent", "independent re-proof", "Adversarial audit passed: actual-section quotient by boundaries equals coker of homotopy-class maps by Kan homotopy lifting; normalized chains are K-projective for infiniteX; split universal cycle resolutions justify nonflat base change; homogeneous comparison and product homotopies extend to completion without K-flat product modules; graded exactness and convergent corrections prove nonsplit A008. Full proof notes/B_A006_audit.md."),
+    ("A-025-independent", "independent re-proof", "Literal T=1 quotient argument passes: T-1 injective by lowest weight, coefficient quotient rationalizes, T acts0 on the single horizontal homology of A^q, hence quotient horizontally acyclic; everyX map lifts through fibration by lifting nullhomotopy. Graded discreteN counterexample has uniformly bounded denominators, excluding1/n!."),
+    ("B-10-original-182", "original-image inspection", "Original scan182 fetched and visually opened: sources/B_cote136_scans182.pdf and notes/B_scan_images/cote136-182.png. Mod grad S_k and ambient M_omega are explicit; only differential-algebra exterior grading subsequently forgotten. Hat remains uncertain; both readings have same homogeneous pieces. Receipt logs/B_cote136_ranges_182.json,524288newbytes,18.868229sec."),
+    ("B-05-primary-homotopy", "used and rechecked in this run", "Dold-Puppe1961 Theorem3.31 p225, sources/B_dold_puppe1961.txt:933-940, states equivalence of chain and simplicial homotopies in the general abelian-category setting; exact citation added to sections/B_automorphisms.tex B05."),
+    ("B-11-primary-operations", "used and rechecked in this run", "May1970 p154, Definition2.1 p160, Theorem3.3 p168 visually opened; Mandell2001 Theorem1.4 author p5 and proof text1303-1311 identify generalized operation quotient by1-P0. No identification of May's algebra with Breen's algebra is inferred."),
+    ("B-literature-status", "used and rechecked in this run", "All requested sources acquired in the B pass have exact opening scopes in notes/B_references.bib and notes/B_sources.md. Roby1965, Illusie239, Berthelot407, and FHT full chapters remain explicitly not opened. Cenkl-Porter1984 product adds coefficient filtration; no integral multiplicative comparison silently inferred."),
+    ("A-017-independent", "independent re-proof", "R_d/p injects into evaluation functions and is the exhaustive colimit of finite function algebras via rectangular binomial matrices; derived reduction kills cotangent complex, giving rational homology and absolute formula. R is free over R0; transitivity splits dT summand. Full proof audit notes/B_A017_audit.md:11-95."),
+    ("A-017-independent-computation", "computation or formal certificate", "Independent Fraction-polynomial, derivative and wedge implementation regenerates all12 lattices and checks unimodular equality, free ranks and torsion;867 generator tuples and827 periodicity checks including negative inputs pass. Shared backend SymPy HNF/SNF. code/B_audit_numerical_lattices.py; logs/B_audit_numerical_lattices.json;0.099913546sec."),
+    ("A-018-scope", "used and rechecked in this run", "Mandell2006 original text1-85,142-160 checked: Main Theorem p213 supports finite-type nilpotent object determination after D006E; Theorems0.1-0.2 pp214-215 do not assert fullness. A018 reduction passes, conditional on D006E."),
+    ("A-019-Cartan-correction", "refuted, with the refined statement's id", "A019 draft phrasing about an endpoint in Cartan Th2 is misleading: Th2 p266 assumes form-degree vanishing A_p^n=0 for n>p. Original printed p271 visually opened at logs/C_cartan_pages/p-12.png explicitly proves fixed-weight comparison for r>=n, including endpoint, and binomial products for all simplicial X. Credit as antecedents, not new endpoint/product conclusions; notes/B_A017_audit.md:117-126."),
+    ("A-019-other-scope", "used and rechecked in this run", "Horel source643-677, Toen1181-1207 and1302-1333, Hedenlund-Moulinos2001ff and2359-2377 independently read. Connectedness/nilpotence/finite-type scopes and filtered-bar versus PD distinction in A019 pass; exact file locators in notes/B_A017_audit.md."),
+    ("A-020-source-typo", "used and rechecked in this run", "Kageyama2022 source528 and2024 source257 omit factorials in numerator of PD product; following rational embedding fixes intended binomial product. 2022 source155-160 explicitly kills odd squares. Corrected intended PD simplex has stated cumulative-coordinate isomorphism; no stronger recovery theorem imported."),
+    ("A-021-quotient-strengthening", "independent re-proof", "QI1=QS but Hom(QS[-1],QS)=Z*T by saturation. If zT were invertible, its tensor square2z^2*T^[2] would force2 invertible in End(QS)=Z. Hence shifted unit still nonisomorphic after Q. Full proof notes/B_A017_audit.md:137-157; independently type-checked by shadows agent."),
+]
+p = root / "notes/B_CHECK_EVENTS.tsv"
+existing = p.read_text()
+with p.open("a") as f:
+    for key, kind, outcome in events:
+        if key + "\t" not in existing:
+            f.write("\t".join((key, "2026-11-19", who, kind, outcome)) + "\n")
+print(f"Recorded {len(events)} final source/audit event identifiers in {p}")

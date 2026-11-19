@@ -1,0 +1,24 @@
+\\ A certified algebraic calculation: no BSD/analytic-rank input.
+default(parisize, 16000000);
+print("PARI version: ", version());
+E=ellinit([0,-1,1,-10,-20]);
+print("model coefficients: ", [E.a1,E.a2,E.a3,E.a4,E.a6]);
+print("discriminant: ", E.disc);
+print("c4: ", E.c4);
+print("j: ", E.j);
+print("global minimal reduction: ", ellglobalred(E));
+R=ellrank(E,0);
+print("certified rank/2-descent tuple: ", R);
+if(R[1]!=0 || R[2]!=0, error("Rank zero not certified"));
+print("rational torsion [order, structure, generators]: ", elltors(E));
+forprime(p=2,43,if(p!=11,print("good prime ",p, ": #E(Fp)=",p+1-ellap(E,p))));
+print("PASS: rank zero certified by 2-descent; bad reduction only at 11.");
+F=ellinit([0,1,1,-2,0]);
+print("rank-two comparison model: ", [F.a1,F.a2,F.a3,F.a4,F.a6]);
+print("rank-two discriminant: ", F.disc);
+R2=ellrank(F,0);
+print("rank-two certified descent tuple: ", R2);
+print("rank-two torsion: ", elltors(F));
+if(R2[1]!=2 || R2[2]!=2 || R2[3]!=0,error("Rank-two comparison not certified"));
+print("PASS: rank-two curve over Q has d=1, r=2, Sha[2]=0, local closure rank=1.");
+quit;
