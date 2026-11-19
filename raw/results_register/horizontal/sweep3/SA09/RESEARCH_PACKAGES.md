@@ -63,6 +63,7 @@ Belyi's 1979 theorem on the dated sheets.
 
 **Strongest known reduction.** The enumeration in S_6 gives 3 maps of the passport. The discriminant of δ is −576,
 with roots 16/25 ± (12/25)i.
+> [19 Nov 2026, sweep 3.5] Bears on line 65: INT-SA09-E05 (SA09 intake, confirmed; PROPAGATION.tsv n=424). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **Material a run needs.**
 - MPL_138_090-133 with its notes.

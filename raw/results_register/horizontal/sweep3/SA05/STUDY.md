@@ -8,9 +8,11 @@ abstract motives: 108 + 103 + 82 + 79 + 9 notes, with Codex and Work coverage), 
 cotes 16 and 18 Work folders. The order follows sweep2/SA05/WHAT_IS_WHERE.md.
 
 ## 1. The motivic Galois group of F_p is commutative, and its gerbe (15:2-14) — SA05-18
+> [19 Nov 2026, sweep 3.5] Bears on line 10: INT-SA05-E04 (SA05 intake, reading; PROPAGATION.tsv n=303); SA05 intake 4. Ours: where our study notes, readi l.130 (SA05 intake, reading; PROPAGATION.tsv n=311); INT-SA05-E06 (SA05 intake, confirmed; PROPAGATION.tsv n=388); and 3 more. See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 - **15:2** cover: "Groupe de Galois motivique commutatif. Cas d'un corps de base fini".
 - **15:3** M the category of motives over F_p, with fibre functors T_l over Q_l for l != p and, for l = p, crystalline
+> [19 Nov 2026, sweep 3.5] Bears on line 13: INT-SA05-E06 (SA05 intake, confirmed; PROPAGATION.tsv n=389); INT-SA05-E25 (SA05 intake, confirmed; PROPAGATION.tsv n=407). See results_register/horizontal/sweep3_5/SUMMARY.md.
   cohomology T_p (F-crystals over Q_p, "Attention, ici on ne peut remplacer Z par Ẑ !"). Niv^0(M)^0, the motives of
   level 0 and weight 0 (the Artin motives), has a natural intrinsic fibre functor F^0 over Q (F^0(H*(X)) = f_*(Q_X) for X
   finite). The gerbe of fibre functors of M contains the subgerbe of those extending F^0; its band is
@@ -20,13 +22,16 @@ cotes 16 and 18 Work folders. The order follows sweep2/SA05/WHAT_IS_WHERE.md.
 - **15:5** G^0 has characters Gamma / (roots of unity); Ker(epsilon | G^0) has characters Gamma' = Gamma / <roots of unity,
   p>, whose torsion is Z/2; H^0 is a compact torus; i: G_m -> G restricted to mu_2 splits H = H^0 x mu_2.
 - **15:7** M with its grading and augmentation, the T_l and F^0, is determined by the class of the H-gerbe,
+> [19 Nov 2026, sweep 3.5] Bears on line 22: INT-SA05-E04 (SA05 intake, reading; PROPAGATION.tsv n=304); SA05 intake 4. Ours: where our study notes, readi l.130 (SA05 intake, reading; PROPAGATION.tsv n=312); INT-SA05-E06 (SA05 intake, confirmed; PROPAGATION.tsv n=390); and 1 more. See results_register/horizontal/sweep3_5/SUMMARY.md.
   xi_0 in H^2(Q, H) = H^2(Q, H^0) x H^2(Q, mu_2); the grading is i*(lambda) = nu iff |lambda| = p^(nu/2). For l != p,
   F_l extends F^0, so the gerbe splits at every finite l != p.
 - **15:7-9** at p, T_p and F_p differ by a torsor under (G/H)_{Q_p}, an extension of G/G^0 = Ẑ by G^0/H = G_m that splits,
+> [19 Nov 2026, sweep 3.5] Bears on line 25: INT-SA05-E04 (SA05 intake, reading; PROPAGATION.tsv n=305); SA05 intake 4. Ours: where our study notes, readi l.130 (SA05 intake, reading; PROPAGATION.tsv n=313); INT-SA05-E06 (SA05 intake, confirmed; PROPAGATION.tsv n=391); and 1 more. See results_register/horizontal/sweep3_5/SUMMARY.md.
   so its class eta_p lies in H^1(Q_p, Ẑ) = Hom(pi_1(Q_p), Ẑ) and is "l'isom Gal(Q̃_p/Q_p) = Ẑ donné par Frobenius";
   xi_p = d(eta_p). The H^0- and mu_2-components of xi are determined by their local components; for mu_2, by
   sum of inv = 0, the finite places suffice.
 - **15:11** the compact-torus component at infinity vanishes; "on sait que M n'a pas de foncteur fibre sur R": M is
+> [19 Nov 2026, sweep 3.5] Bears on line 29: INT-SA05-E09 (SA05 intake, confirmed; PROPAGATION.tsv n=400). See results_register/horizontal/sweep3_5/SUMMARY.md.
   polarizable with H disconnected, or a rank-1 degree-1 object would appear, or "l'argument de Serre sur la courbe
   elliptique d'invariant de Hasse nul". So xi_infinity != 0, its mu_2-component is the nonzero element, and so is the
   mu_2-component of xi_p.
@@ -80,6 +85,7 @@ polarization theorem.
 - SA05-18 uses SA05-8 (the motivic Galois group) and SA05-9 (weights); SA05-19 uses SA05-18 (the supersingular part)
   and is the same object as SA06-8 (H045). SA06-9 (CM motives over finite fields, H046) and SA06-10 (real fibre functors)
   are the same circle; SA07-7 (the real Frobenius, cote 18) is the archimedean counterpart of 15:11.
+> [19 Nov 2026, sweep 3.5] Bears on line 82: INT-SA05-E09 (SA05 intake, confirmed; PROPAGATION.tsv n=401). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - Wrong: nothing found. Open (his): the conditional parts (Tate, Tate-Honda). Settled by his own later pages: the class
   in H^3 of 15:19 (zero, 15:74-78).
 

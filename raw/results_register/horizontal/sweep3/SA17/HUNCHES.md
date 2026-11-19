@@ -156,6 +156,7 @@ needs one more idea.**
   spaces are schemes".
 
 **H-K-2. The type case of 126 scan 35 is a Nisnevich gluing question.**
+> [19 Nov 2026, sweep 3.5] Bears on line 158: SA17 intake 3. His text (claims about the pages, l.206 (SA17 intake, reading; PROPAGATION.tsv n=384); A:nonfinite-descent (126 scans 32-35) (SA17 intake, confirmed; PROPAGATION.tsv n=498). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - It is effective for quasi-affine X.
 - Counterexamples are expected among algebraic spaces glued along an elementary distinguished square.
 

@@ -96,3 +96,40 @@ one background ZIP; each passes --lint-math. The report went to the main session
 
 - Block 1 (15-159-15-177): DONE, outputs written.
 - Block 2 (15-178-15-194): DONE, outputs written. Job finished.
+
+## New job, 19 Nov ~13:4x UTC: sweep 3, wave 1 (brief: sweep3/WAVE1_LEAD_BRIEF_20261119.md)
+
+- I lead SA14 (Picard, 458 pp.), SA16 (elliptic curves, 336), SA18 (abelian varieties, 332) and SA19 (Jacobians, 203).
+- Sub-agents allowed: 4 readers (Claude Opus 5.5 at effort max, ~300k each). My own bound is ~250k; I started at
+  ~571k. I may compact once; after that, reread the brief, this file and my files.
+- Registry checked at 13:4x: no field expert for these fields. My earlier readers a8d07e78 (668k) and add83e0c (752k)
+  are past 60-70 %, so they get no new reading.
+- Readers, each writing to sweep3/SA<nn>/readings/:
+  - R1: SA14 cote 57 (c57).
+  - R2: SA19 cotes 43-44 (c43_c44), then SA14 cotes 58-60 (c58_c60).
+  - R3: SA16 cotes 62-64 (c62_c64).
+  - R4: SA18 cotes 45-56 (c45_c56).
+- Merge plan:
+  - integrate_readings.py, with readers_notes.py entries;
+  - deliv.py gains the package lists for SA14, SA16, SA18 and SA19;
+  - s3data_SA14/16/18/19.py, then sweep3_tsv.py.
+- Prompts: I build them myself from the readers' packages, on the template of pro_prompt_builds/RESEARCH_SA15/PROMPT.md
+  for the generic paragraphs. Likely two clusters: Picard + Jacobians (SA14+SA19), and elliptic curves + abelian
+  varieties (SA16+SA18); decide after the readings.
+- Then link and pack into TO_SEND/PRO/1_Archive_research_by_topic/<n>_SA<nn>_<title>_night and add the line to ORDER.md.
+
+- 13:5x UTC: the four reader launches were refused by the agent guard ("your brief allows 4 sub-agents and you have launched 6"), because it counts my 6 earlier launches. Asked the coordinator for an allowance line of 10. The launch texts follow the plan above (READER_BRIEF plus: first read sweep2/SA<nn>/WHAT_IS_WHERE.md and CORRECTIONS.tsv; order: Pro-transcribed pages of his first, then Codex/Work-only pages; closing sections "Research packages (concepts)" and "Deliverables"; Sub-agents allowed: 0; ~300k).
+- 19 Nov ~14:0x UTC: the coordinator raised the allowance; readers may run to about 600k each:
+Sub-agents allowed: 10
+Compute bound: about 600k tokens of context for each reader.
+- 14:1x UTC: the launches were refused again ("allows 0"). Cause: the guard takes the last "Sub-agents allowed: N" in the user messages, and the coordinator's message quotes the readers' line [the user's words, omitted] after its own "10". Asked for a resend whose last allowance line is the 10.
+
+## Wave 1 state, about 15:2x UTC
+
+- Readers done: aa478f9f (SA14 c57), a2622492 (SA19 c43_c44 and SA14 c58_c60), acce857b (SA18 c45_c56).
+- a5666540 (SA16 c62_c64) was interrupted by the user at about 14:2x UTC, with only cote 62 scans 2-50 read. Not resumed, pending the coordinator's word.
+- Merged: wave1_merge.py, integrate_readings.py and STUDY.md for SA14, SA16, SA18 and SA19.
+- Prompts built, linted, linked and packed:
+  - pro_prompt_builds/RESEARCH_SA14_SA19 -> TO_SEND/PRO/1_Archive_research_by_topic/19_SA14_SA19_...;
+  - pro_prompt_builds/RESEARCH_SA16_SA18 -> TO_SEND/PRO/1_Archive_research_by_topic/20_SA16_SA18_....
+  The ORDER.md lines are 19 and 20 (18 was taken by SA04).

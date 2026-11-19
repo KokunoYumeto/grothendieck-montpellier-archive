@@ -9,11 +9,14 @@ These are concepts only. No prompt is written tonight.
 **The question:**
 - For which stratified spaces is X the colimit, in topoi, of the diagram of its strata, its tubes and its deleted tubes?
 - Which stones are needed: all pairs i < k, the V^j_{i,k} of 151/60, or an iterated gluing?
+> [19 Nov 2026, sweep 3.5] Bears on line 11: SA10 intake 1. The main question (A.1): what glue l.35 (SA10 intake, reading; PROPAGATION.tsv n=334); INT-SA10-E03 (SA10 intake, confirmed; PROPAGATION.tsv n=440). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - Does his van Kampen principle (151/43) hold for that colimit? It says that the homotopy type of a glued topos is the colimit of the homotopy types.
+> [19 Nov 2026, sweep 3.5] Bears on line 12: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=138). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **Why it matters:**
 - It is the theorem the 1981 stratified topos is built for.
 - As stated on 151/69 it is false (SA10-S3-K3), and the page gives no proof.
+> [19 Nov 2026, sweep 3.5] Bears on line 16: SA10 intake 2. Item by item l.71 (SA10 intake, refuted; PROPAGATION.tsv n=155); SA10 intake 3. What the run settled, and what tha l.106 (SA10 intake, refuted; PROPAGATION.tsv n=229); SA10 intake 1. The main question (A.1): what glue l.62 (SA10 intake, reading; PROPAGATION.tsv n=350). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **What it rests on:** 151/32-75 (read in full; SA10-16, SA10-17); 151/1-31 (SA10-15); the normal-crossings pieces of "Str_∞ p. 84" (probably cote 150, SA10-12).
 
@@ -25,6 +28,7 @@ These are concepts only. No prompt is written tonight.
 **Material:**
 - the MPL_151_032-075 and MPL_150_085-099+151_001-031 `.tex`, with the 151 scans;
 - the cote-147 `.tex` for Str_∞ ("Structure à l'infini des M_{g,ν}", pp. 83-84 = scans 147/176-177), and cote 150 §15 (scans 72-84) for its general form;
+> [19 Nov 2026, sweep 3.5] Bears on line 27: SA10 intake 2. Item by item l.84 (SA10 intake, refuted; PROPAGATION.tsv n=214). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - Treumann 2009; Lurie, *Higher Algebra*, App. A; Ayala-Francis-Tanaka 2017;
 - SGA 4, Exposé IV §9 (recollement).
 
@@ -36,6 +40,7 @@ These are concepts only. No prompt is written tonight.
 - the gluing of P1.
 
 The poset of strata lacks infima in general (EXIT_TOWER A.2). What replaces the half-simplicial formalism of 151/45-56?
+> [19 Nov 2026, sweep 3.5] Bears on line 38: SA10 intake 2. Item by item l.74 (SA10 intake, refuted; PROPAGATION.tsv n=192); SA10 intake 3. What the run settled, and what tha l.109 (SA10 intake, refuted; PROPAGATION.tsv n=246); SA10 intake 5. Corrections that bear on the trans l.149 (SA10 intake, refuted; PROPAGATION.tsv n=255); and 3 more. See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **Why it matters:**
 - It joins the stratified-spaces material of the archive to La Longue Marche, on which the research runs stand.
@@ -43,6 +48,7 @@ The poset of strata lacks infima in general (EXIT_TOWER A.2). What replaces the 
 
 **What it rests on:**
 - 151/32-44 and 57-69;
+> [19 Nov 2026, sweep 3.5] Bears on line 45: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=139); SA10 intake 2. Item by item l.78 (SA10 intake, refuted; PROPAGATION.tsv n=199); INT-SA10-E24 (SA10 intake, confirmed; PROPAGATION.tsv n=481). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - cote 150, folios 9 and 15-16 (EXIT_TOWER);
 - La Longue Marche (the Teichmüller tower);
 - the Esquisse §2-3.
@@ -68,7 +74,9 @@ The poset of strata lacks infima in general (EXIT_TOWER A.2). What replaces the 
 - **Why it matters:**
   - it is the folder's programme, its second title;
   - it is the inverse of the gluing theorem of 151/69, which is refuted as stated (P1);
+> [19 Nov 2026, sweep 3.5] Bears on line 70: SA10 intake 2. Item by item l.71 (SA10 intake, refuted; PROPAGATION.tsv n=156); SA10 intake 3. What the run settled, and what tha l.106 (SA10 intake, refuted; PROPAGATION.tsv n=230); SA10 intake 1. The main question (A.1): what glue l.62 (SA10 intake, reading; PROPAGATION.tsv n=351). See results_register/horizontal/sweep3_5/SUMMARY.md.
   - it is the geometric input of the stratified homotopy type of 151/32-44.
+> [19 Nov 2026, sweep 3.5] Bears on line 71: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=140); SA10 intake 2. Item by item l.78 (SA10 intake, refuted; PROPAGATION.tsv n=200); INT-SA10-E24 (SA10 intake, confirmed; PROPAGATION.tsv n=482). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - **What it rests on:** 150/012-033 (second pass of 17 Nov; read here 017-030); 150/039-043; 151/32-75 (the SA10
   study); EXIT_TOWER A.1-A.3, A.12.
 - **Strongest known reduction:**
@@ -124,6 +132,7 @@ None new.
   - it is SA10-C3, the folder's main construction, which he postpones on 043 ("On reviendra sur cette construction plus
     tard");
   - it is a point-set answer to P1 (gluing) that avoids the missing corner of 151/69.
+> [19 Nov 2026, sweep 3.5] Bears on line 126: SA10 intake 2. Item by item l.71 (SA10 intake, refuted; PROPAGATION.tsv n=157); SA10 intake 3. What the run settled, and what tha l.106 (SA10 intake, refuted; PROPAGATION.tsv n=231); SA10 intake 1. The main question (A.1): what glue l.62 (SA10 intake, reading; PROPAGATION.tsv n=352). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - **What it rests on:** 150/032-043 (this reading), 150/044-047 (§10), and EXIT_TOWER A.4, A.7 and A.11-A.13.
 - **Strongest known reduction:**
   - the one-layer Théorème of 035 (checked);
@@ -147,6 +156,7 @@ None new. Material for existing packages:
   - the index sets of the boundary strata (R150d-10 to R150d-12).
 - **P1** (the gluing theorem for tubes): the squares that are formal (concatenation) and those that are not (common
   final element). The pieces the successor-pair theorem of 151/69 lacks are the second kind.
+> [19 Nov 2026, sweep 3.5] Bears on line 149: SA10 intake 2. Item by item l.71 (SA10 intake, refuted; PROPAGATION.tsv n=158); SA10 intake 3. What the run settled, and what tha l.106 (SA10 intake, refuted; PROPAGATION.tsv n=232); SA10 intake 1. The main question (A.1): what glue l.62 (SA10 intake, reading; PROPAGATION.tsv n=353). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - **P-AX1 or the tame line:** the redundancy question F03/F06/F07, with its Top counterexample (K150d-09).
 <!-- /reading:150_044-057 -->
 
@@ -157,11 +167,15 @@ None new. Material for existing packages:
 - *The question:* for Whitney (or Thom-Mather, or homotopically stratified) spaces, prove (51), (56)-(57) for unions of
   strata, the margin (69) for J ≺ L, the agreement V_d ≃ Σ_d, and (73). Identify V_J^L with the homotopy link, and derive
   147/176's (294) canonically for normal crossings.
+> [19 Nov 2026, sweep 3.5] Bears on line 159: SA10 intake 2. Item by item l.84 (SA10 intake, refuted; PROPAGATION.tsv n=215). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - *Why it matters:*
   - it is the gluing theorem of P1 done with the right pieces (all flags), and it repairs 151/069;
+> [19 Nov 2026, sweep 3.5] Bears on line 161: SA10 intake 2. Item by item l.71 (SA10 intake, refuted; PROPAGATION.tsv n=159); SA10 intake 3. What the run settled, and what tha l.106 (SA10 intake, refuted; PROPAGATION.tsv n=233); SA10 intake 1. The main question (A.1): what glue l.62 (SA10 intake, reading; PROPAGATION.tsv n=354). See results_register/horizontal/sweep3_5/SUMMARY.md.
   - it supplies the canonical arrow that 147/176 lacks;
+> [19 Nov 2026, sweep 3.5] Bears on line 162: SA10 intake 2. Item by item l.84 (SA10 intake, refuted; PROPAGATION.tsv n=216). See results_register/horizontal/sweep3_5/SUMMARY.md.
   - it joins cote 150 to La Longue Marche's structure at infinity of M_{g,ν}.
 - *What it rests on:* 150/073-084 (read in full here), 150/031-043 (standard presentation), 151/057-069, and
+> [19 Nov 2026, sweep 3.5] Bears on line 164: SA10 intake 2. Item by item l.71 (SA10 intake, refuted; PROPAGATION.tsv n=160); SA10 intake 3. What the run settled, and what tha l.106 (SA10 intake, refuted; PROPAGATION.tsv n=234); SA10 intake 1. The main question (A.1): what glue l.35 (SA10 intake, reading; PROPAGATION.tsv n=335); and 2 more. See results_register/horizontal/sweep3_5/SUMMARY.md.
   147/160-177.
 - *Strongest reduction on the page:*
   - (53) holds level by level;
@@ -230,8 +244,10 @@ make it true.**
   - how do they compare with Verdier's coskeletal hypercoverings (A = Δ^op) and with the symmetric case A = (finite
     sets)^op?
 - **Why it matters:** it is the definition his 1981 van Kampen principle (151/043, H2) and his 1990 layer both need, and
+> [19 Nov 2026, sweep 3.5] Bears on line 232: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=141). See results_register/horizontal/sweep3_5/SUMMARY.md.
   it would turn SA10-8 into a descent statement.
 - **It rests on:** 151/011-018; 151/032, 043; Verdier, SGA 4 V §7; Artin-Mazur, *Etale Homotopy* (LNM 100, 1969);
+> [19 Nov 2026, sweep 3.5] Bears on line 234: SA10 intake 2. Item by item l.79 (SA10 intake, refuted; PROPAGATION.tsv n=202); SA10 intake 2. Item by item l.80 (SA10 intake, refuted; PROPAGATION.tsv n=204); SA10 intake 5. Corrections that bear on the trans l.153 (SA10 intake, refuted; PROPAGATION.tsv n=256). See results_register/horizontal/sweep3_5/SUMMARY.md.
   Dugger-Hollander-Isaksen, "Hypercovers and simplicial presheaves", Math. Proc. Cambridge Philos. Soc. 136 (2004), 9-51
   (locators to be checked); Shulman 2012.
 - **Strongest known reduction:**
@@ -239,6 +255,7 @@ make it true.**
   - (Hyp) for all finite diagrams ⟺ φ flat ⟺ φ_! left exact;
   - the symmetric nerve of G separates the two (R151a-20 to 24).
 - **Material:** the corrected transcription of 151/011-020 and this reading.
+> [19 Nov 2026, sweep 3.5] Bears on line 241: SA10 intake 2. Item by item l.79 (SA10 intake, refuted; PROPAGATION.tsv n=203); SA10 intake 2. Item by item l.80 (SA10 intake, refuted; PROPAGATION.tsv n=205); SA10 intake 5. Corrections that bear on the trans l.153 (SA10 intake, refuted; PROPAGATION.tsv n=257). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **P151a-2. His presentation of the finite sets.**
 - **Question:** do (a)-(d) of 017, with the two global relations of 005 in general form, present the category of
@@ -248,6 +265,7 @@ make it true.**
 - **Why it matters:** if they do not, his "systèmes satisfaisant (*)" are a larger class than the symmetric simplicial
   sets, and the punctual hypercoverings of 017 are defined on the wrong category.
 - **It rests on:** 151/003-009, 017, 019-020.
+> [19 Nov 2026, sweep 3.5] Bears on line 250: SA10 intake 2. Item by item l.80 (SA10 intake, refuted; PROPAGATION.tsv n=206); SA10 intake 5. Corrections that bear on the trans l.154 (SA10 intake, refuted; PROPAGATION.tsv n=258); SA10 intake 5. Corrections that bear on the trans l.155 (SA10 intake, refuted; PROPAGATION.tsv n=259); and 1 more. See results_register/horizontal/sweep3_5/SUMMARY.md.
 - **Strongest known reduction:** (a)-(d) are incomplete (R151a-26, 27). The two missing relation types are exactly 005's
   boxes, which are independent of the rest (R151a-07).
 - **Material:** this reading and its scripts (`check151a.py`, `check151a_models.py`, in the reader's scratchpad; to be
@@ -267,6 +285,7 @@ make it true.**
   The package asks for the comparison maps between them where they are defined, and for the gluing, van Kampen and
   fibration statements for each.
 - **Why it matters:** 151/32-44, the homotopy type of a stratified space from its pieces, rests on this object. With
+> [19 Nov 2026, sweep 3.5] Bears on line 269: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=142); SA10 intake 2. Item by item l.78 (SA10 intake, refuted; PROPAGATION.tsv n=201); INT-SA10-E24 (SA10 intake, confirmed; PROPAGATION.tsv n=483). See results_register/horizontal/sweep3_5/SUMMARY.md.
   the topos limit, (5)-(10) are empty for Hausdorff X.
 - **What it rests on:** SA10-R151b-25 and R151b-28 to R151b-32; STUDY §1; reading 150_072-084 (§15, the
   pro-neighbourhoods).

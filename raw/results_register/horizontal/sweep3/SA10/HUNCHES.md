@@ -15,34 +15,44 @@
 
 **Grounds:**
 - The counterexample to the successor-pair version (151/69; SA10-S3-K3) fails exactly at the missing corner.
+> [19 Nov 2026, sweep 3.5] Bears on line 17: SA10 intake 2. Item by item l.71 (SA10 intake, refuted; PROPAGATION.tsv n=151); SA10 intake 3. What the run settled, and what tha l.106 (SA10 intake, refuted; PROPAGATION.tsv n=225); SA10 intake 1. The main question (A.1): what glue l.62 (SA10 intake, reading; PROPAGATION.tsv n=346). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - His own remark on 151/59 points at the same pieces (Str_∞ p. 84).
+> [19 Nov 2026, sweep 3.5] Bears on line 18: SA10 intake 1. The main question (A.1): what glue l.35 (SA10 intake, reading; PROPAGATION.tsv n=330); INT-SA10-E03 (SA10 intake, confirmed; PROPAGATION.tsv n=436). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - The iterated form is the "unzipping" of D. Ayala, J. Francis and H. L. Tanaka, "Local structures on stratified spaces", Adv. Math. 307 (2017), 903-1028 (locator to be checked).
 
 ## H2. 151/35-43 is the stratified homotopy hypothesis, truncated at levels 1 and 2
+> [19 Nov 2026, sweep 3.5] Bears on line 21: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=131); SA10 intake 2. Item by item l.78 (SA10 intake, refuted; PROPAGATION.tsv n=196); INT-SA10-E24 (SA10 intake, confirmed; PROPAGATION.tsv n=478). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **The hunch:**
 - 𝓕 (151/35) is the category of representations of the exit-path category truncated at π₁ of the links.
 - The gerbe gluing (151/41-43) is the exit-path 2-category (Treumann 2009).
+> [19 Nov 2026, sweep 3.5] Bears on line 25: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=132); SA10 intake 2. Item by item l.78 (SA10 intake, refuted; PROPAGATION.tsv n=197); INT-SA10-E24 (SA10 intake, confirmed; PROPAGATION.tsv n=479). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - His van Kampen principle for topos colimits (151/43) is the ∞-categorical statement:
+> [19 Nov 2026, sweep 3.5] Bears on line 26: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=133). See results_register/horizontal/sweep3_5/SUMMARY.md.
   - true for gluings along germs that are homotopically locally trivial in his sense (151/32, (11));
   - doubtful in general, as his own note on restrictions to opens says (151/72, 75).
+> [19 Nov 2026, sweep 3.5] Bears on line 28: INT-SA10-E11 (SA10 intake, confirmed; PROPAGATION.tsv n=447). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **Literature:**
 - D. Treumann, "Exit paths and constructible stacks", Compositio Math. 145 (2009), 1504-1532;
 - J. Lurie, *Higher Algebra*, Appendix A (locators to be checked).
 
 ## H3. His refusal of infima (151/54) is forced by the moduli of curves
+> [19 Nov 2026, sweep 3.5] Bears on line 34: SA10 intake 2. Item by item l.74 (SA10 intake, refuted; PROPAGATION.tsv n=188); INT-SA10-E20 (SA10 intake, confirmed; PROPAGATION.tsv n=470); SA10 intake 3. What the run settled, and what tha l.110 (SA10 intake, confirmed; PROPAGATION.tsv n=492). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **The hunch:**
 - The strengthened condition (24) on 151/54 says that pairs of strata with a common lower stratum have an infimum. It fails for the stratification of M̄_{g,n} outside the cases g = 0, n ≥ 3; g = 1, 1 ≤ n ≤ 3; (g, n) = (2, 0). That is EXIT_TOWER A.2, proved.
+> [19 Nov 2026, sweep 3.5] Bears on line 37: SA10 intake 2. Item by item l.74 (SA10 intake, refuted; PROPAGATION.tsv n=189); INT-SA10-E20 (SA10 intake, confirmed; PROPAGATION.tsv n=471); SA10 intake 3. What the run settled, and what tha l.110 (SA10 intake, confirmed; PROPAGATION.tsv n=493). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - His programme on 151/44 is about exactly these spaces. Not requiring (24) was therefore the right choice for it.
 - In 1986 he keeps the same choice: "ateliers spacieux" against "polyédraux" (156-7/11, 14).
 
 ## H4. REFUTED by a04c1d305823567b3, round 2 (readings/150_072-084.md, SA10-K150f-14). "Str_∞" is cote 147, "Structure à l'infini des M_{g,ν}" (1981, from the Longue Marche notes): his page 84 is scan 147/177, and the pieces (292)-(294) cited on 151/59 are on 147/176, checked on the scans. §15 of cote 150 is their general form, with a canonical comparison map V_J^L ↪ V_J ∩ V_L that (294) lacks. The entry below is kept as written.
+> [19 Nov 2026, sweep 3.5] Bears on line 41: SA10 intake 2. Item by item l.84 (SA10 intake, refuted; PROPAGATION.tsv n=211); SA10 intake 1. The main question (A.1): what glue l.35 (SA10 intake, reading; PROPAGATION.tsv n=331); INT-SA10-E03 (SA10 intake, confirmed; PROPAGATION.tsv n=437). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 ### H4 as first written: "Str_∞" is cote 150
 
 **The hunch:** "(Str_∞ p. 84)" on 151/59 names a text of his on the normal-crossings pieces V^{d′}_{d,d″} ≃ Ñ | D*. That is probably cote 150, whose scans 44-84 treat pro-neighbourhoods of strata, bands and flags (SA10-12).
+> [19 Nov 2026, sweep 3.5] Bears on line 45: SA10 intake 1. The main question (A.1): what glue l.35 (SA10 intake, reading; PROPAGATION.tsv n=332); INT-SA10-E03 (SA10 intake, confirmed; PROPAGATION.tsv n=438). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **How to check it:** his pagination of cote 150, and the notation Ñ_{d;(d′,d″)} on 150/80-84.
 
@@ -78,11 +88,13 @@
 - When a space fails c) because faces meet themselves or an automorphism identifies two factorizations, as M̄_{g,n}
   does (EXIT_TOWER A.1), indexing by flags or fixed contractions restores Boolean intervals (A.3).
 - So the passage to Drap(I) on 039-043 is forced by his own Teichmüller example, as his refusal of infima on 151/54 is.
+> [19 Nov 2026, sweep 3.5] Bears on line 80: SA10 intake 2. Item by item l.74 (SA10 intake, refuted; PROPAGATION.tsv n=190); INT-SA10-E20 (SA10 intake, confirmed; PROPAGATION.tsv n=472); SA10 intake 3. What the run settled, and what tha l.110 (SA10 intake, confirmed; PROPAGATION.tsv n=494). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - To be checked on the next block.
 
 **H150b-3. Relative infima are his consistent position from 1981 to 1986 (sharpens H3).**
 - 029 proves the infimum inside I_{i,j}, and its global reading fails for the lens.
 - 151/54 rejects global infima as an axiom, and 156-7/14 keeps them for the "polyédral" case only.
+> [19 Nov 2026, sweep 3.5] Bears on line 85: SA10 intake 2. Item by item l.74 (SA10 intake, refuted; PROPAGATION.tsv n=191); INT-SA10-E20 (SA10 intake, confirmed; PROPAGATION.tsv n=473); SA10 intake 3. What the run settled, and what tha l.110 (SA10 intake, confirmed; PROPAGATION.tsv n=495). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - The geometric content is the intersection axiom (14) a), a union over the maximal common lower bounds. It holds for
   M̄_{g,n} (EXIT_TOWER A.3).
 
@@ -91,6 +103,7 @@
   classify neighbourhood germs of a stratum by holink data. His (X̃^*, Ẋ, ℰ, Y, f) is the strict version, with f in
   place of the holink fibration.
 - The deployment data are therefore the input of the exit-path picture of 151/32-43 at the level of spaces, before the
+> [19 Nov 2026, sweep 3.5] Bears on line 93: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=134); SA10 intake 2. Item by item l.78 (SA10 intake, refuted; PROPAGATION.tsv n=198); INT-SA10-E24 (SA10 intake, confirmed; PROPAGATION.tsv n=480). See results_register/horizontal/sweep3_5/SUMMARY.md.
   topos is taken.
 - Locators to be checked.
 <!-- /reading:150_017-030 -->
@@ -120,11 +133,13 @@ strengthening his margin announces** (refines H2 and H5-4; supports H6-2).
 ### From the reading of 150_001-016 (sub-agent; the full reading is readings/150_001-016.md)
 
 **H150a-1. The deployment over all flags, with its triple pieces, is the gluing datum that 151/69 lacks. This sharpens H1.**
+> [19 Nov 2026, sweep 3.5] Bears on line 122: SA10 intake 2. Item by item l.71 (SA10 intake, refuted; PROPAGATION.tsv n=152); SA10 intake 3. What the run settled, and what tha l.106 (SA10 intake, refuted; PROPAGATION.tsv n=226); SA10 intake 1. The main question (A.1): what glue l.62 (SA10 intake, reading; PROPAGATION.tsv n=347). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - Grounds:
   - 002 gives Σ_d for every flag, with the two cartesian squares;
   - 007 names 𝒱_ijk;
   - 008 shows that three strata already need the whole fibre product Σ_012 and the transversalities d) and e).
 - The successor-pair theorem of 151/69 glues from pairs alone; the corner stones it lacks are 002's upper square.
+> [19 Nov 2026, sweep 3.5] Bears on line 127: SA10 intake 2. Item by item l.71 (SA10 intake, refuted; PROPAGATION.tsv n=153); SA10 intake 3. What the run settled, and what tha l.106 (SA10 intake, refuted; PROPAGATION.tsv n=227); SA10 intake 1. The main question (A.1): what glue l.62 (SA10 intake, reading; PROPAGATION.tsv n=348). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - Literature: the unzipping of conically smooth stratified spaces, in D. Ayala, J. Francis, H. L. Tanaka, "Local structures on stratified spaces", Adv. Math. 307 (2017) (locator to be checked).
 
 **H150a-2. The order on Σ_* of 008 is the strict shadow of the exit-path ∞-category. This sharpens H2.**
@@ -220,10 +235,12 @@ strengthening his margin announces** (refines H2 and H5-4; supports H6-2).
 
 **H150f-1. Cote 150 §15 makes the Longue Marche's (294) canonical** (refutes H4 as stated; sharpens H1, H150a-1 and P1).
 - *Grounds:* 151/059 cites 147/176-177. The pieces 𝒱^{d'}_{d,d''} are V_J^L with J = {d}, L = {d'} inside X' = D_{d''}.
+> [19 Nov 2026, sweep 3.5] Bears on line 222: SA10 intake 2. Item by item l.84 (SA10 intake, refuted; PROPAGATION.tsv n=212); SA10 intake 1. The main question (A.1): what glue l.35 (SA10 intake, reading; PROPAGATION.tsv n=333); INT-SA10-E03 (SA10 intake, confirmed; PROPAGATION.tsv n=439). See results_register/horizontal/sweep3_5/SUMMARY.md.
   The margin (69) and V_{ij} ≃ Σ_{ij} (R150f-29, 36) give their homotopy type through a canonical inclusion of
   pro-spaces. In (294) the defect is "ne pas correspondre à une flèche canonique"; only the identification with the
   normal bundle stays non-canonical.
 - *Test:* for a normal-crossings divisor, compute V_J^L and E_2 of (73), and compare with 147/177's Scholie.
+> [19 Nov 2026, sweep 3.5] Bears on line 226: SA10 intake 2. Item by item l.84 (SA10 intake, refuted; PROPAGATION.tsv n=213). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **H150f-2. The raccord V_J^L is the homotopy link of X_J^* in X_L^*** (sharpens H150b-4, H150c-2 and the first-pass note
 N23).
@@ -232,6 +249,7 @@ N23).
   F. Quinn, "Homotopically stratified sets", J. Amer. Math. Soc. 1 (1988), 441-499 (locator to be checked).
 - *Consequence:* the V_d over Drap(I) are a pro-space form of the exit-path data. (73) is then a descent spectral sequence
   for constructible cohomology, the sheaf-level form of 151/043's van Kampen principle.
+> [19 Nov 2026, sweep 3.5] Bears on line 234: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=135). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **H150f-3. The band calculus is the recollement calculus of Esp(I)** (sharpens H150a-4 and SA10's question P1).
 - *Grounds:* ideals and bands are the closed and locally closed subsets of Esp(I) (R150f-20). The band Lemma gives the
@@ -273,6 +291,7 @@ truncation.** This sharpens H150c-2, H150d-2 and H2, and the first pass's N33-N3
 - **Grounds:** SA10-R150e-23; R150e-32 (S² with a point); R150e-33 (BΣ̲ ≅ X for two strata).
 - **To test:** for a Thom-Mather space, |NΣ̲| ≅ X and NΣ̲ ≃ Exit(X) (J. Lurie, *Higher Algebra*, App. A.6 and A.9).
   The gluing of 151/069 is then the realization.
+> [19 Nov 2026, sweep 3.5] Bears on line 275: SA10 intake 2. Item by item l.71 (SA10 intake, refuted; PROPAGATION.tsv n=154); SA10 intake 3. What the run settled, and what tha l.106 (SA10 intake, refuted; PROPAGATION.tsv n=228); SA10 intake 1. The main question (A.1): what glue l.62 (SA10 intake, reading; PROPAGATION.tsv n=349). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - **Literature:**
   - C. Rezk, Trans. Amer. Math. Soc. 353 (2001), 973-1007;
   - G. Segal, Publ. Math. IHÉS 34 (1968), 105-112;
@@ -354,6 +373,7 @@ truncation.** This sharpens H150c-2, H150d-2 and H2, and the first pass's N33-N3
 **H151a-1. 151/003-025 is a 1990-91 return to the homotopy type of a topos** (sharpens H2).
 - Grounds: the paper of 6 Dec 1990 on 003-009 and 018; the continuity 015 → 018 ← 017; the subject, A-indexed
   hypercoverings and π₀-systems, which is Artin-Mazur's route to the homotopy type that 151/032 and 151/043 presuppose.
+> [19 Nov 2026, sweep 3.5] Bears on line 356: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=136). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - His indexing by an arbitrary small category is the habit of *Les Dérivateurs* (1990-91), whose text should be searched
   for "hyperrecouvrement" and for these conditions.
 - Confidence medium on the link to Les Dérivateurs, high on the date.
@@ -386,6 +406,7 @@ conditions on cycles** (sharpens H2; first pass C06-C07).
 
 **H151b-1. The finite-set system of 151/003-025 is the π₀ of a hypercovering indexed by finite sets.** This is new,
 and links SA10-8 and the "techniques bisimpliciales" of 151/43.
+> [19 Nov 2026, sweep 3.5] Bears on line 388: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=137). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - **The hunch:**
   - Take a functor X on the nonempty finite sets [1,n] (017) satisfying the concatenation surjectivity (**) and the
     conditions I-V of 019. It is the π₀ of a Čech-type nerve, U^{×n}, of a covering in a topos.
@@ -404,6 +425,7 @@ and links SA10-8 and the "techniques bisimpliciales" of 151/43.
   checked.
 
 **H151b-2. The tube of 151/028 should be a pro-object or an oriented product, not a topos limit.** This sharpens H150f-2
+> [19 Nov 2026, sweep 3.5] Bears on line 406: SA10 intake 1. The main question (A.1): what glue l.52 (SA10 intake, reading; PROPAGATION.tsv n=337). See results_register/horizontal/sweep3_5/SUMMARY.md.
 and H150b-4.
 - **The hunch:**
   - For Hausdorff X, the right punctured germ is the pro-space of the U ∖ Y, whose homotopy type is Quinn's homotopy

@@ -389,6 +389,7 @@ remords.**
     - in general, where 1-groupoids fail and higher data (Treumann's exit 2-category; exit-path ∞-categories) are
       needed.
   - (d) Place the result against the remords of 147/179-180 and his answer on 151/039-044, which were not read here.
+> [19 Nov 2026, sweep 3.5] Bears on line 391: SA10 intake 1. The main question (A.1): what glue l.55 (SA10 intake, refuted; PROPAGATION.tsv n=1); SA10 intake 2. Item by item l.78 (SA10 intake, refuted; PROPAGATION.tsv n=2); INT-SA10-E24 (SA10 intake, confirmed; PROPAGATION.tsv n=52). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - **Why:** it answers SA20-9 with mathematics instead of dates. It ties cote 121 to the stratified-topos and maquette
   material (SA10, SA31) and to the Esquisse's programme (SA20-3, -4).
 - **Rests on:** SA20-14 (full working B.4, B.5), C.2; the Pro notes Q2.5-Q2.8.

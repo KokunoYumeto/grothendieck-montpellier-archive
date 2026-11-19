@@ -25,6 +25,37 @@ RULES = {
  ('SA11', '121'): ('English; Polish; Japanese; Spanish; Brazilian Portuguese', 'his axiomatics of tame spaces (adapted partitions, triangulation): ' + TAME),
  ('SA11', '121 + 153 + 155'):('English; Japanese; Polish; Spanish', 'tame spaces (cote 121: Krakow, Nagoya, Madrid), analysers and plethories (cote 153, read in English), Tannakian duality and bialgebroids (cote 155: Takeuchi\'s school in Japan, besides Germany and France)'),
 }
+
+# SA04 (wave 1, 19 Nov 2026): keyed on the cote (the first token of cote_part); same rule: where the topic is most studied.
+PADIC = 'p-adic Hodge theory and crystals: the Kato-Tsuji school (Tokyo, Kyoto) for Japanese; the p-adic Hodge and arithmetic geometry groups of Beijing and Shanghai for Chinese; Bonn, Harvard and Cambridge read English'
+POLY = 'abstract regular polytopes and maps: the UNAM school (Hubard, Pellicer; Mexico City and Morelia) for Spanish; Toronto/Boston (McMullen, Schulte), Auckland (Conder) and Bratislava/Banska Bystrica (Siran, Nedela) read English'
+DESS = 'regular maps, dessins and congruence questions: Madrid (Gonzalez-Diez, Girondo) for Spanish; the Moscow school of Shabat and Zvonkin for Russian; Southampton (Jones, Singerman) reads English'
+PREFIX = {
+ ('SA04', '93'): ('English; Japanese; Chinese', PADIC),
+ ('SA04', '161-5'): ('English; Japanese; Chinese', PADIC + '. The offprints (161-5/3-22) are Serre\'s printed texts: cited, never translated by us'),
+ ('SA04', '69'): ('English; Japanese; Chinese', 'the 27 lines, E6 and generalized quadrangles: the Bannai school of algebraic combinatorics (Japan) for Japanese; algebraic combinatorics in China for Chinese; Ghent (Thas, Van Maldeghem) reads English'),
+ ('SA04', '74'): ('English; Japanese; Chinese', 'as for cote 69 (the series of trialitarian graphs, 3-nets and loops); loop theory (Prague, Denver) reads English'),
+ ('SA04', '70'): ('English; Spanish', POLY),
+ ('SA04', '72'): ('English; Spanish', POLY),
+ ('SA04', '73'): ('English; Spanish; Brazilian Portuguese', 'elementary polygon geometry, close to teaching: ' + POLY + '; Brazilian Portuguese for the student community'),
+ ('SA04', '76'): ('English; Spanish', POLY),
+ ('SA04', '77'): ('English', 'quadratic forms and quadratic algebras over a base (Knus, Loos, Voight, Wood): a community that reads English; the French original serves France and Switzerland'),
+ ('SA04', '78'): ('English; Spanish; Brazilian Portuguese', 'a course on regular polygons over rings (Nov-Dec 1977): students first, where Spanish and Brazilian Portuguese reach the largest communities; ' + POLY),
+ ('SA04', '79'): ('English; Spanish; Russian', DESS),
+ ('SA04', '80'): ('English; Spanish; Japanese; Brazilian Portuguese', 'pseudoline arrangements and oriented matroids, as for cote 154 (SA11): Santander and Madrid for Spanish; discrete geometry in Japan; Brazilian Portuguese for the student community'),
+ ('SA04', '82'): ('English', 'rank-3 quadratic modules and the forms of SO(3) over a base: read in English'),
+ ('SA04', '85'): ('English; Spanish; Russian', DESS),
+ ('SA04', '86'): ('English; Spanish', POLY), ('SA04', '87'): ('English; Spanish', POLY), ('SA04', '88'): ('English; Spanish', POLY), ('SA04', '89'): ('English; Spanish', POLY),
+ ('SA04', '161-1'): ('English', 'SA23\'s topic in sweep 2-3: its assessment applies'), ('SA04', '161-2'): ('English', 'SA23\'s topic: its assessment applies'),
+ ('SA04', '161-3'): ('English', 'SA23\'s topic: its assessment applies'), ('SA04', '161-4'): ('English', 'SA23\'s topic: its assessment applies'),
+ ('SA04', '161-6'): ('English; Spanish', 'the Euclidean icosahedron and graphs in surfaces: ' + POLY),
+ ('SA04', '94'): ('English', 'representability of linear functors (EGA III 7.7): foundations read in English and French'),
+ ('SA04', '97'): ('English', 'Chern classes of representations and Fuchsian groups: read in English'),
+ ('SA04', '98'): ('English', 'norms and bounded families (SGA 4 XVII, SGA 6 XIII): read in English and French'),
+ ('SA04', '100'): ('English; Japanese; Chinese', 'good reduction of abelian schemes through p-divisible groups: ' + PADIC),
+ ('SA04', '101'): ('English; Japanese; Spanish', 'local cohomology and Gorenstein rings: the Goto school of Cohen-Macaulay and Gorenstein rings (Japan) for Japanese; commutative algebra in Barcelona and Valladolid for Spanish; India (TIFR, CMI) reads English'),
+ ('SA04', '102'): ('English', 'Pour EGA VI: foundations read in English and French'),
+}
 T = sys.argv[1]; topic = os.path.basename(os.path.normpath(T))
 p = os.path.join(T, 'DELIVERABLES.tsv')
 L = [l.rstrip('\n').split('\t') for l in open(p, encoding='utf-8') if l.strip()]
@@ -33,7 +64,7 @@ if 'translate_to' not in head: head += ['translate_to', 'why']
 w = len(head); i_t, i_w = head.index('translate_to'), head.index('why'); n = 0
 for r in L[1:]:
     r += [''] * (w - len(r))
-    rule = RULES.get((topic, r[0]))
+    rule = RULES.get((topic, r[0])) or PREFIX.get((topic, r[0].split(' ')[0]))
     if rule: r[i_t], r[i_w] = rule; n += 1
     else: print('no rule for', topic, r[0], r[1])
 with open(p, 'w', encoding='utf-8', newline='\n') as f:

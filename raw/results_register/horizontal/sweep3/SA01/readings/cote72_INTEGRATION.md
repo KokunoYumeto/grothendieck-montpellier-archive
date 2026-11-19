@@ -1,0 +1,60 @@
+## STUDY
+
+Cote 72 as read for SA01 by reader R3 (Claude Opus 5.5 at effort max) of a6d42bf6fe2b0d8a8, 19 Nov 2026. It was read in full in SA04's stretch: `sweep3/SA04/readings/cotes69-74.md`, section "Cote 72", with the rows SA04-R72-01..08 and SA04-K72-01..07. Scans 2-113, of which 111 are transcribed (K72-01..07; 22 is in no folder). The Pro package MPL_72_035-081 (GPT-6 Astra, ChatGPT Pro mode) was compared with K72 scan by scan (SA04-R72-07). Cote 72 is the developed form of cote 70 (SA04-21): the parameters found there by hand become categories and invariants over any base scheme.
+
+**SA01-1, pinned regular realizations (72/3-26, 72/84-106).**
+- Categories of realizations of the universal pinned n-polytope: projective, affine, vector, orthogonal, autodual or not.
+- The rigid category C_0 has isomorphism classes Γ(S, O_S)^{2n+1} (72/14-17): the 2n+1 parameters of 70/34.
+- The kernels of Aut(E, V, f) → Aut(P(V)) are the identity and the antipodism.
+- The invariant subspaces over a field (72/80-83): G is irreducible on C iff ρ and all β_i are nonzero.
+- Theorem 1 and the existence of s_0 over any ring (72/97-106).
+- All proofs checked (SA04-R72-06, R72-08).
+- The equivalence on 72/76-77, left open by sweep 2's notes, holds for n ≥ 2. The exception on 72/17 is n = 1, not "n = 2" (SA04-K72-01).
+
+**SA01-3, the invariant form (72/18-20, 35-43, 54-55, 107-113).**
+- With λ_i = -1 the invariant forms are the multiples of f_V. For n = 2, f_V is smooth iff β_0, β_1 and α_0 + α_1 are invertible; the half-discriminant is -β_0²β_1(α_0 + α_1) (SA04-R72-01).
+- The group U_ρ, and the antipodism as its unique section (72/38-43).
+- In characteristic 2 with n odd the antipodism is the identity and D_0 is tangent to Q_X (72/54-55).
+- Stiefel-Whitney and Brauer classes (72/107-113). Both formulas are right: w_* = (1 + η_0 + η_1)(1 + η_0 + η_2) for n = 2, and Br(f_V) = c(f_V) - c(x² + yz) is the class of the conic bundle (SA04-R72-05).
+- Two errors there (SA04-K72-05):
+  - H¹(S_0, Z/2) also needs ∂(2);
+  - η_i² = εη_i, so his "10 classes plausibly independent" is false: at most 7 are.
+
+**SA01-4, continuants (72/45-71).**
+- δ_n = β_0^n···β_{n-1}·L_n, the recursion of L_n, L_2-L_4 and both congruences mod 2 of 72/51 are computed for n ≤ 5, and so is σσ' = β + γρ (SA04-R72-04).
+- One sign slip, on 72/71 (SA04-K72-04).
+- This also settles SA01-5's sign and arity doubts on 72/52-53 and 61 wherever the formula is determined by the computation.
+
+**SA01-6 and SA01-C3, decided on the scan (300 dpi; SA04-R72-02, SA04-K72-02).**
+- The ink reads "β_i = α_i + 2 = 2(2cos²θ_i + 1) = 4cos 2θ_i". The "+1" is his, and both transcriptions are faithful.
+- The line is his slip: he wrote α_i for the ratio 4cos²θ_i.
+- The coherent statement, from 72/34 and 72/45, is β_i = 4cos²θ_i and α_i = β_i - 2 = 2cos 2θ_i.
+- Sweep 2's correction ("+1" → "-1") is incomplete: with -1 the line gives 2cos 2θ_i, not 4cos 2θ_i.
+
+**The Pro package, for SA01's notes (SA04-R72-03, R72-07, SA04-K72-03).**
+- On 72/35 the Pro misreads the bracket as "Peut-être faux. Il en donne ...". The ink reads "Peut-être faut-il se donner au préalable hyp. qu. entière lisse invariante". He does not doubt the statement; he proposes assuming a smooth invariant quadric from the start. Every Pro note that rests on the "faux" reading should be withdrawn.
+- 72/45 "sommets génér." (K72) or "géom." (Pro) remains undecided.
+- Mean similarity of the two witnesses: 0.87. They agree on every formula checked.
+
+**SA01-7, dating.** Scans 59-71 are written on reused sheets: USTL thesis notices of 26 June to 3 July 1978, and decisions of the Conseil de l'Université of May 1978. That puts them after July 1978. 72/70 is a private administrative sheet; it is not reproduced.
+
+**SA01-2 (the LM bridge B5).** Nothing on the pages of cote 72 bears on level-n maps, the Farey map or M_{0,5}. The cote was read in full.
+
+**Other slips, not viewed on the scan:**
+- ⟨a_{i+1}, a'_i⟩ = 1 + α_i - λ_i (72/93; SA04-K72-06);
+- "2(n+1)" for 2(n+2) invariant subspaces, and an index range (72/81; SA04-K72-07).
+
+## HUNCHES
+
+- **H72-1 (from SA04's H3-3).** The bad characteristics of a pinned regular realization are those dividing the β_i, ρ' and σ'. Here ρ = L_{n+1}(β_0..β_{n-1}) is the determinant of the autodual matrix (72/57), and δ_V = Bρ, δ_E = Bσ (72/53). For n = 2 this is the discriminant δ' = -(α+2)(α+β)(β+2)² of 70/69. Grounds: the computations SA04-R72-01, R72-04, SA04-R70-03 and R70-06; 72/78 (smoothness of the circumscribed quadric iff the β_i and σ' are invertible).
+- **H72-2 (new).** The invariant-subspace theorem of 72/80-83 is the analogue, over any field and with pinning, of Vinberg's irreducibility criterion for linear Coxeter groups. The tridiagonal a_i^∨ of 72/14-17 is a Cartan matrix: β_i = 0 is decomposability, and ρ is its determinant. Grounds: our comparison of the statements. Literature: É. B. Vinberg, "Discrete linear groups generated by reflections", Izv. Akad. Nauk SSSR Ser. Mat. 35 (1971), 1072-1112, §§1-2 (locator to be checked).
+- **H72-3 (new, from the correction SA04-K72-05).** Over S_0 the relations η_i² = εη_i leave at most 7 independent classes among his 10. Whether Br(f_V) ≠ 0 at the generic point is a Hilbert-symbol computation over Q(β_0, β_1). It is the first test of his open problem on 72/113 (the total Stiefel-Whitney class of the generic smooth form). Grounds: SA04-R72-05 and his NB on 72/113.
+
+## PACKAGES
+
+- **P72-1: the arithmetic of pinned regular realizations (SA01-1, -3, -4; = SA04's P3-2).**
+  - **Question:** for a Schläfli symbol [p_1, ..., p_n] with α_i = 2cos(2π/p_i), find the invariant form, its discriminants, and its Stiefel-Whitney and Brauer classes over the ring of the α_i. Prove that the degenerate characteristics are exactly those dividing the β_i, ρ' and σ'. Answer 72/113 for n = 2.
+  - **Why it matters:** it unifies 70/68-72 and 72/45-113 and turns his programme of an arithmetic theory of regular polytopes (70/122-123) into theorems.
+  - **What it rests on:** cote 72 as read and checked here (SA04-R72-01..08); 70/68-70.
+  - **Strongest reduction on the pages:** δ_V = β_0^n···β_{n-1}·L_{n+1}(β) and δ_E = β_0^n···β_{n-1}·L_n(β_1..β_{n-1}) (72/53); w_* by orthogonalization (72/108-110).
+  - **Material:** `sweep3/SA04/readings/cotes69-74.md` (cote 72), the reader's `chk70.py` and `chk72.py`, K72-01..07, MPL_72_035-081 (with 72/35 corrected).

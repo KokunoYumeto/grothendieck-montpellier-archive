@@ -1,0 +1,130 @@
+### Reading A2_161-4_161-6_162 (`readings/A2_161-4_161-6_162.md`)
+- Cote 161-4, "Introduction à géométrie algébrique" (K161-4-01: scans 3-13, 15-17; K161-4-02: scans 18, 20-32; 27 pages)
+- 1. Faithfully flat descent: a numbered course outline (scans 3-9, his pages 1-5 and two unnumbered sheets)
+- 2. Ampleness, properties of morphisms, plan of a course (scans 10-13)
+- 3. Schemes as functors (scans 15, 17)
+- 4. A sheet of the products-of-topoi series (scan 18)
+- 5. "Géom. Algébrique": affine algebraic spaces over k as functors (scans 20-32)
+- Cote 161-6, "Graphes, icosaèdre" (K161-6-01: scans 2, 4-11, 13-17; K161-6-02: scans 18-20, 22-23, 25-31, 33-34; 26 pages; SA23-37)
+- 6. The folder sheet (scan 2)
+- 7. The icosahedron from a point and a tangent direction (scans 4-11)
+- 8. Arithmetic of the pentagon: ζ_5, the golden ratio over Z[1/5] (scans 13, 15)
+- 9. Stray sheets: frames and a flower (scans 16, 17)
+- 10. The icosahedron again, A_5, and the icosahedron over a base scheme (scans 18-20, 22)
+- 11. Graphs embedded in oriented surfaces (scans 25-31) and graph symmetries (scans 33-34)
+- Cote 162-1, "Papiers prêtés" (H162-01, scans 2-10; 9 pages; SA23-55)
+- Cote 162-5, "Le Tapis de Quillen, notes d'Alexandre (1968)" (K162-5-02: scan 2; K162-5-01: scans 20, 22-31; 12 pages; SA23-38, SA23-52)
+- 12. Title and bibliography (scans 2, 20)
+- 13. Formal categories, De Rham complexes, Lie algebroids, Quillen's theorem (scans 22-31, "Notes du 6.9.68")
+- Cote 162-6, sheet "Gal(E/Q) - C(E)" (H162-02, scans 2-6; 5 pages; SA23-56)
+- Hunches (with grounds)
+- Dependencies (items used, with the page that shows them)
+- Reused material
+- Deliverable state
+
+### Reading A_161-1_161-3 (`readings/A_161-1_161-3.md`)
+- Cote 161-1, "Catégories" (folder K161-1-01; scans 4-8, 10-14, 16-20; 15 pages)
+- 1. Adjunctions and the largest subcategories where they are equivalences (scans 4-8; SA23-29)
+- 2. Free symmetric monoidal category, products of families, contraction, signs (scans 10-13)
+- 3. Theories with finite limits and their constructions (scan 14, his page "2")
+- 4. Exactness of extended functors; topoi as left exact reflections (scan 16)
+- 5. Stray sheet: Hodge-Tate cocharacter of filtered F-crystals (scan 17, upside down)
+- 6. Extending functors from a strictly generating subcategory (scans 18-20; scan 19 is a small diagram)
+- Dating clues in 161-1
+- Cote 161-2, "Algèbre universelle [ou catégories]"
+- K161-2-01 (scans 4-19; scans 10 and 16 nearly blank, 15 a list; 15 pages; SA23-30)
+- K161-2-02 (scans 20-25, 27-32, 34-35; 14 pages; SA23-30, SA23-32)
+- K161-2-03 (scans 37-50; scan 41 a margin only; 14 pages; SA23-31, SA23-32)
+- K161-2-04 (scans 51-53, 55-65; scan 58 nearly blank; 14 pages; SA23-31, SA23-53)
+- K161-2-05 (scans 66-79; scan 67 one line; 14 pages; SA23-30)
+- K161-2-06 = K161-2-06_2 (scans 81-88, 90-95; 14 pages; the two folders have the same transcription, checked by comparison; SA23-30)
+- K161-2-07 (scans 96, 98-107, 109-110, 112; 14 pages; SA23-30, SA23-54)
+- Cote 161-3, "Topos"
+- K161-3-01 (scans 4-13, 15-16, 18-21; 16 pages; SA23-32)
+- K161-3-02 (scans 22, 24-27, 29, 31-33, 35-40; 15 pages; SA23-32)
+- K161-3-03 (scans 41, 43-55; scan 42 blank; 15 pages; SA23-32)
+- Hunches (with grounds)
+- Dependencies (items used, with the page that shows them)
+- Reused material
+- Deliverable state
+
+### Reading B_1_2_21 (`readings/B_1_2_21.md`)
+- Cote 1, scans 3-36 (Pro MPL_1_002-050): rearrangements, Weyl functions, traces, the determinant Δ
+- Cote 1, scans 38-50 (Pro MPL_1_002-050): singular numbers, Ky Fan, trace class, Hilbert tensor products
+- Cote 1, scans 51-64 (Codex web K1-01): Hilbert-Schmidt and trace class, Hilbert exterior powers
+- Cote 1, scans 65-78 (Codex web K1-02): exterior powers of operators, Weyl-Horn, determinants of sums
+- Cote 1, scans 79-92 (Codex web K1-03): Weyl's lemma and the two convexity theorems
+- Cote 1, scans 93-107 (Codex web K1-04): Schatten classes
+- Cote 1, scans 108-121 (Codex web K1-05): genus and order; a proof of Lidskii's theorem
+- Cote 1, scans 122-136 (Codex web K1-06): determinants of sums, Schatten classes for 0 < p
+- Cote 1, scans 137-150 (Codex web K1-07): Hölder for all exponents, continuity
+- Cote 2, scans 21-23 (Pro MPL_2): the Chern ring and the γ-filtration (F06)
+- Second run (19 Nov, at the lead's request): the pages left over
+- Cote 1, scans 140-145 and 149-150 (Codex web K1-07)
+- Cote 2, scans 2-8 (Pro MPL_2): K of a curve and of a scheme of dimension ≤ 1
+- Cote 2, scans 9-20 (Pro MPL_2): trivial Chern classes, equivariant modules
+- Cote 2, scans 23-30 (Pro MPL_2): geometric elements, the universal Chern ring
+- Cote 2, scans 32-39 (Pro MPL_2): K and Chow with supports, covariant Chern characters
+- Cote 2, scans 40-45 (Pro MPL_2): Riemann-Roch for embeddings, fibrations, curves and surfaces
+- Cote 21, scans 2-16 (Codex web K21-01): vanishing tests, Watts's theorem, I-torsion functors
+- Cote 21, scans 17-29 (Codex web K21-02): P_1, P_2, P_3 for sheaves and fibred categories
+- Struck passages (second run)
+- Hunches
+- Dependencies (items of sweep2/SA23/OBJECTS.tsv)
+- Deliverable state
+
+### Reading C_22_23_26_161-5 (`readings/C_22_23_26_161-5.md`)
+- Cote 22: "[EGA IV]. [Chapitre] 0 IV. Cohen, différentielles, algèbres formellement simples (Compléments)"
+- 22/002-009: Jouanolou's printed note, with his pencil (SA23-15, H0D3)
+- 22/002-009 in detail: his pencil on Jouanolou's note (SA23-15)
+- 22/010-018: §4 of the EGA 0_IV draft for Dieudonné, "algèbres de Cohen" (SA23-17, H0D5)
+- 22/019-021: "Questions ouvertes" (SA23-18, H0D6)
+- 22/022-025: formal simplicity for the discrete topology (SA23-19, H0D7)
+- 22/026: struck heading "Différentielles"; otherwise blank.
+- 22/027 and 22/029: the Remarque and the counterexample (SA23-20, H0D9; flag F01)
+- 22/028 and 22/030: reused typescript
+- Cote 23: "EGA IV. Compléments". Scans 2-16 (Pro package MPL_22+23_002-016; Codex K23-06 is a second witness)
+- 23/004-005: the canonical sheaf of a complete intersection in P(E) (SA23-21, H0DA)
+- 23/006: the discriminant (SA23-21)
+- 23/007: reused English typescript (SA23-12, H0D0)
+- 23/008-016: "Exponentielle": nilpotent exponential, hyperalgebras, Cartier (SA23-22, H0DB)
+- Cote 23, scans 17-50 (Codex web K23-01, K23-02; GPT-6.2 Astra Max)
+- 23/017-032: bundles of germs, Weil restriction, infinitesimal transformations (SA23-23, H0DC)
+- 23/034-037: "Exemples, Cas particuliers"; criteria (SA23-24, H0DD)
+- 23/038: reused Bourbaki draft
+- 23/039-041: "Foncteur différentiel d'ordre ≤ n" (SA23-23)
+- 23/044-047: a letter of Lê Dũng Tráng (11 Jan 1968) with errata to EGA IV
+- 23/049: "EGA IV 18" (SA23-25)
+- 23/050: cover "Suites régulières / Th. II(?).2.9. de Raynaud".
+- Cote 23, scans 51-65 (Codex web K23-03): regular immersions, and Deligne's letters of 1966 on EGA IV (SA23-25, H0DE)
+- 23/051-052: two IHÉS sheets
+- 23/053-054: his PS on regular immersions (for Dieudonné; date 1966-67, from the SGA 6 reference)
+- 23/055-065: three letters of Pierre Deligne to Grothendieck, 1966 (correspondence; the margins are his)
+- Cote 23, scans 66-82 (Codex web K23-04): "Divers" (SA23-26, H0DF; SA23-25)
+- 23/067-068: "Structure Main Theorem", a plan of proofs (IHÉS sheet)
+- 23/070-071: "Morphismes ess. de prés. finie", "Morphismes essentiellement affines"
+- 23/073: schemes all of whose points are closed
+- 23/074 and 23/079: reused typescript pages
+- 23/075-078, 080: condition (h_0) on open-closed parts, and étale covers
+- 23/081-082
+- Cote 23, scans 83-99 (Codex web K23-05): dimension, (S_k), Cohen-Macaulay loci, graded flatness (SA23-27, H0DG)
+- 23/083-084: Lemma 1, "Rappels sur la dimension"
+- 23/085: "∂-Catégorie"
+- 23/087: depth along a finite morphism
+- 23/088-089: finiteness of the integral closure
+- 23/090: margins on factoriality (partly in English)
+- 23/091-094: "IV 12 Fibres des morphismes plats de présentation finie" and an example
+- 23/096-099: graded flatness by Hilbert series
+- Cote 26: "EGA VI. Plans, notations, problèmes ouverts" (Codex web H26-01, scans 2-11; SA23-28, H0DH)
+- Cote 161-5: "Barsotti-Tate" (Pro package MPL_93_221-236+161-5; Codex K161-5-01/02 a second witness)
+- 161-5/003-022: Serre's printed texts (reused material; SA23-34 H0DO, SA23-35 H0DP)
+- 161-5/023-029: his notes, "a crystalline realisation for the Tannakian category generated by Barsotti-Tate groups" (SA23-36, H00D with SA04-15)
+- Deliverable state of stretch C
+
+### Reading _ITEM_INDEX (`readings/_ITEM_INDEX.md`)
+- Reading A2_161-4_161-6_162 (`readings/A2_161-4_161-6_162.md`)
+- Reading A_161-1_161-3 (`readings/A_161-1_161-3.md`)
+- Reading B_1_2_21 (`readings/B_1_2_21.md`)
+- Reading C_22_23_26_161-5 (`readings/C_22_23_26_161-5.md`)
+- Reading _ITEM_INDEX (`readings/_ITEM_INDEX.md`)
+

@@ -10,9 +10,11 @@ compatible with isogenies through their degree, which is the reduced norm (his c
 question on 15:54 has a one-line answer. Pages: 15:48-56. Links: SA15 (Dieudonné theory of supersingular curves).
 
 **H2. The adelic torsor T of 15:42-50 refines the mu_2-component of the motivic gerbe class of 15:7-11.**
+> [19 Nov 2026, sweep 3.5] Bears on line 12: INT-SA05-E04 (SA05 intake, reading; PROPAGATION.tsv n=5); SA05 intake 4. Ours: where our study notes, readi l.130 (SA05 intake, reading; PROPAGATION.tsv n=11); INT-SA05-E06 (SA05 intake, confirmed; PROPAGATION.tsv n=24); and 2 more. See results_register/horizontal/sweep3_5/SUMMARY.md.
 Grounds: both live at the same places (p and infinity carry the non-trivial data), both have group mu_2, and both come
 from the supersingular quaternion algebra; 15:42 builds T from square roots of Z_l(1) at l != p, slope-1/2 crystals at p
 and the standard mu_2-gerbe over R. Pages: 15:7-11, 15:42-52. Links: SA05-18.
+> [19 Nov 2026, sweep 3.5] Bears on line 15: INT-SA05-E04 (SA05 intake, reading; PROPAGATION.tsv n=6); SA05 intake 4. Ours: where our study notes, readi l.130 (SA05 intake, reading; PROPAGATION.tsv n=12); INT-SA05-E06 (SA05 intake, confirmed; PROPAGATION.tsv n=25); and 2 more. See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **H3. The margin of 15:70 ("épim ssi la courbe elliptique X d'anneau O se descend à F_p, i.e. son j dans F_p") and
 15:56 (descents with F^2 + p = 0, R the integers of Q(sqrt(-p))) are the start of the count of supersingular j in F_p

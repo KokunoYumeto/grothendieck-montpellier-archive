@@ -471,6 +471,7 @@ The page leaves step 3 implicit.
   K126-K128: faithfully flat and non-flat descent) through 1°b and Prop. 3.
 
 ## Cote 133, scans 19-29: finite-set operations, the category of finite sets and injections, and the Cauchy formula
+> [19 Nov 2026, sweep 3.5] Bears on line 473: C:local_charzero_counterexample (133 scan 29) (SA17 intake, confirmed; PROPAGATION.tsv n=502). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 Package MPL_133 has 50 scans; scans 5, 10 and 41 are absent.
 

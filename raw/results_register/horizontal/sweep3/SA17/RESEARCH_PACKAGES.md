@@ -26,6 +26,7 @@ Following the rule on Pro slots (one prompt per cluster of related questions), c
 
 **What it rests on.**
 - Cote 129, scans 113-115, with the decided readings:
+> [19 Nov 2026, sweep 3.5] Bears on line 28: B:NiceV (129 scan 115) (SA17 intake, confirmed; PROPAGATION.tsv n=500); B:crystal-counterexamples (129 scan 114) (SA17 intake, confirmed; PROPAGATION.tsv n=501). See results_register/horizontal/sweep3_5/SUMMARY.md.
   - 0 → ω_G → D(G)_S → ω̌_{G*} → 0;
   - the negation "n'aient pas de comp. toroïdale".
 - Scan 90 ("d + d* = h").
@@ -75,6 +76,7 @@ Following the rule on Pro slots (one prompt per cluster of related questions), c
 
 **What it rests on.**
 - Cote 129, scans 93-94 and 114-115.
+> [19 Nov 2026, sweep 3.5] Bears on line 77: B:L6-refutation (129 scan 94) (SA17 intake, confirmed; PROPAGATION.tsv n=499). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - Items SA17-3, SA17-6 and SA17-13.
 - HUNCHES H1 and H4.
 
@@ -102,6 +104,7 @@ Following the rule on Pro slots (one prompt per cluster of related questions), c
 ## SA17-RP3 · Cote 131: his representability theorem for locally quasi-finite separated functors, as he states it
 
 **Question.** Prove or refute his Théorème of cote 131, scan 14, as stated: F is representable by an X that is
+> [19 Nov 2026, sweep 3.5] Bears on line 104: A:8-literal (131 scan 14) (SA17 intake, counterexample; PROPAGATION.tsv n=302); A:ind-thickening (131 scan 14 margin) (SA17 intake, confirmed; PROPAGATION.tsv n=497). See results_register/horizontal/sweep3_5/SUMMARY.md.
 locally quasi-finite and separated over a locally noetherian S iff conditions 1°-8° hold. The conditions are, in
 brief:
 - fpqc sheaf;
@@ -177,6 +180,7 @@ the formal steps were checked:
 
 **What it rests on.**
 - Cote 133, scans 19-29, and STUDY.md.
+> [19 Nov 2026, sweep 3.5] Bears on line 179: C:local_charzero_counterexample (133 scan 29) (SA17 intake, confirmed; PROPAGATION.tsv n=503). See results_register/horizontal/sweep3_5/SUMMARY.md.
 - The Pro notes F01-F12 (credited).
 - The quadratic Witt-group sheets W01-W16 (scans 3-9), not studied in sweep 3.
 
@@ -196,6 +200,7 @@ the formal steps were checked:
 - Pursuing Stacks §§120-122: the notes connect the sheets to it.
 
 ## SA17-RP5 · The split Grothendieck-Witt ring WG(S) of a locally ringed topos (cote 133, scans 3-9)
+> [19 Nov 2026, sweep 3.5] Bears on line 198: SA17 intake 3. His text (claims about the pages, l.211 (SA17 intake, reading; PROPAGATION.tsv n=387). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 From the reader a598c2dff473d448c (Claude Opus 5.5 at effort max). It belongs with SA17-RP4 in one cluster, the
 λ-operations.

@@ -187,6 +187,7 @@ orbit-size form. This counterexample is the same as the Pro notes MM02 and Miche
 - Permutation tables I and II are checked. An enumeration finds 3 maps of passport [3,2,1; 2,2,1,1; 6]; the tables
   list two.
 - **Wrong (scan 111):** his roots of δ, c = 16/25 ± (24/25)i, should be 16/25 ± (12/25)i. The halving was missed.
+> [19 Nov 2026, sweep 3.5] Bears on line 189: INT-SA09-E05 (SA09 intake, confirmed; PROPAGATION.tsv n=423). See results_register/horizontal/sweep3_5/SUMMARY.md.
 
 **Operations on maps (scans 121-132).**
 - The Théorème of scan 126 is checked.

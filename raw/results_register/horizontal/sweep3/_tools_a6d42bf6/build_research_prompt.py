@@ -18,6 +18,7 @@ OUT = D + '/pro_prompt_builds/' + NAME          # 19 Nov ~02:4x UTC (main sessio
 WORK = OUT + '_work'
 os.makedirs(OUT, exist_ok=True); os.makedirs(WORK, exist_ok=True)
 import hashlib, datetime
+spec = mod('spec', T + f'/research_prompts/{NAME}_files.py')
 
 OUTCOME = pr.PUSH.strip() + '\n\n' + pr.THREE_HOUR.strip() + '\n\n' + f'''What counts as done, per item of the Parts and per Lead: (a) a theorem with a complete proof; or (b) a refutation
 with a complete counterexample (given completely, every hypothesis verified, and checked by a program when it is
@@ -44,10 +45,8 @@ RULES = '''## Rules of proof (they bind every statement you deliver)
    extra property you use. Compositions must type-check.
 3. Every reduction ("we may assume", "replace by", "refine to") comes with its comparison map and a proof that the
    exact property needed transfers in the direction needed.
-4. "Up to" names the ambiguity. Keep apart: equality; isomorphism; equivalence of categories or of topoi; homotopy
-   equivalence; weak equivalence of a specified map; an isomorphism of lattices against an isomorphism of ordered sets.
-5. Check the edge cases in scope: empty strata and empty figures; one stratum; disconnected strata; infinite and
-   non-locally-finite families; dimension 0, 1 and 2; the non-faithful and the non-divisible cases.
+4. "Up to" names the ambiguity. Keep apart: ''' + getattr(spec, 'EQUIV', 'equality; isomorphism; equivalence of categories or of topoi; homotopy equivalence; weak equivalence of a specified map; an isomorphism of lattices against an isomorphism of ordered sets') + '''.
+5. Check the edge cases in scope: ''' + getattr(spec, 'EDGES', 'empty strata and empty figures; one stratum; disconnected strata; infinite and non-locally-finite families; dimension 0, 1 and 2; the non-faithful and the non-divisible cases') + '''.
 6. A counterexample is given completely and, when finite, checked by a program whose code and output you attach. One
    verified counterexample refutes the statement: say "false". An invalid proof alone shows a gap, not falsity; keep
    the two apart.
@@ -86,7 +85,7 @@ This task is long by design. Work through all parts completely; do not stop at a
 not ask whether to continue. Take the time the work needs. Write the files from the start and extend them as you go,
 so that an interruption loses little.
 
-**Check events.** For every statement, record its check events in `CHECK_EVENTS.tsv`, one row per event: statement id, date, who (model, effort, run), type (targeted proof check / independent re-proof / computation or formal certificate / used and rechecked in this run / carried as background without fault found / refuted, with the refined statement's id), outcome. This covers the statements of this run and every earlier statement you check, use or refute here (the attached study's statements carry ids such as SA21-R8-25; keep them). Give each event the type of what actually happened, neither more nor less. `CHECK_EVENTS.tsv` goes into every checkpoint and into the final ZIP.
+**Check events.** For every statement, record its check events in `CHECK_EVENTS.tsv`, one row per event: statement id, date, who (model, effort, run), type (targeted proof check / independent re-proof / computation or formal certificate / used and rechecked in this run / carried as background without fault found / refuted, with the refined statement's id), outcome. This covers the statements of this run and every earlier statement you check, use or refute here (the attached study's statements carry ids such as {getattr(spec, 'EXAMPLE_ID', 'SA21-R8-25')}; keep them). Give each event the type of what actually happened, neither more nor less. `CHECK_EVENTS.tsv` goes into every checkpoint and into the final ZIP.
 
 {ck.FAILURE}
 
@@ -106,7 +105,6 @@ def topic_files():
     out += [('study/readings/' + os.path.basename(p), p) for p in sorted(glob.glob(S3 + '/readings/*')) if os.path.isfile(p)]
     out += [('study/sweep2_WHAT_IS_WHERE.md', H + '/sweep2/' + topic + '/WHAT_IS_WHERE.md')]
     return out
-spec = mod('spec', T + f'/research_prompts/{NAME}_files.py')
 zips = {'study': topic_files()}
 # the broad layer (memory broad-context-for-pro-notes): the other topics of the cluster SA10, SA11, SA21
 broad = []
@@ -114,7 +112,7 @@ for other in ('SA10', 'SA11', 'SA21'):
     if other == topic: continue
     for fn in ('STUDY.md', 'HUNCHES.md', 'RESEARCH_PACKAGES.md'):
         broad.append((f'broad/{other}/{fn}', H + f'/sweep3/{other}/{fn}'))
-zips['broad'] = broad
+zips['broad'] = getattr(spec, 'BROAD', broad)   # a wave-1 topic names its own cluster
 for zname, items in spec.ZIPS.items():
     zips.setdefault(zname, []).extend(items)
 sizes = []
@@ -138,10 +136,10 @@ print('paper lint:', (r2.stdout.strip() or r2.stderr.strip())[-1500:])
 print('PROMPT.md words:', len(body.split()))
 files = sorted(os.listdir(OUT)); assert len(files) <= 20 and all(os.path.isfile(OUT + '/' + f) for f in files)
 lint1 = (r1.stdout.strip().splitlines() or ['?'])[-1]; lint2 = (r2.stdout.strip().splitlines() or ['?'])[-1]
+ROLE = getattr(spec, 'ROLE', 'the deep-sweep agent of SA10, SA11 and SA21')
 readme = f'''# {NAME}: research prompt for GPT-6 Astra (ChatGPT Pro mode)
 
-Built {datetime.datetime.utcnow():%Y-%m-%d %H:%M} UTC by Claude Opus 5.5 at effort max (agent a6d42bf6fe2b0d8a8, the deep-sweep agent of
-SA10, SA11 and SA21), at the main session's word (19 Nov 2026), from `results_register/horizontal/sweep3/{topic}/` and the
+Built {datetime.datetime.utcnow():%Y-%m-%d %H:%M} UTC by Claude Opus 5.5 at effort max (agent a6d42bf6fe2b0d8a8, {ROLE}), at the main session's word (19 Nov 2026), from `results_register/horizontal/sweep3/{topic}/` and the
 builder `results_register/horizontal/sweep3/_tools_a6d42bf6/build_research_prompt.py`.
 
 - **What it is:** {body.splitlines()[0].lstrip('# ').strip()}

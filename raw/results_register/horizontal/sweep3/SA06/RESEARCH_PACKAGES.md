@@ -12,6 +12,7 @@ Claude Opus 5.5 at effort max (agent a28ea31fa17dd65e1), 18 Nov 2026.
 - **Why it matters.** It is his complete reworking of Deuring's correspondence as gerbes and Picard categories, with one
   open step that is probably short (H1), and it is the supersingular half of the motivic gerbe of F_p (SA05-18, H2).
 - **Rests on.** 15:16-22 (SA05-19), 15:34-78 (SA06-8), 15:3-14 (SA05-18); Dieudonné theory of supersingular curves (SA15).
+> [19 Nov 2026, sweep 3.5] Bears on line 14: INT-SA05-E04 (SA05 intake, reading; PROPAGATION.tsv n=7); SA05 intake 4. Ours: where our study notes, readi l.130 (SA05 intake, reading; PROPAGATION.tsv n=13); INT-SA05-E06 (SA05 intake, confirmed; PROPAGATION.tsv n=26); and 3 more. See results_register/horizontal/sweep3_5/SUMMARY.md.
 - **Strongest known reduction.** The Deuring correspondence (Deuring 1941); strictly commutative Picard categories and
   their classification by 2-term complexes (SGA 4 XVIII 1.4); his own Proposition and Conclusion (15:76-78), checked in
   sweep 3, which settle the Gr-category class (it vanishes under his condition (C)).
@@ -26,6 +27,7 @@ Claude Opus 5.5 at effort max (agent a28ea31fa17dd65e1), 18 Nov 2026.
   lambda^m is one over F_(q^m)), in every weight i; state exactly which Weil integers occur without passing to a power.
 - **Why it matters.** It is his explicit determination of the motivic Galois group of F_q (15:100: "Cela déterminerait
   donc explicitement, en termes arithmétiques simples, le groupe de Galois motivique") and the input to 15:3-14.
+> [19 Nov 2026, sweep 3.5] Bears on line 28: INT-SA05-E04 (SA05 intake, reading; PROPAGATION.tsv n=8); SA05 intake 4. Ours: where our study notes, readi l.130 (SA05 intake, reading; PROPAGATION.tsv n=14); INT-SA05-E06 (SA05 intake, confirmed; PROPAGATION.tsv n=27); and 3 more. See results_register/horizontal/sweep3_5/SUMMARY.md.
 - **Rests on.** 15:96-106, 15:128-133 (SA06-9); 15:5, 15:14 (SA05-18).
 - **Strongest known reduction.** Weight 1 of both: Honda-Tate (Honda 1968; Tate, Sém. Bourbaki 352, 1968). H4 reduces the
   weak conjecture in weight i to weight 1 and the Proposition of 15:96.
