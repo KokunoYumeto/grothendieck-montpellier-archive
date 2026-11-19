@@ -20,7 +20,7 @@ No explicit “à vérifier”, “sauf erreur”, “je présume”, “admis�
 | 136 | “1.4.68”; “D I V E R S”; “CANDIDATS”. |
 | 170 | “Foncteurs fibres/fibrés motiviques, et gps fondamen[taux] motiviques.”; “À examiner”. Title ending torn. |
 | 171 | “SYSTÈMES de RACINES (20)”; document number “Tribu n° 59”; “F) Groupe de Weyl W de E_7.” |
-| 181 | “FIN LISTE”; roster row numbers 0170–0183, not a stated page count. |
+| 181 | “[name redacted] [name redacted]”; roster row numbers 0170–0183, not a stated page count. |
 | 188 | Own page 70. |
 
 Explicit total page counts: **none**. No date other than “1.4.68” is visible. Archive corner foliation is recorded only in the LaTeX comment lines.

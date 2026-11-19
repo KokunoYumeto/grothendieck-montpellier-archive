@@ -562,26 +562,26 @@ Start (UTC): 2026-11-13T20:14:24.118751+00:00. End (UTC): 2026-11-13T20:15:08.75
 
 Image-only words/accents recorded at 2026-11-13T20:14:50.734530+00:00, before reopening the page file:
 
-No accents or cedillas are printed in the capitalized names. In particular VERONIQUE, AGNES, FRANCOISE and FREDERIQUE remain without them. FIN LISTE has five asterisks on each side. Blank first and second thirds were re-inspected; third is upside down and was also read rotated. Independent manual row reading before reopening the page file:
+No accents or cedillas are printed in the capitalized names. In particular [name redacted], [name redacted], [name redacted] and [name redacted] remain without them. [name redacted] [name redacted] has five asterisks on each side. Blank first and second thirds were re-inspected; third is upside down and was also read rotated. Independent manual row reading before reopening the page file:
 
 ```text
-0170 TAULELLE VERONIQUE 2740730007019 930728S 2A2
-0171 TIGNY SANDRINE 2710769383109 900477U 2A2
-0172 TOURIERE SOPHIE 2740434172243 942009J 2A2
-0173 TRIAIRE AGNES 2720934111012 910300B 2A2
-0174 TRIAIRE FRANCOISE 2720934111013 910299A 2A2
-0175 TUFFERY ISABELLE 2700534172087 931766V 2A2
-0176 VALMALETTE SOPHIE 2710778551110 941607X 2A2
-0177 VEDEL KARINE 2710643157065 911395S 2A2
-0178 VERGER ESTELLE 2730234172047 920133V 2A2
-0179 VICART DAVID 1720362119173 910910P 2A2
-0180 VIDAL CAROLE 2720434172236 910273X 2A2
-0181 VILLAR MAXIME 1700934032119 900007H 2A2
-0182 WINTREBERT CLAIRE 2730334172023 923054V 2A2
-0183 WOUTERS FREDERIQUE 2721059350782 920453T 2A2
+0170 [name redacted] [name redacted] [number redacted] 930728S 2A2
+0171 [name redacted] [name redacted] [number redacted] 900477U 2A2
+0172 [name redacted] [name redacted] [number redacted] 942009J 2A2
+0173 [name redacted] [name redacted] [number redacted] 910300B 2A2
+0174 [name redacted] [name redacted] [number redacted] 910299A 2A2
+0175 [name redacted] [name redacted] [number redacted] 931766V 2A2
+0176 [name redacted] [name redacted] [number redacted] 941607X 2A2
+0177 [name redacted] [name redacted] [number redacted] 911395S 2A2
+0178 [name redacted] [name redacted] [number redacted] 920133V 2A2
+0179 [name redacted] [name redacted] [number redacted] 910910P 2A2
+0180 [name redacted] [name redacted] [number redacted] 910273X 2A2
+0181 [name redacted] [name redacted] [number redacted] 900007H 2A2
+0182 [name redacted] [name redacted] [number redacted] 923054V 2A2
+0183 [name redacted] [name redacted] [number redacted] 920453T 2A2
 ```
 
-All 14 rows and six columns were read afresh from the upright image and compared with the saved array. The manually reread row strings also match the file character for character. Leading zeros, 13-digit identifiers, seven-character codes and every terminal 2A2 were checked. No accents were supplied to unaccented names. The two blank thirds contain no additional text. The five asterisks on each side of FIN LISTE and archive 180 were checked. No mathematics, i/j indices, script/doubled capitals, corrections, insertions or marginal writing occur apart from the excluded archive foliation.
+All 14 rows and six columns were read afresh from the upright image and compared with the saved array. The manually reread row strings also match the file character for character. Leading zeros, 13-digit identifiers, seven-character codes and every terminal 2A2 were checked. No accents were supplied to unaccented names. The two blank thirds contain no additional text. The five asterisks on each side of [name redacted] [name redacted] and archive 180 were checked. No mathematics, i/j indices, script/doubled capitals, corrections, insertions or marginal writing occur apart from the excluded archive foliation.
 
 Changes:
 
@@ -589,7 +589,7 @@ Changes:
 
 Complete inline/display formula checklist (in transcription order; includes isolated mathematical letters; each compared with the image):
 
-1. `\begin{array}{llllll} \text{0170} & \text{TAULELLE} & \text{VERONIQUE} & \text{2740730007019} & \text{930728S} & \text{2A2} \\ \text{0171} & \text{TIGNY} & \text{SANDRINE} & \text{2710769383109} & \text{900477U} & \text{2A2} \\ \text{0172} & \text{TOURIERE} & \text{SOPHIE} & \text{2740434172243} & \text{942009J} & \text{2A2} \\ \text{0173} & \text{TRIAIRE} & \text{AGNES} & \text{2720934111012} & \text{910300B} & \text{2A2} \\ \text{0174} & \text{TRIAIRE} & \text{FRANCOISE} & \text{2720934111013} & \text{910299A} & \text{2A2} \\ \text{0175} & \text{TUFFERY} & \text{ISABELLE} & \text{2700534172087} & \text{931766V} & \text{2A2} \\ \text{0176} & \text{VALMALETTE} & \text{SOPHIE} & \text{2710778551110} & \text{941607X} & \text{2A2} \\ \text{0177} & \text{VEDEL} & \text{KARINE} & \text{2710643157065} & \text{911395S} & \text{2A2} \\ \text{0178} & \text{VERGER} & \text{ESTELLE} & \text{2730234172047} & \text{920133V} & \text{2A2} \\ \text{0179} & \text{VICART} & \text{DAVID} & \text{1720362119173} & \text{910910P} & \text{2A2} \\ \text{0180} & \text{VIDAL} & \text{CAROLE} & \text{2720434172236} & \text{910273X} & \text{2A2} \\ \text{0181} & \text{VILLAR} & \text{MAXIME} & \text{1700934032119} & \text{900007H} & \text{2A2} \\ \text{0182} & \text{WINTREBERT} & \text{CLAIRE} & \text{2730334172023} & \text{923054V} & \text{2A2} \\ \text{0183} & \text{WOUTERS} & \text{FREDERIQUE} & \text{2721059350782} & \text{920453T} & \text{2A2} \\ \end{array}`
+1. `\begin{array}{llllll} \text{0170} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{930728S} & \text{2A2} \\ \text{0171} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{900477U} & \text{2A2} \\ \text{0172} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{942009J} & \text{2A2} \\ \text{0173} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{910300B} & \text{2A2} \\ \text{0174} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{910299A} & \text{2A2} \\ \text{0175} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{931766V} & \text{2A2} \\ \text{0176} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{941607X} & \text{2A2} \\ \text{0177} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{911395S} & \text{2A2} \\ \text{0178} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{920133V} & \text{2A2} \\ \text{0179} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{910910P} & \text{2A2} \\ \text{0180} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{910273X} & \text{2A2} \\ \text{0181} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{900007H} & \text{2A2} \\ \text{0182} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{923054V} & \text{2A2} \\ \text{0183} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{920453T} & \text{2A2} \\ \end{array}`
 
 ## Scan 188
 
@@ -1084,7 +1084,7 @@ Retained cross-page distinctions: underlined P on 059/081 versus doubled categor
 
 ### Scan 181: final formula strings
 
-1. `\begin{array}{llllll} \text{0170} & \text{TAULELLE} & \text{VERONIQUE} & \text{2740730007019} & \text{930728S} & \text{2A2} \\ \text{0171} & \text{TIGNY} & \text{SANDRINE} & \text{2710769383109} & \text{900477U} & \text{2A2} \\ \text{0172} & \text{TOURIERE} & \text{SOPHIE} & \text{2740434172243} & \text{942009J} & \text{2A2} \\ \text{0173} & \text{TRIAIRE} & \text{AGNES} & \text{2720934111012} & \text{910300B} & \text{2A2} \\ \text{0174} & \text{TRIAIRE} & \text{FRANCOISE} & \text{2720934111013} & \text{910299A} & \text{2A2} \\ \text{0175} & \text{TUFFERY} & \text{ISABELLE} & \text{2700534172087} & \text{931766V} & \text{2A2} \\ \text{0176} & \text{VALMALETTE} & \text{SOPHIE} & \text{2710778551110} & \text{941607X} & \text{2A2} \\ \text{0177} & \text{VEDEL} & \text{KARINE} & \text{2710643157065} & \text{911395S} & \text{2A2} \\ \text{0178} & \text{VERGER} & \text{ESTELLE} & \text{2730234172047} & \text{920133V} & \text{2A2} \\ \text{0179} & \text{VICART} & \text{DAVID} & \text{1720362119173} & \text{910910P} & \text{2A2} \\ \text{0180} & \text{VIDAL} & \text{CAROLE} & \text{2720434172236} & \text{910273X} & \text{2A2} \\ \text{0181} & \text{VILLAR} & \text{MAXIME} & \text{1700934032119} & \text{900007H} & \text{2A2} \\ \text{0182} & \text{WINTREBERT} & \text{CLAIRE} & \text{2730334172023} & \text{923054V} & \text{2A2} \\ \text{0183} & \text{WOUTERS} & \text{FREDERIQUE} & \text{2721059350782} & \text{920453T} & \text{2A2} \\ \end{array}`
+1. `\begin{array}{llllll} \text{0170} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{930728S} & \text{2A2} \\ \text{0171} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{900477U} & \text{2A2} \\ \text{0172} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{942009J} & \text{2A2} \\ \text{0173} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{910300B} & \text{2A2} \\ \text{0174} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{910299A} & \text{2A2} \\ \text{0175} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{931766V} & \text{2A2} \\ \text{0176} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{941607X} & \text{2A2} \\ \text{0177} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{911395S} & \text{2A2} \\ \text{0178} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{920133V} & \text{2A2} \\ \text{0179} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{910910P} & \text{2A2} \\ \text{0180} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{910273X} & \text{2A2} \\ \text{0181} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{900007H} & \text{2A2} \\ \text{0182} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{923054V} & \text{2A2} \\ \text{0183} & \text{[name redacted]} & \text{[name redacted]} & \text{[number redacted]} & \text{920453T} & \text{2A2} \\ \end{array}`
 
 ### Scan 188: final formula strings
 

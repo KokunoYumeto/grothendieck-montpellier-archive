@@ -36,7 +36,7 @@
 | 171 | groups | O,SO,Sp,Aut upright typed names; Omega and plus filled by hand; final O singly underlined. | `\operatorname O;\operatorname{SO}^{+};\operatorname{Sp};\operatorname{Aut};\Omega;\uline{\operatorname O}` |
 | 171 | products / sequence | First product comma, second space, third vertical bar. Sequence uses parentheses, not braces. | `(x,y);(x\ y);(Q\mid2P);(1,-1)` |
 | 171 | indices / order | Subscripts 3,2,7,8; exponents +,9,4; no i/j index. Period separators retained. | `2^9.3^4.5.7` |
-| 181 | roster | No mathematical alphabet; leading zeros, all codes and five asterisks on each side of FIN LISTE retained. | `\text{0170};\text{2A2};*****` |
+| 181 | roster | No mathematical alphabet; leading zeros, all codes and five asterisks on each side of [name redacted] [name redacted] retained. | `\text{0170};\text{2A2};*****` |
 | 188 | displays | H,V,K,O,E plain pen capitals. Every H exponent dotted i; every O subscript V. | `H^i;O_V;K;E` |
 | 188 | E subscripts / isomorphisms | Open-loop phi with descender is varphi; wave over two horizontal strokes is cong. | `E_\varphi;\cong` |
 | 188 | thresholds | Circular o/0, first o. Top small connector m-like; expected inequality is not an ink candidate. | `n_{\unsure{o\|0}};\unsure{\mathrm m};\geq` |
@@ -171,7 +171,7 @@ Locations refer to approximate visible source lines or named blocks; TeX line nu
 | 136 | A la demande | À la demande | Unaccented capital retained. |
 | 171, parenthesis | oar/par candidate | par | Damaged initial remains doubtful. |
 | 171, product | (x y) | Possibly (x,y) | No comma visible here. |
-| 181, names | VERONIQUE; AGNES; FRANCOISE; FREDERIQUE | Conventional accents/cedilla not supplied | Roster has none; names not normalized. |
+| 181, names | [name redacted]; [name redacted]; [name redacted]; [name redacted] | Conventional accents/cedilla not supplied | Roster has none; names not normalized. |
 | 188, first threshold | m-like connector | >= suggested by later lines | Only visible m-like reading retained, with doubt. |
 | 188, last two displays | (n-1) then [n-1] | No editorial preference | Inner bracket types visibly differ. |
 | 188, final line | there exists such n′ that, at | Nonstandard construction | English not rewritten or completed. |

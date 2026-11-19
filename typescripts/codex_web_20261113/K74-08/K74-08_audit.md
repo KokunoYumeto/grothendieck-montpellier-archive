@@ -1255,7 +1255,7 @@ $\deleted{z=xy\Longleftrightarrow (x,y}$
 
 ### Crop reading before comparison
 
-Read after rotating the three strips. Page “- 3 -”. Coût très faible; Reclassement sur place d'un certain nombre d'Agents. “ne gênerait”, “effectué”, “une société privé”, “hors-statut”, “contractuel, type C.N.R.S. est commencée”. “Le débat s'engage aussitôt.” “Les Professeur présents” lacks the plural on Professeur. “Aussi,il”, “Les Professeurs ,”, “représentants syndicaux”, “élus”, “11 Mai 1977”, “oeuvre”, “Agent Technique de Bureau, nécessaire”. Straight quotation marks. “voté.” with a small point before “à l'unanimité”. “Il est décidé, que”, “P.T.O.S.”. In “choisit” a short independent diagonal crosses the t. “Présidence du S.E.U.”, “réclamées”, “tout le Personnel” (upright possibly capital), “l’U.S.T.L.”, “organisée”. ALBOUY, MALLET, GERVA / GROUBERT, ZARZYCKI, PROUST / GIRARD, TEISSONIERE. Printed last line “La séance est levée à 16H 30”. A continuous diagonal crosses the first text, middle motion and third column, ending above the time. Archive number 11 opposite.
+Read after rotating the three strips. Page “- 3 -”. Coût très faible; Reclassement sur place d'un certain nombre d'Agents. “ne gênerait”, “effectué”, “une société privé”, “hors-statut”, “contractuel, type C.N.R.S. est commencée”. “Le débat s'engage aussitôt.” “Les Professeur présents” lacks the plural on Professeur. “Aussi,il”, “Les Professeurs ,”, “représentants syndicaux”, “élus”, “11 Mai 1977”, “oeuvre”, “Agent Technique de Bureau, nécessaire”. Straight quotation marks. “voté.” with a small point before “à l'unanimité”. “Il est décidé, que”, “P.T.O.S.”. In “choisit” a short independent diagonal crosses the t. “Présidence du S.E.U.”, “réclamées”, “tout le Personnel” (upright possibly capital), “l’U.S.T.L.”, “organisée”. [name redacted], [name redacted], [name redacted] / [name redacted], [name redacted], [name redacted] / [name redacted], [name redacted]. Printed last line “La séance est levée à 16H 30”. A continuous diagonal crosses the first text, middle motion and third column, ending above the time. Archive number 11 opposite.
 
 ### Comparison
 
@@ -1276,9 +1276,9 @@ At native scale the crowded last two letters of commencée and the acute are dis
 
 ```tex
 $\begin{array}{lll}
-\text{\deleted{Melle ALBOUY}}&\text{\deleted{M. GROUBERT}}&\text{\deleted{M. GIRARD}}\\
-\text{\deleted{Mme \quad MALLET}}&\text{\deleted{M. ZARZYCKI}}&\text{\deleted{M. TEISSONIERE}}\\
-\text{\deleted{Melle GERVA}}&\text{\deleted{M. PROUST}}&
+\text{\deleted{Melle [name redacted]}}&\text{\deleted{M. [name redacted]}}&\text{\deleted{M. [name redacted]}}\\
+\text{\deleted{Mme \quad [name redacted]}}&\text{\deleted{M. [name redacted]}}&\text{\deleted{M. [name redacted]}}\\
+\text{\deleted{Melle [name redacted]}}&\text{\deleted{M. [name redacted]}}&
 \end{array}$
 ```
 
@@ -1304,14 +1304,14 @@ $\begin{array}{lll}
 | lower third, committee | deletion | <code> parmi les présents à la réunion. Ce collectif a pour tâche de prendre tous les contacts nécessaires au niveau de la Pré</code> |
 | lower third, signatures | deletion | <code>Il est décidé que tout le\unsure{:&#124;.} personnel de l'U.S.T.L. sera informé de la tenue et des travaux de cette réunion e</code> |
 | bottom, table heading | deletion | <code>\uline{Composition du collectif} :</code> |
-| bottom, three columns of names | deletion | <code>Melle ALBOUY</code> |
-| bottom, three columns of names | deletion | <code>M. GROUBERT</code> |
-| bottom, three columns of names | deletion | <code>M. GIRARD</code> |
-| bottom, three columns of names | deletion | <code>Mme \quad MALLET</code> |
-| bottom, three columns of names | deletion | <code>M. ZARZYCKI</code> |
-| bottom, three columns of names | deletion | <code>M. TEISSONIERE</code> |
-| bottom, three columns of names | deletion | <code>Melle GERVA</code> |
-| bottom, three columns of names | deletion | <code>M. PROUST</code> |
+| bottom, three columns of names | deletion | <code>Melle [name redacted]</code> |
+| bottom, three columns of names | deletion | <code>M. [name redacted]</code> |
+| bottom, three columns of names | deletion | <code>M. [name redacted]</code> |
+| bottom, three columns of names | deletion | <code>Mme \quad [name redacted]</code> |
+| bottom, three columns of names | deletion | <code>M. [name redacted]</code> |
+| bottom, three columns of names | deletion | <code>M. [name redacted]</code> |
+| bottom, three columns of names | deletion | <code>Melle [name redacted]</code> |
+| bottom, three columns of names | deletion | <code>M. [name redacted]</code> |
 
 ## Scan 013
 
