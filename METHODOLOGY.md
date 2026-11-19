@@ -49,17 +49,26 @@ The second passes so far:
   - one tight crop per open place, enlarged deep (a few thousand pixels across) with the contrast raised where it
     helps, and a decided place is never cropped again.
 
-  Each reader writes a structured record: every difference from C and from H, the visible strokes as evidence, the
-  crop's coordinates, and a verdict on each of C's doubt marks. The main reader looks only where the readers differ,
-  decides, and applies the decisions to the text by script. Where a place stays open, it asks for further independent
-  readings instead of cropping again.
+  Each reader returns its reading of the page and every place where it differs from C or from H, with what the half
+  or the crop showed. The main reader compares the three readings, looks at the crops only where they differ, and
+  decides. The changes log lists all three readings at such a place, with the one the ink supports.
+
+  In the first returns (SP34, SP35), Pro went further on its own. Each reader wrote a structured record: the visible
+  strokes as evidence, the crop's coordinates, and a verdict on each of C's doubt marks. The main reader applied its
+  decisions to the text with a script for each page. Where a place stayed open, it asked for further independent
+  readings instead of cropping again. The prompts did not ask for these.
 
   From the pieces built on 19 Nov the readers are fresh for every page, with a new context each time. The main reader
   writes the readers' brief, improves it from their disagreements, and reports the workflow and every change to it in
-  `WORKFLOW.md`.
-- **Doubt marks only (prepared 19 Nov 2026).** One Pro run settles every doubt mark of a cote (cote 1: 142 pages,
-  2,684 marks). It designs its own workflow and records it, with every change and its measured effect. It also lists
-  the first readers' recurring misreadings, so that they can be checked across the archive by script.
+  the piece's workflow file.
+- **Doubt marks only (sent 19 Nov 2026).** One Pro run settles every doubt mark of a cote (cote 1: 142 pages, 2,684
+  marks). It designs its own workflow and records it, with every change and its measured effect. It also lists the
+  first readers' recurring misreadings, so that they can be checked across the archive by script. In its first 40
+  minutes it changed its own method four ways:
+  - a fresh reader for every page;
+  - a page's marks split between two or three readers;
+  - a stopping rule for struck-out text: where the strokes that would decide are gone, the doubt stays;
+  - neighbouring marks read on one shared crop.
 
 Pieces are 7 to 30 pages long, with a checkpoint every 45 minutes.
 
