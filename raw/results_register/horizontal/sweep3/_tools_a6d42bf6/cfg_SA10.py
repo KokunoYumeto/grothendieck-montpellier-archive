@@ -1,0 +1,47 @@
+# Sweep-3 tables for SA10 (agent a6d42bf6, horizontal sweep 3, 18 Nov 2026)
+WHO = 'Claude Opus 5.5 at effort max, a6d42bf6fe2b0d8a8, horizontal sweep 3'
+D = '2026-11-18'
+
+CHECK_EVENTS = [
+ ['SA10-C3-01', D, WHO, 'targeted proof check: the open strata X_i* partition X, and i(x) is the unique i with x in X_i*', 'holds', '151/055'],
+ ['SA10-C3-02', D, WHO, 'independent proof of his "sauf erreur": discarding the i with X_i* empty keeps a)-d)', 'holds (X_k is the union of the X_l, l <= k, with X_l* non-empty, since i(x) <= k for x in X_k)', '151/055 (margin)'],
+ ['SA10-C3-03', D, WHO, 'independent re-proof of Proposition (22): lim X_Delta* -> X is a homeomorphism under a)-d)', 'holds (I_x connected by d); surjective by c); X_Delta0 -> X closed and surjective, hence a quotient map)', '151/052'],
+ ['SA10-C3-04', D, WHO, 'independent re-derivation from the long exact sequence: the inertia-decomposition sequence (14) and the K(pi,1) inheritance (15)', 'holds; for (15) the asphericity of X* is not needed', '151/033-034'],
+ ['SA10-C3-05', D, WHO, 'targeted check: for X = C, Y = {0}, the category F of systems (17) is equivalent to presheaves on C = {a, b}, Aut(a) = Z, one arrow a -> b; b final, so F is contractible', 'holds', '151/038-039'],
+ ['SA10-C3-06', D, WHO, 'targeted check: for X = P1 = S2, Y = {infinity}, F is again contractible, so X -> F is not a homotopy equivalence (24)', 'holds', '151/039-040'],
+ ['SA10-C3-07', D, WHO, 'independent re-derivation: H2(S2, A) = A from the gluing of A-gerbes on C and on the disc along the punctured disc (automorphisms of the trivial extension of Z by A = Hom(Z, A))', 'holds', '151/042-043'],
+ ['SA10-C3-08', D, WHO, 'targeted proof check of (4), R_i meet X_i = dot X_i', 'the inclusion he proves holds; the reverse inclusion, called trivial, fails when some k < i has X_k = X_i (I = {0<1}, X_0 = X_1 = X: R_1 empty, dot X_1 = X); holds when X_i* is non-empty; refined as SA10-S3-K1', '151/057'],
+ ['SA10-C3-09', D, WHO, 'targeted check of (5)-(8): V_ij meet X_i = X_i*, V*_ij = V_ij meet X_j*, the case i = j', 'holds given (4)', '151/058'],
+ ['SA10-C3-10', D, WHO, 'targeted check of (12): R_jk union S_jk = dot X_k, and the aside R_jk meet S_jk = dot X_i', 'the union holds (when X_l contains X_j exactly for l >= j); the aside is refuted (R2: origin, the two axes, the point (0,5)), and holds with dot X_j when k is a successor of j; refined as SA10-S3-K2', '151/060'],
+ ['SA10-C3-11', D, WHO, 'targeted check of (13): V^i_ik = V*_ik and V^k_ik = V_ik', 'holds', '151/060'],
+ ['SA10-C3-12', D, WHO, 'targeted proof check: under his "cas vraisemblables" the only inclusions among elementary stones are the three arrow types; the diagram has card I + 2 nu vertices and 3 nu arrows', 'holds', '151/063-065'],
+ ['SA10-C3-13', D, WHO, 'independent proof: X_{I\' meet I\'\'} = X_I\' meet X_I\'\' for cribles I\', I\'\', by (1 d)', 'holds', '151/072'],
+ ['SA10-C3-14', D, WHO, 'targeted check of the Th. de recollement des tubes (1ere version)', 'refuted as stated: for X = C with X_0 = {0}, X_1 = R, X_2 = C, the 2-limit of the sheaf categories of the successor-pair stones contains an object (generization * -> 1 from the positive ray, * -> 2 from the negative ray, into the upper half-plane) that comes from no sheaf on C; refined as SA10-S3-K3 (all pairs i < k with their inclusions; open, package P1)', '151/069'],
+ ['SA10-C3-15', D, WHO, 'targeted check of the reading against the scan image (400 dpi)', 'the ink of (1 d) reads a plain < under the union; his slip (k <= i,j on 151/052 and 057); transcription correct (SA10-S3-K4)', '151/070'],
+]
+
+CORRECTIONS = [
+ ['SA10-S3-K1', 'SA10-17', '151/057', 'his claim refined (the "trivial" inclusion fails in a degenerate case)', '(4) R_i meet X_i = dot X_i, the inclusion of dot X_i called trivial', 'holds when no k < i has X_k = X_i, for instance when X_i* is non-empty (his assumption from 151/063); counterexample I = {0<1}, X_0 = X_1 = X', 'SA10-C3-08', WHO],
+ ['SA10-S3-K2', 'SA10-17', '151/060', 'aside refuted, refined', '(aussi R_jk meet S_jk = dot X_i)', 'false in general (R2: X_m the origin, X_l the x-axis, X_j = {(0,5)}, X_l\' the y-axis, X_k = R2); holds with dot X_j when k is a successor of j', 'SA10-C3-10', WHO],
+ ['SA10-S3-K3', 'SA10-17', '151/069', 'theorem refuted as stated', 'Th. de recollement des tubes (1ere version): X is the topos colimit of the diagram of the X_i*, V_ij, V*_ij, j a successor of i', 'false for X = C with X_0 = {0}, X_1 = R, X_2 = C (the successor stones never see the germ of X_2 along X_0); refined: add the stones of all pairs i < k, or the V^j_ik, with their inclusions; whether X is then the colimit is open (package P1)', 'SA10-C3-14; his own doubts 151/059, 151/072 (margin)', WHO],
+ ['SA10-S3-K4', 'SA10-17', '151/070', 'his slip (decided on the scan)', '(1 d) X_i meet X_j = union of the X_k, k < i,j', 'k <= i,j, as in (21 d) on 151/052 and as used on 151/057', 'SA10-C3-15', WHO + ', on the scan at 400 dpi'],
+]
+
+DEPENDS = [
+ ['SA10-16', 'used by', 'SA10-17', 'his pages 151/032-075, read in full', 'the tubes and the gluing theorem (151/57-69) are built on the half-simplicial formalism (151/45-56) and the two-stratum tubes of section 1 (151/32-44)'],
+ ['SA10-17', 'uses', 'SA10-12 (candidate: "Str_inf p. 84")', 'candidate: his page 151/059', 'the normal-crossings pieces that the elementary stones do not contain; Str_inf is probably cote 150, scans 44-84 (H4)'],
+ ['SA10-16', 'related', 'SA21-13', 'his pages 151/045-052 and 156-4/002-003, 018-025, both read', 'the axioms a)-d) on closed strata and the figures with the frontier condition of 156-4'],
+ ['SA10-16', 'related', 'SA21-10', 'his pages 151/054 (read) and 156-7/011, 014 (axiom lines)', 'Question (24), infima of strata, is the 1986 polyhedral condition; both times he keeps the general case'],
+ ['SA10-16', 'related', 'SA10-8', 'his pages 151/035-044, read', 'the category F (1-truncated) fails for S2, gerbes recover H2, the van Kampen principle for topos colimits: the 1981 form of the stratified homotopy hypothesis'],
+ ['SA10-16', 'related', 'SA10-C1 (EXIT_TOWER A.2)', 'his page 151/054 and the research run', 'the infima question against the poset of stable graphs: infima exist only for small (g,n) (H3)'],
+ ['SA10-17', 'related', 'La Longue Marche (Teichmuller tower)', 'candidate: his page 151/044', 'the Teichmuller moduli spaces, their compactifications and tubular neighbourhoods as the motivating case (H5)'],
+]
+
+_N = 'a second reading pass against the scans, unsure marks first'
+DELIVERABLES = [
+ ['150', '1-43 (41 scans)', 'Pro package MPL_150_001-043', '1 package', 'one Pro pass (transcription, notes, doubts); the notes checked against the scans by the second pass of 17 Nov (Claude Opus 5.5 at effort max)', '430', '10.5', '5', '557', 'the unsure marks', 'no', 'no', _N + '; folios 9 and 15-16 (EXIT_TOWER) first'],
+ ['150', '44-84 (41 scans)', 'Pro package MPL_150_044-084', '1 package', 'as above', '371', '9.0', '2', '393', 'the unsure marks', 'no', 'no', _N],
+ ['150 + 151', '150/85-99 and 151/1-31 (43 scans)', 'Pro package MPL_150_085-099+151_001-031', '1 package', 'as above', '433', '10.1', '0', '530', 'the unsure marks', 'no', 'no', _N],
+ ['151', '32-75 (44 scans)', 'Pro package MPL_151_032-075', '1 package', 'as above; read in full mathematically in sweep 3; one reading (151/070) checked on the scan', '299', '6.8', '1', '369', 'the unsure marks', 'no (nearest of the SA10 set)', 'no', _N + '; the theorem pages 57-75 first'],
+ ['152 + 120', '25 scans', 'Pro package MPL_152+120', '1 package', 'as above', '376', '15.0', '9', '479', 'the unsure marks', 'no', 'no', _N + '; 152 is read by ae4ae3dc17acaa440 (SA20-7), 120 by this agent (not reached)'],
+]

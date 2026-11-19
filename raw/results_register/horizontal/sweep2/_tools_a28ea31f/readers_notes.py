@@ -1,0 +1,7 @@
+NOTES = {
+    "SA15": [
+        ("check_8_5_7.md", "independent check of 8.5.7 by a922466087ec53798 (Claude Opus 5.5 at effort max), written without seeing our argument. Verdict: v is injective for every n >= 2, every d >= 1 and every smooth Y. Frobenius twists carry the kernel into H^(n-1)(X, O_X(-p^e d)), which is 0 for e large. His two cases are special cases. The claim in §1 (check event SA15-S3-3) now has an independent re-proof."),
+        ("c5_c6.md", "cote 5 and cote 6 scans 1-21, 28-67: 113 scans. Read by a1cf7c6b5992a5d3b with sub-readers a5d23772f38c43927 and a486000d1ad547de6, all Claude Opus 5.5 at effort max. 102 check events, 46 corrections, 20 hunches. 5:49-53 is his own letter to Deligne of 10 Dec 1965, an unsigned typed copy he kept; the docket in his hand reads 'Lettre à Deligne'. Sweep 2 recorded it as another's letter, so SA15-15 and SA15-20 are relabelled. 6:2-32 is his letter to Tate ('Pise, Mai 1966'), which dates the manuscript of §2 (H3)."),
+        ("c7_c8.md", "cotes 7 and 8: 147 pages. Read by afcdf31bb407576f5 with sub-readers a28f4edc0783f3d6a and aa78098b7d78d6642, all Claude Opus 5.5 at effort max. 61 check events, 44 corrections, 18 hunches. On 8:81 he expected the universal obstruction to lifting the representation of GL(d, F_p) to Z/p^2 to be nonzero for d >= 2 ('sans doute pas nulle'). It is zero exactly for (d, p) = (2,2), (2,3), (3,2) and nonzero in every other case (recomputed and re-proved)."),
+    ],
+}

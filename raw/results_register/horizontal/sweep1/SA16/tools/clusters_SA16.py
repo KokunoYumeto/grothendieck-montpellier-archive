@@ -1,0 +1,121 @@
+# SA16 (Courbes elliptiques): items, read decisions, flags and checks.
+# Claude Opus 5.5 at effort max (a28ea31fa17dd65e1), horizontal sweep 1, 18 Nov 2026.
+CLUSTERS = [
+ ("SA16-1", "pole filtration and Weierstrass coordinates of a relative elliptic curve (O(nD), Riemann-Roch, cohomological flatness, projective normality)",
+  r"divisor convention|pole|Riemann|E[₃3] engendre|generation by E|universal injectiv|cohomolog|plats|ambient projective bundle|graded-line|length-two separation|cubic embedding|homogeniz|complement|L₆|L_6|E₂|E₆|inversion on E|derivation action|leading-pole"),
+ ("SA16-2", "Weierstrass cubic equations, normal forms away from 2 and 3, the discriminant and the modular invariant (two normalizations: classical j and 1 - j/1728)",
+  r"discriminant|ratio formula|j=|b³/c²|classical invariant|normal form|characteristic restriction|monic cubic|Weierstrass algebra|quotient arrow depends|positive-characteristic kernel|squared a|Möbius coefficient|Vandermonde|cubic degree|secant domain|Tangent continuation|grading|ALG0"),
+ ("SA16-3", "the moduli problem of (structured) elliptic curves: representability, descent by torsors, parameter count, the affine-group structure",
+  r"representab|structur|descent requires|torsors, not|parameters|affine-line torsor|affine group|general-genus|normalization question|weights two and three|μ²−λ³|splitting.? versus"),
+ ("SA16-4", "the lambda-line: cross-ratio, the S3 action on P1 minus three points, its quotient (the j-line), the Z/3 and Z/2 stages and their branch data",
+  r"cross-ratio|S₃|six transforms|involution is explicit|normalizer problem|cyclotomic fixed bisection|bisection|twisted torus|Lüroth|fibrewise rational quotient|multiplicative torsor|r=s²|degree-three quotient|quotient invariant|quotient stages|reciprocal|Φ₆|harmonic stabilizer|Invariant (zero|one)|double quotient|quotient-stack"),
+ ("SA16-5", "trisections, S3-torsors and Brauer-Severi curves: descending the invariant; genus-zero triples and the square-root obstruction to an elliptic curve",
+  r"trisection|S₃ torsor|Brauer|Severi|free-action locus|normality paragraph|normalization and the degree-three|rational-section condition|branch indices|singular normal base|Infinitesimal special|forget the quadratic twist|orbit description|orbifold model|profinite questions|conic bundle|square-root obstruction|sign cover"),
+ ("SA16-6", "completion of modules over a noetherian ring: Artin-Rees, strict morphisms, exactness, filtrations, graded objects, Nakayama (a reused algebra typescript)",
+  r"Artin|completion|complete need not|series criterion|product-filtration|coefficient-topology|filtered-surjectivity|filtration quotients|strict|unhatted|enveloping-algebra|formal power series|noetherianity|Nakayama|proposition number|Zariski"),
+ ("SA16-7", "valuations and places: independence and approximation, the ef inequality, discreteness, integral closure (a reused algebra typescript)",
+  r"valuation|Places|ef inequality|Samuel|ordered-group|Discreteness|extension-count|integral-closure"),
+ ("SA16-8", "the Hodge line, invariant differentials and the Lie algebra of an elliptic curve; comparison with Oda's de Rham/Dieudonne paper",
+  r"Oda|Hodge line|tangent line|Lie line"),
+ ("SA16-9", "level 2 and level 4 structures: the octahedral configuration on P1, the S4 normalizer, orientation torsors, faces, Sylow counts, the char-5 exception",
+  r"octahed|S4|S₄|Sylow|four-element set|centralizer|orientation|abelianization|two-element sets|reflections|presentation|edge fibres|inclusion diagram|six-point covers|parity quotient|wedge|homogeneous spaces of the rotation|zero-sum|contracted-product|reduction-kernel|groupoid theorem|fibre product|derived subgroups|cartesian squares|split GL|square obstruction|does not lift|projectivization|subgroup count|two-plane decomposition|self-orthogonality|permutation module|commutative.? attribution|four-point covers|étale normal form|correct relative S4|characteristic fi|exceptional fiber|arithmetic shortcuts|three-way correspondence|μ4|degree-four-cover|S4-form|level four|central sign|reference lift|mod-four module|trace-zero|simultaneous sign|frames have different counts|fixed-module factor|Jacobi–conic|central extension of order twelve|inserted abelianization|central sign lost|Left and right actions|Naïve and twisted|Choosing i|Universality is relative|square torsor|deleted asterisk|tensor power is missing"),
+ ("SA16-10", "the Legendre pinning (épinglage de Legendre) of an elliptic curve with level-2 data: construction, signs, rigidity",
+  r"Legendre pinning|épinglage|pinning|Legendre|tangent tensor-power|tangent character|tame inertia with μn|two-component quadratic cover|tangent identification|square-root groupoid|punctured domains|determinant sign line|μ4 twist|standard square|two pinnings|fourth-division|zero-root case|Basis signs"),
+ ("SA16-11", "four-pointed lines, the Klein cover, twists and elliptic quotients; the intrinsic doubling map and its multiplicities",
+  r"four-pointed|Klein|trace-conic|double transpositions|constancy hypothesis|monodromy identification|genus-one torsor|E/V|underbrace|almost-cartesian|trivial torsor|doubling|intrinsic quotient|multiplicit|displayed radical|rational map and normalization|dyadic iteration|sign at z=1|scheme-theoretic fiber"),
+ ("SA16-12", "the transcendental theory: E = C/lattice, periods, the Weierstrass p, zeta and sigma functions, theta functions, Jacobi sn cn dn, the upper half-plane and the universal cover of M_{1,1}",
+  r"analytic|transcend|lattice|réseau|V/H|rigide|M_\{?1,1|M₁,₁|Π_\{?ab|Hermite|sigma|theta|periods|sn |sn$|Jacobi formula|E_z|bar z|exactement|sous-espaces propres|n impair|C'est faux|universal cover|extérieure|base φ|t_E|d'ordre|finite automorphisms versus|exceptionnel|invariant modulaire|ux=yu|Model, (high|low)|U0[1-9]|U1[0-6]|S0[0-9]|R0[1-3]\. Model"),
+ ("SA16-13", "the cusp of the modular curve and congruence levels: cusp inertia, the analytic punctured disc, level 2 and level 4 as a bridge to all levels (the B5 planning question)",
+  r"cusp|place at infinity|congruence level|level-4 calculation|Torelli frame|outer square class|congruence completions|B5|tau_\\infty|τ_∞|higher kernels|full profinite torsion|full arithmetic image|normal-complement|normal twist|LM2 rows"),
+ ("SA16-14", "connections on the moduli of elliptic curves: Gauss-Manin, Cartier, the local system H and tau = z2/z1 (the S20 planning question)",
+  r"S20|connection|Gauss|Cartier|local system|système local|τ ?= ?z|loc libres|Hasse|cote 93|deformation|P09|E14|E16|C29|C35"),
+ ("SA16-15", "normality of quadratic extensions and arithmetic covers (DVR hypothesis, v(2)=1, signed radicand, splitting at infinity)",
+  r"normalit|DVR|v\(2\)|radicand|Residual inseparability|integral generator|Modulo two|completion formula|splits at infinity|codimension-one normality|On suppose d'abord"),
+ ("SA16-16", "Michel Hua's project: his modernised reading and findings for these cotes (credited)",
+  r"Hua"),
+ ("SA16-17", "the dossier as a document: title sheets, headings, pagination, page counts, dates, reused paper",
+  r"Title|title sheet|pagination|page count|page-count|Internal headings|typed date|opening leaf|own title|uncertain internal number|starts a new unit|thesis notice|NOMBRES ENTIERS|Surveillance|reused paper|Search and check records|Bibliographical leaf|Headings for"),
+ ("SA16-18", "planning questions about other cotes (47's Fourier witness, 44's Theorems 1-7)",
+  r"Planning question"),
+ ("SA16-19", "the exceptional j-values 0 and 1728: automorphisms, the hexagonal stabilizer, characteristic 3 in the base",
+  r"Exceptional parameters|hexagonal|Characteristic three|characteristic-three|2\^α3\^β|exceptional modular"),
+]
+SECTION_MAP = {
+ ("MPL_64_002-039", "III."): "SA16-9",
+ ("MPL_64_002-039", "II."): "SA16-9",
+ ("MPL_64_040-077", "A."): "SA16-13",
+ ("MPL_64_116-157", "R."): "SA16-12",
+ ("MPL_62_002-050", "2."): "SA16-4",
+ ("MPL_62_002-050", "1."): "SA16-1",
+ ("MPL_64_002-039", "I."): "SA16-13",
+ ("MPL_64_040-077", "B."): "SA16-9",
+ ("MPL_64_040-077", "C."): "SA16-9",
+ ("MPL_64_040-077", "D."): "SA16-11",
+ ("MPL_64_040-077", "E."): "SA16-11",
+ ("MPL_64_040-077", "F."): "SA16-9",
+ ("MPL_64_040-077", "G."): "SA16-10",
+ ("MPL_64_078-115", "2."): "SA16-9",
+ ("MPL_64_078-115", "3."): "SA16-2",
+ ("MPL_64_078-115", "4."): "SA16-13",
+ ("MPL_64_078-115", "5."): "SA16-14",
+ ("MPL_64_078-115", "6."): "SA16-16",
+ ("MPL_64_116-157", "L."): "SA16-10",
+ ("MPL_64_116-157", "T."): "SA16-12",
+ ("MPL_64_116-157", "B."): "SA16-13",
+ ("MPL_64_116-157", "S."): "SA16-14",
+ ("MPL_64_116-157", "A."): "SA16-15",
+ ("MPL_64_116-157", "H."): "SA16-16",
+ ("MPL_64_116-157", "C."): "SA16-17",
+ ("MPL_62_002-050", "4."): "SA16-6",
+}
+FORCE = {
+ "MPL_62_002-050#88": "SA16-7", "MPL_62_002-050#89": "SA16-7", "MPL_62_002-050#90": "SA16-7", "MPL_62_002-050#93": "SA16-7",
+ "MPL_62_002-050#94": "SA16-7", "MPL_62_002-050#96": "SA16-6", "MPL_62_002-050#97": "SA16-7",
+ "MPL_62_002-050#34": "SA16-2", "MPL_62_002-050#35": "SA16-2", "MPL_62_002-050#36": "SA16-2", "MPL_62_002-050#37": "SA16-2",
+ "MPL_62_002-050#1": "SA16-1", "MPL_62_002-050#98": "SA16-8", "MPL_62_002-050#99": "SA16-8",
+ "MPL_62_002-050#67": "SA16-16", "MPL_62_002-050#100": "SA16-18", "MPL_62_002-050#101": "SA16-18",
+ "MPL_64_002-039#10": "SA16-16", "MPL_64_040-077#10": "SA16-16", "MPL_64_040-077#60": "SA16-16", "MPL_64_078-115#2": "SA16-9",
+ "MPL_64_116-157#21": "SA16-12", "MPL_64_116-157#22": "SA16-19", "MPL_64_116-157#52": "SA16-19",
+ "work:K62-01#1": "SA16-12", "work:K62-02#1": "SA16-12", "work:K62-03#1": "SA16-12", "work:K63-01#1": "SA16-2", "work:K63-02#1": "SA16-12",
+}
+for f in ("K62-01", "K62-02", "K62-03", "K63-02"):
+    for n in range(2, 7):
+        FORCE[f"work:{f}#{n}"] = "SA16-12"
+for n in range(2, 7):
+    FORCE[f"work:K63-01#{n}"] = "SA16-2"
+LMLENS = r"\bLM\d?\b|B5|S20|bridge|LM context|cote 93|Torelli frame|place at infinity"
+D = "2026-11-18"
+READ = {
+ "MPL_62_002-050#34": ("passage-read", "understates", "two ratio formulas for the modular invariant of y^2=4x^3-bx-c on one scratch sheet",
+                       "the sheet's first display -27c^2/(b^3-27c^2)=j fixes the definition; the boxed b^3/c^2=27(j-1)/j follows from it, b^3/c^2=j is the slip, and the last line c=27(j-1)/j is the case b=c (the family of scan 025, B06)"),
+ "MPL_62_002-050#35": ("entry-read", "not checked", "", "sign conventions for the discriminant of x^3+bx+c"),
+ "MPL_62_002-050#36": ("entry-read", "not checked", "", "his invariant (27c+2a^3-9ab)^2/(-27 Delta) = 1 - J/1728"),
+ "MPL_62_002-050#37": ("entry-read", "not checked", "", "classical j on scan 025 against 1-J/1728 on scans 023, 040"),
+}
+FLAGS = [
+ ("note overstates or misreads the page", "MPL_62_002-050#34 (cote 62, scan 019)",
+  "B03 says the sheet does not identify which of 'b^3/c^2=j' and 'b^3/c^2=27(j-1)/j' is meant, so the competing formulas remain a research question. The same sheet opens with '-27c^2/(b^3-27c^2)=j' (c^2 marked unsure), which is exactly the definition giving the boxed formula; the unboxed 'b^3/c^2=j' is a slip, and the final 'c=27(j-1)/j' is the specialization b=c.",
+  "MPL_62_002-050_transcription.tex 415-430 (scan 19); MPL_62_002-050_notes.md 431-442"),
+ ("the same thing noted with different readings or statements", "MPL_62_002-050#34, #36, #37 (cote 62, scans 019, 023, 025, 040)",
+  "two normalizations of the modular invariant on the same dossier: 1-J/1728 (=-27c^2/(b^3-27c^2) for y^2=4x^3-bx-c; scans 019, 023, 040) and the classical J (scan 025: h=27J/(J-1728)). The notes record this (B05, B06); the handbook should fix one symbol and keep both.",
+  "notes B03, B05, B06; transcription scan 19"),
+ ("a link across folders", "MPL_62_002-050#36 and MPL_64_116-157#22, #52 (cotes 62, 64)",
+  "the invariant 'i' with values 0 (harmonic) and 1 (equianharmonic) on cote 62 (C11, C12) is the 'invariant modulaire exceptionnel' lambda=2^alpha 3^beta discussion on cote 64 (T14, H06)", "headings (index rows)"),
+ ("note overstates or misreads the page", "MPL_62_002-050#35 (cote 62; scans 019/023)",
+  "suspected, passage not read: B04 judges the queried boxed 'Delta = ... b^3 - 27c^2 ?' against the monic cubic x^3+bx+c, but the sheet of scan 019 works with y^2=4x^3-bx-c, whose discriminant is b^3-27c^2 (up to 16); in that normalization the sign problem disappears and only the cancelled leading coefficient is open",
+  "notes B04 (MPL_62_002-050_notes.md 443-455); transcription scan 19 lines 415-430"),
+ ("a link across folders", "MPL_62_002-050#98, #99 (cote 62) and cote 54",
+  "the Lie line / Hodge line duality and Oda's de Rham-Dieudonne comparison also appear in cote 54 (SA18/SA19 'MPL_16+47+54+44')", "headings; context key T in the notes"),
+]
+CHECKS = [
+ ("MPL_64_040-077#14", D, "claim checked by computation (reasoning, page not read): in characteristic 5, i=2, so {0, inf, +-1, +-i} is all of P1(F5), whose stabilizer in PGL2 is PGL2(F5), of order 120 (isomorphic to S5), strictly larger than the octahedral S4", "agrees with the note's heading (extra symmetries of the bare divisor in characteristic five)", "results_register/horizontal/inputs/SA16/NOTES_INDEX.tsv (RN014)"),
+ ("MPL_62_002-050#34", D, "note checked against the page (scan 019) and the formulas recomputed", "the boxed formula follows from the sheet's first display; the note understates (it leaves open what the page settles)", "results_register/horizontal/inputs/SA16/pro/MPL_62_002-050_transcription.tex:415-430"),
+ ("MPL_62_002-050#36", D, "claim checked by computation: prod(3x_i+a) = -2a^3+9ab-27c for x^3+ax^2+bx+c, and (27q)^2/(-27 Delta) = 1-J/1728 after depressing", "agrees", "results_register/horizontal/inputs/SA16/pro/MPL_62_002-050_notes.md:456-468"),
+ ("MPL_62_002-050#37", D, "claim checked by computation: g2=g3=h in y^2=4x^3-g2x-g3 gives J=1728h/(h-27), so h=27J/(J-1728); in the invariant 1-J/1728 this is h=27(j-1)/j", "agrees, and it identifies the last line of scan 019 (c=27(j-1)/j) with this family", "results_register/horizontal/inputs/SA16/pro/MPL_62_002-050_notes.md:469-480"),
+]
+STATEMENTS = {
+ "SA16-2": ("(mine) for y^2=4x^3-bx-c his invariant on cote 62 is -27c^2/(b^3-27c^2) = 1 - J/1728; the classical J appears on scan 025", "computed on the page (scan 019, boxed), with a slip on the same sheet", "SA19 (Jacobians), SA18 (abelian varieties)"),
+ "SA16-9": ("(notes) level-2/level-4 structures as an octahedral configuration on P1 with S4 symmetry; in characteristic 5 the configuration is all of P1(F5), with stabilizer PGL2(F5)", "worked on the pages (cote 64), with gaps the notes mark", "LM line (finite subgroups of GT; level structures), SA14 (Picard)"),
+ "SA16-10": ("(notes) a canonical Legendre pinning of a curve with level-2 data, left unfinished by him ('Dieu sait comment')", "unfinished on the pages (cote 64, scans 118-126)", "LM line (Legendre family, tripod)"),
+ "SA16-12": ("(notes) the classical analytic theory and the universal cover of M_{1,1}", "sketched on the pages", "SA18, SA19 (periods), LM line (M_{1,1})"),
+}

@@ -1,0 +1,81 @@
+# SA23: three readings decided on the scans (18 Nov 2026)
+
+Claude Opus 5.5 at effort max (sub-agent of the broad agent a0c4bb37) read the scan images between 21:55 and 22:05 UTC, for horizontal sweep 2.
+
+**Method.**
+- Each page was rendered from the archive PDF with `pdftoppm` at 50 dpi to find the place, and at 150-250 dpi for the reading. Crops were made with `magick`, and the disputed word on 1/082 was enlarged 250%.
+- Scan number = PDF page number was confirmed for each of the three PDFs: page 82 of cote 1 carries the heading of scan 82, page 45 of cote 2 the formula of scan 45, and page 27 of cote 22 the "Remarque" of scan 27.
+- **Notes concerned:**
+  - the Pro notes (MPL_2, MPL_22+23_002-016), from GPT-6 Astra (ChatGPT Pro mode);
+  - the Codex-web return K1-03, from GPT-6.2 Astra Max.
+
+## 1. Cote 1, scan 82: the section heading (flag F12)
+
+- **Transcription:** `results_register/horizontal/inputs/SA23/codex/K1-03_transcription.tex`, line 95: "§. Inégalités de convexité et **degrés** remarquables d'opérateurs compacts". The word "degrés" is not marked doubtful.
+- **What the notes said:**
+  - The Codex notes on the sheets (K1-03, from GPT-6.2 Astra Max) repeat the heading with "degrés", saying only that "remarquables" was confirmed after the freeze.
+  - In sweep 1 I flagged "degrés" as doubtful and guessed "idéaux", because the following folders treat Schatten norms and Schatten classes.
+- **What the ink shows:** the word after "et" is "**classes**":
+  - a joined c-l;
+  - an a;
+  - his doubled s with a descending long s;
+  - a final -es flourish.
+
+  There is no acute accent anywhere on it, whereas "degrés" needs one on the é, and "convexité" in the same line carries its accent. "Idéaux" does not fit the letters at all.
+- **Decision:** a misreading of the transcription. The heading reads "Inégalités de convexité et **classes remarquables** d'opérateurs compacts". My guess "idéaux" was wrong.
+- **What it changes:**
+  - The section is about convexity inequalities for singular values and the remarkable classes of compact operators that they define, the Schatten-type classes. This ties it directly to the singular-value and Schatten-norm items SA23-3 (global tag H0DJ) and SA23-2 (H0D8).
+  - The transcription line 95 and the K1-03 notes on the sheets should be corrected to "classes" by whoever maintains them. In the SA23 tables, codex:K1-03#2 now has fidelity "misreads", and SA23-49 carries the corrected heading.
+
+## 2. Cote 2, scan 45: the curve-on-surface formula (flag F15)
+
+- **Transcription:** `results_register/horizontal/inputs/SA23/pro/MPL_2_transcription.tex`, lines 1424-1428:
+  - `C^2(O_C) = 1/2 [C^2 - C K_Y + f_*(k_{C~|C})]`;
+  - "où f: C~ → Y est l'homomorphisme canonique dans Y de la normalisée C~ de C, et k_C~ la classe canonique sur C~";
+  - then `K_2(C^2(O_C)) = 1/2 [C^2 - C K_Y + 2g - 2] = 1/2 (C^2 - C K_Y) + g - 1`.
+- **What the notes said:**
+  - The Pro run's research lead for scan 045 (GPT-6 Astra, ChatGPT Pro mode) calls it a critical unresolved point: the formulas name O_C, while f and the genus belong to the normalization C~.
+  - The Pro notes CC18 and CC19 treat the same lines.
+- **What the ink shows:** both formulas have an underlined O with a plain subscript C: no tilde and no f_*. The subscript of K inside f_*(K_.) is overwritten and cannot be decided from the ink. The next line defines K_C~ explicitly.
+- **Decision:** the reading is confirmed, and the formula is his slip (or a tacit assumption that C is nonsingular).
+- **The mathematics, checked by hand:**
+  - **His right side is c₂(f_*O_C~).** Riemann-Roch for the finite map f: C~ → Y gives ch(f_*O_C~)·td(Y) = f_*(td(C~)). In degree 2, with c_1 = C, this yields c_2(f_*O_C~) = ½[C² − C·K_Y + deg K_C~], which is exactly his right side.
+  - **It equals C² − δ.** With g = p_a − δ and 2p_a − 2 = C² + C·K_Y, this is C² − δ, where δ is the length of f_*O_C~/O_C.
+  - **The left side gives C².** From 0 → O(−C) → O → O_C → 0 we get c(O_C) = 1/(1 − C), so c_2(O_C) = C².
+  - **Where they agree.** The two are equal exactly when δ = 0, that is, when C is nonsingular.
+- **What it changes:** the formula is right with f_*O_C~ on the left, or with + δ added for O_C. The transcription stays as it is; the item SA23-10 records the correction.
+
+## 3. Cote 22, scans 27-29: his counterexample, and the printed EGA 0_IV 22.5.10(i) (flag F01)
+
+- **Transcription:** `results_register/horizontal/inputs/SA23/pro/MPL_22+23_002-016_transcription.tex`:
+  - lines 969-1003, the "Remarque";
+  - lines 1006-1036, the counterexample;
+  - lines 1104-1121, its conclusion on scan 29.
+
+  Scan 28 is a reused typed sheet on trace and norm and is not part of the argument.
+- **The statement.** His Remarque: with k' = k ∩ K^p, two elements x, y of k can be p-independent over k' without being p-independent over K^p. "À fortiori", Ω¹_{k/k'} ⊗_k K → Ω¹_K need not be injective, or, what amounts to the same, the kernel N_{K/k} of Ω_k ⊗_k K → Ω_K need not be generated by the dx ⊗ 1 with x ∈ k ∩ K^p. A margin N.B. adds that this amounts to N_{K/k} not being "defined over k".
+- **What the notes said:** the Pro notes A25-A30 (GPT-6 Astra, ChatGPT Pro mode) say three things:
+  - his counterexample is correct;
+  - the printed EGA 0_IV 22.5.10(i) states the corresponding example as k = k_0(X,Y), K = k(X^{1/p} + Z Y^{1/p}), with X, Y, Z indeterminates;
+  - read literally, the printed K is purely transcendental over k, so the printed example fails.
+- **What the ink shows** (pages 27 and 29):
+  - The Remarque, exactly as transcribed. The inserted "dans K sur" above "p-indépendants" is legible, and it makes no mathematical difference whether the word read is k or K.
+  - "Voici un contre. Soit F le corps premier [ou un corps parfait quelc.], x, y, a_i (1 ≤ i ≤ p−1) des indéterminées sur F".
+  - A struck first attempt with one coefficient α: "β = y − αx", "K^p = F(x^p, y^p, α)", "K = F(α^{1/p}, x, (y − αx)^{1/p})".
+  - The final construction: a_0 = y − Σ_1^{p−1} a_i x^i, a = x^p, y = Σ_0^{p−1} a_i x^i, K^p = F(a, a_0, …, a_{p−1}), K = F(x, a_1^{1/p}, …, a_{p−1}^{1/p}, a_0^{1/p}), k = F(x, y).
+  - The margin "NB a et (a_i) sont alg. ind. sur F".
+  - On page 29: "si donc (x,y) n'étaient p-libres sur K^p ∩ k, on aurait une relation y = Σ a_i' x^i … donc a_i' = a_i, donc a_i ∈ k = F(x,y), absurde."
+- **Decision:** the reading is confirmed, and there is no slip of his: the counterexample is correct.
+- **The mathematics, checked by hand:**
+  - **k ∩ K^p = k^p.** In K, x ∉ K^p and 1, x, …, x^{p−1} are a basis of K^p(x) over K^p. A relation y = Σ a_i' x^i with coefficients in k ∩ K^p would force a_i' = a_i, which do not lie in F(x,y). So (x, y) is p-free over k ∩ K^p, and k ∩ K^p = k^p.
+  - **K/k is not separable.** dy − (Σ i a_i x^{i−1}) dx is a nonzero element of N_{K/k}.
+  - **His struck one-coefficient attempt also works,** provided the p-th root of the coefficient lies in K.
+- **What it changes:**
+  - **The manuscript.** Its example stands as written.
+  - **The print.** The printed example has the shape of his struck first attempt, with Z playing the role of the coefficient. It works only if K contains Z, that is K = k(Z, X^{1/p} + Z Y^{1/p}).
+  - **What is still open.** Whether the print omits Z cannot be decided from these scans, because the printed page (Publ. IHÉS 20, p. 204) is not in the archive. F01 therefore stays open as a check of the print and of our EGA editions (ega0-22.tex), now with the exact repair in hand.
+
+## Where this is recorded
+- `results_register/horizontal/sweep2/SA23/CHECK_EVENTS.tsv`: 5 events, one per scan reading plus the two hand computations.
+- `FLAGS.tsv`: F12 and F15 decided, and F01 updated.
+- `PLACEMENT.tsv` and `OBJECTS.tsv`: the entries and items concerned (codex:K1-03#2, research_leads#41, MPL_2#71-72, MPL_22+23_002-016#50; SA23-3, 10, 20, 49).

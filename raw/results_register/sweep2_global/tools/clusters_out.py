@@ -1,0 +1,184 @@
+"""Sweep 2, task 2: CLUSTERS.tsv. The clusters that cross runs, sweep-1 scopes or lines, as read by Claude Opus 5.5 at
+effort max (sweep 2), 18 Nov 2026; every tag is checked against the register (plus FINMON). Clusters inside one sweep-1
+scope are in that scope's MERGES.tsv and are not repeated here."""
+import sys, csv
+sys.path.insert(0, r"C:\Users\user\Documents\results_register\sweep2_global\tools")
+import core
+
+C = []
+
+
+def cl(cid, members, canonical, status, source, scope):
+    C.append((cid, members, canonical, status, source, scope))
+
+
+cl("SC01", [("GT_TOWER_CHECK:A.7", "canonical (all multipliers, strict inclusions)"), ("LM7_PUSH:E.65", "definition of Δ"),
+            ("LM7_PUSH:E.3", "the question; decided by the canonical"), ("EXIT_TOWER:E.49", "same (first proof; two label gaps, repaired in GT_TOWER_CHECK A.3)"),
+            ("GT_TOWER_CHECK:A.3", "same (multiplier one, repaired)"), ("GT_TOWER_CHECK:B.2.1", "strict inclusion"), ("GT_TOWER_CHECK:B.2.3", "strict inclusion"),
+            ("SECTION_GHOSTS:E.191", "same, by an independent route (final return)"), ("SECTION_GHOSTS:E.198", "strict inclusions, independent witness"),
+            ("SECTION_GHOSTS:E.197", "the witness: a full gentle element with a degree-seven 11-adic invariant"),
+            ("LM8_PUSH:C.21", "equivalence: E.3 holds iff Δ|GT̂ ≠ 0"), ("DELTA_ON_GT:A.84", "open in its run; decided by the canonical"),
+            ("LM4_SUCCESSOR:A.105", "parity formula used with A.7"),
+            ("EXIT_TOWER:E.44", "gate of route 1: 𝒥(A) = A (Boggi–Zalesskii Thm A(iii) for C₂²)"), ("GT_TOWER_CHECK:A.1", "audit of the gate of route 1"),
+            ("SECTION_GHOSTS:E.181", "gate of route 2: normalized GT̂ elements lie in Λ (HLS 2000)")],
+   "Let Δ: GT̂₀ → F₂ be the CM parity character of LM7_PUSH E.65 (pure frames of E.58 and E.61; Δ = ε₃(T) + ε₂(W) on the "
+   "multiplier-one subgroup), extended to GT̂₀ with its signed normalization. Then Δ|GT̂ = 0 and G_Q ⊆ GT̂ ⊊ ker Δ ⊊ GT̂₀.",
+   "Proved twice, by two routes, both by GPT-6 Astra (ChatGPT Pro mode); not refereed outside that model. Route 1: EXIT_TOWER "
+   "E.44 (𝒥(A) = A through Boggi–Zalesskii Theorem A(iii) for C₂² in a finite-index subgroup of Γ_{0,[10]}) -> E.49 -> "
+   "GT_TOWER_CHECK A.1, A.3, A.7. Route 2: SECTION_GHOSTS E.176-E.181 (relation (IV) of Nakamura–Schneps 2000 for every "
+   "normalized GT̂ element; Schneps 2006 p.670 then puts it in the group Λ of Hatcher–Lochak–Schneps 2000) -> E.182-E.190 "
+   "-> E.191. Both rest on the genus-one compatibility of the GT̂ action. Handbook: proved, with the gates named, pending an "
+   "outside referee; E.181's claim must be set against Lochak–Nakamura–Schneps 2026 (arXiv 2602.12462).",
+   "sweep1_tower SUMMARY §3 and CORRECTIONS 1-4; the rows; SECTION_GHOSTS final sections/part_E_gt_tower_repair.tex lines 1-169; its results rows E.176-E.201",
+   "tower + sections")
+cl("SC02", [("LM8_PUSH:D.23", "canonical (Selmer part unconditional; full section set via D.56)"),
+            ("FERMAT_SUCCESSOR:A.11", "same, independent proof (no local theorem used)"), ("FERMAT_SUCCESSOR:A.16", "the classical curve, every n ≥ 3"),
+            ("LM6_POINTS_AS_SECTIONS:E.12", "weaker; mixed row: split into Selmer ⇒ cuspidal, even n, and the conditional full set"),
+            ("LM6_POINTS_AS_SECTIONS:E.8", "statement survives; its cited divisibility step is false"),
+            ("LM8_PUSH:D.22", "refutes the divisibility step (16 Nov 02:52)"), ("FERMAT_SUCCESSOR:A.4", "same refutation, found independently (cp06, 16 Nov 06:49)"),
+            ("FERMAT_SUCCESSOR:A.3", "the corrected cusp constant"), ("SECTION_GHOSTS:E.100", "even n: no section at all"),
+            ("LM7_FERMAT_TOWER:E.25", "weaker form of E.100 (a D8 pullback, no real section)")],
+   "(i) For odd n ≥ 3 every Selmer section of the plus Fermat curve U_n/Q is cuspidal, with exactly three rational cusp "
+   "centres. (ii) For even n ≥ 2 the geometrically pro-2 abelian extension of U_n/Q has no section, hence no larger quotient "
+   "has one. (iii) For odd n ≥ 3, granted the p-adic local section theorem (SC03), every section is Selmer, so the section "
+   "set is the disjoint union of the three rational cusp packets, each an H¹(Q, Ẑ(1))-torsor.",
+   "(i) proved twice independently (LM8_PUSH D.23; FERMAT_SUCCESSOR A.11); (ii) proved (SECTION_GHOSTS E.100); (iii) "
+   "conditional on SC03. The Tate parameter at the unit Fermat cusp is q = 256^{-1}t^{2n}(1 + O(t^n)), v₂ = −8.",
+   "the rows; sweep1_tower CORRECTIONS 7; sweep1_sections CORRECTIONS 2-3", "tower + sections")
+cl("SC03", [("LM8_PUSH:D.56", "canonical in our register (full formations containing two primes)"), ("LM8_PUSH:D.54", "the prosolvable case"),
+            ("FERMAT_SUCCESSOR:A.20", "uses it as a stipulated input"), ("FERMAT_SUCCESSOR:A.31", "uses it as a stipulated input"),
+            ("ANABELIAN_149_PUSH:D.15", "analytic patching from the same preprint"), ("ANABELIAN_149_PUSH:D.16", "analytic patching from the same preprint")],
+   "For k/Q_p finite and a formation C (closed under subgroups, quotients and extensions) containing C_p and C_ℓ for some "
+   "ℓ ≠ p, every continuous section of the geometrically pro-C fundamental group of a smooth geometrically connected "
+   "hyperbolic curve over k is induced by a rational point or lies in a rational cusp packet; for a proper curve only "
+   "points occur.",
+   "A gate, not settled in our records: claimed in OpenAI, 'The p-adic section conjecture' (6 Oct 2026, Theorem 1.1; "
+   "unrefereed, per ANABELIAN_149_PUSH's prompt row R24); re-derived in LM8_PUSH D.54/D.56 from that preprint's Sections "
+   "3-6 and Mochizuki–Tsujimura 2024 Theorem F(i), Proposition 2.4(iv), checked only inside GPT-6 Astra. 73 register rows "
+   "rest on it (tools/local_theorem_rows.tsv): LM6 22, LM8_PUSH 21, SECTIONS_OVER_Q 11, SECTION_GHOSTS 6, FERMAT_SUCCESSOR 3, "
+   "ANABELIAN_149_PUSH 2, and others. Handbook: its own item, status 'claimed in the literature, re-derived, unrefereed'; "
+   "every row resting on it Conditional.",
+   "LM8_PUSH sections/D_formation_local.tex lines 1-60; FERMAT_SUCCESSOR A.20, A.31; the prompts' rows R24 (ANABELIAN_149_PUSH)",
+   "tower + sections")
+cl("SC04", [("ANABELIAN_149_PUSH:F.37", "canonical (subfields of finitely generated extensions of Q^solv)"),
+            ("ANABELIAN_149_PUSH:F.7", "same as LM5 F.50, independent proof"), ("LM5_MULTI_GALOIS_TOPOI:F.50", "weaker (Q^ab)"),
+            ("LM5_MULTI_GALOIS_TOPOI:F.47", "weaker; corrected detail in ANABELIAN_149_PUSH F.7"), ("ANABELIAN_149_PUSH:F.31", "special case"),
+            ("ANABELIAN_149_PUSH:F.23", "the G_m endomorphism test over Q^solv"), ("LM5_MULTI_GALOIS_TOPOI:F.46", "the G_m test over Q(μ_{2^∞})"),
+            ("LM5_MULTI_GALOIS_TOPOI:F.5", "refuted: all relative topos morphisms"), ("LM5_MULTI_GALOIS_TOPOI:F.6", "refuted over an algebraically closed field"),
+            ("ANABELIAN_149_PUSH:F.1", "refutes only the prompt's relative-only reading (R27), not LM5"), ("ANABELIAN_149_PUSH:F.17", "the same, for G_m")],
+   "Let k be a subfield of a finitely generated extension of Q^solv. For all finite-type k-schemes X, Y, Hom_k(X^awn, Y) "
+   "is the set of isomorphism classes of pinned (closed-point-preserving) relative morphisms X_ét → Y_ét; X^awn is the "
+   "absolute weak normalization (the seminormalization in characteristic zero).",
+   "Proved (ANABELIAN_149_PUSH F.37 through Carlson–Haine–Wolf 2024 Theorem 4.18; LM5 F.50 for Q^ab). 'Pinned' must be "
+   "written into the item: the prompt's paraphrase (R27) dropped closed-point preservation, and under that reading the "
+   "statement is false (F.1, F.17).", "the rows; ANABELIAN_149_PUSH prompt row R27", "tower + sections")
+cl("SC05", [("SECTION_GHOSTS:E.100", "refutes the unqualified reading of its prompt row R8"), ("SECTION_GHOSTS:E.98", "positive replacement: pronilpotent"),
+            ("SECTION_GHOSTS:E.99", "positive replacement: metabelian"), ("LM6_POINTS_AS_SECTIONS:E.16", "stands"),
+            ("LM6_POINTS_AS_SECTIONS:E.31", "stands"), ("LM6_POINTS_AS_SECTIONS:E.38", "stands"), ("LM7_FERMAT_TOWER:E.32", "stands"),
+            ("LM8_LIE_APPROXIMATIONS:F.21", "stands")],
+   "For n = 3^r or 5^r the plus Fermat curve U_n/Q has full pronilpotent (E.98) and full metabelian (E.99) noncuspidal "
+   "sections in the stated quotients, all with nonordinary tripod pairs at Q₂; for even n there are none (E.100). The "
+   "assertion 'every Fermat curve has noncuspidal sections in all these quotients' is false.",
+   "Proved. The rows of LM6, LM7 and LM8 that R8 summarizes are not refuted; only the prompt's generalization is.",
+   "SECTION_GHOSTS final E.100 and its prompt row R8; the LM6, LM7, LM8 rows", "tower + sections")
+cl("SC06", [("LM6_POINTS_AS_SECTIONS:A.56", "canonical"), ("LM6_POINTS_AS_SECTIONS:A.49", "the unit family"), ("LM6_POINTS_AS_SECTIONS:A.10", "the first family"),
+            ("LM6_POINTS_AS_SECTIONS:A.59", "unrestricted lifts exist but fail the peripheral condition"), ("LM6_POINTS_AS_SECTIONS:A.66", "derived-layer refinement"),
+            ("FERMAT_SUCCESSOR:C.14", "corrects the prompt's paraphrase R18, not LM6")],
+   "The pure peripheral metabelian commutant of the tripod group is larger than S₃ (it contains ∏_{p≥5} C₂ and a copy of "
+   "Ẑ^×), but no nonidentity member of this unit family admits a commuting third-derived lift over any number field; "
+   "arbitrary (non-commuting) peripheral lifts are not excluded.",
+   "Proved. FERMAT_SUCCESSOR's prompt row R18 said 'none of them lifts to the quotient by the third derived subgroup'; C.14 "
+   "corrects that to 'no commuting third-derived lifts'.", "the rows; FERMAT_SUCCESSOR prompt R18", "sections (with DELTA_ON_GT B.19 using LM6 A.10, A.49)")
+cl("SC07", [("RESIDUE:H.5", "canonical"), ("RESIDUE:H.3", "the lifting categories"), ("EXIT_TOWER:C.2", "same as RESIDUE H.3, Longue Marche line"),
+            ("BISITE:F.16", "special case: genus zero, n ≥ 3; not smooth at n = 4"), ("STRATA:F.11", "refuted claim, refined by H.5"),
+            ("EXIT_ONE_TYPE:P1e3", "the exit category of M̄_{0,5}: 26 objects (STRATA F's count)")],
+   "For every stable (g, n) the forgetful functor of entrance (exit) categories T_{g,n+1} → T_{g,n} is W_∞-proper, and it "
+   "is W_∞-smooth only for (g, n) = (0, 3). Its outgoing lifting categories are weakly contractible or equivalent to BZ, "
+   "the latter exactly when forgetting the mark contracts a rational bridge and the exit arrow smooths the resulting node.",
+   "Proved in both lines: Les Dérivateurs (RESIDUE, 11 Nov) and the Longue Marche (EXIT_TOWER, its his_places column cites "
+   "RESIDUE H.3).", "the rows", "derivateurs + tower (cross-line)")
+cl("SC08", [("PATHS:E.13", "canonical for finite categories"), ("LM5_MULTI_GALOIS_TOPOI:A.20", "same phenomenon for Galois topoi"), ("CATHOT:F.2", "the same failure of finite tests"),
+            ("PATHS:E.1", "T² = 1")],
+   "On the classifying space of the finitary symmetric group, the shift endomorphism and the identity are distinct in Hot "
+   "but agree on every finite test: finite set-valued restricted Yoneda on finite categories (PATHS), and finite covers "
+   "with all finitely generated source tests on the classifying topoi (LM5).",
+   "Proved (as the refutation of faithfulness of finite tests). FINMON's report cites the same shift.", "the rows; FINMON_report.md", "derivateurs + tower (cross-line)")
+cl("SC09", [("STRATA:B.6", "canonical"), ("LM5_MULTI_GALOIS_TOPOI:E.15", "stronger; checks STRATA B.6, B.10, B.12"), ("LM5_MULTI_GALOIS_TOPOI:F.30", "uses STRATA C.3, C.6-C.8; C.7 as the counterexample")],
+   "Enhanced (space-valued) presheaf categories recover the idempotent completion of the source; a layered target forces "
+   "the source to be EI. The geometric shape of a glued topos is the homotopy pushout along the genuine link (LM5 F.30).",
+   "Proved in both lines.", "the rows", "derivateurs + tower (cross-line)")
+cl("SC10", [("INDLOCAL:B.1", "canonical check of the two proofs"), ("CATHOT:E.17", "the question (Open in the register): settled"),
+            ("GALOIS:B.12", "one of the two proofs"), ("INDLOCAL:B.2", "stronger: all invariant small colimits of representables"),
+            ("INDLOCAL:B.3", "truncation localizers"), ("INDLOCAL:B.5", "boundary: false for V-small indexes"), ("INDLOCAL:B.7", "boundary: bounded tests, sharp threshold"),
+            ("INDLOCAL:B.9", "uniformly finite stages"), ("S2COUNT:E:boundedtransport", "uses E.17")],
+   "Let I be a U-small filtered category and K: I → Cat_hot with H_K = colim_i π₀Fun(−, K_i) inverting W_∞. Then H_K "
+   "inverts every unit X → Π₁X and K ≅ (Π₁K_i)_i in Ind(Cat_hot): the W_∞-invariant small ind-objects are exactly the "
+   "ind-groupoids. For V-small indexes this fails (B.5: K(Z/2,2)); for tests with fewer than κ arrows the threshold is "
+   "exactly B.7's.",
+   "Proved: INDLOCAL B.1 checks both proofs given in its prompt row R3 (GALOIS B.12, and Theorem 3.2 of the Dérivateurs "
+   "expert's OWN_RESULTS, Claude Fable 5.2 at effort max). CATHOT E.17 should be marked settled.",
+   "INDLOCAL sections/B.tex lines 1-150 (B.1-B.7); its prompt row R3; CATHOT E.17", "derivateurs (handed on by sweep 1)")
+cl("SC11", [("FINMON:C3", "canonical"), ("CATHOT:G.17", "open interval [28, 49], now closed"), ("CATHOT:G.16", "size table entry")],
+   "The least number of arrows of a finite poset whose classifying space has the homotopy type of RP² is 49 (FINMON C3, "
+   "with a stronger statement for all H₁-torsion posets).",
+   "Proved in FINMON (not in the register); CATHOT G.17's first open question is answered.", "FINMON results C3; CATHOT G.16, G.17", "derivateurs + FINMON")
+cl("SC12", [("FINMON:E1-KZ2-category", "canonical"), ("FINMON:E1-KZ2-monoid", "same for monoids"), ("CATHOT:G.17", "second open question, answered"),
+            ("FINMON:E2-KC22", "the same conclusion for the Eilenberg–MacLane space that row names (no finite category model, by nilpotent-kernel detection and Serre/Evens growth)"), ("FINMON:E2-loopS3", "the same for ΩS³")],
+   "K(Z, 2) = CP^∞ has no finite category model and no finite monoid model (rational cup nilpotence).",
+   "Proved in FINMON (its rows are marked Refuted because they refute the existence of a model).", "FINMON results E1, E2; CATHOT G.17", "derivateurs + FINMON")
+cl("SC13", [("S2COUNT:A.M1", "canonical in the register"), ("FINMON:E4", "same, independent"), ("FINMON:cor:E-uncountable", "same"), ("CATHOT:D.6", "answered no")],
+   "There is a six-element monoid M with BM ≃ ⋁_{n≥2} Sⁿ; [BM, S²] has cardinality 2^ℵ₀. So the sequential two-sphere "
+   "test of CATHOT D.6 fails.", "Proved twice (S2COUNT, FINMON), both auditing the CATHOT expert's OWN_RESULTS Proposition 4.1 "
+   "(Claude Fable 5.2 at effort max).", "the rows; FINMON_report.md line 489", "derivateurs + FINMON")
+cl("SC14", [("FINMON:E5", "stronger (through order 6)"), ("RESIDUE:A.5", "orders ≤ 5")],
+   "Among monoids of order ≤ 5 (iso classes 1, 2, 7, 35, 228) the rectangular band with identity, whose classifying space "
+   "is S², is the only non-1-type; FINMON assigns exact types to all 1,565 iso/anti-iso classes through order 6.",
+   "Proved; the counts agree with the known enumeration of monoids (OEIS A058129, A058133).", "the rows; FINMON_report.md line 69", "derivateurs + FINMON")
+cl("SC15", [("FINMON:B4-CP2", "canonical"), ("FINMON:B:CP2-minimum23", "same"), ("FINMON:C2-CP2", "open companion question: categories, [17, 22]")],
+   "The least order of a finite monoid with BM ≃ CP² is 23; the least number of arrows of a finite category of type CP² "
+   "lies in [17, 22].", "Monoid minimum proved in FINMON; category minimum open (checkpoint 20).", "FINMON results; report §'Twenty-hour progress review'", "FINMON")
+cl("SC16", [("LM6_POINTS_AS_SECTIONS:F.13", "canonical (criterion)"), ("ANABELIAN_149_PUSH:D.U2", "the open question"),
+            ("CYCLOTOMIC_KERNEL:B8", "his formulas (32)-(33) at cote 149, scan 127, false: confirmed by LM6 F.13")],
+   "Let X/K be a smooth proper geometrically connected curve over a finitely generated field of characteristic 0, L = K(X). "
+   "A section s: G_K → G_L lies in the decomposition group of a rational place iff the centralizer of s(H_K) in "
+   "G_{K̄(X)} is nontrivial; it is then I_v ≅ Ẑ(1).",
+   "Criterion proved; ANABELIAN_149_PUSH D.U2 (every section of G_Q(t) → G_Q lies in such a decomposition group: the "
+   "birational section conjecture for P¹/Q) stays open, reduced by F.13 to the nontriviality of the centralizer.",
+   "the rows", "tower + sections")
+cl("SC17", [("CYCLOTOMIC_KERNEL:E4", "mixed row: H2(a) proved, H2(b) and the R4 completion open"), ("ANABELIAN_149_PUSH:D.2", "uses the proved half"),
+            ("ANABELIAN_149_PUSH:B.15u", "uses the proved half")],
+   "CYCLOTOMIC_KERNEL E4 splits into E4a (H2(a), the essential cyclotomic-normalizer form: proved) and E4b (the global "
+   "degeneration H2(b) and R4: open).", "Split needed; the two proved uses are sound at statement level (through prompt row R15).",
+   "the rows; ANABELIAN_149_PUSH prompt row R15", "tower + sections")
+cl("SC18", [("LM5_MULTI_GALOIS_TOPOI:F.12", "canonical (r branches)"), ("LM8_LIE_APPROXIMATIONS:E.11", "same (one branch); status 'Refuted' is his claim's")],
+   "The inverse 2-limit of the full small topoi of shrinking punctured (poly)disks is degenerate; the covering germ is the "
+   "pro-topos with B Z^r.", "Proved twice; the two statuses differ only by convention.", "the rows", "tower")
+cl("SC19", [("S6_02_PUSH:A.3.2", "canonical"), ("S6_06_BLIND:P2.11", "same, blind re-derivation; status 'Refuted' is the conjecture's"),
+            ("S6_06_BLIND:P2.10", "corrected existence")],
+   "Engel's Conjecture 8.2 is false: the one-component central space Q has virtual Euler number 0 while e(X(u)) = 2, so Q "
+   "is not the central fibre of a proper flat smoothing with smooth fibres X(u).", "Proved twice (one blind); statuses "
+   "differ by convention.", "the rows", "s6")
+cl("SC20", [("SECTION_GHOSTS:E.57", "canonical reconstruction"), ("LM7_PUSH:D.50", "original"), ("LM7_PUSH:E.58", "original"),
+            ("LM4_SUCCESSOR:A.18", "limits: no unrestricted strengthening"), ("LM4_SUCCESSOR:B.54", "limits: no universal strengthening")],
+   "For Λ the free profinite tripod group or C₂ ⨿ C₃ and N closed normal, a multiplier-one peripheral automorphism of Λ/N "
+   "with three specified conjugators has a full peripheral lift keeping them iff it lifts to Λ/[N, Λ]; in particular every "
+   "such automorphism of Λ/R_nil(U), U open normal, lifts.",
+   "Proved (LM7_PUSH; 'refereed: proved as claimed' by Claude Opus 5.5 at effort max per the prompts' rows; independently "
+   "reconstructed in SECTION_GHOSTS E.57). LM4_SUCCESSOR shows it admits no unrestricted strengthening.",
+   "SECTION_GHOSTS E.57 and its checks column; the prompt rows R1/R2/R13", "tower + sections")
+cl("SC21", [("SECTIONS_OVER_Q:A.32", "section ghost: finite support gives a rational point"), ("SECTIONS_OVER_Q:A.51", "section ghosts survive finite quotients"),
+            ("SECTION_GHOSTS:A.3", "section ghost"), ("GT_TOWER_CHECK:C.2.12", "section ghost: fixed-depth survival"),
+            ("EXIT_TOWER:E.46", "the other sense: an element of GT̂₀ (the gentle witness), called a ghost in GT_TOWER_CHECK's prompt Lead 6")],
+   "Two objects share the name 'ghost'. (a) Section ghost: an ordinary pair (A, B) of completed solutions of the unit "
+   "equation, of infinite valuation support, with a section of the geometric quotients above it. (b) A GT̂₀-ghost: an "
+   "element of GT̂₀ that passes every pro-ℓ and finite test of the pentagon but is not in GT̂.",
+   "Two names needed in the handbook ('section ghost', 'pentagon ghost'); the register's rows mean (a) except EXIT_TOWER "
+   "E.46's element, which the prompts call a ghost.", "the rows; GT_TOWER_CHECK and SECTION_GHOSTS prompt leads", "tower + sections")
+missing = [t for c in C for t, _ in c[1] if t not in core.BYTAG]
+assert not missing, missing
+with open(core.OUT / "CLUSTERS.tsv", "w", encoding="utf-8", newline="") as f:
+    w = csv.writer(f, delimiter="\t", lineterminator="\n")
+    w.writerow(["cluster", "member tags", "relation of each member", "canonical statement", "status of the cluster", "read", "scopes"])
+    for cid, mem, can, st, src, scope in C:
+        w.writerow([cid, " ".join(t for t, _ in mem), "; ".join(f"{t}: {r}" for t, r in mem), can, st, src, scope])
+print(len(C), "clusters,", sum(len(c[1]) for c in C), "member rows")

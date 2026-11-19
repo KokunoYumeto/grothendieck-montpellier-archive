@@ -1,0 +1,130 @@
+# SA01 Géométrie et topologie combinatoire: placement config (agent a6d42bf6, Claude Opus 5.5 at effort max, 18 Nov 2026)
+DATE = '2026-11-18'
+P72, P81, P83 = 'MPL_72_035-081', 'MPL_81_038-055+154_046-076', 'MPL_83_178-222'
+ITEMS = [
+ ('SA01-1', 'pinned regular realizations of the regular n-polyhedron over a ring (rank-one operators, flags, base change)', 'definition/construction',
+  'ours: a realization is a locally free module with rank-one operators T_i(v) = v + phi_i(v) a_i, their lines and hyperplanes, and a pinned flag whose translates give the polyhedron', 'stated and worked in coordinates; general equivalence on 77 left with reading and descent questions (notes)'),
+ ('SA01-2', 'the requested LM bridge B5: level-n regular maps, the Farey map on X(n) -> X(1), M_{0,5} and the five-point relation', 'research question put to the pages',
+  'ours: whether the level-n regular polyhedron of these pages is the principal-congruence Farey map on X(n); not on the pages (MPL 83 Q01)', 'not on the pages'),
+ ('SA01-3', 'the invariant quadratic form of the reflection realization, its orthogonal automorphism group, the conic and characteristic two', 'proposition/calculation',
+  'ours: for lambda_i = -1 the realization preserves q with q(a_0) = 1, q(a_i) = beta_0...beta_{i-1}; automorphisms, centralizers, the split conic and the rank-four algebra', 'worked on 35-43; parts proved in the notes'),
+ ('SA01-4', 'determinant recurrences, permutation and matching counts, continuants and dual bases of the realization (scans 45-71)', 'calculation',
+  'his: determinants delta_n, Delta_n of the pairing matrix by recurrence, with parity and matchings; ours: the notes recheck them', 'calculated on the pages; several cancelled attempts'),
+ ('SA01-5', 'scan-local reading doubts of MPL 72 (signs, arities, exponents, subscripts)', 'reading question', 'reading doubts on single symbols', 'reading questions'),
+ ('SA01-6', 'the trigonometric line at 72/036: beta_i, alpha_i = 4cos^2 theta_i and cos 2theta_i', 'reading question / slip',
+  'ours: as transcribed, 2(2cos^2 theta_i + 1) = 4cos 2theta_i is false; 2cos^2 theta - 1 = cos 2theta is the identity the underbrace needs', 'stated with an inconsistency (his slip or a misreading)'),
+ ('SA01-7', 'documentary: page numbering, covers and reused typed sheets of cote 72 (thesis and council notices)', 'documentary', 'documentary', 'documentary'),
+ ('SA01-8', 'the notes\' own apparatus for MPL 72 (scope, sources, context checks against Hua, reproduction)', 'apparatus', 'apparatus', 'apparatus'),
+ ('SA01-9', 'the combinatorial surface of relative positions of an added projective pseudoline (Esquisse §8): scope and genealogy', 'construction (programme)',
+  'ours: a cell complex parametrizing where one more pseudoline can run relative to a fixed arrangement; Pro identifies it with Esquisse §8', 'constructed in part; open on the pages'),
+ ('SA01-10', 'local gluing of the relative-position surface: facewise maps, critical points and arcs, exceptional edges, reconstruction from the graph', 'construction',
+  'his: local gluings of faces along critical arcs, with exceptional and supercritical faces excluded', 'sketched; several claims unproved or withdrawn'),
+ ('SA01-11', 'the dihedral monodromy of polygon transport and its parity (sign) character', 'proposition/conjecture',
+  'his: rotations and reflections from transport along the face graph; a parity character, proposed trivial by a telescoping formula (B20)', 'calculated in part; conjectured; cancelled continuations'),
+ ('SA01-12', 'the four natural-map schemes (A1, A2, B1, B2): immersions, generization markers and circuit tests', 'construction/test',
+  'his: four ways of gluing shores; three pass one special circuit test, general circuits unresolved', 'tested on the pages; self-flagged failures'),
+ ('SA01-15', 'documentary: dates, marginal pagination and reused printer paper of cote 154, scans 46-76', 'documentary', 'documentary', 'documentary'),
+ ('SA01-16', 'bi-icosahedra and the icosahedral structure at p = 5 (oriented vs non-oriented)', 'definition/question',
+  'his: the biicosaedre as the oriented companion of the icosahedral structure; the notes compare Hua\'s complementary-pair model', 'discussed; not settled'),
+ ('SA01-17', 'lambda-split extensions and their product * (with f-circle data)', 'construction',
+  'his: a canonical lambda-splitting on a product of extensions, with flatness and injectivity hypotheses', 'construction begun; universal property open'),
+ ('SA01-18', 'reconstruction of a rank-four Azumaya algebra from traces; the trace form in characteristic two', 'proposition',
+  'ours: the trace pairing on a quaternion (rank-four Azumaya) algebra stays perfect in characteristic two; orientation as the missing multiplication datum', 'worked; notes correct and qualify'),
+ ('SA01-19', 'the trace identity for triples of 2x2 matrices: tr(xyz)tr(xzy) and the missing term -4cc\'c\'\'', 'identity',
+  'ours: with t = tr(yz), b = tr x, c = det x and cyclically, tr(xyz)tr(xzy) = written Pi - 4cc\'c\'\' (classical, of Fricke type)', 'stated with a missing term (found by Hua XII-XIII)'),
+ ('SA01-20', 'invariants of triples of 2x2 matrices: the invariant ring, the quotient vs conjugacy orbits, specialization', 'proposition/question',
+  'his: an invariant-ring presentation in trace coordinates; ours: the affine quotient is not the orbit set', 'stated without proof'),
+ ('SA01-21', 'the trace cube of four matrix variables: face and edge relations, 28 variables and 32 equations, the face-to-edge map', 'calculation',
+  'his: a cube organizing traces of four matrices, with linear relations among face and edge sums', 'calculated; presentation not proved'),
+ ('SA01-22', 'the determinants on 211 (2^10) and 219 (512; his 27^2 - 1 = 728)', 'calculation',
+  'ours: the 6x6 matrix on 219 is [[M,I],[I,M]] with M = 2J - 3I, so det = det(M^2 - I) = 512; on 211 the determinant is 1024', 'calculated on the page with an error at 219'),
+ ('SA01-23', 'Azumaya algebras vs projective-line bundles; the trace quotient and the LM lifting gerbe', 'comparison', 'notes\' comparisons', 'not on the pages'),
+ ('SA01-24', 'the reused and cancelled typescripts on the backs of cote 83 (SGA, the Grundlehren resignation, order and chaos, dreams)', 'documentary (non-mathematical text)', 'documentary', 'documentary'),
+ ('SA01-26', 'documentary: covers, folio sequences, headings and dates of cote 83', 'documentary', 'documentary', 'documentary'),
+ ('SA01-27', 'the icosahedral group in 2x2 matrices over a ring: elements of orders 2, 3, 5, elementary subgroups, frames and codiagonals', 'calculation',
+  'his: explicit matrices u with u^5 central, unipotent subgroups and a torsor of frames (cote 83, scans 1-60)', 'calculated (Work notes)'),
+ ('SA01-28', 'quadratic algebras over a ring and their discriminants; the invariant rho = lambda + 1/lambda', 'calculation',
+  'his: when two quadratic algebras with vanishing discriminant are locally k[T]/T^2; the pair invariant rho', 'calculated (Work notes)'),
+ ('SA01-29', 'immersions of the disc and of the circle (cote 81)', 'construction', 'his: immersions of the disc and the circle (Codex folders J81)', 'not checked'),
+]
+RANGES = [
+ (P72, 1, 1, 'SA01-1'), (P72, 2, 2, 'SA01-2'), (P72, 3, 4, 'SA01-8'), (P72, 5, 6, 'SA01-3'), (P72, 7, 12, 'SA01-4'), (P72, 13, 14, 'SA01-1'),
+ (P72, 15, 17, 'SA01-7'), (P72, 18, 19, 'SA01-8'), (P72, 20, 20, 'SA01-1'), (P72, 21, 21, 'SA01-8'), (P72, 22, 22, 'SA01-1'), (P72, 23, 23, 'SA01-2'),
+ (P72, 24, 24, 'SA01-1'), (P72, 25, 25, 'SA01-3'), (P72, 26, 26, 'SA01-4'), (P72, 27, 29, 'SA01-8'), (P72, 30, 30, 'SA01-3'), (P72, 31, 32, 'SA01-4'),
+ (P72, 33, 33, 'SA01-1'), (P72, 34, 48, 'SA01-4'), (P72, 49, 52, 'SA01-7'), (P72, 53, 53, 'SA01-8'), (P72, 54, 81, 'SA01-5'), (P72, 82, 82, 'SA01-8'),
+ (P72, 83, 87, 'SA01-4'), (P72, 88, 88, 'SA01-8'), (P72, 89, 89, 'SA01-7'), (P72, 90, 102, 'SA01-3'), (P72, 103, 103, 'SA01-5'), (P72, 104, 104, 'SA01-6'),
+ (P72, 105, 105, 'SA01-8'), (P72, 106, 106, 'SA01-1'), (P72, 107, 109, 'SA01-8'), (P72, 110, 110, 'SA01-1'), (P72, 111, 112, 'SA01-8'),
+ (P72, 113, 115, 'SA01-3'), (P72, 116, 119, 'SA01-8'),
+ (P81, 1, 6, 'SA01-9'), (P81, 7, 27, 'SA01-10'), (P81, 28, 50, 'SA01-11'), (P81, 51, 77, 'SA01-12'),
+ (P81, 78, 80, 'SA01-11'), (P81, 81, 82, 'SA01-10'), (P81, 83, 85, 'SA01-12'), (P81, 86, 87, 'SA01-9'), (P81, 88, 88, 'SA01-12'), (P81, 89, 89, 'SA01-10'),
+ (P81, 90, 90, 'SA01-9'), (P81, 91, 91, 'SA01-11'),
+ (P81, 92, 93, 'SA01-10'), (P81, 94, 94, 'SA01-15'), (P81, 95, 96, 'SA01-11'), (P81, 97, 97, 'SA01-10'), (P81, 98, 101, 'SA01-11'), (P81, 102, 103, 'SA01-12'),
+ (P81, 104, 104, 'SA01-11'), (P81, 105, 105, 'SA01-12'), (P81, 106, 106, 'SA01-9'), (P81, 107, 111, 'SA01-15'), (P81, 112, 112, 'SA01-9'), (P81, 113, 113, 'SA01-15'),
+ (P81, 114, 116, 'SA01-9'),
+ (P83, 1, 13, 'SA01-2'), (P83, 14, 16, 'SA01-16'), (P83, 17, 18, 'SA01-2'), (P83, 19, 25, 'SA01-17'), (P83, 26, 30, 'SA01-18'), (P83, 31, 36, 'SA01-19'),
+ (P83, 37, 37, 'SA01-20'), (P83, 38, 40, 'SA01-18'), (P83, 41, 44, 'SA01-20'), (P83, 45, 45, 'SA01-19'), (P83, 46, 46, 'SA01-20'), (P83, 47, 47, 'SA01-19'),
+ (P83, 48, 63, 'SA01-21'), (P83, 64, 66, 'SA01-22'), (P83, 67, 69, 'SA01-21'), (P83, 70, 73, 'SA01-23'), (P83, 74, 74, 'SA01-2'), (P83, 75, 83, 'SA01-24'),
+ (P83, 84, 84, 'SA01-20'), (P83, 85, 86, 'SA01-19'), (P83, 87, 91, 'SA01-21'), (P83, 92, 97, 'SA01-26'),
+]
+HEADING_RULES = []
+DEFAULT_ITEM = {'work': 'SA01-27', 'codex': 'SA01-29', '*': 'SA01-8'}
+APPARATUS = {'SA01-8'}
+HIS = {'SA01-1': 'hyperpolyedre regulier epingle; realisation', 'SA01-3': 'forme quadratique invariante; antipodisme', 'SA01-9': 'pseudo-droite; positions relatives',
+       'SA01-11': 'caractere de parite; monodromie', 'SA01-12': 'schemas A1, A2, B1, B2; application naturelle', 'SA01-16': 'biicosaedre', 'SA01-17': 'extension lambda-scindee; produit *',
+       'SA01-18': 'algebre d\'Azumaya de rang 4', 'SA01-19': 'tau tau\' = Pi', 'SA01-21': 'cube; 28 variables', 'SA01-22': 'premier a 3', 'SA01-29': 'immersions du disque et de la circonference'}
+WORK_ITEM = {'K72-01': 'SA01-1', 'K72-02': 'SA01-3', 'K72-03': 'SA01-3', 'K72-04': 'SA01-4', 'K72-05': 'SA01-4', 'K72-06': 'SA01-1', 'K72-07': 'SA01-1',
+             'K83-01': 'SA01-27', 'K83-02': 'SA01-16', 'K83-03': 'SA01-24', 'K83-04': 'SA01-28', 'K83-05': 'SA01-28', 'K83-06': 'SA01-24', 'K83-07': 'SA01-28',
+             'K83-08': 'SA01-28', 'K83-09': 'SA01-27', 'K83-10': 'SA01-24', 'K83-11': 'SA01-27', 'K83-12': 'SA01-17', 'K83-13': 'SA01-21', 'K83-14': 'SA01-21'}
+for k in range(1, 8): WORK_ITEM[f'J81-0{k}'] = 'SA01-29'
+WORK_OBJECT = {'K72-01': 'the universal pinned combinatorial hyperpolyhedron over a base scheme (cote 72, scans 2-3)', 'K72-02': 'the diagonal values c_{i+1} = beta_i c_i of the invariant form (scan 18)',
+               'K72-03': 'the invariant conic and fixed spaces of products of reflections (scans 35-36)', 'K72-04': 'products, parity and the determinant recurrence (scans 51-52)',
+               'K72-05': 'forms and low-dimensional examples (scans 67, 69)', 'K72-06': 'invariant subspaces between spans and hyperplane intersections (scans 82-83)',
+               'K72-07': 'successive vectors under the pseudo-reflections and the products lambda_i (scans 98-100)', 'K83-01': 'codiagonals, frames and a torsor of frames (scan 46)',
+               'K83-02': 'orientation at p = 5 and the biicosahedron (scans 63-64)', 'K83-03': 'a cancelled diagram of six philosophical terms (scan 79)',
+               'K83-04': 'two quadratic algebras with vanishing discriminant (scan 96)', 'K83-05': 'the pair invariant rho = lambda + 1/lambda (scans 113-114)',
+               'K83-06': 'cancelled typescript on order and chaos (scan 129)', 'K83-07': 'square-zero quadratic algebras and the tensor of sections (scans 145-147)',
+               'K83-08': 'from a quadratic divisor to a quadratic algebra (scans 162-163)', 'K83-09': 'powers and traces of icosahedral matrices (scan 3)',
+               'K83-10': 'typescript on dreaming (scan 17)', 'K83-11': 'two elementary unipotent subgroups (scan 32)', 'K83-12': 'construction of a product with a lambda-splitting (scans 178-179)',
+               'K83-13': 'generators and a fourfold trace (scan 194)', 'K83-14': 'cube edges, face sums and the determinants (scans 209-219)'}
+WORK_SCANS = {'K72-01': '2-3', 'K72-02': '18', 'K72-03': '35-36', 'K72-04': '51-52', 'K72-05': '67,69', 'K72-06': '82-83', 'K72-07': '98-100', 'K83-01': '46',
+              'K83-02': '63-64', 'K83-03': '79', 'K83-04': '96', 'K83-05': '113-114', 'K83-06': '129', 'K83-07': '145-147', 'K83-08': '162-163', 'K83-09': '3',
+              'K83-10': '17', 'K83-11': '32', 'K83-12': '178-179', 'K83-13': '194', 'K83-14': '209-219'}
+CODEX_ITEM = {}
+CODEX_COTE = {'J81': '81', 'K72': '72', 'K83': '83'}
+OVERRIDE = {
+ P83 + '#66': dict(basis='passage-read', fidelity='agrees', note='C19; read 219 in the transcription; recomputed: det = 512 with the first reading -1, 384 with +1; det M = 27; credit Hua XIII p. 218'),
+ P83 + '#65': dict(basis='entry-read', note='C18; credits Hua XIII p. 210; agrees with Work K83-14 remark M211 (1024)'),
+ P83 + '#36': dict(basis='entry-read', note='A11; credits Hua XII pp. 188-191 and XIII; identity rechecked by computation (CHECK_EVENTS)'),
+ P72 + '#104': dict(basis='passage-read', fidelity='agrees', flag='suspected misreading', note='A15; transcription l. 65-70 of 72/036 read; same mismatch noted by Work K72-03 (S36)'),
+ 'work:K72-03#4': dict(item='SA01-6', basis='entry-read', note='Slips of K72-03; S36 is the same mismatch at 72/036 as Pro A15 (evaluated at theta = 0)'),
+ 'work:K83-14#4': dict(item='SA01-22', basis='entry-read', note='Slips of K83-14: 219 gives 512, not 728; agrees with Pro C19'),
+ 'work:K83-14#6': dict(item='SA01-22', basis='entry-read', note='Remarks of K83-14: M211 = 1024, R219 = 512, both agree with Pro C18-C19'),
+ P83 + '#1': dict(basis='entry-read', flag='LM/Derivateurs lens', note='Q01 itself says the leaves give no level-n polyhedron, no X(n) -> X(1), no five-point relation'),
+ P83 + '#2': dict(basis='entry-read', flag='LM/Derivateurs lens', note='Q02: identification with the modular map, conditional, from LM_140-2 and the register'),
+ P83 + '#71': dict(flag='LM/Derivateurs lens'), P83 + '#74': dict(flag='LM/Derivateurs lens'),
+ P72 + '#2': dict(flag='LM/Derivateurs lens'), P72 + '#23': dict(flag='LM/Derivateurs lens'),
+ P81 + '#1': dict(basis='entry-read', flag='a link across folders', note='C01; the package is cote 154, scans 46-76 (pseudolines), indexed in SA01 and SA11; no cote 81 scan in it'),
+}
+CROSS = {'SA01-9': 'SA11 (cote 154 pseudolines: MPL_154_001-045, 077-126, 127-176, K154); SA01 cote 80 (Systemes de pseudo-droites); Esquisse §8 (cote 119)',
+         'SA01-10': 'SA11 (same package)', 'SA01-11': 'SA11 (same package)', 'SA01-12': 'SA11 (same package); SA01-29 (immersions, cote 81)', 'SA01-15': 'SA11 (same package)',
+         'SA01-2': 'LM (La Longue Marche, cote 140) and the research register (B5, LM4 F.7); SA02/SA03 if they hold the Farey/dessins material', 'SA01-23': 'LM lifting gerbe (research register)',
+         'SA01-19': 'classical Fricke-type trace identities (literature, later sweep)', 'SA01-29': 'SA01-12 (the stable immersion model of cote 154)'}
+ITEM_FLAGS = {'SA01-2': 'LM/Derivateurs lens', 'SA01-23': 'LM/Derivateurs lens', 'SA01-6': 'suspected misreading', 'SA01-22': 'a link across folders (Pro and Work agree)',
+              'SA01-9': 'a link across folders (cote 154 under SA01 and SA11)'}
+FLAGS = [
+ ['a link across folders', 'SA01 MPL_81_038-055+154_046-076 (all 116 entries)', 'The package is cote 154, scans 46-76 (pseudoline arrangements); its cote 81 scans were omitted because the J81 Codex folders had transcribed them. The same 116 entries are indexed in SA01 and SA11; cote 154 belongs to SA11.', 'MPL_81_..._notes.md opening (Scope, evidence, and principal finding); SA11/TOPIC.md row 154'],
+ ['LM/Derivateurs lens', 'MPL_72_035-081#1-2, #23; MPL_83_178-222#1-13, #17-18, #71, #74', 'The requested questions read cotes 72 and 83 through La Longue Marche: level-n regular polyhedra as the Farey map on X(n) -> X(1), the B5 bridge, M_{0,5}, the LM lifting gerbe, the global tower. MPL 83 Q01 itself finds none of this on the leaves.', 'MPL_83_178-222_notes.md Q01-Q02; MPL_72_035-081_notes.md Bridge B5'],
+ ['suspected misreading', '72/036 foot (MPL_72_035-081#104 = A15; work:K72-03#4 = S36)', 'As transcribed, 2(2cos^2 theta_i + 1) = 4cos 2theta_i is false (Pro at theta = pi/3: 3 vs -2; Work at theta = 0: 6 vs 4). The underbrace "cos 2theta_i" needs 2cos^2 theta_i - 1; "+1" may be "-1", or it is his slip. Decide on the scan.', 'MPL_72_035-081_transcription.tex l. 65-70; K72-03_mathnotes.md l. 49'],
+ ['a link across folders', '83/219 (MPL_83_178-222#66 = C19; work:K83-14#4, #6)', 'Pro and Work, reading the same page separately, agree: the determinant is 512 with the first reading -1 of the overwritten entry (384 with +1), not his 27^2 - 1 = 728. Hua XIII p. 218 found it first. The "premier a 3" conclusion holds with -1 (512 = 2^9) and would fail with +1 (384 = 2^7 x 3), which favours the reading -1.', 'transcription scan 219; K83-14_mathnotes.md l. 54, 78; my computation'],
+ ['a link across folders', 'MPL_83_178-222#36 (A11)', 'His product polynomial Pi omits -4cc\'c\'\' (credited by Pro to Hua XII pp. 188-191 and XIII); with t = tr(yz), b = tr x, c = det x and cyclically, tr(xyz)tr(xzy) = Pi - 4cc\'c\'\' holds on 300 random integer triples; the propagation to the vertex product on 205 is the notes\' claim.', 'MPL_83_178-222_notes.md A11; my computation'],
+ ['a link across folders', 'K72-03, K72-04, K72-05 (scans 35-36, 51-52, 67-69) and K83-12, K83-13, K83-14 (178-179, 194, 209-219)', 'Six Work folders re-read pages of the Pro packages MPL_72_035-081 and MPL_83_178-222: two independent readings of the same pages, to compare page by page in sweep 2. Two comparisons made here agree (72/036, 83/219).', 'WORK_MATHNOTES_BY_TOPIC.tsv; the folders\' opening units'],
+ ['the same thing noted with different readings or statements', 'MPL_83_178-222#73 (X04), #27 (A02)', 'One symbol, two objects: his Delta is not the research register\'s Delta (X04); the same letter names two different bilinear forms on the pages (A02). Keep separate symbols in any later item.', 'MPL_83_178-222_notes.md X04, A02 headings'],
+ ['a link across folders', 'SA01-29 (J81, cote 81) and SA01-12 (cote 154 D10, D19)', 'Immersions of the disc and the circle (cote 81) and the stable immersion model of the pseudoline surface (cote 154) are probably one line of work; the Pro package named "81" holds only the latter.', 'package names; MPL_81 notes D10, D19 headings'],
+]
+CHECKS = [
+ [P83 + '#66', 'note checked against the page (scan 219) and claim checked by computation', 'agrees: det = 512 for the transcribed matrix (first reading -1), 384 with +1; det M = 27; not 728', 'SA01/pro/MPL_83_178-222_transcription.tex scanpage 219; MPL_83_178-222_notes.md C19'],
+ ['work:K83-14#4', 'note checked against the page (scan 219) and by computation', 'agrees (512 vs 728)', 'K83-14_mathnotes.md:54'],
+ [P83 + '#36', 'claim checked by computation (300 random integer triples of 2x2 matrices; variable meanings reconstructed)', 'agrees: tr(xyz)tr(xzy) = Pi - 4cc\'c\'\'; the written Pi fails in general (24 of 300 coincidences)', 'MPL_83_178-222_notes.md A11'],
+ [P72 + '#104', 'note checked against the page (72/036, transcription l. 65-70) and by computation', 'agrees: the written equality fails (3 vs -2 at theta = pi/3)', 'SA01/pro/MPL_72_035-081_transcription.tex:65-70'],
+ ['work:K72-03#4', 'note checked against the page (72/036) and by computation', 'agrees: 6 vs 4 at theta = 0', 'K72-03_mathnotes.md:49'],
+]
