@@ -49,8 +49,10 @@ The entries are leads, not results. Each one is worked through to a verdict: nei
   - `page_map.tsv`: for each page, which reading is which, and by whom.
   - `transcriptions/`: the whole of every folder this object occurs in, page by page. Use them to find his other
     statements on the object by searching for his words and his notation; do not read them through.
-- `OBJ_H00N_scans.zip`: the whole-page images of 8 pages the entries cite, from the archive's PDFs,
-  contrast-enhanced and sharpened: `<cote>_scanNNN.jpg`. Look at an image yourself wherever a reading
+- `OBJ_H00N_scans.zip`: the whole-page images of 8 pages, the object's span: the pages the entries cite and the
+  rest of his numbered sequences (Lemme 1, 2, ..., Proposition, Remarque) that hold them, from the archive's PDFs,
+  contrast-enhanced and sharpened: `<cote>_scanNNN.jpg`. `page_map.tsv` marks each page as cited or in the span.
+  Look at an image yourself wherever a reading
   decides a statement, and crop and enlarge the place in your sandbox. Reading software (OCR) is not a substitute for
   looking and is not used on these pages.
 - `OBJ_H00N_context.zip`: the subject's own context. It holds the catalogue of the topic, the neighbouring objects with their tags, and no text of his published work (none of ours matches these folders; find the passages of EGA, SGA or his papers that these pages draft or anticipate in the literature, and cite them by exact locator). It also holds `sweep3/SA11/`: the deep sweep of this topic (horizontal sweep 3, Claude Opus 5.5 at effort max, 18-19 Nov 2026; each file names its agent): `STUDY.md` (what the topic's pages and notes establish), `HUNCHES.md`, `RESEARCH_PACKAGES.md`, `CORRECTIONS.tsv` (readings and statements it corrected), `DEPENDS.tsv`, `CHECK_EVENTS.tsv` and `readings/` (passages it read in full, with their corrections). Build on it: what it settles is used and rechecked in use, not redone, and a correction of yours to it is a row of your tables; where it and the ink disagree, the ink decides.
@@ -63,13 +65,15 @@ Unzip every attachment except `OBJ_H00N_results.zip` in your sandbox.
 
 1. Write the current time (UTC) as the first line of `progress.log`.
 2. **His statements.** Read every entry and the passages it cites. Then gather every statement of his on the object:
-   in the cited pages, and, by searching `transcriptions/` for his names and notation, on the other pages of these
-   folders. A statement is a claim, a definition with what he claims of it, a construction, a computation, a
+   in the cited pages, in the rest of the span (the attached images and their pages in `transcriptions/`), and, by
+   searching `transcriptions/` for his names and notation, on the other pages of these folders. A statement is a claim, a definition with what he claims of it, a construction, a computation, a
    question, a conjecture, a hope or a doubt. For each, record:
    - its id (`H00N.<n>`);
    - its locator: cote, scan and the line on the page, counted from the top (`22/020.3`);
-   - his words, as a short quotation;
-   - his date, where the folder or the page gives one.
+   - his statement in his notation and order: his short quotations joined by a close paraphrase, enough to read the
+     statement without the page;
+   - his date, where the folder or the page gives one;
+   - how he left it: stated, proved on the page, sketched, asked, hoped, cancelled, or programme.
 
    Keep his order and his notation.
 3. **The ink decides the reading; the mathematics raises the alarm.** In earlier controls, the mathematically
@@ -83,6 +87,10 @@ Unzip every attachment except `OBJ_H00N_results.zip` in your sandbox.
 
    Record every such place in `READINGS.tsv`, whatever its outcome. This run does not rewrite the transcription: a
    folder pass with the full scans settles the readings, and these rows are its leads.
+
+   Where your reading differs from the supplied reading of the page (`PASSAGES.md`, `transcriptions/`) by an
+   insertion, a deletion or a word, the `READINGS.tsv` row quotes the supplied reading and says what the ink shows. No
+   statement is called false on a reading that leaves out part of the supplied reading without such a row.
 4. **The mathematics.** For each statement, write today's precise statement with every hypothesis, and mark what in
    it is your reconstruction rather than his. Then decide it (section "What the outcome must be"):
    - redo every computation of his that it rests on, by hand where it is small and by program where a computer
@@ -126,13 +134,34 @@ deliver it; this check takes precedence over the sentence above about untried ap
 row of the ledger. A construction or a definition is an item through what he claims of it: that it is well defined,
 and the properties he states. A computation is an item through its result. **The main question** is the object's
 central statement: the claim or question of his that the other items serve, or, where none stands out, the statement
-the most other items depend on. Name it at the top of the ledger.
+the most other items depend on. Name it at the top of the ledger. A programme, or a question whose terms the page
+leaves undefined, is an item through the precise versions the page supports: each version is its own row, and each
+version must itself be proved (a) or refuted (b) like any other item. The programme's own row records what it asks and
+the definitions it would need, with the status *programme*. That status describes the programme; it never finishes an
+item, and its versions stay rows of the ledger until each is decided.
 
 For each item:
 - (a) proved: by a complete proof of yours, checked a second time independently; or in the literature: the exact
   statement and its locator (theorem and page) in a source you opened, with its hypotheses matched to his;
 - (b) refuted: a counterexample with every hypothesis checked, then the corrected statement (the version he most
   likely had in mind, and the strongest version that is true), with its complete proof.
+
+**Status words.** A status says first whether his statement holds as he wrote it, read in the sense his terms had when
+he wrote: EGA, SGA, FGA and the Séminaire Bourbaki define most of them (give the locator).
+- *True as written*: his statement, as he wrote it, is proved (a).
+- *Slip*: the statement holds once an evident slip of the pen or an omitted standard convention is fixed (a nonzero
+  ring, a positive exponent, the open set he has just introduced). Name it, give the evidence on his pages (the same
+  condition elsewhere, the notation just introduced), mark the judgement as ours, and put the counterexample to the
+  literal wording in `PROOFS.tex`.
+- *False*: his mathematics fails as he meant it. Give the counterexample and the corrected statement, with its proof.
+- *Known*: proved in the literature, with the exact statement and its locator.
+- *Open*: only the label of a row that is still undecided in the final package when the progress check stops the work
+  or the session ends; never an outcome you choose.
+
+A slip and a false statement are decided outcomes (b), so nothing is lowered. A term whose modern sense differs from
+his (fibré vectoriel, préschéma, proreprésentable, faisceau fondamental) is translated, never refuted. A status never
+reads "proved in a reconstruction": it says whether his statement holds as written, and your reconstruction stands
+beside it.
 
 Partly settled is not an outcome. The cases proved, the computations run, the obstruction as an exact statement and
 the smallest undecided instance are the state of an item you are still working on: record them as you go, then attack
@@ -198,19 +227,31 @@ One zip file, `OBJ_H00N.zip`, offered as the only download, holding:
 1. `ENTRY.md`, the entry, in English (his words in his language, as written):
    1. the object in his terms (his names and notation) and in today's terms;
    2. where he writes about it: the folders and pages, with their dates, in his order;
-   3. his statements: for each, its id, locator and short quotation; today's precise statement with every
-      hypothesis; and its status line (proved, with where the proof is; known, with the reference and locator; false,
-      with the counterexample and the corrected statement; or open, with the state reached), the check and the
-      confidence;
-   4. the groundwork a reader needs beside his words: the definitions, the results he uses (by exact locator), the
-      steps he leaves implicit, and what was known when he wrote;
+   3. his statements: for each, its id and locator; first his statement as he wrote it (`his_words`) and how he left
+      it; then today's precise statement with every hypothesis; and its status line in the status words above (true
+      as written, with where the proof is; slip, with the slip named and its evidence; false, with the counterexample
+      and the corrected statement; known, with the reference and locator; or open, with the state reached), the check
+      and the confidence;
+   4. the groundwork a reader needs beside his words: the definitions, the terms of his time with the definitions his
+      sources gave them (EGA, SGA, FGA, the Séminaire Bourbaki, by locator), the results he uses (by exact locator),
+      the steps he leaves implicit, and what was known when he wrote (the results of the period he used or could have
+      used, cited as they were published then);
    5. what became of it: in his published work (EGA, SGA, his papers), in the work of others, and what is open today,
       with dates and exact references;
-   6. links to the other objects, by tag (`OBJECTS_NEARBY.tsv` in the context lists them);
+   6. links to the other objects, by tag (`OBJECTS_NEARBY.tsv` in the context lists them with the sweep's statements
+      of each, so that a link can name its evidence: the statement of the other object and the place in these pages
+      that it bears on);
    7. the entries: how many, and their verdicts in brief;
    8. our results that bear on it (from step 6), kept apart from the rest;
-2. `STATEMENTS.tsv`, one row per statement, with the columns `id, tag, locator, his_words, date, statement,
-   reconstruction, status, proof_or_reference, later, check_events, confidence`;
+2. `STATEMENTS.tsv`, one row per statement, with the columns `id, tag, locator, his_words, date, as_he_left_it,
+   statement, reconstruction, status, proof_or_reference, later, check_events, confidence`:
+   - `his_words`: his statement in his notation and order, his short quotations joined by a close paraphrase, enough
+     to read the statement without the page (not a label such as « Théorème 12 »);
+   - `as_he_left_it`: stated / proved on the page / sketched / asked / hoped / cancelled / programme;
+   - `status`: one of the status words above;
+   - `later`: what became of the statement (in his published work, in the work of others, today), never a pointer to
+     our proof;
+   - `confidence`: for this row, with its reason;
 3. `PROOFS.tex`: every proof and every counterexample in full, one section per statement id, as a LaTeX fragment;
 4. `NOTES_VERDICTS.tsv` (step 5), with the columns `entry_id, anchor, mathematics, placed, reason, right_object`;
 5. `READINGS.tsv` (step 3), with the columns `cote, scan, line, reading, what_the_mathematics_expects, scan_shows,

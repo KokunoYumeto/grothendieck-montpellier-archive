@@ -767,8 +767,7 @@ def build(uid, rows, D, variants="AB", cache=None, folders=None):
                   f"Upload every file of this folder except this README in a new ChatGPT chat with GPT-6 Astra in Pro mode, "
                   f"`PROMPT.md` as a file, no text typed. Range {u['unit']} of the folder: {len(m['pages'])} pages"
                   + (f" ({len(m['missing'])} with no reading yet, transcribed first: scans {O.compress(m['missing'])})" if m["missing"] else "")
-                  + f"; {u['basis']}; {len(m['ents'])} note entries; {m['nimg']} images; expected {u['expected_minutes']} "
-                  f"minutes (estimate, until the pilot measures it). Images: "
+                  + f"; {u['basis']}; {len(m['ents'])} note entries; {m['nimg']} images, "
                   f"{sum(v_ for kk, v_ in sizes.items() if 'scans' in kk):.1f} MB.\n\n"
                   f"Folder: « {m['title']} » ({W.MAN[m['cote']]['date']}).\n\n## Files\n\n"
                   + "\n".join(f"- `{n_}` ({sizes[n_]} MB)" for n_ in sizes if n_ != "README.md") +

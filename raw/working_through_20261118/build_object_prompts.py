@@ -194,8 +194,74 @@ def cotes_scans_text(pages):
     return "; ".join(f"{c}: {compress(v)}" for c, v in sorted(by.items(), key=lambda kv: W.cote_key(kv[0])))
 
 
-def est_minutes(n, words, pages):
-    return int(round(10 + 1.2 * n + 0.5 * words / 1000 + 0.5 * min(pages, 30)))
+NUM_RX = re.compile(r"(?<![A-Za-zà-ÿ])(?:Lemme|Proposition|Prop\.|Th[ée]or[èe]me|Th\.|Corollaire|"
+                    r"Cor\.|Remarque|Rem\.|D[ée]finition|D[ée]f\.|Exemple|Scholie)\s*\}?\s*\.?\s*"
+                    r"(?:\\u{1,2}line\{\s*)?(\d{1,3})(?:\s*\.\s*(\d{1,3}))?(?!\d)")
+SPAN_EXTRA = 40
+_NUM = {}
+
+
+def numbered(cote, idx):
+    """scan -> the numbers of the statements that open a line on the page ((major, minor) pairs), from the reading a
+    pass starts from"""
+    if cote not in _NUM:
+        out = {}
+        for s in W.scans_of(cote):
+            f = W.first_reading(idx.get((cote, s), []))
+            if f:
+                ns = [(int(a), int(b or 0)) for a, b in NUM_RX.findall(W.page_text(f))]
+                if ns:
+                    out[s] = ns
+        _NUM[cote] = out
+    return _NUM[cote]
+
+
+def sequences(cote, idx):
+    """[(first scan, last scan)] of his numbered sequences: pages carrying statement numbers (Lemme 1, Proposition 9,
+    Remarque 21, ...), with gaps of at most five pages; a page whose numbers all lie below the sequence's highest is a
+    back-reference and is passed over; a page that starts again at 1 or 2 after the sequence reached 4 starts a new one"""
+    num = numbered(cote, idx)
+    seqs, cur = [], None
+    for s in sorted(num):
+        lo, hi = min(num[s]), max(num[s])
+        if cur and s - cur[1] <= 5:
+            if hi >= cur[2]:
+                cur[1], cur[2] = s, hi
+                continue
+            if not (lo[0] <= 2 and hi[0] <= 2 and cur[2][0] >= 4):
+                continue
+        if cur:
+            seqs.append((cur[0], cur[1]))
+        cur = [s, s, hi]
+    if cur:
+        seqs.append((cur[0], cur[1]))
+    return [q for q in seqs if q[1] > q[0]]
+
+
+def object_span(pages, idx):
+    """B2 of the verdict on OBJ_H035 (19 Nov 2026): the pages the entries cite, extended over the numbered sequences of
+    his statements that hold them, with at most SPAN_EXTRA pages added, nearest to a cited page first"""
+    pages = set(pages)
+    by = collections.defaultdict(set)
+    for c, s in pages:
+        by[c].add(s)
+    extra = set()
+    for c, ss in by.items():
+        for a, b in sequences(c, idx):
+            if any(a - 1 <= s <= b + 1 for s in ss):
+                extra.update((c, x) for x in W.scans_of(c) if a <= x <= b and (c, x) in idx)
+    extra -= pages
+    if len(extra) > SPAN_EXTRA:
+        def dist(cs):
+            return min((abs(cs[1] - s) for s in by[cs[0]]), default=999)
+        extra = set(sorted(extra, key=lambda cs: (dist(cs), W.cote_key(cs[0]), cs[1]))[:SPAN_EXTRA])
+    return pages | extra
+
+
+def est_minutes(span_pages, open_entries):
+    """B1 of the verdict on OBJ_H035, for scheduling only (never in a prompt or its README): 15 minutes plus 5.5 a page
+    of the object's span, plus 60 when an entry carries an open question (the tail under the progress check)"""
+    return int(round(15 + 5.5 * span_pages + (60 if open_entries else 0)))
 
 
 def merged_groups(objs, items):
@@ -309,7 +375,7 @@ def make_units(objs, items, idx):
 
 PLAN_COLS = ["rank", "prompt_id", "kind", "tags", "objects", "topic", "vertical_touched", "cote", "year", "first_scan",
              "cotes_scans", "entries", "pro_entries", "work_entries", "codex_entries", "entry_words", "pages_cited",
-             "open_question_entries", "expected_minutes", "status_on_pages", "eligible", "reason", "built"]
+             "open_question_entries", "span_pages", "expected_minutes", "status_on_pages", "eligible", "reason", "built"]
 
 
 def plan():
@@ -328,7 +394,9 @@ def plan():
                         cotes_scans=cotes_scans_text(u["pages"]), entries=len(rows), pro_entries=sc["pro"],
                         work_entries=sc["work"], codex_entries=sc["codex"], entry_words=words, pages_cited=len(u["pages"]),
                         open_question_entries=sum(1 for r in rows if OPEN_KIND.search(r["kind"] or "")),
-                        expected_minutes=est_minutes(len(rows), words, len(u["pages"])) if u["kind"] != "excluded" else "",
+                        span_pages=len(sp) if (sp := object_span(u["pages"], idx) if u["kind"] != "excluded" else None) is not None else "",
+                        expected_minutes=est_minutes(len(sp), sum(1 for r in rows if OPEN_KIND.search(r["kind"] or "")))
+                        if sp is not None else "",
                         status_on_pages=" | ".join(objs[t]["row"].get("status_on_pages", "") for t in u["tags"])[:200],
                         eligible="no" if u["kind"] == "excluded" else "yes", reason=u.get("reason", ""),
                         built=str(built.relative_to(HERE)).replace("\\", "/") if built.exists() else ""))
@@ -493,15 +561,24 @@ def build(uid, units, objs, items, idx, folder=None):
             pas.append(f"\n**Witness H** (`{hb}`):\n\n```latex\n{ht.strip()}\n```\n")
         pm.append(dict(cote=c, scan=s, cited_by=cite[(c, s)], first_reading=(f"{route_name(f)} {f['id']}" if f else "none"),
                        first_model=f["model"] if f else "", other_readings="; ".join(f"{route_name(x)} {x['id']} ({x['model']})" for x in others),
-                       hua=(W.hua(c).get(s) or ("nothing",))[0], image=""))
-    # images: the pages cited most, then in page order
-    pick = sorted(pages, key=lambda cs: (-cite[cs], W.cote_key(cs[0]), cs[1]))[:MAX_SCANS]
-    pick = sorted(pick, key=lambda cs: (W.cote_key(cs[0]), cs[1]))
-    groups = []
-    for c, s in pick:
+                       hua=(W.hua(c).get(s) or ("nothing",))[0], image="", page="cited"))
+    # images (B2 of the verdict on OBJ_H035, 19 Nov 2026): every page of the object's span, whole, in page order
+    span = sorted(object_span(pages, idx), key=lambda cs: (W.cote_key(cs[0]), cs[1]))
+    for c, s in span:
+        if (c, s) not in cite:
+            rd = idx.get((c, s), [])
+            f = W.first_reading(rd)
+            pm.append(dict(cote=c, scan=s, cited_by=0, first_reading=(f"{route_name(f)} {f['id']}" if f else "none"),
+                           first_model=f["model"] if f else "",
+                           other_readings="; ".join(f"{route_name(x)} {x['id']} ({x['model']})" for x in rd if x is not f),
+                           hua=(W.hua(c).get(s) or ("nothing",))[0], image="", page="span"))
+    pm.sort(key=lambda r: (W.cote_key(r["cote"]), r["scan"]))
+    groups, imaged = [], set()
+    for c, s in span:
         im = W.page_images(c, s, pieces=0)
         if im:
             groups.append([(f"{c}_scan{s:03d}.jpg", im[0][1])])
+            imaged.add((c, s))
             for r in pm:
                 if r["cote"] == c and r["scan"] == s:
                     r["image"] = f"{c}_scan{s:03d}.jpg"
@@ -513,8 +590,10 @@ def build(uid, units, objs, items, idx, folder=None):
         tr.append((f"transcriptions/cote_{c}.tex", txt.encode("utf-8")))
         trsrc[c] = srcs
     pz = [("README.md", (f"# The pages of {S}\n\n- `PASSAGES.md`: every page the entries cite, with every reading on disk "
-                         "and witness H.\n- `page_map.tsv`: per page, the readings, Hua's state (`text`, `desc` = only a "
-                         "description, `nothing`) and the image attached, if any.\n- `transcriptions/cote_<C>.tex`: the whole "
+                         "and witness H.\n- `page_map.tsv`: per page of the object's span, whether the entries cite it "
+                         "(`cited`) or it belongs to the numbered sequence that holds the cited pages (`span`; its reading is "
+                         "in `transcriptions/`), the readings, Hua's state (`text`, `desc` = only a "
+                         "description, `nothing`) and the image attached.\n- `transcriptions/cote_<C>.tex`: the whole "
                          "folder, each page in the reading a pass starts from, with a comment naming it.\n- `PREAMBLE.tex`: "
                          "our macros.\n").encode()),
           ("PASSAGES.md", "".join(pas).encode("utf-8")),
@@ -539,9 +618,13 @@ def build(uid, units, objs, items, idx, folder=None):
         if o["row"].get("theme") and o["row"]["theme"] in themes:
             rel.append("same theme " + o["row"]["theme"])
         if rel:
+            # B4 of the verdict on OBJ_H035: the statements, so that a link can carry its evidence
+            st = list(dict.fromkeys(items[i]["statement"].strip() for i in o["items"]
+                                    if i in items and (items[i].get("statement") or "").strip()))
             near.append(dict(tag=t, relation="; ".join(rel), object=o["row"]["object"], topics=o["row"]["topics"],
                              entries=o["row"]["n_entries"], cotes_scans=o["row"]["cotes_scans"][:200],
-                             status_on_pages=o["row"]["status_on_pages"][:120]))
+                             status_on_pages=o["row"]["status_on_pages"][:120],
+                             statements=" || ".join(st)[:1500]))
     cfiles, clist = [], []
     for t in topics:
         p = W.HIN / t / "TOPIC.md"
@@ -553,7 +636,7 @@ def build(uid, units, objs, items, idx, folder=None):
                 cfiles.append((arc, src.read_bytes()))
                 clist.append(f"`{arc}`: {desc}")
     cfiles.append(("OBJECTS_NEARBY.tsv", W.tsv(near, ["tag", "relation", "object", "topics", "entries", "cotes_scans",
-                                                     "status_on_pages"]).encode("utf-8")))
+                                                     "status_on_pages", "statements"]).encode("utf-8")))
     th = [x for x in W.csv.DictReader(open(W.SWEEP / "GLOBAL/THEMES.tsv", encoding="utf-8"), delimiter="\t") if x["theme"] in themes]
     if th:
         cfiles.append(("THEMES.tsv", W.tsv(th, list(th[0].keys())).encode("utf-8")))
@@ -564,8 +647,9 @@ def build(uid, units, objs, items, idx, folder=None):
         s3_lines.append(W.SWEEP3_LINE.format(t=t))
     readme_c = (f"# The context of {S}\n\n- `topics/<SA>_TOPIC.md`: the catalogue of each topic the entries come from (cotes, "
                 "titles, what is transcribed and by which route).\n- `OBJECTS_NEARBY.tsv`: the other objects of the same "
-                "topics, and those the sweep linked to this one or put in the same theme, with their tags: the links of "
-                "the entry are made to these tags.\n" + ("- `THEMES.tsv`: the sweep's theme rows.\n" if th else "")
+                "topics, and those the sweep linked to this one or put in the same theme, with their tags and the "
+                "sweep's statements of each (`statements`, separated by ` || `): the links of the entry are made to "
+                "these tags, with the statement that is their evidence.\n" + ("- `THEMES.tsv`: the sweep's theme rows.\n" if th else "")
                 + "".join(f"- {x}\n" for x in clist) + "".join(f"- {x}.\n" for x in s3_lines))
     cfiles.insert(0, ("README.md", readme_c.encode("utf-8")))
     ctx_names = W.zip_parts(folder, f"{S}_context", cfiles)
@@ -623,7 +707,7 @@ def build(uid, units, objs, items, idx, folder=None):
         sf = ", ".join(f"`{n}`" for n in scan_names[:-1]) + f" and `{scan_names[-1]}` (unpack them into the same folder)"
     else:
         sf = f"`{scan_names[0]}`" if scan_names else "(no images)"
-    left = len(pages) - len(groups)
+    left = sum(1 for cs in pages if cs not in imaged)
     rep = {"{S}": S,
            "{TITLE_OBJECTS}": (f"{len(u['tags'])} objects ({', '.join(u['tags'])})" if multi else u["tags"][0] + ", " + short_name(u["objects"][0]) + (f" (part {re.findall(r'[0-9]+', u['kind'])[0]})" if u["kind"].startswith("part") else "")),
            "{OBJECT_LIST}": "\n".join(olist), "{SCOPE}": scope,
@@ -648,9 +732,8 @@ def build(uid, units, objs, items, idx, folder=None):
     sizes = {p.name: round(p.stat().st_size / 1e6, 2) for p in sorted(folder.iterdir())}
     readme = (f"# {S}: the foundational entry for {', '.join(u['tags'])} (ChatGPT Pro upload folder)\n\n"
               f"Upload every file of this folder except this README in a new ChatGPT chat with GPT-6 Astra in Pro mode, "
-              f"`PROMPT.md` as a file, no text typed. {len(rows)} entries, {len(pages)} pages cited, {len(groups)} images; "
-              f"expected {est_minutes(len(rows), sum(r['words'] for r in rows), len(pages))} minutes (estimate, until the "
-              f"pilot measures it). Kind: {u['kind']}.\n\n## The objects\n\n" + "\n".join(olist) + "\n\n## Files\n\n"
+              f"`PROMPT.md` as a file, no text typed. {len(rows)} entries, {len(pages)} pages cited, a span of "
+              f"{len(span)} pages, {len(groups)} images. Kind: {u['kind']}.\n\n## The objects\n\n" + "\n".join(olist) + "\n\n## Files\n\n"
               + "\n".join(f"- `{n}` ({sizes[n]} MB)" for n in files if n != "README.md") +
               "\n\n## Context (the subject's own, chosen by rule)\n\n" + readme_c.split("\n", 2)[2] +
               f"\n## Results (opened last by the run)\n\n- {len(hit)} statements of our runs whose `his_places` cite these folders.\n\n"
@@ -666,7 +749,9 @@ def build(uid, units, objs, items, idx, folder=None):
               f"5.5 at effort max). Lint (--lint-math): {'pass' if ok else 'FAIL'}.\n")
     (folder / "README.md").write_text(readme, encoding="utf-8", newline="\n")
     bj = dict(id=S, kind=u["kind"], tags=u["tags"], entries=len(rows), pages=len(pages), images=len(groups),
-              privacy=dict(W.PRIVACY), expected_minutes=est_minutes(len(rows), sum(r['words'] for r in rows), len(pages)),
+              privacy=dict(W.PRIVACY), span_pages=len(span),
+              span=cotes_scans_text(span),
+              expected_minutes=est_minutes(len(span), sum(1 for r in rows if OPEN_KIND.search(r["kind"] or ""))),
               topic=u["topic"],
               sizes_mb=sizes, lint=msg, ok=ok and all(v < 450 for v in sizes.values()) and len(files) <= 20,
               results_rows=len(hit), context=clist, built=f"{W.NOW():%Y-%m-%d %H:%M:%SZ}",

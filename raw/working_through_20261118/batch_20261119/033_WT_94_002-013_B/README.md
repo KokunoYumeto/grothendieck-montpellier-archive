@@ -1,6 +1,6 @@
 # WTB_94_002-013: cote 94, scans 2-13, variant B, the foundational check (the mathematics, the scan checks and the verdicts; no companion writing) (ChatGPT Pro upload folder)
 
-Upload every file of this folder except this README in a new ChatGPT chat with GPT-6 Astra in Pro mode, `PROMPT.md` as a file, no text typed. Range 1 of 2 of the folder: 12 pages; draft units of K94-01; 6 note entries; 48 images; expected 42 minutes (estimate, until the pilot measures it). Images: 18.3 MB.
+Upload every file of this folder except this README in a new ChatGPT chat with GPT-6 Astra in Pro mode, `PROMPT.md` as a file, no text typed. Range 1 of 2 of the folder: 12 pages; draft units of K94-01; 6 note entries; 48 images, 18.3 MB.
 
 Folder: « Dualité des modules / Construction de faisceaux de modules : notes manuscrites (s.d.). » ([à partir de 1965][83]).
 
@@ -26,7 +26,7 @@ Folder: « Dualité des modules / Construction de faisceaux de modules : notes m
 
 ## Nodes
 
-- 6 entries on these pages; 0 related entries in the concordance; 0 check-register rows; 14 draft units.
+- 6 entries on these pages; 0 related entries in the concordance; 1 check-register rows; 14 draft units.
 
 ## Results (opened last by the run)
 
@@ -35,4 +35,4 @@ Folder: « Dualité des modules / Construction de faisceaux de modules : notes m
 ## Provenance
 
 - **Scans:** Université de Montpellier, fonds Grothendieck (grothendieck.umontpellier.fr); cotes and scan numbers are theirs; rendered from the archive PDFs as in the first-pass packages (largest image, autocontrast, unsharp mask, JPEG 88), whole and in three overlapping strips.
-- **Built** 2026-11-19 01:15 UTC by `working_through_20261118/build_working_through.py` (Claude Opus 5.5 at effort max). Lint (--lint-math): pass.
+- **Built** 2026-11-19 12:19 UTC by `working_through_20261118/build_working_through.py` (Claude Opus 5.5 at effort max). Lint (--lint-math): pass.
