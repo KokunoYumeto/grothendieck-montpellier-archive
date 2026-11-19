@@ -1,0 +1,456 @@
+# SA05 — ranked directions for later work
+
+These are proposed tasks arising from the completed consolidation, dated **19 November 2026**. None is developed here. The counterexamples, recomputations and proof checks in the dossier belong to the verification of existing assertions, not execution of these future tasks. Each task below names its items, claims and problem records; the latter provide exact source and literature references.
+
+Interest and reach use separate ordinal scores from1 to5:5 is highest. The overall order weighs centrality to the manuscript, mathematical value and the likelihood of a useful result in a run of a few hours. It is an editorial ranking, not a measured score. A source-access dependency can lower immediate reach even when a reading is mathematically decisive.
+
+| Rank | Direction | Interest | Reach in a few hours |
+|---:|---|:---:|:---:|
+| 1 | A common convention for graded correspondences and exchange | 5/5 | 5/5 |
+| 2 | A concordance of weight, level, coniveau and the two dimension filtrations | 5/5 | 5/5 |
+| 3 | Corrected global and local bounds for varying geometric coefficients | 5/5 | 5/5 |
+| 4 | The kernel of the realized diagonal algebra | 5/5 | 4/5 |
+| 5 | Coherent integral lattices and rationalization | 5/5 | 4/5 |
+| 6 | Weight-one essential image, extension and purity: an exact case table | 5/5 | 4/5 |
+| 7 | The absolute unit and its finite-field comparison | 5/5 | 4/5 |
+| 8 | Sha, Brauer and constant Jacobians with degree conventions fixed | 5/5 | 4/5 |
+| 9 | Analytic Galois Lie algebras versus algebraic monodromy | 5/5 | 4/5 |
+| 10 | Primitive Tate strings and the two associated graded rings | 4/5 | 5/5 |
+| 11 | A Karoubi-envelope companion with a separate geometric application test | 4/5 | 5/5 |
+| 12 | Integral quadric normalizations and degeneration | 4/5 | 5/5 |
+| 13 | The nested-torus assertion and its maximal-torus correction | 4/5 | 5/5 |
+| 14 | The determinant series and endomorphism Grothendieck ring | 4/5 | 5/5 |
+| 15 | Positive cones and the precise semisimplicity mechanism | 4/5 | 4/5 |
+| 16 | Fibre-functor torsors, neutrality and arithmetic splitting | 4/5 | 4/5 |
+| 17 | The general-base programme and modern six operations | 4/5 | 4/5 |
+| 18 | Restricted birational reconstruction and the scissors quotient | 4/5 | 3/5 |
+| 19 | Finite-set reconstruction versus Frobenius and special power systems | 4/5 | 4/5 |
+| 20 | Curve reduction with the corrected late type target | 4/5 | 3/5 |
+| 21 | The relative L-function programme with generic-fibre equivalence fixed | 4/5 | 3/5 |
+| 22 | A versioned audit of the2026 abelian implications | 4/5 | 4/5 |
+| 23 | The exact total-space integrality question in the cancelled EGA draft | 4/5 | 3/5 |
+| 24 | The separating-family and generic-freeness draft | 4/5 | 4/5 |
+| 25 | Nilpotent density and its inherited hypothesis | 4/5 | 4/5 |
+| 26 | Delzant’s two questions and the exact comparison maps | 3/5 | 5/5 |
+| 27 | Rational attainment in the GIT exercise | 3/5 | 5/5 |
+| 28 | GIT physical pagination and the determinant-cone continuation | 3/5 | 4/5 |
+| 29 | The reflection typescript: faulty equality, valid corollary and provenance | 3/5 | 4/5 |
+| 30 | The two reported Deligne manuscripts and their chronology | 3/5 | 3/5 |
+| 31 | The selected-map and nonadditive variants as exact axiom questions | 3/5 | 3/5 |
+| 32 | The English cycle-class sheet and its conventions | 3/5 | 3/5 |
+| 33 | The pure-category presentation and its omitted compatibilities | 3/5 | 3/5 |
+| 34 | Two decisive readings before further local arguments | 4/5 | 1/5 |
+
+## 1. A common convention for graded correspondences and exchange
+
+**Origin.** Items SA05-1005, SA05-1011, SA05-1012, SA05-1022, SA05-2006, SA05-2007, SA05-2018; claims SA05-C1001, SA05-C1002, SA05-C1003, SA05-C1004, SA05-C1005, SA05-C1006, SA05-C1007, SA05-C1022, SA05-C1023, SA05-C1024, SA05-C1025, SA05-C2003, SA05-C2004, SA05-C2005, SA05-C2006, SA05-C2013; problems MP-SA05-1001, MP-SA05-1002, MP-SA05-1008, MP-SA05-1009, MP-SA05-2002, MP-SA05-2005.
+
+**Would establish.** A single variance, degree, symmetry and gauge convention supporting composition, units, graphs and tensor products, with every exchange square stated.
+
+**Known input and boundary.** The ordinary even construction is established; the all-degree tensor formula was itself rejected in the manuscript. A Cartesian square alone does not imply the required exchange identity in an arbitrary gauged category. Hua’s checked theorem is ungraded and has explicit axioms.
+
+**First concrete step.** Tabulate the maps and degrees at11/002–012 and044–048, list the squares used by the associativity and graph proofs, and choose one odd-degree test object.
+
+**One-run outcome.** A complete convention and finite axiom inventory is realistic. A general new base-change theorem is outside this task.
+
+## 2. A concordance of weight, level, coniveau and the two dimension filtrations
+
+**Origin.** Items SA05-5, SA05-8, SA05-38, SA05-40, SA05-54, SA05-3018, SA05-3025, SA05-3026; claims SA05-C6, SA05-C9, SA05-C50, SA05-C53, SA05-C3021, SA05-C3022, SA05-C3033, SA05-C3034, SA05-C3035, SA05-C3036; problems MP-SA05-02, MP-SA05-15, MP-SA05-16, MP-SA05-3006, MP-SA05-3013, MP-SA05-3021.
+
+**Would establish.** A definition and implication table showing which filtration is used on each leaf, how Tate twist acts, and what a realization theorem actually implies.
+
+**Known input and boundary.** Early D is Tate-stable; late type is bounded untwisted source dimension. Hodge and weight bounds do not by themselves identify geometric motivic level or coniveau. The2026 abelian statements affect specified subcases only.
+
+**First concrete step.** Place the generators at12/035–036 beside12/125, then compare the unit, the Tate line, elliptic H1 and a normal-crossing top class before mapping theorem dependencies.
+
+**One-run outcome.** A reliable concordance and hypothesis graph can be completed in hours. Equality of the general conjectural filtrations cannot be inferred from it.
+
+## 3. Corrected global and local bounds for varying geometric coefficients
+
+**Origin.** Items SA05-62, SA05-3015, SA05-3016, SA05-3022, SA05-3024; claims SA05-C75, SA05-C76, SA05-C3015, SA05-C3017, SA05-C3028, SA05-C3030, SA05-C3032; problems MP-SA05-18, MP-SA05-3005, MP-SA05-3010.
+
+**Would establish.** An exact table of valid coarse bounds, disproved sharper bounds and the separate surviving coefficient-level questions.
+
+**Known input and boundary.** Legendre satisfies the relevant strict geometric coefficient hypothesis and gives the obstructing weight4 or weight0 terms. Constant coefficients, finite monodromy, boundary unipotence and arithmetic invariants require different statements.
+
+**First concrete step.** Write the local and global hypotheses side by side and preserve the documentary change from assertion at51 to question at108; then choose one corrected target with a specified monodromy condition.
+
+**One-run outcome.** A short counterexample-and-correction companion is feasible. A new general geometric-level theorem requires additional input.
+
+## 4. The kernel of the realized diagonal algebra
+
+**Origin.** Items SA05-2010, SA05-2012, SA05-2014; claims SA05-C2007, SA05-C2008, SA05-C2009, SA05-C2010, SA05-C2011, SA05-C2012, SA05-C2013; problems MP-SA05-2003, MP-SA05-2004.
+
+**Would establish.** The relation ideal of the diagonal diagram algebra in one fixed graded Poincaré algebra and number of factors.
+
+**Known input and boundary.** The audited P1 example disproves the unrestricted word “basis”; it does not classify the kernel. Hua’s multigraph multiplication rule does not assert faithfulness of every realization.
+
+**First concrete step.** Fix a coefficient field, a normalized top class and a model with nonzero odd cohomology, and specify the realization homomorphism before seeking relations.
+
+**One-run outcome.** A small explicitly bounded case is realistic; arbitrary varieties and all factor counts are a separate research programme.
+
+## 5. Coherent integral lattices and rationalization
+
+**Origin.** Items SA05-3035, SA05-3036, SA05-3037, SA05-3038, SA05-3039, SA05-3063; claims SA05-C3041, SA05-C3042, SA05-C3043, SA05-C3044, SA05-C3045; problems MP-SA05-3016.
+
+**Would establish.** A conditional integral category with precise denominator control and separately proved Hom finiteness, kernels, cokernels, internal Hom and rational quotient properties.
+
+**Known input and boundary.** Arbitrary prime-by-prime lattices can yield a Hom subgroup of Q containing1/l for every prime. Ambient extension closure already fails for simple finite torsion examples. The rational motive category remains an assumed input.
+
+**First concrete step.** Define reference systems and their allowed equivalence relation, then test tensor, Hom, kernels and cokernels on rational lines, Z/l and mixed lattice systems.
+
+**One-run outcome.** A rigorous conditional axiom package is plausible in one run. It would be our reconstruction, not a recovered theorem on the pages.
+
+## 6. Weight-one essential image, extension and purity: an exact case table
+
+**Origin.** Items SA05-3034, SA05-3042, SA05-3043, SA05-3044; claims SA05-C3040, SA05-C3048, SA05-C3049, SA05-C3050, SA05-C3051; problems MP-SA05-3015, MP-SA05-3017, MP-SA05-3018, MP-SA05-3019.
+
+**Would establish.** A historically ordered account separating traits, low ramification, higher-dimensional nonextension, extension of morphisms and independence of a detecting prime.
+
+**Known input and boundary.** The Néron–Ogg–Shafarevich criterion, the extension theorem for already existing maps, finite-étale purity and Vasiu–Zink’s object counterexamples have different hypotheses. All-prime unramifiedness alone does not settle the unrestricted mixed-characteristic local-base question.
+
+**First concrete step.** Read the exact de Jong–Oort1997§6 source and available earlier purity references, then align each theorem with the source’s base, prime order and object-versus-morphism wording.
+
+**One-run outcome.** A dependable history and hypothesis table is feasible. The broad one-prime criterion for arbitrary motives is not a few-hour target.
+
+## 7. The absolute unit and its finite-field comparison
+
+**Origin.** Items SA05-71, SA05-73, SA05-74, SA05-75, SA05-76; claims SA05-C88, SA05-C89, SA05-C90, SA05-C91, SA05-C92, SA05-C93, SA05-C94; problems MP-SA05-25, MP-SA05-26, MP-SA05-27.
+
+**Would establish.** A consistent small formal model of the proposed absolute cohomology, stating exactly which continuity, odd-unit and duality axioms can coexist.
+
+**Known input and boundary.** The written degree-multiplication restrictions and H1(Fq,Q)=Q have nonzero direct limit. Ordinary profinite rational cohomology, Weil-group cohomology and Weil-étale motivic cohomology are different inputs. The odd identification also needs a normalization.
+
+**First concrete step.** Extract only the unit calculations and transition maps from60–71 and the reused69 continuation, then compare them with the precisely checked finite-field Weil-étale splitting.
+
+**One-run outcome.** A complete incompatibility/dependency table and a bounded replacement model are realistic. The full absolute motivic heart is not constructed by that comparison.
+
+## 8. Sha, Brauer and constant Jacobians with degree conventions fixed
+
+**Origin.** Items SA05-79, SA05-80, SA05-81, SA05-82, SA05-83, SA05-84, SA05-85, SA05-86, SA05-87; claims SA05-C98, SA05-C99, SA05-C100, SA05-C101, SA05-C102, SA05-C103, SA05-C104, SA05-C105, SA05-C106, SA05-C107, SA05-C108, SA05-C109, SA05-C110, SA05-C111; problems MP-SA05-28, MP-SA05-29, MP-SA05-30, MP-SA05-31.
+
+**Would establish.** A single exact-sequence companion distinguishing rational points, torsor groups, Tate modules, finite errors and Brauer residues over curves.
+
+**Known input and boundary.** The inverse-Kummer constant-Jacobian counterexample contradicts literal H2-vanishing without assuming Sha finiteness. Removing r≥1 closed points gives Brauer corank r−1 through normalized local invariants. Singular proper schemes need not satisfy the smooth high-degree weight vanishing.
+
+**First concrete step.** Draw the Kummer and localization sequences with coefficients and bases fixed, mark every inverse-limit hypothesis, and separate the global-function-field rank equivalence from full BSD.
+
+**One-run outcome.** A complete corrected curve case and comparison table is realistic. The general finiteness conjectures remain outside this task.
+
+## 9. Analytic Galois Lie algebras versus algebraic monodromy
+
+**Origin.** Items SA05-67, SA05-68, SA05-69, SA05-70; claims SA05-C83, SA05-C84, SA05-C85, SA05-C86, SA05-C87; problems MP-SA05-24.
+
+**Would establish.** A precise reconstruction target distinguishing analytic invariants, associative envelopes, Zariski groups and a proposed motivic Lie object.
+
+**Known input and boundary.** The double-centralizer argument recovers an algebra under semisimplicity; it does not select individual cycles or recover the group. A procyclic finite-field image can have analytic dimension1 and algebraic torus dimension2.
+
+**First concrete step.** State the four objects and their comparison maps for the checked elliptic Frobenius example, then specify which one the l-independent proposal is intended to realize.
+
+**One-run outcome.** A clean conditional theorem and counterexample boundary can be written in hours. General l-independence remains a larger problem.
+
+## 10. Primitive Tate strings and the two associated graded rings
+
+**Origin.** Items SA05-40, SA05-41, SA05-42, SA05-43; claims SA05-C53, SA05-C54, SA05-C55, SA05-C56, SA05-C57, SA05-C58, SA05-C59; problems MP-SA05-16.
+
+**Would establish.** A coherent algebraic presentation preserving the unit, negative Tate powers and the distinction between weight grading and early D-grading.
+
+**Known input and boundary.** The literal alpha=0 subtraction and polynomial wording after inversion fail elementary tests. Early D is unchanged by Tate twist, whereas weight moves by2.
+
+**First concrete step.** List simple-object Tate orbits under the stated semisimplicity assumptions, choose the primitive boundary convention, and test multiplication before identifying either associated graded ring.
+
+**One-run outcome.** A conditional normal-form account is highly feasible; it must not silently resolve the ink or claim the general category exists.
+
+## 11. A Karoubi-envelope companion with a separate geometric application test
+
+**Origin.** Items SA05-3045, SA05-3046, SA05-3047, SA05-3048, SA05-3049, SA05-3050, SA05-3051, SA05-3052, SA05-3053, SA05-20; claims SA05-C3052, SA05-C3053, SA05-C3054, SA05-C3055, SA05-C3056, SA05-C3057, SA05-C3058, SA05-C3059, SA05-C3060, SA05-C3061; problems MP-SA05-3020.
+
+**Would establish.** A short noncircular proof of the abstract envelope, corner morphisms, kernels/cokernels, finite length, tensor extension and characteristic-zero Schur operations.
+
+**Known input and boundary.** The formal results were independently checked against Demazure and Jannsen. Jannsen’s numerical-motive theorem is distinct from identifying a homological category or obtaining all standard conjectures.
+
+**First concrete step.** Begin with the manuscript’s quotient of intertwiners and prove its equivalence to the corner description, recording the projection typing alarm before choosing modern notation.
+
+**One-run outcome.** A complete expository companion is highly feasible. The concluding geometric application must retain its exact hypotheses.
+
+## 12. Integral quadric normalizations and degeneration
+
+**Origin.** Items SA05-2036, SA05-2042, SA05-2046, SA05-2050, SA05-2052, SA05-2053; claims SA05-C2022, SA05-C2023, SA05-C2024, SA05-C2025, SA05-C2026, SA05-C2027, SA05-C2028, SA05-C2029, SA05-C2030, SA05-C2031, SA05-C2032, SA05-C2033, SA05-C2034, SA05-C2035, SA05-C2036, SA05-C2037; problems MP-SA05-2008, MP-SA05-2009, MP-SA05-2010, MP-SA05-2011, MP-SA05-2012, MP-SA05-2013, MP-SA05-2014.
+
+**Would establish.** One dimension-indexed table of rulings, restriction, Gysin, primitive generators, local groups and specialization.
+
+**Known input and boundary.** The integral ruling basis differs from the sum/difference sublattice by index2. Finite2-primary coefficients can have an adjacent group. The monodromy claim requires ordinary smoothing or regular total space; square base change removes the naive conclusion.
+
+**First concrete step.** Fix integral ruling classes, coefficient rings and relative dimension, then place all source formulas in that convention and list the remaining scan signs.
+
+**One-run outcome.** A complete corrected classical table is feasible. This is a normalization and exposition task, not an open calculation of quadric cohomology.
+
+## 13. The nested-torus assertion and its maximal-torus correction
+
+**Origin.** Items SA05-2071, SA05-2081; claims SA05-C2047, SA05-C2048, SA05-C2049; problems MP-SA05-2017.
+
+**Would establish.** An independently reviewable correction note with explicit lattice data and the exact valid maximal-torus version.
+
+**Known input and boundary.** The broad wording fails for the checked nested tori in SL4. Conjugacy in the centralizer proves the maximal-torus statement. The checked re-edition retains the broad text, but the original printing has not been collated.
+
+**First concrete step.** Inspect the original1970 page against the re-edited witness, then present the counterexample and corrected hypotheses without depending on an attribution of the textual defect.
+
+**One-run outcome.** The mathematical note is highly feasible; edition history depends on obtaining the original page. No contact with editors is part of this proposed task.
+
+## 14. The determinant series and endomorphism Grothendieck ring
+
+**Origin.** Items SA05-93, SA05-94, SA05-95, SA05-96, SA05-97; claims SA05-C118, SA05-C119, SA05-C120, SA05-C121, SA05-C122, SA05-C123, SA05-C124, SA05-C125; problems MP-SA05-33.
+
+**Would establish.** A companion distinguishing finite-dimensional field objects from projective modules, zero eigenvalues from automorphisms, and virtual semisimplification from Jordan data.
+
+**Known input and boundary.** The zero-operator class lies in the determinant kernel; over a field the reduced description is exact. Reciprocal factors, the lambda sign and the weight-shift Euler parity have separate corrections. Equal power traces do not recover nilpotent Jordan structure.
+
+**First concrete step.** Specify the exact category over a field first, prove its factorization map and kernel, then add only the ring generalization supported by a newly opened exact source.
+
+**One-run outcome.** The field companion is highly feasible. The unverified Almkvist bibliographic lead must be opened before relying on the full ring theorem.
+
+## 15. Positive cones and the precise semisimplicity mechanism
+
+**Origin.** Items SA05-88, SA05-89, SA05-90, SA05-91, SA05-92; claims SA05-C112, SA05-C113, SA05-C114, SA05-C115, SA05-C116, SA05-C117; problems MP-SA05-32.
+
+**Would establish.** A conditional cone formalism with correct Tate targets, parity, real topology and a clearly stated nondegeneracy-to-splitting argument.
+
+**Known input and boundary.** The manuscript already assumes a semisimple setting. Weight zero alone does not make an object trivial, and invariance alone does not make a form positive. The Hodge and abelian standard-conjecture comparisons have stated scopes.
+
+**First concrete step.** Separate existence of positive forms from their closure properties, realify each form space, and test the tensor and orthogonal-complement axioms on the unit and h1 of an elliptic curve.
+
+**One-run outcome.** A precise conditional reconstruction is feasible. It does not prove the general positivity conjecture.
+
+## 16. Fibre-functor torsors, neutrality and arithmetic splitting
+
+**Origin.** Items SA05-9, SA05-10, SA05-11, SA05-12, SA05-13, SA05-14, SA05-15, SA05-16, SA05-17, SA05-18, SA05-22; claims SA05-C10, SA05-C11, SA05-C12, SA05-C13, SA05-C14, SA05-C15, SA05-C16, SA05-C17, SA05-C18, SA05-C19, SA05-C20, SA05-C21, SA05-C22, SA05-C23, SA05-C24, SA05-C25, SA05-C26, SA05-C27, SA05-C28, SA05-C29, SA05-C30; problems MP-SA05-05, MP-SA05-06, MP-SA05-07, MP-SA05-08, MP-SA05-09.
+
+**Would establish.** An exact dependency chart separating a tensor category, a fibre functor, its torsor, the Artin comparison and a chosen arithmetic splitting.
+
+**Known input and boundary.** Neutral reconstruction, torsor representability and finite-generator criteria are established with Tannakian hypotheses. The supersingular quaternion obstruction and a nonsplit torus-lattice sequence show why stronger conclusions need extra assumptions.
+
+**First concrete step.** Normalize the variance of every fibre functor and list what each assertion needs: characteristic, connectedness, finite type, a chosen point or a splitting.
+
+**One-run outcome.** A bounded theorem-by-theorem companion is feasible. General period genericity and existence of the full motive category remain separate.
+
+## 17. The general-base programme and modern six operations
+
+**Origin.** Items SA05-26, SA05-27, SA05-28, SA05-29, SA05-30, SA05-31, SA05-32, SA05-33; claims SA05-C35, SA05-C36, SA05-C37, SA05-C38, SA05-C39, SA05-C40, SA05-C41, SA05-C42, SA05-C43, SA05-C44; problems MP-SA05-11, MP-SA05-12.
+
+**Would establish.** A comparison of each proposed abelian general-base axiom with an exact modern triangulated or realization-level theorem.
+
+**Known input and boundary.** Six operations, continuity and relative motivic Galois constructions have precise modern versions. They do not automatically construct the manuscript’s abelian heart, finite-dimensional absolute theory or all proposed comparison functors.
+
+**First concrete step.** Make an axiom table with base, coefficients, variance and target category, then align the checked Cisinski–Déglise and Ayoub statements one at a time.
+
+**One-run outcome.** A complete hypothesis map is realistic. Existence of a general motivic t-structure is not a short residual exercise.
+
+## 18. Restricted birational reconstruction and the scissors quotient
+
+**Origin.** Items SA05-49, SA05-50, SA05-51, SA05-52; claims SA05-C65, SA05-C66, SA05-C67, SA05-C68, SA05-C69, SA05-C70, SA05-C71; problems MP-SA05-20, MP-SA05-21.
+
+**Would establish.** A well-posed restricted functor or field-reconstruction statement that survives the section/retraction and rational-homological tests.
+
+**Known input and boundary.** A nondominant section can compose with a projection to the identity. Rational realization can erase the Enriques obstruction. Brackets in the source may mean a purely transcendental field extension, so the polynomial-units argument is conditional. Nonruledness alone does not prove a graded scissors class is nonzero.
+
+**First concrete step.** Fix the allowed maps and the exact quotient/equivalence relation, adjudicate the bracket notation from scans when available, then choose one restricted reconstruction target.
+
+**One-run outcome.** A sharp formulation and boundary examples are feasible. A general birational or anabelian reconstruction theorem is not promised.
+
+## 19. Finite-set reconstruction versus Frobenius and special power systems
+
+**Origin.** Items SA05-1025, SA05-1026, SA05-1027, SA05-1033; claims SA05-C1031, SA05-C1032, SA05-C1033, SA05-C1034, SA05-C1035; problems MP-SA05-1011, MP-SA05-1012, MP-SA05-1013, MP-SA05-1014.
+
+**Would establish.** A three-way theorem comparison: finite-projective Frobenius data, special commutative ungraded systems with multiplicative gauges, and the wider unfinished graded theory.
+
+**Known input and boundary.** Kock’s exact Frobenius result and Hua2026 Theorem1.2 settle restricted statements. The partition-system example disproves unrestricted evaluation at a point. Reported Lean verification was not executed in this run.
+
+**First concrete step.** Collate the source’s specialness, empty-set and gauge hypotheses against the checked version, then formulate the residual graded or degenerate question without importing omitted axioms.
+
+**One-run outcome.** A precise comparison is feasible; a classification of the wider systems is not already supplied by the cited restricted theorem.
+
+## 20. Curve reduction with the corrected late type target
+
+**Origin.** Items SA05-3019, SA05-3026, SA05-3027; claims SA05-C3023, SA05-C3024, SA05-C3025, SA05-C3035, SA05-C3036, SA05-C3037, SA05-C3038; problems MP-SA05-3003, MP-SA05-3007, MP-SA05-3013, MP-SA05-3014.
+
+**Would establish.** A complete conditional proof audit of geometric-type preservation, or an explicit minimal missing lemma.
+
+**Known input and boundary.** The late minus-one target fails for the torus embedding example. The compact-support two-row and proper three-row Leray arguments differ; the formal middle-row E3=E∞ statement does not itself identify geometric type.
+
+**First concrete step.** Rewrite135–137 as functors and filtrations, marking each use of subquotients, direct summands, semisimplicity and a curve reduction.
+
+**One-run outcome.** A complete audit is possible. An unconditional new closure theorem may not follow from the available inputs.
+
+## 21. The relative L-function programme with generic-fibre equivalence fixed
+
+**Origin.** Items SA05-97, SA05-98, SA05-99; claims SA05-C124, SA05-C125, SA05-C126, SA05-C127, SA05-C128; problems MP-SA05-34.
+
+**Would establish.** A precise candidate invariant modulo proper-closed-base contributions, with the actual smoothness, properness and weight cutoffs stated.
+
+**Known input and boundary.** Trace formulas and rationality give exact related results, while the source’s proposed quotient and final adjective list remain unresolved. The highest-weight cutoff needs the coefficient weight shift.
+
+**First concrete step.** Choose a base and coefficient category, define the subgroup of boundary contributions, and test generic-fibre invariance on a single fibration with a controlled bad fibre.
+
+**One-run outcome.** A meaningful definition and finite set of tests are feasible. No exact general published invariant with all source rules was identified in the bounded search.
+
+## 22. A versioned audit of the2026 abelian implications
+
+**Origin.** Items SA05-56, SA05-3025; claims SA05-C3004, SA05-C3022, SA05-C3024, SA05-C3056; problems MP-SA05-3021.
+
+**Would establish.** A version and hypothesis map from each announced CM/abelian theorem to the manuscript’s relevant subcases.
+
+**Known input and boundary.** The6October CM-Hodge preprint and9November Milne report were opened and their exact statements checked. Their long new proofs were not independently audited here. Rational CM Hodge, finite-field abelian Tate and abelian standard-conjecture statements must remain distinct from arbitrary varieties and integral cycles.
+
+**First concrete step.** Obtain the original version history and compare revisions, then open the earlier implication papers and corrigenda before choosing one bounded implication chain to audit.
+
+**One-run outcome.** A source/version map is realistic. A full proof review of the53-page new preprint is a separate longer task.
+
+## 23. The exact total-space integrality question in the cancelled EGA draft
+
+**Origin.** Items SA05-1053, SA05-1054, SA05-1055; claims SA05-C1062, SA05-C1063, SA05-C1064, SA05-C1065, SA05-C1066, SA05-C1067, SA05-C1090; problems MP-SA05-1020, MP-SA05-1021.
+
+**Would establish.** An exact theorem comparison specifying whether a published result answers the intended total-space assertion under the missing base and flatness hypotheses.
+
+**Known input and boundary.** The literal unreduced formulation is false. Murayama’s checked corollary concerns all fibres, while its warning excludes a naive domain-ascent shortcut. A fibrewise theorem is not automatically the desired total-space theorem.
+
+**First concrete step.** Obtain final EGAIV2§7.9 and its localization references, then state and test the bridge from fibrewise punctual integrality to the intended total-space conclusion.
+
+**One-run outcome.** A source-and-hypothesis decision is feasible. The dossier does not claim the intended question is still open in the literature.
+
+## 24. The separating-family and generic-freeness draft
+
+**Origin.** Items SA05-1052; claims SA05-C1060, SA05-C1061; problems MP-SA05-1019.
+
+**Would establish.** The correct module, localization and missing hypotheses of the reused algebra lemma, compared with final EGAIV3.
+
+**Known input and boundary.** The attached witnesses share the malformed B_h/A_h expression but assign different scan labels. EGAIV3 11.9.7–11.9.10 and the separate11.9.8 question provide bounded comparisons, not permission to replace ink.
+
+**First concrete step.** Recover the preceding proposition and inspect the source scan, then compare the support-induction argument with the final printed proof.
+
+**One-run outcome.** An exact editorial reconstruction is highly feasible once those witnesses are available; no new generic-freeness theorem is required.
+
+## 25. Nilpotent density and its inherited hypothesis
+
+**Origin.** Items SA05-1058; claims SA05-C1077, SA05-C1089; problems MP-SA05-1023.
+
+**Would establish.** A corrected ordinary lifting lemma and a separate assessment of the universal-relative variant.
+
+**Known input and boundary.** The square-zero example disproves the literal ordinary assertion. SGA3II IX4.2 supplies a sufficient locally-free-layer condition. The example does not settle the universally dense relative formulation.
+
+**First concrete step.** Read the preceding manuscript context for that layer condition and then state the relative version independently, with its base-change quantifier.
+
+**One-run outcome.** A precise editorial correction and one bounded relative test are feasible; the two assertions must not be merged.
+
+## 26. Delzant’s two questions and the exact comparison maps
+
+**Origin.** Items SA05-2088, SA05-2089, SA05-2093, SA05-2094; claims SA05-C2056, SA05-C2057, SA05-C2058, SA05-C2059, SA05-C2060, SA05-C2061, SA05-C2062, SA05-C2063, SA05-C2064, SA05-C2065; problems MP-SA05-2019, MP-SA05-2020.
+
+**Would establish.** A historical companion explaining the passage from the rank-zero ideal in GW to the fundamental ideal in W and the actual degree-two symbol comparison.
+
+**Known input and boundary.** Milnor and Merkurjev settle the relevant questions, but merely naming the later theorem omits a necessary ideal identification. The attached offprint was read; its strict external bibliography status remains unverified. The exact Springer1959 normalization still needs direct source inspection.
+
+**First concrete step.** Obtain the exact Springer passage and original offprint record, then present the comparison square and separate first circulation from publication.
+
+**One-run outcome.** A concise companion is feasible. It is documentary completion, not a new open norm-residue problem.
+
+## 27. Rational attainment in the GIT exercise
+
+**Origin.** Items SA05-1039, SA05-1040; claims SA05-C1042, SA05-C1043, SA05-C1044; problems MP-SA05-1015, MP-SA05-1016.
+
+**Would establish.** A self-contained proof with all nonemptiness, rational-weight and norm hypotheses explicit.
+
+**Known input and boundary.** Finite rational polyhedral faces give the relevant bounded optimization argument; a stronger instability theorem is not a substitute for proving this exact exercise. Empty direction spaces and irrational norms require separate treatment.
+
+**First concrete step.** State the direction space and norm precisely, reduce to faces, and list the assumptions under which a rational maximizing ray exists.
+
+**One-run outcome.** A complete short proof is realistic. It should be presented as completion of a classical exercise.
+
+## 28. GIT physical pagination and the determinant-cone continuation
+
+**Origin.** Items SA05-1050, SA05-2021, SA05-2022, SA05-1048, SA05-2025; claims SA05-C1058, SA05-C1059, SA05-C2016, SA05-C2017, SA05-C2020, SA05-C2021; problems MP-SA05-1018, MP-SA05-2006.
+
+**Would establish.** A page-order concordance and exact coordinate collation of the already established configuration criterion.
+
+**Known input and boundary.** Both attached continuation pieces were read. Missing3.5/3.16 and incomplete OCR leave documentary gaps; they do not make the classical criterion open. The separating functional must be nonzero, and stability differs from semistability.
+
+**First concrete step.** Match opening and closing sentences to a specific edition or typescript state and retrieve the missing physical pages before filling any local formula.
+
+**One-run outcome.** A concordance is feasible; full collation depends on the missing pages. Diagonal partitions and GIT R-partitions stay separate.
+
+## 29. The reflection typescript: faulty equality, valid corollary and provenance
+
+**Origin.** Items SA05-2113, SA05-2114; claims SA05-C2071, SA05-C2072, SA05-C2073, SA05-C2074, SA05-C2075, SA05-C2076, SA05-C2077, SA05-C2078, SA05-C2079; problems MP-SA05-2024.
+
+**Would establish.** A correction companion distinguishing the chamber complement, false dual-angle equality and true nonnegative-angle corollary.
+
+**Known input and boundary.** The essential A3 calculation refutes the equality; inverse-Gram positivity supplies the corollary. The affine local-finiteness proof can be completed under properness. Exact identification of numbered typescript383 is still unverified.
+
+**First concrete step.** Collate III-2 andIII-5 against the original scans and a candidate edition, then write the corrected proof without attributing the reused typescript to Grothendieck.
+
+**One-run outcome.** The bounded mathematics is feasible; provenance depends on finding the actual numbered document.
+
+## 30. The two reported Deligne manuscripts and their chronology
+
+**Origin.** Items SA05-2111, SA05-2112; claims SA05-C2069, SA05-C2070; problems MP-SA05-2022, MP-SA05-2023.
+
+**Would establish.** A dated source chain for the perfect-complex lambda report and the separate conditional Leray/Lefschetz report.
+
+**Known input and boundary.** The lambda report already announces a solution within its written scope. The Leray report needs a relative operator. Modern theorem statements do not identify the manuscript Grothendieck had seen or its circulation date.
+
+**First concrete step.** Compare B12/121 and123 with SGA6 editorial material and Deligne1968, adding contemporary correspondence only if subsequently supplied.
+
+**One-run outcome.** A documentary concordance may be completed in hours; the undated reports must not inherit the secretary letter’s27March1968 date.
+
+## 31. The selected-map and nonadditive variants as exact axiom questions
+
+**Origin.** Items SA05-1017, SA05-1018, SA05-1023; claims SA05-C1010, SA05-C1011, SA05-C1012, SA05-C1029; problems MP-SA05-1006, MP-SA05-1007, MP-SA05-1010.
+
+**Would establish.** A minimal statement of the allowed maps and operations that the unfinished variants retain.
+
+**Known input and boundary.** The source leaves these variants open. The ordinary correspondence theory and special finite-set theorem do not settle omitted variance, additivity or base-change requirements.
+
+**First concrete step.** Extract the surviving operations and every explicit cancellation, then formulate one small category in which those axioms can be tested.
+
+**One-run outcome.** An exact formulation is plausible; a complete new general theory is not a one-run promise.
+
+## 32. The English cycle-class sheet and its conventions
+
+**Origin.** Items SA05-1059; claims SA05-C1078, SA05-C1079, SA05-C1080; problems MP-SA05-1024.
+
+**Would establish.** A secure identification of the sheet and a bounded commentary on its trace, cycle and twist conventions.
+
+**Known input and boundary.** The familiar cycle-class construction does not identify authorship or justify using Poincaré duality on arbitrary singular cycles. The preceding conventions and exact document remain missing.
+
+**First concrete step.** Search by opening and closing wording and recover the preceding page before comparing the displayed trace argument with an exact published source.
+
+**One-run outcome.** A source-identification and scope decision is feasible if the witness is found; no attribution should be inferred merely from its archival location.
+
+## 33. The pure-category presentation and its omitted compatibilities
+
+**Origin.** Items SA05-1, SA05-4, SA05-20; claims SA05-C1, SA05-C5, SA05-C27; problems MP-SA05-01, MP-SA05-03.
+
+**Would establish.** A finite list of the relations needed to turn the proposed generators, Künneth data and inverted Tate projector into a precise universal construction.
+
+**Known input and boundary.** Later correspondence and universal constructions impose cycle maps and composition compatibility explicitly. Numerical semisimplicity and faithful classical realizations are separate assertions.
+
+**First concrete step.** Write the proposed presentation in generators and relations, mark each relation actually on the pages, and compare a single chosen modern realization category.
+
+**One-run outcome.** A presentation audit is realistic. It should not be advertised as construction of all conjectural pure motives.
+
+## 34. Two decisive readings before further local arguments
+
+**Origin.** Items SA05-3020, SA05-3023; claims SA05-C3025, SA05-C3029; problems MP-SA05-3007, MP-SA05-3009.
+
+**Would establish.** A scan-based decision between sans/sous and s’identifie/intervient, which changes the strength of two assertions.
+
+**Known input and boundary.** The diplomatic witnesses disagree. The double-blowup counterexample refutes whole-term identification, not the weaker assertion that a term contributes to a spectral sequence. Mathematical plausibility cannot settle the glyphs.
+
+**First concrete step.** Once original scans114 and120 are available, inspect both exact phrases beside the two transcriptions and record visual evidence before editorial interpretation.
+
+**One-run outcome.** Reach is1/5 with the present attachments and5/5 after the scans are supplied. This direction is ranked last operationally because its first required evidence is absent.
+
+## Separate documentary and prior-project leads
+
+Unavailable cote16/47/54 and other archive targets are listed in `SA05_unavailable_archive_leads.tsv`. Their first step is retrieval of the exact witness. They are not counted as checked two-ended links. The WG2, S6, La Longue Marche, Dérivateurs and other run associations made by the earlier notes remain in `SA05_project_leads.tsv`, with their stated status. None has been promoted to a new theorem or used to dictate the ranking above.
+
+The original scope-specific direction lists remain in `work/cote11a/`, `work/cote11b/` and `work/cote12c/` as provenance. The present list consolidates their overlaps and adds the middle-cote12 directions; canonical IDs supersede temporary aliases in those audit copies.

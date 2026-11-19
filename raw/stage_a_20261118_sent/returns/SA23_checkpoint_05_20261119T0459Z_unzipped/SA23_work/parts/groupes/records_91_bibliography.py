@@ -1,0 +1,214 @@
+"""Bibliographic metadata checked against opened primary or author-hosted sources."""
+bibliography.append(r'''
+@book{Kelly1982,
+ author={G. M. Kelly}, title={Basic Concepts of Enriched Category Theory}, year={1982},
+ series={London Mathematical Society Lecture Note Series}, volume={64}, publisher={Cambridge University Press},
+ url={https://tac.mta.ca/tac/reprints/articles/10/tr10.pdf}, urldate={2026-11-19},
+ annotation={Opened TAC Reprints10(2005), pp1--136; original1982. Exact sections and proof checks are in search_log and check_events.}, note={verified}
+}
+@article{BataninKockWeber2018,
+ author={Michael Batanin and Joachim Kock and Mark Weber}, title={Regular patterns, substitudes, Feynman categories and operads},
+ journal={Theory and Applications of Categories}, volume={33}, pages={148--192}, year={2018},
+ url={https://arxiv.org/abs/1510.08934}, eprint={1510.08934}, urldate={2026-11-19},
+ annotation={First arXiv29October2015; finalv3 5March2018. Section1.1,p154 inspected.}, note={verified}
+}
+@article{Ziegler2015,
+ author={Paul Ziegler}, title={Graded and filtered fiber functors on Tannakian categories},
+ journal={Journal of the Institute of Mathematics of Jussieu}, volume={14}, number={1}, pages={87--130}, year={2015},
+ doi={10.1017/S1474748013000376}, url={https://arxiv.org/abs/1111.1981}, urldate={2026-11-19},
+ annotation={FirstarXiv8November2011; journalonline20December2013; issue2015. Theorem3.6, gradings and cocharacters, inspected.}, note={verified}
+}
+@article{Liu2013,
+ author={Tong Liu}, title={The correspondence between Barsotti--Tate groups and Kisin modules when p=2},
+ journal={Journal de Th{\'e}orie des Nombres de Bordeaux}, volume={25}, number={3}, pages={661--676}, year={2013},
+ url={https://www.numdam.org/article/JTNB_2013__25_3_661_0.pdf}, urldate={2026-11-19},
+ annotation={Received11June2012. Theorem2.2.1 is used only with perfect residue field, K/K0 finite totally ramified and crystalline weights0,1. It does not identify the manuscript's arbitrary filtered-F-crystal functor.}, note={verified}
+}
+@article{MakkaiPitts1987,
+ author={Michael Makkai and Andrew M. Pitts}, title={Some results on locally finitely presentable categories},
+ journal={Transactions of the American Mathematical Society}, volume={299}, number={2}, pages={473--496}, year={1987},
+ url={https://www.cl.cam.ac.uk/~amp12/papers/reslfp/reslfp.pdf}, urldate={2026-11-19},
+ annotation={Theorem2.4, Proposition2.6 and Theorem3.3/Corollary3.4 inspected with their hypotheses.}, note={verified}
+}
+@article{AdamekLawvereRosicky2003,
+ author={Ji{\v r}{\'i} Ad{\'a}mek and F. William Lawvere and Ji{\v r}{\'i} Rosick{\'y}},
+ title={On the duality between varieties and algebraic theories}, journal={Algebra Universalis}, volume={49}, pages={35--49}, year={2003},
+ url={https://lawverearchives.com/wp-content/uploads/2024/12/2003-on-the-duality-between-varieties-and-algebraic-theories.pdf}, urldate={2026-11-19},
+ annotation={p36 exact even-finite-set example; Lemma2.1, Corollary2.4, Proposition2.6 and Theorem4.1 inspected. The upload date is not the publication date.}, note={verified}
+}
+@article{LackPower2009,
+ author={Stephen Lack and John Power}, title={Gabriel--Ulmer duality and Lawvere theories enriched over a general base},
+ journal={Journal of Functional Programming}, volume={19}, number={3--4}, pages={265--286}, year={2009},
+ doi={10.1017/S0956796809007254}, url={https://purehost.bath.ac.uk/ws/portalfiles/portal/336518/Power_JFP_2009_19_3-4_265.pdf}, urldate={2026-11-19},
+ annotation={Theorem8 on printedp270 inspected; publisheronline1July2009.}, note={verified}
+}
+@article{LackTendas2023,
+ author={Stephen Lack and Giacomo Tendas}, title={Virtual concepts in the theory of accessible categories},
+ journal={Journal of Pure and Applied Algebra}, volume={227}, number={2}, pages={107196}, year={2023},
+ doi={10.1016/j.jpaa.2022.107196}, url={https://arxiv.org/abs/2205.11056}, eprint={2205.11056}, urldate={2026-11-19},
+ annotation={FirstarXiv23May2022; v3 26July2022. Exact rank, sketchability and flexible-limit results inspected.}, note={verified}
+}
+@book{SGA4I1972,
+ editor={Michael Artin and Alexander Grothendieck and Jean-Louis Verdier},
+ title={Th{\'e}orie des topos et cohomologie {\'e}tale des sch{\'e}mas, Tome1},
+ series={Lecture Notes in Mathematics}, volume={269}, year={1972}, publisher={Springer},
+ url={https://library.slmath.org/nonmsri/sga/sga/pdf/sga4-1.pdf}, urldate={2026-11-19},
+ annotation={SGA4, seminar1963--1964, publication1972. Expos{\'e}IV9.1.4--9.1.6 originalpp433--435 visually read. Additional exact loci were read in the2024-07-30 retype https://www.normalesup.org/~forgogozo/SGA4/04/04.pdf; these witnesses are distinguished in the audit.}, note={verified}
+}
+@article{Schroer2016,
+ author={Stefan Schr{\"o}er}, title={Points in the fppf topology},
+ journal={Annali della Scuola Normale Superiore di Pisa, Classe di Scienze}, volume={17}, pages={419--447}, year={2017},
+ url={https://www.math.uni-duesseldorf.de/~schroeer/publications_pdf/points_fppf.pdf}, eprint={1407.5446}, urldate={2026-11-19},
+ annotation={Key retains the inspected author-version date22January2016; arXivv1 21July2014 andv2 26January2016; journalpublication2017. Propositions4.3--4.4, Corollary4.5 and constructionTheorem5.5 inspected.}, note={verified}
+}
+@article{GabberKelly2015,
+ author={Ofer Gabber and Shane Kelly}, title={Points in algebraic geometry},
+ journal={Journal of Pure and Applied Algebra}, volume={219}, number={10}, pages={4667--4680}, year={2015},
+ doi={10.1016/j.jpaa.2015.03.001}, url={https://arxiv.org/abs/1407.5782}, urldate={2026-11-19},
+ annotation={FirstarXiv22July2014; v2 8December2014. Theorem2.3 and Theorem2.6/Table1 inspected. Publisherfulltext403; fullarXiv and journalmetadata search verified.}, note={verified}
+}
+@article{CaramelloJohnstone2009,
+ author={Olivia Caramello and Peter Johnstone}, title={De Morgan's law and the theory of fields},
+ journal={Advances in Mathematics}, volume={222}, number={6}, pages={2145--2152}, year={2009},
+ doi={10.1016/j.aim.2009.07.019}, url={https://arxiv.org/abs/0808.1972}, urldate={2026-11-19},
+ annotation={FirstarXiv14August2008. FullSection1 field/regular-ring site inspected; thePDF's2018 typesetting date is not circulation or publication.}, note={verified}
+}
+@article{Stevenson2014,
+ author={Greg Stevenson}, title={Derived categories of absolutely flat rings},
+ journal={Homology, Homotopy and Applications}, volume={16}, number={2}, year={2014},
+ doi={10.4310/HHA.2014.v16.n2.a3}, url={https://arxiv.org/abs/1210.0399}, urldate={2026-11-19},
+ annotation={FirstarXiv1October2012; Proposition3.3 and Theorem3.9 inspected. Only the absolute-flat preliminaries are used.}, note={verified}
+}
+@incollection{Olivier1967,
+ author={Jean-Pierre Olivier}, title={Anneaux absolument plats universels et {\'e}pimorphismes {\`a} buts r{\'e}duits},
+ booktitle={S{\'e}minaire Samuel, Alg{\`e}bre commutative}, volume={2}, number={6}, pages={1--12}, year={1967--1968},
+ url={https://www.numdam.org/item/SAC_1967-1968__2__A6_0.pdf}, urldate={2026-11-19},
+ annotation={Talks20December1967 and3January1968; Proposition5 printed6-04 inspected.}, note={verified}
+}
+@article{AdamekRosicky1996,
+ author={Ji{\v r}{\'i} Ad{\'a}mek and Ji{\v r}{\'i} Rosick{\'y}}, title={A remark on accessible and axiomatizable categories},
+ journal={Commentationes Mathematicae Universitatis Carolinae}, volume={37}, number={2}, pages={411--414}, year={1996},
+ url={https://dml.cz/bitstream/handle/10338.dmlcz/118845/CommentatMathUnivCarolRetro_37-1996-2_20.pdf}, urldate={2026-11-19},
+ annotation={Theorem and connected-limit corollary inspected with the Vopenka hypothesis retained.}, note={verified}
+}
+@article{ColimitDense2019,
+ author={Ji{\v r}{\'i} Ad{\'a}mek and Andrew D. Brooke-Taylor and Tim Campion and Leonid Positselski and Ji{\v r}{\'i} Rosick{\'y}},
+ title={Colimit-dense subcategories}, journal={Commentationes Mathematicae Universitatis Carolinae}, volume={60}, number={4}, pages={447--462}, year={2019},
+ doi={10.14712/1213-7243.2019.021}, url={https://cmuc.karlin.mff.cuni.cz/pdf/cmuc1904/abrocaporo.pdf}, urldate={2026-11-19},
+ annotation={Introductionp448, Theorem1.1 and Corollary3.5p452 inspected. Corrects an older colimit-density assertion and explicitly states the VP/bounded-cocomplete equivalence.}, note={verified}
+}
+@article{Beke2000,
+ author={Tibor Beke}, title={Sheafifiable homotopy model categories},
+ journal={Mathematical Proceedings of the Cambridge Philosophical Society}, volume={129}, number={3}, pages={447--475}, year={2000},
+ doi={10.1017/S0305004100004722}, url={https://faculty.uml.edu/tbeke/sheafi.pdf}, urldate={2026-11-19},
+ annotation={Authorversion17September2000; issueNovember2000; online17January2001. Remark3.3 and Proposition3.10 inspected; stronger homotopy results are not used.}, note={verified}
+}
+@article{BekePresheafType,
+ author={Tibor Beke}, title={Theories of presheaf type}, journal={Journal of Symbolic Logic}, volume={69}, number={3}, pages={923--934}, year={2004},
+ doi={10.2178/jsl/1096901776}, url={https://faculty.uml.edu/tbeke/presheaf.pdf}, urldate={2026-11-19},
+ annotation={Authorversion13May2004; issueSeptember2004. Proposition0.1 and Corollary2.2 with proof inspected. Later online digitization date is not publication.}, note={verified}
+}
+@article{BirdKellyPowerStreet1989,
+ author={G. J. Bird and G. M. Kelly and A. J. Power and R. H. Street}, title={Flexible limits for 2-categories},
+ journal={Journal of Pure and Applied Algebra}, volume={61}, number={1}, pages={1--27}, year={1989},
+ doi={10.1016/0022-4049(89)90065-0}, url={https://researchers.mq.edu.au/en/publications/flexible-limits-for-2-categories/}, urldate={2026-11-19},
+ annotation={Officialmetadata/abstract opened; date5November1989. Exact flexible-limit proof in this run is checked in Lack--Tendas5.5, not claimed as a full inspection of this article.}, note={verified}
+}
+@article{CavigliaHorel,
+ author={Giovanni Caviglia and Geoffroy Horel}, title={Rigidification of higher categorical structures},
+ journal={Algebraic and Geometric Topology}, volume={16}, pages={3533--3562}, year={2016},
+ doi={10.2140/agt.2016.16.3533}, url={https://geoffroy.horel.org/Rigidification.pdf}, eprint={1511.01119}, urldate={2026-11-19},
+ annotation={FirstarXiv3November2015; v2 16May2016. OnlySection2pp4--5, the ordinary locally presentable tensor construction, is used and was opened in full.}, note={verified}
+}
+@article{DiLibertiOsmond2025,
+ author={Ivan Di Liberti and Axel Osmond}, title={Bi-accessible and bipresentable 2-categories},
+ journal={Applied Categorical Structures}, volume={33}, number={1}, pages={3}, year={2025},
+ doi={10.1007/s10485-024-09794-9}, url={https://link.springer.com/article/10.1007/s10485-024-09794-9}, eprint={2203.07046}, urldate={2026-11-19},
+ annotation={FirstarXiv14March2022; accepted11November2024; online9December2024; volume2025. Exact1.2.16,6.3.1--6.3.2,6.4.5--6.4.6 inspected.}, note={verified}
+}
+@incollection{Lazard1956,
+ author={Michel Lazard}, title={Lois de groupes et analyseurs}, booktitle={S{\'e}minaire Bourbaki},
+ volume={3}, number={109}, pages={77--91}, year={1956},
+ url={https://www.numdam.org/item/SB_1954-1956__3__77_0.pdf}, urldate={2026-11-19},
+ annotation={TalkFebruary1955; volumepublication1956. Sections4--6 definitions inspected. Backwardreference: AnnENS72(1955),299--400,doi10.24033/asens.1038, metadata opened but full proof not used.}, note={verified}
+}
+@article{Vickers2017,
+ author={Steven Vickers}, title={Arithmetic universes and classifying toposes},
+ journal={Cahiers de Topologie et G{\'e}om{\'e}trie Diff{\'e}rentielle Cat{\'e}goriques}, volume={58}, number={3--4}, pages={213--248}, year={2017},
+ url={https://cahierstgdc.com/wp-content/uploads/2018/01/Vickers-58-34.pdf}, urldate={2026-11-19},
+ annotation={Theorems5.11--5.12pp242--244 and the relative-classifier proof inspected; fileupload2018 is not journalyear.}, note={verified}
+}
+@misc{VistoliDescent,
+ author={Angelo Vistoli}, title={Notes on Grothendieck topologies, fibered categories and descent theory}, year={2007},
+ url={https://arxiv.org/pdf/math/0412512}, eprint={math/0412512}, urldate={2026-11-19},
+ annotation={Openedversion17May2007, arXivv4 uploaded24May2007; initialarXiv2004. Section3.6.2pp62--63 fulltwo-Yoneda proof inspected.}, note={verified}
+}
+@article{Barr1974,
+ author={Michael Barr}, title={Toposes without points}, journal={Journal of Pure and Applied Algebra}, volume={5}, pages={265--280}, year={1974},
+ doi={10.1016/0022-4049(74)90037-1}, url={https://ncatlab.org/nlab/files/Barr-ToposesWithoutPoints.pdf}, urldate={2026-11-19},
+ annotation={OriginaljournalPDF opened; Introductionp265 exactatomless-Boolean example inspected. Received20March1974. Mirrorhost does not change primary-source status.}, note={verified}
+}
+@misc{StacksFlatness,
+ author={{The Stacks Project Authors}}, title={Flat modules and characterizing flatness}, year={2026},
+ url={https://stacks.math.columbia.edu/tag/00HK}, urldate={2026-11-19},
+ annotation={Lemma10.39.11; also https://stacks.math.columbia.edu/tag/058C, Lemmas10.81.1--3 and Theorem10.81.4. Exactfinite-relation andLazard statements/proofs opened. The year denotes access, not priority.}, note={verified}
+}
+@misc{StacksInvertible,
+ author={{The Stacks Project Authors}}, title={Invertible modules}, year={2026},
+ url={https://stacks.math.columbia.edu/tag/0B8I}, urldate={2026-11-19},
+ annotation={Lemma15.119.2 and proof, tensor inverse iff finite locally free rank1, opened.}, note={verified}
+}
+@misc{StacksJacobson,
+ author={{The Stacks Project Authors}}, title={Jacobson rings}, year={2026},
+ url={https://stacks.math.columbia.edu/tag/00GB}, urldate={2026-11-19},
+ annotation={Proposition10.35.19 and proof opened; used for finite-type Z-algebras and finite residue characteristics.}, note={verified}
+}
+@misc{StacksRelativeAlgebra,
+ author={{The Stacks Project Authors}}, title={Radiciality, spectrum images and formal algebra properties}, year={2026},
+ url={https://stacks.math.columbia.edu/tag/01S4}, urldate={2026-11-19},
+ annotation={Lemma29.10.2; additionally00FFSection10.30,00UMSection10.148/Lemma10.148.3,00THPropositions10.138.8/10.138.13,0BR5Lemmas10.46.9--10. Exacthypotheses inspected and formal/unqualified smoothness kept separate.}, note={verified}
+}
+@misc{StacksLocalization,
+ author={{The Stacks Project Authors}}, title={Localization in categories}, year={2026},
+ url={https://stacks.math.columbia.edu/tag/04VB}, urldate={2026-11-19},
+ annotation={Definition4.27.1; Lemmas4.27.8--4.27.9 and4.27.16--4.27.17; backwardreference Gabriel--ZismanI.3.1. Universe/local-smallness condition retained.}, note={verified}
+}
+@misc{StacksPullback,
+ author={{The Stacks Project Authors}}, title={Pullback of stacks}, year={2026},
+ url={https://stacks.math.columbia.edu/tag/04WA}, urldate={2026-11-19},
+ annotation={Lemmas8.12.5--8.12.10, localizationuniversalproperty and stackification, opened.}, note={verified}
+}
+''')
+
+for key,outcome in [
+ ('Kelly1982','Read5.35--5.37 and5.56 with the exact smallness, density and one-step-closure qualifications; checked6.5 tensor formulas.'),
+ ('RiehlContextOnline','Checked4.5.11,4.7.10--4.7.11,5.3.3,5.5.1 and5.5.8; distinguished relative variants independently proved.'),
+ ('LackTendas2023','Read2.3--2.6,4.4,5.5 and5.12--5.14; no unrestricted cardinal or bicolimit conclusion inferred.'),
+ ('LackPower2009','ReadTheorem8 and exactdefinition of filtered-colimit-preserving rightadjoints.'),
+ ('AdamekLawvereRosicky2003','Readthep36 even-setexample and2.1,2.4,2.6,4.1 with Cauchy/projective qualifications.'),
+ ('MakkaiPitts1987','Readtheexactlexfull-faithfulness criterion and3.3/3.4 hypotheses; not substituted for a bare existence-only converse.'),
+ ('SGA4I1972','ReadoriginalIV9.1.4--9.1.6printed433--435; otherret textloci insearchlog aredistinguished.'),
+ ('Schroer2016','ReadPropositions4.3--4.4,Corollary4.5andTheorem5.5; noetherian fppf-localrings are algebraicallyclosedfields.'),
+ ('GabberKelly2015','ReadTheorem2.3and2.6/Table1 with finite-type/noetherianbasehypotheses.'),
+ ('CaramelloJohnstone2009','ReadSection1pp1--3, uniquequasi-inversealgebra and exactfieldsite/empty-covercondition.'),
+ ('Olivier1967','ReadProposition5printed6-04 and itsabsolute-flatreflection/spectrumstatement.'),
+ ('Stevenson2014','ReadProposition3.3 andTheorem3.9, including explicituniversalring.'),
+ ('BekePresheafType','ReadProposition0.1 andCorollary2.2withproof; sameSet-modelcategory doesnotfix the originalclassifier.'),
+ ('Beke2000','ReadRemark3.3 andProposition3.10; opposite-accessibilitytheorem carried from its cited AR1.64.'),
+ ('ColimitDense2019','ReadIntroductionp448 andCorollary3.5; retained VP and(M), andthe correction to oldercolimit-densityclaim.'),
+ ('AdamekRosicky1996','Readthetheorem andconnected-limitcorollary withset-theoretichypothesis.'),
+ ('CavigliaHorel','ReadSection2pp4--5; usedordinarylocally-presentabletensor, notthe paper’s homotopicalmainresult.'),
+ ('Lazard1956','ReadSections4--6 defininggradedpolynomialoperations andcompletion; noarbitrarysketchequivalence inferred.'),
+ ('Vickers2017','ReadTheorems5.11--5.12pp242--244 andrelativebase-changeproof.'),
+ ('StacksFlatness','Readfiniteequationalcriterion andLazardfactorizationproofs, with finite-witness translation checked.'),
+ ('StacksInvertible','ReadLemma15.119.2andproof; independently repairedtheevaluation-isomorphism argument.'),
+ ('StacksJacobson','ReadProposition10.35.19andproof; appliedonlytofinite-typeZalgebras.'),
+ ('StacksRelativeAlgebra','Readexactradicial, differential, formalsmooth anduniversalhomeomorphismcriteria; broaderinternalformalclaim remains delimited.'),
+ ('StacksLocalization','Readfraction axioms anduniversalproperty; finite-limitdual checked andproductvariant independentlyproved.'),
+ ('StacksPullback','Read8.12.5--8.12.10localizationandstackification; commaformula independentlyreconstructed.'),
+ ('BataninKockWeber2018','ReadSection1.1free symmetricmonoidalcategory usingallcomponentarrows and the2-monad.'),
+ ('Ziegler2015','ReadTheorem3.6grading/cocharactercorrespondence; semilinearmatrix convention independently checked.'),
+ ('Liu2013','OpenedexactTheorem2.2.1context andcrosschecked BTowner’s proofassessment; noarbitraryfiltered-crystalequivalence asserted.'),
+]:
+    checked_ref(key,outcome,'used and rechecked in this run')
+checked_ref('BirdKellyPowerStreet1989','Officialbibliographicrecord andabstractopened; theorem used through exactLack--Tendas5.5, not a fullproofinspection.','carried as background without fault found')

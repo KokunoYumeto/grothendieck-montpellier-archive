@@ -1,0 +1,48 @@
+1: % Preamble for the Codex-web transcription folders of the Montpellier archive (13 Nov 2026). LuaLaTeX or pdfLaTeX.
+2: % A folder's standalone file is: \input{PREAMBLE.tex} \begin{document} \input{<ID>_transcription} \end{document}
+3: % 18 Nov 2026 (the main session, Claude Opus 5.5 at effort max): under LuaLaTeX, \deleted is lua-ul's strike-through
+4: % switch in a group, and \diagram and \figure open a group, so that what they hold is read as ordinary input, not as a
+5: % macro argument: struck displays, diagrams (tikz-cd's &), line and paragraph breaks then compile. ulem's \sout, kept
+6: % for pdfLaTeX, broke on them in 80 of the 202 batch-K returns of 18 Nov. \unsure in math is one atom, so that an
+7: % exponent after it is no double superscript.
+8: \documentclass[11pt]{article}
+9: \usepackage{iftex}
+10: \ifLuaTeX\usepackage{fontspec}\else\usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}\fi
+11: \usepackage{amsmath,amssymb,mathrsfs}
+12: \usepackage{tikz,tikz-cd}
+13: \usetikzlibrary{decorations.pathmorphing,arrows.meta,calc,positioning,shapes.geometric,matrix}
+14: \usepackage{enumitem}
+15: \usepackage[normalem]{ulem}
+16: \usepackage{xcolor}
+17: \ifLuaTeX\usepackage{lua-ul}\fi
+18: \setlength{\marginparwidth}{2.2cm}
+19: % \cotefile{C}: start of archive file C.pdf; \scanpage{N}: start of scan page N of that PDF
+20: \newcommand{\cotefile}[1]{\par\medskip\noindent\textsf{[cote #1]}\par}
+21: \newcommand{\scanpage}[1]{\marginpar{\footnotesize\textsf{[scan #1]}}}
+22: % \mspage{n}: his own page or sheet number, or the typed page number of a typescript
+23: \newcommand{\mspage}[1]{\marginpar{\footnotesize\textsf{p.~#1}}}
+24: % doubt marks
+25: \newcommand{\unsure}[1]{\ifmmode{{\color{orange}#1}^{?}}\else{\color{orange}#1}\textsuperscript{?}\fi}
+26: \newcommand{\illegible}[1]{\ifmmode\text{[illeg.~#1]}\else[illeg.~#1]\fi}
+27: % state of the page
+28: \newcommand{\handwritten}[1]{#1}
+29: \makeatletter
+30: \ifLuaTeX
+31:   \newcommand{\deleted}{\ifmmode\expandafter\tr@deleted@math\else\expandafter\tr@deleted@text\fi}
+32:   \def\tr@deleted@text{\bgroup\@strikeThrough\let\tr@next=}
+33:   \newcommand{\tr@deleted@math}[1]{\text{\@strikeThrough$#1$}}
+34:   % \uline and \uuline (ulem's names, used by the transcriptions) as lua-ul underlines in a group: a struck word
+35:   % inside an underlined passage then compiles (ulem's word-by-word underline broke on it: K23-03, K79-11)
+36:   \newunderlinetype\tr@lowerline{\leaders\vrule height -1.05ex depth 1.15ex}
+37:   \renewcommand{\uline}{\bgroup\@basicUnderLine\let\tr@next=}
+38:   \renewcommand{\uuline}{\bgroup\@basicUnderLine\tr@lowerline\let\tr@next=}
+39: \else
+40:   \newcommand{\deleted}[1]{\ifmmode\text{\sout{$#1$}}\else\sout{#1}\fi}
+41: \fi
+42: \newcommand{\inserted}[1]{\ifmmode\langle#1\rangle\else$\langle$#1$\rangle$\fi}
+43: \newcommand{\margin}[1]{\marginpar{\footnotesize #1}}
+44: \newcommand{\diagram}{\par\begin{center}\bgroup\aftergroup\tr@diagram@end\let\tr@next=}
+45: \def\tr@diagram@end{\end{center}\par}
+46: % drawings that are not diagrams, reproduced in TikZ (the archive's macro name; LaTeX's figure float is not used)
+47: \renewcommand{\figure}{\par\begin{center}\bgroup\aftergroup\tr@diagram@end\let\tr@next=}
+48: \makeatother

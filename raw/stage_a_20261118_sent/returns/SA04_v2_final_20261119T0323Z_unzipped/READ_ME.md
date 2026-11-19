@@ -1,0 +1,15 @@
+# SA04 dossier
+
+Start with **SA04_dossier.md**. The data registers, reading alarms, links, ranked directions and bibliography sit beside it. SA04_project_leads.tsv is a separate view of the31 external-project lead rows. `CHECK_EVENTS.tsv` records what was actually checked; textual comparison, proof, computation and use of a reference are different events.
+
+The indexed-entry universe is exactly432 rows. The eight cote98 index entries are composite headings; their89 nested notes are individually reviewed as leaf items, while each parent receives only one indexed verdict. Additional transcription-derived items have no invented index rows. `ID_ALIASES.tsv` documents three exact final cross-stream consolidations and one reassigned source-entry association.
+
+`SOURCE_SCOPE.tsv` inventories all30 catalogue rows. Only93,98 and100 belong to this part’s main folder audit. The separate cote161-5 is included because the second93 package and its indexed notes contain it. Cotes8,9 and4 in the mixed unindexed package are contextual; the cote100 portion begins at its own marker. Files for the other27 topic cotes are not supplied in this part, and their mathematics is not claimed to have been audited here. Scan numbers are not physical-page counts. No scan images or second-pass changes were supplied.
+
+`parts/` preserves the detailed stream analyses, mathematical proofs, source comparisons and search ledgers. These working records retain their pre-consolidation identifiers; resolve aliases through `ID_ALIASES.tsv`. They are audit provenance, not alternative final verdict tables. `programs/` and `outputs/` preserve the written calculation/serialization/retrieval programs and their saved outputs. External primary-source PDFs/OCR and the original user input files are not duplicated. Line-numbered source-read outputs are retained as audit-program output. Source hashes and scan-marker locations are in `SOURCE_MANIFEST.json`.
+
+Reproduction: extract the original supplied archives into `source/SA04_texts`, `source/SA04_notes` and `source/SA04_PROMPT`, place this ZIP’s contents in `SA04_work`, and run the Python programs from their documented workspace root. Python3 and SymPy are used for exact algebra; external-source fetch/OCR helpers additionally use their named tools. Computational outputs identify the exact finite test range. A finite test is not a proof of an unrestricted statement unless the accompanying algebraic argument establishes it.
+
+All source line numbers count UTF-8 text lines from1. `pro/` and `codex/` are relative to `source/SA04_texts`. A scan-reading alternative is never a decision about ink. A literature classD is a recorded unsuccessful exact-match search, not proof of historical absence; classF is an identification/formulation limit. Bibliography `note={verified}` means the recorded link or DOI was opened; each `annote` states whether that opening checked metadata, a theorem, or a proof passage.
+
+Model: GPT-6 Astra Pro. The platform did not expose a numerical reasoning-effort setting; no effort label is invented. Audit reference date:19November2026. Progress and checkpoint timestamps areUTC.

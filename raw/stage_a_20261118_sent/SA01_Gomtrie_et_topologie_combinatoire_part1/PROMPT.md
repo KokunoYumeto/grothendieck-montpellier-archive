@@ -20,7 +20,7 @@ projects, La Longue Marche à travers la théorie de Galois and Les Dérivateurs
 they partly see this topic through that lens. Work from his objects, his notation, his questions and the literature
 of this subject. The links to those projects are kept, apart from the rest (Stage 5).
 
-**This run takes part 1 of 3 of the topic's notes:** the packages of cotes 72, 81, 83. The other parts are other runs, and their dossiers are merged afterwards by script, so keep the ids of this run (`SA01-<n>`, `MP-SA01-<nn>`) and cover only the entries of this part's `NOTES_INDEX.tsv`; `TOPIC.md` lists the whole topic for orientation.
+**This run takes part 1 of 4 of the topic's notes:** the packages of cotes 72, 81, 83. The other parts are other runs, and their dossiers are merged afterwards by script, so keep the ids of this run (`SA01-<n>`, `MP-SA01-<nn>`) and cover only the entries of this part's `NOTES_INDEX.tsv`; `TOPIC.md` lists the whole topic for orientation.
 
 ## The attachments
 
@@ -158,6 +158,26 @@ its own code block headed by its file name (the code you ran to save each file c
 there). Then go on with the remaining stages directly in the chat, in the same form. Say at the start which files are
 done and which are not. An answer that only reports the disconnection, describes the checkpoint or asks for the
 files again, without writing out the work, is not acceptable.
+
+## When the work is finished
+
+This task is long by design: 332 entries, every one read with the passage it is about, and every claim searched
+in the literature. A careful run takes hours. Work through it completely; do not stop at an outline, a sample, a
+catalogue built by script or a plan, and do not ask whether to continue. Ignore any clock.
+- **Stage 1** is finished when every entry of `NOTES_INDEX.tsv` has a verdict made by reading the entry and its passage
+  in the transcription. A verdict made by matching headings, keywords or cues by script is not a verdict.
+- **Stage 2** is finished when every claim has its status on the pages read from the transcription, every computation
+  it rests on is redone, and its fate in the literature has been searched in the sources Stage 2 names, with what was
+  searched recorded. A claim whose fate was not searched is not finished.
+- **Stage 3** is finished when every problem has its state of the art from sources you opened.
+- **Stage 4** is finished when every place where the mathematics suggests a misreading is listed with its evidence. No
+  scans are attached, so none is decided here: that is expected, and it is not a reason to stop.
+- **Stage 5** is finished when every link has been checked at both of its places.
+- **Stage 6** is finished when every direction cites the items, claims and problems it comes from.
+
+A deliverable labelled provisional, an entry without a read verdict and a claim without a searched fate are not
+finished work. The `second_pass/` folder holds files only for the packages that had a second pass; if it is empty for
+this topic, the Pro notes and the transcriptions are the sources, and that is not a gap.
 
 ## What to return
 

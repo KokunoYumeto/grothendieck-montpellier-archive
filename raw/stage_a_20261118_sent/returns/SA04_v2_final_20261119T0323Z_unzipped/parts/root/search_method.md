@@ -1,0 +1,7 @@
+# Search method and limits
+
+All searches and source checks took place on19November2026UTC. The family table records exact saved queries where available and otherwise the opened-primary-source route. It does not reconstruct nonexistent search timestamps. Individual claim rows link each of the root’s claims to its actual search family and final assessment. Other streams have their own search logs.
+
+The search covered Numdam, arXiv, original EGA/SGA references, author papers and bibliographies, the Grothendieck Circle and CSG catalogue, publisher records, and MathOverflow leads. A direct zbMATH record attempt (0147.20302) was inaccessible; site-restricted zbMATH searches were also made. No closed database was claimed read. MathOverflow questions58265,123317 and408356 were used as leads, not substitutes for primary proofs. Search results from unattributed automated course sites and the modern AI-edited SGA website were not used as mathematical authorities.
+
+ClassD means that an exact development was not located after the recorded search; it does not prove that no publication exists. ClassF means the retained formulation is insufficient to identify one exact theorem. Metadata verification is distinguished from reading a theorem and from reproducing its proof. The bibliography’s annote fields state those limits. Source copies and search-engine excerpts are excluded from the deliverable; metadata, original audit prose and reproducible calculation outputs are retained.

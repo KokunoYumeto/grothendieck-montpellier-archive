@@ -159,6 +159,26 @@ there). Then go on with the remaining stages directly in the chat, in the same f
 done and which are not. An answer that only reports the disconnection, describes the checkpoint or asks for the
 files again, without writing out the work, is not acceptable.
 
+## When the work is finished
+
+This task is long by design: {NENTRIES} entries, every one read with the passage it is about, and every claim searched
+in the literature. A careful run takes hours. Work through it completely; do not stop at an outline, a sample, a
+catalogue built by script or a plan, and do not ask whether to continue. Ignore any clock.
+- **Stage 1** is finished when every entry of `NOTES_INDEX.tsv` has a verdict made by reading the entry and its passage
+  in the transcription. A verdict made by matching headings, keywords or cues by script is not a verdict.
+- **Stage 2** is finished when every claim has its status on the pages read from the transcription, every computation
+  it rests on is redone, and its fate in the literature has been searched in the sources Stage 2 names, with what was
+  searched recorded. A claim whose fate was not searched is not finished.
+- **Stage 3** is finished when every problem has its state of the art from sources you opened.
+- **Stage 4** is finished when every place where the mathematics suggests a misreading is listed with its evidence. No
+  scans are attached, so none is decided here: that is expected, and it is not a reason to stop.
+- **Stage 5** is finished when every link has been checked at both of its places.
+- **Stage 6** is finished when every direction cites the items, claims and problems it comes from.
+
+A deliverable labelled provisional, an entry without a read verdict and a claim without a searched fate are not
+finished work. The `second_pass/` folder holds files only for the packages that had a second pass; if it is empty for
+this topic, the Pro notes and the transcriptions are the sources, and that is not a gap.
+
 ## What to return
 
 One zip file, `{S}.zip`, offered as the only download, holding:

@@ -1,0 +1,23 @@
+# Targeted review of root proofs
+
+19 November2026, GPT-6 Astra Pro, inherited effort, VIII–IX reader. Root requested one independent pass, prioritizing the finite-polyhedron arguments. The checked source is `SA21_work/audit/root_proofs.md`; this document records what was actually checked and does not promote the whole dossier to formal verification.
+
+## Finite polyhedra and cones
+
+**R-SA21-polyhedra:** no concrete flaw found. In a finite connected triangulation with at least two points, a spanning tree has two distinct leaves. After deleting either chosen leaf vertex, its other vertices remain connected by the tree. Every point of a punctured simplex connects within that simplex to a surviving vertex, including the edge case. Thus deleting either point from the entire polyhedron preserves connectedness. Compact links give closed conical neighborhoods. For uniqueness, a point inside a maximal simplex of dimension at least two is a noncut point: the punctured simplex still connects its boundary, and other simplices attach along faces, not through its interior. The one-dimensional cycle case and finite-tree leaf characterization exhaust the remaining possibilities. The result concerns unordered reduced endpoint pairs on the fixed underlying space, exactly as root states; no assertion about equivalence classes of arbitrary ends follows.
+
+**R-SA21-cones:** the finite simplicial-pair construction is valid at its stated scope. Barycentric subdivision makes the chosen subcomplex full. The0/1 vertex function has precisely that subcomplex as zero set. At positive levels, normalized zero-vertex and one-vertex barycentric coordinates give a compatible product parametrization. Collapsing the zero set extends the product to a cone. The compact-to-Hausdorff argument is legitimate for this finite polyhedral quotient. The whole-component case uses the manuscript's explicit empty-link cone convention. No general category of tame spaces has thereby been checked.
+
+## Support, restriction and rives
+
+**R-SA21-support:** checked against the actual Pro F1/F2 passage. A segment whose support lies in another is exactly the family quantified in F1; no injectivity premise is smuggled in. If equal supports had different endpoints, the added side-containment clause places the whole support in one side and contradicts the other endpoint's presence in the other side. Local endpoint uniqueness follows by the same clause and F1 within the selected side. Divisibility is unnecessary.
+
+**R-SA21-restriction:** the dense diamond is a genuine abstract-order example, not a finite sample. Local filtering can be witnessed near the base point in its own chain, including comparisons across ordinal-sum levels. Global minimum/maximum supply the strong endpoint extensions. The retained two pieces omit one middle branch, while the ambient endpoint interval contains it; their required composite is therefore absent. The root proof correctly distinguishes the finite code's support check from the infinite model's axiom proof.
+
+**R-SA21-rives:** a clopen subset of a punctured cone is constant on each connected radial fiber; restriction to a level yields a clopen subset of the link. Compactness supplies cofinal uniform radii. The zero-unit criterion is a filtered-colimit statement and gives openness of the marked set. The distinction between germs along a whole closed set and individual stalks is preserved in the two-point example.
+
+## Sheaf comparison and relative Stone construction
+
+**R-SA21-sheaves:** injectivity of neighborhood sections into sections of the restricted sheaf follows by taking the union of the local equality neighborhoods. The paracompact-Hausdorff surjectivity is cited to an opened result rather than claimed as an independent proof; this review does not replace that citation. For the explicitly reconstructed relative Stone space, a clopen subset is locally represented by a Boolean section: compactness of a fiber gives finitely many basic neighborhoods covering that fiber from the clopen and its complement, and their Boolean coverage equality persists after shrinking the base. The resulting sections agree on stalks and glue. The construction and its topology must remain explicit, as root already does. The étalé space of elements, relative prime spectrum, and ordinary spectrum of global sections are different and are correctly separated.
+
+No extra tests were run for this review because the concrete risks were logical hypotheses and object identification. The review records targeted checks of these arguments, not independent verification of every external result used by root.

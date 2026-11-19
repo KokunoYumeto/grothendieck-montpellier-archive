@@ -72,3 +72,18 @@ folders go back from packages_done/ to packages/ to be sent again (160 scans). P
    - Whether the packages of second_pass_pro_20261114/ are built for this route: to check before sending.
 3. **The two-witness Pro packages built on 14 Nov (S001-S029, for Pro first passes)** are superseded for the Pro
    packages by item 1. They stay in their folder in case the user prefers Pro for part of it.
+
+## 19 Nov 2026: stalled packages, the refill goes into the second pass
+
+The user, 19 Nov ~04:1x-04:2x UTC: a Pro run silent for a few hours ends at its last checkpoint and is taken in for
+what it did; "Implement refill in the second pass ... don't delete work". No new first-pass folders for pages a Pro
+run has read. The Claude second pass of a stalled package is built from its last checkpoint (Pro's final), and each
+scan the checkpoint lacks gets the Work or Codex reading that exists as its first pass:
+`second_pass/make_second_pass.py PKG --from returns/<PKG>_checkpoint_NN_unzipped [--witness <sweep reading>]`;
+every stalled package at once: `second_pass/build_stalled_second_pass_20261119.py [HOURS]`.
+- MPL_15_139-194 (P033): from cp01 (31 scans; 14 scans from Work K15-06/K15-07); witness sweep3/SA05/readings/c15b_c12_c11.md;
+  3 blocks, run by a7b7747f (block 1) and a28ea31f (blocks 2-3), Claude Opus 5.5 at effort max.
+- MPL_136_328-376 (P101): from cp02 (39 scans; 371-376 from Work K136-03); witness sweep3/SA08/readings/136_282-376.md;
+  3 blocks, run by aa2156d1 (Claude Opus 5.5 at effort max).
+- SP04_CW_156-4+156-6 (a Pro second pass itself) stopped after cp05 (63 of 120 scans): SP04_FINISH from that state, with
+  sweep 3's 156-6 readings as witness S: TO_SEND/PRO/2_Archive_second_passes/08_SP04_FINISH_156-4+156-6.

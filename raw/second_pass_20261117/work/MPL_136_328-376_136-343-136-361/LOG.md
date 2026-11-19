@@ -1,0 +1,77 @@
+# Work log, block MPL_136_328-376_136-343-136-361 (aa2156d1c23970b0d, Claude Opus 5.5 at effort max), 19 Nov 2026
+
+343 | box, Ker u_i | idéaux premiers | idéal premier | singular in the ink (Codex K136-02 reads the same) | medium
+343 | box, element t | t\in\unsure{\complement\mathfrak p_i} | t\in\complement\bigcup\mathfrak p_i | a union sign stands between the complement sign and p_i | medium
+343 | ellipse on the vertical arrow | \unsure{Iso?!|Iso?} | Iso? | only a question mark after "Iso" | medium
+343 | lower left | Si on \deleted{\unsure{donne}} | Soient \deleted{\unsure{deux}} | "Soient" in one word; the struck word is short, "deux" | medium
+343 | unresolved | k \leftarrow k' in the box (letters may be capital K, K'; direction of the heavy arrow); "Y \leftarrow X_*" (index may be r); the projection label \pi_i may read pr_i | - | not settled | -
+345 | torsor line | \Phi_*^m | \Phi_*^{m+1} | the exponent is m+1 on enlargement (Codex K136-02 reads the same) | medium
+345 | torsor line, its parenthesis, the exact sequence and p^m_* (5 places) | \Psi_m^\vee (and \unsure{\Psi_m^\vee|\widetilde\Psi_m}), \Phi_m^\vee | \check\Psi_m, \check\Phi_m | a check accent stands above the letter in every place, not a dual sign after it | medium
+345 | margin after p^m_* | (\unsure{bilinéaire en} | (\unsure{s'insérant dans|bilinéaire en} | "s'insérant dans" (Codex K136-02 reads the same) | medium
+345 | Delta^m_* -> P^m_* | \unsure{g}\in P_n^m | \unsure{y|g}\in P_{\unsure{m|n}}^m | the letter has the descender of y; the lower index looks like m | low
+345 | array of T's (5 places) | \unsure{g|\gamma} | \unsure{y|g} | the same y-shaped letter as above | medium
+345 | unresolved | "\Phi_m \to \Phi_n / T_m T_n" may be \Phi_m \to \Phi_m / T_m T_m (Codex); "1=T_0" may be 1=T_1; \delta_0,\delta_1 may be \partial_0,\partial_1; T_1\otimes T_1 may be T_1\circ T_1; \beta\in \unsure{\overline\Phi_m|\overline T_m} looks like \overline T_m | - | not settled | -
+346 | relation block, second line | d\delta+\delta d=\Theta \unsure{un opérateur} | d\delta+\delta d=\Theta en degré total | "en degré total" in three words (Codex K136-02 reads the same) | medium
+346 | relation block, fifth line | \lambda\mu_i+\mu_i\lambda=0 | \lambda\mu_i-\mu_i\lambda=0 | a short minus between the products on enlargement | medium
+346 | left column | d_f(x) | \unsure{d\mu_i(x)|d_f(x)} | the second letter has a descender, mu or f | low
+346 | count of relations | \frac{n(n+1)}2=\unsure{15|6} | \frac{n(n\unsure{-|+}1)}2=\unsure{45|15} | the result has two digits, 4 then 5 (Codex: 45) | low
+346 | note under Theta^2 | \unsure{rien du tout} | \unsure{rien au dessus|rien du tout} | the last word is the six-letter "dessus" | low
+346 | the operator of the three lines left (4 places) | \unsure{\Theta|\Phi} | \varphi | a round letter crossed by a vertical stroke, unlike the Theta of the page | medium
+346 | margin by the boxed relations | \delta(T)=1 | \delta(\unsure{\overline T|T})=T | the value is a T, not 1 | medium
+346 | third line of f(sum lambda_i phi_i) | \unsure{\lambda_i}\lambda_1^{p_1}\unsure{\lambda_i^{p_i}} | \deleted{\unsure{\lambda_i}}\lambda_1^{p_1}\lambda_i^{\unsure{p_i+1}} | the first lambda_i is crossed out; the exponent of lambda_i is written p_i+1 above it (Codex K136-02) | medium
+346 | unresolved | the superscripts \unsure{p-1} in Gamma^{p-1}Phi_* of the exact sequence (they may be p); "Cas p quelconque" may carry a struck "≥ 2"; \unsure{\mu_{f'}=f'\mu_1} in the boxed figure; \unsure{\alpha\in\operatorname{Supp}q} | - | not settled | -
+348 | title line | \unsure{$k$-Algèbre} ... Topos $\unsure{\mathcal T|T}$ | $\frac12$-Algèbre ... Topos $\unsure{\mathcal X|\mathcal T}$ | the title begins with the fraction 1/2, not k; the topos letter is a looped script X (Codex K136-02 reads "1/2-Algèbre ... Topos X") | medium
+348 | left margin | \deleted{avec résolution ... d'augmentation} | \unsure{ou, il suffit qu'il y ait une augmentation} | three faint lines without a cancelling stroke: "ou, il suffit / qu'il y ait une / augmentation" | medium
+348 | unit section | une section $1$ de $C^0$ | une section $T$ de $C^0$ | the letter is T | medium
+348 | before 1°) | satisfaisant aux conditions | satisfaisant \unsure{les relations|aux conditions} | a three-letter word and a word ending in -lations | low
+348 | 1°), parenthesis | (D'où la notation | (\unsure{Donc|D'où} la notation | a short word of four letters, no apostrophe | low
+348 | 4°), boxed text over the square | \unsure{tel que (ayant pour assertion le)} | \unsure{rendant le carré suivant commutatif} | "rendant le" and three further words | low
+348 | 4°), top left of the square | Z^i\times Z^j | \unsure{B^i|Z^i}\times Z^j | the letter is B (the image of d\times\mathrm{id}) | medium
+348 | 4°), boxed margin | \unsure{h_{ij}(x^i\circ z^j)=\mathrm{id}\circ d|...} | \unsure{d(x^i\circ z^j)=dx^i\circ z^j} | the box reads d(x^i∘z^j) = dx^i∘z^j (Codex K136-02) | medium
+348 | unresolved | the cancelled line "si x^i section locale de C^i, z^j section locale ..." (its last word: fermée or bilin.); "est \unsure{nulle}" may be "nul"; the page is faint pencil throughout | - | not settled | -
+349 | typescript, last paragraph | nilpotent quotients | nilpotent quotents | the typed word is "quotents" (a typing slip of the typescript, kept diplomatically; "quotients" in the next line) | high
+349 | note (not a change) | the period matrices with bottom row 0 0 0 | confirmed as typed | both matrices have 0 0 0 in the typescript; 0 0 1 is meant (a slip of the typescript, see the notes) | -
+350 | first line | Ob\unsure{\mathcal T|T} | Ob\unsure{\mathcal X|\mathcal T} | the same looped script X as in the title of 348 | medium
+350 | diagram C^n over Lambda^{n+1}Phi (3 verticals) | arrows labelled \unsure{u^n|a^n} | equalities | the verticals are double strokes without labels (enhanced crop) | medium
+350 | Z^i line | Z^i\simeq\Lambda^i\unsure{\Psi|\Phi}\ (\unsure{i>0|i\geq1}) | Z^i\simeq\Lambda^i\Psi\ (i\geq0) | Psi with its trident; "i ≥ 0" (Codex K136-02 reads the same) | medium
+350 | last line, the exact sequence | 0 -> \Lambda^0\Psi -> \Lambda^1\Psi -> \Lambda^2\Psi -> ... | 0 -> \Lambda^{\unsure{i-1}}\Psi -> \Lambda^{\unsure{i}}\Phi -> \Lambda^{\unsure{i}}\Psi -> 0 | three terms, the middle one with Phi, ending in 0 and the closing parenthesis (enhanced crop; Codex K136-02 reads the same) | medium
+350 | unresolved | the page is faint pencil; most of its prose (from "est un k(U)-complexe" to Ex. 2) is not legible on these images beyond the first pass's marked readings; "C'est l'objet ... th." and Ex. 2 left as the first pass has them | - | not settled | -
+351 | (no change) | - | - | typescript page, upside down on the sheet; read rotated: every typed word, the integrals, the matrix and the footnote agree with the first pass (including the typed slips "ingegrals" and "invariants of / since") | -
+352 | the five lines of prose | On \unsure{se donne} \illegible{3} ... \unsure{homomorphisme} \illegible{3} \unsure{bilinéaire}? | On \unsure{a alors une loi} de k-\unsure{Algèbre graduée} \unsure{alternée sur} Z^i(C)=\Lambda^i\Psi, \unsure{par le} \unsure{produit extérieur}. \unsure{Question : quand et} \unsure{comment cela se prolonge-t-il en une} \unsure{structure de} \unsure{k|1/2}-\unsure{algèbre différentielle}? | on a contrast-enhanced crop the line shapes are "de k-Algèbre graduée", "par le", "Question :", "quand et", and a final "différentielle ?"; Codex K136-02 reads the same sentence (with "½-algèbre"); the prefix of the last "algèbre" is not decided | low
+352 | diagram label and the line under it (2 places) | \unsure{\sigma_{ij}|a_{ij}} | \sigma_{ij} | a sigma with the index ij | medium
+352 | unresolved | the top-left object of the diagram (Z^{i+1}\otimes Z^j or Z^{i+1}\otimes C^j); "d'homologie à 0" may be "d'homotope à 0"; the page is faint pencil | - | not settled | -
+353 | (no change) | - | - | typescript page (its page 8), upside down on the sheet; read rotated: the text, Theorem D, the diagram of algebras and the paragraph on the nilpotent tower agree with the first pass | -
+355 | (page) | - | - | the lower half is written sideways (turned through 90 degrees); read rotated | -
+355 | lower half, under Hom(\widehat\Delta_{ab}\times A^\circ, Ab) | \unsure{resp. aux sommes en g.} | \unsure{repr. p.r. aux deux arg.|resp. aux sommes en g.} | the line reads like "repr. p.r. aux deux arg." (Codex K136-02 the same) | low
+355 | upper right, (Ss) -G_0- | \mathcal A | \unsure{\mathcal B|\mathcal A} | the target letter is drawn like the script B of the line above | low
+355 | upper right, F_0 \in Ab | \mathrm{Ab}^{\unsure{*|+}}_{\unsure{*|+}} | \mathrm{Ab}^{*}_{*} | both are stars | medium
+355 | middle | $G\quad\mathcal A=\mathrm{Ab}$ | Cas $\mathcal A=\mathrm{Ab}$ | the word before A = Ab is "Cas" | medium
+355 | unresolved | "op. contravariants de Omega dans Ab" may read "op. cohomologiques d'un ... dans Ab" (Codex); the index \unsure{\ge0|\widetilde\Delta} of the third Hom may be \widehat\Delta_{ab}; the scribbled circled sign under C^{*0} | - | not settled | -
+357 | right column, "E-Z-C => E-Z" | \mathrm{E\!-!Z\!-!C}\Rightarrow\mathrm{E\!-!Z} | \mathrm{E\!-\!Z\!-\!C}\Rightarrow\mathrm{E\!-\!Z} | the ink has plain hyphens; the first pass's macro printed an exclamation mark that is not on the page | high
+357 | right margin of the left column | N:A_*\to A_{\unsure{\bullet|c}} | N:A_*\to A_\bullet | the same bullet index as the other lines | medium
+357 | right margin, under D( ) | \unsure{degen. homot'qm} | \unsure{degen homot triv} | "degen" / "homot triv" in two lines (Codex K136-02 reads "degen homot triv") | low
+357 | k'-k, h'-h | h'-h=\unsure{d'|d}m+md | h'-h=dm+md | plain d | medium
+357 | after the arrows phi, psi | qui coïncident avec les flèches évidentes en degré 0. | qui coincident avec les fleches \unsure{evidents|evidentes} en degré 0. | no diaeresis on "coincident", no accent on "fleches" or "evidents" (only "degré" carries one); the ending is -dents | medium
+357 | second line | abélien bisimplicial | abelien \unsure{bisimplical|bisimplicial} | no accent on "abelien"; the word reads "bisimplical" | medium
+357 | unresolved | x_{\unsure{ii|i1}} and \unsure{x_{i1}|x_{ii}}; \unsure{\sigma\Box|\sigma\in}; "naturels" (in quotation marks) may stand outside the cancellation | - | not settled | -
+357 | note (not a change) | the hand of 357-376 | - | the missing accents here (and the Work transcription K136-02/03 of 357-376) are a point for the open question who wrote these notes; not decided | -
+358 | NK(Z,i+j) = Z[i+j | Z[i+j\unsure{]|>} | Z[i+j] | the stroke after i+j is a closing bracket | medium
+358 | unresolved | the letter read \unsure{K|\kappa} throughout (a small-capital K form; kept as the first pass has it) | - | not settled | -
+359 | X\times X -m-> X | \unsure{homotopiq cm} | \unsure{homotopiq com|homotopiq cm} | the abbreviation after "homotopiq" has three letters, "com" (Codex K136-02 the same) | low
+359 | left margin | \unsure{Classiquemen|Classiquement} | Classiquemen | the word ends in -men with no t | medium
+359 | Cor, end of the sentence | les \unsure{chains|chaînes} ZX \unsure{est à} | les chains ZX \unsure{ont ce|est à} | "chains" without e; the next two words read like "ont ce" (Codex K136-02 the same) | low
+359 | t.q. line | t.q. induise la mult de chaine | t.q. induise la mult \unsure{des chains|de chaine} | "des" in three letters and the same "chains" as above | low
+359 | heading | Constr des opérations de Steenrod: | Constr des operations de Steenrod: | no accent on "operations" | medium
+359 | boxed reference | \uline{p99} | \uline{p\unsure{99|39}} | the first digit is not decided between 9 and 3 (Codex K136-02 reads p 39) | low
+359 | quotient line | (W_n\otimes ZX)/\Sigma_n \simeq ZX\otimes ZK(\Sigma_n,1) | (W_n\otimes ZX)/\Sigma_n = ZX\otimes ZK(\Sigma_n,1) | two plain strokes, no tilde | medium
+359 | unresolved | Σ_n×Σ_n read as the start of the bar construction (Codex: "Σ_n×Σ_n=Σ_n"); W_n -?-> Hom'; ZX^{\unsure{\sim|\xi}}; f^{\otimes p} may be f^{\times p}; \unsure{énoncée|annoncée}; "Kunneth" (no umlaut visible) | - | not settled | -
+360 | sentence before the Hom complexes | L'énoncé ... s'énonce | L'\unsure{enoncé|énoncé} ... s'\unsure{enonce|énonce} | no accent visible on the first e of either word (only the final é of "enoncé") | low
+360 | Dold's theorem | \uline{Théorème} | \uline{\unsure{Theorème|Théorème}} | the first e carries no visible accent (Codex K136-02 reads "Theorème") | low
+360 | Dold's theorem, second line | Pour tout $X$, ce complexe | Pour tout $X$, Ce complexe | capital C | medium
+360 | Dold's theorem | résolution libre | \unsure{resolution|résolution} libre | no accent visible | low
+360 | unresolved | d'\unsure{objet|objets}; N_{\unsure{**|12}}; the crossed arrow \unsure{\not\to|\not\simeq}; \unsure{Ueber|Über} | - | not settled | -
+361 | (page) | - | - | the sheet is turned through 90 degrees; read in its own orientation | -
+361 | heading | EZ \unsure{3|9} | EZ \deleted{\unsure{2}}3 | a bold 3 written over another digit, probably 2 (Codex K136-02 the same) | medium
+361 | e_alpha line (2 places) | \unsure{i|\alpha} | \alpha | both indices are alpha | medium
+361 | last paragraph | En fait on considère | En fait on considere | no accent | medium
+361 | unresolved | H^{\unsure{*|\lambda}}; \unsure{\varphi|0} and the struck item under it; \unsure{e|\mathcal E} (overwritten letter) | - | not settled | -

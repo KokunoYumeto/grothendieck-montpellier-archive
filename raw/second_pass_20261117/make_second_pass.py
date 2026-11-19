@@ -7,8 +7,17 @@ sys.stdout.reconfigure(encoding="utf-8")
 BS = chr(92)
 T = pathlib.Path("C:/Users/user/Documents/grothendieck_archive_transcription_20261110")
 SP = T / "second_pass"
-pkg = sys.argv[1]; block = int(sys.argv[2]) if len(sys.argv) > 2 else 19
-ret = T / "returns" / f"{pkg}_unzipped"
+# 19 Nov 2026 (main session, Claude Opus 5.5 at effort max; the user: "Implement refill in the second pass ... don't
+# delete work"): --from DIR builds the second pass of a Pro package that ended at a checkpoint from that checkpoint
+# (its last return, taken as its final); each scan it lacks gets the Work or Codex reading that exists as its first
+# pass (REFILL below), so no page is read again from scratch. --witness FILE (repeatable): a further reading of these
+# pages (a sweep reading), named in the prompt.
+_argv = sys.argv[1:]
+FROM = _argv[_argv.index("--from") + 1] if "--from" in _argv else None
+WITNESS = [_argv[i + 1] for i, a in enumerate(_argv) if a == "--witness"]
+_pos = [a for i, a in enumerate(_argv) if not a.startswith("--") and (i == 0 or _argv[i - 1] not in ("--from", "--witness"))]
+pkg = _pos[0]; block = int(_pos[1]) if len(_pos) > 1 else 19
+ret = (T / FROM) if FROM else T / "returns" / f"{pkg}_unzipped"
 if not (ret / "pages").is_dir() and (ret / pkg / "pages").is_dir():  # 17 Nov 2026: some returns unpacked one level deeper
     ret = ret / pkg
 RET = ret.relative_to(T).as_posix()
@@ -78,6 +87,44 @@ assert pages, ret
 done = [d for d in (T / "packages_done").iterdir() if d.is_dir() and d.name.endswith(pkg)]
 assert len(done) == 1, done
 zp = done[0] / f"{pkg}_scans.zip"
+REFILL = {}  # 19 Nov 2026: page-file stem -> (first-pass file under T, who made it), for the scans the checkpoint lacks
+if FROM:
+    import csv as _csv
+    import re as _re
+    with zipfile.ZipFile(zp) as _z:
+        _sent = sorted({_re.sub(r"(_a|_b)?\.jpg$", "", n) for n in _z.namelist() if n.endswith(".jpg")})
+    _have = {p.stem for p in pages}
+    _CW = T / "codex_web_20261113"
+    _work, _codex = {}, {}
+    for r in _csv.DictReader(open(_CW / "ASSIGNMENTS.tsv", encoding="utf-8"), delimiter="\t"):
+        for _n in _re.findall(r"\d+", r["scans"]):
+            _work.setdefault((r["cote"], int(_n)), r["folder"])
+    for r in _csv.DictReader(open(T / "packages_work" / "CODEX_COVERED_SCANS.tsv", encoding="utf-8"), delimiter="\t"):
+        _codex.setdefault((r["cote"], int(r["scan"])), r["folder"])
+    for stem in _sent:
+        if stem in _have:
+            continue
+        c, n = cote_scan(pathlib.Path(stem + ".tex"))
+        src = None
+        for fid, who in ((_work.get((c, n)), "Work (GPT-6.2 Astra at Max, ChatGPT Work)"),
+                         (_codex.get((c, n)), "Codex web (GPT-6 Astra at reasoning effort max)")):
+            if fid and (_CW / "returns" / fid).is_dir():
+                hits = [h for pat in (f"*_{c}_scan{n:03d}.tex", f"*_{c}_scan{n}.tex", f"*scan{n:03d}.tex")
+                        for h in sorted((_CW / "returns" / fid).rglob(pat))]
+                if hits:
+                    src = (hits[0].relative_to(T).as_posix(), f"{who}, folder {fid}")
+                    break
+        REFILL[stem] = src
+        pages.append(ret / "pages" / (stem + ".tex"))
+    pages.sort(key=page_order)
+    print("refill:", {k: (v[1] if v else "NO READING") for k, v in REFILL.items()})
+_cpn = _re.search(r"checkpoint_(\d+)", FROM).group(1) if FROM and _re.search(r"checkpoint_(\d+)", FROM) else None
+from_line = (f" That run ended at its checkpoint {_cpn}, which is taken as its final; the scans it did not reach carry "
+             "another run's reading instead, named per scan below, and are checked against the image the same way.") if FROM else ""
+wit_line = "".join(f"\n- A further reading of these pages, made in the horizontal sweep 3 by Claude Opus 5.5 at effort max (a "
+                   f"mathematical reading against the scans, with its corrections table beside it): `{w}`. Where it and the "
+                   "first pass differ, the image decides; say in the changes table which reading the image supports."
+                   for w in WITNESS)
 em = SP / "edition_matters_20261117" / f"{pkg}.md"  # 17 Nov 2026: edition matters from the first pass's notes
 em_line = ("\n- Edition matters found in the first pass's notes (the follow-ups reader, 17 Nov 2026): "
            f"`second_pass/edition_matters_20261117/{pkg}.md`. Check those that fall on the scans of this block "
@@ -116,11 +163,18 @@ for b in range(n):
     else:  # 17 Nov 2026: the scans zips of the packages of 11-12 Nov are gone: render from the source PDFs
         render_missing(chunk, img)
     (SP / "out" / pkg).mkdir(parents=True, exist_ok=True)
-    files = "\n".join(f"  - {RET}/pages/{p.name}" for p in chunk)
+    files = "\n".join(
+        (f"  - {RET}/pages/{p.name}" if p.stem not in REFILL else
+         (f"  - {p.name}: not in the Pro run's last checkpoint; its first pass is the reading by {REFILL[p.stem][1]}: "
+          f"`{REFILL[p.stem][0]}` (in that run's own macros; write your corrected file as `{p.name}`, in this package's "
+          "conventions)" if REFILL[p.stem] else
+          f"  - {p.name}: not in the Pro run's last checkpoint, and no other reading exists: transcribe it from the image, "
+          "in this package's conventions"))
+        for p in chunk)
     prompt = f"""# Second pass: check a first-pass transcription of a Grothendieck manuscript against the scans
 
 You check and correct a diplomatic LaTeX transcription of manuscript pages from the Grothendieck archive at
-Montpellier, made blind from the scans by GPT-6 Astra (ChatGPT Pro mode). Nobody has edited these pages before: your
+Montpellier, made blind from the scans by GPT-6 Astra (ChatGPT Pro mode).{from_line} Nobody has edited these pages before: your
 pass is the first check they get. The sample checks of such first passes found about 0.5 to 2 errors per 100 words:
 fluent misreadings that put a plausible mathematical word where the ink says something else, dropped conditions and
 symbols, wrong indices and signs, missed deletions and insertions. Only some of them carry a doubt mark.
@@ -131,7 +185,7 @@ Inputs:
 - The first pass, one file per scan:
 {files}
 - Its notes, doubts and inventory: `{RET}/{pkg}_notes.md`, `{pkg}_doubts.md`, `{pkg}_inventory.csv`.
-- The prompt it ran on (its macros and conventions): `{done[0].relative_to(T).as_posix()}/PROMPT.md`.{em_line}{cb_line}
+- The prompt it ran on (its macros and conventions): `{done[0].relative_to(T).as_posix()}/PROMPT.md`.{em_line}{cb_line}{wit_line}
 - The images: `second_pass/img/{pkg}/`, each named as its page file, with `.jpg` (the whole page) and `_a.jpg`, `_b.jpg`
   (the two halves).
   Read both halves of every scan. Where a word or symbol is hard, crop and enlarge it (PIL), and rotate margin notes;

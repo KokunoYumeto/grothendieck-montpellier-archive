@@ -1,0 +1,267 @@
+# SA05 — Théorie des motifs: consolidated dossier, part 1
+
+**Status: 19 November 2026. Scope: the 380 indexed entries for cotes 11 and 12, including the cote 56 material physically included in their package.**
+
+The supplied leaves contain several connected programmes, at different stages of completion. Cote 11 develops the calculus of correspondences from pullback, pushforward, products and trace, then tests how much structure can be recovered from Poincaré algebras and the cohomology of powers. Cote 12 moves from pure motives and their groups to motives over bases, three different uses of level or dimension, absolute cohomology, arithmetic finiteness, positivity, and L-functions. Its later leaves return to weights and local geometry before constructing integral smooth motives and an abstract additive envelope. These programmes should be read in that order. The inherited La Longue Marche, Dérivateurs and other-project associations are retained separately and do not determine the interpretation.
+
+Every indexed entry has a verdict based on its prose and the relevant transcription. Repeated entries have been consolidated across packages, with source-specific formulations retained. Every claim has a literature-search mapping, and every problem has a state-of-art account tied to an opened source. The archive includes the written proofs, exact calculations, outputs, reference access limits and check events. **No scan was available and no diplomatic reading was changed.** Mathematical contradictions identify places to inspect; they do not decide what the ink says.
+
+The most consequential distinctions are between an abstract exchange axiom and geometric base change; a special finite-set system and an unrestricted one; numerical semisimplicity and faithful realizations; constant coefficients and arbitrary lisse geometric coefficients; the early Tate-stable dimension filtration and the later untwisted generating dimension; rational cohomology and integral torsor groups; and a formal tensor-isomorphism torsor and a period conjecture. The earlier notes often noticed these issues correctly, but some summaries erased the hypotheses, the deleted layer, or the difference between an authorial question and a modern comparison.
+
+## 1. Extent, witnesses and documentary boundaries
+
+The five indexed packages contribute 82, 107, 9, 79 and 103 entries respectively. The nine entries of `MPL_12_002-050` include long sections with 101 internal numbered notes; counting only the nine headings would have missed most of their content. All these internal notes were read. Codex notes and transcriptions provide additional witnesses and self-flagged steps; they do not receive fabricated verdict rows. There are no second-pass files for this part, which is an expected property of the supplied material.
+
+The full-topic orientation is as follows. Page counts and titles in this table come from the supplied `TOPIC.md`; they describe the catalogue, not the number of pages newly verified here.
+
+| Cote | Catalogue subject | Catalogue pages | Treatment in this part |
+|---|---|---:|---|
+| 10 | Tensor categories | 197 | Other part; no indexed verdicts manufactured here. |
+| 11 | Formalism of correspondences | 57 | Both Pro packages and K11-01–04 read, including cross-package continuations. |
+| 12 | Generalities and motivic Galois subgroups | 167 | All three Pro packages, B12-01–02 and K12-01–09 read. |
+| 13 | Motivic Galois group | 51 | Other part; mentioned only where a supplied note records a lead. |
+| 14 | Algebraic cycles and Hodge, Tate, Lefschetz, Weil conjectures | 131 | Other part; missing target passages are explicitly unavailable leads. |
+| 15 | Arithmetic and Galois theory of motives | 227 | Other part; no transferred proof status from earlier runs. |
+| 16 | Correspondences and Poincaré–Hodge algebras | 55 | Other part; reported lettering/operator comparisons remain unverified at this endpoint. |
+| 18 | Motives and Hodge theory | 61 | Other part; the reported period passage was not supplied. |
+| 19 | Topoi | 95 | Other part; no transcription coverage is claimed. |
+
+The physical cote 56 appendix belongs to the second cote 11 package and is therefore included despite not being a separate row of the topic inventory. It contains quadrics, vanishing-cycle calculations, SGA 3 drafting material and Antoine Delzant’s offprint. Reused GIT pages, EGA drafts, reflection-group typescripts, the Delzant paper and reports about Deligne retain their own authors or qualified attributions. Preservation among Grothendieck’s papers is not evidence that he authored each reused text.
+
+Archive scan number, archive foliation, original typescript pagination and physical file line are distinct coordinates. In particular, the same EGA fragment is labelled scan 72 in Pro/K12-05 and scan 66 in B12-01. Its opening reference is 11.9.5 in K12-05 but 11.9.6 in the other witnesses. The administrative letter dated 27 March 1968 at 17:45 dates that letter. The *Local Cohomology* cover’s 1967 publication and March 1968 proof mark date those printed objects. The introduction at 12/097–098 recalls origins of the weight method in 1964; it does not date every handwritten leaf or establish the publication identity of the introduction. [SA05-60, SA05-1052; SA05-C129, SA05-C1061.]
+
+Root locators use **Pro early** for `MPL_12_002-050_transcription.tex`, **Pro middle** for `MPL_12_051-098_transcription.tex`, and **Pro late** for `MPL_12_099-149_transcription.tex`. Line numbers are physical file lines. Other records give the full relative source filename. `SA05_source_guide.md` and the source catalog make these abbreviations explicit. The attachments themselves are not redistributed in this ZIP.
+
+## 2. Cote 11: the correspondence calculus before a category of motives
+
+### Pull–multiply–push, graphs and signs
+
+The initial object is an algebra-valued theory on a category with products. The proposed arrows from X to Y are classes on X×Y. Composition pulls two classes to a threefold product, multiplies them, and pushes across the middle factor. The fourfold-product argument supplies associativity when the particular exchange squares and the projection formula hold. Diagonal classes give identity kernels; graphs and transposed graphs give pullback and pushforward actions. An identity operator after realization is weaker than an identity kernel unless the action is faithful. [SA05-C1001–C1007, SA05-C2003–C2006; Stacks0FFZ, Lemmas 45.3.1 and 45.3.3.]
+
+The supplied pages do not already carry out every additive, idempotent and Tate completion needed for the familiar category of Chow motives. Those additional constructions are stated separately, with their rational Chow Hom formula and projector splittings. Likewise, a cycle quotient only inherits operations that descend through the selected equivalence relation; a list of examples does not give perfect Poincaré duality for every quotient. The graded case needs an explicit ordering and Koszul convention. The manuscript is still choosing between the actions written Cy and yC, and it flags missing axioms. The missing outer pushforward at 11/046 is a local type defect, not a reason to replace the entire construction by a later definition. [SA05-1010, SA05-C1084, SA05-C2001, MP-SA05-1001, MP-SA05-2002.]
+
+The stable-system discussion also distinguishes single geometric classes from their additive span. The literal family of individual f_*1 classes need not be a subring: at a point it need not contain −1. Taking the additive span repairs that example; characteristic-zero resolution gives a familiar generation argument under its own hypotheses. This does not establish a fixed-variety theorem, or a theorem in every characteristic, by changing the quantifiers. [SA05-C1013–C1017; Stacks0AZC and the exact resolution references in the bibliography.]
+
+### Poincaré algebras, gauges and exchange
+
+Trace adjoints, degeneracy, tensor products and the gauge f_*1 occupy the next sequence. The source visibly withdraws a naive all-degree tensor-pushforward formula and later restricts to even shifts. The relation between left and right projection conventions has the sign (−1)^(δj). A bivariant algebra isomorphism need not preserve the chosen trace normalization. [SA05-C1019–C1030; the complete graded and adjoint checks are in `work/cote11a/proof_checks.md`.]
+
+One proposed shortcut is false in the stated abstract category: Cartesianity plus the written dimension condition does not force exchange. Four degree-zero copies of Q with trace weights 2, 1, 1, 1 form a Cartesian square of isomorphisms, yet the two exchange composites are multiplication by 1 and 2. This is a fully specified counterexample to the abstract assertion. The valid tensor-square refinement and geometric base-change theorems remain separate. [SA05-C1023–C1024; MP-SA05-1002.]
+
+### Finite-set systems and diagonal data
+
+The cohomology-of-powers programme asks how much a system indexed by finite sets is determined by its singleton value. Special Künneth isomorphisms, multiplicative gauges and the empty-set convention are substantial assumptions. Without specialness, the partition-system example has singleton dimension one and two-point dimension two, while satisfying the stated functorial and adjoint identities. A general proof and exact finite checks are saved; the finite checks do not alone prove the unrestricted construction. No hypothesis A⁰=k was inserted into the manuscript: the final page identifies a coefficient object k in degree zero. [SA05-C1031–C1035.]
+
+Hua’s November 2026 preprint gives a restricted commutative, ungraded theorem with special Künneth maps and multiplicative gauges. Its prose proof was inspected. The v1/v2 pullback-variance discrepancy is recorded. The author’s report of Lean verification is not an executed certificate in this dossier. It neither settles the manuscript’s general graded/nonadditive programme nor computes every geometric realization kernel. [R-Hua2026, §1, Theorem 1.2 and Corollary 1.3.]
+
+The later diagonal algebra on powers of X makes this limitation concrete. The listed classes are generators, but they need not be an independent basis after realization: for P¹, Δ=h₁+h₂. The partition convention includes an empty block, so dimension counts must count the relevant nonempty blocks. A redundant intersection contributes the Euler class. In normalized cohomology this becomes χ(X) times a point class; in Chow theory the actual top Chern zero-cycle need not equal χ(X) times an arbitrarily selected point. The excess-bundle calculation, multiplication tables and loop examples are redone in the saved proofs and code. [SA05-C2007–C2013; MP-SA05-2003–MP-SA05-2005.]
+
+## 3. Cote 12: pure motives, groups and the programme over bases
+
+### Pure categories, level and fibre functors
+
+The first leaves postulate a semisimple rational category of pure effective motives, faithful realizations and the weight-one abelian-variety part. They do not construct all these properties simultaneously. Jannsen’s numerical semisimplicity theorem is an exact later result, while faithfulness of a realization on numerical motives needs an additional equivalence-relation comparison. The proposed universal presentation also requires correspondence and cycle-map data beyond the two conditions briefly listed. [SA05-C1–C5; MP-SA05-01–MP-SA05-03; R-Jannsen1992, Theorem 1.]
+
+Minimal Tate-adjusted effective level gives a formal decomposition once a suitable finite-length semisimple category exists. Its identification with geometric coniveau is stronger. Weak Lefschetz supplies a cohomological injection under smooth projective hypotheses; a split motivic injection needs the corresponding formalism. A sentence about level invariance under algebraically closed extension is cancelled. Full faithfulness must not become essential surjectivity: the corrected Deligne–Milne discussion explicitly distinguishes them. The twist (n−i)/2 in the pure-level formula has the wrong sign under wt(Q(1))=−2; the mathematical candidate is (i−n)/2, pending the scan and convention. [SA05-C3–C9, SA05-C141; R-DM1982, 6.22; R-BlochOgus1974.]
+
+Neutral Tannakian reconstruction, tensor generation, pro-reductivity and fibre-isomorphism torsors have exact later formulations. Their hypotheses matter. End(1)=k does not imply that the group is connected; a finite group already supplies a counterexample. Rigidity alone does not ensure an ordinary symmetric fibre functor; the superline is an obstruction. A supersingular elliptic curve’s quaternion division endomorphism algebra cannot act faithfully on a two-dimensional Q-space, so the rational-fibre obstruction is real without obstructing all ell-adic or nonneutral formulations. [SA05-C10–C18; R-DM1982, 2.11, 2.20–2.23 and 3.2; R-Deligne1990, Theorem 7.1.]
+
+The arithmetic group discussion first proposes too strong an unconditional component identification, then cancels it. The surviving Artin quotient, geometric kernel, connectedness condition and pointwise ell-adic section are distinct. Tate density and semisimplicity remain explicit inputs to the finite-field protorus picture. Over a finite field, central Frobenius and the conditional Weil-number classification explain much of the later development, but do not give an unconditional category of all pure motives by themselves. [SA05-C19–C27; MP-SA05-07–MP-SA05-08; R-Kahn2025, 5.10 and §10; R-Milne1994, 2.4–2.7.]
+
+The central weight cocharacter is not a nontrivial Lefschetz sl₂ Cartan: [H,L]=2L prevents that identification. The filtered-fibre torsor question has an exact modern solution with fpqc-local splittability. Hodge tensors define the Mumford–Tate group; algebraicity of those tensors is another assertion. The symbol G₀ on these pages is not automatically an identity-component notation. An invariant real bilinear form need not be positive. [SA05-C28–C34; R-Ziegler2015, 4.13–4.14; R-DM1982, §§4–5.]
+
+### Motives over a base and the three filtrations
+
+The general-base plan asks for an abelian effective category, derived operations, exact faithful realization, purity, internal Hom, continuity and Tate inversion. The direct-image premise is finite type **and** (proper **or** excellent target); one must retain the disjunction. Modern rational triangulated motives supply a large part of this architecture. Cisinski–Déglise’s precise six-operation and absolute-purity theorems do not construct every proposed abelian heart. Their complete-formalism statement inspected here retains its excellent-base and dimension restrictions. Absolute purity has both factors Q(−d)[−2d]; the missing shift is an important scan alarm. A coherent-realization paragraph is visibly cancelled. [SA05-C35–C48, SA05-C142; R-CD2019, 2.4.50, 14.4.1 and introductory Theorems 6–7.]
+
+Exact faithfulness detects kernels, cokernels and isomorphisms of morphisms already constructed. It does not manufacture a motive morphism lifting an arbitrary realization map. Categorical traces and characteristic coefficients are rational and realization-compatible when the required duals, contraction and symmetric powers exist; the author explicitly flags the need to include contraction in the formalism. These are formal implications, not proofs that all realizations come from a common category. [SA05-C38–C46.]
+
+Three notions must remain distinct: weight, the early Tate-stable dimension type D, and the later generating dimension on scans 125–126. The early definition places every Tate object in D₀. The later definition uses untwisted sources of bounded dimension. Hodge level and coniveau add further related, nonidentical notions. Tate twists preserve weight parity. An identification of every graded quotient with the weight-zero quotient therefore needs a 2i index or a separate odd class. [SA05-C49–C52; SA05-C3033–C3036; MP-SA05-15 and MP-SA05-3013.]
+
+For a finite-length category, K₀ is free on simple classes. A fully faithful exact Tate shift preserving simples gives the formal localization argument. It does not identify K₀ of motives with the scissors ring of varieties. The primitive subtraction rule at α≥0 removes each candidate from itself, including the unit at the boundary. Changing to α≥1 is a candidate repair, not a reading decision. A basis by Tate strings also leaves multiplication constants and lambda operations to be specified. [SA05-C53–C59, SA05-C143; MP-SA05-16.]
+
+### Coniveau, scissors and birational hopes
+
+The coniveau spectral sequence is a genuine organizing object. Its infinite residue-field terms motivate the proposed move to Ind-motives; an infinite limit does not automatically contain a largest finite bipure subobject represented in the original category. The dense-open kernel and cokernel estimates use different filtration steps. The motivic Euler characteristic has an established characteristic-zero construction, and its virtual Betti realization returns in the later weight notes. Neither is a general injectivity theorem for the scissors ring. [SA05-C60–C64, SA05-C66, SA05-C3001; R-BlochOgus1974; R-GilletSoule1996, Theorem 4 and Proposition 5.]
+
+Several geometric reconstruction hopes fail in precisely stated forms. A functor defined on all the displayed maps cannot send every nondominant map to zero: a section C→C×P¹ has a projection retraction. The manuscript’s bracket notation for transcendental extensions is not securely literal polynomial notation; the units argument is therefore only a conditional reading caution. The valid geometric obstruction uses Howe’s nonisomorphic genus-two curves with isomorphic **unpolarized** Jacobians. A dominant map after rational stabilization would factor through the source curve, and Riemann–Hurwitz would force an isomorphism. [SA05-C65, SA05-C67–C68, SA05-C144–C145; R-Howe2005, Theorem 1.]
+
+A complex Enriques surface has a rational homological Tate decomposition yet is not unirational. This disproves the corresponding rational homological formulation, without asserting the same conclusion for integral or full Chow motives. The author’s supersingular E×E example has algebraic H² and is not ruled; it does **not** have all positive primitive invariants zero, since H¹ is nonzero. Nor does its nonruledness alone prove nonvanishing of its class in the proposed graded scissors quotient. The geometric implication is refuted; injectivity of that particular ring map remains a separate question. [SA05-C69–C70, SA05-C146; R-Dolgachev2016; R-GorenLauter2006; R-LarsenLunts2003.]
+
+## 4. Frobenius, absolute cohomology, arithmetic and L-functions
+
+### Galois information and absolute groups
+
+Integrality of Frobenius and effectivity have a precise conditional finite-field theory. Kronecker’s argument gives roots of unity from algebraic integrality and absolute value one. Eigenvalues alone do not imply finite image: an infinite unipotent group has every eigenvalue equal to one. Likewise, a commutant calculation recovers an associative envelope, not individual algebraic cycles or the group itself. SL₂ and GL₂ in their standard representations have the same envelope. [SA05-C78–C86; R-Milne1994, Remark 2.3 and Proposition 2.6.]
+
+The proposed common Lie motive needs a choice between analytic image Lie algebra and algebraic monodromy Lie algebra. The elliptic curve y²=x³+3x+2 over F₅ has five points and Frobenius polynomial T²−T+5. The roots’ valuations show multiplicative independence, giving a two-dimensional algebraic torus, while an open subgroup of the compact procyclic ell-adic image has analytic dimension one. This separates the candidates; it does not disprove every possible common analytic Lie construction. [SA05-C87; `work/root/root_checks.md`, §4, and the independent `work/cote12c/root_crossreview.md`.]
+
+Absolute cohomology is presented through desired axioms, not constructed. Yoneda Ext¹, higher effaceability and an Ind enlargement are separate tasks. The odd rational unit class over a finite field creates a useful consistency test: restriction by extension degree on Q has direct limit Q, whereas continuous cohomology of the profinite group with discrete Q has H¹=0. These theories cannot be identified while retaining all the written axioms. Geisser’s rational Weil-étale splitting gives a precise later comparison with explicit finiteness and conjectural inputs. Arithmetic duality’s extra degree also differs from geometric purity. [SA05-C88–C94, SA05-C150; R-Geisser2004, 1.1–1.3 and 7.1; R-MilneADT2006.]
+
+The invariant-to-coinvariant map is another substantive point. Equal dimensions do not make it an isomorphism: for a nontrivial two-dimensional unipotent Jordan block, its natural map is zero. Semisimplicity at eigenvalue one is the additional input. [SA05-C93; saved exact matrix calculation.]
+
+### Weight bounds: the Legendre test
+
+The sharp constant-coefficient upper bound cannot be extended to every lisse pure geometric coefficient merely by shifting by its weight. For the Legendre family over U=P¹ over F₅ minus {0,1,∞}, F=R¹g_*Q_ell has weight one, but geometric H¹(U,F) has weight four. Thus the proposed upper bound 1+min(2,2)=3 fails. The same family satisfies the stronger smooth-projective direct-summand premise on scan 108, where the sharpening is asked again. The initial assertion and the later question have been merged with both documentary statuses preserved. [SA05-C75; MP-SA05-18; R-LegendreStacks; R-WeilII1980, 3.3.5.]
+
+The exact all-extension trace formula, not a finite numerical sample, determines the compact-support eigenvalues used in the proof. Duality then gives the ordinary weight-four term. Twisting by (2) gives coefficient weight −3 and nonzero arithmetic H¹, refuting the unrestricted absolute-cohomology window. The separately printed wider endpoint 1 is not false merely because it is weaker than 0. Local inertia and compact-support lower-bound failures are retained as distinct claims: unipotent boundary monodromy gives local H¹ of weight four and compact-support H¹ with a weight-zero boundary contribution. [SA05-C76–C77, SA05-C3017, SA05-C3030; `work/cote12c/proofs.md`, §4.]
+
+### Kummer, Sha and the degree-two contradiction
+
+The Tate module of an abelian scheme has weight −1 in the written convention; the +1 on scan 74 conflicts with its twist and the subsequent calculation. Extending rational points to sections uses the regular-base extension theorem for maps to abelian schemes, not properness alone on arbitrary higher-dimensional bases. Kummer then separates the rational-points term from the Tate module of the torsor group. Removing that last term is a Sha-type assertion. Its relation to full BSD must retain base, finiteness and leading-term hypotheses. Kato–Trihan provides the exact global-function-field theorem conditional on finiteness of one primary Sha part; it is not an unconditional all-base finiteness result. [SA05-C96–C103; R-Robert2023, 2.3.16; R-SGA7IX, 2.2.9; R-KatoTrihan2003.]
+
+The discrete-lattice formula needs a quotient by rational invariants. For trivial M=Z, the unquotiented Q/Z term would be wrong. One comparison is explicitly weakened by the author from bijective to surjective with finite kernel. By contrast, the conflict between the constant-Jacobian example on scan 78 and the later degree-at-least-two vanishing on scan 82 is not visibly withdrawn. For a proper smooth positive-genus curve C/F_q with Jacobian J and V=T_ell J⊗Q_ell,
+
+\[
+H^2(C,V)\simeq\operatorname{End}_{\mathbf F_q}(J)\otimes\mathbf Q_\ell\ne0.
+\]
+
+Tate’s theorem and Hochschild–Serre establish this exact finite-base-field endomorphism term. Milne’s cofinite-type assertion and inverse Kummer sequence also give V_ell H²(C,J×C)≠0, refuting literal H²-vanishing without a Sha-finiteness assumption. The torsion group itself is not identified with that vector space. [SA05-C104–C105, SA05-C154; R-MilneADT2006, II.5.1 and (5.2.1).]
+
+Brauer–Sha comparison involves local indices and finite corrections; Milne’s author correction notice records the later weakening and p-primary refinements. The local Weil–Châtelet statement requires the 1972 addendum for the full abelian-variety scope. For a proper smooth geometrically connected finite-field curve with r≥1 removed closed points, normalized local invariants satisfy one sum relation, so the prime-to-characteristic Brauer corank is r−1. With one puncture it is zero. [SA05-C106–C110, SA05-C155; R-MilneBrauer1982; R-MilneWC1972; R-MilneADT2006, II.2.1–2.2.]
+
+The unrestricted proper-scheme high-degree vanishing question also has a negative answer. Let D be the four coordinate planes in P³/F_q and X=D×P¹. Exact incidence matrices, weights and Hochschild–Serre give dim H⁴(X,Q_ell(1))=4. X is proper and singular. The usual smooth proper weight argument remains valid. Both the general proof and an independent computation are included. [SA05-C111, SA05-C156.]
+
+### Positivity and endomorphism invariants
+
+The positive-form axioms have meaningful formal consequences. Nondegenerate restriction to every subobject gives orthogonal splitting. Positive forms on simples supply the twisted self-duality needed for the isotypic reduction over division endomorphism algebras. These arguments do not prove that the positive cones exist for all motives. The cross-term target Q(+ρ) conflicts with Q(−ρ) under the chosen weights, and weight zero does not mean the trivial vector-space category: End(h¹(E)) has nontrivial Hodge types of weight zero. [SA05-C112–C117, SA05-C157–C158; R-DM1982, 4.10–4.11 and 5.12–5.13.]
+
+For endomorphisms, the determinant series loses the zero-eigenvalue class. Over a field its kernel on K₀ End is exactly Z[(k,0)]; restricting to automorphisms or quotienting this kernel repairs injectivity. Over a ring, the finite-projective exact category in Almkvist’s theorem is different from a finite-length category. Weibel’s statement was opened; the original Almkvist DOI was inaccessible and remains unverified as a direct source. The identities σ_t=1/λ_{−t}, reciprocal exponents and the logarithmic trace series were recomputed. In characteristic p, p copies of the identity have nontrivial determinant series but zero power-trace ghosts. Jordan blocks are invisible to the determinant even in characteristic zero. [SA05-C118–C125, SA05-C159–C164; R-Weibel2013, II, Application 7.4.3.]
+
+The coarse L-invariant retains the top-weight component permutation data and the Albanese isogeny class under its constant-coefficient hypotheses. It does not recover a polarization or the variety. Reindexing by weight changes the Euler sign for odd coefficient weight. The relative quotient by factors supported over proper closed base subsets remains incompletely specified: the recorded searches found related birational-motive and function-field invariants, but no theorem with exactly the draft’s quotient and missing hypotheses. This is a bounded class-D conclusion, not proof that no relevant work exists. [SA05-C126–C128; R-KahnSujatha2016; R-BalkanSchreieder2026.]
+
+## 5. The later weight, integral and envelope sections
+
+The later packet separates numerical weights, Hodge type and geometric-generation level. Deligne’s theories establish numerical realization bounds, while the motivic level comparisons remain stronger. A smooth-projective direct summand can use the relative splitting theorem; the proposed devissage to all admissible subquotients is explicitly questioned. Corollary 5.3 has the decisive Pro/Codex variant **sans Tate / sous Tate**. The stronger assertion cannot be adopted before inspecting the scan. [SA05-C3004, SA05-C3015, SA05-C3024–C3025; R-Deligne1968; R-WeilII1980; Deligne1974HodgeIII.]
+
+For positive-dimensional boundary points in the stated separated complex SNC setup, the constant-coefficient local Hodge-coordinate argument gives the recorded level and weight bounds. Compatibility with mixed Hodge structures is supplied by the exact SNC graded pieces in Kebekus–Schnell, Proposition 9.2, followed by Saito’s derived restriction and proper pushforward formalism. A filtered complex suffices; degeneration is not assumed. This establishes the stated realization argument, not every geometric meaning of niveau. [SA05-C3028; the exact formulation and proof are in `work/cote12c/proofs.md`, §5.]
+
+The stronger top-E₂ identification fails in a double blowup of a punctured regular surface: a nonzero E₂^(0,2) is killed by d₂. Codex’s **intervient avec** is weaker than Pro’s **s’identifie avec**, so the negative result is conditional on the strong reading. Similarly, a Tate local class excludes the strict minus-one type bound under the late untwisted generating definition, but not under every earlier use of D. [SA05-C3029, SA05-C3035–C3038; MP-SA05-3009, MP-SA05-3013–MP-SA05-3014.]
+
+The integral smooth-motive construction needs a coherent reference system of lattices. Without it, an almost-all-prime condition can allow denominators 1/ell for every prime and destroy finite generation of Hom. Generic restriction of unramified systems is distinct from ambient extension closure; a ramified finite unipotent torsion extension refutes the latter unrestricted reading. Tensor and internal Hom do not make torsion objects rigid. [SA05-C3041–C3045; MP-SA05-3016.]
+
+Weight-one full faithfulness is also distinct from essential image. Trait criteria and low-ramification extension results are positive cases; the high-ramification regular-local dimension-two example in Vasiu–Zink gives all-prime nonramification without extension as an abelian scheme. The draft itself retracts certainty in that direction. The historical chain includes Raynaud/Gabber and the 1992 letter cited by the later exposition; first discovery is not assigned to the 2010 paper. The general arbitrary-motive one-prime or two-prime proposal remains outside the exact results located. [SA05-C3048–C3051; MP-SA05-3017–MP-SA05-3019; VasiuZink2010.]
+
+The abstract envelope is more complete. The intertwiner quotient equals the corner Hom description; idempotents split without semisimplicity; the universal property is an equivalence of functor categories. Finite-dimensional semisimple endomorphism algebras give generalized inverses and then kernels, cokernels and semisimple abelianness without assuming the conclusion. Tensor constraints and rational Schur projectors extend. The averaging argument retains characteristic-zero denominators. Jannsen’s numerical theorem is one geometric application, not a blanket identification of every homological category. [SA05-C3052–C3061; Demazure1971Motifs, §3, Proposition 1; R-Jannsen1992, Lemma 2 and Theorem 1.]
+
+## 6. Reused texts and the physical appendix
+
+The interleaved GIT material matches Mumford’s numerical stability and ordered-configuration development. Rational attainment needs nonempty direction data and the correct rationality/norm assumptions. Optimal instability, a building-centre assertion and a finite-type quasi-state criterion are different results. The determinant-cone and greedy-flag proof continues across the two attached packages, and the quotient/ampleness theorem is one repeated result. The missing typed pages remain documentary gaps. A separating functional must be nonzero; the literal weak-inequality version admits the zero functional even for an interior point. [SA05-C1042–C1044, SA05-C1058–C1059, SA05-C2020–C2021.]
+
+The EGA drafting material has both close published matches and important residuals. The same malformed generic-freeness paragraph is consolidated as SA05-C1061, with EGA IV3 11.9.7–11.9.10 as the relevant comparison; the unrelated modern-motives citation was removed. Field-base-change schematic dominance has an exact later affirmative answer in EGA IV3 11.10.6. The ordinary nilpotent-density assertion fails for Q[x,ε]/(ε²,xε) with Z=D(x); the published lemma includes locally free successive nilpotent layers. The stronger universal-relative premise is not refuted by this example. The intended total-space integrality question is kept separate from a literal unreduced counterexample and from Murayama’s fiberwise punctual-integrality theorem. [SA05-C1061–C1077, SA05-C1089–C1090; EGAIV3; SGA3II; Murayama2022.]
+
+The quadric calculations require integral lattices, not just rational ranks. The two ruling classes form a basis; their sum and difference span an index-two sublattice. The primitive square has a parity sign. Both punctured-cone parity tables have degree problems in the integral interpretation, while finite 2-primary coefficients introduce an adjacent group. The affine quadric’s sphere model and complex orientation fix the signed comparison once generators are specified. A square base change of an ordinary degeneration gives trivial inertia while retaining the written flat/projective/fiber hypotheses; regular total space is the missing hypothesis in the nontrivial-monodromy assertion. [SA05-C2022–C2037; `work/cote11b/outputs/proof_notes.md`.]
+
+The SGA 3 drafts largely develop into the published rank, maximal-torus, representability and conjugacy results. The nonaffine extension still needs local maximal-torus existence. One broad nested-torus Weyl-group assertion is false: explicit nested tori in SL₄ have relative Weyl groups C₂ and 1. The maximal-torus refinement has the standard centralizer-conjugacy proof. The broad wording survives in the checked 2008 retypesetting; no claim is made to have inspected the original 1970 ink or found an official erratum. [SA05-C2047–C2049 and the nonaffine extension claim; MP-SA05-2017.]
+
+Delzant’s offprint uses the Grothendieck–Witt ring with rank, not the Witt ring directly. The rank-zero ideal maps isomorphically to the Witt fundamental ideal, preserving powers. That comparison and the degree-two Stiefel–Whitney symbol calculation are what connect his two questions to Milnor and Merkurjev. The original 1981 Merkurjev theorem statement was opened; its proof is not independently reproduced here. Both questions have later solutions with characteristic different from two. The exact Springer 1959 Clifford normalization remains an unopened direct-source lead. The supplied text already says **Antoine Delzant**; a mistaken name in an intermediate audit summary was corrected, and no name-reading alarm was invented. [SA05-C2056–C2065.]
+
+Finally, the reflection typescript needs a complement in the chamber definition and has a false dual-angle equality in essential type A₃. Its nonnegative-angle corollary remains true by inverse-Gram positivity. Its exact numbered typescript identity is unverified despite the strong Bourbaki connection. The two Deligne reports concern different subjects: perfect-complex lambda operations and relative Lefschetz/Leray splitting. The latter needs an actual degree-two relative operator; fiberwise Kählerness alone is not substituted. [SA05-C2069–C2079.]
+
+## 7. Literature status in November 2026 and limits of verification
+
+The current-date search found a material update to the abelian subcases. The 6 October 2026 preprint *The rational Hodge conjecture for CM abelian varieties* states rational Hodge for CM abelian varieties, generalized Hodge in Corollary 8.2, finite-field abelian Tate consequences in Corollary 8.3, and abelian standard-positivity consequences in Corollary 8.4. Milne’s 9 November report treats these results as theorems and explains the implication chain. The exact statements and restrictions were read; the 53-page new proof was not independently audited and no journal publication was verified. Arbitrary complex abelian Hodge, integral cycle surjectivity and the arbitrary-variety programme are not covered merely by those statements. The separate rationality announcement has a 6/7 October dating discrepancy recorded in `work/cote12c/2026_abelian_status.md`. [R-CMHodge2026; R-MilneReport2026.]
+
+Modern comparison theorems are useful when their exact objects are retained. Choudhury–Gallauer’s Hopf-algebra theorem has its embedding and PID coefficient hypotheses. Ayoub’s 2026 theorem concerns the enriched functor of geometric sheaves; it is not a theorem about a bare profinite fundamental group. His derived enhancement is retained, and derived triviality remains conjectural. The fixed-object construction gives a further six-functor framework, while the corresponding constructible equivalence is expressed as an expectation. Huber’s period formulation adds genericity and connectedness conditions to the formal torsor statement. None of these modern comparisons is attributed verbatim to the supplied manuscript. [SA05-C71–C72; R-CG2017, 9.1; R-Ayoub2026, Theorem 11 and Remarks 12–13; R-Huber2020, 5.13–5.15.]
+
+The A–F class is a historical-development classification, not a truth label. A false literal formula may have a class B or E corrected counterpart. Class C states the exact residual; class D records a bounded unsuccessful identification, not a universal claim of absence; class F identifies insufficient wording, conflicting readings or a missing exact provenance. Source status, truth under a specified interpretation, current refinement and historical development are recorded separately. Additional corrected statements used by refutation events are labelled as this run’s refinements and are not counted as newly discovered manuscript assertions.
+
+`note={verified}` in the bibliography means that the recorded URL or DOI was opened to the stated extent. It does not mean that an entire monograph or theorem proof was independently checked. Metadata, statements, adjacent arguments, full targeted proofs and failed retrievals have different entries in the reference ledger. The search record includes arXiv, Numdam, author repositories and bibliographies, EGA/SGA, Grothendieck’s published work, MathOverflow leads and bounded zbMATH access attempts. A direct zbMATH failure and other blocked originals are recorded; no inaccessible source is presented as read.
+
+The check-event types likewise distinguish provenance reading, exact-hypothesis comparison, targeted proof inspection, independent deductions and executed calculations. The independent review sharpened the polynomial-notation caution, the graded-scissors conclusion, the normalized residue map and the finite-base-field Jacobian term. The exact computational programs and outputs are included. No Lean build was run, no scan was adjudicated, and no new direction in Stage 6 was developed as a research project.
+
+## 8. Links, future work and how to use the records
+
+`SA05_links.tsv` contains the supplied-folder relationships and literature endpoints actually checked, plus a clearly labelled `our projects` group. That group is also exported on its own in `SA05_project_leads.tsv`. Missing archive targets are in `SA05_unavailable_archive_leads.tsv`; only their supplied source endpoints were inspected. They are not counted as completed two-ended links. This preserves the inherited leads without manufacturing evidence from cotes or prior projects outside the attachments.
+
+The most useful next tasks are the convention and filtration concordances, the exact local-coefficient correction, the diagonal realization kernel in a fixed graded model, the integral-lattice reconstruction, and the source-specific scan decisions. The ranked list in `SA05_directions.md` gives the originating item, claim and problem IDs, known input, intended result and first concrete step for each task. Its interest ranking is distinct from the amount a few-hour run can finish.
+
+For a specific note, begin with its unique row in `SA05_entries.tsv`, then follow the canonical item and its claim/problem pointers. `SA05_aliases.json` records all cross-package joins and the two deliberately partitioned source records. Source-specific parallel formulations and statuses remain available within merged records and in the four scope folders. The main tables are the consolidated deliverables; scope files preserve the audit trail and explain why superficially similar assertions were sometimes kept separate.
+
+## 9. Final counts and verification scope
+
+These counts refer to the canonical tables. Source-specific audit copies retain their earlier IDs and snapshot counts; the alias and partition ledgers explain the joins. A corrected-entry verdict concerns the earlier note, whereas a claim status concerns the source assertion under its recorded interpretation. They are different classifications.
+
+| Measure | Count |
+|---|---|
+| Indexed entries, all with passage-based verdicts | 380 |
+| Consolidated substantive items | 260 |
+| Claim records, including explicitly labelled current refinements | 396 |
+| Current-run refinement records | 40 |
+| Problem records | 102 |
+| Unresolved scan-reading alarms | 183 |
+| Ranked future directions; none developed | 34 |
+| Checked folder/published-work link rows | 101 |
+| Separate prior-project leads (also labelled in the combined links file) | 50 |
+| Unavailable archive-target leads, excluded from checked links | 34 |
+| Unverified published backward-reference leads | 1 |
+| Recorded check events | 1259 |
+| Search-ledger rows | 345 |
+| Canonical bibliography records | 121 |
+| References with an opened URL/DOI to their stated extent | 112 |
+| References explicitly marked unverified | 9 |
+| Merged item / claim / problem aliases | 18 / 7 / 5 |
+
+### Entry verdicts
+
+| Verdict | Entries |
+|---|---|
+| kept | 164 |
+| merged | 160 |
+| corrected | 56 |
+| withdrawn | 0 |
+| rests on a misreading | 0 |
+
+The final table uses “corrected” for substantive repairs to earlier notes, including overstatement or misinterpretation. The reason column records the precise correction. The zero standalone “withdrawn” count does not mean that no source statement was withdrawn: authorial withdrawals have their own item kind and claim status below.
+
+### Item kinds
+
+| Kind | Items |
+|---|---|
+| conjecture | 21 |
+| idea of the earlier run | 31 |
+| other | 11 |
+| reading question | 46 |
+| self-flagged step | 41 |
+| title, date or page count | 8 |
+| unproved claim | 78 |
+| unpursued implication | 11 |
+| withdrawn in the same text | 13 |
+
+### Historical-development classes
+
+The first count includes all canonical records. The second excludes the40 explicitly labelled current-run refinements and therefore includes the remaining source assertions and expressly labelled comparison/boundary records. Neither column should be read as a count of proved theorems.
+
+| Class | Meaning | All records | Excluding current refinements |
+|---|---|---|---|
+| A | In his own later published work | 28 | 28 |
+| B | Developed by others into established results | 159 | 137 |
+| C | Partly developed; precise residue recorded | 99 | 99 |
+| D | No exact development found in the bounded recorded search | 4 | 4 |
+| E | Known before or standard at the time | 74 | 57 |
+| F | Exact assertion or provenance not identifiable from the supplied pages | 32 | 31 |
+
+### Status on the pages or explicit comparison status
+
+| Status category | Claims |
+|---|---|
+| stated without proof | 94 |
+| corrected or withdrawn by the author | 10 |
+| proof sketched | 122 |
+| false as stated under the recorded interpretation | 46 |
+| open on the pages | 55 |
+| comparison or explicitly rejected inference, not an assertion on the pages | 6 |
+| proved there | 22 |
+| historical/documentary statement | 1 |
+| current-run refinement | 40 |
+
+The46 false-as-stated records retain their exact interpretation, counterexample hypotheses and corrected target. Conditional reading cases remain conditional. The40 present refinements are separately identified and never represented as ink on the manuscript. A refutation event points to a real statement ID; the audit corrected pseudo-IDs, self-targets and targets that had different mathematical scope.
+
+### Bibliographic exceptions and reproducibility
+
+The following records remain explicitly unverified as direct external references: `Delzant1962`, `Durfee1983Lead`, `Hironaka1964Lead`, `HuaPinnedAppendix`, `HuaPinnedLean`, `OdaZblLead`, `R-Almkvist1974`, `SGA4`, `Springer1959`. A checked later comparison, attached primary transcription or publisher metadata is described at its actual extent and does not silently turn an inaccessible original into a read source. In particular, the full attached Delzant transcription was read even though its strict external-link status remains unverified.
+
+The programs serialize manually authored judgments, perform explicit algebraic and finite computations, check source locators and validate joins. They do not generate note verdicts by keyword matching. `SA05_source_guide.md` explains the physical line system and restoration layout. `SA05_source_manifest.json` compares every extracted source byte-for-byte with the supplied archives. `programs/outputs/` and the scope output directories retain the actual execution reports. The archive manifest records each delivered file and its hash.
+
+Completed stages: entry checking and consolidation; claims and searched fate; problems and opened-source status; undecided reading alarms; checked links plus separately labelled unavailable leads; ranked future tasks. No manuscript text was amended, no unavailable endpoint was invented, and no source proof or formal certificate is credited beyond the recorded check extent.
+

@@ -1,0 +1,189 @@
+"""Mathematically motivated scan alarms, never edits of the source text."""
+scanstarts={3:2,4:60,5:124,6:167,7:220,8:273,28:287,29:300,30:378,31:425,32:485,33:525,34:576,35:632,36:636,37:688,38:727,39:758,40:808,41:833,42:868,43:883,44:939,45:968,46:1005,47:1037,48:1042,49:1092,50:1136,51:1184,52:1229}
+def rr(scan,line,reading,alternative,evidence,weight='high',confidence='medium'):
+    readings.append(dict(cote=36,scan=scan,line=line,reading=reading,alternative=alternative,evidence=evidence,weight=weight,confidence=confidence))
+def rp(scan,local,*args,**kwargs):
+    rr(scan,local if scan==3 else scanstarts[scan]+local-1,*args,**kwargs)
+rp(3,12,'hensélien | Limélien','Retain both until the scan; hensélien is mathematically coherent.',
+ 'The nearby inertia and trait constructions use henselization; this is contextual support, not an ink decision.','medium')
+rp(4,13,'A. M.','Unresolved initials; Artin–Mazur is a contextual expansion only.',
+ 'The task is equality of two pairings. Identifying the initials determines the comparator but cannot be inferred from perfectness.','medium','low')
+rp(4,38,'subset sign or letterc','Check whether the mark is an inclusion or part of a symbol.',
+ 'The editorial sentence questions a mathematical formula; inserting an inclusion changes its type. The criticized draft is absent.','medium','low')
+rp(5,10,'kernel subscripteta | s','Check the generic/special-fibre index.',
+ 'A subgroup of the unramified torsion part is a specialization assertion; the formal kernel identity alone cannot choose the fibre.','high')
+rp(5,27,'relative scheme overSpec k_et | Spec K_et','Determine the base of the relative scheme and pulled-back ring.',
+ 'The arrowSpecK_et→Speck_et pulls ring objects in one direction; the two possible bases give different ringed-topos statements.','high')
+rp(5,28,'liss; ramifier','Do not replace these by smooth/étale/unramified without checking the letters.',
+ 'The tubular-topos construction uses a specific local condition; these words have different infinitesimal meanings.','medium','low')
+rp(7,13,'Serre: l’indép. | l’insép. deell','Independence ofell is a plausible reading; inseparability remains the transcribed alternative.',
+ 'The surrounding trace and reduction comparison is compatible with an independence-ofell theorem, but it does not identify a unique reference.','high')
+rp(28,5,'dot | zero at the ends of the two diagrams','Check whether exact-sequence endpoints are actuallyzero.',
+ 'The later1-motive interpretation requires exactness that headless strokes and dots do not establish.','medium','low')
+rp(28,6,'terminal arrow points left;1 | vertical stroke','Preserve direction and inspect the label.',
+ 'Turning this into a standard exact-sequence diagram would insert a mathematical assertion absent from the retained reading.','medium','low')
+rp(29,33,'canoniqt splitting','Check the scope of canonical and the relevant rigidification.',
+ 'InternalHom vanishing controls uniqueness only after the other extension/trivialization data are fixed.','high','low')
+rp(29,48,'Hom with or without underline; repeatedHom arguments','Retain internal/global distinction and verify the two arguments.',
+ 'Local lattice freeness makes internalExt vanish; globalExt can be nonzero. Dropping an underline changes the asserted vanishing.','high','low')
+rp(29,51,'Ext(M′,Gm) without an unambiguous degree','Check underline andcohomological degree.',
+ 'The lifting argument needs internalExt1, while uniqueness needs internalHom. A bareExt symbol does not fix the claim.','high','low')
+rp(29,62,'the two splittages andrho_i','Check which two restrictions toM×M′ are asserted to coincide.',
+ 'Compatibility of the two trivializations is the defining extra datum of a biextension of complexes.','high','low')
+rp(30,16,'phi^n(x,my)=phi^{n′}(x,y), withy inQ[n]','Expectedy inQ[n′] for the displayed diagram.',
+ 'The preceding top-right domain isP[n]×Q[n′]; multiplyingy bym maps it toQ[n].','high')
+rp(30,17,'P[mn′] --m--> P[n]','ExpectedP[n′] --m--> P[n] whenn′=mn.',
+ 'Forx inP[mn′],mx need only lie inP[n′], notP[n]. The subsequent lift isx′ inP[n′].','high')
+rp(30,36,'Tor boundarydelta | partial','Either boundary notation is possible; inspect the direction and sign.',
+ 'The comparison must beTor1(P,Q)→P[n]⊗Q; its sign is used in finite pairing compatibility.','medium','low')
+rp(31,29,'RHom/Ext0 definition ofnA and the cone degree','Check the degree-zero symbol and the convention for[M→G].',
+ 'ForM in degree−1,G in0, the torsion realization isH0 RHom(Z/n,A). Shifting the complex changes the exact sequence.','high','low')
+rp(31,36,'M′[n]=0; divisibility parenthesisM | M′','Check which lattice is torsion-free and which map is divisible.',
+ 'The finite sequence needsM[n]=0 andnG=G; the primed copy requires the correspondingprimed assumptions.','high')
+rp(31,56,'first termT_ell(A′) | T_ell(G′)','ExpectedT_ell(G′) in the primed exact sequence.',
+ 'The realization sequence is0→T_ellG′→T_ell[M′→G′]→M′⊗Z_ell→0. Repeating the middle object as kernel changes it.','high','low')
+rp(32,7,'progroupes deleted in favour of systèmes projectifs','Retain projective systems; do not silently replace them by their inverse limits.',
+ 'The later bounded-torsion example haszero Tate limit but nonzero finite biextension data.','high')
+rp(32,39,'last domainy inP[n′]','Expectedy inQ[n′].',
+ 'The pairing has sourceP[n′]×Q[n′], and the previous formula usesQ. The displayed secondP is a type mismatch.','high')
+rp(33,24,'M′_n | M_n; D(M_n)','Check which lattice is dual to each torus.',
+ 'The cross-dual torus/lattice pairing requiresT=D(M′),T′=D(M). Interchanging a prime changes the orthogonal filtration.','high','low')
+rp(33,28,'second quotient numeratorA[n] with an unclear denominator','Check all torsion brackets and the denominator before using the induced pairing.',
+ 'The abelian graded piece should beG[n]/T[n]; the full1-motive realization has an additional lattice quotient.','high','low')
+rp(33,35,'A[n] | A in the second pairing','Expected a finite torsion realization on both finite-pairing factors.',
+ 'A pairing intoGm[n] factors through killed-by-n objects; an untruncatedA would be a different map.','high','low')
+rp(33,48,'T_n with an additional leftn; same forT′','Check whetherT_n already denotes a torsion group or another indexed object.',
+ 'The orthogonality/perfectness argument depends on the actual graded subgroup, not a redundant-looking notation inferred by the reviewer.','medium','low')
+rp(34,44,'right-hand torsion indexn′n and overwrittenQ','ExpectedP[n′]×Q[n′] in the top row.',
+ 'The transitionm=n′/n must be defined on both factors and land in theirn-torsion.','high')
+rp(36,5,'U_ell | mu_ell','Check whetherU_ell denotes all ell-primary roots or a finite-level root group.',
+ 'The pairing target andTate inverse limit differ betweenmu_ell andmu_(ell∞); notation elsewhere does not decide the ink.','high')
+rp(36,8,'Z_ell | Z/ell','For the finite-level row,Z/ell is the expected coefficient; inspect the scan.',
+ 'The table compares finite torsion andell-adic realizations. Replacing one by the other changes both cohomology anddual groups.','high')
+rp(36,38,'i_p | alpha_p','alpha_p is a possible Frobenius-kernel coefficient, not a confirmed reading.',
+ 'The kernel ofF:Ga→Ga isalpha_p in thefppf topology;Z/p arises fromF−1 in theétale topology.','high','low')
+rp(36,39,'kernel/cokernelF positions','Check whetherF orF−1 occurs and preserve the side of the map.',
+ 'Frobenius-kernel duality andArtin–Schreier fixed points are different exact sequences.','high','low')
+rp(37,36,'f_! versus prime/star; mapsto-like sign','Retain the shriek and inspect the direction of the local-to-global comparison.',
+ 'This is an adjunction/duality programme, not an ordinary direct-image identity.','high','low')
+rp(39,27,'Picard exponent0 with uncertain stroke','DistinguishPic0 fromPic^tau and higherPicard degree.',
+ 'Maps from an abelian variety land in the connected part under suitable hypotheses; finite torsion may seePic^tau.','high','low')
+rp(39,31,'Hom(A′,Pic0) tensorQ in the inductive-limit box','Standard torsion-limit calculation suggests tensor(Q/Z), unless another transition convention is written.',
+ 'colim_n(H/nH) under the usual inclusions isH⊗Q/Z. It is torsion, whereasH⊗Q generally is not.','high')
+rp(39,31,'T_dot(A′) in the same inductive-limit box','Identify the indexed torsion system explicitly; do not assume an inverse-limit Tate module.',
+ 'The passage is called inductive and usesfiniteA′[n]. An inverse-limit module has a differentHom universal property.','high')
+rp(39,42,'Pic^tau | Pic^2 in theExt term','Inspect the exponent; tau is compatible with torsion components,2 is a different cohomological degree.',
+ 'The surrounding finiteCartier-dual/Kummer comparison is degree1, so a superscript2 would require an additional derived interpretation.','high')
+rp(39,46,'Hom(A′,Pic) tensorQ in the second box','Again considerQ/Z under the standard direct system; no text is changed.',
+ 'The same torsion-limit test applies to both parallel boxes, not only the first.','high')
+rp(40,8,'H^i(X,Gm)=0 fori≥2 | i>2','Check both inequality and whether cohomology is relative/geometric.',
+ 'H2(Gm) is theBrauer group and need not vanish even on smooth properX;SpecR is a precise absolute counterexample. The>2 reading is a different claim.','high')
+rp(40,23,'isomorphismes donc | tous; deux | trois groups','Check the number and direction of maps declared isomorphisms.',
+ 'The diagram comparesAlb dual,Pic^tau andH1. A connected-Picard replacement need not preserve the same integral assertion.','medium','low')
+rp(41,4,'gamma | sigma','Keep the group/sheaf symbol consistent across the two exchange formulas.',
+ 'The Hom/H1 andExt/H1 questions involve different categories if the symbol denotes aconstant group versus astructural object.','medium')
+rp(41,26,'Ext_(X/S) | Ext(X,B) in a cancelled label','Retain cancellation and check the relative category before comparing the surviving box.',
+ 'RelativeExt andglobalExt do not have the same edge terms.','high','low')
+rp(42,13,'cycle andCartier-divisor wording in the cancelled proof','Check whether the extension is only aWeil cycle, or an actualCartier divisor.',
+ 'Normality permits codimension-one extension ofWeil divisors; local factoriality is needed for arbitraryCartier extension.','high','low')
+rp(43,27,'explicit not-equal sign before the proposed direct sum','Preserve≠; do not normalize the display to an isomorphism.',
+ 'Derived filtration terms are generally linked by differentials andextensions. The denial is mathematically meaningful.','high')
+rp(43,40,'i | p and(q) | (1) in the spectral-sequence notation','Check both cohomological index and argument.',
+ 'The total degree determines which higherPicard term can contribute; guessing the indices could fabricate the claimed abutment.','high')
+rp(43,45,'Ext degree/underline near the shifted formula','Retain the relative/internal distinction and inspect the shift.',
+ 'The draft placesH1 ofabelian coefficients beside degree-shiftedPicard duality; a dropped degree changes the theorem.','high')
+rp(44,23,'equals sign | dash in the lowerHom formula','Check whether an equality or only a connection is drawn.',
+ 'A pointed-map decomposition is valid, but the adjacent shriek-adjunction equivalence is not defined enough to be inferred from a stroke.','high','low')
+rp(44,25,'first terme | 0','Either is an identity notation in an appropriate category; inspect rather than standardize.',
+ 'The type of the displayed exact sequence may be groups or groupoids.','medium')
+rp(45,4,'superscript(phi) | (p)','Check fixed-by-Frobenius notation againstp-torsion.',
+ 'Fixed pointsker(F−1) andp-torsion are different objects, especially over a nonalgebraically closed field.','high')
+rp(45,14,'cancelledQ_p coefficient in the stable-part pairing','Retain the cancellation; do not restore a rational pairing as a surviving theorem.',
+ 'The replacement fixed-point formula has different coefficient andintegral-limit data.','high','low')
+rp(45,15,'W-family letter andW_infinity(k)','Identify the Witt-vector convention and transition maps.',
+ 'FiniteW_r,fullW anda direct-limit Witt object have different inverse-limit andFrobenius properties.','high')
+rp(46,4,'arith beneath the inverse-limit index','Check whether this is an arithmetic annotation or an indexing abbreviation.',
+ 'A geometricTate module does not equal the full arithmeticfundamental group, which has aGalois quotient.','high','low')
+rp(46,19,'A has no torsion','A torsion-freeNéron–Severi quotient is a plausible intended object; the ink alone can decide.',
+ 'Every positive-dimensionalabelian variety has nonzeroell-torsion forell≠char. The next step needs thetorsion ofPic to lie inPic0.','high')
+rp(46,27,'A′ | A* in the secondTate quotient','Check that both symbols denote the same dualabelian variety.',
+ 'The finiteWeil pairing has sourceA[ell^k]×A^t[ell^k]; an unrelatedprime would break the identification.','high')
+rp(48,15,'P′ | P″ in the cancelledtensor argument','ExpectedquotientP″ inP″⊗Q=0.',
+ 'The torsion liftP[n]→P″ andnQ=Q forcequotienttensorvanishing; they do not forceP′⊗Q=0.','high','low')
+rp(48,24,'E2 | E′2 in the morphism compatibility','Check whether the morphism is on the full biextensions or their restrictions.',
+ 'Fullfaithfulness of the reconstruction functor needs compatible morphisms between the correct restricted objects.','high','low')
+rp(48,38,'illegible words in the cancelledfullfaithfulness argument','No proposed completion; inspect the scan.',
+ 'The missing words lie inside a proof ofcategoricalfaithfulness, so their absence limits the proof audit.','medium','low')
+rp(50,8,'pP″=pP″ | pP″=P″','The nontrivial alternative is divisibilitypP″=P″; retain the tautological primary reading until checked.',
+ 'A tautology supplies no hypothesis for replacingfinite systems bymodules. The nearby laterline repeats actualdivisibility.','high','low')
+rp(50,8,'pP=pP | pP=P','Check whether the intended added assumption is divisibility.',
+ 'The finite-pairing/Tate-module distinction turns on surjectivetransition maps, not a tautological equality.','high','low')
+rp(50,29,'Ne vaut que ... stricts / modules / systems','Inspect the precise scope of the boxed qualification.',
+ 'The page explicitly limits a module formulation; the boundedtorsion example shows that omitting this scope changes truth.','high','low')
+rp(51,30,'nestedH0 expression with an unfinishedargument','Do not supply the missing presheaf or infer a completedderived formula.',
+ 'The Čech comparison depends on which functor is derived and on theempty-object convention.','medium')
+rp(52,11,'T | S in the universalbase-change quantifier','Expected allT→S, not onlyS-points.',
+ 'Pointed-map rigidity must hold after everybase change to justify sheaf-level uniqueness andcoherence.','high','low')
+rp(52,17,'A_G | G_A inH1','Expected coefficient sheafG pulled back toA.',
+ 'The torsors under discussion areG-torsors onA; swapping base andcoefficient makes theLeray display ill-typed.','high')
+rp(52,29,'missing star after the firstpr2','Expectedpr2* alongsidepr1* in theprimitiveclass condition.',
+ 'The formula compares pullbacks toA×A; a bareprojection is not an element ofH1(A×A,G).','high')
+rp(52,33,'two star | alpha marks','Check whether these are pullbacks in thedefect morphism.',
+ 'The mapL↦m*L−pr1*L−pr2*L defines theprimitive kernel; different symbols would change its construction.','high','low')
+rp(52,41,'B | A andisomorphism sign | arrow in thelastdiagram','Inspect the finalquotient andits target before identifyingNS.',
+ 'A general rigidifiedtorsor quotient need not be the classicalPic/Pic0 without the intended group andgeometric hypotheses.','high','low')
+
+# The following line numbers are global in the named Codex .tex file.
+rr(11,47,'relative cycle fibrewise codimension≤n','Expectedcodimension≥n in theproper-intersection condition.',
+ 'For a codimension-n relative cycle, excess dimension corresponds to codimension dropping. SGA7XX1.6 is the comparator; the scan must decide the sign.','high')
+rr(12,63,'R^{2|a n−1}','ExpectedR^{2n−1}.',
+ 'A codimension-n correspondence from a curve shiftsH1 toH^{2n−1}.','high')
+rr(13,91,'H1(C) followed by a detachedQ_l(1) andparenthesis','ExpectedH1(C,Q_l(1)).',
+ 'The displayedcorrespondence must have the Tate twist matchingcodimensionn.','medium')
+rr(14,110,'i_s:X_s→X_s','Expectedi_s:Y_s→X_s.',
+ 'The precedingmorphism isi:Y→X; thehypotheses apply to its geometric generic fibre.','high')
+rr(14,114,'Z_l | Q_l in theimage condition modulo torsion','Determine the coefficient andthe scope of modulo torsion.',
+ 'The algebraicretraction is defined with rationalcycles, so denominator clearing andrationalcoefficients must be accounted for.','high')
+rr(14,116,'Z″ onX×C | Y×C; cycleequality onX×C | Y×C','ExpectedZ″ onY×C andz=i*z′+z″ onY.',
+ 'The fibre-difference cyclez″ lies onY, whereasz′ lies onX. The statedequality cannot hold ontheproduct without another notation change.','high')
+rr(16,162,'E^{n−1} in theHodge discussion','ExpectedE^{2n−1}.',
+ 'Here dimX=2n andthevanishingcohomology has degree2n−1; the listedHodgetypes sumto2n−1.','high')
+rr(16,162,'H^{p,q}(X)→H^{p,q}(Y) is an isomorphism for these values(p,q)','Expectedfor theother values, outside(n,n−1),(n−1,n).',
+ 'The vanishingHodge pieces are assumedzero outside those two types; the followingH^{0,2n−1}argument requires theoutsidecase.','high')
+rr(17,166,'divisible by1^{n−1} | q^{n−1} | p^{n−1}','Expectedq^{n−1} forq=#k(t), up to an explicitly chosenvaluation normalization.',
+ 'The Tate twist multiplies Frobenius eigenvalues byq^{n−1}. Divisibility by1 is vacuous andp alone loses the residue-degree exponent.','high')
+rr(18,178,'generic degree-d hypersurface overk(t0,...,tr)','Parameter count should match thedegree-dform space, e.g.k(t0,...,tN), N=binomial(r+d,d)−1 in projectivecoordinates.',
+ 'The ambient projectivespace dimensionr is not the number of independentcoefficients of ageneral degree-d form exceptd=1.','high')
+rr(18,180,'traceonu with aninserted invariant subspaceV0′','Retain theinsertion andthedeletedconsequences.',
+ 'Theweak subspace-trace statement doesnot imply theoriginal whole-trace statement; theexplicit trivial-group counterexample verifies thelogical difference.','high')
+rr(20,27,'G0=Aut_Fp(V0)','ExpectedG0⊆Aut_Fp(V0), theimage of theGaloisrepresentation.',
+ 'No surjectivity to thefullgenerallinear group is asserted orproved in7.1;Chebotarev acts on theactual finitequotient.','high')
+rr(20,30,'U′ as anopen ofS_d, with aninsertedGrassmannianparenthesis','Expectedanopen in theGrassmannian oflines inS_d.',
+ 'Points ofU′ parametrizepencils/linesD, not individualhypersurfaces.','high')
+rr(20,32,'ell a prime differentfromell','Expectedell≠p.',
+ 'Thecohomology isell-adic incharacteristicp, andself-inequality is impossible.','high')
+rr(21,40,'factor1+q^{2n−1−i|2n−2−i}','Expected1+q^{n−1−i} withdimY=n−1.',
+ 'Gysin andhardLefschetz identify thehighambientpiece withH^i(X)(−(n−1−i)); thewrittenexponents have thewrongdimension.','high')
+rr(21,46,'onlyi≤n−2 ambienteigenvalues said0or1modp','Check whether thebound shouldincludei=n−1.',
+ 'The middleambienttrace in thepreviousdisplay alsocontributes to theclaimedconstantc; it must be controlled too.','high')
+rr(21,46,'allalgebraic eigenvalues become0or1modp afterpower','Clarifyreduction modulo a chosenprime overp versus literaldivisibility byp in theinteger ring.',
+ 'An algebraicinteger mayhave differentresidues atdifferentprimes overp; acommon power gives0or1 ineachresiduefield butnot necessarilythe same choice atallprimes.','high')
+rr(22,51,'cardk(t) in thefinite-field specialization sentence','Expectedcardk(s).',
+ 's is theclosedfinite-fieldpoint;t isgeneric anditsfield is notfinite.','high')
+rr(22,51,'largestsubmotive ofleveln−1','Expectedoflevel<n−1 in theirreducibility argument.',
+ 'Theassertion excludeslowerlevelpieces;thewholevanishingcohomologyalready haslevelatmostn−1.','high')
+rr(23,67,'isomorphism fori≤n−2 | i<n−2','The restriction sequence gives≤n−2 under the statedvanishing.',
+ 'BothH^i(O(−d)) andH^{i+1}(O(−d)) vanish fori≤n−2, whiledegree n−1 givesonlyinjection.','high')
+rr(24,87,'N≥r d1^n','ExpectedN≤r d1^n.',
+ 'The nextpage choosesexactlyNpoints from afinite set ofsize r d1^n. The transcribedinequality reverses thisrequirement.','high')
+rr(25,97,'(H_phi psi∩X)(k)=Z(k), ofcardinalityN','Expected(H_n∩Z)(k), unlessZ has beenexplicitly redefined.',
+ 'EarlierZ hascardinalityr d1^n andH_nselectsNofits points. Multiplying by a zero-free form preserves the selectedset,notallZ.','high')
+rr(26,105,'N′≥r(d1′)^n; N″≥r(d2′)^n','Expected≤ in bothselection conditions; alsoinspect theinconsistentsecondindex.',
+ 'This repeats the same finite-set selectionstep as7.6,so theinequalityalarm recurs.','high')
+rr(26,111,'t a point oflowercases','ExpectedschemeS.',
+ 'The nextclause separatelyintroducess as aspecializationoft; conflatingS ands makes thestatementill-typed.','medium')
+rr(27,120,'quasi-cristallin | topo-cristallin','Retain both; no comparison theorem is inferred.',
+ 'The word identifies the intendedcategory, butthepage givesonlyaheuristicheading andnoformaldefinition.','medium','low')
+
+rr(26,111,'t an arbitrary point of normal S, s a specialization','Check whether t was intended to be generic, or whether normality was meant for its specialization closure.',
+ 'Literal normal ambient S is insufficient: C-SA13-355 gives a smooth surface and an integral nodal curve whose generic fixed representation is trivial but special image is C2. The claimed henselian generic-point reduction only proves C-SA13-363.','high','medium')

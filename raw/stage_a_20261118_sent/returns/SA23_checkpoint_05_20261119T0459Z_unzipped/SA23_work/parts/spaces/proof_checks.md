@@ -1,0 +1,61 @@
+# Mathematical checks: cotes 161-3 and 161-4
+
+These are present reconstructions, dated 19 November 2026. They do not alter the transcriptions. The claim register gives archival physical lines; the reference register distinguishes opened statements from full proof checks. `compute_checks.py` and its saved JSON contain the executed algebraic and finite checks. A finite computation is used only for its stated scope.
+
+## Product topoi and the false direct-image test
+
+C-SA23-spaces-001–004 and 072. On a product of small sites, impose all covering families from each factor. A sheaf for the generated topology is precisely a bifunctor satisfying the sheaf condition in each variable. This gives the product construction stated in Lafforgue, slide 47. For finite-limit sites, `(c,d)=(c,1)×(1,d)` proves the finite-product universal property for jointly left-exact functors. For an arbitrary family, finite-support tuples replace the unrestricted product category. The page's undefined inverse-image formula needs the associated-sheaf left adjoint; direct image is the right adjoint.
+
+The proposed test using only the two projection direct images is false. Take C=D to be the category with one nonidentity arrow 0→1. Presheaves are arrows F(1)→F(0). The point given by evaluation at 0 has fully faithful right adjoint A↦(A→A). In the presheaf category on C×D, take F(0,0)={0,1} and F(0,1)=F(1,0)=F(1,1)={0}; every map into F(0,0) selects 0. The square commutes. Projection direct image takes the limit in the other variable; the indexing category D^op has initial object 1, so this limit is evaluation at 1. Both direct images are consequently the constant singleton arrow and belong to the two point subtopoi. The product point subtopos has constant squares as its right-image objects. F is not constant, so it does not belong. This is a counterexample with every functor and inclusion specified.
+
+An initial attempted counterexample using a discrete two-by-two matrix was rejected. A point inclusion in Set² has right image `(A,1)`, not `(A,0)`. The program records this rejection explicitly so that a mistaken intermediate argument cannot survive into the dossier. The true equivalence Fun(C^op,E)≃PSh(C)×Top E is unaffected.
+
+## Covers, spatiality, and essential points
+
+C-SA23-spaces-015. On the opens of a discrete two-point space, let u(∅)=∅ and u(U)=1 for U nonempty. Every covering family maps to a jointly surjective family, including the empty cover of ∅. But the two singletons cover the whole space and their disjoint union is the terminal object of Set²; applying u gives 1⊔1→1, not an isomorphism. Thus u cannot restrict a coproduct-preserving functor out of the sheaf topos. Sending covers to epimorphisms does not impose all sheaf colimit relations. Factoring through the associated-sheaf localization gives the correct condition.
+
+C-SA23-spaces-010. The countable product of countable discrete locales is spatial. A basis consists of finite words; the cylinder for a word is the join of the cylinders extending it by one letter. If cylinders cover every infinite branch but their join failed to cover the root in this frame, collect the finite words not covered by that join. Each such word has a successor in the collection, since otherwise the defining relation would cover it. Dependent choice produces an infinite branch avoiding the cover, a contradiction. This directly checks the countable Baire example and agrees with Heckmann's countable-presentation spatiality theorem. It does not prove spatiality for arbitrary uncountable products. Consequently the manuscript's unfinished blanket nonspatiality criterion cannot be accepted as written.
+
+C-SA23-spaces-011,019–020. Cantor space is the inverse limit of the finite discrete sets of binary words. The corresponding localic inverse limit of their sheaf topoi is Sh(Cantor). Every nonempty open contains a clopen cylinder and can be covered by smaller proper opens; it has no nonempty supercompact open. A localic presheaf topos has a basis of supercompact opens, so Sh(Cantor) is not a presheaf topos. The finite-stage geometric morphisms are essential, which answers the unrestricted preservation question negatively. For a space, a point is essential exactly when it has a smallest neighborhood: original SGA IV Exercise7.6(b), pp414–415. Exercise7.6(d–g), pp415–416, distinguishes essential morphisms and the Karoubi envelope from arbitrary geometric morphisms. The stronger adjoint-site hypotheses in the manuscript are a separate conditional construction.
+
+C-SA23-spaces-018. For the lower-set Alexandrov topology, nonempty irreducible closed subsets are upper sets which are downward directed. If such a set has no least element, choose successively a smaller element, using directedness when the next candidate is not below the current one. Conversely, the upper closure of a strictly descending chain is directed and has no least element. Thus sobriety is equivalent to the descending-chain condition under classical dependent choice. The nonprincipal directed upper set Z supplies a geometric point not corresponding to an object of the poset Z, explaining why an equivalence using all geometric morphisms is too strong.
+
+## Morita reconstruction and uniqueness
+
+C-SA23-spaces-023–024. Locally write E=R^n, n>0, and suppose an algebra isomorphism A⊗End(E)≃End(F) is given. Regard F as an End(E)-module and let G=Hom_End(E)(E,F). Matrix units e_ij split F into the e_iiF and identify each summand with e_11F. The evaluation map G⊗E→F is then an isomorphism. End_End(E)(F)≃End(G), while the commuting algebra is identified with A by the supplied tensor-product isomorphism. The local constructions are intrinsic and glue over the ringed topos. This proves the rigidified quadruple statement. The exact centralizer computation in dimension four is a sanity check, not its proof.
+
+If the isomorphism G⊗E≃F is discarded, scalar automorphisms of G remain, and tensoring G by a line bundle preserves End(G). Thus uniqueness up to unique isomorphism only makes sense with the compatibility data. Rank zero must also be excluded. Morita's 1958 bibliographic source was verified, but the exact original theorem was not read because its PDF endpoint rate-limited; the proof above is the evidence for the precise sheaf statement.
+
+## The cancelled inverse criterion describes regular rings
+
+C-SA23-spaces-035. In Z[x,y], the ideals (x,y) and (xy−1) are comaximal, and their intersection is generated by x(xy−1), y(xy−1). Chinese remainders therefore gives
+
+`Z[x,y]/(x²y−x,xy²−y) ≃ Z[t,t⁻¹] × Z`.
+
+Maps to a commutative ring R extending the value x=a are solutions b of a²b=a and ab²=b. They are unique when they exist: the idempotents ab and ac for two such inverses coincide, and then b=abc=c. Existence is precisely commutative von Neumann regularity; from a²z=a one obtains the reflexive inverse b=az². F₂×F₃ has one inverse for every element but is not a field; Z/4 fails at 2. The complete finite enumeration is saved. The sheet is wholly cancelled, so this is not treated as an author-endorsed final theorem. Lawvere's reprint pp79–80 provides an exact conceptual parallel between failure of product closure for division rings and algebraic generalized inverses.
+
+## Arbitrary immersion descent fails
+
+C-SA23-spaces-058. Let X=⊔_p Spec F_p over Spec Z, where p runs over rational primes. Its image is the set of closed points. This is dense, hence could be locally closed only if open; it is not open since every nonempty open of Spec Z contains the generic point. Thus X→Spec Z is not an immersion.
+
+Put B=∏_p Z_(p). It is torsion free as a Z-module, hence flat. For each p, multiplication by p is invertible in all q≠p coordinates; accordingly B/pB≃F_p. The generic fiber is also nonzero. Thus Z→B is faithfully flat, and the affine map Spec B→Spec Z is an fpqc cover. The base change of X is still ⊔_p Spec F_p. If e_p is the coordinate idempotent of B, D(e_p)≃Spec Z_(p), and U=∪_pD(e_p) is the open disjoint union of these spectra. In each component Spec F_p is closed, so X_B→U is a closed immersion. Composing with U→Spec B gives an immersion. This proves failure of descent for arbitrary immersions. X is not quasi-compact, exactly the hypothesis of the positive Stacks35.23.23 result. The example was found through comment11722 on tag02YL, dated28August2026; that date is only the observed comment date and not a historical-priority claim.
+
+## Affine geometry and missing hypotheses
+
+C-SA23-spaces-050. A flat module M is faithfully flat iff every residue-field fiber is nonzero. Flatness is indispensable: Z⊕Z/2 has nonzero fibers everywhere but contains torsion and is not flat.
+
+C-SA23-spaces-064. A¹_k→Spec k is closed and quasi-projective but not proper. After base change by A¹_k, the closed hyperbola xy=1 projects onto D(x), which is not closed. This distinguishes closed from universally closed. Proper plus locally quasi-finite is finite; the exact statement and proof were read in Stacks More on Morphisms, lemma-characterize-finite.
+
+C-SA23-spaces-074. C⊗_R C≃C×C, with the two maps given by the two embeddings of C over R. Thus the scheme fiber product has two points although the set fiber product of its one-point factors has one. Tensor products of nonzero field extensions are nonzero, proving surjectivity of the underlying-point comparison generally; uniqueness fails.
+
+C-SA23-spaces-078. A field-valued point kills nilpotents, so Spec k and Spec k[ε]/ε² have identical field-valued functors. Full algebra-valued points distinguish them. For a finite-type algebra over an arbitrary base k, to detect a nonnilpotent a choose a prime where a survives, pass to the corresponding prime residue-field fiber, localize at a, and choose a maximal ideal. Zariski's lemma makes its residue field a finite extension of that prime residue field. This proves the manuscript's finite-extension test when all prime residue fields are allowed. Restricting only to closed points of the base would need an additional Jacobson-type hypothesis.
+
+C-SA23-spaces-082–083. For finite products, ring maps ∏A_i→R correspond to orthogonal idempotents summing to 1 and maps A_i→e_iR. Four maps F₂²→F₂² versus two naive choices verify the coproduct warning. Infinite products are not covered by this formula. Radical ideals need not have radical sum: (y)+(y−x²)=(y,x²), whose quotient is k[x]/x². Symbolic calculations are saved.
+
+## Completing the principal-open sheaf proof
+
+C-SA23-spaces-084. It suffices to cover Spec A by finitely many D(f_i), where (f_i)=A. Suppose s_i∈M_fi agree on all overlaps. Choose a common exponent N such that f_i^N s_i is represented by m_i∈M, and increase N so all overlap equalities become equalities after multiplying by suitable powers. More explicitly, after replacing the f_i by sufficiently large powers g_i=f_i^N, one obtains m_i∈M with s_i=m_i/g_i and g_jm_i=g_im_j. The g_i still generate the unit ideal: the radical of their ideal is A, so the ideal is A. Choose a_i with Σa_ig_i=1 and put m=Σa_im_i. Then g_jm=m_j, so m restricts to each s_j. If m restricts to zero everywhere, suitable powers f_i^N kill m; those powers again generate 1, hence m=0. This proves existence and uniqueness. Localization reduces an arbitrary principal-open cover to this case. The correct restriction under D(f)⊂D(g) is M_g→M_f; the opposite arrow in the margin is an unresolved reading alarm.
+
+## Finite quotients: exact remaining limit
+
+C-SA23-spaces-081. Stacks39.23.9 proves effectivity for affine finite locally free equivalence relations. Raicu's appendix§50 to Kollár gives a finite nonflat relation whose geometric quotient exists but whose relation is strictly smaller than the fiber product; this is carried as checked published evidence, not as a rerun computer certificate. Kollár's Theorem6 and Witaszek's Theorem1.4 answer geometric existence under their stated characteristic and finiteness hypotheses. They do not identify the vague “OK” on the manuscript as a theorem in arbitrary characteristic. The search found no resolution of the general characteristic-zero scheme-theoretic question, but does not certify continued openness. The dossier's next task is to pin down the intended quotient notion before asserting a historical or current problem.
