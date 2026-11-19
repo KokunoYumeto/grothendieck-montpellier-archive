@@ -1,0 +1,276 @@
+# A1 after the full audit: second reading, part 2
+
+Check by Claude Fable 5.2 at effort max (copy a2fedc2a31aa5abb9 of the Longue Marche expert a125034f, cut at its
+state of 14 Nov 2026, 04:16 UTC), reading the proofs, 17 Nov 2026. Return: 03_ANABELIAN_A1, checkpoint 03 (its final),
+by GPT-6 Astra (ChatGPT Pro mode):
+`longue_marche_pro_pilot_20261104/answers/ANABELIAN_A1_checkpoint_03_20261117T0413Z_unzipped/ANABELIAN_A1/`.
+Brief: `pro_intake_20261117/BRIEF_A1_SECOND_READING_PART2_20261117.md` (main session, Claude Opus 5.5 at effort max).
+Earlier notes, by copy ab3f12f2 (Claude Fable 5.2 at effort max): `pro_intake_20261116/EXPERT_A1_ANABELIAN_20261117.md`
+(first check) and `pro_intake_20261117/EXPERT_A1_SECOND_READING_20261117.md` (second reading, part 1).
+
+**This note is written as the reading goes. A section that is not marked DONE is not finished.**
+
+## 0. State (for a resumed or compacted reader: start here)
+
+- Started at about 836k of 1M context; bound: stop by about 935k.
+- Read first: the brief and the two earlier notes (done). Part 1 found sound: A.CF1-A.CF4, A.CR1-A.CR5, A.CR7-A.CR9.
+- Order of work (the brief's): (1) A.CF5-A.CF12 (`sections/A_configuration.tex` lines 302-844); (2) A.CR6
+  (`sections/A_criterion.tex` lines 167-259); (3) A.R1 (`sections/A_root_intro.tex`) against what is proved, and
+  A.33 (`sections/A_root_fields.tex`); (4) A.CR10-A.CR15 (`A_criterion.tex` from line 381); (5) B7 at the level of
+  sense; then the verdict.
+- Progress log (newest last):
+  - step 0: this file created; nothing of the return read yet by this copy.
+  - **FINISHED at about 925k of context (bound 935k).** All five items of the brief are done and the verdict is
+    final (section 6). Read in full by this copy: `A_configuration.tex` 302-844; `A_criterion.tex` 107-258 and
+    382-573; `A_root_intro.tex`; `A_root_fields.tex` 101-201; `A_root_prime_sets.tex`; the register rows A.1, A.19,
+    A.21, A.33, B.46-B.48, B.50 (statements). Nothing else; no program run; no source opened.
+
+## 1. A.CF5-A.CF12: the failure of the full sequence (AG.39) and the finite tests — DONE: sound
+
+`sections/A_configuration.tex` lines 302-844, read in full. No program was run and no source opened. Bellingeri's
+presentation of the surface braid group (2004, Theorem 1.2) is used from the text and from my memory of its shape
+(eleven relations for two strands in genus two: four same-generator, four different-handle, two same-handle mixed,
+one surface relation).
+
+- **A.CF5 (lines 304-358): sound, and a weak test.** I checked the eleven relations by hand in the group
+  `G = (V ⊕ V) × F_3 × F_5²` with cocycle `2J(v_1+v_2, w_1+w_2)`: the commutator of two elements is `J` of the sums;
+  with `σ ↦ z²τ` one gets `σ⁻¹aσ⁻¹ = z²a′` (`a′` the swapped copy), so the same-generator relations are `[a, a′] = 1`
+  (zero self-pairing), the different-handle ones are zero cross-pairing, the mixed ones are `[a′, b] = z`, and the
+  surface relation is `z = z⁴`. All hold. The image of the cusp kernel is the central `F_3` in both groups, so the
+  maps factor through the cuspidally pro-3 groups. **But both groups are nilpotent** (a 3-group times a 5-group, the
+  factor `F_5` direct). The step of A.CF2 that carries weight (a proper quotient `A` acting non-trivially on the
+  `r`-part, handled by passing to the cover with group `A`) is not exercised. As a test of A.CF2 it shows little.
+  K5 of the first check is therefore still open in its intended form (item 3 of section 6).
+- **A.CF6 (360-451): sound.** I re-derived (CF.2) without the program, from the twist formula that A.CF8 proves:
+  the push of the second point round `c` is a product of opposite twists on two push-offs with cover monodromies
+  `1` and `z`; its cube lifts to the cube of the twists on the 27 short lifts and one twist on each of the 9 long
+  lifts; the long lifts have class `c_s + c_{zs} + c_{z²s}` and cancel on differences. This gives
+  `y ↦ y + 3εx`, `x ↦ x` for `C³` and `x ↦ x − 3εy`, `y ↦ y` for `D³`, which is (CF.2). Then
+  `M_C M_D = (−8, 3; −3, 1)` has characteristic polynomial `(λ + 1)²` modulo 5 with eigenvector `x − y`. I checked
+  that `φ_C³` and `φ_D³` preserve the map to the Heisenberg group (the image of `d` under `φ_C^k` is `z^{−k}`). The
+  normalizer argument (432-443) is correct: `J ∩ K ⊂ N` gives `K̄/N̄ = K/N`, elements of `H_0 ∩ J` act trivially on
+  it, so `C³D³` would act with odd order, and it acts by `−1` on a non-zero line. The conclusion does not depend on
+  the sign conventions: with the other sign the product has order 6 modulo 5, and in both cases `M_C`, `M_D`
+  generate `SL_2(F_5)`, of even order.
+- **A.CF7 (455-500): sound.** The topology lemma (a subgroup containing a normal subgroup of `Σ`-index carries its
+  full pro-`Σ` topology) is proved correctly by the core. The filling step is correct: the labels of the punctures
+  `α⁻¹(y)` are preserved by monodromy, so the closed subgroup `N` generated by the inertia at the labels `α ≠ 1` is
+  normal in the completed total group; the discrete filling kernel is the normal closure of the fibre meridians
+  (each graph is connected and meets the fibre once, transversally); right exactness of completion does the rest.
+- **A.CF8 (502-626): sound.** Every step followed: the Heisenberg cover with monodromy supported on one handle; `W`
+  embeds because the form on each `H_1(M_s)` is unimodular; the point push as two opposite twists; the lifting of the
+  `r`-th powers; (CF.3) from the lifted pair of pants; the long lifts act trivially on `W`; (CF.4) is the
+  transvection of exponent `±r`; all transvections occur and generate `Sp_{2h−2}(F_ℓ)`, also for `ℓ = 2`. The last
+  paragraph is where injectivity of the fibre is used, and it is used correctly: it is what makes
+  `K̄/K̄_1 = H_1(D, F_ℓ)` inside the completed total group, so that the closure of the pushing group acts on it
+  through a finite `Σ`-group.
+- **A.CF9 (628-683): sound.** For `Σ = {r}` the monodromy on `H_1(C − P, F_r) = H_1(C, F_r)` is trivial and A.CF1
+  applies; for all primes it cites Mochizuki-Tamagawa 2008, Proposition 2.2 (not opened; it is the classical
+  centre-free argument, which works because `Aut` of the completed fibre is profinite and fails for a proper `Σ`
+  because that group is not pro-`Σ`). For a proper `Σ ∋ r, ℓ` and `p ∉ Σ`: cyclic covers of degree `r^m` (A.CF7) make
+  `h − 1 ≥ d`, `d` the order of `ℓ` modulo `p`, and then `p` divides `ℓ^{2d} − 1`, a factor of `|Sp_{2h−2}(F_ℓ)|`,
+  against A.CF8. Arithmetic checked. In characteristic `p` the statement follows through A.CF3. **So the full
+  prime-to-`p` fibre sequence is not left exact, for every proper curve of genus at least two: AG.39 holds.**
+  This does not contradict Mochizuki-Tamagawa: their hypothesis is "all primes or one prime", and A.CF9 says the
+  hypothesis is necessary. Whether the necessity is in print I do not know (search before any claim of novelty).
+- **A.CF10 (685-719): sound as read.** The same mechanism as A.CF2 with several labelled sections; the base must be
+  aspherical (genus at least one), which is stated. Not used for A.1.
+- **A.CF11 (721-759): the statement follows from A.CF8 without the program** (`h = 3`, `r = 2`, `ℓ = 3`:
+  `|Sp_4(F_3)| = 51840 = 2⁷·3⁴·5`, and `5 ∉ {2, 3}`). The classes `c, d, e, f, c + e` form a chain in homology with
+  consecutive intersection numbers `±1`, so their transvections generate `Sp_4`; the program's count agrees. The
+  matrices and the element of order five are the program's and were not recomputed.
+- **A.CF12 (763-844): sound as read, given Stix 2005, Proposition 2.7 as quoted** (the relative pro-`L` sequence
+  with the whole `π_1(S)` kept; this is SGA 1 XIII 4.3-4.4 in substance; not opened). The proof gets the injection
+  of the pro-`r` fibre into `π_1(V)^{(r)}` directly in characteristic `p`: the base acts on the Frattini quotient
+  through shears, the kernel of `Aut(P) → Aut(P/Φ(P))` is pro-`r`, the fibre is centre-free. **This gives A.CF2 in
+  characteristic `p` without lifting to characteristic zero**, so the specialization of A.CF3 (SGA 1 XIII 2.9-2.11,
+  flagged in part 1 as a thing to check in the source) is no longer the only route: A.1 has two independent proofs
+  of the exactness it rests on. It also allows `p ∈ Σ` for the proper part.
+- **K5.** The finite tests are consistent with the theorems, and I confirmed A.CF6 by hand. They do not replace a
+  test of A.CF2 on a non-nilpotent quotient (see A.CF5).
+
+## 2. A.CR6 in the audit form — DONE: sound
+
+`sections/A_criterion.tex` lines 167-258, read in full (and A.CR4, A.CR5, lines 109-165, read again on the way: sound,
+as part 1 found). Each step followed with my own computation.
+
+- **The `p`-primary difference (209-213).** Geometrically conjugate sections give `[P − Q] = 0` in every
+  `H¹(G_k, T_ℓ J_C)`, `ℓ ≠ p`; the Kummer map is injective on the `ℓ`-primary part of the finite group `J_C(k)`; so
+  `[P − Q]` has `p`-power order and `div f = p^e(P − Q)` with `f` over `k`. Correct.
+- **The central extensions (215-221).** `E_P` is `G_P` modulo the commutators of the cuspidal kernel with the
+  geometric group. Its kernel over `Π_C` is the full `Z_r(1)`: procyclic because generated by one inertia group, and
+  of infinite order by the Heisenberg quotient over `Z_r` (which factors through `G_P` because the image of the
+  cuspidal kernel there is pro-`r` and central). **The multiplier is one**: with the kernels identified with
+  `Z_r(1)` by the residue, the geometric classes of `E_P` and `E_Q` are both the class of a point in
+  `H²(Δ_C, Z_r(1)) ≅ Z_r`, and an isomorphism of extensions over the identity with multiplier `u` gives `u·c = c`
+  in a torsion-free group. The identification of `E_P` with the Chern-class extension of `O_C(P)` is sketched in the
+  text; I completed it (the map from `G_P` to that extension is onto, kills the commutators, and is an isomorphism
+  on kernels). The sign convention is the same for `P` and `Q`, which is all that is used.
+- **The cocycle `χ` (223-231).** `χ(u, v) = β̄(u)v⁻¹` is a crossed homomorphism on the fibre product (checked by
+  multiplying out). On the inertia at `P` the second coordinate is trivial and `χ` is `β̄` on `M`, the identity
+  because the multiplier is one: residue `+1`. On the inertia at `Q`: residue `−1`. So `κ_r(f) − p^e χ` vanishes on
+  both inertia groups, hence on their conjugates (for a cocycle `c` and a geometric `x`:
+  `c(gxg⁻¹) = g·c(x)`), hence on the kernel of `Γ → Π_C`, and it descends to `Π_C`. Correct.
+- **Constants (233-237).** `H¹(Δ_C, M)^{G_k} = 0` by weights (`Hom(T_rJ, Z_r(1))` has Frobenius eigenvalues of
+  absolute value `√q`), so `H¹(Π_C, M) = H¹(G_k, M)`, the `r`-primary part of `k^×`. Correct.
+- **Evaluation (239-247).** The conjugator between `β(D_R^P)` and `D_R^Q` projects into the normalizer of `D_R`,
+  which is `D_R` (A.CR4); after correction it lies in the cuspidal kernel; its image in `E_Q` is an element `m` of
+  `M`, and `χ` along the section of `R` is the coboundary of `m`. I checked the one point that needs care: two
+  elements of the subgroup `β(D_R^P)` with the same projection are equal, so `β̄(s_R^P(σ)) = m s_R^Q(σ) m⁻¹`
+  exactly. Hence `κ_{r,L}(f(R)/a) = 0`. Correct.
+- **Contradiction (249-255).** A point `R` with `f(R) = aζ`, `ζ ≠ 1` of `r`-power order, outside the finite
+  excluded set; the Kummer map of the finite field `k(R)` is injective on the `r`-primary part. Correct.
+- **Inputs of A.CR6:** A.CR2 (through A.CR5), A.CR4, A.CR5, and the finiteness of the exceptional set (A.CR3,
+  Saïdi-Tamagawa) for "outside a finite set". The second proof (A.CR7, A.CR8; part 1) replaces the last input and
+  reuses everything else of A.CR6 unchanged, so A.CR6's steps carry both proofs.
+
+## 3. A.R1 against what is proved; A.33 — DONE: the statement matches the proof; A.33 is sound
+
+- **A.R1 = A.1** (`sections/A_root_intro.tex`, read in full; the register row A.1 has the same words). Statement:
+  `C/k` smooth, proper, geometrically connected, of genus at least two over a finite field of characteristic `p`;
+  `Π_C` the arithmetic group with geometric part the maximal prime-to-`p` quotient (the conventions fix
+  `Σ = {ℓ ≠ p}` when no superscript is written); sections up to conjugation by the whole geometric kernel; the map
+  from `C(k)` is injective; the same for `C_L/L`, every finite `L/k`.
+  - Every hypothesis is one the proof uses, and nothing more is claimed than is proved: genus at least two (A.CF2,
+    and the uniqueness of the pencil of degree two in A.CR8); `k` finite (weights, Weil bounds, the Kummer map of
+    finite fields); all primes other than `p` (the `p`-primary difference in A.CR6 and the support field A.CR8 are
+    for this `Σ`); the whole `G_k` (A.CF3, A.CF4 keep it); every constant extension (the theorem applied to `C_L`).
+  - The chain named in its proof is the one read: A.CF2-A.CF4 give `β` over the identity of `Π_C` preserving the
+    cusp class; A.CR6 gives `P = Q`, with its inputs; the second chain replaces the finite exceptional set by
+    A.CR7-A.CR8. "No full mixed-prime configuration-fibre injection is used": true, and by A.CF9 none exists.
+  - Not claimed, and not proved: any smaller set of primes (section 4); affine curves over finite fields are in
+    A.R5 only.
+  - The mechanism in one line, as I now see it: if the two sections are conjugate by `γ`, then
+    `pr_2⁻¹(s_P(G_k))` and `pr_2⁻¹(s_Q(G_k))` are conjugate subgroups of one group, the cuspidally pro-`r`
+    configuration group, and each is the group of the punctured curve because the fibre injects (A.CF2, or A.CF12).
+    No reconstruction of the configuration group from `Π_C` is needed, which is what makes this so much shorter than
+    the cuspidalization of the literature.
+- **A.R4** (`sections/A_root_fields.tex` 101-133, read): specialization to a closed point of a smooth model over
+  the henselization, with `G_L → G_{k(s)}` onto. Sound; the direction is right (a collision over `K` gives one over
+  `k(s)`, where the sections of `P_s ≠ Q_s` cannot collide).
+- **A.33 = A.R5** (lines 135-201, read; every step checked). Sound.
+  - Compactified genus at least two: the collision passes to the proper curve; A.R1 and A.R4.
+  - Genus zero: the coordinate into `G_m` and the Kummer kernel of `K^×`, which is trivial in characteristic `p`
+    (`K^×` is a finite group of order prime to `p` times a free abelian group).
+  - Genus one: the colliding point `Q` has exact order `p^a` on the elliptic curve with origin `P`; pull back by
+    `[m]`, `m` prime to `p`, `m² > p^a`; the lifted points collide in `D = E − [m]⁻¹B` after replacing `Q′` by a
+    deck translate (the text says "the lifted collision supplies"; I checked the lifting); the class in the
+    generalized Jacobian is `p`-primary of exact order `p^a` (the torus has no `p`-torsion); so there is `f` with
+    divisor `p^a(Q′ − P′)` and value one at the `m²` or more boundary points; `f − 1` then has more zeros than
+    poles. Correct.
+  - It uses A.R2 (lines 3-51, the Kummer kernels; **not read**). I re-derived what is used: for a semi-abelian
+    variety over a finitely generated field of characteristic `p`, an element divisible by every integer prime to
+    `p` is `p`-primary torsion (Lang-Néron for the abelian part, the structure of `K^×` for the torus, finiteness of
+    the torsion). So A.33 does not hang on an unread statement.
+  - Characteristic zero is the classical statement. A.R6 (`A_root_prime_sets.tex`, read) is a correct side remark
+    and is not used.
+
+## 4. A.CR10-A.CR15 — DONE: A.CR10-A.CR14 sound; A.CR15 is honestly open and does not touch A.1
+
+`sections/A_criterion.tex` lines 382-573, read in full.
+
+- **A.CR10 (382-437): sound.** It is stated under the hypothesis that the cuspidal transport holds for the set `Σ`;
+  A.CF12 supplies that for every `Σ` containing a prime `r ≠ p`, so the statement is in fact unconditional on what I
+  read: **the exceptional set is empty for every `J_C`-large `Σ`, in particular for every cofinite `Σ`, also when
+  `p ∈ Σ`.** Checked: `H`, the kernel of `G_k` on the Tate modules at the complementary primes, fixes all
+  complementary-primary torsion; `2H` fixes each of the one or two pairs with a given difference; `2H ≠ 0`; the
+  Kummer step at `p` (through the étale part of `[p^n]`) is right; a cofinite set is large by the auxiliary prime
+  `ℓ`. "Finite implies empty" follows from A.CR7 with a finite field as support. The generalized criterion needs
+  A.CR1, A.CR2, A.CR4, A.CR5 for `Σ`; they are stated for any `Σ ∋ r` and I see no use of cofiniteness in them.
+- **A.CR11 (439-458): sound, and it is the right control.** For the elliptic curve `y² + xy = x³ + 1` over `F_2`
+  the points `O` and `T = (0, 1)` collide in the whole prime-to-2 group. I checked that the proof of A.1 breaks
+  there at the right place: translation by `T` gives an isomorphism `β` over the identity that preserves cusps, so
+  the hypothesis of A.CR6 holds with `P ≠ Q`; what fails is the finiteness of the exceptional set (first proof) and
+  the count "one or two pairs with a given difference" (A.CR8, which needs genus at least two). So the proof does
+  not prove too much.
+- **A.CR12 (460-489): sound.** `y² + x(x+1)y = x⁵ + 1` over `F_2`, `P = (0, 1)`, `Q = (1, 0)`,
+  `div(x/(x+1)) = 2P − 2Q`: a pair with difference of exact order two, colliding in the abelianized extension.
+  **This is the smallest case in which A.1 says something new** (see item 2 of section 6).
+- **A.CR13 (491-526): sound.** For one prime `r` the factor `Z_q` of `G_k` (`q ≠ r`, `q ∤ |GL_d(F_r)|`) acts
+  trivially on the pro-`r` geometric group, `z = s_O(h)` is central, and for a closed point of degree divisible by
+  `q` it moves the geometric point and fixes the decomposition group. I checked the consistency with A.CR4: `z` is
+  not in the group over `L`; its power that is lies in the decomposition group, because the two sections differ on
+  `Z_q` by a homomorphism from a pro-`q` group to a pro-`r` group. I also checked that a singleton is not
+  `J_C`-large (no non-zero element of `Ẑ` acts trivially on `T_sJ` for all `s ≠ r`), so A.CR10 and A.CR13 do not
+  contradict each other.
+- **A.CR14 (528-549): sound.** `t⁷ = t + 1` gives `t¹² + t⁶ = t⁵`, so `P = (t, t⁶)` is on `y² + y = x⁵`;
+  `Q` is its Frobenius image; `|GL_4(F_3)| = 80·78·72·54 = 24,261,120` is prime to 7. The point counts are the
+  program's.
+- **A.CR15 (551-573): Open**, and said to be: prime sets that are neither a singleton nor `J_C`-large. This is
+  the report's open item A12 and the reason the return is marked INCOMPLETE. A.1 does not depend on it.
+
+## 5. B7, at the level of sense — DONE (register statements only; no proof read)
+
+Read: the report's line for B7 and the register statements of B.46, B.47, B.48, B.50 (the first 700 characters of
+each). No proof in `sections/B_reconstruction.tex` was read. B7 has nothing to do with A.1.
+
+- **What is claimed.** B7 (reconstruction of finite-type schemes over `K` from their relative étale topoi, with
+  closed points preserved, under the hypothesis that no automorphism of `K̄` centralizes any `G_E`, `E/K` finite) is
+  **refuted** (B.50). The field is `K = Q(t, u(t))^h`, the henselization inside `Q((t))` for a recursively specified
+  transcendental series `u` (B.46, B.47): countable, of transcendence degree two, value group `Z`, residue field
+  `Q`, and with trivial centralizers. The obstruction (B.48) is the map of `P¹(K̄)` that multiplies the points of
+  positive valuation by `λ = 1 + t` and fixes the others.
+- **Does it make sense? Yes.** The map commutes with `G_K` (the valuation is invariant and `λ ∈ K`), it keeps
+  every valuation `v(a − b)` and every leading coefficient (`λ ≡ 1`), so it keeps the tree of each finite set of
+  marks with its residue data; in residue characteristic zero everything is tame, and the covering theory of
+  `P¹ − S` is read from the logarithmic special fibre of the stable marked model. So the covering categories of
+  `P¹ − S` and `P¹ − F(S)` agree compatibly, while no automorphism of `P¹_K` fixing `0, 1, ∞` moves a point. The
+  centralizer hypothesis removes field automorphisms and nothing else; the obstruction is valuative. This is the
+  expected kind of failure over a henselian field of residue characteristic zero, whose Galois group is that of
+  `Q((t))`.
+- **Where a reader must look** (I did not): B.46, the construction of `u` (a countable diagonal argument with an
+  elimination certificate at each stage: the statement that `h = t` is forced); and in B.48 to B.50, that the
+  isomorphisms for all `S` are compatible under enlarging `S` and with the action of `G_Q` on the special fibres,
+  so that they assemble to one equivalence of the étale topos over that of `K`.
+
+## 6. Verdict (final for this copy; written at about 925k of context, bound 935k)
+
+**A.1 stands as stated, on everything read by ab3f12f2 and by me together.** Every smooth proper geometrically
+connected curve of genus at least two over a finite field of characteristic `p` has an injective point-section map
+for the arithmetic group with geometric part prime to `p`, with the whole `G_k`, over every finite constant
+extension. I found no error and no gap in any statement of the chain.
+
+**The chain is now read end to end, by one of the two copies or by both:**
+A.CF1, A.CF2 (exactness with a pro-`r` cuspidal kernel), A.CF3 (specialization, arithmetic fibre), A.CF4 (boundary
+group, transport `β`), A.CR1, A.CR2, A.CR4, A.CR5, A.CR6 (this note, section 2), A.CR7, A.CR8 (the proof without
+the finiteness theorem), A.CR9, and A.R1 itself (section 3). Around it: A.CF5-A.CF12 (section 1), A.CR10-A.CR14
+(section 4), A.R4, A.R5 = A.33, A.R6.
+
+**What this second part adds to the verdict of part 1:**
+1. A.CR6 in the audit form is sound, including the multiplier one and the residues of `χ` (section 2).
+2. The statement A.R1 claims exactly what is proved (section 3).
+3. A.CF12 gives the exactness directly in characteristic `p` (through the relative sequence of SGA 1 XIII 4.3-4.4,
+   quoted from Stix), so A.1 no longer rests on the specialization A.CF3 alone.
+4. The controls come out right: the proof fails in genus one exactly where it must (A.CR11), and for one prime the
+   statement is false and the proof does not apply (A.CR13, A.CR14).
+5. AG.39 holds (A.CF9): the full prime-to-`p` fibre sequence is not left exact. It agrees with the hypothesis
+   "all primes or one prime" of Mochizuki-Tamagawa and contradicts nothing I know.
+6. A.33 holds: every hyperbolic curve over a finitely generated field of characteristic `p`.
+7. On what I read, more than A.1 is proved: the exceptional set is empty for every cofinite set of primes, also
+   with `p` in it (A.CR10 with A.CF12).
+
+**Not read by either copy:** `sections/A_literature.tex`; A.R2 and A.R3 (`A_root_fields.tex` 1-100; what A.R5 uses
+of A.R2 I re-derived); A.CR3 beyond part 1's reading (needed only for the first proof); the B and C sections
+(B7 by statements only); the run's audits in `notes/`; every program in `code/` (none was run); the paper's PDF. No
+source of the literature was opened by either copy: SGA 1 XIII (2.9-2.12, 4.3-4.4, 5.2), Stix 2005 Prop. 2.7,
+Saïdi-Tamagawa 2009 and 2017, Mochizuki-Tamagawa 2008 Prop. 2.2, Bellingeri 2004 Thm. 1.2, Herfort-Ribes.
+
+**What a second reader must still check before anything public, most weight first:**
+1. **A.CF1 and A.CF2, line by line, by a reader who is not a copy of this expert** (both copies are the same model
+   with the same blind spots; the user's rule on cross-model checks applies). Everything rests on this exactness.
+2. **A finite certificate of the conclusion on the first case where A.1 is new** (A.CR12): for
+   `C: y² + x(x+1)y = x⁵ + 1` over `F_2`, `P = (0, 1)`, `Q = (1, 0)`, whose sections collide abelianly. If A.1 is
+   true, the sections are separated at some finite level: there is a finite étale cover of odd degree, over a finite
+   extension, on which no lift of `P` and deck translate of a lift of `Q` differ by a 2-primary class. A program can
+   find it. It tests the theorem without using its proof, and it is the test the run did not make.
+3. **K5 in its intended form**: A.CF2 on a non-nilpotent quotient (a proper quotient `A` acting non-trivially on the
+   `r`-part), by program in the surface braid group. A.CF5 is nilpotent and does not test this.
+4. The sources: SGA 1 XIII 4.3-4.4 (or Stix 2.7) and 5.2 as used in A.CF4 and A.CF12; Bellingeri's presentation as
+   used in A.CF5, A.CF6; Saïdi-Tamagawa 2009 Lemma 1.7 (A.CR4 re-derives it, so this one is light).
+5. A search of the literature for the emptiness of the exceptional set and for the non-exactness of the mixed-prime
+   fibre sequence (A.CF9), before any claim of novelty. The argument is short; that it was not found by the authors
+   who proved finiteness is a reason to look, not an objection.
+6. The programs behind A.CF6, A.CF11, A.CR14, A.R6, rerun by someone (I confirmed A.CF6's matrices by hand).
+
+**For the next prompt** (anabelian line, as in the first check): items 2 and 3 above as tasks; and A.CR15, the
+prime sets that are neither singletons nor `J_C`-large, which is the run's open item A12.

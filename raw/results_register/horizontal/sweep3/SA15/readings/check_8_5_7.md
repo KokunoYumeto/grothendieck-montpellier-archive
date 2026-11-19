@@ -9,7 +9,7 @@
 | Verdict | **True as stated, for every $d\ge 1$ and every $n\ge 2$, with no extra condition.** Both of Grothendieck's special cases are correct. |
 
 **Independence.** I read the transcription pages
-`C:/Users/user/Documents/grothendieck_archive_transcription_20261110/returns/MPL_8_079-081+9+4+100_unzipped/pages/MPL_8_079-081+9+4+100_4_scan006.tex`
+`<local>/Documents/grothendieck_archive_transcription_20261110/returns/MPL_8_079-081+9+4+100_unzipped/pages/MPL_8_079-081+9+4+100_4_scan006.tex`
 to `..._4_scan009.tex` and the published sources listed in section 7. I did not open STUDY.md, HUNCHES.md,
 RESEARCH_PACKAGES.md, CHECK_EVENTS.tsv or any other file of `results_register/horizontal/sweep3/SA15/` (the
 `readings/` folder included), nor `results_register/horizontal/sweep2/_tools_a28ea31f/s3data_SA15.py`. The proof
@@ -263,7 +263,7 @@ injectivity argument (Step 4) works for any $p$-linear $F$ that is injective on 
   - Exp. XII, Cor. 3.5 ($\pi_0$ bijective, $\pi_1$ surjective for the zero scheme of a regular section of an ample sheaf
     on $X$ of depth $\ge2$ at closed points): p. 120, PDF p. 128; original p. 152. Used in 5.2, Route B.
 - [Serre AL] J.-P. Serre, *Algèbre locale, multiplicités*, 3e éd., LNM 11. Corpus file:
-  `C:\Users\user\Documents\Papors\OS\Lecture Notes in Mathematics - 0011 - Algèbre Locale, Multiplicités, 3e édition (Jean-Pierre Serre, Pierre Gabriel).pdf`.
+  `<local>/Documents\Papors\OS\Lecture Notes in Mathematics - 0011 - Algèbre Locale, Multiplicités, 3e édition (Jean-Pierre Serre, Pierre Gabriel).pdf`.
   Ch. IV, §D "Les anneaux réguliers", Corollaire 3: "Tout anneau local régulier est un anneau de Cohen-Macaulay", p.
   IV-37 (PDF p. 115). Used in Step 3.
 - [SGA 7 XXII, excerpt] Corpus file
@@ -283,7 +283,7 @@ schemes and sheaf cohomology listed here.
 
 **Corpus route.** Queried with
 `python -I -B scripts/query_corpus.py --layer research_literature --index-level canonical --json "TERMS"` in
-`C:\Users\user\Documents\Papors\Chatnotes\Zeta-Function-Foundation`: "Hartshorne"; "Enriques Severi Zariski";
+`<local>/Documents\Papors\Chatnotes\Zeta-Function-Foundation`: "Hartshorne"; "Enriques Severi Zariski";
 "Cohomologie locale des faisceaux coherents"; "Lefschetz locaux et globaux"; "Kodaira vanishing characteristic
 Frobenius"; "semisimple Frobenius cohomology structure sheaf"; "Artin-Schreier etale cohomology structure sheaf
 Frobenius"; "p-linear endomorphism semisimple nilpotent"; "Fonctions L modulo"; "SGA 4 1/2"; "Groupes de monodromie en
@@ -299,4 +299,4 @@ Recorded in `check_8_5_7_CHECK_EVENTS.tsv` (same folder):
 
 | id | date_utc | who | how | result | where |
 |---|---|---|---|---|---|
-| MPL_8_079-081+9+4+100 (4:8) | 2026-11-18 | Claude Opus 5.5 at effort max, a922466087ec53798, independent check | independent re-proof | proved: v is injective for every d >= 1 and every n >= 2 (no extra condition); Frobenius maps Ker r = Im H^{n-1}(X,O_X(-d)) into Im H^{n-1}(X,O_X(-p^e d)) = 0 for p^e d large (SGA 2 XII 1.4), while F is bijective on the SS part; his cases n = 2 and H^{n-1}(X,O_X(-d)) = 0 confirmed | C:/Users/user/Documents/results_register/horizontal/sweep3/SA15/readings/check_8_5_7.md |
+| MPL_8_079-081+9+4+100 (4:8) | 2026-11-18 | Claude Opus 5.5 at effort max, a922466087ec53798, independent check | independent re-proof | proved: v is injective for every d >= 1 and every n >= 2 (no extra condition); Frobenius maps Ker r = Im H^{n-1}(X,O_X(-d)) into Im H^{n-1}(X,O_X(-p^e d)) = 0 for p^e d large (SGA 2 XII 1.4), while F is bijective on the SS part; his cases n = 2 and H^{n-1}(X,O_X(-d)) = 0 confirmed | <local>/Documents/results_register/horizontal/sweep3/SA15/readings/check_8_5_7.md |
