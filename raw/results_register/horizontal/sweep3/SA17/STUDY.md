@@ -553,3 +553,133 @@ The rest are definitions. See HUNCHES H10.
   - The characteristic-0 case is the notes' F12 (Λ = Z[h_1, h_2, …]).
 - **Open:** the exact class of rings k for which the answer is yes. Characteristic 0 is necessary for the argument
   above. Whether Z_p-lattices give the polynomial ring is not settled here.
+
+## Cote 133, scans 2-18 and 30-54 (wave 2)
+
+**Who:** the reader a598c2dff473d448c (Claude Opus 5.5 at effort max), launched by a34c04448e8299803 on 19 Nov 2026.
+It read the transcription, the Pro notes and the doubts in full, and used Michel Hua's reading as a credited witness.
+Its full reading is `readings/133_002-018_030-054.md`: 59 check events, 33 corrections, 9 readings decided on the
+image. Integrated here on 19 Nov.
+
+**Placed only:**
+- Laborde's printed offprints (scans 11-17), credited to him;
+- the computer listing of scan 18, with his one formula;
+- the thesis notices (48, 50).
+
+Scans 5, 10 and 41 are blank leaves (per Michel Hua's project).
+
+### SA17-21 · Witt groups of quadratic forms (scans 2-9)
+
+**His question on scan 4, "c₁ ?", settled: yes.** w₂(H(L)) = c₁(L) mod 2 in étale cohomology, and more generally
+w(H(E)) = Σ (1+α)^{r−k} c̄_k(E). This explains why "w∘α = 1" is struck on scan 9. The result is new in this reading.
+
+**Wrong:**
+- **Scan 6.** "WG(S) is a pre-λ-ring augmented to H⁰(S, Z)" fails where 2 is not invertible: λ² of the hyperbolic
+  plane has rank 1, which his own even-rank statement forbids. New in this reading.
+- **Scan 6.** The ink stops P_i at λ^{i−1}; the universal formula needs λ^i. Michel Hua's project corrects the same.
+
+**Decided on the image at 600 dpi (scan 8):** the name in "dixit" is **Lazard**, not Laborde. The Pro transcription
+and Michel Hua's project both read Laborde.
+
+**Open:** the λ-ring question for his split WG(S). See H-133-1 and package SA17-RP5.
+
+### SA17-26 · the game of go (scans 30-34)
+
+- His scoring identity D = 2(P + T) − ν² − ε. The slip "ν² − D'" is decided on the image, and the signs before ε are
+  minus.
+- His last-move rule holds if each side fills only its own territory.
+- His question gets a no: the last-move term ε depends on play, through sacrifices.
+- **Open:** the rule under his literal no-pass rules.
+
+### SA17-25 · formal groups, algebraic groups, crossed modules (scans 35-54)
+
+**Scan 36:**
+- The heading is "Solution", not "Structure".
+- The labels L₀ and D₀ are swapped. This is Michel Hua's correction; both are written over in the ink.
+- **The splitting statement (I) is false** without "up to isogeny" in the formal category. The universal vector
+  extension of a supersingular formal group is a counterexample. Up to isogeny it holds.
+- **Open:** statement (II) and the other formal-group claims.
+
+**Scans 42-44:**
+- Pic must be Pic⁰, and φ₀ must start from the dual of t (both Michel Hua's corrections).
+- "Γ libre" is too strict: torsion is allowed, and the restriction is in his ink.
+- The note "iff 𝔷_u finite" fails over F̄_p (Michel Hua's project).
+- The equal-characteristic constructibility claim fails for the multiplicative part (the Pro notes G13).
+
+**Scans 46-54, the "Fourbis" pp. 1-7: one group G for two crossed modules.**
+- The centre and derived-group tests, the twist formulas and his "Vérifier" are all re-derived for ordinary groups,
+  with the sign fixed.
+- The cancelled "N' = Cent(H)" should read N' = H ∩ Z(G).
+- **Open:** which central extensions E satisfy both tests.
+- See H-133-2 (P. Hall's isoclinism) and package SA17-RP6.
+
+## Cotes 126, 127, 128, 130, 132: the Work folders (wave 2)
+
+**Who:** the reader ac8bd2a26d00b4f37 (Claude Opus 5.5 at effort max), launched by a34c04448e8299803 on 19 Nov 2026.
+It read every handwritten page and the notes files in full; it used the doubts registers and Michel Hua's readings by
+search. Its full reading is `readings/K126-K132.md`: 50 check events and 22 corrections.
+
+**Placed only:**
+- Ladegaillerie's two CRAS Notes (cote 132, scans 26-32), credited to him;
+- the Bourbaki typescripts n°383 and n°357 (cote 130);
+- an EGA IV typescript leaf (cote 127, scan 9).
+
+### SA17-28 · cote 126: faithfully flat descent and miscellany
+
+**Wrong:**
+- **Scans 4-8.** The equivalence-relation proposition silently needs R → X flat; the page itself later says "Comme
+  R → X est plat".
+- **Scan 20.** "Y irréductible ⇒ composantes irréductibles disjointes" is false: the étale double cover of the nodal
+  cubic is a counterexample. The lemma it serves is still true, by another proof.
+- **Scan 28.** The late fifth triple "(t''', t_1, t_2) ∈ V" is in the ink and makes the claimed surjectivity false. It
+  must be deleted.
+- **Scan 29.** Primes are slipped (t''' for t''). Michel Hua's project notes the same.
+
+**Closed:** Remarque 2, the vanishing he marked "?", is true for quasi-compact quasi-separated maps.
+
+**Open:** effectivity in the quasi-projective case (scan 35).
+
+**The link to cote 131:**
+- Prop. 2 (ii) is the form of condition 1° of cote 131.
+- Scans 32-35 pose the question that step 3 of cote 131 needs: descent along Spec Ô → Spec O. See package SA17-RP7.
+
+### SA17-29 · cote 127: non-flat descent
+
+- Théorème 1.4 rests on Lemma 1.3, which has no proof. It is open.
+- Th. 1.8 ("lemme de Hironaka") is read through the valuative criterion.
+- **Open:** the factorisation of epimorphisms into effective ones.
+- Scans 22-24 (unramified functors, descent along all epimorphisms) supply the type of argument that cote 131's
+  applications use.
+
+### SA17-30 · cote 128: non-flat descent through the conductor
+
+- **Closed:** the k[ε] case, "J nilpotent", and "V est de dim 1".
+- **Lemma 1** (G_m against G_a) has a gap: the multiplicative and additive connecting maps differ by a factor c⁻¹. It
+  is fine in odd characteristic; characteristic 2 is open. See package SA17-RP8.
+- **Open:** the limit lemma of the Théorème.
+
+### SA17-31 · cote 130: heights and local symbols
+
+**Decided on the image (scan 14):** the ink reads ρ(X̃) − 2, not −1. And z is the number of base points, not of
+"sections singulières".
+
+**Closed:**
+- Bounded M_K-sets have bounded height.
+- "Admettons ce point", the sheaf property.
+
+**Scan 15:** the formula holds; it is Shioda's height formula. Read with the local correction terms in (1/m)Z of
+scans 4-6, cote 130 contains the structure of the Mordell-Weil lattice formula, with the component-group pairing of
+SGA 7 IX. See H-K-5 and package SA17-RP9.
+
+### SA17-32 · cote 132: embeddings in surfaces, Teichmüller groups with holes, extensions of topological groups
+
+- **Closed:** the H³ obstruction ("sauf erreur") is Taylor's theorem of 1954.
+- **Open:** case B', which he marks "faux"; H-K-7 proposes a repair through the 2-type of BH.
+- Ribbon graphs, the groups T_{g,n} with holes, boundary twists and Ladegaillerie's classification of embeddings are
+  the germ of the Teichmüller tower of the Esquisse (H-K-6).
+
+### Readiness
+
+The reader judges every handwritten scan range of K126-K132 ready to edit and translate, with its corrections as notes.
+The offprints and typescripts are placed only. For cote 133, no range is edition-ready before an image pass over the
+remaining marks. DELIVERABLES.tsv has the details.

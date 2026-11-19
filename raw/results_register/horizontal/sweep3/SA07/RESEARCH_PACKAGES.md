@@ -13,13 +13,14 @@ Claude Opus 5.5 at effort max (agent a28ea31fa17dd65e1), 18 Nov 2026.
   E2*(tau) at a tau with j(tau) algebraic; Nesterenko (1996) bounds trdeg Q(q, E2, E4, E6) from below by 3.
 - **Material.** The transcription and scans of 18:11-13; Nesterenko, "Modular functions and transcendence questions"
   (Mat. Sb. 1996); Masser, Elliptic functions and transcendence (LNM 437, 1975); Chudnovsky (1976 and the 1984 book);
-  Bertrand's surveys on periods and Ramanujan functions.
+  Bertrand's surveys on periods and Ramanujan functions (locator unverified).
 
 ## RP-SA07-2. The period conjecture with the Hodge splitting (18:11; H2)
 
 - **Question.** State 18:11 precisely (alpha, beta, gamma generic over k in P, Q, P''), prove the reduction of the
   beta-statement to the joint transcendence of the periods and their complex conjugates, and settle the cases where the
-  period conjecture is known: CM elliptic curves and CM abelian varieties (Chudnovsky; Wüstholz), 1-motives (linear
+  period conjecture is known: CM elliptic curves (Chudnovsky; for CM abelian varieties in general it is open, and
+  Wüstholz's analytic subgroup theorem, Ann. of Math. 129 (1989), gives only the linear relations), 1-motives (linear
   relations: Huber-Wüstholz).
 - **Why it matters.** It is the strongest form of his "conjecture de transcendance N° 1" on these pages, and it
   connects the motivic Galois group (SA05-8) with Hodge theory on both sides of the comparison.

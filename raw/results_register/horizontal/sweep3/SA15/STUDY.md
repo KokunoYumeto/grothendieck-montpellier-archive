@@ -37,7 +37,7 @@ dimension n over a perfect k of characteristic p, Y a smooth hypersurface sectio
   nonzero for d large, which (8.5.6) reduces to dim E(Y, O_Y)_SS > 0, "établi au n° 7" (not in this cote); the local
   systems over U_d; phi bijective iff (pTors^n(X))_ss = 0.
 - **8.5.11 (4:11)** dim H^(n-1)(X, O)_SS = dim H^(n-1)(X̄, Z/p) >= dim((H^(n-1)/Tors) (x) k)_SS, and Serre's example from
-  the Mexico symposium (a free Z/p quotient of a complete intersection, H^1 = 0 but H^1(X, Z/p) = Z/p) shows phi need not
+  the Mexico symposium (locator unverified) (a free Z/p quotient of a complete intersection, H^1 = 0 but H^1(X, Z/p) = Z/p) shows phi need not
   be injective.
 - **8.6 (4:12)** the question: is the representation of pi_1(U_d) on V = E(Y, O_Y)_ss irreducible, with image all of
   Aut(V)? Then, with the Woods Hole formula and Chebotarev, over a finite field every nonempty open set of hypersurfaces
@@ -48,8 +48,8 @@ dimension n over a perfect k of characteristic p, Y a smooth hypersurface sectio
   proved); the unit-root count of 8.5.4 (SA15-S3-4).
 - **Status.** His heuristic section, conditional on crystalline foundations that came later (Berthelot 1974). 8.5.7 is
   true. His aim in 8.5.8 (unit roots in the vanishing cohomology of a general hypersurface section of large degree) follows
-  from Illusie's generic ordinarity of complete intersections ("Ordinarité des intersections complètes générales",
-  Grothendieck Festschrift II, 1990), as far as I know. 8.6 is open on the page; I have not determined its status.
+  from Illusie's generic ordinarity of complete intersections in projective space ("Ordinarité des intersections
+  complètes générales", Grothendieck Festschrift II, Progr. Math. 87, 1990, 375-405), as far as I know. 8.6 is open on the page; I have not determined its status.
 
 ## 2. The Dieudonné crystal of an abelian scheme, and why the infinitesimal version fails (cote 6, scans 22-27) — SA15-16
 
@@ -106,4 +106,5 @@ Pages 20-25 of a numbered manuscript (sections 1.10-2.7, with a "Chapitre 3" on 
 - **readings/check_8_5_7.md**: independent check of 8.5.7 by a922466087ec53798 (Claude Opus 5.5 at effort max), written without seeing our argument. Verdict: v is injective for every n >= 2, every d >= 1 and every smooth Y. Frobenius twists carry the kernel into H^(n-1)(X, O_X(-p^e d)), which is 0 for e large. His two cases are special cases. The claim in §1 (check event SA15-S3-3) now has an independent re-proof.
 - **readings/c5_c6.md**: cote 5 and cote 6 scans 1-21, 28-67: 113 scans. Read by a1cf7c6b5992a5d3b with sub-readers a5d23772f38c43927 and a486000d1ad547de6, all Claude Opus 5.5 at effort max. 102 check events, 46 corrections, 20 hunches. 5:49-53 is his own letter to Deligne of 10 Dec 1965, an unsigned typed copy he kept; the docket in his hand reads 'Lettre à Deligne'. Sweep 2 recorded it as another's letter, so SA15-15 and SA15-20 are relabelled. 6:2-32 is his letter to Tate ('Pise, Mai 1966'), which dates the manuscript of §2 (H3).
 - **readings/c7_c8.md**: cotes 7 and 8: 147 pages. Read by afcdf31bb407576f5 with sub-readers a28f4edc0783f3d6a and aa78098b7d78d6642, all Claude Opus 5.5 at effort max. 61 check events, 44 corrections, 18 hunches. On 8:81 he expected the universal obstruction to lifting the representation of GL(d, F_p) to Z/p^2 to be nonzero for d >= 2 ('sans doute pas nulle'). It is zero exactly for (d, p) = (2,2), (2,3), (3,2) and nonzero in every other case (recomputed and re-proved).
+- **readings/c9_c100.md**: cote 9 (29 pages) and cote 100 scans 3-45 (43 pages), read by a8d07e7854f1cb9b4 with the sub-reader a8d91f19c2d8f19c1, both Claude Opus 5.5 at effort max. 48 check events, 29 corrections, 15 hunches. Part 2) of his Theorem on 100:3 is false over non-reduced bases: a Serre-Tate counterexample over Z_p[eps]/(eps^2). It holds for reduced S; the gap is his step a) on 100:7, which he marked '?' twice. 9:14 'faux par Tate': his expectation holds for ordinary reduction (proved) and fails for supersingular reduction (a sketched counterexample over Q_p(zeta_(p^2)), resting on Kisin's theory and Illusie's lifting theorem). Cote 100 is probably from 1968, not March 1967.
 <!-- readers:end -->

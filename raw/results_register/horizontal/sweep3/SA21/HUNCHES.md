@@ -32,6 +32,8 @@
 
 ## H2. "Contrée modérée" is the Hauptvermutung taken as an axiom
 
+**Refined by aff4deb18a6ec3192, round 2 (sweep3/SA10/readings/axioms_120_121_156.md):** "contrée modérée" means that any two subdivisions of a figure have a common subdivision. That fails in plain topology (a diameter of a disc against an arc crossing it infinitely often), holds o-minimally by the stratification theorem, and is Corollary 2 of 121/016. It is not the Hauptvermutung, which is about homeomorphic polyhedra; the link to the Hauptvermutung is withdrawn. The figure of 156-4/2-3 is 121/052 condition by condition (H7 confirmed).
+
 **The hunch.** "Contrée modérée" (156-4/70) asks that any two subdivisions be comparable, meaning that they have a common refinement. That is the Hauptvermutung for subdivisions, made into an axiom.
 
 **What it predicts:**
@@ -321,3 +323,40 @@
 
 **H12 (sweep 3) refuted:** the table of contents of 156-9/3 belongs to Récoltes et Semailles (SA21-K9-01).
 <!-- /reading:156-9 -->
+
+<!-- reading:156-7_061-114 -->
+### From the reading of 156-7_061-114 (sub-agent; the full reading is readings/156-7_061-114.md)
+
+**H7b-1. The Théorème of 156-7/94 holds for exactly those figures whose open strata span a Boolean subalgebra, and in the ateliers of his axioms that is a condition on the cords alone** (sharpens H3 and reader B's H7-2).
+- Grounds:
+  - the counterexample of SA21-R7b-21 uses only foreign lieux (e, w, h, g) that are disjoint from some strata of the figure and not from others;
+  - when every lieu disjoint from one open stratum is disjoint from all the others of its figure, the failure pattern O₆ cannot form inside the span.
+- A precise form to test: the Théorème holds for F iff no lieu outside omb(F) is disjoint from a proper part of the open strata of F without lying in their support.
+- Links: reader C's admissibility = orthomodular law (156-9/117); Kalmbach 1983, ch. 1 (locator to be checked).
+
+**H7b-2. "Stratos" (156-7/61) is the structure of the first reading's Théorème-Scholie with ∥ fixed as "≠"** (sharpens H7-3 and the first reading's §2.1). The quasi-set-theoretic pre-atelier is (M, ≤, ≪) with Prat quas 1-4. That is the event-structure-with-refinement of H1/H7-3, with the conflict graph empty on lieux.
+- His later uses of "stratos" (scans 65-83) are the general case, with a disjointness graph.
+- The name should replace "Stratop" in the edition and in the register.
+
+**H7b-3. The 26 June turn to |∘| is forced by maquettes, not by the counterexamples** (sharpens H7-5). His stated reason (scan 102) is that on a simplicial maquette every open part X° is empty ("C'est triste mais c'est vrai"). The supports pathologies (84, 99) came before and did not move him. The finite T₀ models (H9) are therefore what shaped Mag 1-4.
+<!-- /reading:156-7_061-114 -->
+
+<!-- reading:156-9_rest -->
+### From the reading of 156-9_rest (sub-agent; the full reading is readings/156-9_rest.md)
+
+**H9b-1. The orthomodular disjoncteurs are the Dacey graphs, and among comparability graphs the class lies strictly between the cographs and all orders** (refines H9-1, which is refuted as an equivalence).
+- **What is proved:** cograph ⇒ orthomodular (SA21-R9b-27). Already on 5 vertices there are non-cographs with Boolean Σ: the order 1 < 2 < 0, 4 < 0, 1 < 3, which contains the fence N, has Σ = 2³. The middle element 2 "repairs" the fence.
+- **The hunch:** for an ordered set, Σ (comparability) is orthomodular iff every induced fence N lies under a "repair" of this kind, that is, iff the comparability graph is a Dacey graph in Sumner's sense.
+- **Literature:** D. P. Sumner, "Dacey graphs", J. Austral. Math. Soc. 18 (1974) 492-502 (locator to be checked).
+
+**H9b-2. The faithful ateliers are exactly the frame of Boolean supports he hoped for, and the compactologized faithful ateliers are his intended "topologie modérée"** (joins H8-1 and H9-3).
+- **Grounds:** 156-9/127 ("peut-être les ateliers fidèles ?"); SA21-R8-25 (faithful ⇒ Σ Boolean); the compactologies of 156-9/34-37; his diagnosis that the cords are "les seuls ennuis".
+- **The hunch:** a tame (o-minimal) model, with strata the definable cells, |∘| = interiors disjoint and M_c = bounded cells, is a faithful compactologized atelier. All of his support axioms then hold there.
+
+**H9b-3. His disjoncteurs with correspondences form the category of orthogonality spaces with adjointable relations, and its dagger is his transposition** (sharpens H9-2).
+- **Grounds:** 156-9/61-108; Prop 3-4 re-derived (SA21-R9b-15 to -20).
+- **Literature:** B. Jacobs, "Orthomodular lattices, Foulis semigroups and dagger kernel categories", Logical Methods in Computer Science 6 (2010); J. Paseka and T. Vetterlein, on categories of orthogonality spaces (locators to be checked). Michel Hua's project also gives Jacobs 2010 and the bonds.
+- **What it predicts:** his open question on C and |∘| for Corr(Σ, Σ′) (scans 102-103) has a negative answer in general, and a positive one in the orthomodular (dagger kernel) case.
+<!-- /reading:156-9_rest -->
+
+**Round 2, reader C:** H9-1 (the cograph hunch, in the merged block of 156-9) is half refuted. Cograph ⇒ orthomodular is proved; the converse fails on 5 vertices. Its refinement is H9b-1, the Dacey graphs of Sumner (readings/156-9_rest.md).

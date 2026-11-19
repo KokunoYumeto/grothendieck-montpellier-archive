@@ -121,3 +121,63 @@ Literature locators are from memory under the context guard and are marked "to v
   plethysm. It is the structure he looks for on scan 19 ("λ^i(xy) = ?"). The sheets of scan 28 (tensor powers in
   K(B_{S_n})) are his linear version of it.
 - **Leads to:** package SA17-RP4.
+
+## Cote 133, scans 2-18 and 30-54
+
+From the reader a598c2dff473d448c (Claude Opus 5.5 at effort max), `readings/133_002-018_030-054.md`.
+
+**H-133-1. His λ-ring question for the split WG(S) has a positive answer over a field of characteristic 0.**
+- **Grounds:**
+  - his reduction to B_{O(m)×O(n)} (scan 6);
+  - complete reducibility of representations of O(m) × O(n), so that split and metabolic Grothendieck-Witt groups agree
+    on B_G;
+  - Zibrowius's λ-ring theorem for symmetric representation rings (2015; to verify).
+- **Open part:** characteristic p > 2.
+
+**H-133-2. Scans 36 and 46-54 are a crossed-module form of P. Hall's isoclinism.**
+- **Grounds:** a group seen through G/Z(G), G' and the commutator map.
+- **Literature (to verify):** P. Hall 1940; Beyl-Tappe, LNM 958; Aldrovandi-Noohi 2009.
+
+**H-133-3. Scan 36 is a formal, characteristic-p counterpart of Rosenlicht's theorem.** The statements hold up to
+isogeny, and the universal vector extension is the exact obstruction.
+
+**H-133-4. The go identity is the territory-versus-area relation of the rule books.** Low priority.
+
+## Cotes 126-132 (Work folders)
+
+From the reader ac8bd2a26d00b4f37 (Claude Opus 5.5 at effort max), `readings/K126-K132.md`.
+
+**H-K-1. Step 3 of cote 131 (descent from Ŝ to S) is settled for quasi-compact pieces; the locally quasi-finite case
+needs one more idea.**
+- **Grounds:**
+  - X separated and quasi-finite over Ŝ is quasi-affine (EGA IV 18.12.12);
+  - fpqc descent is effective for quasi-affine X (SGA 1 VIII 7.9; to verify).
+- **For the locally quasi-finite case:** glue as an algebraic space, then use "separated, locally quasi-finite algebraic
+  spaces are schemes".
+
+**H-K-2. The type case of 126 scan 35 is a Nisnevich gluing question.**
+- It is effective for quasi-affine X.
+- Counterexamples are expected among algebraic spaces glued along an elementary distinguished square.
+
+**H-K-3. Lemma 1.3 of cote 127 is true and provable with cote 128's conductor machinery.**
+
+**H-K-4. Lemma 1 of cote 128 fails in characteristic 2 without an extra hypothesis.**
+- **Grounds:** the factor c⁻¹ between the connecting maps; the model k[s]/(s²).
+
+**H-K-5. Cote 130 contains the structure of Shioda's height formula two decades early.**
+- **Grounds:**
+  - the local corrections in (1/m)Z;
+  - the formula Q(i(ξ), i(η)) = −ξ·η when all fibres are irreducible;
+  - the Z/mZ pairing, which is Grothendieck's component-group pairing of SGA 7 IX.
+- **Literature (to verify):** Shioda 1990.
+
+**H-K-6. Cote 132 is the combinatorial start of the Teichmüller tower of the Esquisse (1984).**
+- **Grounds:**
+  - ribbon graphs;
+  - T_{g,n} with holes and the boundary twists Z^I;
+  - Ladegaillerie's embeddings;
+  - scan 19's map Aut_circ(K) → T_{g,n}, which is the stabilizer of a dessin.
+- **Links:** SA09 H4 (cote 138 as La Longue Marche Part I in draft).
+
+**H-K-7. The B' identification of 132 scan 22 ("faux") is repaired by the 2-type of BH.** Extensions of H by a
+discrete N are maps of 2-types, with Taylor's k-invariant in H³(π_0H, π_1H).

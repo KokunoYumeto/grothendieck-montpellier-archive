@@ -252,3 +252,170 @@ over k′, in 1984 or later, independently of Takeuchi's ×_R-bialgebras.**
 - *Grounds:* 155/002-010; the idealizer computation; the dated versos (June-October 1984).
 - *What is not known:* whether he knew Takeuchi (1977) or Saavedra's treatment of non-neutral fibre functors (1972);
   nothing on the pages cites either.
+
+## Cote 121, scans 1-48 (reader 121_001-048: a9e0641820ca2be57, Claude Opus 5.5 at effort max)
+
+By Claude Opus 5.5 at effort max, reader 121_001-048, horizontal sweep 3, 19 Nov 2026. "From memory" marks literature not
+opened in this run. Full working: `121_001-048.md`.
+
+**H20-121_001-048-1. O-minimality is the conjunction of his two drafts: cote 120's all-arity closure and the f) of 121/010
+on the line. The one-space axioms alone are a common abstraction of EGA's constructible sets and of o-minimal definable
+sets.**
+- *What may be true:*
+  - a) A Boolean structure (S_n) on (R, <) closed under products, permutations and projections is o-minimal iff f) holds
+    for S_1 on X = R. This part is trivial once stated, and checked.
+  - b) His compact-only systems (120's M0-M11; 121/054-073) with f) added for M_1 characterize at most structures with
+    o-minimal **open core**, never o-minimality itself. Compact sets do not see the difference: the dense pair
+    (R, R_alg) has a semialgebraic open core but is not o-minimal (van den Dries 1998; Miller-Speissegger 1999;
+    Dolich-Miller-Steinhorn 2010, from memory).
+- *Grounds:*
+  - The check that the constructible sets of a Noetherian space satisfy a)-f) (full working, C.3).
+  - f) for all members (019-020) gives finitely many intervals on R.
+  - The first pass's all-compact model and the 152_120 and 121_049-073 readers' results for the compact systems.
+- *Links:* SA20-10, SA20-12, SA20-15; H20-121_049-073_153_155-1 (sharpened here); EGA 0_III §9 and IV §1.8 (constructible
+  sets, from memory).
+
+**H20-121_001-048-2. In the piecewise contexts, Props A-D (026-028) and Conjecture 1 (034) are the theory of the
+intrinsic stratification of polyhedra, and the canonical partition does not depend on the tame theory. In TOP the double
+suspension breaks them, which is why 034 restricts the context.**
+- *What may be true:*
+  - In PL, x is ν-mobile iff Lk(x) ≅ S^{ν-1} * L. The strata of constant intrinsic dimension are PL manifolds along
+    which the polyhedron is locally a product, and the intrinsic stratification is the coarsest privileged partition
+    (Armstrong 1967-68; Akin, Trans. AMS 143 (1969), from memory; Michel Hua's project says the same for A-D).
+  - By Shiota's o-minimal Hauptvermutung (Invent. Math. 196, 2014), the partition by local type of a compact definable
+    set is the same in the semialgebraic, subanalytic and PL contexts. So Conjecture 1's canonical partition would be
+    context-independent among the "par morceaux" contexts of 030.
+- *Grounds:*
+  - D fails in TOP (R x cH, full working B.1; remark of Michel Hua's project).
+  - C's correspondence fails in TOP (a wild line in R^5, or a wild arc in R³, depending on the reading of
+    "régulièrement immergée").
+  - The fibre sentence of 036 fails in TOP (Bing) and holds in PL.
+  - All three failures disappear with PL links.
+- *Links:* SA20-11; the intrinsic (coarsest) stratifications of topological pseudomanifolds (Siebenmann 1972; King 1985;
+  from memory); cote 119's Additif (SA20-3, -4).
+
+**H20-121_001-048-3. 121/041-047 is a resolution of stratified spaces into manifolds with fibred corners, with the
+reconstruction theorem, ten years or more before the published accounts.**
+- *Grounds:*
+  - 041: faces ∂_j V_i° fibred over the lower strata, fibre boundaries from intermediate strata, corners indexed by
+    chains.
+  - 044: a three-stratum space rebuilt from seven data by mapping-cylinder collapses.
+  - 047: grids of cartesian corners.
+  - Dimensions and gluings checked (full working B.5).
+- *Assessment:* this is the structure later named iterated fibration structures (Albin-Leichtnam-Mazzeo-Piazza 2012) and
+  Verona's abstract stratified sets (1984), with Mather's control data (1970) behind both (all from memory). If 041-047
+  are of the mid-1970s (H20-121_001-048-4), they are an independent early formulation.
+- *Links:* cote 119's cascade and tubular neighbourhoods (SA20-4); 149's maquette (SA31); 156's "contrée modérée"
+  (SA21); the remords (SA20-9).
+
+**H20-121_001-048-4. The sheets 026-047 belong to the A'Campo correspondence of the mid-1970s, and the catalogue's
+"lettre (1974)" may be 030-037 itself.**
+- *Grounds:*
+  - 036-037 cite a "première lettre à A-Campo" (read on the image) whose content, immobile points, is that of 026-028.
+  - 036 continues "Voici une description conjecturale ...", in the voice of a letter. The 030-037 sheets are a fair copy,
+    numbered 31-38.
+  - The catalogue lists "lettre (1974)" for cote 121, and Michel Hua's project found no dated letter in the folder.
+  - 041 is headed "Fujii Guruji Nichidatsu", and 121/067 carries a struck greeting to Fujii Guruji. These fit the years
+    of his contact with the Nipponzan Myōhōji order, from about the mid-1970s (from memory; to be checked).
+  - A'Campo's papers on monodromy date from 1973-75 (from memory).
+- *If true:* the gluing apparatus of 039-047 predates the 1981 remords, and cote 121 is linked by correspondence to the
+  singularity theory of cote 122 (SA20-18).
+- *To do:* the archive's notice for "lettre (1974)"; A'Campo's recollections or papers; the dates of Fujii Guruji's
+  visits to France.
+
+**H20-121_001-048-5. The groupoid sketch of 043 already has the data that answer the remords in dimension 2, if the
+gluing is done on classifying spaces.**
+- *Grounds (low-confidence reading):* the data are
+  - finite vertex sets;
+  - edges with the ℤ/2-torsor of their orientations;
+  - circle leaves with a "groupoïde 1-spécial";
+  - for each 2-leaf, a functor from the groupoid of its boundary circles to that of the surface ("2-spéciaux",
+    "foncteurs admissibles").
+- *The mathematics:* compact surfaces with non-empty boundary are aspherical. So a two-dimensional stratified space is the
+  homotopy colimit of the classifying spaces of these groupoids, glued along boundary circles and vertices.
+- *The test:* on the marked sphere the homotopy colimit gives S², while the colimit of groupoids gives a point (full
+  working C.2; Pro notes Q2.7). So the remords concerns the gluing rule, not the data.
+- *To check:* the ink of 043's lower block; whether 147/151 use these data (outside this stretch).
+
+**H20-121_001-048-6. The canonical F-regular partition of 018 (Cor 3), with regularity = smooth points, is a coarsest
+"smooth frontier" stratification. Its proof gap is where Whitney-type conditions enter.**
+- *Grounds:* the gap found in the full working (A.5): (S) for unions of closures depends on the germ of a union along
+  lower leaves.
+- *Assessment:* for complex analytic sets the canonical Whitney stratification (Teissier, from memory) is the coarsest of
+  its kind. Whether his weaker, purely "regular-locus" condition has a coarsest solution in the semialgebraic context is
+  a definite question; package R20-121_001-048-1 (d).
+
+## Cote 122 against the research runs, and cote 125 (reader 122_125: a8afd9e2a259051c4, Claude Opus 5.5 at effort max)
+
+By Claude Opus 5.5 at effort max, reader 122_125, horizontal sweep 3, 19 Nov 2026. "From memory" marks literature not
+opened in this run.
+
+### Cote 122 (SA20-18, SA20-19)
+
+**H20-122_125-1. The variation is forced by his "donnée fondamentale": because π acts trivially on L, T − 1 factors
+through u, and the factor is the variation.**
+- *What may be true:*
+  - In D(Λ[π]), the triangle (a′) is K^∨[−2n] →u K →ρ L^triv →, with ρ equivariant and π acting trivially on L (020:
+    "on met dessus op. triviale de π").
+  - So ρ∘(T − 1) = (T − 1)∘ρ = 0, and T − 1: K → K factors as u∘V for some V: K → K^∨[−2n] ≅ RΓ_c(M°).
+  - V should be the variation map of Picard–Lefschetz theory, Var: H^n(M) → H^n_c(M°), so that T − 1 = u∘Var.
+  - The equivariant structure of u, which he insists on ("dans D(Λ[π])"), is what makes V canonical. In D(Λ) alone, V
+    is defined only up to Hom(K, L[−1]).
+- *Consequences:*
+  - His "(signe ?)" becomes the classical relation between the intersection form and the Seifert form, u = −(S ±
+    (−1)^n S^t) with S = Var^{−1} on the middle degree (Lamotke 1975; Arnold–Gusein-Zade–Varchenko II; from memory).
+  - The sign question of 022 has a definite answer once Var is fixed.
+- *Grounds:*
+  - 020 (a), the trivial action on L;
+  - 022, u in D(Λ[π]) and "ρ et ρ′ sont transposés (signe ?)";
+  - 024, the "données nouvelles" u₁, λ, μ that RΓ^π extracts;
+  - the Pro notes RN020, on the H¹(π, ·) part of the equivariant class.
+- *Relation to H20-7:* sharpens H20-7, which identifies (a′) with "the variation and intersection-form structure" without
+  the mechanism.
+- *Links:*
+  - SGA 7 XIII–XV (variation, Picard–Lefschetz; from memory);
+  - WG H2(b): for n = 1, V is the Dehn twist's variation on the annulus, whose cohomological shadow (Part 1, item 6 of the
+    working) H2 lifts to π₁.
+
+### Cote 125 (SA20-W2)
+
+**H20-122_125-2. Cote 125 is a statement of the duality criterion for the cohomological dimension of complements,
+about 1961–62, in the generality of a projective Cohen–Macaulay X, both directions, with the injectivity clause.**
+- *What may be true:*
+  - For X projective Cohen–Macaulay of dimension r and Y closed: cd(X − Y) < m iff H^q(X, F) → H^q(X̂, F̂) is bijective
+    for q < r − m and injective for q = r − m, for all locally free F.
+  - It also suffices to test F = O(n), n ≫ 0, by H^0 and the vanishing of H^i(X̂, Ô(n)) for 0 < i < r − m.
+  - That is the chain of 003, closed in steps 1–6 of the working.
+- *What is in print* (from memory, to be checked on the books):
+  - SGA 2 XII §1 (projective duality) and XIII (the problem of cd(P − Y));
+  - Hartshorne, Ample subvarieties (LNM 156, 1970), III.3.4;
+  - Hartshorne, Compositio Math. 23 (1971), Prop. 2.9, for X = P^n. This reference is from Michel Hua's project, which
+    reads it as stating one direction without the injectivity clause.
+  - Ogus 1973 and Speiser 1973 (de Rham and Frobenius forms).
+- *Grounds:*
+  - 003 (the chain, with "dualité" on the arrow, the Kif-kif reduction and the NB on p = m);
+  - 005 (the formal duality written out);
+  - 008 (the boxed form for P ⊃ X);
+  - the paper: the pre-EGA typescript pages III-5 and III-18 of 004 and 007;
+  - the title "Dualité locale et dualité projective", the subjects of SGA 2 V and XII §1.
+- *What would settle it:*
+  - the exact statements of SGA 2 XII §1–2 and of Ample subvarieties III.3.4, for which generality and which direction;
+  - an identification of the typescript (EGA III drafts).
+- *Links:*
+  - SA20-18, the local side ("Lefschetz local", 122/028);
+  - Michel Hua's project's literature trail for 125 (Halic, Ottem, Lau on q-ample subvarieties), credited there.
+
+**H20-122_125-3. The frame of 125/006 is the inductive step of a formal Lefschetz theorem: from (X′, Y′ = Y ∩ X′) to
+(X, Y).**
+- *What may be true:*
+  - The paired long exact sequences of a hypersurface section X′ ⊂ X, in their local-cohomology form ("plus général",
+    supports Y and Y′) and their completed form (X̂, X̂′), are what an induction on hyperplane sections needs.
+  - They transport the comparison H^q(X, F) → H^q(X̂, F̂) from X′ to X, with the injectivity clause at the boundary
+    degree.
+  - His "?" on 006 is the one identification the induction needs on X′. It holds (working, step 9), so nothing on the
+    page blocks the induction.
+- *Grounds:*
+  - the degrees r, r − 1, r of the pairings on 006;
+  - 008's item 2, "En théorie de Lefschetz … relations entre une variété (projective, ou locale) et son complété formel
+    le long d'une section hyperplane".
+- *Links:* SGA 2 X–XII (Lef and Leff conditions; from memory); H20-122_125-2.

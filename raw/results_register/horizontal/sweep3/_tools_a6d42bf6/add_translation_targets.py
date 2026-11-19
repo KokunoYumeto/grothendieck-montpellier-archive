@@ -22,7 +22,8 @@ RULES = {
  ('SA10', '151'): ('English; Japanese; Brazilian Portuguese; Spanish; Polish', 'the stratified topos of 1981, its gluing of tubes and its Teichmuller programme (151/44): Japanese first, for the Teichmuller-tower and anabelian community at RIMS Kyoto; then the stratification schools (Sao Carlos, Madrid, Krakow)'),
  ('SA10', '152 + 120'): ('English; Spanish; Polish; Japanese', 'plane trees (dessins d\'enfants: Madrid, besides France) and his tame-geometry axioms M1-M11 (Krakow, Nagoya)'),
  ('SA11', '154'): ('English; Spanish; Japanese; Brazilian Portuguese', 'pseudoline arrangements, oriented matroids and the surface of relative positions (Esquisse section 8): Santander (Santos) and Madrid for Spanish; discrete and computational geometry in Japan; Berlin (Ziegler) and Paris (Las Vergnas) read English and French; Brazilian Portuguese for the student community'),
- ('SA11', '121 + 153 + 155'): ('English; Japanese; Polish; Spanish', 'tame spaces (cote 121: Krakow, Nagoya, Madrid), analysers and plethories (cote 153, read in English), Tannakian duality and bialgebroids (cote 155: Takeuchi\'s school in Japan, besides Germany and France)'),
+ ('SA11', '121'): ('English; Polish; Japanese; Spanish; Brazilian Portuguese', 'his axiomatics of tame spaces (adapted partitions, triangulation): ' + TAME),
+ ('SA11', '121 + 153 + 155'):('English; Japanese; Polish; Spanish', 'tame spaces (cote 121: Krakow, Nagoya, Madrid), analysers and plethories (cote 153, read in English), Tannakian duality and bialgebroids (cote 155: Takeuchi\'s school in Japan, besides Germany and France)'),
 }
 T = sys.argv[1]; topic = os.path.basename(os.path.normpath(T))
 p = os.path.join(T, 'DELIVERABLES.tsv')

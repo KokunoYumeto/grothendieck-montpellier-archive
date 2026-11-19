@@ -16,7 +16,7 @@
    - The Λ-version fails: "Je n'arrive pas a le prouver". The block is that non-minimal elements of Λ can refine L in part.
    - The pre-atelier (M, ≤, ≪, ≍), with three axiom systems, is his summary (scans 51-53).
    - On any ordered set, ≪ = ≤ gives every axiom except divisibility.
-5. **Set-theoretic and quasi-set-theoretic ateliers (scans 55-61).** With his own counterexamples (two affine structures on an arc; ≪_ens against ≪_pol), and the name "Stratop".
+5. **Set-theoretic and quasi-set-theoretic ateliers (scans 55-61).** With his own counterexamples (two affine structures on an arc; ≪_ens against ≪_pol), and the name "Stratos" (Codex "Stratop").
 6. **Supports (scans 62-101).**
    - The lattice Σ of bi-orthogonally closed sets, with Σ ≅ P(L) when disjointness of lieux is "≠".
    - His own counterexamples: the "ficelle à deux brins", against distributivity (scans 82-84); a path A′–A–B–B′, against his formal Lemma (scan 99). That Lemma is the orthomodular law.

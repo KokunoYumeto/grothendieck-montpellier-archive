@@ -16,7 +16,7 @@ Claude Opus 5.5 at effort max (agent a28ea31fa17dd65e1), 18 Nov 2026.
 - **Strongest known reduction.** His: big monodromy implies the point-count statement. Known since: crystalline
   universal coefficients and duality (Berthelot, LNM 407, 1974); generic ordinarity of complete intersections (Illusie,
   Grothendieck Festschrift II, 1990); big-monodromy theorems for the étale p-torsion in other families (Ekedahl;
-  Faltings-Chai).
+  Faltings-Chai (locator unverified)).
 - **Material.** Transcription and scans of cote 4 (and the Codex witness K4-01); the missing n° 7 if it is found in the
   archive; Berthelot 1974; Illusie 1990; Katz, "Slope filtration of F-crystals" (Astérisque 63, 1979); SGA 4 1/2 ("Fonctions
   L modulo l^n et modulo p") for the trace formula mod p.

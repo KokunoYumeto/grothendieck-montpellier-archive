@@ -302,3 +302,57 @@ The word does not occur in the transcriptions of cotes 150-151. Those speak of "
   - the 156-8 reading and `156-8_checks.py`;
   - Kalmbach 1983; Gallai 1967; Corneil-Lerchs-Stewart Burlingham 1981 (locators to be checked).
 <!-- /reading:156-9 -->
+
+<!-- reading:156-7_061-114 -->
+### From the reading of 156-7_061-114 (sub-agent; the full reading is readings/156-7_061-114.md)
+
+**P7b-1. Supports with cords: when does the open-strata calculus hold?** (refines P7-1 after reader C)
+- **The question:**
+  - In ateliers satisfying At 1-7, L1-L3, CL(spac), At D, At supp and At supp 1, characterize the figures F for which his Théorème (156-7/94) holds. That is: P(F̃) → Σ, A ↦ Supp ⋃_{X∈A} X°, commutes with infs and relative complements.
+  - Is there an axiom on the disjointness graph of lieux (weaker than "distinct lieux are disjoint") that makes it hold for every figure?
+  - Does Mag 1-4 with Axiome supp 1 (156-8/88) imply it?
+- **Why it matters:** his calculus of "supports constructibles" rests on it, and 156-8 imposes it as an axiom.
+- **What it rests on:** 156-7/62-101 (read page by page here); 156-8/74-89 and 156-9/78-80, 109-117 (reader C).
+- **Strongest known reduction:**
+  - true where distinct lieux are disjoint (Σ Boolean: SA21-R7-20; SA21-R8-25);
+  - false in general under all of 156-7's axioms (SA21-R7b-21, eight elements);
+  - equivalent, for one figure, to the orthomodular law on the span of its open strata (reader C, 156-9/117).
+- **Material:**
+  - the 156-7 .tex with scans 62-101, and the 156-8 and 156-9 readings;
+  - the counterexample's data (readings/156-7_061-114.md §6);
+  - Kalmbach 1983 (locator to be checked).
+<!-- /reading:156-7_061-114 -->
+
+<!-- reading:156-9_rest -->
+### From the reading of 156-9_rest (sub-agent; the full reading is readings/156-9_rest.md)
+
+**P9b-1. Orthomodularity of the supports of ordered sets and of magasins.**
+- **The question:**
+  - Characterize the ordered sets L whose comparability disjoncteur has an orthomodular, respectively Boolean, Σ (H9b-1). Find the exact "repair" condition and prove it.
+  - For the magasins of ordered sets (with segments), where Axiome supp 1 holds, decide whether the whole Σ_M is orthomodular.
+  - Reconstruct and check his 10-element counterexample (156-9/113).
+  - Decide the transitivity of ≪°_comm (156-9/123).
+- **Why it matters:** these are his open questions of 156-9/111 ("avoir le cœur net ... quand Σ est défini via un ens. ordonné") and 156-9/123. The answer decides where the "cordes" pathologies live.
+- **What it rests on:** 156-9/109-123; 156-8/90-127; `156-9_rest_checks.py` (graphs on at most 6 vertices; magasins of orders on at most 5 elements); SA21-R9b-27, -28.
+- **Strongest known reduction:**
+  - cograph ⇒ orthomodular (proved);
+  - O₆ for the fence (not orthomodular);
+  - 2³ for a 5-element order with an N (Boolean);
+  - Axiome supp 1 in all magasins of orders on at most 5 elements (computed).
+- **Material:**
+  - the 156-9 .tex with scans 109-123 and the drawings of 112-113;
+  - the two check scripts of this folder;
+  - Sumner 1974; Kalmbach 1983 (locators to be checked).
+
+**P9b-2. Morphisms, excision and the category of ateliers (CF IX bis).**
+- **The question:**
+  - Prove or refute that the provisional homomorphisms of 156-9/134 induce correspondences of spatios; decide Σ_{A′} ↪ Σ_A for the four sub-ateliers of 156-9/130-131.
+  - Construct the excision A → A/N for a ≪°-closed N, or show it does not exist. He calls it "un tantinet délicate". Start with set-theoretic ateliers and maquettes, as he proposes.
+- **Why it matters:** these morphisms are what the forms need in order to be glued and mapped, and the last open construction of the 1986 series.
+- **What it rests on:** 156-9/130-139; 156-8/36-38 and 55-60.
+- **Strongest known reduction:**
+  - Ker f is ≪°-closed;
+  - for maquettes A/N = A ∖ N;
+  - the transposition theory of Prop 3-4 (re-derived).
+- **Material:** the 156-9 and 156-8 .tex with scans 130-140 and 55-60; Jacobs 2010 (locator to be checked).
+<!-- /reading:156-9_rest -->

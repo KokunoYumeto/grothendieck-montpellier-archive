@@ -43,3 +43,73 @@
   - **The fix:** a briefing agent's allowance line must be the last one, so a brief should not carry its readers' lines verbatim.
 - **Merged** with merge_readings.py into sweep3/SA21: 101 check events, 36 corrections and 38 dependency rows added, 5 deliverable rows replaced, and 4 STUDY, 4 HUNCHES and 4 PACKAGES blocks.
 - **Fixed in my own text:** H11 is refuted ("VI p.52" is 156-6/53). H3 is settled in part (distributivity fails, 156-7/84). (1.8) on 156-6/5 defines Omb, not Multomb.
+
+## Round 2 (coordinator, 19 Nov ~02:2x UTC), 19 Nov ~01:4x UTC by the machine clock
+- **Reader C merged into SA21:** 48 events and 15 corrections. SA21 STUDY.md has a new §0 with the state after all readings. H3, H9, H10 and P3, P6 are updated, and H12 is marked refuted.
+- **Translation targets:** translate_to and why are added to every DELIVERABLES row of SA10, SA11 and SA21 (add_translation_targets.py, run after each merge). The source is knowledge/03_archive/translation_targets.md. Finite T0 spaces add the Buenos Aires school (Spanish) for 156-5 and 156-8.
+- **The guard counts all my launches** (A, B), so with "Sub-agents allowed: 3" I had one new launch left. It went to the cote-154 reader. Everything else goes to field experts, resumed with SendMessage, following AGENTS.md's "use the field agent".
+- **Done:**
+  - cote 154, scans 1-33 and 44-176: a1ee9ba0e8006bed4, new; 23 events, 8 corrections; merged into SA11.
+  - 156-7 scans 61-114 page by page: ae747b2de9d398034, resumed; 31 events, 17 corrections; merged into SA21.
+- **Running:**
+  - cote 121 scans 1-48, and the 120/121/156 axiom comparison: aff4deb18a6ec3192, resumed;
+  - 150 scans 1-16: a00ca4596e2185740, second-pass block agent, resumed;
+  - 150 scans 17-30: a81a7989e5a443c82, second-pass block agent, resumed.
+- **Queued (at most 3 at a time):**
+  - 150: a1826390c189eb13e (31-43), a7e8cd48a67cebfa2 (44-57), a3c1b6772b35008a9 (58-71), a04c1d305823567b3 (72-84), abca10fad1b368563 (85-99);
+  - 151: adc5b15ac68f0105c (1-17), a0370fd91592796de (18-31);
+  - 156-9 rest: a770b79afe0cb5100.
+- **Found on the way:**
+  - The 17 Nov second pass corrected the transcription of cotes 150, 151 and 152+120: second_pass/out/<package>/<package>_<cote>_scanNNN.tex. The SA10 deliverables now record it, and READER_BRIEF_2.md points readers to it.
+  - The second-pass folders for 121 and 154 are empty, so the 154 reader rightly read the Pro text.
+
+## Round 2, continued: 19 Nov ~02:5x UTC
+- **Merged:**
+  - aff4deb18a6ec3192: the comparison of the axiom systems of cotes 120, 121 and 156, into SA10 and SA11. 121/1-48 was not re-read, because a9e0641820ca2be57 had read it for SA20; that reading is used in SA11.
+  - a00ca4596e2185740: 150/1-16.
+  - a81a7989e5a443c82: 150/17-30.
+  - a770b79afe0cb5100: 156-9 rest. 156-9 is now read in full except the drawings of scan 112.
+- **Running:**
+  - a1826390c189eb13e: 150/31-43;
+  - a7e8cd48a67cebfa2: 150/44-57;
+  - a3c1b6772b35008a9: 150/58-71.
+- **Queued:** a04c1d305823567b3 (150/72-84), abca10fad1b368563 (150/85-99), adc5b15ac68f0105c (151/1-17), a0370fd91592796de (151/18-31).
+- **The build folder moved to pro_prompt_builds/.** RESEARCH_SA21 was rebuilt there (lint-math and the paper lint pass), and the main session was told. RESEARCH_SA10 and RESEARCH_SA11 will be built when their readings are merged.
+- **A removal to record.** Cause: the rebuild command ran rm -rf pro_prompt_builds/RESEARCH_SA21_work, with no file list taken first. My builder had never written there. Fix: build commands remove nothing, and the main session is told.
+
+## Round 2 done: 19 Nov ~03:3x UTC
+- **All readers merged.** SA10, SA11 and SA21 are current. Counts after the merge:
+  - SA10: 361 check events, 137 corrections, 145 dependency rows, 5 deliverable rows;
+  - SA11: 26 check events, 8 corrections, 19 dependency rows, 7 deliverable rows;
+  - SA21: 222 check events, 84 corrections, 89 dependency rows, 9 deliverable rows.
+- **Readers of round 2,** all Claude Opus 5.5 at effort max. One was launched new; the rest were resumed field experts.
+  - cote 154: a1ee9ba0e8006bed4 (new);
+  - 156-7 scans 61-114: ae747b2de9d398034;
+  - 156-9 rest: a770b79afe0cb5100;
+  - the 120/121/156 axiom comparison: aff4deb18a6ec3192;
+  - cote 150: a00ca4596e2185740 (1-16), a81a7989e5a443c82 (17-30), a1826390c189eb13e (31-43), a7e8cd48a67cebfa2 (44-57), a3c1b6772b35008a9 (58-71), a04c1d305823567b3 (72-84), abca10fad1b368563 (85-99);
+  - cote 151: adc5b15ac68f0105c (1-17), a0370fd91592796de (18-31).
+- **Research prompts in pro_prompt_builds/,** each with a README:
+  - RESEARCH_SA10: 4 files;
+  - RESEARCH_SA11: 4 files, cote 154 only, since cote 121 is in RESEARCH_SA20;
+  - RESEARCH_SA21: 5 files.
+  - Each passes --lint-math and paper_completeness_lint.
+- **For the main session:**
+  - **To fold into second_pass/out** (I may not write there): the readings the block agents decided on the native scans; the reversal on 150/033 ("Ẋ_β" stands); the compile fault in scan087.tex, line 5 ("\qquadT_" should read "\qquad T_").
+  - **KNOWS for the registry:** each round-2 agent above now knows its block mathematically, beyond the transcription. Its reading file names what it knows.
+  - **Open readings that need a human eye:** 150/016 "strict|pur"; the ζ|ξ and 𝔖|𝒢 conventions of cote 151 (92 doubt marks); the drawings of 156-9/112-113.
+
+## Fold-in of the scan-decided readings: 19 Nov ~03:5x UTC, at the main session's word
+- **19 readings decided on the native scans** by the round-2 block readers are folded into the second-pass page files, in second_pass/out and in the archive clone (packages/<pkg>/second_pass):
+  - 17 page files changed in each place;
+  - 8 changes files received a section "Fold-in of 19 Nov 2026" with one row per change (scan, line, before, after, reader with model and effort, correction id, date).
+  - The script is sweep3/_tools_a6d42bf6/fold_in_readings.py.
+- **Not applied:**
+  - mathematical corrections, and readings "decided by the mathematics" with the ink open;
+  - 150/033 and scan087, which the main session had already fixed;
+  - 151/017 (p_{n+1}|ρ_{n+1}), already in the text.
+- **Left open and listed in the changes files:**
+  - 150/016 l.27 "strict|pur";
+  - the ζ|ξ and 𝔖|𝒢 conventions of cote 151.
+  - The third human-eye item, the drawings of 156-9/112-113, is in another package.
+- **The two copies** are identical apart from line endings: the clone uses CRLF, second_pass/out uses LF. The appended sections follow each file's own line endings. No git was run.

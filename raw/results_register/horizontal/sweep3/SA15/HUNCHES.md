@@ -6,7 +6,7 @@ Claude Opus 5.5 at effort max (agent a28ea31fa17dd65e1), 18 Nov 2026. "(mine)": 
 residue of card Y(k') mod p occurs.**
 Grounds: the local system is the semisimple (étale p-torsion) part of the Hasse-Witt data of the hypersurface sections;
 over ordinary loci the étale p-torsion has the largest monodromy in the families where it has been computed (Ekedahl's
-work on monodromy of torsion points of Jacobians; Faltings-Chai for the ordinary locus of A_g); the dimension of V grows
+work on monodromy of torsion points of Jacobians; Faltings-Chai for the ordinary locus of A_g (locator unverified)); the dimension of V grows
 with d (8.5.8). With the mod p trace formula (the Woods Hole formula he cites) and Chebotarev, his reduction then gives the
 point-count statement. Pages: 4:9-12.
 

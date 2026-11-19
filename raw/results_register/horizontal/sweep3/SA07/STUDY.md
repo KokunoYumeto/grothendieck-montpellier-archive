@@ -61,7 +61,8 @@ typescripts). The order follows sweep2/SA07/WHAT_IS_WHERE.md; places are cote:sc
   archimedean place T, H^{pq}_T and the real subspaces are vector spaces over K_r, the largest totally real subfield.
 - Checked: epsilon(f_infinity) = -1 (complex conjugation reverses the orientation of P^1(C), so acts by -1 on H^2 =
   Q(-1)_B), and the Q(2) remark (conjugation acts on Q(n)_B by (-1)^n) (check events SA07-S3-3, -4). Known since: the real
-  Frobenius F_infinity of Deligne ("Hodge cycles", LNM 900, §1; Deligne-Milne, Tannakian categories, same volume).
+  Frobenius F_infinity of Deligne ("Valeurs de fonctions L et périodes d'intégrales", Proc. Symp. Pure Math. 33, part 2,
+  1979, 0.2.5; Tannakian categories over R: Deligne-Milne, Tannakian categories, LNM 900, §4).
 
 ## 4. Periods: "conjecture de transcendance N° 1" in its full form (18:6, 18:11-13, 18:45, 18:47-49) — SA07-2
 

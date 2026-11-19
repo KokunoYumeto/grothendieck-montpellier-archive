@@ -100,3 +100,9 @@ items 8-10.
   SA15 (Dieudonné theory of supersingular curves).
 - SA06-9 is the same group as SA05-18 (15:3-14): 15:100-106 give the Weil-number description that 15:5 and 15:14 use.
 - Wrong: 15:40 "2" for p (slip of the pen); 15:86 omits the totally real factors (harmless).
+
+<!-- readers:start -->
+## Sweep 3 readers (files in readings/; rows folded into CHECK_EVENTS.tsv and CORRECTIONS.tsv)
+
+- **readings/c14_c15rest.md**: cote 14 (all) and cote 15 scans 87-95, 109-126 and 170-206: 185 pages. Read by add83e0c4fe84ce66 with the sub-readers a0012f1ff34e51fa6 (14:2-58) and a18fb27f7c0e6640f (14:59-132), all Claude Opus 5.5 at effort max. 125 check events, 66 corrections, 21 hunches. The letter to Serre (14:44-47) is the printed letter of 27.8.1965 (Correspondance Grothendieck-Serre, SMF 2001, pp. 232-234). It states conjectures A, A', A'' and B modulo algebraic equivalence, and in that form they are false: Griffiths' quintic breaks the very case i = 1, n = 3 that the letter names, and the same quintic breaks the claim of 14:112. The printed notes do not say this.
+<!-- readers:end -->

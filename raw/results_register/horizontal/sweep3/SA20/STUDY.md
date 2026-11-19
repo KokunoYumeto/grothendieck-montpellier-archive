@@ -12,11 +12,11 @@ at about 23:1x UTC from a6d42bf6fe2b0d8a8, which is near its context cap (the ma
 |---|---|---|---|---|
 | Cote 119 | 119/144-161, 276-281 | SA20-2 to -6 | acf08879 (reader 119_144-161_276-281) | done |
 | Cotes 152 and 120 | 152/001-013, 120/001-025 | SA20-7, SA20-12 | ac69efa38b3a951d7 | done |
-| Cote 121, scans 1-48 | 121/001-048 | SA20-13, -14; the prompted questions SA20-8 to -11 | wave-2 reader | running |
+| Cote 121, scans 1-48 | 121/001-048 | SA20-13, -14; the prompted questions SA20-8 to -11 | a9e0641820ca2be57 (reader 121_001-048) | done |
 | Cote 121, scans 49-73; 153; 155 | 121/049-073, 153, 155 | SA20-15, -16, -17 | aff4deb18a6ec3192 | done |
-| Cote 122 | 122/003-035 | SA20-18; SA20-19 | ae4ae3dc; the comparisons and image checks by a wave-2 reader | SA20-18 done; SA20-19 and the image checks running |
+| Cote 122 | 122/003-035 | SA20-18; SA20-19 | ae4ae3dc; SA20-19 and the image checks by a8afd9e2a259051c4 (reader 122_125) | done (SA20-19 and the image checks in wave 2) |
+| Cote 125 | 125 | SA20-W2 | a8afd9e2a259051c4 (reader 122_125), in the second cote 122 section | done |
 | Cote 123 | 123 | SA20-W1, W3, W4 | ae4ae3dc | done |
-| Cote 125 | 125 | SA20-W2 | wave-2 reader | running |
 
 **Main findings so far** (the places are in the sections):
 - **119, the Additif to the Esquisse:**
@@ -31,6 +31,12 @@ at about 23:1x UTC from a6d42bf6fe2b0d8a8, which is near its context cap (the ma
   - The admissibility rule of 152/004 misses nested pairs; the dictionary of 010 is the consistent one.
   - The reconstruction of a tame theory from its category (120/008, 018) needs conservativity and an image axiom.
   - Generic triviality in his finite-diagram form fails for parallel arrows.
+- **121/001-048:**
+  - The existence theorem of a coarsest admissible decomposition (015) holds as stated.
+  - Prop D (028) and the correspondence of Prop C fail for topological spaces. The fibre-manifold sentence of 036 holds
+    in PL only. This is why his conjectures are stated for the piecewise contexts (034).
+  - The prompted questions: there is no "tubulure", "ombre" or remords on 120-121. None of the systems is o-minimal as
+    written; o-minimality needs 120's closure in all arities together with 121's condition f) on the line.
 - **121/049-073:** the gluing proof of 062 is complete; the first stage on 049 is wrong; intersections must be an axiom
   (070). None of the five axiom systems is o-minimal as written.
 - **153:** the binomial and λ analysers are a one-sided form of the plethories of Tall-Wraith and Borger-Wieland.
@@ -41,6 +47,11 @@ at about 23:1x UTC from a6d42bf6fe2b0d8a8, which is near its context cap (the ma
   - The Milnor fibration as an open book, a self-dual triangle that carries the variation, and the cohomology of the
     Milnor fibre from the link.
   - The step H^{n-1}(M) = 0 is not on the pages.
+  - The images confirm n-2 (028) and n+1 (032).
+  - SA20-19: no research-run row is proved, refuted or advanced by cote 122. Three comparisons (LM1 D.11, LM4 D.12,
+    LM4 F.7) rest on typescript pages by another author and are void.
+- **125:** every equivalence on 003 and 008 holds for X projective and Cohen-Macaulay, a hypothesis the page does not
+  state (SGA 2 XII-XIII, from memory). The threshold is r-n-1 in today's convention.
 - **123:** the letter of 22 Oct 1969 is a dated statement of the dimension formula that Douglass-Röhrle attribute to a
   conjecture of Grothendieck.
 
@@ -443,7 +454,230 @@ Full working: `readings/152_120.md`. Check events, corrections and dependencies 
 
 ---
 
-## 3. Cote 121 scans 49-73, cotes 153 and 155: tame topology, analysers, a Tannakian duality (SA20-15, -16, -17)
+## 3. Cote 121, scans 1-48: one-space axioms, mobility and equisingularity, gluing (SA20-13, SA20-14; the prompted questions SA20-8 to -11)
+
+By Claude Opus 5.5 at effort max (reader 121_001-048, horizontal sweep 3, wave 2), 19 Nov 2026. The full working is
+`readings/121_001-048.md`; check events, corrections, dependencies and deliverables are in the TSV files of the same
+name.
+
+**What was read:**
+- the Pro package MPL_121_001-048 in full: the transcription, the notes N01-N85 and Q1-Q4, and the doubts. It is a
+  single run of GPT-6 Astra (ChatGPT Pro mode), 14 Nov 2026, with no second pass by another reader.
+- the scan images at 006, 012, 019, 027, 030, 036 and 043, and the five omitted faces (blank).
+- Michel Hua's project's modernised reading of cote 121, as witness and for its remarks.
+- Not read: cotes 136, 147, 149-151, the Pro notes' context for the prompted questions.
+
+### 1. The one-space axioms and cellular decompositions (121/002-024; SA20-13)
+
+**What he does, in order.**
+1. **The title sheet (002).** "Topologie Modérée", with faint diagrams of the categorical approach: a space as a
+   coequalizer, an injective map into a cube, and the graph lemma Γ(v) = (g x id)(Γ(u)) for a surjective g. The last is
+   the lemma of 121/054.
+2. **§1, the axioms (004-010).**
+   - A Boolean algebra F of subsets of one space, recorded by its algebra of step functions A_F.
+   - c) closure; d) the interior of A relative to Ā is dense in Ā; e) no infinite chain of closed members each
+     nowhere dense in the previous; f) a locally closed member has finitely many components, all members.
+   - The Prop: F is generated by its closed members.
+   - The closed members F_0 alone determine everything, including a coarsest topology (007-009).
+3. **§2, cellular decompositions (011-014).**
+   - A finite partition with 1° closures are unions of leaves, 2° distinct leaves have distinct closures.
+   - Leaves are then locally closed, and incidence is an order.
+   - Such decompositions are exactly the finite T_0 quotients X -> I with open quotient map.
+4. **§3, the existence theorem (015-017).** Under a)-e), for finitely many members there is an admissible decomposition
+   in which they are unions of leaves, and a coarsest one. With f), a coarsest one with connected leaves.
+5. **§4, regular partitions (017-018).** A class F_r of "regular" members with a largest dense regular part in each closed
+   member, and a canonical F-regular partition.
+6. **§5, localisation (019-024).** Restriction to a member; the sheaf of germs F̄ and its compact case; local finiteness
+   under arbitrary opens; sheaf forms of e) and a uniform dimension axiom e_n. 024 ends on a blank "condition f)".
+
+**Proved and checked** (35 check events: 31 re-derivations and finite checks, 3 readings decided on the images, and
+the look at the blank faces). Re-derived and right:
+- the function-algebra dictionary (004);
+- the saturation claim of 005, true for unital subalgebras by Lagrange interpolation (the argument of Michel Hua's
+  project), which settles the Pro notes' open N03;
+- the Prop of 006, with the boundary lemma of 009, of which the page has only fragments: I wrote the complete proof;
+- d) automatic under α, β, γ (007);
+- the equivalence of his δ) with e) (008);
+- the coarsest topology from F_0 (009);
+- the consequences of f) (010);
+- local closedness from 1°, 2° (012);
+- strictness ⟺ f), for all members (013);
+- the open-quotient characterization (014);
+- **the existence theorem of 015, with its minimality:** Michel Hua's project reports a Lean check of it;
+- the strict variant (017);
+- restriction to members, and f) for all members (019-020);
+- the sheafification statements (020-022);
+- local finiteness of components under arbitrary opens (023): his underlined question, answered yes by his own argument;
+- the analytic-torus example (024).
+
+**Readings decided on the images.**
+- 006: the Prop's hypotheses are "d et e" in the ink. Michel Hua's project's "a) à d)" is not on the page.
+- 012-013, 018: the ink has "d)" where the sense is f). It is the old letter of the components condition, struck on 005
+  and renamed f) on 010: his slip.
+- 019: "Ā_i rare dans Ā_{i-1}", right as written. Michel Hua's project's correction from i+1 is not needed.
+
+**Wrong, with the correction.**
+- **"Est-ce suffisant ?" (007).** α), β) alone are not sufficient (the Pro notes' finite example); he adds γ).
+- **The generator formula of 006** needs a lattice containing ∅ and X, as in its use.
+- **The atoms of 015** need complements, which 018 inserts.
+- **"Ceci implique que les feuilles sont ∈ F_r" (018)** fails as written (the Pro notes' two-point example). It holds
+  when F_r is stable under relatively open parts.
+- **The margin of 019** (traces on an arbitrary A) fails (the Pro notes' example). It holds for A a member or open.
+- **Slips:** X^Z for Z^X (004); "de A" for "de X_i" (022).
+
+**Open.**
+- (S) for all closed saturated unions in the regular Prop of 018: the sketch secures it only for the given members and
+  the closures of the open leaves.
+- e) and closed generation for the sheafified F̄ (his questions on 020-021).
+- The "si ???" of 024, and its blank f).
+
+### 2. Mobility, equisingularity, two conjectures, gluing (121/026-048; SA20-14)
+
+**What he does, in order.**
+1. **Mobility (026-028).**
+   - X is equisingular along a manifold Y if it is locally N x Y with Y as {a} x Y.
+   - x is ν-mobile if such a Y through x has dimension ≥ ν; the order of mobility is ν(x). The loci Mob^i are open.
+   - Four questions: A) the points of order i form an i-manifold along which X is equisingular; B) locally X ≅ Y_i x (N, a)
+     with a immobile; C) Y_i is the largest equisingular germ, and the other equisingular germs are the submanifolds
+     "régulièrement immergées" in it; D) mobility in Y x N is that of N shifted by dim Y.
+2. **"Équisingularité" (030-034).**
+   - The contexts, read on the image: "espaces topologiques, ou espaces linéaires (ou algébriques, ou analytiques) par
+     morceaux".
+   - Equisingular filtrations and diagrams; leaves.
+   - The closure of a leaf is a union of leaves.
+   - Characterization by the diagram of closed leaves.
+   - Cellular, equisingular and privileged partitions (leaves manifolds); systems of partitions on diagrams.
+3. **The conjectures (034-035), now "dans le contexte linéaire (ou algébrique, ou analytique) par morceaux".**
+   - Conjecture 1: every space has a privileged partition and a coarsest one.
+   - Conjecture 2: so does every finite diagram of proper maps.
+4. **The Remarque on proper arrows (035-036).** Leaves map onto leaves, locally trivially.
+5. **A recursive construction for a proper map (036-037).**
+   - He refers twice to "la première lettre à A-Campo", read on the image (Michel Hua's project reads "précédente").
+   - The construction: the largest open set of local triviality, then recursion with marked closed subsets.
+   - He names its gaps: rarity and membership in the category of the bad locus; closures of leaves in the category; the
+     induction needing marked data.
+6. **Gluing (039).**
+   - Sheaves on a space with closed stratum Y and open stratum the interior of X, as triples (𝓕, 𝓖, α: p^*𝓕 -> i^*𝓖),
+     with Z = ∂X -> Y the link bundle.
+   - The adjoint functors; an agenda of four operations and a dualizing complex on the pieces X_I - X_J.
+7. **Reconstruction (041-047).**
+   - 041, under the heading "Fujii Guruji Nichidatsu": manifolds with boundary V_i°, faces ∂_j V_i° fibred over lower
+     strata, corners indexed by chains.
+   - 044: a three-stratum space rebuilt from seven data by mapping-cylinder collapses.
+   - 045-047: the general case and the grids of cartesian corners.
+   - 043: a groupoid sketch for two-dimensional spaces, read low.
+
+**Proved and checked** (23 check events: 20 re-derivations and counterexamples, 3 readings on the images). Re-derived
+and right:
+- the NB and openness of the mobility loci;
+- D's "⟸";
+- B's first sentence from A by D's "⟸", even in TOP (so "**sous** réserve de Prop A");
+- the frontier proposition (031) and its characterization (032);
+- the restriction proposition (033);
+- the Remarque on proper maps: properness is needed, because the charts are only open embeddings;
+- the adjoint formulas of 039: the blank q^! is q^*, and the missing i'^! is the kernel of 𝓕 -> p_* i^* 𝓖;
+- the boundary formulas of 041;
+- the dimension bookkeeping and the gluings of 044, 047.
+
+**Wrong, with the correction.**
+- **Prop D is false in the topological category.** The remark is Michel Hua's project's, from the double suspension.
+  - My version: let cH be the open cone on the Poincaré sphere. Its vertex a is immobile, since mobility would make it
+    locally like the manifold points near it.
+  - But R x cH is a 5-manifold: it is the neighbourhood of a suspension-circle point of Σ²H ≅ S⁵.
+- **Prop C's correspondence is false in TOP** (new here), under either reading of "régulièrement immergée":
+  - if it means locally flat, R^5 = R x cH is equisingular along the wild line R x {a};
+  - if it means any embedded germ, R³ is not equisingular along a wild arc.
+- **The sentence of 036, "les fibres ... doivent aussi être des variétés",** is false in TOP (Bing's dogbone; R x cH
+  -> R) and right in PL and in the definable contexts. These are the contexts 034 assumes.
+- **Slips:** ∂U for ∂U'' (044); n_j - 2 for n_i - 2 (047).
+
+**Open.**
+- A-C in PL: expected from the theory of the intrinsic stratification of polyhedra (Armstrong, Akin; from memory, as in
+  Michel Hua's project).
+- A, and B's uniqueness bracket, in TOP.
+- Conjectures 1 and 2.
+- The definability of the largest locus of local triviality (036).
+- The coherence of the face maps of 047 beyond dimensions.
+- The lower block of 043.
+
+### 3. The prompted questions, from cotes 120-121
+
+**None of the words occurs on 120-121.** "Tubulure", "ombre" and "remords" appear nowhere in the transcriptions of cotes
+120 and 121 (searched).
+
+**SA20-8, the "tubulure" and the "ombre".**
+- The tube is on 121 without the word:
+  - on 039 as the boundary Z of a removed tube, with its link bundle p: Z -> Y carrying the gluing functor p_* i^*;
+  - on 041-047 as the faces of manifolds with boundary fibred over lower strata.
+- The localisation of 019-024, which the Pro notes offer for Q1, is a sheaf of germs of subsets, not a tube.
+- Nothing on 120-121 corresponds to the "ombre".
+
+**SA20-9, the "remords".** No remords, no answering calculation, no date on these pages. They bear on its subject in
+three ways:
+- The gluing datum of 039 keeps Z and p as a space and a map. For the sphere with a marked point, Mayer-Vietoris then
+  recovers H²(S²) = Λ, so nothing the remords is about is lost.
+- 041-047 rebuild the space up to homeomorphism.
+- 043 holds π_1-level data: vertices, edge torsors, functors between boundary and surface groupoids. These suffice in
+  dimension 2 if glued on classifying spaces and fail if glued as groupoids. That is the remords' alternative, but the
+  page has no gluing rule.
+- If 026-047 belong to the A'Campo correspondence of the mid-1970s (hunch -4), this apparatus predates the 1981
+  objection. The December 1981 date itself rests on the Esquisse and cote 151 (Pro notes Q2.4), not checked here.
+
+**SA20-10, o-minimal?** No, as written, for every system on 120-121.
+- The one-space axioms a)-f) hold for o-minimal definable sets. They also hold for the constructible sets of a Noetherian
+  space (checked), so they do not single out o-minimality. On the line, f) is exactly the o-minimal finiteness.
+- 120's M0-M11 and the drafts 121/054-073 have the all-arity closure under projections but only compact sets and no
+  finiteness. The all-compact model satisfies them.
+- **O-minimality is the conjunction of the two halves:** a projection-closed Boolean structure on (R, <) is o-minimal iff
+  f) holds on R. Each draft holds one half.
+- Compact-only axioms can at best describe structures up to their **open core**, and dense pairs have o-minimal open
+  cores without being o-minimal (from memory).
+- His sheafification (020-024) passes from a global theory to a local one, as between o-minimal structures and van den
+  Dries-Miller's analytic-geometric categories; compactness and the bound e_n make them agree.
+
+**SA20-11, comparison of tame theories.**
+- These pages hold uniform definitions over topological and piecewise contexts (030), then the restriction of the
+  conjectures to the piecewise contexts (034). There is no comparison theorem.
+- The restriction is the one his questions need: C, D and the fibre sentence fail in TOP and hold in PL.
+- By Shiota's o-minimal Hauptvermutung (2014), a canonical partition by local type would be the same in all the piecewise
+  contexts for compact sets (hunch -2).
+- The comparison Isom_T -> Isom_T' of the Esquisse is not on these pages.
+
+### 4. How it connects
+
+- **Cote 120 (SA20-12):** the 121/004-024 approach is independent of 120's M_n (the sweep-2 "uses" row is not borne out).
+  It supplies the finiteness on the line that 120 lacks (hunch -1).
+- **121/049-073 (SA20-15):** 049-052 rework §§2-3 in locally finite form; 054 has the graph lemma of 002.
+- **Cotes 119, 149, 156 (SA20-3/-4, SA31, SA21):** 041-047 are the manifolds-with-fibred-corners form of the cascade, the
+  maquette and the "contrée modérée" (hunch -3).
+- **Cote 122 (SA20-18):** possibly linked through A'Campo (hunch -4); not on the pages.
+
+**Hunches:** H20-121_001-048-1 to -6.
+
+**Packages:**
+- R20-121_001-048-1: the axioms against o-minimality, merging R20-152_120-3 and R20-121_049-073_153_155-1.
+- R20-121_001-048-2: mobility and the canonical partitions.
+- R20-121_001-048-3: gluing, reconstruction and the remords.
+
+### 5. The transcriptions
+
+| Cote, scans | Passes | Open readings that matter | Ready to edit and translate |
+|---|---|---|---|
+| 121/002 | Pro (one reader, two visual passes); sweep 3 | nearly all diagram labels (low) | after a check of the TikZ against the image |
+| 121/004-024 | the same; 006, 012, 019 decided on the images | 011 margin and lower block; 014 Fin-\|F-admiss.; 017-018 B\|S; 021 peut-être\|sans doute | after one ink pass on the low-confidence words |
+| 121/026-037 | the same; 027, 030, 036 looked at | 027 dévissable\|divisible (the image favours divisible); a\|N, y\|x; 030 wr\|2 marks; 037 donnée\|cherchée | after one ink pass |
+| 121/039, 041-047 | the same; 043 looked at | 043 lower block (low); 046 ΦD\|ΦB; 047 pr\|rel; the many h\|k, i\|j indices | after one ink pass and a check of the diagrams against the images |
+| 121/001, 048; 003, 025, 029, 038, 040 | — | — | 001 is a modern cover, not translated; 048 his cover title; the five omitted faces blank |
+
+**Translation targets:**
+- 004-024: en; pl; es; ja (o-minimality and real algebraic geometry: Kraków, Madrid, Nagoya).
+- 026-037: en; pt-BR; es; ja (the singularity schools of São Carlos, Zaragoza and Valencia, and Japan).
+- 039-047: en; pt-BR; es.
+- Japanese only if it is not worth more on the unfinished Japanese EGA.
+
+---
+
+## 4. Cote 121 scans 49-73, cotes 153 and 155: tame topology, analysers, a Tannakian duality (SA20-15, -16, -17)
 
 By Claude Opus 5.5 at effort max (agent aff4deb18a6ec3192), reader of the stretch `121_049-073_153_155`, 18 Nov 2026,
 about 23:05-23:45 UTC. The full working is `readings/121_049-073_153_155.md`.
@@ -568,7 +802,7 @@ with candidates' names and votes) are by others and are left to the user's decis
 
 ---
 
-## 4. Cote 122: "Point singulier isolé de la fibre" (undated; after April 1968) — SA20-18
+## 5. Cote 122: "Point singulier isolé de la fibre" (undated; after April 1968) — SA20-18
 
 **Read in full tonight:** MPL_122 (scans 003–035, 32 faces).
 - His notes are on the odd faces and on 020–035.
@@ -592,10 +826,11 @@ with candidates' names and votes) are by others and are left to the user's decis
 3. **The "donnée fondamentale" (020–026), in the derived category of Λ[π] with π the monodromy group.**
    - K• = RΓ(M) with its monodromy, L• = RΓ(W₀) with trivial action, and ρ: K• → L• compatible with cup products.
    - Applying RΓ^π gives RΓ(W − W₀) → RΓ(W₀) ⊕ RΓ(W₀)[−1]: the maps α and β, β being the boundary map of the Gysin
-     sequence.
+     sequence. His word for that sequence is "dévolution" (read on the image; reader 122_125).
    - If W is nonsingular, Poincaré duality turns the vertical arrow into u: RHom(K•, Λ)[−2n] → K•: compactly supported
      to ordinary cohomology of the Milnor fibre, the intersection form in degree n.
-   - The triangle is "autotransposé", with "(signe ?)" left open. He extracts the pairings λ and μ between RΓ(W₀) and
+   - The triangle is "autotransposé", with "(signe ?)" left open. The sign is (−1)^n up to conventions (reader
+     122_125). He extracts the pairings λ and μ between RΓ(W₀) and
      RΓ(W − W₀) and claims they are β and α ("je dis que c'est β … α").
 4. **Cohomology when W is a sphere (026–034).**
    - **From the Gysin sequence:**
@@ -603,7 +838,8 @@ with candidates' names and votes) are by others and are left to the user's decis
      - H^{2n}(W − W₀) = H^{2n+1}(W − W₀) = 0 and H^{2n−1}(W₀) ≅ H^{2n+1}(W) when W₀ is connected (always for n ≥ 2).
      - Re-derived, agrees.
    - **Local Lefschetz:** H^i(W) → H^i(W₀) is an isomorphism for i ≤ n−2 and injective for i = n−1, with the dual
-     statement for the Gysin map. The reading "n−[2|1]" on 028 must be n−2 by the mathematics.
+     statement for the Gysin map. The reading "n−[2|1]" on 028 must be n−2 by the mathematics; the image confirms it
+     (a 2 written over a 1; reader 122_125).
    - **Hence:**
      - H^i(W₀) = 0 except for i = 0, n−1, n, 2n−1;
      - H^i(W − W₀) = 0 for i > n+1;
@@ -612,7 +848,7 @@ with candidates' names and votes) are by others and are left to the user's decis
        works in étale cohomology, where H^i of the geometric Milnor fibre is the colimit over the tame covers.
    - **The relative sequence of (M, ∂M = W₀) (030–032):**
      - H^i(M) ≅ H^i(W₀) for i ≤ n−2;
-     - H^i(W₀) ≅ H^{2n−1−i}(M)^∨ for i ≥ n+1 (the reading "n+[1|2]" must be n+1);
+     - H^i(W₀) ≅ H^{2n−1−i}(M)^∨ for i ≥ n+1 (the reading "n+[1|2]" is n+1: the image shows a 1 written over a 2);
      - the six-term sequence 0 → H^{n−1}(M) → H^{n−1}(W₀) → H^n(M)^∨ → H^n(M) → H^n(W₀) → H^{n−1}(M)^∨ → 0, whose
        middle arrow is u.
      - Re-derived.
@@ -626,11 +862,164 @@ with candidates' names and votes) are by others and are left to the user's decis
 
 **How it connects.** It is the topological model of the local Picard–Lefschetz formalism of SGA 7 (I, XIII–XV):
 vanishing cycles at an isolated singular point, the variation map, and the self-dual triangle. The comparisons with the
-research-run rows (SA20-19) were not made tonight.
+research-run rows (SA20-19) were made in wave 2 (reader 122_125, in the next section). No row is proved, refuted or
+advanced by cote 122, and three of them rest on typescript pages by another author.
 
 ---
 
-## 5. Cote 123: the adjoint quotient, Kostant's principal elements, and the letter to Kostant (SA20-W1, W3, W4)
+## 6. Cote 122 against the research runs (SA20-19); cote 122's open readings; cote 125, local and projective duality (SA20-W2)
+
+By Claude Opus 5.5 at effort max, reader `122_125`, horizontal sweep 3, wave 2, 19 Nov 2026, for ae4ae3dc. The full
+working is `readings/122_125.md`; the cote 68 image decisions are in `../SA22/readings/68_images.md`.
+
+**What was read:**
+- **Cote 122:**
+  - 013–035 of the Pro transcription MPL_122 (GPT-6 Astra, ChatGPT Pro mode);
+  - its notes RN001–RN069 and §7, and the doubt rows of 017–035.
+- **Cote 125:**
+  - all of K125-01, a Work reading by GPT-6.2 Astra at reasoning effort max (ChatGPT Work, batch K);
+  - its notes, mathnotes, doubts and check events.
+- **The register:**
+  - the REGISTER.tsv, EDGES.tsv and CHECK_REGISTER.tsv rows of the seven runs named in SA20-19;
+  - the sweep-1 merges;
+  - WG H2 in the war-game hunches file.
+- **Witness H:** Michel Hua's project, the modern readings of 122 and 125.
+- **Scan images:** 122/017, 020, 022, 028, 032; 125/003, 006, 008.
+
+### 1. Cote 122: the open readings, decided on the ink
+
+- **028, local Lefschetz, "un isom pour i ≤ n−2".**
+  - The 2 is bold and traced over a 1. The next line, "un mono pour i = n−1", has a cancelled "−2" under a blot.
+  - The dual lines read "isom si i ≥ n+1" and "épim si i = n" (the "=" over a "≥", a "+1" struck). They are the
+    transposes by Poincaré duality on W and W₀.
+- **032, "H^i(W₀) ≅ H^{2n−i−1}(M)^∨ si i ≥ n+1".**
+  - The final numeral is a heavy 1 over an earlier 2.
+  - The bound is sharp: the map is an isomorphism exactly when H^i(M) = H^{i+1}(M) = 0.
+  - His parenthesis "(donc 2n−i−1 ≤ n−3)" belongs to the superseded n+2. With n+1 it reads ≤ n−2, which is the range of
+    the next line, "H^i(M) ≅ H^i(W₀) si i ≤ n−2". The two lines are transposes of each other.
+  - Michel Hua's project gives the reason. n+2, "épim si i = n+1" and n−3 are what the first vanishing bound of 030
+    gives (H^i(M) = 0 for i > n+1, before he struck the "+1"). When he improved that bound he retraced this one to n+1
+    and left the rest. Witness H's footnote still reads the bound as n+2.
+- **020, "la suite exacte de dévolution qui relie H^i(W−W₀) et H^{i−1}(W₀)".**
+  - The word reads "dévolution" letter by letter. It is his word, not a standard term.
+  - The sequence is the Gysin (residue) sequence, which 026 writes out. The edition should keep the word, with a note.
+- **022, "(signe ?)".**
+  - Clear, and in a blacker ink than the line, so it was probably added in the same pass as the bold numerals.
+  - The sign of the self-transposition of (a′) is (−1)^n on the middle degree (the intersection form of a 2n-manifold
+    is (−1)^n-symmetric), times the sign conventions for shifting and rotating triangles, which the page does not fix.
+- **017, the dictionary.** The letter read "[η|γ]" is η, and the row under M reads X′_{η̄}.
+  - So the Milnor fibre M is the geometric generic fibre, and the circle S is η: the dictionary of SGA 7 (from memory).
+
+### 2. Cote 122 against the register rows (SA20-19)
+
+The Pro run on MPL_122 compared the pages with seven rows of a register digest it was given, and with one remark of
+Michel Hua's project (notes RN062–RN069). None of the rows was written about 122: their places are LM §51.16, 149/35–36,
+LM1, LM4 §25 bis and §30, 146 and STRATA, and 149/99–103.
+
+| Row (status) | What the run states | What 122 shows | Verdict |
+|---|---|---|---|
+| LM7 E.23 (Open) | The section classes of the metabelian and depth-two quotients of π₁(U₃/ℚ) are not determined; the image of the pro-3 map Sect(N/γ₄N ⋊ G_ℚ)/N → Sect(N/γ₃N ⋊ G_ℚ)/N is open | The π of "catégorie dérivée de Λ[π]" (020, 022) is the local monodromy group; RΓ^π is its derived invariants | No shared object |
+| FLAGGED_149 B9 (Open in the register) | Prime-to-p injectivity of points into section classes for curves over fields finitely generated over 𝔽_p | "À prouver dans le cas algébrique" (022) and "coefficients généraux" (026) concern the duality triangles | No shared object. B9 has been answered since by ANABELIAN_A1_SUCCESSOR A.1 and ANABELIAN_A1 A.33, merged as stronger in sweep 1 |
+| LM1 D.11, LM4 D.12, LM4 F.7 (Open) | The integral μ₂-extensions at 2; torsion in profinite GT₀; the A₅ centralizer comparison | The cited faces (021, 025, 029, 031) are pages 4.11–4.15 of an English typescript by another author (Nagata's quintics, Hironaka's example) | Void comparisons |
+| WG H2 (hunch, unchecked) | A limit action carries the cyclotomic action on each vanishing cycle; a smooth proper curve never does | The n = 1 case of 030 is a node: W₀ the Hopf link, M an annulus, the monodromy a Dehn twist about the vanishing cycle. In the étale reading the residue part is L(−1)[−1] | Compatible in cohomology; the nonabelian content of H2 is not on the pages |
+| EXIT_TOWER B.27 (Proved, the run's claim) | A finite colimit of finite groupoids built from surfaces with boundary, with boundary-twist lattice A = ℤ^I | 013's gluing data, the boundary trivialisations σ, τ. For n = 1, the choice of σ is a ℤ^{π₀(∂M)}-torsor that moves the monodromy in Γ(M, ∂M) by boundary Dehn twists | Shared group and lattice for n = 1; no shared statement |
+| Hua's étale twist | "Dans le cadre étale s'ajoute une torsion (n)"; L(−1)[−1]; Thom isomorphism L(−1)[−2] | No twist on the page. The brackets on 020 were corrected toward shifts ("(−1]" with the ] over the ), and "[−2]") | The tame and Thom twists agree. The (n) is right only on RΓ_c: RΓ_c(M°) ≅ K^∨(−n)[−2n] |
+
+**Check events of the rows** (CHECK_REGISTER, 18 Nov):
+- E.23: 15 (intakes and an expert note by Claude Fable 5.2 at effort high; in-run reviews by GPT-6 Astra, ChatGPT Pro
+  mode).
+- B9: 4.
+- D.11: 0.
+- D.12: 9.
+- F.7: 16, including the 14 Nov intake's "they cannot prove the equality of F.7; they can only fail to refute it".
+- B.27: 0.
+- WG H2: none (a hunch).
+
+**Which Pro dispositions stand:** all of them. Three are sharpened to "void". Two get a named shared object (WG H2, B.27).
+- **Correction to sweep 2:** CLAIM_LINKS.tsv files the typescript's claims (RN055–RN059) under SA20-18 as "his claim".
+  They are another author's.
+
+### 3. Cote 125: "Dualité locale et dualité projective" (SA20-W2)
+
+**The folder:**
+- 002: a cover title, with a struck "affine".
+- 003, 005, 006, 008, 009: his notes.
+- 004, 007: two pages of a French typescript with handwritten symbols, numbered III-18 and III-5.
+  - It uses internal references of the form "I,1,4,th.2", an early EGA-type draft, not identified here.
+  - III-5 is Čech cohomology of an affine covering by Koszul complexes.
+- There is no date. The paper and the title point to the SGA 2 period, about 1961–62 (my inference).
+
+**What he does, in order.**
+1. **The chain of equivalences (003).** X projective of dimension r, Y closed, 0 < m < r, X̂ the completion along Y.
+   - (A) H^p(X−Y, F) = 0 for p ≥ m.
+   - (B) The same for O(−n), n large.
+   - (C) H^p_Y(X, F) → H^p(X, F) is bijective for p > m and surjective for p = m.
+   - (E) By the arrow marked "dualité": Ext^q(X; F, Ω^r) → Ext^q(X̂; F̂, Ω̂^r) is bijective for q < r−m and injective
+     for q = r−m.
+   - (F) For n large, H^0(X, O(n)) ≅ H^0(X̂, Ô(n)) and H^i(X̂, Ô(n)) = 0 for 0 < i < r−m.
+   - (G) H^q(X, F) → H^q(X̂, F̂) is bijective for q < r−m and injective for q = r−m, for F locally free.
+   - Two NBs: "le cas p = m peut être omis, car H^m(X, O(−n)) = 0 pour n grand"; and, for Y of dimension n,
+     H^p(X−Y, O(∗)) = 0 for 0 < p < r−n−1, with H^0 an isomorphism if n < r−1.
+   - "Cas important": n = dim Y, m = r−n.
+2. **The duality (005).**
+   - H^p_Y(P, F) = lim→ Ext^p(O_{Y_n}, F) and H^p(P−Y, F) = lim→ Ext^p(J^n, F).
+   - "Son dual est" lim← Ext^{r−p}(F, O_{Y_n} ⊗ Ω^r) = Ext^{r−p}(Ŷ; F̂, Ω̂^r).
+   - The two long exact sequences are written one above the other.
+3. **Hypersurface sections (006).**
+   - The same pairing for a divisor X′ of dimension r−1: the pairing degrees are r, r−1 and r. "Plus général" adds the
+     supports Y and Y′.
+   - A "?" asks whether the completed duality holds on X′.
+4. **The criterion and a programme (008–009).**
+   - For P ⊃ X: H^i(P̂, Ω^r(m)) = 0 for 0 < i < n and H^0 an isomorphism, "pour m grand, ou tt m", stand beside "P − X
+     est de dim coh. r−n [et non plus grand]".
+   - Then six places where formal schemes enter algebraic geometry: proper morphisms, Lefschetz theory, the formal
+     theory of moduli, duality, formal groups and π₁, Greenberg–Néron.
+
+**Checked (re-derived):**
+- Every equivalence of 003 holds for X projective and Cohen–Macaulay. The page does not state that hypothesis.
+  - (A)⟺(C) is the local cohomology sequence.
+  - (A)⟺(B) is a resolution by sums of O(−n) and descending induction.
+  - (C)⟺(E) is Serre duality together with the formal duality of 005: the dual of a colimit is a limit, and the dual of
+    a surjection is an injection.
+  - (E)⟺(G) holds for locally free F, and the chain closes through (B).
+  - (F) is (G) for O(n) by Serre vanishing.
+- The NB on p = m needs exactly m < r. This supports reading "r > m > 0" in the header (three arches in the ink; the
+  Work pass read n).
+- The oblique NB holds for X = P^r: local cohomology vanishes below the codimension.
+- The typescript's Prop. 2 (007), H^p(U, F) ≅ H^{p+1}((f), M), is the affine case of 003's sequence.
+- His "?" on 006 holds for X′ proper: lim← H^j(X′, E_n) = H^j(X̂′, Ê) (EGA 0_III 13.3; from memory).
+
+**Wrong or refined:**
+- 008's "de dim coh. r−n" is the vanishing threshold, not the cohomological dimension. The box is equivalent to
+  cd(P−X) ≤ r−n−1. When n = dim X that is the least possible value, codim − 1, reached by set-theoretic complete
+  intersections.
+- Readings decided on the ink and by the mathematics: box B is O(−n); the NB twist is O(∗); "[n = dim Y]"; the
+  connecting term on 005 is H^{p+1}_Y.
+- Witness H differs from the ink on 008 (H^r, (−n), r−m) and calls r−m "la codimension". On the page r−m = n = dim Y.
+
+**Open:**
+- the header bound on 003 (r−n is expected; the ink is overwritten);
+- the subscripts "−" and "a" on 006;
+- the word after "Lefschetz –" on 008 ("Courant" or "Ce sont" in the Work pass, "Grauert" for witness H);
+- the induction that the 006 frame prepares.
+
+**How it connects:**
+- 003 and 008 are the duality criterion for the cohomological dimension of a complement. It is in SGA 2 XII §1 and XIII,
+  and later in Hartshorne (1968; Ample subvarieties III.3.4; Compositio 1971, Prop. 2.9, cited by Michel Hua's
+  project), Ogus and Speiser (all from memory).
+- 125 states it for any projective Cohen–Macaulay X, in both directions, with the injectivity clause (H20-122_125-2,
+  R20-122_125-2).
+- 006 and 008's item 2 are the formal Lefschetz programme of SGA 2. 122/028's "Lefschetz local" is its local side.
+- **Deliverables:** 125's handwritten faces are ready after one ink pass on the header bound and the 008–009 list.
+  - translate_to "en; vi; fa": the local-cohomology schools of Hanoi and Tehran, weighed against SGA 2 in those
+    languages.
+  - The typescript pages 004 and 007 are for the user's decision.
+- **Hunches:** H20-122_125-1, the variation forced by the trivial action on L; -2; -3.
+- **Packages:** R20-122_125-1 (to merge into R20-3) and -2.
+
+---
+
+## 7. Cote 123: the adjoint quotient, Kostant's principal elements, and the letter to Kostant (SA20-W1, W3, W4)
 
 **What was read:**
 - In full: the Codex web transcriptions of K123-01 (scans 4–14), C123-01 (2–3, 16–20), K123-02 (15–36), K123-03

@@ -2,7 +2,7 @@
 
 Claude Opus 5.5 at effort max (agent a28ea31fa17dd65e1), 18 Nov 2026. Read in sweep 3, in full: cote 15, scans 2-33
 (`MPL_12_150-168+15_002-033`, his pages on odd scans; the even scans 4-12 are a reused typescript of Lipman's "Rational
-singularities ..." §25, Publ. IHES 36 (1969), pp. 159-163, so his pages are 1969 or later); cote 13, scans 2-20 (in part 2,
+singularities ..." §25, Publ. IHES 36 (1969), pp. 195-279, §25 at pp. 268-272 (the typescript's own pages are numbered 159-163), so his pages are 1969 or later); cote 13, scans 2-20 (in part 2,
 REPORTS/mumford_letter_cote13.md). Not read in sweep 3: cotes 11 and 12 (the correspondences, the standard conjectures,
 abstract motives: 108 + 103 + 82 + 79 + 9 notes, with Codex and Work coverage), cote 15 scans 139-178, the cote 10 B series,
 cotes 16 and 18 Work folders. The order follows sweep2/SA05/WHAT_IS_WHERE.md.
@@ -82,3 +82,9 @@ polarization theorem.
   are the same circle; SA07-7 (the real Frobenius, cote 18) is the archimedean counterpart of 15:11.
 - Wrong: nothing found. Open (his): the conditional parts (Tate, Tate-Honda). Settled by his own later pages: the class
   in H^3 of 15:19 (zero, 15:74-78).
+
+<!-- readers:start -->
+## Sweep 3 readers (files in readings/; rows folded into CHECK_EVENTS.tsv and CORRECTIONS.tsv)
+
+- **readings/c15b_c12_c11.md**: cote 15 scans 139-178, cote 12 (all) and cote 11 (all): 266 scan faces, 207 of them his pages, nothing left unread. Read by a7b7747fd6dd29f87 with the sub-readers aa713c8c5c2c8b9d6 and ac391f829fcbd7a41, all Claude Opus 5.5 at effort max. 136 check events, 70 corrections, 21 hunches. His 'cohomologie absolue' (12:60-84, 15:172-178) is Weil-étale cohomology, found independently by two readers. It is right over finite fields (H^1(F_q, Q) = Q; H^3(Spec Z, Q(1)) = Q acting as a fundamental class). Over arithmetic bases with l inverted, his l-adic comparison and 'H^1(S, A)(l) fini' are false: counterexamples Spec Z[1/l] and X_0(11) over Z[1/11l]. SA05-10's status changes accordingly. Three non-blank scans have no transcription anywhere: 15:140 (cover 'Motifs essentiellement abéliens et théorie du corps de classes'), 12:69 and 12:97-98. Cote 15:139-178 exists only as an unaudited Pro checkpoint.
+<!-- readers:end -->

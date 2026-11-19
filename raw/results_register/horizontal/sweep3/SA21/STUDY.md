@@ -22,7 +22,8 @@ Claude Opus 5.5 at effort max, agent a6d42bf6fe2b0d8a8, horizontal sweep 3, 18-1
     - their study, hunches and packages are merged at the end of this file and of HUNCHES.md and RESEARCH_PACKAGES.md;
     - their check events and corrections are in the tables.
 - **156-1 and 156-2:** studied in sweeps 1-2 through the Pro notes. The three readings left open there were decided on the scans in this run (§3).
-- **Still read only by statement lines:** 156-7 scans 61-114 (the proofs), and 156-9 scans 10-45, 51-77, 81-108 and 119-140.
+- **156-7, scans 61-114,** were read page by page in round 2 by reader B (ae747b2de9d398034, resumed, Claude Opus 5.5 at effort max): readings/156-7_061-114.md, 31 check events, 17 corrections.
+- **156-9, the rest:** read line by line in round 2 by reader C (a770b79afe0cb5100, resumed, Claude Opus 5.5 at effort max): readings/156-9_rest.md, 29 check events, 9 corrections. 156-9 is now read in full except the drawings of scan 112.
 - **Michel Hua's project:** the readers used his modernised readings as a credited witness. The ink decided every reading.
 
 **The checks** are in CHECK_EVENTS.tsv. Each re-derivation is one row.
@@ -70,6 +71,13 @@ Claude Opus 5.5 at effort max, agent a6d42bf6fe2b0d8a8, horizontal sweep 3, 18-1
    - Three of his statements are the **orthomodular law**: Lemma 1 and Cor 1 (156-9/109-111), the formal lemma of 156-7/97-99, and the "axiome des supports" (156-9/117).
    - The orthomodular law **fails on the hexagon O₆**, which arises from the fence a′ < a > b < b′.
    - **MO₂ is orthomodular but not Boolean.**
+   - **The Théorème of 156-7/94 is false under all its hypotheses.** Reader B, round 2, built an eight-element atelier with a seven-lieu disjointness graph that satisfies L1-L3, CL(spac), At D, At supp and At supp 1, yet both conclusions fail. The theorem holds where distinct lieux are disjoint, which is why 156-8/88 has to pose it as Axiome supp 1.
+   - **Round 2 (reader C, 156-9_rest):**
+     - **Axiome supp 1 holds in the magasin of an ordered set.** He proves it for figures inside one flag (156-9/21-22, re-derived), and it holds for all 4,724 figures of the magasins of the 203 connected orders with at most 5 elements (computed).
+     - **His duality theorem cosupp°Φ = Omb°Φ* (156-9/16) is re-proved,** and it held on 21,492 polygons.
+     - **The Question of 156-9/3 is true for magasins of connected ordered sets** (proved, with explicit separating strata). It is false for local ateliers in general (a path of four lieux; twin lieux).
+     - **Cograph ⇒ orthomodular is proved, and the converse fails.** On 5 vertices, 60 comparability graphs with an induced P₄ still have orthomodular Σ; one has Σ = 2³. H9-1 is refuted as an equivalence, and the refined hunch is H9b-1 (Dacey graphs).
+     - **His Lemme 1 (156-9/72) is false;** his own Prop 4 repairs it. His transposition questions are settled, and his "(oui.)" of 156-9/108 is proved.
    - His own diagnosis (156-9/128): "Ce sont mes 'cordes' ... qui causent tous les ennuis".
 6. **The July restart (156-9/5-16).**
    - The setting is the magasin of an ordered set: points and intervals with the positional order a < I_{a,b} < b (156-8/90-127).
@@ -77,7 +85,8 @@ Claude Opus 5.5 at effort max, agent a6d42bf6fe2b0d8a8, horizontal sweep 3, 18-1
    - It is faithful exactly when L is total.
 7. **Documentary.**
    - The sheet "Table des Matières T 1 : T 10 … fascicule 4" on 156-9/3 is a reprography order for Récoltes et Semailles ("Fascicule 0"), not a table of the 1986 notes. H12 is refuted (SA21-K9-01).
-   - Scans 5 and 7 of 156-8 and scan 114 of 156-9 are Récoltes et Semailles leaves.
+   - Scans 5 and 7 of 156-8, scan 101 of 156-7 and scan 114 of 156-9 are Récoltes et Semailles leaves.
+   - His name for the structure of 156-7/55-61 is "Stratos", decided on the scan; the Codex text reads "Stratop" or "Anatos".
 
 **What stays open, in the order of the packages:**
 - the support lattice of the non-faithful magasins (cords and strands), and the cograph hunch for comparability magasins (P8-1, P9-1);
@@ -468,7 +477,7 @@ The part ends here.
 
 **To the tame axioms of cotes 120-121 (SA10-19, SA11-3):**
 - A figure of 156-4/2-3 is a tame stratification with the frontier condition.
-- "Contrée modérée" (156-4/70) is the Hauptvermutung for subdivisions, which for definable sets is Shiota's theorem (SA10-5, SA11-4).
+- "Contrée modérée" (156-4/70) means common subdivisions (refined in round 2: it is Cor 2 of 121/016, not the Hauptvermutung; see HUNCHES H2). It was first read here as the Hauptvermutung for subdivisions, which for definable sets is Shiota's theorem (SA10-5, SA11-4).
 - These are my readings (H2, H7). The 120-121 side belongs to SA20's agent.
 
 **To the "ombre" question (SA10-2, SA11-1, H05G):** the 1986 definition (156-4/36, 88-89).
@@ -635,7 +644,7 @@ With At 4, F ↦ Omb(F) embeds (𝓕, ≪) in the subsets of 𝓜. That answers 
    - The Λ-version fails: "Je n'arrive pas a le prouver". The block is that non-minimal elements of Λ can refine L in part.
    - The pre-atelier (M, ≤, ≪, ≍), with three axiom systems, is his summary (scans 51-53).
    - On any ordered set, ≪ = ≤ gives every axiom except divisibility.
-5. **Set-theoretic and quasi-set-theoretic ateliers (scans 55-61).** With his own counterexamples (two affine structures on an arc; ≪_ens against ≪_pol), and the name "Stratop".
+5. **Set-theoretic and quasi-set-theoretic ateliers (scans 55-61).** With his own counterexamples (two affine structures on an arc; ≪_ens against ≪_pol), and the name "Stratos" (Codex "Stratop").
 6. **Supports (scans 62-101).**
    - The lattice Σ of bi-orthogonally closed sets, with Σ ≅ P(L) when disjointness of lieux is "≠".
    - His own counterexamples: the "ficelle à deux brins", against distributivity (scans 82-84); a path A′–A–B–B′, against his formal Lemma (scan 99). That Lemma is the orthomodular law.
@@ -751,3 +760,91 @@ With At 4, F ↦ Omb(F) embeds (𝓕, ≪) in the subsets of 𝓜. That answers 
 
 **Counts:** 12 check events, 3 corrections.
 <!-- /reading:156-9 -->
+
+<!-- reading:156-7_061-114 -->
+### From the reading of 156-7_061-114 (sub-agent; the full reading is readings/156-7_061-114.md)
+
+**156-7, scans 61-114 (25-26 June 1986), read page by page in round 2** by Claude Opus 5.5 at effort max (reader B, sub-agent of a6d42bf6fe2b0d8a8). The reading is readings/156-7_061-114.md: 31 check events, 17 corrections, ten scans checked on the images. It completes the first reading (readings/156-7.md), which took these scans by their statements. It uses reader C's results on Σ rather than redoing them.
+
+**What the pages do, in order.**
+1. **The name (scan 61).** The quasi-set-theoretic pre-atelier, "à peine plus compliqué qu'une topologie", is to be called **"Stratos"**. Codex reads "Stratop" there and "Anatos/Antos" later; the word is decided on the images of scans 61 and 67.
+2. **Supports (62-69).** Σ is the bi-orthogonal closure of disjointness, a complete ortholattice.
+   - His margin asks whether disjointness of supports is the same as orthogonality. For all pairs that holds exactly when Σ is Boolean, and the same is true of the converse of his (x).
+   - Disj_Λ transports supports to a dense part, and to the lieux under At L2.
+   - A struck page (69) already has the realization of scan 81.
+3. **The stratos of an ordered set (70-73),** with all axioms except divisibility. Compatibility must be read as his cases α/β, not "intersection a point". "card X̃ = 1" in the ink (Codex 0).
+4. **Realization by supports (74-81).**
+   - The Proposition: under Supp¹ and Supp², Σ_M ≅ P(P), commuting with ∁.
+   - His suspicion that (iv)_M follows from the others holds under his Hyp.
+5. **The two-strand ficelle (82-84):** distributivity fails ("ne sont pas comparables" in the ink). His Conclusion-Scholie restricts supports to compatible strata.
+6. **Open strata (85-101).**
+   - X° = supp X ∩ cosupp ∂X; At supp 1 (Y ∈ X° ⇒ Y ≪ X), "un axiome vraiment crucial".
+   - Lemmas 1-4 hold under L1-L3.
+   - **The Théorème of scan 94 fails.** He hoped "du moins sous l'hypothèse de divisibilité Ax L1". It fails in an eight-element atelier with a seven-lieu disjointness graph satisfying At 1-7, L1-L3, CL(spac), At D, At supp and At supp 1. Both the relative complement and the inf commutation fail.
+   - It holds where distinct lieux are disjoint (Σ Boolean). This is why 156-8/88 must pose it as "Axiome supp 1", which reader C identified with the orthomodular law, true in faithful magasins.
+   - His formal counterexample (99) needs A′ and B′ unlinked, else the supports are Boolean.
+   - The subdivision Lemma (100-101) holds under a faithful realization.
+   - The foot of scan 101 is a reused Récoltes et Semailles typescript leaf, a new location for SA21-11.
+7. **The turn (102-114).**
+   - |∘| ("intérieurement disjoints") replaces ≍ and ∥; Mag 4″ replaces At L3.
+   - The Scholie matches ≍-magasins with L1-L3 and At C(spec) to |∘|-magasins with Mag 6″.
+   - The struck first list (110) had the induced refinement as an axiom. In the final Mag 1-4 (111-114) it is a theorem, through At 7 (reader C's Prop 3 at 156-8/11).
+
+**What it means for cote 156.**
+- Supports are a sound formalism exactly where distinct lieux are disjoint (quasi-set-theoretic or faithful). Outside it, divisibility does not repair them, which his own counterexamples (84, 99) already suggest.
+- The move of 26 June to |∘|, "une notion de disjonction intrinsèque", is his response, and the axiomatics that 156-8 and 156-9 build on.
+
+**Open:**
+- the name in his parenthesis of scan 61;
+- the ≪° margin of scan 70;
+- (iv)_M without Hyp;
+- the subdivision Lemma without a realization;
+- which ateliers with cords satisfy the Théorème.
+<!-- /reading:156-7_061-114 -->
+
+<!-- reading:156-9_rest -->
+### From the reading of 156-9_rest (sub-agent; the full reading is readings/156-9_rest.md)
+
+**156-9, the rest read page by page (sweep 3, round 2): scans 10-45, 51-77, 81-108 and 119-140.**
+- Read by Claude Opus 5.5 at effort max (reader C, sub-agent of a6d42bf6fe2b0d8a8), with scans 10, 113 and 130 on the images and computations in `156-9_rest_checks.py` (readings/156-9_rest.md). With the first reading, all of 156-9 is now read except the drawings of scan 112.
+- Michel Hua's project is credited where it makes the same identifications.
+
+**5-6 July: the complement duality.**
+- He adds infinite intervals I_{<a}, I_{>a} to the magasin of an ordered set. The rule is X ≪° I_{<a} iff X < a positionally; the transcription's "≤" is resolved by the image and the computation.
+- His theorem cosupp°(Φ) = Omb°(Φ*) for polygons (scan 16) is re-proved and computed on 21 492 polygons. It completes the duality on which 156-8 breaks off.
+- His formula δΦ* = δΦ ∖ Φ_red fails at extreme points; he repairs it himself on 6 July.
+- Constructible parts Omb°(Φ) are in bijection with finite polygons. With infinite intervals over a non-divisible L they collide.
+- **For the oriented segment he proves the axiom of supports At supp 1 ((CΦ)** = Φ*); re-derived.** Computed for all 4 724 figures of the magasins of the 203 connected orders with at most 5 elements. **So Axiome supp 1 holds in the magasin of an ordered set; it fails only in lieux-only disjoncteurs such as the fence's O₆.**
+
+**6-8 July.**
+- Residual magasins M(J, Ω₀, Ω₁), and direct sums.
+- Sub-magasins: Omb°(Φ) is one. The residual cosupp°Φ is not: his two-triangle counterexample is checked. The "large" residual is one.
+- **Compactologies (M, ⊴, ≪°, |∘|, M_c)**, "la base technique de l'approche combinatoire de la topologie que je propose".
+- The terminology swap of scan 41.
+
+**9-11 July: supports as complete ortholattices, correspondences, transposition.**
+- A spatial atelier is a spatios with a family of elementary spatial figures whose tops are join-dense (Dedekind-MacNeille-type; re-derived).
+- Disjoncteurs (strict graphs) and correspondences α: E → P(E′).
+- **His Lemme 1 (scan 72) is false** (twin disjoncteur). His own Prop 4 (scan 97) repairs it with a condition "rajoutée après-coup".
+- Prop 4's equivalences are proved, including the two he marked "?" and his NB "J'ignore si ..." (yes). They are computed on 3 000 random pairs; in 989, sup-preservation without his added condition fails.
+- Cor 1 (density ⇔ injectivity of S ↦ S ∩ E′) holds; a direct proof replaces his route through Cor 2.
+- Correspondences with closed rows and columns are the bonds of formal concept analysis (also in Michel Hua's project). Transposition is C∘(right adjoint)∘C, a dagger structure ("Analogie avec les espaces de Hilbert ... opérateurs adjoints").
+- **His Question (scan 108)**, whether α_*, β_* commuting with C are inverse isomorphisms: his "(oui.)" is proved.
+
+**Scans 112-129.**
+- The drawing of the "Card Σ = 10" counterexample (scan 113) is not reconstructed: the transcribed arrows do not form a lattice.
+- Admissible families and the orthomodular instance (Lemme 2).
+- "il n'est pas clair que ≪°_comm soit transitif !" is left open.
+- His critique ends: "Ce sont mes 'cordes' ... qui causent tous les ennuis", and "peut-être les ateliers fidèles ?" (that Σ is Boolean): answered yes by the 156-8 reading.
+
+**12 July, CF IX bis.**
+- Morphisms of ateliers. The margin "CF XIII" is CF VIII pp. 46 and 27 (156-8/55, /36), by content.
+- Sub-ateliers: a figure is a maquette. Provisional homomorphisms into A′ ⨿ {∅}; Ker f is ≪°-closed.
+- The excision A/N is left open. Subdivision is read by lieux (156-4/42).
+
+**Settled from the packages.**
+- **Question of 156-9/3: true** for the magasins of connected ordered sets, proved with explicit separating strata and computed on 988 lieux; **false** for local ateliers in general (path a′–a–b–b′, twins).
+- **H9-1 (orthomodular ⇔ cograph): "⇐" is proved** (horizontal sums and products). **"⇒" is refuted**: on 5 vertices 60 comparability graphs with an induced P₄ are orthomodular, for example an order whose Σ is 2³.
+
+**Counts:** 29 check events (SA21-R9b-01 to -29), 9 corrections (SA21-K9b-01 to -09).
+<!-- /reading:156-9_rest -->

@@ -24,7 +24,9 @@ for name, key in (('CHECK_EVENTS', 1), ('CORRECTIONS', 1), ('DELIVERABLES', 2), 
             if name == 'DELIVERABLES' and len(r) < w:  # reader rows lack the later columns (translate_to, why): keep the existing cells
                 r = r + (base[idx[0]][len(r):w] if idx and len(base[idx[0]]) >= w else [''] * (w - len(r)))
             if len(r) != w: print('skip (columns)', p, r[:2]); continue
-            if idx and name == 'DELIVERABLES': base[idx[0]] = r; n_rep += 1
+            if idx and key:  # same id (or same stretch): the reader's newer row replaces the old one
+                if base[idx[0]] != r: n_rep += 1
+                base[idx[0]] = r
             elif not idx: base.append(r); n_add += 1
     with open(main, 'w', encoding='utf-8', newline='\n') as f:
         f.write(head + '\n'); [f.write('\t'.join(r) + '\n') for r in base]

@@ -59,3 +59,43 @@ and I integrate their files into STUDY, HUNCHES, RESEARCH_PACKAGES and the TSVs.
   - SA20 `122_125`: the SA20-19 comparisons with the register rows, cote 125 (K125-01), and the image checks of the
     open readings on 122 (028, 032) and 68 (the disputed words).
 - 23:19 UTC: reader 152_120 (ac69efa38b3a951d7, Claude Opus 5.5 at effort max) DONE and integrated: STUDY §3, HUNCHES and RESEARCH_PACKAGES sections, TSV rows (SA20 now CHECK_EVENTS 52, CORRECTIONS 26, DEPENDS 31, DELIVERABLES 11). Registry KNOWS and STATE_NOTES updated. Stub files of readers 119_144-161_276-281 and 121_049-073_153_155 exist in readings/ (launched from the main session); not integrated yet. Order note: STUDY sections are in the order worked (123, 122, 152/120), not the map's order (119, 152, 120-121, 153/155, 122, 123/125).
+
+## 19 Nov, after the compaction (the main session's messages of ~02:2x and ~03:5x UTC, by their stamps; the clock read 01:18 and 02:05 UTC at the integrations)
+
+- 01:18 UTC: readers acf08879 (119) and aff4deb1 (121/049-073, 153, 155) integrated into SA20 by script
+  (`scratchpad/s2/integrate_sa20.py`).
+  - SA20 STUDY.md is rebuilt in the map's order, with a state table and the main findings.
+  - translate_to and why columns were added to every DELIVERABLES row of SA20 and SA22
+    (knowledge/03_archive/translation_targets.md, with my own reason per row).
+  - The 155 verso row was reworded: no name, vote or date of birth.
+- About 01:2x UTC: wave 2 launched (READER_BRIEF updated: sub-agents 0, translate_to and why, the privacy rule). All
+  three readers are Claude Opus 5.5 at effort max:
+  - a9e0641820ca2be57: 121_001-048;
+  - af3526fc4890c92f1: SA22 67_003-046_084-101;
+  - a8afd9e2a259051c4: 122_125, with the image checks on 122 and 68.
+- 02:05 UTC: all three were done and are integrated (`integrate_sa20.py`, `integrate_wave2.py`).
+  - SA20 now has 7 sections (119; 152/120; 121/1-48; 121/49-73 with 153 and 155; 122; 122 against the runs with 125;
+    123).
+  - SA22 now has 4 sections (66; 67, mine, corrected; 67, the reader's; 68, with the image decisions).
+  - Corrected in my own SA22 text:
+    - the capping Conjecture (Koebe), with H22-6 and R22-2 (b) restated;
+    - the orange slice;
+    - the hand of the title-sheet date;
+    - the Theorem of 089 in characteristic 5;
+    - the direction of the SA22-4/SA22-9 dependence;
+    - the words of 68.
+  - In SA20: the 122 image confirmations, "dévolution", the sign, SA20-19 done, R20-3 (d) done.
+  - Counts: SA20 CHECK_EVENTS 215, CORRECTIONS 101, DEPENDS 90, DELIVERABLES 38; SA22 90, 51, 25, 20.
+  - Registry hand entries were added for the three readers, and the rebuild is started.
+- Next: the Pro research prompts RESEARCH_SA20 and RESEARCH_SA22 (the main session, ~03:5x UTC by its stamp).
+- 02:3x UTC: Pro research prompts built; `--lint-math` passes on both, and the checkpoint rule is present.
+  - `TO_SEND/11_Finish_prompts/RESEARCH_SA20/`: PROMPT.md with the study, transcriptions and literature zips (SGA 7 II
+    XIII-XV, our English edition). Five Parts; the main question A.1 is the collar conjecture and the cascade (119).
+  - `TO_SEND/11_Finish_prompts/RESEARCH_SA22/`: PROMPT.md with the study and transcriptions zips. Three Parts; the main
+    question A.1 is whether the section-6 maps of 67 are isomorphisms.
+  - Faces by other people are left out of the transcription zips (122, 153, 155, 152, 119/276-281, 67/008, 68/018), and
+    the name and address on 67/012-013 are removed. The Pro notes and doubts files are not attached.
+  - Built by `scratchpad/s2/build_research_zips.py`.
+- Found while building: H22-4 was wrong in characteristic 0. Numerical and homological equivalence agree for 2-cycles
+  on complex fourfolds by hard Lefschetz, Lefschetz (1,1) and Hodge-Riemann (my sketch). It is recorded in SA22
+  HUNCHES, CHECK_EVENTS and CORRECTIONS, and is RESEARCH_SA22 B.1 / L1.

@@ -194,3 +194,119 @@ the formal steps were checked:
 - Curtis-Reiner, for Grothendieck groups of lattices.
 - Our MPL_133 package, its notes and this STUDY.md.
 - Pursuing Stacks §§120-122: the notes connect the sheets to it.
+
+## SA17-RP5 · The split Grothendieck-Witt ring WG(S) of a locally ringed topos (cote 133, scans 3-9)
+
+From the reader a598c2dff473d448c (Claude Opus 5.5 at effort max). It belongs with SA17-RP4 in one cluster, the
+λ-operations.
+
+**Question.**
+- Is his WG(S) a λ-ring when 2 is invertible (scan 6)?
+- Determine WG(B_{O(m)}) ("d'où la tâche").
+- Describe the image of the hyperbolic map in the Stiefel-Whitney target.
+
+**Why it matters.** It is his explicit question, and his WG differs from the modern GW for non-affine S.
+
+**What it rests on.**
+- Scans 3-9 and their corrections: no pre-λ-structure without 2 invertible; P_i up to λ^i; "Lazard dixit".
+- The new formula w(H(E)) = Σ(1+α)^{r−k} c̄_k(E).
+- The Pro notes W01-W16 and Michel Hua's project (credited).
+
+**Strongest known reduction.**
+- His reduction to B_{O(m)×O(n)}.
+- Characteristic 0 by complete reducibility (H-133-1; to verify).
+
+**Material a run needs.**
+- Zibrowius 2015 and 2018.
+- McGarraghy.
+- Fasel-Haution.
+- Laborde 1976 (Mém. SMF 48).
+- Delzant 1962.
+- Milnor 1970.
+- Knebusch.
+- Atiyah-Tall 1969.
+- SGA 6 V.
+- MPL_133.
+
+## SA17-RP6 · A group through its centre and its derived group; formal and algebraic versions (cote 133, scans 36-54)
+
+From the same reader.
+
+**Question.**
+1. Which central extensions E give a G with N' = Z(G) and N = DG?
+2. Transpose this to formal groups over a perfect field of characteristic p, with (I) and (II) up to isogeny.
+3. Relate the algebraic analogue (scans 42-44) to Rosenlicht-Brion.
+
+**Why it matters.** Michel Hua's project registers the centre and derived-group criteria as a finding ("new to us",
+unsearched), with a Lean check of the ordinary-group part, credited. The ordinary-group part is now re-derived. The
+formal part is new and unproved.
+
+**Strongest known reduction.**
+- For discrete abelian π₀ and π₁ the question is linear algebra.
+- In the formal case (I) fails exactly through the universal vector extension.
+
+**Material a run needs.**
+- Hall 1940.
+- Beyl-Tappe, LNM 958.
+- Aldrovandi-Noohi 2009.
+- Mazur-Messing, LNM 370.
+- Demazure-Gabriel.
+- Fontaine, Astérisque 47-48.
+- Brion 2009 and 2016.
+- Rosenlicht 1956.
+- MPL_133 notes G01-G21.
+
+## SA17-RP7 · Effective descent along Spec Ô → Spec O for locally quasi-finite separated schemes (step 3 of cote 131)
+
+From the reader ac8bd2a26d00b4f37 (Claude Opus 5.5 at effort max), its package PK-A. It joins SA17-RP3 in one cluster,
+the representability programme.
+
+**Question.** For S local noetherian and F satisfying 1°b, does F_Ŝ representable by a locally quasi-finite separated
+X imply F_S representable?
+
+**Strongest known reduction.**
+- Quasi-compact pieces work, by ZMT and SGA 1 VIII 7.9.
+- The rest is a gluing question for algebraic spaces (H-K-1, H-K-2).
+
+**Material a run needs.**
+- Cote 131.
+- K126-02 (scans 32-35).
+- SGA 1 VIII §7.
+- EGA IV §18.12.
+- The Stacks Project chapters on algebraic spaces and fpqc descent.
+- Artin 1969.
+
+## SA17-RP8 · Lemma 1 of cote 128 in characteristic 2 (non-flat descent through the conductor)
+
+From the same reader, its package PK-B. It goes in the same cluster as RP3 and RP7.
+
+**Question.** Is Ker(H^1(A'/A, G_m) → ·) ≅ Ker(H^1(A'/A, G_a) → ·) under C_0 = C_0^* + Im B, or is there a
+characteristic-2 counterexample (H-K-4)? The Théorème of cote 128 (GL_m-torsors against H^1) rests on it.
+
+**Material a run needs.**
+- K128-01 and K128-02.
+- References on Amitsur cohomology.
+- Raynaud-Gruson, part II.
+
+## SA17-RP9 · Shioda's height formula in cote 130, made exact
+
+From the same reader, its package PK-C.
+
+**Question.** Write the scans 4-6 correction terms v and the scan 15 formula as the Shioda height formula for the mobile
+part J' of a Lefschetz pencil Jacobian, with the corrected Picard count ρ(J') = ρ(X) + deg X − 2.
+
+**Why it matters.** It is a dated anticipation of the Mordell-Weil lattice formula, and it can be checked.
+
+**Material a run needs.**
+- K130-01 and K130-02.
+- SGA 7 IX.
+- Shioda 1990 and 1999.
+- Néron 1965.
+
+## Clusters, for the Pro prompts
+
+- **Representability and descent:** RP3, RP7, RP8 (cotes 131, 126-128).
+- **λ-operations and finite-set operations:** RP4, RP5 (cote 133).
+- **Groups through centre and derived group:** RP6 (cote 133).
+- **BT groups and Dieudonné crystals:** RP1, RP2 (cote 129).
+- **Heights:** RP9 (cote 130).

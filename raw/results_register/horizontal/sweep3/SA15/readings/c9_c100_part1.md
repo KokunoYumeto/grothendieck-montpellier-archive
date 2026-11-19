@@ -398,8 +398,8 @@ statement (not searched beyond the corpus at hand); its ingredients are standard
 
 - **H1-1 (9:14).** "Faux par Tate" records a counterexample to Raynaud's criterion with ℓ = p, necessarily with
   supersingular (more generally non-ordinary) reduction: section 3 proves the ordinary case positive and constructs a
-  supersingular counterexample over Q_p(ζ_{p²}). Grounds: his own pointer to Hasse invariant zero; the construction;
-  ramification e ≥ p(p-1) is used, while for e < p-1 Raynaud's uniqueness of prolongations rules such models out. Links:
+  supersingular counterexample over Q_p(ζ_{p²}). Grounds: his own pointer to Hasse invariant zero; the construction, which
+  uses e = p(p-1); whether one exists over Q_p(ζ_p) (e = p-1, the least ramification μ_p ⊂ K allows) is not decided here. Links:
   SGA 7 I, exp. IX, Prop. 4.7 (Raynaud's criterion; whether a remark there cites Tate is to be checked; locator
   unverified); Kraus, Manuscripta Math. 69 (1990), on the semistability defect (locator unverified); SA15-17 (6:33-37) and
   the cote 100 text (part 2).
