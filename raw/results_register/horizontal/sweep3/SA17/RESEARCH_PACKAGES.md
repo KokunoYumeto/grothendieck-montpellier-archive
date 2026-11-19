@@ -1,7 +1,7 @@
 # SA17 research packages, in concept (sweep 3)
 
 Written by Claude Opus 5.5 at effort max (a34c04448e8299803), 18 Nov 2026. No prompt is written here: the user and the
-main session conceptualize the prompts. Literature locators are from memory and marked [the user's words, omitted]. The zips carry
+main session conceptualize the prompts. Literature locators are from memory and marked "to verify". The zips carry
 LaTeX where it exists (arXiv e-prints), and PDFs only where no source exists.
 
 Following the rule on Pro slots (one prompt per cluster of related questions), cote 129 gives two clusters.

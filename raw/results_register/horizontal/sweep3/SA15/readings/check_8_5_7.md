@@ -268,7 +268,7 @@ injectivity argument (Step 4) works for any $p$-linear $F$ that is injective on 
   IV-37 (PDF p. 115). Used in Step 3.
 - [SGA 7 XXII, excerpt] Corpus file
   `F:\user\Documents\arxiv_latex\library\_recovered_from_papers\by_title\SGA 7-2 — Pages 351–444 (FINAL).pdf`, a
-  retypeset excerpt of SGA 7 II, Exp. XX (end) to XXII. Exp. XXII (N. Katz), 1.3 ([the user's words, omitted]): the
+  retypeset excerpt of SGA 7 II, Exp. XX (end) to XXII. Exp. XXII (N. Katz), 1.3 ("Le cas $p$-adique"): the
   Artin-Schreier sequence $0\to\mathbf Z/p\mathbf Z\to\mathcal O_X\xrightarrow{\wp}\mathcal O_X\to0$, $\wp(f)=f^p-f$,
   and its long exact sequence with $F^*-1$, PDF p. 17. The original SGA 7 II pagination was not checked. The excerpt
   does not contain the comparison $V^{F=1}\otimes\bar k\cong V_{SS}$; Lemma 1(f) proves it instead. Used in 5.2,

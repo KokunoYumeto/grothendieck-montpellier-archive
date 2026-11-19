@@ -270,7 +270,7 @@ under other names and numbers.
 - SA20-4 uses SA20-3 (his pages 149–151):
   - the six categories are built on the collars and cones of I and II;
   - tubular neighbourhoods are strict cones.
-- The sweep-2 rows SA20-2 ↔ SA20-5 ([the user's words, omitted]) have no basis on the pages.
+- The sweep-2 rows SA20-2 ↔ SA20-5 ("our note") have no basis on the pages.
 - Within SA20-5:
   - 160 IV.2 sends to 155 Chap. 3;
   - 156 uses the ditriads and quadritriads of 160.
@@ -306,7 +306,7 @@ under other names and numbers.
 - the cover: as apparatus;
 - 158 (his own typed sheet) and 276–281 (by other authors): for the user's decision.
 
-**Not in any package:** 119/143 (page 2 of the [the user's words, omitted]), 274 and 275.
+**Not in any package:** 119/143 (page 2 of the "Rapport d'activité"), 274 and 275.
 
 ---
 
@@ -371,7 +371,7 @@ Full working: `readings/152_120.md`. Check events, corrections and dependencies 
 
 **How it connects.**
 - The same objects carry the global tag H00J (SA10-18; not read here).
-- The word [the user's words, omitted] for the planar structure, on paper of May 1982 or later, comes two years before the Esquisse's cartes and dessins (hunch H20-152_120-1).
+- The word "carte" for the planar structure, on paper of May 1982 or later, comes two years before the Esquisse's cartes and dessins (hunch H20-152_120-1).
 - Cote 152 and cote 120 share a package, not a subject.
 
 ### 2. Cote 120: "Topologie modérée" (the axioms, 120/002-025)
@@ -437,7 +437,7 @@ Full working: `readings/152_120.md`. Check events, corrections and dependencies 
 |---|---|---|---|
 | 152/001-013 | Pro first pass + audit; Claude second pass (17 Nov, Hua as witness); sweep 3 | 003 isotypique\|isotopique, arête\|cpt., non\|mais pénétrante\|pointés; 004 ε\|ξ; 008 boxed formulas; 010 row 1 (σ_C by the mathematics) | 004-005, 011, 013 yes; 003, 007-008, 010 after the user's eye on these places; 002 after a TikZ check; the printouts 006, 009, 012 (others' job logs) for the user's decision |
 | 120/001-006 | the same | 003 surjectif\|injectif (injectif by the mathematics), the heading; 005 I ≠\|= ∅ | yes |
-| 120/007-025 | the same (parallel block) | 015, 019, 020 margin, 021 [the user's words, omitted], 025; slanted margins fragmentary | yes, with the marks |
+| 120/007-025 | the same (parallel block) | 015, 019, 020 margin, 021 "0 et\|≠ 1", 025; slanted margins fragmentary | yes, with the marks |
 
 **Corrections to sweep 2.** The PLACEMENT, OBJECTS and CLAIM_LINKS rows of SA20-7 give cote 120 and places like "120/003": they are cote 152. The A120 rows cite context scans of cotes 147 and 149 as "120/1xx".
 
@@ -568,7 +568,7 @@ with candidates' names and votes) are by others and are left to the user's decis
 
 ---
 
-## 4. Cote 122: [the user's words, omitted] (undated; after April 1968) — SA20-18
+## 4. Cote 122: "Point singulier isolé de la fibre" (undated; after April 1968) — SA20-18
 
 **Read in full tonight:** MPL_122 (scans 003–035, 32 faces).
 - His notes are on the odd faces and on 020–035.

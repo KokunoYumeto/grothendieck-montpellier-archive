@@ -16,8 +16,8 @@ Kept so that a compaction loses nothing. Newest last.
 - ~13:55: **all five sub-agent launches were refused by claude_tools/agent_guard.py**: "your brief allows 0
   sub-agents and you have launched 455". Cause (read in agent_guard.py, nesting_budget): for a call made inside a
   sub-agent the guard reads `transcript_path` of the hook data, which here is the main session's transcript: its first
-  user message has no [the user's words, omitted] line (so 0) and it holds 455 Agent calls. My own brief's line
-  ([the user's words, omitted]) is never read. I did not touch the guard (configuration; outside my folder). So this sweep
+  user message has no "Sub-agents allowed" line (so 0) and it holds 455 Agent calls. My own brief's line
+  ("Sub-agents allowed: 5") is never read. I did not touch the guard (configuration; outside my folder). So this sweep
   runs as one agent without sub-agents; the briefs stay in the sub_* folders as the plan they were.
 - Plan, in order: (1) Δ on GT̂ across runs; (2) the tower-sections bridge items; (3) FINMON, CATHOT E.17, cross-line
   links; (4) HIS_PLACES; (5) cycles; then CLUSTERS, CROSS_LINE, CONSISTENCY, CORRECTIONS, CHECK_EVENTS, SUMMARY.
