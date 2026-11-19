@@ -118,10 +118,10 @@ search for a counterexample; a stronger statement that implies the item; a weake
 push up. Do not deliver while an item is undecided and an untried approach remains. A gap in a proof is an undecided
 step: mark it and attack it; never paper over it, and never present a proof with a gap as a proof.
 
-**Progress check at three hours** (the user's rule of 13 November 2026, amended on 17 November 2026). After about
-three hours of work, and every hour after that, review the work against a dated ledger (`PROGRESS_LEDGER.md`, in
-every checkpoint): every open row with its status, and for each main question its current gate (the strongest proved
-reduction). Movement means only an open row changing status, or a main question proved to reduce to a strictly
+**Progress check when the run judges it useful** (the user's rule of 13 November 2026, amended on 17 and 19 November
+2026). Review the work against a dated ledger (`PROGRESS_LEDGER.md`, in every checkpoint) whenever you judge a review
+useful, and in any case as soon as the main question is settled: every open row with its status, and for each main
+question its current gate (the strongest proved reduction). Movement means only an open row changing status, or a main question proved to reduce to a strictly
 smaller gate. Restating the same gate, side results that leave every gate as it was, and packaging are not movement.
 After two consecutive reviews without movement, stop that work, write the final package with every item's state, and
 deliver it; this check takes precedence over the sentence above about untried approaches.

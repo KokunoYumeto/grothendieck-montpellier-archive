@@ -1,0 +1,57 @@
+# Root audit after checkpoint 10
+
+19 November 2026. AI-produced by GPT-6 Astra, OpenAI. This records completed checks and exact source maps; it asserts no priority.
+
+## The all-cover affine completion
+
+Root read AF1–AF8 and the complete production E.2.28 proof. The residual-finiteness argument is explicit: a nonzero element of the finite-rank abelian kernel survives in the finite quotient by a suitable multiple of that kernel. This gives both the embedded discrete quotient and the exact intersection with the completed kernel.
+
+The local-conjugacy calculation takes place in the abstract quotient by the actual integral kernel. Its quotient coefficient group is uniquely divisible, and averaging its finite-group cocycle supplies a conjugator. The normalizer computation uses an integer linear system with a profinite solution and Smith normal form to produce an integral solution. Thus the normalizer is exactly the product of the discrete quotient and the invariant completed kernel.
+
+The inverse-limit step has an explicit surjectivity proof. In the regular bouquet cover, invariant cycles are the constant edge sums for each generator label. Their pushforward is multiplication by the actual cover degree. Integral invariant cycles supply every residue modulo that degree, and the discrete quotient maps are onto. These statements make the normalizer transitions, and then the local-conjugator solution transitions, surjective. A compatible sequence therefore gives one actual element of the original profinite group. Compactness is applied to closed cosets of the commutator kernels, never to the nonclosed local solution sets.
+
+For the generator criterion, the induced matrix on each integral relation lattice is integral with invertible profinite completion. Its determinant is therefore an integer unit at every prime, hence ±1. Surjectivity on the abelian kernel and on the finite quotient proves equality of the discrete extension. This proves the precise stabilizer criterion, with no claim about arbitrary tuples extending to automorphisms.
+
+The boundary sequence supplies the actual remaining map from proper to affine homology. In chosen integral splittings, the upper-right block is an element of completed Hom. Integral changes of splitting alter it by integral Hom. Hence its vanishing class is intrinsic once the two diagonal blocks are integral. The original Galois transporter has not been shown to have this vanishing class simultaneously on every cover. Nor has an element of its stabilizer been shown to preserve the original discrete free group after one inner adjustment.
+
+Root reopened Bux–Ershov–Rapinchuk, original GGD5 (2011), pp327–353, at https://ems.press/content/serial-article-files/29591 and read the main theorem and relation-module construction on pp330–331. Root also reopened Yuksel, arXiv:2501.13803v2, at https://arxiv.org/pdf/2501.13803 and read Theorems1.2 and1.5 on pp3–4. Their domains are the actual discrete endomorphism or outer-automorphism groups. No surjectivity assertion onto the profinite stabilizer is attributed to either source.
+
+## The actual A5 lift
+
+Root read the complete work proof, production E.2.29 proof, and construction script. The right Cayley edges and left deck action commute; the non-tree edge coordinates give a literal inverse to the integral cycle basis. The oriented cusp chains give the actual saturated boundary lattice through the compactification sequence.
+
+The averaged projection E has image in that lattice and restricts there to multiplication by60. The displayed maps S and T satisfy TS=0. Their product has exact common divisor10, giving an integral N. The detector q vanishes on the cusp matrix and has qNb=19440. Thus gamma=I+60N and its integral inverse have the stated quotient obstruction1166400.
+
+The extension correction has the correct sign. For multiplication (m,h)(n,k)=(m+hn+c(h,k),hk), the map (m,h)↦(gamma m+eta(h),h) is a homomorphism exactly when delta eta=(gamma−I)c. Summation of the actual section cocycle gives delta b0=60c, and eta=Nb0 supplies that equality. The inverse uses N eta=0. These are continuous formulas on the completed extension.
+
+Root reopened the original BCL v3 PDF at https://arxiv.org/pdf/2004.08860; its first page identifies arXiv:2004.08860v3,10June2021. The versioned URL returned DisabledError in this attempt, while the unversioned URL returned this exact version. Theorem2.1,p4, Corollary2.4,Lemma2.5 and the proof onp5 give an actual lift of the specified extension automorphism. Example5.3,p13, has the same A5 monodromy. The exact homology square and the determinant−1 exponent-sum minor force every lift to be IA. Its nonzero proper-homology detector excludes preservation of the actual cusp module, hence excludes the required Galois property.
+
+Generation independently audited all decisive matrices with arbitrary-precision SymPy, the exact cochain formulas, both literal A5 kernel words, and the lifting theorem. Root's registered reconstruction run passed in1.612472seconds. The current matrix JSON matches the final audited artifact. The extra literal prescription check is retained in work/code_root/check_A5_production_prescription.py with output and actual metadata. It checks that the paper's first43 columns, all43 specified row indices, seed1, divisor10, detector row and both numerical values are exactly those in the artifact.
+
+## The new elliptic source maps
+
+Root read work sections47–49 in full. For47, the original Mochizuki May2000 manuscript was read on pp13–14 and16–19. Theorem1.3 is functorial in the base; the formally etale ordinary-moduli construction and Theorem2.2 give the inverse-Verschiebung tower after the specified base change. Its identity tangent projects isomorphically to the tangent of E. The binomial derivative b(-1)^(r−1)/r proves the failure of a nonzero vertical derivation to preserve all integral levels. The p5 ordinary test has H=3,K=2 and necessary slope1. No integral lifting of the actual complex h follows from its algebraicity alone.
+
+For48, root opened the original Waldschmidt1988 Durham paper at https://webusers.imj-prg.fr/~michel.waldschmidt/articles/pdf/Durham1986TMGSSV.pdf and visually read the scans of printed pp385–386. The parameter lambda is the rank after exponentiation; periods contribute through kappa. On the actual graph of Phi_h, with its unchanged scale c, the two periods give6≤8 for the trivial subgroup. The proof of the algebraic graph-point rank bound correctly lists the possible connected subgroups: an elliptic subgroup cannot map nontrivially into the nontrivial universal extension, because isogeny pullback is injective on H1(O); a two-dimensional subgroup projecting isogenously onto both elliptic factors would split that same nonzero extension. The conclusion supplies no third independent algebraic graph point.
+
+For49, the actual quotient identity for Weierstrass functions gives f_C*xi_C=Nxi−S_C omega modulo the displayed exact rational primitive. The short-frame scaling then gives lambda²h(E′)=Nh(E)+S_C. The Galois covariance uses precisely the subgroup fixing E and the actual algebraic h; no covariance for arbitrary coefficient conjugation is inserted. Functoriality of the integral tangent follows by comparing the normalized tower maps: their difference is a regular map from a proper elliptic scheme to the vector kernel, constant and zero at the identity. Subtraction yields lambda²(h′−u′)=N(h−u). In the connected p-power tower the dual etale isogeny has unit multiplier, so v_p(lambda_n)=n and the discrepancy valuation decreases by n. The absence of a uniform lower denominator bound is retained explicitly.
+
+## The direct proper-homology completion
+
+At12:05UTC root read PC1–PC6 in work/agent_proper_integral_completion.md. All displayed maps pass. Killing the actual cusp cycles and commutators gives a normal subgroup of the discrete cover group, a free abelian proper-homology kernel, and a residually finite virtually abelian extension. The closure lies in the original open subgroup, so its compatible compact cosets still recover the actual free profinite group. Pushforward of a cusp cycle is a positive power of an actual cusp cycle, giving the stated transition maps and the image in every original proper lattice.
+
+The two invariant edge sums are sums of actual boundary cycles. Rational averaging therefore makes the proper invariant subspace zero. The integral matrix of differences has trivial rational kernel, which remains trivial over every Q_l and over Zhat. The normalizer computation consequently has zero central remainder: each local normalizer is the discrete extension itself. Its surjective transition maps give one compatible global conjugator. Surjectivity of the projections of H_c then proves Norm_G(H_c)=H_c. The generator criterion uses exactly the same determinant±1 and finite-quotient argument as E.2.28, including rankzero.
+
+The explicit mixed-sign unit has 2-adic coordinate−1 and odd-prime coordinates1. Its x-power belongs to H_c because every cusp has finite order in each displayed quotient. Its abelianized first coordinate is not an integer, so it is outside H_int. This is an actual strict inclusion of the two embedded subgroups. It constructs no Galois automorphism; the original proper-to-affine and discrete-representative obligations remain. This proof will be integrated as E.2.30 after the present checkpoint; its complete work file is already retained.
+
+## Further source search record
+
+Fresh query families used the exact phrases Hodge splitting/algebraic/Katz, quadratic relations among elliptic quasiperiods, almost-holomorphic j and chi-star algebraic values, nonholomorphic Schneider, current Mumford–Tate results for fourfolds, and Grothendieck–Teichmuller integral homology/integral points. They returned already retained Katz/Spence/Waldschmidt/Sebbar–Besrour sources, the 2026 Tang–Zou discussion, and broader profinite-operad or curve-complex work. Repeated hits and secondary or AI summaries are not counted as new theorem evidence. In particular the Spence singleton argument and the Sebbar–Besrour scope were already in the elliptic work file.
+
+Actualreview06 was recorded at11:55:07.516251UTC. It credits the completed F.3.32–F.3.33 normalizer gate. E.2.27–E.2.29, the new H1 constraints, source retrieval and formatting do not separately count as qualifying movement. The next actual review is due12:55UTC, and no stopping condition has been reached.
+
+## Typesetting
+
+The first integration attempt exposed a multi-column split environment; the second exposed an undefined mathscr alphabet. The added displays now use aligned and the existing mathcal alphabet. The first completed261-page build had one4.93317pt overflow in the E.2.29 lattice definitions. Splitting those three definitions into aligned rows removed it. The final261-page PDF has1964879bytes,177 numbered statements, zero overfull boxes, undefined citations/references, missing characters, fatal errors and LaTeX warnings.
+
+Root visually inspected the contact sheet for pages1,49,71,116,150–159,230,235,236,261, and full-size pages155 and157. The repaired definitions, exact matrices, cocycle formulas, integral Hom block, source locators and proof continuations fit their margins. The rendered images are temporary and excluded from checkpoint archives. Build attempts and their corrections are retained as audit history; the complete current PDF is the deliverable.

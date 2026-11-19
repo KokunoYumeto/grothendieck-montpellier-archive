@@ -1,0 +1,13 @@
+# F.3.21 and the exact genus-two tangent quotient
+
+F.3.21 is integrated after independent root re-proof and source inspection. It recognizes actual cusp inertia for every nontrivial procyclic subgroup with open arithmetic normalizer on the once-punctured curve `X5: Y²=1−X⁵`, at every prime other than the split primes `ell ≡ 1 mod 5`. The ramified prime 5 is included. The proof survives every finite number-field extension.
+
+The detecting finite cover is an actual étale cover. Its homology contains the generator’s nonzero image, and the geometric normalizer kernel acts trivially on that abelianization. Frobenius weights place that line in the actual boundary kernel. Rationalizing the finite boundary makes the exponent exactly cyclotomic; the first Magnus term transfers that equality from the intersected cover normalizer to the full normalizer. Nakamura’s original theorem then supplies actual inertia. No arithmetic section is selected.
+
+The separate work proof `LM6_A22_genus_two_tangent_test.tex` constructs a nonzero special degree-six derivation tangent to all four CM generators, with character `chi³`. Its displayed coefficients lie in the Lie ideal of the surface relation: `c=[z1,omega]`. Thus it induces zero after filling the puncture. Takao’s original RIMS1709, Theorem 3.5 p.21, identifies the universal arithmetic field towers for the proper and once-punctured genus-two cases. The actual forgetful moduli morphism yields a commuting quotient diagram, proving `q6(Q_l[D] ∩ gr6 Gamma_univ)=0`. Membership of `D` in universal monodromy is not asserted. This proof remains work-only pending root audit.
+
+The new exact program `check_genus_two_tangent.py` verifies the associative-word identities, nonzero images, multidegrees, character and finite symmetries. It does not infer an arithmetic action from a Lie vector. Its current output and hashes are in the computation records.
+
+Three newly opened primary sources are represented in the bibliography and source ledger: Takao’s November 2010 author preprint; Morita–Sakasai–Suzuki arXiv1404.3351v2; and Davis–Pries–Wickelgren arXiv1808.04917v3. The latter two are source leads only. The stable-range normalized basis in the former has a factor `2g−4`, and the latter computes an associated graded action. No unproved specialization or filtered-action lift is imported.
+
+The entire CM-weight tangent subspace remains to be tested against the actual arithmetic quotient. Split-prime X5 recognition, arbitrary-cover higher-dimensional CM factors, and full profinite LM6 A.22 remain unresolved. The 307-row inventory keeps every status unchanged; only I.B05.01, I.B05.02 and II.MB15.02 have stronger evidence and dependencies.

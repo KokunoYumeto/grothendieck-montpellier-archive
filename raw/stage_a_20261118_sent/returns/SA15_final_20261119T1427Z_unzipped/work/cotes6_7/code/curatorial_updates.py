@@ -1,0 +1,80 @@
+"""Final manual audits, exact reference scopes, and differentiated check events."""
+def cc(n): return claims[n-1]
+def pp(n): return problems[n-1]
+cc(4)['fate']='BrinonConrad2009 Theorem8.3.6 (pp120–121): choose r=1 and irreducible Frobenius polynomial X²+p. The resulting irreducible crystalline representation has distinct weights0,1; its two Hodge–Tate projections give the two embeddings after twists. This positive answer is the present run’s deduction.'
+cc(4)['confidence']='high'
+cc(6)['refs']=['BourbakiIntegration1963']
+cc(6)['fate']='Independent support/seminorm proof supplied in computation_notes.md. The author bibliography verifies Intégration VII–VIII (1963); a checked MathOverflow lead points to VIII§2 nos3,5, but the original printed passage was not obtained. The typescript’s exact textual identity and authorship remain unverified.'
+cc(37)['refs']=['Grothendieck1968','Ogus1975']
+cc(37)['fate']='Grothendieck1968 §6.5 preserves the withdrawal. Ogus1975 Theorems4.6,4.9 and Corollary4.11 identify non-PD infinitesimal cohomology, for smooth proper schemes over perfect k embeddable in smooth W_n(k)-schemes, with the Frobenius-stable crystalline part; for algebraically closed k the inverse-limit comparison is with H_et(X,Z_p)⊗W(k). Example3.7 treats an ordinary elliptic curve. The published proof of4.9 expressly leaves one compatibility unchecked; this run records the theorem, not a completed repair of that step.'
+cc(37)['fate_date']='1966 talks/1968 publication; Ogus1975'
+cc(46)['computation']='The full cusp computation is independently corrected in P67-C045. ArapuraKang2011 Proposition4.2 and Example4.4 give an analytic Kähler–de Rham failure for x^5+y^5+x²y²=0, with μ=11 and τ=10. The μ/τ calculation is a published result, not independently certified here. computation_notes.md supplies the normalization/finite-support argument transferring the defect to the algebraic complex for this affine curve.'
+cc(46)['fate']='ArapuraKang2011 Proposition4.2/Example4.4 provides a valid non-quasihomogeneous replacement. Hartshorne1975 IV.1.1 and IV.2.1 establish completed ambient comparisons; these do not assert the same theorem for naive Ω_X.'
+cc(48)['fate']='SGA4 XVI Theorem4.1 is the finite-torsion algebraic/analytic comparison. Finite triangulation and the structure theorem for finitely generated abelian groups give the stated additive and endomorphism consequences. SGA1 XII is not invoked here as an independently read proof.'
+cc(48)['class']='B'
+cc(49)['class']='B'
+cc(49)['fate']='Deligne, SGA4½, Théorèmes de finitude (ExposéVII) Theorem1.1: for regular noetherian S of dimension0 or1, finite-type S-schemes and torsion constructible coefficients killed by an integer invertible on S, all R^i f_* are constructible. Apply over an algebraically closed field. SGA4 XIX5.1 retains a resolution-of-singularities hypothesis/footnote and cannot alone support the unconditional positive-characteristic claim. Compact-support finiteness is separately SGA4 XVII5.3.6–5.3.8.'
+cc(49)['fate_date']={'publication':'SGA4½,1977','first_circulation':'not established from a primary dated witness in this run'}
+cc(49)['refs']=['SGA4','SGA45']
+cc(49)['confidence']='high'
+cc(50)['fate']='KatzMessing1974 Theorem1 compares Frobenius polynomials for its reasonable cohomology theories over finite fields. Theorem2(1) makes Künneth projectors rationally algebraic; Theorem2(2), pp76–77, gives integral theory-independent characteristic polynomials of integral correspondences in every degree. Extension to smooth projective varieties and endomorphisms over an algebraically closed characteristic-p field uses spreading out and smooth-proper specialization; that extension is identified as this run’s inference, not the literal finite-field theorem.'
+cc(57)['refs']=['Grothendieck1968','Kothari2026']
+cc(57)['fate']='Grothendieck1968 §1.3 p309 explicitly qualifies ordinary base change. Kothari, arXiv2304.07628v2, Theorem1.1 gives smooth projective families over an equal-characteristic-p DVR with arbitrarily large de Rham jumps; it supplies a geometric warning that the needed cohomological flatness is not automatic in characteristic p. The elementary complex here independently refutes only the formal inference.'
+cc(58)['fate']='SGA1 III§6 Theorem3 gives H² obstruction and H¹ ambiguity; Corollary8 treats affine nilpotent lifts and Corollary10 treats formal lifts. Vanishing of quasi-coherent higher cohomology on an affine supplies the exact hypotheses. III§7 is an application section, not the correct locator for this affine assertion.'
+cc(62)['fate']='vanDerPut1986 Proposition2.2 gives noetherianity of the standard weak completion. The present run then proves p-adic ideal-closedness: 1−pa is invertible in the dagger ring, so p lies in its Jacobson radical; Krull intersection on A/I gives ∩_n(I+p^nA)=I. No theorem about an unspecified alternative dagger topology is inferred.'
+cc(62)['computation']='Independent noetherian/Jacobson/Krull-intersection deduction, with the convergence of Σ(pa)^n on a sufficiently small overconvergent disk explained in computation_notes.md.'
+cc(65)['fate_date']={'first_full_preprint':'2016-02-09','publication_volume_year':'2018','note':'Numdam records received2016-03-18, accepted2019-01-08 and inconsistent online dates; volume year is retained without resolving the platform metadata anomaly.'}
+cc(67)['class']='C'
+cc(67)['fate']='vanDerPut1986 gives the rational affine formalism and trace discussion; ErtlShiho2020 gives an exact negative result for integral finiteness. The manuscript bundles finiteness, duality, Künneth, trace formulas and unspecified relative coefficients. The checked sources do not constitute one exact theorem resolving that entire bundled programme. In particular, a modern rational coefficient theory must specify support and convergence, and cannot be substituted for the false integral claim.'
+cc(67)['present_status']['status']='Several precise components became the established rational theory, but the full unspecified relative-coefficient programme is only partially identifiable and matched here. Integral finite generation remains false.'
+cc(69)['class']='A'
+cc(69)['refs']=['Grothendieck1968','KatzOda1968']
+cc(69)['fate']='Grothendieck1968 §3.3 pp325–326 explicitly gives the local affine/formally-smooth construction of the Gauss–Manin action from lifted derivations and Cartan homotopy. This is his own later published formulation of the exact local claim. KatzOda1968 §2 Theorem1 and §3 supplies the global cohomology formulation. Only the Cartan identity sublemma is classified as older background; no historical-first-priority assertion is made for the full construction.'
+cc(69)['fate_date']='Grothendieck talks November/December1966; publication1968. Katz–Oda received1968-04-19/published1968.'
+cc(73)['fate']='Liu2025 Theorems1.1/14.1 prove the locally finite-type complex infinitesimal/singular comparison; Theorem1.2 supplies the completed-ambient computation. Hartshorne1975 IV.1.1 (p89) proves completed algebraic/analytic/singular comparison for finite-type C-schemes embedded in smooth schemes; IV.2.1 (p91) is the formal analytic Poincaré lemma. The earlier unpublished Deligne proof is an attribution reported by Liu, not a source recovered by this run.'
+pp(18)['state_of_art']='Grothendieck1968 §6.5 retains the counterargument. Ogus1975 Example3.7, Theorem4.6, Theorem4.9 and Corollary4.11 identify the non-PD theory with the Frobenius-stable part under the stated smooth-proper embedding hypotheses. His proof of4.9 flags an unchecked compatibility. PD crystalline cohomology retains all slopes and is a different theory.'
+pp(23)['state_of_art']='For ordinary cohomology, Deligne SGA4½ ExposéVII Theorem1.1 proves constructibility over regular bases of dimension≤1, hence finiteness over a field. SGA4 XIX5.1 alone is resolution-dependent; XVII5.3.6–5.3.8 handles compact supports. KatzMessing1974 Theorem2(2) gives integral, theory-independent correspondence polynomials for smooth projective finite-field varieties; spreading out supplies the stated algebraically closed-field consequence.'
+pp(23)['refs']=['SGA4','SGA45','KatzMessing1974','Deligne1974']
+pp(26)['state_of_art']='vanDerPut1986 Proposition2.2 establishes noetherianity. The independent Jacobson-radical/Krull-intersection proof in computation_notes.md proves p-adic closedness for every ideal. The page names no topology, so this settles the usual adic formulation rather than every possible topology.'
+pp(27)['state_of_art']='SGA1 III§6 Corollaries8 and10 establish the affine infinitesimal and formal lift statement. vanDerPut1986 §§2.3 and2.4, especially2.4.4, supplies the weak-completion/differential formulation and rational homotopy; ErtlSprang2018 Proposition1, Proposition2 and Lemma3 supply integral invariance.'
+pp(29)['state_of_art']=cc(67)['fate']+' The independently verified A¹ calculation gives unbounded integral torsion; ErtlShiho2020 Theorem0.1 gives non-finite-generation even modulo torsion.'
+pp(33)['state_of_art']=cc(73)['fate']
+
+# Refined statements are new curatorial reconstructions, not new manuscript claims.
+C(76,[24],6,[62],[[597,615]],'refinement of the unshifted formula','For finite p-primary G, under standard cohomological grading and dual G^∨=Hom(G,Q_p/Z_p), RHom_Z(G,O) ≃ (G^∨⊗^L_Z O)[−1].','present-run refinement, not attributed to the page','Use the two-term projective resolution of Z/p^n; both sides have the same degrees0,1 and multiplication-by-p^n differential.','E','Elementary derived duality; proof in computation_notes.md.','checked2026-11-19','Correct under the explicit dual and grading conventions; a scan check still decides the manuscript symbol.',['Pink2005'],'high',['R67-F06'])
+C(77,[62],7,[40],[[1549,1575]],'refinement of the primitive criterion','For f=Σa_n t^n∈W{t}, f dt has an integral restricted primitive iff v_p(a_n)≥v_p(n+1) for every n and v_p(a_n)−v_p(n+1)→+∞.','present-run refinement','A primitive has unique nonconstant coefficients a_n/(n+1). Integrality is coefficientwise; restricted convergence is the tail condition.','E','Independent termwise proof in computation_notes.md.','checked2026-11-19','Correct; over K only the tail condition remains.',['vanDerPut1986'],'high',['R67-F08'])
+C(78,[63],7,[41],[[1577,1590]],'refinement of the growth bound','Overconvergence of Σa_n t^n means that some radius r>1 satisfies |a_n|r^n→0; equivalently one can impose |a_n|≤Cρ^(−n) for some ρ>1 after shrinking the radius.','present-run refinement','Exponential decay survives multiplication by n+1 or division by n+1 over K after shrinking radius.','E','Standard dagger definition; vanDerPut1986 §2.','checked2026-11-19','Correct mathematical replacement; no choice between the possible ink readings is made.',['vanDerPut1986'],'high',['R67-F08'])
+C(79,[67,68],7,[45],[[1658,1664]],'refinement of the torsion equality question','For the smooth proper good-reduction setting of BMS2018 Theorem1.1(ii), crystalline p-power torsion lengths bound the corresponding geometric étale torsion lengths; equality is not automatic.','present-run refinement','Theorem2.1 gives a strict example at p=2. Source theorem checked, not independently proved.','B','BMS2018 Theorem1.1(ii), Theorem2.1.','firstpreprint2016-02-09;volumeyear2018','Use the exact source base and torsion-length formulation; this record is not a general comparison for nonproper X.',['BMS2018'],'high',['R67-F10'])
+C(80,[69],7,[46,47],[[1666,1682]],'refinement of integral affine finite generation','For the dagger affine line over W(k), H¹_integral has elements of exact order p^r for every r≥1, while its rational de Rham H¹ is zero.','present-run refinement','Use t^(p^r−1)dt and its unique primitive t^(p^r)/p^r. Rational integration preserves overconvergence after shrinking the radius.','E','Independent proof in computation_notes.md; ErtlShiho2020 introduction confirms the integral phenomenon.','checked2026-11-19','This exhibits why rational finite-dimensionality cannot imply integral finite generation.',['ErtlShiho2020','vanDerPut1986'],'high',['R67-F08'])
+for n in range(1,76):cc(n)['origin']='manuscript claim'
+for n in range(76,81):cc(n)['origin']='present-run refinement; not an additional assertion by Grothendieck'
+
+# Correct note-id endpoints using the manually checked item/source map.
+for r in readings:
+ if r['cote']==7 and r['scan']==8 and r['reading'].startswith('Restricted pro-category'):
+  r['scan']=9;r['line']=TEX+':957–960'
+ if r['cote']==7 and r['scan']==33 and r['reading'].startswith('A marginal Brauer'):
+  r['scan']=32;r['line']=TEX+':1393–1406'
+R(7,4,'870–910','The affine principal-parts formula uses x_i where its arguments are named a_i.','Check whether x_i or a_i is actually written; do not harmonize the diplomatic formula.','The multiplication/augmentation must be evaluated on the named tensor factors. A changed letter can be a harmless slip, but it leaves the literal map underdefined.','medium','medium')
+link_items=[[5,72,75],[5,45,59,65,66,69],[11,12,14],[15,16,18],[19,21,22],[23,26,27],[30,31],[31,32],[29,30,32,80,81],[43],[43,45],[50,51,75,78,80],[60,70],[62,63,64,65],[67,68,69],[75,76],[77,81],[81,82],[19],[15,16,18],[26],[29,30,32,35,37,41],[43],[45],[46],[53,54],[62],[62,64,65],[67,68],[69],[73,74,75,76],[78,79],[80,81,82]]
+for row,ns in zip(links,link_items):row['note_ids']=';'.join(dict.fromkeys(s for n in ns for s in items[n-1]['sources']))
+links[22]['to']='Grothendieck1968 §6.5; Ogus1975 Example3.7, Theorems4.6/4.9, Corollary4.11'
+links[22]['evidence']='Primary statements read; smooth/proper and smooth W_n-embedding hypotheses retained. Ogus4.9 explicitly leaves one compatibility unchecked.'
+links[25]['to']='SGA4 XVI4.1 and XVII5.3.6–5.3.8; SGA4½ VII1.1; KatzMessing1974 Theorems1 and2(2)'
+links[25]['evidence']='Primary statements checked. SGA4 XIX5.1 is resolution-dependent, so unconditional positive-characteristic ordinary finiteness is assigned to Deligne. Katz–Messing is stated over finite fields.'
+links[26]['to']='SGA1 III§6 Theorem3, Corollaries8 and10'
+links[26]['evidence']='Full primary section read: H² obstruction, H¹ ambiguity, affine nilpotent lifts and passage to formal lifts. Isomorphisms are not canonical.'
+
+# Replace the initial blanket claim event with a faithful description of actual work.
+events[:]=[e for e in events if not e['statement_id'].startswith('P67-C')]
+refined={3:1,10:11,13:12,26:76,45:46,57:56,60:77,61:78,65:79,66:80,71:70}
+independent={6,7,8,11,15,19,20,27,28,30,31,33,36,38,42,44,48,51,52,54,59,62,69,76,77,78,80}
+targeted={4,10,12,13,17,18,22,25,28,36,37,46,49,50,53,56,58,63,64,65,70,72,73,74,75,79}
+computed={13,19,20,26,28,30,38,42,45,57,59,60,61,66,69,71,76,77,78,80}
+for x in claims:
+ n=int(x['id'].split('C')[-1])
+ events.append(dict(statement_id=x['id'],date=DATE,who=WHO,type='used and rechecked in this run',outcome='Manuscript status, exact hypotheses and the stated literature scope compared; '+x['present_status']['status']))
+ if n in targeted:events.append(dict(statement_id=x['id'],date=DATE,who=WHO,type='targeted proof check',outcome='Checked the specifically cited primary result and the inference/hypothesis issue described in the fate field; not a full independent proof of the cited theory. '+x['fate']))
+ if n in independent:events.append(dict(statement_id=x['id'],date=DATE,who=WHO,type='independent re-proof',outcome='The proof or the explicitly limited independent component is in computation_notes.md; '+x['computation']))
+ if n in computed:events.append(dict(statement_id=x['id'],date=DATE,who=WHO,type='computation or formal certificate',outcome='Saved exact calculation or illustrative finite check in code/computations.py and outputs/computations.json; scope is limited to the computation described here, not an automatic proof of the source theorem. '+x['computation']))
+ if n in refined:events.append(dict(statement_id=x['id'],date=DATE,who=WHO,type='refuted, with the refined statement\'s id',outcome=f'Refined statement P67-C{refined[n]:03}. '+x['computation']))

@@ -31,4 +31,4 @@ Upload every file of this folder except this README in a new ChatGPT chat with G
 - **Scans:** Université de Montpellier, fonds Grothendieck (grothendieck.umontpellier.fr); cotes and scan numbers are theirs. Rendered from the archive PDFs as in the first-pass packages.
 - **Entries:** the notes of our transcription runs (GPT-6 Astra (ChatGPT Pro mode); GPT-6.2 Astra at reasoning effort max (ChatGPT Work); GPT-6 Astra at reasoning effort max (Codex web)), placed by horizontal sweep 1 (Claude Opus 5.5 at effort max, 18 Nov 2026).
 - **Witness H:** the Commutator project of Michel Hua, github.com/Commutator-IO/grothendieck-project, commit `aef7db2`, an AI transcription by Claude Opus 5 and Claude Opus 5.5, read again in part by Claude Fable 5.2; used as a witness and credited; nothing is sent to that project.
-- **Built** 2026-11-19 12:22 UTC by `working_through_20261118/build_object_prompts.py` (Claude Opus 5.5 at effort max). Lint (--lint-math): pass.
+- **Built** 2026-11-19 13:14 UTC by `working_through_20261118/build_object_prompts.py` (Claude Opus 5.5 at effort max). Lint (--lint-math): pass.

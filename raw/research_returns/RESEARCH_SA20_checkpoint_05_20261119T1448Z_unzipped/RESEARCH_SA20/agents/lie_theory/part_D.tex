@@ -1,0 +1,2141 @@
+% AI-produced research contribution; see report.md for authorship and audit trail.
+\label{partD}
+
+\subsection{Conventions and the first obstruction over a base}
+Unless another base is explicitly specified, the computations below concern a
+simple adjoint algebraic group $G$ over an algebraically closed field $k$ of
+characteristic zero.  Write $r=\operatorname{rank}G$, $W=N_G(T)/T$,
+$\theta=\sum_{i=1}^r m_i\alpha_i$ for the highest root, $\alpha_0=-\theta$,
+$m_0=1$, and $h=1+\sum_i m_i$.  The symbol $Z$ means the centre of the
+simply connected covering group, and $z=|Z|$; it does not mean the centre
+of the adjoint group $G$.  A splitting always means a group homomorphism
+section of the specified quotient homomorphism.  An abstract bijection of
+sets is insufficient.
+
+\begin{saresult}{D.001}{Refuted}{The Lie-algebra construction is not a simultaneous resolution over every base}
+The assertion that the morphism
+\[
+ p:\widetilde{\mathfrak g}=\{(x,B):x\in\operatorname{Lie}B\}
+ \longrightarrow \mathfrak g\times_{\mathfrak t/W}\mathfrak t
+\]
+is birational and an isomorphism over regular semisimple elements for every
+adjoint semisimple group over an arbitrary normal base is false.  It fails
+for $G=\operatorname{PGL}_{2,\mathbb F_2}$.
+\end{saresult}
+\begin{proof}
+Put $k=\overline{\mathbb F}_2$.  The Lie algebra is
+$\mathfrak g=\operatorname{Mat}_2(k)/kI$; every class has a unique
+representative $X=\left(\begin{smallmatrix}a&b\\c&0\end{smallmatrix}\right)$.
+The diagonal torus has Lie algebra $\mathfrak t=k[\operatorname{diag}(1,0)]$.
+Its nontrivial Weyl element sends $\operatorname{diag}(a,0)$ to
+$\operatorname{diag}(0,a)$, which represents the same class because the
+difference is $aI$.  Thus $W$ acts trivially on $\mathfrak t$, and the map
+$\mathfrak t\to\mathfrak t/W$ is the identity.  The invariant trace
+defines $\chi:\mathfrak g\to\mathbb A^1_k$, $[X]\mapsto a$ and extends
+the restriction to $\mathfrak t$.  Consequently the displayed target is
+just $\mathfrak g$.
+
+For $a\ne0$ the polynomial $u^2+au+bc$ is separable.  Its two eigenspaces
+are exactly the two invariant lines in $k^2$, hence exactly the two Borel
+Lie algebras containing $[X]$.  This conclusion is unchanged upon adding a
+scalar matrix.  Thus $p$ is generically of degree two, not birational.
+At $\operatorname{diag}(1,0)$ the two lines are already defined over
+$\mathbb F_2$.  The complete three-line enumeration is in
+\texttt{code/small\_counterexamples.py}, with its output in
+\texttt{logs/small\_counterexamples.txt}.  The generic assertion follows
+from the separability calculation and does not depend on a point count.
+This is precisely the characteristic-two issue explicitly left visible
+in 123/007; it must not be removed from a modern statement.
+\end{proof}
+
+\subsection{Coxeter normalizers in every simple Weyl group}
+\begin{saresult}{D.002}{Proved}{Splitting of the Coxeter normalizer}
+Let $W$ be an irreducible crystallographic Weyl group and $c\in W$ a
+Coxeter element of order $h$.  Conjugation gives an exact sequence of finite
+groups
+\[
+ 1\longrightarrow\langle c\rangle\longrightarrow
+ A:=N_W(\langle c\rangle)\xrightarrow{\nu}
+ U_h:=(\mathbb Z/h\mathbb Z)^\times\longrightarrow1,
+ \qquad wcw^{-1}=c^{\nu(w)}.
+\]
+It splits in types $A_r,B_r,C_r,D_r,G_2,E_7$ and does not split in
+types $F_4,E_6,E_8$.  Use $r\ge1$ for $A_r$, $r\ge2$ for $B_r,C_r$,
+and $r\ge4$ for $D_r$; the usual lower-rank identifications cover the
+remaining names.
+\end{saresult}
+\begin{proof}
+For $A_{m-1}$ identify the letters of $S_m$ with $\mathbb Z/m\mathbb Z$
+and let $c$ be translation by one.  An element conjugating $c$ to $c^a$
+must have the form $j\mapsto aj+b$.  Conversely every such map, with
+$a\in U_m$, is a permutation and has that conjugation property.  The
+maps $j\mapsto aj$ constitute a section.  This proves both exactness and
+splitting, including $m=2$.
+
+For $B_r$ and $C_r$, realize $W$ as the signed permutations.  A negative
+$r$-cycle acts regularly on the $2r$ signed letters, identified with
+$\mathbb Z/2r\mathbb Z$, and change of sign is translation by $r$.
+Every unit $a$ modulo $2r$ is odd, so $j\mapsto aj+b$ commutes with
+change of sign.  These, and only these, are the normalizer elements.
+Again multiplication by $a$ gives a section, and the centralizer is
+the cyclic translation group.
+
+For $D_r$ put $m=r-1$.  Choose $c$ to be a negative $m$-cycle on the
+first $m$ coordinates and change of sign on the last coordinate.  This
+has even total sign parity and order $2m$.  Its two signed-letter orbits
+have lengths $2m$ and $2$, which are different since $r\ge4$.  A
+normalizer element must preserve these two orbits.  On the first it is
+affine $j\mapsto aj+b$; its sign on the last coordinate is then uniquely
+determined by even sign parity.  This proves that the centralizer is
+$\langle c\rangle$ and that every $a\in U_{2m}$ occurs.  To split, use
+$j\mapsto aj$ on the first orbit and the unique parity correction on the
+last coordinate.  Sign parity is a multiplicative character on the
+signed permutation group, so these corrections respect products; the
+result is a homomorphic section.
+
+For the exceptional groups the following is a complete finite proof,
+not a sampling of representatives.  The attached program
+\texttt{coxeter\_normalizers.py} uses the displayed integral Cartan
+matrices stored in its output.  It generates the complete root system
+$R$ from the simple roots under the simple reflections $s_i$ and forms
+$c=s_1\cdots s_r$.  It finds a root $v$ whose $c$-orbit spans
+$\mathbb Q^r$, and records a basis
+$B=(c^{j_1}v,\ldots,c^{j_r}v)$.  For each $a\in U_h$ and \emph{each}
+$u\in R$, there is at most one possible intertwiner $w$ with
+$wv=u$ and $wc=c^aw$: its matrix must be
+\[
+ (c^{aj_1}u,\ldots,c^{aj_r}u)B^{-1}.
+\]
+Thus this finite list exhausts the normalizer.  The program retains a
+candidate exactly when it is integral, preserves the Gram matrix and
+the entire root set, has $wc=c^aw$, and belongs to $W$.  The last test
+reduces $w\rho$ to the fundamental chamber by simple reflections and
+requires the resulting matrix to be the identity; the entire reduction
+word is retained.  A regular dominant vector has trivial stabilizer in
+$W$, so this is an exact membership test.  The recorded centralizer
+equals the list $1,c,\ldots,c^{h-1}$, and every unit has exactly $h$
+lifts.  This proves all three exactness assertions.
+
+The independent verifier \texttt{verify\_certificates.py} reconstructs
+the roots and all intertwiners with Python rational arithmetic, without
+NumPy or SymPy, checks every reflection word, and uses a different
+chamber-reduction order.  Its complete output is retained.  The relevant
+results are
+\[
+\begin{array}{c|r|r|r|l}
+\text{type}&|R|&h&|A|&\text{lift certificate}\\\hline
+G_2&12&6&12&a=5:\;w^2=1\text{ for all six lifts}\\
+F_4&48&12&48&a=5:\;w^2=c^3\text{ or }c^9\ (6\text{ each})\\
+E_6&72&12&48&a=5:\;w^2=c^3\text{ or }c^9\ (6\text{ each})\\
+E_7&126&18&108&a=5:\;w^6=1\text{ for all eighteen lifts}\\
+E_8&240&30&240&a=7:\;w^4=c^5,c^{15},c^{25}\ (10\text{ each}).
+\end{array}
+\]
+The units $5\bmod6$ and $5\bmod18$ generate their unit groups of
+orders two and six, respectively, so the indicated lifts give sections.
+An involution $5\bmod12$ cannot have a noninvolutory image under a
+section, nor can the element $7\bmod30$ of order four have an image
+whose fourth power is nontrivial.  Hence the other three sequences do
+not split.  Matrices of the sections and of \emph{every} normalizer
+element are in \texttt{logs/normalizer\_TYPE.json}; their presence is a
+reproducible certificate of this finite proof.
+\end{proof}
+
+\subsection{The two-torus extension and the extra symplectic obstruction}
+Choose a pinning, a primitive $h$th root $\zeta\in k$, and put
+$t=\rho^\vee(\zeta)\in T$.  Choose a cyclic vector
+$x=\sum_{i=0}^r x_i$ with $0\ne x_i\in\mathfrak g_{\alpha_i}$, and
+let $T'=C_G(x)$, a maximal torus.  The Coxeter-apposition theorem says
+that $t$ normalizes $T'$ and acts on it by a Coxeter element $c$.
+Here and below ``in apposition'' means a pair conjugate to such a pair.
+These characteristic-zero input facts are Kostant's cyclic-element
+theorem and principal-element theorem \cite[\S\S6.2--6.7,
+Theorem 8.6]{D-Kostant1959}.  No assertion about arbitrary residual
+characteristic is hidden in this definition.
+
+\begin{saresult}{D.003}{Proved under stated hypotheses}{The fibre product description of the common normalizer}
+With the characteristic-zero apposition data just specified, define
+\[
+ B_t=\{w\in W(T):w(t)=t^a\text{ for some }a\in U_h\},
+ \qquad\Phi=N_G(T)\cap N_G(T').
+\]
+There are exact sequences
+\[
+1\to Z\to B_t\to U_h\to1,\qquad
+1\to\mu_h\times Z\to\Phi\to U_h\to1,
+\]
+and the two Weyl projections identify $\Phi$ with
+$A\times_{U_h}B_t$.  Consequently the last sequence splits precisely
+when both factor sequences split.  Type by type it splits in
+$A_r,B_r,D_r,G_2,E_7$, and in $C_r$ if and only if $4\nmid r$.
+It does not split in $F_4,E_6,E_8$ or $C_{4m}$.
+\end{saresult}
+\begin{proof}
+First $T\cap T'=1$.  Indeed an element of $T$ centralizing $x$ acts
+trivially on each of its nonzero, distinct root components, hence all
+simple-root characters have value one.  These characters form a basis
+of the character lattice of the adjoint torus.
+
+The eigenspace of $c$ on $\operatorname{Lie}T'$ with eigenvalue $\zeta$
+is the cyclic line $kx$.  An element of $T$ normalizing that line must
+satisfy $\alpha_i(s)=\lambda$ for every $i\ge1$ and
+$(-\theta)(s)=\lambda$.  Thus $\lambda^h=1$, and the element is
+uniquely $\rho^\vee(\lambda)$.  Therefore
+$T\cap N_G(T')=\langle t\rangle$: a Weyl-centralizing element must
+act as a power of $c$ by D.002, and after subtracting that power it lies
+in $T\cap T'$.  Conversely the displayed cyclic group normalizes $T'$.
+In particular every element of $\Phi$ normalizes $\langle t\rangle$.
+Its two Weyl projections have the same exponent $a$.
+
+Let $w'\in A$ have exponent $a$, and lift it to $n'\in N_G(T')$.
+Then $n'tn'^{-1}=s't^a$ for some $s'\in T'$.  Since $1-c^a$ has no
+zero eigenvalue on the rational character space, the homomorphism
+$T'\to T'$, $u\mapsto u c^a(u)^{-1}$, is an isogeny and is
+surjective over algebraically closed $k$.  Multiplying $n'$ by a
+suitable $u$ makes $n'tn'^{-1}=t^a$.  The identity component of the
+centralizer of $t$ is $T$: no root has height divisible by $h$.
+The adjusted $n'$ therefore also normalizes $T$.  This proves
+surjectivity $\Phi\to A$; its kernel is $T'^c$.
+
+We spell out the size and type of this kernel, to avoid replacing a
+group statement by a numerical one.  The point $\rho^\vee/h$ is in the
+interior of the fundamental affine alcove and has all affine simple
+root coordinates equal to $1/h$.  Its stabilizer in the extended
+affine Weyl group $P^\vee\rtimes W$ consists precisely of the alcove
+stabilizer $\Omega=P^\vee/Q^\vee$: an element fixing an interior point
+preserves its unique alcove, and every element of $\Omega$ permutes
+the affine simple roots, hence fixes this point.  Its image in $W$ is
+$\operatorname{Stab}_W(t)$; projection is injective on a finite point
+stabilizer.  This is an abelian group isomorphic to $P^\vee/Q^\vee$,
+whose abstract finite group type equals that of $Z$.
+The kernel $T'^c$ injects into this stabilizer because $T\cap T'=1$.
+Its order is $\det(1-c)=z$ (in classical types this follows from the
+cycles above, and in exceptional types from the recorded integral
+matrices).  Hence it is the whole stabilizer.  We obtain
+$|\Phi|=hz\varphi(h)$ and $|B_t|=z\varphi(h)$; the latter
+surjectivity follows already from the lifts just constructed.
+The homomorphism $\Phi\to A\times_{U_h}B_t$ is injective, since its
+kernel is $T\cap T'$, and both sides have this same finite order.
+It is an isomorphism.  In the kernel over $U_h$, $t$ centralizes
+$T'^c$, and their intersection is trivial; this proves the asserted
+direct product $\mu_h\times Z$.
+
+A section of the fibre product projects to a section of each factor.
+Conversely a pair of sections gives a section of the fibre product.
+It remains to compute the $B_t$ factor.  The following coordinate
+computations take place in the rational cocharacter space modulo the
+coweight lattice $P^\vee$, which is the torus of the adjoint group.
+
+In $A_{m-1}$, the eigenvalues of a representative of $t$ are the $m$th
+roots of unity, each once, with an irrelevant common scalar.  Thus
+$B_t$ is the affine permutation group of $\mathbb Z/m\mathbb Z$;
+the multiplicative permutations split it.
+In $B_r$, $P^\vee=\mathbb Z^r$ and
+$\rho^\vee=(r,r-1,\ldots,1)$, with $h=2r$.
+Multiplication by $a\in U_{2r}$ permutes the pairs $\{j,-j\}$ for
+$1\le j<r$; fix the coordinate of residue $r$ with positive sign.
+This defines signed permutations multiplicatively and gives a section.
+The remaining sign on residue $r$ is the kernel of order two.
+
+In $C_r$, $P^\vee=\mathbb Z^r\cup(\mathbb Z+\tfrac12)^r$ and
+$2\rho^\vee=(2r-1,2r-3,\ldots,1)$.  A signed permutation is in
+$B_t$ precisely when it multiplies the odd residues modulo $4r$ by
+a unit $u$, where its image in $U_{2r}$ is $u\bmod2r$.  Indeed the
+only extra equality allowed modulo $hP^\vee$ is simultaneous addition
+of $2r$ to the doubled coordinates, which on odd residues is
+multiplication by $1+2r$.  Every unit modulo $4r$ permutes the pairs
+of odd residues, and the residue $1$ proves faithfulness.  Hence
+\[
+ B_t\simeq U_{4r},\qquad B_t\to U_h\simeq U_{2r}
+ \quad\text{is reduction modulo }2r.
+\]
+Write $2r=2^s q$ with $q$ odd.  The Chinese remainder isomorphisms
+reduce the splitting question to $U_{2^{s+1}}\to U_{2^s}$, with
+identity on $U_q$.  For $s=1$ the target is trivial; for $s=2$ the
+section sends $-1$ to $-1$.  For $s\ge3$, the factors generated by
+$5$ have orders $2^{s-1}$ and $2^{s-2}$, respectively.  Each lift
+of $5\bmod2^s$ has order $2^{s-1}$ (use
+$v_2(5^{2^j}-1)=j+2$, proved by successive difference-of-squares),
+so no section exists.  Thus splitting holds exactly when $4\nmid r$.
+The first counterexample, $U_{16}\to U_8$, is exhaustively printed
+by \texttt{small\_counterexamples.py}.
+
+In $D_r$, put $m=r-1$.  Here
+$P^\vee=\mathbb Z^r\cup(\mathbb Z+\tfrac12)^r$ and
+$\rho^\vee=(m,m-1,\ldots,1,0)$, with $h=2m$.
+For a section use multiplication by $a\in U_{2m}$ on the pairs
+$\{j,-j\}$, $1\le j<m$, fix residue $m$ positively, and choose
+the sign on residue zero to make the total sign parity even.  This
+is multiplicative for the same parity-character reason used in D.002.
+
+For $G_2$ the kernel $Z$ is trivial.  For $E_7$ it has order two;
+also $-I\in W$ maps to $-1\in U_{18}$ and is central.  If $b$ lies
+over the generator $5\in U_{18}$, then $b^3$ lies over $-1$, so it
+is $-I$ times an element of the kernel.  Both commuting factors have
+order at most two; hence $b^6=1$, and $b$ gives a section.
+The other exceptional types already have a nonsplit $A$ factor by
+D.002.  This proves the full table.
+\end{proof}
+
+\begin{saresult}{D.004}{Proved under stated hypotheses}{The geometric count of Kostant rigidifications}
+Let $G/k$ be as above, and let $\operatorname{RigKos}(k)$ be the set of
+quadruples $(T,T',B,B')$ with $(T,T')$ in apposition and Borels
+$B\supset T$, $B'\supset T'$.  The conjugation action of $G(k)$ is
+free, and the number of its orbits is
+\[
+ \frac{|W|^2}{h z\varphi(h)}.
+\]
+If in addition a generator of the cyclic subgroup $T\cap N_G(T')$
+is marked, the number is $|W|^2/(hz)$.
+\end{saresult}
+\begin{proof}
+All pairs in apposition form one $G$-orbit by the definition and the
+cyclic-element theorem, with stabilizer $\Phi$.  Fix such a pair.
+The finite sets $\mathcal Q(T)=\{B:B\supset T\}$ and
+$\mathcal Q(T')$ are simply transitive Weyl sets, each of cardinality
+$|W|$.  The stabilizer in $\Phi$ of a point of their product lies in
+$T\cap T'=1$, so the action is free.  Orbits of quadruples are exactly
+orbits of this finite free action.  D.003 gives $|\Phi|=hz\varphi(h)$,
+proving the count.  Marking a generator replaces $\Phi$ by the kernel
+of its exponent map, of order $hz$.
+All maps used here are the conjugation maps of algebraic homogeneous
+spaces and their finite Weyl sets.  Since these finite groups are
+reduced in characteristic zero, the corresponding quotients are
+finite etale schemes, and the action on the quadruple scheme is a
+$G$-torsor over that finite quotient.  For any characteristic-zero
+base $S$ and a form of this group, etale descent of the split pinned
+construction gives the same assertion and the same constant geometric
+rank.  This last argument asserts a finite etale \emph{form}, not
+that the finite etale scheme is split over $S$.
+For reference the exceptional ranks are
+\[
+\begin{array}{c|r}
+G_2&12\\ F_4&27\,648\\ E_6&18\,662\,400\\
+E_7&39\,016\,857\,600\\ E_8&2\,022\,633\,897\,984\,000.
+\end{array}
+\]
+For the classical families substitute
+$|W(A_r)|=(r+1)!$, $|W(B_r)|=|W(C_r)|=2^r r!$,
+and $|W(D_r)|=2^{r-1}r!$ in the displayed formula.
+The script \texttt{code/rigkos\_counts.py} records exact
+integer arithmetic, including the correction to the
+earlier study's $E_8$ value, which omitted one factor
+$|W|$.
+\end{proof}
+
+\subsection{Outer signs and the meaning of a canonical line}
+\begin{saresult}{D.005}{Proved}{The highest-root and cyclic-quotient characters}
+For a pinned simple group in characteristic zero the character of its
+diagram automorphism group on $\mathfrak g_\theta$ equals its character
+on the Kostant line $\Delta$.  This character is nontrivial exactly in
+type $A_{2m}$, where diagram reversal acts by $-1$.  It is trivial in
+$A_{2m-1}$, in $D_r$ (including the whole triality group for $D_4$),
+and in $E_6$; all remaining simple types have trivial diagram
+automorphism group.
+There is, however, no isomorphism
+$\mathfrak g_\theta\simeq\Delta$ natural in just $(G,T,B)$.
+\end{saresult}
+\begin{proof}
+In $\mathfrak{sl}_{r+1}$ a pinned reversal is
+$X\mapsto-JX^{\mathsf t}J^{-1}$ with an alternating anti-diagonal
+matrix $J$.  It sends $E_{1,r+1}$ to
+$(-1)^{r-1}E_{1,r+1}$, giving the stated parity rule for every $r$.
+For $D_r$, realize the diagram involution by an orthogonal reflection
+on the last coordinate.  It exchanges the two end simple roots, fixes
+the other pinned simple root vectors, and fixes the highest root
+$e_1+e_2$ and its vector.  Its highest-root sign is therefore $+1$.
+For $D_4$ the three transpositions are conjugate in the diagram group
+$S_3$, so every transposition has sign $+1$ and the whole character is
+trivial.
+
+For $E_6$ the exact root calculation is attached as
+\texttt{pinned\_signs.py}.  To make its content transparent, in a
+simply laced root lattice define a bimultiplicative sign $\epsilon$
+by $\epsilon(\alpha_i,\alpha_i)=-1$,
+$\epsilon(\alpha_i,\alpha_j)=-1$ when $i>j$ and the vertices are
+adjacent, and $+1$ otherwise.  In the root-lattice construction of
+the Chevalley algebra, $[e_\alpha,e_\beta]=
+\epsilon(\alpha,\beta)e_{\alpha+\beta}$ when the sum is a root.
+The pinned lift of a diagram permutation $\sigma$ has signs
+$\eta(\alpha_i)=1$, determined recursively by
+\[
+\eta(\beta+\alpha_i)=\eta(\beta)
+ \epsilon(\sigma\beta,\sigma\alpha_i)\epsilon(\beta,\alpha_i).
+\]
+The program checks independence of \emph{every} available simple-root
+decomposition and checks all 1,440 nonzero root-sum brackets of $E_6$.
+For the Bourbaki permutation $(1\ 6)(3\ 5)$ it obtains
+$\theta=(1,2,2,3,2,1)$ and $\eta(\theta)=+1$.
+The same program prints independent finite checks of the matrix formulas
+in several classical ranks and of both generators of triality; the
+uniform classical arguments above, not those examples, prove the
+infinite families.
+
+Here is a canonical description that compares the two characters
+without conflating their underlying constructions.  Define the line
+\[
+ Q=\mathfrak g_{-\theta}\otimes
+       \bigotimes_{i=1}^r\mathfrak g_{\alpha_i}^{\otimes m_i}.
+\]
+Its $T$-character is zero.  The map from tuples of nonzero root
+components to $Q^\times$ sends $(x_0,\ldots,x_r)$ to
+$x_0\otimes\bigotimes_i x_i^{\otimes m_i}$.  It is a $T$-invariant
+surjection, and its fibres are precisely $T$-orbits: the simple root
+characters, a basis for the adjoint character lattice, uniquely match
+the last $r$ components, and equality of tensors then matches the
+first.  Therefore the geometric cyclic quotient is canonically
+$Q^\times$.  Kostant's cyclic quotient identifies it with
+$\Delta^\times$; extending across zero gives an isomorphism of lines
+$Q\simeq\Delta$.  A pinning trivializes the simple-root factors,
+so the diagram character is that on $\mathfrak g_{-\theta}$.
+The invariant nondegenerate pairing between opposite root lines makes
+this character the inverse of that on $\mathfrak g_\theta$; the
+characters just calculated take only the values $\pm1$, hence they
+are equal.
+
+Finally, any isomorphism natural in $(G,T,B)$ must commute with its
+automorphisms given by conjugation by elements of $T$.  They act on
+$\mathfrak g_\theta$ by the nontrivial root character $\theta$, and
+act trivially on the adjoint-quotient line $\Delta$.  A nonzero linear
+map cannot intertwine these two actions.  Thus the unqualified
+canonical isomorphism asked for at 123/034 is false.  Equality of
+outer characters is a strictly weaker assertion, and the tensor
+line $Q$ states precisely the corrected functorial object.
+\end{proof}
+
+\subsection{Deleting one cyclic coefficient}
+\begin{saresult}{D.006}{Proved}{The single-vanishing criterion in every simple type}
+Let $0\ne x_j\in\mathfrak g_{\alpha_j}$ for $j\ne i$, and put
+$x^{(i)}=\sum_{j\ne i}x_j$.  Then $x^{(i)}$ is nilpotent.  It is
+regular nilpotent if and only if $m_i=1$.  With Bourbaki numbering the
+complete list of permitted missing nodes is
+\[
+\begin{array}{c|l}
+A_r&0,1,\ldots,r\\
+B_r&0,1\\ C_r&0,r\\ D_r&0,1,r-1,r\\
+E_6&0,1,6\\ E_7&0,7\\ E_8,F_4,G_2&0.
+\end{array}
+\]
+\end{saresult}
+\begin{proof}
+Any $r$ of the affine simple roots $\alpha_0,\ldots,\alpha_r$ are
+linearly independent: their only dependence is
+$\sum_{j=0}^r m_j\alpha_j=0$, all coefficients nonzero.  There is
+therefore a rational cocharacter taking value one on all the retained
+roots; multiplying it by an integer gives an integral cocharacter
+$\lambda:\mathbb G_m\to T$ with positive values on them.  Thus
+$\lim_{s\to0}\operatorname{Ad}(\lambda(s))x^{(i)}=0$ and
+$x^{(i)}$ is nilpotent.
+
+If $m_i=1$, replacing $\alpha_i$ by $-\theta$ gives a simple system
+of the full root system.  Here is an affine-arrangement verification.
+The vertex opposite the $i$th wall of the fundamental affine alcove is
+$v=\omega_i^\vee/m_i=\omega_i^\vee\in P^\vee$.
+Translation by $-v$ preserves every affine root hyperplane and moves
+this vertex to zero.  In a sufficiently small neighbourhood of zero,
+the only affine root hyperplanes present are the ordinary root
+hyperplanes through zero.  The local cone of the translated alcove
+is consequently one full Weyl chamber; its inward wall normals are
+exactly the retained roots.  For $i=0$ use $v=0$.
+The sum of nonzero vectors for
+a full simple system is regular nilpotent, and a torus conjugation
+makes all its coefficients those of the usual principal element.
+
+If $m_i>1$, take $s\in T$ with $\alpha_i(s)$ a primitive $m_i$th
+root of unity and all other simple-root characters equal to one.
+This exists uniquely because $G$ is adjoint.  It is nonidentity and
+semisimple, and $(-\theta)(s)=1$, so it centralizes $x^{(i)}$.
+The centralizer of a regular nilpotent element in an adjoint group
+has no nonidentity semisimple element: such an element must preserve
+the unique Borel containing the regular nilpotent; conjugate its
+semisimple part into the torus of that Borel, where the nonzero simple
+root coefficients force every simple-root character to be one.
+This contradicts regularity.  The list is obtained by reading the
+coefficients of the highest roots; the exceptional coefficients are
+also regenerated from the Cartan matrices in the attached code.
+\end{proof}
+
+\subsection{Dynkin characteristics and parabolics}
+For a nilpotent element in characteristic zero choose an
+$\mathfrak{sl}_2$-triple $(e,H,f)$ with $H$ dominant.  Its weighted
+Dynkin diagram is $d_i=\alpha_i(H)\in\{0,1,2\}$, and its associated
+parabolic has Lie algebra $\bigoplus_{j\ge0}\mathfrak g(j)$, where
+$\mathfrak g(j)=\{X:[H,X]=jX\}$.  Thus its standard parabolic class
+is specified by $\{i:d_i=0\}$.  This defines the map of sets from
+nilpotent adjoint orbits to conjugacy classes of parabolic subgroups.
+The weighted diagram determines the orbit; for the conventions and
+the exact triple criterion see \cite[\S\S2--3, Lemma 2]{D-deGraaf}.
+
+\begin{saresult}{D.007}{Proved}{Exactly when the Dynkin-to-parabolic map is injective}
+For a simple complex Lie algebra, including the zero orbit, the map
+just defined is injective exactly in types $A_1$ and $B_2=C_2$.
+In particular $A_2$, not $A_3$, already supplies a counterexample.
+\end{saresult}
+\begin{proof}
+For $A_1$ the diagrams are $(0)$ and $(2)$.
+For $C_2$ the four symplectic partitions of four are
+$(1^4),(2,1,1),(2,2),(4)$; their diagrams are respectively
+$(0,0),(1,0),(0,2),(2,2)$, with four different zero sets.
+
+For every simply laced irreducible root system of rank at least two,
+the highest coroot $\theta^\vee$ is dominant and its labels are zero
+or one.  There are roots $\beta,\gamma$ with
+$\theta=\beta+\gamma$ and $\langle\beta,\gamma^\vee\rangle=-1$:
+choose a simple root $\alpha$ with
+$\langle\theta,\alpha^\vee\rangle=1$ and put
+$\beta=\alpha$, $\gamma=\theta-\alpha$.
+The root $\mathfrak{sl}_2$ for $\theta$ has characteristic
+$\theta^\vee$.  The principal triple of the $A_2$ subsystem generated
+by $\beta,\gamma$ has characteristic $2(\beta^\vee+\gamma^\vee)
+=2\theta^\vee$.  These are distinct dominant diagrams with the same
+zero set, proving noninjectivity for $A_r$ ($r\ge2$), $D_r$, and
+$E_6,E_7,E_8$.
+
+The same construction works with long roots in $B_r$ ($r\ge3$),
+$F_4$, and $G_2$: their long roots contain an $A_2$ subsystem with
+highest root $\theta$, and $\theta^\vee$ has only labels zero and
+one.  In $B_r$ one can take
+$\beta=e_1-e_3$, $\gamma=e_2+e_3$; the long-root systems of $F_4$
+and $G_2$ are $D_4$ and $A_2$, respectively.
+
+In $C_r$ for $r\ge3$, the symplectic partitions
+$(3,3,1^{2r-6})$ and $(2,2,1^{2r-4})$ are both allowed, since every
+odd part occurs with even multiplicity.  Their dominant
+characteristics in the standard coordinates are
+$(2,2,0,\ldots,0)$ and $(1,1,0,\ldots,0)$.
+Their simple-root labels are respectively two and one at vertex two
+and zero elsewhere, so the zero sets agree.  This completes all
+simple types.  The $A_2$ case explicitly has diagrams $(1,1)$ and
+$(2,2)$.
+\end{proof}
+
+\begin{saresult}{D.008}{Proved}{All nilpotent classes whose Dynkin parabolic is a Borel}
+In $A_r$, use partitions of $r+1$.  The classes in question are exactly
+the one-part partition and the two-part partitions whose two parts
+have opposite parity.  In every other simple type the only such
+class is the regular nilpotent class.
+\end{saresult}
+\begin{proof}
+For $A_r$, the weights of $H$ contributed by a Jordan block of size
+$a$ in the standard representation are
+$a-1,a-3,\ldots,-a+1$.  The associated parabolic is a Borel exactly
+when all weights of the standard representation are distinct.
+Two blocks of the same parity have an overlapping weight, whereas
+two blocks of opposite parity have disjoint weight sets.  Three
+blocks necessarily repeat a parity.  This proves exactly the stated
+partition criterion.
+
+For $B_r$ the coordinates of a regular Cartan element must have
+distinct nonzero absolute values.  An even Jordan block has even
+multiplicity in an orthogonal partition, which would repeat a
+nonzero weight; two odd blocks would give at least two zero weights
+and hence a zero coordinate beyond the one compulsory zero weight
+in dimension $2r+1$.  Thus the only possibility is the one odd block
+$(2r+1)$, the regular orbit.  For $C_r$, an odd block has even
+multiplicity and supplies repeated zero weights, forbidden by
+regularity.  Two even blocks overlap in the weights $1,-1$.
+Consequently only $(2r)$ is possible.  For $D_r$, distinct nonzero
+absolute values are required, but one zero coordinate is allowed.
+Even blocks again repeat nonzero weights.  There must be precisely
+two odd blocks; two of size at least three repeat $2,-2$, so one
+must be of size one.  The partition is $(2r-1,1)$, again regular.
+
+For the exceptional groups we give an exhaustive rational certificate
+with a criterion special to this question.  A Borel diagram has
+$d\in\{1,2\}^r$, so $\mathfrak g(0)=\mathfrak t$.  Let
+$R_2(d)=\{\beta>0:\sum_i\beta_i d_i=2\}$, and let $H_d$ be the
+unique Cartan vector with $\alpha_i(H_d)=d_i$.  Then
+\[
+ d\text{ is a nilpotent characteristic}
+ \quad\Longleftrightarrow\quad
+ H_d\in\operatorname{span}_{\mathbb Q}
+          \{\beta^\vee:\beta\in R_2(d)\}.                 \tag{D.8.1}
+\]
+Indeed, for different $\beta,\gamma\in R_2(d)$ the difference has
+degree zero and cannot be a root, since every positive root has
+strictly positive degree.  Hence all cross brackets
+$[e_\beta,f_\gamma]$ vanish.  An existing triple forces its Cartan
+bracket $H_d$ into the displayed span.  Conversely write
+$H_d=\sum b_\beta\beta^\vee$, normalize
+$[e_\beta,f_\beta]=\beta^\vee$, and set
+$e=\sum e_\beta$, $f=\sum b_\beta f_\beta$.
+The cross-bracket observation gives $[e,f]=H_d$, while their degrees
+give $[H_d,e]=2e$ and $[H_d,f]=-2f$.  This is the required triple.
+
+\texttt{borel\_dynkin.py} generates every root from each exceptional
+Cartan matrix, tests (D.8.1) for \emph{all} $2^r$ positive diagrams,
+and records either rational coefficients $b_\beta$ or a rational
+linear functional annihilating every $\beta^\vee$ but not $H_d$.
+The complete outputs are
+\[
+\begin{array}{c|r|l}
+ G_2&4&(2,2)\\ F_4&16&(2,2,2,2)\\
+ E_6&64&(2,2,2,2,2,2)\\
+ E_7&128&(2,2,2,2,2,2,2)\\
+ E_8&256&(2,2,2,2,2,2,2,2).
+\end{array}
+\]
+The middle column is the number of tested diagrams and the last
+column is the complete accepted list.  This proves the exceptional
+assertion without assuming that a random unsuccessful search for
+an $\mathfrak{sl}_2$-triple certifies nonexistence.
+\end{proof}
+
+\subsection{A precise relative theorem in characteristic zero}
+\begin{saresult}{D.009}{Proved under stated hypotheses}{Relative simultaneous resolution}
+Let $S$ be a scheme over $\mathbb Q$.  In the Lie-algebra version let
+$G/S$ be semisimple, with any isogeny type; in the group version let
+$G/S$ be reductive with simply connected derived subgroup.  Let $D/S$
+be its flag scheme and $T/S$ its torus determined by the based root
+datum, and let $W/S$ be the corresponding finite etale Weyl group.
+Put $(X,I')=(\mathfrak g,\mathfrak t)$ in the Lie-algebra version and
+$(X,I')=(G,T)$ in the group version, and set $I=I'/W$.
+There is a canonical adjoint quotient $f:X\to I$ and a diagram
+\[
+ \widetilde X\xrightarrow{p}X'=X\times_I I'
+   \xrightarrow{q}X,
+ \qquad \widetilde f:\widetilde X\to I',
+\]
+where $\widetilde X$ is the universal Borel Lie algebra or the universal
+Borel group over $D$, respectively.  The maps $p$ and $q$ here have
+the indicated scheme-theoretic targets; $q$ is finite and $p$ is
+projective.  The schemes $I$ and $I'$ are smooth over $S$, $f$ is flat
+with geometrically normal fibres, and $\widetilde f$ is smooth.
+The regular locus $X^{\rm reg}$ is the smooth locus of $f$.
+The map $p$ is an isomorphism over $X'^{\rm reg}$, and no larger
+open subset has this property.  Fibrewise over $S$, the complements
+of the regular loci in $\widetilde X$ and $X'$ have codimension at
+least two and pure codimension three, respectively.  If $S$ is normal
+and locally noetherian, then $X'$ is normal.
+\end{saresult}
+\begin{proof}
+We specify both the field input and why it transfers to the asserted
+base; normality of the generic fibre alone would not suffice.
+Over an algebraically closed characteristic-zero field the adjoint
+quotient, its normal fibres, its regular smooth locus, and its
+simultaneous resolution are the Kostant--Steinberg theorems.  For the
+complex group formulation the simultaneous-resolution diagram and
+regularity assertions are explicitly stated by Brieskorn
+\cite[pp.279--280]{D-Brieskorn}; the unipotent restriction and its
+separability hypotheses are stated by Slodowy
+\cite[\S4.1, pp.43--44]{D-Slodowy}.  The codimension assertions are
+the regular/subregular part of this field theorem.  These field
+assertions are used as known results, not as newly proved statements.
+
+First take a split semisimple simply connected group over
+$\mathbb Q$.  Its group quotient is affine space, with coordinates
+the fundamental characters; its Lie quotient is affine space with
+the fundamental homogeneous invariant polynomials.  The restriction
+maps identify these rings with the Weyl invariants on $T$ or
+$\mathfrak t$.  Over $\mathbb Q$ the invariant projector is a
+direct-summand projector, so these invariant-ring constructions
+commute with every extension of the coefficient algebra, including
+nonflat extensions.  Thus the entire diagram over any
+$\mathbb Q$-scheme is the base change of the diagram over
+$\mathbb Q$.  The complex field assertions descend faithfully flatly
+to $\mathbb Q$ and then ascend by base change: flatness, smoothness,
+projectivity and geometrically normal fibres have exactly these
+descent and base-change properties.  Fibrewise codimension is checked
+after algebraic closure of each residue field, where the field theorem
+applies.  Central isogenies do not change semisimple Lie algebras in
+characteristic zero, giving the Lie version for every isogeny type.
+
+For a split reductive group with simply connected derived subgroup,
+the central isogeny
+$G_{\rm der}\times\operatorname{Rad}(G)\to G$ has a finite kernel $K$ whose
+projection to the central torus is injective.  On the quotient
+$\mathbb A^r\times\operatorname{Rad}(G)$ its action is therefore free.  Both
+the group and quotient maps are $K$-torsors, and their square is
+cartesian: a lift of the group element and a lift of its quotient
+value differ by exactly one element of $K$.
+Consequently the map on quotients is finite etale, and all the above
+properties descend from the product of the semisimple diagram with
+the central torus.  This proves the split reductive version.
+
+For a form over $S$, choose an etale cover on which the group is
+split with fixed root datum.  The incidence scheme and the quotient
+are equivariant under all automorphisms of the pinned split model;
+inner automorphisms act trivially on the quotient.  The local
+diagrams hence have canonical descent data and descend to the stated
+diagram over $S$.  All the asserted properties are etale local.
+In particular this reduction is through actual comparison
+isomorphisms, not an appeal to a generic fibre of an integral model.
+
+One can also see smoothness of $\widetilde f$ directly: locally the
+map to $D\times_S I'$ is a torsor for a smooth unipotent group,
+followed by the smooth projection $D\times_S I'\to I'$.
+The incidence embedding in $D\times_S X$ is closed, which proves
+projectivity of $p$.  Over the regular locus it is proper with finite
+fibres, hence finite.  On every geometric fibre it is an isomorphism
+by the field theorem.  Both its source and target are flat over $S$;
+the finite algebra map is therefore an isomorphism by Nakayama's
+lemma applied first to its cokernel and then, using flatness, to its
+kernel.  Outside this locus the geometric fibre has positive
+dimension, so an isomorphism is impossible.  Finally a flat morphism
+with geometrically normal fibres over a normal base has normal total
+space, which applies to $X'\to I'$.
+\end{proof}
+
+\begin{saresult}{D.010}{Proved under stated hypotheses}{Picard sequences, including the character term}
+Use the group version of D.009 and assume that $S$ is connected,
+normal, and locally noetherian.  Write $\xi$ for its generic point,
+$M=X^*(T)$ for the etale character-lattice sheaf, and
+$\pi:\mathcal B=\widetilde X\to D$ for the universal Borel group.
+Then pullback and the unit section give canonical decompositions
+\[
+ \operatorname{Pic}(\mathcal B)
+   \simeq\operatorname{Pic}(D)\oplus H^1_{\rm et}(S,M),
+ \qquad
+ \operatorname{Pic}(T)
+   \simeq\operatorname{Pic}(S)\oplus H^1_{\rm et}(S,M),
+                                                        \tag{D.10.1}
+\]
+and restriction and $p$ induce isomorphisms
+\[
+ \operatorname{Pic}(\mathcal B)
+ \simeq\operatorname{Pic}(\mathcal B^{\rm reg})
+ \simeq\operatorname{Pic}(G'^{\rm reg}).                   \tag{D.10.2}
+\]
+Pullback along $G'\to T$ is an isomorphism
+$\operatorname{Pic}(T)\simeq\operatorname{Pic}(G')$.
+In particular the manuscript's sequences hold, and in this scope can
+be completed by zeros on the right:
+\[
+\begin{split}
+0&\to\operatorname{Pic}(D)\to\operatorname{Pic}(\mathcal B)
+       \to H^1_{\rm et}(S,M)\to0,\\
+0&\to\operatorname{Pic}(S)\to\operatorname{Pic}(G')
+       \to H^1_{\rm et}(S,M)\to0.
+\end{split}                                             \tag{D.10.3}
+\]
+If $\Gamma$ is the finite monodromy group of $M$, then
+$H^1_{\rm et}(S,M)=H^1(\Gamma,M_{\bar\xi})
+=H^1(\xi,M)$, a finite group.  After etale sheafification this term
+vanishes, giving the relative Picard sheaf isomorphisms of 123/011.
+Finally
+\[
+0\to\operatorname{Pic}(S)\to\operatorname{Pic}(G)
+       \to\operatorname{Pic}(G_\xi)
+\]
+is exact, and restriction
+$\operatorname{Pic}(G)\to\operatorname{Pic}(G^{\rm reg})$
+is an isomorphism.  The group $\operatorname{Pic}(G_\xi)$ is finite;
+it is zero when $G$ is semisimple simply connected, even for a
+nonsplit form.
+\end{saresult}
+\begin{proof}
+Here is a divisor argument that handles the normal, not necessarily
+regular, base.  If $A$ is a normal noetherian domain and
+$R=A[x_1,\ldots,x_a,t_1^{\pm1},\ldots,t_b^{\pm1}]$, then
+\[
+ \operatorname{Cl}(A)\xrightarrow{\sim}\operatorname{Cl}(R).
+                                                        \tag{D.10.4}
+\]
+To prove surjectivity, restrict a Weil divisor to
+$\operatorname{Frac}(A)[x,t^{\pm1}]$, a unique factorization domain,
+and subtract a principal divisor eliminating all horizontal
+components.  Every remaining height-one prime is the extension of
+a height-one prime of $A$, with multiplicity one.  For injectivity,
+a rational function with no horizontal zero or pole is a constant
+from $\operatorname{Frac}(A)^\times$ times a Laurent monomial; its
+vertical divisor is principal already on $A$.
+If $U\subset\operatorname{Spec}R$ has complement of codimension at
+least two in every geometric fibre over $A$, it contains all
+height-one points of $\operatorname{Spec}R$, and
+$\operatorname{Cl}(U)=\operatorname{Cl}(R)$.  Moreover $U\to
+\operatorname{Spec}A$ is faithfully flat.  The pullback of a
+rank-one reflexive module $N\subset K=\operatorname{Frac}(A)$
+representing a class of $A$ is the module representing the
+pulled-back divisor.  Here is the required reflexivity check,
+which must not be inferred merely from agreement at height one.
+Write $N=\bigcap_{\operatorname{ht}\mathfrak q=1}N_{\mathfrak q}
+\subset K$.  The horizontal height-one conditions in $R$ force a
+rational element of the pulled-back divisorial module to lie in
+$K[x,t^{\pm1}]$.  The vertical conditions say that each of its
+finitely many coefficients lies in every $N_{\mathfrak q}$.
+Their intersection is consequently
+$N[x,t^{\pm1}]=N\otimes_A R$, proving that the tensor pullback
+itself is the divisorial, hence reflexive, module.  If its
+restriction to $U$ is invertible,
+faithfully flat descent of finite locally free modules shows that
+the original module is invertible.  Therefore
+\[
+ \operatorname{Pic}(A)\simeq\operatorname{Pic}(R)
+                 \simeq\operatorname{Pic}(U).            \tag{D.10.5}
+\]
+Regular functions and units likewise extend across the omitted
+codimension-two set by normality.
+
+Etale locally on $D$, choose a maximal torus of its Borel group,
+split it, and order the positive root groups.  The underlying variety
+is then an affine space times a split torus.  Apply (D.10.5) over
+each normal affine chart of $D$; the same applies to its regular
+open subset by D.009.  Thus the sheaf of relative units and the
+first higher direct image on the small etale site of $D$ are
+\[
+ \pi_*\mathbb G_m=\mathbb G_m\oplus M_D,
+ \qquad R^1\pi_*\mathbb G_m=0.                           \tag{D.10.6}
+\]
+The splitting of units is canonical: divide a unit by its value on
+the identity section; what remains is the uniquely determined
+character.  The same formulas hold after removing the nonregular
+locus.  The degree-one Leray sequence consequently gives
+$\operatorname{Pic}(\mathcal B)=\operatorname{Pic}(D)
+\oplus H^1(D,M_D)$, and proves (D.10.2).
+
+For completeness, the identification of the last cohomology group
+does not require an unmentioned rational point on the flag scheme.
+Take the finite connected etale cover $S_1\to S$ with group
+$\Gamma$ trivializing $M$.  Such a cover exists also when $S$
+is only locally noetherian: the finite splitting extension of the
+generic lattice gives its normalization, and etale local
+triviality of the lattice identifies this normalization locally
+with a finite etale cover.  Its pullback $D_1$ is connected and
+normal because flag fibres are geometrically integral.  For any
+connected normal locally noetherian scheme $Y$, one has
+$H^1_{\rm et}(Y,\mathbb Z)=0$: a torsor restricts at the generic
+point to a continuous homomorphism from a profinite Galois group to
+$\mathbb Z$, which is zero, and a generic section extends uniquely
+on each connected normal etale trivializing chart, hence globally.
+The same argument works for $\mathbb Z^r$.  The covering spectral
+sequence for $S_1/S$ and $D_1/D$ now gives, respectively,
+$H^1(S,M)=H^1(\Gamma,M_{\bar\xi})=H^1(D,M_D)$.
+Applying the identical argument at $\xi$ gives $H^1(\xi,M)$.
+For a finite group acting on a finitely generated lattice, $H^1$
+is finitely generated and annihilated by $|\Gamma|$ (average a
+cocycle over the group), so it is finite.  It vanishes on the
+trivializing etale cover, explaining precisely the relative-sheaf
+assertion.  Applying (D.10.6) to $T\to S$ proves the second
+decomposition in (D.10.1).
+
+Since $p$ is proper birational and $G'$ is normal, $p_*\mathcal
+O_{\mathcal B}=\mathcal O_{G'}$; projection formula makes
+$p^*:\operatorname{Pic}(G')\to\operatorname{Pic}(\mathcal B)$
+injective.  The identity section $D\to\mathcal B$ maps in $G'$ to
+the identity section $S\to G'$.  Hence the $\operatorname{Pic}(D)$
+component of any class in the image is pulled back from
+$\operatorname{Pic}(S)$.  Conversely every such component and
+every $H^1(S,M)$ component is the pullback of a line bundle on $T$
+by (D.10.1).  Injectivity of $p^*$ then proves
+$\operatorname{Pic}(G')=\operatorname{Pic}(T)$, as claimed.
+
+For the sequence concerning $G$, a line bundle trivial on $G_\xi$
+is represented, after subtracting a rational principal divisor, by
+a vertical divisor on $G$.  Smoothness and geometrically integral
+fibres show that every vertical prime divisor is the pullback of
+a prime divisor of $S$ with multiplicity one.  Faithfully flat
+descent, as in (D.10.5), shows that this divisor on $S$ is Cartier.
+The unit section proves injectivity from $\operatorname{Pic}(S)$.
+This is also precisely the application of EGA IV, Corollary
+21.4.13 in Errata et Addenda, liste 3, p.361: its hypotheses,
+specified in 21.4.9 and 21.4.11, are faithful flatness, openness
+or quasi-compactness, a normal locally noetherian base, and
+integral fibres over its height-one points.  Smoothness and
+geometrically integral group fibres verify each hypothesis
+\cite[pp.358--361]{D-EGAIV4}.
+For restriction to $G^{\rm reg}$, cover the split group etale locally
+by translates of the big cell, each an affine space times a torus;
+translations through geometric points lift after an etale change
+of the base by smoothness.  Apply (D.10.5) on these charts and glue
+their unique extensions, using normality.  This gives the asserted
+isomorphism.
+
+Over an algebraic closure the Picard group of a reductive group is
+finite: the complement of its big cell has finitely many prime
+divisors, and a positive multiple of each is the divisor of a
+fundamental highest-weight matrix coefficient.  If the derived
+subgroup is simply connected the fundamental weights themselves
+extend after a character of the central torus is chosen, so each
+such divisor is principal and the geometric Picard group is zero.
+Galois descent then injects the kernel of
+$\operatorname{Pic}(G_\xi)\to\operatorname{Pic}(G_{\bar\xi})$
+into $H^1(\xi,X^*(G_{\bar\xi}))$; the scalar-unit contribution is
+zero by Hilbert 90.  This lattice cohomology is finite by the
+argument just given.  For semisimple simply connected $G$, both
+the geometric Picard group and the character lattice vanish,
+proving the final assertion.
+
+The ampleness assertion on 123/011--013 needs no normality:
+the morphism $\pi:\mathcal B\to D$ is affine and has a closed
+unit section, so for a line bundle $L$ on $D$, $L$ is ample
+relative to $S$ if and only if $\pi^*L$ is.  One direction is
+pullback under an affine morphism, and the converse is
+restriction to the closed unit section.  On the flag variety,
+with the sign convention giving dominant weights nef line
+bundles, the ample weights are the \emph{strictly} dominant
+ones.  Thus the manuscript's notation $P^+$ denotes the ample
+cone only if it means the open dominant chamber, not its usual
+closed dominant cone.
+\end{proof}
+
+\begin{saresult}{D.011}{Proved under stated hypotheses}{The projectivity obstruction on 123/014}
+Let $G$ be a connected reductive group with nontrivial semisimple
+part over an algebraically closed characteristic-zero field.
+There is no projective birational morphism $v:Y\to G$ such that
+$Y$ is smooth, $v$ is an isomorphism over $G^{\rm reg}$,
+$Y\setminus v^{-1}(G^{\rm reg})$ has codimension at least two,
+and the composite $Y\to G\to G/\!/G$ is smooth.
+If the derived subgroup of $G$ is simply connected, the
+codimension-at-least-two condition follows from the other
+conditions and need not be imposed separately.
+\end{saresult}
+\begin{proof}
+The smooth group $G$ has finite Picard group, by the last argument
+of D.010.  Removing a codimension-at-least-two subset from a regular
+scheme does not change its Picard group (Cartier and Weil divisors
+coincide), so the assumptions imply
+$\operatorname{Pic}(Y)\simeq\operatorname{Pic}(G^{\rm reg})
+\simeq\operatorname{Pic}(G)$, a finite group.
+If every fibre of $v$ were finite, properness would make $v$ finite,
+and normality of $G$ would make the birational map an isomorphism.
+But the adjoint quotient is not smooth at a nonregular unipotent
+element, so the last assumption rules this out.  There is therefore
+a positive-dimensional proper fibre $F$.  A relatively ample line
+bundle for the projective morphism $v$ restricts to an ample bundle
+on $F$, while its class is torsion because $\operatorname{Pic}(Y)$
+is finite.  An ample torsion line bundle would make
+$\mathcal O_F$ ample, forcing the proper scheme $F$ to be affine
+and zero-dimensional.  This is a contradiction.  The same argument
+on a geometric fibre gives the relative obstruction whenever all
+four assumptions hold fibrewise.
+
+For the additional assertion, write $I=G/\!/G$, $d=\dim G-r$,
+and suppose that $G_{\rm der}$ is simply connected.
+The quotient fibres $G_a$, $a\in I$, are integral, and
+$G_a^{\rm reg}$ is dense and nonempty, by D.017.  Proper
+birationality over the normal group gives connected fibres
+for $v$ by Stein factorization.  Each fibre $Y_a$ of the
+smooth composite is smooth of pure dimension $d$.  Its
+component containing the irreducible open
+$v^{-1}(G_a^{\rm reg})$ maps properly and surjectively to
+$G_a$.  Any other component would be disjoint from this
+one and would give a disconnected fibre of $v$ over each
+point in its nonempty image.  Consequently $Y_a$ is
+irreducible.  This argument works over an algebraic
+closure of every residue field of $I$.
+
+If an exceptional prime divisor $E$ existed, its image
+in $I$ would lie in the discriminant, since every element
+over the regular semisimple open set is regular.  Let
+$Z$ be the closure of this image.  Since
+$\dim E=\dim G-1$ and $\dim Z\le r-1$, the generic
+fibre of $E\to Z$ has dimension at least $d$.  The
+smoothness of $Y\to I$ bounds it above by $d$, so it
+is an entire component of the geometrically irreducible
+fibre $Y_\eta$.  It therefore meets
+$v^{-1}(G_\eta^{\rm reg})$, contrary to exceptionality.
+There are no exceptional divisors.  Thus the boundary
+in the statement has codimension at least two, proving
+the additional assertion.
+\end{proof}
+
+\subsection{Counterexamples and other questions in the letter}
+\begin{saresult}{D.012}{Refuted}{The strict differential-rank guess in nonsimply-laced type}
+The letter's guess that the rank of the adjoint quotient differential
+at a subregular nilpotent is strictly smaller than $r-1$ in
+nonsimply-laced types is false.  It already fails in type $C_2$ over
+$\mathbb C$.
+\end{saresult}
+\begin{proof}
+In the standard symplectic realization take
+$X=\left(\begin{smallmatrix}0&I_2\\0&0\end{smallmatrix}\right)
+\in\mathfrak{sp}_4$.  The Lie algebra consists of matrices
+$Y=\left(\begin{smallmatrix}A&B\\C&-A^{\mathsf t}\end{smallmatrix}\right)$
+with $B,C$ symmetric.  Directly solving $[X,Y]=0$ gives $C=0$ and
+$A=-A^{\mathsf t}$, while $B$ is arbitrary symmetric.  The
+centralizer has dimension $1+3=4=r+2$, so $X$ is subregular.
+The invariant algebra is generated by $\operatorname{tr}(X^2)$
+and $\det X$ (equivalently by the two nonconstant characteristic
+coefficients).  Their differentials at $X$ are respectively
+$Y\mapsto2\operatorname{tr}C$, a nonzero functional, and zero,
+since every $3\times3$ minor of $X$ vanishes.  Thus the rank is
+$1=r-1$.  The complete ten-dimensional commutator and differential
+calculation is in \texttt{small\_counterexamples.py}; its exact
+output gives commutator rank six, centralizer dimension four, and
+quotient rank one.
+\end{proof}
+
+\begin{saresult}{D.013}{Proved}{Some opposite Borels always exist; all need not be opposite}
+For any two maximal tori $T,T'$ of a connected reductive group over
+an algebraically closed field, and any Borel $B\supset T$, there is
+a Borel $B'\supset T'$ opposite to $B$.  The stronger assertion
+that every pair of Borels containing two apposed tori is opposite
+is false, already for $\operatorname{PGL}_4(\mathbb C)$.
+\end{saresult}
+\begin{proof}
+The Borels containing $T'$ form an apartment, with one chamber for
+each element of the finite Weyl group.  Choose such a chamber $C$
+for which the length of the relative Bruhat position $\delta(B,C)$
+is maximal.  If this position $w$ is not the longest element,
+there is a simple reflection $s$ with $\ell(ws)=\ell(w)+1$.
+Move from $C$ to the unique $s$-adjacent chamber in that apartment.
+The rank-one Bruhat multiplication rule says that its relative
+position with respect to $B$ is $ws$: for adjacent chambers it
+lies in $\{w,ws\}$, and when the latter has larger length that
+value is forced.  This contradicts maximality.  Hence the maximal
+position is the longest element, which is precisely opposition.
+This argument uses the ordinary Bruhat adjacency rule, valid over
+every algebraically closed field, and is independent of apposition.
+
+For the negative assertion let $T'$ be the diagonal torus in
+$\operatorname{PGL}_4$, and let $T=F T'F^{-1}$, where
+$F=(i^{ab})_{0\le a,b<4}$ is the Fourier matrix.  It diagonalizes
+the cyclic shift, so this is an apposed pair.  Its determinant is
+$-16i$, but its minor with rows $\{0,2\}$ and columns $\{0,2\}$
+is zero.  Take a coordinate flag whose two-plane is
+$\langle e_1,e_3\rangle$ and a Fourier eigenflag whose two-plane
+is spanned by columns zero and two of $F$.  The vanishing minor
+says these two planes are not complementary, so the flags are
+not opposite.  Both flags are completed by ordering their
+respective eigenvectors, and their stabilizers are Borels
+containing the indicated tori.  The nonzero determinant and zero
+minor are checked exactly in the attached computation.
+\end{proof}
+
+\begin{saresult}{D.014}{Proved under stated hypotheses}{Rational singularities of characteristic-zero quotient fibres}
+Every fibre of the adjoint quotient of a complex reductive Lie
+algebra has rational singularities.  The same is true for the group
+quotient when the derived group is simply connected.
+\end{saresult}
+\begin{proof}
+The known input is Hesselink's theorem that the nilpotent variety of
+a split reductive Lie algebra in characteristic zero has a rational
+resolution \cite[Theorem A, p.249]{D-Hesselink}.  We explain the
+passage to other fibres, which that formulation does not state.
+For a fixed semisimple element $s$, let $L=C_G(s)^\circ$ and let
+$\mathcal N(\mathfrak l)$ be the nilpotent cone of its Lie algebra.
+The map
+\[
+ G\times^L\mathcal N(\mathfrak l)\longrightarrow\chi^{-1}(\chi(s)),
+ \qquad[g,n]\longmapsto\operatorname{Ad}(g)(s+n)
+\]
+is an isomorphism.  Indeed Jordan decomposition identifies its
+points uniquely modulo $L$; on this fixed fibre the semisimple part
+is a polynomial in the matrix in any faithful representation, by
+Hermite interpolation on the fixed eigenvalues and sufficiently
+high multiplicities.  It therefore gives a regular map to the
+orbit $G/L$, with fibre $\mathcal N(\mathfrak l)$, and supplies
+the algebraic inverse after the smooth local trivializations of
+$G\to G/L$.  Semisimple Lie centralizers are connected Levi
+subgroups in characteristic zero, so no component quotient is
+omitted.
+The associated bundle is etale locally the product of a smooth
+variety with this nilpotent cone.  Pulling back Hesselink's
+resolution proves vanishing of its higher direct images locally;
+flat base change and etale descent give rational singularities.
+For the group version semisimple centralizers are connected under
+the simply connected derived-subgroup assumption.  Replace
+$s+n$ by $su$, use multiplicative Jordan decomposition, and use
+the characteristic-zero polynomial exponential/logarithm
+isomorphism between the unipotent variety of $L$ and
+$\mathcal N(\mathfrak l)$.  The same argument applies.
+This proves the rational-singularity question of the letter in
+the stated characteristic-zero scope.
+\end{proof}
+
+\subsection{The integral rigidification scheme and its nonsplit form}
+\begin{saresult}{D.015}{Proved under stated hypotheses}{The RigKos rank over the full base with $h$ invertible}
+Let $S$ be a scheme on which the Coxeter number $h$ is invertible,
+and let $G/S$ be an adjoint simple group of fixed type.  Define an
+apposed pair etale locally as follows: a generator $n$ of a cyclic
+group of order $h$ normalizes one maximal torus $T_0$, induces a
+Coxeter element on it, and the other torus is $C_G(n)^\circ$.
+This is independent of the chosen generator.  The scheme of
+apposed pairs so defined agrees with the cyclic-line definition
+in the notes, over the entire stated base, by D.021 below.
+The scheme of
+quadruples $(T,T',B,B')$ with an apposed pair and Borels containing
+the respective tori is smooth over $S$, its conjugation action by
+$G$ is free, and its fppf quotient is finite etale of rank
+\[
+ |W|^2/(h z\varphi(h)).
+\]
+For the split group it is a finite etale scheme over
+$\mathbb Z[1/h]$; it need not be a split finite scheme.
+\end{saresult}
+\begin{proof}
+We construct the split model over $R=\mathbb Z[1/h]$ and check every
+prime that remains on this base.  Fix its split torus $T_0$ and
+Chevalley representatives $n_i$ of the simple reflections, and put
+$n=n_1\cdots n_r$.  In the adjoint group $n^h=1$: this is Kostant's
+characteristic-zero lift theorem \cite[Theorem 8.4]{D-Kostant1959},
+and the identity extends over $\mathbb Z$ because the group scheme
+is separated and flat and its rational fibre is schematically dense.
+Its image $c$ in $W$ has order exactly $h$, so no smaller power is
+the identity in any fibre.
+
+The centralizer $C_G(n)$ is smooth over $R$.  To see the smoothness
+claim directly, infinitesimal lifts of a fixed point under the
+conjugation action of the finite cyclic group can be averaged,
+since its order $h$ is invertible.  Its Lie algebra has rank $r$:
+on $\operatorname{Lie}T_0$ the fixed module is zero because
+$\det(1-c)=z$ is invertible in $R$; every root orbit has length $h$
+and contributes one fixed vector, as $n$ cyclically permutes its
+root lines and the product of the coefficients is one by $n^h=1$.
+There are $|R_{\rm roots}|/h=r$ such orbits.  All the primes
+dividing $z$ divide $h$, as follows from
+\[
+(h,z)=(r+1,r+1),\ (2r,2),\ (2r,2),\ (2r-2,4),\
+(12,3),(18,2),(30,1),(12,1),(6,1)
+\]
+in types $A,B,C,D,E_6,E_7,E_8,F_4,G_2$, respectively.
+Each fibre of $n$ is semisimple, so its connected centralizer is
+reductive of rank $r$ and dimension $r$, hence a torus.  Thus
+$T=C_G(n)^\circ$ is a maximal torus over $R$.
+
+We check the finite component issue rather than assuming that it
+cannot change in small characteristic.  Pass to the finite etale
+cyclotomic cover $R[\zeta_h]$, and set
+$t=\rho^\vee(\zeta_h)\in T_0$.  In characteristic zero $n$ and $t$
+are conjugate.  Their character values in every integral Weyl
+module are consequently equal over this cyclotomic ring.  Weyl
+characters, by their triangular highest-weight expansions, span
+the invariant group ring $\mathbb Z[X^*(T_0)]^W$; finite-group
+invariants separate its geometric torus orbits in every
+characteristic.  Hence in every geometric fibre $n$ and $t$,
+both semisimple, are conjugate.  Here one also needs a relative
+conjugacy assertion, not just conjugacy on geometric fibres.
+For a square-zero extension of rings, a discrepancy between two
+conjugate lifts of an element of order $h$ is a $1$-cocycle of
+the cyclic group on the corresponding Lie module.  Its first
+cohomology is zero, by averaging with $1/h$, so the discrepancy
+is removed by an infinitesimal conjugation.  Iterating this
+argument proves that the transporter of $n$ to $t$ is formally
+smooth.  It has finite presentation and nonempty geometric
+fibres, hence is smooth and surjective, and has sections etale
+locally.  This proves the required relative assertion.
+No root of $t$ has value one, because its height has absolute value
+less than $h$.  The root-subgroup description of its centralizer
+therefore gives
+\[
+C_G(t)^\circ=T_0,\qquad
+C_G(t)/T_0=\operatorname{Stab}_{W}(\rho^\vee/h\bmod P^\vee)
+=P^\vee/Q^\vee.
+\]
+The last equality is the interior-alcove argument of D.003 and is
+an identity of the discrete root datum, unchanged at the remaining
+primes.  This component group is finite etale of rank $z$.
+
+The fixed group $T_0^c$ is finite etale of rank $z$, since its
+character group is the cokernel of $1-c$ and $z$ is invertible.
+Its map to $C_G(n)/T$ is an isomorphism on the rational fibre by
+D.003.  A map between finite etale group schemes is an isomorphism
+on an open-and-closed subset of the connected base; consequently
+it is an isomorphism everywhere.  Its kernel is $T\cap T_0$, so
+this intersection is the trivial group scheme, including at every
+remaining prime.
+
+Let $\Phi=N_G(T)\cap N_G(T_0)$.  Since an element of
+$T\cap N_G(T_0)$ centralizes $n$, its Weyl image centralizes $c$,
+and D.002 makes that image a power of $c$.  Subtracting the
+corresponding power of $n$ leaves an element of $T\cap T_0=1$.
+Thus $T\cap N_G(T_0)=\langle n\rangle$.  Every element of $\Phi$
+normalizes this cyclic group, and its Weyl image belongs to $A$
+of D.002.  Conversely, lift any $w\in A$ with exponent $a$ to
+$N_G(T_0)$.  Its conjugate of $n$ differs from $n^a$ by an element
+of $T_0$.  The map $u\mapsto u c^a(u)^{-1}$ on $T_0$ is a finite
+etale isogeny of degree $z$, so etale locally we can correct that
+lift to conjugate $n$ exactly to $n^a$.  It then normalizes $T$.
+The kernel is $T_0^c$, by the just-proved intersection formula.
+Therefore $\Phi\to A_R$ is a finite etale $T_0^c$-torsor and
+$|\Phi|=zh\varphi(h)$ in every geometric fibre.  This argument
+does not require $\varphi(h)$ or $|W|$ to be invertible.
+
+The Borel schemes $\mathcal Q(T)$ and $\mathcal Q(T_0)$ are finite
+etale, of rank $|W|$ each.  The action of $\Phi$ on their product
+is free, since a point stabilizer is $T\cap T_0=1$.  Their
+quotient is therefore finite etale, with the stated rank.  The
+quadruple scheme is the associated scheme
+$G\times^\Phi(\mathcal Q(T)\times\mathcal Q(T_0))$; over that
+finite quotient it is a $G$-torsor, hence smooth and free.
+Any other Coxeter-normalized pair is etale locally conjugate to
+this one: conjugate its torus to $T_0$, conjugate its Weyl Coxeter
+element to $c$, and correct its lift using the same $1-c$
+isogeny.  Thus this associated scheme represents exactly the
+specified quadruples, not merely a selected component.
+Finally every form of the split group is etale locally a split
+group with the same based root datum.  The definition by torus
+normalizers and neutral centralizers is invariant under all
+automorphisms, so the construction and its free quotient descend
+to $S$.  This proves the integral rank assertion, including
+characteristics two and three whenever they do not divide $h$.
+\end{proof}
+
+\begin{saresult}{D.016}{Refuted}{Splitness of the finite quotient asked about in 123/035}
+For split adjoint $A_2$ over $\mathbb Q$, the two-point geometric
+quotient $\operatorname{RigKos}/G$ is
+$\operatorname{Spec}\mathbb Q(\zeta_3)$.  It is not a disjoint
+union of two rational points.  Thus splitness over
+$\mathbb Z[1/h]$ has a negative answer.  The scan changes
+``est bel et bien'' by crossing out the last three words
+and inserting ``il''; it can be read as the question
+``est-il splitt\'e''.  Under that reading this is an answer
+to a question, not a correction of an asserted theorem;
+the mathematical counterexample is the same under either reading.
+\end{saresult}
+\begin{proof}
+Let $G=\operatorname{PGL}_3$, let $T_0$ be the diagonal torus, and
+let $n$ be a three-cycle permutation matrix.  The torus
+$T=C_G(n)^\circ$ and the apposed pair are defined over $\mathbb Q$.
+The three eigenspaces of $n$ are defined over
+$K=\mathbb Q(\zeta_3)$.  The nontrivial automorphism of $K$ fixes
+the eigenline for one and exchanges the other two.  Consequently
+it acts on the six Borels of $T$ by a transposition, whereas the
+six Borels of $T_0$ are rational.
+
+Here both Weyl factors are $S_3$, and D.003 identifies
+\[
+\Phi=\{(a,b)\in S_3\times S_3:
+                    \operatorname{sgn}(a)=\operatorname{sgn}(b)\}.
+\]
+It has order $18$.  Its two orbits on $S_3\times S_3$ are the
+two values of $\operatorname{sgn}(a)\operatorname{sgn}(b)$.
+Galois acts by a transposition in exactly one factor, so exchanges
+these orbits.  This is precisely the finite Galois set represented
+by $\operatorname{Spec}K$.  The attached program
+\texttt{rigkos\_a2.py} enumerates all 36 points, all 18 group
+elements and both complete orbits, verifies the free action, and
+checks Galois conjugation of the Fourier eigenbasis exactly.
+Its printed Galois permutation is $[1,0]$.
+The rank $36/(3\cdot3\cdot2)=2$ is correct; splitness is the
+distinct assertion refuted here.
+\end{proof}
+
+\begin{saresult}{D.017}{Proved under stated hypotheses}{The group theorem over an arbitrary base, including characteristics two and three}
+The group version of D.009, and consequently the normal-base
+Picard assertions D.010, remain true over an arbitrary base $S$
+when $G/S$ is reductive with simply connected derived subgroup.
+No restriction on residual characteristic is necessary for these
+group assertions.  This does not extend the adjoint Lie-algebra
+assertion refuted in D.001.
+\end{saresult}
+\begin{proof}
+We give the integral comparison, including the scheme structure
+of the fibres.  In the split semisimple simply connected case the
+fundamental Weyl modules over $\mathbb Z$ give regular invariant
+characters $\chi_1,\ldots,\chi_r$ on $G_{\mathbb Z}$.  The
+highest-weight triangular expansion proves
+\[
+ \mathbb Z[X^*(T)]^W=\mathbb Z[\chi_1|_T,\ldots,\chi_r|_T].
+\]
+The invariant torus ring commutes with every base change, because
+its orbit-sum basis is a basis of a permutation module.  Thus these
+characters define the universal map
+$f_{\mathbb Z}:G_{\mathbb Z}\to\mathbb A^r_{\mathbb Z}=T/W$.
+Restriction is also injective for invariant functions over an
+arbitrary base: the conjugates of the regular semisimple torus
+cover the regular semisimple locus smoothly, and that locus is
+schematically dense in each smooth group fibre and in the flat
+family.  Surjectivity of restriction follows from the integral
+characters.  Hence this map has the intended quotient property,
+not merely the intended values on field-valued points.
+
+Over every algebraically closed field, with no restriction on its
+characteristic, Steinberg proves that the set-theoretic fibres
+have codimension $r$, consist of a unique dense regular class,
+and have nonregular complement of codimension at least two in
+the fibre \cite[Theorem 6.11, p.64]{D-Steinberg1965}.  He proves
+that the differentials of the $\chi_i$ are independent exactly
+on the regular locus \cite[Theorem 1.5, p.50; Theorem 8.1,
+pp.70--71]{D-Steinberg1965}.  A smooth group is Cohen--Macaulay,
+and the quotient is regular.  The equidimension assertion and
+the local flatness criterion therefore make the quotient flat.
+Each scheme-theoretic fibre is a complete intersection and is
+Cohen--Macaulay.  It is smooth along its dense regular class,
+hence generically reduced, hence reduced; it is regular in
+codimension one and satisfies $S_2$, hence is normal.  This
+supplies the scheme-theoretic strengthening needed in the
+manuscript from exactly the field statements in the source.
+
+The integral group and quotient are flat over $\mathbb Z$.
+The fibrewise criterion for flatness now proves that
+$f_{\mathbb Z}$ is flat; its fibres are geometrically normal by
+the preceding paragraph.  The base-changed space
+$G'_{\mathbb Z}=G_{\mathbb Z}\times_{\mathbb A^r}T_{\mathbb Z}$
+is normal.  Its incidence morphism is projective, birational over
+the regular semisimple open set, and finite over the regular
+locus by Steinberg's finite-Borel criterion
+\cite[Theorem 1.1, p.49]{D-Steinberg1965}.  Finite birational
+morphisms to a normal scheme are isomorphisms.  Thus it is an
+isomorphism over the regular locus already over $\mathbb Z$;
+base change proves this over every $S$.  Outside this locus the
+Borel fibre has positive dimension by the same criterion, which
+also proves maximality.
+
+Steinberg's Theorem 1.3(b), p.50, proves pure codimension three
+for the nonregular set in every characteristic.  The finite map
+$T\to T/W$ is flat by the same Cohen--Macaulay argument on each
+field fibre and the fibrewise flatness criterion over
+$\mathbb Z$, so its pullback preserves that codimension.  In
+a Borel $B=TU$, no nonregular point lies over the open subset
+of $T$ on which every root value differs from one.  Where at
+least two independent root equations have value one the base
+already has codimension at least two.  At a generic point of
+any remaining root divisor the semisimple centralizer has
+semisimple rank one.  Successive conjugations in the root
+subgroups, dividing only by root values different from one,
+reduce the unipotent part to that rank-one centralizer.  It is
+nonregular exactly when its one simple-root coordinate is zero,
+one further independent equation.  Thus the nonregular set
+in $B$ has codimension at least two in every characteristic.
+This proves the incidence codimension assertion.  Smoothness
+of $\widetilde f$ follows as before from its unipotent-torsor
+description.
+
+For a split reductive group with simply connected derived group,
+write $C=\operatorname{Rad}(G)$ for its maximal central torus and
+use the central isogeny $G_{\rm der}\times C\to G$ with finite
+flat central kernel $K$.  This is the radical torus, not the
+scheme-theoretic connected centre, which can contain a group such
+as $\mu_p$ in characteristic $p$.  The kernel is the graph of
+inversion on $G_{\rm der}\cap C$, and its projection to $C$ is
+therefore a closed immersion.  In the split case these are
+diagonalizable groups, so the restriction
+$X^*(C)\to X^*(K)$ is surjective.  In contrast to the
+characteristic-zero argument, this cover need not be etale;
+it is faithfully flat.  Thus each character of $K$ extends
+to a character of the central torus.  Multiplying each
+fundamental quotient coordinate by an appropriate torus
+character makes it $K$-invariant.  It follows explicitly that
+the quotient is an affine space bundle (indeed, after these
+choices, a product) over the quotient central torus, and that
+the map on quotients is a $K$-torsor.  The group square is
+cartesian: the natural equivariant map from its upper left corner
+to the pullback is a map of $K$-torsors, hence an isomorphism.
+The same argument applies to the universal Borel, since a central
+isogeny identifies flag schemes.  Regularity is preserved: the
+central isogeny preserves the dimension of each centralizer and
+the rank.  Thus the flatness, geometric normality and smoothness
+statements descend along this faithfully flat comparison;
+the incidence isomorphism descends as well.  Its projectivity
+has the independent flag-incidence construction.  This
+argument covers inseparable central kernels such as the one
+in $\operatorname{SL}_p\times\mathbb G_m\to\operatorname{GL}_p$.
+
+Etale descent of split reductive models gives the theorem for
+arbitrary forms.  Every step of the divisor and character-sheaf
+proof of D.010 used only normality of the base, these incidence
+properties, and the affine-space-times-torus local model; it
+did not use characteristic zero.  The same proof therefore
+establishes its assertions in this broader scope.
+\end{proof}
+
+\subsection{The letter's dimension and subregular questions}
+\begin{saresult}{D.018}{Known}{The dimension formula, with equidimensionality}
+Let $G$ be a connected complex reductive group of rank $r$, and let
+$x$ belong to $G$ or its Lie algebra.  Define
+\[
+ \mathcal B_x=\{B\in D:x\in B\},\qquad
+ \mathcal B_x=\{B\in D:x\in\operatorname{Lie}B\},
+\]
+respectively, with their reduced variety structures.  Every
+irreducible component of $\mathcal B_x$ has dimension
+\[
+ \dim\mathcal B_x=\tfrac12(\dim Z_G(x)-r).
+                                                        \tag{D.18.1}
+\]
+Thus the dimension conjectured in the letter is $i$ when
+$\dim(Gx)=\dim G-r-2i$.  Equidimensionality for group elements
+holds over any algebraically closed field.  The cited original
+dimension theorems must not, by contrast, be silently restated
+with no characteristic hypotheses.
+\end{saresult}
+\begin{proof}
+For group elements, Steinberg's Theorem 4.6, p.217, proves
+the equality for unipotent elements under his stated hypothesis
+``classical, or characteristic zero or sufficiently large'';
+Theorem 6.5, p.223, gives the equality for all elements under
+the same hypothesis \cite{D-Steinberg1976}.  In particular the
+complex case satisfies it.  His unrestricted inequality is
+Theorem 3.5, p.213.  These are the appropriate precise locators;
+Proposition 3.1 on p.212 is not the dimension-equality theorem.
+Spaltenstein proves equidimensionality in his thesis,
+II.1.12, pp.47--48, for unipotent elements, and II.1.17, p.51,
+for every element.  Its II.2.5--2.7, pp.53--55, proves the
+inequality and equality under explicit hypotheses, including
+characteristic zero \cite{D-SpaltensteinThesis}.  Thus this
+second source verifies the equality independently in the
+scope used here and supplies the stronger assertion about
+every component.
+
+Here is the reduction to the Lie-algebra statement, including
+its dimension accounting.  Write $x=s+e$ with commuting
+semisimple and nilpotent parts, and put $L=Z_G(s)$, a connected
+reductive subgroup of rank $r$.  A Borel containing $x$ in its
+Lie algebra contains $s$ and $e$ in that Lie algebra: this
+follows by the polynomial construction of the Jordan parts
+in any faithful representation.  The fixed flag variety of
+$s$ is a finite disjoint union of flag varieties of $L$.
+Indeed, choose $s\in\mathfrak t$; each Borel through $s$
+contains a maximal torus of $L$, and conjugating that torus
+inside $L$ to $T$ identifies its component with
+$L/(L\cap wBw^{-1})$.  These are flag varieties of $L$.
+Intersecting with the condition on $e$ gives a finite disjoint
+union of copies of the Springer fibre for $e$ in $L$.
+The finite polynomial maps $e\mapsto\exp(e)$ and
+$u\mapsto\log(u)$ on nilpotent and unipotent matrices are
+inverse, respect every Borel subgroup, and have the same
+centralizers.  The group theorem applied to $L$ and $\exp(e)$
+therefore gives
+\[
+ \dim\mathcal B_x=\tfrac12(\dim Z_L(e)-r)
+                =\tfrac12(\dim Z_G(x)-r),
+\]
+and gives equidimensionality.  The same Jordan reduction for
+group elements is explicitly recorded by Steinberg in
+Lemma 6.2 and Remark 6.3, pp.222--223.
+\end{proof}
+
+\begin{saresult}{D.019}{Known}{The subregular differential rank in all simple complex types}
+For a simple complex Lie algebra of rank $r$, there is one
+subregular nilpotent orbit.  At its points the differential
+of $\chi:\mathfrak g\to\mathfrak t/W$ has rank $r-1$ in
+\emph{every} simple type.  Uniqueness and this rank do not
+characterize the simply laced types.  The corresponding
+assertion for the group quotient holds at subregular
+unipotent elements of a simply connected complex group.
+\end{saresult}
+\begin{proof}
+Brieskorn states uniqueness of the subregular unipotent class
+for all simple groups on p.280, attributing the result to
+Tits and Steinberg, and states the rank $r-1$ consequence in
+the simply laced case on p.283 \cite{D-Brieskorn}.
+The precise surface input in the other types is the
+subregular-slice classification: its types are
+\[
+\begin{array}{c|cccc}
+\text{Lie algebra}&B_r&C_r&F_4&G_2\\ \hline
+\text{surface}&A_{2r-1}&D_{r+1}&E_6&D_4.
+\end{array}
+\]
+This classification and its attribution to Slodowy IV.8.3
+are stated in the opened primary research paper of
+Fu--Juteau--Levy--Sommers, sections 1.4.2 and 1.5.1,
+pp.3--4 \cite{D-FJLS}.  We distinguish this checked
+statement from direct inspection of Slodowy's later pages,
+which are not available in the publisher preview.
+
+We give the implication for the rank, rather than treating
+it as part of the quoted classification.  The affine
+Slodowy slice $e+\mathfrak g^f$ is smooth of dimension
+$\dim\mathfrak g^e=r+2$.  Its scheme-theoretic intersection
+with $\chi^{-1}(0)$ is one of the displayed surface
+singularities, which has tangent-space dimension three at
+its singular point: its defining equation in three
+variables has no linear term.  Therefore the kernel of
+the differential of the restricted quotient has dimension
+three, and its rank is $(r+2)-3=r-1$.
+The $\mathfrak{sl}_2$ decomposition gives
+$\mathfrak g=[\mathfrak g,e]\oplus\mathfrak g^f$;
+$d\chi_e$ vanishes on $[\mathfrak g,e]$.  Hence its full
+rank is the restricted rank just computed.  In the group
+case the complex analytic exponential is an equivariant
+local isomorphism at a nilpotent element (its differential
+is an invertible polynomial in the nilpotent operator
+$\operatorname{ad}e$), and induces a local isomorphism
+between the quotient bases near $0$ and $1$.  It transfers
+the rank statement.  D.012 supplies a fully explicit
+$C_2$ counterexample to the letter's opposite strict
+inequality without requiring this classification.
+\end{proof}
+
+\begin{saresult}{D.020}{Refuted}{An outer-invariant distinguished class need not exist}
+For adjoint type $A_2$ over $\mathbb C$, the nontrivial outer
+automorphism interchanges the two classes of Kostant
+quadruples.  Thus neither class has a nontrivial full
+automorphism, and there is no class invariant under all
+outer automorphisms.  In particular no rule functorial
+under all group automorphisms can select a single class
+in every simple type.
+\end{saresult}
+\begin{proof}
+Use the explicit pair of tori and orbit enumeration in
+D.016.  Index the Fourier eigenvectors by $j\in\mathbb Z/3$
+and the standard coordinate vectors by $i\in\mathbb Z/3$.
+Their standard bilinear pairings identify the dual of
+the $j$-th Fourier line with the $-j$-th, whereas every
+coordinate line is self-dual.  Thus transpose-inverse
+takes a pair of ordered flags $(a,b)\in S_3\times S_3$
+to $(\tau a w_0,bw_0)$, where $\tau:j\mapsto-j$ and
+$w_0$ reverses the three positions.  Both $\tau$ and
+$w_0$ are odd.  The invariant
+$\operatorname{sgn}(a)\operatorname{sgn}(b)$ is therefore
+negated.  D.016 proved that this sign distinguishes
+exactly the two inner orbits.  The outer automorphism
+swaps them, as is also checked on all 36 flag pairs by
+\texttt{code/rigkos\_a2.py}.  A quadruple's automorphism
+group injects into $\operatorname{Out}(A_2)=C_2$ because
+its inner stabilizer is trivial.  Neither class is fixed,
+so both automorphism groups are trivial.  Any natural
+choice of one class would have to be fixed by every
+automorphism, which is impossible.
+\end{proof}
+
+\begin{saresult}{D.021}{Proved}{Integral cyclic regularity with only $h$ inverted}
+For an adjoint simple split group over $R=\mathbb Z[1/h]$,
+every vector in
+$\bigoplus_{i=0}^r\mathfrak g_{\alpha_i}$ whose $r+1$
+coordinates are units is regular semisimple, fibrewise and
+etale locally conjugate up to a scalar to one fixed such
+vector.  The cyclic-line and Coxeter-normalized definitions
+of apposition coincide over $R$ and after any base change.
+\end{saresult}
+\begin{proof}
+We first prove a root-datum assertion over
+$R_h=R[\zeta_h]$: a Coxeter transformation on the Cartan
+has a primitive-$h$ eigenvector on which every root has
+unit value.  In type $A_r$ put $h=r+1$ and use diagonal
+coordinates $(1,\zeta,\ldots,\zeta^{h-1})$, whose sum
+is zero.  Root values are differences of distinct
+powers of $\zeta$.  In types $B_r,C_r$ use
+$(1,\zeta,\ldots,\zeta^{r-1})$ for a negative cycle
+of length $r$, $h=2r$.  Root values are nonzero sums
+or differences of these coordinates, single coordinates,
+or twice a coordinate.  In type $D_r$ use
+$(1,\zeta,\ldots,\zeta^{r-2},0)$, with $h=2r-2$,
+for the negative cycle on the first $r-1$ coordinates
+and a negative last coordinate.  All root values are
+units: for $0<j<h$, $1-\zeta^j$ is a unit after
+inverting $h$, since the product of its Galois
+conjugates has only primes dividing $h$.
+
+For the five exceptional types the attached exact
+certificate uses the integral cocharacter matrix
+$C=c^{-\mathsf t}$ and
+\[
+ v=\sum_{j=0}^{h-1}\zeta^{-j}C^j e_1.
+\]
+It verifies $Cv=\zeta v$ modulo the cyclotomic
+polynomial and evaluates every root.  The complete
+lists, not just their norms, are saved in
+\texttt{logs/primitive\_eigenvector\_TYPE.json}.
+Exact resultant computation gives the following sets
+of absolute norms of root values:
+\[
+\begin{array}{c|l}
+G_2&12,36\\
+F_4&144,576\\
+E_6&36,144\\
+E_7&1728,5184,15552\\
+E_8&518400.
+\end{array}
+\]
+Every prime in each row divides the corresponding
+$h$.  A cyclotomic integer whose norm is a unit in
+$R$ is a unit in $R_h$, by its monic characteristic
+equation.  This proves the assertion in all exceptional
+types.  The algorithm generates the entire root set
+from the displayed Cartan matrices; it tests every
+root and retains each polynomial and resultant.
+No test in finitely many residue characteristics is
+being substituted for this integral certificate.
+
+Now use $n$ and $t=\rho^\vee(\zeta_h)$ from D.015,
+whose etale local conjugacy was proved independently
+of cyclic regularity.  The vector $v$ is in
+$\operatorname{Lie}T_0$, is regular semisimple, and
+has primitive eigenvalue under $n$.  Conjugating to
+$t$ places it in the eigenspace
+\[
+ \mathfrak g(1)=\bigoplus_{i=0}^r\mathfrak g_{\alpha_i}.
+\]
+If any of its coordinates vanished in a geometric
+fibre, the remaining roots could all be placed in
+a strictly positive half-space, as in D.006.
+Its adjoint operator would then be nilpotent.
+This contradicts the nonzero root eigenvalues of
+$\operatorname{ad}v$.  Its coordinates are therefore
+units on the etale conjugating cover.
+
+Finally the action of $T$ on projective cyclic
+coordinates is the torus homomorphism with characters
+$\alpha_i+\theta$ for $1\le i\le r$.  In the
+simple-root basis its determinant is
+$1+\sum_i m_i=h$.  It is therefore a finite etale
+isogeny over $R$, and acts transitively etale locally
+on all choices of nonzero projective coordinates.
+Every such cyclic vector is consequently conjugate
+up to a unit scalar to the one just constructed,
+and is regular semisimple.  Its neutral centralizer
+is the corresponding maximal torus, normalized
+by $\rho^\vee(\mu_h)$ with Coxeter action.
+Conversely the construction from a Coxeter lift
+has provided this cyclic vector.  These arguments
+are equivariant and all their maps commute with
+base change, proving the asserted equivalence of
+definitions and the statement over arbitrary $R$-schemes.
+\end{proof}
+
+\subsection{Source concordance and the scope of the answers}
+The following comparison separates a mathematical answer from an
+unverified bibliographical identification.  A theorem named as an
+input above has been opened at its displayed locator.
+\begin{description}
+\item[123/004--010: incidence and quotient.] Brieskorn,
+pp.279--280, prints the complex simultaneous-resolution
+diagram and credits Grothendieck for its global construction,
+Springer for its unipotent restriction.  Steinberg 1976,
+Theorem 1.1, pp.209--210, proves the unipotent resolution
+when the universal covering is separable; Remark 6.1,
+p.222, proves the necessity of that hypothesis for his
+construction.  On p.210 he explicitly corrects an earlier
+statement for adjoint groups in Springer's \emph{1969}
+paper.  That paper must not be confused with the requested
+IHES \emph{1966} article.  Slodowy's opened section 4.1,
+pp.43--44, repeats the corrected separability hypothesis.
+D.009 and D.017 give the relative comparisons and descent;
+D.001 explains why the unrestricted Lie-algebra variant fails.
+\item[123/011--014: Picard groups.] EGA IV 21.4.13,
+Errata et Addenda liste 3, p.361, is the precise generic-fibre
+descent result used in the notes.  The number ``53'' is its
+erratum number, not a page or a replacement theorem number.
+D.010 proves the character-lattice correction, restriction
+isomorphisms, and sequences over the normal locally noetherian
+base; D.011 proves the projectivity obstruction under its
+explicit smallness hypothesis.
+\item[Letter: rigidification and opposition.] The finite
+quotient and counts are D.004 and D.015.  The splitness
+question in the folder is answered negatively by
+D.016.  D.013 proves existence of opposite Borels and
+refutes the assertion for every pair.  A quadruple has
+trivial inner automorphism group; its full automorphism
+group is exactly the stabilizer of its class under
+$\operatorname{Out}(G)$, via the injective homomorphism
+$\operatorname{Aut}(G,T,B,T',B')\to\operatorname{Out}(G)$.
+Surjectivity onto this stabilizer follows because an outer
+automorphism fixing the class can be uniquely corrected
+by an inner conjugation.  This gives a canonical finite
+classification through the explicitly constructed finite
+quotient, without asserting that its stabilizers are all
+the same.  The unqualified phrase ``distinguished in some
+sense'' specifies no selection predicate; it cannot be
+turned into a uniqueness theorem by choosing a predicate
+afterwards.  Its necessary outer-invariance condition is
+already impossible in $A_2$, by D.020.
+\item[Letter: dimensions and rational singularities.]
+D.018 derives the dimension equality and component
+statement with the hypotheses of the original sources.
+Hesselink's Theorem A, p.249, proves rational resolution
+of the characteristic-zero nilpotent variety; D.014 gives
+the Jordan-decomposition and descent argument extending
+it to all the quotient fibres requested in the letter.
+The point is a theorem about $R^i\pi_*\mathcal O$, not a
+consequence of dimensions alone.
+\item[Letter: subregular uniqueness and rank.] D.019
+gives the corrected all-type answer.  Brieskorn's
+pp.282--283 give the simply laced universal-deformation
+statement; the non-simply-laced surfaces have the folded
+types displayed above.  Slodowy's opened section 5.1,
+pp.60--61, specifies the transversality and separability
+conditions for slices.  His later classification pages
+are cited only through the explicitly identified primary
+paper, not represented as opened here.
+\item[Kostant 1959 and 1963.] The 1959 cyclic-element and
+Coxeter correspondence is used at its original Theorem 8.6,
+p.1026.  In the 1963 \emph{American Journal} paper, distinct
+from its shorter \emph{Bulletin} announcement, section 4.7
+Theorem 7, p.381, identifies the principal slice with the
+adjoint quotient; Theorem 8, p.382, gives its unique
+intersection with every regular orbit, and Theorem 9 on
+the same page characterizes regularity by independence of
+the invariant differentials.  These mathematical passages
+were read in the original-paper reprint \cite{D-Kostant1963}.
+They do not by themselves tabulate the differential rank
+on every nonregular orbit.  The exact source-access ledger
+is \path{agents/lie_theory/source_audit_D.md}.
+\item[Spaltenstein LNM 946.] The public preview of
+Chapter II.1, pp.42--43, was opened: it announces
+connectedness and equidimensionality and begins the
+projective-line argument.  The subsequent proof pages
+were not available through that preview.  The independently
+opened original 1977 thesis, at the locators in D.018,
+is the primary input actually used for the dimension proof.
+\item[Springer IHES 30, 1966.] Section 5.7 distinguishes
+regular from smoothly regular nilpotents.  Theorem 5.9,
+p.138, states the good-characteristic and root-system
+fundamental-group condition for smoothly regular
+nilpotents.  Section 4.12, pp.134--135, shows that a
+regular unipotent centralizer need not be connected in
+bad characteristic.  These are reasons to retain the
+isogeny and prime hypotheses; this article is not a
+proof of the arbitrary-base claims in the folder.
+\item[Steinberg LNM 366.] Its publisher preview,
+pp.76--77, was opened.  The relevant later discussion
+of subregular elements, III.3.10, is explicitly cited by
+Steinberg 1976, but its text was not available.  No new
+proof above depends on treating that uninspected
+locator as a checked theorem.
+\end{description}
+
+\subsection{The full characteristic-zero Jacobian question in the letter}
+
+\begin{saresult}{D.022}{Proved}{All nilpotent quotient ranks, including the exceptional types}
+Let $\mathfrak g$ be a simple complex Lie algebra, and let
+$\chi:\mathfrak g\longrightarrow\mathfrak t/W$ be its adjoint quotient.
+The following formulas determine $\operatorname{rank}(d\chi_e)$ for every
+nilpotent $e$.  In the classical types let
+$\lambda=(\lambda_1\ge\cdots\ge\lambda_k)$ be its Jordan partition in
+the defining representation, and put $m=\lambda_1$.
+\[
+\begin{array}{c|c}
+\text{type and condition}&\operatorname{rank}(d\chi_e)\\\hline
+ A_r&m-1\\
+ B_r,\ C_r&\lfloor m/2\rfloor\\
+ D_r,\ k>2&\lfloor m/2\rfloor\\
+ D_r,\ \lambda=(2r-i,i),\ i\text{ odd}&(2r-i+1)/2\\
+ D_r,\ r\text{ even},\ \lambda=(r,r)&r/2.
+\end{array}                                                     \tag{D22.1}
+\]
+The orthogonal and symplectic partition parity conditions are understood;
+the two very-even $D_r$ orbits have the same rank.
+For the exceptional types, the following table lists every orbit whose
+rank is at least two.  The rank is the number of displayed exponents.
+Every other nonzero nilpotent orbit has rank one; the zero orbit has
+rank zero.  Complete weighted diagrams, representatives, and exact
+certificates for all $5+16+21+45+70=157$ orbits, including zero,
+are supplied in the accompanying machine-readable files.
+\end{saresult}
+
+\input{agents/lie_theory/jacobian_exceptional_table.tex}
+
+\begin{proof}
+\par\medskip\noindent\textbf{Classical types.}\quad
+Use the nondegenerate trace pairing to identify differentials with
+matrices.  In type $A_r$, basic invariants may be taken to be
+$\operatorname{tr}(X^j)$ for $2\le j\le r+1$.  At a nilpotent $e$
+their gradients are the nonzero scalar multiples $j e^{j-1}$.
+The matrices $e,e^2,\ldots,e^{m-1}$ are linearly independent: apply a
+putative relation to a cyclic vector in a block of length $m$.
+Higher powers vanish.  This proves the first row.
+
+For $B_r,C_r$ take the even power traces, of degrees $2,4,\ldots,2r$.
+Their gradients are the odd powers of $e$, which remain in the
+orthogonal or symplectic Lie algebra.  The trace form restricted to
+that Lie algebra is nondegenerate in characteristic zero.  Exactly
+$\lfloor m/2\rfloor$ odd powers are nonzero, and the same cyclic-vector
+argument makes them independent.  This proves the next row.
+
+For $D_r$ use the even power traces of degrees $2,4,\ldots,2r-2$
+and the Pfaffian.  Its differential is zero exactly when the
+skew-symmetric matrix has rank at most $2r-4$: its partial derivatives
+are, up to sign, the Pfaffians of the complementary $(2r-2)$-minors.
+At rank $2r-2$ its gradient is a nonzero bivector on the two-dimensional
+kernel.  Thus the Pfaffian contributes nothing if $k>2$.
+If $k=2$ and both blocks have odd lengths, the defining orthogonal
+space is an orthogonal direct sum of the two nondegenerate cyclic
+blocks.  All odd powers of $e$ are block diagonal, whereas the
+Pfaffian gradient is the nonzero cross term between their kernel
+lines.  It is independent of those powers and contributes one.
+If both block lengths are even, the partition condition forces
+$\lambda=(r,r)$ with $r$ even.  The two cyclic spaces are totally
+isotropic and paired nondegenerately.  Both the Pfaffian gradient
+and $e^{r-1}$ are nonzero skew endomorphisms with image in $\ker e$.
+The space of such endomorphisms identifies with
+$\Lambda^2\ker e$ and is one-dimensional.  They are proportional,
+so the Pfaffian contributes no extra dimension.  This proves all
+rows of (D22.1), including the repeated exponent in even type $D$.
+These formulas agree with Richardson's Theorems 4.2.1 and 4.3.3,
+p.233, and Theorem 4.4.2, p.234 \cite{D-Richardson1987}.
+
+\par\medskip\noindent\textbf{Exact construction in the exceptional types.}\quad
+Here are sufficient details to make the finite computation a proof
+with inspectable inputs, rather than a sample of orbit ranks.
+For the simply laced root lattice, let $A$ be its symmetric Cartan
+matrix, and put
+\[
+ \epsilon(a,b)=(-1)^{\sum_i a_i b_i+
+                      \sum_{i>j}a_i b_j A_{ij}}.
+\]
+In the basis $\{E_a:a\in\Phi\}\cup\{h_1,\ldots,h_r\}$ use
+\[
+\begin{aligned}
+ [h_i,E_a]&=(Aa)_i E_a,& [h_i,h_j]&=0,\\
+ [E_a,E_b]&=\epsilon(a,b)E_{a+b}&& (a+b\in\Phi),\\
+ [E_a,E_{-a}]&=\epsilon(a,-a)\sum_i a_i h_i,
+\end{aligned}                                                     \tag{D22.2}
+\]
+with all other brackets zero.  The cocycle is bimultiplicative;
+its commutator is $(-1)^{(a,b)}$.  Formula (D22.2) is skew, and
+the code checks Jacobi on \emph{every} ordered-independent basis
+triple.  There are respectively $76076$, $383306$, and $2511496$
+triples for $E_6,E_7,E_8$.  The Cartan action and nonzero opposite-root
+brackets identify the resulting split simple Lie algebras with these
+root systems.  Thus no unverified sign table enters the computation.
+
+The $F_4$ algebra is the fixed algebra of the pinned $E_6$ involution,
+whose simple-node permutation in Bourbaki numbering is
+$(1\ 6)(3\ 5)$.  Its ordered simple-node orbits are
+$\{2\},\{4\},\{3,5\},\{1,6\}$.
+The $G_2$ algebra is the fixed algebra of pinned triality on $D_4$,
+with ordered orbits $\{2\},\{1,3,4\}$.
+The signs on nonsimple root vectors are obtained recursively from
+(D22.2), not assumed to be positive.  Taking invariant sums in each
+root orbit gives dimensions $52$ and $14$; the resulting Cartan
+matrices, all brackets, and all $22100$ and $364$ Jacobi triples
+are checked.  In our $G_2$ order the first simple root is long;
+this reverses the order in the input Atlas/SLA diagrams.
+
+For $E_6$ construct the $27$-dimensional minuscule module by the
+Weyl orbit of $\omega_1$.  In the weight basis, a simple positive
+root operator has coefficient one when it raises a weight, and
+zero otherwise; the corresponding negative root operator has
+coefficient minus one in the cocycle convention (D22.2).
+Cartan operators are diagonal.  Recursion through (D22.2) determines
+all root operators.  The program checks the representation identity
+$\rho([a,b])=[\rho(a),\rho(b)]$ on all $3003$ distinct basis pairs.
+This verifies the representation rather than merely relying on
+its stated dimension.
+
+For each nonzero weighted diagram $D=(D_i)$, compute
+$h=\sum_i c_i h_i$ from $A^{\mathsf t}c=D$.
+Choose an integral $e\in\mathfrak g(2)$ and solve the rational
+linear system $[e,f]=h$ with $f\in\mathfrak g(-2)$.
+The saved certificate verifies all three $\mathfrak{sl}_2$ relations.
+Consequently it proves that the chosen $e$ has precisely the claimed
+weighted diagram.  Random integer choices are used only to find
+such an $e$; success is certified by exact equalities, and failure
+is never interpreted as nonexistence.  The orbit dimension is
+independently checked from
+\[
+ \dim\mathfrak g^e=\dim\mathfrak g(0)+\dim\mathfrak g(1),
+\]
+which follows by decomposing the adjoint module into irreducible
+$\mathfrak{sl}_2$ modules.
+The complete lists of nonzero characteristics are cross-checked
+against the author's SLA lists, with the indicated root-order
+change for $G_2$ and before the software permutation for $F_4$.
+Completeness and the classification by weighted diagrams are the
+standard classification stated in de Graaf, \S2, pp.281--282;
+his Appendix A gives the complete exceptional lists
+\cite{D-deGraaf}.  No assertion of completeness is inferred from
+successful random searches.
+
+Let $\rho$ be the adjoint representation in $G_2,F_4,E_7,E_8$
+and the just-verified minuscule representation in $E_6$.
+For each fundamental degree $d$, use the invariant
+$F_d(X)=\operatorname{tr}(\rho(X)^d)$.  We calculate, for every
+basis vector $Y$,
+\[
+ (dF_d)_e(Y)=d\operatorname{tr}
+                 \bigl(\rho(e)^{d-1}\rho(Y)\bigr).       \tag{D22.3}
+\]
+Only vectors of $h$-weight $-2(d-1)$ can contribute; this vanishing
+follows directly by conjugating by the $\mathfrak{sl}_2$ torus.
+The remaining traces are exact integers.  Distinct nonzero
+$dF_d$ have distinct $h$-weights, so they are independent.
+
+There is also a check that these particular traces generate the
+\emph{entire} invariant algebra.  The fundamental degrees are distinct
+in every exceptional type.  In a homogeneous basic generating set,
+$F_d$ is a scalar multiple of the degree-$d$ generator plus a
+polynomial in lower-degree generators.  At a nilpotent element,
+the differential of every product of positive-degree invariants
+vanishes.  At the regular nilpotent representative our computation
+finds every $dF_d$ nonzero.  Hence each of those scalar multiples
+is nonzero; induction on degree proves that the $F_d$ themselves
+are basic generators.  Thus (D22.3) computes the quotient rank
+exactly, including its upper bound.
+
+The complete run uses
+\path{agents/lie_theory/code/exceptional_jacobian.py},
+\path{agents/lie_theory/code/all_exceptional_jacobians.py}, and
+\path{agents/lie_theory/code/exceptional_orbits.json}.
+Its full output is
+\path{agents/lie_theory/logs/all_exceptional_jacobians.txt};
+the JSON companion saves every triple and every nonzero derivative.
+The timed rerun completed all $157$ orbits in $22.197$ seconds.
+The displayed table was generated from that complete output, not
+transcribed from a secondary table.
+
+\par\medskip\noindent\textbf{The formerly undecided $E_8(a_2)$ entry.}\quad
+Richardson's paper explicitly leaves exponent $19$ for $E_8(a_2)$
+undecided on p.235 and in its Appendix, p.239.
+Our representative has diagram $22202022$ and maximum $h$-weight
+$38$.  The certificate gives
+\[
+ (dF_{20})_e(E_{-\theta})=3617744486400\ne0.              \tag{D22.4}
+\]
+The nonzero exponents are exactly $1,7,11,13,17,19$, so the rank
+is six.  Exponents $23$ and $29$ vanish already by the weight bound.
+A separate implementation using SymPy sparse exponentiation by
+squaring verifies (D22.4), in $3.293$ seconds:
+\path{agents/lie_theory/code/verify_jacobian_independent.py} and
+\path{agents/lie_theory/logs/jacobian_independent.txt}.
+This is an independent arithmetic check, not a claim that a new
+historical result is being established here.
+
+The original scan of Richardson p.239 contains two further literal
+errors: its regular $E_8$ row ends in $27$ instead of $29$, and
+its $E_8(a_1)$ row includes a spurious $9$.
+These are printed-source errors, not OCR substitutions.  They
+contradict the fundamental degrees and the subregular rank, and
+are corrected by the exact computations above.
+\end{proof}
+
+\begin{saresult}{D.023}{Proved}{Reduction of every complex Lie-algebra rank to D.022}
+Let $\mathfrak g$ be a complex reductive Lie algebra, and write
+$x=s+e$ for its commuting Jordan decomposition.  Put
+$\mathfrak l=\mathfrak g^s$ and decompose
+$[\mathfrak l,\mathfrak l]=\bigoplus_j\mathfrak l_j$ and
+$e=\sum_j e_j$.  For the typed quotient maps
+$\chi_{\mathfrak g}:\mathfrak g\to\mathfrak t/W$ and
+$\chi_j:\mathfrak l_j\to\mathfrak t_j/W_j$, one has
+\[
+ \operatorname{rank}(d\chi_{\mathfrak g})_x
+   =\dim Z(\mathfrak l)+
+      \sum_j\operatorname{rank}(d\chi_j)_{e_j}.            \tag{D23.1}
+\]
+For a simply connected complex semisimple group $G$, the same
+formula determines the rank of $\chi_G:G\to T/W$ at every
+$g=su$: replace $\mathfrak l$ by $\operatorname{Lie}Z_G(s)$
+and $e$ by $\log u$.  Formula (D23.1) is not, without a further
+finite quotient, a formula for arbitrary isogeny types.
+\end{saresult}
+\begin{proof}
+In the Lie-algebra case $L=Z_G(s)$ is connected, and its Weyl group
+is the stabilizer $W_s$.  On the complement of $\mathfrak l$,
+$\operatorname{ad}s+\operatorname{ad}e$ is invertible: the first
+summand is invertible semisimple, and the second is a commuting
+nilpotent.  The conjugation map from the associated slice
+$G\times^L(s+\mathfrak l)$ to $\mathfrak g$ is therefore etale
+at $[1,s+e]$.  The induced map on quotients is etale at the point
+under consideration: locally the finite Weyl quotient near $s$
+is the quotient by its stabilizer $W_s=W_L$.
+This can also be seen on completed local rings by taking the
+product of completions at the points of the finite $W$-orbit
+and then taking invariants; characteristic zero makes that
+operation exact.  On $\mathfrak l$ the quotient splits as the
+identity on its center and the product of its simple quotients.
+This proves (D23.1).  It is also Richardson's Proposition 1.2,
+p.229 \cite{D-Richardson1987}, with all central dimensions shown.
+
+For the group statement, $Z_G(s)$ is connected when $G$ is simply
+connected.  The original source explicitly states this in
+Steinberg, Remark 2.10, p.53 \cite{D-Steinberg1965}.
+Here is a root-theoretic justification of the needed fact.  Write
+$s=\exp(u+iv)$ in a torus, with $u,v$ in its real coroot space,
+and move $u$ into a closed Weyl chamber.  Since the cocharacter
+lattice is the coroot lattice, a Weyl element fixing $s$ fixes $u$
+and carries $v$ to $v$ modulo $2\pi$ times the coroot lattice.
+The subsystem perpendicular to $u$ is generated by a subset of
+the simple roots; its coroot lattice is the intersection of its
+real span with the full coroot lattice.  Hence the relevant
+stabilizer is a point stabilizer in that subsystem's affine
+Weyl group.  Such a stabilizer is generated by the affine
+reflections through the point: the incident alcoves form the
+finite chamber system of those walls, and reflection across
+a separating wall reduces the number of separating walls.
+Their linear parts are exactly the reflections with
+$\alpha(s)=1$.  Thus $W_s=W(\Phi_s)$.  Bruhat decomposition
+then shows that the centralizer is generated by its torus and
+these root groups, so it is connected (compare Steinberg 2.8,
+p.53).  The same slice argument applies, and exponential
+is an equivariant analytic local isomorphism from a neighbourhood
+of $\log u$ to one of $u$ inside that centralizer.  Its differential
+is invertible because $\operatorname{ad}(\log u)$ is nilpotent.
+Exponential identifies the corresponding local torus quotients.
+The analytic differential rank is the algebraic differential rank,
+so (D23.1) applies without imposing a false global isomorphism
+between the group and its Lie algebra.
+\end{proof}
+
+\begin{saresult}{D.024}{Proved}{The finite-center correction for every complex group isogeny}
+Let $q:\widetilde G\to G=\widetilde G/Z$ be a central isogeny of
+complex semisimple groups, with $\widetilde G$ simply connected.
+Let $F_i=\operatorname{tr}(\rho_i)$ be its fundamental characters,
+$1\le i\le r$, and let $\omega_i|_Z$ be their central characters.
+For a lift $\widetilde g$ of $g$, set $b=(F_i(\widetilde g))$ and
+\[
+ \Gamma_b=\{z\in Z:\omega_i(z)F_i(\widetilde g)
+                         =F_i(\widetilde g)\text{ for all }i\},
+ \quad I_b=\{i:\omega_i|_{\Gamma_b}=1\}.
+\]
+For any basis $Y_1,\ldots,Y_{\dim G}$ of
+$\widetilde{\mathfrak g}=\operatorname{Lie}\widetilde G$, the exact rank
+at $g$ is
+\[
+ \operatorname{rank}(d\chi_G)_g
+  =\operatorname{rank}\left(
+     \operatorname{tr}\bigl(\rho_i(\widetilde g)
+                                  d\rho_i(Y_j)\bigr)
+                    \right)_{i\in I_b,\ 1\le j\le\dim G}.     \tag{D24.1}
+\]
+This is a finite matrix formula for every element and every isogeny
+in every simple type.  Fundamental representations and their central
+characters are determined by the root datum.  If $\Gamma_b=1$ it
+reduces to D.023; in particular this holds for unipotent $g$.
+\end{saresult}
+\begin{proof}
+The fundamental characters identify
+$\widetilde G/\!/\widetilde G$ with $\mathbb A^r$
+(Steinberg, Theorem 6.1(b), p.62; the finite-center quotient
+is also stated in 6.18, p.66 \cite{D-Steinberg1965}).
+Translation by $z\in Z$ acts diagonally on these coordinates as
+$F_i\mapsto\omega_i(z)F_i$.  Taking invariant coordinate rings gives
+\[
+ G/\!/G\simeq(\widetilde G/\!/\widetilde G)/Z.
+\]
+The quotient locally at $b$ is the quotient by its stabilizer
+$\Gamma_b$.  In translated coordinates $u_i=F_i-b_i$, this
+stabilizer still acts diagonally.  The linear terms of its invariant
+power series are exactly the span of those $u_i$ with $i\in I_b$.
+Therefore the differential of this finite quotient retains exactly
+these coordinate functionals.  Higher-degree invariant generators
+have zero differential at the origin, even when the quotient is
+singular.  As $q$ is etale in characteristic zero, it does not
+change the rank.  Differentiating $F_i$ in the right-translated
+tangent direction $Y_j$ gives precisely the trace in (D24.1).
+This proves the formula and its independence of the chosen lift
+and tangent basis.
+
+For a unipotent lift, $F_i(\widetilde g)=\dim\rho_i\ne0$.
+The fundamental weights generate the character group of the
+center, so their common kernel on $Z$ is trivial.  Thus
+$\Gamma_b=1$ in this case.  This explains exactly why the
+nilpotent/unipotent comparison is isogeny-independent in
+characteristic zero, while the all-element statement is not.
+
+For the smallest discrepancy, let
+$\widetilde G=\mathrm{SL}_2$, $G=\mathrm{PGL}_2$, and
+$\widetilde g=\operatorname{diag}(i,-i)$.
+The simply connected quotient coordinate is $t=\operatorname{tr}$;
+the adjoint quotient coordinate is $t^2$.  At this lift $t=0$,
+$dt\ne0$, but $d(t^2)=0$.  Thus the ranks are respectively
+one and zero at corresponding regular semisimple elements.
+The exact symbolic check, with its output and timing, is
+\path{agents/lie_theory/code/group_quotient_rank.py} and
+\path{agents/lie_theory/logs/group_quotient_rank.txt}.
+\end{proof}
+
+\begin{saresult}{D.025}{Proved}{Every quadruple automorphism group in type A}
+Let $G=\mathrm{PGL}_n(\mathbb C)$, $n\ge3$, and let
+$Q=(T,B,T',B')$ be an ordered apposition quadruple.
+Its automorphism group is either $1$ or $C_2$.
+If $n$ is odd it is always trivial; in particular no inner-conjugacy
+class of quadruples is fixed by the outer involution.
+If $n=2k$ is even, put $m=n/2^{v_2(n)}$ and let
+$\omega(m)$ be the number of its distinct prime factors
+(with $\omega(1)=0$).  Among the
+\[
+ C_n=\frac{(n!)^2}{n^2\varphi(n)}
+\]
+inner-conjugacy classes, precisely
+\[
+ F_n=\frac{(2^k k!)^2\,2^{\omega(m)}}{n\varphi(n)}
+       \begin{cases}1,&4\mid n,\\[2pt]1/2,&n\equiv2\pmod4\end{cases}
+                                                               \tag{D25.1}
+\]
+have automorphism group $C_2$; the other $C_n-F_n$ have trivial
+automorphism group.  The constructive test in the proof determines
+the stabilizer of each class, not only its aggregate number.
+For $A_3$ the two numbers are $8$ and $10$, out of $18$ classes.
+For $A_1$ the outer group is trivial and all stabilizers are trivial.
+\end{saresult}
+\begin{proof}
+Use the cyclic matrix model of D.016 in dimension $n$.
+Let $T$ be the diagonal torus with coordinate basis indexed by
+$\mathbb Z/n$, and let $T'$ be its Fourier transform, with Fourier
+columns $(\zeta^{ij})_i$, also indexed by $j\in\mathbb Z/n$.
+A Borel through either torus is a total ordering of its eigenlines,
+so the choices are pairs $(p,q)\in S_n\times S_n$ of ordered lists.
+The common inner normalizer acts by
+\[
+ (p,q)\longmapsto(ap+x,a^{-1}q+y),\quad
+ a\in(\mathbb Z/n)^\times,\ x,y\in\mathbb Z/n.           \tag{D25.2}
+\]
+Indeed cyclic permutation matrices translate $p$, diagonal powers
+of $(1,\zeta,\ldots,\zeta^{n-1})$ translate $q$, and the permutation
+$i\mapsto ai$ acts by $a$ and $a^{-1}$ on the two lists.
+These give $n^2\varphi(n)$ distinct common-normalizer elements;
+D.003 proves that this is the full order.  The action on pairs
+of orderings is free.  This also proves the displayed formula
+for $C_n$ directly in this model.
+
+Transpose-inverse induces the outer involution
+\[
+ \tau(p,q)=(p^{\rm rev},-q^{\rm rev}).                   \tag{D25.3}
+\]
+For the first list this is duality of a complete coordinate flag.
+For the second use $F^{-\mathsf t}=n^{-1}FJ$, where $F$ is the
+Fourier matrix and $J$ negates its column index.  Hence (D25.3)
+is the actual outer action, including its sign.
+A class has nontrivial automorphism precisely when there exist
+$a,x,y$ in (D25.2) such that
+\[
+ p^{\rm rev}=ap+x,\qquad q^{\rm rev}=-a^{-1}q-y.         \tag{D25.4}
+\]
+If this occurs, the lift of the outer element fixing the quadruple
+is unique, because its inner stabilizer is trivial.  Its square
+is therefore the identity.  This gives the promised constructive
+test and the abstract stabilizer $C_2$.
+
+Let $R$ denote reversal of an ordered list.  Each of the two
+affine permutations in (D25.4) must be conjugate to $R$.
+If $n$ is odd, it must have exactly one fixed point.  Since the
+first affine permutation is an involution, $a^2=1$.
+Modulo each odd prime power, $a$ is either $1$ or $-1$.
+Exactly one fixed point forces $a-1$ to be invertible, hence
+$a=-1$ modulo every prime power and therefore modulo $n$.
+The second affine permutation is then a translation; an
+involutive translation of an odd cyclic group is the identity,
+which has $n>1$ fixed points.  This contradiction proves the
+odd-$n$ assertion uniformly, strengthening D.020.
+
+Suppose now $n=2k$.  Reversal has no fixed points, and its
+centralizer in $S_n$ has order $c_n=2^k k!$.
+Let $S_n^{\rm aff}$ be the number of triples $(a,x,y)$ for which
+both affine maps in (D25.4) are fixed-point-free involutions.
+For each such triple there are exactly $c_n^2$ pairs $(p,q)$
+satisfying (D25.4).  Conversely, each outer-fixed inner class
+contains $n^2\varphi(n)$ pairs, each with exactly one such triple.
+Consequently
+\[
+ F_n=\frac{S_n^{\rm aff}c_n^2}{n^2\varphi(n)}.           \tag{D25.5}
+\]
+We compute $S_n^{\rm aff}$ by the Chinese remainder theorem.
+At an odd prime power $\ell^b\Vert m$, the slope has two choices
+$\pm1$.  If it is $1$, the involution condition forces $x=0$
+and permits all $\ell^b$ choices of $y$; if it is $-1$ the roles
+are reversed.  Both affine involutions always have fixed points
+on this odd-primary factor.  Multiplying these contributions gives
+$m2^{\omega(m)}$.
+
+On $\mathbb Z/2^a$, fixed-point-freeness of the first map means
+\[
+ (a_0+1)x=0,\qquad x\notin(a_0-1)(\mathbb Z/2^a),
+\]
+where $a_0$ denotes its slope (to distinguish it from the exponent
+$a$); the second condition is obtained by replacing the slope by
+$-a_0$.  For $a=1$ there is one slope and one admissible pair of
+translations.  For $a\ge2$, the slopes $a_0=1,-1$ each yield
+$2^{a-1}$ pairs: the translation of the slope-one map is the
+unique nonzero element of order two, and that of the slope-minus-one
+map is odd.  For $a\ge3$ the only other roots of $a_0^2=1$ are
+$1+2^{a-1}$ and $-1+2^{a-1}$; in either case the first displayed
+condition already forces $x$ into the forbidden image, so they
+contribute zero.  A product of affine involutions is fixed-point-free
+exactly when at least one primary factor has no fixed point;
+here only the $2$-primary factor can do so.  It follows that
+\[
+ S_n^{\rm aff}=
+ \begin{cases}
+ n2^{\omega(m)},&4\mid n,\\
+ (n/2)2^{\omega(m)},&n\equiv2\pmod4.
+ \end{cases}
+\]
+Substitution into (D25.5) proves (D25.1).
+
+The finite checks are exhaustive over all pairs for $A_2,A_3,A_4$,
+and independently count the affine involutions just used:
+\begin{verbatim}
+A2: 36 pairs; 18 normalizer elements; 2 classes; C2:0; trivial:2.
+A3: 576 pairs; 32 normalizer elements; 18 classes; C2:8; trivial:10.
+A4: 14400 pairs; 100 normalizer elements; 144 classes; C2:0; trivial:144.
+\end{verbatim}
+The program and full representatives are
+\path{agents/lie_theory/code/type_a_outer_stabilizers.py} and
+\path{agents/lie_theory/logs/type_a_outer_stabilizers.json};
+the timing and output are in the corresponding text log.
+These finite checks supplement the uniform proof, which handles
+all ranks rather than extrapolating from these three cases.
+\end{proof}

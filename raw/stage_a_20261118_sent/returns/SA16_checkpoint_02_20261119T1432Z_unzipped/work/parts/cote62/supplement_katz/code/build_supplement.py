@@ -1,0 +1,60 @@
+"""Serialize manually authored research outcomes and independent review events."""
+from pathlib import Path
+import json,csv
+P=Path(__file__).resolve().parents[1]
+summaries={
+1:('Primary Katz PDF; search1 across follow-up literature','Opened Katz publication metadata; located the exact question, an institutional thesis lead, and a generated-answer site.','Generated prose was not accepted as evidence of a solution.'),
+2:('Katz primary PDF; thesis and MathOverflow retrieval attempts','Read the complete Lemma4.0.7/Question4.0.8 passage and located Lemma1.3.6.','Bouillot PDF timed out. A provisional MathOverflow URL failed; the correct URL was subsequently found inS62K-003.'),
+3:('Search2 across MathOverflow, Numdam and institutional sources','Located the correct2010 MathOverflow question and Bertrand1978 primary paper. The UQ answer search result exposed model provenance.','Search snippets alone do not establish present open status or a positive theorem.'),
+4:('MathOverflow and UQ opened pages; search1 bibliography follow-up','Read the unanswered exact2010 question and the full UQ generated answer, including GPT-5 provenance and lack of human verification. Located Waldschmidt primary PDF.','Numdam article-style PDF URL failed; item-style route succeeded next.'),
+5:('Numdam Bertrand primary PDF; author Waldschmidt primary PDF','Opened Bertrand1978 and Waldschmidt2004. Read publication dates and relevant surrounding mathematical discussion.','Bouillot retry returned502; no thesis content is attributed.'),
+6:('Exact primary PDF passage finding; search1 with recent filter','Located Bertrand §6 Conjecture3 and Waldschmidt p277 exact Katz question. Searched recent phrasing of the algebraic antiholomorphic splitting.','Recency metadata sometimes reflects crawling rather than publication; dates are taken from the primary title pages.'),
+7:('Search2 across related almost-holomorphic modular literature','Located Haden Spence’s2018 Ax–Lindemann/André–Oort paper.','Many hits concerned unrelated Katz conjectures; none was assigned as a solution.'),
+8:('Search1 across arXiv, zbMATH, Numdam; retrieval attempts','Searched precise transcendence formulations and followed Spence, Bouillot and institutional-thesis leads.','Legacy Spence PDF failed; Bouillot502 and Canadian thesis404. These are access failures, not negative theorem evidence.'),
+9:('Numdam publication metadata; arXiv discovery; author bibliographies','Verified Spence title, author,2018 volume/pages,2019 online date, and exact arXiv identifier.','Local Bouillot request separately returned503 in7.50seconds; saved program/output records the failure.'),
+10:('arXiv metadata; search1 current and exact formulation queries','Verified Spence submission2016 and final revision2017; searched exact Katz converse excluding generated-answer domains.','Publisher PDF403; successful Numdam DOI-based PDF was opened next.'),
+11:('Primary published Spence PDF; primary Bertrand and Waldschmidt passages','Opened the published Spence paper and reread Bertrand Conjecture3 and Waldschmidt exact question with surrounding text.','Spence arXiv PDF has a later TeX rendering date; publication/circulation dates are kept distinct.'),
+12:('Spence primary PDF formula and theorem audit','Read definitions ofχ,χ*,E2* and Ax–Lindemann theorem scope.','Positive-dimensional functional statements are not an arithmetic classification of individual algebraic values.'),
+13:('Spence primary PDF exact main theorem and proof context','Read Theorem5.8 as finiteness of maximal special subvarieties, its definitions/context and Proposition5.5.','The theorem does not assert that every algebraic pair(j,χ*) is special; no Katz resolution is inferred.'),
+14:('Primary PDF page-image requests','Requested Katz pp467,501 and Bertrand p36-10 page images; the tool returned page references for the exact question/conjecture pages.','The Katz p467 image request timed out. The retained mathematical audit relies on the already opened primary text, not a claimed new visual adjudication. No manuscript image was involved.'),
+15:('Search1 current primary-source filter; zbMATH; arXiv bibliography','Repeated exact deRham/CM and lattice-transcendence searches with current filters; checked Waldschmidt2003/2004 version history.','zbMATH1441.11164 inaccessible. No verified new solution identified; this does not prove absence from all literature.')}
+rows=[]
+for n,(repo,evidence,limits) in summaries.items():
+    md=json.loads((P/'outputs'/f'web_{n:03d}.json').read_text())
+    rows.append(dict(search_id=f'S62K-{n:03d}',date='2026-11-19',repository=repo,query=json.dumps(md['args'],ensure_ascii=False,sort_keys=True),returned_evidence=evidence,claim_ids='C-SA16-845'+(';C-SA16-843' if n in [1,2,14] else '')+(';C-SA16-848' if n in [11,12,13] else ''),problem_ids='MP-SA16-266',artifacts=f'outputs/web_{n:03d}.json',limits=limits))
+with (P/'search_log.tsv').open('w',newline='') as f:
+    w=csv.DictWriter(f,fieldnames=list(rows[0]),delimiter='\t');w.writeheader();w.writerows(rows)
+
+refs=[]
+def R(key,author,title,year,url,loc,scope,typ='article',note='verified',**extra):
+    refs.append(dict(key=key,type=typ,author=author,title=title,year=year,url=url,locators=loc,verification_scope=scope,note=note,urldate='2026-11-19',**extra))
+R('Katz1976','Nicholas M. Katz','p-adic interpolation of real analytic Eisenstein series','1976','https://web.math.princeton.edu/~nmk/old/padicinterp.pdf','Lemma1.3.6, printedpp467--468; Lemma4.0.7 and Question4.0.8, p501','Exact Hodge-line statement, CM projector proof and converse question opened. General deRham-to-Betti rationality equivalence is not asserted.',journal='Annals of Mathematics',volume='104',number='3',pages='459--571')
+R('Bertrand1978','Daniel Bertrand','Fonctions modulaires, courbes de Tate et independance algebrique','1978','https://www.numdam.org/item/SDPP_1977-1978__19_2_A10_0.pdf','Section6, Conjecture3, printedp36-10; Section3 context','Exact reformulation of Katz4.0.8 as a conjecture read; no claim that this1978 source resolves the question.',journal='Seminaire Delange-Pisot-Poitou, Theorie des nombres',volume='19',number='2',pages='1--11',expose='36',lecture_date='1978-04-03')
+R('Waldschmidt2004','Michel Waldschmidt','Open Diophantine Problems','2004','https://webusers.imj-prg.fr/~michel.waldschmidt/articles/pdf/ODP-MoscowMathJ.pdf','Printedp277 (PDFindex32), unnumbered Katz question following Conjecture3.22','Exact non-CM algebraic-invariants/G2star transcendence question read. Historical status2004 is separated from2026 search coverage.',journal='Moscow Mathematical Journal',volume='4',number='1',pages='245--305',circulation='arXiv math/0312440 submitted2003-12-24, revised2004-01-24',arxiv_url='https://arxiv.org/abs/math/0312440')
+R('Spence2018','Haden Spence','Ax--Lindemann and Andre--Oort for a Nonholomorphic Modular Function','2018','https://www.numdam.org/item/10.5802/jtnb.1048.pdf','Definitions pp745--746; Theorem4.9 p763; Theorem5.8 pp776--777','Exact theorem scope read: finiteness of maximal special subvarieties and positive-dimensional functional statements. It does not classify every algebraic(j,chi-star) point.',journal='Journal de theorie des nombres de Bordeaux',volume='30',number='3',pages='743--779',doi='10.5802/jtnb.1048',circulation='arXiv1607.03769 submitted2016-07-13, revised2017-10-24',online_date='2019-03-29')
+R('MOHodgeCM2010','Andrea Mori','Cohomological characterization of CM curves','2010','https://mathoverflow.net/questions/13681/cohomological-characterization-of-cm-curves','Question posted2010-02-01 and comments2010-02-02; no answer visible on2026-11-19','Read as an exact-question/status lead, not as primary mathematical proof.',typ='misc')
+R('UQGeneratedAnswer2025','GPT-5; UQ Project','Generated answer to Cohomological characterization of CM curves','2025','https://uq.stanford.edu/answer/4de810d2-ef1c-49ab-aafc-6fd9df53dd1e','Page provenance lines6--24, claimed equivalence lines31--43, human-review status lines59--79','Provenance verified, mathematical answer rejected: it conflates deRham and Betti structures and gives an overbroad Hodge criterion. This record is not a positive reference for Katz’s converse.',typ='misc',note='verified',publication_date='2025-09-02')
+R('BouillotUnverified','Olivier Bouillot','Master thesis containing Autour d un probleme de Katz','n.d.','https://www-igm.univ-mlv.fr/~bouillot/OB_memoireM2.pdf','Search lead to chapter5 only; body not opened','Web timeout/502 and local503. Title, date and precise assertions unverified; not used for a mathematical fate.',typ='misc',note='unverified')
+(P/'reference_registry.json').write_text(json.dumps(refs,ensure_ascii=False,indent=2)+'\n')
+bib=[]
+for r in refs:
+    fields={k:v for k,v in r.items() if k not in ['key','type']}
+    bib.append('@'+r['type']+'{'+r['key']+',\n'+',\n'.join('  '+k+' = {'+str(v).replace('{','\\{').replace('}','\\}')+'}' for k,v in fields.items())+'\n}')
+(P/'references.bib').write_text('\n\n'.join(bib)+'\n')
+
+who='GPT-6 Astra Pro; effort inherited/unspecified; run SA16-2026-11-19-cote62; independent parent-proof review'
+events=[]
+def E(id,typ,outcome,artifact):events.append(dict(statement_id=id,date='2026-11-19',who=who,type=typ,outcome=outcome,artifact=artifact))
+E('C-SA16-843','targeted proof check','Reviewed the parent’s period convention and solved normalization; the shift coefficient and real-structure coefficient are different. Review concerns hodge_proof.md, not a new manuscript reading.','review.md; Katz1976')
+E('C-SA16-844','targeted proof check','Every Fourier sign, tail, monotonicity and modular fixed-point step of the parent’s zero-locus proof checked; proof passes on the closed fundamental domain.','review.md; code/check_review.py; outputs/check_review.json')
+E('C-SA16-844','computation or formal certificate','Independently executed the rational exponential Taylor lower bound, tail factor and derivative bound189/100<3; all exact assertions passed.','code/check_review.py; outputs/check_review.json')
+E('C-SA16-847','targeted proof check','Detected lower-right sign error in the checking matrix, communicated it, and verified the parent’s repair to+abar. Scalar sign refutation and actual elliptic counterexamples remain valid. This is not an adjudication of ink.','review.md; work/outputs/c63_hodge_initial_matrix_error.json; work/outputs/c63_hodge.json')
+E('C-SA16-847','computation or formal certificate','Old general matrix residual is nonzero; corrected matrix has exactM*Mbar=I, detM=1 and4rho*sigma=a*abar−1. Independent script asserts all three.','code/check_review.py; outputs/check_review.json')
+E('C-SA16-848','targeted proof check','Tracked arbitrary first-period and frame scaling. The ratioa^6/D differs fromE2star^6/Delta by an explicitly positive real factor, proving the phase formula and root-choice independence.','review.md; code/check_review.py; outputs/check_review.json')
+E('C-SA16-845','used and rechecked in this run','Opened exact Katz question, Bertrand1978 Conjecture3, Waldschmidt2004p277 and Spence2018 main theorem. No verified resolution of the exact converse identified in the15 logged batches; current-status exhaustiveness remains medium confidence.','review.md; search_log.tsv; references.bib')
+E('C-SA16-845','targeted proof check','Rejected a generated positive answer’s deRham/Betti substitution. Independently checked its overbroad abstract Hodge criterion againsttau=i*cuberoot2, whose torus hasEnd=Z. This does not refute Katz’s algebraic-model conjecture.','review.md; code/check_review.py; outputs/check_review.json; UQGeneratedAnswer2025')
+for r in refs:
+    E(r['key'],'carried as background without fault found' if r['note']=='unverified' else 'used and rechecked in this run',r['verification_scope'],'reference_registry.json; search_log.tsv')
+with (P/'check_events.tsv').open('w',newline='') as f:
+    w=csv.DictWriter(f,fieldnames=list(events[0]),delimiter='\t');w.writeheader();w.writerows(events)
+print('supplement search batches',len(rows),'references',len(refs),'events',len(events))

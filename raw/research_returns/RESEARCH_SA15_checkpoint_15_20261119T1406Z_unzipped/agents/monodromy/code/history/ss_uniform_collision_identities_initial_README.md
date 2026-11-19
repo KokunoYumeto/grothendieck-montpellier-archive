@@ -1,0 +1,3 @@
+Original executed certificate version
+
+This is the exact source version initially executed at the canonical path agents/monodromy/code/ss_uniform_collision_identities.py, reconstructed from the retained initial tool patch after its final branch assertion was strengthened. Author initial runtime: 0.1605261920049088 seconds; root initial runtime: 0.19831534900004044 seconds. The final h*T+v*F equality was tautological; the actual elliptic addition coefficients were already checked. The later canonical version replaces that one assertion with substitution into the source section and its translated branch, and retains all earlier checks. When reproducing the original execution use its original __file__ path and redirect the output to preserve existing author bytes.

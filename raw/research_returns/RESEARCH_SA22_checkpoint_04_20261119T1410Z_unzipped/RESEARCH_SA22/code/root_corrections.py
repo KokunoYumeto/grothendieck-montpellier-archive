@@ -1,0 +1,26 @@
+"""Record exact input locators for root-owned mathematical corrections."""
+from pathlib import Path
+import csv,json,time,re
+T=time.perf_counter();R=Path(__file__).resolve().parents[1];W=R.parent
+P='upload/PROMPT(20261119-110314).md';S='inputs/RESEARCH_SA22_study/study/'
+rows=[
+(P,'122; 158-161','L2 and A1: global surgery isomorphisms, with unrestricted node tensors','Refuted for every positive-complexity stable type; q=17 violates cap-product bound16 in type(0,4). Exact repaired support image, tangent and fundamental-group maps are proved; local plumbing cannot give a global inverse.','A1-global-refutation; A1-graph-range'),
+(P,'123; 167','Canonical cusp norm and decoration bundle','Norm is canonical up to unit rotation; arbitrary decoration sizes are horocycles in the cusp cover with possibly immersed images. Boundary lengths trivialize the grafting bundle; tangent-shadow radii have a coupled bounded image.','A2-cusp-norm; A4-grafting; A2b-image'),
+(P,'124; 166','L4: a growing boundary gives Koebe slit domain','A fixed pointed compactification and relative growth direction must be specified. Single dominant end gives Koebe; equal weights give orange caps; two equal active ends give half-planes.','A2-cap-limit; A2-explicit-limits'),
+(P,'125; 169','L5: smooth boundary gluing suffices','Smooth diffeomorphisms, or analytic arclength reversal at geodesic seams, give QS welding; a merely smooth homeomorphism can have flat derivative. Arbitrary analytic embedded cuts still need the distinct toric compatibility.','A3-L5; A1-nontoric-cut'),
+(S+'HUNCHES.md','55-72','H22-6 cusp/decorations and unbounded tangent-disc picture','Cusp normalization is proved; length bundle and bounded, coupled shadow image are distinct. Exact support inequalities replace a product of arbitrary tangent radii.','A2-cusp-norm; A2b-image; A4-grafting'),
+(S+'HUNCHES.md','74-84','H22-7 programme stands as written after smooth gluing','Welding regularity does not supply the missing toric property or global-surjectivity claim. Distinguish smooth diffeomorphisms, arbitrary cuts, geodesic seams, and unrestricted tensor targets.','A3-L5; A1-nontoric-cut; A1-global-refutation'),
+(S+'HUNCHES.md','140-154','One long boundary and two fixed cusps approach the Koebe slit','Confirmed in its stated fixed-pants normalization; full weighted limiting theorem supplies proof and identifies different simultaneous-growth limits.','A2-cap-limit; A2-explicit-limits'),
+(S+'STUDY.md','303-312','Capping conjecture and cusp interpretation','Boundedness correction is confirmed; injectivity and complete joint image now proved by moving-seam energy and weighted support theorem. Independent radius upper bounds alone do not determine image.','A2b-energy; A2b-image; A2-nonbox'),
+(S+'STUDY.md','317-331','Section6 dimensions and open global-isomorphism question','Dimensions independently rechecked but do not imply isomorphism. The literal global claim is refuted; type(0,3) is treated separately, including automorphisms.','A1-dimensions; A1-global-refutation; A1-zero'),
+(S+'STUDY.md','409-423','Peripheral marking and orange-model/quarter-bound corrections','Independently confirmed with explicit free-group automorphism, exact annulus contradiction and full quarter-theorem proof; input attribution to Michel Hua\'s project retained.','A1-dimensions; A1-cap-bound; A4-orange-extremal'),
+(S+'CORRECTIONS.tsv','2','Welding existence needs quasisymmetry','Quasisymmetry is sufficient, not necessary. Specify vertex and doubled-tip compatibility and actual removable seams.','A3-welding; A3-graph; A3-slit'),
+(S+'CORRECTIONS.tsv','21-23','Markings, orange refutation, bounded shadows','Confirmed; exact coupled radius image and strongest corrected asymptotic model added.','A1-dimensions; A4-orange-extremal; A2b-image; A2-explicit-limits'),
+(P,'168','Collar question of letter021','Unique exact nonlinear boundary-value relation proved for arbitrary smooth collars. Nonnegative outward curvature implies pointwise increase; unrestricted collar monotonicity refuted by n=10000,epsilon=10^-14 analytic collar.','A2-collar-general; A2-collar-explicit')]
+for path,span,*_ in rows:
+ text=(W/path).read_text();n=len(text.splitlines())
+ for x in re.findall(r'\d+',span):assert 1<=int(x)<=n,(path,span,n)
+with (R/'checks/root_corrections.tsv').open('w',newline='') as f:
+ w=csv.writer(f,delimiter='\t');w.writerow(['input_file','input_lines','claim_or_reading','correction','statement_ids']);w.writerows(rows)
+out={'rows':len(rows),'path_and_line_endpoints_checked':True,'seconds':time.perf_counter()-T}
+(R/'code/root_corrections_output.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps(out))

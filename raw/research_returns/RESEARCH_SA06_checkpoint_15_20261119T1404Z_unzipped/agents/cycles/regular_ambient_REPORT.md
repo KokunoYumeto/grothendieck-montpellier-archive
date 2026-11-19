@@ -1,0 +1,11 @@
+# C.3ah: regular ambient Calabi–Yau counterexamples
+
+The complete typed proof is `regular_ambient_calabi_yau.tex`. For every (r\ge1), it specifies a regular strictly henselian complex local ring of dimension (N=r+2), namely the strict henselization of affine space at the origin, and the Fermat equation of degree (r+2). The punctured divisor is the strict-local cone on the Fermat Calabi–Yau (r)-fold. Its specified geometric generic point minus a specified algebraic point survives the hyperplane quotient rationally, by the diagonal-support argument already proved in C.3s. C.3e transfers it to a non-torsion ordinary algebraically trivial target class. The source Chow group vanishes integrally by Skalit, Corollary 6.4(i), author p. 27, freshly reopened in full.
+
+This closes the previously unlisted dimension-four case for (J^2). Together with C.3r at dimension five, the independently audited C.3ag at dimension six, and C.3ae in every dimension at least seven, ordinary rational (J^2) restriction is universally surjective over (mathbb C) exactly in dimensions (N\le3). In those dimensions the target group is zero. Higher degrees still require their separately stated dimension ranges.
+
+The root read the entire typed proof and authorized integration. `/root/real_weil` independently checked the final typed proof and combined dimension table, passing at 09:18:25 UTC after freshly opening Skalit Corollary 6.4(i) and its proof. No new external theorem beyond the already opened source is imported; the existing canonical bibliography key is `rootSkalit2017`.
+
+The exact finite certificate `code/check_regular_ambient_calabi_yau.py` checks twelve dimensions, all gradients, the point equations, the hyperplane support, and adjunction. It ran in **0.22352465400035726 seconds**. It does not prove the non-torsion step, which is supplied by the written all-dimensional argument. JSON and stdout are retained under `output/`.
+
+The standalone four-pass build is `output/C3ah_check.pdf`. Its first pass exposed a routine alignment typo; the repaired build has no undefined citations, errors or overfull boxes. The successful build took **2.479470054000558 seconds**. Both the initial failed log and all successful logs are retained by `code/compile_regular_ambient_calabi_yau.py`.

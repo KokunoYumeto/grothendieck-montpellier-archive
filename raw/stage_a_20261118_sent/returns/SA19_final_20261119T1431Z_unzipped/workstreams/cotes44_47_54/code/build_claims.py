@@ -1,0 +1,525 @@
+"""Serialize the individually read and individually researched mathematical claims.
+All content below is hand-authored; the helper only maintains the required schema.
+"""
+from pathlib import Path
+import json,collections
+ROOT=Path(__file__).resolve().parents[1]
+C=[]
+def claim(n,items,cote,scans,lines,his,statement,status,comp,cl,fate,date,present,refs,confidence='high'):
+    C.append(dict(id=f'CL-SA19-{n}',items=[f'SA19-{i}' for i in items],cote=str(cote),scans=scans,lines='Original mixed-package transcription: '+lines,his_statement=his,statement=statement,status_on_pages=status,computation=comp,**{'class':cl},fate=fate,fate_date=date,present_status='As of 19 November 2026: '+present,refs=refs,confidence=confidence))
+formal='Formal calculation redone in computations.md; no numerical experiment is substituted for a proof.'
+none='No separate numerical computation. The proof or scope audit is recorded in computations.md.'
+
+claim(401,[201],47,[3,4],'2087–2108;2142–2153;2167–2215',
+ 'φ_L transforme produit de Pontryagin * en produit ordinaire; cqfd.',
+ 'For an abelian scheme A/S and a normalized fibrewise algebraically trivial line bundle L on A×_S X, the Fourier integral transform on perfect complexes satisfies Φ_L(F*G)≅Φ_L(F)⊗^LΦ_L(G). The map X→A^∨ classifies L, and the result is pulled back from the Poincaré case. Proper smooth pushforwards and the displayed base changes preserve the required perfect complexes.',
+ 'proved there: scan 4 gives the base-change/projection/Künneth calculation, conditional on standard formalism',formal,'B',
+ 'Mukai1981 §3 formula(3.7) proves the field case. Laumon1996 Cor1.3.3 gives the relative product identities, with locally noetherian base. Stacks0DJT gives perfect pushforward/arbitrary base change for flat proper finitely presented maps. Local finite-presentation descent extends the natural perfect-complex identity to a general scheme base; this last extension is our reconstruction, not a quoted Laumon hypothesis.',
+ 'Mukai received 9 October 1979; published 1981. Laumon text based on September 1985 preprint, arXiv 5 March 1996.',
+ 'Established relative identity; the entry’s description as unproved understates the manuscript.', ['Mukai1981','Laumon1996','Stacks0DJT'])
+claim(402,[202],47,[3],'2113–2140',
+ 'π:P×Q→R; (π×id)^*L ≃ pr_13^*L′⊗pr_23^*L″',
+ 'With three kernels and a specified multiplicative kernel isomorphism, projection/base-change identities induce a binary transform compatibility, provided tensor products and pushforwards are defined and proper on the support. For unbounded D_qcoh one additionally needs the applicable projection/base-change hypotheses. Associativity and unit coherence are extra data.',
+ 'proof sketched in the margin; broad unbounded/support formulation not fully specified',formal,'C',
+ 'The kernel-composition formalism is established (Stacks0FYP, in particular the composition construction and its properness/perfectness hypotheses; Laumon1996 §1.3 for abelian schemes). A full coherent monoidal extension for arbitrary marginal kernels is not a theorem identified on these pages: the source only supplies binary data. Searches in arXiv and the derived-kernel references are recorded in search_001,012.',
+ '1981 field Fourier formalism; 1985/1996 relative formulation; current Stacks reference accessed 2026.',
+ 'Binary statement established with stated categorical hypotheses; the unrestricted/coherent formulation remains underspecified.', ['Mukai1981','Laumon1996','Stacks0FYP'],'medium')
+claim(403,[203],47,[4,5,6],'2217–2224;2228–2235;2258–2276;2326–2330',
+ 'Ls_A^* suivi de τ_A[-n]',
+ 'For dual abelian schemes A,B/S of relative dimension g with normalized Poincaré bundle P, Φ_{P^t}Φ_P(F)≅(−1_A)^*F⊗π_A^*det(Lie A)[−g]. The anti-diagonal kernel is the graph of inversion.',
+ 'corrected by himself later: the initial identity is replaced by inversion and then by determinant twist/shift; the old identity target persists at lines2258–2260; proof depends on an explicitly unfinished lemma',formal,'B',
+ 'Mukai1981 Thm2.2 gives inversion and shift over an algebraically closed field; Laumon1996 Thm1.2.4 gives the base determinant factor. Both the kernel and shift match after τ_A=ω_A^{-1}. The residual identity in the manuscript proof is not retained as a valid second conclusion.',
+ '1979 received/1981 publication; relative preprint1985, arXiv1996.',
+ 'Corrected theorem established. No date is inferred for the undated cote47 from the later publication.', ['Mukai1981','Laumon1996'])
+claim(404,[203],47,[5,7],'2228–2235;2358–2376',
+ 'τ_A≃Λ^n t_A≃Λ^n t_B',
+ 'The determinant lines det(Lie A) and det(Lie A^∨) are canonically identified for an abelian scheme; equivalently the top invariant differential lines of A and A^∨ agree.',
+ 'stated without proof; used to identify the relative inversion twist',none,'B',
+ 'Laumon1996 Lemma1.1.3 states the canonical isomorphism of the two Hodge determinant lines and its proof, before the inversion theorem. It is an isomorphism of line bundles on the base, not a chosen trivialization.',
+ 'Relative text1985; arXiv1996.',
+ 'Established; it does not make τ trivial in K_0(S).',['Laumon1996'])
+claim(405,[203],47,[4,5],'2217–2224;2228–2235',
+ 'φ_L′∘φ_L = (−1)^n s_A^* on K(A)',
+ 'The general-base K-theory formula must be Φ^K_{P^t}Φ^K_P(x)=(−1)^g[π_A^*τ_A](−1_A)^*x. The untwisted displayed formula follows if τ_A has class1, for example after a chosen trivialization over a field.',
+ 'corrected in the derived theorem but not visibly propagated to the preceding K-theory formula',
+ 'A shift [−g] multiplies K_0 class by (−1)^g; a line bundle has rank1 but need not have class1. Redone symbolically from CL403.', 'B',
+ 'Direct K-theoretic consequence of the verified Laumon1996 Thm1.2.4. The source’s general-base omission is a real missing factor, even though it disappears over a field. A fully explicit nontrivial-family K_0 counterexample is not asserted here.',
+ '1985/1996 relative formula.',
+ 'Correct relative consequence established; unrestricted untwisted equality is unsupported and needs the stated extra condition.', ['Laumon1996'])
+claim(406,[203,205],47,[6,7,8],'2296–2309;2350–2377;2381–2393',
+ 'Rp_*P≃ε_*τ_{B∨}[−n]',
+ 'For the normalized Poincaré bundle on B×B^∨, its derived pushforward to B^∨ is e_*det(Lie B^∨)[−g]. It is supported scheme-theoretically at the zero section, with this twist and shift.',
+ 'proof sketched; the comparison map is constructed, but its unit-fibre compatibility is explicitly left open',formal,'B',
+ 'Laumon1996 Lemma1.2.5 is exactly this relative zero-section formula; Mukai1981 proof of Thm2.2 uses the field version. Support vanishing alone does not determine the derived object.',
+ '1979/1981 field;1985/1996 relative.',
+ 'Established exact formula; manuscript proof is not complete on its own.', ['Laumon1996','Mukai1981'])
+claim(407,[204],47,[7],'2334–2353',
+ 'L alg. équivalent à zéro, et non isomorphe à O_B; H^i(X,L)=0',
+ 'For an abelian variety B over an algebraically closed field, every nontrivial L∈Pic^0(B) has H^i(B,L)=0 for all i.',
+ 'stated without proof and explicitly admitted, with attribution to Mumford',none,'E',
+ 'Mumford1970, ChapterII §8(vii), p76, is the precise standard vanishing; the chapter postpones its characteristic-zero assumption until later. The source itself treats this as an already known lemma. The earliest circulation date of this particular lemma is not established by this audit.',
+ 'Known to the author on these pages; verified book publication1970, original lecture circulation not determined.',
+ 'Established in every characteristic, with algebraically closed field as stated. The unexplained X in the display is a reading alarm.', ['Mumford1970'])
+claim(408,[205],47,[7,8],'2350–2377;2381–2393',
+ 'à faire une vérification de compatibilité.....',
+ 'The particular map Rp_*P→e_*τ[−g] constructed from top cohomology must be checked on the derived zero fibre. The target fibre has cohomology Λ^{g−i}(Lie B^∨)^∨⊗det(Lie B^∨)≅Λ^i Lie B^∨ in degrees0..g; matching dimensions does not prove this map is an isomorphism.',
+ 'open on the pages: explicit compatibility check left for later',
+ 'outputs/computations.json:koszul_zero_section and computations.md §2 give the regular-immersion Koszul calculation and contraction isomorphism; perfect-cone criterion checked separately. No claim that the source comparison map was thereby checked.', 'B',
+ 'Laumon1996 Lemma1.2.5 supplies the complete result, while Stacks0621 and Stacks0G99 justify the Koszul and derived-fibre tests. The exact omitted step is known to be fillable, not filled by a dimension count.',
+ 'Relative proof1985/1996; modern formal references accessed2026.',
+ 'Closed in the relative Fourier theory; remains a manuscript-level proof gap.', ['Laumon1996','Stacks0621','Stacks0G99'])
+claim(409,[206],47,[6],'2280–2294;2312–2330',
+ 'si ψ est plat et surjectif… O_K est parfait sur C',
+ 'For ψ:C→B^∨ and the corresponding kernel N on B×C, Rpr_{C*}N≅Lψ^*(e_*τ[−g]). If ψ is flat, K=kerψ is the regular pullback of the zero section and the expression becomes O_K⊗τ[−g]; O_K is perfect. Without flatness the derived fibre retains higher Tor.',
+ 'proved there conditional on Lemma1; zero-section pushforward omitted in one display',formal,'B',
+ 'Derived base change applied to Laumon1996 Lemma1.2.5 proves this exact statement. Stacks0DJT verifies arbitrary derived base change for the proper flat kernel projection. Regular immersions are stable under flat base change.',
+ '1985/1996 relative result; present formalization accessed2026.',
+ 'Established with the flatness hypothesis in the written specialization. The missing e_* cannot be ignored.', ['Laumon1996','Stacks0DJT','Stacks0621'])
+claim(410,[207],47,[8],'2395–2399',
+ 'Φ_L(e_s)=L_s',
+ 'A skyscraper or section sheaf δ_s on A transforms to the restriction P_s on B, for an S-section s and a normalized Poincaré kernel.',
+ 'stated without proof',formal,'B',
+ 'Direct restriction/projection calculation, compatible with Mukai1981 §3 translation identities and Laumon1996 Prop1.3.1. Our check evaluates the integral kernel on the graph of s.',
+ '1979/1981 field;1985/1996 relative.',
+ 'Established section formula.', ['Mukai1981','Laumon1996'])
+claim(411,[207],47,[8],'2399–2403',
+ 'L_t … τ[−n]e_{−t}; Φ_L(F)*e_t',
+ 'Φ(P_t)=τ⊗δ_{−t}[−g]. With T_t(b)=b+t, Φ(F⊗P_t)=T_t^*Φ(F); convolution by δ_u is T_{−u}^*. Hence the last displayed convolution factor must be δ_{−t} under these conventions.',
+ 'stated without proof; two written formulas have inconsistent signs under the preceding conventions',
+ 'outputs/computations.json:translation_signs; direct evaluation of m(x,u)=x+u and kernel additivity.', 'B',
+ 'Mukai1981 formula(3.1) and Laumon1996 product/inversion formulas agree with the convention-fixed reconstruction. The plus sign could reflect an unrecorded convention or a reading slip; ink is not decided.',
+ '1979/1981 and1985/1996.',
+ 'Correct sign relation established; source’s final e_t goes to scan review.', ['Mukai1981','Laumon1996'])
+claim(412,[207],47,[8],'2404–2406',
+ 'échange entre rang et χ, au facteur (−1)^n près',
+ 'For perfect F on an abelian variety over a field, rank Φ(F)=χ(F) and χ(Φ(F))=(−1)^g rank(F). These are virtual ranks/Euler characteristics when Φ(F) is a complex.',
+ 'stated without proof',
+ 'First identity follows by fibre Euler characteristic and algebraic equivalence of Poincaré twists; second by applying the first twice and CL403. outputs/computations.json:translation_signs.', 'B',
+ 'Mukai1981 inversion gives the second relation; his index-theorem discussion and the relative kernel formula give the first. No assertion about the rank of an individual cohomology sheaf is made.',
+ '1979/1981.',
+ 'Established virtual invariant identities.', ['Mukai1981'])
+claim(413,[207,208],47,[8,9],'2408–2423',
+ 'Pic_A→Pic_B; δ↦−δ′; tildeδ′ tildeδ=−χ(δ) id_A',
+ 'The determinant of Φ(L) defines a Picard/NS operation. For a nondegenerate line bundle on an abelian variety over a field, the homomorphism attached to det Φ(L) is the signed cohomological adjugate of φ_L, so its composite with φ_L is −χ(L) id after the manuscript’s duality conventions are fixed. For ample L this follows by pulling back Φ(L) under φ_L.',
+ 'stated without proof; the notation δ′ and tilde identifications are not fully defined locally',
+ 'In the ample case φ_L^*Φ(L)≅H^0(L)⊗L^-1 implies φ_L^*detΦ(L)≅L^-χ(L); translating φ for pullbacks gives the adjugate relation. Full convention audit in computations.md.', 'C',
+ 'Mukai1981 Prop3.11 verifies the precise pullback identity (indeed for any nondegenerate line bundle with its index). It supports the determinant consequence, but does not identify the source’s integral Picard functor map over an arbitrary base or choose all tilde conventions.',
+ '1979/1981.',
+ 'Field/nondegenerate determinant relation established; manuscript’s arbitrary-base notation needs specification.', ['Mukai1981'],'medium')
+claim(414,[208],47,[9],'2425–2447',
+ 'Heuristiquement… χ exp(−D′/χ)',
+ 'For ample L on an abelian variety over an algebraically closed field, r=χ(L)>0 and E=Φ(L), with D′=−c1(E), one has ch(E)=r exp(−D′/r) in CH(A^∨)_Q. The formula is an identity of Chern characters, not the existence of a fractional line bundle.',
+ 'open on the pages: heuristic for any L with χ≠0 over a general base',
+ 'Mukai pullback splits E as r copies of L^-1; finite flat φ_L pullback is injective on rational Chow, and determinant supplies φ_L^*D′=r c1(L). This is the exact proof of the displayed exponential in the ample field case.', 'C',
+ 'Mukai1981 Prop3.11 proves the splitting for nondegenerate line bundles, retaining their index and virtual sign. Beauville1983 gives the rational Chow Fourier setting. General-base Todd/determinant factors require the relative formulas rather than this unqualified exponential.',
+ '1979/1981;1982 conference/1983 publication.',
+ 'Proved in the stated ample field formulation; unrestricted manuscript version is not thereby settled.', ['Mukai1981','Beauville1983'])
+claim(415,[209],47,[9],'2449–2465',
+ '(1−D′/χ)^χ followed by expanded c2,c3 with one fewer χ in the denominator',
+ 'For r≠0 the coefficient of D′^k in (1−D′/r)^r is (−1)^k(r−1)…(r−k+1)/(k!r^(k−1)). The literal expanded formulas have an extra factor r and are false even for an ample line bundle on a complex abelian surface.',
+ 'false as stated in the expanded coefficients; generating expression has the correct coefficients; a scan ambiguity remains',
+ 'outputs/computations.json:chern_coefficients,elliptic_product. Counterexample: E1×E2/C, L of degrees(1,2), r=2, chΦ(L)=(1−θ1)(2−θ2), D′=2θ1+θ2, D′²=4θ1θ2, c2-number1 versus literal2. Every geometric hypothesis of the ample field claim holds.', 'B',
+ 'The corrected coefficient is the splitting-principle identity (Stacks02UM) combined with Mukai1981 Prop3.11. This run redoes the earlier run’s proposed computation and geometric counterexample; no historical publication of this particular arithmetic slip is claimed.',
+ 'Established Chern-class formalism predates the manuscript; counterexample rechecked19November2026.',
+ 'Literal expanded coefficient refuted; refined statement is the displayed generating series with the coefficients recorded here.', ['Mukai1981','Stacks02UM'])
+claim(416,[210],47,[9],'2463–2468',
+ '((χ−1)…/(k!χ^(k−2)))δ′^k provient d’un cycle à coeff. entiers',
+ 'In the ample field setting of CL414, the final manuscript coefficient equals (−1)^k r c_k(E), so it has an integral algebraic-cycle lift after passage to rational Chow or cohomology.',
+ 'stated without proof; survives the preceding erroneous Chern coefficient under a weaker interpretation',
+ 'outputs/computations.json:chern_coefficients verifies symbolically that the coefficient is (−1)^k r times the correct c_k for k1..6, with the general falling-factorial identity proved in computations.md.', 'B',
+ 'Mukai1981 gives the actual bundle E; its integral Chern classes supply the lift. This establishes the stated restricted consequence without requiring a full integral Fourier transform.',
+ '1979/1981 geometric input; explicit deduction rechecked2026.',
+ 'True restricted integrality statement; not a torsion-sensitive equality and not an unrestricted general-base theorem.', ['Mukai1981','Stacks02UM'])
+claim(417,[211],47,[9],'2432–2468',
+ 'ces formules sont-elles bien vraies mod torsion?',
+ 'The manuscript asks for an integral/modulo-torsion meaning of its rational Fourier formulas, without fixing the filtration Gr. An individual transformed bundle has integral Chern classes, whereas preserving the entire integral Chow lattice modulo torsion is a stronger property.',
+ 'open on the pages',none,'C',
+ 'BeckmannDeGaay2023 Thm3.8 gives equivalent conditions for weak integral Fourier transforms; for a principally polarized variety with a symmetric ample representative these include Fourier preservation of CH/torsion and integrality of the minimal one-cycle. Their Question3.9 remains the general question in that setting. HasanEtAl2025 proves versions after inverting (2g+d+1)! under §4.3/§5 hypotheses, not a blanket integral theorem. Search includes arXiv updates through2026.',
+ 'Beckmann–deGaay first10February2022/published2023; Hasan etal first8July2024/published2025.',
+ 'Partly settled with precise coefficient/variety restrictions; source’s unspecified Gr cannot be identified automatically with these modern properties.', ['Beauville1983','BeckmannDeGaay2023','HasanEtAl2025'],'medium')
+claim(418,[212],47,[10],'2473–2484',
+ 'ch(x*y)=ch(x)*ch(y)·T; T=Todd(t_A)',
+ 'For an abelian scheme A/S in a rational intersection theory supporting GRR, ch(x*y)=(ch x*ch y)π_A^*Td(Lie A). Relative tangent of addition is the pullback of Lie A.',
+ 'proof sketched by Riemann–Roch',formal,'B',
+ 'GRR and the tangent calculation prove the formula; Stacks02UO and02UN supply the smooth proper RR/Todd formulas in their stated setting, while Moonen2026 §2 and HasanEtAl2025 §3 spell out the relative abelian-scheme bookkeeping. Arbitrary undefined Gr is not substituted by a Chow theory without assumptions.',
+ 'GRR1957 onward; current relative calculation2024 preprint/2026 volume.',
+ 'Established in the specified RR setting.', ['Stacks02UO','Stacks02UN','Moonen2026','HasanEtAl2025'])
+claim(419,[212],47,[10],'2486–2508',
+ 'ch(φ_L(x))=Ψ(ch(a|x)) T',
+ 'For P on A×_S B and Ψ(a)=pr_B*(exp(c1P)·pr_A*a), GRR gives ch Φ_P(x)=Ψ(ch x)π_B^*Td(Lie A). The source’s a|x and A×A instead of A×B are typing alarms.',
+ 'proof sketched by Riemann–Roch',formal,'B',
+ 'Moonen2026 §2.4 gives this exact relative GRR mechanism; Laumon1996 identifies the derived transform used. All classes are rational, on smooth finite-type bases covered by those references.',
+ 'Relative transform1985/1996; explicit Todd analysis2024/2026.',
+ 'Established with a defined rational intersection theory; transcription alternatives remain undecided.', ['Laumon1996','Moonen2026','Stacks02UO'])
+claim(420,[212],47,[10],'2514–2524',
+ 'Ψ(a*b)=Ψ(a)·Ψ(b)',
+ 'The cohomological/rational Chow Poincaré transform takes Pontryagin convolution to intersection product, with no parity sign in this direction.',
+ 'proved there by a retained calculation after a canceled attempt',
+ 'The two sides of derived multiplicativity have Chern characters T_A²Ψ(a*b) and T_A²Ψ(a)Ψ(b); invert the common Todd factor. See computations.md §4.', 'B',
+ 'Kleiman1968 Lemma2A12 is exactly the cohomological identity. Beauville1983 Proposition3(iii), p243, is the Chow version for complex abelian varieties; the relative theory is in Moonen2026/HasanEtAl2025. This is also why Kleiman’s printed lemma does not itself omit the converse sign.',
+ 'Kleiman1968; Beauville1982 conference/1983 publication.',
+ 'Established; no sign is needed in this direction.', ['Kleiman1968','Beauville1983','Moonen2026'])
+claim(421,[213,214],47,[11],'2529–2542',
+ 'φ_L(xy)=(-1)^n φ_L(x)*φ_L(y)ω_A; Ψ(ab)=(-1)^n Ψ(a)Ψ(b)T chω_A',
+ 'Derived tensor-to-convolution has twist ω_A[g]. Passing by GRR gives Ψ_A(ab)=(−1)^g(Ψ_A(a)*_BΨ_A(b))Td(Lie A)Td(Lie B)ch(ω_A). The extra factor equals Td(H1_dR(A/S)); it is1 under Moonen’s smooth-base hypotheses.',
+ 'derived formula stated; cohomological display has a missing output star and apparently omits one Todd factor',
+ 'outputs/computations.json:todd_identity and computations.md §4 independently retain both source/target tangent factors; Td(V)ch(detV^-1)=Td(V^∨).', 'B',
+ 'Laumon1996 Cor1.3.3 gives the derived identity. Moonen2026 Cor2.7(1) proves Td(H1_dR)=1 for an abelian scheme over a connected smooth finite-type scheme over a Dedekind ring; the separable-polarization assumption belongs to the stronger all-Chern-classes consequence, not this Todd assertion. Beauville1983 Prop3(iv) gives the field sign.',
+ '1985/1996 relative derived; Moonen first8July2024, online2024, volumeJanuary2026.',
+ 'Corrected relative formula established in the cited base setting; manuscript’s literal juxtaposition is not the convolution result.', ['Laumon1996','Moonen2026','Beauville1983'])
+claim(422,[215],47,[11],'2543–2548',
+ 'Kleiman… n’a pas tenu compte du facteur (-1)^n',
+ 'Historical allegation that Kleiman’s account omitted the parity factor in a Fourier/product formula.',
+ 'stated without proof or exact locator',none,'F',
+ 'Opened Kleiman1968 pp377–378: Lemma2A12 states convolution→cup, correctly without a sign; Remark2A13 says exp(u) is an algebraic isomorphism and discusses a star operator. These passages do not state the converse tensor→convolution formula to which (−1)^g belongs. No exact erroneous printed formula was identified by title/backward-reference searches. An allegation about a different convention cannot be confirmed from resemblance.',
+ 'Kleiman1968; cote47 date unknown.',
+ 'Unverified historical criticism, not an established error in Kleiman. The positive claim CL420 is verified.', ['Kleiman1968'],'medium')
+claim(423,[216],47,[11],'2550–2559',
+ 'Φ_L(check F⊗ω_A[n])≃Φ_L(F)^∨',
+ 'For ordinary derived dual F^∨, Φ_P(F)^∨≅Φ_{P^∨}(F^∨⊗ω_A[g])≅(−1_B)^*Φ_P(F^∨⊗ω_A[g]). The same-kernel written formula holds if check F is defined as (−1_A)^*F^∨.',
+ 'stated without proof; check F is not defined locally and one shift is uncertain',formal,'C',
+ 'Mukai1981 formula(3.8) and Laumon1996 Prop1.3.4 verify the inverse-kernel/inversion and dualizing shift. Stacks0BRT gives f!O=Ω^g[g] for smooth proper f in its noetherian framework. No reference licenses ignoring the inversion or inventing the local check convention.',
+ '1979/1981;1985/1996.',
+ 'Precise reconstructed duality established; literal notation remains underdetermined.', ['Mukai1981','Laumon1996','Stacks0BRT'])
+claim(424,[216],47,[11],'2563–2570',
+ 'compatibilité avec u et son transposé',
+ 'For a homomorphism u:A→A and dual u^∨:B→B, Poincaré functoriality exchanges pushforward along u with pullback along u^∨, and vice versa with the usual relative-dimension shift when applicable. For automorphisms this gives the equivariance intended by the page after specifying whether u.F means pushforward or pullback.',
+ 'stated without proof; actions undefined',formal,'C',
+ 'Laumon1996 Prop1.3.1 gives the precise homomorphism/push-pull formulas; Mukai1981(3.4) gives isogenies. The source’s action notation alone does not select one of these variance conventions.',
+ '1979/1981;1985/1996.',
+ 'Established functoriality, conditional identification of local notation.', ['Laumon1996','Mukai1981'],'medium')
+claim(425,[203],47,[5],'2237–2242',
+ 'Même énoncé avec D^b_qcoh',
+ 'The inversion equivalence extends from perfect or coherent bounded complexes to bounded quasi-coherent complexes under proper finite-cohomological-dimension and finite-Tor conditions; smooth proper abelian schemes meet these in the usual quasi-compact separated setting.',
+ 'marginal extension stated without proof',none,'B',
+ 'Laumon1996 §1.2 explicitly works with the indicated derived quasi-coherent categories and proves inversion by the kernel identity. Stacks0FYP gives the modern kernel framework. The arbitrary non-quasi-compact/unbounded marginal variant remains the separate CL402.',
+ '1985/1996.',
+ 'Established bounded quasi-coherent version in the stated framework.', ['Laumon1996','Stacks0FYP'])
+
+claim(426,[218,219],54,[3,5],'2611–2626;2685–2694',
+ 't_B=H1(A,O_A); H*(A,Ω*) est l’algèbre extérieure de sa partie de degré1',
+ 'For an abelian variety A with B=A^∨, Lie B=H1(A,O_A), Lie A^∨=H0(A,Ω1_A), and H^p(A,Ω_A^q)=Λ^pH1(A,O_A)⊗Λ^qH0(A,Ω1_A). Serre duality supplies the displayed top-cohomology identification of Lie A. Hodge–de Rham degenerates and gives 0→Lie A^∨→H1_dR(A)→Lie B→0.',
+ 'stated without proof; source initially hedges the de Rham sequence by characteristic0',
+ 'Exterior-power dimensions and contravariance are checked in computations.md §5; no splitting of the Hodge exact sequence is inferred.', 'B',
+ 'Oda1969 Cor5.11 verifies the Hodge sequence and its Dieudonné realization in positive characteristic over a perfect field; Coleman1998 §2 gives the abelian-scheme Hodge/universal-extension setting under its reduced or Z-flat base assumption. The initial characteristic-zero limitation is unnecessary for abelian varieties over perfect fields.',
+ 'Oda Harvard dissertationJune1967; publication1969. Coleman1998.',
+ 'Established, with field/base assumptions stated explicitly.', ['Oda1969','Coleman1998'])
+claim(427,[218],54,[3],'2628–2645',
+ 't_E=H1(B); cette extension n’est autre que S_B',
+ 'The universal vector extension E(A) has tangent sequence 0→Lie B^∨→Lie E(A)→Lie A→0 canonically identified with the Hodge sequence of B. Thus Lie E(A)=H1_dR(B), while invariant differentials on E(A) identify with H1_dR(A).',
+ 'stated without proof as a claimed identification of extensions',none,'B',
+ 'Coleman1998 Thm2.2(i), §4, identifies invariant differentials and the tangent realization of the dual variety. His V(M)=SpecSymM convention is contravariant; translating its Lie algebra removes an apparent reversal. The universal class, not equality of dimensions, makes the extension canonical.',
+ 'Universal-extension theory predates Coleman; exact opened account1998; earliest circulation not established here.',
+ 'Established for the abelian varieties on the page; no A/B switch is needed.', ['Coleman1998','Laumon1996'])
+claim(428,[219],54,[3,5],'2646–2652;2685–2694',
+ 'H1(A) et H1(B) sont duaux; Hp(A,Ω_A^q) dual de Hq(B,Ω_A^p)',
+ 'The Poincaré bundle induces a perfect degree-one de Rham pairing between A and A^∨ compatible with the transposed Hodge filtrations. Exterior powers give the corresponding total cohomology pairings; H^p(A,Ω_A^q) pairs with H^q(B,Ω_B^p), without a chosen Hodge splitting.',
+ 'stated without proof; exterior reduction proposed',
+ 'The determinant/exterior pairing on Λ^pU⊗Λ^qV against Λ^qV^∨⊗Λ^pU^∨ is checked formally; the source Ω_A on B is not used literally.', 'B',
+ 'Coleman1998 Thm1.1 proves agreement and nondegeneracy of the Chern-class, curvature and universal-extension pairings for reduced or Z-flat bases. A field satisfies the reduced assumption. Oda1969 Thm3.19 supplies Cartier/Dieudonné compatibility in characteristicp.',
+ 'Oda1967 dissertation/1969 publication; Coleman1998.',
+ 'Established degree-one and exterior duality; the subscript error is reserved for ink review.', ['Coleman1998','Oda1969'])
+claim(429,[220],54,[5,7],'2696–2701;2716–2725',
+ 'F^A et F^B sont orthogonaux l’un de l’autre',
+ 'For an abelian variety A over a perfect field of characteristicp and B=A^∨, under Cartier duality A[p]^D=B[p], kerF_A and kerF_B are exact annihilators. The sequence 0→kerF_A→A[p]→(kerF_B)^D→0 follows from F/V duality, with Frobenius twists retained; their ranks are p^g,p^g, while rankA[p]=p^(2g).',
+ 'proof sketched using transposed F/V factorizations',
+ 'Dualizing the F/V isogenies gives the annihilator identity; rank equality confirms exactness after the annihilator is identified, not by itself. computations.md §5 records the twist convention.', 'B',
+ 'Oda1969 Prop3.13 gives the σ-twisted Frobenius base-change formulas; Thm3.19 gives Cartier/Dieudonné duality. His Cor1.3,Prop1.12 and1.15 record the biduality sign and Weil pairing conventions. An untwisted linear transpose would be wrong.',
+ 'June1967 dissertation;1969 publication.',
+ 'Established finite-group-scheme statement; not a statement about geometric p-torsion points.', ['Oda1969'])
+claim(430,[221],54,[7],'2727–2730',
+ 'extension de p-alg. de Lie abéliennes; puissance p-ième nulle',
+ 'A finite-dimensional restricted Lie algebra in characteristicp corresponds to a finite infinitesimal group scheme of Frobenius height≤1. The additive kernel Lie A^∨ has zero restricted p-operation. This applies to the restricted Hodge extension, not directly to arbitrary A[p].',
+ 'stated without proof; the zero p-operation is explicitly inserted',none,'B',
+ 'Gabriel, SGA3 VII_B Cor4.4.1, is the precise equivalence between p-Lie algebras and height≤1 formal/finite group schemes. Ordinary Lie algebras and the abstract group A[p](k̄) do not suffice. The source’s particular p-operation is compared separately in CL431.',
+ 'SGA3 seminar1962–1964; publication1970; opened 2010 recomposition.',
+ 'Established height-one scope; no classification of all p-torsion by ordinary Lie algebra is asserted.', ['Gabriel1970'])
+claim(431,[222],54,[7],'2721–2730',
+ 'Cette extension peut-elle se déduire de la connaissance de p^A ??',
+ 'Over a perfect field of characteristicp, the finite group scheme A[p] determines H1_dR(A), its Hodge subspace and F/V structure through its Dieudonné module. Recovering the exact restricted p-operation intended on S_A requires matching the universal-extension/Dieudonné conventions.',
+ 'open on the pages: explicit question',none,'B',
+ 'Oda1969 Cor5.11 identifies M(A[p]) canonically with H1_dR(A), with VM=kerF identified with H0Ω1 and the corresponding Hodge exact sequence. Definition3.5 gives (Fa)(x)=σ(a(Vx)), (Va)(x)=σ^-1(a(Fx)); Thm3.19 identifies Cartier duality. This settles the filtered finite-group reconstruction, stronger than mere dimension equality. The unnamed restricted operation is not silently identified without this convention audit.',
+ 'First circulation: Harvard dissertationJune1967; publication1969.',
+ 'Filtered Dieudonné reconstruction established; manuscript-specific restricted-operation naming remains a local comparison task.', ['Oda1969','Coleman1998'])
+claim(432,[223],54,[4],'2658–2660',
+ 'SpecA irréductible; M_p plat… M_f libre sur A_f',
+ 'If A has a unique minimal prime p, B is finitely presented over A, M finitely presented over B and M_p flat over A_p, then some f∉p makes M_f free as an A_f-module. No finite rank over A is asserted.',
+ 'withdrawn as a whole on a reused typescript; proof sketched using PropositionA',
+ 'Given the universal finite-type flattening ideal J after shrinking, flatness over A_p gives J_p=0; finite generation yields f∉p with J_f=0. PropositionA then gives freeness. This conditional proof is checked in computations.md §6.', 'C',
+ 'Stacks051R is the classical noetherian-domain generic-freeness theorem, only a reduced special case. The full nonreduced assertion is supported by the universal-flattening argument CL434; searches included EGAIV6.9 and8.9, Stacks flattening, Numdam and MathOverflow. An exact independent publication locator for this precise corollary is not yet identified; this is not evidence of novelty.',
+ 'Generic freeness in EGAIV2(1965); manuscript date/provenance unassigned.',
+ 'The written deduction is valid once PropositionA is supplied; exact publication identity remains unidentified, not the mathematical mechanism.', ['Stacks051R','EGAIV2','EGAIV3'],'medium')
+claim(433,[223],54,[4],'2664–2677',
+ 'I un idéal [nilpotent deleted]… ∀n M⊗A/I^(n+1) libre (resp. plat)',
+ 'The canceled amended proposition asserts adic flatness from M/I free (or flat with finitely many test algebras), joint injectivity A→∏A_i, and freeness/flatness of every M⊗A_i, after dropping nilpotence ofI.',
+ 'false as stated after the deletion of nilpotent; the entire proposition is also canceled in the supplied sheet',
+ 'Counterexample checked in computations.md §6 and outputs/computations.json: A=k[t],I=(t),A1=k[t,t^-1],M=A/(t). Base map injective; M/I=k free; M⊗A1=0 free; but M⊗A/I²=k is not flat overk[t]/t², since (t)⊗k→R⊗k is zero with nonzero source. M is finite and I-adically separated, so the literal noetherian-separated corollary branch does not fix this example.', 'C',
+ 'The retained nilpotent version is a standard flatness/descent mechanism and is recorded separately as CL458. EGA/Stacks local flatness criteria do not imply the displayed nonnilpotent assertion from these hypotheses. The word idéalement and missing predecessor4.1bis prevent treating the last line as a completely reconstructed theorem.',
+ 'Counterexample independently checked19November2026; related EGA local-flatness theory1961–1966.',
+ 'Literal nonnilpotent extension refuted; a missing condition or authorial false start remains for scan/context review. Refined nilpotent statement: CL458.', ['EGAIV3','Stacks051R'],'high')
+claim(434,[223],54,[6],'2707–2710',
+ 'PropositionA… un sous-schéma fermé Z… pour tout changement de base',
+ 'For finitely presented f:X→Y with Y nonempty and finitely presented sheafF, after replacingY by a nonempty open there is a finitely presented closedZ⊂Y universally representing the locus where the pullbackF is flat over the new base. On a chosen finite affine cover, the modules are free after any affine base change factoring throughZ.',
+ 'proof sketched using generic freeness and missing4.1bis; the finite-cover qualification is inserted',
+ 'computations.md §6 reconstructs the noetherian proof: after reduction F_i/IF_i is free; lift a basis, form the ideal of coefficients of all relations, and use nilpotent flatness to show it universally represents freeness/flatness. Sum the finitely many chart ideals. Finite generation follows over the noetherian approximating ring.', 'C',
+ 'The Stacks05P7 entry is only a definition of flattening stratification and cannot itself be cited as proof. EGAIV2 generic freeness plus EGAIV3 flattening/limit theory supplies the surrounding published machinery; an exact printed match to this generic closed universal stratum is searched but not falsely claimed. The proof can be completed by the explicit relation-ideal argument, separately labelled our reconstruction.',
+ 'EGAIV2 1965;IV3 1966; reused typescript date undetermined.',
+ 'Mathematical construction verified under the stated finite-presentation descent; exact historical publication identity unresolved.', ['Stacks051R','Stacks05P7','EGAIV2','EGAIV3'],'medium')
+claim(435,[232],54,[8],'2740–2750',
+ 'tout hyperplan… mur mitoyen de deux chambres; intérieur du mur',
+ 'For a locally finite affine-hyperplane arrangement in a finite-dimensional real affine space, a chamber is the intersection of its wall half-spaces; every hyperplane supports adjacent chambers; the relative interior of a given wall is a chamber of the induced arrangement and has one uniquely determined adjacent chamber on the opposite side.',
+ 'proof supplied in fragments; last proof continues off the reused sheet',
+ 'Independent compactness/local-ball proof in computations.md §7. A compact segment meets finitely many hyperplanes; at a point on just one wall a ball is cut into exactly two components; connectedness of the wall interior propagates the adjacent chamber.', 'E',
+ 'The content is standard chamber geometry, consistent with the root/chamber framework in SGA3XXI §§3,5. Searches for the exact French phrase, number391 and Bourbaki context did not identify the originating typescript. The mathematical result is checked independently, but source authorship and exact publication are not assigned.',
+ 'Classical chamber theory; specific reused typescript/publication date unknown.',
+ 'Established elementary result with real finite-dimensional/local-finiteness hypotheses; not a claim that an entire hyperplane meets only two chambers globally.', ['SGA3XXI'],'medium')
+
+claim(440,[225],44,[2,8,9],'2787–2791;2970–2979;2991–2995',
+ 'N_ξ… en substance le noyau… équivalence d’Albanese',
+ 'A cycle family ξ on a smooth parameter varietyS is expected to give an abelian quotient Alb(S)/N_ξ mapping into cycles modulo an equivalence called Albanese. The text explicitly says the relation is not well identified; the last letter page constructs a divisor-incidence kernel instead.',
+ 'stated without proof; quotient equivalence not defined locally',none,'F',
+ 'Saito1979 Def3.1 and Thm3.6 construct the universal target for Picard homomorphisms (incidence equivalence), a particularly close model. Murre/Kahn/ACMV treat the different universal-regular-homomorphism problem. No unique integral identification of the handwritten N_ξ with either kernel follows from the pages. Backward references in Saito explicitly credit Grothendieck for the dimension argument.',
+ 'Letter12August1964; Saito received17July1978/published1979; modern regular-representative results1985–2023.',
+ 'The construction’s intended relation remains unidentified, while several precise later realizations are distinguished.', ['Saito1979','Kahn2021','ACMV2023','Grothendieck1964Letter'])
+claim(441,[226],44,[2,8],'2793–2795;2974',
+ 'dim(Alb(S)/N_ξ)≤½b^(2i−1)(X)',
+ 'Uniform Betti bound for the abelian varieties produced by codimension-i cycle families. For Picard homomorphisms from algebraically trivial cycles, the image dimension is at most b_(2i−1)(X)/2 over an algebraically closed field, for everyi.',
+ 'stated without proof',none,'B',
+ 'Saito1979 Prop3.4 p110 explicitly attributes the argument to Grothendieck, citing KleimanICM1970 and LiebermanOslo1970; it bounds Picard-homomorphism images in all codimensions using l-adic cohomology. Poincaré duality identifies his complementary Betti degree with2i−1. Kahn2021 Thm0.1 proves a stronger universal-regular statement only in codimension2 and repairs a gap in Murre1985; it is not the sole fate of the manuscript bound.',
+ 'Manuscript1964; Grothendieck argument reported in1970 conference literature; Saito received1978/published1979. Kahn letter2018/preprint2020/publication2021.',
+ 'Established all-codimension incidence/Picard bound; exact equality with the undefined handwritten quotient is conditional.', ['Saito1979','Kahn2021','Kleiman1971ICM','Lieberman1971'])
+claim(442,[225,226],44,[2,8],'2796–2800;2974–2979',
+ 'On peut définir une structure de variété abélienne sur P^i(X)',
+ 'The programme asks for an abelian variety of algebraically trivial codimension-i cycles modulo its Albanese relation. A precise later construction is Pic^i(X)=A^i(X)/K_inc^i(X), universal for correspondence-induced Picard homomorphisms. Universality among all regular homomorphisms is a stronger, separate specification.',
+ 'stated without proof; letter admits little is proved',none,'C',
+ 'Saito1979 Thm3.6 pp110–111 constructs the incidence/Picard quotient in all codimensions and makes it functorial for correspondences. Kahn2021 proves codimension2 universal regular representatives; ACMV2023 extends the functorial base framework and records existence in codimensions1,2,d. The 2025/2026 paper Regular homomorphisms, with a twist constructs torsors from a given regular homomorphism and does not prove universal existence in all codimensions.',
+ '1964 manuscript;1978 received/1979 incidence publication;1985 Murre,2018–2021 repair;2023 functorial treatment.',
+ 'Incidence formulation established; unrestricted universal-regular identification/existence is not inferred.', ['Saito1979','Kahn2021','ACMV2023','AchterVial2026'],'high')
+claim(443,[225],44,[2,8],'2799–2800;2974',
+ 'P^i et P^(n+1−i) duaux l’un de l’autre',
+ 'The complementary index for codimensioni is n+1−i. The manuscript proposes canonical dual abelian varieties, integrally. For incidence/Picard varieties the later general comparison gives a complementary dual isogeny, which is weaker than a canonical integral isomorphism.',
+ 'stated without proof; index unclear in programme but explicit in the letter',none,'C',
+ 'Saito1979 Prop4.4 pp112–113 constructs the complementary duality up to isogeny. The exact integral strengthening is not supplied by that proposition, nor by the dimension bound. The published transcription of the12August1964 letter confirms n+1−i but is not evidence about the ink of the separate programme page.',
+ '1964 letter;Saito1979.',
+ 'Established up to isogeny for the precise incidence model; original canonical integral duality remains underspecified and stronger.', ['Saito1979','Grothendieck1964Letter'])
+claim(444,[225],44,[8],'2974',
+ 'J1(X)=Pic0(X); Jn(X)=Alb0(X)',
+ 'The endpoint cycle varieties are the Picard variety and Albanese variety. In positive characteristic the abelian Picard variety is the reduced identity component Pic^0_red, not an arbitrary possibly nonreduced Picard scheme.',
+ 'stated without proof as normalization of the programme',none,'E',
+ 'Grothendieck1962Picard §4 supplies the Picard-scheme context; Saito1979 Thm3.6 identifies the Picard/Albanese endpoints of his incidence construction. This is compatible with universal regular representatives in these endpoint codimensions (ACMV2023).',
+ 'Picard/Albanese theory predates1964; FGA1962; incidence verification1979.',
+ 'Established endpoint normalizations; the reduced-identity qualification matters in characteristicp.', ['Grothendieck1962Picard','Saito1979','ACMV2023'])
+claim(445,[227],44,[8],'2974–2976',
+ 'T_lJ^i est un sous-quotient de H^(2i−1)(X,Z_l(i))',
+ 'The letter asserts a Tate-module subquotient realization of its cycle abelian variety for l≠chark. A rational incidence realization follows from correspondence constructions and the dimension-bound proof; an integral lattice realization requires the chosen quotient model and maps to be fixed.',
+ 'stated without proof',none,'C',
+ 'Saito1979 Prop3.4 constructs the relevant cohomological maps for Picard homomorphisms; it supports rational isogeny-category realization. ACMV2023 Prop8.2 provides a stronger but differently scoped integral map for surjective regular homomorphisms in codimensions1,2,d, with l prime to a miniversal-cycle multiplicity and target cohomology modulo torsion. These hypotheses cannot be removed.',
+ '1979 incidence proof;firstACMV2019/preprint,published2023.',
+ 'Geometric rational realization established in identified models; source’s unspecified integral quotient prevents a blanket exact identification.', ['Saito1979','ACMV2023'],'medium')
+claim(446,[227],44,[8],'2975–2976',
+ 'je conjecture que c’est même un sous-module dudit',
+ 'As an abstract Z_l-module over an algebraically closed field, a finite free T_lJ which is a quotient of a submoduleS⊂H already embeds noncanonically inS, by choosing lifts of a basis. A stronger meaningful conjecture requires a natural, correspondence-induced or equivariant injection; those requirements are not explicitly in the letter.',
+ 'open on the pages; literal abstract strengthening is formal once the preceding subquotient assertion is granted',
+ 'Independent re-proof: lift a Z_l-basis of T_lJ throughS↠T_lJ; the resulting Z_l-linear section is injective. No Galois-equivariant or canonical section is asserted. computations.md §8 and outputs/computations.json:dimension_checks.', 'C',
+ 'ACMV2023 Prop8.2 gives a correspondence-induced Galois-equivariant injection for i=1,2,d and l∤pr, into H^(2i−1)(Z_l(i))/torsion. This is materially stronger than the bare module splitting and cannot be used to read missing geometric qualifiers into the1964 text.',
+ 'Letter1964;functorial preprint2019/publication2023;logical scope check2026.',
+ 'Abstract module implication proved; geometric integral strengthening remains conditional on an identified target and explicit hypotheses.', ['ACMV2023'])
+claim(447,[225],44,[8],'2976–2978',
+ 'si car0… H^i(X,Ω^(i−1)); espace tangent',
+ 'In characteristic0 the tangent of an appropriate intermediate cycle abelian variety should be realized as a subquotient of H^i(X,Ω_X^(i−1)). A full Griffiths intermediate Jacobian has tangent H^(2i−1)(X,C)/F^i, usually involving several Hodge components; its algebraic part is of Hodge level1 and is not the entire Hodge cohomology group in general.',
+ 'stated without proof; margin placement/precise referent uncertain',none,'C',
+ 'ACMV2023 Example1.14 describes the algebraic Abel–Jacobi image; Peters2026 §§6–7 distinguishes the algebraic and Hodge-level1 substructures and their complementary pairings. These support the precise level1 subquotient interpretation, not equality with the whole displayed cohomology group.',
+ 'Intermediate-Jacobian theory1960s;verified modern treatments2023 and2026.',
+ 'A plausible level1 tangent realization is established in the complex models; literal scope and equality versus subquotient remain reading questions.', ['ACMV2023','Peters2026'],'medium')
+claim(448,[230],44,[2,8,9],'2802–2803;2979–2981;2995',
+ 'auto-dualité canonique… polarisation; A prouver… positive!',
+ 'For X of dimension2m−1 the programme seeks a canonical self-dual middle cycle abelian variety with positive incidence form. Symmetry or nondegeneracy of a divisor correspondence does not alone imply a polarization; Hodge-theoretic positivity uses primitive sign conventions, and algebraic descent is a separate issue.',
+ 'open on the pages; marked Hodge and primitive decomposition; vague Connu telquel note does not provide a proof',
+ 'outputs/computations.json:negative_polarization checks only the inference: L^-1 has symmetric isogeny−λ_L and is not ample. It does not refute the particular D. The separate integral-descent counterexample is CL450.', 'C',
+ 'Peters2026 Criterion7.3 and Cor7.8 relate incidence/Abel–Jacobi comparison to nondegeneracy and algebraicity of primitive components; standard conjectureB implies the needed condition. His Cor7.9 treats varieties with only middle odd cohomology, including odd-dimensional complete intersections. These results are conditional/special-case comparisons, not a universal integral canonical polarization theorem for the undefined source quotient.',
+ 'Letter1964;Hodge backgroundclassical;surveyfirst24July2026.',
+ 'Polarizability of identified algebraic Abel–Jacobi varieties is established; the precise canonical integral incidence claim is stronger and not settled by the cited comparison.', ['ACMV2023','Saito1979','Peters2026'])
+claim(449,[230],44,[9],'2989–2993',
+ 'D=r_*(p^*z·q^*z)… correspondance symétrique',
+ 'For X smooth projective of dimension2m−1, T smooth connected pointed and z∈CH^m(T×X) with z(a)=0, the pushforwardD onT×T has codimension1 and is symmetric under exchanging the twoT factors. With proper parameter models and normalized divisor correspondences it induces a symmetric homomorphism Alb(T)→Alb(T)^∨.',
+ 'construction stated; symmetry follows from the displayed product',
+ 'Codimension2m−(2m−1)=1; switch ofT factors interchanges ordinary Chow factors with no graded sign. The Albanese descent requires the usual normalized Picard correspondence hypotheses; T need not be assumed projective in the source, so compactification/extension is explicit reconstruction.', 'B',
+ 'Saito1979 Def3.1 and §§3–4 formalize correspondence-induced Picard homomorphisms and symmetry/duality. The divisor construction is the clearest reason to compare the manuscript to incidence equivalence. Integral descent through the full kernel is not part of this elementary symmetry calculation.',
+ 'Manuscript1964;formalized incidence construction1979.',
+ 'Degree and symmetry verified; extension from an arbitrary nonproper parameterT needs an appropriate model. Quotient descent is isolated inCL450.', ['Saito1979'])
+claim(450,[230],44,[9],'2993–2995',
+ 'N le noyau deA→A∨; J=A/N; la correspondance descend',
+ 'A symmetric integral divisor correspondence λ:A→A^∨ need not descend integrally through the quotient by its full scheme-theoretic kernel. Connected-kernel quotient or rational correspondences are distinct possible intended formulations.',
+ 'false as stated under full-kernel/integral interpretation; the source asserts descent before marking positivity open',
+ 'outputs/computations.json:full_kernel_descent. TakeE/C withEndE=Z, X=T=E,m=1,z=2c1(P), z(0)=0. Exact exterior calculation givesD=−4P at the homomorphism level. N=E[4],q=[4]; q^∨μq=16μ cannot equal−4 for μ∈EndE=Z. Required μ=−1/4. For everym≥1 useX=E×P^(2m−2), z=2c1(P)h^(m−1); integration ofh^(2m−2)=1 gives the same obstruction. Allsource smooth/projective/pointed/dimension conditions hold.', 'C',
+ 'Saito1979 Prop4.4 gives duality only up to isogeny, consistent with this denominator issue. The counterexample is this run’s reconstruction, not a historical claim that Grothendieck intended integral full-kernel descent. It does not decide whether noyau abbreviates connected kernel or whether rational coefficients were implicit.',
+ 'Independent exact counterexample19November2026;related isogeny statement1979.',
+ 'Literal integral full-kernel descent refuted. Refined connected-kernel/rational formulation is recorded asCL459 and a scan/context question.', ['Saito1979'])
+claim(451,[229],44,[4],'2850–2874',
+ '〈ζ,ζ′〉=(-1)^m Z.Z′; fibrations plus générales; variante locale',
+ 'For a generic hyperplane pencil on smooth projectiveX of dimensionn and cyclesZ,Z′ of complementary codimensionsi+j=n restricting to algebraically trivial cycles on the generic fibreY, the programme proposes equality of a Néron–Tate pairing of the intermediate cycle classes with a signed intersection number onX. Height normalization, m outside the balanced case, models and vertical corrections are absent.',
+ 'stated without proof; general fibration/local extensions explicitly hoped for',none,'C',
+ 'Ulmer2014 §4.3 explains the geometric Jacobian height as the negative intersection of vertically orthogonal divisor lifts on a regular fibred surface, establishing the n=2 divisor analogue with explicit correction data. Kunnemann2001 Thm1.6 is a model-surjectivity input; Cor1.7 supplies canonical height pairings for homologically trivial cycles on abelian varieties over number fields. It does not prove the manuscript’s all-dimensional generic-pencil identity. Searches for the exact pencil/intermediate-Jacobian formula and backward height references are logged.',
+ 'Geometric height theory1960s;Kunnemann2001;Ulmerfirst26March2012/published2014.',
+ 'Classical divisor case and modern restricted higher-cycle pairings established; exact general source formulation remains underspecified and unproved by these sources.', ['Ulmer2014','Kunnemann2001'],'medium')
+claim(452,[229],44,[4],'2866–2871',
+ 'les deux membres sont nuls sauf si2i=2j=n, en vertu deLefschetz',
+ 'If i+j=n and restrictions to a smooth ample hyperplane section are homologically trivial, weak Lefschetz injectivity forces the lower-codimension cycle class to vanish when2i<n or2j<n; hence the intersection number is zero away fromi=j=n/2. The asserted height-side vanishing also needs the cycle-Jacobian realization and fixed-part compatibility.',
+ 'proof sketched by a reference to Lefschetz',
+ 'Degree audit: wheni≠j one hasmin(2i,2j)<n; restriction in that cohomological degree is injective, so one factor classvanishes. The two-sided height conclusion is not obtained from this degree argument alone.', 'C',
+ 'The cohomological implication is the standard weak Lefschetz theorem (Saito1979 §5 uses its precise intermediate-Jacobian restriction consequence). A matching algebraic-cycle height realization requires the unresolved formulationCL451. This separates the verified intersection calculation from the stronger two-sided assertion.',
+ 'Classical Lefschetz theory;published comparisonSaito1979.',
+ 'Intersection-side vanishing proved in a Weil/Hodge setting with weak Lefschetz; height-side claim conditional.', ['Saito1979','Ulmer2014'])
+claim(453,[225,229],44,[4],'2876–2885',
+ 'Th6: P^i(X)→P^i(Y) iso if2i≤n−1; facteurfixe if2i=n; surjectif if2i≥n+1',
+ 'A hyperplane restriction theorem is proposed for the undefined cycle varieties: low-degree isomorphism, middle fixed-factor image, high-degree surjectivity. The finite-kernel assertion in the middle clause is crossed out and is not retained.',
+ 'stated without proof; finite-kernel clause withdrawn in the same line',none,'C',
+ 'Weak Lefschetz proves the corresponding low-degree cohomological isomorphism, and the Picard endpoint is classical. Saito1979 Prop5.3 propagates incidence/Abel–Jacobi isogeny comparison from a hyperplane section under a precise inequality; it does not prove all three integral assertions for the unspecifiedP^i. Searches covered Saito backward references, arXiv algebraic representatives/Lefschetz, and fixed-part/intermediate-Jacobian literature. Neither broad topic resemblance nor cohomological isomorphism is treated as equality of algebraic cycle targets.',
+ 'Manuscript1964;Saito1979;modern representative literaturethrough2026.',
+ 'Cohomological and endpoint cases established; the complete integral cycle-variety statement is not identified without the equivalence relation and fixed-part convention.', ['Saito1979','ACMV2023'],'medium')
+claim(454,[231],44,[6],'2942–2944',
+ 'Th7: L’équivalence numérique=τ-équivalence; Matsusaka',
+ 'If τ means algebraic equivalence after a nonzero integer multiple, numerical=τ is true for divisors but false for arbitrary codimension on smooth projective varieties. The local text does not defineτ.',
+ 'stated without proof; false under the unrestricted usual torsion-algebraic interpretation',
+ 'Clemens’s very general smooth quintic threefoldX/C has non-torsion homologically trivial codimension2 cycles modulo algebraic equivalence. Homological triviality implies numerical triviality by compatibility of cycle classes withintersection; non-torsion inGriff^2 means no nonzero multiple is algebraically trivial. Allsmooth/projective hypotheses hold.', 'C',
+ 'Grothendieck1962Picard §4 p242 records Matsusaka’s divisor theorem. Clemens1983 Thm0.2 and(0.1) give the higher-codimension obstruction on a very general quintic. The counterexample is conditional on the meaning ofτ; it cannot decide the ink or authorize adding divisors toTh7.',
+ 'Matsusaka1957,reportedFGA1962;Clemens1983.',
+ 'Divisor specialization known before1964; all-cycle usual interpretation refuted. Refined divisor statement:CL460.', ['Grothendieck1962Picard','Clemens1983'])
+claim(455,[224],44,[3],'2809–2840',
+ 'complétion produit∏A_i; exact et fidèle sur les modules graduésTF',
+ 'For a noetherian nonnegatively graded ring whose degree filtration is adic, completion is flat; for finitely generated graded modules its completion is the degreewise product and is exact and faithful on that graded category. The extraTF generality is undefined; no faithfulness on all ungraded modules follows.',
+ 'canceled draft with proof fragments; final faithfulness remark inserted, cancellation order unclear',
+ 'computations.md §7 proves graded faithfulness from a least nonzero degree and exactness degreewise. outputs/computations.json:completion_ungraded checks(x−1)^−1=−∑x^j in the completion, killingk[x]/(x−1); thatmodule is ungraded and does not refute the qualified claim.', 'B',
+ 'Stacks00MB gives flat/exact noetherian adic completion; Stacks00MC states the Jacobson-radical condition needed for ungraded faithful flatness. The graded product argument is independently checked. Exact historical identity of the canceledTF draft is not assigned.',
+ 'Classical noetherian completion theory;current Stacks referencesaccessed2026.',
+ 'Qualified noetherian graded statement established;TF scope and cancellation chronology remain unidentifiable.', ['Stacks00MB','Stacks00MC'])
+claim(456,[],44,[5],'2892–2918',
+ 's_α est unique; forme positive∑〈x,α〉〈y,α〉',
+ 'For a finite root set spanning a rational vector space and reflections preserving it, the invariant positive form on the dual is the sum over roots of evaluations. Each reflection is its orthogonal reflection, hence uniquely determined by its root line and hyperplane; the coefficient functional defines the coroot after the lattice-integrality condition is checked.',
+ 'proof sketched in a canceled reused root-system draft',
+ 'computations.md §7 redoes invariance by permuting the finite root set, positivity by spanning, and the rank-one reflection formula. Integrality on the chosen lattice is not inferred from rational orthogonality alone.', 'E',
+ 'SGA3XXI §1.2 constructs the invariant positive rational form and proves uniqueness of the coroot map from the root datum; §3 treats simple roots. The exposition describes these as known results. The sheet’s original Bourbaki provenance is not established.',
+ 'Known root-system theory;SGA3seminar1962–1964,publication1970.',
+ 'Standard rational reflection argument verified; lattice integrality requires the precise root-lattice assumptions in the draft.', ['SGA3XXI'],'medium')
+claim(457,[],44,[5],'2920–2935',
+ 'P,P∨ en dualité; 〈α∨,α〉=2; sα et sα∨ préserventΔ,Δ∨',
+ 'A root datum consists of dual finite free lattices, finite roots/coroots in bijection, pairing2 on corresponding roots, and stability under the paired reflections. The rational-only variant on the sheet must still require integral coroot values to define lattice automorphisms.',
+ 'stated as an alternative description in a canceled reused draft',
+ 'Expanding〈sα∨u,sαx〉 shows equality with〈u,x〉 because〈α∨,α〉=2; thetwo reflections are contragredient. computations.md §7.', 'E',
+ 'Demazure,SGA3XXI Def1.1.1, Lem1.1.9, Cor1.1.11 give exactly the axioms and paired-reflection calculation. This is a verified link to an SGA object, not proof that this reused sheet was written by Grothendieck or that it is a new Jacobian claim.',
+ 'SGA3seminar1962–1964;publication1970.',
+ 'Established standard root datum formulation; provenance remains separate.', ['SGA3XXI'])
+claim(458,[223],54,[4,6],'2664–2677;2709–2710',
+ 'I nilpotent [earlier version]; M0 libre; flatness ideal of4.1bis',
+ 'Refinement ofCL433: ifI is nilpotent, M/I is free and A injects into a product ofA-algebras over each of whichM becomes flat, thenM is free. More generally, whenM/I is free, an ideal generated by coefficients of relations in a lifted free presentation universally cuts out base changes whereM becomes flat/free.',
+ 'earlier nilpotent hypothesis deleted in the canceled proposition; missing4.1bis invoked by retained PropositionA',
+ 'Independent re-proof in computations.md §6: lift a basisM/I toF→M, surjective by nilpotence; K⊂IF. After a flat test base change, Tor exactness and nilpotentNakayama force the chosen presentation to be an isomorphism. InjectivityA→∏A_i forcesK=0. Relation-coefficient ideal proves the universal version; finite generation requires a noetherian approximation.', 'B',
+ 'This is the precise nilpotent mechanism behind generic flattening and standard local flatness theory, compatible with EGAIV/Stacks. It does not validate the nonnilpotent amendment. The statement here is explicitly our refinement/re-proof, keyed as the target of the refutation event.',
+ 'Standard EGA-era mechanism;independent proof19November2026.',
+ 'Proved under explicit nilpotence/free-reduction hypotheses.', ['EGAIV3'],'high')
+claim(459,[230],44,[9],'2993–2995',
+ 'N noyau; quotientJ',
+ 'Refinement ofCL450: for a symmetric homomorphismλ:A→A^∨, quotient by the connected kernel removes the abelian radical; the resulting homomorphism is nondegenerate up to finite kernel. Descent through a further finite quotient exists in the rational isogeny category, with denominators; integral descent is extra data and ampleness is independent.',
+ 'not a verbatim claim: this run’s explicitly labelled refinement of the asserted descent',
+ 'On the elliptic counterexample the connected kernel is0 and no denominator is needed; after quotient[4] the rational endomorphism−1/4 gives exactly the required pullback. General rational factorization follows by inverting isogenies.', 'B',
+ 'Saito1979 Prop4.4 consistently works with a dual isogeny. The modern refinement is a standard isogeny-category consequence; it is not offered as an emendation or proof of positivity.',
+ 'Isogeny formalismclassical;verified incidence comparison1979;refinement2026.',
+ 'Rational and connected-kernel alternatives are mathematically coherent; which was intended remains open.', ['Saito1979'])
+claim(460,[231],44,[6],'2942–2944',
+ 'Matsusaka [margin]',
+ 'Refinement ofCL454: for divisors on a smooth projective variety, numerical triviality is equivalent to a nonzero integer multiple being algebraically equivalent tozero.',
+ 'not literally restricted todivisors on the sheet; this is the verified historically known specialization',none,'E',
+ 'Grothendieck1962Picard §4,p242 explicitly records the Matsusaka criterion; its bibliography points to Matsusaka1957. This exact primary published passage was opened. The1957 original has only bibliographic verification here unless separatelyopened.',
+ 'Matsusaka1957;FGAlectureMay1962.',
+ 'Established divisor theorem known before the1964 programme.', ['Grothendieck1962Picard','Matsusaka1957'])
+
+claim(461,[230],44,[8,9],'2979;2993–2995',
+ 'symétrique, donc provenant — du moins modulo le facteur 2',
+ 'For an abelian variety A and a symmetric homomorphism f:A→A^∨, let P be the normalized Poincaré bundle. The line bundle L=(id_A,f)^*P satisfies λ_L=f+f^∨=2f. Thus a factor2 suffices to realize a symmetric correspondence as a Néron–Severi class. This construction does not make L ample.',
+ 'stated without proof, with the factor2 qualification retained',
+ 'outputs/computations.json:symmetric_hom_factor_two and computations.md §8 independently expand the Poincaré off-diagonal matrix and its graph pullback.', 'E',
+ 'The Poincaré pullback identity is verified in MoonenAVDuality, ChapterVII §7.18 and Exercise7.5, and independently computed here. The source itself calls the implication known. No assertion about removing factor2 in every characteristic or about positivity is inferred.',
+ 'Classical duality already used in the12August1964 letter; opened modern chapter undated.',
+ 'Established factor-two statement; positivity is the distinct CL448.', ['MoonenAVDuality'])
+claim(462,[230],44,[8],'2979–2981',
+ 'Moyennant un certain nombre de choses non prouvées… le théorème de positivité de Hodge se ramène à l’énoncé suivant',
+ 'The letter claims that, conditional on unspecified unproved assertions, the proposed middle-Jacobian positivity statement would suffice to establish Hodge positivity for algebraic cycles. It separately flags primitive decomposition. The missing assertions are not explicitly named Lefschetz assertions on this leaf, and no converse equivalence is stated.',
+ 'open on the pages; conditional strategy rather than a proved equivalence',none,'C',
+ 'Peters2026 Criterion7.3 and Cor7.8 formulate a precise incidence/Abel–Jacobi comparison under algebraicity of primitive components; Cor7.9 gives a special odd-cohomology case. These are concrete related developments, not verification of an unstated equivalence in the letter. The withdrawn Caibar–Clemens preprint is not a solution. The standard-conjecture letter names in cote16 need their separate operational dictionary.',
+ 'Letter12August1964; Peters first24July2026; Caibar–Clemens final withdrawal19February2013.',
+ 'A precise conditional programme survives; no unconditional all-variety positivity theorem is claimed.', ['Peters2026','CaibarClemensWithdrawn','Kleiman1968'],'medium')
+claim(463,[230],44,[9],'2993–2995',
+ 'on pourra même supposer T=Pic^0(Y), Y sous-variété… de codimension m−1',
+ 'For a smooth projective subvariety j:Y↪X of codimension m−1, the normalized Poincaré divisor on Pic^0(Y)×Y pushes forward under id×j to an algebraically varying codimension-m cycle on Pic^0(Y)×X whose value at0 is zero. The further assertion that these test families suffice for the general positivity problem requires a generation/reduction theorem.',
+ 'construction stated; sufficiency of the test families asserted without proof',
+ 'Codimension is1+(m−1)=m; normalization gives zero restriction at0; proper pushforward preserves algebraic equivalence. This is an independent formal construction check, not a proof of sufficiency.', 'C',
+ 'Saito1979 §3 constructs Picard homomorphisms through divisor correspondences and proves the incidence representative; MoonenAVDuality supplies the normalized Poincaré object. Peters2026 analyzes the additional primitive/algebraicity condition needed in related reductions. No exact general positivity reduction to these Y is identified from those sources.',
+ 'Letter1964; Saito1979; modern conditional survey2026.',
+ 'Family construction established; claimed sufficiency for all middle positivity remains conditional.', ['Saito1979','MoonenAVDuality','Peters2026'],'medium')
+claim(464,[],44,[5],'2893–2915',
+ 'On montre… γ_α∈P′; chaque α est indivisible dans P.',
+ 'The displayed axioms require a finite reduced set Δ generating a finite free lattice P and a reflection s_α preserving Δ for each root α. They do not imply integral coroots or primitivity of all roots. A missing crystallographic or primitivity assumption is necessary.',
+ 'false as stated in the canceled reused root draft; the proposed fundamental-root justification is not proved',
+ 'outputs/computations.json:root_integrality_counterexample checks every root and reflection for P=Z², Δ={±e1,±e2,±2(e1+e2),±2(e1−e2)}. These eight roots generate P, are reduced on rational lines, and are preserved by their integral reflection matrices. For α=2(e1+e2), γ_α=(1/2,1/2), so γ_α(e1)=1/2. Every displayed hypothesis is checked; primitivity is a claimed conclusion, not an input.', 'C',
+ 'SGA3XXI Def1.1.1 explicitly places coroots in the integral dual lattice, avoiding this defect; its §1.2 rational invariant-form argument does not remove that axiom. This run searched the published root-datum formulation and re-proved the precise counterexample. No attribution or historical publication of this particular false start is inferred.',
+ 'SGA3seminar1962–1964, publication1970; counterexample independently checked19November2026.',
+ 'Literal inference refuted. Refined primitive-root statement: CL465. The whole sheet is canceled; no active Jacobian conclusion depends on it.', ['SGA3XXI'])
+claim(465,[],44,[5],'2910–2915',
+ 'provient du fait que chaque α est indivisible dans P [claimed justification]',
+ 'Refinement of CL464: add the hypothesis that each root α is primitive in P. Since s_α preserves the lattice generated by Δ and (1−s_α)P⊂Qα, one has (1−s_α)P⊂P∩Qα=Zα. Therefore γ_α∈P^∨.',
+ 'this run’s explicit refinement; primitivity is not established by the preceding manuscript axioms',
+ 'Independent lattice proof in computations.md §7; no classification or numerical testing is needed for the implication. The program checks the counterexample fails exactly the added primitive-root hypothesis.', 'B',
+ 'The integral-lattice requirement agrees with SGA3XXI Def1.1.1. The short proof supplies a valid sufficient repair, while leaving open which omitted assumption or cancellation the ink records.',
+ 'Standard lattice argument; independently re-proved19November2026.',
+ 'Proved with the added primitivity hypothesis; not a diplomatic emendation.', ['SGA3XXI'])
+
+claim(466,[],44,[7],'2954–2962',
+ 'un copoids radiciel n’est pas nécessairement un copoids',
+ 'The reused editorial sheet claims that two locally adopted root-theoretic terms fail the inclusion their names suggest, then proposes renaming or interchanging them. Their definitions and the referenced draft are absent, so no unique lattice-inclusion statement can be recovered.',
+ 'stated without proof in reused editorial commentary; definitions are outside the supplied leaf',none,'F',
+ 'Exact-phrase searches for copoids radiciels, vocables/covocables and LaTribu57 yielded no identified original draft. SGA3XXI supplies precise modern root/coroot lattice definitions, but substituting them for this deliberately unstable terminology would invent the assertion. The graph/Coxeter paragraph likewise mentions a criterion without stating it and is not promoted to a theorem.',
+ 'Reused Bourbaki-commentary date and authorship not determined; search19November2026.',
+ 'Not identifiable from the supplied page. The wording and provenance remain a context/scan task, without a spurious mathematical refutation.', ['SGA3XXI'],'low')
+
+claim(467,[209],47,[9],'2449–2465',
+ 'The generating expression (1−D′/χ)^χ, in contrast to its inconsistent expansion.',
+ 'Refinement of CL415: for an ample line bundle L on an abelian variety over an algebraically closed field, r=χ(L)>0, E=Φ(L) and D′=−c1(E), one has c_k(E)=(−1)^k(r−1)…(r−k+1)(D′)^k/(k!r^(k−1)) in rational Chow. Equivalently the denominator is k!r^k if the numerator starts with r.',
+ 'generating expression stated correctly on the page; this run isolates its correct coefficient as the refinement of the false expansion',
+ 'Exact falling-factorial identity independently derived and checked symbolically for k1..6; the general proof is expansion of the generating series. The degree(1,2) elliptic-product example verifies c2-number1.', 'B',
+ 'Mukai1981 Proposition3.11 supplies the transformed bundle and its isogeny pullback; Stacks02UM supplies the Chern-character/splitting-principle relation. The corrected expression is an elementary consequence, not a separate historical theorem claimed to have been located.',
+ 'Geometric input received1979/published1981; arithmetic independently checked19November2026.',
+ 'Correct coefficient proved under the stated ample-field hypotheses. This is the refined statement attached to the refutation of CL415.', ['Mukai1981','Stacks02UM'])
+
+# Final primary-source refinements. These are hand-authored corrections to the
+# earlier research state, not automatic inference from bibliographic keywords.
+byid={int(c['id'].split('-')[-1]):c for c in C}
+byid[432].update(**{'class':'A'},fate='EGA IV₃ Corollary11.4.6, p147, is the exact nonreduced irreducible-base generic-freeness statement and repeats the same deduction from the universal flatness ideal. Its proof has been opened and read in full. EGA IV₂ Lemma6.9.2 and IV₃ Lemma8.9.4.1 are the reduced/domain predecessors, not the exact statement.',fate_date='EGA IV₃ received15November1964; published1966. The reused manuscript sheet is undated, so its relative chronology is not independently established.',present_status='As of19November2026: exact own published counterpart identified; proof and all irreducibility/finite-presentation hypotheses match.',confidence='high')
+byid[434].update(**{'class':'A'},fate='EGA IV₃ Proposition11.4.5, pp146–147, is the precise universal closed flattening stratum, including simultaneous freeness on the chosen finite affine cover. The published theorem assumes Y irreducible; the manuscript says merely nonempty. Its broader nonempty version follows by finite-presentation approximation to an affine noetherian base and restriction to a nonempty open contained in one irreducible component; injectivity of the approximating subring map ensures that open has nonempty inverse image. This extension is our explicit argument. Missing4.1bis is EGA IV₃ Cor11.4.4, pp145–146, not a generic definition of flattening.',fate_date='EGA IV₃ received15November1964; published1966; source sheet undated.',present_status='As of19November2026: published irreducible-base result exactly located; source’s nonempty extension verified by the stated approximation argument.',confidence='high')
+byid[458].update(**{'class':'A'},fate='EGA IV₃ Theorem11.4.1, pp143–145, is the exact nilpotent descent theorem; its flat-reduction variant requires a finite family. Cor11.4.4, pp145–146, is the universal ideal criterion and proves the equivalence for arbitrary base changes. Proposition11.4.7, p147, gives a nonnilpotent criterion with explicit compatibility of symbolic-power and adic topologies, absent from the canceled amendment.',fate_date='EGA IV₃ received15November1964; published1966; independent re-proof19November2026.',present_status='As of19November2026: exact own published nilpotent refinement and universal-ideal theorem verified.',confidence='high')
+byid[433]['fate']='The original nilpotent theorem appears exactly as EGA IV₃11.4.1; its universal ideal consequence is11.4.4. The published nonnilpotent criterion11.4.7 adds a finite collection of primes and equivalence of the induced symbolic-power topology with the I-adic topology. These extra hypotheses do not follow from joint injectivity. The displayed amendment remains refuted by the explicit example; the final ambiguous corollary cannot be repaired merely by noetherianity and ideal separation.'
+byid[459]['statement']='Refinement of CL450 over C, or over a perfect field with the reduced neutral abelian subvariety N=(kerλ)^0_red: for symmetric λ:A→A∨, quotient by N removes the abelian radical and gives an integral symmetric map with finite kernel. Descent through a further finite quotient exists in the rational isogeny category, with denominators. A finite connected nonreduced kernel in characteristicp must not be conflated with this abelian radical.'
+byid[459]['computation']='Symmetry makes λ land in ker(A∨→N∨)=(A/N)∨; since it kills N it factors through A/N. The resulting map has finite kernel. In the elliptic example N=0, while quotient[4] requires the rational map−1/4. Details in computations.md §8.'
+byid[446]['computation']=byid[446]['computation'].replace('computations.md §8','computations.md §9')
+byid[415]['present_status']+=' Separate refined statement: CL-SA19-467.'
+byid[453]['fate_date']='Programme leaf undated; associated letter12August1964; Saito1979; modern representative literature through2026.'
+for n in range(440,449):
+    byid[n]['statement']='Ambient manuscript hypotheses: X is connected smooth projective over an algebraically closed field k, of dimension n, and 1≤i≤n; the programme leaf does not restate them, whereas the letter does. '+byid[n]['statement']
+byid[441]['fate_date']='Dated letter12August1964; Grothendieck argument reported at ICM1970/published1971; Saito received17July1978/published1979. Kahn letter5December2018/arXiv15July2020/publication2021.'
+byid[456]['present_status']='As of19November2026: the rational invariant-form and uniqueness argument is valid; the subsequent integral-coroot inference is separately refuted in CL464.'
+byid[457]['statement']='The second description uses two finite free lattices P and P′ integrally paired, whose rationalizations are in perfect duality, with roots and coroots spanning the respective lattices, paired value2 and stability under the paired reflections. Expanding the two reflection formulas proves that they are contragredient. The written integral pairing need not be a perfect integral duality; this root-lattice formulation is therefore not literally the usual full root datum on a character/cocharacter dual pair.'
+byid[457]['fate']='SGA3XXI Def1.1.1 uses perfect integral dual lattices; Lem1.1.9 and Cor1.1.11 give the paired-reflection calculation. The source retains only rational perfection and integral pairing, so the comparison is to root/coroot lattices inside the standard datum. This distinction and the canceled status are preserved; no authorship or historical novelty is inferred.'
+byid[457]['present_status']='As of19November2026: paired-reflection calculation established; the source formulation has weaker lattice-duality data than a full root datum.'
+for n in (440,441,442,443,445):
+    byid[n]['fate']+=' Kleiman1971ICM pp446–447 explicitly attributes the bounded Picard-family mechanism to an unrecorded1964 observation of Grothendieck, strengthening the incidence identification historically without specifying the manuscript’s integral kernel.'
+    if 'Kleiman1971ICM' not in byid[n]['refs']: byid[n]['refs'].append('Kleiman1971ICM')
+byid[448]['fate']+=' The superficially decisive Caibar–Clemens arXiv1109.2932 was finally withdrawn19February2013 for an error in its last theorem’s statement; it supplies no completed solution.'
+byid[448]['refs'].append('CaibarClemensWithdrawn')
+for c in C:
+    c['refs']=[r.replace('AchterVial2026','ACMV2026Twist').replace('Lieberman1971','Lieberman1972') for r in c['refs']]
+
+assert len({c['id'] for c in C})==len(C)
+assert all(c['class'] in 'ABCDEF' and c['fate'] and c['refs'] for c in C)
+(ROOT/'claims.json').write_text(json.dumps(C,ensure_ascii=False,indent=2)+'\n')
+print('Claims serialized:',len(C))
+print('Classes:',dict(collections.Counter(c['class'] for c in C)))
+print('Every claim has a hand-authored fate assessment and precise supporting/comparison references.')

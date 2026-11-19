@@ -1,0 +1,221 @@
+# Mathematical rechecks: the two early Picard packages
+
+These are the consolidating run’s arguments, not additions to the diplomatic transcription. Claims refer to `claims.json`; line locators refer to the exact supplied files. The executable rechecks are in `scripts/recheck_calculations.py`, with exact output in `outputs/calculations.json` and `outputs/calculation_run.json`. A bounded symbolic example is identified as such. No numerical computation can supply the missing hypotheses of a theorem or decide an ink reading.
+
+## 1. Connections, logarithmic forms and the obstruction cocycle
+
+For a local frame e of an invertible sheaf L, a relative connection has the form ∇(ae)=e⊗da+ae⊗α. If e′=ue for a unit u, then α′=α+du/u. Consequently the differences of local connection forms reproduce the Čech cocycle dlog(g_ij) of transition functions, and changing local frames changes it by a coboundary. The obstruction to a connection is therefore the dlog image of L in H¹(Ω¹). If it vanishes, the possible connections form a torsor under H⁰(Ω¹), with automorphisms of L acting by dlog of units. This yields the exact sequence in C-SA14-003 after sheafification; it does not impose curvature zero.
+
+For the canonical meromorphic section φ_D of O(D), write φ_D=fe in a regular local frame. Then ∇φ_D/φ_D=df/f+α. Hence α=ω−df/f is regular exactly when the meromorphic form ω comes from a regular connection. This confirms the sign in the *mathematical convention just fixed*; it cannot settle a different local-equation convention on the ink. The code verifies dlog(fg)=dlog f+dlog g and the frame-change Leibniz identity exactly for rational symbolic expressions. The general identities follow from the product rule.
+
+On a normal characteristic-zero fibre, the generic point of a divisor is regular and generically smooth. A local equation with multiplicity n has logarithmic residue n. A regular form has residue zero, so dlog of a divisor is injective modulo regular forms in this setting. In characteristic p, pD has zero residue and may have zero dlog; the characteristic-zero qualification is substantive.
+
+For C-SA14-004, the low-degree Leray exact sequence gives
+
+\[
+0\to H^1(S,f_*\Omega^1)\to H^1(X,\Omega^1)
+\to H^0(S,R^1f_*\Omega^1).
+\]
+
+Thus the represented class L with zero right-hand obstruction has the stated edge class. This argument begins with an actual L. It neither proves that every Picard-functor section has a representing line bundle nor proves that R¹f_*Ω¹ is locally free from degree-zero cohomological flatness.
+
+## 2. What normalization proves about the Poincaré class
+
+For an abelian scheme A/S, a morphism from A to an affine S-scheme factors through S when O_S→f_*O_A is universally an isomorphism. In particular a homomorphism A→V to a vector group factors through its zero section. This proves the vanishing used for translation-independence in C-SA14-007, including its relative hypothesis.
+
+The normalized Poincaré bundle restricts trivially along both zero sections. Whenever the indicated Künneth decomposition is justified, its restrictions kill the two pure summands of its differential class. They do not determine the remaining mixed summand. The code deliberately leaves a symbol `mixed` after setting the pure components to zero. It does not assert that this symbol is 1 or −1. Identifying it with the duality identity, and fixing a sign, is precisely the unfinished calculation in C-SA14-009.
+
+Mazur–Messing I.2.6.7 and §3 give the later abelian universal-extension identification through rigidified extensions and integrable connections compatible with the group law. The manuscript’s functor initially classifies **all** relative connections. Equating these objects requires the extra abelian and compatibility argument; it cannot be done by replacing the word “connection” in the transcription.
+
+## 3. Two hyperplane counterexamples with the embeddings checked
+
+For C-SA14-015 use k=C and X=P² with the complete linear system O(3). Its ten monomials give the third Veronese closed embedding into P⁹, so n=dim X=2. Hyperplanes in P⁹ pull back to plane cubics. The Fermat equation x³+y³+z³=0 has no projective common zero with its three derivatives, so the smooth-cubic locus is a nonempty open set of hyperplanes. A general member is therefore smooth. Adjunction gives its genus as (3−1)(3−2)/2=1; equivalently the plane-curve Hilbert polynomial is 3m. Thus Pic⁰(P²)=0, whereas the cubic’s Pic⁰ has dimension1. Smoothness, projectivity, the hyperplane hypothesis and the word “general” all hold. A cubic in P² with its ordinary O(1) embedding would not be a hyperplane section and would be an invalid presentation of this example.
+
+For the cancelled C-SA14-023 take P¹×P¹ in its Segre embedding. A general hyperplane is a smooth (1,1) curve, isomorphic to P¹. Both projections have degree1, hence O(a,b) restricts to a line bundle of degree a+b. The code computes the kernel of [1,1] as the primitive lattice generated by (1,−1). The cancelled full Picard injection is false, while the surviving group-cohomology claim excluding multiplicative factors is a different statement.
+
+## 4. A source-field warning, with its exact scope
+
+The k-linear map k²→k(t), (a,b)↦a+tb, is injective because t is transcendental. After extending the source to k(t), the same row [1,t] has kernel generated by (−t,1). The code computes this kernel. This is a logical test: injectivity on classes defined over k does not imply geometric injectivity after scalar extension of the source. It is not an algebro-geometric counterexample to C-SA14-019.
+
+## 5. The two infinitesimal group sequences
+
+The fppf exact sequence for α_p is additive:
+
+\[
+0\to\alpha_p\to\mathbf G_a\xrightarrow{F}\mathbf G_a\to0.
+\]
+
+Over a perfect algebraically closed field, with H⁰(X,O_X)=k, Frobenius is surjective on H⁰. The next part of the long exact sequence gives H¹(X,α_p)=ker(F:H¹(O_X)→H¹(O_X)). Replacing F by 1−F changes the group scheme to the Artin–Schreier case.
+
+The multiplicative Kummer sequence instead yields
+
+\[
+0\to H^0(O_X^*)/H^0(O_X^*)^p\to H^1(X,\mu_p)
+\to\operatorname{Pic}(X)[p]\to0.
+\]
+
+For a proper connected variety over this field, the unit quotient is zero, so the last map is an isomorphism. There is no resulting quotient O/O* of additive sheaves. These calculations justify alarms on C-SA14-024–025; they do not choose between doubtful characters in the supplied transcription. Cotner–Zavyalov §3.3 and §3.4 are opened primary comparisons for the two sequences.
+
+## 6. The easy half of Laurent invariance
+
+For p:X×G_m→X, the section s at t=1 satisfies s*p*=id on Pic(X). Thus p* is injective for every X. The manuscript’s normal-scheme surjectivity then gives an isomorphism. This observation requires no valuation-surjectivity claim. The exact later Laurent comparison is Weibel, Proposition7.4, printedpp370–371; the A¹ invariance in FGA VI is a related but different published statement.
+
+## 7. Hartogs descent of vector bundles
+
+Suppose O_X≅j_*O_U remains true after the base changes in the descent diagram. Let E′ be a vector bundle on X′ whose restriction to U′ is identified with pullback of E_U. On the double overlap X″, the two pullbacks of E′ are locally free. Their Hom bundle has sections extending uniquely from U″, because the universal Hartogs equality holds for finite free sheaves and hence locally free ones. The isomorphism on U″ therefore extends uniquely. Its inverse extends too, and their products are identities by uniqueness. On the triple overlap the cocycle identity holds on U‴, hence everywhere. Faithfully flat descent now produces E on X, and its comparison with E_U is unique by the same argument. This proves the cartesian-category assertion under its universal hypotheses. Coherent sheaves require additional extension/coherence and depth input; they cannot be inserted into the proof merely by changing the noun.
+
+## 8. Vertical coefficients and the equivalence-relation gaps
+
+Over a DVR with uniformizer π and reduced irreducible special fibre E, a divisor supported on E is nE=n·div(π). Multiplying a rational section by π^(−n) removes that vertical part. With two reduced components, coefficients (1,2) cannot both be removed by subtracting (n,n); the symbolic equations have no solution. Thus the manuscript’s normalization step uses an irreducibility/equal-multiplicity assumption that must be located, not guessed.
+
+For C-SA14-040 let Y=Spec C[x,y,z]/(xy−z²). This polynomial is irreducible. Its ring is a hypersurface, hence Cohen–Macaulay and S₂. The gradient (y,x,−2z) vanishes only at the origin, which has codimension2, so the ring is R₁ and therefore normal. For the product relation R=Y×Y over Y, the smooth locus of the first projection is Y×Y_reg and that of the second is Y_reg×Y. Their intersection is Y_reg×Y_reg. The fibre of the first projection above the singular point has empty intersection with it. This disproves the claimed density implication. It is not presented as a counterexample to every global hypothesis of the proper equivalence-relation corollary.
+
+Separately, replacing a proper source by an open subset does not preserve properness. The application on scan114 therefore requires a new argument even if the density issue is fixed. Applying the divisor theorem to the whole relation is a possible repair to investigate, not a proof supplied here.
+
+If the factorizations t_i=ε_i f_i^(n_i) are already valid on legitimate reduced intersections, comparing the orders of the same nonzero local equation gives n_i=n_j. That conditional calculation does not establish the factorizations or the component-incidence relation marked unproved on scan122.
+
+## 9. Denominators, units, affine targets and reducedness
+
+Write a rational function regular on D(f) as a/f^r with r minimal. If r>0 and it is regular at every generic point p of V(f), then a is divisible by f in every A_p. Hence the image of a in A/f vanishes at every minimal prime. Because A/f is reduced it embeds in the product of its minimal-prime localizations, so a∈fA, contradicting minimality. This is the denominator argument under the regular-element and fraction-ring conventions of the manuscript. Applying it to both h and h⁻¹ proves the units intersection.
+
+If f is prime and a/f^r is a unit in A_f, there are b and N with ab=f^N after clearing a harmless regular power of f. Primality lets one cancel f successively from a or b. The remaining a is a unit; this gives εf^n. If f is a nonunit, εf^n=ε′f^(n′) forces n=n′ and ε=ε′. With several components the resulting valuations are constrained by principal-divisor relations; there is no assertion that every integer tuple occurs.
+
+For affine Z/X, extend the coordinate functions of a rational section with this intersection argument. The defining polynomial relations hold on the common dense fraction ring and thus on X under the stated embedding hypotheses. Uniqueness follows in the same way. Affineness is indispensable: on X=A², the section [x:y] of X×P¹ is defined on D(x) and at the generic point of x=0. Along the punctured x-axis its value is [1:0], while along the punctured y-axis it is [0:1]. A morphism extending over the origin would have both values there, impossible because P¹ is separated. This checks the actual question on scan120.
+
+Finally let (A,m) be noetherian local, f∈m a nonzerodivisor, and A/f reduced. Each nilpotent a∈A is fb; regularity of f implies b is nilpotent. Thus the finite nilradical N satisfies N=fN. Nakayama gives N=0. The locality and f∈m are required; this is not a removal of all the other hypotheses in the divisor theorem.
+
+## 10. Descent parameters and the two-node calculation
+
+The compatibility equation on scan127 contains both φ and ψ. Even the scalar equation φψ₁=ψ₂ defines a coupled locus: (2,3,6) satisfies it and changing only φ to5 destroys it. Therefore a product of independently defined loci is not obtained merely by assigning one variable to each factor. Under the stated affine Hom/Isom representability and separatedness hypotheses, impose all equations as simultaneous closed equalizers inside K×L. This preserves affineness without the unjustified product decomposition. Condition c is present on the actual scan127 transcript and must be included.
+
+Relative zero Picard class is not absolute triviality. If f:X→S has a section and M is nontrivial on S, f*M is a nontrivial line bundle on X but has zero relative Picard class. A triviality locus for that class therefore cannot be described as the locus where L≅O_X unless a rigidification removes base twists.
+
+For two copies of P¹ meeting transversely at two distinct rational nodes, a bundle trivial on each component is glued by scalars (λ₁,λ₂)∈(G_m)². Rescaling the two component frames changes both gluing scalars by the same ratio. Their quotient λ₁/λ₂ is invariant and complete, giving a G_m kernel. The code computes the rank1 incidence matrix with two equal rows; the torus quotient has dimension2−1=1. This is an earlier-run example, not one written in the manuscript.
+
+## 11. Čech–Koszul compatibility and internal degree
+
+For a tuple I=(i₀,…,i_p), use the cochain c_I at level n and send it to c_I/(∏_{i∈I}f_i)^n. Define the Koszul cochain differential on J by Σ_a(−1)^a f_{j_a}^n c_{J\setminus j_a}. After division by the full product, this is exactly the alternating Čech differential. Each pair of deleted indices appears twice with opposite signs, proving d²=0. The transition from n to m multiplies c_I by (∏_{i∈I}f_i)^(m−n); a direct multiplication gives d_m T=T d_n. These are general identities. The code checks them symbolically for four independent variables, n=1,2, m=n+1,n+2 and all relevant cochain degrees.
+
+If c_I has internal degree q and deg f_i=d_i, the fraction has degree q−nΣ_{i∈I}d_i. There are p+1 indices. In the sample q=31,n=3 and degrees2,3,5, the correct degree is1; omitting the last term gives16. The source’s apparent p-term sum therefore raises a real index alarm. Stacks0913/08CX supplies a checked comparison for the complex conventions; it does not decide the source’s ink or restore the absent following proposition.
+
+## 12. Integral lattices and inverse limits
+
+Let Λ be a finitely generated abelian group. A kernel K of Λ→V, with V a complex vector space, contains the torsion of Λ and is saturated: if rλ∈K for a nonzero integer r, then r·image(λ)=0 implies image(λ)=0. In a descending sequence K_n, the ranks eventually stabilize. After dividing out torsion, nested saturated subgroups of the same rational span are equal, since each is the intersection of its rational span with Λ. Thus K_n eventually stabilizes. The descending sequence2^nZ does not stabilize, precisely because its noninitial terms are not saturated.
+
+Apply this to the integral terms in the exponential sequence. Nilpotent thickenings have one underlying topological space. Finite generation of its integral cohomology is an independent topological input, supplied today by triangulation. The kernels of the maps to coherent cohomology stabilize. Their images are therefore eventually constant, the coherent systems are ML by formal functions, and the quotient/image systems in the exponential sequence are ML. The units-cohomology systems are extensions of the latter systems and are ML as well.
+
+For completeness, extension-closure of ML can be proved at a fixed target level n. First choose m so the images of the left system at n have stabilized. Then choose l≥m so images of the right system at m have stabilized. Any element coming from l can be matched at level m by an element from any higher level on the right; lift it to the middle system and correct its difference using the stable left-system image at n. Thus the middle images at n stabilize. This argument proves only ordinary ML. It does not manufacture the letter’s additional uniform Artin–Rees bound.
+
+For the topological cofinality step, if U contains f⁻¹(y) and f is closed, f(X\setminus U) is closed and omits y. Its complement V has f⁻¹(V)⊂U. Cohomological continuity across these neighborhoods remains a separate theorem with the stated paracompactness assumptions.
+
+## 13. The comparison diagram and the false finite-level inference
+
+Write the relevant exact rows as
+
+\[
+\Lambda_i\to M_i\to P_i\to\Lambda_{i+1}\to M_{i+1},
+\qquad
+\Lambda_i\to\widehat M_i\to\widehat P_i\to\Lambda_{i+1}\to\widehat M_{i+1}.
+\]
+
+The vertical integral maps are identities, and the finite-module completion maps are injective. If p∈P_i maps to zero, its integral obstruction is zero; choose m∈M_i mapping to p. Its completion lies in the image of Λ_i. Injectivity of M_i→Mhat_i then places m in the original image, so p=0. The same diagram gives coker(P_i→Phat_i)≅Mhat_i/M_i, because the kernels in Λ_{i+1} are unchanged.
+
+Given ξ∈Phat_i, choose η∈P_i with the same integral obstruction. Their difference comes from Mhat_i. In each fixed finite-level coherent group, the map from Mhat_i is annihilated by m^(n+1), so it factors through Mhat_i/m^(n+1)Mhat_i=M_i/m^(n+1)M_i. Thus one can choose m∈M_i with the same finite-level image and correct η. This proves equal finite-level images. It does **not** require surjectivity to the whole finite-level coherent group.
+
+The complex A --t→ A in degrees1,2, with A=C{t}, detects the stronger inference. Before reduction H¹=0. Modulo t^(n+1), its kernel is Ct^n. The code computes the shift matrix, its rank n and its one-dimensional kernel for n=0,…,8. The transition sends t^(n+1) to zero in the previous quotient, so every positive-step transition on these H¹ groups is zero. This proves the general formula directly as well. The example is a finite free complex; no proper geometric realization is asserted.
+
+## 14. Why analytic finite modules are complete only in dimension zero
+
+Let A be a noetherian complex analytic local ring and M finite over A. If M has finite length it is annihilated by a power of the maximal ideal, hence M≅Mhat. Conversely suppose M is complete and has positive-dimensional support. A prime filtration of M contains a quotient A/p of positive dimension. Submodules and quotients of a complete finite module are complete for the induced adic topology: finite-module completion is exact and Artin–Rees identifies the induced topology; Krull separation makes each submodule closed. Hence B=A/p is complete.
+
+Analytic Noether normalization gives a finite injective map R=C{z₁,…,z_d}→B with d≥1. Since B is a domain, the fraction-field extension is finite and separable. The field trace takes B into R: elements of B are integral over the integrally closed ring R, and their traces are integral elements of Frac(R). Dividing the trace by the nonzero degree gives an R-linear retraction B→R. The maximal-ideal topology on B is equivalent to the topology defined by (z₁,…,z_d) because B is finite local over R. Thus the direct summand R of complete B would be complete. But Σ_{n≥0}n! z₁^n is a formal series with zero radius of convergence, so it lies in Rhat and not R. Contradiction. This proves the finite-length criterion used in C-SA14-073.
+
+The factorial table in the output merely illustrates the ratio (n+1)!/n!=n+1; the divergence proof is the ratio test for every nonzero z₁. The algebraic argument above, not the finite table, proves necessity.
+
+This criterion is specific to convergent analytic local rings. For a constant elliptic curve over C[[t]], H¹(O)=C[[t]] has infinite length, while proper formal existence identifies actual and compatible formal line bundles. This is outside the analytic-local hypothesis and therefore is not a counterexample to the manuscript theorem.
+
+## 15. Projectivity from a stable ample class
+
+Assume the tower Pic(X_n) is ML and each X_n is projective. Choose n₀ so the image in Pic(X_0) has stabilized, and choose an ample L_n₀. Its restriction L_0 lies in the universal image and therefore lifts to a compatible formal class. In the analytic-local setting finite-image comparison at level0 gives an actual nearby line bundle whose restriction is L_0. Relative ampleness near the closed fibre then yields local projectivity. In the proper algebraic complete-base setting, formal existence supplies the corresponding actual line bundle. No step asserts that every formal line bundle comes from the analytic germ.
+
+The curve assertion invokes the standard projectivity of reduced compact complex curves. To include nilpotents, filter the nilradical by square-zero ideals. The obstruction to lifting an invertible sheaf lies in H² of a coherent sheaf on a one-dimensional space, which vanishes. Lift an ample bundle through the finite filtration; ampleness is unchanged by a nilpotent closed immersion. This supplies the missing nonreduced step while keeping the analytic curve theorem an external input.
+
+The factorial/discrete-exceptional blowup assertion on scan262 is a separate positive claim, not a consequence of ML alone. This run has not supplied the unwritten global ideal construction.
+
+## 16. The punctured-spectrum quotient and finite support
+
+On regular noetherian X, every Weil divisor is Cartier. A divisor on the dense open U extends by closure to X. Two extensions differ by a divisor supported in X\setminus U, generated by its codimension-one irreducible components E_i. Hence Pic(U)=Pic(X)/image(⊕_i Z[E_i]). There can be relations among the E_i; the formula is a quotient by an image, not a free-group identification. Components of codimension≥2 supply no divisor generators.
+
+For a proper resolution X→Spec A that is an isomorphism off the closed point, the coherent module R¹f_*O_X is supported at that point. Its radical annihilator is the maximal ideal, so finite generation makes a power of the maximal ideal annihilate it. It has finite length. It need not be zero: for a simple elliptic surface cone, the exceptional elliptic curve contributes nonzero H¹(O). This is the distinction behind the corrective margin on scan230.
+
+The manuscript’s quotient comparison additionally needs regularity after completion and correspondence of exceptional components. Its depth≥2/coherent-hull argument is one route to injectivity, with coherence carried as an input. A later independent route is Elkik III.1 Theorem3 and the Picard corollary on pp573–574, for noetherian henselian pairs. This later theorem should not be retroactively inserted as the manuscript proof, and its ideal-adic completion must not be confused with arbitrary-open m-adic comparison.
+
+## 17. Component groups and rational points
+
+The cancelled component assertion is refuted by μ₂→G_m over C: the kernel is the trivial connected group, but the source has two components and the target one. The corrected commutative statement adds a geometrically torsion-free cokernel. After quotienting the connected kernel and the source’s connected component, the component kernel is a finite subgroup in the target’s connected algebraic group. A torsion-free connected commutative algebraic group has no torus or abelian part; in characteristic zero its reduced connected part is a vector group, which has no nontrivial finite subgroup. In positive characteristic the relevant geometric-point assertion forces that part to be trivial. This explains both the improved component injection and the convention-sensitive radicial clause.
+
+A finite-type morphism has only finitely many source components above the neutral target component, giving a finite component kernel. In the commutative case a subgroup of a finitely generated component group is finitely generated, and a finite-kernel extension is finitely generated. The unqualified noncommutative margin would need more: subgroups of finitely generated noncommutative groups need not be finitely generated.
+
+For the inverse system, the injective component images are saturated subgroups of a fixed finitely generated abelian group, hence stabilize by §12. Images in any fixed connected finite-type algebraic group form a descending sequence of closed subgroup schemes and stabilize by noetherianity. Once both the component image and neutral image stabilize, nested subgroup images coincide component by component. This is the ML mechanism; it does not rely on finite generation alone.
+
+The eventual-vector-*kernel* reading without unipotence is false: G_n=E^n for an elliptic curve, with projection transitions, has connected kernel E and zero cokernel. All component groups are zero, and all maps are finite type. Yet any nontrivial transition kernel is proper and positive-dimensional, so cannot be a vector group. The inserted unipotence hypothesis in characteristic zero repairs this particular kernel conclusion.
+
+Finally, passing from a scheme-theoretic image to rational points needs vanishing of H¹(k,N). In the commutative connected-unipotent perfect-field setting, split smooth factors are successive Ga’s and have vanishing field H¹; radicial factors have no nontrivial relevant torsors over a perfect field. This gives the desired lifting. Perfectness and the nature of N cannot be discarded by a formal diagram chase.
+
+## 18. Nilpotent obstructions, actual Picard groups and cancellation
+
+For a square-zero ideal I, multiplication identifies 1+I with the additive sheaf I. The units sequence gives
+
+\[
+H^1(I)\to\operatorname{Pic}(X_{n+1})\to\operatorname{Pic}(X_n)
+\to H^2(I).
+\]
+
+Over characteristic zero the last group is a vector space, so the obstruction image has no torsion. The represented Picard-morphism kernel and its finite-type/unipotence require the scheme-theoretic input named Oort in the manuscript. A cancelled proof of the elementary actual-group cokernel statement is still a cancellation; it is not automatically a mathematical disproof.
+
+For field descent, choose a representing line bundle after the specified finite extension, then choose isomorphisms between its two pullbacks. Their failure to satisfy the triple-overlap cocycle is a unit-valued2-cocycle. Its class is the obstruction to descent and belongs to the indicated Čech H². A rational point/rigidification removes the obstruction in the first special corollary. In general, the eventual constancy of the relevant units-cohomology tower is what transfers ML from Picard-functor rational points to actual Picard groups. This explains why those three systems must be kept distinct.
+
+For the constant elliptic family E×Spec C[[t]], the square-zero kernel at each step includes H¹(E,O_E)⊗(t^n/t^(n+1))≅C and the H² obstruction vanishes. The transition maps are surjective, hence ML, but have nonzero kernels at every step. Thus ML does not mean that the entire tower eventually becomes constant. Kresch–Mathur Theorem11.11 supplies a precise modern actual-Pic theorem, while its positive-characteristic rank-jumping examples justify the letter’s warning with an explicit restricted scope.
+
+## 19. Calculations on the reused primary-decomposition sheets
+
+In a PID a nonzero primary ideal has a generator with exactly one prime divisor; conversely a prime power is primary. The zero ideal is primary because the PID is a domain.
+
+For a prime power that is not primary, use A=C[x,y,z]/(xy−z²), p=(x,z). Then A/p=C[y], so p is prime. The ideal p² is generated by x²,xz,z². We have yx=z²∈p², x∉p² and y∉p=rad(p²), contradicting primaryness. The Gröbner reductions saved in the output check membership and nonmembership exactly. Conversely (x²,y³)⊂C[x,y] has radical(x,y) and Artinian local quotient with six displayed basis monomials, so it is primary. It is not a power of(x,y): it contains x² but not y², while the cube misses x².
+
+For a finite family of p-primary submodules Q_i, the natural injection M/(∩Q_i)→⊕M/Q_i places its associated primes in {p}; the quotient is nonzero, so its associated-prime set is exactly{p}. Localization at S meeting p kills the quotient; when S avoids p, each s∈S acts injectively on it, which proves saturation and extension/contraction. These supply the printed proofs without attributing new Picard results to the reused sheet.
+
+For a finite module, zero divisors form the finite union of associated primes. Prime avoidance proves the ideal-annihilator criterion. Some power of a kills M exactly when a lies in rad(Ann M), equivalently in every minimal support prime and hence in every associated prime. If a_i^(n_i)M=0, every monomial of total degree Σ(n_i−1)+1 contains an exponent≥n_i, so kills M. The source’s larger exponent Σn_i is valid. The code enumerates several small exponent sets only as illustrations; the pigeonhole proof is general.
+
+The prime filtration0⊂(x)⊂C[x] has factors C[x] and C, whereas Ass(C[x])={(0)}. This verifies the warning that filtration primes need not equal the associated-prime set. The literal x∈A in the proof involving M is a type alarm, not an adopted correction.
+
+## 20. Calculations on the reused linear-systems sheets
+
+Changing a basis multiplies the vector of sections by an invertible matrix and therefore changes the rational map by a projective transformation. A common nonzero rational factor cancels in homogeneous coordinates; adding a fixed divisor has the same effect. The code checks one invertible3×3 matrix, while the general assertion is simply the definition of projective coordinates. Absence of a fixed divisor does not remove a codimension-two base locus such as(x,y).
+
+At a normal point where the rational map is defined, choose a nonzero target coordinate. All ratios are regular. If the common local factor vanished, its divisor would supply a fixed codimension-one component. Since the system has no fixed component, the factor is a unit and the point is not a base point. Conversely, a section nonzero at the point gives regular ratios immediately. The normality/intersection-of-DVRs input is essential for the divisor convention of the sheet.
+
+For equal-degree homogeneous f,g, the difference of their section divisors is div(f/g). Changing the auxiliary projective coordinate subtracts the same multiple of a hyperplane from both, so the difference is unchanged. Hyperplane pullback is then the equation Σc_i f_i=0. The cancelled definition of I on scan244 is not reconstructed by these identities.
+
+For finiteness of L(D), after choosing f with the maximal additional pole along W, restriction acts on f⁻¹L(D+W). An element f⁻¹g restricts to zero precisely when g has one less allowed pole along W, that is g∈L(D). Thus the embedded kernel is f⁻¹L(D), canonically isomorphic to L(D), not literally the unscaled subspace. The normalized divisor W* and finitely many chart denominators bound the poles of the image uniformly. Induction gives finite image and finite kernel, hence finite total dimension.
+
+On a smooth curve, the coefficient of the extra pole at a closed point Q lies in κ(Q). Therefore dim_k L(D+Q)/L(D)≤[κ(Q):k]. The displayed+1 bound assumes a rational point. For P¹_R and a degree2 closed point Q, O(Q) has degree2, so h⁰(O(Q))=3 and h⁰(O)=1; the increase is2. This is the explicit boundary check, without changing the source’s possible ambient algebraically closed-field convention.
+
+The genus≥1 pencil argument uses extension of a rational map from the smooth locus to the Jacobian. The modern author exposition opened for that input is Milne, *Abelian Varieties*, I.Theorem3.2, printedp17. It establishes the needed extension mechanism, but does not identify the precise reused n°227 source or the old “VA Theorem6” edition.
+
+## 21. Product and inverse-function statements on the reused calculus sheet
+
+For a continuous bilinear product b, expand b(f₁(x+h),f₂(x+h)) using f_i(x+h)=f_i(x)+Df_i(x)h+r_i(h). The linear terms are b(Df₁h,f₂)+b(f₁,Df₂h), in that order. The remaining mixed linear product is O(||h||²), and terms involving r_i are o(||h||), giving the displayed derivative. The symbolic expansion preserves the factor order, so no commutativity of the target product is assumed.
+
+For the inverse theorem at x₀, compose with Df(x₀)⁻¹ and translate so the derivative is the identity and x₀=f(x₀)=0. Strict differentiability gives ||f(z)−f(y)−(z−y)||≤c||z−y|| with c<1 on a small ball. For a sufficiently small target w, z↦w−(f(z)−z) is a contraction preserving a closed smaller ball. Completeness gives its unique fixed point; the same estimate gives local injectivity and a Lipschitz inverse. Rearranging the strict estimate proves strict differentiability of the inverse at0 with derivative identity, and undoing the normalization gives Df(x₀)⁻¹. This is the argument behind the checked Glöckner Theorem5.3 comparison. The absent initial section’s valued-field conventions are not reconstructed from the reused fragment.
+
+## 22. The complete Zariski-main preliminary lemma
+
+Let r be integral over o[t₁,…,t_n], with n>0 and the t_i algebraically independent. Pass to the integral closure o* in Frac(o) and r*=r[o*]. Choose a maximal q* above q. If the result is proved for the normal base o*, contract the resulting smaller prime to r. It stays strictly smaller by incomparability for integral extensions.
+
+For normal o, B=o[t₁,…,t_n] is normal. The ideal pB is prime because its quotient is(o/p)[t₁,…,t_n], and it is not maximal because n>0. The contraction q∩B is maximal by integrality, contains pB, and is strictly larger. Going-down for the normal domain B⊂r supplies a prime below q contracting to pB. It is strictly smaller and contains p. This proves the lemma across scans253 and251. Stacks00H8 is the opened primary modern formulation of going-down used here. The separate conductor fragment and the truncated Lemma2 still lack their full statements; this proof does not restore them.
+
+
+## 23. The normalized elliptic quotient behind the theta fragment
+
+For a complex elliptic curve E with origin0, the quotient by inversion is P¹. In a Weierstrass model its quotient coordinate x has a pole of order2 at0. Even functions with pole order at most4 are spanned by1,x,x²; the odd Weierstrass coordinate y has pole order3 and does not belong to this even subspace. The induced map of the quotient is the degree-two Veronese [u:v]↦[u²:uv:v²], whose image is X₀X₂−X₁²=0. The gradient (X₂,−2X₁,X₀) has no common projective zero over C, so this is a smooth conic. The code verifies its equation. This proves the basic mechanism under an explicit normalization; it neither identifies the reused sheet’s theta coordinates nor supplies its missing boundary blowup theorem.

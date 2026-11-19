@@ -423,6 +423,45 @@ def first_pass_prompt(pkg):
     return None
 
 
+# 19 Nov 2026 (main session, Claude Opus 5.5 at effort max, after sweep 3.5 SUMMARY.md item 1): settled background
+SETTLED_DIR = HERE / "SETTLED_BACKGROUND"
+SETTLED_COLS = ["id", "kind", "cote", "scan_first", "scan_last", "locator", "status", "settled", "run_status", "checks",
+                "source"]
+SETTLED_NOTE = (" `SETTLED.md` is settled background: an earlier run worked these statements out and a check confirmed "
+                "the outcome given there, with its check events. Build on them, and do not work them out again; where your "
+                "check uses one, record it in `CHECK_EVENTS.tsv` (carried as background without fault found, or used and "
+                "rechecked in this run). Where the ink or the mathematics of these pages contradicts one, show the "
+                "evidence: the ink decides.")
+
+
+def settled_rows(cote, a, b):
+    p = SETTLED_DIR / f"cote_{cote}.tsv"
+    if not p.exists():
+        return []
+    rows = list(W.csv.DictReader(open(p, encoding="utf-8"), delimiter="\t"))
+    return [r for r in rows if int(r["scan_first"]) <= b and int(r["scan_last"]) >= a]
+
+
+def settled_md(cote, a, b, rows):
+    out = [f"# What is settled on cote {cote}, scans {a}-{b}\n\n"
+           "An earlier run, OBJ_H035 (GPT-6 Astra (ChatGPT Pro mode), 19 Nov 2026), worked through the object of these "
+           "pages, and its verdict (Claude Opus 5.5 at effort max, 19 Nov 2026) checked its statuses against the scans "
+           "and re-derived its proofs and counterexamples. What follows is settled, each with its check events; "
+           "`SETTLED.tsv` has the same rows. The status words: *True as written*: the statement holds as he wrote it; "
+           "*Slip*: it holds once an evident slip of the pen or an omitted standard convention is fixed; *False*: an "
+           "error in his mathematics, with the counterexample and the repair.\n"]
+    for kind, title in (("statement", "Statements"), ("note verdict", "Work's notes on these pages (K94-01)"),
+                        ("reading checked on the scan", "Readings checked on the scan")):
+        rs = [r for r in rows if r["kind"] == kind]
+        if not rs:
+            continue
+        out.append(f"\n## {title}\n")
+        for r in rs:
+            st = f" *{r['status']}.*" if r["status"] else ""
+            out.append(f"\n- **{r['id']}** ({r['locator']}):{st} {r['settled']}\n  - Checks: {r['checks']}\n")
+    return "".join(out)
+
+
 def assemble(uid, u, D):
     """everything a package needs, the same for both variants: dict of zips (name -> members) and the texts"""
     c = u["cote"]
@@ -667,6 +706,14 @@ def assemble(uid, u, D):
     if sa and (W.SWEEP3 / sa).is_dir():
         cz += W.sweep3_members(sa)
         clist.append(W.SWEEP3_LINE.format(t=sa))
+    # 19 Nov 2026 (main session, after sweep 3.5 item 1): what an earlier run and its verdict settled on these pages
+    # (SETTLED_BACKGROUND/cote_<C>.tsv) goes in as background, with its checks, so that the run builds on it
+    settled = settled_rows(c, a, b)
+    if settled:
+        cz.append(("SETTLED.tsv", W.tsv(settled, SETTLED_COLS).encode("utf-8")))
+        cz.append(("SETTLED.md", settled_md(c, a, b, settled).encode("utf-8")))
+        clist.append(f"`SETTLED.md` and `SETTLED.tsv`: {len(settled)} statements, note verdicts and readings of these "
+                     "pages that an earlier run settled and a check confirmed, each with its check events")
     cz.insert(0, ("README.md", (f"# The context of {uid}\n\n" + "".join(f"- {x}\n" for x in clist) +
                                 "\nNo earlier range of this topic has been worked through yet; when one has, its tables "
                                 "join this context as `earlier_ranges/`.\n").encode("utf-8")))
@@ -725,7 +772,7 @@ def assemble(uid, u, D):
            "{UNITS_RULE}": urule, "{ATTACH_NOTE}": "", "{NEIGHBOURS}": nb_, "{WITNESS_LIST}": "\n".join(wl),
            "{NOTES_LIST}": notes_list, "{CONTEXT_LIST}": "It holds: " + "; ".join(clist) + ". Search these files for his "
            "objects and numbers: the passages of his published work that his pages annotate, draft or anticipate are "
-           "the first grounds.", "{MISSING}": ("scans " + O.compress(missing)) if missing else "none here: every page of this range has a reading",
+           "the first grounds." + (SETTLED_NOTE if settled else ""), "{MISSING}": ("scans " + O.compress(missing)) if missing else "none here: every page of this range has a reading",
            "{FIRST}": f"{a:03d}"}
     meta = dict(cote=c, a=a, b=b, pages=pages, missing=missing, ents=ents, conc=conc, nimg=nimg, hit=hit, clist=clist,
                 wl=wl, drafts=drafts, checks=len(ck), title=title)

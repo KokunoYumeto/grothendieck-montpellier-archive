@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import csv,datetime,json,re
+root=Path(__file__).resolve().parents[1]
+when=datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds')
+rows=[
+('C-exp-log','Finite exp/log bijection between nilpotent K-derivations and uniformly unipotent K-algebra automorphisms','Proved','','68/036-046','No finiteness assumptions'),
+('C-filtered','Exp/log bijection for filtration-raising derivations and identity-on-associated-graded automorphisms of a nilpotent ideal','Proved','C-exp-log','68/045-046','C.1(a); struck condition (iii-prime)'),
+('C-differential','Differential order iff J^(n+1)=0; exp-nilpotent iff uniformly unipotent conormal action','Proved','C-exp-log;StacksDiff','68/045-046','C.1(b); arbitrary Q-algebras and modules'),
+('C-other-autos','Differential automorphism need not be exponential; square-zero algebras realize arbitrary invertible conormal actions','Refuted','C-differential','68/045-046','Original equivalence refuted; exact replacement C-differential'),
+('C-intertwine','Locally nilpotent intertwining f exp(u)=exp(v) f iff fu=vf','Proved','C-exp-log','68/040-042','C.1(c); no finite generation'),
+('C-functor-criterion','Exact logarithmic image and bijectivity criteria for ordinary and formal exponential on arbitrary module functors','Proved','C-exp-log','68/043-044','C.1(d); criteria explicitly specify scalar linearity and formal extension'),
+('C-functor-counter','Universal bijectivity fails: reduced functor and Kähler differential functor counterexamples','Refuted','C-functor-criterion','68/044','Formal injectivity and both surjectivities fail in general'),
+('C-qcoh','Formal actions on base-change modules classify all endomorphisms; ordinary actions classify locally nilpotent endomorphisms','Known','MilneAGS','68/039,043-044','Complete direct derivation; uniform nilpotence iff every locally nilpotent endomorphism is nilpotent'),
+('C-rearrangement','Rearrangement maximum, nested-level equality criterion, and weak-majorization pairing equivalence','Proved','HLP','68/019-020','All groups and finite supports'),
+('C-chain-true','Chain axioms imply convolution closure and every pair is pretasse','Proved','C-rearrangement','68/017','Correct universal consequence; does not imply K'),
+('C-K-counter','Chain axioms do not imply Condition K, even with all positive cardinalities and exact two-torsion kernel','Refuted','C-chain-true;part_c_finite_checks.py','68/017,021','C.2(a), L8; C4 explicit counterexample'),
+('C-K-replacement','Under cardinality completeness K is equivalent to all pairs tasse and to all-factor convolution majorization','Proved','C-rearrangement','68/021','Exact additional condition; three factors suffice for necessity'),
+('C-literal-class','Literal sparse systems with inherited two-torsion kernel exist exactly when involutions commute pairwise','Proved under stated hypotheses','Original scan017','68/017','C.2(b), literal reading without unstated completeness; all abelian groups qualify'),
+('C-extension','Kernel requirement is extra data; exact two-torsion extensions are nonunique even with all positive cardinalities','Proved','part_c_extensions.py','68/017','C2 admits C4 and C2xC2 extensions'),
+('C-symmetry','Pretasse relation symmetric for all finite-support functions iff group is abelian','Proved','C-rearrangement','68/020-021','C.2(c); two-point witness for every noncommuting pair'),
+('C-packed-asymmetry','Tasse relation also nonsymmetric on S3','Refuted','C-symmetry;part_c_finite_checks.py','68/021','Exact 900 rearrangement-pair certificate; weak majorization proof included'),
+]
+with (root/'checks'/'part_c_results.csv').open('w',newline='') as f:
+ w=csv.writer(f);w.writerow(['id','statement','status','where_proved','depends_on','manuscript_pages','notes'])
+ for ident,claim,status,deps,pages,note in rows:
+  w.writerow([ident,claim,status,'sections/part_c.tex, label '+ident,deps,pages,note])
+who='GPT-6 Astra (OpenAI, ChatGPT Pro mode; inherited effort not separately exposed; run part_c_algebra)'
+with (root/'checks'/'part_c_events.tsv').open('w',newline='') as f:
+ w=csv.writer(f,delimiter='\t');w.writerow(['statement_id','date','who','type','outcome'])
+ for ident,claim,status,deps,pages,note in rows:
+  w.writerow([ident,when,who,'targeted proof check','Full proof checked for typing, uniform/local nilpotence, arbitrary modules, and finite/infinite group scope; '+status])
+ for ident in ['C-K-counter','C-packed-asymmetry']:
+  w.writerow([ident,when,who,'computation or formal certificate','part_c_finite_checks.py passed: 400 C4 atom pairs, 64 alignment pairs, 16 torsion pairs, 900 S3 rearrangement pairs'])
+ w.writerow(['C-extension',when,who,'computation or formal certificate','part_c_extensions.py passed: for each of two extensions, 36 atom pairs,16 alignments,8 kernel-equivariance pairs'])
+ w.writerow(['SA22-10:68/039-046',when,who,'independent re-proof','Corrected nilpotence claims proved from exp/log identities; arbitrary functor claims further refuted by C-functor-counter'])
+ w.writerow(['SA22-2:68/019-022',when,who,'independent re-proof','Rearrangement equivalences and noncommutative symmetry failure re-proved; strengthened to iff abelian'])
+ w.writerow(['L8',when,who,'refuted, with the refined statement id C-chain-true and C-K-replacement','Explicit C4 triple-convolution maxima 4 > 3; all draft axioms checked'])
+ w.writerow(['SA22-2:68/017',when,who,'used and rechecked in this run','Original scan independently inspected; two separate d clauses, i:{}_2G isomorphic to ker rho; no completed cardinality-completeness axiom'])
+print('Wrote',len(rows),'statement rows and proof/computation events at',when)

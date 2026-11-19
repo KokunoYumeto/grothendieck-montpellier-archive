@@ -1,0 +1,101 @@
+# Independent mathematical checks
+
+These arguments are this run's reconstructions. They do not amend the transcription and are not statements that a computer proof assistant has verified them. Exact finite calculations are in `code/recheck_algebra.py` and `outputs/algebra_checks.{json,txt}`.
+
+## Universal PD algebra: normal form, including all W(ν,r)
+
+Let W be a discrete valuation ring with uniformizer p, containing the p-local integers, and let ν≥0. Put q_i=(p^{i+1})!/((p^i)!)^p, λ_i=p^{p^i}/(p^i)!, and
+
+ A=W[Λ_0,…,Λ_ν]/(Λ_i^p−q_iΛ_{i+1} for i<ν, Λ_ν^p).
+
+The monic triangular relations give the W-basis Λ^a with 0≤a_i<p: repeated monic extensions, starting with Λ_ν, establish this without a dimension assumption. Translation Θ_i=Λ_i−λ_i is unitriangular on the bounded monomials, so Θ^a is another basis. Legendre gives v_p(q_i)=1 and m_i=v_p(λ_i)=p^i−(p^i−1)/(p−1)≥1.
+
+For 0≤r≤ν set I_r=(Θ_0,…,Θ_r) and c=ν+p m_ν. Define w_r(a)=0 when the first nonzero a_i has i≤r, w_r(a)=i−r when its first nonzero index is i>r, and w_r(0)=c−r. Let S_r=⊕_a p^{w_r(a)}W Θ^a.
+
+First S_r⊂I_r. The assertion is immediate for monomials whose first index is ≤r. Modulo I_r, Θ_r=0. Subtracting λ_i^p=q_iλ_{i+1} from Λ_i^p=q_iΛ_{i+1} gives q_iΘ_{i+1} divisible by Θ_i. Inductively p^{i−r}Θ_i=0 for i>r, since q_i/p is a unit. At the last index Λ_ν^p=0 implies p^{ν−r}λ_ν^p=0, hence p^{c−r}=0. This proves all the stated generators lie in I_r.
+
+For the reverse inclusion, prove S_r is an ideal containing Θ_0,…,Θ_r. It is enough to multiply its basis generators by each Θ_j. When no exponent reaches p, the first nonzero index can only decrease, so the required divisibility cannot increase. When a carry occurs, use
+
+ Θ_j^p=q_jΘ_{j+1}−Σ_{1≤k<p} binom(p,k)λ_j^{p−k}Θ_j^k  (j<ν),
+
+and the same formula without q_jΘ_{j+1}, with constant term −λ_ν^p, for j=ν. A term retaining Θ_j has no larger required weight than the original. A carry replacing the last occurrence of the lowest-index variable by the next index increases the required weight by at most one; q_j supplies one factor p. Repeating carries preserves this inequality. At the terminal constant term, the prior weight ν−r plus v_p(λ_ν^p)=p m_ν is exactly c−r; if a lower-index factor remains, the required weight is smaller. Terms with first index ≤r obey the same inequality with weight truncated at zero. Thus Θ_j S_r⊂S_r. Since S_r contains the ideal generators, I_r⊂S_r.
+
+Consequently I_r=S_r, proving the coefficient criterion and the direct sum decomposition of A/I_r. For r=0 this is the manuscript's W(ν); for r≥1 it proves the quotient assertion left outside Hua's claimed Lean verification. The order of 1 is exactly p^{c−r}. The length is the sum of the weights. For r=0 it simplifies to p^{ν+1}, since
+
+ Σ_{i=1}^ν i(p−1)p^{ν−i}+c = p+p²+⋯+p^ν+p m_ν = p^{ν+1}.
+
+The computer tests independently construct multiplication matrices in the Λ-basis, translate to Θ coordinates, check the entire coefficient-ideal containment, and compare Smith invariant valuations. They cover 20 pairs/triples (p,ν,r), not all parameters.
+
+## Principal PD ideal: why ring membership is not enough
+
+Take the free abelian group A=Z·1⊕Z·x⊕Z·y with x²=2y and xy=y²=0. The multiplication is commutative, associative (all 27 basis triples checked), and unital; hence it is a finite torsion-free Z-algebra and is Noetherian. For π=x, π²/2=y∈A and π^n/n!=0 for n≥3. But πA=Zx⊕2Zy does not contain y. Any divided powers on πA must satisfy 2γ_2(x)=x²=2y; torsion-freeness forces γ_2(x)=y, contradicting γ_2(x)∈πA. The correct torsion-free criterion is π^n/n!∈πA for every n≥1 (equivalently π^n∈n!πA), not merely membership in A. For a chosen sequence π^[n] already in πA, the manuscript's scalar-extension construction remains valid.
+
+## Finite graded de Rham algebras and the local m³ lemma
+
+For a nonnegatively graded Q-algebra A with A_0=k, the Euler derivation induces contraction ι_E on the ordinary Kähler de Rham complex and dι_E+ι_Ed=L_E. On a form of total positive weight w, L_E=w·id. Division by w contracts every positive-weight summand. Thus the ordinary de Rham cohomology of each finite graded monomial example on c5/037 is k in degree zero and zero above. Exact quotient matrices independently verify five listed representative ideals; the Euler proof covers arbitrary positive integral weights, independent of the finite examples.
+
+If (A,m) is a local k-algebra with residue k and char(k)=0, reduce modulo m³. Choose a k-linear complement V to m² in m (no finite-dimensional assumption is required). Then A/m³=k⊕V⊕m² is graded, with weights 0,1,2. If dx=0 and x∈m, Euler contraction gives E(x)=0. Its weight-1 and weight-2 parts are both zero, so x∈m³. The manuscript's cancellation of the Artinian hypothesis is mathematically compatible with this proof.
+
+This does not prove the ordinary de Rham Poincaré lemma for arbitrary Artinian algebras. Set f=x^5+y^5+x^3y^3 and A=Q[x,y]/(f_x,f_y,(x,y)^7). It is local Artinian since the ideal is contained in (x,y) and contains its seventh power. A Gröbner calculation gives f=y^5/3≠0 in A (dimension 16), while df=0 by the two Jacobian relations. This is an earlier-run counterexample independently rechecked here. It does not refute a derived or completed-diagonal de Rham comparison.
+
+## Valuations and p-typical coefficients
+
+Legendre: v_p(n!)=(n−s_p(n))/(p−1). Therefore v_p(π^n/n!)=n(v_p(π)−1/(p−1))+s_p(n)/(p−1). All values for n≥1 are positive iff v_p(π)≥1/(p−1), and they tend to infinity iff the inequality is strict. Necessity at the boundary is tested on n=p^r. For a mixed-characteristic DVR with v_π(p)=e this becomes v_π(π^n/n!)=n−e v_p(n!), giving PD on (π) iff e≤p−1 and topological PD nilpotence iff e<p−1. At e=p−1 the valuation on n=p^r is exactly one.
+
+The p-typical uniqueness coefficients satisfy v_p((pn)!/((n!)^p p!))=s_p(n)−1 and v_p((pm)!/((p!)^m m!))=0. The coefficient for repeated γ_p in γ_n is (p!)^{v_p(n!)}/n!, a p-local unit; it need not reduce to 1, since p=3,n=2 gives 1/2≡2 mod3. These identities were recomputed exactly for p=2,3,5,7 and n≤100; their general validity follows from Legendre.
+
+## Stable lattices at a perfect-field point
+
+Let W be a complete DVR with uniformizer p and σ a valuation-preserving automorphism, K=Frac(W), M a finite-dimensional K-space and F a σ-semilinear automorphism. If every positive F-orbit is bounded, choose a finite W-basis of a lattice L_0. Each basis orbit is contained in p^{-N_j}L_0; the maximum N works simultaneously. Then L=Σ_{n≥0}F^n(L_0) lies between L_0 and p^{-N}L_0, is finite over the Noetherian ring W, and is an F-stable lattice. Conversely an F-stable lattice bounds every positive orbit after multiplying a vector by a power of p. For fixed i, the same argument with all words in F and V=p^iF^{-1} constructs a common stable lattice when every such orbit is bounded. The relation F V=V F=p^i is well typed after the usual Frobenius twists. A finite lattice stable under F admits p^iF^{-1}-stability for i large by clearing finitely many denominators. Without finite rank or uniform bounds these arguments do not apply. The source's all-families formulation is not proved by this pointwise reconstruction.
+
+## Counterexamples and precision tests in the elliptic leaves
+
+For E:y²=x³−x over Q_3(i), Δ=64 is a unit, and modulo 3 there are 4 rational points, so a_3=0 and E is supersingular. The endomorphism (x,y)↦(−x,iy) has square [−1] and is defined over the base. Galois acts on V_3(E) through the centralizer of Q_3(i), a two-dimensional torus, hence cannot have image open in the four-dimensional GL_2(Q_3). This refutes the unrestricted open-image conjecture, not a non-CM refinement and not the unresolved ink reading before “simple”.
+
+For nonintegral j, let k be an algebraic closure of F_5, K=Frac(W(k)), and E_q the Tate curve q=5. Its c4 is a unit and its discriminant has valuation 1. The quadratic twist by d=5 has v(c4)=2, v(Δ)=7, v(j)=−1. The model is minimal because 7<12; its reduction is additive potentially multiplicative, not multiplicative. Its Tate sequence is twisted by the ramified quadratic character χ_d, including the quotient Z_5⊗χ_d. Thus even separably closed residue field does not justify omitting the quadratic twist or asserting that the connected special fiber is a multiplicative torus. The Tate valuation itself satisfies v(q)=−v(j)>0 in the split case.
+
+## Smaller checks
+
+The literal PD logarithm Σ(-1)^n(n−1)!γ_n(x) sends 1+ε to −ε over Q[ε]/ε², so cannot invert exp(ε)=1+ε. The repaired sign is a mathematical suggestion only.
+
+For A=Z[x], ∇e=e dx is integrable but the expected Taylor stratification would contain 1/n!, already 1/2 in order two. Thus characteristic-zero rings cannot replace Q-algebras in the usual connection/stratification equivalence.
+
+On F_p[x], H^0_dR=F_p[x^p] and H^1_dR=F_p[x^p]x^{p−1}dx. On F_3[ε]/ε², Frobenius kills ε while dε≠0; Frobenius can factor into the complex without being an isomorphism from O onto its closed functions.
+
+For the real indefinite Clifford algebra Cl(1,1), an even element is a+b e_1e_2 and its norm is a²−b². Norm-one elements give boosts whose diagonal entry a²+b² is ≥1. The element −I belongs to SO(1,1) but is not in that image. A source identifying this norm-one Spin group with a double cover of the entire indefinite SO group therefore needs a component qualification or a different Pin/Spin convention.
+
+## Parallel-arrow topoi: the variance and the smallness step
+
+This is a reconstruction of c5/016–019. Let X and X′ be Grothendieck topoi, α,β:X′→X geometric morphisms, and F=α*, G=β*. Let L have objects (E,u:FE→GE). Its forgetful functor U:L→X creates finite limits, since F and G preserve them, and creates every small colimit, since F and G preserve colimits. U is conservative. The same assertions hold for the full category L_iso where u is invertible.
+
+The existence of small generators is a real additional step. Choose a sufficiently large uncountable regular κ for which X,X′ are κ-accessible and F,G are strongly κ-accessible; this is the usual uniformization of accessible functors between locally presentable categories, used here as background. Both functors preserve countable chains because they preserve every colimit. Positselski2024 Theorem1.7 now gives accessibility of the categorical inserter L; Theorem1.6 gives it for the isomorpher L_iso. These are the exact categorical constructions just defined. Thus both are cocomplete accessible categories and have small generating families. This use of the theorems is a statement/hypothesis check, not a fresh proof of accessible-category uniformization.
+
+The other Giraud conditions follow under U, with no appeal to a generator guess: coproducts are disjoint, since the relevant pullbacks are created; colimits are stable under pullback, since the comparison morphism is an isomorphism after U; and every equivalence relation is effective, since both its coequalizer and the kernel pair are created. Thus L and L_iso are Grothendieck topoi. U preserves colimits and finite limits and is accessible, so it has a right adjoint and is the inverse image of ω:X→L.
+
+For another topos Y, a left exact colimit-preserving functor H:Y→L is exactly a left exact colimit-preserving functor φ*:Y→X equipped with a natural map α*φ*→β*φ*. The created limits and colimits establish both directions. With the manuscript's 2-cell convention this is the cell φβ→φα. Consequently the outgoing geometric-morphism category Hom(L,Y) has the proposed universal property: L is a lax coequalizer of the two geometric morphisms, not their geometric inserter. Viglas2003 Theorem4.28 concerns an incoming Hom(Z,–) universal property and was therefore rejected as an exact citation for this manuscript assertion.
+
+None of this proves the c5/019–020 comparison for higher direct images. On abelian objects an exact left adjoint to the relevant forgetful functor would preserve injectives under its right adjoint, but such exactness has not been established in the general square. The N-action test has the exact free functor ⊕_(n≥0); it remains a special case.
+
+## Audit details for the elementary and conditional re-proofs
+
+These details state precisely the additional arguments counted as independent re-proofs in the event table. Theorems used as premises remain premises, not freshly proved background.
+
+**Carry nilpotence, p-typical uniqueness and finite ideal bounds (P56-C010, C029, C035).** Give Λ_i weight p^i. Replacing Λ_i^p by q_iΛ_(i+1) preserves that weight; each operation reduces the total number of Λ factors, so reduction terminates. A surviving bounded monomial has weight at most Σ_(i=0)^ν(p−1)p^i=p^(ν+1)−1. Higher-weight monomials must therefore encounter Λ_ν^p=0. For p-typical uniqueness, write n=pm+r, 0≤r<p. The composition formula γ_m(γ_p(x))=[(pm)!/(m!(p!)^m)]γ_(pm)(x) has p-unit coefficient, by Legendre. Since m<n, induction determines γ_(pm); multiplying by γ_r then determines γ_n because binom(pm+r,r) is a p-unit. For n<p, γ_n=x^n/n!. This proves uniqueness, not existence from incomplete axioms. Finally, a product of Nn+1 among N generators contains some generator at least n+1 times; this is the whole proof of the ordinary nilpotence bound.
+
+**Height fragments (P56-C012, C016).** Under the explicitly imposed integral finite-type product hypotheses, dim Z=5d−1 and every projection fiber has dimension ≤d. The fiber-dimension inequality gives dim image(Z)≥4d−1, ruling out codimension at least two even for one projection. For the separate dyadic argument, divide the displayed estimate by 2^h and let h→∞. The normalized limit is zero and the right side tends to d, proving |φ(m)|≤d for both signs. These conditional proofs do not recover the missing quasi-function definitions or prove descent.
+
+**Principal ideals and the induced DVR structure (P56-C034, C038, C040–041).** Equality of representatives πa=πb gives the exact well-definedness condition (a^n−b^n)γ_n(π)=0. In a torsion-free Z-algebra embed in A⊗Q: x↦x^n/n! is the unique possible PD operation, and it satisfies every axiom there. It restricts to (π) precisely when its values are in (π); all axioms then restrict. For the DVR quotient, the canonical operations descend because the ideal (π^m) is PD-stable. If e<p−1, set δ=1−e/(p−1)>0. Each γ_n(πa) has valuation at least δn, so any product of divided powers with total index ≥m/δ vanishes modulo π^m. At e=p−1, γ_(p^h)(π) has valuation one for every h and survives modulo π^m for m>1. This proves nilpotence exactly for the *induced* structure. It says nothing false about other PD structures on a quotient.
+
+**Continuous and finite-target differentials (P56-C054–055, C057).** The Leibniz rule gives D(J^(n+1))⊂J^nM for any derivation D and ideal J. Thus every derivation into a finite module is adically continuous. Set K=∩ ker(f), the intersection over every map Ω¹_(B/A)→M with M finite. Every such map kills K by definition and factors uniquely through Ω/K; conversely every factor is a derivation. Finite generation of this quotient is an additional hypothesis, not a consequence. For B=k[[t]] and finite M, approximate f by its polynomial truncations f_N. Continuity gives D(f)−D(f_N)∈t^NM; hence the limit is f′(t)D(t), using completeness/separation of a finite module over complete noetherian B. Since D(t) is arbitrary, the finite-target quotient is Bdt.
+
+**Coefficient adjunction and the action test (P56-C024, C059).** For α=β=id on Set, an endomorphism is exactly an N-action and an automorphism a Z-action. The free abelian N-action functor is ⊕_(n≥0)M, which is exact because direct sums of abelian groups preserve exact sequences. This does not prove the analogous functor exact in all topoi. Given the checked smooth étale duality adjunction, coefficient restriction Mod(B)→Mod(f*A) has right adjoint Hom_(f*A)(B,−), with its B-action by precomposition. Passing to the corresponding derived functor and composing right adjoints gives the displayed coefficient formula. The SGA smooth duality theorem itself remains a checked premise, not independently reproved here.
+
+**Rationalization and duals (P56-C070, C090–095).** In the perfect-field W-module model, multiplication by p on W is nonzero and reduces to zero on W/p; this proves nonfaithfulness of evaluation. If FV=p and VF=1, associativity gives pF=F and thus F=0, because p−1 is invertible; VF=1 then makes the object zero. For the symmetric weight-i relation, invertible F uniquely determines V=p^iF^−1, and a map commuting with F automatically commutes with V. Finite W-module torsion is killed by a common p-power, and between finite lattices every rational map has bounded denominators. These two facts give the stated finite isogeny quotient. In contrast, id on ⊕_nW/p^n is killed by no p-power and survives in its rationalized endomorphism group, although every individual element of the module is torsion. For the rational dual formula, F^−1(am)=σ^−1(a)F^−1(m), so σ(λ(F^−1(am)))=aσ(λ(F^−1(m))); hence F∨λ is linear in m and σ-semilinear in λ, with the required evaluation compatibility. Integrally, Hom_W(W/p,W)=0 while Hom_k(k,k)=k, so evaluation and naive W-dual do not commute for all finite modules.
+
+**Proper algebraization and Frobenius lift independence (P56-C101, C108).** The independently supplied argument is conditional on the checked Grothendieck existence theorem, an actual proper scheme over a complete noetherian base, and coherent formal data. That theorem algebraizes the module. Each finite diagonal neighborhood is proper over the base, so full faithfulness algebraizes each finite-order stratification map and reflects its cocycle identity. No proper lift is constructed by this argument. For a smooth affine formal scheme, formal smoothness lifts the relative Frobenius map successively across the nilpotent quotients of the complete base. Two such lifts have the same reduction and define maps to the relevant infinitesimal diagonals; the stratification pulls back to a comparison isomorphism. The triple-diagonal cocycle gives transitivity. This is the ordinary-stratified setting; a PD formulation requires its own envelope and quasi-nilpotence conditions.
+
+**Connection and group tests (P56-C062, C104, C130, C143).** A locally constant Z_p-torsor with discrete coefficients on the connected elliptic étale site gives a continuous homomorphism from its profinite fundamental group into discrete Z_p. Its image is finite and hence zero; meanwhile the finite-coefficient inverse limit has rank two. On k[x]/(x^p), the ideal (x^p) is stable under d, and ∂^p acts as zero; the resulting integrable zero-p-curvature connection is not locally free and is not a counterexample to full ordinary-stratification local freeness. For a p-divisible group G over a base where p is locally nilpotent and a quasi-coherent vector group M, locally p^NM=0 while [p^N]:G→G is an epimorphism. Any homomorphism G→M therefore vanishes. Finally, in the ordinary elliptic rank-one extension, every commutator of triangular 2×2 matrices is unipotent and the unipotent subgroup is abelian. The image is metabelian after a finite extension obtaining ordinary good reduction, so the original image is virtually metabelian.
+
+## Targeted published-proof check: ordinary stratified local freeness
+
+BO1978 Proposition2.16 and Note2.17 were read with the full local argument, not inferred from Gieseker’s definition of a locally free stratified sheaf. Let X be any finite-type k-scheme and E a coherent ordinary stratified module. After a faithfully flat extension of k, test at a rational closed point x. Its finite Artin neighborhoods T_n=Spec(O_(X,x)/m_x^n) have nilpotent diagonal over k, so the full ordinary stratification restricts to an actual descent datum on T_n×_k T_n. Faithfully flat descent gives E|_(T_n)≅E(x)⊗_kO_(T_n). Nakayama and the compatible finite-order argument give freeness of the completed local module and then of E at x. Freeness descends through the field extension. The key point is that the full diagonal stratification is available, not merely an integrable connection or PD-stratification. Smoothness of X is not used in this local descent proof. This is recorded as a targeted proof check of the published argument; it is not represented as a new theorem of this run.

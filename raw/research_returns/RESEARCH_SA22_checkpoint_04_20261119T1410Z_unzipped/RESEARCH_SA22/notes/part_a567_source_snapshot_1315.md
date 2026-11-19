@@ -1,0 +1,29 @@
+# Named-original access snapshot — 19 November 2026, 13:15 UTC
+
+This snapshot is for the 13:19 checkpoint. The mathematical proofs already derive their cited inputs from opened originals or explicitly given arguments. The remaining items below are **source-delivery gates imposed by the prompt's named-source list**, not silently replaced by later sources.
+
+| Named source | Exact current status | New evidence in this pass |
+|---|---|---|
+| Nakamura1990, Crelle411,205–216 | Mathematical original still not opened | Its indexed DigiZeitschriften PDF now returns404 in ordinary HTTP as well as the web tool. The service's own homepage and FAQ state that it closed on31December2025; fragments may remain at other institutions. This explains the dead archive path; it does not prove that no lawful copy exists. |
+| Ihara–Nakamura1997, Crelle487,125–151 | Full original still not opened | Exact original preprint identified in the official RIMS1995 catalogue as RIMS1012, April1995. That catalogue provides no full-text link; the ordinary official preprint-file route returns404. It is distinct from the short1995 announcement already opened and cited. |
+| Alling–Greenleaf1971,LNM219 | Full book and its mathematical chapter still not opened | Publisher remains subscription content. Greenleaf's public author profile has bibliographic entries for the book but links a different1969 announcement; this is not the named book. The opened Alling1981 preview identifies the book's genus-one discussion precisely as pp60–66 and confirms species0,1,2 and a unique positive modulus. |
+| Birman, Braids, Links, and Mapping Class Groups | Named1974 book still not opened in its mathematical chapters | Publisher entry and author's three-page errata opened. Full author-hosted1969 On Braid Groups scan downloaded (32pages,41–72) and first original page visually inspected. It is not the different1969 paper Mapping class groups and their relationship to braid groups, pp213–238. The latter's publisher PDF link yielded its abstract/bibliographic page, not the mathematical text. |
+
+## Primary links and tool references
+
+* DigiZeitschriften notice: `https://www.digizeitschriften.de/`, turn485209144view0. FAQ: `https://www.digizeitschriften.de/page/faq.html`, turn870136069view0. It says no central successor platform; some content remains decentralised. We did not attempt to bypass any access control or contact anyone.
+* RIMS1995 catalogue: `https://www.kurims.kyoto-u.ac.jp/preprint/preprint_y1995.html`, turn204900471view0, lines246–249 for RIMS1012. Attempted standard official PDF route `https://www.kurims.kyoto-u.ac.jp/preprint/file/RIMS1012.pdf` returned404, turn977624873view0 and ordinary HTTP.
+* Alling–Greenleaf publisher: `https://link.springer.com/book/10.1007/BFb0060987`, turn554862433search6 / turn819323263search1. Author profile: `https://goddard.academia.edu/NewcombGreenleaf`, turn156788285view3. Its different1969 announcement is turn819323263view1; only its accessible original text is distinguished from the site's generated summary. No mathematical proposition here relies on that generated summary.
+* Birman author bibliography: `https://www.math.columbia.edu/~jb/papers.html`, turn156788285view0. It links `https://www.math.columbia.edu/~jb/On_bd_gps.djvu`; the tool rejects this file type (turn819323263view0), but ordinary HTTP downloaded the complete4,549,500-byte file. Local original title page confirms On Braid Groups, Comm.PureAppl.Math.22(1969),41–72. The author's bibliography has incorrect page numbers for this link; the original page and publisher DOI confirm the correction.
+* Exact other Birman paper metadata: DOI10.1002/cpa.3160220206, publisher page turn425882994view0, confirms Mapping class groups and their relationship to braid groups,22(1969),213–238. It is not relabelled as opened full text.
+* Birman's book errata: `https://www.math.columbia.edu/~jb/errataBLMCG.pdf`, turn425882994view1. The original itself identifies the book year1974. Its corrections concern other book statements; they do not independently state the point-pushing exact sequence. Our precise source for that theorem remains the already opened Farb–Margalit Theorem4.6 and following remarks.
+
+## Local files and attribution
+
+`sources/part_a567_birman1969.djvu` is the complete author-hosted original. `sources/part_a567_birman1969_p1.png` is its inspected first page. The complete32-page PDF conversion `sources/part_a567_birman1969.pdf` is saved and its page count checked; conversion does not change its content or status. The named book's active bibliography key is `Birman1974A567`; the different original's key is `Birman1969BraidsA567`. Both entries state the exact limits of what was read. Existing Nakamura/Ihara–Nakamura entries were updated with the new archive facts and remain explicitly unopened as mathematical originals.
+
+## Post-checkpoint source update, 13:25 UTC
+
+The lawful publisher-distributor preview of Birman1974 is now saved as `sources/part_a567_birman_book_preview.pdf` (25 PDF pages, 4,918,697 bytes). Read Theorem1.2 (printed pp.12–13), Proposition1.3 and Theorem1.4 (p.14): the original configuration-space fibration and pure-braid forgetting exact sequence. The contents locate mapping-class Section4.1 at pp.150–160, outside the preview. This partially opens the named book but does not remove the relevant-chapter delivery gate. Public URL: https://api.pageplace.de/preview/DT0400.9781400881420_A26691398/preview-9781400881420_A26691398.pdf ; tool refs turn864791970view0 and turn205074891view0. Bibliography note now says exactly this.
+
+Nakamura’s advertised HTTP homepage returned complete current author HTML, including a link to `selection.html`; HTTPS attempts had timed out. Broad public Wayback index for Digi volume411 returned three archived article PDFs (log4, log6, log10) but no targetlog14. The index is saved, and absence from this particular response is not evidence no public copy exists.

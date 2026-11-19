@@ -23,6 +23,7 @@ Folder: « Dualité des modules / Construction de faisceaux de modules : notes m
 
 - `this_folder/cote_94.tex`: the whole folder as transcribed so far, each page in the reading a pass starts from, for the argument before and after this range
 - `topics/SA01_TOPIC.md`: the catalogue of the topic (its folders, what is transcribed and how)
+- `SETTLED.md` and `SETTLED.tsv`: 39 statements, note verdicts and readings of these pages that an earlier run settled and a check confirmed, each with its check events
 
 ## Nodes
 
@@ -35,4 +36,4 @@ Folder: « Dualité des modules / Construction de faisceaux de modules : notes m
 ## Provenance
 
 - **Scans:** Université de Montpellier, fonds Grothendieck (grothendieck.umontpellier.fr); cotes and scan numbers are theirs; rendered from the archive PDFs as in the first-pass packages (largest image, autocontrast, unsharp mask, JPEG 88), whole and in three overlapping strips.
-- **Built** 2026-11-19 12:19 UTC by `working_through_20261118/build_working_through.py` (Claude Opus 5.5 at effort max). Lint (--lint-math): pass.
+- **Built** 2026-11-19 14:01 UTC by `working_through_20261118/build_working_through.py` (Claude Opus 5.5 at effort max). Lint (--lint-math): pass.
