@@ -22,10 +22,22 @@ SET = sys.argv[1] if len(sys.argv) > 1 else "small"
 D = pathlib.Path(__file__).resolve().parent.parent / "pilots_api_20261120" / SET
 PRICE = {"haiku": (0.05, 0.25), "sonnet": (1.0, 5.0), "opus": (2.0, 10.0),  # $ per million tokens, batch
          # GPT-6.2 Sol, OpenAI Batch API (developers.openai.com/api/docs/pricing, read 20 Nov 2026): $1 input, $5 output
-         "solmedium": (1.0, 5.0), "solhigh": (1.0, 5.0), "solmax": (1.0, 5.0)}
+         "solmedium": (1.0, 5.0), "solhigh": (1.0, 5.0), "solmax": (1.0, 5.0), "haikumax": (0.05, 0.25)}
 LABEL = {"haiku": f"Claude Haiku 5.5 at effort {'high' if SET.endswith('_v2') else 'medium'}", "sonnet": "Claude Sonnet 5.5 at effort medium", "opus": "Claude Opus 5.5 at effort high"}
 items = {r["id"]: r for r in csv.DictReader(open(D / "items.tsv", encoding="utf-8"), delimiter="\t")}
 LABEL.update({f"sol{e}": f"GPT-6.2 Sol at reasoning effort {e}" for e in ("medium", "high", "max")})
+LABEL["haikumax"] = "Claude Haiku 5.5 at effort max"
+# OpenAI Batch prices, developers.openai.com/api/docs/pricing, read 20 Nov 2026 ($ per million input / output tokens)
+OAI = {"solsixone": ("GPT-6.1 Sol", 1.0, 5.0), "terra": ("GPT-6.1 Terra", 0.5, 2.5), "luna": ("GPT-6 Luna", 0.05, 0.25),
+       "astra": ("GPT-6.2 Astra", 4.0, 20.0)}
+for _t, (_name, _pi, _po) in OAI.items():
+    for _e in ("low", "medium", "high", "xhigh", "max"):
+        PRICE[_t + _e] = (_pi, _po)
+        LABEL[_t + _e] = f"{_name} at reasoning effort {_e}"
+PRICE.update({"opusmax": (2.0, 10.0), "sonnetmax": (1.0, 5.0)})
+LABEL.update({"opusmax": "Claude Opus 5.5 at effort max", "sonnetmax": "Claude Sonnet 5.5 at effort max"})
+ORDER = ["haiku", "haikumax", "sonnet", "sonnetmax", "opus", "opusmax", "solmedium", "solhigh", "solmax"] + \
+    [t + e for t in ("solsixone", "terra", "luna", "astra") for e in ("low", "medium", "high", "xhigh", "max")]
 
 
 def key(s):
@@ -116,7 +128,7 @@ with open(D / "scores.tsv", "w", encoding="utf-8", newline="") as fh:
 L = [f"# Pilots 1 and 2, set '{SET}': {len(items)} marks of DM01 (cote 1), scored against DM01's decisions", "",
      "| Model | Zoom | Prompt | Right | Wrong | Abstained | Other | Right on the Hua class | Cost | Cost per mark | In / out tokens per request |",
      "|---|---|---|---|---|---|---|---|---|---|---|"]
-for mt in ("haiku", "sonnet", "opus", "solmedium", "solhigh", "solmax"):
+for mt in ORDER:
     for z in ("word", "line", "both"):
         for design in ("p1", "p2"):
             rs = [r for r in rows if (r["model"], r["zoom"], r["design"]) == (mt, z, design)]

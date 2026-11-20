@@ -1,6 +1,6 @@
 # The doubt marks of the Montpellier archive transcription
 
-Generated 20 Nov 2026, 10:26 UTC by `build_report.py` (Claude Opus 5.5 at effort max), from the returns filed by then: the newest return of each Pro second pass (partial returns included), DM01's newest checkpoint (checkpoint 10, 20 Nov 05:37 UTC), the Claude block pass of 13 Nov, and the text of record. Every number is computed from the files.
+Generated 20 Nov 2026, 10:45 UTC by `build_report.py` (Claude Opus 5.5 at effort max), from the returns filed by then: the newest return of each Pro second pass (partial returns included), DM01's newest checkpoint (checkpoint 10, 20 Nov 05:37 UTC), the Claude block pass of 13 Nov, and the text of record. Every number is computed from the files.
 
 - [Summary](#summary)
 - [1. The doubt marks: types and where they are](#1-the-doubt-marks-types-and-where-they-are)
@@ -1607,35 +1607,35 @@ The methods of the second-pass prompts and the ones Pro invented on its own in i
 
 - **What Pro invented is in no prompt.** The per-reader JSON records with crop coordinates and a verdict on each doubt mark, the decisions applied by a script per page, and the extra independent readings for places still open (SP34, SP35), and DM01's shared band crops, stopping rule for struck text and splitting of a page's marks between readers: the prompts carry none of these. The public METHODOLOGY.md described the first three as the design; it is corrected to say they are what the returns did.
 - **The pieces forbid what DM01 does with its readers.** The unsent second-pass prompts say "never split the pages among readers": every page is read three times, independently. DM01 gives each mark one reader and a second only where a new reading competes. The two answer different questions (three independent readings of everything, against throughput on the marks).
-- **The deep zoom, fresh readers, tight crops and the workflow record are in every unsent piece** (14 prompts).
+- **The deep zoom, fresh readers, tight crops and the workflow record are in every unsent piece** (13 prompts).
 
 <div class="tw">
 
 | Method | Proposed | In the sent prompts | In the unsent prompts | In DM01's prompt |
 |----|----|----|----|----|
-| Three independent readers of every page, and a main reader who decides | 19 Nov ~20:26 UTC (SP34 on) | 20 of 23 | 14 of 14 | no |
-| Fresh readers for every page (no reader carries an earlier page's images) | 19 Nov 21:11 UTC; DM01 on its own from scan 4 | 18 of 23 | 14 of 14 | no |
-| The readers' brief improved from their disagreements, each version kept | the 21:10 UTC rewrite | 18 of 23 | 9 of 14 | no |
-| A workflow record for the next runs (brief versions, crops a page, what worked) | the 21:10 UTC rewrite; DM01 | 18 of 23 | 14 of 14 | yes |
-| Page once, halves once, then one tight crop per open place, never re-cropped | the reading workflow, 19 Nov 21:07 UTC | 19 of 23 | 9 of 14 | no |
-| Deep zoom: a few thousand pixels across, contrast raised | 19 Nov 21:10 UTC | 18 of 23 | 4 of 14 | yes |
-| C's doubt marks listed as places to decide on the ink | the two-witness prompts (14 Nov on) | 23 of 23 | 9 of 14 | no |
-| Evidence as the visible strokes, with the crop | the two-witness prompts | 23 of 23 | 9 of 14 | no |
-| All three readings listed where the readers differ | the three-reader rewrite | 20 of 23 | 9 of 14 | no |
-| One notation table kept across the pages, and recurring signs made to agree | the three-reader rewrite | 23 of 23 | 9 of 14 | no |
-| The transcription frozen by hash (SP31-SP33: before the mathematical context; three-reader prompts: when every page is decided) | SP31-SP33; the three-reader prompts | 23 of 23 | 9 of 14 | no |
-| Witness S: the readings the sweeps decided on the scan | the 20:5x UTC build | 14 of 23 | 3 of 14 | no |
-| Per-reader structured records (JSON: differences, strokes, crop coordinates, a verdict per doubt mark) | Pro's own, in the SP34 and SP35 returns | 0 of 23 | 0 of 14 | no |
-| Decisions applied to the text by a script per page (decide_NNN.py) | Pro's own, in the SP34 return | 0 of 23 | 5 of 14 | yes |
-| Further independent readings where a place stays open, instead of re-cropping | Pro's own, in the SP34 and SP35 returns | 0 of 23 | 0 of 14 | no |
-| Neighbouring marks read on one shared band crop, a tight crop only for a feature still open | Pro's own, DM01, 22:36 UTC | 0 of 23 | 5 of 14 | no |
-| A stopping rule for struck text (no distinguishing stroke left: keep the doubt, no more crops) | Pro's own, DM01, 22:29 UTC | 0 of 23 | 0 of 14 | no |
-| A page's marks split between readers by their number (1, 2 or 3 readers) | Pro's own, DM01, 22:16 UTC | 0 of 23 | 0 of 14 | no |
-| The first readers' recurring misreadings listed for script checks (PATTERNS.md) | the DM design, 19 Nov 21:58 UTC | 0 of 23 | 5 of 14 | yes |
+| Three independent readers of every page, and a main reader who decides | 19 Nov ~20:26 UTC (SP34 on) | 21 of 24 | 13 of 13 | no |
+| Fresh readers for every page (no reader carries an earlier page's images) | 19 Nov 21:11 UTC; DM01 on its own from scan 4 | 19 of 24 | 13 of 13 | no |
+| The readers' brief improved from their disagreements, each version kept | the 21:10 UTC rewrite | 19 of 24 | 8 of 13 | no |
+| A workflow record for the next runs (brief versions, crops a page, what worked) | the 21:10 UTC rewrite; DM01 | 19 of 24 | 13 of 13 | yes |
+| Page once, halves once, then one tight crop per open place, never re-cropped | the reading workflow, 19 Nov 21:07 UTC | 20 of 24 | 8 of 13 | no |
+| Deep zoom: a few thousand pixels across, contrast raised | 19 Nov 21:10 UTC | 19 of 24 | 3 of 13 | yes |
+| C's doubt marks listed as places to decide on the ink | the two-witness prompts (14 Nov on) | 24 of 24 | 8 of 13 | no |
+| Evidence as the visible strokes, with the crop | the two-witness prompts | 24 of 24 | 8 of 13 | no |
+| All three readings listed where the readers differ | the three-reader rewrite | 21 of 24 | 8 of 13 | no |
+| One notation table kept across the pages, and recurring signs made to agree | the three-reader rewrite | 24 of 24 | 8 of 13 | no |
+| The transcription frozen by hash (SP31-SP33: before the mathematical context; three-reader prompts: when every page is decided) | SP31-SP33; the three-reader prompts | 24 of 24 | 8 of 13 | no |
+| Witness S: the readings the sweeps decided on the scan | the 20:5x UTC build | 14 of 24 | 3 of 13 | no |
+| Per-reader structured records (JSON: differences, strokes, crop coordinates, a verdict per doubt mark) | Pro's own, in the SP34 and SP35 returns | 0 of 24 | 0 of 13 | no |
+| Decisions applied to the text by a script per page (decide_NNN.py) | Pro's own, in the SP34 return | 0 of 24 | 5 of 13 | yes |
+| Further independent readings where a place stays open, instead of re-cropping | Pro's own, in the SP34 and SP35 returns | 0 of 24 | 0 of 13 | no |
+| Neighbouring marks read on one shared band crop, a tight crop only for a feature still open | Pro's own, DM01, 22:36 UTC | 0 of 24 | 5 of 13 | no |
+| A stopping rule for struck text (no distinguishing stroke left: keep the doubt, no more crops) | Pro's own, DM01, 22:29 UTC | 0 of 24 | 0 of 13 | no |
+| A page's marks split between readers by their number (1, 2 or 3 readers) | Pro's own, DM01, 22:16 UTC | 0 of 24 | 0 of 13 | no |
+| The first readers' recurring misreadings listed for script checks (PATTERNS.md) | the DM design, 19 Nov 21:58 UTC | 0 of 24 | 5 of 13 | yes |
 
 </div>
 
-Unsent: the second-pass pieces in TO_SEND/PRO/2_Archive_second_passes (SP54, SP55, SP56, SP57, DM02, DM03, DM04, DM05, SP58, SP59, SP60, SP61, DM06, SP62); sent: the pieces in its .SENT folder (SP31, SP32, SP33, SP34, SP35, SP36, SP37, SP38, SP39, SP40, SP41, SP42, SP43, SP44, SP45, SP46, SP47, SP48, SP49, SP50, SP51, SP52, SP53). A method counts as present when the prompt carries its wording (the pattern in build_report.py); a 'no' for witness S on a piece means its pages had no sweep row.
+Unsent: the second-pass pieces in TO_SEND/PRO/2_Archive_second_passes (SP55, SP56, SP57, DM02, DM03, DM04, DM05, SP58, SP59, SP60, SP61, DM06, SP62); sent: the pieces in its .SENT folder (SP31, SP32, SP33, SP34, SP35, SP36, SP37, SP38, SP39, SP40, SP41, SP42, SP43, SP44, SP45, SP46, SP47, SP48, SP49, SP50, SP51, SP52, SP53, SP54). A method counts as present when the prompt carries its wording (the pattern in build_report.py); a 'no' for witness S on a piece means its pages had no sweep row.
 
 </div>
 
@@ -1711,6 +1711,16 @@ On 19 Nov at 21:54 UTC the main session had estimated that checking the doubt ma
 
 </div>
 
+#### Set 'full_v3': 96 of DM01's marks (27 where Hua has C's other alternative), 96 requests, \$0.35
+
+<div class="tw">
+
+| Model | Image | Prompt | Marks | Same as DM01 | Different | Abstained | Same as DM01, where Hua has C's other alternative | Cost per mark |
+|----|----|----|----|----|----|----|----|----|
+| Claude Haiku 5.5 at effort max | the line and the word crop | readings offered | 96 | 18.8 % | 4.2 % | 0.0 % | 8 of 24 | \$0.00362 |
+
+</div>
+
 #### Set 'small': 10 of DM01's marks (5 where Hua has C's other alternative), 120 requests, \$0.44
 
 <div class="tw">
@@ -1732,15 +1742,26 @@ On 19 Nov at 21:54 UTC the main session had estimated that checking the doubt ma
 
 </div>
 
+#### Set 'sol_full': 96 of DM01's marks (27 where Hua has C's other alternative), 192 requests, \$0.57
+
+<div class="tw">
+
+| Model | Image | Prompt | Marks | Same as DM01 | Different | Abstained | Same as DM01, where Hua has C's other alternative | Cost per mark |
+|----|----|----|----|----|----|----|----|----|
+| GPT-6.2 Sol at reasoning effort medium | the line and the word crop | readings offered | 96 | 80.2 % | 14.6 % | 2.1 % | 21 of 24 | \$0.00220 |
+| GPT-6.2 Sol at reasoning effort high | the line and the word crop | readings offered | 96 | 82.3 % | 13.5 % | 1.0 % | 21 of 24 | \$0.00379 |
+
+</div>
+
 #### Set 'sol_small': 10 of DM01's marks (5 where Hua has C's other alternative), 30 requests, \$0.15
 
 <div class="tw">
 
 | Model | Image | Prompt | Marks | Same as DM01 | Different | Abstained | Same as DM01, where Hua has C's other alternative | Cost per mark |
 |----|----|----|----|----|----|----|----|----|
-| GPT-6.2 Sol at effort medium | the line and the word crop | readings offered | 10 | 70.0 % | 30.0 % | 0.0 % | 4 of 5 | \$0.00178 |
-| GPT-6.2 Sol at effort high | the line and the word crop | readings offered | 10 | 80.0 % | 20.0 % | 0.0 % | 5 of 5 | \$0.00278 |
-| GPT-6.2 Sol at effort max | the line and the word crop | readings offered | 10 | 90.0 % | 10.0 % | 0.0 % | 5 of 5 | \$0.01052 |
+| GPT-6.2 Sol at reasoning effort medium | the line and the word crop | readings offered | 10 | 70.0 % | 30.0 % | 0.0 % | 4 of 5 | \$0.00178 |
+| GPT-6.2 Sol at reasoning effort high | the line and the word crop | readings offered | 10 | 80.0 % | 20.0 % | 0.0 % | 5 of 5 | \$0.00278 |
+| GPT-6.2 Sol at reasoning effort max | the line and the word crop | readings offered | 10 | 90.0 % | 10.0 % | 0.0 % | 5 of 5 | \$0.01052 |
 
 </div>
 
@@ -1749,7 +1770,8 @@ On 19 Nov at 21:54 UTC the main session had estimated that checking the doubt ma
 - **Offering the readings works; asking for a free reading does not.** With the readings offered (in random order, no witness named), the three Claude models agree with DM01 on 59 to 62 of the 96 marks of set full_v2. Asked for a free reading, they agree on 22 to 43: they often read a neighbouring word, because the text around ⟦?⟧ alone does not locate the place in the image. Sending the whole line together with the magnified crop raised the free readings (Claude Opus 5.5 at effort high: 43 of 96) but left them well below the offered readings.
 - **The magnified word beats the line** for the cheaper models (set small: Claude Haiku 5.5 7 against 4 of 10, Claude Sonnet 5.5 6 against 4); Claude Opus 5.5 read both equally (5 and 5).
 - **DM01 is not a reliable reference where Hua has C's other alternative.** The main session (Claude Opus 5.5 at effort max) checked the 9 contested marks of that class on the crops and against the mathematics around them (full_v2/ADJUDICATION.tsv). Hua's alternative was right at 6 of the 7 it could decide. DM01 had kept C's reading at 4 of those 6: u (the formula is u ↦ Λ<sup>n</sup>u), t, + (the same expression reads 1+A further on) and p (α<sub>p</sub>(\|u\|) α<sub>n−p</sub>(\|v\|)). DM01 and C are both GPT-6 Astra, so their agreement there is not independent evidence. Claude Opus 5.5 at effort high matched the checked reading at 6 of the 7, Claude Sonnet 5.5 at 4, Claude Haiku 5.5 at 2. The checker is itself a Claude model; the mathematical checks are the independent part of this evidence.
-- **GPT-6.2 Sol** (OpenAI Batch API, half price; set sol_small: 10 of the 96 marks, readings offered, both images) agreed with DM01 on 7 of 10 at reasoning effort medium (\$0.0018 a mark), 8 at high (\$0.0028) and 9 at max (\$0.0105); on the same 10 marks the Claude models agreed on 5 to 7. Sol, DM01 and C are all OpenAI models, so a higher agreement may be better reading or shared blind spots; the 10 marks hold one contested mark (Ca or Cx), still undecided.
+- **GPT-6.2 Sol** (OpenAI Batch API, half price; readings offered, both images) agreed with DM01 on 77 of the 96 marks at reasoning effort medium (\$0.0022 a mark) and 79 at high (\$0.0038), against 59 to 62 for the Claude models; on 10 of the marks, 9 at max (\$0.0105). Sol, DM01 and C are all OpenAI models, so some of that agreement may be shared blind spots. On the 7 hand-checked contested marks, the checked reading was matched by Claude Opus 5.5 at effort high at 6, GPT-6.2 Sol at medium at 5, Sol at high and Claude Sonnet 5.5 at 4, Claude Haiku 5.5 at 2.
+- **Claude Haiku 5.5 at effort max** (set full_v3) answered only 22 of the 96 marks: on 74 it used its whole 16,000-token allowance thinking and gave no answer. It was dropped.
 - **Cost per mark** through the Message Batches API at half price: Claude Haiku 5.5 about \$0.0004, Claude Sonnet 5.5 about \$0.004, Claude Opus 5.5 about \$0.009. For the 70,502 live-text marks not yet checked that is about \$25, \$275 and \$635; for the 6,068 open marks where Hua has C's other alternative, about \$2, \$24 and \$55.
 
 </div>

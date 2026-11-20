@@ -41,7 +41,12 @@ OUT = HERE.parent / "pilots_api_20261120" / (SET + ("_" + sys.argv[sys.argv.inde
 (OUT / "img").mkdir(parents=True, exist_ok=True)
 
 MODEL = {"haiku": ("claude-haiku-5-5", "high" if "--tag" in sys.argv else "medium", 6000), "sonnet": ("claude-sonnet-5-5", "medium", 4000),
-         "opus": ("claude-opus-5-5", "high", 8000)}
+         "opus": ("claude-opus-5-5", "high", 8000),
+         # 20 Nov ~11:2x UTC, the user: Claude Haiku 5.5 at effort max
+         "haikumax": ("claude-haiku-5-5", "max", 16000),
+         # 20 Nov ~11:4x UTC, the user: Opus and Sonnet at effort max too (room to think: Haiku at max ran out at 16,000)
+         "opusmax": ("claude-opus-5-5", "max", 32000), "sonnetmax": ("claude-sonnet-5-5", "max", 32000)}
+DESIGNS = (sys.argv[sys.argv.index("--designs") + 1] if "--designs" in sys.argv else "p1,p2").split(",")
 
 # ---- DM01's decisions, joined with what the alignment knows about each mark (page by page, in mark order)
 dmd = max(SPR.glob("DM01_*_unzipped"), key=lambda p: re.search(r"(\d{8}T\d{4})Z_unzipped$", p.name).group(1))
@@ -208,7 +213,7 @@ for i in ids:
     for mt in MODELS:
         model, effort, mx = MODEL[mt]
         for z in ZOOMS:
-            for design in ("p1", "p2"):
+            for design in DESIGNS:
                 if z == "both":
                     content = [{"type": "text", "text": "Image 1: the whole line, as on the page."},
                                {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": b64["line"]}},

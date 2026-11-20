@@ -801,11 +801,29 @@ f_agree = sum(1 for r in f_score if r["agree"] == "True")
 f_cnt = collections.Counter(d["decision"].lower() for d in f_dec)
 # ---------------------------------------------------------------- the API pilots 1 and 2 (20 Nov 2026; pilot12_*.py)
 API = HERE.parent / "pilots_api_20261120"
-API_LABEL = {"haiku": "Claude Haiku 5.5", "sonnet": "Claude Sonnet 5.5", "opus": "Claude Opus 5.5", "solmedium": "GPT-6.2 Sol", "solhigh": "GPT-6.2 Sol", "solmax": "GPT-6.2 Sol"}
-API_EFF = {"small": {"haiku": "medium", "sonnet": "medium", "opus": "high"}, "full_v2": {"haiku": "high", "sonnet": "medium", "opus": "high"}}
-for _st in ("sol_small", "sol_full"):
-    API_EFF[_st] = {"solmedium": "medium", "solhigh": "high", "solmax": "max"}
-API_PRICE = {"haiku": (0.05, 0.25), "sonnet": (1.0, 5.0), "opus": (2.0, 10.0), "solmedium": (1.0, 5.0), "solhigh": (1.0, 5.0), "solmax": (1.0, 5.0)}  # $ per million tokens, batch (half price)
+# Each request's model tag: Claude ("haiku", "haikumax", "sonnet", "opus", ...) or an OpenAI model with its reasoning effort
+# appended ("solhigh", "terramax", "lunahigh", ...). Batch prices, $ per million input / output tokens: the claude-api
+# skill (Anthropic) and developers.openai.com/api/docs/pricing (OpenAI), read 20 Nov 2026.
+_CLAUDE = {"haiku": ("Claude Haiku 5.5", 0.05, 0.25), "haikumax": ("Claude Haiku 5.5", 0.05, 0.25), "sonnet": ("Claude Sonnet 5.5", 1.0, 5.0),
+           "sonnetmax": ("Claude Sonnet 5.5", 1.0, 5.0), "opus": ("Claude Opus 5.5", 2.0, 10.0), "opusmax": ("Claude Opus 5.5", 2.0, 10.0)}
+_OAI = {"solsixone": ("GPT-6.1 Sol", 1.0, 5.0), "sol": ("GPT-6.2 Sol", 1.0, 5.0), "terra": ("GPT-6.1 Terra", 0.5, 2.5),
+        "luna": ("GPT-6 Luna", 0.05, 0.25), "astra": ("GPT-6.2 Astra", 4.0, 20.0)}
+_EFFS = ("low", "medium", "high", "xhigh", "max")
+
+
+def api_model(mt, st):
+    """-> (label with effort, input price, output price, sort key)"""
+    if mt in _CLAUDE:
+        name, pi, po = _CLAUDE[mt]
+        eff = "max" if mt.endswith("max") else {"sonnet": "medium", "opus": "high"}.get(mt, "high" if st.endswith("_v2") else "medium")
+        return f"{name} at effort {eff}", pi, po, (0, list(_CLAUDE).index(mt))
+    for base in sorted(_OAI, key=len, reverse=True):
+        if mt.startswith(base) and mt[len(base):] in _EFFS:
+            name, pi, po = _OAI[base]
+            return f"{name} at reasoning effort {mt[len(base):]}", pi, po, (1, list(_OAI).index(base), _EFFS.index(mt[len(base):]))
+    return mt, 0.0, 0.0, (9,)
+
+
 ZLAB = {"word": "the word crop", "line": "the line", "both": "the line and the word crop"}
 api_parts, api_cost_total = [], 0.0
 for sd in sorted(API.glob("*/scores.tsv")):
@@ -819,11 +837,12 @@ for sd in sorted(API.glob("*/scores.tsv")):
             continue
         mt, z, de, _ = r["custom_id"].split("-", 3)
         u = r["usage"]
+        _lab, _pi, _po, _ = api_model(mt, st)
         cost[(mt, z, de)] += (u.get("input_tokens", 0) + u.get("cache_creation_input_tokens", 0) + u.get("cache_read_input_tokens", 0)) * \
-            API_PRICE[mt][0] / 1e6 + u.get("output_tokens", 0) * API_PRICE[mt][1] / 1e6
+            _pi / 1e6 + u.get("output_tokens", 0) * _po / 1e6
     api_cost_total += sum(cost.values())
     rows_ = []
-    for mt in ("haiku", "sonnet", "opus", "solmedium", "solhigh", "solmax"):
+    for mt in sorted({r["model"] for r in sc}, key=lambda m: api_model(m, st)[3]):
         for z in ("word", "line", "both"):
             for de in ("p1", "p2"):
                 rs = [r for r in sc if (r["model"], r["zoom"], r["design"]) == (mt, z, de)]
@@ -832,7 +851,7 @@ for sd in sorted(API.glob("*/scores.tsv")):
                 c = collections.Counter(r["verdict"] for r in rs)
                 cl = [r for r in rs if r["cls"] == "1" and r["ref"] != "undecided"]
                 n = len(rs)
-                rows_.append([f"{API_LABEL[mt]} at effort {API_EFF.get(st, {}).get(mt, '?')}", ZLAB[z], "readings offered" if de == "p1" else "free reading",
+                rows_.append([api_model(mt, st)[0], ZLAB[z], "readings offered" if de == "p1" else "free reading",
                               n, pct(c["right"], n), pct(c["wrong"], n), pct(c["abstained"], n),
                               f"{sum(1 for r in cl if r['verdict'] == 'right')} of {len(cl)}", f"${cost[(mt, z, de)] / max(1, n):.5f}"])
     api_parts.append(f"<h4>Set '{esc(st)}': {len(its)} of DM01's marks ({sum(1 for i in its if i['in_class'] == '1')} where Hua has C's other "
