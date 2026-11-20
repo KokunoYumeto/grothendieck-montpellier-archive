@@ -61,11 +61,27 @@ DESIGN_ORDER = [
     ("G_PIECE", "GPT-6 Astra (ChatGPT Pro mode), one reader, piece of 16-24 pages (SP31-SP33; sent 19 Nov)", "Codex web"),
     ("G_THREE", "GPT-6 Astra (ChatGPT Pro mode), three readers and a main reader (SP34)", "Codex web"),
     ("G_WF", "GPT-6 Astra (ChatGPT Pro mode), three readers and the reading workflow of 21:07 UTC (SP35)", "Codex web"),
-    ("G_DEEP", "GPT-6 Astra (ChatGPT Pro mode), three fresh readers per page, deep zoom (SP36, SP37, SP38, SP57)", "Codex web"),
+    ("G_DEEP", "GPT-6 Astra (ChatGPT Pro mode), three fresh readers per page, deep zoom (SP36 on)", "Codex web"),
     ("DM01", "GPT-6 Astra (ChatGPT Pro mode), doubt marks only, its own workflow (DM01)", "Pro first reading"),
+    ("DM_LIVE", "GPT-6 Astra (ChatGPT Pro mode), live-text doubt marks only, DM01's workflow (DM02 on)", "Claude second pass"),
 ]
-GROUP = {"CLAUDE13": "CLAUDE13", "SP02": "G_LARGE", "SP04": "G_LARGE", "SP12": "G_LARGE", "SP14": "G_LARGE", "SP31": "G_PIECE",
-         "SP32": "G_PIECE", "SP33": "G_PIECE", "SP34": "G_THREE", "SP35": "G_WF", "SP36": "G_DEEP", "SP37": "G_DEEP", "SP38": "G_DEEP", "SP57": "G_DEEP", "DM01": "DM01"}
+
+
+class _Group(dict):
+    """20 Nov 2026: every three-reader piece from SP36 on (SP39-SP56 and the remainder pieces SP58 on) is the deep-zoom
+    design; every doubt-mark run after DM01 is the live-text design."""
+
+    def __missing__(self, run):
+        m = re.match(r"SP(\d+)$", run)
+        if m and int(m.group(1)) >= 36:
+            return "G_DEEP"
+        if re.match(r"DM\d+$", run) and run != "DM01":
+            return "DM_LIVE"
+        raise KeyError(run)
+
+
+GROUP = _Group({"CLAUDE13": "CLAUDE13", "SP02": "G_LARGE", "SP04": "G_LARGE", "SP12": "G_LARGE", "SP14": "G_LARGE", "SP31": "G_PIECE",
+                "SP32": "G_PIECE", "SP33": "G_PIECE", "SP34": "G_THREE", "SP35": "G_WF", "DM01": "DM01"})
 DLABEL = {k: v for k, v, _ in DESIGN_ORDER}
 DROUTE = {k: r for k, _, r in DESIGN_ORDER}
 ROUTE_LONG = {"Pro first reading": "GPT-6 Astra (ChatGPT Pro mode)", "Codex web": "GPT-6 Astra at reasoning effort max in Codex web",
@@ -783,6 +799,49 @@ t_pil = table(["Claude reader (Claude Opus 5.5)", "Scans", "C's marks", "Settled
               num_cols={2, 3, 4, 5})
 f_agree = sum(1 for r in f_score if r["agree"] == "True")
 f_cnt = collections.Counter(d["decision"].lower() for d in f_dec)
+# ---------------------------------------------------------------- the API pilots 1 and 2 (20 Nov 2026; pilot12_*.py)
+API = HERE.parent / "pilots_api_20261120"
+API_LABEL = {"haiku": "Claude Haiku 5.5", "sonnet": "Claude Sonnet 5.5", "opus": "Claude Opus 5.5", "solmedium": "GPT-6.2 Sol", "solhigh": "GPT-6.2 Sol", "solmax": "GPT-6.2 Sol"}
+API_EFF = {"small": {"haiku": "medium", "sonnet": "medium", "opus": "high"}, "full_v2": {"haiku": "high", "sonnet": "medium", "opus": "high"}}
+for _st in ("sol_small", "sol_full"):
+    API_EFF[_st] = {"solmedium": "medium", "solhigh": "high", "solmax": "max"}
+API_PRICE = {"haiku": (0.05, 0.25), "sonnet": (1.0, 5.0), "opus": (2.0, 10.0), "solmedium": (1.0, 5.0), "solhigh": (1.0, 5.0), "solmax": (1.0, 5.0)}  # $ per million tokens, batch (half price)
+ZLAB = {"word": "the word crop", "line": "the line", "both": "the line and the word crop"}
+api_parts, api_cost_total = [], 0.0
+for sd in sorted(API.glob("*/scores.tsv")):
+    st = sd.parent.name
+    sc = list(csv.DictReader(open(sd, encoding="utf-8"), delimiter="\t"))
+    its = list(csv.DictReader(open(sd.parent / "items.tsv", encoding="utf-8"), delimiter="\t"))
+    res = [json.loads(line) for line in open(sd.parent / "results.jsonl", encoding="utf-8")]
+    cost = collections.defaultdict(float)
+    for r in res:
+        if r["type"] != "succeeded":
+            continue
+        mt, z, de, _ = r["custom_id"].split("-", 3)
+        u = r["usage"]
+        cost[(mt, z, de)] += (u.get("input_tokens", 0) + u.get("cache_creation_input_tokens", 0) + u.get("cache_read_input_tokens", 0)) * \
+            API_PRICE[mt][0] / 1e6 + u.get("output_tokens", 0) * API_PRICE[mt][1] / 1e6
+    api_cost_total += sum(cost.values())
+    rows_ = []
+    for mt in ("haiku", "sonnet", "opus", "solmedium", "solhigh", "solmax"):
+        for z in ("word", "line", "both"):
+            for de in ("p1", "p2"):
+                rs = [r for r in sc if (r["model"], r["zoom"], r["design"]) == (mt, z, de)]
+                if not rs:
+                    continue
+                c = collections.Counter(r["verdict"] for r in rs)
+                cl = [r for r in rs if r["cls"] == "1" and r["ref"] != "undecided"]
+                n = len(rs)
+                rows_.append([f"{API_LABEL[mt]} at effort {API_EFF.get(st, {}).get(mt, '?')}", ZLAB[z], "readings offered" if de == "p1" else "free reading",
+                              n, pct(c["right"], n), pct(c["wrong"], n), pct(c["abstained"], n),
+                              f"{sum(1 for r in cl if r['verdict'] == 'right')} of {len(cl)}", f"${cost[(mt, z, de)] / max(1, n):.5f}"])
+    api_parts.append(f"<h4>Set '{esc(st)}': {len(its)} of DM01's marks ({sum(1 for i in its if i['in_class'] == '1')} where Hua has C's other "
+                     f"alternative), {len(res)} requests, ${sum(cost.values()):.2f}</h4>" +
+                     table(["Model", "Image", "Prompt", "Marks", "Same as DM01", "Different", "Abstained",
+                            "Same as DM01, where Hua has C's other alternative", "Cost per mark"], rows_, num_cols={3, 4, 5, 6, 8}))
+API_NOTES_FILE = API / "NOTES.html"
+API_PILOTS = ("".join(api_parts) + (API_NOTES_FILE.read_text(encoding="utf-8") if API_NOTES_FILE.is_file() else "")) if api_parts else \
+    "<p>Not run yet.</p>"
 body = f"""
 <p>Six pilots ran on 19 Nov, all Claude Opus 5.5; A-E read cote 156-7 scans 2-6, the pages of Pro's SP35. A: a lead at effort max with
 three readers at effort high. B: one reader at max. C: two readers at max who debate. D: two readers at high who debate. E: two readers
@@ -797,13 +856,12 @@ settled or not. Agreement is not accuracy: neither has been checked on the scan 
 <p>Of {len(f_score)} places where C and Hua differ that F decided, {f_agree} ({pct(f_agree, len(f_score))}) agree with Pro's SP04. SP04 changed C at
 {sum(1 for r in f_score if r['Pro final'] != r['C'])} of them; F decided {f_cnt['c']} for C, {f_cnt['h']} for Hua, {f_cnt['neither']} neither,
 {f_cnt['notation']} notation only and {f_cnt['undecidable']} undecidable.</p>
-<h3>The API route (pilot G)</h3><p>Never run. On 19 Nov at 21:54 UTC the main session estimated that checking the
-114,000 doubt marks then listed through the API "would come to over $1,000", at about a cent a place. That figure came
-from the placement run of the same evening (Claude Opus 5.5 at effort high, 136 text-only requests, about $3, sent to the
-standard endpoint at twice the batch price, against the rule). It was not a test of reading doubt marks: no image, no
-prompt variant, no other model, no cost per design. The user then chose the doubt-marks-only Pro run instead (DM01). An API
-route is worth building only if it is very cheap, measured first on a small batch with several prompt designs and models,
-and every API run goes through the 50 %-off modes (Batch or Flex).</p>"""
+<h3>The API route: pilots 1 and 2 (20 Nov, Message Batches API)</h3>
+<p>On 19 Nov at 21:54 UTC the main session had estimated that checking the doubt marks through the API "would come to over $1,000", at
+about a cent a place. That figure was an extrapolation from a text-only placement run (Claude Opus 5.5 at effort high, 136 requests,
+about $3, standard endpoint), not a test of reading doubt marks. The pilots below are that test, run through the Message Batches API
+at half price.</p>
+{API_PILOTS}"""
 section("pilots", "7. The pilots", body)
 
 # ================================================================ 8. every way suggested
@@ -818,7 +876,7 @@ WAYS = [
      f"settled {pct(rates(by_design['G_THREE'])[1], rates(by_design['G_THREE'])[0])} on {len([p for p in pages if p['run'] == 'SP34'])} pages so far", "5-7 pages an hour"),
     ("The reading workflow: page once, halves once, list what is open, one tight crop per open place", "the user, 19 Nov 21:07 UTC", "SP35 on; in SP36-SP57",
      f"SP35 settled {pct(rates(by_design['G_WF'])[1], rates(by_design['G_WF'])[0])} on {len([p for p in pages if p['run'] == 'SP35'])} pages", "Pro run-hours"),
-    ("Deep zoom and fresh readers per page", "the user, 19 Nov 21:10-21:11 UTC", "SP36-SP57 (SP36, SP37, SP38, SP57 back)",
+    ("Deep zoom and fresh readers per page", "the user, 19 Nov 21:10-21:11 UTC", f"SP36-SP62 ({len({p['run'] for p in pages if GROUP[p['run']] == 'G_DEEP'})} of them back)",
      f"settled {pct(rates(by_design['G_DEEP'])[1], rates(by_design['G_DEEP'])[0])} on {len([p for p in pages if GROUP[p['run']] == 'G_DEEP'])} pages so far", "Pro run-hours"),
     ("A long Pro run on the doubt marks only, designing its own workflow", "the user, 19 Nov 21:58 UTC", (f"DM01 ended at {dm_cp_label} (cote 1, {len(dm_met)} pages); DM06 takes the rest" if dm_ended else "DM01 running (cote 1)"),
      f"settled {pct(dm_res, dm_n)}; {dm_rate:.0f} marks an hour; {len(dm_oth)} errors outside the marks", "Pro run-hours"),
@@ -959,7 +1017,6 @@ PUB = [("DM01 is the run the user proposed on", "DM01 is the run we proposed on"
        ("after about 5.5 weekly points", "after about 5.5 % of the weekly Claude usage limit"),
        (" weekly points a page", " % of the weekly Claude usage limit a page"),
        ("% of a week a scan (13 Nov meter)", "% of the weekly Claude usage limit a scan"),
-       (", against the rule)", ")"),
        ("<th>Where it came from</th>", "<th>Proposed</th>"),
        ("(Claude Opus 5.5 at effort max, main session)", "(Claude Opus 5.5 at effort max)")]
 if "--public" in sys.argv:

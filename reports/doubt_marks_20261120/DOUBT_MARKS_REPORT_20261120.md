@@ -1,6 +1,6 @@
 # The doubt marks of the Montpellier archive transcription
 
-Generated 20 Nov 2026, 09:59 UTC by `build_report.py` (Claude Opus 5.5 at effort max), from the returns filed by then: the newest return of each Pro second pass (partial returns included), DM01's newest checkpoint (checkpoint 10, 20 Nov 05:37 UTC), the Claude block pass of 13 Nov, and the text of record. Every number is computed from the files.
+Generated 20 Nov 2026, 10:26 UTC by `build_report.py` (Claude Opus 5.5 at effort max), from the returns filed by then: the newest return of each Pro second pass (partial returns included), DM01's newest checkpoint (checkpoint 10, 20 Nov 05:37 UTC), the Claude block pass of 13 Nov, and the text of record. Every number is computed from the files.
 
 - [Summary](#summary)
 - [1. The doubt marks: types and where they are](#1-the-doubt-marks-types-and-where-they-are)
@@ -21,21 +21,21 @@ Generated 20 Nov 2026, 09:59 UTC by `build_report.py` (Claude Opus 5.5 at effort
 
 <div class="lede">
 
-**128,400 doubt marks** stand open in the text of record today, on 12,518 of its 13,553 pages: 71,369 single readings marked doubtful (`\unsure{a}`), 54,221 choices between readings (`\unsure{a|b}`) and 2,810 illegible places (`\illegible{n}`). Every route marks its doubts the same way. 55,143 of the marks (42.9 %) sit inside struck-out text.
+**128,310 doubt marks** stand open in the text of record today, on 12,518 of its 13,553 pages: 71,321 single readings marked doubtful (`\unsure{a}`), 54,180 choices between readings (`\unsure{a|b}`) and 2,809 illegible places (`\illegible{n}`). Every route marks its doubts the same way. 55,116 of the marks (43.0 %) sit inside struck-out text.
 
-**5,580 of the open marks (4.3 %) have been checked against the scan and stayed doubtful** (4,783 on Pro second passes, 797 on the pages DM01 finished); **122,820 (95.7 %) have not been checked yet**: 114,621 on pages with only a first reading and 8,199 on the pages of the 13 Nov Claude pass. The text itself does not tell the two apart; a way to mark a checked doubt is proposed in section 10.
+**5,786 of the open marks (4.5 %) have been checked against the scan and stayed doubtful** (4,989 on Pro second passes, 797 on the pages DM01 finished); **122,524 (95.5 %) have not been checked yet**: 114,325 on pages with only a first reading and 8,199 on the pages of the 13 Nov Claude pass. The text itself does not tell the two apart; a way to mark a checked doubt is proposed in section 10.
 
-**Mathematics, per word.** 27.2 % of the words of the text of record are mathematics and 36.8 % of the open marks sit there: per 100 words, 4.76 marks in mathematics against 3.78 in prose (in live text, 3.25 against 2.19; section 1).
+**Mathematics, per word.** 27.2 % of the words of the text of record are mathematics and 36.8 % of the open marks sit there: per 100 words, 4.76 marks in mathematics against 3.77 in prose (in live text, 3.25 against 2.19; section 1).
 
-**The second passes leave most of the first reading's doubt marks in place.** On the 1,314 pages they have finished (15,691 marks of witness C), the Pro second passes settled 38.6 % of C's marks, the Claude block pass of 13 Nov 10.4 %, and the doubt-marks-only run DM01 45.8 %. Where a mark was settled, C's first reading was wrong 14.5 % of the time in the Pro passes and 14.0 % in DM01.
+**The second passes leave most of the first reading's doubt marks in place.** On the 1,345 pages they have finished (15,987 marks of witness C), the Pro second passes settled 38.5 % of C's marks, the Claude block pass of 13 Nov 10.4 %, and the doubt-marks-only run DM01 45.8 %. Where a mark was settled, C's first reading was wrong 14.4 % of the time in the Pro passes and 14.0 % in DM01.
 
 **DM01 did real work and built its own method.** In 443 minutes it recorded a decision on each of the 1447 marks of 67 pages: it settled 682, changed C's reading at 98 of them, left 765 undecided (573 of these in struck-out text), and found 11 errors outside the marks. It kept a timed record of its workflow (48 entries), with the measured effect of each change (section 5). At its measured pace the remaining 1,237 marks of cote 1 take about 6 hours.
 
-**Hua's text, at the same place, is a strong sign only when it agrees with C.** Where Hua has C's first reading and a Pro pass settled the mark, the pass confirmed C at 678 of 753 (90.0 %). Where Hua has C's other alternative, the Pro passes still kept C's first reading at 185 of 268 (69.0 %) and chose Hua's at 50 (18.7 %); the Claude pass of 13 Nov, which settled far fewer marks, went the other way (48 of 69 for Hua's alternative). No scan has decided between them yet. This bears on 6,068 open marks, the head of the fix queue; Hua is uncertain at the same place at 27,535 more.
+**Hua's text, at the same place, is a strong sign only when it agrees with C.** Where Hua has C's first reading and a Pro pass settled the mark, the pass confirmed C at 719 of 795 (90.4 %). Where Hua has C's other alternative, the Pro passes still kept C's first reading at 191 of 274 (69.7 %) and chose Hua's at 50 (18.2 %); the Claude pass of 13 Nov, which settled far fewer marks, went the other way (48 of 69 for Hua's alternative). No scan has decided between them yet. This bears on 6,070 open marks, the head of the fix queue; Hua is uncertain at the same place at 27,518 more.
 
-**55,143 open marks (42.9 %) are inside struck-out text,** and every pass settles those less often than marks in live text: at 16-59 % of the live-text rate, depending on the pass (section 2).
+**55,116 open marks (43.0 %) are inside struck-out text,** and every pass settles those less often than marks in live text: at 16-60 % of the live-text rate, depending on the pass (section 2).
 
-**Deep zoom:** the data so far cannot separate the effect of zoom depth from the page and the design (section 4); the deep-zoom pieces with fresh readers (SP36, SP37, SP38, SP57) have 34 finished pages between them.
+**Deep zoom:** the data so far cannot separate the effect of zoom depth from the page and the design (section 4); the deep-zoom pieces with fresh readers (SP36, SP37, SP38, SP57) have 62 finished pages between them.
 
 </div>
 
@@ -100,13 +100,13 @@ Every reading route writes its doubts with the same two commands, defined in eac
 <tr>
 <td>Codex web<br />
 <span class="small">GPT-6 Astra at reasoning effort max in Codex web</span></td>
-<td class="n">934</td>
-<td class="n">918</td>
-<td class="n">5,242</td>
-<td class="n">7,209</td>
-<td class="n">111</td>
-<td class="n">12,562</td>
-<td class="n">13.4</td>
+<td class="n">903</td>
+<td class="n">894</td>
+<td class="n">5,133</td>
+<td class="n">7,026</td>
+<td class="n">107</td>
+<td class="n">12,266</td>
+<td class="n">13.6</td>
 </tr>
 <tr>
 <td>Claude second pass<br />
@@ -133,13 +133,13 @@ Every reading route writes its doubts with the same two commands, defined in eac
 <tr>
 <td>Pro second pass<br />
 <span class="small">GPT-6 Astra (ChatGPT Pro mode), second pass</span></td>
-<td class="n">439</td>
-<td class="n">428</td>
-<td class="n">1,574</td>
-<td class="n">3,131</td>
-<td class="n">78</td>
-<td class="n">4,783</td>
-<td class="n">10.9</td>
+<td class="n">470</td>
+<td class="n">452</td>
+<td class="n">1,635</td>
+<td class="n">3,273</td>
+<td class="n">81</td>
+<td class="n">4,989</td>
+<td class="n">10.6</td>
 </tr>
 <tr>
 <td>doubt marks settled (DM run)<br />
@@ -156,10 +156,10 @@ Every reading route writes its doubts with the same two commands, defined in eac
 <td>All</td>
 <td class="n">13,553</td>
 <td class="n">12,518</td>
-<td class="n">71,369</td>
-<td class="n">54,221</td>
-<td class="n">2,810</td>
-<td class="n">128,400</td>
+<td class="n">71,321</td>
+<td class="n">54,180</td>
+<td class="n">2,809</td>
+<td class="n">128,310</td>
 <td class="n">9.5</td>
 </tr>
 </tbody>
@@ -174,9 +174,9 @@ Every reading route writes its doubts with the same two commands, defined in eac
 | Where the page stands (STATE/PAGE_STATE.tsv) | Pages | Single | Choice | Illegible | All marks |
 |----|----|----|----|----|----|
 | nothing prepared | 9,191 | 47,979 | 37,961 | 1,935 | 87,875 |
-| in a piece ready to send | 2,965 | 17,303 | 8,344 | 577 | 26,224 |
-| second pass done | 439 | 1,574 | 3,131 | 78 | 4,783 |
-| in a sent second pass | 365 | 1,473 | 2,801 | 50 | 4,324 |
+| in a piece ready to send | 2,976 | 17,315 | 8,489 | 580 | 26,384 |
+| second pass done | 470 | 1,635 | 3,273 | 81 | 4,989 |
+| in a sent second pass | 323 | 1,352 | 2,473 | 43 | 3,868 |
 | nothing prepared (Claude pass of 13 Nov only, doubt marks open); doubt marks in DM03 (built, nothing back yet) | 199 | 1,055 | 665 | 19 | 1,739 |
 | nothing prepared; doubt marks in DM06 (built, nothing back yet) | 71 | 689 | 442 | 52 | 1,183 |
 | doubt marks settled by DM01 (no full second pass) | 67 | 583 | 129 | 85 | 797 |
@@ -194,11 +194,11 @@ Every reading route writes its doubts with the same two commands, defined in eac
 
 | The mark | Pages with such a mark | In live text | In struck-out text | Single | Choice | Illegible | All | Share |
 |----|----|----|----|----|----|----|----|----|
-| **checked against the scan, still doubtful**: Pro second pass | 428 | 2,570 | 2,213 | 1,574 | 3,131 | 78 | 4,783 | 3.7 % |
+| **checked against the scan, still doubtful**: Pro second pass | 452 | 2,712 | 2,277 | 1,635 | 3,273 | 81 | 4,989 | 3.9 % |
 | **checked against the scan, still doubtful**: doubt-mark run | 67 | 185 | 612 | 583 | 129 | 85 | 797 | 0.6 % |
 | **not yet checked**: Claude pass of 13 Nov only | 851 | 5,051 | 3,148 | 5,032 | 2,993 | 174 | 8,199 | 6.4 % |
-| **not yet checked**: first reading only | 11,172 | 65,451 | 49,170 | 64,180 | 47,968 | 2,473 | 114,621 | 89.3 % |
-| All | 12,518 | 73,257 | 55,143 | 71,369 | 54,221 | 2,810 | 128,400 | 100.0 % |
+| **not yet checked**: first reading only | 11,148 | 65,246 | 49,079 | 64,071 | 47,785 | 2,469 | 114,325 | 89.1 % |
+| All | 12,518 | 73,194 | 55,116 | 71,321 | 54,180 | 2,809 | 128,310 | 100.0 % |
 
 </div>
 
@@ -210,11 +210,11 @@ Checked: the page's text of record is a Pro second pass or a doubt-mark run, so 
 
 | Where the mark sits | Single | Choice | Illegible | All | Share of all marks |
 |----|----|----|----|----|----|
-| inside struck-out text (\deleted) | 42,723 | 10,811 | 1,609 | 55,143 | 42.9 % |
-| in a margin note (\margin) | 8,148 | 4,330 | 419 | 12,897 | 10.0 % |
-| in an insertion (\inserted) | 3,444 | 2,850 | 73 | 6,367 | 5.0 % |
-| in mathematics | 24,171 | 31,471 | 151 | 55,793 | 43.5 % |
-| in a drawing or diagram | 4,858 | 4,398 | 30 | 9,286 | 7.2 % |
+| inside struck-out text (\deleted) | 42,704 | 10,804 | 1,608 | 55,116 | 43.0 % |
+| in a margin note (\margin) | 8,137 | 4,320 | 419 | 12,876 | 10.0 % |
+| in an insertion (\inserted) | 3,442 | 2,847 | 73 | 6,362 | 5.0 % |
+| in mathematics | 24,163 | 31,458 | 151 | 55,772 | 43.5 % |
+| in a drawing or diagram | 4,860 | 4,397 | 29 | 9,286 | 7.2 % |
 
 </div>
 
@@ -226,15 +226,15 @@ A mark can sit in several of these at once (a struck formula in a margin note).
 
 | Text | Zone | Words | Share of all words | Open marks | Share of all marks | Marks per 100 words | per 100 words, not yet checked | per 100 words, after a check | Marks per 1,000 letters |
 |----|----|----|----|----|----|----|----|----|----|
-| **live text** | prose | 1,747,716 | 48.0 % | 38,300 | 29.8 % | 2.19 | 2.20 | 2.08 | 4.62 |
-|  | mathematics | 889,740 | 24.4 % | 28,918 | 22.5 % | 3.25 | 3.29 | 2.48 | 7.51 |
-|  | drawings and diagrams | 722,058 | 19.8 % | 6,039 | 4.7 % | 0.84 | 0.83 | 0.89 | 1.26 |
-| **struck-out text** | prose | 155,075 | 4.3 % | 33,596 | 26.2 % | 21.66 | 22.09 | 16.16 | 48.29 |
-|  | mathematics | 101,763 | 2.8 % | 18,300 | 14.3 % | 17.98 | 18.25 | 13.74 | 45.30 |
-|  | drawings and diagrams | 23,731 | 0.7 % | 3,247 | 2.5 % | 13.68 | 14.83 | 6.27 | 23.53 |
-| **all text** | prose | 1,902,791 | 52.3 % | 71,896 | 56.0 % | 3.78 | 3.77 | 3.88 | 8.00 |
-|  | mathematics | 991,503 | 27.2 % | 47,218 | 36.8 % | 4.76 | 4.80 | 3.98 | 11.09 |
-|  | drawings and diagrams | 745,789 | 20.5 % | 9,286 | 7.2 % | 1.25 | 1.23 | 1.54 | 1.88 |
+| **live text** | prose | 1,747,729 | 48.0 % | 38,244 | 29.8 % | 2.19 | 2.20 | 2.04 | 4.61 |
+|  | mathematics | 889,785 | 24.4 % | 28,910 | 22.5 % | 3.25 | 3.28 | 2.53 | 7.50 |
+|  | drawings and diagrams | 722,401 | 19.8 % | 6,040 | 4.7 % | 0.84 | 0.84 | 0.87 | 1.26 |
+| **struck-out text** | prose | 155,082 | 4.3 % | 33,581 | 26.2 % | 21.65 | 22.06 | 16.38 | 48.27 |
+|  | mathematics | 101,767 | 2.8 % | 18,289 | 14.3 % | 17.97 | 18.23 | 13.93 | 45.27 |
+|  | drawings and diagrams | 23,730 | 0.7 % | 3,246 | 2.5 % | 13.68 | 14.83 | 6.27 | 23.52 |
+| **all text** | prose | 1,902,811 | 52.3 % | 71,825 | 56.0 % | 3.77 | 3.77 | 3.78 | 7.99 |
+|  | mathematics | 991,552 | 27.2 % | 47,199 | 36.8 % | 4.76 | 4.80 | 4.01 | 11.09 |
+|  | drawings and diagrams | 746,131 | 20.5 % | 9,286 | 7.2 % | 1.24 | 1.23 | 1.50 | 1.88 |
 
 </div>
 
@@ -246,12 +246,12 @@ Words are counted the way the alignment counts them: the whitespace-separated pi
 
 | Shape                            | Marks  |
 |----------------------------------|--------|
-| choice between 2 readings        | 49,198 |
-| choice between 3 readings        | 4,643  |
-| choice between 4 or more         | 380    |
-| first reading of 1 word          | 89,040 |
-| first reading of 2-3 words       | 31,515 |
-| first reading of 4 words or more | 5,035  |
+| choice between 2 readings        | 49,147 |
+| choice between 3 readings        | 4,652  |
+| choice between 4 or more         | 381    |
+| first reading of 1 word          | 88,965 |
+| first reading of 2-3 words       | 31,497 |
+| first reading of 4 words or more | 5,039  |
 
 </div>
 
@@ -278,7 +278,7 @@ Words are counted the way the alignment counts them: the whitespace-separated pi
 | 156-7 | 113 | 1,955 | 17.3 | 1,828 |
 | 83 | 213 | 1,947 | 9.1 | 1,947 |
 | 29 | 213 | 1,935 | 9.1 | 1,534 |
-| 10 | 187 | 1,830 | 9.8 | 983 |
+| 10 | 187 | 1,833 | 9.8 | 983 |
 | 156-8 | 126 | 1,801 | 14.3 | 1,801 |
 | 156-6 | 93 | 1,758 | 18.9 | 1,204 |
 | 15 | 185 | 1,553 | 8.4 | 415 |
@@ -287,9 +287,9 @@ Words are counted the way the alignment counts them: the whitespace-separated pi
 | 91 | 129 | 1,314 | 10.2 | 743 |
 | 137 | 84 | 1,307 | 15.6 | 1,307 |
 | 77 | 157 | 1,295 | 8.2 | 1,295 |
+| 12 | 144 | 1,289 | 9.0 | 1,174 |
 | 134-2 | 180 | 1,289 | 7.2 | 958 |
 | 93 | 185 | 1,284 | 6.9 | 1,141 |
-| 12 | 144 | 1,279 | 8.9 | 1,174 |
 | 74 | 125 | 1,259 | 10.1 | 1,259 |
 
 </div>
@@ -300,16 +300,16 @@ Words are counted the way the alignment counts them: the whitespace-separated pi
 
 | What Hua's text has at the same place (matched word by word) | Single | Choice | Illegible | All | Share |
 |----|----|----|----|----|----|
-| Hua = C's first reading | 5,344 | 6,742 | 0 | 12,086 | 9.4 % |
+| Hua = C's first reading | 5,321 | 6,720 | 0 | 12,041 | 9.4 % |
 | Hua = C up to accents/case | 109 | 195 | 0 | 304 | 0.2 % |
-| Hua = C's other alternative | 0 | 6,068 | 0 | 6,068 | 4.7 % |
-| Hua has a third reading | 14,678 | 11,907 | 0 | 26,585 | 20.7 % |
-| Hua also uncertain here | 19,000 | 7,845 | 690 | 27,535 | 21.4 % |
-| Hua has nothing here | 4,743 | 1,779 | 218 | 6,740 | 5.2 % |
+| Hua = C's other alternative | 0 | 6,070 | 0 | 6,070 | 4.7 % |
+| Hua has a third reading | 14,668 | 11,897 | 0 | 26,565 | 20.7 % |
+| Hua also uncertain here | 18,995 | 7,833 | 690 | 27,518 | 21.4 % |
+| Hua has nothing here | 4,742 | 1,777 | 218 | 6,737 | 5.3 % |
 | Hua has a reading | 0 | 0 | 157 | 157 | 0.1 % |
-| Hua not aligned here | 7,826 | 4,159 | 421 | 12,406 | 9.7 % |
-| Hua's page does not match (ratio \< 0.25) | 4,141 | 2,881 | 261 | 7,283 | 5.7 % |
-| no Hua text for the page | 15,528 | 12,645 | 1,063 | 29,236 | 22.8 % |
+| Hua not aligned here | 7,822 | 4,156 | 421 | 12,399 | 9.7 % |
+| Hua's page does not match (ratio \< 0.25) | 4,137 | 2,877 | 260 | 7,274 | 5.7 % |
+| no Hua text for the page | 15,527 | 12,655 | 1,063 | 29,245 | 22.8 % |
 
 </div>
 
@@ -376,10 +376,10 @@ C's first reading confirmedanother of C's alternativesa reading C did not listre
 <tr>
 <td>GPT-6 Astra (ChatGPT Pro mode), one reader, large piece (SP02, SP04, SP12, SP14; sent 14-17 Nov)</td>
 <td>Codex web</td>
-<td class="n">325</td>
-<td class="n">4,679</td>
+<td class="n">328</td>
+<td class="n">4,682</td>
 <td><div class="bar">
-<span style="width:35.63%;background:#3b8f5a" title="C&#39;s first reading confirmed: 1667 (35.6 %)"></span><span style="width:2.69%;background:#d08a1e" title="another of C&#39;s alternatives: 126 (2.7 %)"></span><span style="width:3.53%;background:#c0392b" title="a reading C did not list: 165 (3.5 %)"></span><span style="width:0.24%;background:#8e44ad" title="removed / illegible read: 11 (0.2 %)"></span><span style="width:44.69%;background:#9aa5b1" title="still doubtful (same reading): 2091 (44.7 %)"></span><span style="width:9.94%;background:#c3cbd3" title="still doubtful (reading changed): 465 (9.9 %)"></span><span style="width:1.13%;background:#6c7a89" title="still illegible: 53 (1.1 %)"></span><span style="width:2.16%;background:#e9e3d5" title="not aligned: 101 (2.2 %)"></span>
+<span style="width:35.60%;background:#3b8f5a" title="C&#39;s first reading confirmed: 1667 (35.6 %)"></span><span style="width:2.67%;background:#d08a1e" title="another of C&#39;s alternatives: 125 (2.7 %)"></span><span style="width:3.55%;background:#c0392b" title="a reading C did not list: 166 (3.5 %)"></span><span style="width:0.23%;background:#8e44ad" title="removed / illegible read: 11 (0.2 %)"></span><span style="width:44.70%;background:#9aa5b1" title="still doubtful (same reading): 2093 (44.7 %)"></span><span style="width:9.95%;background:#c3cbd3" title="still doubtful (reading changed): 466 (10.0 %)"></span><span style="width:1.13%;background:#6c7a89" title="still illegible: 53 (1.1 %)"></span><span style="width:2.16%;background:#e9e3d5" title="not aligned: 101 (2.2 %)"></span>
 </div></td>
 <td class="n">42.1 %</td>
 <td class="n">15.3 %</td>
@@ -422,16 +422,16 @@ C's first reading confirmedanother of C's alternativesa reading C did not listre
 <td class="n">59.7 %</td>
 </tr>
 <tr>
-<td>GPT-6 Astra (ChatGPT Pro mode), three fresh readers per page, deep zoom (SP36, SP37, SP38, SP57)</td>
+<td>GPT-6 Astra (ChatGPT Pro mode), three fresh readers per page, deep zoom (SP36 on)</td>
 <td>Codex web</td>
-<td class="n">34</td>
-<td class="n">498</td>
+<td class="n">62</td>
+<td class="n">791</td>
 <td><div class="bar">
-<span style="width:18.47%;background:#3b8f5a" title="C&#39;s first reading confirmed: 92 (18.5 %)"></span><span style="width:2.01%;background:#d08a1e" title="another of C&#39;s alternatives: 10 (2.0 %)"></span><span style="width:3.01%;background:#c0392b" title="a reading C did not list: 15 (3.0 %)"></span><span style="width:0.20%;background:#8e44ad" title="removed / illegible read: 1 (0.2 %)"></span><span style="width:39.36%;background:#9aa5b1" title="still doubtful (same reading): 196 (39.4 %)"></span><span style="width:17.27%;background:#c3cbd3" title="still doubtful (reading changed): 86 (17.3 %)"></span><span style="width:1.20%;background:#6c7a89" title="still illegible: 6 (1.2 %)"></span><span style="width:18.47%;background:#e9e3d5" title="not aligned: 92 (18.5 %)"></span>
+<span style="width:24.02%;background:#3b8f5a" title="C&#39;s first reading confirmed: 190 (24.0 %)"></span><span style="width:1.64%;background:#d08a1e" title="another of C&#39;s alternatives: 13 (1.6 %)"></span><span style="width:3.03%;background:#c0392b" title="a reading C did not list: 24 (3.0 %)"></span><span style="width:0.25%;background:#8e44ad" title="removed / illegible read: 2 (0.3 %)"></span><span style="width:41.97%;background:#9aa5b1" title="still doubtful (same reading): 332 (42.0 %)"></span><span style="width:15.80%;background:#c3cbd3" title="still doubtful (reading changed): 125 (15.8 %)"></span><span style="width:1.14%;background:#6c7a89" title="still illegible: 9 (1.1 %)"></span><span style="width:12.14%;background:#e9e3d5" title="not aligned: 96 (12.1 %)"></span>
 </div></td>
-<td class="n">23.7 %</td>
-<td class="n">22.0 %</td>
-<td class="n">57.8 %</td>
+<td class="n">29.0 %</td>
+<td class="n">17.0 %</td>
+<td class="n">58.9 %</td>
 </tr>
 <tr>
 <td>GPT-6 Astra (ChatGPT Pro mode), doubt marks only, its own workflow (DM01)</td>
@@ -444,6 +444,16 @@ C's first reading confirmedanother of C's alternativesa reading C did not listre
 <td class="n">45.8 %</td>
 <td class="n">14.0 %</td>
 <td class="n">54.2 %</td>
+</tr>
+<tr>
+<td>GPT-6 Astra (ChatGPT Pro mode), live-text doubt marks only, DM01's workflow (DM02 on)</td>
+<td>Claude second pass</td>
+<td class="n">0</td>
+<td class="n">0</td>
+<td></td>
+<td class="n">–</td>
+<td class="n">–</td>
+<td class="n">–</td>
 </tr>
 </tbody>
 </table>
@@ -516,18 +526,18 @@ C's first reading confirmedanother of C's alternativesa reading C did not listre
 </tr>
 <tr>
 <td>SP02</td>
-<td>checkpoint_22</td>
-<td class="n">103</td>
-<td class="n">903</td>
+<td>checkpoint_23</td>
+<td class="n">106</td>
+<td class="n">906</td>
 <td><div class="bar">
-<span style="width:23.37%;background:#3b8f5a" title="C&#39;s first reading confirmed: 211 (23.4 %)"></span><span style="width:1.88%;background:#d08a1e" title="another of C&#39;s alternatives: 17 (1.9 %)"></span><span style="width:6.76%;background:#c0392b" title="a reading C did not list: 61 (6.8 %)"></span><span style="width:0.22%;background:#8e44ad" title="removed / illegible read: 2 (0.2 %)"></span><span style="width:38.10%;background:#9aa5b1" title="still doubtful (same reading): 344 (38.1 %)"></span><span style="width:21.93%;background:#c3cbd3" title="still doubtful (reading changed): 198 (21.9 %)"></span><span style="width:1.44%;background:#6c7a89" title="still illegible: 13 (1.4 %)"></span><span style="width:6.31%;background:#e9e3d5" title="not aligned: 57 (6.3 %)"></span>
+<span style="width:23.29%;background:#3b8f5a" title="C&#39;s first reading confirmed: 211 (23.3 %)"></span><span style="width:1.77%;background:#d08a1e" title="another of C&#39;s alternatives: 16 (1.8 %)"></span><span style="width:6.84%;background:#c0392b" title="a reading C did not list: 62 (6.8 %)"></span><span style="width:0.22%;background:#8e44ad" title="removed / illegible read: 2 (0.2 %)"></span><span style="width:38.19%;background:#9aa5b1" title="still doubtful (same reading): 346 (38.2 %)"></span><span style="width:21.96%;background:#c3cbd3" title="still doubtful (reading changed): 199 (22.0 %)"></span><span style="width:1.43%;background:#6c7a89" title="still illegible: 13 (1.4 %)"></span><span style="width:6.29%;background:#e9e3d5" title="not aligned: 57 (6.3 %)"></span>
 </div></td>
-<td class="n">32.2 %</td>
+<td class="n">32.1 %</td>
 <td class="n">27.5 %</td>
 <td class="n">209</td>
-<td class="n">17</td>
-<td class="n">61</td>
-<td class="n">555</td>
+<td class="n">16</td>
+<td class="n">62</td>
+<td class="n">558</td>
 </tr>
 <tr>
 <td>SP04</td>
@@ -695,6 +705,156 @@ C's first reading confirmedanother of C's alternativesa reading C did not listre
 <td class="n">152</td>
 </tr>
 <tr>
+<td>SP39</td>
+<td>checkpoint_01</td>
+<td class="n">2</td>
+<td class="n">42</td>
+<td><div class="bar">
+<span style="width:38.10%;background:#3b8f5a" title="C&#39;s first reading confirmed: 16 (38.1 %)"></span><span style="width:2.38%;background:#c0392b" title="a reading C did not list: 1 (2.4 %)"></span><span style="width:42.86%;background:#9aa5b1" title="still doubtful (same reading): 18 (42.9 %)"></span><span style="width:16.67%;background:#c3cbd3" title="still doubtful (reading changed): 7 (16.7 %)"></span>
+</div></td>
+<td class="n">40.5 %</td>
+<td class="n">5.9 %</td>
+<td class="n">16</td>
+<td class="n">0</td>
+<td class="n">1</td>
+<td class="n">25</td>
+</tr>
+<tr>
+<td>SP40</td>
+<td>checkpoint_01</td>
+<td class="n">2</td>
+<td class="n">28</td>
+<td><div class="bar">
+<span style="width:35.71%;background:#3b8f5a" title="C&#39;s first reading confirmed: 10 (35.7 %)"></span><span style="width:3.57%;background:#c0392b" title="a reading C did not list: 1 (3.6 %)"></span><span style="width:3.57%;background:#8e44ad" title="removed / illegible read: 1 (3.6 %)"></span><span style="width:53.57%;background:#9aa5b1" title="still doubtful (same reading): 15 (53.6 %)"></span><span style="width:3.57%;background:#6c7a89" title="still illegible: 1 (3.6 %)"></span>
+</div></td>
+<td class="n">42.9 %</td>
+<td class="n">16.7 %</td>
+<td class="n">10</td>
+<td class="n">0</td>
+<td class="n">1</td>
+<td class="n">16</td>
+</tr>
+<tr>
+<td>SP41</td>
+<td>checkpoint_01</td>
+<td class="n">2</td>
+<td class="n">71</td>
+<td><div class="bar">
+<span style="width:42.25%;background:#3b8f5a" title="C&#39;s first reading confirmed: 30 (42.3 %)"></span><span style="width:1.41%;background:#d08a1e" title="another of C&#39;s alternatives: 1 (1.4 %)"></span><span style="width:4.23%;background:#c0392b" title="a reading C did not list: 3 (4.2 %)"></span><span style="width:40.85%;background:#9aa5b1" title="still doubtful (same reading): 29 (40.8 %)"></span><span style="width:9.86%;background:#c3cbd3" title="still doubtful (reading changed): 7 (9.9 %)"></span><span style="width:1.41%;background:#e9e3d5" title="not aligned: 1 (1.4 %)"></span>
+</div></td>
+<td class="n">47.9 %</td>
+<td class="n">11.8 %</td>
+<td class="n">30</td>
+<td class="n">1</td>
+<td class="n">3</td>
+<td class="n">36</td>
+</tr>
+<tr>
+<td>SP44</td>
+<td>checkpoint_01</td>
+<td class="n">2</td>
+<td class="n">18</td>
+<td><div class="bar">
+<span style="width:44.44%;background:#9aa5b1" title="still doubtful (same reading): 8 (44.4 %)"></span><span style="width:50.00%;background:#c3cbd3" title="still doubtful (reading changed): 9 (50.0 %)"></span><span style="width:5.56%;background:#e9e3d5" title="not aligned: 1 (5.6 %)"></span>
+</div></td>
+<td class="n">0.0 %</td>
+<td class="n">–</td>
+<td class="n">0</td>
+<td class="n">0</td>
+<td class="n">0</td>
+<td class="n">17</td>
+</tr>
+<tr>
+<td>SP45</td>
+<td>checkpoint_01</td>
+<td class="n">6</td>
+<td class="n">23</td>
+<td><div class="bar">
+<span style="width:39.13%;background:#3b8f5a" title="C&#39;s first reading confirmed: 9 (39.1 %)"></span><span style="width:4.35%;background:#d08a1e" title="another of C&#39;s alternatives: 1 (4.3 %)"></span><span style="width:34.78%;background:#9aa5b1" title="still doubtful (same reading): 8 (34.8 %)"></span><span style="width:21.74%;background:#c3cbd3" title="still doubtful (reading changed): 5 (21.7 %)"></span>
+</div></td>
+<td class="n">43.5 %</td>
+<td class="n">10.0 %</td>
+<td class="n">9</td>
+<td class="n">1</td>
+<td class="n">0</td>
+<td class="n">13</td>
+</tr>
+<tr>
+<td>SP46</td>
+<td>checkpoint_01</td>
+<td class="n">2</td>
+<td class="n">22</td>
+<td><div class="bar">
+<span style="width:13.64%;background:#3b8f5a" title="C&#39;s first reading confirmed: 3 (13.6 %)"></span><span style="width:9.09%;background:#c0392b" title="a reading C did not list: 2 (9.1 %)"></span><span style="width:45.45%;background:#9aa5b1" title="still doubtful (same reading): 10 (45.5 %)"></span><span style="width:22.73%;background:#c3cbd3" title="still doubtful (reading changed): 5 (22.7 %)"></span><span style="width:4.55%;background:#6c7a89" title="still illegible: 1 (4.5 %)"></span><span style="width:4.55%;background:#e9e3d5" title="not aligned: 1 (4.5 %)"></span>
+</div></td>
+<td class="n">22.7 %</td>
+<td class="n">40.0 %</td>
+<td class="n">3</td>
+<td class="n">0</td>
+<td class="n">2</td>
+<td class="n">16</td>
+</tr>
+<tr>
+<td>SP47</td>
+<td>checkpoint_01</td>
+<td class="n">2</td>
+<td class="n">32</td>
+<td><div class="bar">
+<span style="width:25.00%;background:#3b8f5a" title="C&#39;s first reading confirmed: 8 (25.0 %)"></span><span style="width:3.12%;background:#c0392b" title="a reading C did not list: 1 (3.1 %)"></span><span style="width:62.50%;background:#9aa5b1" title="still doubtful (same reading): 20 (62.5 %)"></span><span style="width:6.25%;background:#c3cbd3" title="still doubtful (reading changed): 2 (6.2 %)"></span><span style="width:3.12%;background:#6c7a89" title="still illegible: 1 (3.1 %)"></span>
+</div></td>
+<td class="n">28.1 %</td>
+<td class="n">11.1 %</td>
+<td class="n">8</td>
+<td class="n">0</td>
+<td class="n">1</td>
+<td class="n">23</td>
+</tr>
+<tr>
+<td>SP48</td>
+<td>checkpoint_01</td>
+<td class="n">1</td>
+<td class="n">9</td>
+<td><div class="bar">
+<span style="width:22.22%;background:#3b8f5a" title="C&#39;s first reading confirmed: 2 (22.2 %)"></span><span style="width:11.11%;background:#d08a1e" title="another of C&#39;s alternatives: 1 (11.1 %)"></span><span style="width:11.11%;background:#c0392b" title="a reading C did not list: 1 (11.1 %)"></span><span style="width:33.33%;background:#9aa5b1" title="still doubtful (same reading): 3 (33.3 %)"></span><span style="width:11.11%;background:#c3cbd3" title="still doubtful (reading changed): 1 (11.1 %)"></span><span style="width:11.11%;background:#e9e3d5" title="not aligned: 1 (11.1 %)"></span>
+</div></td>
+<td class="n">44.4 %</td>
+<td class="n">50.0 %</td>
+<td class="n">2</td>
+<td class="n">1</td>
+<td class="n">1</td>
+<td class="n">4</td>
+</tr>
+<tr>
+<td>SP49</td>
+<td>checkpoint_01</td>
+<td class="n">6</td>
+<td class="n">19</td>
+<td><div class="bar">
+<span style="width:63.16%;background:#3b8f5a" title="C&#39;s first reading confirmed: 12 (63.2 %)"></span><span style="width:36.84%;background:#9aa5b1" title="still doubtful (same reading): 7 (36.8 %)"></span>
+</div></td>
+<td class="n">63.2 %</td>
+<td class="n">0.0 %</td>
+<td class="n">12</td>
+<td class="n">0</td>
+<td class="n">0</td>
+<td class="n">7</td>
+</tr>
+<tr>
+<td>SP50</td>
+<td>checkpoint_01</td>
+<td class="n">3</td>
+<td class="n">29</td>
+<td><div class="bar">
+<span style="width:27.59%;background:#3b8f5a" title="C&#39;s first reading confirmed: 8 (27.6 %)"></span><span style="width:62.07%;background:#9aa5b1" title="still doubtful (same reading): 18 (62.1 %)"></span><span style="width:10.34%;background:#c3cbd3" title="still doubtful (reading changed): 3 (10.3 %)"></span>
+</div></td>
+<td class="n">27.6 %</td>
+<td class="n">0.0 %</td>
+<td class="n">8</td>
+<td class="n">0</td>
+<td class="n">0</td>
+<td class="n">21</td>
+</tr>
+<tr>
 <td>SP57</td>
 <td>checkpoint_09</td>
 <td class="n">15</td>
@@ -723,8 +883,8 @@ C's first reading confirmedanother of C's alternativesa reading C did not listre
 | Claude Opus 5.5 at effort max, block second pass (13 Nov) | choice | 2,412 | 22.2 % | 40.7 % |
 |  | single | 4,822 | 4.8 % | 36.1 % |
 |  | illegible | 128 | 0.0 % | – |
-| GPT-6 Astra (ChatGPT Pro mode), one reader, large piece (SP02, SP04, SP12, SP14; sent 14-17 Nov) | choice | 2,934 | 41.9 % | 21.0 % |
-|  | single | 1,685 | 43.9 % | 5.9 % |
+| GPT-6 Astra (ChatGPT Pro mode), one reader, large piece (SP02, SP04, SP12, SP14; sent 14-17 Nov) | choice | 2,937 | 41.8 % | 20.9 % |
+|  | single | 1,685 | 43.9 % | 6.1 % |
 |  | illegible | 60 | 0.0 % | – |
 | GPT-6 Astra (ChatGPT Pro mode), one reader, piece of 16-24 pages (SP31-SP33; sent 19 Nov) | choice | 726 | 33.5 % | 13.2 % |
 |  | single | 614 | 32.6 % | 5.5 % |
@@ -734,9 +894,9 @@ C's first reading confirmedanother of C's alternativesa reading C did not listre
 | GPT-6 Astra (ChatGPT Pro mode), three readers and the reading workflow of 21:07 UTC (SP35) | choice | 108 | 41.7 % | 15.6 % |
 |  | single | 87 | 29.9 % | 7.7 % |
 |  | illegible | 1 | 0.0 % | – |
-| GPT-6 Astra (ChatGPT Pro mode), three fresh readers per page, deep zoom (SP36, SP37, SP38, SP57) | choice | 312 | 24.4 % | 28.9 % |
-|  | single | 179 | 23.5 % | 9.5 % |
-|  | illegible | 7 | 0.0 % | – |
+| GPT-6 Astra (ChatGPT Pro mode), three fresh readers per page, deep zoom (SP36 on) | choice | 492 | 28.5 % | 20.7 % |
+|  | single | 288 | 30.9 % | 11.2 % |
+|  | illegible | 11 | 0.0 % | – |
 | GPT-6 Astra (ChatGPT Pro mode), doubt marks only, its own workflow (DM01) | choice | 292 | 63.0 % | 25.5 % |
 |  | single | 1,065 | 44.6 % | 9.1 % |
 |  | illegible | 88 | 3.4 % | 100.0 % |
@@ -752,9 +912,9 @@ C's first reading confirmedanother of C's alternativesa reading C did not listre
 | Claude Opus 5.5 at effort max, block second pass (13 Nov) | in struck-out text | 2,717 | 2.5 % | 4,645 | 15.1 % |
 |  | in mathematics | 3,808 | 12.2 % | 3,554 | 8.5 % |
 |  | in a margin note | 1,132 | 6.5 % | 6,230 | 11.1 % |
-| GPT-6 Astra (ChatGPT Pro mode), one reader, large piece (SP02, SP04, SP12, SP14; sent 14-17 Nov) | in struck-out text | 1,950 | 30.1 % | 2,729 | 50.6 % |
-|  | in mathematics | 1,641 | 39.1 % | 3,038 | 43.7 % |
-|  | in a margin note | 523 | 46.3 % | 4,156 | 41.6 % |
+| GPT-6 Astra (ChatGPT Pro mode), one reader, large piece (SP02, SP04, SP12, SP14; sent 14-17 Nov) | in struck-out text | 1,950 | 30.1 % | 2,732 | 50.6 % |
+|  | in mathematics | 1,644 | 39.1 % | 3,038 | 43.6 % |
+|  | in a margin note | 523 | 46.1 % | 4,159 | 41.5 % |
 | GPT-6 Astra (ChatGPT Pro mode), one reader, piece of 16-24 pages (SP31-SP33; sent 19 Nov) | in struck-out text | 597 | 16.2 % | 755 | 45.8 % |
 |  | in mathematics | 524 | 26.1 % | 828 | 37.0 % |
 |  | in a margin note | 197 | 26.4 % | 1,155 | 33.9 % |
@@ -764,9 +924,9 @@ C's first reading confirmedanother of C's alternativesa reading C did not listre
 | GPT-6 Astra (ChatGPT Pro mode), three readers and the reading workflow of 21:07 UTC (SP35) | in struck-out text | 83 | 21.7 % | 113 | 46.9 % |
 |  | in mathematics | 84 | 32.1 % | 112 | 39.3 % |
 |  | in a margin note | 37 | 32.4 % | 159 | 37.1 % |
-| GPT-6 Astra (ChatGPT Pro mode), three fresh readers per page, deep zoom (SP36, SP37, SP38, SP57) | in struck-out text | 214 | 10.3 % | 284 | 33.8 % |
-|  | in mathematics | 188 | 27.1 % | 310 | 21.6 % |
-|  | in a margin note | 53 | 35.8 % | 445 | 22.2 % |
+| GPT-6 Astra (ChatGPT Pro mode), three fresh readers per page, deep zoom (SP36 on) | in struck-out text | 305 | 15.4 % | 486 | 37.4 % |
+|  | in mathematics | 294 | 28.6 % | 497 | 29.2 % |
+|  | in a margin note | 109 | 36.7 % | 682 | 27.7 % |
 | GPT-6 Astra (ChatGPT Pro mode), doubt marks only, its own workflow (DM01) | in struck-out text | 857 | 30.9 % | 588 | 67.5 % |
 |  | in mathematics | 418 | 59.1 % | 1,027 | 40.4 % |
 |  | in a margin note | 165 | 49.1 % | 1,280 | 45.4 % |
@@ -775,7 +935,7 @@ C's first reading confirmedanother of C's alternativesa reading C did not listre
 
 ### Hua's text at the mark, against what the pass did
 
-Hua's text is an independent reading of the same page. Where it agrees with C's first reading, the Pro passes confirmed C at 90.0 % of the settled marks. Where it has C's other alternative, they still kept C's first reading at 69.0 %, while the Claude pass of 13 Nov chose Hua's alternative at 69.6 % of the few such marks it settled. Either C's first reading is mostly right there and the Claude pass changed readings it should not have, or the Pro passes lean towards witness C. The two populations also differ (different first readers, different cotes). Only the scan at a sample of these places can say which.
+Hua's text is an independent reading of the same page. Where it agrees with C's first reading, the Pro passes confirmed C at 90.4 % of the settled marks. Where it has C's other alternative, they still kept C's first reading at 69.7 %, while the Claude pass of 13 Nov chose Hua's alternative at 69.6 % of the few such marks it settled. Either C's first reading is mostly right there and the Claude pass changed readings it should not have, or the Pro passes lean towards witness C. The two populations also differ (different first readers, different cotes). Only the scan at a sample of these places can say which.
 
 #### Pro second passes and DM01
 
@@ -783,16 +943,16 @@ Hua's text is an independent reading of the same page. Where it agrees with C's 
 
 | What Hua has at the mark | Marks | Settled | of these: C's first | C's other alternative | a reading C did not list | the pass's reading = Hua's |
 |----|----|----|----|----|----|----|
-| Hua = C's first reading | 1,363 | 55.2 % | 90.0 % | 4.9 % | 5.0 % | 66.7 % |
-| Hua = C up to accents/case | 43 | 53.5 % | 73.9 % | 17.4 % | 8.7 % | 69.6 % |
-| Hua = C's other alternative | 532 | 50.4 % | 69.0 % | 18.7 % | 12.3 % | 23.9 % |
-| Hua has a third reading | 2,150 | 33.4 % | 83.0 % | 3.9 % | 13.1 % | 1.7 % |
-| Hua also uncertain here | 2,111 | 37.8 % | 88.5 % | 5.8 % | 5.8 % | 3.5 % |
-| Hua has nothing here | 596 | 34.6 % | 87.4 % | 2.9 % | 9.7 % | 0.0 % |
-| Hua has a reading | 17 | 0.0 % | – | – | – | – |
-| Hua not aligned here | 1,172 | 37.2 % | 87.2 % | 6.0 % | 6.9 % | 1.4 % |
-| Hua's page does not match (ratio \< 0.25) | 145 | 20.0 % | 86.2 % | 0.0 % | 13.8 % | 0.0 % |
-| no Hua text for the page | 200 | 42.5 % | 82.4 % | 2.4 % | 15.3 % | 0.0 % |
+| Hua = C's first reading | 1,445 | 55.0 % | 90.4 % | 4.8 % | 4.8 % | 66.9 % |
+| Hua = C up to accents/case | 44 | 52.3 % | 73.9 % | 17.4 % | 8.7 % | 69.6 % |
+| Hua = C's other alternative | 547 | 50.1 % | 69.7 % | 18.2 % | 12.0 % | 23.7 % |
+| Hua has a third reading | 2,232 | 33.3 % | 82.7 % | 3.8 % | 13.6 % | 1.7 % |
+| Hua also uncertain here | 2,158 | 37.7 % | 88.5 % | 5.8 % | 5.8 % | 3.6 % |
+| Hua has nothing here | 609 | 34.3 % | 87.6 % | 2.9 % | 9.6 % | 0.0 % |
+| Hua has a reading | 18 | 0.0 % | – | – | – | – |
+| Hua not aligned here | 1,204 | 37.0 % | 87.2 % | 5.6 % | 7.2 % | 1.8 % |
+| Hua's page does not match (ratio \< 0.25) | 154 | 21.4 % | 81.8 % | 3.0 % | 15.2 % | 0.0 % |
+| no Hua text for the page | 214 | 42.5 % | 83.5 % | 2.2 % | 14.3 % | 0.0 % |
 
 </div>
 
@@ -819,13 +979,13 @@ The last column compares the pass's reading at the mark with Hua's, word for wor
 
 ### Every correction the Pro passes logged, and what pointed at it
 
-This uses the passes' own changes logs (`STATE/second_pass_yield.py`), not the alignment: 7,744 corrections of C, 43.1 % at one of C's doubt marks, 39.4 % where Hua's text differs from C, and 17.4 % that only a full correcting pass found.
+This uses the passes' own changes logs (`STATE/second_pass_yield.py`), not the alignment: 7,974 corrections of C, 43.1 % at one of C's doubt marks, 39.6 % where Hua's text differs from C, and 17.3 % that only a full correcting pass found.
 
 <div class="tw">
 
 | Run | Places ruled in its changes log | C corrected | of which high confidence | at C's own doubt mark | where Hua differs from C | neither (only a full pass) |
 |----|----|----|----|----|----|----|
-| SP02 | 3,469 | 1,789 | 761 | 468 | 630 | 691 |
+| SP02 | 3,507 | 1,830 | 780 | 473 | 664 | 693 |
 | SP04 | 2,522 | 1,198 | 183 | 495 | 622 | 81 |
 | SP12 | 2,275 | 1,858 | 1,237 | 620 | 1,006 | 232 |
 | SP14 | 2,591 | 1,140 | 283 | 803 | 184 | 153 |
@@ -837,8 +997,18 @@ This uses the passes' own changes logs (`STATE/second_pass_yield.py`), not the a
 | SP36 | 76 | 12 | 7 | 6 | 2 | 4 |
 | SP37 | 59 | 32 | 20 | 12 | 19 | 1 |
 | SP38 | 581 | 323 | 77 | 166 | 108 | 49 |
+| SP39 | 86 | 32 | 13 | 18 | 5 | 9 |
+| SP40 | 69 | 17 | 5 | 12 | 4 | 1 |
+| SP41 | 97 | 21 | 7 | 14 | 7 | 0 |
+| SP44 | 56 | 28 | 2 | 11 | 8 | 9 |
+| SP45 | 39 | 25 | 10 | 14 | 11 | 0 |
+| SP46 | 65 | 19 | 3 | 12 | 4 | 3 |
+| SP47 | 77 | 7 | 3 | 4 | 2 | 1 |
+| SP48 | 27 | 27 | 21 | 0 | 26 | 1 |
+| SP49 | 65 | 5 | 3 | 5 | 0 | 0 |
+| SP50 | 62 | 8 | 1 | 4 | 2 | 2 |
 | SP57 | 643 | 351 | 208 | 132 | 151 | 68 |
-| All | 14,418 | 7,744 | 3,082 | 3,340 | 3,054 | 1,350 |
+| All | 15,099 | 7,974 | 3,169 | 3,439 | 3,157 | 1,378 |
 
 </div>
 
@@ -849,11 +1019,11 @@ This uses the passes' own changes logs (`STATE/second_pass_yield.py`), not the a
 | Second pass | Pages | Words a page (C) | C's marks a page | Marks a page after the pass | New marks a page | Changes outside the marks a page | per 100 words |
 |----|----|----|----|----|----|----|----|
 | Claude Opus 5.5 at effort max, block second pass (13 Nov) | 808 | 228 | 9.1 | 8.9 | 0.7 | 0.7 | 0.29 |
-| GPT-6 Astra (ChatGPT Pro mode), one reader, large piece (SP02, SP04, SP12, SP14; sent 14-17 Nov) | 325 | 276 | 14.4 | 9.6 | 1.5 | 2.7 | 0.99 |
+| GPT-6 Astra (ChatGPT Pro mode), one reader, large piece (SP02, SP04, SP12, SP14; sent 14-17 Nov) | 328 | 277 | 14.3 | 9.6 | 1.5 | 2.7 | 0.99 |
 | GPT-6 Astra (ChatGPT Pro mode), one reader, piece of 16-24 pages (SP31-SP33; sent 19 Nov) | 64 | 216 | 21.1 | 14.4 | 0.7 | 1.7 | 0.80 |
 | GPT-6 Astra (ChatGPT Pro mode), three readers and a main reader (SP34) | 8 | 274 | 19.9 | 13.1 | 1.4 | 0.6 | 0.23 |
 | GPT-6 Astra (ChatGPT Pro mode), three readers and the reading workflow of 21:07 UTC (SP35) | 8 | 373 | 24.5 | 15.9 | 1.6 | 3.9 | 1.04 |
-| GPT-6 Astra (ChatGPT Pro mode), three fresh readers per page, deep zoom (SP36, SP37, SP38, SP57) | 34 | 289 | 14.6 | 14.9 | 2.4 | 4.8 | 1.66 |
+| GPT-6 Astra (ChatGPT Pro mode), three fresh readers per page, deep zoom (SP36 on) | 62 | 263 | 12.8 | 11.2 | 1.6 | 3.1 | 1.19 |
 | GPT-6 Astra (ChatGPT Pro mode), doubt marks only, its own workflow (DM01) | 67 | 282 | 21.6 | 11.9 | 0.1 | 0.1 | 0.04 |
 
 </div>
@@ -908,7 +1078,7 @@ Every Pro second pass so far worked on pages first read in Codex web, so witness
 | Run | Design | Cotes | Pages | Pages an hour | C's marks a page | Marks settled | C's reading changed at a mark, a page | Other changes a page | Crops a page | Median zoom | Crops at 4x or more | Crop record |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|
 | DM01 | doubt marks only, its own workflow (DM01) | 1 | 67 | 9.1 | 21.6 | 45.8 % | 1.4 | 0.1 | 69.7 | 4.0 | 57.1 % | log |
-| SP02 | one reader, large piece (SP02, SP04, SP12, SP14; sent 14-17 Nov) | 10, 12 | 103 | 6.7 | 8.8 | 32.2 % | 0.8 | 3.9 | 63.4 | 14.0 | 92.4 % | log |
+| SP02 | one reader, large piece (SP02, SP04, SP12, SP14; sent 14-17 Nov) | 10, 12 | 106 | 6.3 | 8.5 | 32.1 % | 0.8 | 3.8 | 66.9 | 14.0 | 92.8 % | log |
 | SP04 | one reader, large piece (SP02, SP04, SP12, SP14; sent 14-17 Nov) | 156-4, 156-6 | 63 | 12.5 | 21.0 | 48.9 % | 1.0 | 0.9 | 10.5 | 3.0 | 38.7 % | log |
 | SP12 | one reader, large piece (SP02, SP04, SP12, SP14; sent 14-17 Nov) | 45, 46, 53, 57, 63 | 59 | 10.2 | 16.9 | 42.3 % | 1.3 | 4.1 | 0.0 | – | – | none |
 | SP14 | one reader, large piece (SP02, SP04, SP12, SP14; sent 14-17 Nov) | 123, 13, 15, 162-1, 162-6, 26, 35, 48, 66, 97 | 100 | 17.7 | 14.6 | 41.9 % | 0.8 | 1.9 | 58.5 | 6.0 | 75.5 % | manifest |
@@ -917,10 +1087,20 @@ Every Pro second pass so far worked on pages first read in Codex web, so witness
 | SP33 | one reader, piece of 16-24 pages (SP31-SP33; sent 19 Nov) | 156-5 | 24 | 28.8 | 21.5 | 27.0 % | 0.3 | 3.0 | 6.5 | 2.0 | 10.8 % | log |
 | SP34 | three readers and a main reader (SP34) | 156-5 | 8 | 3.9 | 19.9 | 34.0 % | 0.8 | 0.6 | 89.2 | 3.0 | 48.4 % | log |
 | SP35 | three readers and the reading workflow of 21:07 UTC (SP35) | 156-7 | 8 | 3.7 | 24.5 | 36.2 % | 1.1 | 3.9 | 59.5 | 3.0 | 0.0 % | log |
-| SP36 | three fresh readers per page, deep zoom (SP36, SP37, SP38, SP57) | 71 | 3 | 4.9 | 12.7 | 44.7 % | 0.0 | 2.0 | 30.3 | 10.1 | 93.8 % | log |
-| SP37 | three fresh readers per page, deep zoom (SP36, SP37, SP38, SP57) | 71 | 2 | 3.5 | 18.5 | 24.3 % | 0.5 | 4.5 | 98.0 | 9.4 | 76.9 % | log |
-| SP38 | three fresh readers per page, deep zoom (SP36, SP37, SP38, SP57) | 75 | 14 | 2.4 | 15.6 | 23.7 % | 0.5 | 5.6 | 85.2 | 5.4 | 80.5 % | log |
-| SP57 | three fresh readers per page, deep zoom (SP36, SP37, SP38, SP57) | 123, 162-1, 162-6, 97 | 15 | 2.2 | 13.6 | 19.6 % | 1.2 | 4.7 | 124.0 | 7.3 | 88.4 % | log |
+| SP36 | three fresh readers per page, deep zoom (SP36 on) | 71 | 3 | 4.9 | 12.7 | 44.7 % | 0.0 | 2.0 | 30.3 | 10.1 | 93.8 % | log |
+| SP37 | three fresh readers per page, deep zoom (SP36 on) | 71 | 2 | 3.5 | 18.5 | 24.3 % | 0.5 | 4.5 | 98.0 | 9.4 | 76.9 % | log |
+| SP38 | three fresh readers per page, deep zoom (SP36 on) | 75 | 14 | 2.4 | 15.6 | 23.7 % | 0.5 | 5.6 | 85.2 | 5.4 | 80.5 % | log |
+| SP39 | three fresh readers per page, deep zoom (SP36 on) | 75 | 2 | 3.6 | 21.0 | 40.5 % | 0.5 | 2.5 | 7.0 | – | – | log |
+| SP40 | three fresh readers per page, deep zoom (SP36 on) | 81 | 2 | 3.0 | 14.0 | 42.9 % | 1.0 | 0.0 | 17.5 | – | – | log |
+| SP41 | three fresh readers per page, deep zoom (SP36 on) | 81 | 2 | 2.7 | 35.5 | 47.9 % | 2.0 | 0.0 | 110.0 | 11.6 | 83.3 % | log |
+| SP44 | three fresh readers per page, deep zoom (SP36 on) | 36 | 2 | 3.3 | 9.0 | 0.0 % | 0.0 | 5.5 | 41.0 | 7.1 | 92.7 % | log |
+| SP45 | three fresh readers per page, deep zoom (SP36 on) | 37 | 6 | 9.4 | 3.8 | 43.5 % | 0.2 | 0.7 | 22.7 | 11.1 | 83.3 % | log |
+| SP46 | three fresh readers per page, deep zoom (SP36 on) | 37 | 2 | 2.7 | 11.0 | 22.7 % | 1.0 | 4.5 | 82.0 | – | – | log |
+| SP47 | three fresh readers per page, deep zoom (SP36 on) | 103 | 2 | 3.6 | 16.0 | 28.1 % | 0.5 | 0.5 | 61.0 | 3.0 | 50.0 % | log |
+| SP48 | three fresh readers per page, deep zoom (SP36 on) | 104 | 1 | 2.6 | 9.0 | 44.4 % | 2.0 | 0.0 | 34.0 | 9.4 | 100.0 % | log |
+| SP49 | three fresh readers per page, deep zoom (SP36 on) | 109 | 6 | 9.2 | 3.2 | 63.2 % | 0.0 | 0.0 | 63.7 | 7.3 | 83.9 % | log |
+| SP50 | three fresh readers per page, deep zoom (SP36 on) | 134-1, 134-2 | 3 | 4.6 | 9.7 | 27.6 % | 0.0 | 0.0 | 41.0 | 7.8 | 94.0 % | log |
+| SP57 | three fresh readers per page, deep zoom (SP36 on) | 123, 162-1, 162-6, 97 | 15 | 2.2 | 13.6 | 19.6 % | 1.2 | 4.7 | 124.0 | 7.3 | 88.4 % | log |
 
 </div>
 
@@ -934,7 +1114,7 @@ Pages an hour: from the run's progress.log, its first line to its last page done
 
 The guess to test: fewer but deeper zooms catch more. Two kinds of evidence exist so far, and neither is a controlled test.
 
-**Between runs.** The median zoom of a run against the share of C's marks it settled, over 11 runs with zoom data: Spearman -0.20 (SP33 2.0x: 27 %, SP34 3.0x: 34 %, SP35 3.0x: 36 %, SP04 3.0x: 49 %, DM01 4.0x: 46 %, SP38 5.4x: 24 %, SP14 6.0x: 42 %, SP57 7.3x: 20 %, SP37 9.4x: 24 %, SP36 10.1x: 45 %, SP02 14.0x: 32 %). The runs differ in cote, design and size, so this cannot isolate the zoom.
+**Between runs.** The median zoom of a run against the share of C's marks it settled, over 18 runs with zoom data: Spearman +0.15 (SP33 2.0x: 27 %, SP47 3.0x: 28 %, SP34 3.0x: 34 %, SP35 3.0x: 36 %, SP04 3.0x: 49 %, DM01 4.0x: 46 %, SP38 5.4x: 24 %, SP14 6.0x: 42 %, SP44 7.1x: 0 %, SP49 7.3x: 63 %, SP57 7.3x: 20 %, SP50 7.8x: 28 %, SP37 9.4x: 24 %, SP48 9.4x: 44 %, SP36 10.1x: 45 %, SP45 11.1x: 43 %, SP41 11.6x: 48 %, SP02 14.0x: 32 %). The runs differ in cote, design and size, so this cannot isolate the zoom.
 
 **Within runs, page by page.** Pages that got deeper or more crops are the harder pages, so a correlation here runs both ways: a hard page draws deep crops and also keeps more doubts.
 
@@ -943,7 +1123,7 @@ The guess to test: fewer but deeper zooms catch more. Two kinds of evidence exis
 | Run | Pages with crop data and 3+ marks | Median zoom | Median crops a page | Zoom vs share settled | Crops vs share settled | Zoom vs readings changed |
 |----|----|----|----|----|----|----|
 | DM01 | 67 | 4.0 | 66 | -0.39 | +0.05 | +0.09 |
-| SP02 | 92 | 9.0 | 52 | +0.15 | +0.16 | +0.37 |
+| SP02 | 92 | 9.0 | 52 | +0.17 | +0.19 | +0.35 |
 | SP04 | 56 | 2.5 | 11 | +0.20 | -0.11 | +0.10 |
 | SP14 | 84 | 5.0 | 49 | +0.08 | +0.13 | -0.13 |
 | SP33 | 24 | 2.0 | 6 | -0.11 | -0.30 | +0.10 |
@@ -1427,35 +1607,35 @@ The methods of the second-pass prompts and the ones Pro invented on its own in i
 
 - **What Pro invented is in no prompt.** The per-reader JSON records with crop coordinates and a verdict on each doubt mark, the decisions applied by a script per page, and the extra independent readings for places still open (SP34, SP35), and DM01's shared band crops, stopping rule for struck text and splitting of a page's marks between readers: the prompts carry none of these. The public METHODOLOGY.md described the first three as the design; it is corrected to say they are what the returns did.
 - **The pieces forbid what DM01 does with its readers.** The unsent second-pass prompts say "never split the pages among readers": every page is read three times, independently. DM01 gives each mark one reader and a second only where a new reading competes. The two answer different questions (three independent readings of everything, against throughput on the marks).
-- **The deep zoom, fresh readers, tight crops and the workflow record are in every unsent piece** (13 prompts).
+- **The deep zoom, fresh readers, tight crops and the workflow record are in every unsent piece** (14 prompts).
 
 <div class="tw">
 
 | Method | Proposed | In the sent prompts | In the unsent prompts | In DM01's prompt |
 |----|----|----|----|----|
-| Three independent readers of every page, and a main reader who decides | 19 Nov ~20:26 UTC (SP34 on) | 20 of 23 | 13 of 13 | no |
-| Fresh readers for every page (no reader carries an earlier page's images) | 19 Nov 21:11 UTC; DM01 on its own from scan 4 | 18 of 23 | 13 of 13 | no |
-| The readers' brief improved from their disagreements, each version kept | the 21:10 UTC rewrite | 18 of 23 | 8 of 13 | no |
-| A workflow record for the next runs (brief versions, crops a page, what worked) | the 21:10 UTC rewrite; DM01 | 18 of 23 | 13 of 13 | yes |
-| Page once, halves once, then one tight crop per open place, never re-cropped | the reading workflow, 19 Nov 21:07 UTC | 19 of 23 | 8 of 13 | no |
-| Deep zoom: a few thousand pixels across, contrast raised | 19 Nov 21:10 UTC | 18 of 23 | 4 of 13 | yes |
-| C's doubt marks listed as places to decide on the ink | the two-witness prompts (14 Nov on) | 23 of 23 | 8 of 13 | no |
-| Evidence as the visible strokes, with the crop | the two-witness prompts | 23 of 23 | 8 of 13 | no |
-| All three readings listed where the readers differ | the three-reader rewrite | 20 of 23 | 8 of 13 | no |
-| One notation table kept across the pages, and recurring signs made to agree | the three-reader rewrite | 23 of 23 | 8 of 13 | no |
-| The transcription frozen by hash (SP31-SP33: before the mathematical context; three-reader prompts: when every page is decided) | SP31-SP33; the three-reader prompts | 23 of 23 | 8 of 13 | no |
-| Witness S: the readings the sweeps decided on the scan | the 20:5x UTC build | 14 of 23 | 3 of 13 | no |
-| Per-reader structured records (JSON: differences, strokes, crop coordinates, a verdict per doubt mark) | Pro's own, in the SP34 and SP35 returns | 0 of 23 | 0 of 13 | no |
-| Decisions applied to the text by a script per page (decide_NNN.py) | Pro's own, in the SP34 return | 0 of 23 | 5 of 13 | yes |
-| Further independent readings where a place stays open, instead of re-cropping | Pro's own, in the SP34 and SP35 returns | 0 of 23 | 0 of 13 | no |
-| Neighbouring marks read on one shared band crop, a tight crop only for a feature still open | Pro's own, DM01, 22:36 UTC | 0 of 23 | 5 of 13 | no |
-| A stopping rule for struck text (no distinguishing stroke left: keep the doubt, no more crops) | Pro's own, DM01, 22:29 UTC | 0 of 23 | 0 of 13 | no |
-| A page's marks split between readers by their number (1, 2 or 3 readers) | Pro's own, DM01, 22:16 UTC | 0 of 23 | 0 of 13 | no |
-| The first readers' recurring misreadings listed for script checks (PATTERNS.md) | the DM design, 19 Nov 21:58 UTC | 0 of 23 | 5 of 13 | yes |
+| Three independent readers of every page, and a main reader who decides | 19 Nov ~20:26 UTC (SP34 on) | 20 of 23 | 14 of 14 | no |
+| Fresh readers for every page (no reader carries an earlier page's images) | 19 Nov 21:11 UTC; DM01 on its own from scan 4 | 18 of 23 | 14 of 14 | no |
+| The readers' brief improved from their disagreements, each version kept | the 21:10 UTC rewrite | 18 of 23 | 9 of 14 | no |
+| A workflow record for the next runs (brief versions, crops a page, what worked) | the 21:10 UTC rewrite; DM01 | 18 of 23 | 14 of 14 | yes |
+| Page once, halves once, then one tight crop per open place, never re-cropped | the reading workflow, 19 Nov 21:07 UTC | 19 of 23 | 9 of 14 | no |
+| Deep zoom: a few thousand pixels across, contrast raised | 19 Nov 21:10 UTC | 18 of 23 | 4 of 14 | yes |
+| C's doubt marks listed as places to decide on the ink | the two-witness prompts (14 Nov on) | 23 of 23 | 9 of 14 | no |
+| Evidence as the visible strokes, with the crop | the two-witness prompts | 23 of 23 | 9 of 14 | no |
+| All three readings listed where the readers differ | the three-reader rewrite | 20 of 23 | 9 of 14 | no |
+| One notation table kept across the pages, and recurring signs made to agree | the three-reader rewrite | 23 of 23 | 9 of 14 | no |
+| The transcription frozen by hash (SP31-SP33: before the mathematical context; three-reader prompts: when every page is decided) | SP31-SP33; the three-reader prompts | 23 of 23 | 9 of 14 | no |
+| Witness S: the readings the sweeps decided on the scan | the 20:5x UTC build | 14 of 23 | 3 of 14 | no |
+| Per-reader structured records (JSON: differences, strokes, crop coordinates, a verdict per doubt mark) | Pro's own, in the SP34 and SP35 returns | 0 of 23 | 0 of 14 | no |
+| Decisions applied to the text by a script per page (decide_NNN.py) | Pro's own, in the SP34 return | 0 of 23 | 5 of 14 | yes |
+| Further independent readings where a place stays open, instead of re-cropping | Pro's own, in the SP34 and SP35 returns | 0 of 23 | 0 of 14 | no |
+| Neighbouring marks read on one shared band crop, a tight crop only for a feature still open | Pro's own, DM01, 22:36 UTC | 0 of 23 | 5 of 14 | no |
+| A stopping rule for struck text (no distinguishing stroke left: keep the doubt, no more crops) | Pro's own, DM01, 22:29 UTC | 0 of 23 | 0 of 14 | no |
+| A page's marks split between readers by their number (1, 2 or 3 readers) | Pro's own, DM01, 22:16 UTC | 0 of 23 | 0 of 14 | no |
+| The first readers' recurring misreadings listed for script checks (PATTERNS.md) | the DM design, 19 Nov 21:58 UTC | 0 of 23 | 5 of 14 | yes |
 
 </div>
 
-Unsent: the second-pass pieces in TO_SEND/PRO/2_Archive_second_passes (SP54, SP55, SP56, SP57, DM02, DM03, DM04, DM05, SP58, SP59, SP60, SP61, DM06); sent: the pieces in its .SENT folder (SP31, SP32, SP33, SP34, SP35, SP36, SP37, SP38, SP39, SP40, SP41, SP42, SP43, SP44, SP45, SP46, SP47, SP48, SP49, SP50, SP51, SP52, SP53). A method counts as present when the prompt carries its wording (the pattern in build_report.py); a 'no' for witness S on a piece means its pages had no sweep row.
+Unsent: the second-pass pieces in TO_SEND/PRO/2_Archive_second_passes (SP54, SP55, SP56, SP57, DM02, DM03, DM04, DM05, SP58, SP59, SP60, SP61, DM06, SP62); sent: the pieces in its .SENT folder (SP31, SP32, SP33, SP34, SP35, SP36, SP37, SP38, SP39, SP40, SP41, SP42, SP43, SP44, SP45, SP46, SP47, SP48, SP49, SP50, SP51, SP52, SP53). A method counts as present when the prompt carries its wording (the pattern in build_report.py); a 'no' for witness S on a piece means its pages had no sweep row.
 
 </div>
 
@@ -1512,9 +1692,65 @@ SP35 is Pro's three-reader pass with the reading workflow of 21:07 UTC. "Same re
 
 Of 162 places where C and Hua differ that F decided, 136 (84.0 %) agree with Pro's SP04. SP04 changed C at 13 of them; F decided 104 for C, 24 for Hua, 5 neither, 29 notation only and 8 undecidable.
 
-### The API route (pilot G)
+### The API route: pilots 1 and 2 (20 Nov, Message Batches API)
 
-Never run. On 19 Nov at 21:54 UTC the main session estimated that checking the 114,000 doubt marks then listed through the API "would come to over \$1,000", at about a cent a place. That figure came from the placement run of the same evening (Claude Opus 5.5 at effort high, 136 text-only requests, about \$3, sent to the standard endpoint at twice the batch price). It was not a test of reading doubt marks: no image, no prompt variant, no other model, no cost per design. The user then chose the doubt-marks-only Pro run instead (DM01). An API route is worth building only if it is very cheap, measured first on a small batch with several prompt designs and models, and every API run goes through the 50 %-off modes (Batch or Flex).
+On 19 Nov at 21:54 UTC the main session had estimated that checking the doubt marks through the API "would come to over \$1,000", at about a cent a place. That figure was an extrapolation from a text-only placement run (Claude Opus 5.5 at effort high, 136 requests, about \$3, standard endpoint), not a test of reading doubt marks. The pilots below are that test, run through the Message Batches API at half price.
+
+#### Set 'full_v2': 96 of DM01's marks (27 where Hua has C's other alternative), 576 requests, \$2.54
+
+<div class="tw">
+
+| Model | Image | Prompt | Marks | Same as DM01 | Different | Abstained | Same as DM01, where Hua has C's other alternative | Cost per mark |
+|----|----|----|----|----|----|----|----|----|
+| Claude Haiku 5.5 at effort high | the line and the word crop | readings offered | 96 | 61.5 % | 32.3 % | 3.1 % | 16 of 24 | \$0.00036 |
+| Claude Haiku 5.5 at effort high | the line and the word crop | free reading | 96 | 22.9 % | 62.5 % | 1.0 % | 7 of 24 | \$0.00041 |
+| Claude Sonnet 5.5 at effort medium | the line and the word crop | readings offered | 96 | 62.5 % | 31.2 % | 3.1 % | 15 of 24 | \$0.00390 |
+| Claude Sonnet 5.5 at effort medium | the line and the word crop | free reading | 96 | 30.2 % | 54.2 % | 0.0 % | 8 of 24 | \$0.00390 |
+| Claude Opus 5.5 at effort high | the line and the word crop | readings offered | 96 | 64.6 % | 29.2 % | 0.0 % | 17 of 24 | \$0.00903 |
+| Claude Opus 5.5 at effort high | the line and the word crop | free reading | 96 | 44.8 % | 40.6 % | 2.1 % | 17 of 24 | \$0.00890 |
+
+</div>
+
+#### Set 'small': 10 of DM01's marks (5 where Hua has C's other alternative), 120 requests, \$0.44
+
+<div class="tw">
+
+| Model | Image | Prompt | Marks | Same as DM01 | Different | Abstained | Same as DM01, where Hua has C's other alternative | Cost per mark |
+|----|----|----|----|----|----|----|----|----|
+| Claude Haiku 5.5 at effort medium | the word crop | readings offered | 10 | 70.0 % | 20.0 % | 10.0 % | 4 of 5 | \$0.00026 |
+| Claude Haiku 5.5 at effort medium | the word crop | free reading | 10 | 10.0 % | 80.0 % | 0.0 % | 1 of 5 | \$0.00034 |
+| Claude Haiku 5.5 at effort medium | the line | readings offered | 10 | 40.0 % | 50.0 % | 10.0 % | 3 of 5 | \$0.00022 |
+| Claude Haiku 5.5 at effort medium | the line | free reading | 10 | 10.0 % | 80.0 % | 0.0 % | 1 of 5 | \$0.00023 |
+| Claude Sonnet 5.5 at effort medium | the word crop | readings offered | 10 | 60.0 % | 30.0 % | 10.0 % | 3 of 5 | \$0.00386 |
+| Claude Sonnet 5.5 at effort medium | the word crop | free reading | 10 | 10.0 % | 80.0 % | 0.0 % | 1 of 5 | \$0.00386 |
+| Claude Sonnet 5.5 at effort medium | the line | readings offered | 10 | 40.0 % | 40.0 % | 20.0 % | 3 of 5 | \$0.00273 |
+| Claude Sonnet 5.5 at effort medium | the line | free reading | 10 | 30.0 % | 60.0 % | 0.0 % | 2 of 5 | \$0.00297 |
+| Claude Opus 5.5 at effort high | the word crop | readings offered | 10 | 50.0 % | 40.0 % | 10.0 % | 2 of 5 | \$0.00811 |
+| Claude Opus 5.5 at effort high | the word crop | free reading | 10 | 50.0 % | 40.0 % | 0.0 % | 4 of 5 | \$0.00931 |
+| Claude Opus 5.5 at effort high | the line | readings offered | 10 | 50.0 % | 30.0 % | 20.0 % | 3 of 5 | \$0.00580 |
+| Claude Opus 5.5 at effort high | the line | free reading | 10 | 40.0 % | 50.0 % | 0.0 % | 3 of 5 | \$0.00628 |
+
+</div>
+
+#### Set 'sol_small': 10 of DM01's marks (5 where Hua has C's other alternative), 30 requests, \$0.15
+
+<div class="tw">
+
+| Model | Image | Prompt | Marks | Same as DM01 | Different | Abstained | Same as DM01, where Hua has C's other alternative | Cost per mark |
+|----|----|----|----|----|----|----|----|----|
+| GPT-6.2 Sol at effort medium | the line and the word crop | readings offered | 10 | 70.0 % | 30.0 % | 0.0 % | 4 of 5 | \$0.00178 |
+| GPT-6.2 Sol at effort high | the line and the word crop | readings offered | 10 | 80.0 % | 20.0 % | 0.0 % | 5 of 5 | \$0.00278 |
+| GPT-6.2 Sol at effort max | the line and the word crop | readings offered | 10 | 90.0 % | 10.0 % | 0.0 % | 5 of 5 | \$0.01052 |
+
+</div>
+
+#### What the sets show (20 Nov 2026)
+
+- **Offering the readings works; asking for a free reading does not.** With the readings offered (in random order, no witness named), the three Claude models agree with DM01 on 59 to 62 of the 96 marks of set full_v2. Asked for a free reading, they agree on 22 to 43: they often read a neighbouring word, because the text around ⟦?⟧ alone does not locate the place in the image. Sending the whole line together with the magnified crop raised the free readings (Claude Opus 5.5 at effort high: 43 of 96) but left them well below the offered readings.
+- **The magnified word beats the line** for the cheaper models (set small: Claude Haiku 5.5 7 against 4 of 10, Claude Sonnet 5.5 6 against 4); Claude Opus 5.5 read both equally (5 and 5).
+- **DM01 is not a reliable reference where Hua has C's other alternative.** The main session (Claude Opus 5.5 at effort max) checked the 9 contested marks of that class on the crops and against the mathematics around them (full_v2/ADJUDICATION.tsv). Hua's alternative was right at 6 of the 7 it could decide. DM01 had kept C's reading at 4 of those 6: u (the formula is u ↦ Λ<sup>n</sup>u), t, + (the same expression reads 1+A further on) and p (α<sub>p</sub>(\|u\|) α<sub>n−p</sub>(\|v\|)). DM01 and C are both GPT-6 Astra, so their agreement there is not independent evidence. Claude Opus 5.5 at effort high matched the checked reading at 6 of the 7, Claude Sonnet 5.5 at 4, Claude Haiku 5.5 at 2. The checker is itself a Claude model; the mathematical checks are the independent part of this evidence.
+- **GPT-6.2 Sol** (OpenAI Batch API, half price; set sol_small: 10 of the 96 marks, readings offered, both images) agreed with DM01 on 7 of 10 at reasoning effort medium (\$0.0018 a mark), 8 at high (\$0.0028) and 9 at max (\$0.0105); on the same 10 marks the Claude models agreed on 5 to 7. Sol, DM01 and C are all OpenAI models, so a higher agreement may be better reading or shared blind spots; the 10 marks hold one contested mark (Ca or Cx), still undecided.
+- **Cost per mark** through the Message Batches API at half price: Claude Haiku 5.5 about \$0.0004, Claude Sonnet 5.5 about \$0.004, Claude Opus 5.5 about \$0.009. For the 70,502 live-text marks not yet checked that is about \$25, \$275 and \$635; for the 6,068 open marks where Hua has C's other alternative, about \$2, \$24 and \$55.
 
 </div>
 
@@ -1532,11 +1768,11 @@ Each way, who proposed it and when, how far it has gone, and what this report me
 | Pro second pass, one reader per piece, settling C's marks among everything else | 14 Nov plan | SP02-SP33 run | settled 42.1 % (large pieces) and 32.8 % (pieces of 19 Nov) | Pro run-hours (flat plan) |
 | Pro three readers and a main reader | 19 Nov ~20:26 UTC | SP34 run; in the pieces SP35-SP57 | settled 34.0 % on 8 pages so far | 5-7 pages an hour |
 | The reading workflow: page once, halves once, list what is open, one tight crop per open place | 19 Nov 21:07 UTC | SP35 on; in SP36-SP57 | SP35 settled 36.2 % on 8 pages | Pro run-hours |
-| Deep zoom and fresh readers per page | 19 Nov 21:10-21:11 UTC | SP36-SP57 (SP36, SP37, SP38, SP57 back) | settled 23.7 % on 34 pages so far | Pro run-hours |
+| Deep zoom and fresh readers per page | 19 Nov 21:10-21:11 UTC | SP36-SP62 (14 of them back) | settled 29.0 % on 62 pages so far | Pro run-hours |
 | A long Pro run on the doubt marks only, designing its own workflow | 19 Nov 21:58 UTC | DM01 ended at checkpoint 10, 20 Nov 05:37 UTC (cote 1, 67 pages); DM06 takes the rest | settled 45.8 %; 196 marks an hour; 11 errors outside the marks | Pro run-hours |
-| Hua's text as the pointer: settle first the marks where Hua has the other alternative | the fix lists, 19 Nov 21:58 UTC | listed (STATE/DOUBTS_VS_HUA.tsv); positional list in this report | where Hua had the other alternative, the passes chose it 18.7 % of the time (268 marks); 6,068 such open marks | a targeted check per mark |
-| Diff C against Hua and check only the differences (pilot F) | 19 Nov | pilot F run; in the pieces as witness H | 39.4 % of the logged corrections were at such places; F agreed with SP04 at 84.0 % | about 0.014 % of the weekly Claude usage limit a page (F) |
-| Give the pieces the lists as places to check first (doubt marks, Hua disagreements, his-error claims, sweep rows) | our proposal, 19 Nov | witness C's doubt marks and witness S are in the pieces; the his-error list is not | the cheap lists point at 82.6 % of the logged corrections | script edit, free |
+| Hua's text as the pointer: settle first the marks where Hua has the other alternative | the fix lists, 19 Nov 21:58 UTC | listed (STATE/DOUBTS_VS_HUA.tsv); positional list in this report | where Hua had the other alternative, the passes chose it 18.2 % of the time (274 marks); 6,070 such open marks | a targeted check per mark |
+| Diff C against Hua and check only the differences (pilot F) | 19 Nov | pilot F run; in the pieces as witness H | 39.6 % of the logged corrections were at such places; F agreed with SP04 at 84.0 % | about 0.014 % of the weekly Claude usage limit a page (F) |
+| Give the pieces the lists as places to check first (doubt marks, Hua disagreements, his-error claims, sweep rows) | our proposal, 19 Nov | witness C's doubt marks and witness S are in the pieces; the his-error list is not | the cheap lists point at 82.7 % of the logged corrections | script edit, free |
 | Check the listed places through the batch APIs, each image once (pilot G) | 19 Nov | not run | not measured | API dollars (Batch only) |
 | Claude agents reading whole pages (pilots A-E) | 19 Nov 20:31 UTC | stopped 21:00 UTC | on SP35's pages they settled far fewer of C's marks than SP35 (section 7) | 0.15-0.5 % of the weekly Claude usage limit a page |
 | A fresh Work reading (GPT-6.2 Astra at reasoning effort max) and a diff | 18 Nov plan | 229 folders built, held | not measured | about 286 Work-hours |
@@ -1561,7 +1797,7 @@ Split by where the mark sits, the doubt-marks-only run settles by far the most l
 | Run | Newest return | Pages done | Live-text marks | settled | first reading wrong | Struck-text marks | settled | first reading wrong |
 |----|----|----|----|----|----|----|----|----|
 | DM01 | checkpoint_10 | 67 | 588 | 67.5 % | 16.4 % | 857 | 30.9 % | 10.6 % |
-| SP02 | checkpoint_22 | 103 | 468 | 30.3 % | 38.0 % | 435 | 34.3 % | 17.4 % |
+| SP02 | checkpoint_23 | 106 | 471 | 30.1 % | 37.3 % | 435 | 34.3 % | 18.1 % |
 | SP04 | checkpoint_05 | 63 | 781 | 58.8 % | 11.3 % | 540 | 34.6 % | 5.3 % |
 | SP12 | checkpoint_11 | 59 | 530 | 55.1 % | 20.5 % | 466 | 27.7 % | 11.6 % |
 | SP14 | checkpoint_13 | 100 | 950 | 51.5 % | 15.3 % | 509 | 24.0 % | 8.2 % |
@@ -1573,6 +1809,16 @@ Split by where the mark sits, the doubt-marks-only run settles by far the most l
 | SP36 | checkpoint_01 | 3 | 28 | 53.6 % | 0.0 % | 10 | 20.0 % | 0.0 % |
 | SP37 | checkpoint_01 | 2 | 27 | 33.3 % | 11.1 % | 10 | 0.0 % | – |
 | SP38 | checkpoint_08 | 14 | 140 | 30.0 % | 11.9 % | 79 | 12.7 % | 20.0 % |
+| SP39 | checkpoint_01 | 2 | 30 | 46.7 % | 7.1 % | 12 | 25.0 % | 0.0 % |
+| SP40 | checkpoint_01 | 2 | 18 | 55.6 % | 10.0 % | 10 | 20.0 % | 50.0 % |
+| SP41 | checkpoint_01 | 2 | 52 | 55.8 % | 10.3 % | 19 | 26.3 % | 20.0 % |
+| SP44 | checkpoint_01 | 2 | 8 | 0.0 % | – | 10 | 0.0 % | – |
+| SP45 | checkpoint_01 | 6 | 19 | 36.8 % | 14.3 % | 4 | 75.0 % | 0.0 % |
+| SP46 | checkpoint_01 | 2 | 20 | 20.0 % | 25.0 % | 2 | 50.0 % | 100.0 % |
+| SP47 | checkpoint_01 | 2 | 12 | 8.3 % | 0.0 % | 20 | 40.0 % | 12.5 % |
+| SP48 | checkpoint_01 | 1 | 5 | 60.0 % | 33.3 % | 4 | 25.0 % | 100.0 % |
+| SP49 | checkpoint_01 | 6 | 13 | 76.9 % | 0.0 % | 6 | 33.3 % | 0.0 % |
+| SP50 | checkpoint_01 | 3 | 25 | 32.0 % | 0.0 % | 4 | 0.0 % | – |
 | SP57 | checkpoint_09 | 15 | 89 | 33.7 % | 46.7 % | 115 | 8.7 % | 40.0 % |
 | CLAUDE13 | 13 Nov blocks | 777 | 4,645 | 15.1 % | 38.9 % | 2,717 | 2.5 % | 43.3 % |
 
@@ -1587,8 +1833,8 @@ Split by where the mark sits, the doubt-marks-only run settles by far the most l
 These follow from the measurements above. None is done yet.
 
 1.  **Mark a checked doubt in the text itself** (a change of convention, not yet decided). Today `\unsure{a|b}` means both "not yet checked" and "checked, still doubtful": the split in section 1 is inferred from where a page's text of record came from, and is lost once pages are merged or edited. Proposal: an optional argument naming the check, `\unsure[DM01]{a|b}` ("DM01 looked at this place on the scan and could not decide"), written by every second pass and doubt-mark run on each mark it leaves; a mark without it has not been checked. The preamble's definition becomes `\newcommand{\unsure}[2][]{...}`, so every existing text compiles unchanged, and the readers can show checked doubts in their own colour; the scripts (alignment, inventory, STATE) read the argument. Alternatives: a new command such as `\doubtful{...}` (does not say who checked), or the decisions kept only in each run's `MARKS.tsv` (no change to the text, but the link to the mark breaks when the page is edited).
-2.  **Decide who is right where Hua has the other alternative** (approved, 20 Nov). Where they settled such a mark, the Pro passes kept C at 69.0 %; the 13 Nov Claude pass went with Hua at 69.6 % (48 of 69). A scan check of a random sample of these marks (60-100 of the 6,068 open ones, a doubt-marks run like DM01 or pilot G on the batch APIs) would say which, and so how to treat the whole class.
-3.  **Struck-out text** (decided 20 Nov: live-text marks first, struck-out text after). 55,143 of the open marks (42.9 %) are inside deletions. Every pass settles them at 16-59 % of the rate of live text, and DM01 left 573 of its 765 undecided marks there. The prompts could let a reader keep a doubt in struck text after one look (DM01's stopping rule) and spend the time on live text.
+2.  **Decide who is right where Hua has the other alternative** (approved, 20 Nov). Where they settled such a mark, the Pro passes kept C at 69.7 %; the 13 Nov Claude pass went with Hua at 69.6 % (48 of 69). A scan check of a random sample of these marks (60-100 of the 6,070 open ones, a doubt-marks run like DM01 or pilot G on the batch APIs) would say which, and so how to treat the whole class.
+3.  **Struck-out text** (decided 20 Nov: live-text marks first, struck-out text after). 55,116 of the open marks (43.0 %) are inside deletions. Every pass settles them at 16-60 % of the rate of live text, and DM01 left 573 of its 765 undecided marks there. The prompts could let a reader keep a doubt in struck text after one look (DM01's stopping rule) and spend the time on live text.
 4.  **Carry DM01's own methods into the next DM prompts** (shared band crops, the stopping rule, a page's marks split by their number), and Pro's SP34/SP35 inventions (per-reader records, decisions applied by script) into the unsent pieces, if wanted: a script edit of the prompts.
 5.  **The pages of the 13 Nov Claude pass no longer count as second-passed** (decided 20 Nov): 89.6 % of C's marks on them are still open (8,199 marks on 851 pages). A doubt-marks run on those pages would settle them.
 6.  **Test deep zoom properly** (approved, cheaply, 20 Nov): the same pages read twice by the same design, crops capped at 2-3x against tight crops at 8-10x, scored mark by mark (section 4).
