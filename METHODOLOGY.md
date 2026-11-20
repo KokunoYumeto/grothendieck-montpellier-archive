@@ -2,6 +2,9 @@
 
 All text in this repository is AI-produced. Models are named with their effort setting. Revised 19 Nov 2026.
 
+The doubt marks still open, by kind, and what each second-pass design did with them (20 Nov 2026, a working report
+rebuilt as returns come in): [reports/doubt_marks_20261120/](reports/doubt_marks_20261120/).
+
 **Compute.** Most of the reading runs on ChatGPT subscriptions (Pro and Work), where a long run costs no more than the
 subscription. Claude does the coordination, the checks, the trackers and part of the second pass. We have no special
 recognition technique: what we have is many long runs in parallel, plus the measurements below of what finds errors.
