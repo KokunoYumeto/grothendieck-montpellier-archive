@@ -72,8 +72,37 @@ The second passes so far:
   - a page's marks split between two or three readers;
   - a stopping rule for struck-out text: where the strokes that would decide are gone, the doubt stays;
   - neighbouring marks read on one shared crop.
+- **One main reader and Pro's three sub-agents, each on a different page (from 20 Nov 2026).** The three-reader design
+  read about 2 pages an hour, so it was stopped. The main reader keeps the piece's notation table and hand log. Each of
+  Pro's three sub-agents reads a different page, and another sub-agent reads that page a second time. The crops that
+  decided a place come back with the return. The first returns read 13-27 pages an hour.
+- **What every run reads first: the reading aids in [`methodology/reading_aids/`](methodology/reading_aids/)** (from
+  20 Nov 2026):
+  - the sheet of the errors that recur in these papers, with measured rates and the letters each cote's readers confuse;
+  - how a place is decided: on the ink first, then on his notation and the mathematics where the ink admits two
+    readings, and nothing normalised;
+  - the hand logs of earlier runs on the same cotes: his habits of hand, whether each holds elsewhere, and whether it
+    predicts errors;
+  - for each page, a list of where C and H differ, and the notation of earlier passes on the cote.
 
-Pieces are 7 to 30 pages long, with a checkpoint every 45 minutes.
+  Every run returns its own hand log and its feedback on the sheet. The aids are refreshed at every intake of returns,
+  and the waiting runs on the same cotes get the new hand-log rows.
+- **Implementation runs (from 20 Nov 2026).** Pro runs that put the decided corrections into the pages. Each row is
+  decided on the scan as one of:
+  - (a) our misreading, changed;
+  - (b) his slip or refinement, kept as written, with a note;
+  - (c) already done;
+  - (d) not on the page.
+
+  A run returns the edited pages and the exact find and replace of each change. The text of record applies it where the
+  span stands once on the page. The first three runs (245 rows) changed 38 places and confirmed 106 of his slips as
+  written. They found 89 rows not on the page, for two reasons:
+  - notes on the dossiers' catalogue, such as whose leaf a sheet is or where a typescript belongs;
+  - 11 rows our builder had put on the wrong cote.
+
+  Both kinds have since been left out of the pieces.
+
+Second-pass pieces are 7 to 30 pages long, implementation pieces about 400 rows; every run checkpoints every 45 minutes.
 
 ## 4. Sweeps
 
