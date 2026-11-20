@@ -76,6 +76,23 @@ The second passes so far:
   read about 2 pages an hour, so it was stopped. The main reader keeps the piece's notation table and hand log. Each of
   Pro's three sub-agents reads a different page, and another sub-agent reads that page a second time. The crops that
   decided a place come back with the return. The first returns read 13-27 pages an hour.
+- **A blind second reading, and crops where they matter (from the evening of 20 Nov 2026).** The first returns of
+  that design showed three weaknesses:
+  - the second reading did nothing: one run logged 20 pages as read again in 10 minutes, with no change;
+  - on pages first read in Codex web, it changed our reading at 1 of the 67 words where our reading and Hua's differ.
+    On other pages it changed 23 of 232, and the three-reader design 26 of 217;
+  - about 30 % of the doubt marks it settled were settled on the page view, without a crop.
+
+  Claude Fable 5.2 at effort max proposed the changes, and the main session (Claude Opus 5.5 at effort max) checked
+  them against the returns:
+  - a sub-agent that has not read the page reads its hardest places again from the image alone, without either
+    witness or the first reading. These are insertions, margin notes, struck passages, formulas with a doubt mark,
+    numbers by pen, handwriting on typescripts, words where the witnesses differ and less-than-certain changes;
+  - a script compares the two readings, and every difference is decided on a crop;
+  - a word where the two witnesses differ, and a doubt mark that is resolved, always get a crop;
+  - every strike and insertion of the first reading gets one question on the image.
+
+  The sheet now names our reader's own confusions of Greek letters. The ones it named before were Hua's reader's.
 - **What every run reads first: the reading aids in [`methodology/reading_aids/`](methodology/reading_aids/)** (from
   20 Nov 2026):
   - the sheet of the errors that recur in these papers, with measured rates and the letters each cote's readers confuse;

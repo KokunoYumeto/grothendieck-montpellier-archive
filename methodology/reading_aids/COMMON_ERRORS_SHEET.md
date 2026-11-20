@@ -16,6 +16,9 @@ on average 7):
 - the signs +, → and ⊗: 10 to 11 (⊖ read as ⊗);
 - plain words in the line: 5.
 
+These rates were measured on pages whose witness C is a Codex-web reading (GPT-6 Astra at reasoning effort max). On
+pages read by another route, take them as places to look, not as rates.
+
 **A letter read for another inside words belongs to one cote:** q read as g on cote 103, u and f read as n on cote
 123, J read as T or Y on cote 13. When you find such a swap, check every occurrence of that letter on these pages, and
 enter it in the hand log.
@@ -36,13 +39,19 @@ enter it in the hand log.
   notation table once.
 
 **A doubt mark of witness C is not a default.** Its first reading stood in 514 of the 920 marks the second passes
-settled (56 in 100); the alternative or another reading in the rest.
+settled (56 in 100); the alternative or another reading in the rest. **A doubt mark is resolved only on a crop of it:**
+the changes log gives the crop's box and the stroke that decides. A doubt mark inside struck text stays unless every
+letter is plain on the crop. A doubt mark in a formula is decided with the whole formula: the signs next to a doubtful
+sign were wrong twice as often as the others.
 
 **Where witness C was wrong, most often first (places on those 470 pages):**
 
 1. **Symbols and indices (1,075).**
-   - Letters with a hook or a tail: ξ and ζ, γ and Γ, ρ and p, δ and λ, Λ and A, Δ and 2. Fix the letter where the page
-     or the run defines it, then read every occurrence the same way: on cote 12 one definition settled 27 places.
+   - Greek letters: Φ and φ, Π and π, γ and ψ were changed 2 to 8 times as often as the average letter in witness C;
+     Π read as π (25 places) and ψ read as μ (4) were its commonest swaps. Witness H's reader confused other letters (ξ
+     and ζ, ρ and p, δ and λ, Λ and A, Δ and 2), which witness C read well: they matter where you take a reading from
+     H. Fix the letter where the page or the run defines it, then read every occurrence the same way: on cote 12 one
+     definition settled 27 places.
    - Small digits, primes and exponents: a prime dropped or added; 1 and 2, 0 and 1, 1 and I, l and 1. Read them by the
      degree, count or date the page forces, and never regularise one silently.
    - Worn signs: a short stroke between two terms may be a map, a minus or a plus; two ticks or a ∩ between the rows of
@@ -60,8 +69,9 @@ settled (56 in 100); the alternative or another reading in the rest.
    - Endings (a final s, de and des, le and les): the grammar does not decide them; he breaks agreement himself (2 of
      the 6 endings checked by eye).
 3. **Omissions (1,009).**
-   - A one-word insertion (la, le, de, un, et, des, ne, même) is the hardest word on the page: of 10 checked by eye,
-     witness C had another word in 5.
+   - A one-word insertion (la, le, de, un, et, des, ne, même) is small and easily misread: words in an insertion were
+     changed at 13 in 100 in witness C, against 5 for a plain word; of 10 such words Michel Hua checked by eye, witness H
+     had another word in 5.
    - Prefixes are written above the line (sous-, quasi-, ⊗-, Δ-, pseudo-, contra-): 28 of the 30 checked by eye are on
      the page. Look above the line before taking a prefix as absent.
    - Margin notes, slanted notes, the punctuation that survives a cancellation.
@@ -124,9 +134,10 @@ can be absent.
 **What does not need time** (none of it changes a reading):
 - **Macro syntax.** A difference of macro syntax alone (the same reading in two macro sets, a handwriting wrapper alone,
   a line-wrap %, an archive-number comment against H's page marker) is not a row and needs no crop.
-- **Certainty alone.** A change of certainty alone (1,237 of the 6,439 changes) is one line in the doubts file; once the
-  halves show the reading, it needs no crop.
-- **Crops.** One crop for each place the halves leave open; no second crop of a decided place; no TeX compilation.
+- **Adding a doubt.** A doubt mark you add, a change of certainty alone (1,237 of the 6,439 changes were such), is one
+  line in the doubts file and needs no crop. Resolving a doubt mark is a reading, and it needs its crop (above).
+- **Crops.** One crop for each place the halves leave open and for each place that always gets one (method, step 2c);
+  no second crop of a decided place outside the second reading (method, step 7); no TeX compilation.
 
 **The hand log: learn his hand as you read.** Keep `{S}_hand_log.md` from the first page. Enter every habit of his
 hand or his notation that can mislead a reader: a letter he forms like another (a p like an n, a u like an n, a ζ like a

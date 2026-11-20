@@ -121,8 +121,8 @@ pass, and how many; what a reader does.
 - **Reader:** a point is punctuation only on the baseline, between words, in the pen's ink; a speck gets no mark.
 
 ### N10. The direction of an accent
-- **Count:** 79 rows differ by an accent only; in 44 both witnesses had the same word; 21 are firm and 58 add a doubt
-  [counted]. Examples: SP44 A36-01/13 « régulier » → « règulier »; SP50 H134-02/150 « algébriques » → « algèbriques »;
+- **Count:** 79 rows differ by an accent only; in 44 both witnesses had the same word; 21 are firm, and the other 58
+  leave a doubt or are of low confidence [counted]. Examples: SP44 A36-01/13 « régulier » → « règulier »; SP50 H134-02/150 « algébriques » → « algèbriques »;
   SP14 H48-01/3 « Schémas » → « Schèmas »; SP52 J156-4-09/67 → `\unsure{determinent|déterminent}`.
 - **Lives in:** his hand: the accent is one short stroke whose slant does not tell acute from grave (cotes 134, 156-4,
   75, 81).
@@ -155,8 +155,8 @@ pass, and how many; what a reader does.
 - **Reader:** nothing at each place.
 
 ### N14. Letters of one cote, in mathematics
-- **Count:** 56 single-letter swaps in mathematics over 33 pairs [counted]: E→ε 8 (all on 156-3); G→C 3 (156-7);
-  j→J 3 (134-2); B→D 2 and K→k 2 (13); f→y 2 (104); x→n 2 (75); p→r 2 (53).
+- **Count:** 56 letter-for-letter swaps in mathematics over 33 pairs [counted]: G→C 3 (156-7); j→J 3 (134-2); B→D 2
+  and K→k 2 (13); f→y 2 (104); x→n 2 (75); p→r 2 (53). Beside them E→ε 8 times, all on 156-3.
 - **Lives in:** his hand on that cote, like g and q on cote 103 in the sheet.
 - **Script:** only with care. A capital E in mathematics occurs 734 times on the 156 cotes without a second pass, but
   693 of them are on 156-9, where E is the name of the set [counted]. The habit is shown for 156-3 only.
