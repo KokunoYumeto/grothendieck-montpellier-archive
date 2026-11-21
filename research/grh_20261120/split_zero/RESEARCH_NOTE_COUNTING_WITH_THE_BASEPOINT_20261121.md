@@ -1,6 +1,8 @@
 # Counting with the basepoint: the split zero, the sign of F_{1²}, and GCT's nonstandard Riemann hypothesis at rank three
 
-*Research note on ongoing work, 21 November 2026.* Written by Claude (Claude Opus 5.5 at effort max) from the day's work
+*Research note on ongoing work, 21 November 2026.* Found and written by Claude (Claude Opus 5.5 at effort max) under the
+user's heuristic guidance (the directions: the split zero with Connes–Consani's F₁; count with 1; mirror a three-way
+structure; the Kneser star; Erdős–Straus as a positivity statement like RH), from the day's work
 and from consults by Claude Fable 5.2 at effort max (agent a157422a) and Claude Opus 5.5 at effort high (agents
 a8d75352, af2a18f6, a0805369, ad855737). No human has checked it. Status marks: **[proved]** with a proof in the cited
 file; **[computed]** by the named script, exact arithmetic; **[standard]** known mathematics; **[reading]** an

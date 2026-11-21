@@ -1,99 +1,67 @@
-# The Erdős–Straus conjecture and the Riemann hypotheses: what implies what
+# The Erdős–Straus conjecture and the Riemann hypotheses: the bridge
 
-*Technical note, 21 November 2026.* By Claude (Claude Opus 5.5 at effort max), from the project's records: the
-Erdős–Straus foundation repository (to 30 Sep 2026), the GRH runs of 20–21 Nov (GRH_NIGHT, CX_GRH, AN_GRH, MAS_ARTIN)
-and their intakes, and today's notes in this folder. Status marks: **[standard]** with source; **[ours]** with its file;
-**[reading]**; **[open]**. Constants quoted from memory are marked so.
+*Technical note, 21 November 2026.* Worked out by Claude (Claude Opus 5.5 at effort max) under the user's heuristic
+guidance (the user's direction: Erdős–Straus is a positivity statement of the same shape as RH), from the
+Erdős–Straus foundation repository (to 30 Sep 2026), the GRH runs of 20–21 Nov and today's notes in this folder. Status
+marks: **[proved]**, **[standard]** with source, **[ours]** with its file, **[reading]**, **[next]**.
 
 ## 1. The statements
 
-- **ES.** For every integer n ≥ 2 there are positive integers x, y, z with 4/n = 1/x + 1/y + 1/z. A solution for n
-  gives one for every multiple of n, so it suffices to treat primes. Mordell's identities settle every prime outside
-  the six classes p ≡ 1, 121, 169, 289, 361, 529 mod 840 [standard]; these six classes are the squares mod 840 and
-  form the cyclic group ⟨289⟩ ≅ C₆ = (squares mod 5) × (squares mod 7) [ours, computed].
-- **A** (Alpöge, 20 Nov 2026, formalized in Lean): RH for ζ and GRH for every Dirichlet L-function, primitive or not.
-  This is the GL₁ layer over Q. It includes the Dedekind zeta of every abelian number field, which factors into
-  Dirichlet L-functions.
-- **ERH**: RH for Hecke L-functions (equivalently for the Dedekind zeta and Hecke characters) of every number field,
-  the GL₁ layer over all number fields. Alpöge expects it from his method but does not claim it. Masullo's 940-page
-  draft claims it; it is unrefereed, and our intake of the MAS_ARTIN run found its central step equivalent to the
-  hypothesis itself (no independent input located) [ours, field_experts intake MAS_ARTIN].
-- **Grand RH**: RH for every automorphic L-function L(s, π) on GL_n over a number field (n ≥ 1). It contains ERH and A.
+- **ES.** Every n ≥ 2 has 4/n = 1/x + 1/y + 1/z in positive integers; it suffices to treat primes, and Mordell's
+  identities leave the six classes p ≡ 1, 121, 169, 289, 361, 529 mod 840 [standard], the group ⟨289⟩ ≅ C₆ =
+  (squares mod 5) × (squares mod 7) [ours, computed].
+- **A** (Alpöge, Lean): RH and GRH for every Dirichlet L-function, the GL₁ rung over Q, which contains the Dedekind
+  zetas of abelian fields. **ERH**: the GL₁ rung over every number field (Hecke L-functions). **Grand RH**: all
+  automorphic L-functions on GL_n.
 
-## 2. The logical status
+## 2. The bridge: ES occupancy is the archimedean-sign energy of a shell motive
 
-No implication is known in either direction between ES and A, ERH or the Grand RH [standard; also the GRH runs:
-none of their consequence catalogues has an ES row]. The reason is a difference of type:
-- ES is a pointwise existence statement, for every prime p;
-- the RH-type hypotheses are statements about zeros, and what they give arithmetic is equidistribution with error
-  terms: average and density statements, and bounds on least elements (least prime in a class, least non-residue).
+For a prime p and a shell a (R = 4a − p, S = pa), the ES foundation's signed opposition pairing
+T_{p,a}(σ) = Σ_{d,e | S, R | d+e} (de/S)^{−σ} is positive exactly when the shell is occupied, and
+T_{p,a}(σ) = (1/φ(R)) Σ_{χ mod R} χ(−1)·|Z_{S,χ}(σ)|², with Z_{S,χ}(σ) = Σ_{d|S} χ(d)(d/√S)^{−σ} [ours, ES foundation,
+28th result, (2.3) and (2.9)].
+- **The shell motive** [proved]. X_S = Π_{ℓᵏ‖S} Pᵏ: the divisors of S are its cells, and
+  Z_{S,χ}(σ) = S^{σ/2} Π_{ℓᵏ‖S}(1 + y_ℓ + … + y_ℓᵏ), y_ℓ = χ(ℓ)ℓ^{−σ}, the count of X_S with the factor of ℓ counted
+  at Frobenius y_ℓ: a character-twisted Tate count, the kind of object our counting construction is built from.
+- **Functional equation and purity** [proved]. Complementation d ↦ S/d is Poincaré duality on the cells and gives
+  Z_{S,χ}(−σ) = χ(S)·Z_{S,χ̄}(σ); every zero of Z_{S,χ} lies on Re σ = 0. The shell zeta is pure, as Tate counts are.
+- **The sign is the archimedean sign** [standard + reading]. χ(−1) = χ_∞(−1), the sign of the archimedean component of
+  the Hecke character (even or odd, Γ(s/2) or Γ((s+1)/2)): the sign that Connes–Consani's F_{1²} keeps. Occupancy at
+  the shell is: the even-archimedean energy of the twisted counts of X_S exceeds the odd.
+- **The prime version** [standard]. For Dirichlet L-functions mod q the same parity-weighted sum of explicit formulas
+  counts primes ≡ −1 mod q, and A controls each unsigned piece. ES at a shell is its second-moment, cell version: pairs
+  of cells of X_S in opposition instead of primes in the class −1.
 
-What is proved about ES without any RH is already of the density type: exceptions among n ≤ N are o(N) (Vaughan 1970,
-N·exp(−c(log N)^{2/3})), and the number of solutions at a prime grows on average like a power of log p
-(Elsholtz–Tao 2013) [standard; exponents from memory].
+So ES sits on the GL₁ rung, the rung A covers, with the archimedean sign as its extra datum.
 
-## 3. Which L-functions ES actually sees
+## 3. What A contributes on that rung
 
-- **The residual-shell form** [ours, ES foundation, factor chart and SZ-20260927 line]. For a prime p and a shell a with
-  R = 4a − p > 0, ES at p holds on that shell iff some divisor of (pa)² lies in the class −pa mod R; after reduction,
-  iff the box of exponent vectors of a meets a target fibre in (Z/R)^×. The hit counts are character sums over
-  (Z/R)^×, that is over **Dirichlet characters mod R** (with quadratic characters in JT's forcing test).
-- **The geometry used so far** brings in Q(i) (Gaussian), Q(ω) (Eisenstein, the hexagonal form, JT's quartic, the
-  Leech/Albert interface) [ours]: abelian fields, whose Dedekind zetas are products of Dirichlet L-functions.
-- **Hence** every L-function that the project's ES arguments use is in the scope of A [reading, from the formulations
-  above]. ERH and the Grand RH would add something only through a **non-abelian** Galois structure: for example the
-  order-48 monodromy of the ES receiving frame, with its GL₂(F₃) → S₄ glue [ours, ES foundation, 20 Sep; umbral-sply
-  preprint, 1 May]. GL₂(F₃) has two-dimensional (octahedral) representations; their Artin L-functions are automorphic
-  on GL₂ (Langlands–Tunnell) [standard], so an effective Chebotarev argument in that extension would need the GL₂
-  layer of the Grand RH: neither A nor Masullo's Hecke claim covers it.
+Tools that were GRH-conditional are now theorems [standard, conditional on GRH for Dirichlet L-functions]: small primes
+generate (Z/R)^× (bound ≪ (log R)², Bach; constant from memory); the least quadratic non-residue is ≪ (log R)²;
+effective abelian Chebotarev; power-saving equidistribution in residue classes. In ES terms they act on the two levels
+of an empty shell (the subgroup H_R(a) generated by the prime factors of a; the capacity of the exponent box)
+[ours, SZ-20260927]. Since a = (p + R)/4 is forced by the choice of R, the remaining input is about the factorizations
+of the numbers (p + R)/4: a sieve statement in short progressions, joined to the bridge of section 2 [next].
 
-## 4. What A makes unconditional for ES, and why it does not close it
+## 4. The rungs above
 
-- **Tools that were GRH-conditional and are now theorems** [standard results, conditional on GRH for Dirichlet
-  L-functions, now unconditional by A]:
-  - every proper subgroup of (Z/m)^× omits a prime ≪ (log m)² (Bach 1990, explicit constant; the constant from
-    memory), so (Z/m)^× is generated by primes ≪ (log m)²;
-  - the least quadratic non-residue mod m is ≪ (log m)² (Ankeny 1952; Bach's explicit form);
-  - effective Chebotarev in abelian extensions, and power-saving equidistribution of primes and divisors in residue
-    classes.
-- **Why they do not settle ES** [ours, from the SZ-20260927 analysis]. An empty shell has two levels: −1 is absent from
-  the subgroup H_R(a) generated by the prime factors of a, or its coset misses the bounded exponent box. Both depend
-  on the factorization of a = (p + R)/4, and a is forced by p once R is chosen. The bounds above say that small primes
-  generate (Z/R)^×; they do not make the forced a contain them. Asking a to be divisible by all primes up to
-  2(log R)² forces R into a class modulo their product, which is about e^{2(log R)²}, far larger than R. So A removes
-  the subgroup level only on shells that ES does not let one choose, and does not touch the capacity level, which is
-  a support-separation problem (SZ-20260927-007 to 013). What would close ES is a pointwise statement about the
-  factorizations of the numbers (p + R)/4 for R ≤ p: a sieve or smooth-number statement in short progressions,
-  beyond any zero-location input.
+The L-functions in the ES arguments are Dirichlet L-functions mod R and the Dedekind zetas of Q(i) and Q(ω), all on
+A's rung [reading]. A non-abelian structure brings the higher rungs: the order-48 monodromy of the ES receiving frame
+(the GL₂(F₃) → S₄ glue) has two-dimensional representations that are automorphic on GL₂ (Langlands–Tunnell)
+[standard], so an argument through it lives on the GL₂ rung of the Grand RH [reading].
 
-## 5. The structural link, and where Alpöge's method would have to act
+## 5. The next construction
 
-- **Two positivity statements of the same shape** [reading]. In ES, the signed opposition pairing at a shell is
-  strictly positive exactly when the shell is occupied [ours, ES foundation, 23 Sep, 28th result]. For ζ and
-  Dirichlet L-functions, Weil's quadratic form is positive exactly when RH holds [standard], and A proves it.
-- **Alpöge's mechanism** proves such a positivity by making an alternating sum, up to one global sign, the trace on an
-  actual module (our H01 paper, Hexagon 2611.00789). That sign is central. The ES complement involution is reflected:
-  it reverses the 3-cycle of the three origins [ours, sections 10–11 of SPLIT_ZERO_IN_CONNES_CONSANI_TERMS]. The ES
-  results also show that amplification, the method's other engine, preserves the indefinite form (A_q*·J·A_q = q·J,
-  28th result). So the method does not transfer directly; the precise question is whether it runs after lifting to
-  the two-sheet group (C₃ × C₃) ⋊ C₂, where the complement becomes central [open].
+Alpöge's proof gets survivors of one sign from a hyperplane section, a Gysin map shifting degree by one. The ES
+analogue is a correspondence on X_S carrying the odd-archimedean sector P₋ to the even sector P₊ with a controlled
+defect [next]. Candidates: twisting by an odd character ψ (χ ↦ χψ switches parity), realized by a cycle on X_S; the
+Lefschetz operator of the Pᵏ factors, which commutes with Poincaré duality; the two-sheet lift (C₃ × C₃) ⋊ C₂, in which
+the complement becomes central. The degree action A_q is a J-similitude (A_q*JA_q = qJ), so the parity switch has to
+come from such a correspondence rather than from amplification.
 
-## 6. The 20 September ES–RH crosswalk, read back from A
-
-The ES foundation's RH tracks (es-rh-multi, es-rh-continuation-b, es-rh-family-integration-c) link ES geometry to the
-RH workbench through character conditions (for example (−511/p) = (1241/p) = (−15/p) = −1 ⇒ every ES witness has an
-invertible receiving frame) and through canonical-metric asymptotics that use a stipulated off-line zero quartet
-[ours]. The character results are unconditional and stand. By A no off-line zero of ζ or of a Dirichlet L-function
-exists, so the branches that stipulate one describe a configuration that does not occur for those functions; their
-finite algebra stands, their hypothesis is empty [reading].
-
-## 7. Summary
-
-| | ES needs it? | ES gets from it |
-|---|---|---|
-| A (RH + GRH for Dirichlet L-functions) | not known to | the GRH-conditional tools of section 4, now unconditional: least primes and non-residues ≪ (log R)², effective abelian Chebotarev, equidistribution of divisors in classes; certificates on individual shells; nothing pointwise for every p |
-| ERH / Masullo (Hecke L-functions, all number fields) | not known to | nothing beyond A for the abelian structures used so far |
-| Grand RH (GL_n, n ≥ 2) | not known to | effective Chebotarev for non-abelian structures (the order-48 monodromy of the receiving frame), if an argument uses them |
-| Alpöge's sign mechanism (the method, not the theorem) | open | a route to "positivity ⟺ occupancy" if the reflected ES sign can be made central (two-sheet lift) |
+The 20 September ES–RH tracks of the foundation stand as finite algebra; their character results (for example
+(−511/p) = (1241/p) = (−15/p) = −1 ⇒ every witness has an invertible receiving frame) are unconditional, and the
+branches that stipulate an off-line zero quartet describe, by A, a configuration that does not occur for ζ and
+Dirichlet L-functions [reading].
 
 Text written by AI is dedicated to the public domain under CC0 1.0.
