@@ -1,0 +1,21 @@
+# Independent whole-proof review: I-38
+
+Reviewer: GPT-6 Astra Pro; effort not exposed; /root/purity_zero_status; run CUE_GCT-20261121-purity.
+Actual completed reading/rederivation: 2026-11-21 04:54:52 UTC.
+File: I38_isolated_invertible_two_pairs.tex.
+SHA256: 7f30d7d5cc0af416bacc2bc2bae5de71387c9aae95399ed71a672d7e4d8833f8.
+Outcome: PASS. Independent-agent whole-proof reading and targeted rederivation; no external/formal certification.
+
+Read the entire standalone statement and proof, with I37 and I36 as the already whole-read dependencies. No mathematical repair requested.
+
+- Triple dominance: solving the pairwise invertible linear system is valid over E(y); nonconstant A(y),B(y) cannot yield a constant combination over E(X_i,X_j) because X_i,X_j are independent. Distinct poles exclude both coefficients being constant. A nonconstant rational function is transcendental even in inseparable characteristic. Thus no invalid Jacobian inference is used.
+- Irreducible reduction: multilinear factors use disjoint variables. If two remaining original rank-three factors become adjacent, the removed block between them contains an original singular factor. Absorbing that block into the later factor prevents it from retaining rank three. This preserves the exact promise even if specialized ranks drop further.
+- Rank preservation: rank-three factors and their compounds remain invertible at the one-pole center. Rank-one compound connectors between successive singular positions use at most three coordinates. Nonzero full interval products force all connectors nonzero. Their common substitution preserves the product despite shared endpoint variables. Only ranks are asserted, not every individual minor.
+- Endpoints: the first/last singular internal position is at distance at most two from the endpoint. The required endpoint-prefix row or suffix column depends on at most three variables and is nonzero. Preserved rank-two intervals make its propagation injective. For n>=4 there is indeed an internal singular factor; n<=3 is covered directly by triple dominance.
+- Compatible constants: the row-oriented active spaces propagated from a complement to the full-product kernel have dimension two. For each suffix, the preimage of a final passive complement is a line, either its kernel or the inverse image under an invertible suffix. This gives an active/passive direct sum at every cut and diagonal constants I/P. Passive rescalings can be chosen successively. The endpoint shears can be transported through the initial/final I strings and absorbed on their respective sides of P; the same single P allows both shears.
+- Tangent identities: differentiating the zero gradient with respect to z and y gives Hh=0 and zHh²=0, hence Hh²=0 in the rational parameter field. All operations are valid in characteristic two. Affine singular factors have both passive constant and derivative entries zero; invertible factors may retain a passive derivative and it is kept.
+- Hessian elimination: a singular intermediate position kills any passive contribution, leaving zero active contributions. Otherwise each Hessian entry is the product of the departure/arrival passive entries. No consecutive I positions implies upper bandwidth two. Distinct nonzero h-values give the nonzero 2-by-2 determinant in I.106; row-by-row symmetry eliminates every entry.
+- Full paths: any path first reaching active state two must have a last departure from active state one, or start passively. Every intervening passive stay then occurs at an invertible factor, so its endpoint product is exactly a zero Hessian entry. Passive terminal exits are covered similarly; a path staying passively throughout encounters an internal P and is zero. Other paths have an earlier forbidden transition. No higher-degree or arbitrary-run case is inferred.
+- Ordinary centered conversion, exact sample count, working-field condition, output-order quantifiers, and all-characteristic scope are inherited correctly from I37.
+
+The remaining gate is explicitly two or more consecutive invertible variable factors, whose compound connectors use four or more coordinates and whose Hessian need not have bandwidth two. The result remains a restricted structural construction, not general growing-width PIT.

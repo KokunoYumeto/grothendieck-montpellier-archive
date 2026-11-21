@@ -1,0 +1,17 @@
+# Targeted independent proof review: R-26, sections 3–7
+
+Reviewer: GPT-6 Astra Pro; effort not exposed; /root/purity_zero_status; run CUE_GCT-20261121-purity.
+Completed targeted reading/rederivation recorded: 2026-11-21 04:49:00 UTC.
+Outcome: PASS within the scope below. This is an independent-agent proof review, not an external/formal certification.
+
+Read all displayed formulas and the entire R26 fragment. Independently challenged sections3–7, taking the endpoint/pair formulas in sections1–2 and the separately checked seventeen finite core determinants as inputs. I did not rerun finite cores, growing Jacobians, or the R25 derivation. I did not review the subsequently added size14 corollary.
+
+- Rational cut limits: the reduced K ratio omits exactly the middle edges. Equal numbers of vanishing outer edges cancel their tau powers; adjusting one nonzero coefficient realizes any prescribed nonzero K. The distinguished denominator edges remain nonzero. A nonzero finite limit minor certifies a nonzero rational minor before the limit, without asserting rank of the literal zero-edge pencil.
+- Paired insertion: for r,j>=6, insertion at edges2 andm-4 puts exactly one new vertex into every displayed p and q continuant. I checked the shortest suffix/prefix endpoints and the intervals omitting the first or last vertex. Both denominator indices and adjacent edge coefficients reindex correctly. The new pattern retains edges2 and(m+2)-4, and equal outer zero counts preserve K.
+- Central insertion: for j-r>=4, insertion at edge r+1 lies in every p interval and no q interval, including the boundary cases [r+2,L] and [0,j-2]. Reindexing of delta_j and delta_(j-1) is consistent, and the cut remains in the middle ratio-free interval. The reflected operation gives the other orientation. Both operations can repeat.
+- Coverage: clamping the signed gap to[-4,4], raising the smaller index by paired insertions, and then raising the larger index by central insertions reaches every r,j>=6. The eight size17 cores cover minima2..5, whose initial gap already exceeds four. All seventeen stated core denominators avoid the imposed zero edges. The determinant values themselves were not recomputed in this review.
+- Exceptional characters: checked the stated continuant formulas and each displayed column identity recovering six character-zero forms and four pure-weight-one forms. Consecutive continuants are coprime; the weighted-degree comparisons force both coefficient polynomials to vanish. The resulting scalar equations give independence. The three nonpure images in character one are distinct monomials modulo integer weight one. Transposition plus y/z interchange gives character minus one.
+- Simultaneous witness and grid: separate nonzero minors define a finite family of nonempty opens in one irreducible parameter space. Their intersection is nonempty; the zero-edge witnesses are not confused with one simultaneous specialization. Original coefficient entries have parameter degree at most m, so the minor product degree is <=8m²-4m<8m², validating the positive integer grid without an algorithmic selection claim.
+- Defect recursion: the quoted R25 gain with s=8m-4 gives epsilon_(m+1)<=epsilon_m+6, and epsilon_18=0 yields the stated linear bound. The padding inequality implies 2n²<=c_m and therefore the strict R14 comparison after the stated dimension offset.
+
+No revision was requested in this scope. Other agents separately checked the finite matrices and the R25/endpoint dependencies, as their own records state.

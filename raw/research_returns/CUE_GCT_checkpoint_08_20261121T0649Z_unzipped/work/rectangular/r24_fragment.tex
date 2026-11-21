@@ -1,0 +1,118 @@
+\subsection{R-24: exact maximal dimension at the first nondominant size}
+
+\paragraph{Statement R-24.}
+The first matrix size beyond the dominance range of R-13 attains
+the row--column torus dimension:
+\begin{equation}\label{R24:exact}
+ \dim\mathcal P_{17,4}=1124=4\cdot17^2-2\cdot17+2.
+\end{equation}
+Equivalently, the general-section homological defect in R-23 satisfies
+$\epsilon_{17}=0$. This is a finite exact result, not an assertion
+that $\epsilon_m=0$ for every $m\geq17$.
+
+In particular, the padded pairs $(m,n)=(17,n)$ with
+$18\leq n\leq23$ satisfy the strict four-variable dimension
+comparison. The pair $(17,23)$ has nonrectangular multiplicity gaps,
+including the stretched direction
+\[
+ \lambda=(41r,17r,17r,17r),\qquad d=4r,
+\]
+with the effective existence and eventual-stretch conclusions of
+G-17/G-18. G-12 excludes rectangular gaps for this pair.
+
+\begin{proof}
+The upper bound $1124$ is R-13. We specify a reproducible integer
+pencil and a nonzero differential minor for the opposite inequality.
+All indices below are zero-based.
+
+Let $s_0=20278274$, and define unsigned $32$-bit integers
+\[
+ s_{a+1}=1664525s_a+1013904223\pmod{2^{32}},
+ \qquad c_a=\left\lfloor s_{a+1}/2^{16}\right\rfloor\bmod101.
+\]
+For $0\leq i,j<17$, put
+\[
+ M_{ij}(x_0,x_1,x_2,x_3)
+       =\sum_{k=0}^3c_{4(17i+j)+k}x_k.
+\]
+This recurrence defines all $1156$ integer pencil coefficients
+without an external choice.
+
+List the $1140=\binom{20}{3}$ nonnegative integer quadruples
+$\alpha=(\alpha_0,\ldots,\alpha_3)$ with sum $17$ in decreasing
+lexicographic order. Let $J$ be the following $1140\times1156$
+evaluation matrix over $\mathbb F_{101}$:
+\begin{equation}\label{R24:evaluation_jacobian}
+ J_{\alpha,\,4(17i+j)+k}
+ =\alpha_k\,\operatorname{per}
+             \big(M(\alpha)\text{ with row }i
+                               \text{ and column }j\text{ deleted}\big).
+\end{equation}
+Retain its first $1124$ rows and all columns except
+\begin{equation}\label{R24:omitted_columns}
+ \{68i+67:1\leq i\leq15\}
+ \ \cup\
+ \{1091+4j:0\leq j\leq16\}.
+\end{equation}
+In increasing row and column order, the resulting square matrix
+$J_*$ has
+\begin{equation}\label{R24:residue}
+ \det J_*=88\pmod{101}.
+\end{equation}
+
+Here is the exact computation underlying the finite certificate.
+For each numerical matrix $A=M(\alpha)$, the subset recurrence is
+\[
+ F(\varnothing)=1,\qquad
+ F(S)=\sum_{j\in S}A_{|S|-1,j}F(S\setminus\{j\}).
+\]
+Its reverse sweep starts with $B([17])=1$ and other reverse
+coefficients zero. In decreasing subset order, for every $j\in S$
+it adds
+\[
+ B(S)A_{|S|-1,j}\ \text{to }B(S\setminus\{j\}),\qquad
+ B(S)F(S\setminus\{j\})\ \text{to }G_{|S|-1,j}.
+\]
+The resulting $G_{ij}$ are the complementary permanents used in
+\eqref{R24:evaluation_jacobian}. All operations are in
+$\mathbb F_{101}$. Ordinary exact Gaussian elimination on the
+specified square matrix gives \eqref{R24:residue}.
+
+The source file \texttt{check\_permanent\_maximal.cpp} defines the
+complete calculation, importing the subset evaluator from the
+previous R-13 certificate. The accompanying manifest records the
+entire pencil, all evaluation points, selected indices, and raw
+matrix. Two additional exact checks were executed: Ryser's
+Gray-code formula and its reverse derivative sweep independently
+recomputed every one of the $1{,}317{,}840$ matrix entries; a
+separate NumPy elimination using unnormalized pivot rows recomputed
+the selected determinant. Both agree with \eqref{R24:residue}.
+An independent agent then reconstructed the generator and every
+evaluation point, checked the compact selected-column description,
+and recomputed the increasing-order minor as $88$ by modular
+fraction-free Bareiss elimination. That check also verified all
+$32$ row--column scaling relations on the full matrix and their
+independence. Its scope is the selected minor and the scaling
+kernel; the preceding all-entry Ryser calculation is a separate
+author check.
+These are finite arithmetic checks supporting the stated minor;
+they are not an extrapolation to larger matrix sizes.
+
+The matrix $J$ is obtained by evaluating the coefficient
+differential of the permanent projection map at the listed points.
+Evaluation cannot increase rank. A minor nonzero modulo $101$
+is a nonzero integer minor, so the differential over $\mathbb C$
+has rank at least $1124$ at this integer pencil. Thus
+$\dim\mathcal P_{17,4}\geq1124$, proving
+\eqref{R24:exact}; R-23 gives $\epsilon_{17}=0$.
+
+Finally the padded projection image has dimension $1124+3=1127$,
+whereas the determinant image for $n\leq23$ has dimension at most
+$2\cdot23^2+2=1060$. R-14 and G-17/G-18 apply. At $n=23$,
+the padding exponent is $a=6$; the direction
+$\nu=(41,17,17,17)$ has $|\nu|=92=23\cdot4$,
+$\nu_4>0$, and $\nu_1>4a$. This verifies the strict G-17
+conditions for the displayed family. Since $23>4\cdot17/3$,
+G-12 excludes rectangles.
+\end{proof}
+

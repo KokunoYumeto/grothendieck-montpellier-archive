@@ -1,0 +1,358 @@
+\subsection{I-21. A checked width-three specialization of the rank-preservation construction}
+\label{I-21}
+
+\paragraph{Source and status.}
+The mechanism below is a specialization of Liu (2026),
+\emph{Black-box identity testing for affine orbits of read-once
+oblivious algebraic branching programs}, Hexagon
+\texttt{2611.00634v1}, Section~3.1, Theorem~3.2 and Lemma~3.3,
+and Section~3.2, Lemmas~3.4 and~3.6, printed pp.~5--7.
+This is an unrefereed preprint dated November 19, 2026; its host
+discloses primarily AI-generated text and no human-understood parts.
+Its identifier is a Hexagon identifier, not an arXiv identifier.
+We give a complete proof of the narrower original-coordinate,
+width-three statement.  The affine-orbit assertions, the general-width
+bounds, and the other sections of that manuscript are not being
+certified here.  No historical priority is claimed.
+
+\paragraph{Statement.}
+Let $F$ be any field, let $n,D\ge1$, and let $f\in F[x_1,\ldots,x_n]$
+have total degree at most $D$.  Suppose that for some permutation
+$\sigma$ it has a constant-boundary representation
+\[
+ f=uA_1(x_{\sigma(1)})\cdots A_n(x_{\sigma(n)})v,
+ \qquad A_i\in F[x_{\sigma(i)}]^{3\times3}.
+\]
+Smaller widths and rectangular layers are included by zero padding.
+Let $E/F$ be a working field with at least
+\[
+ M=\max\{n,D+1,(n-1)D+1\}
+\]
+distinct available elements.  Choose distinct $a_1,\ldots,a_n\in E$,
+and let $\lambda_i(Y)$ be their degree-$(n-1)$ Lagrange polynomials.
+Define the twenty-one-parameter map
+\[
+ \mathcal G_i(t,\mathbf y,\mathbf z)
+   =t+\sum_{j=1}^{10}z_j\lambda_i(y_j),
+ \qquad 1\le i\le n.
+ \tag{I.22}\label{eq:I-width3-generator}
+\]
+Then $f\ne0$ implies $f(\mathcal G)\ne0$ as a polynomial over $E$.
+No variable order is an input to the map.
+
+Put $R=(n-1)D+1$.  Take any sets $T,Y\subset E$ with
+$|T|=D+1$ and $|Y|=R$.  For distinct
+$\theta_0,\ldots,\theta_D\in E$, put
+\[
+ \Sigma_{10,D}=
+ \{(\theta_{b_1},\ldots,\theta_{b_{10}}):
+       b_j\ge0,\ \sum_j b_j\le D\}.
+\]
+The evaluations of $\mathcal G$ on
+$T\times Y^{10}\times\Sigma_{10,D}$ form a hitting set of size at most
+\[
+ (D+1)\bigl((n-1)D+1\bigr)^{10}\binom{D+10}{10}.
+ \tag{I.23}\label{eq:I-width3-size}
+\]
+This is polynomial in $n,D$ and is valid in every characteristic.
+The field convention is explicit: if $E\ne F$, the black box must
+allow evaluation over $E$.  No base-field query simulation is being
+assumed.  In particular this does not contradict the finite-field
+obstruction in I-16.
+
+\paragraph{1. The coefficient-space lemma needed at width three.}
+For a field $L$, work in
+\[
+ \mathcal R=L[Y_1,\ldots,Y_m]/(Y_1^{e_1+1},\ldots,Y_m^{e_m+1}),
+ \qquad e_i\ge0,
+\]
+and suppose $B_i$ depends only on $Y_i$.  A matrix has \emph{unit rank}
+$r$ if its constant matrix has rank $r$ and all its $(r+1)$-minors
+vanish in $\mathcal R$.  Unit rank zero means that the matrix is zero.
+For any constant row $b$, if every interval of the word
+$B_1\cdots B_m$ has unit rank in $\{0,2,3\}$, then
+\[
+ \operatorname{Coeff}(bB_1\cdots B_m)
+   =\operatorname{span}_L
+       \{[Y^\alpha](bB_1\cdots B_m):
+                         |\operatorname{supp}\alpha|\le4\}.
+ \tag{I.24}\label{eq:I-profile23}
+\]
+If every interval has unit rank three, the corresponding bound is two.
+Here $\operatorname{Coeff}$ means the span of coefficient rows.
+
+We prove this assertion, including the stable-projection step.
+An interval of unit rank zero makes the whole product zero.  Otherwise
+the full constant product has rank two or three.  In rank three all
+constant factors are invertible.  Cut-dependent constant changes of
+basis make them identities.  The coefficient row spaces of the
+successive prefixes are then nested.  Starting with one row, they can
+grow at most twice.  At a growth layer one new nonconstant local
+coefficient increases support by at most one; at a stable layer
+constant propagation preserves a spanning set.  This proves the
+bound two, with actual coefficient rows, as in I-17.
+
+In rank two write the constant matrices as $C_i$.  Choose a
+two-dimensional row space $U_0$ on which right multiplication by
+$C_1\cdots C_m$ is injective, and set $U_i=U_0C_1\cdots C_i$.
+Choose a one-dimensional complement $V_m$ of $U_m$.  At cut $i$ take
+\[
+ V_i=\{z:zC_{i+1}\cdots C_m\in V_m\}.
+\]
+The suffix has rank at least two and maps $U_i$ isomorphically onto
+$U_m$.  Thus $V_i$ has dimension one, complements $U_i$, and
+$V_{i-1}C_i\subseteq V_i$.  Transport bases of the $U_i$ along the
+constants and choose bases of the $V_i$.  The resulting constant
+matrices are
+\[
+ C_i=\operatorname{diag}(I_2,q_i),\qquad q_i\in L.
+ \tag{I.25}
+\]
+These basis changes preserve supports and all interval unit ranks.
+
+Let $\pi$ denote projection of a row onto its first two coordinates.
+For a starting constant row space $S_0$, propagate
+$S_i=\operatorname{Coeff}(S_{i-1}B_i)$.  Since
+$\pi(sC_i)=\pi(s)$, the spaces $\pi S_i$ are nested.
+Consider first a segment on which they are all the same space $T$.
+Choose basis lifts of $T$ in $S_0$, with initial cost zero, and a basis
+of the kernel of $\pi|_{S_0}$, with initial cost one.  Define the cost
+of an obtained coefficient row as its initial cost plus the number
+of nonconstant local coefficients used.  We claim that cost at most
+one spans the final space on this stable segment.
+
+If every $q_i$ on the segment is nonzero, the constants are invertible.
+All the spaces lie in $\pi^{-1}(T)$, of dimension $\dim T+1$.
+If the initial kernel is present, the initial space is already this
+entire ambient space and constant propagation suffices.  Otherwise
+there is room for at most one dimension increase.  Before that
+increase the propagated constant lifts span; at the increase one
+nonconstant coefficient suffices; afterwards constant propagation
+again spans.  The claimed cost bound follows.
+
+If some $q_i=0$, let $c$ be the last such position, put
+$P=B_c\cdots B_m$, and let $B$ be the matrix of the initial lifts
+propagated through the constants before $c$.  The suffix $P$ has
+unit rank two and constant matrix $\operatorname{diag}(I_2,0)$.
+Write its upper blocks as $[U\ V]$.  The constant part of $U$ is
+$I_2$, so $U$ is invertible in $\mathcal R$.  The vanishing
+three-by-three determinant, or its Schur complement, shows that
+every row $(x,y)$ in the row module of $P$ satisfies
+$y=xU^{-1}V$.
+
+Let $H=\pi B$, whose rows form a basis of $T$.  If $T=0$, this row
+graph forces every propagated row through $P$ to be zero.  Otherwise
+write
+\[
+ \pi(BP)=QH,\qquad \pi(sP)=\eta H\quad(s\in S_{c-1}).
+\]
+Such expressions exist because all coefficient projections stay in
+$T$, and $Q(0)=I$.  Therefore $Q$ is invertible.  The row graph gives
+\[
+ sP=\eta Q^{-1}BP.
+ \tag{I.26}
+\]
+Coefficients of a polynomial matrix times $BP$ are linear
+combinations of coefficient rows of $BP$, also in the truncated
+ring.  Conversely the rows of $B$ belong to $S_{c-1}$.  It follows
+that the final coefficient space is exactly
+$\operatorname{Coeff}(BP)$.
+Restart just after $c$ from $\operatorname{Coeff}(BB_c)$.
+Constant lifts have cost zero and a kernel basis has cost at most
+one, since only one variable position was used.  The remaining
+constants are invertible; the preceding case therefore proves the
+same cost bound.  This completes the stable-segment claim.
+
+For the original single starting row $b$, first suppose $\pi b\ne0$.
+The active projected space starts in dimension one and has at most
+one strict growth.  The first stable segment costs at most one,
+the growth factor at most one more, and the final stable segment
+at most one more: support at most three suffices.  If $\pi b=0$,
+the first stable segment has zero projected space.  The
+stable-segment claim, with the sole initial row assigned cost one,
+says that this segment is spanned by coefficients with no
+nonconstant positions, or is zero.  There can subsequently be at
+most two projection-growth factors.  Each costs at most one, and
+each following stable segment at most one.  Support at most four
+therefore suffices.  At every restart, lifts and kernel vectors
+are linear combinations of the coefficient rows already retained;
+the span filtration by support is preserved.  This proves (I.24).
+
+The bound four in (I.24) is sharp.  With $P=\operatorname{diag}(1,1,0)$,
+take
+\[
+ B_1=P+Y_1E_{31},\quad B_2=I+Y_2E_{13},\quad
+ B_3=P+Y_3E_{32},\quad B_4=I+Y_4E_{23},\quad b=e_3^T.
+\]
+Every interval containing $B_1$ or $B_3$ has generic and constant
+rank two, and the other intervals are invertible.  The output row is
+\[
+ Y_1e_1^T+Y_1Y_2Y_3e_2^T+Y_1Y_2Y_3Y_4e_3^T.
+\]
+Its third coefficient direction requires support four.
+
+\paragraph{2. Lowest homogeneous components.}
+Suppose every interval of a polynomial matrix word has the same
+generic rank as at zero, with these ranks in $\{2,3\}$.  For constant
+endpoints $b,c$, every monomial in the lowest nonzero homogeneous
+component of $bB_1\cdots B_mc$ has support at most four.  If all
+interval ranks are three, the bound is two.
+
+Indeed, choose such a monomial $Y^\alpha$ and reduce modulo
+$Y_i^{\alpha_i+1}$ for every $i$.  Only monomials dividing
+$Y^\alpha$ survive.  Lowest-degree minimality makes the surviving
+scalar polynomial exactly its nonzero $Y^\alpha$ term.  All the
+intervals retain their unit ranks: the pivot constant minor remains
+invertible and the higher minors were already zero polynomially.
+Apply (I.24), or its invertible version.  If the support of $\alpha$
+were too large, the final boundary $c$ would annihilate every
+spanning coefficient row and hence also the surviving one, a
+contradiction.
+
+\paragraph{3. A finite collection of local rank tests.}
+Augment the original matrix word by the constant factors $e_1u$
+and $ve_1^T$.  Its full product has only one possibly nonzero entry,
+namely $f$ in position $(1,1)$.  All intervals have a well-defined
+generic rank over the rational function field.  Translation of
+each distinct variable by any center in an overfield preserves
+these generic ranks.
+
+Fix $r=1$ or $r=2$, and suppose all intervals of generic rank
+greater than $r$ are already preserved at the current center.
+For any target interval $[l,h]$ of rank $r$, let $[l,i_0]$ be its
+first prefix of rank $r$ and require this prefix to be preserved.
+For each $i_0\le i<h$, choose the shortest rank-$r$ suffix $[j,i]$
+of $[l,i]$, and require $[j,i+1]$ to be preserved.  Each such test
+has generic rank $r$.  Its interior $[j+1,i]$, and the prefix
+$[l,i_0-1]$ of the first test, are empty or have generic rank
+greater than $r$ by minimality.  Thus a test has one such chunk
+and at most one factor at each end.
+
+These tests suffice.  Once $[l,i]$ is preserved, its specialized
+row space is contained in that of $[j,i]$.  Both have dimension
+$r$: the first has rank $r$, and the second cannot exceed its
+generic rank $r$.  Their row spaces are equal.  Multiplying by
+the next specialized factor and using the tested rank of
+$[j,i+1]$ proves preservation of $[l,i+1]$.  This proves the
+assertion by induction, for all target intervals.  Select one
+nonzero $r$-minor of each test; no efficient selection or knowledge
+of the hidden word is needed in the black-box construction.
+
+For $r=2$, each selected minor is an entry of the word of second
+compound matrices, by Cauchy--Binet.  These compounds have size
+three.  The interior chunk and every one of its subintervals have
+rank three, and so do their constants.  In a lowest-degree
+monomial of the selected minor, extract the prescribed powers at
+the at most two end factors.  The remaining scalar chunk
+contraction is still in its lowest degree.  Part~2 gives support
+at most two inside the chunk.  The whole monomial consequently
+has support at most four.
+
+For $r=1$ the compounds are the original matrices.  The chunk and
+its subintervals have ranks in $\{2,3\}$, already preserved at
+the center.  The same argument gives support at most four
+inside the chunk and at most six in the whole selected entry.
+Empty chunks and constant end factors only reduce these bounds.
+
+\paragraph{4. Simultaneous preservation with four then six pairs.}
+For $k\ge1$ write
+\[
+ \operatorname{SV}_{k,i}(\mathbf y,\mathbf z)
+      =\sum_{j=1}^kz_j\lambda_i(y_j).
+\]
+Over any coefficient overfield of $E$, this map detects any
+nonzero polynomial having a nonzero monomial of support at most
+$k$: set the selectors to the Lagrange nodes of that support,
+and the unused amplitudes to zero.  The resulting restriction
+to that coordinate subspace retains the chosen coefficient.
+In particular it detects a nonzero homogeneous polynomial all
+of whose monomials have support at most $k$.
+
+Start at the common center $(t,\ldots,t)$ over $E(t)$.
+An interval of generic rank three consists entirely of invertible
+univariate factors.  Its determinant at the center is a product
+of nonzero univariate determinant polynomials evaluated at the
+transcendental $t$, and is therefore nonzero.  Thus all rank-three
+intervals are preserved simultaneously.
+
+Add an $\operatorname{SV}_4$ perturbation with fresh independent
+selectors and amplitudes.  For every chosen rank-two test minor,
+its expansion about the current center is a nonzero polynomial
+whose lowest homogeneous component $H$ has support at most four
+in each monomial, by part~3.  Hence $H(\operatorname{SV}_4)\ne0$.
+The map is homogeneous of degree one in its amplitudes.  The
+lowest amplitude degree in the full substituted minor is
+therefore exactly the degree of $H$, and its component is
+$H(\operatorname{SV}_4)$; higher homogeneous terms cannot cancel
+it.  Each selected test minor is consequently nonzero in the
+same rational function field of the new parameters.  This is
+simultaneous preservation, not a separate numeric choice for
+each test: finitely many nonzero polynomials have nonzero product
+in the parameter polynomial ring.  Earlier preserved minors
+remain nonzero because setting the new amplitudes to zero
+recovers their previous values.  The local-test induction now
+preserves every interval of ranks two and three.
+
+Over that enlarged rational function field, add an independent
+$\operatorname{SV}_6$ perturbation.  The rank-one test components
+have support at most six by part~3, so the same argument preserves
+all these tests and all earlier ranks.  The augmented full word
+has generic rank one whenever $f\ne0$.  Its specialized rank is
+therefore one, which says precisely that the resulting scalar is
+nonzero.  The two perturbations use disjoint parameter pairs;
+their sum is $\operatorname{SV}_{10}$.  This proves (I.22).
+All uses of the variable order occurred only in this existential
+proof about the hidden representation.  The actual map is the
+same for every order.
+
+For comparison with the failed repair I-18, the polynomial
+$\prod_{j=1}^m(x_{2j}-x_{2j-1})$ already survives one interpolation
+pair: its pullback is
+$z^m\prod_j(\lambda_{2j}(y)-\lambda_{2j-1}(y))$, which is nonzero
+because the distinct Lagrange basis polynomials have nonzero
+differences.  Interpolation directions are generally dense;
+the construction therefore does not require a sparse perturbation
+point to witness every nonzero polynomial.
+
+\paragraph{5. Finite sampling and complexity.}
+Since $f$ has total degree at most $D$, its pullback under (I.22)
+has degree at most $D$ in $t$, at most $(n-1)D$ in each selector
+$y_j$, and total degree at most $D$ in all ten amplitudes together.
+Repeated univariate interpolation therefore leaves a nonzero
+amplitude polynomial at some point of $T\times Y^{10}$.
+
+The set $\Sigma_{10,D}$ detects every nonzero amplitude polynomial
+of total degree at most $D$, over any characteristic.  To see this,
+use the Newton basis
+\[
+ N_{\mathbf b}(\mathbf z)
+  =\prod_{j=1}^{10}\prod_{h=0}^{b_j-1}(z_j-\theta_h),
+ \qquad \sum_jb_j\le D.
+\]
+Its leading monomials are exactly those of total degree at most
+$D$.  Evaluation at the node indexed by $\mathbf c$ vanishes
+unless $c_j\ge b_j$ for every $j$.  Ordered by total degree,
+the evaluation matrix is triangular with nonzero diagonal.
+It is invertible, proving the claimed detection and (I.23).
+Given the field nodes, computing the Lagrange polynomials and
+enumerating the displayed family uses polynomially many field
+operations in $n,D$, since its ten-pair parameter count is fixed.
+Over a finite field, one may use an explicitly represented
+extension large enough to supply the stated nodes.  Over
+$\mathbb Q$ the nodes can be chosen as integers of polynomial
+magnitude, giving rational coordinates of polynomial bit length.
+\hfill$\square$
+
+\paragraph{What this closes, and what it leaves open.}
+This supplies a concrete positive answer for the width-three,
+one-hidden-order case of I-G02, including arbitrarily many
+rank-two cuts.  The rank-cut expression in I-19 equals
+$f\prod_j\Delta_j$; the extra univariate factors can be absorbed
+into the width-three layers, so the same theorem also hits those
+particular coupled expressions with their increased degree bound.
+The construction uses rank preservation directly and does not
+derive a BIWA or a Hoza cocharacter decoder.
+The general polynomial-in-$w$ gate I-G01 remains open in this
+report.  In particular, I-08 requires widths growing with the
+matrix dimension; this fixed-width result does not provide that
+polynomial Noether-normalization conclusion.

@@ -1,0 +1,9 @@
+// Exact first epsilon coefficient by degree-bounded interpolation.
+// Tests the tangent-to-rank-locus map for all step-two chords at a cycle.
+#define main old_border_main
+#include "check_border_ternary.cpp"
+#undef main
+int main(int argc,char**argv){if(argc<3)return 2;int n=std::stoi(argv[1]);std::string dir=argv[2];uint32_t seed=20261121u+4099u*n;Data full=make_data(n,"band2",seed),base=full;for(int i=0;i<n;++i)for(int k=0;k<3;++k)base.A[3*(n*i+(i+2)%n)+k]=0;auto pts=points(n+1);int p=full.p,nc=8*n+3;std::vector<int>C0(pts.size()*nc),C1(C0.size()),weights(n+1);int harmonic=0;for(int s=1;s<=n;++s)harmonic=(harmonic+modpow(s,p-2,p))%p;weights[0]=(p-harmonic)%p;int binomial=1;for(int s=1;s<=n;++s){binomial=int(1LL*binomial*(n-s+1)%p*modpow(s,p-2,p)%p);weights[s]=int(1LL*binomial*modpow(s,p-2,p)%p);if(s%2==0)weights[s]=(p-weights[s])%p;}
+ Evaluator ev(n,p);auto start=std::chrono::steady_clock::now();for(int e=0;e<=n;++e){Data d=base;for(size_t k=0;k<d.A.size();++k)d.A[k]=(base.A[k]+e*(full.A[k]-base.A[k])+p*n)%p;for(size_t r=0;r<pts.size();++r){auto row=ev(d,pts[r]);for(int c=0;c<nc;++c){size_t k=r*nc+c;if(e==0)C0[k]=row[c];C1[k]=(C1[k]+weights[e]*row[c])%p;}}}
+ std::filesystem::create_directories(dir);std::string stem=dir+"/border_band2_first_order_m"+std::to_string(n);for(int order=0;order<2;++order){std::ofstream raw(stem+"_"+std::to_string(order)+".u16",std::ios::binary);for(int x:order?C1:C0){uint16_t t=x;raw.write(reinterpret_cast<char*>(&t),2);}}
+ std::ofstream out(stem+".json");out<<"{\n\"m\":"<<n<<",\n\"prime\":"<<p<<",\n\"seed\":"<<seed<<",\n\"rows\":"<<pts.size()<<",\n\"columns\":"<<nc<<",\n\"weights\":";array(out,weights);out<<",\n\"seconds\":"<<std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count()<<"\n}\n";std::cout<<"m="<<n<<" first coefficient generated in "<<std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count()<<" seconds\n";return 0;}
