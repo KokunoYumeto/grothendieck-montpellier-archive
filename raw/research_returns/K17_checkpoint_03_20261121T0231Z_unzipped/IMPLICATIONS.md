@@ -1,0 +1,61 @@
+# Implications of the checked K17 findings
+
+Status: timed checkpoint, work continuing. Precise proofs and primary locators are in K17.tex; unresolved assertions are in its separate second part and QUESTIONS.tsv.
+
+## Step 17 and footnote 6
+
+The missing source statement has been recovered. K17-HOST-POINT also has a closed source proof composition for the larger Host family, retaining its cyclotomic-layer bounds as explicit hypotheses. The relevant object is a strict local-condition subgroup of H1(Spec O_E[1/l],Q_l/Z_l(-e)), not unrestricted H1. Over Q, positive even e and the source admissibility hypotheses give a weighted length bound. The coefficient normalization is ramification length; the bottom coefficient ring is Z_l, so no residue-degree factor enters the K-group application.
+
+Finite-coefficient arithmetic duality identifies the Q negative-twist localization kernel with the dual of K_(2e)(Z){l}. The trivial/quadratic class-group argument removes the excluded primes when e is even. The two-primary groups already vanish. Consequently the stipulated Alpöge theorem yields a polynomial bound on the complete order of K_(4k)(Z). Keeping the fixed levels and exact highest-weight dimensions makes the exponent seven. Its constant is still not evaluated.
+
+This produces explicit inequalities in k and l and a finite trace-polynomial gcd certificate. VK-POLY-CERT permits a proved multiplicity-preserving overcount and removal of an exact scalar root; explicit evaluation points for K12 and K16 are included. The required complete integral Hecke model and its coverage proof have not been computed. It does not certify the informal “100ish” range or a newly specified vanishing degree. K4=0 and K8=0 are cited established results, not consequences first proved by this run. A separate integral-homology route has now become smaller: The current Miller–Patzt–Putman theorem, recorded as K17-ST2-LOCAL, gives H2(GL_n;St_n) vanishing over Z[1/(n+1)!], and its Corollary E already eliminates rank11 integrally. The earlier independent localized derivation is retained as a recheck of this known result. K17-K12-TWO-RANKS shows that H4(GL9;St9) and H3(GL10;St10) vanishing over Z[1/13!] would suffice for K12=0. These are the two remaining homology computations.
+
+## Vandiver and Soulé
+
+For odd l, K_(4k)(Z){l}=0 is exactly the vanishing of the cyclotomic class component A_l^[-2k]. Vandiver at l is equivalent to these vanishings for every k, or the finite complete residue range. The periodicity concerns the vanishing condition, not canonical isomorphism of K-groups across degrees.
+
+For the standard full-domain odd Soulé character, its index equals the order of the matching even K-group at odd l. Thus every vanishing actually certified here gives that character's primitivity on its full domain. This does not give a unit Soulé value on a chosen weight subgroup: Sharifi's factorial comparison gives a concrete failure at l=3,m=5.
+
+## LM6 A.44–A.45
+
+The odd regular-prime statement is the known Sharifi theorem with Brown's rational Deligne–Ihara theorem supplying its former conditional input. Step17 is unnecessary for this implication.
+
+The prime2 branch changes status to proved in this run, with unrestricted real ramification. The proof uses the arithmetic group C2*Z2, measure-valued Magnus expansions of its cyclotomic kernel, the actual rational tripod image, and analytic separation by odd cyclotomic weights. It has author, root and two independent whole-proof reviews. These are mathematical checks, not a new formal proof certificate or external review.
+
+The irregular branch is now proved at every odd prime satisfying Vandiver. K17-POLE-GENERAL first proves the kernel equality from Vandiver and surjectivity of odd-character cup products. It handles arbitrary finite lambda, nonsplit roots and repeated roots. K17-VANDIVER-KERNEL then supplies the cup condition from the integral modular-symbol theorems of Fukaya–Kato and Wake–Wang-Erickson. The exact finite-level twist, reflected-character cyclicity, and passage from base-level Vandiver to the cyclotomic tower are proved in the supplement. There is no simple-root hypothesis.
+
+Together with Hart–Harvey–Ong's published Vandiver computation and the separate prime2 proof, K17-KERNEL-LT2POWER31 settles the kernel-field equality for every prime below2^31. The earlier all-odd-p<1000 corollary and the explicit37 proof remain valid as independent, narrower applications. No published arithmetic computation was rerun here.
+
+For all remaining odd primes, the main gate is now Vandiver itself or an argument extending to non-Vandiver modules. The separate cup and divisor-noncancellation hypotheses are already supplied throughout the Vandiver range. These are deductions checked in this run from established inputs, independent of step17 and Masullo; no publication-priority or formal-verification claim is made.
+
+## B3, S9, and Fable suggestion 5
+
+The kernel half of Fable suggestion5 is now a theorem whenever all positive K4k primary parts vanish at the odd prime: the exact Vandiver equivalence and K17-VANDIVER-KERNEL give it. The proposed integral-generation half remains false. Nonzero integral odd classes exist independently of step17. Odd regular primes have integral free generation by Sharifi–Brown. The proposed extension from Vandiver to integral odd generation is false: at37, Vandiver holds and all matching K-groups vanish, but the image Lie algebra has a nonzero degree32 abelianized component. The included exact Vandiver37 computation and McCallum–Sharifi Theorem9.7 establish the counterexample. Kernel-field equality at37 is separately proved. At691, Sharifi2007 and McCallum–Sharifi Theorem9.11 give a second explicit failure, now in weight12 with quotient Z/691. Thus integral odd generation fails even in cases where the kernel equality and all relevant K-group vanishings both hold.
+
+K17-INTEGRAL-CLASSIFICATION now extends the negative conclusion to every irregular Vandiver prime. The even part of the compact cyclotomic abelianization has positive Zp rank. Its separated image filtration has only even successive quotients, each a quotient of finite even Lie-abelianization. It therefore forces nonzero finite p-torsion in infinitely many even weights. Thus the answer across all primes covered by Vandiver is complete: odd regular primes admit homogeneous odd free generation; every irregular Vandiver prime fails even ordinary homogeneous odd generation. The explicit37 and691 results additionally locate particular defect weights.
+
+At2, the integral question is now proved in every weight. K17-OUT-SAT identifies the original outer filtration with its rational pullback. K17-2-ALL constructs an actual element in each odd weight2i+3 with the exact Newton abelian class. Complex conjugation acts as minus identity on the whole cyclotomic abelianization, so twice each unwanted next-even tail has a lift in a previously constructed commutator subgroup. The factor5^m(5-1)/2 is integral and removes it; triangular Frattini action propagates generation. K17-2-NEWTON-BASIS then supplies a compact free basis and free integral Hall generation. Thus the arithmetic integral Deligne–Ihara statement holds over Z2 for primitive generators. This does not prescribe unit values for a differently normalized Soulé family. The finite-weight18 calculation and the all-weight class-two identity remain independent checked intermediate results.
+
+Deligne–Goncharov's mixed Tate category over Spec Z has rational coefficients. Current rational grt1 status is checked against Hirose's October2026 manuscript, Theorem4 and section1.2. The statement and reported consequence were checked, not its whole proof. A rational GRT theorem, a Z_(2) period span, and an arithmetic Z_p image lattice are different assertions. The original round-one B3/S9 row text is not present in the supplied round-two file; no missing wording is invented.
+
+## Cote149 scans79–85 and war-game S24
+
+The exact inverse-limit Kummer sequences now have their invertibility and derived-limit hypotheses written out. They locate the unit completion, Picard contribution and degree-two Chern obstruction precisely. The local root-coordinate obstruction is the Kummer class of the conormal line, with opposite sign for the dual normal line.
+
+The torsor of geometric bases is acted on by the uncompleted global unit group. All splitting classes form a torsor under continuous H1. An explicit class with valuation1/(1-l^2) on Spec Z[1/l] belongs to the latter but not the former, even though Pic=0. Therefore higher even K-group vanishing cannot by itself identify geometric tangent bases with all splittings.
+
+F149-RELATIVE now proves the normalizer/formal-tube comparison over a smooth characteristic-zero base, under the exact geometric homotopy sequence stated in scan79. Deligne15.19/15.26 supplies relative tangential specialization; SGA1 XIII4.1/4.4 supplies the right-exact sequence; injective geometric inertia and self-normalization complete the comparison. Finite root-cover descent identifies the Chern class. With finitely generated Picard group, splitting is equivalent to triviality of the conormal line. The intrinsic recognition requested in scan85 remains open; this comparison does not select the uncompleted-unit subset. Four mathematical transcription flags are recorded; the absent manuscript images prevent palaeographic confirmation. The normal/conormal sign is deliberately left as the author's own flagged convention.
+
+## SA06 E.4 and Grothendieck's frameworks
+
+The supplied E.4 intake contains summaries, not full proofs of a general all-twist H1 table. Its rows should be updated with exact scheme, twist, local conditions and coefficient category before any comparison is asserted. Kummer twist1 and the negative twist of step17 require arithmetic duality to meet; they are not directly the same cohomology group.
+
+SGA4 supplies Kummer and Hilbert90; SGA1 supplies local tame-cover structure; SGA5 supplies the Chern-class convention; EGA IV2 supplies the Hartogs extension step. SGA6 lambda-operations on K0 do not replace higher etale K-theory. WeilII rational purity does not detect the finite torsion bounded here. No new crystalline, divided-power or FGA representability theorem is asserted without a comparison map.
+
+## Conditional statements made unconditional
+
+- Sharifi's odd regular-prime implication conditional on rational Deligne–Ihara is unconditional by Brown, independently of Alpöge.
+- The order bound and the exponent-seven refinement use the stipulated Alpöge arithmetic theorem and the established comparison inputs.
+- The pro2 field equality, all-weight primitive integral generation over Z2, and the odd-prime Vandiver implication are separate checked deductions from established inputs; in particular every prime below2^31 is covered. They do not depend on Alpöge or Masullo.
+- Sharifi2007 makes the relevant McCallum–Sharifi nontrivial cup hypothesis unconditional at691, giving the precise integral weight12 defect. Brown supplies the rational freeness hypothesis in the general integral comparison.
+- No conclusion in this package is conditional on Masullo; no Masullo statement is used.
