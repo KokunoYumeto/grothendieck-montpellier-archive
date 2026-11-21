@@ -1,0 +1,13 @@
+# Complete independent readings of AT002, AT003, FT001 and FT002
+
+Reviewer: GPT-6 Astra Pro, effort inherited/not externally exposed, MAS_ARTIN `/root/pf26_audit`. Date: 2026-11-21.
+
+I read the entirety of `negative_pw_trace.tex`, `weighted_negative_pw_trace.tex`, and `full_test_slow_band.tex`. All proofs passed. This was a proof reading, not a numerical test or a summary-only review. I made no changes to their mathematical text.
+
+The principal check in AT003 is that its uniformity does not come from fixed-level equivalent norms. The actual translated metric has a uniform positive-shift bound; the divided-difference numerator is then bounded uniformly in the moving support edge. The scalar denominator, good contours and zero multiplicities are fixed. This yields an actual uniformly trace-class resolvent power. Its graph bounds control endpoint jets with a factor `sqrt(W(y0))`; the output boundary profiles have exactly the inverse factor. Input-variable integration differentiates only the kernel's translation variable, so sharp restrictions in the output cause no unproved regularity assumption. The resulting `O(1/R)` negative tail combines with the reference positive tail and the fixed compact middle to give actual trace-norm convergence of the adjoint defect.
+
+The FT synthesis uses the actual positive and negative traces before evaluating scalar divisors. The NZ estimate removes a small smooth neighborhood of the origin uniformly in the support edge and even uniformly inside the original position cutoffs. The half-transform bounds retain the derivative boundary term at zero and are summable. The reflected exponent has the same imaginary part and remains in a fixed strip. The local subtraction yields the upper deficiency plus the difference of the two lower negative transforms; the latter vanishes exactly on the lower edge, without erasing its length from the global formula.
+
+For nonselfdual characters, the reflection in the negative-test formula comes from Hilbert adjunction and stays in the original sector. Separately, the functional equation combined with conjugation gives the same-sector zero symmetry `rho -> 1-conjugate(rho)` needed for FT002. The positive-support separation lemma handles the optional two polar moments because neither polar exponent is a nontrivial completed zero. Thus the stated exact arithmetic gate follows, while no new zero-location conclusion follows from the operator limit alone.
+
+The review events are in `full_test_pf_review_events.tsv`. The parent owns integration and records the final module status. No copyrighted source file was copied into a deliverable.

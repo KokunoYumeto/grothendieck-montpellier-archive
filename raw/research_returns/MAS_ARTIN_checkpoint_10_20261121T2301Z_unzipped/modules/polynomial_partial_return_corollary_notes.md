@@ -1,0 +1,11 @@
+# Combining corollary: MA-PR-011
+
+The corollary states the unrestricted all-test characterization at arbitrary fixed Hilbert width and polynomial weight. It does not assume boundary eligibility at the start. All-E returns, all compact value-zero returns and returns for every test in D_[1,2] are equivalent to the conjunction of no proper nonzero primary truncation and polynomial growth of the canonical whole-quotient inclusion costs.
+
+The new combining step is elementary but uses the exact actual obstruction. If a proper factor exists, a smooth bump eta supported in(1,2), normalized to have integral one, gives g=exp(−lambda x)eta and Mellin value1 at its boundary point. PR004 excludes a global equivariant return for this allowed test. Therefore the all-test hypothesis removes every proper factor, after which PR010 applies with its actual norms and complete uniformity argument. Its converse gives the entire coherent all-E family.
+
+Failure is also expressed precisely. At a proper factor the nonzero continuous Mellin functional has an open dense nonzero-value set, and every such test is blocked. With no proper factor, failure of the polynomial estimate instead invokes PR010's dense G_delta infinite-cost set. These are conditional conclusions; no arithmetic boundary configuration or nonpolynomial cost sequence is asserted.
+
+The whole 132-line proof was reread after writing and passed author QA. A stray typographical plus was removed and the first display split; the five equation tags and all delimiters/environments balance. The exact predecessor locators are PR.25–29 and PR.100–116. No new outside theorem or source was introduced. Independent complete reviews were requested from input and root, with events tracked separately. The original discarded correction and common-space domain problem remain explicit.
+
+Root completed the entire independent reading and passed the proof, and reported the input peer pass received. At root request, the phrase following the enumeration now says no-proper-truncation condition, avoiding any suggestion that discarded factors are forbidden. This is a wording clarification with no mathematical change. The complete review events are tracked separately.

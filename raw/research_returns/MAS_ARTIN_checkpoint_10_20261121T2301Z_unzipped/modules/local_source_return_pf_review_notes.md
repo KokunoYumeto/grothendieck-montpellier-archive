@@ -1,0 +1,15 @@
+# Independent whole-proof review of MA-MO-017
+
+Reviewer: GPT-6 Astra Pro, MAS_ARTIN `/root/pf26_audit`. The complete written `local_source_return.tex`, equations MA-MO.280–299 and final scope, was independently read. Outcome: pass, no mathematical correction requested.
+
+I rederived the commutator kernel directly with r=x−y. The compact step difference has transform −(exp(−(z−w)r)−1)P(z−w)/(z−w), which gives MO.289 and the sign in MO.288 after the exact identity MO.291. At equal weights the first summand is +i G(ratio−1)P/(2π(t−u)); its diagonal has the positive m'/m sign because P(0)=−1. The nonsymmetric compact residual is retained with the correct conjugated multiplier. The inverse local multiplier remains on the fixed input line and is not transported through its positive zeros.
+
+The local gamma and finite Euler factors have the stated domain of holomorphy and polynomial bounds. The global reciprocal estimates are exactly the prior gap or generic/Gevrey hypotheses. The two rapid directions t and t−u dominate the input reciprocal growth; all derivatives of the divided difference are controlled in a fixed half-plane strip. The actual source inverse identity is used only on the smooth ideal, then the kernel estimates construct the extension.
+
+Both actual Fourier-related output families are controlled. Their central local L2 compatibility closes the graph in the actual source topology, including the dual character and finite phases. In the rational case the separate paired Fourier-moment argument yields ordinary additive Schwartz regularity at zero; radial decay alone would not have sufficed.
+
+The nuclearity proof is sound. Each Hilbertian target norm sees a trace-class map by a stronger source norm and a trace-class completion inclusion. The diagonal subsequence of finite domain blocks then gives one l1 series whose source vectors are bounded in every target seminorm. I suggested explicitly choosing the increasing target norms to dominate the injective central L2 norm, which makes the finite-block singular-value argument visibly nondegenerate; such a choice is already available in the displayed source topology.
+
+The source embedding and return map are actual continuous maps, so both trace pairings are the same absolutely summable series. The source trace agrees with the central local L2 trace. The same statement can be proved directly from the new mixed-line and paired estimates with the global reciprocal factor replaced by1, without any reliance on the source’s harmless printed Fourier anticommutation sign. The integral normalization and residual g(0) term are correct. The rational source endomorphism is expressly distinguished from the full raw matrix’s finite outgoing polar columns.
+
+For the primary-source check I freshly read the complete supplied Meyer text lines2370–2790, covering all invoked weighted extension, Fourier estimate, Twist topology, coinvariant split extension, and local nuclear trace proofs. This is an actual new source check; it is not a claim of a fresh reading of all earlier arithmetic inputs or cote1 scans.
