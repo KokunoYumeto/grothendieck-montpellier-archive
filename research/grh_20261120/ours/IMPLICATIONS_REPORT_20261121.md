@@ -858,7 +858,7 @@ H05, H07, H08, H10-H14 are unchanged. H14's claimed range grows with R-22 (unrea
 - 2 open: an LM6 intake; the GCT row-gate ledger.
 - The rest: for the successors, already in the register, or in the runs' own returns.
 
-## 10. Round 5 (21 Nov, ~12:15-13:20 UTC): the overnight runs' final returns
+## 10. Round 5 (21 Nov, ~12:00-12:35 UTC, clock read): the overnight runs' final returns
 
 **Framing.**
 - The overnight runs ended between 04:20 and 08:21 UTC. By the user's three-hour rule, each newest return is that run's

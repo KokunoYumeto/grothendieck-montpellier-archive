@@ -1,4 +1,4 @@
-# The two GRH proofs of 20 November 2026: our working-through, status as of 21 Nov 2026 12:21 UTC
+# The two GRH proofs of 20 November 2026: our working-through, status as of 21 Nov 2026 20:05 UTC
 
 On 20 Nov 2026 two proofs of generalized Riemann hypotheses appeared:
 - **L. Alpöge**: RH, and GRH for Dirichlet L-functions. A note (https://alpo.ge/remark.pdf), with a Lean formalization
@@ -68,6 +68,23 @@ In [`ours/`](ours/):
 - the Δ sextic answer;
 - the errata table.
 
+## The split zero, counting with the basepoint, and GCT at rank three (21 Nov)
+The project's split-zero programme read in standard terms, and what it gave together with the two GRH proofs and
+Connes and Consani's F_{1²} (arXiv:2609.00299). In [split_zero/](split_zero/):
+- [TRANSLATION_SPLIT_ZERO_20261121.md](split_zero/TRANSLATION_SPLIT_ZERO_20261121.md): the programme in the terms of
+  algebraic geometry, GCT and analytic number theory;
+- [SPLIT_ZERO_IN_CONNES_CONSANI_TERMS_20261121.md](split_zero/SPLIT_ZERO_IN_CONNES_CONSANI_TERMS_20261121.md): the
+  split zero in Connes and Consani's terms. Counting with the basepoint makes ζ the unit of counting, and GCT's
+  nonstandard Riemann hypothesis at rank three becomes Alpöge's theorem plus a categorification (sections 5-14);
+- [consults/E4_RANK_FOUR_20261121.md](split_zero/consults/E4_RANK_FOUR_20261121.md): GCT VIII's canonical basis at rank
+  three. Our consult finds that the unimodality clause of its positivity conjecture fails for six constants, and that
+  every structure constant is a sign-twisted Tate count (found by our consult and checked by us; not yet re-run
+  independently);
+- [consults/CONSULT_a157422a_COUNTING_CONSTRUCTION.md](split_zero/consults/CONSULT_a157422a_COUNTING_CONSTRUCTION.md):
+  the closed form over Z[D] and the dimension rings;
+- [H22_note/](split_zero/H22_note/): a short note on the semiring with an adjoined zero (spectrum, modules, projectives);
+- the other consults, the extraction of the corpus, and every script, with its output.
+
 ## The runs
 
 | Prompt | Run | Newest return | Our intake |
@@ -96,7 +113,9 @@ In [`ours/`](ours/):
 | 43 | ZETA_NEXT: ZETA NEXT effective class numbers Lambda schemes and the non-CM gate | [ZETA_NEXT_final_20261121T0340Z](../../raw/research_returns/ZETA_NEXT_final_20261121T0340Z_unzipped/) | [INTAKE_ZETA_NEXT_20261121.md](intakes/ZETA_NEXT/INTAKE_ZETA_NEXT_20261121.md) |
 | 44 | BR_PENCIL: BR PENCIL border rank of det4 and per4 by multi-dimensional substitution | [BR_PENCIL_checkpoint_02_20261121T0429Z](../../raw/research_returns/BR_PENCIL_checkpoint_02_20261121T0429Z_unzipped/) | [INTAKE_BR_PENCIL_20261121.md](intakes/BR_PENCIL/INTAKE_BR_PENCIL_20261121.md), [INTAKE_BR_PENCIL_20261121_part2.md](intakes/BR_PENCIL/INTAKE_BR_PENCIL_20261121_part2.md) |
 | 45 | SIGN_NEXT: SIGN NEXT Grothendiecks Hodge-index route after the sign-only proof | [SIGN_NEXT_checkpoint_02_20261121T0430Z](../../raw/research_returns/SIGN_NEXT_checkpoint_02_20261121T0430Z_unzipped/) | [INTAKE_SIGN_NEXT_20261121.md](intakes/SIGN_NEXT/INTAKE_SIGN_NEXT_20261121.md), [INTAKE_SIGN_NEXT_20261121_part2.md](intakes/SIGN_NEXT/INTAKE_SIGN_NEXT_20261121_part2.md) |
-| 46 | HODGE_DIVISION: HODGE DIVISION bounding the detector degree of Weil classes | [HODGE_DIVISION_checkpoint_01_20261121T1124Z](../../raw/research_returns/HODGE_DIVISION_checkpoint_01_20261121T1124Z_unzipped/) | [INTAKE_HODGE_DIVISION_20261121.md](intakes/HODGE_DIVISION/INTAKE_HODGE_DIVISION_20261121.md) |
+| 46 | HODGE_DIVISION: HODGE DIVISION bounding the detector degree of Weil classes | [HODGE_DIVISION_checkpoint_12_20261121T1939Z](../../raw/research_returns/HODGE_DIVISION_checkpoint_12_20261121T1939Z_unzipped/) | [INTAKE_HODGE_DIVISION_20261121.md](intakes/HODGE_DIVISION/INTAKE_HODGE_DIVISION_20261121.md), [INTAKE_HODGE_DIVISION_20261121_part2.md](intakes/HODGE_DIVISION/INTAKE_HODGE_DIVISION_20261121_part2.md) |
+| 47 | KTOWER: KTOWER the Galois action on the tower the K groups of Z and cote 149 | [KTOWER_checkpoint_05_20261121T1917Z](../../raw/research_returns/KTOWER_checkpoint_05_20261121T1917Z_unzipped/) | [INTAKE_KTOWER_20261121.md](intakes/KTOWER/INTAKE_KTOWER_20261121.md) |
+| 48 | MAS_ARTIN: MAS ARTIN Masullo s central trace identity over Q the S Artin gate and the analytic premis | [MAS_ARTIN_checkpoint_06_20261121T2001Z](../../raw/research_returns/MAS_ARTIN_checkpoint_06_20261121T2001Z_unzipped/) | [INTAKE_MAS_ARTIN_20261121.md](intakes/MAS_ARTIN/INTAKE_MAS_ARTIN_20261121.md) |
 
 ## Left out
 - **Copies of other people's work** that came back inside the returns. Link to the originals instead:
