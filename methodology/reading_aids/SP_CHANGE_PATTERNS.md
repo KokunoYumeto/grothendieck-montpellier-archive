@@ -1,45 +1,45 @@
 # What the second passes changed in our first readings
 
-13652 changes in 61 collation tables (`SP_CHANGES.tsv`, one row each).
+13667 changes in 61 collation tables (`SP_CHANGES.tsv`, one row each).
 
 | class | changes |
 |---|---|
-| content | 10118 |
-| doubt only | 3010 |
+| content | 10129 |
+| doubt only | 3013 |
 | markup only | 229 |
 | inserted/placed | 171 |
-| struck/live | 93 |
+| struck/live | 94 |
 | ill resolved | 31 |
 
 ## By the run's own kind
 
 | kind | content | doubt only | markup only | inserted/placed | struck/live | ill resolved |
 |---|---|---|---|---|---|---|
-| misread symbol or index | 1961 | 609 | 49 | 21 | 3 | 0 |
-| omission | 1495 | 531 | 54 | 17 | 38 | 2 |
-| misread word | 1229 | 697 | 17 | 26 | 7 | 1 |
+| misread symbol or index | 1966 | 609 | 49 | 21 | 3 | 0 |
+| omission | 1496 | 532 | 54 | 17 | 38 | 2 |
+| misread word | 1231 | 699 | 17 | 26 | 7 | 1 |
 | drawing or diagram | 1829 | 18 | 8 | 4 | 0 | 4 |
 | readable ink left as \ill{} | 742 | 461 | 13 | 7 | 18 | 17 |
 | insertion or placement | 804 | 76 | 27 | 63 | 3 | 2 |
 | abbreviation expanded or spelling modernised | 496 | 252 | 12 | 5 | 0 | 0 |
-| other | 484 | 154 | 28 | 15 | 1 | 1 |
-| deletion state (struck given live or live given struck) | 528 | 116 | 5 | 9 | 15 | 2 |
+| other | 485 | 154 | 28 | 15 | 1 | 1 |
+| deletion state (struck given live or live given struck) | 530 | 116 | 5 | 9 | 16 | 2 |
 | text not on the page | 367 | 37 | 7 | 1 | 0 | 2 |
 | deletion state | 182 | 59 | 9 | 3 | 8 | 0 |
 | diagram or graphic sign | 1 | 0 | 0 | 0 | 0 | 0 |
 
 ## Where nobody doubted
 
-Content changes at places witness C had not marked: 6793 of 10118. Of these, witness H had the same reading as C and no doubt mark either: 2145 (both witnesses wrong the same way, nobody doubting; rows with `c_equals_h` = yes, `c_marked` = no, `h_marked` = no in SP_CHANGES.tsv).
+Content changes at places witness C had not marked: 6800 of 10129. Of these, witness H had the same reading as C and no doubt mark either: 2150 (both witnesses wrong the same way, nobody doubting; rows with `c_equals_h` = yes, `c_marked` = no, `h_marked` = no in SP_CHANGES.tsv).
 
 | kind | C unmarked | C and H agree, both unmarked |
 |---|---|---|
 | drawing or diagram | 1655 | 687 |
-| misread symbol or index | 1241 | 446 |
-| omission | 970 | 400 |
-| misread word | 677 | 198 |
+| misread symbol or index | 1244 | 449 |
+| omission | 971 | 400 |
+| misread word | 679 | 200 |
 | insertion or placement | 616 | 84 |
-| other | 373 | 129 |
+| other | 374 | 129 |
 | readable ink left as \ill{} | 318 | 0 |
 | text not on the page | 311 | 60 |
 | abbreviation expanded or spelling modernised | 305 | 82 |
@@ -124,15 +124,15 @@ Examples where C and H agreed, both unmarked (ours = theirs → final):
 | `[→` | 116 | SP04_CW_156-4+156-6 J156-4-04/31, SP04_CW_156-4+156-6 J156-4-04/31, SP04_CW_156-4+156-6 J156-4-04/31 |
 | `→retained` | 115 | SP02_CW_10+12 B10-05/71, SP02_CW_10+12 B10-05/71, SP02_CW_10+12 B10-05/73 |
 | `→d` | 112 | SP02_CW_10+12 B10-04/61, SP02_CW_10+12 B10-04/61, SP02_CW_10+12 B10-04/63 |
-| `→.` | 108 | SP02_CW_10+12 B10-03/56, SP02_CW_10+12 B10-03/57, SP02_CW_10+12 B10-05/74 |
+| `→.` | 107 | SP02_CW_10+12 B10-03/56, SP02_CW_10+12 B10-03/57, SP02_CW_10+12 B10-05/74 |
 | `→e` | 104 | SP02_CW_10+12 B10-04/63, SP02_CW_10+12 B10-04/64, SP02_CW_10+12 B10-04/67 |
 | `→l` | 103 | SP02_CW_10+12 B10-04/60, SP02_CW_10+12 B10-04/61, SP02_CW_10+12 B10-04/62 |
 | `doubtful→` | 97 | SP31_CW_156-3 J156-3-03/22, SP58_CW_156-5 J156-5-06/42, SP58_CW_156-5 J156-5-06/42 |
-| `s→` | 90 | SP02_CW_10+12 B10-05/74, SP02_CW_10+12 B10-08/119, SP02_CW_10+12 B10-09/127 |
+| `s→` | 91 | SP02_CW_10+12 B10-05/74, SP02_CW_10+12 B10-08/119, SP02_CW_10+12 B10-09/127 |
 | `→n` | 87 | SP02_CW_10+12 B10-02/44, SP02_CW_10+12 B10-02/48, SP02_CW_10+12 B10-04/68 |
 | `e→` | 84 | SP02_CW_10+12 B10-03/52, SP02_CW_10+12 B10-04/61, SP02_CW_10+12 B10-04/67 |
+| `→,` | 78 | SP02_CW_10+12 B10-02/47, SP02_CW_10+12 B10-03/55, SP02_CW_10+12 B10-05/75 |
 | `omitt→curv` | 78 | SP02_CW_10+12 B10-04/60, SP02_CW_10+12 B10-04/60, SP02_CW_10+12 B10-04/60 |
-| `→,` | 77 | SP02_CW_10+12 B10-02/47, SP02_CW_10+12 B10-03/55, SP02_CW_10+12 B10-05/75 |
 | `→s` | 72 | SP02_CW_10+12 B10-01/33, SP02_CW_10+12 B10-03/56, SP02_CW_10+12 B10-04/61 |
 | `→)` | 72 | SP02_CW_10+12 B10-05/76, SP02_CW_10+12 B10-10/133, SP02_CW_10+12 B10-10/134 |
 | `π→Π` | 69 | SP12_CW_45+46+53+57+63 J53-05/30, SP12_CW_45+46+53+57+63 J53-05/30, SP12_CW_45+46+53+57+63 J53-05/31 |
@@ -170,7 +170,7 @@ Examples where C and H agreed, both unmarked (ours = theirs → final):
 | `→guidedrawn` | 34 | SP02_CW_10+12 B10-05/74, SP02_CW_10+12 B10-05/74, SP02_CW_10+12 B10-05/75 |
 | `?→` | 34 | SP04_CW_156-4+156-6 J156-4-03/18, SP04_CW_156-4+156-6 J156-4-03/18, SP04_CW_156-4+156-6 J156-4-03/18 |
 | `→;` | 33 | SP117_CW_97+123+162-1 H97-01/19, SP117_CW_97+123+162-1 C123-01/18, SP12_CW_45+46+53+57+63 J53-01/4 |
-| `→2` | 32 | SP02_CW_10+12 B10-01/40, SP114_CW_156-5 J156-5-04/30, SP45_CW_37 B37-01/3 |
+| `→2` | 31 | SP02_CW_10+12 B10-01/40, SP114_CW_156-5 J156-5-04/30, SP45_CW_37 B37-01/3 |
 | `und→Cr` | 31 | SP12_CW_45+46+53+57+63 J53-03/16, SP12_CW_45+46+53+57+63 J53-03/22, SP12_CW_45+46+53+57+63 J53-04/23 |
 | `…→-` | 31 | SP74_C13_143+145 143/29, SP80_C13_147 147/128, SP80_C13_147 147/128 |
 | `→sh` | 30 | SP02_CW_10+12 B10-03/52, SP02_CW_10+12 B10-03/54, SP02_CW_10+12 B10-04/64 |
@@ -188,8 +188,8 @@ Examples where C and H agreed, both unmarked (ours = theirs → final):
 | `m→spag` | 26 | SP02_CW_10+12 B10-06/77, SP02_CW_10+12 B10-06/78, SP02_CW_10+12 B10-06/79 |
 | `→,canceled` | 26 | SP02_CW_10+12 B10-08/122, SP02_CW_10+12 B10-08/122, SP02_CW_10+12 B10-09/123 |
 | `i→` | 25 | SP02_CW_10+12 B10-04/61, SP02_CW_10+12 B10-04/65, SP02_CW_10+12 B10-05/75 |
+| `→|` | 25 | SP02_CW_10+12 B10-05/75, SP117_CW_97+123+162-1 C123-02/23, SP14_CW_13+15+26+35+48+66+97+123+162 H13-01/19 |
 | `→Cret` | 25 | SP12_CW_45+46+53+57+63 J53-01/4, SP12_CW_45+46+53+57+63 J53-01/6, SP12_CW_45+46+53+57+63 J53-01/6 |
-| `→|` | 24 | SP02_CW_10+12 B10-05/75, SP117_CW_97+123+162-1 C123-02/23, SP14_CW_13+15+26+35+48+66+97+123+162 H13-01/19 |
 | `del→Cr` | 24 | SP02_CW_10+12 B10-05/75, SP04_CW_156-4+156-6 J156-4-02/10, SP12_CW_45+46+53+57+63 J53-01/6 |
 | `→,deleted` | 24 | SP02_CW_10+12 B10-08/120, SP04_CW_156-4+156-6 J156-4-03/18, SP04_CW_156-4+156-6 J156-4-03/19 |
 | `m→` | 23 | SP02_CW_10+12 B10-01/34, SP02_CW_10+12 B10-02/44, SP02_CW_10+12 B10-06/87 |
@@ -198,27 +198,28 @@ Examples where C and H agreed, both unmarked (ours = theirs → final):
 | `_:→` | 23 | SP04_CW_156-4+156-6 J156-4-07/52, SP04_CW_156-4+156-6 J156-4-07/57, SP115_CW_156-7 H156-01/2 |
 | `→c` | 22 | SP02_CW_10+12 B10-04/68, SP02_CW_10+12 B10-08/115, SP02_CW_10+12 B10-08/115 |
 | `uncertain→` | 22 | SP02_CW_10+12 B10-05/76, SP02_CW_10+12 B10-05/76, SP02_CW_10+12 B10-06/77 |
-| `→1` | 22 | SP02_CW_10+12 B10-08/116, SP57_CW_97+123+162-1+162-6 C123-02/40, SP57_CW_97+123+162-1+162-6 H162-01/4 |
 | `o→c` | 22 | SP12_CW_45+46+53+57+63 J53-04/28, SP12_CW_45+46+53+57+63 A57-01/10, SP14_CW_13+15+26+35+48+66+97+123+162 J13-05/48 |
 | `u→` | 21 | SP02_CW_10+12 B10-02/43, SP02_CW_10+12 B10-06/83, SP02_CW_10+12 B12-01/69 |
 | `→inserted` | 21 | SP02_CW_10+12 B10-08/119, SP02_CW_10+12 B10-10/133, SP04_CW_156-4+156-6 J156-4-05/34 |
-| `→3` | 21 | SP45_CW_37 B37-01/3, SP73_C13_142+143 142/111, SP73_C13_142+143 142/111 |
 | `]→` | 20 | SP04_CW_156-4+156-6 J156-4-05/38, SP04_CW_156-4+156-6 J156-4-05/40, SP04_CW_156-4+156-6 J156-4-06/42 |
 | `ag→` | 20 | SP12_CW_45+46+53+57+63 A57-01/4, SP12_CW_45+46+53+57+63 A57-01/4, SP12_CW_45+46+53+57+63 A57-01/4 |
-| `→4` | 20 | SP45_CW_37 B37-02/30, SP57_CW_97+123+162-1+162-6 C123-02/40, SP72_C13_142 142/81 |
+| `→3` | 20 | SP45_CW_37 B37-01/3, SP73_C13_142+143 142/111, SP73_C13_142+143 142/111 |
 | `→h` | 19 | SP02_CW_10+12 B10-02/49, SP02_CW_10+12 B10-04/62, SP02_CW_10+12 B10-04/68 |
 | `rawn→` | 19 | SP02_CW_10+12 B10-05/72, SP12_CW_45+46+53+57+63 J53-05/32, SP12_CW_45+46+53+57+63 J53-05/34 |
 | `→Cre` | 19 | SP02_CW_10+12 B10-05/74, SP12_CW_45+46+53+57+63 J53-01/6, SP12_CW_45+46+53+57+63 J53-01/7 |
 | `c→` | 19 | SP02_CW_10+12 B10-07/103, SP02_CW_10+12 B12-01/98, SP12_CW_45+46+53+57+63 J53-01/5 |
-| `→5` | 19 | SP02_CW_10+12 B10-08/116, SP46_CW_37 B37-04/74, SP57_CW_97+123+162-1+162-6 C123-02/40 |
 | `'→` | 19 | SP02_CW_10+12 B10-09/128, SP04_CW_156-4+156-6 J156-4-07/52, SP12_CW_45+46+53+57+63 J53-04/26 |
 | `_→` | 19 | SP12_CW_45+46+53+57+63 A57-01/4, SP31_CW_156-3 J156-3-01/3, SP31_CW_156-3 J156-3-01/5 |
+| `→4` | 19 | SP45_CW_37 B37-02/30, SP57_CW_97+123+162-1+162-6 C123-02/40, SP72_C13_142 142/81 |
 | `→0` | 19 | SP48_CW_104 H104-01/5, SP66_C13_16+120+136 120/21, SP72_C13_142 142/97 |
 | `→join` | 19 | SP81_C13_147+148 148/9, SP81_C13_147+148 148/18, SP81_C13_147+148 148/18 |
 | `→,cancelled` | 18 | SP02_CW_10+12 B10-02/44, SP02_CW_10+12 B10-06/78, SP02_CW_10+12 B10-06/80 |
 | `mitt→ngcurv` | 18 | SP02_CW_10+12 B10-02/50, SP02_CW_10+12 B10-04/61, SP02_CW_10+12 B10-04/62 |
+| `→1` | 18 | SP02_CW_10+12 B10-08/116, SP57_CW_97+123+162-1+162-6 C123-02/40, SP57_CW_97+123+162-1+162-6 H162-01/4 |
+| `→6` | 17 | SP02_CW_10+12 B10-01/40, SP75_C13_145 145/13, SP78_C13_147 147/75 |
 | `x→` | 17 | SP02_CW_10+12 B10-05/75, SP115_CW_156-7 H156-01/7, SP12_CW_45+46+53+57+63 J53-01/6 |
 | `l→` | 17 | SP02_CW_10+12 B10-05/75, SP12_CW_45+46+53+57+63 J53-02/9, SP12_CW_45+46+53+57+63 J53-04/26 |
+| `→5` | 17 | SP02_CW_10+12 B10-08/116, SP46_CW_37 B37-04/74, SP57_CW_97+123+162-1+162-6 C123-02/40 |
 | `î→i` | 17 | SP02_CW_10+12 B10-10/135, SP116_CW_75 J75-01/3, SP14_CW_13+15+26+35+48+66+97+123+162 J13-04/39 |
 | `→''` | 17 | SP04_CW_156-4+156-6 J156-4-01/2, SP04_CW_156-4+156-6 J156-4-01/4, SP04_CW_156-4+156-6 J156-4-07/52 |
 | `′→'` | 17 | SP114_CW_156-5 J156-5-04/28, SP114_CW_156-5 J156-5-04/31, SP115_CW_156-7 H156-01/9 |
@@ -227,7 +228,6 @@ Examples where C and H agreed, both unmarked (ours = theirs → final):
 | `:→` | 17 | SP40_CW_81 J81-02/12, SP40_CW_81 J81-02/12, SP40_CW_81 J81-02/12 |
 | `→8` | 17 | SP78_C13_147 147/75, SP79_C13_147 147/86, SP81_C13_147+148 148/5 |
 | `→p=round,` | 17 | SP81_C13_147+148 148/9, SP81_C13_147+148 148/18, SP81_C13_147+148 148/18 |
-| `→6` | 16 | SP02_CW_10+12 B10-01/40, SP75_C13_145 145/13, SP78_C13_147 147/75 |
 | `→cancelled` | 16 | SP02_CW_10+12 B10-07/105, SP02_CW_10+12 B10-07/105, SP02_CW_10+12 B10-07/105 |
 | `ou→` | 16 | SP04_CW_156-4+156-6 J156-4-02/15, SP04_CW_156-4+156-6 J156-4-02/15, SP12_CW_45+46+53+57+63 J53-01/8 |
 | `G→C` | 16 | SP04_CW_156-4+156-6 J156-4-04/28, SP04_CW_156-4+156-6 J156-4-04/29, SP115_CW_156-7 H156-01/5 |
@@ -348,6 +348,7 @@ Examples where C and H agreed, both unmarked (ours = theirs → final):
 | X o → Cretained | 6 | SP12_CW_45+46+53+57+63 A57-01/10, SP12_CW_45+46+53+57+63 A57-01/10, SP12_CW_45+46+53+57+63 A57-01/13 |
 |  → circle | 6 | SP14_CW_13+15+26+35+48+66+97+123+162 B15-01/59, SP52_CW_156-4+156-6 J156-4-09/71, SP52_CW_156-4+156-6 J156-4-09/72 |
 | omitted → ngExtraStro | 6 | SP31_CW_156-3 J156-3-02/11, SP31_CW_156-3 J156-3-02/15, SP31_CW_156-3 J156-3-02/17 |
+|  → Z | 6 | SP38_CW_75 J75-01/8, SP38_CW_75 J75-01/9, SP38_CW_75 J75-02/13 |
 | insertionwithoutdrawnleader → insertionwithdrawnleader | 6 | SP64_C13_15+16 16/003, SP64_C13_15+16 16/003, SP64_C13_15+16 16/003 |
 | insertionwithoutdrawnleader → insertionwithcurvedleader | 6 | SP64_C13_15+16 16/008, SP64_C13_15+16 16/008, SP64_C13_15+16 16/008 |
 | insertedreadingwithoutdrawnleader → insertedreadingwithcurvedleader | 6 | SP64_C13_15+16 16/010, SP64_C13_15+16 16/010, SP64_C13_15+16 16/010 |
@@ -372,7 +373,6 @@ Examples where C and H agreed, both unmarked (ours = theirs → final):
 | underlinedO X → Cretained | 5 | SP12_CW_45+46+53+57+63 A57-01/5, SP12_CW_45+46+53+57+63 A57-01/8, SP12_CW_45+46+53+57+63 A57-01/8 |
 |  → l | 5 | SP14_CW_13+15+26+35+48+66+97+123+162 J13-03/37, SP38_CW_75 J75-01/9, SP72_C13_142 142/78 |
 |  → et | 5 | SP14_CW_13+15+26+35+48+66+97+123+162 J13-04/40, SP38_CW_75 J75-02/14, SP40_CW_81 J81-02/17 |
-|  → Z | 5 | SP38_CW_75 J75-01/8, SP38_CW_75 J75-01/9, SP38_CW_75 J75-02/13 |
 | notrepresented →  | 5 | SP47_CW_103 H103-02/13, SP47_CW_103 H103-02/13, SP47_CW_103 H103-02/14 |
 | Omitted → TikZapproximationinanuncertaintywrapper nocompletedtextualreading | 5 | SP47_CW_103 H103-02/14, SP47_CW_103 H103-02/14, SP47_CW_103 H103-02/14 |
 |  → headless | 5 | SP48_CW_104 H104-01/5, SP48_CW_104 H104-01/5, SP48_CW_104 H104-01/5 |
