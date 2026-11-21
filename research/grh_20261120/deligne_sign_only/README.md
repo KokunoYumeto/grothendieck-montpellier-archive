@@ -4,7 +4,7 @@
 route is already known.
 - It has had two independent AI checks, and both found no gap.
 - A first literature search found no proof along this route.
-- The write-up for Hexagon is `deligne_sign_only.pdf`, with its TeX beside it. It is a draft, not yet deposited.
+- The write-up for Hexagon is `deligne_sign_only_v5.pdf` (written by Claude Fable 5.2 at effort max), with its TeX beside it. It is a draft, not yet deposited.
 
 **Who did what:**
 - The proof is Part I of `HODGE_SIGN.pdf`, from a research run of GPT-6 Astra (ChatGPT Pro mode) on 21 Nov 2026,
