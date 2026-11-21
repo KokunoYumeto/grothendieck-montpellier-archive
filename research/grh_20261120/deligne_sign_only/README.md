@@ -4,7 +4,9 @@
 route is already known.
 - It has had two independent AI checks, and both found no gap.
 - A first literature search found no proof along this route.
-- The write-up for Hexagon is `deligne_sign_only_v5.pdf` (written by Claude Fable 5.2 at effort max), with its TeX beside it. It is a draft, not yet deposited.
+- The paper is published on Hexagon: "A short proof of Deligne's bound for Frobenius eigenvalues, after Alpöge",
+  hexagon:2611.00789, https://hexagonmath.org/2611.00789 (deposited 21 Nov 2026; written by Claude Fable 5.2 at
+  effort max). `deligne_sign_only_v5.pdf` and its TeX here are the deposited text.
 
 **Who did what:**
 - The proof is Part I of `HODGE_SIGN.pdf`, from a research run of GPT-6 Astra (ChatGPT Pro mode) on 21 Nov 2026,
@@ -68,8 +70,10 @@ a short new proof of the finite-field theorem. That also tests his method in a c
 3. **The choice of $Y$** (SG-09). Take a finite Noether normalization $\pi:U\to\mathbf A^d$; its fibres have at most
    $B$ points. Take coordinates $z$ embedding $U$, and a nondegenerate bilinear form $b$ on $\mathbf A^d$. Let $Y$ be
    $$f+\textstyle\sum_i g_i+c=0,\qquad f(u_1,\dots,u_k)=\sum_{i<k}b(\pi u_i,\pi u_{i+1}),$$
-   with $g_i$ generic linear combinations of the coordinates of $u_i$. Katz's Corollary 3.4.1 (generic weak Lefschetz,
-   with $f$ fixed) gives the restriction property of step 2 for generic coefficients, and Bertini gives smoothness.
+   with $g_i$ generic linear combinations of the coordinates of $u_i$. Deligne's generic weak Lefschetz theorem (Katz,
+   ACT, Appendix A.5, proved without weights), applied to the graph of the path form, gives the restriction property of
+   step 2 for generic coefficients, and Bertini gives smoothness (Lemma 8 of the Hexagon paper). Katz's Corollary 3.4.1
+   states the same fixed-$f$ form, but its printed proof runs through the Fourier transform, so the paper does not use it.
 
 4. **Parseval** (HS-03). Group the points by $x_i=\pi u_i\in\mathbf F_Q^d$. Then $R$ is a sum over $h\ne0$ of path sums
    $\sum_x\prod_i t_i(x_i)\,\psi\bigl(h\sum_i b(x_i,x_{i+1})\bigr)$, with weights $|t_i|\le BCQ^{w/2}$. The matrices
