@@ -1,0 +1,124 @@
+\subsection{DET-06--07: actual finite determinant definitions in the Lean source}
+The initial attachment contains two Lean entry files and a source map. To go beyond that map, this run obtained the full public mirror archive and inspected the actual definitions. The two entry files are byte-identical to the attached versions; nine separately retrieved mirror files also agree with the archive. This is a provenance check, not a Lean build or proof certification. The archive's hash and exact read scope are recorded in the evidence files.
+
+The supplied map gives only a medium-confidence step-7 match to \path{Formalism/PeriodIntegrals/BesselPeriodGGP.lean}. Its imports reach the following explicit objects. This confirms the source neighborhood, not an exact historical match of every timeline phrase.
+
+\begin{center}\small
+\begin{tabular}{p{0.21\textwidth}p{0.42\textwidth}p{0.26\textwidth}}
+\toprule
+Object & Exact declaration / locator & Mathematical type\\\midrule
+Leading minors & \path{Formalism/FormalDegreeBessel/StatementG.lean}, \texttt{Zhat}, \texttt{Dmin}, lines 64--71 & Finite pairing matrix and ordinary leading minors\\
+Signed Gram sign & Same file, \texttt{Gf}, \texttt{gramM}, lines 85--99; \texttt{GGram}, \texttt{GNonneg}, lines 165--172 & Signed determinant for an indefinite Hermitian form\\
+Quantum determinant & \path{Formalism/RealPlaceAnalysis/StatementE.lean}, \texttt{qminor}, \texttt{qdet}, lines 12--18 & Ordered Capelli polynomial in a complex algebra\\
+Highest-weight value & \path{Formalism/FormalDegreeBessel/StatementDS.lean}, \texttt{capP}, line 25; \texttt{CapelliHW}, lines 83--86 & Finite scalar polynomial\\\bottomrule
+\end{tabular}\end{center}
+The cited \texttt{GGram}, \texttt{GNonneg}, \texttt{QDetHW} and \texttt{CapelliHW} locators are definitions of propositions. We report their contents and check the following examples; a declaration \texttt{def P : Prop} is not itself a proof of $P$. Actual theorem exports are also present: \path{Formalism/FormalDegreeBessel/FinalG.lean}, lines 21--22, declares \texttt{gGram : GGram} and \texttt{gNonneg : GNonneg}. Its underlying block-determinant calculation is \path{Formalism/FormalDegreeBessel/FormalDegreeRatio/ReverseCauchySchwarzHolds.lean}, \texttt{group\_gram\_holds}, lines 179--209; the finite inertia proof is \path{Formalism/FormalDegreeBessel/FormalDegreeRatio/GNonneg.lean}, \texttt{gNonneg\_of}, lines 302--397. These complete theorem bodies were read at their proof-structure level, without replaying every helper or the Lean build. The proof of \fid{DET-10} below independently checks the finite sign mechanism.
+
+\paragraph{DET-06 (the actual signed Gram sign is not matrix positivity).}
+In the source's linear-first convention, the definitions use an indefinite Hermitian form $h_H(v,w)=w^*Hv$, with $H=H_{k,r}$ of size $2r+k+1$, a negative-vector quantity $T(z)=-\Re h_H(z,z)$, and
+\[
+ G_f=|D_{r+1}|^2-T(z)T(z')|D_r|^2.
+\]
+The proposition \texttt{GGram} identifies this with $(-1)^{r+1}\det(\mathrm{gramM})$, while \texttt{GNonneg} asserts its nonnegativity under its negative-vector hypotheses. Those hypotheses do not assert that the Gram matrix is positive.
+\begin{proof}[Complete counterexample in the stated domains]
+Take $k=2,r=0$, $H=\diag(1,1,-1)$, $g=I_3$, $z=(0,0,1)^T$ and $z'=(\sqrt3,0,2)^T$. The type has three coordinates. The source's middle-block condition \texttt{inWb} is vacuous at $r=0$, and $g^*Hg=H$, so $g$ belongs to \texttt{UH}. Direct calculation gives $T(z)=T(z')=1>0$. These are all the hypotheses of the two named propositions. The single-entry pairing matrix is $\mathrm{Zhat}=[-2]$, hence $D_0=1$, $D_1=-2$, and $G_f=4-1=3>0$. But
+\[
+ \mathrm{gramM}=\begin{pmatrix}-1&-2\\-2&-1\end{pmatrix}
+\]
+has eigenvalues $1$ and $-3$; on $(1,1)^T$ its quadratic form is $-6$. Its determinant is $-3$, exactly consistent with the asserted signed determinant identity. Thus the positive sign is compatible with an indefinite matrix.
+\end{proof}
+This does not refute the source's scalar sign. It refutes reading that particular sign as positivity of its Gram matrix, much less as positivity of \fid{B-01}.
+
+\paragraph{DET-10 (the actual sign is a balanced-inertia statement).}
+Under the exact \texttt{GNonneg} hypotheses, if $M=\mathrm{gramM}$ is nonsingular, it has exactly $r+1$ positive and $r+1$ negative eigenvalues. Using the cited \texttt{GGram} identity,
+\[
+ G_f=(-1)^{r+1}\det M=\prod_j|\lambda_j(M)|>0
+\]
+in this case, and $G_f=0$ in the singular case. Thus this actual sign does not merely tolerate an occasional negative direction: the nonsingular Gram form has balanced inertia.
+\begin{proof}
+Put $n=2r+k+1$. Reordering the standard basis pairs coordinate $a$ with $2r+k-a$ for $0\le a<r$; the remaining coordinates are $r,\ldots,r+k$. The explicit $H_{k,r}$ is the orthogonal sum of $r$ matrices $\left(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\right)$ and $\diag(1^k,-1)$. Each paired block has eigenvalues $1,-1$. Hence $H_{k,r}$ has positive and negative indices $r+k,r+1$.
+
+Let $X$ have the $2r+2$ source Gram vectors as columns:
+\[e_0,\ldots,e_{r-1},z,ge_0,\ldots,ge_{r-1},gz'.\]
+Then $M=X^*H_{k,r}X$. If $M$ is singular, the cited identity gives $G_f=0$. Otherwise $X$ is injective, since $Xc=0$ implies $Mc=0$. The image $V$ has dimension $2r+2$, and the restricted Hermitian form on $V$ is nondegenerate with matrix $M$ in these columns.
+
+The first $r+1$ columns span a subspace $L\subset V$ of dimension $r+1$. The isotropic coordinate vectors pair to zero with one another. The support condition on $z$ makes their pairings with $z$ zero, and $h_H(z,z)=-T(z)<0$. Thus the restricted form on $L$ is $\diag(0^r,-T(z))$, so it is nonpositive. Every negative definite subspace of $V$ has dimension at most the ambient negative index $r+1$. Every positive definite subspace of $V$ intersects $L$ trivially, so its dimension is at most $\dim V-\dim L=r+1$. Since $M$ is nondegenerate, its two indices sum to $2r+2$ and therefore both equal $r+1$. The product of its real eigenvalues now has sign $(-1)^{r+1}$, giving the asserted absolute-value product and strict positivity.
+
+When $k=0$, the $2r+2$ columns lie in dimension $2r+1$, so the singular case necessarily applies. When $r=0$, $L$ is the negative line through $z$. No minor was divided by. The source additionally assumes $T(z')>0$ and $g^*Hg=H$; the latter and both support conditions enter the cited \texttt{GGram} identity, while the inertia step only needs $T(z)>0$. This agrees with the unused \texttt{\_hT'} argument in the displayed source proof.
+\end{proof}
+The negative index in this finite Hermitian argument is not a statement that $B$ has negative eigenvalues. It is a proof about a different, explicitly identified matrix; the extra operator identification still has to be supplied.
+
+\paragraph{DET-07 (the quantum determinant is finite and algebraic).}
+Expanding \texttt{qdet}, for $E_{ab}$ in a complex algebra and central scalar $u$ gives
+\[
+ q\det_E(u)=\sum_{\sigma\in S_n}\operatorname{sgn}(\sigma)
+ \prod_{j=0}^{n-1}\bigl((u-j)\delta_{\sigma(j),j}+E_{\sigma(j),j}\bigr),
+\]
+where the factors are ordered by increasing $j$. Each factor is affine in $u$. Only the identity permutation can contribute the term $u^n$, with coefficient $1$. Thus this is a monic degree-$n$ polynomial (with the evident zero-algebra qualification). Its definition contains no Hilbert space, adjoint, trace norm or spectral summability. Under the source hypotheses \texttt{GlRel E} and \texttt{IsHW E}$(\nu,v)$, where $E_{aa}v=\nu_a v$ and $E_{ab}v=0$ for $a<b$, its highest-weight proposition specializes it to
+\[
+ q\det_E\!\left(Y+\frac{n-1}{2}\right)v
+ =\prod_{j=0}^{n-1}\left(Y+\nu_j+\frac{n-1}{2}-j\right)v.
+\]
+This is a finite characteristic-polynomial type value, and \fid{DET-03} excludes equality of a fixed such polynomial with $G$ under an affine change of variable. Before scalar specialization it is an algebra-valued ordered determinant, not an ordinary scalar Fredholm determinant.
+
+There is a concrete exterior-power/period link in the code: \path{Development/AbelianVarietyTheory/Definitions/Jets/SumIoPrAlt.lean}, \texttt{BranchingSupport.cmp} and \texttt{wedge}, lines 104--110, define finite compound matrices; \path{CompanionTheory/AutomorphicTheory/BesselWaveGrids/ProductMoment.lean}, \texttt{herm\_wedge}, lines 44--50, identifies the exterior Hermitian pairing with a leading minor. The finite subset-sum identity in \path{Development/AbelianVarietyTheory/Proofs/FlagMeasures/FirstNormAddSubsetIndicatorLe.lean}, lines 269--289, couples such a minor to period amplitudes and formal degrees. These are useful finite $\lambda$-operations and period identities. Their lengthy dependency proofs were not replayed; the displayed definitions and identity were read. They do not supply a trace-norm limit or a $\Xi$ spectral identity.
+
+\subsection{STEP7-01--02: interlacing selectors and genuine period positivity}
+The period neighborhood also contains more positive structure than the indefinite Gram sign alone. The following distinctions retain the exact source hypotheses.
+
+\paragraph{STEP7-01 (a determinant encoding the actual interlacing predicate).}
+\path{Formalism/SharpRestriction/CuspSpanNormBounds/RelevantZeroGramTerms.lean}, lines 256--259, defines \texttt{InterlaceS} by
+\[
+ \lambda_i<u_i\quad(0\le i<k),\qquad
+ u_{i+1}<\lambda_i\quad(0\le i<k-1).
+\]
+For strictly decreasing real lists $u_0>\cdots>u_{k-1}$ and $\lambda_0>\cdots>\lambda_{n-1}$, $n\ge k$, with no cross equality among the first $k$ entries, define the matrix
+\[
+ C(u,\lambda)_{ij}=\mathbf1_{\{u_i>\lambda_j\}},\qquad 0\le i,j<k.
+\]
+This matrix is constructed here from the inspected predicate; it has not been located as the historical source determinant. Its determinant belongs to $\{0,1\}$ and is one exactly when \texttt{InterlaceS} holds.
+\begin{proof}
+Let $t_i$ count the $j<k$ for which $\lambda_j\ge u_i$. Row $i$ consists of $t_i$ zeros followed by $k-t_i$ ones, and $0\le t_0\le\cdots\le t_{k-1}\le k$. If some $t_i=k$, a row is zero; if two thresholds agree, two rows agree. Either case gives determinant zero. Otherwise the $k$ thresholds are distinct elements of $\{0,\ldots,k-1\}$ in increasing order, so $t_i=i$. The matrix is upper triangular with all diagonal entries one, hence has determinant one. The equalities $t_i=i$ are equivalent, using the excluded cross equalities, to $\lambda_i<u_i$ and $u_i<\lambda_{i-1}$ for $i>0$. These are exactly the displayed predicate. For $k=0$ the empty determinant equals one and the predicate is vacuous. For $k\ge2$, the nonzero-selector matrix has entry $(0,1)$ equal to one and entry $(1,0)$ equal to zero, so it is not selfadjoint despite having every eigenvalue equal to one.
+\end{proof}
+The cross-equality restriction matters: $u=(2,1)$, $\lambda=(1,0)$ gives determinant one but violates the strict interlacing condition. In \path{Formalism/PeriodIntegrals/BesselPeriodGGP.lean}, lines 20--33, the source's half-integral difference condition excludes all such equalities. In its actual range $k\ge2$ (and $k$ even), the list $\lambda$ concatenates the $k-1$ entries of $v$ and the $2r+2$ entries of $-b$; its \texttt{InterlacingCondition} is exactly the displayed predicate. The proposition at lines 105--120 further requires its specified discrete-series representation, lowest vector, finite-dimensional representation and Haar measures, and asserts nonvanishing of a matrix-valued period. It does not assert that the numerical period equals one. Thus a finite admissibility determinant and a period value must remain distinct.
+
+\paragraph{STEP7-02 (positive rank-one period operators).}
+The actual normalized factorization in
+\path{Development/AbelianVarietyTheory/Definitions/Jets/SumIoPrAlt.lean},
+\texttt{IsBeL}, lines 135--139, says, in our conjugate-linear-first convention,
+\[
+ \operatorname{be}(x,v)\eta=\langle l(v),\eta\rangle l(x)
+ \quad(x\in R.\mathrm{sm},\ v\in R.\mathrm{TK}).
+\]
+Consequently, if this factorization holds and $v$ belongs to both indicated domains, then $P=\operatorname{be}(v,v)$ is positive of rank at most one, with
+\[
+ \Tr P=\|l(v)\|^2,\qquad \det(I-zP)=1-z\|l(v)\|^2.
+\]
+\begin{proof}
+Put $a=l(v)$, so $P\eta=\langle a,\eta\rangle a$. Cauchy--Schwarz gives $\|P\eta\|\le\|a\|^2\|\eta\|$. Direct calculation gives $\langle\eta,P\eta\rangle=|\langle a,\eta\rangle|^2\ge0$ and $\langle\eta,P\nu\rangle=\langle P\eta,\nu\rangle$. Thus $P$ is bounded and selfadjoint. If $a=0$, all assertions are immediate. Otherwise $a/\|a\|$ is an eigenvector of eigenvalue $\|a\|^2$, and its orthogonal complement is killed. This proves the rank, trace-class, trace and determinant assertions.
+\end{proof}
+The complete signature of
+\path{Development/AbelianVarietyTheory/Proofs/FlagMeasures/BesselPeriodPositivityStatement.lean}, lines 11--12, takes the Bessel maps and these factorization equalities as hypotheses, together with its representation, gap and measure data. The elementary implication just proved does not remove those hypotheses. It is genuine source-based operator positivity once the factorization is supplied, but its determinant has degree one and depends on the chosen vector and period map.
+
+There is also an actual finite scalar relation \texttt{IsCoef} in
+\path{Development/AbelianVarietyTheory/Definitions/Jets/SideFam.lean}, lines 30--32:
+\[
+ F(g)=\sum_i\langle x_i,\sigma(g)y_i\rangle X_i,
+ \qquad s=\sum_i\langle l(x_i),X_i l'(y_i)\rangle.
+\]
+It carries a specified finite matrix-coefficient expansion, not a proved identification with the timeline's $W$. Moreover, the exterior-period decomposition in
+\path{Development/AbelianVarietyTheory/Proofs/FlagMeasures/BlockProjectionBesselStatement.lean}, lines 9--10, has coefficients
+$\epsilon_I\kappa_{1,I}\overline{\kappa_{0,I}}d_{R_I}$, with $\epsilon_I\in\{\pm1\}$ and formal degrees $d_{R_I}$. The supporting tensor signs are in \texttt{TensH}, \path{SumIoPrAlt.lean}, lines 88--94. These coefficients are not asserted to be $0$ or $1$. This finite exterior-power structure is precisely the kind of algebra recorded by SGA 6, V; its extra analytic period hypotheses and the missing Xi identification must be retained.
+
+\paragraph{DET-08 (the strongest direct determinant link for the toy).}
+There \emph{is} a precise finite determinant relation for the path sums. With $P=aa^*$,
+\[
+ S_k(h)=\Tr(A^{k-1}P),\qquad
+ \sum_{k\ge1}S_k(h)z^{k-1}
+ =-\left.\partial_u\log\det(I-zA-uP)\right|_{u=0}.
+\]
+\begin{proof}
+Expanding the finite trace gives $\Tr(A^{k-1}aa^*)=a^*A^{k-1}a$. The Neumann series sums it to $a^*(I-zA)^{-1}a$. For invertible $M$, multilinearity of columns gives
+$\det(M-uaa^*)=\det M(1-u a^*M^{-1}a)$: terms selecting two rank-one columns vanish because those columns are proportional. Set $M=I-zA$ and differentiate the local logarithm at $u=0$. This proves the sign and the full identity near $(z,u)=(0,0)$.
+\end{proof}
+This constructive bridge uses an insertion $P$ and a second parameter. It neither replaces path sums by $\Tr A^k$ nor makes $A$ positive, and its finite-dimensional generating function is rational.
