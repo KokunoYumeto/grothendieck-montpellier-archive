@@ -1,0 +1,11 @@
+# Independent complete proof review: MA-RB-008
+
+The strengthened final theorem passes. The residue-field Frobenius has order f in D/I; any lift has order divisible by f. Since the largest element order in S5 is six, the bound f<=6 remains valid at ramified primes. The decreasing function u/(x^u−1) gives the universal coefficient6 bound from g>=1. At unramified primes gf=120 gives the sharper coefficient120 bound. All prime-ideal powers are included in these full Euler expressions.
+
+The prime5 contribution is excluded from the new sum because RB007 already retains it exactly. The resulting correction is Hsharp=H+120 zeta'/zeta(6sigma)+120log5/(5^(6sigma)−1)+114 times the finite ramified-prime sum. The derivative is with respect to the zeta argument, so there is no additional factor6. This matches the written definition.
+
+Strict positivity of the new denominator is proved without assuming a specified zero: an empty completed divisor would make the exact normalized Hadamard logarithmic derivative vanish, contradicting its growing gamma contribution while the Euler derivative tends to zero. Every completed zero then contributes a strictly positive real part for sigma>1. The universal Euler remainders are nonnegative pointwise. The endpoint expansion and infinity behavior give an attained finite minimum, and comparison at the old attained minimizer gives a strictly smaller bound.
+
+The local Artin calculation also passes. Inertia-invariant vectors in the left regular representation have orbit basis I h; the chosen Frobenius lift normalizes inertia, and its rth power fixes an orbit exactly when it belongs to inertia. Every cycle has length f, yielding determinant(1−T^f)^g. Neither this determinant interpretation nor the pointwise inequality asserts an effective positive analytic zero motive or coefficientwise positivity of a difference Dirichlet series.
+
+This is one uniform all-prime refinement of the residual interval. It does not prove the numerical exclusion criterion or the remaining common-zero nonvanishing for every actual field. The complete predecessor RB007 and exact primary family assumptions were already freshly checked in this run; no new reading of the carried SGA/Deligne categorical sources is claimed here.
