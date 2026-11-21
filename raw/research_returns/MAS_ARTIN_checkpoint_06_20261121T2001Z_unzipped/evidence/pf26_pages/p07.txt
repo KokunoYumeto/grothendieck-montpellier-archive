@@ -1,0 +1,55 @@
+algorithm does not know these roots. The algebra
+                                        N
+                   A = k[T ]/(F ) ≃                    a(T ) 7−→ (a(x1 ), . . . , a(xN ))   (2.1)
+                                        Y
+                                              k,
+                                        i=1
+
+lets us carry out arithmetic on all components simultaneously.
+
+Lemma 2.1 (Simultaneous execution). Suppose a deterministic field procedure uses arith-
+metic, zero tests, and integer control, and its scalar input at component i is obtained by
+specializing given elements of A at T = xi . Assume the procedure is defined for each special-
+ized input. One can either execute the procedure on all components with a common sequence
+of decisions, or return a nontrivial proper monic divisor of F in Fp [T ]. The extra cost of
+each scalar operation or zero test is polynomial in N , [k : Fp ], and log p.
+
+Proof. For a zero test on a ∈ A, compute d = gcd(F, a) over k using its representative of
+degree less than N . If d = 1, every component is nonzero; if d = F , every component is zero.
+In the remaining case, d is a proper factor and the procedure stops. Although computed
+over k, its monic form belongs to Fp [T ]: it is the product of T − xi over the components
+where a(xi ) = 0.
+    Addition and multiplication take place in A. A nonzero scalar is inverted only after the
+zero test has shown it nonzero in every component; the extended Euclidean algorithm then
+gives its inverse modulo F . Thus, until a split occurs, every field instruction and decision is
+valid in every component. Polynomial degree tests and choices of pivots reduce to successive
+zero tests on coefficients, so the same argument applies inside polynomial arithmetic and
+linear algebra. The usual dense implementations give the cost bound.
+
+    This is the dynamic-evaluation principle [5]; we call its use here simultaneous execution.
+In particular, a divergent pivot or a divergent polynomial degree is useful information: it
+already supplies the required factor. The convention also applies to nested procedures whose
+coefficient field is being simulated by A.
+
+2.2   Logarithms in primary subgroups
+Let q be a prime, and suppose u generates a cyclic group of order q s . For a ∈ ⟨u⟩, its
+logarithm ℓ ∈ [0, q s ) can be recovered one base-q digit at a time, as in the prime-power
+logarithm algorithm of Pohlig and Hellman [23]. If ℓj ≡ ℓ (mod q j ) is already known, the
+next digit is the unique c ∈ {0, . . . , q − 1} satisfying
+                                       s−j−1           s−1
+                           (au−ℓj )q           = (uq         )c ,   0 ≤ j < s.              (2.2)
+
+Set ℓj+1 = ℓj + cq j and begin with ℓ0 = 0. Indeed, if ℓ − ℓj = q j (c + qv), raising to q s−j−1
+removes the term qv and leaves exactly Equation (2.2). This uses q equality tests per digit,
+rather than an enumeration of q s group elements.
+    The same calculation works in a product of fields when u has order q s in every component.
+When the product is presented as k[X]/H with H square-free, gcds with H partition the
+components at each digit according to the equality in Equation (2.2); retain each nonempty
+piece and its current digit string. There are at most deg H pieces at every level. Keep each
+final integer logarithm together with its polynomial modulus. Algebra elements subsequently
+computed from these logarithms can be recombined by polynomial Chinese remaindering.
+Alternatively, when zero components are represented by idempotent masks, perform the
+same partitions using those masks. These two implementations will be used below.
+
+
+                                                       7

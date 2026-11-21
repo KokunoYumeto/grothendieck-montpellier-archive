@@ -1,0 +1,11 @@
+# Actual character slow-band transport
+
+MA-SB-004 is proved in `character_slow_band.tex`. It uses the actual primitive Dirichlet and nontrivial finite-order character ranges established in MA-CGP, including the cubic character over Q(zeta_3). The source invariant product level is exactly Y=Q Lambda, with Q=|D_K|Nf. Therefore the support edge is −logY, and the half-line metric is the same R_L as in the rational proof. No finite Euler factor is deleted by this identification.
+
+The proof instantiates the abstract Hankel lemma with the actual character inner function and its actual ambient trace-class lift from CGP004 at c=0. It then retains the exact weighted Gram projector and all cyclic trace factors from SB002. The source cutoff estimate is uniform for 1<=Y<=X/2, with two fixed S1 tail functions. It requires no boundary separation or generic choice of alpha.
+
+The paired local result uses precisely the fixed annular position and smooth frequency profiles of CQ003, with the actual dual-sector unitary D_beta,S. The conductor and different dilations remain in that operator. The chosen finiteS contains every prime-ideal-power contribution to the fixed test. Since the characters are nontrivial, the polar quotient is zero. The unconditional smooth Meyer comparison identifies the local limit with minus the full character zero-quotient trace. Subtracting the two already constructed operator limits leaves the positive upper-inclusive zero trace. Comparison with the completed full-strip cutoff gives the negative lower-inclusive trace.
+
+This proves an operator-level slow-band extension at polynomial weight s=0, with 0<alpha<1/2 and compact positive logarithmic test support. It does not claim absence or existence of exterior zeros, a positive-weight uniform estimate, a uniform Gram regularizer rate, or arbitrary varying local-smoothing control. Every finite global trace retains the two actual Gram resolvents of CGP018.
+
+Complete author proof QA passed. Root and peer whole-proof readings were requested; their completion is recorded separately when received. No new external source was invoked: all arithmetic normalization and operator inputs are the already fully checked CGP, CQ, CC and SB modules.

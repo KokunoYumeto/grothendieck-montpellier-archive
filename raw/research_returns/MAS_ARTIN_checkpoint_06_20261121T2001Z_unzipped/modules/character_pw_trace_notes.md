@@ -1,0 +1,5 @@
+# Actual character PW trace
+
+MA-CGP004 is written in character_pw_trace.tex and has undergone a complete author reread. It specializes the actual GP009 half-line proof to the ranges proved in CGP002. The source primitive band is Lambda and the actual mixed product level is Y=Q_eta Lambda, so c=−logY. The reflected common-zero formula uses L_bar_eta; the completed functional equation gives the eta divisor alpha+1/2−rho_eta. No conjugate divisor is accidentally substituted in the trace.
+
+The proof checks the uniform Malmquist norm estimate using only bounded positive real parts and the fixed-character zero count, obtaining an actual S1 quotient operator and a trace-class resolvent square. The already fully proved half-line endpoint/cusp lift applies with unchanged R_c and all its hypotheses verified. Both actual iterated cutoff traces follow, and their difference includes precisely Re rho_eta<=1/2−alpha, with multiplicity. There is no claim that these exterior zeros exist or that the difference is nonzero for a specified test, and no joint-limit rate is supplied.
