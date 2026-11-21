@@ -1,0 +1,51 @@
+# Whole-proof review of the assembled A1 reconstruction
+
+Date: 2026-11-21. Checker: GPT-6 Astra Pro, `/root/effective_galois`; effort not exposed.
+
+**Reviewed file:** `final/proof_sources/a1_section.tex`
+
+**SHA-256:** `01766baa879f0269ad4444c932dec04f62259dbe0e119e7f451b9000892237ef`
+
+**Result: PASS.** I read the complete current section, including A01–A04 and every step of A05. No actual mathematical gap was found. This is a targeted mathematical check of the complete reconstruction, not formal verification. I did not edit the final proof.
+
+The earlier full recovered-source audit is in `A1_configuration_audit.md` and `A1_cuspidal_criterion_audit.md`. This follow-up checks that the assembled wording preserves those arguments and their hypotheses.
+
+## Diagonal boundary and relative inertia
+
+The proof does not require the full prime-to-p configuration fibre map to be injective. Step1 proves the needed injection only after taking the relative cuspidally pro-r quotient. Its finite-quotient argument retains the full proper prime-to-p quotient while detecting every finite quotient of the relative fibre group.
+
+The boundary construction in Step2 uses finite tame covers and their Kummer extensions. The root gerbe over the diagonal supplies a group mapping onto the proper arithmetic group, with kernel the image of its band. This right-exact assertion can be read directly from finite-cover descent: a cover of the gerbe on which the band acts trivially descends to the diagonal, and a connected cover of the diagonal remains connected after gerbe pullback. Compatibility of finite levels and compactness preserve the assertion in the inverse limit.
+
+Taking the image of that boundary group in the configuration quotient cannot introduce an additional kernel over the diagonal: an element mapping to the identity in the proper group already has a representative in the band's image. The band image is pro-r in the relative quotient, hence a quotient of Z_r(1). The Heisenberg representation of the punctured surface sends its cusp word to an infinite-order central element. It factors through the relative fibre quotient, and Step1 injects that quotient into the configuration quotient. Thus no nonzero closed subgroup of Z_r(1) is killed.
+
+Transverse intersection multiplicity one identifies the inertia of the actual punctured fibre with this same inertia. Its cusp decomposition group and the inverse image of the proper point section have identical inertia and arithmetic quotient G_k, so the comparison is an isomorphism. This justifies the full-inverse-image assertion in Step2; it is not an assumed configuration exactness statement.
+
+A lift of the geometric proper conjugator to the diagonal group is geometric because its arithmetic projection is trivial. Conjugation transports the fibre groups and their cusp groups. The correcting geometric element in the target fibre exists because that fibre retains the full proper geometric quotient. The correction cancels the inner automorphism on the first proper coordinate, so beta lies over the exact identity of Pi_C. It need only preserve the cusp conjugacy class, which is precisely what the subsequent criterion uses.
+
+## Point counts and uniform point recognition
+
+The same-prime open-subgroup lemma in Step3 is valid without a prime-power-index restriction. The actual compactification map therefore recovers the whole pro-r compactified group, with arithmetic action, after killing cusp inertia. The point-count comparison uses the full r-adic representation. The boundary double cosets also preserve residue degrees; loss of non-r inertia in the quotient does not lose these degrees because the quotient kernel is geometric and lies in each corresponding covering subgroup.
+
+For Step4, every cover indexed by H containing S has a nonempty finite rational-point set. The intersection subgroup supplies a point meeting any finite set of compatibility requirements, so compactness applies even when individual transition maps are not surjective. The second compactness step gives a geometric lift in the complete profinite fibre. Rationality at every level forces its decomposition group into every H, and injectivity of its arithmetic projection then identifies it with S.
+
+Saïdi–Tamagawa's exceptional relation is the commensurability relation upstairs. Intersecting with an open subgroup preserves commensurability in both directions, so passage to any finite constant extension leaves the exceptional upstairs set unchanged. Its finite image E_C in the original closed-point set consequently has a finite geometric inverse image that works for all constant extensions at once. Thus the proof does not rely on separate finite exceptional sets whose union could become infinite. Equality of the actual proper decomposition groups gives equality of the geometric point labels outside this fixed set.
+
+## Integral multiplier and Kummer contradiction
+
+The geometrically cuspidally central kernel is generated by the cusp inertia and is exactly Z_r(1), again by the Heisenberg test. With the common positive residue convention, the two geometric extension classes are the degree-one orientation generator. Since beta fixes the proper quotient, multiplication of the kernel by a unit u sends one class to the other; their equality in integral H2 forces u=1. A mod-r comparison would not suffice, but the assembled proof uses the integral comparison and explains its cohomological construction.
+
+The difference on the fibre product is a crossed homomorphism for the common cyclotomic action. Cancelling its residues against the Kummer class of f makes it descend to the proper group. Geometric inertia acts trivially on the coefficient module, so vanishing on the inertia generators also gives vanishing on their closed normal closure. The invariant geometric H1 vanishes by the stated Frobenius weights and torsion-freeness, giving the constant Kummer class represented by a.
+
+For a closed point R the normalization is correctly performed in Pi_{C_L}, where L=k(R). The point subgroup projects onto all G_L, so Saïdi–Tamagawa Lemma1.7 makes its normalizer equal to itself. Correcting the conjugator by the target point subgroup puts it in the cuspidal kernel, and therefore in M after centralization. The two parameterized sections then differ by an M-coboundary.
+
+The resulting Kummer identity holds for every good closed point, of arbitrary degree. The excluded geometric values are finite, while the group of r-power roots of unity is infinite. A nontrivial chosen root lies in the finite residue field of a point above its value. The entire r-adic completion of that finite cyclic multiplicative group retains its r-primary subgroup. This is the precise contradiction; vanishing at one finite Kummer level was never substituted for full vanishing.
+
+## Other parts of the complete section
+
+A01's uniqueness argument and constant descent are noncircular. The covering subgroup becomes Galois after making its finite geometric deck group constant, and the unique primary-torsion lift descends and is compatible under the divisor pushforward maps.
+
+A02 applies the stated analytic premise to the required Dedekind zeta functions; it makes no claim that Dirichlet GRH logically excludes another route to those functions. A03 proves the conditional genus-two geometric implication and uses one-dimensional character spaces; it does not infer the missing joint theta incidence from Hooley. A04's residue-class obstruction is a counterexample to a density inference, not to A1.
+
+Step6 uses the full arithmetic specialization surjection over a normal henselian base, preserves disjointness of the sections, and keeps the geometric conjugator. The semiabelian Kummer-kernel argument correctly separates the possibly infinitely generated free part of the multiplicative group from the finitely generated abelian-variety image. The genus-one cover preserves the exact p-primary order and gives too many boundary zeros for the degree of the function. The purely inseparable base-change and characteristic-zero clauses retain their stated scope.
+
+No hidden GRH premise or circular use of point-section injectivity was found. The gerbe and orientation passages are constructions justified in the proof from the stated cover and cohomology inputs; they do not require an additional unquoted full configuration theorem.
