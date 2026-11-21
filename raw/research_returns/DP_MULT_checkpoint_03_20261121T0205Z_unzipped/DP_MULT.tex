@@ -1,0 +1,1741 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=26mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,longtable,array,enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage{xurl}
+\usepackage{fancyhdr}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{DP\_MULT: formal derivatives and divided powers}\fancyhead[R]{21 November 2026}\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\setlength{\emergencystretch}{2em}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\Z}{\mathbb Z}\newcommand{\Q}{\mathbb Q}\newcommand{\F}{\mathbb F}
+\newcommand{\Ga}{\mathbb G_a}\newcommand{\Gm}{\mathbb G_m}
+\newcommand{\Spf}{\operatorname{Spf}}\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Lie}{\operatorname{Lie}}\newcommand{\Dist}{\operatorname{Dist}}
+\newcommand{\ord}{\operatorname{ord}}\newcommand{\gr}{\operatorname{gr}}
+\newcommand{\vp}{v_p}\newcommand{\dR}{\mathrm{dR}}\newcommand{\crys}{\mathrm{crys}}
+\newcommand{\id}{\operatorname{id}}\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\RMap}{\operatorname{RMap}}\newcommand{\Int}{\operatorname{Int}}
+\newcommand{\ceil}[1]{\left\lceil #1\right\rceil}\newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}
+\title{Integral invariant derivatives at every formal height\\
+\large Optimal affine error, divided-power distributions,\\Cartier duality, and binomial homotopy types}
+\author{DP\_MULT research run\quad\texttt{DP\_MULT\_20261121}}
+\date{21 November 2026\quad Europe/Berlin}
+\begin{document}
+\maketitle
+\begin{abstract}
+For a one-dimensional commutative formal group over $W(k)$ of finite height $h$, with normalized integral invariant derivation $D$, we prove coefficientwise
+\[
+ \vp(D^n f)\ge
+ \max\left\{\sum_{\substack{j\ge1\\h\nmid j}}\floor{n/p^j},\;
+ \ceil{n\left(\frac1{p-1}-\frac1{p^h-1}\right)-(h-1)},\;0\right\}
+ \qquad(f\in W(k)[[t]]).
+\]
+The affine slope and the uniform constant $h-1$ are optimal. Thus the proposed logarithmic error is unnecessary. The proof does not assume a Lubin--Tate normal form. At height two this gives the coefficient in Alp\"oge's step 2, with uniform affine error $1$. The additional integral theta and period comparisons are identified in recovered author-source modules. Full unramified CM action extends the bounds over ramified bases; residue height alone does not.
+
+We prove the directional higher-height statement and construct an integral model of the actual Honda Cartier dual. Its $h-1$ primitive directions have sharp slopes $p^i/(p^h-1)$, each with optimal uniform affine error $1$; their slopes sum to $c_h$. This refines the distinction between derivative valuations and automorphic multiplicity. The generalized scalar kernel has the full $c_h$ slope even though its direct intermediate weight estimate is false. Grothendieck's boxed zero $p$-operation in cote 54 belongs to the vector kernel of a universal extension, not a supersingularity condition. Oda's theorem supplies the established de Rham/Dieudonn\'e comparison. Identity Frobenius lifts yield binomial structures under flatness; numerical polynomials have a divided-power associated graded, and Horel's theorem gives the precise integral homotopy statement.
+
+\textbf{Status.} The local bounds and the stated algebraic corrections are proved and checked. The literal height-only substitution into the existing logarithm and alternating CM-type interfaces is refuted. A different construction producing a shorter global theta-lift chain remains open at an explicit construction-and-cost gate. Accordingly that broader part of the research request is marked \textbf{INCOMPLETE}; no shorter proof is claimed.
+\end{abstract}
+\tableofcontents
+\newpage
+
+\section{Scope, conventions, and evidence}
+
+The controlling sources are the attached prompt, Alp\"oge's \emph{Remark}, the two supplied Lean files and the supplied map, the Fable suggestions, and the archive transcriptions. Targeted Lean modules were subsequently recovered and compared byte for byte with the author's published archive, as documented below. We follow the instruction to cite Alp\"oge's RH and Dirichlet-GRH results as theorems; this report does not re-audit them. None of the local algebra proved below uses RH or GRH. No Masullo statement or draft is present in this attachment, and no claim conditional on an unspecified Masullo statement is made.
+
+Throughout, $p$ is a prime, $k$ is a perfect field of characteristic $p$, $R=W(k)$, $K=\operatorname{Frac}(R)$, and $\vp(p)=1$. All formal groups in the one-dimensional results are commutative. If
+\[
+ F(X,Y)\in R[[X,Y]],\qquad v(t)=\frac{\partial F}{\partial Y}(t,0),
+\]
+then $D=v(t)\,d/dt$ denotes the invariant derivation normalized by $Dt(0)=1$. For a power series $g$, $\vp(g)$ means the infimum of its coefficient valuations; $\vp(0)=+\infty$. Thus our statements about $D^n f$ are stronger than their evaluations at the identity.
+
+Height at least $h$ means
+\begin{equation}\label{eq:height}
+ [p]_F(t)\in pR[[t]]+t^{p^h}R[[t]].
+\end{equation}
+At exact finite height $h$, the coefficient of $t^{p^h}$ is a unit. Height infinity means $[p]_F\bmod p=0$. Put
+\begin{equation}\label{eq:constants}
+ q=p^h,\qquad c_h=\frac1{p-1}-\frac1{q-1},\qquad
+ B_h=\vp(q!)-1=\frac{q-1}{p-1}-1=c_h(q-1).
+\end{equation}
+These are local statements about a formal completion of a scheme over $\Z_p$, and hence about integral lattices, not solely its rational isocrystal.
+
+Stable finding identifiers are printed in brackets. A ``finding'' means a result established or a proposed identification decided in this run; no unqualified priority claim is intended. Existing theorems are cited, not presented as discoveries. In particular the Lubin--Tate case of the affine estimate already follows from Bannai--Kobayashi \cite[\S2, p.~527; Propositions 3.3 and 3.5, pp.~529, 531]{BK}. Our proof treats all formal groups satisfying \eqref{eq:height}.
+
+All archive ``scans'' supplied here are \LaTeX\ transcriptions. Original manuscript pixels were not attached. During this run the official public PDFs for cotes 47 and 54 were recovered, and the three pages underlying the five emendation candidates were visually inspected. Those checks distinguish faithful readings of mathematical slips from actual transcription errors; their exact physical-PDF and manuscript page mappings are recorded in the audit. The supplied complete Lean archive scan is a report of another run; it is not a kernel certificate executed here.
+
+\part{Checked findings and proofs}
+
+\section{The uniform bound, with optimal constant error}
+
+\begin{theorem}[DP1: uniform affine bound]\label{DP1}
+For every formal group satisfying \eqref{eq:height}, every $n\ge0$ and every $f\in R[[t]]$,
+\begin{equation}\label{eq:affine}
+ D^n f\in p^{\max\{0,\ceil{c_hn-(h-1)}\}}R[[t]].
+\end{equation}
+At slope $c_h$, the constant $h-1$ is the smallest possible real constant in an inequality $\vp(D^nf(0))\ge c_hn-C$ valid for all $n$ and all integral $f$, even for any fixed normalized formal group of height at least $h$.
+\end{theorem}
+
+\begin{proof}
+We give all steps, including the integral coordinate change. Associativity gives
+\[
+ v(F(t,u))=F_u(t,u)v(u).
+\]
+Consequently the normalized logarithm
+\[
+ L(t)=\int_0^t\frac{ds}{v(s)}=t+\sum_{m\ge2}\ell_m t^m\in K[[t]]
+\]
+satisfies $L(F(t,u))=L(t)+L(u)$: differentiating in $u$ gives $L'(u)$ on both sides, and evaluation at $u=0$ fixes the constant. In particular $L([p]_F(t))=pL(t)$.
+
+Write $g(t)=[p]_F(t)=pt+\sum_{m\ge2}a_m t^m$. Comparison in degree $m\ge2$ gives
+\begin{equation}\label{eq:logrec}
+ (p-p^m)\ell_m=a_m+\sum_{i=2}^{m-1}\ell_i[t^m]g(t)^i.
+\end{equation}
+For $m<q$, all coefficients of $g$ occurring on the right belong to $pR$. Induction therefore gives $\ell_m\in R$: the right side is in $pR$ and $(p-p^m)/p$ is a unit. At $m=q$, the same argument gives $\vp(\ell_q)\ge-1$. Indeed the summands with $i\ge2$ use only coefficients of $g$ in degrees $<q$, so are divisible by $p^i$; $a_q$ is integral.
+
+Use the strict integral coordinate
+\[
+ z=t+\sum_{2\le m<q}\ell_m t^m.
+\]
+Its inverse belongs to $R[[z]]$, because its linear coefficient is one. In this coordinate the normalized logarithm has the form
+\begin{equation}\label{eq:trunclog}
+ L_{\mathrm{new}}(z)=z+bz^q+O(z^{q+1}),\qquad \vp(b)\ge-1.
+\end{equation}
+Strictness preserves $Dz(0)=1$, and an integral coordinate isomorphism preserves every ideal $p^mR[[t]]$.
+
+Define integral translation operators $\Delta_j$ by
+\begin{equation}\label{eq:translation}
+ f(F(z,u))=\sum_{j\ge0}(\Delta_j f)(z)u^j.
+\end{equation}
+Each $\Delta_j$ preserves $R[[z]]$. In logarithmic coordinates translation is ordinary addition, so over $K$
+\begin{equation}\label{eq:distidentity}
+ \sum_{j\ge0}\Delta_j u^j=\exp(L_{\mathrm{new}}(u)D).
+\end{equation}
+Every coefficient in $u$ is a finite sum of operators, so this formal identity is legitimate. It is the distribution identity of Katz \cite[Corollary 1.8, p.~669]{Katz81}, in the precise coordinate needed here. Equations \eqref{eq:trunclog}--\eqref{eq:distidentity} give
+\[
+ \Delta_j=D^j/j!\ (0\le j<q),\qquad
+ \Delta_q=D^q/q!+bD.
+\]
+Set $w=q!/p^{B_h+1}\in R^\times$, $u_0=-wpb\in R$ and $T=w\Delta_q$. Thus $T$ is an integral $R$-linear operator and
+\begin{equation}\label{eq:keyop}
+ D^q=p^{B_h}u_0D+p^{B_h+1}T.
+\end{equation}
+
+For $0\le n<q$, the identity $D^n=n!\Delta_n$ gives $\vp(D^nf)\ge\vp(n!)$. Write $n=\sum_{j=0}^{h-1}d_jp^j$, $0\le d_j\le p-1$. Counting multiples of $p^r$ in $n!$ gives Legendre's formula, hence
+\[
+ \vp(n!)-c_hn
+ =\sum_{j=0}^{h-1}d_j\left(\frac{p^j}{q-1}-\frac1{p-1}\right)\ge1-h.
+\]
+Every coefficient in parentheses is nonpositive. Its minimum over the allowed digits is attained when every digit is $p-1$, that is $n=q-1$, and then equals $1-h$.
+
+For $n\ge q$, multiply \eqref{eq:keyop} on the right by $D^{n-q}$ and induct on $n$. The first term has coefficient valuation at least
+\[
+ B_h+c_h(n-q+1)-(h-1)=c_hn-(h-1),
+\]
+and the second at least
+\[
+ B_h+1+c_h(n-q)-(h-1)
+ =c_hn-(h-1)+(1-c_h)\ge c_hn-(h-1),
+\]
+since $0\le c_h<1$. Only integrality of $T$ is used; commutation with $D$ is unnecessary. Integer-valued valuations and integrality give \eqref{eq:affine}.
+
+Finally $D^n(t^n)(0)=n!$ in any normalized coordinate. For $n=q-1$ this has valuation
+\[
+ \vp((q-1)!)=\frac{q-1}{p-1}-h=c_h(q-1)-(h-1).
+\]
+Thus no smaller real constant $C$ can work.
+\end{proof}
+
+\begin{corollary}[DP1r: recursive integer refinement]\label{DP1r}
+Set $b_h(n)=\vp(n!)$ for $0\le n<q$ and, for $n\ge q$, set
+\[
+ b_h(n)=B_h+\min\{b_h(n-q+1),\ 1+b_h(n-q)\}.
+\]
+Then $D^nR[[t]]\subset p^{b_h(n)}R[[t]]$.
+\end{corollary}
+\begin{proof}
+The base case is $D^n=n!\Delta_n$ in the integral coordinate above. Equation \eqref{eq:keyop}, multiplied on the right by $D^{n-q}$, gives the displayed recurrence by induction. Coordinate invariance returns the assertion to the original ring.
+\end{proof}
+The recurrence is an explicit proved lower bound, not a claim to compute the exact minimum for every intermediate order and every formal group.
+
+\section{The exponential, floor sums, and optimal slope}
+
+\begin{lemma}[DP2: integral contraction and exact exponential denominator]\label{DP2}
+Suppose the special fibre has exact finite height $h$. Adjoin $\pi$ with $\pi^{q-1}=p$, put $R'=R[\pi]$, and define
+\[
+ F_\pi(X,Y)=\pi^{-1}F(\pi X,\pi Y).
+\]
+The normalized logarithm $L_\pi$ and its inverse $E_\pi$ belong to $R'[[t]]$. If $E=L^{-1}=\sum e_nt^n$ is the original exponential, then
+\begin{equation}\label{eq:expbound}
+ \vp(e_n)\ge-\frac{n-1}{q-1},\qquad
+ \vp(e_{q^r})=-\frac{q^r-1}{q-1}\quad(r\ge0).
+\end{equation}
+\end{lemma}
+\begin{proof}
+The Eisenstein extension $R'$ is a complete discrete valuation ring with $\vp(\pi)=1/(q-1)$; the case $q-1=1$ is the evident trivial extension. Its $p$-series is
+\[
+ g_\pi(t)=\pi^{-1}g(\pi t)
+ =pt+\sum_{m\ge2}a_m\pi^{m-1}t^m\in pR'[[t]].
+\]
+For $m<q$ use $a_m\in pR$; for $m\ge q$ use $\pi^{m-1}\in pR'$. Coefficient induction \eqref{eq:logrec}, now with every coefficient of $g_\pi$ divisible by $p$, proves $L_\pi\in R'[[t]]$. The inverse of an integral series with linear coefficient one is integral, proving the claim about $E_\pi$.
+
+Uniqueness of the normalized logarithm gives
+\[
+ L_\pi(t)=\pi^{-1}L(\pi t),\qquad E_\pi(t)=\pi^{-1}E(\pi t).
+\]
+This proves the first inequality in \eqref{eq:expbound}. For sharpness, put $H=g_\pi/p$. Reduction modulo $\pi$ gives
+\[
+ \overline H(t)=t+\bar a_q t^q,
+\]
+since the coefficients below degree $q$ have an extra factor $\pi$, and those above degree $q$ have $\pi^{m-q}$. In the logarithm recursion all summands involving $g_\pi^i/p$ with $i\ge2$ vanish modulo $\pi$, and $(1-p^{m-1})^{-1}\equiv1\pmod\pi$. Therefore
+\[
+ \overline L_\pi(t)=t+\bar a_qt^q.
+\]
+Its inverse is $\sum_{r\ge0}\beta_rt^{q^r}$, where $\beta_0=1$ and
+\[
+ \beta_r=-\bar a_q\beta_{r-1}^{q}.
+\]
+All $\beta_r$ are nonzero because $\bar a_q\ne0$. The coefficient of degree $q^r$ in $E_\pi$ is thus a unit, yielding the equality in \eqref{eq:expbound}.
+\end{proof}
+
+\begin{theorem}[DP3: floor-sum bound and sharpness]\label{DP3}
+For finite height $h$ put
+\begin{equation}\label{eq:Eh}
+ E_h(n)=\sum_{\substack{j\ge1\\h\nmid j}}\floor{n/p^j}
+ =\vp(n!)-\sum_{r\ge1}\floor{n/q^r}.
+\end{equation}
+Then $D^nR[[t]]\subset p^{E_h(n)}R[[t]]$. If $s_b(n)$ denotes the sum of the base-$b$ digits, the error is explicitly
+\begin{equation}\label{eq:digiterror}
+ E_h(n)=c_hn-\frac{s_p(n)}{p-1}+\frac{s_q(n)}{q-1}.
+\end{equation}
+The bound is attained at every $n=p^j$: writing $j=hr+s$ with $0\le s<h$, one may use $f=t^{p^s}$. In particular
+\begin{equation}\label{eq:slopesharp}
+ \vp(D^{q^r}t(0))=c_h(q^r-1).
+\end{equation}
+Thus $c_h$ is the optimal linear coefficient, even for each fixed height-$h$ formal group.
+\end{theorem}
+\begin{proof}
+Since $D=d/dL$,
+\begin{equation}\label{eq:eval}
+ D^nf(0)=n![z^n]f(E(z)).
+\end{equation}
+For $n\ge1$ each term contributing to $[z^n]f(E(z))$ is a product of $m\ge1$ exponential coefficients with total degree $n$. Lemma~\ref{DP2} gives valuation at least $-(n-m)/(q-1)$, hence at least $-(n-1)/(q-1)$. Coefficients belong to $K$, whose valuation is integral, so
+\begin{equation}\label{eq:prebound}
+ \vp(D^nf(0))\ge A_h(n):=\max\{0,\vp(n!)-\floor{(n-1)/(q-1)}\}.
+\end{equation}
+This is already the proposed bound with no unspecified error.
+
+It holds coefficientwise for $D^nf(t)$. To see this, apply the evaluation bound to each $t$-coefficient of $f(F(t,u))\in R[[t,u]]$, as a series in $u$. Invariance and associativity give
+\[
+ \left.D_u^nf(F(t,u))\right|_{u=0}=D_t^nf(t).
+\]
+All substitutions are valid in the $(t,u)$-adic topology, and each coefficient is a series over $R$.
+
+For $n=p^j$, write $j=hr+s$, $0\le s<h$. Modulo $\pi$, the coefficient of degree $p^j$ in $E_\pi(z)^{p^s}$ is $\beta_r^{p^s}\ne0$. Since
+\[
+ E_\pi(z)^{p^s}=\pi^{-p^s}E(\pi z)^{p^s},
+\]
+we have
+\[
+ \vp([z^{p^j}]E(z)^{p^s})=-\frac{p^j-p^s}{q-1}
+ =-\floor{\frac{p^j-1}{q-1}}.
+\]
+This proves equality in \eqref{eq:prebound} at each $p$-power order.
+
+For general $n=\sum_{j\ge0}d_jp^j$, compose the coefficientwise bounds for $(D^{p^j})^{d_j}$. Legendre's formula and a finite interchange of sums give
+\[
+ \sum_jd_j\vp((p^j)!)=\vp(n!),\qquad
+ \sum_jd_j\floor{\frac{p^j-1}{q-1}}
+ =\sum_{r\ge1}\sum_{j\ge hr}d_jp^{j-hr}
+ =\sum_{r\ge1}\floor{n/q^r}.
+\]
+Their difference proves \eqref{eq:Eh}. Summing the base-$q$ expansion gives $\sum_{r\ge1}\floor{n/q^r}=(n-s_q(n))/(q-1)$ and hence \eqref{eq:digiterror}. The previously constructed witnesses show sharpness at $p$-powers. Equation \eqref{eq:slopesharp}, divided by $q^r$ and taken to the limit, rules out every larger slope with bounded or sublinear error.
+\end{proof}
+
+Combining DP1 and DP3 gives the bound in the abstract. These are complementary estimates; neither a displayed lower bound nor the maximum is asserted to be pointwise optimal for all $n$. The exact optimality claims concern the affine slope, its uniform error, and the specified witnesses.
+
+\begin{proposition}[DP4: endpoints and normalization]\label{DP4}
+At height $1$, the universal floor-sum and affine bounds are zero. For $\widehat\Gm$ with $D=(1+t)d/dt$, the integral function $1+t$ has $D^n(1+t)(0)=1$ for every $n$.
+
+At height infinity, $L,E\in R[[t]]$ and
+\[
+ D^nR[[t]]\subset p^{\vp(n!)}R[[t]].
+\]
+Equality at the identity is obtained with $f=L(t)^n$. Its exact error is
+\[
+ \vp(n!)=\frac{n}{p-1}-\frac{s_p(n)}{p-1}.
+\]
+There is no finite uniform constant error at slope $1/(p-1)$ for height infinity.
+
+If $D'=uD$ for a constant $u\in K^\times$ and $f\in p^{-M}R[[t]]$, all the bounds for $D^n$ acquire the correction $n\vp(u)-M$. The zero derivation is handled separately and is trivial at positive order.
+\end{proposition}
+\begin{proof}
+The height-one assertions follow directly from $c_1=E_1(n)=0$ and $D(1+t)=1+t$. At infinite height the coefficient recursion \eqref{eq:logrec} works over $R$ itself in every degree, so $L$ and $E$ are integral. Equation \eqref{eq:eval} gives the factorial bound; translation makes it coefficientwise as above. The function $L^n$ gives exactly $n!$ at order $n$. Legendre's formula gives the displayed error; at $n=p^r-1$ its magnitude is $r$, ruling out a finite uniform constant. Finally $(uD)^n=u^nD^n$, and applying a bound to $p^Mf$ proves the stated correction.
+\end{proof}
+
+\subsection{Relation to the proposed proof and to the literature}
+
+The height hypothesis does not justify replacing an arbitrary deformation by the particular logarithm $t+t^q/p+t^{q^2}/p^2+\cdots$ in the stated integral coordinate. The proof of Fable suggestion 2 therefore had an unsupported normal-form step. DP1--DP3 remove that step. Even $\widehat\Gm$ in its given coordinate has logarithm $\log(1+t)$; no classification assertion is needed here.
+
+For Lubin--Tate groups over an unramified degree-$h$ extension, Bannai--Kobayashi's period has valuation $c_h$, and their quantity $\overline\rho(0)=|p/p^h|=p^{h-1}$. Their exponential estimate therefore gives $\vp(D^nf(0))\ge nc_h-(h-1)$ \cite[\S2; Propositions 3.3, 3.5]{BK}. This existing case is kept distinct from our general proof. Katz's stronger trace-zero theorem is discussed in Section~\ref{sec:step2}.
+
+\subsection{Finite exact-arithmetic check}
+
+The included script \texttt{research/check\_formal\_bounds.py} computes logarithms from $L(pt+t^q)=pL(t)$ in the Lubin--Tate examples of \cite[initial construction and Lemma 1]{LT}, using exact rational arithmetic, then computes the invariant vector field and its iterates on monomials. It checked 224 derivative orders in six examples $(p,h)=(2,1),(2,2),(2,3),(3,2),(3,3),(5,2)$. All bounds and all tested sharpness witnesses passed. These finite computations are diagnostics, not a formal verification of the theorems. They also illustrate why no pointwise optimality claim should be inferred from a uniform bound: some intermediate orders have strictly larger valuations.
+
+\section{What the divided-power language means}
+
+\begin{proposition}[DP5: distributions, divided powers, and their limit]\label{DP5}
+Let $I=(t)\subset R[[t]]$, and filter
+\[
+ \Dist(F)=\bigcup_{n\ge0}\Hom_R(R[[t]]/I^{n+1},R)
+\]
+by order, with convolution induced by $F$. Then
+\[
+ \gr\Dist(F)\simeq\Gamma_R(\Lie F).
+\]
+Nevertheless, at every finite height the operators $D^n/n!$ do not all preserve $R[[t]]$. Nor does the ideal $(t)$ admit a divided-power structure in $R[[t]]$. After the contraction of DP2 the formal group $F_\pi$ is integrally isomorphic to $\widehat\Ga$ and its normalized invariant derivation does have integral divided powers.
+\end{proposition}
+\begin{proof}
+Let $\epsilon_n$ extract the coefficient of $t^n$. For $m>i+j$, $(\epsilon_i\epsilon_j)(t^m)=0$, because $F(X,Y)$ has order one. For $m=i+j$, only its linear term $X+Y$ contributes, and
+\[
+ (\epsilon_i\epsilon_j)(t^{i+j})=\binom{i+j}{i}.
+\]
+Thus $\epsilon_i\epsilon_j\equiv\binom{i+j}{i}\epsilon_{i+j}$ modulo lower order. The associated graded is free of rank one in every degree, with precisely the divided-power multiplication.
+
+For failure of the invariant divided powers, take $n=q$ and $f=t$ in DP2 and \eqref{eq:eval}. Then
+\[
+ \vp\left(\frac{D^q}{q!}t(0)\right)=\vp(e_q)=-1.
+\]
+The PD identity $p!\gamma_p(t)=t^p$ would likewise force a coefficient $1/p!$ in $\gamma_p(t)$, which is not in $R$. Thus there is no such PD structure on $(t)$ in the original ring. Finally $L_\pi$ is an integral group isomorphism with integral inverse. In its additive coordinate, $\partial^n/n!$ acts integrally on power series by the binomial coefficient formula. Transport by this isomorphism proves the last assertion.
+\end{proof}
+
+The framework is EGA IV$_4$, Theorem 16.11.2, particularly (16.11.2.1)--(16.11.2.2), and SGA 3, Expos\'e VII$_A$, \S\S1--3 \cite{EGA,SGA3}. A PD envelope enlarges the ring to support divided powers; it is not an assertion that division by every factorial was already integral. Likewise a scalar valuation bound does not supply the descent data of a crystal. The precise local crystalline description requires an integrable topologically quasi-nilpotent connection with its compatibilities; see \cite[Proposition 60.17.4, tag 07JH]{Stacks}.
+
+There is also a distinction between restricted nilpotence and zero $p$-curvature. For a connection, the latter compares $\nabla_D^p$ with $\nabla_{D^{[p]}}$. The trivial connection can have zero $p$-curvature when $D^{[p]}\ne0$, as for $\Gm$. It is therefore incorrect to infer a new crystal merely from $D^p\equiv0$, or to regard that congruence as a definition of crystallinity.
+
+\section{Exactly what follows for step 2}\label{sec:step2}
+
+\begin{corollary}[DP6: supersingular local estimate]\label{DP6}
+Let $E/R$ be an elliptic scheme with supersingular special fibre. For its normalized invariant derivation and every integral formal function,
+\begin{equation}\label{eq:h2}
+ \vp(D^nf(0))\ge
+ \max\left\{\sum_{r\ge0}\floor{n/p^{2r+1}},\;
+ \ceil{\frac{pn}{p^2-1}-1},\;0\right\}.
+\end{equation}
+Moreover $D^p\equiv0\pmod p$ as an operator. At height one this congruence fails. Its vanishing distinguishes height at least two from height one; it does not distinguish height two from larger height or infinity in general.
+\end{corollary}
+\begin{proof}
+A supersingular elliptic formal group has height two; the ordinary case has height one \cite[\S2.1]{Illusie}. Substitute $h=2$ in DP1 and DP3. The floor sum at $n=p$ equals one when $h\ge2$, so $D^p$ is coefficientwise divisible by $p$. At height one, DP3's sharp witness at $n=p$ makes $D^pt(0)$ a unit. The infinite-height case follows from DP4.
+\end{proof}
+
+The leading coefficient is precisely
+\[
+ c_2=\frac p{p^2-1}=\frac1p+\frac1{p^3}+\frac1{p^5}+\cdots.
+\]
+This is the coefficient printed in Alp\"oge's \emph{Remark}, p.~3, timeline step 2 \cite{Alpoge}. At a good inert unramified CM prime the elliptic formal group is of this type; Katz's explicit CM setting appears in \cite[\S IV, (4.1)--(4.6), pp.~675--676]{Katz81}. CM is used to select and normalize the relevant arithmetic objects, not in DP6 once the integral height-two group is given.
+
+Here is the precise conditional application to the note. If a local frame and period comparison identify its normalized theta derivatives by
+\begin{equation}\label{eq:thetacomparison}
+ \frac{D_{\rm an}^n\theta(0)}{\Omega^n}=D^nf(0),\qquad f\in R[[t]],
+\end{equation}
+then \eqref{eq:h2} applies and improves the logarithmic error to affine error $1$. If $f\in p^{-M}R[[t]]$, subtract $M$; if the normalized analytic derivation is $uD$, add $n\vp(u)$, by DP4. These corrections are not optional. A theta function is a section of a line bundle, and its expression as an integral function and the differentiation of that expression require a chosen frame or an appropriate connection. Supersingularity alone supplies neither the period comparison nor the boundedness of the denominators in \eqref{eq:thetacomparison}.
+
+Thus the local exponent is exactly the height-two mechanism. The entire normalized theta assertion also requires the additional comparisons just specified. The source recovery below identifies these inputs and the later multivariate implementation; this resolves the source-identification question without re-auditing the theorem the user directs us to cite.
+
+\subsection{The exact Katz theorem and the extra hypothesis}
+
+Katz \cite[Main Theorem 3.11(I), p.~672]{Katz81} proves, for the height-two Lubin--Tate group with $[p](X)=pX+\alpha X^{p^2}$ and $\alpha$ a unit, that an integral $f$ satisfying
+\[
+ \sum_{\lambda\in F[p]}f(X+_F\lambda)=0
+\]
+has
+\[
+ \vp(D^nf(0))\ge\floor{np/(p^2-1)}.
+\]
+The trace-zero hypothesis cannot be discarded. Indeed for $n=p^2-1$ and $f=t^n$, $D^nf(0)=n!$ has valuation $p-1$, whereas the displayed right side is $p$. This is a checked counterexample to that stronger bound for arbitrary integral $f$. Katz's CM application uses modified Weierstrass functions and, in \S IV, assumes $p\ge5$; formulas (4.8)--(4.10) and (4.14) give the integrality and Bernoulli--Hurwitz comparison. The source does not license replacing them by an arbitrary theta expression.
+
+\subsection{Recovered author-source interfaces}\label{sec:recovered}
+
+The two attached Lean files expose the final declarations, not the local lemmas. We recovered targeted modules at public mirror commit \path{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}, then streamed the author's original fourteen-part archive and compared their SHA-256 hashes. The exact inventory and byte-equality results are included in the source manifests. This verifies the source identity of those modules; it does not execute Lean or independently audit RH. All paths below are relative to \path{lean/src/} in the author archive \cite{AlpogeSource}.
+
+The direct theta normalization appears in \path{Development/AbelianVarietyTheory/BlockTheory/HeightDefect/ThetaFramePullback.lean}: \path{IsGenOver}, \path{IsGenAt}, \path{GenMatch}, \path{ThetaFrame}. Its theta generator generates a section module; it is not automatically a nowhere-vanishing local trivialization. Comparing generic generators uses a nonzero field scalar, which need not be an integral unit. \path{LinePeriodExponential.lean}, in the same directory, specifies the complex uniformization and period identities in \path{IsCurveExp}, \path{IsExp}, \path{IsFamExp}. The integral tangent basis and two quadratic types occur in \path{Development/AbelianVarietyTheory/Definitions/CMLattices/IsDiffOf.lean}, \path{Ell}, \path{IsTen} and \path{HasType}.
+
+For the later multivariate theta bound, the common directory is \path{Formalism/SharpRestriction/Divisibility/}. In \path{ProductZerothFirstParts.lean}, \path{Loc.AdmB} packages \path{B0}--\path{B4}: a normalized theta expression as an integral series times an exponential; unramified coefficients; signed Teichm\"uller invariance on two parity classes; absence of pure-side and bidegree-$(1,1)$ terms; and integral exponential addition coboundaries in both classes. These are extra geometric identities, not consequences of a scalar height bound.
+
+The relevant proved implications, with exact declarations, are as follows. Within \path{JetPolynomialLogs/}, \path{LetterLogIntegrality.integrality_of_letter_log} supplies exponential integrality. \path{UniformBoundAllData.lean}, \path{OneLetterJetKernel.tieB_of} and \path{tieB}, turn \path{B1}--\path{B4} into the unramified field/root-of-unity package \path{BHyp}. \path{OneLetterJetKernel.lean}, \path{kernel_from_twist_holds}, handles the normalized theta kernel; \path{tieFrame} and \path{tieFrameOne} compare coefficients and jets. \path{DworkPowerSeriesWeights.thmA_of} and \path{thmOne_of} assemble the local estimates from these comparisons and the Gauss-jet bounds. The detailed declaration-to-file map is in \path{research/step2_recovered_sources.md}, \S7; a named predicate alone is never counted as a proof of its realization.
+
+The arithmetic bridge is \path{Formalism/LocalToGlobal/Divisibility/JetBounds/JetBoundsProofs/ValuationOfEntryBounds.lean}, \path{Formalism.L2.DIV.valuation_of_entry_bounds}. It assumes the finite path expansion \path{IsExpansion}, integral row/column and final factors, bounded stabilizer denominators, and local entry norms. It then proves the normalized period valuation. These independent geometric path data must not be silently inferred from \path{B0}--\path{B4}. The period requirement is \path{LocalQuadraticParts.lean}, \path{adm2}; its theorem \path{valuation_bound_of_unrounded} passes from the unrounded estimate to the required integer valuation.
+
+There is also a separate controlled-nonvanishing input. In \path{CartierLocalBounds.lean}, \path{vLe(x,b)} means $p^{-b}\le\lVert x\rVert$, hence an \emph{upper} valuation bound. Its \path{ThmP}, \path{CHAt} and \path{ContentAt} find prescribed determinant values with controlled nonzero size. \path{FamilyThetaDenominatorValues.lean}, \path{DepthFromContent}, uses this to control denominator depth. Stronger lower divisibility does not replace it. Moreover the local formulas use both $\gamma=p/(p^2-1)=c_2$ and $\rho=1/(p^2-1)$ in different roles: \path{IsExpansion.expB} has the positive coefficient $\rho$ times a diagram size. Replacing every $p^2$ by $p^h$ would decrease these particular fractions, rather than implement the increasing coefficient $c_h$.
+
+\begin{proposition}[DP21: the unchanged two-step logarithm cannot have higher height]\label{DP21}
+The scalar logarithm in \path{Formalism/GaussJetBounds/Statement.lean}, \path{oneLog}, is
+\[
+ L_2(T)=\sum_{e\ge0}\frac{T^{p^{2e}}}{p^e}
+ =T+\frac{T^{p^2}}p+\cdots.
+\]
+If $F/W(k)$ has height at least three, no integral invertible coordinate change $\phi$ and no unit scalar $a$ can identify $aL_F(\phi(T))$ with $L_2(T)$. The corresponding literal inverse-logarithm substitution in \path{IsSys7.caseB} therefore cannot be retained by replacing its scalar formal group with such an $F$.
+\end{proposition}
+\begin{proof}
+The coefficient induction in DP1 proves $[T^n]L_F\in W(k)$ for all $n<p^h$. Since $p^2<p^h$, the coefficient of degree $p^2$ in $aL_F(\phi(T))$ is a finite sum of integral products. It is integral and hence cannot equal $1/p$. As an independent check of the fixed input, formal inversion gives
+\[
+ L_2^{-1}(pL_2(T))
+ =pT+(1-p^{p^2-1})T^{p^2}+O(T^{p^2+1}).
+\]
+Thus any integral formal group with this logarithm has height exactly two. This proof concerns an actual scalar logarithm and an integral unit normalization; it does not rule out a different kernel representation for an individual theta function.
+\end{proof}
+
+\begin{proposition}[DP24: lower bounds do not give controlled nonvanishing]\label{DP24}
+The full set of universal derivative lower bounds does not imply the positive-order determinant nonvanishing in the preceding Cartier interface.
+\end{proposition}
+\begin{proof}
+On any integral product of the formal groups in DP7, take $f=p^N$, $N\ge0$. Every positive-order invariant differential monomial kills it, so every homogeneous determinant differential operator of positive degree also gives zero. All derivative lower bounds hold, while $p^{-b}\le\lVert0\rVert$ is false for every finite real $b$. The actual Cartier theorem assumes a prescribed nonzero exponential main term and unit-minor hypotheses; this example refutes only their inference from the scalar derivative theorem.
+\end{proof}
+
+\subsection{The exact exponential gauge and the selected connection}\label{sec:connection}
+
+A further source pass identifies the normalized expression itself. In
+\path{ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/CocycleRightZeroThd.lean},
+\path{FB.IsCanonGauge} (lines 174--183), \path{FB.hL} (185), and \path{FB.nabVal} (187--189), it is
+\[
+ h_L(X)=h(X,[w_0]X),\qquad
+ \operatorname{nabVal}(f;P)=\left.P(D)\bigl(f\exp(kh_L)\bigr)\right|_0.
+\]
+The two addition cocycles, symmetry and CM-adjoint cocycles are integral input; their identities are exponentials of the corresponding coboundaries of the rational gauge $h$. These hypotheses do not assert that $\exp(kh_L)$ is integral. The identity is repeated as \path{GeneratorPowers/ExpTieAlg.lean}, \path{nabVal_eq_const}, lines 413--419; \path{ExpTiePf.tie_holds}, beginning at line 328, identifies the factorial jet of the exponential germ with this value. The exponential-frame comparison in \path{GeneratorPowers/ExpTie.lean}, \path{IsExpGaugeOf}, lines 53--59 is a comparison over a rational coefficient algebra. Its units must not be relabelled integral units.
+
+The integral chart is precise as well. In \path{Formalism/LocalToGlobal/ProjectiveLattices/ChartDirectionsIntegral.lean}, \path{IntegralChartA3}, lines 155--179, supplies integral group, action, biextension-cocycle and tangent data. Its \path{IntData.}\ensuremath{\theta}\path{gen}, lines 74--75, is generation of the global section module. It does not assert that the first nonzero homogeneous Taylor part at the chosen point is primitive, the extra condition in DP35.
+
+There is, however, an actual integral-connection theorem. Set $s_i(X)=-\partial_{Y_i}h(X,0)$ and $S_{ij}=[X_j]s_i$. On $K[[X,Z]]$ the connection and its lattice are
+\[
+ \nabla_{u,\phi}=D_u+\sum_i(D_us_i+\phi_i)\partial_{Z_i}
+       -k\sum_i(Z_i-s_i)u_i,\qquad
+ H_h=\{(u,\phi-Su):u,\phi\in R^d\}.
+\]
+The definitions are in \path{TaylorDiscriminants/ConnectionKillsSeries.lean}, \path{nabla}, lines 31--34, \path{Hset}, lines 41--43, and \path{ConnectionIntegrality}, lines 77--83. Under an integral formal biextension, a canonical gauge, and $w_0+w_0^*=1$, the supplied theorem
+\path{TaylorDiscriminants/WickVanishing/ExpConjConnectionIntegral.lean},
+\path{exp_conj_connection_integral}, lines 40--82, proves
+\[
+ e^{-kh_L}\nabla_{u,\phi-Su}(e^{kh_L}G)\in R[[X,Z]]
+ \quad(u,\phi\in R^d,\ G\in R[[X,Z]]).
+\]
+Its \path{connection_first_identity}, lines 84--90, packages that conclusion. Thus full-series nonintegrality does not by itself obstruct the chosen connection operations.
+
+The supplied ordered-column theorem has a denominator budget rather than a height-dependent positive slope. In \path{TaylorDiscriminants/GermSC.lean}, \path{SCSt}, lines 29--41, and \path{GermSCCols.lean}, \path{SCColsSt}, lines 10--22, take a fractional submodule $J\subset K$ containing one, lattice directions in $H_h$, correction entries in $J$, and the displayed vanishing of the three symplectic pairings except for equal colors and opposite sides. If an integral polynomial has columnwise total \path{pairMin} at most $e$, its ordered connection value on $e^{kh_L}f$, for integral $f$, lies in $J^e$. These are supplied by \path{WickVanishing/Closed.lean}, \path{symmetric_canonical_gauge}, lines 25--26, and \path{scaled_connection_columns}, lines 47--63, with \path{lemma_H_columns}, lines 22--23, providing the stated selected-derivative comparison. For $J=p^{-b}R$, the conclusion is a lower valuation $-be$. A new positive higher-height estimate for the actual lattice, corrections and selected operators is additional quantitative work.
+
+Canonical-gauge independence is also supplied, by
+\path{Development/AbelianVarietyTheory/Proofs/FormalGroupCharts/CanonGaugeIndependenceAll.lean},
+\path{GlobalTheory.canonGauge_independence_all}, lines 23--26. The difference of two canonical gauges is balanced and biadditive; its diagonal in logarithm coordinates is quadratic. The selected value is unchanged when the associated second-order operator annihilates $P$. This removes the specified quadratic ambiguity. It does not remove an arbitrary higher-degree primitive kernel: the series \path{be} in \path{ProductZerothFirstParts.lean}, lines 186--201, is an arbitrary multivariable series. DP38--DP39 below give exact tests of that distinction. The complete source-read scope, including which of the recovered modules were actually read, is recorded in \path{research/theta_normalization_harmonic_trace.md}.
+
+\subsection{A genuine higher-height scalar kernel test}\label{sec:kerneltest}
+
+The unchanged-logarithm obstruction DP21 leaves a concrete alternative: replace the logarithm itself and test the actual analytic hypotheses. Fix an odd prime, $h\ge2$, $q=p^h$, and put
+\[
+ L_h(T)=\sum_{e\ge0}T^{q^e}/p^e,\qquad E_h=L_h^{-1},\qquad
+ \rho_h=(q-1)^{-1},\quad s=(p-1)^{-1}.
+\]
+The Honda formal group $F_h(S,T)=E_h(L_h(S)+L_h(T))$ is integral and has height $h$: integrality is the functional-equation lemma of Hazewinkel \cite[Lemma 2.3 and (2.5), p.~74]{Hazewinkel}, with coefficient ring $\Z_p$, $\sigma=\id$, and first functional-equation coefficient $1/p$. Its $p$-series begins $pT+(1-p^{q-1})T^q$. DP2, or direct scaling of this logarithm, gives
+\begin{equation}\label{eq:honda-scale}
+ E_{h,\pi}(Z)=\pi^{-1}E_h(\pi Z)\in R'[[Z]],\qquad
+ \overline E_{h,\pi}(Z)=\sum_{r\ge0}(-1)^rZ^{q^r},\quad \pi^{q-1}=p.
+\end{equation}
+Here and below $R'$ denotes the valuation ring after adjoining $\pi$. In particular $v([T^n]E_h)\ge-\rho_h(n-1)$, with equality for $n=q^r$.
+
+For this test, let $K$ be a valued extension of $\Q_p$, with $v(p)=1$, containing the $(q-1)$-st roots of unity, and let $R$ be its valuation ring, and choose a primitive root $\zeta$. For $\beta\in K[[X,Y]]$ impose the following explicitly modified scalar hypotheses:
+\begin{enumerate}[label=(H\arabic*),leftmargin=2.8em]
+\item its coefficients lie in an unramified subfield;
+\item $\beta(\zeta X,\zeta^{-p}Y)=\beta(X,Y)$;
+\item every nonzero monomial has positive bidegrees, and $\beta_{1,1}=0$;
+\item the two addition coboundaries
+\[
+ H_X=\exp\bigl(\delta_X\beta(L_h(S),L_h(S'),L_h(T))\bigr),\qquad
+ H_Y=\exp\bigl(\delta_Y\beta(L_h(S),L_h(T),L_h(T'))\bigr)
+\]
+are integral units with constant coefficient one. Here $\delta_X\beta=\beta(X+X',Y)-\beta(X,Y)-\beta(X',Y)$, and similarly for $Y$.
+\end{enumerate}
+This keeps the characters $1,-p$, replaces the root order by $p^h-1$, and replaces both scalar logarithms. It is a well-defined analytic proposal, not the assertion that a one-dimensional height-$h$ group is its own Cartier dual or that it realizes an $h$-letter theta correspondence. At $h=2$ these are the scalar conditions in \path{GaussJetBounds/Statement.lean}, \path{BHyp}, lines 39--94.
+
+\begin{proposition}[DP28: the direct higher-height intermediate estimate is false]\label{DP28}
+For every odd $p$ and $h\ge3$, hypotheses (H1)--(H4) do not imply
+\[
+ v(\beta_{a,b})+\rho_h(a+b)\ge s-1.
+\]
+This refutes the stated substitution in the intermediate \path{LemmaS}, not the final derivative estimate.
+\end{proposition}
+\begin{proof}
+Take $I(S,T)=1+S^pT$ and
+\[
+ \beta(X,Y)=\log I(E_h(X),E_h(Y)).
+\]
+Its coefficients lie in $\Q_p$. Since $E_h(\eta X)=\eta E_h(X)$ for $\eta^{q-1}=1$, the torus action cancels in $E_h(X)^pE_h(Y)$, proving (H2). Positive bidegrees and order at least $p+1$ give (H3). Formal logarithm and exponential identities give
+\[
+ H_X=\frac{I(F_h(S,S'),T)}{I(S,T)I(S',T)},\qquad
+ H_Y=\frac{I(S,F_h(T,T'))}{I(S,T)I(S,T')}.
+\]
+All numerators are integral and all denominators are integral units, proving (H4).
+
+Set $k=p^{h-1}<q$. In
+\[
+ \beta=\sum_{m\ge1}\frac{(-1)^{m-1}}m E_h(X)^{pm}E_h(Y)^m
+\]
+the coefficient of $Y^k$ can occur only for $m=k$, because $E_h(Y)=Y+O(Y^q)$. The coefficient of $X^{pk}=X^q$ in the remaining factor is one. Thus
+\[
+ \beta_{q,p^{h-1}}=\frac{(-1)^{p^{h-1}-1}}{p^{h-1}},\qquad
+ v(\beta_{q,p^{h-1}})+\rho_h(q+p^{h-1})
+ =2-h+\frac{p^{h-1}+1}{p^h-1}<s-1.
+\]
+The last inequality follows from $2-h\le-1$ and $(p-1)(p^{h-1}+1)<p^h-1$, equivalently $p<p^{h-1}$.
+\end{proof}
+
+The first specific height-two input in this source dependency is \path{OneLetterRadiusIdentity.lean}, \path{weightQuantization}, lines 48--99, especially lines 73--76: $(p+1)\rho_2=s$. It is called in \path{ConstantCoeffEvenDerivativeEqZero.lean}, \path{asmS_diff}, lines 98--163, before \path{lemmaS_of}, lines 165--180. The invariant monomial $X^pY$ already disproves that numerical quantization with $\rho_h$ when $h>2$. The logarithm inverse and its radius estimate themselves do extend. The exact source and author-byte verification are in the accompanying kernel memo and manifest.
+
+\begin{proposition}[DP29: a valid scalar estimate and a sharp nonzero example]\label{DP29}
+Under (H2)--(H4), let $U\in R[[S_j:j\in J]]$, with $J$ finite, let $\ell_j(\mathbf t)$ be integral linear forms in $N$ variables, let $\epsilon\in R^\times$, and let $\sigma\in\{1,-1\}$. Set
+\[
+ \Theta(\mathbf t)=U(E_h(\ell_j(\mathbf t)):j\in J)
+ \exp\left(\frac\sigma2\sum_j\beta(\ell_j(\mathbf t),\epsilon\ell_j(\mathbf t))\right).
+\]
+For $n=|\kappa|$,
+\begin{equation}\label{eq:scalar-old-residual}
+ v\bigl(\kappa![\mathbf t^\kappa]\Theta\bigr)
+ \ge \rho_2n-\frac{\sum_i s_p(\kappa_i)}{p-1}
+ \ge\rho_2n-N(\log_p n+1)\quad(n\ge1).
+\end{equation}
+For the nonzero correction $\beta$ in DP28, the particular function
+\[
+ \Theta_h(t)=E_h(t)\left(1+E_h(t)^pE_h(\epsilon t)\right)^{1/2}
+\]
+has, for every $n=q^r$,
+\begin{equation}\label{eq:sharp-corrected-scalar}
+ v(n![t^n]\Theta_h)=v_p(n!)-\frac{n-1}{q-1}=c_h(n-1).
+\end{equation}
+Thus the failed intermediate estimate is compatible with exact nonvanishing at the larger derivative slope.
+\end{proposition}
+\begin{proof}
+Write $w_r(A)=\inf_\nu(v(A_\nu)+r|\nu|)$. Products add lower weight bounds, and substitution of series of weight at least $r$ preserves them; these assertions hold coefficient by coefficient. Formula \eqref{eq:honda-scale} gives $w_r(E_h)\ge r$ for $r\ge\rho_h$.
+
+Torus invariance and positive bidegrees force $\ord\beta\ge p+1$: if $a,b>0$ and $a+b\le p$, then $a-pb\ne0$ and $|a-pb|<p^2-1\le q-1$. Put $r_0=p/(p^2-1)$. Then $r_0\ge\rho_h$ and $(p+1)r_0=s+1$. Both integral series $H_X-1,H_Y-1$ have order at least $p+1$. Substituting $E_h$ gives weight at least $s+1$, so their formal logarithms have the same lower bound: the $m$-th term has weight at least $m(s+1)-v_p(m)\ge s+1$. Hence
+\[
+ w_{r_0}(\delta_X\beta),\ w_{r_0}(\delta_Y\beta)\ge s+1.
+\]
+For every integer $a\ge2$ there is $0<i<a$ with $v_p\binom ai\le1$. If $a$ is not a power of $p$, expanding $(1+T)^a=\prod_r(1+T^{p^r})^{a_r}$ modulo $p$ supplies an interior $i=p^r$ with unit coefficient. If $a=p^r$, take $i=p^{r-1}$ and use $\binom{p^r}{p^{r-1}}=p\binom{p^r-1}{p^{r-1}-1}$, the second factor being a unit. Every monomial of $\beta$ has one exponent at least two. Its corresponding coefficient in one coboundary is exactly this binomial coefficient times $\beta_{a,b}$. Thus $w_{r_0}(\beta)\ge s$.
+
+Integral linear substitutions and the factor $\sigma/2$ preserve this bound, since $p$ is odd. The exponential has weight at least zero by $v_p(m!)\le ms$; the $U$ factor does also. Therefore $v([\mathbf t^\kappa]\Theta)\ge-r_0n$. Adding Legendre's exact formula for $v_p(\kappa!)$ gives \eqref{eq:scalar-old-residual}, since $s-r_0=\rho_2$. The digit estimate gives its final inequality; zero coordinates contribute zero. At $n=0$ only integrality of $U(0)$ is required.
+
+For the explicit example, $\binom{1/2}{m}\in\Z_p$ for odd $p$: approximate $1/2$ by nonnegative integers in $\Z_p$ and use continuity of each binomial polynomial. Hence
+\[
+ \pi^{-1}\Theta_h(\pi z)
+ =E_{h,\pi}(z)\left(1+\pi^{p+1}E_{h,\pi}(z)^pE_{h,\pi}(\epsilon z)\right)^{1/2}
+ \equiv E_{h,\pi}(z)\pmod\pi.
+\]
+Its coefficient at $z^{q^r}$ is a unit by \eqref{eq:honda-scale}. Rescaling and $s_p(q^r)=1$ prove \eqref{eq:sharp-corrected-scalar}.
+\end{proof}
+
+The explicit correction is an integral unit after substitution of the formal logarithm: $\exp\beta(L_h(S),L_h(T))=I(S,T)$. The following classification shows that this behavior holds throughout this scalar class over an unramified base. It supplies neither the prescribed Cartier minors nor a theta-lift comparison.
+
+\begin{theorem}[DP31: the scalar higher-height correction is integral]\label{DP31}
+Let $h>2$, let $k$ contain $\F_q$, and now take $R=W(k)$ and $K=R[1/p]$. Under (H2)--(H4),
+\begin{equation}\label{eq:scalar-gauge}
+ B(S,T):=\exp\beta(L_h(S),L_h(T))\in1+ST\,R[[S,T]].
+\end{equation}
+Consequently the scalar function of DP29 satisfies the stronger estimate
+\begin{equation}\label{eq:scalar-full-slope}
+ v_p(\kappa![\mathbf t^\kappa]\Theta)
+ \ge c_h|\kappa|-\frac{\sum_i s_p(\kappa_i)}{p-1}.
+\end{equation}
+The slope $c_h$ is optimal within this class, by \eqref{eq:sharp-corrected-scalar}. This theorem concerns two scalar copies of the height-$h$ group, not the genuinely dual pair.
+\end{theorem}
+\begin{proof}
+Let $G$ have law $F_h$, and write $R_n=R/p^nR$. We use the established formal biextension theorem: Zink \cite[\S4.4, Proposition 121 and (243), pp.~241, 246]{Zink} gives an injection
+\[
+ \operatorname{Biext}^1(G_n\times G_n,\widehat{\Gm})
+ \hookrightarrow\Hom(G_n,G_n^t).
+\]
+The formal groups here come from displays; the existence/equivalence applies over the Artinian local rings $R_n$ by \cite[Theorem 9, p.~132, or Theorem 103, p.~221]{Zink}. The dual display gives the Cartier-dual formal group; its dual operators are specified in Definition~19 and (22)--(24), pp.~143--144, and the formal-dual identification in Proposition~121. Both $G$ and its Cartier dual are connected for $h>1$, with special-fibre slopes $1/h$ and $(h-1)/h$ respectively. The hypotheses of the injection are therefore satisfied; we do not need the additional surjectivity in Zink's Theorem 122.
+
+First, the integral units $C_X=H_X$ and $C_Y=H_Y$ define a biextension without presupposing \eqref{eq:scalar-gauge}. Over $K$ they are the two multiplicative coboundaries of $B$. Therefore they satisfy symmetry, associativity in each variable, and the interchange identity. These identities hold over $R$, since $R\hookrightarrow K$. On the trivial formal multiplicative torsor over $G\times G$, define the first partial product by
+\[
+ (S,T,u)\star_X(S',T,u')
+  =(F_h(S,S'),T,uu'C_X(S,S',T)),
+\]
+and define the second analogously with $C_Y$. The identities just stated make a biextension. A normalized splitting is exactly a unit $I$ with
+\begin{equation}\label{eq:gauge-split}
+ \frac{I(F_h(S,S'),T)}{I(S,T)I(S',T)}=C_X,\qquad
+ \frac{I(S,F_h(T,T'))}{I(S,T)I(S,T')}=C_Y,
+ \qquad I(S,0)=I(0,T)=1.
+\end{equation}
+
+Second, $\Hom(G_n,G_n^t)=0$. Over $k$, distinct slopes give zero rational Hom, by the semisimple isocrystal classification after faithful extension to an algebraic closure \cite[\S1.3, first paragraph of p.~120]{Katz79}, hence zero integral Hom. The integral Hom embeds in its rationalization: a homomorphism killed by $p^a$ is zero since multiplication by $p^a$ on a $p$-divisible group is surjective as a sheaf. To lift the vanishing, let $f:G_n\to G_n^t$ reduce to zero, and suppose its formal-coordinate components are in $p^jR_n[[T]]$, $1\le j<n$. Write $f=p^jg$ componentwise. The target $p$-series has linear part $p$ times the identity and higher terms of order at least two, so
+\[
+ f([p]_G(T))=[p]_{G^t}(f(T))\equiv0\pmod {p^{j+1}}.
+\]
+After division by $p^j$ and reduction, each component satisfies $\bar g([p]_{G_k}(T))=0$. Substitution of the nonzero series $[p]_{G_k}(T)$, whose initial degree is $q$, is injective on $k[[T]]$. Thus $f$ is divisible by $p^{j+1}$, and induction proves $f=0$.
+
+The biextension injection now yields a splitting $I_n\in1+ST\,R_n[[S,T]]$ at every $n$. We verify compatibility rather than assume that independently chosen splittings lift. Two normalized splittings differ by a bihomomorphism $J$, which obeys
+\[
+ J([p]_G(S),T)=J(S,T)^p.
+\]
+Modulo $p$, let $b>0$ be the smallest $T$-degree in $J-1$, if it is nonzero. Its coefficient on the left remains nonzero under substitution of $[p]_{G_k}(S)$; on the right every positive $T$-degree is at least $pb>b$. This contradiction proves $J=1$ modulo $p$. If $J-1=p^jV$ for $j\ge1$, the right side minus one is divisible by $p^{j+1}$. Dividing and reducing gives $\bar V([p]_{G_k}(S),T)=0$, and injectivity of this substitution on $k[[S,T]]$ proves the next divisibility. Hence $J=1$ over every $R_n$.
+
+Thus the normalized splittings are unique and automatically compatible. Their coefficientwise inverse limit is $I\in1+ST\,R[[S,T]]$ satisfying \eqref{eq:gauge-split}. In additive coordinates,
+\[
+ A(X,Y)=\beta(X,Y)-\log I(E_h(X),E_h(Y))
+\]
+is separately additive, by equality of the two coboundaries. In characteristic zero, interior binomial coefficients force a separately additive series to be $aXY$. The logarithm and exponential are Teichm\"uller-equivariant. Consequently the assumed torus symmetry of $\beta$ makes $I_n(\zeta S,\zeta^{-p}T)$ another normalized splitting. Uniqueness makes $I$, and hence $A$, invariant. But $XY$ has character $\zeta^{1-p}\ne1$, so $a=0$. This proves $B=I$ and \eqref{eq:scalar-gauge}.
+
+Finally, write the correction factor in $\Theta$ as
+\[
+ \prod_j B(E_h(\ell_j),E_h(\epsilon\ell_j))^{\sigma/2}.
+\]
+Each binomial power is an integral series because $p$ is odd. The whole expression is an integral function of finitely many inverse-logarithm coordinates of weight at least $\rho_h$. Therefore $v_p([\mathbf t^\kappa]\Theta)\ge-\rho_h|\kappa|$. Legendre's factorial formula gives \eqref{eq:scalar-full-slope}. The explicit nonzero example in DP29 attains the slope along $q$-power orders.
+\end{proof}
+
+This closes the scalar analytic replacement question under its stated hypotheses despite DP28's failed intermediate estimate. It also identifies the geometric limitation precisely. For the genuine pair $G\times G^t$, the biextension target is $\Hom(G,(G^t)^t)=\operatorname{End}(G)$, which is nonzero; the second factor has dimension $h-1$. The scalar proof therefore does not trivialize or bound that dual kernel. Its construction and arithmetic comparison remain separate tasks.
+
+\section{Higher-height directions in abelian schemes}
+
+\begin{theorem}[DP7: integral directional and mixed derivatives]\label{DP7}
+Let $A/R$ be an abelian scheme and $i:F\to\widehat A$ an integral homomorphism from a one-dimensional formal group of finite height $h$. Let $D_i$ be the invariant tangent direction induced by $D_F$. For every integral formal function $f$ on $\widehat A$,
+\[
+ (D_i^nf)(0)=D_F^n(i^*f)(0),\qquad
+ \vp((D_i^nf)(0))\ge C_h(n),
+\]
+where
+\[
+ C_h(n)=\max\{E_h(n),\ceil{nc_h-(h-1)},0\}.
+\]
+If an integral formal product has one-dimensional factors $F_1,\ldots,F_r$ of heights $h_i$, its mixed invariant derivatives satisfy
+\[
+ \vp(D_1^{n_1}\cdots D_r^{n_r}f(0))\ge\sum_i C_{h_i}(n_i).
+\]
+Use $C_\infty(n)=\vp(n!)$ for an infinite-height factor.
+\end{theorem}
+\begin{proof}
+A formal-group homomorphism intertwines translations; differentiation at the identity therefore intertwines the indicated invariant derivations. Iterating and evaluating gives the identity, and $i^*f$ is integral. Apply DP1, DP3 and DP4. For a product, apply the coefficientwise operator bound one variable at a time, with the other formal variables as coefficient parameters. Each operator preserves the ideals already obtained from the other factors, so their exponents add. All substitutions are finite at a fixed multidegree.
+\end{proof}
+
+An integral subgroup is enough for evaluation; a direct factor is not essential. Conversely a summand only on the special fibre, or a factor only up to isogeny after inverting $p$, does not supply the integral map and tangent lattice assumed in DP7. These are hypotheses that a CM construction must verify.
+
+\subsection{Ramified base rings and the integral CM action}
+
+\begin{theorem}[DP19: full unramified CM action over a ramified base]\label{DP19}
+Let $A$ be a complete discrete valuation ring of mixed characteristic $(0,p)$, with $v(p)=1$. Let $\mathcal O\subset A$ be the integers of an unramified degree-$h$ extension of $\Q_p$, and let $F/A$ be a one-dimensional formal group with an integral $\mathcal O$-action satisfying $[a]'(0)=a$. Suppose its special fibre has $p$-height $h$. Then both coefficientwise bounds of DP1 and DP3 hold over $A$:
+\[
+ D^nA[[t]]\subset p^{E_h(n)}A[[t]],\qquad
+ D^nA[[t]]\subset p^{\max\{0,\ceil{nc_h-(h-1)}\}}A[[t]].
+\]
+Thus DP7 applies to an integral lifted local CM factor of this type even when the base is ramified. An action only on the special fibre is insufficient.
+\end{theorem}
+\begin{proof}
+Put $q=p^h$. Average over the Teichm\"uller group to obtain the strict integral coordinate
+\[
+ x(t)=\frac1{q-1}\sum_{\zeta\in\mu_{q-1}}\zeta^{-1}[\zeta](t).
+\]
+Its derivative is one, and reindexing gives $x([\eta](t))=\eta x(t)$. In this coordinate $[\zeta](x)=\zeta x$. Commutation with $[p]$, and uniqueness of the normalized logarithm, imply that $[p](x)$, $L(x)$ and its inverse $E(x)$ have support only in degrees congruent to $1$ modulo $q-1$. For any other degree a suitable $\zeta^{m-1}-1$ is a unit, forcing that coefficient to vanish. In particular
+\[
+ [p](x)=px+a_qx^q+\sum_{m>q}a_mx^m,
+ \qquad a_q\in A^\times.
+\]
+
+Adjoin $\pi^{q-1}=p$ and work in the valuation ring of the finite extension. All coefficients of $\pi^{-1}[p](\pi x)$ belong to $pA'$, so the coefficient induction of DP2 makes $L_\pi$ and $E_\pi$ integral. Scaling gives
+\[
+ v([z^n]E(z)^m)\ge-\frac{n-m}{q-1}.
+\]
+For a nonzero coefficient, the support condition makes $n-m$ divisible by $q-1$. Thus, for $n,m\ge1$, the right side is an integer at least $-\floor{(n-1)/(q-1)}$. This supplies the integer bound without assuming that the valuation group of $A$ is $\Z$. The identity $D^nf(0)=n![z^n]f(E(z))$ now gives the preliminary bound of DP3. Translation makes it coefficientwise, and composition according to the base-$p$ digits gives exactly $E_h(n)$ by the finite identities already proved there.
+
+For the affine assertion, $L(x)=x+bx^q+O(x^{q+1})$, with $b\in p^{-1}A$. Integral translation operators give $D^j=j!\Delta_j$ for $j<q$ and
+\[
+ D^q=p^{B_h}uD+p^{B_h+1}T,
+ \qquad u\in A,\quad T\text{ integral}.
+\]
+Use the \emph{integer} recurrence $b_h(n)$ from DP1r. It proves containment in $p^{b_h(n)}A[[x]]$ even over this ramified base. The same numerical induction gives $b_h(n)\ge nc_h-(h-1)$, so its integrality gives the asserted ceiling. One must not instead round a possibly fractional valuation in $A$. The averaging coordinate preserves the normalized tangent and the ideals in question. If $h=1$ both bounds are zero and follow already from integrality; when $q=2$ the averaging group is trivial. This also covers that endpoint.
+\end{proof}
+
+\begin{proposition}[DP20: residue height alone fails over a ramified base]\label{DP20}
+For every $h\ge2$ and every integer $e>p$, there is an integral one-dimensional formal group over a complete discrete valuation ring with $v(p)=1$, $v(\varpi)=1/e$, whose special fibre has height $h$ but
+\[
+ v(D^pt(0))=\frac1e<1,
+ \qquad
+ v(D^{p^s}t(0))=\frac{p^s-1}{e(p-1)}\quad(s\ge0).
+\]
+In particular the proposed slope $c_h$ with an $O(\log n)$ error fails for this fixed ramified deformation. The special fibre can have full unramified CM action while that action fails to lift integrally to the deformation.
+\end{proposition}
+\begin{proof}
+Choose a finite field $k$ and a height-$h$ group $\Phi/k$ normalized to be additive below degree $p^h$. Set $A=W(k)[\varpi]/(\varpi^e-p)$. Lubin--Tate \cite[Proposition 1.1, pp.~50--51]{LT66} gives an actual integral deformation over $W(k)[[t_1,\ldots,t_{h-1}]]$ whose degree-$p$ term is $t_1C_p$, where
+\[
+ C_p(X,Y)=\frac{(X+Y)^p-X^p-Y^p}{p}.
+\]
+Specialize $t_1=\varpi$ and the other parameters to zero. A sign convention for $C_p$ is absorbed by changing the sign of $t_1$. The result is an integral formal group, still of residue height $h$, with
+\[
+ F(X,Y)=X+Y+\varpi C_p(X,Y)+O((X,Y)^{p+1}).
+\]
+Thus $D=(1+\varpi t^{p-1}+O(t^p))\partial_t$, and $D^pt(0)=(p-1)!\varpi$. Summing the degree-$p$ cocycle in the $p$-fold group sum telescopes and gives
+\[
+ [p]_F(t)=pt+a t^p+O(t^{p+1}),\qquad
+ a=(p^{p-1}-1)\varpi.
+\]
+
+Choose $\beta^{p-1}=p/\varpi$ in a finite extension and put $r=v(\beta)=(1-1/e)/(p-1)>1/p$. The contracted $p$-series belongs to $pA'[[x]]$, and after division by $p$ reduces modulo the maximal ideal to $x+cx^p$, with $c\ne0$. Indeed its degree-$p$ coefficient is $a/\varpi$, a unit, while each degree $m\ge p+1$ has valuation at least $(m-1)r-1>0$ after this division. Its logarithm and exponential are integral, and the logarithm recursion shows that the reduced logarithm is exactly $x+cx^p$. Its inverse has nonzero coefficients at every $p^s$, by the recurrence $b_0=1$, $b_s=-cb_{s-1}^p$. Scaling back therefore gives
+\[
+ v([z^{p^s}]E(z))=-(p^s-1)r,
+\]
+and multiplication by $(p^s)!$ gives the claimed equality. Since $1/(e(p-1))<c_h$, the deficit from the proposed slope is linear on this subsequence and cannot be absorbed in a logarithmic error.
+
+One may choose $\Phi$ as the reduction of an unramified Lubin--Tate $\mathcal O$-module. If that full action lifted to the deformation just constructed, DP19 would give $v(D^pt(0))\ge1$, a contradiction. This proves the final distinction.
+\end{proof}
+
+\begin{proposition}[DP8: dimension matters, and the CM pairing constraint]\label{DP8}
+The one-dimensional formula cannot use the total height of an arbitrary multidimensional formal summand. Under full integral CM by a degree-$2g$ CM field $E$, good reduction, and $p$ unramified in $E$, let $G_v$ denote a local $p$-divisible factor, of height $h_v$ and dimension $d_v$. Then
+\[
+ h_v=[E_v:\Q_p],\qquad d_v=\#\Phi_v,\qquad
+ d_v+d_{\bar v}=h_v.
+\]
+In particular a self-conjugate one-dimensional factor has height two. A one-dimensional factor of height $h>2$ has a distinct conjugate factor of dimension $h-1$, and the ambient dimension satisfies $g\ge h$.
+\end{proposition}
+\begin{proof}
+For the counterexample take $\widehat\Gm^{\,r}$, $r\ge2$, whose dimension and total height are both $r$. In the first coordinate set $D=(1+t_1)\partial/\partial t_1$ and $f=1+t_1$. Then $D^nf=f$ and $D^nf(0)=1$ for every $n$. Substituting $h=r$ into a positive one-dimensional slope contradicts this equality for large $n$. Such ordinary factors also arise in products of ordinary CM elliptic curves; the formal counterexample does not depend on that realization.
+
+For the CM assertion, the integral idempotents of $\mathcal O_E\otimes\Z_p$ decompose $A[p^\infty]$. The height and dimension counts are the standard CM decomposition, expressed by the local CM type \cite[\S5, definition p.~106, (10*) and Theorem 3 p.~107]{Tate352}. One can see the counts directly from the rank-one $E\otimes\Q_p$ Tate module in characteristic zero and the eigenspace decomposition of $\Lie A$ after a splitting base extension. Each pair of conjugate embeddings contains exactly one member of the CM type. Counting those over $v$ and $\bar v$ gives $d_v+d_{\bar v}=h_v$. If $v=\bar v$ and $d_v=1$, this says $h_v=2$. Otherwise the two distinct factors contribute $1+(h_v-1)=h_v$ to the dimension of $A$, proving the last assertion.
+\end{proof}
+
+\begin{proposition}[DP9: size of the gain and a refuted implication]\label{DP9}
+For $h>2$, $c_h>c_2$, but
+\[
+ \frac{c_h}{c_2}=\frac{(p+1)(p^{h-1}-1)}{p^h-1}<1+\frac1p.
+\]
+The derivative-divisibility assertions alone do not imply positive generic-fibre vanishing multiplicity of an integral formal function.
+\end{proposition}
+\begin{proof}
+Subtracting consecutive terms in $c_h=1/(p-1)-1/(p^h-1)$ proves strict increase; their limit is $1/(p-1)$. Division by $c_2=p/(p^2-1)$ gives the bound, or cross-multiplication gives the displayed exact ratio. For the second assertion, $f=1+t$ is a unit in $R[[t]]$, so has order zero and empty local zero divisor, while satisfying DP1 and DP3. Also $p^Nf$ has valuations increased by $N$ without changing its generic-fibre divisor, because $p^N$ is invertible there. These are counterexamples to the stated implication.
+\end{proof}
+
+This does not refute the existence of a specially constructed shorter theta chain. Step 8 of the note is an automorphic construction between totally definite unitary groups; steps 9--10, 12, 14--15 and 18 add integral structures, periods, norm and level estimates, cost and covolumes. No operation in DP7 changes that chain. The missing comparison is specified in Part II. In particular ``$m$ lifts achieve multiplicity $m$'' is not an upper bound saying that fewer lifts could never achieve $m$.
+
+\begin{proposition}[DP22: a concrete height-three CM factor]\label{DP22}
+Let $J$ be the Jacobian of $C:y^2=x^7-1$. Over $R=W(\F_{11^3})$ it has good reduction and integral CM by $\Z[\zeta_7]$. Its $11$-divisible group has two integral factors of height three and dimensions two and one. The dimension-one factor is an integral formal direct factor of $\widehat J$, so DP7 applies with
+\[
+ c_3(11)=\frac{66}{665},\qquad c_2(11)=\frac{11}{120},
+ \qquad\frac{c_3(11)}{c_2(11)}=\frac{144}{133}.
+\]
+\end{proposition}
+\begin{proof}
+Glue the charts $y^2=x^7-1$ and $v^2=u-u^8$ by $u=x^{-1}$ and $v=y/x^4$. They give a finite double cover of $\mathbf P^1$, hence a projective curve. At $11$ the affine chart is smooth by its partial derivatives; at infinity the derivative in $u$ is a unit. Infinity is a section. The two generators $y$ and $v=x^{-4}y$ give $\pi_*\mathcal O_C=\mathcal O_{\mathbf P^1}\oplus\mathcal O_{\mathbf P^1}(-4)$. On each geometric fibre its two-chart \v Cech quotient for the second summand is
+\[
+ \bar k[x,x^{-1}]/\bigl(\bar k[x]+x^{-4}\bar k[x^{-1}]\bigr),
+\]
+with basis $x^{-1},x^{-2},x^{-3}$; the first summand has zero $H^1$. Thus the genus is three. The fibres are geometrically integral because $x^7-1$ has simple zeros and is not a square in $\bar k(x)$. The affine two-chart cover has affine intersection, so $H^2(C_s,\mathcal O)=0$. The Picard representability, smoothness and properness theorems therefore make its relative Jacobian an abelian scheme \cite[expos\'e 232, Theorem 3.1; expos\'e 236, Corollaries 1.7 and 2.3, Proposition 2.10(ii)]{FGAPic}.
+
+The ring $R$ contains $\zeta_7$, since $7\mid11^3-1$. The automorphism $\sigma(x,y)=(\zeta_7x,y)$ extends to the model and fixes infinity. Let it act covariantly on divisor classes of $J$. The regular forms $x^{i-1}dx/y$, $i=1,2,3$, have eigenvalues $\zeta_7^i$; their orders at infinity are $4,2,0$, respectively. Abel--Jacobi pullback identifies these with the forms of $J$. Thus $\Phi_7(\sigma)$ has zero differential in characteristic zero and is the zero endomorphism; a characteristic-zero abelian-variety homomorphism with zero differential has zero-dimensional connected image. Irreducibility of $\Phi_7$ gives the integral action $\Z[\zeta_7]\hookrightarrow\operatorname{End}(J)$, of degree $6=2\dim J$. The tangent type is $\{1,2,3\}$.
+
+Frobenius at $11\equiv4\pmod7$ has embedding orbits $\{1,2,4\}$ and $\{3,5,6\}$. The integral local CM order is a product of two unramified cubic orders; its idempotents split $J[11^\infty]$ integrally. The CM height/type formula \cite[\S5, (10*) and Theorem 3, pp.~106--108]{Tate352} gives heights three and dimensions two and one. Their slopes are $2/3$ and $1/3$. The latter factor therefore has no \'etale part and is connected. The connected formal-group equivalence \cite[\S2.2, Proposition 1, p.~162; \S2.3, Example (b), p.~166]{Tate67} transports the idempotent product to the formal completion. It identifies this factor with an integral one-dimensional formal group embedded as a direct factor in $\widehat J$; its tangent lattice is split, so no nonunit tangent normalization is hidden. The numerical formulas follow by substituting $p=11,h=3$.
+\end{proof}
+
+This example realizes the local hypothesis. Its length-three orbits do not satisfy the unchanged even alternating type or the logarithm of DP21. No global theta cost or shorter chain is asserted for this Jacobian.
+
+\begin{proposition}[DP23: the dual-product attempt does not restore the old blocks]\label{DP23}
+Let $G_h$ be a one-dimensional unramified Lubin--Tate $p$-divisible group of height $h>2$. The balanced product $G_h\times G_h^D$ cannot be a product of rank-one alternating CM blocks of the existing two-type model, even up to isogeny. Direct products and finite unramified restrictions of scalars do not remove this obstruction.
+\end{proposition}
+\begin{proof}
+The two factors have height $h$ and dimensions $1$ and $h-1$. Their CM slopes are $1/h$ and $(h-1)/h$, by the same height/type formula. A rank-one alternating orbit of even length $d$ has $d/2$ selected embeddings, hence dimension $d/2$ and slope $1/2$. If $h$ is odd, an alternating length-$h$ orbit is impossible; if $h$ is even and greater than two, the counts $1,h-1$ disagree with $h/2$. Combining the factors does not interlace their Frobenius orbits, since their central CM idempotents remain Frobenius-stable. More invariantly, isogeny preserves Newton slopes. Direct products concatenate the slope multisets, and an unramified restriction of scalars becomes a product of conjugates after an unramified splitting extension, repeating the same slopes. Since neither original slope equals $1/2$, these operations cannot produce the required alternating blocks.
+\end{proof}
+
+The general higher-rank source object can have rank defects and additional blocks; DP23 is explicitly about retaining the stated rank-one alternating inputs. A different signature would require a different kernel, denominator and cost analysis.
+
+\begin{proposition}[DP25: the induced CM type blocks a larger-field substitution]\label{DP25}
+Let a CM field $E$ contain an imaginary quadratic field $K$, and let
+\[
+ \Phi=\{\tau:E\hookrightarrow\mathbf C:\tau|_K=\kappa\}
+\]
+be the full CM type induced from one embedding $\kappa$ of $K$. Assume good reduction and full integral CM at $p$, with $p$ unramified in $E$. If $p$ is inert in $K$, every rank-one local CM factor has slope $1/2$; a one-dimensional factor has height two. If $p$ splits in $K$, each factor has slope zero or one; a one-dimensional connected factor has height one. Enlarging $E$ while retaining this type cannot produce a one-dimensional factor of height greater than two.
+
+The basic CM blocks of the inspected theta construction have precisely these induced types. The Jacobian of DP22 cannot replace such a block; balancing it with its conjugate also fails the source's stated surjective comparison.
+\end{proposition}
+\begin{proof}
+Restriction of embeddings from $E$ to $K$ commutes with unramified Frobenius. At an inert prime, Frobenius exchanges the two embeddings of $K$, so membership in $\Phi$ alternates around each orbit. Every orbit has even length $d$, with exactly $d/2$ selected embeddings. At a split prime that membership is constant, so the count is zero or $d$. The full-CM height/type formula \cite[\S5, (10*) and Theorem 3]{Tate352} gives height $d$, dimension equal to the count, and slope their ratio. The assertions follow, without requiring an orbit to be stable under complex conjugation.
+
+The source premise is explicit: \path{Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ConjEMemHostFIff.lean}, \path{HostRaw.K} and \path{HostRaw.cmType}, define $K=\Q(\sqrt{-d})$ and select exactly one of its embeddings. In \path{Development/AbelianVarietyTheory/Definitions/CMLattices/IsDiffOf.lean}, \path{HasType}, \path{IsTen}, and \path{CMObj.typeP/typeM} impose the two conjugate induced types and their Serre-tensor construction from a quadratic CM elliptic curve. This is a definition of the blocks, not an inference from definiteness of the unitary groups.
+
+For DP22, write $S=\zeta_7+\zeta_7^2+\zeta_7^4$ and $T=\zeta_7^3+\zeta_7^5+\zeta_7^6$. Multiplication gives $S+T=-1$, $ST=2$, and $(S-T)^2=-7$. Thus the unique quadratic subfield has embedding classes $\{1,2,4\}$ and $\{3,5,6\}$. The type $\{1,2,3\}$ is neither class. Relabeling by a Galois automorphism preserves or exchanges its counts $(2,1)$; an $E$-linear isogeny preserves the type. At $11$, $-7\equiv4$ is a square, so that prime splits in $K$. It is outside the source's \path{InertK} gain class, by \path{LocalRingCardinality/DataHost.lean}, \path{primeClass}, and \path{SharpRestriction/GlobalTheoremInputs.lean}, \path{InertK}.
+
+For $J^a\times\overline J^{b}$ the multiplicities on the two quadratic classes are $(a,a,b)$ and $(a,b,b)$, hence become constant only if $a=b$. For $a=b>0$ the target has type $(a,a)$, but \path{CMObj.onto} also requires a surjection from the corresponding copies of the two induced-type blocks. Equal dimensions would make this an isogeny. Those source blocks are ordinary at $11$, whereas this target has only slopes $1/3$ and $2/3$. Isogeny invariance of Newton slopes rules out that comparison. These statements concern the specified CM action and the existing source data, not every possible mixed-type construction.
+\end{proof}
+
+\subsection{The prime-sum gain under a pure height substitution}
+
+\begin{proposition}[DP17: a summable change in the ramp certificate]\label{DP17}
+For $A\ge0$, a prime $p$, an integer $h\ge2$ and weights $w_i\ge0$, set
+\[
+ R_h(A,p;w)=\sum_{\substack{i\ge1\\h\nmid i}}\max\{0,A/p^i-w_i\}.
+\]
+Then
+\begin{equation}\label{eq:rampcomparison}
+ |R_h(A,p;w)-R_2(A,p;w)|\le\frac{A}{p^2-1}.
+\end{equation}
+Consequently, with $C=\sum_p\log(p)/(p^2-1)<\infty$, any common prime set and cutoff satisfy
+\[
+ \left|\sum_p\log(p)\bigl(R_{h(p)}(A,p;w)-R_2(A,p;w)\bigr)\right|\le CA.
+\]
+The height may vary with the prime. If $w_i\ge1$, the sums already terminate when $p^i>A$. In the zero-weight case the slopes satisfy
+\[
+ 0\le c_h-c_2=\frac1{p^2-1}-\frac1{p^h-1}\le\frac1{p^2-1}.
+\]
+\end{proposition}
+\begin{proof}
+Put $b_i=\max\{0,A/p^i-w_i\}$, so $0\le b_i\le A/p^i$. The terms added to the odd-index sum are even indices not divisible by $h$; the terms removed are odd indices divisible by $h$. The added sum is at most $A\sum_{r\ge1}p^{-2r}=A/(p^2-1)$. If $h$ is even there are no removed terms. If $h$ is odd, then $h\ge3$, and their sum is at most
+\[
+ A\sum_{r\ge0}p^{-(2r+1)h}=\frac{Ap^h}{p^{2h}-1}\le\frac{A}{p^2-1}.
+\]
+The last inequality follows on multiplying the positive denominators. The difference of two nonnegative numbers bounded by the same constant has absolute value at most that constant, proving \eqref{eq:rampcomparison}. Summing it with weights $\log p$ proves the second assertion; convergence follows by comparison with $\sum_{n\ge2}\log(n)/n^2$. The cutoff assertion is immediate. For zero weights the geometric sums give $R_h=Ac_h$ and the final formula.
+\end{proof}
+
+This is the ramp shape in the recovered \path{Formalism/LocalRingCardinality/DataParams}\textsubscript{2}\path{.lean}, \path{SizeData}\textsubscript{2}\path{.vonMangoldtClassSum}, with \path{wPart} at least one. The place-weight identity \path{FactEtaMean} makes the corresponding total change at most $2C\sum_{j,t}A_t$ for fixed remaining inputs. It compares a \emph{lower-bound certificate}: \path{GlobalTheoremInputs.LinkG_at} does not assert that this certificate is the exact or largest possible gain. Thus pure height substitution leaves unchanged any established leading $A\log X$ prime-sum coefficient, but the proposition is not an upper bound on the gain of every new geometric construction. In particular it does not exclude a saving of one lift when the number of lifts grows, or an improvement after leading terms cancel. See the exact source record in Section~\ref{sec:recovered}.
+
+\begin{proposition}[DP26: a finite numerical saving is not excluded]\label{DP26}
+For the ramps of DP17, let $A=p^3$ and $w_i=1$. Then
+\[
+ R_2=p^2-1=(p-1)(p+1),\qquad
+ R_3=p^2+p-2=(p-1)(p+2),
+\]
+so $(p+1)R_3=(p+2)R_2$. At $p=11$ this gives
+\[
+ 12\cdot130=13\cdot120,
+ \qquad 24\cdot130=26\cdot120=3120.
+\]
+The second equality is compatible with even lift counts. It does not construct a theta chain or assert that its other costs are unchanged.
+\end{proposition}
+\begin{proof}
+Only $i=1,2$ can contribute positively: their terms are $p^2-1$ and $p-1$. The $i=3$ term is zero, and all $i\ge4$ give $p^{3-i}<1$. Height two retains only the first positive term; height three retains both. This proves the formulas. The source-shaped finite cutoff is \path{range}$(\lfloor\log_p A\rfloor+2)=\{0,1,2,3,4\}$, giving the same values. The term $i=0$ is excluded by both divisibility-index conventions, and every weight satisfies $w_i\ge1$.
+\end{proof}
+This example shows why boundedness and summability of the local improvement cannot themselves rule out every finite saving. For the particular Jacobian at $11$, DP25 independently prevents its insertion into the old inert-prime gain data.
+
+\begin{proposition}[DP18: limitation of the unchanged error budget]\label{DP18}
+Let $x\ge1$, $\epsilon\ge0$ and $b,m,n,N_1,N_2,k>0$, with $A\ge xb$ and $N_1,N_2\le n$. Define
+\begin{align*}
+ \mathcal B&=N_1A(1+m^2/k)
+ +m\left(2nmbx^\epsilon+\frac{N_2kbx^\epsilon}{n(nx^{-\epsilon})}\right),\\
+ \mathcal S&=\frac{N_1mbN_2}{2n}.
+\end{align*}
+Then
+\[
+ \frac{\mathcal B}{\mathcal S}\ge\frac{2x}{m}+4m.
+\]
+For $m\le x^{1/2-\delta}$, $\delta>0$, the first term alone is at least $2x^{1/2+\delta}$. Multiplying the signal by a positive uniformly bounded factor cannot change that exponent.
+\end{proposition}
+\begin{proof}
+Set $d_1=N_1/n$ and $d_2=N_2/n$, both in $(0,1]$. Direct division gives
+\[
+ \frac{\mathcal B}{\mathcal S}
+ =\frac{2A}{mbd_2}(1+m^2/k)
+  +\frac{4mx^\epsilon}{d_1d_2}
+  +\frac{2kx^{2\epsilon}}{d_1n^2}.
+\]
+Use $A\ge xb$, $x^\epsilon\ge1$ and $d_1,d_2\le1$, and discard only nonnegative terms. Substitution of the upper bound on $m$ proves the last assertion.
+\end{proof}
+
+The displayed inner allowance and signal occur in \path{GrowthBoundGivesRiemannHypothesis.lean}, \path{SizeWindows}; the additional outer factor $x^{C\epsilon}\ge1$ only enlarges the allowance, and the scale $A\ge xb$ is present in the actual growth data, not in the bare generic window definition. DP18 concerns this \emph{unchanged upper-bound allowance}. A lower bound on an error allowance is not a lower bound on the actual error. The proposition therefore obstructs certification by a pure bounded-coefficient replacement, and does not prove that a new construction or sharper estimate cannot use a shorter chain.
+
+\begin{proposition}[DP27: parity and endpoint constraints of the existing chain]\label{DP27}
+In \path{Formalism/LocalRingCardinality/Params.lean}, \path{Ranks} requires an even lift count $M\ge2$. With its $k,t$ fixed, its endpoint ranks satisfy
+\[
+ N(M)-N(L)=(M-L)(t+1)>0\qquad(0\le L<M).
+\]
+Thus a replacement by $M-1$ violates the same parameter specification, and literal truncation cannot preserve the old hermitian endpoint by an isometric isomorphism. The auxiliary signature at $1\le L<M$ is $(k+L-1,M-L)$, whereas at $M$ it is $(k+M-1,0)$. The column spaces $X_j$ themselves are definite at every stage. A truncated column does not, by definition, supply the period identification at the old endpoint.
+\end{proposition}
+\begin{proof}
+The parity statement is the field \path{Ranks.m_even}; the difference between two allowed even counts is even. The definitions are $N(j)=k+j(t+1)$ and $\operatorname{sig}W(j)=(k+j-1,M-j)$. Since $t+1>0$, the displayed rank difference is positive. The source field $k\ge M+3$ and $1\le L<M$ make both entries of the intermediate auxiliary signature positive. These numerical ranks and signatures are imposed on the actual spaces by \path{DataSpaces.lean}, \path{Spaces.X_rank}, \path{W_sigval}; its separate \path{X_def} requires all column spaces to be definite. Rank is invariant under an isometric isomorphism, proving the endpoint obstruction.
+
+Finally \path{DataKernels.lean}, \path{ColumnChain.col}, is \path{chainOpM} at exactly $M$, with output \path{C.cls M}\,$\to$\,\path{C.Y M}\,$\to\mathbf C$. The field \path{PeriodMap.evz} consumes that terminal space. Truncation gives stage $L$ instead. A numerical lower bound on values supplies none of the new representation or period-comparison data. This is a limitation of literal truncation, not a prohibition on separately constructing admissible data with a smaller even count.
+\end{proof}
+
+The source also permits formal regrouping of two kernels: \path{Formalism/ThetaLiftIndependence/Statement.lean}, \path{kerMul}, expands the composition as the sum over the intermediate variable. Its \path{ChainIntM} retains the product of the denominator factors. That identity shortens the written composition only; it does not identify the composite with one geometrically realized theta kernel having the cost of a single old lift. A new such identification would be an additional theorem.
+
+\subsection{The actual Cartier dual has different directional divisibility}
+
+\begin{proposition}[DP30: a dual direction with a unit $p$-th derivative]\label{DP30}
+Let $A$ be a complete mixed-characteristic discrete valuation ring with perfect residue field $k$. Let $G/A$ be a one-dimensional strict formal $\mathcal O$-module, where $\mathcal O\subset A$ is the ring of integers of the unramified degree-$h$ extension of $\Q_p$, and suppose its special fibre has height exactly $h\ge2$. Let $H=G[p^\infty]^D$ be its actual Cartier dual and $\widehat H$ its connected formal group. Then $\Lie(H_k)$ has a basis $e_0,\ldots,e_{h-2}$ with
+\[
+ e_i^{[p]}=e_{i+1}\ (i<h-2),\qquad e_{h-2}^{[p]}=0.
+\]
+Thus the restricted $p$-operation has kernel dimension one and image dimension $h-2$. If $h>2$, there are a primitive integral invariant derivation $D$ on $\widehat H$ and an integral formal coordinate $f$ such that $D^pf(0)\in A^\times$.
+\end{proposition}
+\begin{proof}
+Teichm\"uller averaging as in DP19 gives an integral coordinate $x$ with $[\zeta](x)=\zeta x$ for every $\zeta^{p^h-1}=1$. The group law then satisfies $F(\zeta X,\zeta Y)=\zeta F(X,Y)$, so its nonzero monomials have total degree congruent to one modulo $q-1$, where $q=p^h$. In particular $F=X+Y+$ terms of degree at least $q$, integrally and after Frobenius twisting.
+
+For the next calculation work over $k$. Relative Frobenius $F_G:G\to G^{(p)}$ and Verschiebung $V_G:G^{(p)}\to G$ compose in either order to multiplication by $p$; their kernel orders are $p$ and $p^{h-1}$. These facts and the duality of $F,V$ are Tate \cite[\S2.2, diagram (3), pp.~163--164; \S2.3, Proposition 3, p.~166]{Tate67}. Restrict $V_G$ to $G^{(p)}[p]$. Its image has order $p$ and lies in $G[F_G]$, so it is exactly $G[F_G]$. Exact finite Cartier duality \cite[\S1.2--1.3, pp.~159--160]{Tate67} gives
+\[
+ H[F_H]^D\simeq G[p]/G[F_G].
+\]
+Height $h$ implies $[p](x)=u(x)x^q$ with $u(0)\ne0$, so $G[p]=G[F_G^h]$ as subgroup schemes, by equality of their defining ideals. If $r=p^{h-1}$, relative Frobenius induces
+\[
+ G[p]/G[F_G]\simeq G^{(p)}[F^{h-1}].
+\]
+On coordinates this is $k[z]/(z^r)\hookrightarrow k[x]/(x^q)$, $z\mapsto x^p$. The target is free of rank $p$ with basis $1,x,\ldots,x^{p-1}$, proving faithful flatness and the asserted quotient. In $k[X,Y]/(X^r,Y^r)$ every surviving monomial has degree at most $2r-2<q$. The nonlinear part of the twisted group law vanishes. Hence
+\begin{equation}\label{eq:dual-F-kernel}
+ H[F_H]^D\simeq\alpha_{p^{h-1}}.
+\end{equation}
+
+Put $P=H[F_H]$. Its distribution Hopf algebra is, by duality,
+\[
+ \Dist(P)=k[t]/(t^r),\qquad\Delta(t)=t\otimes1+1\otimes t.
+\]
+The Lie algebra is its primitive subspace: the augmentation Leibniz rule for a tangent functional is precisely the primitive-element identity in the dual Hopf algebra. This subspace has basis $t,t^p,\ldots,t^{p^{h-2}}$. Indeed these powers are primitive, while for any other exponent $1\le n<r$ a nonzero base-$p$ digit gives an interior binomial coefficient $\binom n{p^j}\not\equiv0\pmod p$. The resulting mixed tensor term survives; different total degrees cannot cancel it. Constants are not primitive.
+
+The restricted operation is the $p$-th power in this algebra: convolution powers of a tangent functional correspond to powers of its invariant derivation. It shifts the displayed basis and kills its last member. Since $dF_H=0$, the inclusion $P\hookrightarrow H$ identifies their Lie algebras and their restricted operations. Perfectness of $k$ gives the stated image and kernel dimensions.
+
+The connected formal group exists by Tate \cite[\S2.2, Proposition 1, p.~162 and (4), p.~164]{Tate67}; its tangent lattice is free of rank $h-1$, since dual dimensions sum to height by Proposition 3. For $h>2$, lift a tangent vector $v$ with $v^{[p]}\ne0$ to this lattice and let $D$ be its invariant derivation. The lift is primitive. Some integral coordinate $f$ has differential detecting $v^{[p]}$. Reduction commutes with $D$ and its iterates, so
+\[
+ \overline{D^pf(0)}=df_0(v^{[p]})\ne0.
+\]
+Thus $D^pf(0)$ is a unit. No assertion that the full $H$ is connected is needed for this last argument.
+\end{proof}
+
+The original one-dimensional height-$h$ line has divisibility at least $p$ in order $p$. DP30 proves that this cannot be assigned to every primitive direction of its actual dual. It does not prove that a prescribed theta entry detects the bad direction, or quantify a global denominator cost. For the genus-three case the dual restricted Lie algebra is already explicit: $e_0^{[p]}=e_1$, $e_1^{[p]}=0$.
+
+\begin{theorem}[DP32: sharp asymptotic slopes on the actual Honda dual]\label{DP32}
+Let $p$ be any prime, $h\ge2$, $q=p^h$, $d=h-1$, and $\mathcal O=W(\F_q)$. The Cartier dual $H=G_h^D$ of the Honda group with logarithm $L_h(T)=\sum_{n\ge0}T^{q^n}/p^n$ has integral coordinates $X_1,\ldots,X_d$ and normalized primitive invariant derivations $D_i$ for which, setting
+\[
+ c_i=\frac{p^i}{q-1},\qquad r_i=\frac1{p-1}-c_i\quad(1\le i\le d),
+\]
+every integral formal function satisfies coefficientwise
+\begin{equation}\label{eq:dual-mixed}
+ v_p(D_1^{a_1}\cdots D_d^{a_d}f)
+ \ge\max\left\{0,\ \sum_i c_i a_i-\frac{\sum_i s_p(a_i)}{p-1}\right\}.
+\end{equation}
+For every $i$ and $n=q^r$,
+\begin{equation}\label{eq:dual-sharp}
+ v_p(D_i^nX_i(0))=c_i(n-1).
+\end{equation}
+Thus every displayed directional slope is optimal, and $\sum_i c_i=c_h$. These assertions persist over $W(k)\supset\mathcal O$. In particular the order-$p$ obstruction DP30 does not imply absence of positive asymptotic gain on the dual.
+\end{theorem}
+\begin{proof}
+We construct an integral group and prove its dual identification before estimating it. Over $\Z_p$, define a vector of monomials
+\[
+ M_1(\mathbf X)=X_d^{p^2},\qquad M_i(\mathbf X)=X_{i-1}^p\ (i\ge2),
+ \qquad \mathcal L(\mathbf X)=\sum_{n\ge0}\frac{M^{\circ n}(\mathbf X)}{p^n}.
+\]
+For $d=1$, this means $M_1=X_1^{p^2}$. The degrees tend to infinity, so the series is well defined and has identity linear term. Its functional equations are
+\[
+ \mathcal L_1=X_1+p^{-1}\mathcal L_d(\mathbf X^{p^2}),\qquad
+ \mathcal L_i=X_i+p^{-1}\mathcal L_{i-1}(\mathbf X^p)\ (i\ge2).
+\]
+Apply Hazewinkel \cite[Lemma 2.3, (2.2)--(2.6), p.~74]{Hazewinkel} with $B=\Z_p$, ideal $pB$, $\sigma=\id$, the lemma's $q=p$, matrix $s_1$ having $1/p$ just below the diagonal, and $s_2$ having $1/p$ in entry $(1,d)$. When $d=1$, $s_1=0$. It gives an integral commutative law $F_H=\mathcal L^{-1}(\mathcal L(\mathbf X)+\mathcal L(\mathbf Y))$ and an integral $p$-series. The exact identity
+\[
+ \mathcal L(M(\mathbf X))=p(\mathcal L(\mathbf X)-\mathbf X)
+\]
+and the congruence clause \cite[(2.8), p.~75]{Hazewinkel} imply $[p]_H\equiv M\pmod p$.
+
+Here the finite-flat condition can be checked directly. Put $C=\Z_p[[U_1,\ldots,U_d]]$, $B=\Z_p[[X_1,\ldots,X_d]]$ and send $U_i$ to $[p]_{H,i}(\mathbf X)$. Modulo $p$, $B/p$ is free over $C/p$ on the $p^h$ monomials
+\[
+ X_1^{b_1}\cdots X_d^{b_d},\qquad
+ 0\le b_i<p\ (i<d),\quad 0\le b_d<p^2.
+\]
+Their lifts define $C^{p^h}\to B$. Successively lifting the coefficient expansion modulo $p$ and dividing the remainder by $p$ proves surjectivity by $p$-adic completeness. A relation has all coefficients divisible by $p$; dividing by $p$ is valid since $B$ is $p$-torsion-free. Repetition and $p$-adic separatedness prove injectivity. Thus $[p]_H$ is finite free of degree $p^h$. Its iterated kernels form a connected $p$-divisible group of height $h$ and dimension $d$, as in Tate \cite[\S2.2, Proposition 1, pp.~162--164]{Tate67}.
+
+Everything is defined over $\Z_p$. On the special fibre over $\F_p$, a full cycle of $M$ has total Frobenius exponent $2+(d-1)=h$, so $[p]_H^d=M^d=F_H^h$. For $G=H^D$, dual dimensions give $\dim G=1$ \cite[\S2.3, Proposition 3, p.~166]{Tate67}, and duality gives $V_G^h=[p]_G^d$. Since $F_G^hV_G^h=[p]_G^h$ and $d=h-1$, cancellation gives $F_G^h=[p]_G$. Cancellation is valid because multiplication by $p^d$ is surjective as an fppf sheaf. All these maps are over $\F_p$, so they are actual endomorphisms with no unidentified twists. Their Frobenius kernels show that $G$ is connected. It therefore has an integral one-dimensional formal group over $\Z_p$ by Tate's equivalence. In an integral coordinate $T$ its $p$-series $f$ has linear term $pT$ and reduction $T^q$.
+
+Over $\mathcal O=W(\F_q)$, this is precisely a Lubin--Tate series for uniformizer $p$. The known uniqueness and strict-isomorphism theorem \cite[\S5, pp.~76--77, (5.1)--(5.4)]{Hazewinkel} identifies the group with this $p$-series with the normalized Lubin--Tate group $F_f$, and identifies all such groups for the same uniformizer integrally and strictly. The Honda group $G_h$ has a $p$-series in this class. Thus $G\simeq G_h$ integrally over $\mathcal O$, and dualizing identifies the constructed $H$ with the actual Cartier dual claimed in the statement. No guessed dual logarithm or unproved lifting of an action is involved.
+
+We now compute its radius in each coordinate. Put $S_h=(q-1)/(p-1)$, choose $\pi^{q-1}=p$, and set $\alpha_i=\pi^{S_h-p^i}$, so $v_p(\alpha_i)=r_i>0$. Scale coordinate $i$ in input and output by $\alpha_i$. For every arrow $X_j^{p^e}$ in $M_i$ one has $p^er_j-r_i=1$. Consequently the $n=1$ term of
+\[
+ \mathcal L'_i(\mathbf Z)=\alpha_i^{-1}\mathcal L_i(\alpha_1Z_1,\ldots,\alpha_dZ_d)
+\]
+has coefficient exactly one. If an $n$-fold cyclic iterate has successive exponents $e_1,\ldots,e_n$, its coefficient valuation after scaling is
+\[
+ 1+p^{e_1}+p^{e_1+e_2}+\cdots+p^{e_1+\cdots+e_{n-1}}-n.
+\]
+This is positive for $n\ge2$. Hence $\mathcal L'$ is integral and reduces to $\mathbf Z+M(\mathbf Z)$. Its inverse $\mathcal E'$ is integral. In characteristic $p$, the monomial map $M$ is additive, and therefore
+\[
+ \overline{\mathcal E'}(\mathbf Z)=\sum_{n\ge0}(-1)^nM^{\circ n}(\mathbf Z).
+\]
+Composition with $\id+M$ verifies the cancellation, also at $p=2$. In component $i$, after setting other variables to zero, terms survive exactly at cyclic step numbers $dr$, with degrees $q^r$ and nonzero coefficients $(-1)^{dr}$. Undoing the input and output scales gives
+\[
+ v_p([t^{q^r}]\mathcal E_i(t e_i))=-(q^r-1)r_i.
+\]
+
+The normalized invariant derivations are integral and commute. In additive logarithm coordinates they are partial derivatives, so
+\[
+ D^{\mathbf a}f(0)=\mathbf a![\mathbf t^{\mathbf a}]f(\mathcal E(\mathbf t)).
+\]
+Integrality of $\mathcal E'$ says that every coefficient of $\mathcal E_j$ has weighted valuation at least $r_j$ when variable $t_i$ is given weight $r_i$. Integral substitution therefore bounds $[\mathbf t^{\mathbf a}]f(\mathcal E)$ by $-\sum_i r_i a_i$. Adding Legendre's exact factorial valuation proves \eqref{eq:dual-mixed} at zero; integrality also supplies the bound zero. Apply the same computation in $\mathbf Y$ to the integral translated function $f(F_H(\mathbf X,\mathbf Y))$, treating $\mathbf X$ as coefficient variables. Translation invariance gives the coefficientwise bound. At $n=q^r$, the exact exponential coefficient above and $s_p(n)=1$ prove \eqref{eq:dual-sharp}. Finally
+\[
+ \sum_{i=1}^{h-1}c_i=\frac{p+\cdots+p^{h-1}}{p^h-1}=c_h.
+\]
+This proves all assertions, including sharpness against a larger slope with sublinear error.
+\end{proof}
+
+For the equally weighted list of these directions on $G_h\times G_h^D$, the mean slope is $2c_h/h$. If $h>2$, DP9 gives
+\[
+ \frac{2c_h}{hc_2}<\frac{2(1+1/p)}h\le1.
+\]
+Thus this particular mean is smaller than $c_2$. This is a precise comparison of the displayed coordinate directions, not a lower bound on an automorphic cost; a theta construction need not weight them equally. The actual dual's integral model and directional asymptotics are now determined. Its prescribed biextension/theta entries and the global cost comparison remain to be supplied.
+
+\begin{theorem}[DP33: optimal affine errors for the height-three dual]\label{DP33}
+In the two-coordinate model of DP32 with $h=3$, write $X=X_1$, $Y=X_2$, $q=p^3$, $c_X=p/(q-1)$ and $c_Y=p^2/(q-1)$. For every integral $f$ the coefficientwise bounds improve to
+\[
+ v_p(D_X^nf)\ge\max\{0,\ceil{c_Xn-1}\},\qquad
+ v_p(D_Y^nf)\ge\max\{0,\ceil{c_Yn-1}\}.
+\]
+Both slopes and both constant errors $1$ are optimal. Mixed derivatives have the sum of the two displayed integer exponents as a lower bound. In addition to the exact diagonal sequences in DP32,
+\[
+ v_p(D_X^{pq^r}Y(0))=\frac{p^2(q^r-1)}{q-1},\qquad
+ v_p(D_Y^{p^2q^r}X(0))=\frac{p(q^{r+1}-1)}{q-1}.
+\]
+These statements include $p=2$.
+\end{theorem}
+\begin{proof}
+The actual-dual model and its integral coordinates are already established by DP32. Its logarithm begins
+\[
+ \mathcal L_1=X+Y^{p^2}/p+X^q/p^2+\cdots,\qquad
+ \mathcal L_2=Y+X^p/p+Y^q/p^2+\cdots.
+\]
+Let $\Delta_{a,b}$ be the integral coefficient operators of translation by $(S,T)$. They commute with one another and with $D_X,D_Y$, by commutativity of the group. In characteristic zero the translation operator is $\exp(\mathcal L_1(S,T)D_X+\mathcal L_2(S,T)D_Y)$. Comparing coefficients gives
+\[
+ \Delta_{p,0}=D_X^p/p!+D_Y/p,\qquad
+ \Delta_{0,p^2}=D_Y^{p^2}/(p^2)!+D_X/p,\qquad
+ \Delta_{0,p}=D_Y^p/p!.
+\]
+Consequently, with integral commuting operators $T,S$ and units $a,b$,
+\begin{equation}\label{eq:dual-low-ops}
+ D_X^p=aD_Y+pT,\quad a=-(p-1)!,\qquad
+ D_Y^{p^2}=p^p bD_X+p^{p+1}S,\quad b=-\frac{(p^2)!}{p^{p+1}}.
+\end{equation}
+Also $D_Y^p$ is divisible by $p$ as an operator. Raising the first identity to $p$ shows $D_X^{p^2}$ is divisible by $p$: the leading term uses $D_Y^p$, and every remaining binomial term has a factor $p$. Thus for all $n$ the elementary bounds are $\floor{n/p^2}$ in direction $X$ and $\floor{n/p}$ in direction $Y$.
+
+Raise the first identity in \eqref{eq:dual-low-ops} to $p^2$. Its nonleading term indexed by $1\le j\le p^2$ has valuation at least
+\[
+ v_p\binom{p^2}{j}+j+\floor{(p^2-j)/p}\ge p+1.
+\]
+For $j=p^2$ this is $p^2\ge p+1$. Otherwise $v_p\binom{p^2}{j}=2-v_p(j)$. If $j=ap+b$ with $1\le b<p$, the expression is $p+1+a(p-1)+b$; if $j=ap$, $1\le a<p$, it is $p+1+a(p-1)$. Applying the second identity to the leading term proves
+\[
+ D_X^q=p^p u_XD_X+p^{p+1}U_X
+\]
+with $u_X$ a unit and $U_X$ integral. Raise the second identity of \eqref{eq:dual-low-ops} to $p$. Its leading term uses the first identity; every mixed term $1\le j<p$ has valuation at least $1+p(p-j)+(p+1)j=p^2+j+1$, and its last term has valuation $p(p+1)\ge p^2+1$. Hence
+\[
+ D_Y^q=p^{p^2}u_YD_Y+p^{p^2+1}U_Y.
+\]
+
+For either direction put $(r,B,c)=(p^2,p,c_X)$ or $(p,p^2,c_Y)$. Then $c=B/(q-1)<1$ and $cr=q/(q-1)$. For $0\le n<q$, the maximum of $cn-\floor{n/r}$ is one, attained at $n=q-1$: within a block it increases, and successive block maxima increase by $cr-1>0$. This proves the affine inequality at the initial orders. For $n\ge q$, apply the common recurrence $D^q=p^BuD+p^{B+1}U$ to $D^{n-q}f$. Induction bounds the first term by $cn-1$ and the second by $cn-1+(1-c)$. Integrality and integer valuations give the ceiling. Since the bounds are on the whole formal function ring, composing the two operator containments proves the mixed assertion.
+
+The affine constants are attained by the same monomial $f=X^{p-1}Y^{p^2-1}$ at $n=q-1$. Along the $X$ logarithmic axis the leading terms of the exponential are $X=t+\cdots$, $Y=-t^p/p+\cdots$, so $f$ has first degree $q-1$ with coefficient $(-1/p)^{p^2-1}$. Since $v_p((q-1)!)=p^2+p-2$, the derivative has valuation $p-1=c_X(q-1)-1$. Along the $Y$ axis the leading terms are $X=-t^{p^2}/p+\cdots$, $Y=t+\cdots$; the coefficient is $(-1/p)^{p-1}$ and the derivative valuation is $p^2-1=c_Y(q-1)-1$.
+
+For the additional exact sequences, DP32's scaled inverse here reduces to
+\[
+ \overline{\mathcal E'}_1(u,v)=\sum_{r\ge0}u^{q^r}-\sum_{r\ge0}v^{p^2q^r},\qquad
+ \overline{\mathcal E'}_2(u,v)=\sum_{r\ge0}v^{q^r}-\sum_{r\ge0}u^{pq^r}.
+\]
+The nonzero off-diagonal coefficients, the respective input/output weights $r_X=(p^2+1)/(q-1)$ and $r_Y=(p+1)/(q-1)$, and Legendre's formula give exactly the two stated valuations. The diagonal sequences from DP32 prove slope optimality. In particular $D_X^pY(0)=-(p-1)!$ is a unit, while $c_X>0$.
+\end{proof}
+
+\begin{theorem}[DP34: optimal constant-one affine bounds on every Honda dual]\label{DP34}
+In the actual-dual coordinates of DP32, for every $h\ge2$, every $i\in\{1,\ldots,h-1\}$ and every integral $f$,
+\[
+ D_i^nf\in p^{b_i(n)}R[[\mathbf X]],\qquad
+ b_i(n)=\max\{0,\ceil{c_i n-1}\},\qquad c_i=\frac{p^i}{p^h-1}.
+\]
+Both the slope and the constant $1$ are optimal. With $q=p^h$ and $d=h-1$, the same monomial
+\[
+ f_*(\mathbf X)=\left(\prod_{j<d}X_j^{p-1}\right)X_d^{p^2-1}
+\]
+satisfies $v_p(D_i^{q-1}f_*(0))=p^i-1$ for every $i$. Mixed derivatives have the sum $\sum_i b_i(a_i)$ as a lower bound. The displayed ideal containments persist under integral base change.
+\end{theorem}
+\begin{proof}
+Work first over $\Z_p$ in the model already identified by DP32. Integral translation coefficients and the first nonlinear terms of its logarithm give, exactly as in DP33,
+\begin{equation}\label{eq:all-dual-low}
+ D_i^p=aD_{i+1}+pT_i\quad(i<d),\qquad
+ D_d^{p^2}=p^pbD_1+p^{p+1}T_d,\qquad D_d^p\in p\operatorname{End}_{\rm int}.
+\end{equation}
+Here $a=-(p-1)!$, $b=-(p^2)!/p^{p+1}$ are units; all remainder operators preserve the integral function ring and commute. The last two identities also hold when $d=1$. Descending induction, raising the first identity to $p^{h-i-1}$, shows that $D_i^{R_i}\in p\operatorname{End}_{\rm int}$ for $R_i=p^{h-i}$. Hence $D_i^n$ has the preliminary divisibility $\floor{n/R_i}$.
+
+Fix $i<d$, put $B=p^i$, and start with $D_i^q$. Successively substitute the first identity of \eqref{eq:all-dual-low} to move its leading term through directions $j=i,i+1,\ldots,d-1$. At the step $j=i+t$, this identity is raised to $N=p^{h-t-1}$, and $N/R_{j+1}=B$. Its $m$-th nonleading term has valuation at least
+\[
+ v_p\binom Nm+m+\floor{(N-m)/R_{j+1}}
+ =B+v_p\binom Nm+m-\ceil{m/R_{j+1}}.
+\]
+For $1\le m<N$, the binomial coefficient is divisible by $p$ because $N$ is a $p$-power, and $m-\ceil{m/R_{j+1}}\ge0$. For $m=N$ the bound is $N\ge p^{i+1}\ge B+1$. Thus every discarded term belongs to $p^{B+1}\operatorname{End}_{\rm int}$. The leading term at the end is a unit times $D_d^{p^{i+1}}$. Raise the second identity of \eqref{eq:all-dual-low} to $p^{i-1}$ and factor out $p^B$. Modulo $p$, what remains is a unit times $D_1^{p^{i-1}}$, which the first identities modulo $p$ identify with a unit times $D_i$. Therefore
+\begin{equation}\label{eq:all-dual-q}
+ D_i^q=p^{p^i}u_iD_i+p^{p^i+1}U_i
+\end{equation}
+with a unit $u_i$ and an integral operator $U_i$. For $i=d$, use the same last step directly by raising the second identity to $p^{d-1}$. This includes $d=1$.
+
+Now $c_iR_i=q/(q-1)$ and $c_i(q-1)=p^i$. For $0\le n<q$, the increasing block maxima give $\floor{n/R_i}\ge c_i n-1$, with equality in the real difference at $n=q-1$. For $n\ge q$, applying \eqref{eq:all-dual-q} to $D_i^{n-q}f$ bounds its first term by $c_i n-1$ and its second by $c_i n-1+(1-c_i)\ge c_i n-1$. This proves the affine bound by induction. All coefficients and operators were over $\Z_p$, so integer valuations give the asserted ideal containment there. Base change preserves that containment; no fractional valuation is rounded on a ramified base. Composition proves the mixed bound.
+
+It remains to prove the sharp common witness, including exclusion of possible lower-degree terms. The explicit logarithm and its inverse satisfy the Teichm\"uller equivariance
+\[
+ \mathcal L_j(\zeta^pX_1,\zeta^{p^2}X_2,\ldots,\zeta^{p^d}X_d)
+ =\zeta^{p^j}\mathcal L_j(\mathbf X),\qquad\zeta^{q-1}=1.
+\]
+For the ordinary arrows this is $p\cdot p^{j-1}=p^j$; for the exceptional arrow it is $p^2p^d\equiv p\pmod{q-1}$. Thus a nonzero degree $n$ in $\mathcal E_j(te_i)$ requires $np^i\equiv p^j\pmod{q-1}$. Its smallest possible positive degree is
+\[
+ m_{ij}=p^{j-i}\ (j\ge i),\qquad m_{ij}=p^{h+j-i}\ (j<i).
+\]
+DP32's scaled inverse gives a nonzero coefficient at this first path degree, with exact valuation $r_j-m_{ij}r_i$. Equivariance excludes all smaller degrees. If $e_j=p-1$ for $j<d$ and $e_d=p^2-1$, then
+\[
+ \sum_j e_jm_{ij}=q-1,\qquad \sum_j e_jr_j=d.
+\]
+The first equality telescopes: the ranges $i\le j<d$, $j=d$, and $j<i$ contribute $p^{d-i}-1$, $p^{h-i+1}-p^{d-i}$, and $q-p^{h-i+1}$ respectively. For the second, use $\sum e_j=(p-1)(h+p-1)$ and $\sum e_jp^j=p(q-1)$. The unique lowest-degree term of $f_*(\mathcal E(te_i))$ therefore has degree $q-1$ and valuation $d-(q-1)r_i$. Finally
+\[
+ v_p((q-1)!)=\frac{q-1}{p-1}-h
+\]
+makes the derivative valuation $c_i(q-1)-h+d=p^i-1$. This proves the optimal constant in every direction. Slope optimality is already the exact sequence in DP32. Every step applies at $p=2$ and $h=2$.
+\end{proof}
+
+\subsection{The denominators of a primitive Poincar\'e splitting}
+
+\begin{theorem}[DP35: denominator rigidity and linear growth]\label{DP35}
+Let $R$ be a complete discrete valuation ring extending $\Z_p$, with fraction field $K$ and $v(p)=1$. Let $F$ be an integral formal group in variables $\mathbf S$, and let $\mathbf T$ be a further finite list of variables. Suppose
+\[
+ B\in K[[\mathbf S,\mathbf T]],\qquad B(0,\mathbf T)=B(\mathbf S,0)=1,
+ \qquad C_F=\frac{B(F(\mathbf S,\mathbf S'),\mathbf T)}{B(\mathbf S,\mathbf T)B(\mathbf S',\mathbf T)}
+       \in R[[\mathbf S,\mathbf S',\mathbf T]]^\times.
+\]
+Then the following statements hold.
+\begin{enumerate}[leftmargin=*,label=(\alph*)]
+\item If the coefficients of $B$ have bounded denominators, $B$ is an integral unit.
+\item For every rational $t>0$, the uniform weighted infimum
+\[
+ w_t(B)=\inf_\alpha\bigl(v(B_\alpha)+t|\alpha|\bigr)
+\]
+is either $0$ or $-\infty$. If a degree-$N$ coefficient has valuation $-m<0$, then
+\[
+ \liminf_{|\alpha|\longrightarrow\infty}\frac{v(B_\alpha)}{|\alpha|}\le-\frac mN.
+\]
+\item An integral unit cannot clear unbounded denominators. More generally, if $f\in R[[\mathbf S,\mathbf T]]$ has primitive first nonzero homogeneous part, then, for every integer $M\ge0$,
+\[
+ p^M fB\in R[[\mathbf S,\mathbf T]]\quad\Longrightarrow\quad
+ p^M B\in R[[\mathbf S,\mathbf T]].
+\]
+\item For the actual pair $G_h,H=G_h^D$ of DP32 over $W(\F_q)$, the primitive formal Poincar\'e class has integral normalized cocycle representatives and rational compatible splittings $B$. Every such splitting is nonintegral, hence has the unbounded and linearly growing denominators in (a)--(b). No fixed power of $p$, integral unit frame, or multiplier as in (c) repairs it.
+\end{enumerate}
+The last conclusion concerns a compatible splitting of both biextension laws. It does not assert that every rational gauge of a trivial class is integral, or determine the selected harmonic jets of a geometric theta section.
+\end{theorem}
+\begin{proof}
+For a nonzero bounded-denominator series $A$, discreteness gives a minimum coefficient valuation $\nu(A)$. It is multiplicative:
+\[
+ \nu(AA')=\nu(A)+\nu(A').
+\]
+Indeed, scale each factor by a power of a uniformizer to have least valuation zero. Its reduction is a nonzero formal series over the residue field; the residue series ring is a domain. Integral substitutions with zero constant term cannot lower $\nu$. Iterating the displayed coboundary through $p$ additions gives
+\[
+ B([p]_F(\mathbf S),\mathbf T)=B(\mathbf S,\mathbf T)^p U(\mathbf S,\mathbf T),\qquad
+ U=\prod_{j=1}^{p-1}C_F([j]_F(\mathbf S),\mathbf S,\mathbf T).
+\]
+Here $U$ is integral and has constant term one. If $B$ has bounded denominators,
+\[
+ \nu(B)\le\nu(B([p]_F(\mathbf S),\mathbf T))=p\nu(B).
+\]
+Thus $\nu(B)\ge0$, and the constant term one makes it zero. This proves (a), over a ramified ring as well.
+
+For (b), adjoin an element $\lambda$ of valuation $t$ in a finite ramified extension. The contracted law
+\[
+ F_\lambda(\mathbf S,\mathbf S')=\lambda^{-1}F(\lambda\mathbf S,\lambda\mathbf S')
+\]
+is integral: each coefficient of degree $e\ge2$ is multiplied by $\lambda^{e-1}$. The series $B_\lambda=B(\lambda\mathbf S,\lambda\mathbf T)$ has integral coboundary $C_F(\lambda\mathbf S,\lambda\mathbf S',\lambda\mathbf T)$. If $w_t(B)>-\infty$, part (a) makes $B_\lambda$ integral, so $w_t(B)=0$. A coefficient with valuation $-m$ and degree $N$ has negative weight whenever $0<t<m/N$. Thus $w_t(B)=-\infty$ for each such rational $t$. There are only finitely many coefficients of bounded total degree, so coefficients realizing arbitrarily negative weighted valuations have degrees tending to infinity. They give a liminf at most $-t$. Let $t$ increase rationally to $m/N$.
+
+An integral unit and its inverse preserve boundedness of denominators, proving the first assertion of (c). For the stronger assertion write $A=p^MB$, and let $f_m$ be the first nonzero homogeneous part of $f$. Induct on the degree $n$ of $A_n$. The homogeneous part of $fA$ of degree $m+n$ is
+\[
+ f_m A_n+\sum_{j>m}f_j A_{m+n-j}.
+\]
+The latter sum is integral by induction. Hence $f_mA_n$ is integral. The polynomial Gauss valuation is multiplicative by the same residue-domain argument, and $\nu(f_m)=0$. Consequently $A_n$ is integral. This includes the degree-zero start and proves the assertion.
+
+We supply the rational-splitting argument needed for (d), rather than assume that a frame is already a bilinear splitting. An integral normalized frame gives symmetric normalized unit cocycles $C_F(S,S',\mathbf T)$ and $C_H(S,\mathbf T,\mathbf T')$ satisfying both cocycle identities and the interchange identity. Use the explicit characteristic-zero logarithms of $G_h$ and $H$ to write additive coordinates $x,\mathbf y$. Put $A=\log C_F$ and $C=\log C_H$ in those coordinates. With
+\[
+ \delta_x\beta=\beta(x+x',\mathbf y)-\beta(x,\mathbf y)-\beta(x',\mathbf y)
+\]
+and the analogous vector coboundary, interchange says $\delta_{\mathbf y}A=\delta_x C$.
+Set
+\[
+ a(x,\mathbf y)=\left.\partial_{x'}A(x,x',\mathbf y)\right|_{x'=0},\qquad
+ \beta_0(x,\mathbf y)=\int_0^x a(u,\mathbf y)\,du.
+\]
+Differentiating the normalized two-cocycle identity gives
+\[
+ \partial_{x'}A(x,x',\mathbf y)=a(x+x',\mathbf y)-a(x',\mathbf y).
+\]
+Since $a(0,\mathbf y)=0$, integration and normalization prove $\delta_x\beta_0=A$. Interchange now makes $\delta_{\mathbf y}\beta_0-C$ additive in $x$. In characteristic zero an additive scalar series is linear, so this difference is $x\,d(\mathbf y,\mathbf y')$, where $d$ is a symmetric normalized vector two-cocycle. Put
+\[
+ b_i(\mathbf y)=\left.\partial_{y_i'}d(\mathbf y,\mathbf y')\right|_{\mathbf y'=0}.
+\]
+Its cocycle identity gives
+\[
+ \partial_{y_i'}d(\mathbf y,\mathbf y')=b_i(\mathbf y+\mathbf y')-b_i(\mathbf y').
+\]
+Commuting the derivatives shows that $\partial_jb_i-\partial_i b_j$ is translation invariant and therefore constant. Symmetry of $d$, evaluated by mixed derivatives at the origin, makes that constant zero. The formal one-form $\sum_i b_i\,dy_i$ is closed. Its radial primitive
+\[
+ \gamma(\mathbf y)=\int_0^1\sum_i y_i b_i(t\mathbf y)\,dt
+\]
+has gradient $(b_i)$, zero constant term, and $\delta_{\mathbf y}\gamma=d$ by the differentiated identity and normalization. Thus
+\[
+ \beta=\beta_0-x\gamma(\mathbf y),\qquad B=\exp\beta
+\]
+solve both rational coboundary equations in logarithm coordinates. Returning to the integral group coordinates means $B(S,\mathbf T)=\exp\beta(L_G(S),L_H(\mathbf T))$; parts (a)--(c) apply in these group coordinates. The integrations are coefficientwise formal integrations over $K$. The axes are normalized. The difference of two logarithmic solutions is additive separately in $x$ and $\mathbf y$, hence is a bilinear form $x\sum_i a_i y_i$.
+
+For existence of the integral primitive class and its frame, use the display evaluation pairing. Zink's construction \cite[\S4.3, (216)--(218), pp.~238--239]{Zink}, followed by Proposition~121, (243), and Theorem~122, identifies this class with $\id_G\in\operatorname{End}(G)$. Both dual displays are connected; the nilradical hypothesis of Theorem~122 holds over each $R/p^n$. The pairings and classes are compatible under reduction. Zink's Lemma~111, \S4.2, p.~230 supplies an underlying frame over the prorepresentable formal product. Axial rigidifications can be restored by integral units. The same argument can be made compatibly modulo $p^n$: after choosing a frame at one level, lift a frame to the next and multiply by a lift of the unit measuring its discrepancy with the previous frame. The maps of formal unit groups under reduction are surjective. The inverse limit is an integral normalized frame over $R$.
+
+The identity class is nonzero already on the special fibre and is primitive: an equality $pf=\id_G$ with an integral endomorphism would give $p\,df=1$ on the tangent line. An integral compatible splitting $B$, having constant term one, would be a unit splitting both laws and would make that class zero. Therefore every rational compatible splitting just constructed is nonintegral. Parts (a)--(c) give all the asserted denominator conclusions. The same conclusions hold for every nonzero integer multiple $B^k$: its class is $[k]$, which is nonzero since its characteristic-zero differential is $k$. For odd $p$ they also hold for $B^{k/2}$, $k\ne0$, since the normalized square roots of its integral cocycles are integral and the class has differential $k/2$. These assertions do not estimate selected harmonic combinations.
+\end{proof}
+
+The primitive-first-part hypothesis cannot be silently replaced by arbitrary nonvanishing: $f=p-z$ and $B=(1-z/p)^{-1}$ satisfy $fB=p$, although $B$ has unbounded denominators. This example is a warning about multiplication, not an asserted biextension example. Conversely, a trivial biextension can acquire a nonintegral rational bilinear gauge. DP35 is consequently a one-way obstruction, not a numerical invariant or a test characterizing the class. In particular, it does not bypass the source's selected harmonic-jet and connection identities.
+
+\subsection{A conditional kernel estimate for the genuine dual pair}
+
+\begin{proposition}[DP36: unequal weights restore the kernel quantization]\label{DP36}
+Let $p$ be odd, $h\ge2$, $q=p^h$, $d=h-1$, and $R=W(k)$ with $\F_q\subset k$. Use the actual pair $G_h,H=G_h^D$ of DP32, with logarithms $L_0,\mathcal L$ and inverses $E_0,\mathcal E$. Put
+\[
+ s=(p-1)^{-1},\quad\rho=(q-1)^{-1},\quad r_0=\rho,\quad r_i=s-p^i\rho\ (1\le i\le d).
+\]
+Suppose $\beta(x,\mathbf y)\in R[1/p][[x,\mathbf y]]$ vanishes on either axis, has no bidegree-$(1,1)$ monomial, and satisfies
+\[
+ \beta(\zeta x,\zeta^{-p}y_1,\ldots,\zeta^{-p^d}y_d)=\beta(x,\mathbf y)
+\]
+for a primitive $(q-1)$-st root $\zeta$. Suppose its two exponential addition coboundaries
+\[
+ C_X=\exp\bigl(\delta_x\beta(L_0(S),L_0(S'),\mathcal L(\mathbf T))\bigr),\quad
+ C_Y=\exp\bigl(\delta_{\mathbf y}\beta(L_0(S),\mathcal L(\mathbf T),\mathcal L(\mathbf T'))\bigr)
+\]
+are integral units with constant coefficient one. Here $\delta_{\mathbf y}$ uses addition of the whole vector in logarithm coordinates. For any integral series $U$ in the group coordinates and $\sigma\in\{1,-1\}$, set
+\[
+ \Theta(x,\mathbf y)=U(E_0(x),\mathcal E(\mathbf y))\exp\bigl((\sigma/2)\beta(x,\mathbf y)\bigr).
+\]
+Then
+\begin{equation}\label{eq:true-pair-weight}
+ v_p(\mathbf a![x^{a_0}\mathbf y^{\mathbf a'}]\Theta)
+ \ge (s-p\rho)a_0+\sum_{i=1}^d\left(\frac{p^{i+1}}{q-1}-1\right)a_i
+       -\frac{\sum_{i=0}^d s_p(a_i)}{p-1}.
+\end{equation}
+On the specific path $x=t$, $y_d=\epsilon t$, $y_i=0$ for $i<d$, with $\epsilon\in R^\times$, this gives
+\begin{equation}\label{eq:true-pair-path}
+ v_p(n![t^n]\Theta(t,0,\ldots,0,\epsilon t))
+ \ge\rho n-\frac{s_p(n)}{p-1}.
+\end{equation}
+These are sufficient estimates, with no asserted optimality or identification with a prescribed geometric theta expression or path. DP37 below realizes the hypotheses for a normalized representative of the primitive formal Poincar\'e class.
+\end{proposition}
+\begin{proof}
+If $x^a\mathbf y^{\mathbf b}$ is invariant, $a-\sum_i p^ib_i$ is divisible by $q-1$. Its weighted degree is
+\[
+ r_0a+\sum_i r_ib_i
+ =\rho\left(a-\sum_i p^ib_i\right)+s|\mathbf b|\in s\Z.
+\]
+All $r_i$ are positive. Every nonconstant invariant monomial therefore has weighted degree at least $s$. The same calculation applies with duplicated $x$-variables or duplicated $\mathbf y$-vectors. Integral coefficient valuations are nonnegative, so the lower bound remains valid. The actual logarithms, exponentials and group laws are equivariant for these characters by their explicit formulas in DP32. Thus the integral series $C_X-1,C_Y-1$ have weighted valuation at least $s$.
+
+The inverse-logarithm estimates give weight at least $r_0$ to $E_0$ and at least $r_i$ to $\mathcal E_i$; substituting them preserves this bound. Taking the formal logarithm consequently gives
+\[
+ w_{\mathbf r}(\delta_x\beta),\ w_{\mathbf r}(\delta_{\mathbf y}\beta)\ge s.
+\]
+Indeed its $m$-th term has weight at least $ms-v_p(m)\ge s$, since $v_p(m)\le(m-1)/(p-1)$.
+
+For a monomial $x^a\mathbf y^{\mathbf b}$ of $\beta$, both side degrees are positive and not both one. If $a\ge2$, choose an interior binomial coefficient of valuation at most one as in DP29 and read the corresponding coefficient of $\delta_x\beta$. If $a=1$ and $|\mathbf b|\ge2$, either two components of $\mathbf b$ are nonzero, in which case a split sending one whole component to the first vector has coefficient one, or a single component has exponent at least two, in which case use the same binomial choice in that component. Recombining the split exponents recovers the original monomial uniquely, so there is no contamination by another coefficient. It follows that $w_{\mathbf r}(\beta)\ge s-1$.
+
+Each monomial of $\beta$ has positive weighted degree at least $s$. Increasing all weights from $r_i$ to $pr_i$ therefore adds at least $(p-1)s=1$ to every coefficient weight. Thus $w_{p\mathbf r}(\beta)\ge s$, and its exponential with multiplier $\sigma/2$ has nonnegative weight by $v_p(m!)\le ms$. The integral $U$ factor has nonnegative weight as well; increasing the positive weights preserves the established inverse bounds. Hence the ordinary coefficient is at least $-p\sum_i r_ia_i$ in valuation. Adding Legendre's exact factorial identity proves \eqref{eq:true-pair-weight}.
+
+For the stated path assign $t$ weight $pr_d$. Since $r_d\ge r_0$, both nonzero substitutions have at least their required weights. Setting the other coordinates to zero preserves the bound. The resulting factorial coefficient is bounded by $(s-pr_d)n-s_p(n)/(p-1)$. The identity $s-pr_d=\rho$ proves \eqref{eq:true-pair-path}.
+\end{proof}
+
+At $h=2$ all weights in this pair are equal, and the final residual is the source's $\rho_2$. At larger height, the actual dual's unequal weights restore the quantization that failed in DP28's two-identical-scalar model. On the displayed path the sufficient residual is instead $\rho_h$, which decreases with $h$. This is not an upper bound on actual gain and does not rule out a sharper primitive-class estimate or a different path. It does show why replacing the increasing formal-function slope $c_h$ directly in a normalized-kernel formula is not the analytic implication just proved.
+
+\begin{proposition}[DP37: the true dual torus and a primitive normalized kernel]\label{DP37}
+In the actual model of DP32 over $\mathcal O=W(\F_q)$, the automorphism
+\[
+ A_\zeta(\mathbf X)=(\zeta^pX_1,\ldots,\zeta^{p^{h-1}}X_{h-1}),\qquad\zeta^{q-1}=1,
+\]
+satisfies $A_\zeta^D=[\zeta]_{G_h}$. Consequently the primitive formal Poincar\'e biextension has an integral normalized frame invariant under
+\[
+ ([\zeta],A_\zeta^{-1}).
+\]
+In that frame there is a unique invariant rational logarithmic splitting $\beta$. It vanishes on both axes, has no bidegree-$(1,1)$ term, and has the integral exponential coboundaries required in DP36. Thus for odd $p$ DP36 applies to an actual primitive formal Poincar\'e representative. Its compatible splitting still has the denominators proved in DP35. This does not identify the particular section, gauge, path or harmonic operators of a global theta correspondence.
+\end{proposition}
+\begin{proof}
+The explicit monomial map $M$ of DP32 commutes with $A_\zeta$: the ordinary arrows use $p\cdot p^{i-1}=p^i$, and the exceptional arrow uses $p^{h+1}\equiv p\pmod{q-1}$. Hence its logarithm and integral group law commute as well. This proves that $A_\zeta$ is an integral automorphism. It suffices first to take $\zeta$ primitive. Put $a=A_\zeta^D$ and write $\lambda=da$ on the one-dimensional tangent space of $G_h$.
+
+Tate's functorial Hodge--Tate sequence \cite[\S4, Corollary 2 following Theorem 3, p.~180]{Tate67}, over the completed algebraic closure $C$ of $\operatorname{Frac}(\mathcal O)$, is
+\[
+ 0\longrightarrow \Lie(H)_C
+ \longrightarrow \Hom_{\Z_p}(T_pG_h,C)
+ \longrightarrow \Lie(G_h)_C^*\otimes_C\Hom_{\Z_p}(\Z_p(1),C)
+ \longrightarrow0.
+\]
+On its middle term $a$ acts by precomposition, on the first term by $d(a^D)=dA_\zeta$, and on the cotangent factor by pullback, with scalar $\lambda$. These are adjoint actions, so neither Hom nor the cotangent introduces an inverse eigenvalue. This also follows directly by differentiating the natural Cartier identity $\langle aP,Q\rangle=\langle P,a^DQ\rangle$. The cyclotomic factor is unchanged.
+
+The characteristic polynomial $P_a(Z)$ of $a$ on the rank-$h$ $\Z_p$ Tate module is consequently
+\[
+ P_a(Z)=(Z-\lambda)\prod_{i=1}^{h-1}(Z-\zeta^{p^i}).
+\]
+It is monic of degree $h$ over $\Q_p$. The primitive root $\zeta^p$ has degree exactly $h$: its Frobenius conjugates are $\zeta^{p^j}$, and $p^m\not\equiv1\pmod{p^h-1}$ for $0<m<h$. Therefore its degree-$h$ minimal polynomial divides and equals $P_a$. Comparing the one missing root proves $\lambda=\zeta$. In characteristic zero a one-dimensional formal endomorphism is determined by its differential: conjugate by the normalized logarithm and compare the coefficient of $X^{n-1}Y$ in additivity to kill all degrees $n\ge2$. Thus $a=[\zeta]$. Taking powers proves the equality for every root, and its integral identity persists under base change.
+
+The evaluation pairing giving the primitive Poincar\'e biextension is preserved by $([\zeta],A_\zeta^{-1})$. Functoriality of the pairing construction, not just equality of isomorphism classes, gives a compatible action of the finite group $\Gamma=\mu_{q-1}$ on the biextension and its axial rigidifications. Choose an integral normalized frame $e$ as in DP35 and write $g(e)=c_g e$. The units $c_g$ are one on both axes and satisfy $c_{\sigma g}=\sigma(c_g)c_\sigma$. Set $N=q-1$ and
+\[
+ u=\left(\prod_{g\in\Gamma}c_g\right)^{1/N}.
+\]
+The unique root with constant term one is integral: coefficientwise recursion divides only by the unit $N$. It is one on both axes. The cocycle identity gives
+\[
+ \sigma(u)=u/c_\sigma,
+\]
+so $e'=ue$ is an invariant integral normalized frame. Its two addition cocycles are invariant integral units.
+
+Use DP35 to obtain a rational logarithmic splitting $\beta_0$ of these cocycles in the additive logarithm coordinates, and average
+\[
+ \beta=\frac1N\sum_{g\in\Gamma}g\beta_0.
+\]
+Both additive coboundaries remain the logarithms of the same invariant integral cocycles. The axes remain zero. The characters are exactly $(\zeta,\zeta^{-p},\ldots,\zeta^{-p^{h-1}})$ by the first part of the proof. No bilinear monomial $xy_i$ is invariant, because $1-p^i$ is not divisible by $q-1$ for $1\le i<h$. Thus $\beta$ has no bidegree-$(1,1)$ term. Any two rational splittings differ by a bilinear form by DP35, so the same character observation proves uniqueness among invariant splittings. All hypotheses of DP36 have now been obtained for the primitive class. Its nontriviality and denominator conclusion are unchanged.
+\end{proof}
+
+\begin{theorem}[DP38: the first primitive Poincar\'e coefficients]\label{DP38}
+For every $p$ and $h\ge2$, over $W(\F_q)$ there are integral Teichm\"uller coordinates $S,Y_1,\ldots,Y_d$ on the Honda line and its actual dual, $d=h-1$, and a normalized integral Poincar\'e frame in which every rational compatible splitting satisfies
+\[
+ [S^pY_1]B=\frac1p,\qquad [SY_d^p]B=-\frac1p.
+\]
+These coefficients are unchanged by a rational bilinear gauge and change only by integral amounts under an axes-normalized integral unit frame. The frame is invariant for the true action $(S,Y_i)\mapsto(\zeta S,\zeta^{-p^i}Y_i)$. Its unique invariant logarithmic splitting has no positive term below degree $p+1$, and
+\begin{equation}\label{eq:primitive-first}
+ (\log B)_{p+1}=B_{p+1}=\frac{S^pY_1-SY_d^p}{p}.
+\end{equation}
+The same first homogeneous term holds in the normalized logarithm coordinates. Consequently
+\[
+ D_G^pD_1 B(0)=(p-1)!,\qquad D_GD_d^p B(0)=-(p-1)!.
+\]
+Both values are units, although both operators are divisible by $p$ on integral formal functions. In the group coordinates,
+\[
+ w_t(B)=-\infty\quad\left(0<t<\frac1{p+1},\ t\in\Q\right),\qquad
+ \liminf_{|\alpha|\to\infty}\frac{v_p(B_\alpha)}{|\alpha|}\le-\frac1{p+1}.
+\]
+For this invariant splitting, odd $p$, $h>2$, and any integral $U$ with unit constant term, the last-dual logarithmic path $x=t$, $y_d=\epsilon t$, $y_i=0$ for $i<d$, gives
+\begin{equation}\label{eq:primitive-path-unit}
+ v_p\left((p+1)![t^{p+1}]\,
+ U(E_G(t),E_H(\epsilon te_d))
+ \exp\left(\tfrac12\log B(E_G(t),E_H(\epsilon te_d))\right)\right)=0
+\end{equation}
+for every unit $\epsilon$. This is an exact finite-order assertion, not an asymptotic upper bound on every selected theta jet or a shorter-chain impossibility theorem.
+\end{theorem}
+\begin{proof}
+We give an explicit display calculation, working compatibly over $\mathcal O/p^n$, where $\mathcal O=W(\F_q)$, and then passing to the inverse limit. Let $P$ be free on $e_0,\ldots,e_d$ over the Witt ring, with normal decomposition
+\[
+ T=We_0,\qquad L=\bigoplus_{j=1}^dWe_j,\qquad Q=L\oplus IT.
+\]
+With $e_h=e_0$, specify the Frobenius-semilinear operators by
+\[
+ Fe_0=e_1,\qquad V^{-1}e_j=e_{j+1},\qquad Fe_j=pe_{j+1}\quad(1\le j\le d).
+\]
+On $IT$ the relation is $V^{-1}(V\xi\,e_0)=\xi Fe_0$. The linearization of $V^{-1}\oplus F$ on $L\oplus T$ is a cyclic permutation and hence an isomorphism. The actual dual display has
+\[
+ L'=We_0^*,\quad T'=\bigoplus_{j=1}^dWe_j^*,\quad
+ V'^{-1}e_0^*=e_1^*,\quad F'e_0^*=pe_1^*,\quad
+ F'e_j^*=e_{j+1}^*\ (j\ge1).
+\]
+These formulas satisfy the pairing identities of Zink, Definition~19 and (22), p.~143. The $h$-fold Frobenius cycles send a basis vector to $p^{h-1}$ times itself in the first display and to $p$ times itself in the dual, with the corresponding Frobenius on coefficients. Both nilpotence conditions hold for $h\ge2$.
+
+By Zink's Theorem~81 and (145)--(146), p.~204, the formal groups are the cokernels of $V^{-1}-\id$. The maps represented by
+\[
+ \sigma(S)=[S]e_0,\qquad \tau(\mathbf Y)=\sum_{j=1}^d[Y_j]e_j^*
+\]
+give integral formal coordinates: their tangent maps to $P/Q$ and $P'/Q'$ are identities, so the formal inverse function theorem, proved coefficientwise by its unit linear term, applies. On the special fibre $p[S]=V[S^p]$, and the display relations carry this around the cycle to $[S^q]e_0$. Thus $[p]_G(S)\bmod p=S^q$. The linear coefficient is $p$, so Hazewinkel's integral Lubin--Tate uniqueness theorem, \S5, p.~77 identifies this line with $G_h$. The second display is its actual Cartier dual. No equality of its entire coordinate logarithm with DP32's chosen formula is assumed in the calculation that follows.
+
+Use the evaluation pairing of the displays. The scalar-one section represented by $(1,\sigma(S),\tau(\mathbf Y))$ in Zink's Proposition~106, p.~226 gives a normalized integral frame. If $\kappa_G,\kappa_H$ are the defects of these lifts, defined by
+\[
+ (V^{-1}-\id)\kappa_G=\sigma(S)+\sigma(S')-\sigma(F_G(S,S'))
+\]
+and its dual analogue, its cocycles from (218), p.~239 are
+\begin{equation}\label{eq:display-cocycles}
+ C_G=\operatorname{hex}\langle V^{-1}\kappa_G,\tau(\mathbf Y)\rangle,
+ \qquad C_H=\operatorname{hex}\langle\sigma(S),\kappa_H\rangle^{-1}.
+\end{equation}
+Here $\operatorname{hex}$ is the Artin--Hasse map (210)--(211), p.~236. The inverse is the minus sign in Zink's additively written multiplicative group. Indeed, the quotient relation in Proposition~106 replaces a lift differing by a defect with its scalar multiplied by the corresponding pairing. Thus these signs agree with $C_G=B(F_G)/(BB)$, and similarly for $C_H$. DP35 supplies rational compatible splittings.
+
+Put
+\[
+ C_p(S,S')=\frac{(S+S')^p-S^p-S'^p}{p},\qquad
+ [S]+[S']-[S+S']=V\xi.
+\]
+The first two ghost polynomials give $\xi_0=-C_p(S,S')$. The integral Witt addition polynomials are weighted homogeneous, so $\xi_i$ has ordinary degree $p^{i+1}$, and every component of $F^r\xi$ has degree at least $p^{r+1}$. This assertion uses this homogeneous carry vector; it is not an assertion about Frobenius and arbitrary coefficient-degree filtrations. The explicit element
+\[
+ \kappa_0=-V\xi\,e_0-\sum_{j=1}^dF^{j-1}\xi\,e_j
+\]
+satisfies the exact telescoping identity
+\[
+ (V^{-1}-\id)\kappa_0=V\xi\,e_0-F^d\xi\,e_0.
+\]
+The last term has degree at least $p^{d+1}=q$. Modulo the degree-$q$ ideal the group law is therefore ordinary addition. Moreover the true defect equals $\kappa_0$ to that precision: reduce Zink's exact sequence (146) to this nilpotent test algebra and use its injectivity. No inverse of an uncomputed operator is assumed to preserve degree.
+
+The $e_1$ coefficient of $V^{-1}\kappa_0$ is the Witt vector $w=-\xi$. Multiplication by $[Y_1]$ sends its $i$th Witt component to $w_iY_1^{p^i}$; no componentwise-negation formula is assumed. In the Artin--Hasse product only the zeroth component contributes linearly in $Y_1$, with coefficient one, and $w_0=-\xi_0$. Thus
+\[
+ [Y_1]\log C_G=C_p(S,S')+O((S,S')^q).
+\]
+Writing $b=\log B$, extraction of $S^{p-1}S'Y_1$ from $\delta_G b$ uses ordinary addition and gives $p[S^pY_1]b=1$. Since $b$ has positive degree on both sides, exponentiation cannot alter its $Y$-linear coefficient. This proves $[S^pY_1]B=1/p$.
+
+For the second coefficient restrict both dual inputs to the last coordinate. Again write $[Y]+[Y']-[Y+Y']=V\xi$. This time
+\[
+ \kappa'_0=-V\xi\,e_d^*-\xi\,e_0^*,\qquad
+ (V'^{-1}-\id)\kappa'_0=V\xi\,e_d^*-F\xi\,e_1^*.
+\]
+The endpoint has degree at least $p^2$. Addition on this source axis is ordinary to that precision, and the true defect has the same reduction by injectivity. Pair with $[S]e_0$ and use the inverse in \eqref{eq:display-cocycles}. It gives
+\[
+ [S]\log C_H=-C_p(Y,Y')+O((Y,Y')^{p^2}).
+\]
+Hence $p[SY_d^p]b=-1$, and exponentiation leaves this $S$-linear coefficient unchanged.
+
+These same addition calculations imply $\log_G(S)=S+O(S^q)$ and
+\[
+ \log_H(Ye_d)=Ye_d+O(Y^{p^2}):
+\]
+compare the low-degree terms of the logarithm's additive identity on the indicated inputs. Therefore a rational bilinear change $\log_G(S)\sum_j a_j\log_{H,j}(\mathbf Y)$ contributes to neither of the two coefficients. An axes-normalized unit frame change adds or subtracts $\log I$. Its $Y$-linear and $S$-linear coefficients are integral, since higher powers of $I-1$ cannot contribute there. This proves the claimed invariance of their valuations.
+
+For the full first homogeneous part, the diagonal display map $e_j\mapsto[\zeta^{p^j}]e_j$ commutes with the operators, including Frobenius on its coefficients. It sends $\sigma(S)$ to $\sigma(\zeta S)$, so gives the true $[\zeta]$ on the line. Its inverse dual sends $\tau(\mathbf Y)$ to $\tau(\zeta^{-p^j}Y_j)$. The evaluation pairing and the scalar-one quotient frame are invariant. As in DP37, averaging gives the unique invariant rational $b$.
+
+Suppose an invariant mixed monomial has side degrees $a,b\ge1$ and total degree at most $p+1$. Then
+\[
+ a-\sum_jp^jb_j\equiv0\pmod{q-1},\qquad
+ pb\le\sum_jp^jb_j\le p^db\le q.
+\]
+If the sum equals $a$, the degree bound forces $b=1$, $a=p$, and $j=1$. If the sum exceeds $a$, their difference can only be $q-1$; the upper bound forces $a=1$, $b=p$, and all dual factors to be $Y_d$. These are precisely the two monomials already computed, both of degree $p+1$. This proves \eqref{eq:primitive-first} and absence of smaller terms. Substitution of the inverse logarithms, whose linear parts are identities, preserves that first homogeneous part. The two stated factorial mixed derivatives follow.
+
+For an integral function, the translation coefficient at source degree $p$ on the line is $D_G^p/p!$, since its logarithm has no nonlinear term of that degree. The corresponding last-dual coefficient is $D_d^p/p!$ by the last-axis calculation above. Both translation operators are integral, so $D_G^p$ and $D_d^p$ are divisible by $p$ on the entire integral function ring. This proves the asserted contrast with the two unit mixed jets. DP35 applied to a degree-$p+1$ coefficient of valuation $-1$ gives the numerical denominator rate.
+
+Finally assume $h>2$. On the stated logarithmic path the first monomial in \eqref{eq:primitive-first} vanishes because $y_1=0$, leaving $-\epsilon^pt^{p+1}/p$. Put $D=D_G+\epsilon D_d$. Its two pure $p$th powers and every interior binomial term are divisible by $p$, so $D^p$ takes integral functions into $p\mathcal O[[S,\mathbf Y]]$. Consequently the integral $U$ factor contributes a multiple of $p$ to its $(p+1)$st derivative. There is no earlier positive term in the exponential gauge; its contribution at that order is
+\[
+ -U(0)\epsilon^p\frac{(p+1)!}{2p},
+\]
+a unit for odd $p$. It cannot cancel the first contribution. This proves \eqref{eq:primitive-path-unit}.
+\end{proof}
+
+At $h=2$ the path coefficient is $(\epsilon-\epsilon^p)/p$ and can vanish, which explains the restriction in \eqref{eq:primitive-path-unit}. For any prime, still with $h>2$, the same unit-jet proof works with $\exp(k\log B)$ for a unit scalar $k$ in place of the half-power. The asymptotic denominator rate also survives on a formal generic group-coordinate diagonal after an unramified extension with transcendental residue unit $\epsilon$: first restrict to $S,Y_1$, which retains the integral first coboundary and the coefficient $1/p$, then put $S=t,Y_1=\epsilon t$. In each nonzero homogeneous part the least-valuation residue is a nonzero polynomial in $\bar\epsilon$, so no cancellation of that minimum occurs. This proves the same rate there, but makes no claim for a prescribed algebraic CM parameter or for an arbitrary logarithmic diagonal.
+
+\begin{proposition}[DP39: what harmonicity removes, and what it does not]\label{DP39}
+The following two assertions distinguish full-series denominators from selected theta-type jets.
+\begin{enumerate}[leftmargin=*,label=(\alph*)]
+\item There are integral formal-biextension data, two canonical gauges, and a primitive germ $f=1$ for which one normalized series has unbounded denominators, while all the specified harmonic values agree. In fact the agreement holds for every germ $f$ whenever the polynomial $P$ is killed by the specified second-order contraction.
+\item For odd $p$ and every $h\ge2$, two copies of the actual primitive pair have an integral polynomial satisfying the summed harmonic, row-invariance and fixed-row-degree conditions defining \path{HaO}, whose normalized kernel value is a unit. The same invariant polynomial takes values in $pR$ on every integral function on that product. Therefore those algebraic harmonic conditions alone do not transfer the bare integral-function divisibility through the primitive exponential.
+\end{enumerate}
+Neither assertion constructs a new global mixed-type theta correspondence or asserts that the particular germ $1$ is a global theta section.
+\end{proposition}
+\begin{proof}
+For a polynomial $P$ and a formal series $f$ over a characteristic-zero field, write $\langle P,f\rangle=P(\partial)f(0)$. For every polynomial $Q$,
+\begin{equation}\label{eq:fischer-ideal}
+ \langle P,Qf\rangle=\langle Q(\partial)P,f\rangle.
+\end{equation}
+For monomials $P=Z^\alpha,Q=Z^\beta,f=Z^\gamma$, both sides vanish unless $\alpha=\beta+\gamma$, when both are $\alpha!$. Linearity and the finite jet read by $P$ prove the identity for formal series. If $Q_j(\partial)P=0$ for every $j$, the pairing kills the formal ideal $(Q_j)$. If $\eta$ has zero constant term and belongs to that ideal, then $\exp\eta-1=\eta\sum_{n\ge1}\eta^{n-1}/n!$ also belongs to it. Hence
+\[
+ \langle P,f\exp\eta\rangle=\langle P,f\rangle.
+\]
+
+For (a), let $F=\widehat\Ga^2$ over $\Z_p$, let $O=\Z\times\Z$ act diagonally, and let its involution exchange the two factors. Take trivial addition, symmetry and adjoint cocycles. Both $h_0=0$ and
+\[
+ h_1(X,Y)=X_1Y_2+X_2Y_1
+\]
+are canonical gauges: their axes vanish, their addition coboundaries vanish by biadditivity, and symmetry is immediate. For $(a,b)\in O$ the adjoint identity is explicitly
+\[
+ h_1((aX_1,bX_2),Y)=aX_1Y_2+bX_2Y_1
+ =h_1(X,(bY_1,aY_2)).
+\]
+Take $w_0=(1,0)$, so $w_0+w_0^*=1$ and $h_{1,L}=X_1X_2$. For $f=1$ the normalized series is $\exp(X_1X_2)$, whose coefficients $1/n!$ have unbounded denominators. If $\partial_U\partial_VP=0$, its selected value agrees with that in gauge zero for every $f$, by \eqref{eq:fischer-ideal} with $Q=X_1X_2$. Equivalently $P$ is a sum of pure polynomials in $U$ and in $V$, and the exponential is one on each axis. The second-order operator in the source's symmetric-matrix convention is $2\partial_U\partial_V$, with the same kernel over $\Q_p$, including when $p=2$. For $f=1$ all positive-degree selected values vanish. This proves (a) and shows why primitive initial terms and full-series nonintegrality do not by themselves decide harmonic integrality.
+
+For (b), use DP38's invariant splitting in logarithm coordinates, whose coefficient is $[x^py_1]B=1/p$. On two copies put
+\[
+ \Theta=B(x_1,\mathbf y^{(1)})^{1/2}B(x_2,\mathbf y^{(2)})^{1/2},\qquad
+ P=X_1^pY_{1,1}-pX_1^{p-1}X_2Y_{1,2}.
+\]
+Give the positive type one row and the negative type $d$ rows, each with two columns. Give the positive row degree $p$, the first negative row degree one, and all other rows degree zero. Every coefficient is integral and every monomial has those degrees. The positive row has no earlier row. Adding an earlier negative row to a later one leaves $P$ unchanged because it uses only the first negative row. Thus the prescribed row invariances hold. For the identity-form contractions
+\[
+ \Delta_i=\partial_{X_1}\partial_{Y_{i,1}}+
+          \partial_{X_2}\partial_{Y_{i,2}},
+\]
+one has $\Delta_iP=0$ for $i>1$ and
+\[
+ \Delta_1P=pX_1^{p-1}-pX_1^{p-1}=0.
+\]
+These are exactly the algebraic definitions \path{lap}, \path{harmK}, \path{RowInv}, \path{RowDeg}, and \path{HaO} in
+\path{Formalism/LocalToGlobal/ProjectiveLattices/RowDeg.lean},
+lines 21--30 and 37--48; \path{IsThRule.lean}, \path{harmA}, lines 86--87, specializes this definition in the source. They are sums over columns, not individual contractions.
+
+Every monomial of $B-1$ has positive degree on both sides. Therefore the $y_1$-linear coefficient of $B^{1/2}$ is half that of $B$, and the first monomial of $P$ contributes
+\[
+ p!\,[x^py_1]B^{1/2}=\frac{(p-1)!}{2},
+\]
+a unit. The second monomial contributes zero: it differentiates the first copy $p-1>0$ times in $x_1$, with its entire dual variable set zero, where that factor is identically one. Hence $P(\partial)\Theta(0)=(p-1)!/2$.
+
+For an integral function $f$ on $(G_h\times H)^2$, the first term of $P(D)f$ is divisible by $p$ because $D_{x_1}^p$ is coefficientwise divisible by $p$ at height at least two. Its other invariant derivation preserves that ideal. The second term has its explicit factor $p$ and otherwise only integral invariant derivations. Thus $P(D)f(0)\in pR$. This proves (b), with no assumption that the formal row labels already define a new global source datum.
+\end{proof}
+
+The associated ideal in \eqref{eq:fischer-ideal} is generated by column sums $\sum_bX_{\tau,a,b}X_{\bar\tau,a',b}$, not every separate product. In DP22's pure CM type $\{1,2,3\}\subset(\Z/7)^\times$, the conjugate type is $\{6,5,4\}$ and is disjoint. If this formula is applied with one row on the type and zero outside it, each conjugate-row contraction has an empty index set. It does not impose $\partial_x\partial_{y_i}$ on the height-three line and its dual directions. This observation is about the stated harmonic formula; DP25 still prevents treating that row list as the old induced-type global host.
+
+\section{Cote 54, Cartier duality, and the crystalline setting}
+
+\subsection{The exact question in the supplied text}
+
+Cote 54, scan 3, writes $B=A^\vee$, identifies $t_B=H^1(A,\mathcal O_A)$ and $t_A^\vee=H^0(A,\Omega_A^1)$, and introduces
+\begin{equation}\label{eq:SA}
+ S_A:\quad 0\longrightarrow t_A^\vee\longrightarrow H^1_\dR(A)
+ \longrightarrow t_B\longrightarrow0.
+\end{equation}
+It relates this to universal vector extensions. Scan 5 asks to compare the extensions and dualities with Cartier duality and places $A[F]$ inside $A[p]$. Scan 6 is an interleaved flattening argument, ``Proposition A'', not an intermediate step in the duality calculation. Scan 7 returns to the Frobenius--Verschiebung diagram, writes the corresponding finite-group extension, and asks whether the restricted-Lie extension can be recovered from $A[p]$. Its box says that $t_A^\vee$ has zero $p$-power.
+
+\begin{proposition}[DP10: the zero operation and what Cartier duality recovers]\label{DP10}
+The boxed assertion concerns the vector-group kernel of a universal extension and holds for every abelian variety in characteristic $p$. It does not assert that $\Lie A$ has zero restricted $p$-power. Over a perfect field the Cartier sequence is
+\begin{equation}\label{eq:cartier}
+ 0\longrightarrow A[F]\longrightarrow A[p]
+ \longrightarrow (B[F])^D\longrightarrow0.
+\end{equation}
+The filtered $F,V$-module $H^1_\dR(A)$, including its Hodge extension, is recoverable from $A[p]$ by Oda's theorem. In the usual restricted-Lie interpretation $x^{[p]}=F(x)$, the Hodge subspace has zero $p$-operation.
+\end{proposition}
+\begin{proof}
+The invariant derivations of $\Ga^g$ are constant linear combinations of the coordinate derivatives. In characteristic $p$, their $p$th powers are zero: the summands commute, and each $p$fold derivative of a monomial has a factor divisible by $p$. Maps of smooth groups respect the restricted operation, so every vector kernel has this property. In contrast on $\Gm$, $(x\,d/dx)^p=x\,d/dx$, as is seen on every monomial. An ordinary elliptic curve has height-one formal group and nonzero restricted operation by DP6, while its universal extension still has the same additive vector kernel. This proves the distinction without assuming supersingularity.
+
+Since $[p]=V_AF_A$, restriction of $F_A$ gives an fppf-surjection $A[p]\to A^{(p)}[V_A]$ with kernel $A[F]$. Cartier duality for isogeny kernels identifies $A^{(p)}[V_A]$ with $(B[F])^D$ \cite[Theorem 1.1 and Corollary 1.3, pp.~67--70]{Oda}, giving \eqref{eq:cartier}. The same perfect pairing makes $A[F]$ and $B[F]$ annihilators of one another, which is the orthogonality asserted in scan 5.
+
+Write $M=M(A[p])$ for the contravariant Dieudonn\'e module. Oda \cite[Corollary 5.11, p.~131]{Oda} identifies it canonically with $H^1_\dR(A)$, respecting $F,V$ and identifying $VM=\ker F$ with $H^0(A,\Omega_A^1)$. The quotient is $H^1(A,\mathcal O_A)$. Thus the Hodge extension and its Frobenius are functorial in $A[p]$. Since $FV=0$ on $M$, $F$ is zero on this subspace.
+
+To verify that this is the actual restricted operation, use the classical realization of the universal extension of $B$ by algebraically trivial line bundles on $A$, rigidified at the identity and equipped with integrable connection \cite[Chapter I, 2.6; Propositions 2.6.7, 3.2.3, 4.2.1; (4.6.3)]{MM}. A tangent vector has transition functions $1+\epsilon f_{ij}$ and connection forms $\epsilon\omega_i$, representing the de Rham \v Cech cocycle $(f_{ij},\omega_i)$. Tensor $p$ copies with independent square-zero parameters $\epsilon_1,\ldots,\epsilon_p$. Its transitions are
+\[
+ \prod_{a=1}^p(1+\epsilon_af_{ij})=\sum_{r=0}^p\sigma_rf_{ij}^r,
+\]
+and its connection forms are $\sigma_1\omega_i$. The symbolic restricted-power construction of SGA 3 VII$_A$, 6.2--6.3, sends $\sigma_1,\ldots,\sigma_{p-1}$ to zero and $\sigma_p$ to $\epsilon$. The resulting cocycle is $(f_{ij}^p,0)$, precisely Oda's de Rham Frobenius \cite[Definition 5.3]{Oda}. Thus the identification respects the restricted operation, not merely a chosen semilinear endomorphism. Finally an abelian restricted Lie algebra is an abelian Lie algebra with a $p$-semilinear operation; the corresponding height-one group is recovered by SGA 3, VII$_A$, 7.2--7.4 and 8.1 \cite{SGA3}. Oda explicitly identifies his comparison as answering Grothendieck's conjecture.
+\end{proof}
+
+This answer was already available in 1969. It is not made true by RH, and it is not a reconstruction of a mixed-characteristic deformation or a theta trivialization from a zero restricted operation. The local bound uses the integral $p$-series; its higher-height distinctions survive after the first restricted operation has become zero.
+
+Cartier duality interchanges $F$ and $V$ \cite[Theorem 3.19, p.~89]{Oda}. For realizations, the Poincar\'e pairing takes values in $W(k)(-1)$ or $\Q_\ell(-1)$, so the corresponding duality is $H^1(B)\simeq H^1(A)^\vee(-1)$. The plain underlying de Rham vector-space duality in scan 3 is not a transcription error requiring an added twist.
+
+\subsection{Cote 4 and the letter to Tate}
+
+Cote 4, scan 3, (8.1.1), asks for derived crystalline--de Rham base change, and (8.1.2) retains, for a smooth proper $X/k$, the integral universal-coefficient sequence
+\[
+ 0\to H^i_\crys(X/W)\otimes_Wk\to H^i_\dR(X/k)
+ \to\operatorname{Tor}_1^W(H^{i+1}_\crys(X/W),k)\to0.
+\]
+The occurrence of $i+1$ in the Tor term is essential. The relation belongs to the established crystalline formalism, not to a new consequence of derivative divisibility; see Berthelot \cite[V.3.6]{Berthelot} and the exact historical discussion in Illusie \cite[\S3.2, pp.~9--11]{Illusie}. The integral degree-one abelian comparison continues Oda's theorem through the Dieudonn\'e crystal. Illusie \cite[\S4.2(iv), pp.~16--17]{Illusie} explains the universal vector extension and the required crystalline modification of the original formulation.
+
+Scans 5--6 of cote 4, 8.4.2 and Lemma 8.4.3, use the Frobenius-bijective stable part; scans 7--10 retain torsion corrections and pass to \emph{\'etale} $\F_p$ local systems. Scan 12, 8.6, asks about irreducibility and full monodromy. DP1 controls an integral local derivative operator. It does not compute the monodromy of those local systems, prove the assumed integral weak Lefschetz statements, or establish a motivic level claim for vanishing cohomology. The Tate letter is not a separate attachment here; the located historical reference is its discussion in Illusie \S3.2 and \S4.2(iv), including the letter's \S2.6. We do not invent an archive scan for it.
+
+\subsection{Placement in SGA 4, SGA 5, and the weight formalism}
+
+Let $a:A\to S$ be an abelian scheme over a locally noetherian base, with $\ell$ invertible on $S$. Applied to the constant sheaves $\Z/\ell^r\Z$, proper and smooth base change identify the geometric stalks of $R^1a_*\Z/\ell^r\Z$ with fibre cohomology and make these sheaves locally constant: SGA 4, XII, Theorem 5.1 and Corollary 5.2; XV, Theorem 2.1; XVI, Theorem 2.1 \cite{SGA4}. The coefficient-system formalism then gives the lisse sheaf $R^1a_*\Q_\ell$ of rank $2\dim(A/S)$; see SGA 5, VI, Definition 1.2.1 and \S1.4.2, Definition 1.4.3, pp.~265--266 \cite{SGA5}. We use constant, hence locally constant, coefficients; the omitted local-constancy hypothesis in the original printing of SGA 4 XVI Corollary 2.2 is not needed to justify this application.
+
+Over a finite-field base, its closed fibres are pure of weight one: every geometric Frobenius eigenvalue on $H^1_{\mathrm{\acute et}}(A_{\bar s},\Q_\ell)$ has complex absolute value $|\kappa(s)|^{1/2}$. This is Weil I, Theorem (1.6), p.~276, for smooth projective fibres, and Weil II, Corollary (3.3.9), p.~207, for smooth proper fibres \cite{WeilI,WeilII}. Both ordinary and supersingular abelian varieties satisfy that statement. The $\ell$-adic and crystalline realizations of $h^1(A)$ therefore retain different additional invariants: complex weights do not determine the integral $p$-series, its height, or the period lattice used in an automorphic construction. The local results above concern precisely those integral $p$-adic data. No new weight or purity theorem is asserted.
+
+\section{Binomial structures: the precise affirmative statement}
+
+\begin{theorem}[DP11: identity Frobenius lifts and binomial rings]\label{DP11}
+Let $S$ be a torsion-free commutative unital ring. The following conditions are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $\binom an=a(a-1)\cdots(a-n+1)/n!$ belongs to $S\subset S\otimes\Q$ for every $a$ and every $n\ge0$;
+\item $a^p-a\in pS$ for every prime $p$ and every $a\in S$, so $\id_S$ is a Frobenius lift at every prime;
+\item $S$ has a special $\lambda$-structure with all Adams operations equal to the identity.
+\end{enumerate}
+When it exists the structure is unique and $\lambda_t(a)=(1+t)^a$. Every ring map between such rings preserves these operations.
+\end{theorem}
+\begin{proof}
+The equivalence (i)$\Leftrightarrow$(ii) is Elliott's criterion \cite[Theorem 4.1]{Elliott}, recorded explicitly in \cite[Remark 1.3]{Horel}. Since $\Spec S$ is flat over $\Z$, commuting Frobenius lifts are equivalent to a special $\lambda$-structure; apply Borger's supplied introduction and \S1.1 to the commuting identity lifts \cite{Borger}. This gives (ii)$\Leftrightarrow$(iii).
+
+For the stated normalization, work in $S\otimes\Q$. Newton's identity gives
+\[
+ \frac{d}{dt}\log\lambda_t(a)
+ =\sum_{m\ge1}(-1)^{m-1}\psi^m(a)t^{m-1}
+ =\frac{a}{1+t}.
+\]
+The constant term is one, so $\lambda_t(a)=(1+t)^a$, proving uniqueness. A ring map preserves these rational polynomials after tensoring with $\Q$; injectivity of the torsion-free target into its rationalization proves the claimed integral compatibility. This proves only the explicit normalized and functorial form of the cited equivalence.
+\end{proof}
+
+This criterion is known: Elliott \cite[Theorem 4.1 and Proposition 8.3]{Elliott}, also Horel \cite[Definition 1.1 and Remark 1.3]{Horel}. Borger's supplied source, introduction and \S1.1, places commuting Frobenius lifts on $\Z$-flat schemes in the $\lambda$-ring framework \cite{Borger}. Torsion-freeness is necessary for the formulation above. For instance $\F_p$ satisfies the residue congruences, but is not a binomial ring in this torsion-free sense. Identity lifts at all primes on a flat affine scheme are a special structure, not a structure on every scheme over $\Z$.
+
+\begin{proposition}[DP12: finite differences and an associated-graded bridge]\label{DP12}
+Let $\Int(\Z)=\{P\in\Q[x]:P(\Z)\subset\Z\}$, with its degree filtration, and put $b_n(x)=\binom xn$. Then
+\[
+ \Int(\Z)_{\le n}=\bigoplus_{j=0}^n\Z b_j,
+ \qquad\gr\Int(\Z)\simeq\Gamma_\Z(u)
+\]
+as graded Hopf algebras. The finite difference $\Delta P(x)=P(x+1)-P(x)$ is integral and satisfies $\Delta b_n=b_{n-1}$ for $n\ge1$, with $\Delta b_0=0$, whereas ordinary differentiation does not preserve $\Int(\Z)$. In a nonzero binomial ring the identity lift gives the $p$-derivation
+\[
+ \delta_p(a)=\frac{a-a^p}{p},
+\]
+which is not an ordinary derivation.
+\end{proposition}
+\begin{proof}
+The binomial basis is the standard numerical-polynomial basis: Elliott \cite[Lemma 2.2]{Elliott}, explicitly recalled in Horel's proof of Proposition 2.2, author-PDF pp.~4--5 \cite{Horel}. Pascal's identity gives $\Delta b_n=b_{n-1}$ for $n\ge1$ and $\Delta b_0=0$. We verify the associated-graded Hopf form and the two calculus distinctions needed here.
+
+The leading coefficient of $b_ib_j$ is $1/(i!j!)$, so its coefficient on $b_{i+j}$ is $\binom{i+j}i$, giving the divided-power multiplication in the associated graded. Vandermonde's identity
+\[
+ b_n(x+y)=\sum_{i+j=n}b_i(x)b_j(y)
+\]
+gives the corresponding coproduct; evaluation at zero is the counit, and substitution $x\mapsto-x$ induces the antipode $u^{[n]}\mapsto(-1)^nu^{[n]}$. This proves the Hopf statement. But $b_2'(x)=x-1/2$ fails to be integer-valued at zero, proving the assertion about ordinary differentiation.
+
+DP11 makes $\delta_p$ integral and unique. Expansion gives
+\begin{align*}
+ \delta_p(a+b)&=\delta_p(a)+\delta_p(b)+\frac{a^p+b^p-(a+b)^p}{p},\\
+ \delta_p(ab)&=a^p\delta_p(b)+b^p\delta_p(a)+p\delta_p(a)\delta_p(b).
+\end{align*}
+These are the $p$-derivation identities. In particular $\delta_p(p)=1-p^{p-1}\ne0$, whereas every ordinary derivation kills integers. This proves the distinction.
+\end{proof}
+
+This gives a precise sense in which operations on numerical functions provide an integral calculus. It does not make $d/dx$ integral, and $\Delta$ satisfies a translated product rule rather than the ordinary Leibniz rule. The associated graded in DP12 is essential; the filtered ring itself is not being identified with a divided-power polynomial ring.
+
+\begin{theorem}[DP13: the precise homotopy consequence]\label{DP13}
+For a simplicial set $X$, define the cosimplicial ring $A_X^n=\operatorname{Map}(X_n,\Z)$. It has canonical degreewise binomial operations and identity Adams operations. If $X$ is connected, nilpotent and of finite type, then
+\[
+ X\xrightarrow{\sim}\RMap_{\mathrm{cBRing}}(A_X,\Z).
+\]
+For such $X,Y$ the resulting functor is fully faithful, with derived mapping spaces
+\[
+ \operatorname{Map}(X,Y)\simeq\RMap_{\mathrm{cBRing}}(A_Y,A_X).
+\]
+\end{theorem}
+\begin{proof}
+Each degree is a product of copies of $\Z$. Binomial operations are defined pointwise, and pullback of functions along the simplicial maps preserves them. Additive normalization is the usual integral simplicial cochain complex. Horel's model structure and reconstruction theorem \cite[Theorems 3.7 and 5.4]{Horel} apply to this cosimplicial binomial ring and give the unit equivalence. The mapping-space equivalence follows from the derived adjunction and the unit equivalence for $Y$. This is an application of the cited reconstruction theorem, not a new proof of that theorem.
+\end{proof}
+
+The cosimplicial and derived qualifiers cannot be omitted. The ordinary cup-product cochain complex is not being asserted to be a strictly commutative binomial ring. For connected finite-type $X$ without the nilpotence hypothesis, Horel's Theorem 6.1 identifies the unit with Bousfield--Kan $\Z$-completion, not an automatic equivalence.
+
+\begin{proposition}[DP14: the proposed identifications that fail]\label{DP14}
+The formal-disc coordinate ring $\Z_p[[t]]$ does not have the identity as a Frobenius lift at $p$. The binomial homotopy construction does not give integral ordinary derivatives by identifying its coefficient ring with this formal-disc ring.
+\end{proposition}
+\begin{proof}
+The coefficient of $t$ in $t^p-t$ is $-1$, so $t^p-t\notin p\Z_p[[t]]$. This violates DP11(ii). Independently, DP12 gives an integer-valued polynomial whose ordinary derivative is not integer-valued. These counterexamples refute the claimed identifications. They do not preclude a richer comparison functor with additional structure, but no such functor has been constructed here.
+\end{proof}
+
+Suggestion 9 is therefore affirmative in the exact sense of DP11--DP13: identity Frobenius lifts under flatness provide an established integral homotopy model. Its further identification with the multiplicity mechanism is not a consequence of that theorem. The precise proposed B7 comparison statement was not supplied. Targeted public recovery does, however, establish exact historical locators \cite{PublicArchive}: cote 153, physical PDF p.~3 (archive/manuscript p.~2), defines the binomial polynomials, displays their product and composition expansions, explicitly annotates integral product coefficients, and writes their $\Z$-span in $\Q[T]$. Cote 136, PDF pp.~4--6 (archive pp.~3--5), moves from rational Sullivan models and loss of torsion through integration denominators to extra PD-base data. On PDF p.~6 (author's circled p.~4), the failure of $1-\sum X_i$ to lie in the PD ideal leads to a coefficient ring $S$, an element $t$ in its PD ideal, and the relation $\sum X_i=t$. These are precise motivations for the distinctions in DP5 and DP14, not a theorem transferring binomial homotopy reconstruction to theta multiplicity.
+
+The official catalogue dates cote 153 from 1982; the four cotes should not all be dated to 1976. A bounded inspection of twelve specified public pages did not locate the particular plethysm passage in cote 133 or an exact relevant theorem in cote 137. One inspected cote 137 leaf is a typescript headed ``Hirsch Method'', whose presence in the dossier does not establish Grothendieck's authorship. The exact inspected-page inventory and reading limits are preserved in \path{research/public_archive_q5e_sources.md}.
+
+\section{Cotes 16 and 47: a different divided-power calculation}
+
+\begin{proposition}[DP15: exterior divided powers do not imply integral Lefschetz]\label{DP15}
+Let $M=\Z^{2g}$ with symplectic basis $e_i,f_i$ and $\xi=\sum_i e_i\wedge f_i$. Then $\xi^m/m!\in\bigwedge^{2m}M$ is integral. Nevertheless, for $g=3$, multiplication by $\xi$ from the span of the three $e_i\wedge f_i$ to the span of their pairwise products has cokernel $\Z/2$.
+\end{proposition}
+\begin{proof}
+Put $p_i=e_i\wedge f_i$. The degree-two elements commute and satisfy $p_i^2=0$. Expanding gives
+\[
+ \frac{\xi^m}{m!}=\sum_{|S|=m}\prod_{i\in S}p_i,
+\]
+which is integral. For $g=3$, order the target basis by the pair complementary to each single index. The matrix is $J-I$, with zero diagonal and ones elsewhere. Its determinant is $2$; a $1\times1$ minor and a $2\times2$ minor are units. Its Smith invariants are therefore $1,1,2$, proving the cokernel assertion. This is a direct block of the full map $\xi\wedge-:\bigwedge^2M\to\bigwedge^4M$: no other exterior basis monomial can contribute to a target consisting of two complete pairs. Hence the full integral Lefschetz map also fails to be an isomorphism.
+\end{proof}
+
+This is the concrete integral exterior-algebra setting of cote 16, scan 14, \S7 and the ring $\Phi_0$, and the smallest test in the supplied H8 \cite{Hunches}. It does not prove H8(iv)'s index statement for an integral order, and no relation of its Lefschetz strings to the step-8 theta chain is supplied by DP1. The familiar occurrence of factorials is not a comparison theorem between those two objects.
+
+\begin{proposition}[DP16: forced coefficient corrections in cote 47]\label{DP16}
+For $\chi\in\Z\setminus\{0\}$, conditional on the displayed total-Chern generating formula in cote 47, scan 9, interpreted degree by degree over $\Q$,
+\[
+ c_{\rm tot}=\left(1-\frac{D'}\chi\right)^\chi,
+\]
+the degree-$n$ coefficient is
+\begin{equation}\label{eq:chern}
+ (-1)^n\frac{\chi(\chi-1)\cdots(\chi-n+1)}{n!\chi^n}D'^n.
+\end{equation}
+The recorded quadratic, cubic and general expansions each lack one power of $\chi$ in the denominator. This does not establish the generating formula in integral Chow or $K$-theory.
+\end{proposition}
+\begin{proof}
+Expand by the binomial polynomial: $\binom\chi n(-D'/\chi)^n$ is exactly \eqref{eq:chern}. At degrees two and three the denominators, before cancelling the numerator's first $\chi$, are $2\chi^2$ and $3!\chi^3$, respectively. The recorded denominators are $2\chi$ and $3!\chi^2$. The general recorded denominator is $n!\chi^{n-1}$ with the initial $\chi$ still in the numerator. Each mismatch follows by direct algebra from the displayed generating formula.
+\end{proof}
+
+The final integrality expression in the same scan, with denominator $k!\chi^{k-2}$ after cancelling the initial $\chi$, is \emph{not} a forced error: it is, up to sign, $\chi$ times the actual $k$th Chern coefficient, so can be a deliberately weaker valid integrality consequence. It is excluded from the forced-correction rows. Distinguishing this from the genuinely inconsistent expansion is part of the proof check.
+
+\subsection{Transcription candidates and exact scope}
+
+There are five review rows in \texttt{TRANSCRIPTION\_NOTES.tsv}. Their line numbers refer to the supplied \LaTeX\ files. The official public PDFs \cite{PublicArchive} were subsequently recovered and the target pages independently inspected. Supplied scans 54/005, 54/007 and 47/009 match physical PDF pages 5, 7 and 9, carrying archive/manuscript labels 4, 6 and 8 respectively. Matching the page content, rather than assuming a cover-page offset, establishes this correspondence.
+
+The autograph itself visibly has $\Omega_A^p$ in the cohomology on $B$, the upper-right diagram vertex $V$, and the Chern denominators $2\chi$ and $3!\chi^2$ with the displayed initial $\chi$ retained in their numerators. These four supplied readings are therefore faithful to mathematical slips in the source. The general exponent is small and faint, compatible with $n-1$; its visual reading remains qualified. The mathematical emendations are still required: the sheaf on $B$ is $\Omega_B^p$, the codomain of $V:A^{(p)}\to A$ is $A$, and DP16 gives the Chern coefficients. Preserve the diplomatic readings and append these corrections as editorial notes; do not silently classify them as transcription errors. The boxed $t_A^\vee$ is also correctly transcribed; its proposed supersingularity interpretation was the error. No new confirmed transcription error is asserted by these five rows.
+
+\part{Unsettled applications, exact gates, and limits}
+
+\section{What is not proved in this package}
+
+There is no unlabelled draft proof in the checked part. The following are open applications or unavailable source identifications, not established findings.
+
+\subsection{U1: source-identification gate closed}
+
+The initial attachment-only gate was to locate the theta normalization and period-to-jet interface. That gate is now closed by Section~\ref{sec:recovered}, the exact declared comparisons, and byte verification against the author's archive. The answer to item 2 is precise: the scalar leading coefficient is universal height two; its theta application additionally uses normalization and geometric comparison data, and the later multivariate construction has the listed kernel, minor, path and denominator hypotheses. A whole existing theorem is not reduced to a bare height condition. This conclusion uses the accepted source theorems and does not claim an independent reconstruction or compilation of Alp\"oge's complete argument.
+
+\subsection{U2: whether a different higher-height construction shortens the chain}
+
+The literal proposal to retain the old normalized scalar logarithm while increasing its height is refuted by DP21; the corresponding balanced dual-product attempt fails by DP23. The existential question about a \emph{different} higher-height construction remains open. DP25 moves the first geometric gate earlier than the local kernel: construct a theta correspondence for the required mixed CM type, replacing the source's induced-type/Serre-tensor comparison and specifying its source and terminal representations. DP28--DP31 close the explicitly proposed scalar analytic test: its intermediate estimate is false, but its final bound has the full $c_h$ slope over $W(k)$. For the genuine one-dimensional-by-$(h-1)$-dimensional pair, DP32 supplies the actual integral Cartier dual, and DP33--DP34 prove its sharp directional slopes with optimal affine error one. Thus the dual model and its derivative asymptotics are no longer missing. DP35--DP38 construct the primitive formal Poincar\'e representative, prove its denominator growth and compute its first mixed jets; DP36--DP37 give an actually realizable weighted kernel estimate. The source also supplies the integral conjugated connection and canonical-gauge independence. DP39 refutes both inferring harmonic failure from full-series nonintegrality and transferring all bare derivative gain from summed harmonicity alone. The remaining local task is to identify the prescribed mixed-type theta expression, its actual connection lattice and corrections, its selected polynomial/minor module and geometric path with these quantitative estimates, or prove the needed weighted selected-connection estimate directly. The construction must also supply integral path expansion and denominator control. The final gate is to recompute the period main term and the norm, rank, level, polarization and covolume costs, and prove a net inequality that actually shortens the integer chain.
+
+The following attempted routes have definite stopping points:
+\begin{enumerate}[leftmargin=*,label=\arabic*.]
+\item \textbf{Substitute $c_h$ into the existing slope input.} The functional and its lattice are now located. Its entries involve both $\gamma$ and $\rho$, fixed logarithms, and exponential comparison identities. DP21 refutes retaining the original scalar logarithm; a one-coefficient change does not realize the typed input.
+\item \textbf{Increase the CM dimension.} DP8 gives the complementary dimension forced by the CM type, and DP22 constructs an actual height-three example. Neither computes the cost of a new global construction.
+\item \textbf{Use total height.} This route is refuted by $\widehat\Gm^{\,r}$ in DP8.
+\item \textbf{Use the ratio of local gains.} DP9 bounds the ratio by $1+1/p$, but it does not divide the length of a theta chain by that ratio.
+\item \textbf{Change a frame or rescale a section.} DP4 and the unit/scalar examples track the valuation changes while generic-fibre multiplicity need not change. A nonunit also changes the tangent lattice.
+\item \textbf{Use Lefschetz or Arthur-$\mathrm{SL}_2$ terminology.} The supplied suggestions give an analogy, not a functor identifying integral filtrations. DP15 exposes a separate integral obstruction; no comparison theorem is supplied.
+\item \textbf{Use the improvement after summing primes.} DP17 proves that pure replacement changes the fixed ramp certificate by only $O(\sum A_t)$. It preserves a leading logarithmic coefficient; it does not exclude all lower-order savings or upper-bound actual geometric gain.
+\item \textbf{Keep the old error estimate with fewer lifts.} DP18 exposes the unchanged $2x/m+4m$ balance. A bounded coefficient improvement cannot change that allowance's exponent; a new error estimate is a different possibility.
+\item \textbf{Balance a higher-height line with its Cartier dual, or restrict scalars.} DP23 proves that these concrete operations do not produce the old alternating rank-one blocks. The example DP22 also has the wrong orbit and slopes for that unchanged interface. DP25 identifies its earlier failure at the actual CM-type and surjective-comparison fields.
+\item \textbf{Enlarge the CM field while preserving the induced type.} DP25 proves that this keeps the inert-prime factors at slope $1/2$; the explicit height-three Jacobian fails the existing type and inert-prime inputs.
+\item \textbf{Save a finite number of lifts, truncate, or combine kernels.} DP26 proves a parity-compatible numerical saving can occur in a bare certificate. DP27 and the cited chain definitions show why truncation or formal kernel regrouping does not preserve the old endpoint or reduce its arithmetic cost. A different geometric correspondence remains to be built.
+\item \textbf{Change the logarithm and prove the generalized scalar kernel estimate.} DP28 constructs a full-hypothesis counterexample to the direct intermediate estimate. DP29 recovers a valid bound and an exact nonzero example. DP31 then proves the full scalar slope using integral biextension trivialization. This route is closed under its stated scalar hypotheses; it does not realize the genuinely dual multivariate kernel.
+\item \textbf{Assign the same estimate to the Cartier-dual directions.} DP30 refutes that order-$p$ assertion for an actual dual. DP32--DP34 then determine the actual positive asymptotic slopes and optimal affine constants; there is no residual uncertainty about those displayed directions. Their sum is $c_h$, but an equally weighted mean does not determine the geometric cost.
+\item \textbf{Use the actual dual's unequal weights in the kernel argument.} DP36 restores the symmetry quantization and proves the stated sufficient bound. Its particular path has residual coefficient $\rho_h$, which decreases with height. DP37 realizes its primitive local class, but a sufficient lower estimate cannot upper-bound actual gain. No prescribed global theta path has been identified by that proposition.
+\item \textbf{Clear the primitive exponential, or discard it by harmonicity.} DP35 proves that bounded denominators force an integral splitting and DP38 computes the first primitive poles and unit jets. DP39(a) nevertheless shows that unbounded full-series denominators can be invisible to selected values. DP39(b) then refutes the opposite shortcut: the exact summed harmonic algebraic conditions alone do not recover the bare integral-function divisibility. The supplied conjugated-connection theorem must be combined with new quantitative data.
+\end{enumerate}
+The recovered source has the period/jet comparison and explicit global gain and error budgets; there is no free height parameter in those displayed interfaces. The present report proves specific substitutions false and a numerical replacement insufficient for the stated asymptotic changes. Step 8 nevertheless asserts an achieved multiplicity for a particular chain, not an upper bound on every possible chain. Therefore claiming ``no shorter proof exists'' would be as unsupported as claiming that one has been constructed.
+
+\subsection{Other referenced programmes}
+
+The local calculations do not settle H8(iv), the integral Chow/$K$-theory question of cote 47, the monodromy questions of cote 4 scan 12, or unspecified questions in cotes 133, 153 and 136--137. These are recorded as unaffected implications, not silently added to the proof claims. No conditional result in the cited literature is made unconditional by Alp\"oge's RH/GRH \emph{through the arguments in this report}; the local and homotopy results used here are already independent of that premise. No result is declared conditional on Masullo in the absence of a named supplied statement.
+
+\section{Framework and audit map}
+
+\begin{longtable}{@{}p{.17\textwidth}p{.37\textwidth}p{.39\textwidth}@{}}
+\toprule Finding & Mathematical setting & Exact text/framework locator\\\midrule
+\endfirsthead
+\toprule Finding & Mathematical setting & Exact text/framework locator\\\midrule
+\endhead
+DP1--DP4 & Integral formal completion over $W(k)$; invariant distributions and their lattices & Fable suggestion 2; Katz Corollary 1.8; EGA IV$_4$ 16.11.2; SGA 3 VII$_A$ 1--3.\\
+DP5--DP6 & Divided powers, restricted Lie operation and height-two elliptic formal groups & Cote 54 scans 3, 5, 7; SGA 3 VII$_A$ 6.2--6.4 and 7.2--7.4; note p.~3 step 2.\\
+DP7--DP9 & Integral CM directions and local $p$-divisible factors & Tate expos\'e 352 \S5, (10*) and Theorem 3; note p.~4 steps 8--10, 14, 18.\\
+DP10 & Universal extensions, Cartier duality and de Rham/Dieudonn\'e modules & Cote 54 scans 3, 5--7; Oda Corollaries 1.3 and 5.11, Theorem 3.19; Mazur--Messing locations in the proof.\\
+Crystalline discussion & Integral derived base change, PD-site descent, $F$-crystals & Cote 4 scan 3 (8.1.1)--(8.1.2); Berthelot V.3.6; Stacks 07JH; Illusie \S3.2 and \S4.2(iv).\\
+DP11--DP14 & Flat schemes over $\Z$, $\lambda$-rings, numerical functions and binomial affine homotopy & Borger introduction and \S1.1; Elliott Theorem 4.1; Horel Theorems 3.7, 5.4, 6.1; recovered cote 153 PDF p.~3/archive p.~2 and cote 136 PDF pp.~4--6/archive pp.~3--5.\\
+DP15--DP16 & Exterior Lefschetz operators; rational Chern expansions and integral-cycle questions & Cote 16 scan 14 \S7; H8; cote 47 scan 9.\\
+DP17--DP18 & Prime-weighted arithmetic degrees and the explicit global size allowance & \path{LocalRingCardinality/DataParams}\textsubscript{2}\path{.lean}, \path{vonMangoldtClassSum}; \path{SizeWindowBrackets/GrowthBoundGivesRiemannHypothesis.lean}, \path{SizeWindows}; note p.~4 steps 9--10, 14.\\
+DP19--DP20 & Integral unramified CM action, ramified deformation, and the formal derivative lattice & Lubin--Tate 1966 Proposition 1.1, pp.~50--51; Tate expos\'e 352 \S5; caveat to the proposed height-only extension.\\
+DP21, DP23--DP24 & Fixed logarithm, Newton slopes, and controlled nonvanishing & \path{GaussJetBounds/Statement.lean}, \path{oneLog}; \path{CartierLocalBounds.lean}, \path{vLe}, \path{vGe}, \path{ThmP}; Tate expos\'e 352 \S5.\\
+DP25--DP27 & Induced CM types, finite ramp counts and geometric chain endpoints & \path{CMLattices/IsDiffOf.lean}, \path{CMObj}; \path{LocalRingCardinality/Params.lean}, \path{Ranks}; \path{DataSpaces.lean}, \path{DataKernels.lean}; Tate expos\'e 352 \S5.\\
+DP28--DP29, DP31 & Scalar formal kernels, integral biextensions and the full derivative slope & Hazewinkel Lemma 2.3; Zink \S4.4, Proposition 121, (243), Theorem 122; recovered \path{weightQuantization} and \path{LemmaS}.\\
+DP30, DP32--DP34 & Actual Cartier dual, restricted Lie algebra, integral monomial-cycle logarithm and sharp affine directional bounds & Hazewinkel Lemma 2.3, (2.8), \S5; Tate 1967 \S2.2 diagram (3), \S2.3 Proposition 3; cote 54 scans 5--7.\\
+DP36 & Unequal weighted valuations on a genuine formal Cartier-dual pair & DP32's integral model; recovered \path{weightQuantization} and \path{LemmaS} motivate the explicitly stated generalized hypotheses.\\
+DP22 & A CM Jacobian and its integral formal direct factors & FGA expos\'e 232 Theorem 3.1; expos\'e 236 Corollaries 1.7, 2.3, Proposition 2.10(ii); Tate 1967 \S2.2 Proposition 1 and \S2.3 Example (b).\\
+\bottomrule
+\end{longtable}
+
+All proofs in Part I were read in full before finalization. The event file distinguishes an author's whole-proof reading, an independent re-proof, finite exact-arithmetic checks, source statements used and rechecked, and background carried without a new proof. It records model, run, actor, date and actual outcome. The runtime did not expose a numeric effort setting; the record says so instead of inventing one. No Lean formalization of the findings in this paper was produced.
+
+The final package also includes the dated ledger, a question-by-question status table, implications, the transcription candidates, and research notes documenting failed approaches and review corrections. The original attachments suffice to recover the supplied inputs; cited external sources are identified by URLs and locators rather than redistributed as entire third-party papers.
+
+\begin{thebibliography}{99}
+\bibitem{Alpoge} L.~Alp\"oge, \emph{Remark}, supplied four-page PDF; p.~3 timeline step 2 and p.~4 steps 8--10, 12--15, 18. \url{https://alpo.ge/remark.pdf}. Supplied final Lean declarations: \texttt{ALPOGE\_Main.lean}, importing \texttt{Statements} and \path{Supplements.Kernels.MainTheoremsAll}; definitions: \texttt{ALPOGE\_Statements.lean}. Step-to-file evidence: supplied \texttt{ALPOGE\_LEAN\_MAP\_20261120.md}, \S4 rows 2 and 8. Cited as directed by the prompt; not independently recompiled here.
+\bibitem{AlpogeSource} L.~Alp\"oge, accompanying Lean source archive, \url{https://alpo.ge/lean.tar.gz.part01} through \path{part14}; 239,275,554 compressed bytes. The expanded targeted inventory contains 526 modules, recovered either at mirror commit \path{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4} or directly from the author's archive. Every local copy was compared byte for byte with the original archive; all matched. Exact declaration locators and actual reading scopes are in Sections~\ref{sec:recovered}--\ref{sec:connection} and the included source/review manifests. Most recovered modules were not read in full. Mirror root: \url{https://github.com/CocoSgt/riemann-hypothesis-lean}. Source identity verification is not a Lean compilation or proof audit.
+\bibitem{Fable} Fable programme suggestions, run 20261120, \texttt{FABLE\_PROGRAM\_SUGGESTIONS\_20261120.md}, suggestions 2 and 9, with its explained companion. Supplied, explicitly unchecked proposals.
+\bibitem{Hunches} \texttt{WARGAME\_MATH\_HUNCHES\_20261112.md}, run 20261112, H8, especially its exterior divided-power statement, smallest test, and clause (iv). Supplied.
+\bibitem{Archive} A.~Grothendieck, archive transcriptions supplied in this task: cote 54 scans 3, 5--7; cote 4 scans 2--12, especially (8.1.1)--(8.1.2), 8.4.2--8.4.3, (8.5.1), 8.5.9, 8.6; cote 16 scans 14--18, especially scan 14 \S7; cote 47 scan 9. Locators refer to the filenames and mathematical labels of the supplied transcriptions.
+\bibitem{PublicArchive} Universit\'e de Montpellier, \emph{Archives Grothendieck}, official public catalogue and digitized manuscripts. \url{https://grothendieck.umontpellier.fr/archives-grothendieck/}. Cote 54: \url{https://grothendieck.umontpellier.fr/54.pdf}, physical PDF pp.~5 and 7, archive/manuscript labels 4 and 6. Cote 47: \url{https://grothendieck.umontpellier.fr/47.pdf}, physical PDF p.~9, label 8. Cote 153: \url{https://grothendieck.umontpellier.fr/153.pdf}, PDF pp.~2--3, archive labels 1--2. Cote 136: \url{https://grothendieck.umontpellier.fr/136.pdf}, PDF pp.~4--6, archive labels 3--5. Public recovery metadata, hashes, exact page mapping and bounded visual-check provenance are included in the research notes.
+\bibitem{Katz81} N.~M.~Katz, \emph{Divisibilities, congruences, and Cartier duality}, J. Fac. Sci. Univ. Tokyo Sect. IA Math. \textbf{28} (1981), no.~3, 667--678 (catalogued publication 1982). Theorem 1.6 p.~668; Corollary 1.8 p.~669; Main Theorem 3.11(I) p.~672; \S IV (4.1)--(4.14), pp.~675--677. \url{https://web.math.princeton.edu/~nmk/old/divcongCartier.pdf}.
+\bibitem{Katz77} N.~M.~Katz, \emph{Formal groups and $p$-adic interpolation}, Ast\'erisque \textbf{41--42} (1977), 55--65. \S IV main theorem pp.~60--61; \S V, Lemma 1 and Corollary 2, pp.~62--63, with the trace-zero hypothesis. \url{https://www.numdam.org/article/AST_1977__41-42__55_0.pdf}.
+\bibitem{BK} K.~Bannai and S.~Kobayashi, \emph{Integral structures on $p$-adic Fourier theory}, Ann. Inst. Fourier \textbf{66} (2016), no.~2, 521--550. \S2 p.~527; \S3 definition p.~528; Propositions 3.3 and 3.5 pp.~529, 531. \url{https://www.numdam.org/article/AIF_2016__66_2_521_0.pdf}.
+\bibitem{LT} J.~Lubin and J.~Tate, \emph{Formal complex multiplication in local fields}, Ann. of Math. (2) \textbf{81} (1965), 380--387, initial construction and Lemma 1. \url{https://math.bu.edu/people/jsweinst/AWS/Files/LubinTateFormalCMinLocalFields.pdf}.
+\bibitem{LT66} J.~Lubin and J.~Tate, \emph{Formal moduli for one-parameter formal Lie groups}, Bull. Soc. Math. France \textbf{94} (1966), 49--59. Proposition 1.1, pp.~50--51, and the normalization immediately preceding it; Theorem 3.1, p.~56. Only Proposition 1.1 is needed for DP20. \url{https://www.numdam.org/item/10.24033/bsmf.1633.pdf}.
+\bibitem{Oda} T.~Oda, \emph{The first de Rham cohomology group and Dieudonn\'e modules}, Ann. Sci. \'Ecole Norm. Sup. (4) \textbf{2} (1969), 63--135. Theorem 1.1 and Corollary 1.3; Theorem 3.19 p.~89; Definition 5.3; Corollary 5.11 p.~131. \url{https://www.numdam.org/article/ASENS_1969_4_2_1_63_0.pdf}.
+\bibitem{SGA3} M.~Demazure and A.~Grothendieck, \emph{Sch\'emas en groupes}, SGA 3, Expos\'e VII$_A$ (P.~Gabriel), \S\S1--3; 6.2--6.4; 7.2--7.4 and 8.1. Original-preserving transcription: \url{https://webusers.imj-prg.fr/~patrick.polo/SGA3/origExp7A.pdf}. In editions where a reference says ``7.4.1'', distinguish the theorem 7.4 from its proof subsection.
+\bibitem{EGA} A.~Grothendieck and J.~Dieudonn\'e, \emph{\'El\'ements de g\'eom\'etrie alg\'ebrique IV, quatri\`eme partie}, Publ. Math. IHES \textbf{32} (1967), Theorem 16.11.2, printed p.~54, formulas (16.11.2.1)--(16.11.2.2). \url{https://www.numdam.org/item/PMIHES_1967__32__5_0.pdf}.
+\bibitem{SGA4} M.~Artin, A.~Grothendieck, J.-L.~Verdier et al., \emph{Th\'eorie des topos et cohomologie \'etale des sch\'emas}, SGA 4: XII, Theorem 5.1 and Corollary 5.2; XV, Theorem 2.1; XVI, Theorem 2.1, original pp.~213--214. Primary-text re-editions: \url{https://www.normalesup.org/~forgogozo/SGA4/12/12.pdf}, \url{https://www.normalesup.org/~forgogozo/SGA4/15/15.pdf}, \url{https://www.normalesup.org/~forgogozo/SGA4/16/16.pdf}.
+\bibitem{SGA5} A.~Grothendieck et al., \emph{Cohomologie $\ell$-adique et fonctions $L$}, SGA 5, Lecture Notes in Mathematics 589, Springer, 1977. Expos\'e VI, Definition 1.2.1, p.~254; \S1.4.2 and Definition 1.4.3, pp.~265--266, for lisse integral systems and constructible $\Q_\ell$ sheaves.
+\bibitem{WeilI} P.~Deligne, \emph{La conjecture de Weil. I}, Publ. Math. IHES \textbf{43} (1974), 273--307. Theorem (1.6), p.~276; Frobenius conventions in (1.15), p.~279. \url{https://www.numdam.org/item/PMIHES_1974__43__273_0.pdf}.
+\bibitem{WeilII} P.~Deligne, \emph{La conjecture de Weil. II}, Publ. Math. IHES \textbf{52} (1980), 137--252. Corollary (3.3.9), p.~207. \url{https://publications.ias.edu/sites/default/files/Number40.pdf}.
+\bibitem{Berthelot} P.~Berthelot, \emph{Cohomologie cristalline des sch\'emas de caract\'eristique $p>0$}, Lecture Notes in Mathematics 407, Springer, 1974, V.3.6. Exact historical attribution checked through Illusie, \S3.2.
+\bibitem{MM} B.~Mazur and W.~Messing, \emph{Universal Extensions and One Dimensional Crystalline Cohomology}, Lecture Notes in Mathematics 370, Springer, 1974. Chapter I, 2.6; Propositions 2.6.7, 3.2.3, 4.2.1; (4.6.3), for universal extensions and the line-bundle-with-connection realization. The combined statement and these locations are also recorded by G.~Oh and K.~Shimizu, \emph{Moduli stacks of crystals and isocrystals}, Theorem 9.6 and Remark 9.7, pp.~94--95, in the inspected preprint. \url{https://arxiv.org/pdf/2504.14801}.
+\bibitem{Illusie} L.~Illusie, \emph{Grothendieck at Pisa: crystals and Barsotti--Tate groups}, author manuscript of the 23 April 2013 talk, \S2.1, \S3.2 (pp.~9--11), \S4.2(iv) (pp.~16--17). \url{https://www.imo.universite-paris-saclay.fr/~luc.illusie/Illusie-Pisa5.pdf}.
+\bibitem{Stacks} The Stacks Project, \emph{Crystalline Cohomology}, Section 60.17, Proposition 60.17.4, tags 07J7 and 07JH. \url{https://stacks.math.columbia.edu/tag/07JH}.
+\bibitem{Tate352} J.~Tate, \emph{Classes d'isog\'enie des vari\'et\'es ab\'eliennes sur un corps fini}, S\'eminaire Bourbaki, expos\'e 352 (November 1968), collected volume 1968--1969, pp.~95--110. \S5, definition p.~106, formula (10*) and Theorem 3 p.~107, proof through p.~108. \url{https://www.numdam.org/item/SB_1968-1969__11__95_0.pdf}.
+\bibitem{Tate67} J.~Tate, \emph{$p$-Divisible Groups}, in \emph{Proceedings of a Conference on Local Fields}, Springer, 1967, pp.~158--183. \S1.2--1.3, pp.~159--160; \S2.2, Proposition 1, printed p.~162, diagram (3) and proof pp.~163--164; \S2.3, Proposition 3 and Example (b), p.~166; \S4, Corollary 2 following Theorem 3, p.~180, with its natural exact sequence. \url{https://www.math.purdue.edu/~tongliu/teaching/598/p-divisible.pdf}.
+\bibitem{Hazewinkel} M.~Hazewinkel, \emph{On formal groups. The functional equation lemma and some of its applications}, Ast\'erisque \textbf{63} (1979), 73--82. Lemma 2.3, (2.2)--(2.8), pp.~74--75; \S5, (5.1)--(5.4), pp.~76--77. \url{https://www.numdam.org/item/AST_1979__63__73_0.pdf}.
+\bibitem{Katz79} N.~M. Katz, \emph{Slope filtration of $F$-crystals}, Ast\'erisque \textbf{63} (1979), 113--163. \S1.3, pp.~119--120, especially the unnumbered semisimplicity theorem in the first paragraph of p.~120. \url{https://www.numdam.org/item/AST_1979__63__113_0.pdf}.
+\bibitem{Zink} T.~Zink, \emph{The display of a formal $p$-divisible group}, Ast\'erisque \textbf{278} (2002), 127--248. Theorem 9, p.~132; Definition 19 and (22)--(24), pp.~143--144; Theorem 103, p.~221; Proposition 106, p.~226; Lemma 111, p.~230; \S4.3, (216)--(218), pp.~238--239; \S4.4, Proposition 121, pp.~241--246, injection (243), p.~246, and Theorem 122, p.~247. \url{https://www.numdam.org/article/AST_2002__278__127_0.pdf}. The author's version \url{https://www.math.uni-bielefeld.de/~zink/display.pdf} numbers the injection (244), p.~118; the published numbering is used here.
+\bibitem{FGAPic} A.~Grothendieck, \emph{Technique de descente et th\'eor\`emes d'existence en g\'eom\'etrie alg\'ebrique}, FGA, V: \emph{Les sch\'emas de Picard: th\'eor\`emes d'existence}, S\'eminaire Bourbaki expos\'e 232, Theorem 3.1, pp.~148--149; VI: \emph{Les sch\'emas de Picard: propri\'et\'es g\'en\'erales}, expos\'e 236, Corollary 1.7, p.~229, Corollary 2.3, p.~232, Proposition 2.10(ii), p.~236. \url{https://www.numdam.org/article/SB_1961-1962__7__143_0.pdf}; \url{https://www.numdam.org/article/SB_1961-1962__7__221_0.pdf}.
+\bibitem{Borger} J.~Borger, \emph{$\Lambda$-rings and the field with one element}, supplied \LaTeX\ source \texttt{lrfoe13.tex}, introduction and \S1.1 ``General $\Lambda$-spaces'', with \S2.1 for the point. No integral homotopy reconstruction theorem is attributed to this source.
+\bibitem{Elliott} J.~Elliott, \emph{Binomial rings, integer-valued polynomials, and $\lambda$-rings}, J. Pure Appl. Algebra \textbf{207} (2006), 165--185. Lemma 2.2; Theorem 4.1; Proposition 8.3. \url{https://doi.org/10.1016/j.jpaa.2005.09.003}. The basis and Fermat-criterion locators are confirmed in Horel's proof of Proposition 2.2 and Remark 1.3, respectively; the original full proofs are cited rather than newly audited.
+\bibitem{Horel} G.~Horel, \emph{Binomial rings and homotopy theory}, J. reine angew. Math. \textbf{813} (2024), 283--305. Definition 1.1, Remark 1.3; Proposition 2.2 and its proof, author-PDF pp.~4--5; Theorems 3.7, 5.4, 6.1; Proposition 8.1 and Notation 8.4. Author PDF: \url{https://geoffroy.horel.org/binomial.pdf}; Theorem 5.4 is on author-PDF p.~13. \url{https://doi.org/10.1515/crelle-2024-0039}.
+\end{thebibliography}
+\end{document}
