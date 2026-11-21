@@ -1,0 +1,21 @@
+# Active constructive route: Satake Schur summands
+
+Author /root, GPT-6 Astra Pro, effort not exposed; 2026-11-21 Europe/Berlin. **Draft under geometric/source review, not yet a checked finding.**
+
+Use the unnormalized pure intersection complex IC_mu on the affine Grassmannian of split GL_r/F_q, with perverse weight D_mu=dim Gr_mu. The convolution K=IC_mu^{star d} is the proper pushforward of the twisted-external intersection complex, and hence pure of weight d D_mu. It is perverse by geometric Satake (Richarz arXiv1207.5314v2 Theorem2.1). The symmetric commutativity constraint, with its stated parity modification, is defined over F_q; thus S_d acts by Weil endomorphisms of K.
+
+For a primitive rational Young idempotent e_nu, P=im(e_nu:K→K) is a pure perverse direct summand. Under the symmetric monoidal Satake equivalence it corresponds to S_nu(S_mu Q_l^r). A central idempotent instead produces dim[nu] copies; the primitive qualification is necessary. The canonical geometric isotypic decomposition gives multiplicity Weil modules M_lambda=Hom(IC_lambda,P), of dimension the plethysm coefficient. Their expected purity weight is d D_mu−D_lambda. Proof to verify: the geometric isotypic summand is Frobenius-stable; evaluation IC_lambda⊗M_lambda→P_lambda is a Weil isomorphism; restrict to the dense smooth stratum of its support to read the weight. This avoids any half-Tate convention.
+
+For Kronecker coefficients, use the product Grassmannian for GL_m×GL_n with input IC_(1),m external IC_(1),n, corresponding to V⊠W. Apply the Schur idempotent for nu (|nu|=d). Its multiplicity of IC_lambda,m external IC_mu,n is g(lambda,mu,nu); the Weil weight is d(m+n−2)−D_lambda−D_mu. This is actual ordinary geometry for classical multiplicity spaces, not an identified nonstandard quantum canonical basis.
+
+The GL2, d=2 test isolates the remaining symmetric-group action. The determinant summand in V⊗V is one-dimensional and the transposition acts −1. Its multiplicity Weil module should be the Tate line Q_l(−1), pure of weight2. Thus no nonzero basis of that multiplicity space is permuted by the transposition. The symmetric projector kills it, whereas the alternating projector keeps it. Pure convolution geometry and a cycle count before projection do not determine the required invariant/Specht rank by orbit counting unless an appropriate additional action/basis theorem is proved.
+
+Primary locators read: Mirkovic–Vilonen arXivmath/0401222v5 Theorem7.3, Lemma7.1, Corollary7.4; Richarz arXiv1207.5314v2 Theorem0.1, Theorem2.1, proof of Theorem2.1 pp13–14 for commutativity sign, Proposition3.1, §5 Galois descent; BBD5.3.2 and Remark5.4.9. Published Richarz numbering, separately checked by the geometric agent: Theorem3.1 p214; Proposition4.1 p227; Lemma5.4 proof p232. The published PDF is https://ems.press/content/serial-article-files/26224?nt=1 .
+
+This route cannot by itself supply a PH1 polytope or polynomial witness encoding: the projector image's IC multiplicities are precisely the unknown coefficients. It nevertheless strengthens the constructive dictionary and means the paper must not say that no ordinary geometric multiplicity object exists at all.
+
+## Geometric review received
+
+The geometric reviewer checked the full proposed chain against primary sources. Published Richarz, Theorem3.1 and proof226–227 give F_q-defined convolution/symmetry, Proposition4.1 gives geometric semisimplicity, and Lemma5.4 proof p232 identifies twisted IC. BBD5.3.2 and Remark5.4.9 give pure convolution;5.3.1 gives pure direct summands. For the Hom weight, the canonical isotypic evaluation decomposition is Frobenius-stable, not an arbitrarily chosen geometric splitting. Restrict the pure isotypic summand to its own smooth stratum: IC_lambda is Q_l[D_lambda], so the multiplicity module has weight w−D_lambda. Open restriction has j^*=j^! and preserves both weight inequalities (BBD5.1.14(i),(i*)). BBD5.1.2 p123 justifies the Weil descent/subquotient framework. No arithmetic Frobenius semisimplicity is assumed.
+
+This verification establishes the proposed pure-perverse realization. The exact GL2 Tate identification and permutation-basis obstruction still need to be written and checked in the final finding, although the action −1 on the determinant line already follows from the symmetric monoidal equivalence.
