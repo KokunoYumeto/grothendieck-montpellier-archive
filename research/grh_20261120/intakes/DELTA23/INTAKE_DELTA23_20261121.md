@@ -1,6 +1,6 @@
 # Intake of DELTA23 (prompt 29, "Δ, 2-3 reciprocity of frames on GT"), checkpoint 06
 
-Intake by Claude Opus 5.5 at effort max (agent ae4ae3dc17acaa440), 21 Nov 2026, 04:20-05:10 UTC, at the request of the
+Intake by Claude Opus 5.5 at effort max (agent ae4ae3dc17acaa440), 21 Nov 2026, 04:20-04:40 UTC, at the request of the
 main session (Claude Opus 5.5 at effort max). The run is GPT-6 Astra (ChatGPT Pro mode) with four cooperating workers of
 the same model; its RUN_START.txt says the effort setting was not exposed by the runtime. The run started 20 Nov 22:59 UTC
 and is still going.
@@ -8,7 +8,7 @@ and is still going.
 ## 0. What I read, and my scope
 
 **The return folder.** `grothendieck_archive_transcription_20261110\research_returns\DELTA23_checkpoint_06_20261121T0329Z_unzipped`.
-It was the only DELTA23 folder at 04:21 and at 04:31 UTC. Checkpoint 07 was due about 04:14 UTC and had not landed.
+It was the only DELTA23 folder at 04:21, 04:31 and 04:38 UTC. Checkpoint 07 was due about 04:14 UTC and had not landed.
 
 **The state of the return.**
 - The paper is 188 pages, `DELTA23.tex` with 101 proof files.
@@ -82,8 +82,8 @@ paper's §1 (conventions and supplied inputs).
 - Alpöge's note;
 - Fable's suggestions.
 
-None of the rows above was attached or named. The run therefore gave its main effort, about 4.5 hours and some 110
-statements, to a question decided on our record.
+None of the rows above was attached or named. The run therefore gave its main effort, about 4.5 hours and most of its
+141 statements, to a question decided on our record.
 - *Cause:* the prompt took the states of E.3 and A.84 from their own runs' registers, not from the cross-run register or
   sweep-1 correction 1.
 - *Fix:* before a prompt calls a question open, its builder reads the question's rows in `REGISTER.tsv` across runs and
@@ -107,8 +107,8 @@ statements, to a question decided on our record.
    - The proof on record uses different information: the Klein four-group at the ten-point configuration, brought back to
      the discrete group by Boggi-Zalesskii Theorem A or by Smith theory (E.44; SECTION_GHOSTS E.176).
    - This is information about finite subgroups of the profinite group. No finite word test carries it.
-   - If E.49 holds, compactness guarantees that some finite level does exclude the mixed state, at an unknown depth. The
-     run's levels do not reach it.
+   - If E.49 holds, compactness guarantees that some finite level does exclude the mixed state, at an unknown depth: an
+     inverse limit of nonempty finite sets is nonempty. The run's levels do not reach it.
 2. **A second route to Δ|GT̂ = 0, from the run's identities (my derivation).**
    - On the multiplier-one gentle group, Δ = d₂ + e₃ (DELTA_ON_GT A.103).
    - F22.3 gives e₃ the intrinsic form a₃ + a₃∘𝒟_E.
