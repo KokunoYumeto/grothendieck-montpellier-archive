@@ -1,0 +1,220 @@
+# A finite rational descent test for integral-slope germs
+
+This section makes the geometric multiplicity criterion CC-AG09
+effective in a specified sector. It is a deduction from the checked
+Milne classification, elementary ideal theory, and Kronecker's
+root-of-unity criterion. The category remains the abelian, Artin, and
+Tate numerical category. No novelty claim or extension to arbitrary
+motives is made.
+
+## CC-AG11: a cyclic multiplicity monoid with a finite root test
+
+Let $\xi\in\mathcal W_p$ have weight $w\in\mathbb Z$. Choose a
+stabilized representative
+$$\xi=[\pi,b],\qquad \pi\in K,\quad b\ge1,\qquad
+          K=K_\xi=\mathbb Q(\pi^N)\quad(N\ge1).
+                                                               \tag{CC-AG.50}$$
+Such a representative exists by (CC-AG.24). For each place $v\mid p$ of
+$K$, normalize its valuation to have image $\mathbb Z$, put
+$e_v=\operatorname{ord}_v(p)$, and define
+$$\lambda_v=\frac{\operatorname{ord}_v(\pi)}{b e_v}.
+                                                               \tag{CC-AG.51}$$
+Assume throughout this theorem that every $\lambda_v$ is an integer.
+Define the fractional ideal
+$$J=\prod_{v\mid p}\mathfrak p_v^{e_v\lambda_v}
+                             \quad\text{of }K.                \tag{CC-AG.52}$$
+Negative exponents are allowed. In particular, $(\pi)=J^b$.
+
+Let $$\mathscr E_\xi=
+ \left\{n\in\mathbb Z:\ \text{there is }\gamma\in K^\times
+       \text{ with }(\gamma)=J^n
+       \text{ and }|\sigma\gamma|=p^{nw/2}
+                    \text{ for every }\sigma:K\hookrightarrow\mathbb C
+ \right\}.
+                                                               \tag{CC-AG.53}$$
+Then $\mathscr E_\xi=h\mathbb Z$ for a positive integer $h$ dividing
+$b$. This integer can be found by the finite test
+$$h=\min\left\{n>0:n\mid b,\quad
+       X^b-\zeta\pi^n\text{ has a root in }K
+                      \text{ for some }\zeta\in\mu(K)\right\}.
+                                                               \tag{CC-AG.54}$$
+Here $\mu(K)$ is the finite group of roots of unity in $K$. Thus only
+divisors of a given exponent and roots of finitely many specified
+polynomials over a fixed number field are required.
+
+Let $S_\xi$ denote the rational simple object of the $\Gamma$-orbit of
+$\xi$ over $\overline{\mathbb F}_p$. For every $a\ge1$, its exact
+multiplicity monoid for descent to $\mathbb F_{p^a}$ is
+$$H_{\overline{\mathbb F}_p}(O_\xi)
+                 =\frac{h}{\gcd(h,a)}\,\mathbb N.
+                                                               \tag{CC-AG.55}$$
+Equivalently, for every $r\ge0$,
+$$S_\xi^{\oplus r}\text{ is a base extension from }
+             \mathcal A_{p^a}
+       \quad\Longleftrightarrow\quad
+                  \frac{h}{\gcd(h,a)}\mid r.                 \tag{CC-AG.56}$$
+Every relevant target and source simple has Schur index one. One source
+simple already realizes the least positive multiplicity. More precisely,
+choose $\gamma$ in (CC-AG.53) for $n=h$, and put $g=\gcd(h,a)$. Any
+algebraic root
+$$\alpha^{h/g}=\gamma^{a/g}               \tag{CC-AG.57}$$ is a Weil
+$p^a$-number of weight $w$, has germ $\xi$, and satisfies
+$$[\mathbb Q(\alpha):K]=h/g.                  \tag{CC-AG.58}$$ This
+gives an actual finite-degree construction of a minimal preimage.
+
+#### Complete proof.
+
+The set in (CC-AG.53) contains zero and is closed under addition and
+negation, by multiplying and inverting its witnesses. The element $b$
+belongs to it, witnessed by $\pi$, since (CC-AG.51)--(CC-AG.52) give
+$(\pi)=J^b$ and $\pi$ has the stated Weil absolute values. Hence
+$\mathscr E_\xi$ is a nonzero subgroup of $\mathbb Z$, equal to
+$h\mathbb Z$ with $h\ge1$ and $h\mid b$.
+
+We verify the finite test in both directions. If $\gamma$ witnesses
+$n\in\mathscr E_\xi$, then $$u=\gamma^b/\pi^n
+                                                               \tag{CC-AG.59}$$
+has trivial fractional ideal, and every complex conjugate has absolute
+value one. Thus $u$ is an algebraic integer and a unit. Kronecker's
+criterion makes it a root of unity, and it lies in $K$, so $u\in\mu(K)$.
+Conversely, suppose $\gamma\in K$ satisfies $\gamma^b=\zeta\pi^n$ for
+$\zeta\in\mu(K)$. It is nonzero. Taking fractional ideals and using
+their torsion-free group gives $$(\gamma)^b=J^{bn}
+                       \quad\Longrightarrow\quad
+                    (\gamma)=J^n.$$ Taking the absolute value at every
+complex embedding gives $|\sigma\gamma|=p^{nw/2}$. Therefore $\gamma$
+witnesses membership in $\mathscr E_\xi$. Since its positive generator
+is a divisor of $b$, testing the positive divisors of $b$ is sufficient
+and proves (CC-AG.54).
+
+The precise root-of-unity input is Milne (2020), Proposition 5.5 and
+Corollary 5.6, printed p. 87. The elementary reason is that the minimal
+polynomials of the powers of an algebraic integer whose conjugates have
+absolute value one have uniformly bounded degree and integer
+coefficients bounded by elementary symmetric functions of numbers of
+modulus one. Only finitely many polynomials, and hence finitely many
+powers, can occur. Two powers coincide, which proves torsion. The same
+bounded-polynomial argument proves the finiteness of $\mu(K)$, and
+supplies an explicit finite way to determine it if it is not already
+known. Put $$R_D=\sum_{e=1}^{D}e\prod_{j=1}^{e}
+                    \left(2\binom ej+1\right),
+ \qquad D=[K:\mathbb Q],\qquad
+ M_D=\operatorname{lcm}(1,2,\ldots,R_D).$$ There are at most $R_D$
+complex numbers whose monic minimal polynomials have degree at most $D$
+and the coefficient bounds just described. All the distinct powers of a
+root of unity in $K$ are among them, so its order is at most $R_D$.
+Consequently $\mu(K)$ is exactly the set of roots in $K$ of $X^{M_D}-1$.
+This deliberately large bound requires no search without a stopping
+condition. Formula (CC-AG.54) is therefore a finite collection of exact
+number-field root questions.
+
+We next justify the Schur-index assertion, including the archimedean
+places. If $K$ has a real embedding, the Weil condition on $\pi$ implies
+$\pi^2=p^{bw}$: its image under that real embedding has square $p^{bw}$,
+and the embedding is injective. The stabilized condition (CC-AG.50) then
+gives $K=\mathbb Q(\pi^2)=\mathbb Q$. Its single $p$-adic slope is
+$w/2$, so the integral-slope assumption forces $w$ to be even. Otherwise
+$K$ has no real embeddings. Consequently every real-place invariant of
+$S_\xi$ vanishes. Its $p$-adic invariant at $v$ is
+$$-\lambda_v[K_v:\mathbb Q_p],$$ an integer, and all other invariants
+vanish by (CC-AG.25). Hence $d_\xi=1$.
+
+Take any source label $\alpha\in W(p^a)$ mapping to the orbit of $\xi$.
+Conjugating it if necessary, assume that $[\alpha,a]=[\pi,b]$. Some
+$N\ge1$ then satisfies
+$$\alpha^{bN}=\pi^{aN}.             \tag{CC-AG.60}$$ Set
+$L=\mathbb Q(\alpha)$ and $d=[L:K]$. The stabilized condition gives
+$K=\mathbb Q(\pi^{aN})\subset L$, so this degree is well-defined. Taking
+ideals in $L$ in (CC-AG.60) and using torsion-freeness gives
+$$(\alpha)=J^a\mathcal O_L.
+                                                               \tag{CC-AG.61}$$
+At a place $z$ of $L$ above a place $v\mid p$ of $K$, the corresponding
+normalized slope of $\alpha$, relative to $p^a$, is exactly $\lambda_v$;
+this follows either from (CC-AG.60) or from (CC-AG.61), accounting for
+the ramification index in $L/K$. It is an integer. If $L$ has a real
+embedding, its restriction makes $K$ real, so $w$ is even by the
+preceding paragraph. Thus the local-invariant formula also gives
+$d_\alpha=1$.
+
+Now apply the relative field norm to $\alpha$. The ideal norm
+identities, which hold without a Galois assumption, give
+$$\bigl(N_{L/K}(\alpha)\bigr)=J^{ad}.
+                                                               \tag{CC-AG.62}$$
+For each embedding $\sigma:K\hookrightarrow\mathbb C$, the conjugate of
+this norm is the product over the $d$ embeddings of $L$ extending
+$\sigma$. Each factor has absolute value $p^{aw/2}$. Therefore the norm
+is a witness for $ad\in\mathscr E_\xi=h\mathbb Z$. It follows that
+$$h/\gcd(h,a)\mid d.                 \tag{CC-AG.63}$$ The ideal and
+field norm formulas used here are Milne (2020), Proposition 4.1(a),(c),
+p. 69, and Proposition 2.19, p. 31, respectively. Because both indices
+are one, (CC-AG.35)--(CC-AG.41) identify the transition multiplicity of
+this source simple with $d$. Thus every allowed multiplicity is
+divisible by $h/\gcd(h,a)$.
+
+It remains to construct that least positive multiplicity. Choose
+$\gamma$ witnessing exponent $h$ and let $\alpha$ satisfy (CC-AG.57).
+Every conjugate of $\alpha$ has absolute value $p^{aw/2}$. Valuations
+away from $p$ vanish, because those of $\gamma$ vanish, so
+$\alpha\in W(p^a)$. Equation (CC-AG.59) for $n=h$ shows that
+$[\gamma,h]=[\pi,b]=\xi$. Moreover (CC-AG.57), raised to the $g$-th
+power, is $\alpha^h=\gamma^a$, so $[\alpha,a]=[\gamma,h]=\xi$.
+
+The germ centre is $K$. Since $\gamma\in K$, every positive power of
+$\gamma$ generates $K$: its field contains the eventual stabilized germ
+centre and is contained in $K$. Consequently $\gamma^{a/g}=\alpha^{h/g}$
+proves $K\subset\mathbb Q(\alpha)$. The defining equation bounds this
+extension degree above by $h/g$, whereas (CC-AG.63) says it is a
+positive multiple of $h/g$. It must therefore equal $h/g$, proving
+(CC-AG.58). Its source simple realizes exactly $h/g$ copies of $S_\xi$.
+Direct sums realize all nonnegative multiples, and the preceding
+divisibility excludes every other multiplicity. Equations
+(CC-AG.55)--(CC-AG.56) follow. $\square$
+
+#### Ordinary imaginary-quadratic special case.
+
+Suppose $K$ is imaginary quadratic, $w=1$, and the germ is ordinary, so
+that $p$ splits and the two slopes are zero and one. Let $\mathfrak p$
+be the prime where the slope is one. Then $J=\mathfrak p$, and
+$$h=\operatorname{ord}([\mathfrak p])
+                                  \quad\text{in }\operatorname{Cl}(K).
+                                                               \tag{CC-AG.64}$$
+Indeed, a Weil generator of $J^n$ makes $J^n$ principal. Conversely, if
+$J^n=(\gamma)$, then the positive field norm of $\gamma$ is $p^n$; the
+two complex conjugates therefore each have absolute value $p^{n/2}$.
+Thus this generator satisfies (CC-AG.53). The two exponent subgroups are
+identical, proving (CC-AG.64). The exact multiplicity for descent to
+$\mathbb F_{p^a}$ is consequently
+$$\frac{\operatorname{ord}([\mathfrak p])}
+                  {\gcd(\operatorname{ord}([\mathfrak p]),a)}.$$ For the
+germ of CC-AG10, this order is two and $a=1$, recovering its exact
+even-multiplicity obstruction. For $a=2$ the least multiplicity is one.
+
+#### Exact boundary.
+
+The integral-slope hypothesis makes every Schur index in this proof one.
+With fractional slopes the local indices can vary with the source centre
+field, and the transition multiplicity is the full expression
+$[K_\alpha:K_\xi]d_\alpha/d_\xi$. Neither the cyclic-monoid formula
+(CC-AG.55) nor the root-degree construction is asserted in that
+remaining case. This result removes the previously unbounded root-order
+search precisely in the stated sector. It does not provide new
+cross-correspondences for an arbitrary variety, so the separate
+arbitrary-motive Tate gate is unchanged.
+
+## Primary references
+
+-   Milne, J. S. (1994). Motives over finite fields. In U. Jannsen,
+    S. Kleiman, & J.-P. Serre (Eds.), *Motives* (Proceedings of Symposia
+    in Pure Mathematics, Vol. 55, Part 1, pp. 401--459). American
+    Mathematical Society. Corrected author version dated November 2,
+    2019: <https://www.jmilne.org/math/xnotes/Seattle1.pdf>. Exact
+    classification and local-index locators are Theorems 2.15--2.16,
+    p. 18, and Theorems 2.18--2.19, p. 20, with the geometric-Frobenius
+    normalization on p. 17.
+
+-   Milne, J. S. (2020, July 19). *Algebraic number theory*
+    (Version 3.08) \[Author course notes\].
+    <https://www.jmilne.org/math/CourseNotes/ANT.pdf>. Exact inputs:
+    Proposition 2.19, p. 31; Theorem 3.20, p. 53;
+    Proposition 4.1(a),(c), p. 69; Proposition 5.5 and Corollary 5.6,
+    p. 87.
