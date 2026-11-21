@@ -1,0 +1,94 @@
+\subsection{The isolated degree-thirty-six Bernoulli certificate}
+\label{sec:bernoulli-residual-prime36}
+
+\begin{proposition}[K17-BERNOULLI-8361790201]
+\label{prop:bernoulli-residue36}
+For $p=8361790201$ and $n=p-19=8361790182$,
+\[
+                         B_n\equiv1827838999\ne0\pmod p.
+ \tag{BC36.1}
+\]
+\end{proposition}
+
+\begin{proof}
+Use the already proved finite congruence (BC.3) with multiplier $g=2$.
+It does not require this multiplier to be a primitive root; only
+$2^n\ne1\pmod p$ is needed.
+Here $n\equiv-18\pmod{p-1}$ and $p>2^{18}-1$, so this condition
+holds. Its conversion factor is
+\[
+ \frac{n2^{n-1}}{2^n-1}
+ =\frac{(-19)2^{-19}}{2^{-18}-1}
+ =\frac{19}{2^{19}-2}
+ =2677869827\pmod p.
+ \tag{BC36.2}
+\]
+
+For enumeration, choose the primitive root $h=19$.
+The complete program proves $p$ prime by trial division, verifies
+\[
+ p-1=2^3\cdot3^2\cdot5^2\cdot167\cdot27817,
+\]
+proves the displayed prime factors by trial division, and checks
+$19^{(p-1)/q}\ne1\pmod p$ for all their distinct prime divisors
+$q$, together with $19^{p-1}=1$.
+The first $(p-1)/2=4180895100$ powers $a_i=19^i\bmod p$
+therefore give one representative of each pair $\{a,-a\}$.
+Pairing the summands of the multiplier-two formula, as in (BC.4),
+gives
+\[
+ S=\sum_{i=0}^{4180895099}
+       \left(2\left\lfloor\frac{2a_i}{p}\right\rfloor-1\right)w_i,
+ \quad
+ w_i=a_i^{-19},\quad
+ w_{i+1}=7846251853\,w_i\pmod p.
+ \tag{BC36.3}
+\]
+The roles of the multiplier $2$ and enumerator $19$ are distinct.
+The former supplies the signed coefficient and factor (BC36.2);
+the latter supplies the exhaustive orbit and weight recurrence.
+
+The exact standard C++17 program
+\texttt{higher2/bernoulli\_8361790201.cpp}
+implements (BC36.3) in constant memory.
+It uses the same proved Montgomery reduction as
+Proposition~\ref{prop:bernoulli-residue};
+here its bound is again $p^2+2^{64}p<2^{100}<2^{128}$.
+The changed orbit multiplication satisfies $19a_i<19p<2^{38}$,
+so ordinary unsigned 64-bit multiplication followed by remainder
+is exact. Every signed sum update is below $2p$.
+All counts, residues, exponents, and comparisons are integers;
+floating-point arithmetic appears only in progress timing.
+The loop invariant is exactly the residue, weight, and partial sum
+in (BC36.3).
+
+The complete run, with all $4180895100$ terms and endpoint checks
+$a_{(p-1)/2}=w_{(p-1)/2}=-1$, gives
+\[
+                     S=7432636175,\qquad
+                     \frac{19S}{2^{19}-2}=1827838999\pmod p.
+\]
+This proves (BC36.1). The source and complete JSON output are included
+alongside the full-model certificates; the run took approximately
+$31.21$ seconds.
+
+An independently written second program uses multiplier and primitive
+enumerator $g=22$, with ordinary unsigned 128-bit modular division.
+It independently verifies primality and primitive order, sums all
+$4180895100$ terms with the general paired coefficient
+$2\lfloor22a/p\rfloor-21$, and checks both endpoints $-1$.
+Its complete output is
+\[
+ S_{22}=1660697019,\qquad
+ \frac{n22^{n-1}}{22^n-1}=7951289779,\qquad
+ B_n=1827838999\pmod p.
+\]
+The orbit product is below $22p<2^{38}$, each coefficient times a
+weight is below $21p<2^{38}$, and each weight product is below
+$p^2<2^{66}$, within its unsigned 128-bit type.
+This independent run took approximately $51.28$ seconds.
+Its full source and report are
+\texttt{higher2/bernoulli\_8361790201\_archive\_g22.cpp/.json}.
+It agrees with (BC36.1) using a different multiplier, different
+enumeration, and different exact reduction algorithm.
+\end{proof}

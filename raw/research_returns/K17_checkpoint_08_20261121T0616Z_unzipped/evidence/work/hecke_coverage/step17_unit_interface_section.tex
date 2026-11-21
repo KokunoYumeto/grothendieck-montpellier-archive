@@ -1,0 +1,173 @@
+\subsection{The direct unit-trace criterion in the recovered source}
+\label{sec:step17-unit-interface}
+
+This section uses a stronger intermediate statement actually proved in
+step~17's source, rather than trying to recover it from the eventual
+existential estimate. All source declarations below are at the pinned
+commit of \cite{K17PinnedLeanMirror}.
+
+\begin{lemma}[K17-S17-UNIT]\label{lem:step17-unit}
+Assume the source datum $\mathrm{GD}(\Omega,K,\ell,e,\psi)$.
+Write $\Psi=\chi_\ell^e\psi$, interpreted in the coefficient DVR, and
+fix $s\in G_K$ and $t=\Psi(s)+1+\Psi(s)^{-1}$.
+If, for every source-admissible representation
+\[
+ \rho\in\mathrm{Adm3U\_s}(\iota,e,N)
+       \ \cup\ \mathrm{Adm2A}(\iota,e,N|d_K|),
+\]
+the difference $\operatorname{tr}\rho(s)-t$ is an $\ell$-adic unit,
+then the source Selmer length $V_{\mathrm{len}}(\Omega,c,e,\psi)$ is zero.
+\end{lemma}
+
+\begin{proof}
+The exact statement \texttt{OneCharU\_s} is defined in
+\texttt{DenseThresholdCases/NumberU3US.lean}.
+It requires only nonvanishing of all the indicated differences and concludes
+that $V_{\mathrm{len}}$ is finite and that a finite set $X$ of those
+admissible representations exists with
+\[
+ \frac{V_{\mathrm{len}}}{e(O/\mathbf Z_\ell)}
+ \le 2\sum_{\rho\in X}
+       v_\ell\bigl(\operatorname{tr}\rho(s)-t\bigr).
+\]
+The normalization is the definition \texttt{Chr.nrm} in
+\texttt{CharacterLevelBounds/ShaFamMono.lean}.
+The statement is proved by
+\texttt{oneCharU\_of\_katoTwoW\_rig\_admI\_automorphy} in
+\texttt{DenseThresholdCases/FOneCharU.lean}, including its preceding
+complete proof \texttt{oneChar\_unramU}. The proof constructs the actual
+finite set from the model's \texttt{TwoPt} points, treats Type~I and
+Type~II with the two displayed predicates, and removes the unramified
+coefficient restriction by \texttt{exists\_unram} and
+\texttt{coefIndep}.
+
+The same closed source inputs supply this intermediate theorem:
+\texttt{SmallClassNumbers/CorGKOf.lean}, in the proof of
+\texttt{corGK\_of}, applies precisely that declaration with all its
+cohomology, algebra, Kato, rigidity, admissibility and automorphy arguments.
+Its subsequent \texttt{litN} and \texttt{corGK} supply the closed published
+inputs. We retain this intermediate theorem value, rather than passing it
+through the congruence-number construction. This uses the stipulated source
+theorem, without claiming a new Lean verification of the repository.
+
+Units are nonzero, so the theorem applies. Every valuation in its finite
+sum is zero. The ramification index is finite and positive, and the finite
+module length is nonnegative. The displayed inequality therefore forces
+that length to be zero.
+\end{proof}
+
+\begin{lemma}[K17-S17-U3-LEVEL]\label{lem:step17-u3-level}
+Put $E=\mathbf Q(\sqrt{-3})$, $e=6$, and $N=2$.
+For every odd prime $\ell$ and every representation admitted by the
+source predicate $\mathrm{Adm3U\_s}(\iota,6,2)$, the associated cuspidal
+$\mathrm{GL}_3(\mathbf A_E)$ representation satisfies the hypotheses of
+Theorem~\ref{thm:u3-coverage}. At a split prime $p\ne\ell$, with arithmetic
+Frobenius $\sigma$, its unitary Satake roots $B$ satisfy
+\[
+ \iota\operatorname{tr}\rho(\sigma^{-1})=\sum_{\beta\in B}\beta.
+\]
+\end{lemma}
+
+\begin{proof}
+We retain the source's strengthened predicates. By
+\texttt{NumberU3US.lean} and \texttt{AfStmt.lean},
+$\mathrm{Adm3U\_s}$ contains irreducibility, the literal level condition
+$\mathrm{Level}(\ell,2,(6,0,-6),\rho)$,
+$\mathrm{IsAutCsdA}(\iota,r)$ for $r=\rho\chi_\ell^{-1}$,
+and the additional condition $\mathrm{Th.Unl}$.
+By \texttt{IsAutCsdA.lean},
+\[
+ \mathrm{IsAutCsdA}(\iota,r)=
+ \mathrm{AutCsd0}(\iota,r)\ \wedge\
+ (r\text{ continuous}\Rightarrow\mathrm{WitA}(\iota,r)).
+\]
+The definition \texttt{AutCsd0} in the Foundations file
+\texttt{AdmissibleResidues/IsAutomorphicOverImagQuad.lean}
+is exactly a regular algebraic, conjugate-self-dual cusp representation
+$\Pi$ together with its attachment to $r$.
+
+The definition \texttt{KillsMu} in
+\texttt{AutomorphicForms/BlochKatoSelmerVanishes.lean}
+says that its character is trivial on automorphisms fixing all $M$-th
+roots of unity. Every characteristic-zero field automorphism fixes
+$\{1,-1\}$, so every \texttt{KillsMu 2} character is trivial and hence
+satisfies \texttt{KillsMu 1}. Reuse the same away-prime and above-prime
+level witnesses, including the same flags and local disjunctions, to get
+\[
+ \mathrm{Level}(\ell,1,(6,0,-6),\rho).
+\]
+The proved \texttt{UpperTheory.level\_twist\_cyclotomic\_pow}
+in \texttt{BuildingsResidueChars/LevelTwistCyclotomicPow.lean}
+then gives
+\[
+ \mathrm{Level}(\ell,1,(5,-1,-7),r).
+\]
+In particular $r$ is continuous, so its actual \texttt{WitA} hypothesis
+is available.
+
+The theorem \texttt{unlAll\_of} in
+\texttt{AutomorphyLifting/AdmissibleLevelRestriction/UnlAllOf.lean}
+turns the retained \texttt{Th.Unl} hypothesis into
+$\mathrm{Unl1}(\rho,w)$ at each $w\mid\ell$.
+By its definition in \texttt{AutomorphyLifting/WeakOfAtt.lean}, this is a
+flag with diagonal characters $\kappa_i$ satisfying
+$\kappa_i\ne\kappa_j\chi_\ell$ for all $i,j$.
+Multiplying all the characters by $\chi_\ell^{-1}$ transports the flag
+and preserves these inequalities. Thus $\mathrm{Unl1}(r,w)$ holds as well.
+
+Apply the complete source theorem \texttt{Keep.levelCore\_alt}, or its
+CSD specialization \texttt{Keep.levelKA\_alt}, in
+\texttt{DenseThresholdCases/KeepLevel.lean}, with modulus one and exponent
+vector $(5,-1,-7)$. The required \texttt{WitA} and above-$\ell$
+\texttt{Unl1} hypotheses have both just been supplied. The CSD
+specialization supplies its polarization. It concludes
+\[
+ \Pi_f^{K\mathrm{Lev}(E,3,1)}\ne0,
+ \qquad \operatorname{InfChar}_\tau(\Pi)
+       =\operatorname{infOf}(5,-1,-7)=(6,0,-6),
+\]
+and exact Frobenius--Satake compatibility at every $w\nmid\ell$.
+The definition of $K\mathrm{Lev}$, or the proved formula
+\texttt{mem\_KLev} in \texttt{AutomorphicForms/KLevTop.lean}, identifies
+modulus one with $\prod_w\mathrm{GL}_3(O_{E_w})$. Therefore $\Pi$ is
+unramified at every finite place, including those above $\ell$.
+This deduction uses the source's level theorem with its full hypotheses;
+it does not infer zero monodromy from the level disjunction alone.
+
+In the source convention,
+$\operatorname{infOf}(m)=\{(n-1)/2+m_i\}_i$.
+The unitary regular cohomological infinity parameter is consequently
+$\operatorname{diag}((z/\bar z)^6,1,(z/\bar z)^{-6})$, and subtracting
+$(1,0,-1)$ gives compact highest weight $(5,0,-5)$.
+Equivalently, $r$ has Hodge--Tate weights $(-5,1,7)$ and the source relation
+is $\mathrm{HT}=1-\operatorname{InfChar}$. This checks both shifts.
+
+Finally the source uses $\chi_\ell(\sigma)=p$ and describes Frobenius
+roots of $r(\sigma^{-1})$.
+The twist gives $r(\sigma^{-1})=p\rho(\sigma^{-1})$, while
+\texttt{algSat 3 p} multiplies each unitary root by $p$.
+Cancelling these factors proves the displayed trace identity.
+\end{proof}
+
+\paragraph{How the finite characteristic polynomial is used.}
+Suppose the independent compact-space certificate gives
+$\sum\beta=A_p/p^6$, and the separately established rank-two coverage
+places every $\mathrm{Adm2A}(\iota,6,6)$ trace in
+$1+a_p/p^6$ for an eigenform in
+$S_{13}(\Gamma_0(3),\chi_{-3})$. Put
+\[
+ Q_p(X)=\det(XI-T_p),\qquad E_p=1+p^6+p^{12},\qquad
+ N_p=(E_p-A_p)Q_p(1+p^{12}).
+\]
+The two trace differences at $s=\sigma^{-1}$ are respectively
+\[
+ \frac{A_p-E_p}{p^6},\qquad
+ \frac{a_p-(1+p^{12})}{p^6}.
+\]
+If $\ell\nmid pN_p$, they are all $\ell$-adic units. Indeed every
+characteristic root is integral, and an integral product with unit value
+has unit factors at every prime above $\ell$. Repeated eigenvalues cause
+no change in this argument. Lemma~\ref{lem:step17-unit} therefore applies.
+This uses pointwise coverage only: it neither replaces the source's
+\texttt{TrData} nor asserts that an older, larger characteristic product
+divides $N_p$.

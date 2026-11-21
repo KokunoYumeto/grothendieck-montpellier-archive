@@ -1,0 +1,235 @@
+\subsection{A joint residual trace criterion from the source model}
+\label{sec:joint-trace-source}
+
+The conclusions in this section retain the stipulated arithmetic source
+inputs of Lemma~\ref{lem:step17-unit}. They are deductions from the
+complete intermediate proofs at the pinned commit
+\cite{K17PinnedLeanMirror}; no new Lean compilation is asserted. Put
+\[
+ \mathcal A=\mathrm{Adm3U\_s}(\iota,e,N)
+       \cup\mathrm{Adm2A}(\iota,e,N|d_K|),\qquad
+ t(s)=\Psi(s)+1+\Psi(s)^{-1},\quad \Psi=\chi_\ell^e\psi,
+\]
+where the characters are restricted to $G_K$. Write
+$\mathfrak m_{\overline{\mathbf Q}_\ell}
+ =\{x\in\overline{\mathbf Q}_\ell:|x|_\ell<1\}$.
+
+\begin{theorem}[K17-S17-JOINT]\label{thm:step17-joint}
+Assume $\mathrm{GD}(\Omega,K,\ell,e,\psi)$. If the source Selmer
+length $V_{\mathrm{len}}(\Omega,c,e,\psi)$ is nonzero, there is a
+single representation $\rho\in\mathcal A$ such that
+\begin{equation}\label{eq:joint-global-congruence}
+ \operatorname{tr}\rho(s)-t(s)
+       \in\mathfrak m_{\overline{\mathbf Q}_\ell}
+       \qquad\text{for every }s\in G_K.
+\end{equation}
+Consequently, if every $\rho\in\mathcal A$ has at least one $s\in G_K$
+for which this difference is a unit, then $V_{\mathrm{len}}=0$.
+The detecting element may depend on $\rho$; no cardinality restriction
+on $\mathcal A$ is required.
+\end{theorem}
+
+\begin{proof}
+We first take the coefficient DVR $O$ to be unramified over
+$\mathbf Z_\ell$. Use exactly the closed inputs of
+\texttt{SmallClassNumbers/CorGKOf.lean}, proof of \texttt{corGK\_of},
+and the construction in
+\texttt{DenseThresholdCases/FOneCharU.lean}, proof of
+\texttt{oneChar\_unramU}. They give the datum $D$, marked element
+$g_1$, local object $U$, complete local deformation ring $S.R$,
+universal representation $S.r$, and graded model $M$. In particular,
+the source supplies the finiteness of the weight-zero algebra,
+\texttt{PtHyp}, and
+\begin{equation}\label{eq:joint-vlen-model}
+ V_{\mathrm{len}}\le M.\mathrm{len}.
+\end{equation}
+These objects and hypotheses do not depend on the later test element
+$s$. The same proof's assertion \texttt{hadm} states that every
+\texttt{TwoPt} point $f:S.R\to\overline{\mathbf Q}_\ell$ gives
+\[
+ \rho_f=D.\mathrm{rhoK}(\operatorname{push}(f,S.r))\in\mathcal A.
+\]
+It uses the strengthened predicates displayed above, including the
+source's \texttt{WitA}, \texttt{Unl} and Type-II hypotheses.
+
+There must be a \texttt{TwoPt} point. Otherwise apply
+\texttt{UnitaryThreeGroups/ModelUpper.lean}, theorem
+\texttt{model\_upper}, at the identity element. Its trace nonvanishing
+hypothesis is vacuous because there are no such points. It gives
+$M.\mathrm{len}<\infty$ and a finite covering set $T$ consisting of
+\texttt{TwoPt} points, with
+\[
+ \frac{M.\mathrm{len}}{e(O/\mathbf Z_\ell)}
+       \le 2\sum_{f\in T}v_\ell(\operatorname{trDiff}(1,f)).
+\]
+The set $T$ is empty. Since $e(O/\mathbf Z_\ell)=1$, the finite
+length is zero, and \eqref{eq:joint-vlen-model} contradicts
+$V_{\mathrm{len}}\ne0$. This is the complete empty-point argument in
+\texttt{SmallClassNumbers/OnePoint.lean}, proof of \texttt{onePoint};
+here we use the stronger \texttt{hadm} assertion from
+\texttt{FOneCharU.lean}.
+
+Choose such an $f$. Its local-point condition and the universal residual
+condition give the following entrywise congruence, for every
+$g\in G_{\mathbf Q}$ and every $a,b\in\{0,1,2\}$:
+\begin{equation}\label{eq:joint-entry-congruence}
+ \left|\bigl(\operatorname{push}(f,S.r)(g)\bigr)_{ab}
+            -\bigl(r_0(D.\eta,D.\Psi_Q)(g)\bigr)_{ab}\right|_\ell<1.
+\end{equation}
+For completeness, the proof of \texttt{isPt\_push} in
+\texttt{UnitaryThreeGroups/IsPtOf.lean} establishes this directly:
+the difference of the corresponding entries in $S.R$ has residue zero
+by \texttt{S.r.red} and \texttt{diagonal\_rep\_map\_entries}, hence
+belongs to its maximal ideal. The condition \texttt{IsLocPt f} sends
+that ideal into elements of norm less than one. That proof also shows
+that all entries of the pushed representation have norm at most one.
+Thus \eqref{eq:joint-entry-congruence} is an actual residual congruence,
+not merely a characteristic-zero trace identity.
+
+Restrict to $G_K$. The identity $D.\eta|_{G_K}=1$ identifies the matrix
+part with $\rho_f$. The exact trace identity \texttt{htr} in
+\texttt{FOneCharU.lean}, using
+\texttt{trace\_reducible\_three\_dim} from
+\texttt{TheoremsMuLinked/GaloisRepresentationTypes/OneChar.lean},
+identifies the trace of the base representation with $t(s)$.
+The ultrametric inequality applied to the three diagonal differences
+in \eqref{eq:joint-entry-congruence} now proves
+\eqref{eq:joint-global-congruence} for every $s$ and the same $\rho_f$.
+
+Finally remove the coefficient restriction exactly as in the final
+proof of \texttt{FOneCharU.lean}. The prime-to-$\ell$ order of $\psi$,
+part of $\mathrm{GD}$, gives an unramified coefficient ring $O'$ and
+a character $\psi'$ with the same values in
+$\overline{\mathbf Q}_\ell$. The lemma \texttt{gd\_chHom} preserves
+$\mathrm{GD}$. The complete theorem \texttt{coefIndep} in
+\texttt{HeightAndVanishing/CoefIndep.lean} gives equivalence of
+infinite lengths and equality of normalized lengths. These two facts,
+and the positive finite ramification indices, imply equivalence of
+vanishing: if the $O'$-length were zero, the $O$-length would be finite
+with normalized length zero and hence would be zero. Therefore the
+$O'$-length remains nonzero. Apply the preceding construction over
+$O'$. The characters $\Psi$ and $\Psi'$ have identical values, and the
+predicates in $\mathcal A$ do not involve the coefficient ring. This
+gives precisely \eqref{eq:joint-global-congruence} over the original
+datum. Its stated contrapositive follows immediately.
+\end{proof}
+
+\begin{proposition}[K17-S17-GROUP-RING]\label{prop:step17-group-ring}
+Under the same hypotheses, take $s_1,\ldots,s_r\in G_K$ and
+$b_1,\ldots,b_r\in\mathbf Z_\ell$. Define
+\[
+ d_b(\rho)=\sum_{j=1}^r b_j
+       \bigl(\operatorname{tr}\rho(s_j)-t(s_j)\bigr).
+\]
+If $d_b(\rho)\ne0$ for every $\rho\in\mathcal A$, then the source
+length is finite and there is a finite set $X\subset\mathcal A$,
+without isomorphic repetitions, such that
+\begin{equation}\label{eq:group-ring-bound}
+ \frac{V_{\mathrm{len}}}{e(O/\mathbf Z_\ell)}
+       \le 2\sum_{\rho\in X}v_\ell(d_b(\rho)).
+\end{equation}
+In particular, units for all $d_b(\rho)$ force $V_{\mathrm{len}}=0$.
+This is a finite-support group-ring statement; no infinite series is
+being evaluated.
+\end{proposition}
+
+\begin{proof}
+We give the complete modification to \texttt{ModelUpper.lean}; all
+remaining source arguments are unchanged. Work first over an
+unramified coefficient ring. For each $s_j$, use the homogeneous
+entry lifts \texttt{M.ent} of its image in $G_{\mathbf Q}$ and let
+$a_j\in M.A_0$ be the sum of the three diagonal lifts minus the
+coefficient-ring trace of the base representation. The source's
+identities \texttt{ha0}, \texttt{hqa} and \texttt{hxa} give
+\[
+ a_j\in M.A_0,\qquad M.x(a_j)=0,\qquad
+ f(M.q(a_j))=\operatorname{trDiff}(s_j,f).
+\]
+The finite sum $a=\sum_j b_j a_j$ has the same degree and base value,
+and evaluation is the corresponding linear combination of trace
+differences. This uses only the $O$-module structure of the homogeneous
+degree-zero part; $\mathbf Z_\ell$ embeds in every coefficient ring.
+
+The hypothesis \texttt{M5} in that proof follows exactly as before:
+the source map \texttt{M.pts} carries every two-signed model point,
+up to the grading torus, to a local \texttt{TwoPt} point. Degree-zero
+elements are fixed by that torus, and the evaluated $a$ is nonzero by
+the present hypothesis and \texttt{hadm}. Apply \texttt{LemmaM} to
+this $a$. The remainder of \texttt{model\_upper} constructs finite
+torus-orbit representatives by the same argument, compares the same normalized
+length, and evaluates the selected homogeneous element; it uses no
+further property of a single group element. It therefore gives the
+same inequality with $\operatorname{trDiff}$ replaced by the finite
+linear combination.
+
+The isomorphism-injectivity argument \texttt{hinj} of
+\texttt{FOneCharU.lean} also does not depend on the test element.
+Combining it with \texttt{vlen\_le} yields
+\eqref{eq:group-ring-bound}. To descend coefficients, use
+\texttt{exists\_unram}, \texttt{gd\_chHom} and \texttt{coefIndep}
+as in the preceding proof. The $b_j$ have the same images in both
+coefficient rings, and all $t(s_j)$ agree, so the finite linear
+combination, finiteness and normalized bound descend. For units all
+valuations vanish, giving the last assertion.
+\end{proof}
+
+\begin{corollary}[Joint operator test]\label{cor:joint-hecke-test}
+Suppose a finite list of integral Hecke modules covers the source
+admissible representations simultaneously at a finite collection of
+Frobenius elements. On a given module write the scaled operators as
+$A_1,\ldots,A_r$ and their integral Eisenstein targets as
+$u_1,\ldots,u_r$; assume the scaling factors are units at $\ell$.
+If, on every module, the reductions of
+\[
+ A_1-u_1I,\ldots,A_r-u_rI
+\]
+have no common nonzero kernel vector over
+$\overline{\mathbf F}_\ell$, then $V_{\mathrm{len}}=0$.
+A sufficient certificate on a module is
+\[
+ \det\left(\sum_{j=1}^r c_j(A_j-u_jI)\right)
+       \in O^\times
+\]
+for some integral $c_j$; the coefficients may differ between modules.
+More generally, a unit maximal minor of the vertically stacked
+matrices is sufficient.
+\end{corollary}
+
+\begin{proof}
+If the length were nonzero, Theorem~\ref{thm:step17-joint} would give
+one admissible $\rho$ satisfying every residual trace congruence.
+Simultaneous coverage places its characteristic-zero Hecke eigensystem
+in one of the indicated modules. Pass to a finite coefficient extension
+containing the selected eigenvalues and a simultaneous eigenvector,
+and scale that vector to be integral and primitive. The eigenvalues
+of all $A_j-u_jI$ belong to the maximal ideal because their scaling
+factors are units. Reducing the primitive vector gives a nonzero common
+kernel vector, a contradiction. An invertible linear combination, or
+a full-rank stacked matrix, rules out such a vector. This argument
+requires simultaneous coverage of one global representation; separate
+characteristic polynomials with no identified common module do not
+supply that hypothesis.
+\end{proof}
+
+\paragraph{Relation with the finite hyperplane argument.}
+For a finite family of $n<\ell$ integral residual trace functions, each
+distinct from the Eisenstein function, choose finitely many detecting
+elements. For each representation the coefficient vectors whose linear
+combination vanishes form a proper $\mathbf F_\ell$-linear subspace;
+in $\mathbf F_\ell^r$ each has at most $\ell^{r-1}$ elements.
+Their union therefore misses a coefficient vector. Integer lifts give
+unit linear combinations for the whole family, so
+Proposition~\ref{prop:step17-group-ring} applies. Theorem
+\ref{thm:step17-joint} avoids this size restriction by retaining the
+actual local point rather than first choosing a test function.
+
+\paragraph{The remaining uniform arithmetic question.}
+For $\psi=1$, $N=2$ and even $e$, the same Selmer group is tested by
+each imaginary quadratic datum satisfying $\mathrm{GD}$. A nonzero
+group forces an everywhere residual Eisenstein eigensystem in an
+admissible branch for every such datum. Finding a datum with no such
+eigensystem is therefore sufficient for vanishing. The converse is not
+asserted: the presence of an automorphic congruence need not produce a
+nonzero Selmer class by this argument. Neither an existential length
+bound nor isolated constant-term calculations alone exclude the
+remaining simultaneous congruences.

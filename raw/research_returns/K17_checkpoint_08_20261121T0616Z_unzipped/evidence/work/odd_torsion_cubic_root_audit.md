@@ -1,0 +1,15 @@
+# Root whole-proof audit: K17-CUBIC-ODD
+
+Date: 2026-11-21 UTC. Reviewer: /root, GPT-6 Astra Pro; effort not exposed; run K17.
+
+Verdict: PASS for the full stated conditional algebraic theorem. The entire final TeX was read in two consecutive pieces, lines 1--155 and 156--end, and the independent tripod audit was read in full. This is a proof reading, not a formal certificate or an arithmetic verification of the hypotheses.
+
+The compact integral torsion submodule is closed and saturated; Pontryagin duality splits only over Zp, which is all that is used. Exact small Delta-eigenlifts and the twice-applied Frattini/projectivity argument give the actual whole free group. Gamma preserves assigned degrees 1,2,3 because odd torsion has no degree-one term and its possible degree-two leading term has incompatible conjugation parity. No assertion about every degree-two coefficient of an arbitrary odd element is needed.
+
+Finite deletion of linear resonances preserves the actual equivariant free target and density. All image lengths are at least the assigned source degrees. Finite Lambda generation supplies bounded denominators on each rational coordinate change and on each fixed completed tensor degree. Even and odd companions are constructed from actual group lifts; their leading changes are triangular and invertible. The cubic numerator has only proper pair poles, so its restriction to a triple root divisor is defined. Constant partial fractions retain every root multiplicity.
+
+The first nonzero assigned degree can be evaluated in finite arithmetic-weight quotients, and compactness justifies the completed tensors. The allowed large weight grids have interior p-adic accumulation independently in every variable. Clearing the finite denominators and iterating the one-variable identity theorem produces a meromorphic identity. In its separation, maximal triple count must be selected before maximal pair count. The disjoint-block exponent-vector calculation shows that only the identical interval can give a chosen transverse pole; proper pairs inside a chosen triple are units. Pareto-maximal pole orders isolate one coefficient. Character sums separate distinct odd components sharing a root; several same-character cyclic blocks are deliberately excluded. Each nonzero restricted numerator survives injection to the common base fraction field.
+
+The class-three extension's direct sum description is only as vector spaces; its Gamma action may mix [Q,T+] into L3(Q). Lift changes alter the numerator by the companion polynomial times a function with proper pair poles, preserving its restriction. The arithmetic comparison retains the exceptional characters, cyclicity and both nonvanishing conditions. The earlier checked Wake--Wang-Erickson Ext comparison does not itself verify Pair-NV or Triple-NV. No actual non-Greenberg prime is added and no such arithmetic progress is counted from this theorem alone.
+
+The final source hash is recorded in the check event and independent audit. This audit reads the complete proof, not just its headline reduction.

@@ -1,0 +1,13 @@
+# Independent whole-proof/code audit: higher3 full level-seven residue rings
+
+**PASS for the full mathematical model and exact certificate implementation.** Reviewed the entire `gl2_residual_ring_section.tex` and every line of `gl2_twist_residual_certificate.py` (180 lines). Reviewer: GPT-6 Astra Pro, run `/root/archive_kummer`, 2026-11-21.
+
+The unimodular coordinate change A=z3+z1, B=z1, C=z1+z2 sends the complete integral conic ring to AC=B^2. The displayed monomials form the entire weight-m basis by monic reduction; their leading orders are exactly 0,...,2m with leading coefficient one. Multiplication by D gives all cusp forms and the full integral Fourier lattice, with leading orders 1,...,2m+1. Thus the identifying matrix is unit lower triangular over every integer residue ring, not merely over a field.
+
+The exact diamond action A->C, B->C-B, C->A+C-2B follows from the checked cyclic action on z1,z2,z3 and the trivial value of chi_-7 at 2. The full Hecke formula, exponent 2e, forward substitution and all supplied coefficient indices are correct. The code's precision 2(d+8) suffices for every checked coefficient. The eta product loop uses descending indices and three factors at each dilation; the series multiplication and basis enumeration are exact.
+
+The determinant routine uses only verified units modulo M, with an explicit inverse check. A missing unit pivot is honestly reported as unresolved; it is not interpreted as a zero determinant or as evidence that M is prime. On successful pivots, ordinary row elimination computes the determinant in the commutative residue ring. Unit residue of the full cubic determinant makes every eigenvalue difference for all mu_3 twists a unit at every prime dividing M and every coefficient place. The proof uses all forms, not selected eigensystems.
+
+Read the complete saved five-case report metadata and independently recomputed each integer gcd. The dimensions are 77,77,85,85,93; the recorded determinants are respectively 4822435123, 205886586892358540462732749, 79920658975217, 729501190808707622310038510098001514556, and 1165633710051053709364161260919098058495500. Every gcd with its stated modulus is one, and every report has the full number of determinant pivots.
+
+No new full matrix replay was performed by this reviewer, at the parent's explicit request to avoid duplicating the already completed author and root full executions. The present event records complete independent proof/code inspection and integer metadata checks. Primary conic/eta inputs were freshly read in the earlier minus7 model audits. No numerical data or source files were modified.

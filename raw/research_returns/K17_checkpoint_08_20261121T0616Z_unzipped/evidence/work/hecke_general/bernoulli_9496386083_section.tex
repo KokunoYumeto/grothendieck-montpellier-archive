@@ -1,0 +1,131 @@
+\subsection{The isolated degree-twenty Bernoulli certificate}
+\label{sec:bernoulli-residual-prime}
+
+\begin{proposition}[K17-BERNOULLI-9496386083]
+\label{prop:bernoulli-residual-prime}
+\label{prop:bernoulli-residue}
+For $p=9496386083$ and $n=p-11=9496386072$,
+\[
+                  B_n\equiv3753150554\ne0\pmod p.
+ \tag{BC.1}
+\]
+This certifies the single class-group component required by
+Lemma~\ref{lem:isolated-reflection}; it does not assert Vandiver's
+conjecture for every character at this prime.
+\end{proposition}
+
+\begin{proof}
+We give both the finite formula and its exact exhaustive verification.
+The Bernoulli recurrence
+\[
+ \sum_{j=0}^{m}\binom{m+1}{j}B_j=0\qquad(m\ge1),\qquad B_0=1,
+\]
+shows inductively that $B_m$ is $p$-integral for $m\le p-2$,
+because the coefficient $m+1$ of $B_m$ is a $p$-adic unit.
+Faulhaber's polynomial identity then implies, for
+$2\le n\le p-3$,
+\[
+                  T_n:=\sum_{a=1}^{p-1}a^n
+                       \equiv pB_n\pmod{p^2}.
+ \tag{BC.2}
+\]
+For $g$ prime to $p$, write $ga=r_a+pq_a$ with
+$1\le r_a\le p-1$ and $q_a=\lfloor ga/p\rfloor$.
+The $r_a$ permute the nonzero residues, so
+\[
+ T_n=\sum r_a^n
+ \equiv g^nT_n-np g^{n-1}\sum q_a a^{n-1}\pmod{p^2}.
+\]
+If $g^n\ne1\pmod p$, division by $p$ and (BC.2) give
+\[
+ B_n\equiv
+ \frac{n g^{n-1}}{g^n-1}
+ \sum_{a=1}^{p-1}\left\lfloor\frac{ga}{p}\right\rfloor a^{n-1}
+ \pmod p.
+ \tag{BC.3}
+\]
+This derivation fixes the normalization and sign of the formula.
+
+Both exact programs prove by trial division that $p$ and the factors in
+\[
+                     p-1=2\cdot17\cdot293\cdot953261
+\]
+are prime. For their respective choices $g=2$ and $g=5$, they check
+$g^{(p-1)/q}\ne1\pmod p$ for every displayed prime divisor $q$.
+Thus $g$ has order $p-1$. Put $h=(p-1)/2$ and let
+$a_i$ be the least positive residue of $g^i$, for $0\le i<h$.
+These powers give one member of each pair $\{a,-a\}$.
+Since $n$ is even and
+$q_{p-a}=g-1-q_a$, the sum in (BC.3) equals
+\[
+ S_g=\sum_{i=0}^{h-1}
+       \left(2\left\lfloor\frac{ga_i}{p}\right\rfloor-(g-1)\right)w_i,
+ \qquad w_i=a_i^{n-1}=a_i^{-11}.
+ \tag{BC.4}
+\]
+The recurrence
+$a_{i+1}=ga_i\bmod p$,
+$w_{i+1}=g^{-11}w_i\bmod p$
+computes it in constant memory with exactly
+$h=4748193041$ terms.
+
+For $g=2$, the signed coefficients in (BC.4) are $\pm1$,
+$2^{-11}=2916614671\bmod p$, and the conversion factor simplifies to
+\[
+ \frac{n2^{n-1}}{2^n-1}
+ =\frac{(-11)2^{-11}}{2^{-10}-1}
+ =\frac{11}{2046}
+ =5565086468\pmod p.
+ \tag{BC.5}
+\]
+The first program evaluates the sum with exact Montgomery reduction.
+For completeness, with $R=2^{64}$ and $v=-p^{-1}\bmod R$, its product
+routine calculates
+\[
+ t=ab,\qquad m=(t\bmod R)v\bmod R,\qquad u=(t+mp)/R
+\]
+and subtracts $p$ if $u\ge p$.
+The numerator is divisible by $R$,
+$u\equiv abR^{-1}\pmod p$, and $0\le u<2p$.
+All products use unsigned 128-bit integers and
+\[
+                 t+mp<p^2+2^{64}p<2^{100}<2^{128}.
+\]
+Unsigned 64-bit wrap is used deliberately only for reduction modulo
+$2^{64}$ in the inverse and multiplier.
+The orbit and signed sum updates are below $2p<2^{35}$.
+The loop invariant is that the three state variables encode
+$a_i$, $w_i$, and the first $i$ summands of (BC.4).
+Thus the complete finite loop computes exactly the stated sum.
+The actual full output is
+\[
+                         S_2=4849818985.
+\]
+The program also checks the unsimplified factor in (BC.3) against
+(BC.5), and checks the half-orbit endpoint $a_h=w_h=-1$.
+
+An independently written second program uses $g=5$, a different orbit,
+and ordinary unsigned 128-bit modular division. Its signed coefficients
+are $-4,-2,0,2,4$; the orbit update is below $5p<2^{36}$,
+each coefficient times a weight is below $4p<2^{36}$, and the
+weight product is below $p^2<2^{68}$. It independently verifies the
+same primality and primitive-order conditions, performs all $h$ terms,
+and checks $a_h=w_h=-1$. The completed outputs are
+\[
+\begin{array}{c|r|r|r}
+g&S_g&n g^{n-1}/(g^n-1)\pmod p&B_n\pmod p\\ \hline
+2&4849818985&5565086468&3753150554\\
+5&7110767128&9130328994&3753150554.
+\end{array}
+\]
+This proves (BC.1) by two exact exhaustive calculations of (BC.3).
+
+The complete sources and reports are
+\texttt{hecke\_general/bernoulli\_9496386083.cpp/.json} and
+\texttt{hecke\_general/bernoulli\_root\_g5.cpp/.json}.
+They use no numerical library and no floating-point arithmetic in
+residues, exponents, loop counts, or comparisons.
+Floating-point numbers occur only in timing and progress output.
+The two completed runs took approximately $20.65$ and $41.09$ seconds;
+neither is a sampled sum or a truncated benchmark.
+\end{proof}
