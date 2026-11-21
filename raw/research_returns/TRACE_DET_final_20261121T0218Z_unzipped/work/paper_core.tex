@@ -1,0 +1,224 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=27mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype,amsmath,amssymb,amsthm,mathtools,mathrsfs}
+\usepackage{booktabs,longtable,array,enumitem,xcolor,xurl,hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,citecolor=blue!45!black}
+\setlength{\emergencystretch}{3em}
+\setlength{\parskip}{4pt}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\Sone}{\mathcal S_1}
+\newcommand{\M}{\mathcal M}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\F}{\mathbb F}
+\newcommand{\A}{\mathbb A}
+\newcommand{\cD}{\mathcal D}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\fid}[1]{\textsf{#1}}
+\newcommand{\src}[1]{\texttt{#1}}
+\newtheorem*{proposition}{Proposition}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{theorem}{Theorem}
+\title{\textbf{TRACE\_DET}\\Cote 1, the zero-based operator for $\Xi$,\\and the determinants of the supplied RH arguments}
+\author{Research run TRACE\_DET\_20261121}
+\date{21 November 2026, Europe/Berlin}
+\begin{document}
+\maketitle
+\begin{abstract}
+The determinant and positivity identifications must be separated. Cote 1 proves an abstract Hilbert-space trace theorem; it does not construct an arithmetic operator for $\zeta$. We give concrete kernels for the normal, zero-based operator $B$ of the SA23 intake and check $\det(1-wB)=\Xi(\sqrt w)/\Xi(0)$ and $B\ge0\Longleftrightarrow\mathrm{RH}$. The stipulated Alp\"oge theorem therefore makes this designated operator positive. The actual finite source determinants have a different sign mechanism: their nonsingular Gram forms have balanced inertia. The rank-zero signed scalar is not a positive Hilbert kernel or positive-type group coefficient. Nevertheless it has a positive determinant-line interpretation; an explicit Berezin transform and the actual normalized period maps give positive frame operators. More strongly, actual source Bessel convolutions supply infinitely many orthogonal rank-one projections on one fixed Hilbert space. Their summable weighted sums have explicit kernels, exact trace-norm tails and ordinary Fredholm determinants. Choosing the reciprocal-square zero weights realizes $B\oplus0$ in that model without RH. This closes the common-space construction. The scalar prime-sum endpoint also determines the weights and integer multiplicities through an explicit cosine kernel; its positivity is RH-equivalent. The historical finite determinant correspondence and direct sign transfer remain unestablished. For the identified scalar endpoint we derive exact ordinary Fredholm-resolvent and two-indicator Weil-form formulas, including gamma and pole corrections and a complete global one-sided Landau implication.
+
+Conditional only on Masullo's full spectral-jet description, we construct a trace-class Green transform on the actual even zeta quotient whose ordinary determinant is $\Xi(\sqrt w)/\Xi(0)$. This construction uses neither RH nor the draft's nuclearity theorem; the resulting operator is not boundedly similar to a selfadjoint operator. The character-sector extension separates functional-equation partners, removes central-zero blocks explicitly, and proves the same obstruction to selfadjoint similarity in the remaining quotient. Masullo's Theorem 10.3.2.1 separately asserts trace-class test operators, while the arithmetic formula is Theorem 12.5.1.1. The latter's test class excludes every nonzero convolution square. We also prove the boundary multiplicity correction forced by its weighted norm. The toy bound holds over finite fields for $k\ge2$ and needs gcd factors over composite cyclic rings; its Fourier/moment identification is false. The six RH programmes are classified through their exact criteria, with a positive paired trace formula for Li coefficients. For finite-field curves, the correct analogue is purity of Frobenius, not positivity of Frobenius. The archive repairs are proved and separated from unverified manuscript attribution.
+\end{abstract}
+\clearpage
+{\fontsize{9}{10.4}\selectfont\setlength{\parskip}{0pt}\tableofcontents}
+\clearpage
+
+\section{Scope, evidence and conventions}
+This paper follows the prompt's convention: Alp\"oge's RH and Dirichlet-GRH statements are \emph{cited theorems for this task}. Their use is denoted an \emph{Alp\"oge consequence}; it is not a report that this run compiled the proof. The supplied entry points are \src{ALPOGE\_Main.lean}, declarations \src{riemannHypothesis}, \src{LFunction\_eq\_zero\_re} and \src{LFunction\_eq\_zero\_re\_of\_isPrimitive}, with the propositions in \src{ALPOGE\_Statements.lean} \cite{alpoge,lean}. We make no inference about the correctness of a complete formal proof from a textual scan. Masullo-dependent assertions remain explicitly conditional on the particular draft statements used \cite{masullo}.
+
+The archive evidence consists of the supplied \LaTeX\ transcriptions, not the manuscript images. A mathematically necessary repair may be a transcription error, an authorial slip or an unstated convention. The separate \src{TRANSCRIPTION\_NOTES.tsv} records this distinction. Source claims, deductions and computational corroboration have distinct check events. Each proof presented as checked was read in its entirety after composition; independent checks are identified in \src{CHECK\_EVENTS.tsv}. The model label is GPT-6 Astra Pro, with no exposed effort setting. No event claims formal verification.
+
+A finding here means a conclusion of this audit, including a checked refinement or refutation of a prior run; it is not a claim of historical mathematical novelty. Known theorems are cited. Short proofs are included where the particular form needed here is not the cited statement. The prior-run locators are SA23, \S4.1(1)--(4), and Fable, suggestion 3, in both supplied versions \cite{sa23,fable}.
+
+We use the standard completion
+\[
+ \xi(s)=\tfrac12s(s-1)\pi^{-s/2}\Gamma(s/2)\zeta(s),\qquad
+ \Xi(z)=\xi(\tfrac12+iz),\qquad G(w)=\Xi(\sqrt w)/\Xi(0).
+\]
+The last expression means the even Taylor series in $w$, not a choice of square-root branch. The functional equation and normalization are as in \cite[\S2.1, (2.1.12)--(2.1.14); \S2.12]{titch}. The zero count used below is \cite[Theorem 9.4, (9.4.3), p.~214]{titch}:
+\[
+ N(T)=\frac{T}{2\pi}\log\frac{T}{2\pi}-\frac{T}{2\pi}+O(\log T).
+\]
+All zeros and eigenvalues are counted with algebraic multiplicity. In Hilbert inner products the first variable is conjugate-linear. Positivity $T\ge0$ means a bounded selfadjoint operator with nonnegative quadratic form.
+
+\clearpage
+\part{Checked findings and precisely conditional consequences}
+\section{The main question: which determinant, and which positivity?}
+\subsection{B-01: the actual operator inherited from SA23}
+\begin{proposition}
+Choose one representative $\gamma_j$ of each pair $\{\gamma,-\gamma\}$ of zeros of $\Xi$, retaining its multiplicity. On
+\[
+ H=\ell^2(J,\text{counting measure}),\qquad
+ B e_j=\gamma_j^{-2}e_j,
+\]
+the operator $B$ is normal and trace class, with kernel
+\[
+ K_B(j,k)=\delta_{jk}\gamma_j^{-2}.
+\]
+Unconditionally,
+\begin{equation}\label{eq:Bdet}
+ \det_H(1-wB)=G(w).
+\end{equation}
+A unitarily equivalent operator on $L^2(0,1)$ has the continuous kernel
+\begin{equation}\label{eq:sinekernel}
+ K_B(x,y)=2\sum_{j\ge1}\gamma_j^{-2}\sin(\pi jx)\sin(\pi jy).
+\end{equation}
+\end{proposition}
+\begin{proof}
+The order-one and symmetry statements for $\Xi$, and $\Xi(0)\ne0$, are classical \cite[Theorem 2.12 and (2.12.4), pp.~29--30]{titch}. The zero count implies $\sum_j|\gamma_j|^{-2}<\infty$: in the dyadic annulus $2^m\le|\gamma|<2^{m+1}$ the sum is $O(m2^{-m})$. Thus the singular values of the diagonal $B$ are summable. Since
+$M_G(R)=M_\Xi(\sqrt R)/|\Xi(0)|$, $G$ has order $1/2$. Hadamard factorization \cite[Theorem 3.16, p.~92]{mcmullen} at order less than one gives
+\[
+ G(w)=\prod_j(1-w/\gamma_j^2),
+\]
+with constant one from $G(0)=1$ and no nonconstant exponential factor. This is exactly the diagonal Fredholm determinant. This special change of variable is also explicitly discussed after Theorem 2.12 in \cite[p.~30]{titch}; it is the construction used in SA23 \S4.1(2).
+
+The functions $\sqrt2\sin(\pi jx)$ form an orthonormal basis of $L^2(0,1)$. The summands in \eqref{eq:sinekernel} have modulus at most $2|\gamma_j|^{-2}$, so the series converges uniformly and absolutely on $[0,1]^2$. Termwise integration on finite linear combinations of basis functions gives the diagonal action. Continuity and density extend it to the asserted integral operator.
+\end{proof}
+The zero set is an input to both kernels. This is a concrete spectral realization, not a kernel extracted from the primes or from an algebro-geometric correspondence. The supplied cote 1 sheets contain neither $\Xi$ nor this $B$. Their contribution is the abstract trace/determinant mechanism, especially scan 79, (18)--(23), scan 80, and the genus-zero lemma on scans 111--112 \cite{archive}. Calling it ``Grothendieck's operator for $\Xi$'' would misattribute the intake's application to the archive itself.
+
+\subsection{B-01 and DET-04: positivity of this realization, not every realization}
+\begin{proposition}
+For the designated diagonal $B$, $B\ge0$ if and only if RH. Under the stipulated Alp\"oge theorem, $B$ is positive and
+\[
+ \Tr B^n=\sum_j\gamma_j^{-2n}>0\quad(n\ge1).
+\]
+For any $T\in\Sone$ with $\det(1-wT)=G(w)$, the same power traces hold. Such a $T$ need not be positive, even under RH.
+\end{proposition}
+\begin{proof}
+A diagonal operator is positive exactly when its entries are nonnegative real. Here each entry is nonzero, and $\gamma^{-2}>0$ is equivalent to $\gamma$ being nonzero real. This is precisely RH under $\rho=1/2+i\gamma$. It gives the displayed positive traces. For arbitrary $T$ the Fredholm zero theorem gives the same nonzero eigenvalues with multiplicities; the Hilbert trace theorem applied to $T^n$ gives the trace equality. For exact published zero-theorem locators see \cite[ch.~II, \S4, Theorems 2 and 4, pp.~354 and 359]{groth56}; the trace-class Hilbert conclusion is the cote 1 result \cite{archive}.
+
+To refute operator positivity, write $b_j=\gamma_j^{-2}>0$ under RH and replace the first two diagonal entries by
+\[
+ T_0=\begin{pmatrix}b_1&1\\0&b_2\end{pmatrix},\qquad
+ T=T_0\oplus\diag(b_3,b_4,\ldots).
+\]
+This is a rank-one perturbation of $B$, hence trace class. Its determinant is still $\prod_j(1-wb_j)$, and the diagonal of $T_0^n$ is $(b_1^n,b_2^n)$, so every power trace agrees. Yet $T\ne T^*$, and therefore $T\not\ge0$. No simplicity of zeros is needed.
+\end{proof}
+The spectrum of the compact $B$ includes $0$. Its quadratic form is strictly positive on nonzero vectors under RH, but it has no positive uniform lower bound. Cote 1's inequality compares $u$ with $|u|=\sqrt{u^*u}$; it does not infer $u\ge0$ from its determinant. In geometric language, a characteristic polynomial supplies spectral data; a positive Hermitian realization or a polarization is additional structure.
+
+\subsection{B-02: why the unsquared variable is impossible in trace class}
+\begin{proposition}
+There are no $T\in\Sone$, $c\ne0$, and $a\in\C$ such that
+$\Xi(t)=c\det(1+(t-a)T)$.
+\end{proposition}
+\begin{proof}
+The nonzero eigenvalues of a trace-class operator are absolutely summable. The Fredholm zero theorem would give
+$\sum_{\Xi(\gamma)=0}|\gamma-a|^{-1}<\infty$.
+But $|\Im\gamma|<1/2$, and the Riemann--von Mangoldt count above implies divergence of this sum for every fixed $a$. For example, a dyadic height annulus contains a number of zeros of order $2^m m$, and each shifted reciprocal modulus there is bounded below by a positive multiple of $2^{-m}$ for large $m$. The annulus contributions therefore do not even tend to zero. This is a contradiction.
+\end{proof}
+This rechecks SA23 \S4.1(1); it excludes this ordinary Fredholm determinant, not regularized determinants or an unbounded spectral generator.
+
+\subsection{DET-01--03: the toy does not supply the missing operator}
+\paragraph{DET-02 (open paths are matrix coefficients).}
+Let $q$ be a prime power, $\psi$ a nontrivial additive character of $\F_q$, $h\in\F_q^\times$ and $t:\F_q\to[0,\infty)$. Put $K_h(x,y)=\psi(hxy)$, $D=\diag(t)$, $a_x=\sqrt{t(x)}$ and $A=D^{1/2}K_hD^{1/2}$. For $k\ge1$, define the open-path sum
+$S_k(h)=\sum_{x_1,\ldots,x_k}\prod_i t(x_i)\psi(h\sum_{i<k}x_ix_{i+1})$. Then
+\begin{equation}\label{eq:pathcycle}
+ S_k(h)=a^*A^{k-1}a,
+ \qquad
+ \Tr A^k=\sum_{x_1,\ldots,x_k}\prod_i t(x_i)
+ \psi\!\left(h\left(\sum_{i<k}x_ix_{i+1}+x_kx_1\right)\right).
+\end{equation}
+\begin{proof}
+Each edge of $A$ supplies a square-root weight at either endpoint. The endpoint factors in $a^*A^{k-1}a$ complete exactly one weight at each vertex of an open path. Taking a diagonal entry of $A^k$ instead identifies the last vertex with the first and adds the closing edge. Thus the two sums are different. Their generating functions are respectively
+\[
+ \sum_{k\ge1}S_k(h)z^{k-1}=a^*(1-zA)^{-1}a,
+ \qquad
+ -\frac{d}{dz}\log\det(1-zA)=\sum_{n\ge1}\Tr(A^n)z^{n-1},
+\]
+by the Neumann series and finite determinant identity near zero.
+\end{proof}
+\paragraph{DET-01 (the Fourier operator is not positive).}
+The literal positivity proposal is refuted already by $q=3$, $h=1$, $t\equiv1$. With $\omega=e^{2\pi i/3}$,
+\[
+ K=\begin{pmatrix}1&1&1\\1&\omega&\omega^2\\1&\omega^2&\omega\end{pmatrix},\qquad
+ K(0,1,-1)^T=i\sqrt3(0,1,-1)^T.
+\]
+Thus $K$ and $K/\sqrt3$ are not selfadjoint. Moreover $K^2=3J$, where $Jf(x)=f(-x)$, gives $S_3=9$ but $\Tr K^2=3$ and $\Tr K^3=-3i\sqrt3$. The Fourier matrix also has eigenvalues $\sqrt3,-\sqrt3$, so a nonzero scalar multiple cannot make all eigenvalues positive. These exact calculations disprove the two literal identifications in Fable suggestion 3, not the existence of some different future operator.
+
+\paragraph{DET-03 (a fixed finite determinant is a polynomial).}
+Any fixed $r\times r$ characteristic determinant $\det(1-wA)$ is a polynomial of degree at most $r$, whereas $G$ has infinitely many zeros. They therefore cannot be identical. This obstruction also covers fixed matrices with polynomial entries. It does not cover a convergent sequence of determinants or a matrix into whose entries $G$ has already been inserted.
+
+\subsection{DET-05: a precise bridge that would suffice}
+A finite determinant is a Fredholm determinant after extending its finite matrix by zero. That formal observation does not make it a compression of \fid{B-01}. The finite analogue with actual spectral meaning is
+\[
+ \det(1-wA)=\sum_{j=0}^{r}(-w)^j\Tr(\Lambda^jA).
+\]
+Triangularization proves this identity by elementary symmetric functions. Its geometric formalism is the exterior-power $\lambda$-structure: SGA 6, V, Definition 2.1, Example 2.2(b), Lemma 2.2.1, and the Adams logarithmic identity (7.1.1) \cite{sga6}. The analytic version on trace ideals is cote 1, scans 78--79.
+
+\begin{proposition}
+If positive finite-rank operators $A_N$ on a common Hilbert space converge in trace norm to $T$, then $T\ge0$, and $\det(1-wA_N)\to\det(1-wT)$ locally uniformly. A separately proved identity of the limit with $G$ would give a direct positive realization.
+\end{proposition}
+\begin{proof}
+Trace-norm convergence implies operator-norm convergence, so $T=T^*$ and $\langle v,Tv\rangle=\lim_N\langle v,A_Nv\rangle\ge0$. For determinant convergence one can use the mixed-coefficient inequality of cote 1, scan 78, (15), with nuclear norms. Writing $\alpha_n$ for the symmetric polarized Fredholm coefficient, telescope its $n$ arguments. If $M=\max(\|A\|_1,\|T\|_1)$, this gives
+\[
+ |\alpha_n(A)-\alpha_n(T)|\le
+ \frac{\|A-T\|_1M^{n-1}}{(n-1)!}\quad(n\ge1).
+\]
+Summing the determinant series on $|w|\le R$ bounds the difference by
+$R\|A-T\|_1e^{RM}$, which tends to zero for $A=A_N$.
+\end{proof}
+This is a sufficient bridge, not a necessary form of every possible proof. A unitary intertwiner or an arithmetic positive kernel with independently proved determinant would be alternative bridges. Merely knowing scalar signs does not provide them.
+
+\section{TOY-01--02: the estimate, its domain and the invalid sign inference}
+\begin{theorem}
+Let $q$ be a prime power, $t:\F_q\to[0,\infty)$, and $k\ge2$. In counting measure put
+\[
+ Q_k(x)=\sum_{i=1}^{k-1}x_ix_{i+1},\quad
+ N_k=\sum_{Q_k(x)=0}\prod_{i=1}^kt(x_i),\quad M=\sum_x t(x).
+\]
+Then $qN_k=M^k+R_k$, with
+\begin{equation}\label{eq:toybound}
+ |R_k|\le(q-1)q^{(k-1)/2}\|t\|_2^2\|t\|_\infty^{k-2}.
+\end{equation}
+The constant is attained for $t\equiv1$ and odd $k\ge3$.
+\end{theorem}
+\begin{proof}
+Choose a nontrivial additive character $\psi$. Orthogonality gives
+$q1_{Q=0}=\sum_{h\in\F_q}\psi(hQ)$. The zero mode contributes $M^k$. For $h\ne0$ the other mode is
+\[
+ S_k(h)=\langle t,K_hD_tK_h\cdots D_tK_ht\rangle,
+\]
+with $k-1$ kernels and $k-2$ multipliers. Since
+$(K_hK_h^*)_{x,x'}=\sum_y\psi(h(x-x')y)=q\delta_{x,x'}$,
+$\|K_h\|=\sqrt q$, and $\|D_t\|=\|t\|_\infty$. Cauchy--Schwarz and the operator-norm inequality give the summand bound in \eqref{eq:toybound}; summing over $q-1$ modes proves it. At $k=2$ the multiplier product is empty. The zero weight is handled directly.
+
+For $t\equiv1$, $K_h^2=qJ$ with $J1=1$. If $k=2m+1$, then $S_k=1^TK_h^{2m}1=q^{m+1}$, independent of $h\ne0$. This is equality in the bound, including its final triangle inequality.
+\end{proof}
+The original Fable statement specifies $q$ prime, so it is correct with the added $k\ge2$ convention. The prompt's shorter phrase ``on $\Z/q$'' needs the following distinction.
+
+\begin{proposition}
+For arbitrary integer $q\ge2$ on the cyclic ring $\Z/q$, a valid replacement is
+\begin{equation}\label{eq:composite}
+ |R_k|\le q^{(k-1)/2}\|t\|_2^2\|t\|_\infty^{k-2}
+ \sum_{h=1}^{q-1}\gcd(h,q)^{(k-1)/2}.
+\end{equation}
+The prime-form bound fails at $q=4$, $t\equiv1$, $k=3$. The displayed bound also fails at $k=1$, even for prime $q$.
+\end{proposition}
+\begin{proof}
+Set $d_h=\gcd(h,q)$. The entries of $K_hK_h^*$ equal $q$ when $x-x'$ is divisible by $q/d_h$ and zero otherwise. After a permutation this is a sum of $d_h\times d_h$ all-ones blocks multiplied by $q$. Hence $\|K_h\|=\sqrt{qd_h}$, and the preceding proof gives \eqref{eq:composite}.
+
+For $q=4$, $Q_3=x_2(x_1+x_3)$. The values $x_2=0,1,2,3$ allow respectively $16,4,8,4$ choices, so $N_3=32$, $R_3=4\cdot32-4^3=64$. The claimed prime-form right side is $3\cdot4\cdot4=48$. The corrected bound is $16(1+2+1)=64$. At $k=1$, $N_1=M$, $R_1=(q-1)M$. For $q=2$, $t=(2,1)$ this is $3$, but the claimed expression is $5/2$.
+\end{proof}
+The exact computation script checks 144 finite prime-field cases and the two counterexamples. It corroborates these proofs and is not a proof of their universal statements.
+
+\paragraph{TOY-02 (scalar signs do not imply spectral positivity).}
+Even the stronger condition $\Tr T^n>0$ for every $n\ge1$ fails to imply $T\ge0$: take $T=\diag(1,-1/2)$. Then $\Tr T^n=1+(-1/2)^n>0$, but $\det(1-wT)=(1-w)(1+w/2)$ has a negative zero. Thus the positive-axis singularity statement for a power series with nonnegative coefficients (often called Pringsheim's theorem in this setting) does not supply Fable's proposed conclusion. In a cohomological no-cancellation argument, the degrees, weight bounds and factorization are substantive extra hypotheses.
+
+\paragraph{Geometric location.}
+For $t\equiv1$, $N_k$ counts points of the affine $\F_q$-scheme $Q_k=0$. If $t$ is realized as the trace function of a constructible $\ell$-adic sheaf $\mathcal T$, the twisted sums have the usual interpretation using $\mathcal T^{\boxtimes k}$ and the Artin--Schreier character sheaf pulled back by $hQ_k$. The trace formalism is SGA 5, III, Corollaries 4.7--4.8; its curve specialization is III B, Corollary 1.3.1 \cite{sga5}. An arbitrary real nonnegative function $t$ is not automatically such an arithmetic sheaf. The proof above is finite Fourier analysis and does not construct a motive over $\Spec\Z$, a crystal, or divided powers. Exterior powers in the determinant formula must not be confused with divided-power multiplicity in the other prompts.

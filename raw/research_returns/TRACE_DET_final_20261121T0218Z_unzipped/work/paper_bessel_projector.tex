@@ -1,0 +1,401 @@
+\subsection{DET-15: actual convolution projections on one Bessel \texorpdfstring{$L^2$}{L2} space}
+There is a stronger common-space construction in the source than the
+finite target of \fid{DET-14}. Its matrix-coefficient convolution is
+an orthogonal rank-one projection on a Bessel \(L^2\) model.
+This gives positive finite operators of arbitrarily large rank on
+fixed side data. It also permits an exact realization of the
+zero-based operator \(B\) in that model. The last realization uses
+the zero-dependent weights explicitly; it does not identify an
+independent arithmetic choice of weights or the historical
+determinant family.
+
+\paragraph{Exact source hypotheses and normalization.}
+Put \(G=\mathrm{UH}(H_{k,r})\), \(S=S_{k,r,z}\),
+\(\psi=\mathrm{psiGen}(k,r,z,c)\), and let \(W_p\) be the finite-dimensional
+Hilbert space in the side representation \(\pi\).
+The definitions in
+\path{Development/AbelianVarietyTheory/Definitions/SemilocalFrames/MatrixOfBesselTwoSidedAction.lean}
+are as follows. Lines 47--48 define
+\[
+ D=\mathrm{DD}(\sigma,w_0)
+ =\operatorname{span}\{\sigma(g)w_0:g\in G\}.
+\]
+Unless a different directory is displayed, the abbreviated Bessel
+proof filenames below are in
+\path{Development/AbelianVarietyTheory/Proofs/FlagMeasures/};
+the abbreviated \path{BesselPeriodGGP.lean} remains the file in
+\path{Formalism/PeriodIntegrals/}.
+The condition \texttt{Std}, lines 53--55, includes \(k\ge1\), a
+strongly continuous unitary irreducible representation \(\sigma\)
+on a complete Hilbert space \(H_\sigma\), \(\|w_0\|=1\), a nonzero
+left-invariant sigma-finite measure \(\mu_G\) supported on \(G\),
+the Schur relation \texttt{SchurH}, a specified lower bound on
+the decay exponent \(a\), and \texttt{Decay} on \(D\).
+In particular, \texttt{SchurH}, lines 42--45, says \(d>0\) and
+\[
+ \int_G
+ \langle v,\sigma(g)u\rangle
+ \overline{\langle v',\sigma(g)u'\rangle}\,d\mu_G(g)
+ =\frac{\langle u',u\rangle\langle v,v'\rangle}{d},
+\]
+with the indicated products integrable.
+The condition \texttt{Side}, lines 60--62, includes the exact
+support and \(T(z)>0\) conditions, a unitary \(\pi\) on the
+specified compact subgroup, a nonzero left-invariant sigma-finite
+\(\mu_S\) on \(S\), and finite-dimensional \(W_p\).
+We retain all these hypotheses, as well as a measure \(\nu\)
+satisfying \texttt{IsQuotMeas}\((\mu_G,\mu_S,\nu)\).
+
+The condition \texttt{IsEll}, lines 119--121, supplies a Bessel map
+\(l:H_\sigma\to W_p\), a vector \(v_0\in D\) with \(l(v_0)\ne0\),
+and
+\[
+ \operatorname{be}(u,v)=l(u)l(v)^*,\qquad u,v\in D.
+\]
+This normalization is a retained hypothesis. An actual existence
+export is
+\path{Development/AbelianVarietyTheory/Proofs/FlagMeasures/ExistsBesselMapRankOneFactorisationTranslateSpanStatement.lean},
+lines 7--8: it supplies such an \(l\) from \texttt{Std},
+\texttt{Side}, smoothness of \(w_0\), the stated multiplicity-one
+condition, the quotient measure, and the stated nonvanishing
+condition. We do not omit those assumptions.
+
+The actual definitions in
+\path{Formalism/PeriodIntegrals/BesselPeriodGGP.lean}, lines 79--92,
+are
+\[
+ (\operatorname{rconv}(e)W)(x)
+ =\int_G e(g)W(xg)\,d\mu_G(g),\qquad
+ e_u(g)=\mathrm{fdegH}(\mu_G,\sigma,u)
+             \overline{\langle u,\sigma(g)u\rangle}.
+\]
+The Schur relation gives
+\(\mathrm{fdegH}(\mu_G,\sigma,u)=d\) for every nonzero \(u\):
+its denominator is \(\|u\|^4/d\).
+This is also the precise export
+\path{Development/AbelianVarietyTheory/Proofs/FlagMeasures/BesselFormalDegreeEqOfSchurOrthogonalityStatement.lean},
+lines 7--8, with its complete elementary proof in the corresponding
+\path{BesselFormalDegreeEqOfSchurOrthogonality.lean}, lines 7--29.
+Thus for every unit \(u\) used below,
+\[
+ e_u(g)=d\,\overline{\langle u,\sigma(g)u\rangle};
+\]
+there is no additional normalization by \(\|u\|\).
+
+\paragraph{The common Hilbert space and retained measurable domain.}
+Let \(\mathcal D\) be the vector space of functions
+\(W:\mathrm{Mat}\to W_p\) which are almost everywhere strongly
+measurable for both \(\mu_G\) and \(\nu\), satisfy the source's
+\(S,\psi,\pi\)-equivariance, and have finite \texttt{l2SG} norm
+for \(\nu\). The equivariance and norm definitions are
+\path{BesselPeriodGGP.lean}, lines 68--77.
+Let
+\[
+ \mathcal B=\overline{\{[W]_\nu:W\in\mathcal D\}}
+       \ \subset L^2(\nu;W_p).
+\]
+This closed Hilbert subspace depends only on the fixed side and
+measure data, not on the representation vector to be selected.
+We use closure here; no unproved density in all of \(L^2(\nu;W_p)\)
+is asserted.
+
+The source's quotient-measure theorem
+\path{Development/AbelianVarietyTheory/Proofs/FlagMeasures/WeilFormulaBesselUnitaryIntegrableStatement.lean},
+lines 7--8, gives sigma-finiteness of \(\nu\), its support on \(G\),
+and the integrable Weil formula, under its closed-subgroup,
+Haar and unimodularity hypotheses. Those group hypotheses in
+this setting are the ones used explicitly in
+\path{BesselFunctionalStandardSide.lean}, lines 59--73.
+Support on \(G\) is also proved directly in
+\path{BesselModelProjectorOnLine.lean}, lines 40--69.
+
+\paragraph{DET-15(a): the actual convolution is a positive rank-one projection.}
+Under the retained source hypotheses, put
+\[
+ f_u(g)=l(\sigma(g)u),\qquad u\in D,\qquad
+ \eta_u=\sqrt d\,[f_u]_\nu.
+\]
+These classes belong to \(\mathcal B\), and
+\[
+ \langle\eta_v,\eta_u\rangle_{\mathcal B}
+ =\langle v,u\rangle_{H_\sigma}.
+\]
+For \(u=w_0\), the actual convolution on \(\mathcal D\) extends
+uniquely to the orthogonal rank-one projection
+\[
+ P_{w_0}W=\langle\eta_{w_0},W\rangle\eta_{w_0}
+ \quad\text{on }\mathcal B.
+\]
+It has norm and trace \(1\), is positive and trace class, and its
+ordinary Fredholm determinant is \(1-w\).
+\begin{proof}
+We first establish the measurable representatives and the full
+inner-product normalization. Choose \(v_0\in D\) with
+\(b_0=l(v_0)\ne0\), and put \(N=\|b_0\|^2>0\).
+Let
+\[
+ A_u(g)=\operatorname{be}(\sigma(g)u,v_0)b_0.
+\]
+The space \(D\) is invariant under \(G\), since it is the span
+of an orbit. Thus the \texttt{IsEll} factorization gives, on \(G\),
+\[
+ A_u(g)=N f_u(g).
+\]
+The source theorem
+\path{Development/AbelianVarietyTheory/Proofs/FlagMeasures/NormIdentityBesselCoefficientQuotientStatement.lean},
+lines 7--8, makes \(A_u\) equivariant and in \(L^2(\nu;W_p)\);
+it also supplies the mixed inner-product identity below.
+The Bessel-form continuity export
+\path{BesselFormConvergesEquivariantHermitianStatement.lean},
+lines 7--8, applied with the invariant domain \(D\) and its
+retained decay bound, makes \(A_u\) continuous on \(G\).
+This application and the ambient-measurability step are displayed
+explicitly in
+\path{LintegralBesselCoefficientCompactLe.lean}, lines 29--53.
+Since \(G\) is closed in the finite-dimensional matrix space,
+the zero extension of \(A_u/N\) off \(G\) is Borel measurable
+and hence strongly measurable for both measures, since \(W_p\)
+is finite dimensional. On \(G\) it is \(f_u\), and both measures
+are supported on \(G\). This gives a representative in
+\(\mathcal D\) for \([f_u]_\nu\); arbitrary values of \(l\)
+off this set cause no ambiguity.
+
+The same norm-identity export gives
+\[
+ \int\langle A_v(g),A_u(g)\rangle\,d\nu(g)
+ =\frac{\langle v,u\rangle
+       \langle b_0,\operatorname{be}(v_0,v_0)b_0\rangle}{d}
+ =\frac{N^2\langle v,u\rangle}{d}.
+\]
+The left side is \(N^2\langle[f_v],[f_u]\rangle\).
+Cancelling \(N^2>0\) proves the claimed isometry identity.
+It also proves complex linearity of \(u\mapsto\eta_u\):
+the squared norm of the image of any finite linear relation,
+expanded using this identity, is the squared norm of that
+relation in \(H_\sigma\), hence zero when the relation is zero.
+No global boundedness of the point-evaluation map \(l\) is assumed.
+
+The exact convolution export is
+\path{Development/AbelianVarietyTheory/Proofs/FlagMeasures/BesselModelProjectorOnLineStatement.lean},
+lines 7--8. Its complete proof is
+\path{BesselModelProjectorOnLine.lean}, lines 71--137.
+For every \(W\in\mathcal D\), it states, for every \(y\in G\),
+\[
+ \operatorname{rconv}(e_{w_0})W(y)
+ =d\left(\int\langle f_{w_0}(g),W(g)\rangle\,d\nu(g)\right)
+      f_{w_0}(y).
+\]
+Its integrable-kernel step is the source export
+\path{BesselFunctionalStandardSideStatement.lean}, lines 7--8;
+the full underlying proof is
+\path{BesselFunctionalStandardSide.lean}, lines 57--82.
+The scalar integral is absolutely convergent by Cauchy--Schwarz,
+because both factors lie in \(L^2(\nu;W_p)\).
+As \(\nu\) is supported on \(G\), passage to equivalence classes
+identifies this convolution with
+\(\langle\eta_{w_0},[W]\rangle\eta_{w_0}\).
+In particular, it depends only on \([W]_\nu\).
+
+The isometry identity and \(\|w_0\|=1\) give
+\(\|\eta_{w_0}\|=1\).
+For a unit vector \(\eta\), the map \(W\mapsto\langle\eta,W\rangle\eta\)
+is bounded of norm \(1\), selfadjoint, idempotent and positive,
+since its quadratic form is \(|\langle\eta,W\rangle|^2\).
+Its range is the line \(\mathbb C\eta\), so its sole nonzero
+eigenvalue is \(1\), proving the trace and determinant.
+The source convolution agrees with this bounded operator on the
+dense subspace defining \(\mathcal B\), which proves its unique
+bounded extension.
+\end{proof}
+
+\paragraph{DET-15(b): the fixed model has infinitely many orthogonal source projections.}
+The retained \texttt{Std} hypotheses imply that \(H_\sigma\)
+is infinite dimensional. There exists an orthonormal sequence
+\(u_1,u_2,\ldots\) in \(D\) such that, with the same side data,
+measure, representation, decay exponent, formal degree and map \(l\),
+each actual convolution \(\operatorname{rconv}(e_{u_j})\)
+extends to \(P_j=\eta_{u_j}\eta_{u_j}^*\).
+The vectors \(\eta_{u_j}\) are orthonormal in \(\mathcal B\).
+\begin{proof}
+First, \(\mu_G(G)=\infty\); this can be proved without an
+unstated Radon or local-finiteness assumption. Since \(k\ge1\),
+the middle block of \(H_{k,r}\) has the positive coordinate \(r\)
+and negative coordinate \(r+k\). Let \(g(t)\) act as the
+real Lorentz boost on these two coordinates and as the identity
+on all others. Then \(g(t)\in G\). The nonzero row covector
+\(\ell=e_r^T+e_{r+k}^T\) satisfies \(\ell g(t)=e^t\ell\).
+Every \(x\in G\) is invertible, since \(H_{k,r}\) is invertible,
+so \(Q(x)=\|\ell x\|>0\). The measurable sets
+\[
+ E_n=\{x\in G:e^n\le Q(x)<e^{n+1}\},\qquad n\in\mathbb Z,
+\]
+partition \(G\), and \(g(1)E_n=E_{n+1}\).
+Left invariance gives the same measure to all these sets.
+If \(\mu_G(G)\) were finite, their common measure would be zero,
+and countable additivity would force \(\mu_G(G)=0\).
+That contradicts the nonzero measure supported on \(G\).
+
+If \(H_\sigma\) had finite dimension \(D_0\), then \(D_0\ge1\)
+because \(\|w_0\|=1\). For an orthonormal basis \(e_1,\ldots,e_{D_0}\),
+unitarity gives pointwise on \(G\)
+\[
+ \sum_{i,j=1}^{D_0}
+ |\langle e_i,\sigma(g)e_j\rangle|^2=D_0.
+\]
+The Schur relation integrates every summand to \(1/d\).
+Its finite sum would therefore give
+\(D_0\mu_G(G)=D_0^2/d<\infty\), a contradiction.
+Thus \(H_\sigma\) is infinite dimensional.
+
+The closure of \(D\) is nonzero and invariant under every bounded
+\(\sigma(g)\). Irreducibility therefore makes it all of \(H_\sigma\).
+Recursively choose a vector in \(D\) outside the span of the previously
+chosen orthonormal vectors, subtract its finite orthogonal projection
+onto that span, and normalize. Each result still lies in the
+linear space \(D\), and the recursion never stops since \(D\)
+is dense in the infinite-dimensional \(H_\sigma\).
+This produces the asserted sequence. The isometry in part (a)
+makes the corresponding \(\eta_{u_j}\) orthonormal.
+
+It remains to check that each projection is the stated source
+convolution, rather than only an abstract projection. For any unit
+\(u\in D\), the orbit span \(D_u=\mathrm{DD}(\sigma,u)\) is
+contained in \(D\) by invariance. All clauses of \texttt{Std}
+remain unchanged except the unit vector and its orbit span;
+the unit norm holds, and the decay bound restricts from \(D\)
+to \(D_u\). Thus \texttt{Std}\((\sigma,u,a,\mu_G,d)\) holds.
+The \texttt{IsEll} factorization restricts to \(D_u\).
+Its nonvanishing clause also holds: part (a) gives
+\(\int\|l(\sigma(g)u)\|^2\,d\nu(g)=1/d>0\).
+As \(\nu\) is supported on \(G\), some \(g\in G\) has
+\(l(\sigma(g)u)\ne0\), and \(\sigma(g)u\in D_u\).
+The Bessel-map clause itself is unchanged.
+All hypotheses of the source projector theorem therefore hold
+with \(w_0\) replaced by \(u\), proving the claim.
+\end{proof}
+
+\paragraph{DET-15(c): explicit trace-class convolution sums.}
+Let \((\beta_j)\) be any complex sequence with
+\(\sum_j|\beta_j|<\infty\). On this one fixed Hilbert space,
+\[
+ T_N=\sum_{j\le N}\beta_jP_j,\qquad
+ T_\beta=\sum_{j\ge1}\beta_jP_j
+\]
+are the finite and limiting operators. For each finite \(N\),
+\(T_N\) is the bounded extension of the actual source convolution
+with \(e_N=\sum_{j\le N}\beta_j e_{u_j}\) on \(\mathcal D\).
+Moreover,
+\[
+ \|T_\beta-T_N\|_1=\sum_{j>N}|\beta_j|,\qquad
+ \Tr T_\beta=\sum_j\beta_j,\qquad
+ \det(I-wT_\beta)=\prod_j(1-w\beta_j).
+\]
+The operator is normal; it is positive exactly when every
+\(\beta_j\) is real and nonnegative.
+\begin{proof}
+The orthonormal vectors \(\eta_{u_j}\) diagonalize these operators
+on their closed span, and the orthogonal complement is killed.
+Consequently the singular values are \(|\beta_j|\), including
+multiplicity, and the stated trace-norm, trace and determinant
+formulas follow from the absolutely convergent diagonal series
+and product. Normality follows by the same diagonal computation.
+Positivity is sufficient for nonnegative real \(\beta_j\), and
+necessary by testing the quadratic form on each \(\eta_{u_j}\).
+For finite \(N\), linearity of the finitely many integrable
+convolution expressions on \(\mathcal D\), followed by part (a),
+identifies \(T_N\) with the stated convolution.
+\end{proof}
+For nonnegative weights, the exact trace tail is \(\sum_{j>N}\beta_j\).
+The unweighted partial sums instead have trace \(N\), so they
+cannot converge in trace norm. Thus the common-space problem for
+these actual projections is solved; the trace-class passage
+requires a specified summable weighting.
+For example, \(\beta_j=2^{-j}\) gives a positive trace-class
+construction independent of all zeros, with trace \(1\) and
+exact trace-norm tail \(2^{-N}\). This example does not claim
+the Xi determinant.
+
+\paragraph{An actual measurable integral kernel.}
+Write \(\eta_j(x)=\sqrt d\,f_{u_j}(x)\) using the measurable
+representatives constructed above. Then
+\[
+ K_\beta(x,y)=\sum_j\beta_j\eta_j(x)\eta_j(y)^*
+\]
+converges absolutely in operator norm for almost every \((x,y)\),
+belongs to \(L^2(\nu\times\nu;\mathrm{HS}(W_p))\), and is an
+integral kernel for \(T_\beta\) on \(\mathcal B\).
+\begin{proof}
+Put \(a(x)=\sum_j|\beta_j|\|\eta_j(x)\|^2\).
+Tonelli and \(\|\eta_j\|_2=1\) give
+\(\int a\,d\nu=\sum_j|\beta_j|<\infty\), so \(a(x)<\infty\)
+almost everywhere. Cauchy--Schwarz for the series gives
+\[
+ \sum_j|\beta_j|\|\eta_j(x)\|\,\|\eta_j(y)\|
+ \le\sqrt{a(x)a(y)}.
+\]
+The rank-one matrix norm and Hilbert--Schmidt norm are both
+\(\|\eta_j(x)\|\,\|\eta_j(y)\|\).
+This proves absolute convergence and measurability, and bounds
+the squared Hilbert--Schmidt norm of the sum by \(a(x)a(y)\),
+which is integrable on the product. Applying the same bound
+to tails proves convergence in product \(L^2\).
+
+For almost every fixed \(x\) and any \(W\in L^2(\nu;W_p)\),
+\[
+ \int\|K_\beta(x,y)W(y)\|\,d\nu(y)
+ \le\sqrt{a(x)}\left(\sum_j|\beta_j|\right)^{1/2}\|W\|_2,
+\]
+again by Cauchy--Schwarz. Thus the kernel integral is defined.
+For an \(L^2\) matrix kernel, pointwise Cauchy--Schwarz and
+integration show that the operator norm is at most its
+product \(L^2\) Hilbert--Schmidt norm. Therefore the finite
+kernel sums converge as operators to this integral operator.
+Their operators are precisely \(T_N\), so the limit is
+\(T_\beta\), including on \(\mathcal B\).
+\end{proof}
+
+\paragraph{Exact embedding of the zero-based operator, with its dependence exposed.}
+Let \(\gamma_j\) be the one-per-\(\pm\)-pair Xi-zero list, with
+multiplicity, from \fid{B-01}, and take
+\(\beta_j=\gamma_j^{-2}\).
+No RH is needed for \(\sum_j|\beta_j|<\infty\).
+The isometric embedding
+\[
+ V:\ell^2\longrightarrow\mathcal B,\qquad
+ Ve_j=\eta_{u_j},
+\]
+then gives \(T_\beta=VBV^*\). On
+\(V\ell^2\oplus(V\ell^2)^\perp\), this is \(B\oplus0\), and
+\[
+ \det_{\mathcal B}(I-wT_\beta)=G(w)
+ =\frac{\Xi(\sqrt w)}{\Xi(0)}.
+\]
+These claims follow directly from part (c) and \fid{B-01};
+the determinant receives factor \(1\) from the killed complement.
+The operator is positive if and only if RH, by the same
+eigenvalue criterion as \(B\). The cited RH theorem therefore
+makes these particular finite convolutions positive.
+The source projections themselves are positive independently
+of RH; positivity of their zero-dependent complex weights is
+the additional issue. This is a concrete realization of \(B\)
+and its kernel in the actual source Bessel model, not an
+independent arithmetic derivation of those weights or a claim
+that the historical period determinants are these finite sums.
+
+\paragraph{Grothendieck framework for \fid{DET-12--15}.}
+The signed Gram determinant and its positive determinant line are
+finite Hermitian linear algebra; the positive frame determinants
+are exterior-power determinants. Their precise algebraic home is
+SGA~6, Expos\'e~V, Definition~2.1, Example~2.2(b), Lemma~2.2.1
+and the trace logarithm (7.1.1) \cite{sga6}.
+The passage from summable rank-one operators to the ordinary
+Fredholm determinant belongs to cote~1, scans~78--80, with the
+growth and genus discussion on scans~111--112 \cite{archive}.
+The automorphic period and Bessel spaces carry the source's stated
+analytic representation hypotheses. These arguments do not
+identify them with the cohomology of a scheme over $\Spec\Z$,
+an $\ell$-adic realization, or a crystal. The comparison with
+SGA~5 trace formulas and Deligne's weights is made separately in
+the finite-field section, where those geometric objects are
+actually supplied. No EGA or FGA locator is asserted for an
+arithmetic cohomology construction absent from this argument.

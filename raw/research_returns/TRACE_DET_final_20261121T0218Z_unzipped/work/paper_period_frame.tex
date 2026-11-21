@@ -1,0 +1,233 @@
+\subsection{DET-14: actual period frames and exact continuation conditions}
+The period-map route does supply positive finite operators independently
+of zeros. This section constructs them from the actual source data
+and isolates what the displayed finite-family realization can and
+cannot provide for an infinite determinant.
+
+\paragraph{Exact source maps, normalization and existence.}
+In \path{Development/AbelianVarietyTheory/Definitions/Jets/SumIoPrAlt.lean},
+\texttt{IsBeL}, lines 135--139, the normalized factorization is
+\[
+ \operatorname{be}(x,v)\eta=\langle l(v),\eta\rangle l(x),
+ \qquad x\in R.\mathrm{sm},\quad v\in R.\mathrm{TK},
+\]
+with the paper's conjugate-first inner product.
+\path{Development/AbelianVarietyTheory/Definitions/Jets/SideFam.lean},
+lines 36--40, defines a common-target system:
+for each integral shift \(\nu\) with \(n_1(\nu)\le q_0\),
+the map \(l_\nu:(R_\nu).H\to W_p\) satisfies \texttt{IsBeL},
+the number \(d_\nu=\mathrm{dg}(\nu)\) is positive, and it equals
+the specified formal degree at every nonzero vector.
+The shift has \(n=2r+k+1\) integer coordinates; this cutoff is finite,
+since \(|\nu_i|\le q_0\).
+
+This is supported by an actual existence export, not just a
+definition of a desired factorization:
+\path{CompanionTheory/AutomorphicTheory/PieriRules/ThetaBesselIsometries/ExistsFamilyFunctionalsStatement.lean},
+lines 17--18, supplies left and right \texttt{SideFam} systems under
+its complete \texttt{HypsG}, \texttt{Num}, \texttt{IsFamG},
+parameter and measure hypotheses. It assumes finite-dimensional
+\(W_p,W_q\). The underlying complete proof in
+\path{CompanionTheory/AutomorphicTheory/PieriRules/ThetaBesselIsometries/ExistsFamilyFunctionals.lean},
+lines 21--50, was read: it constructs normalized maps on the
+bounded shift set, chooses zero outside it, and sets
+\(d_\nu=c\,\mathrm{fdegHC}(\lambda+\nu)\), with \(c>0\) and
+positivity on that set. We retain those representation-theoretic
+hypotheses and dependencies; this source reading is not an independent
+re-proof of all the imported analytic theorems.
+
+\paragraph{DET-14(a): positive frames and their ordinary determinants.}
+Assume such a \texttt{SideFam} system. Choose a finite set \(I\) of
+admissible shifts, vectors
+\(v_\nu\in(R_\nu).\mathrm{sm}\cap(R_\nu).\mathrm{TK}\), and
+real \(t_\nu\ge0\). Define
+\[
+ a_\nu=\sqrt{t_\nu d_\nu}\,l_\nu(v_\nu),\qquad
+ A_I=\sum_{\nu\in I}t_\nu d_\nu
+                \operatorname{be}_\nu(v_\nu,v_\nu).
+\]
+Then \(A_I\) is positive and finite rank on the common target \(W_p\),
+with
+\[
+ A_I=\sum_{\nu\in I}a_\nu a_\nu^*,\qquad
+ \Tr A_I=\sum_{\nu\in I}t_\nu d_\nu\|l_\nu(v_\nu)\|^2.
+\]
+For the positive Gram matrix
+\(M_I=(\langle a_\nu,a_\mu\rangle)_{\nu,\mu\in I}\),
+\[
+ \boxed{\quad
+ \det_{W_p}(I-wA_I)=\det_{\mathbb C^I}(I-wM_I)
+ =\sum_{J\subset I}(-w)^{|J|}
+       \left\|\bigwedge_{\nu\in J}a_\nu\right\|^2.\quad}
+\]
+In particular, the alternating Taylor coefficients are nonnegative.
+These are explicit frame determinants constructed from the source
+maps; they have not thereby been identified with the historical
+determinants of the Remark.
+\begin{proof}
+Both vector-domain requirements are imposed, so the source
+factorization with \(x=v=v_\nu\) gives
+\[
+ t_\nu d_\nu\operatorname{be}_\nu(v_\nu,v_\nu)
+ =a_\nu a_\nu^*,\qquad
+ (aa^*)\eta=\langle a,\eta\rangle a.
+\]
+Each summand is bounded, selfadjoint and of rank at most one.
+Moreover
+\[
+ \langle\eta,A_I\eta\rangle
+ =\sum_{\nu\in I}|\langle a_\nu,\eta\rangle|^2\ge0.
+\]
+If \(a_\nu\ne0\), its rank-one summand has sole nonzero eigenvalue
+\(\|a_\nu\|^2\); if \(a_\nu=0\), it contributes zero. Finite
+additivity of the trace proves the stated trace identity.
+
+Let \(S:\mathbb C^I\to W_p\) have columns \(a_\nu\).
+Then \(A_I=SS^*\) and \(M_I=S^*S\).
+For each nonzero eigenvalue \(\lambda\) of \(S^*S\), \(S\) maps its
+eigenspace injectively onto the \(\lambda\)-eigenspace of \(SS^*\),
+with inverse \(\lambda^{-1}S^*\). The converse follows in the
+same way. These are positive selfadjoint finite-rank operators,
+so their nonzero eigenvalues agree with multiplicities and there
+are no nontrivial Jordan blocks. Extra zero eigenvalues contribute
+only factors \(1\), proving the first determinant equality.
+
+In the column expansion of \(\det(I-wM_I)\), choose the
+\(-wM_I\) column exactly at positions \(J\).
+The identity columns outside \(J\) force the corresponding rows
+in the permutation expansion; the result is
+\((-w)^{|J|}\det((M_I)_J)\), with no extra sign.
+This principal minor is the Gram determinant of the vectors
+\(a_\nu\), \(\nu\in J\). If they are dependent, both the determinant
+and their wedge vanish. Otherwise Gram--Schmidt gives their
+Gram determinant as the product of the squared lengths of successive
+orthogonal residuals, which is precisely the squared Hilbert
+exterior norm. For \(J=\varnothing\), both quantities are \(1\).
+Summing over \(J\) proves the boxed expansion.
+\end{proof}
+The normalization \(\sqrt{d_\nu}\,l_\nu\) is also explicitly used in
+\path{Development/AbelianVarietyTheory/Proofs/FlagMeasures/BesselExteriorPowerConstantBoundLargeGap.lean},
+lines 80--85. The additional weights \(t_\nu\) and vectors \(v_\nu\)
+are choices in our frame construction, not a source-supplied Xi
+spectral choice. Zero weights and zero period vectors are permitted.
+
+\paragraph{DET-14(b): necessary and sufficient trace-class condition.}
+Suppose, after specified compatible isometric embeddings where needed,
+the vectors above form a countable family \(a_1,a_2,\ldots\) in a
+single Hilbert space \(\mathcal H\). Set
+\(A_N=\sum_{j\le N}a_ja_j^*\). Then
+\[
+ \sum_j\|a_j\|^2<\infty
+ \quad\Longleftrightarrow\quad
+ \sup_N\Tr A_N<\infty
+ \quad\Longleftrightarrow\quad
+ A_N\ \hbox{converges in trace norm}.
+\]
+The limit \(A\) is positive and
+\[
+ \Tr A=\sum_j\|a_j\|^2,\qquad
+ \|A-A_N\|_1=\sum_{j>N}\|a_j\|^2.
+\]
+\begin{proof}
+The trace norm of \(a_ja_j^*\) is its nonnegative sole eigenvalue
+\(\|a_j\|^2\). Thus summability makes the series absolutely
+convergent in the Banach space \(S_1\), with sum \(A\).
+Trace-norm convergence implies operator-norm convergence.
+Limits of nonnegative quadratic forms are nonnegative, so \(A\)
+and each tail \(A-A_N\) are positive.
+The trace is continuous in trace norm, since
+\(|\Tr T|\le\|T\|_1\). Therefore their traces are the corresponding
+scalar sums. For a positive trace-class operator the trace norm
+equals the trace, proving the exact tail formula.
+The finite identity \(\Tr A_N=\sum_{j\le N}\|a_j\|^2\)
+shows equivalence of summability and bounded partial traces.
+Conversely, trace-norm convergence makes these continuous traces
+bounded, proving the remaining implication.
+\end{proof}
+For these actual period vectors the condition is exactly
+\[
+ \sum_j t_jd_j\|l_j(v_j)\|^2<\infty,
+\]
+after the common-space compatibility has been supplied.
+The positive rank-one construction makes this a trace-ideal
+criterion rather than an inference from summable eigenvalues of a
+nonnormal operator. By \fid{DET-05}, these conditions imply local
+uniform convergence of the ordinary Fredholm determinants.
+An identification with \(G\) still requires a separately proved
+spectral or coefficient identity independent of selecting the
+vectors or weights from Xi's zeros.
+
+\paragraph{DET-14(c): the fixed target and fixed parameters cannot supply that limit.}
+There are two precise restrictions on this displayed realization.
+First, if the target \(W_p\) in the existence export is fixed of
+dimension \(d\), then \(\operatorname{rank}A_I\le d\) and all its
+determinants have degree at most \(d\), however many terms are
+included. Any trace-norm limit acting on that target has the
+same degree bound. More generally, any locally uniform limit on
+\(\mathbb C\) of polynomials of degrees at most \(d\) has degree
+at most \(d\): Cauchy's integral formula for derivatives passes
+the zero \((d+1)\)-st derivatives to the limit. Thus such a limit
+cannot be the infinite-zero Xi determinant \(G\).
+This is a fixed-target restriction; a varying-target or
+infinite-dimensional period realization is a different route.
+
+Second, the exact \texttt{Num} hypothesis in
+\path{Development/AbelianVarietyTheory/Definitions/Jets/SumIoPrAlt.lean},
+lines 155--166, includes at line 165
+\[
+ 100(q_0+1)\le ga,\qquad 100(q_0+1)\le h.
+\]
+Consequently
+\[
+ q_0\le\frac{\min(ga,h)}{100}-1.
+\]
+For fixed finite real \(ga,h\), the displayed existence theorem
+cannot be invoked along \(q_0\to\infty\).
+At least those data must vary, with any further changes necessary
+to retain the remaining hypotheses. Compatibility of the resulting
+spaces, representations and maps must then be established.
+This is a direct implication of the written numerical hypotheses,
+not an absence claim based on source searching.
+
+\paragraph{The integrated normalization and the signed period identity.}
+\path{CompanionTheory/AutomorphicTheory/PieriRules/ThetaBesselIsometries/FamilySetupBesselGrowthStatement.lean},
+lines 16--17, asserts an \(L^2\) bound and, for a nonzero Bessel map,
+the normalized isometry under its \texttt{HypsG} and
+\texttt{SetupG} hypotheses:
+\[
+ d_\nu\int
+ \|l_\nu(\sigma_\nu(g)v)\|^2\,d\nu_q(g)=\|v\|^2
+\]
+for the indicated smooth vectors. This provides useful common
+\(L^2\) data when the parameters and measures are fixed; it is
+a different realization from the finite target \(W_p\) just considered.
+It does not by itself bound the sum of point values
+\(\sum_jt_jd_j\|l_j(v_j)\|^2\).
+To see why an integrated norm alone does not imply an evaluation
+bound, take a continuous compactly supported scalar \(\phi\) with
+\(\|\phi\|_2=1\), \(\phi(0)\ne0\), and let
+\(f_n(x)=\sqrt n\,\phi(nx)\).
+Substitution gives \(\|f_n\|_2=1\), whereas
+\(|f_n(0)|=\sqrt n|\phi(0)|\to\infty\).
+This example diagnoses the missing estimate; it does not assert
+that those spike functions are the source Bessel coefficients.
+
+The actual signed exterior-period decomposition also retains its
+own coefficients. In
+\path{Development/AbelianVarietyTheory/Proofs/FlagMeasures/BlockProjectionBesselStatement.lean},
+lines 9--10, and its application in
+\path{Development/AbelianVarietyTheory/Proofs/FlagMeasures/FirstNormAddSubsetIndicatorLe.lean},
+lines 269--289, they are
+\(\epsilon_I\kappa_{1,I}\overline{\kappa_{0,I}}d_I\).
+Even identifying the two side maps to make the kappa product a
+squared modulus does not remove the possible sign
+\(\epsilon_I=-1\). Positive formal degrees alone therefore
+do not identify that signed expansion with the Gram minors proved
+above. Such an identification requires another specific identity.
+
+The concrete upstream task is now to specify the varying source
+data and compatible positive realization, prove the corresponding
+trace bound, and identify its determinant with \(G\) independently
+of the zero-based construction. These results do not provide the
+separate historical correspondence to the Remark's \(W,S\) and
+determinant family, and do not exclude another source construction.

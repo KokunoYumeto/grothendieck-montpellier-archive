@@ -1,0 +1,236 @@
+\subsection{DET-12: the direct signed Gram kernel and its valid positive geometry}
+This section settles a specific proposed passage from the actual finite scalar to
+positive operators. It also records the positive determinant-line and projection
+factorizations that the scalar does possess. The obstruction concerns the direct
+scalar; suitable transforms are a separate construction.
+
+\paragraph{Source convention and exact input.}
+The source \path{Formalism/FormalDegreeBessel/StatementG.lean}, line 9, uses
+\(\operatorname{herm}(v,w)=w^*Hv\). In the paper's global conjugate-first convention
+we write \(h(u,v)=u^*Hv\), so \(\operatorname{herm}(v,w)=h(w,v)\).
+Lines 20--24 define \(H=H_{k,r}\), of signature \((r+k,r+1)\).
+Lines 28--31 give the middle-support condition and \(T(z)=-h(z,z)\).
+The latter is real because \(H\) is Hermitian. Lines 61--71 define the flag
+vectors, cross-pairing matrix \(\widehat Z\), and leading minors \(D_l\);
+lines 85--99 define
+\[
+ G_f=|D_{r+1}|^2-T(z)T(z')|D_r|^2
+\]
+and the Gram matrix of
+\[
+ e_0,\ldots,e_{r-1},z,ge_0,\ldots,ge_{r-1},gz'.
+\]
+We retain the exact hypotheses: middle-supported \(z,z'\), \(T(z),T(z')>0\),
+and \(g^*Hg=H\). The proposition definitions \texttt{GGram} and
+\texttt{GNonneg} are at lines 165--172; actual theorem exports
+\texttt{gGram} and \texttt{gNonneg} are in
+\path{Formalism/FormalDegreeBessel/FinalG.lean}, lines 21--22.
+The balanced-inertia mechanism was independently proved in \fid{DET-10}.
+
+\paragraph{DET-12(a): no direct positive Gram kernel.}
+Set \(r=0\), \(k=2\), and \(H=\operatorname{diag}(1,1,-1)\).
+On the negative unit vectors define
+\[
+ K(z,z')=|h(z,z')|^2-1=G_f(2,0,z,z',I).
+\]
+This is not a positive semidefinite kernel, hence is not a Hilbert Gram
+kernel or a pointwise limit of positive semidefinite kernels.
+The same conclusion holds for the direct normalized scalar
+\((|h(z,z')|^2-T(z)T(z'))/(T(z)T(z'))\).
+\begin{proof}
+For \(t\in\mathbb R\), put \(z(t)=(\sinh t,0,\cosh t)^T\).
+The support condition is vacuous for \(r=0\),
+\(h(z(t),z(t))=-1\), and \(I^*HI=H\). Thus these are actual
+source-admissible data. Direct calculation gives
+\[
+ h(z(s),z(t))=-\cosh(t-s),\qquad
+ K(z(s),z(t))=\sinh^2(t-s).
+\]
+For \(t\ne0\), the two-point matrix at \(z(0),z(t)\) is
+\[
+ \begin{pmatrix}0&c\\c&0\end{pmatrix},\qquad c=\sinh^2t>0.
+\]
+Its quadratic form at \((1,-1)\) is \(-2c<0\).
+A Hilbert Gram kernel has nonnegative quadratic forms, so no such
+realization exists. Equivalently, the zero diagonal would force every
+feature vector to be zero while the off-diagonal is nonzero.
+For a pointwise limit of positive kernels, each fixed finite quadratic
+form is the limit of nonnegative numbers and is nonnegative.
+The displayed matrix rules out that possibility, for sequences or nets.
+The normalized scalar restricts to this same kernel on the negative
+unit vectors, proving its assertion as well.
+\end{proof}
+
+\paragraph{The group and positive trace-coefficient versions.}
+Let \(z_0=(0,0,1)^T\) and
+\[
+ F(g)=G_f(2,0,z_0,z_0,g)=|h(z_0,gz_0)|^2-1,\qquad g^*Hg=H.
+\]
+Then \(F\) is not of positive type, is not a pointwise limit of
+positive-type functions, and cannot be \(\Tr(A\pi(g))\) for a unitary
+representation \(\pi\) and positive trace-class operator \(A\).
+\begin{proof}
+The matrices
+\[
+ g(t)=\begin{pmatrix}
+ \cosh t&0&\sinh t\\0&1&0\\\sinh t&0&\cosh t
+ \end{pmatrix}
+\]
+satisfy \(g(t)^*Hg(t)=H\), \(g(t)z_0=z(t)\), and
+\(g(s)g(t)=g(s+t)\), by matrix multiplication and the hyperbolic
+addition identities. Hence \(F(e)=0\) and \(F(g(t))=\sinh^2t\).
+The positive-type matrix \(F(g_i^{-1}g_j)\) for \(g_1=e,g_2=g(t)\)
+is the indefinite matrix above, since \(g(t)^{-1}=g(-t)\).
+The pointwise-limit argument is unchanged.
+
+Every proposed positive trace coefficient would be of positive type:
+for \(X=\sum_j c_j\pi(g_j)\),
+\[
+ \sum_{i,j}\overline{c_i}c_j\Tr(A\pi(g_i^{-1}g_j))
+ =\Tr(AX^*X)=\|XA^{1/2}\|_{\rm HS}^2\ge0.
+\]
+Here \(A^{1/2}\) is Hilbert--Schmidt and the cyclic trace identity
+applies to the bounded and Hilbert--Schmidt factors.
+Alternatively, \(F(e)=\Tr A=0\) gives
+\(\|A^{1/2}\|_{\rm HS}=0\), hence \(A=0\), contradicting
+\(F(g(t))>0\).
+\end{proof}
+
+\paragraph{The direct scalar is not a squared Hilbert distance.}
+For \(a>0\), take \(t=(-a,0,a)\) and real coefficients \(c=(1,-2,1)\).
+Their sum is zero, but
+\[
+ \sum_{i,j}c_ic_jK(z(t_i),z(t_j))
+ =2\sinh^2(2a)-8\sinh^2a=8\sinh^4a>0.
+\]
+The last equality follows from \(\sinh(2a)=2\sinh a\cosh a\) and
+\(\cosh^2a-1=\sinh^2a\). Thus conditional negative semidefiniteness
+fails. Indeed, a squared Hilbert distance would satisfy, by expansion
+and \(\sum_i c_i=0\),
+\[
+ \sum_{i,j}c_ic_j\|\Phi_i-\Phi_j\|^2
+ =-2\left\|\sum_i c_i\Phi_i\right\|^2\le0.
+\]
+This proves the stated distance obstruction completely. These
+refutations concern the direct scalar and the specified normalization,
+not an inverse, exponential, integral transform, added or subtracted
+term, or another modified family.
+
+\paragraph{DET-12(b): positive determinant lines, indefinite ambient exterior form.}
+Write \(q=r+1\), and let \(X\) contain the \(2q\) source Gram vectors.
+The induced exterior Hermitian form is specified by
+\[
+ h^{[2q]}(x_1\wedge\cdots\wedge x_{2q},
+          y_1\wedge\cdots\wedge y_{2q})
+ =\det[h(x_i,y_j)]_{i,j}.
+\]
+For the column wedge \(\omega\) of \(X\), the source Gram identity gives
+\[
+ G_f=(-1)^q h^{[2q]}(\omega,\omega).
+\]
+If \(X^*HX\) is nonsingular, the signed form on the determinant line
+\(\Lambda^{2q}(\operatorname{im}X)\) is positive definite. For \(k\ge2\),
+however, that signed form is indefinite on the full ambient exterior
+power.
+\begin{proof}
+By \fid{DET-10}, \(V=\operatorname{im}X\) has signature \((q,q)\).
+In an \(h\)-orthonormal basis of \(V\), the exterior norm of its top
+wedge has sign \((-1)^q\); multiplication by the same sign gives
+value \(1\). Every other nonzero element of this one-dimensional line
+is a nonzero scalar multiple, so the signed form is positive definite.
+
+For the ambient signature \((p,q)=(r+k,r+1)\), a basis wedge
+containing \(q\) positive and \(q\) negative directions has signed
+value \(+1\). When \(k\ge2\), there are also \(q+1\) positive directions,
+so a wedge containing \(q+1\) positive and \(q-1\) negative directions
+has signed value \(-1\). This proves ambient indefiniteness.
+When \(k=1\), the ambient dimension is \(2q\), so its top exterior
+space is the positive line just described. When \(k=0\), the exterior
+degree exceeds the ambient dimension, and that exterior space is zero.
+For a degenerate restricted form, the displayed wedge has value zero,
+so it does not define a positive definite metric on that line.
+\end{proof}
+The source compound matrices and wedge coordinates are
+\path{Development/AbelianVarietyTheory/Definitions/Jets/SumIoPrAlt.lean},
+lines 104--110. Its \texttt{TensH}, lines 88--94, still carries
+signs \(\epsilon_I\in\{1,-1\}\). The determinant-line observation
+does not remove those signs from the actual period expansion.
+
+\paragraph{DET-12(c): explicit Lorentz-projection factorization.}
+Let \(E=[e_0,\ldots,e_{r-1}]\), \(F=gE\), \(y=gz'\), and
+\[
+ C=E^*HF,\quad b=E^*Hy,\quad c=z^*HF,\quad d=z^*Hy.
+\]
+Then \(\widehat Z=\left(\begin{smallmatrix}C&b\\c&d\end{smallmatrix}\right)\)
+and \(D_r=\det C\). On the chart \(\det C\ne0\), define
+\[
+ U=\operatorname{im}E+\operatorname{im}F,\quad
+ x=z-E(C^*)^{-1}c^*,\quad y_0=y-FC^{-1}b,\quad
+ s=d-cC^{-1}b.
+\]
+With \(T=T(z)>0\), the space
+\(V_+=U^\perp\cap x^\perp\) is positive definite of dimension \(k\),
+the vector \(p=y_0+(s/T)x\) belongs to it, and
+\[
+ \boxed{\quad G_f=|\det C|^2T\,h(p,p)
+ =\bigl\|\sqrt T\,(\det C)p\bigr\|_{V_+}^{\,2}.\quad}
+\]
+\begin{proof}
+The source support, isotropy and unitary conditions give
+\begin{align*}
+ E^*HE&=F^*HF=0,\qquad E^*Hz=0,\qquad F^*Hy=0,\\
+ z^*Hz&=-T,\qquad y^*Hy=-T',\qquad T'=T(z')>0.
+\end{align*}
+The Gram matrix of \([E,F]\) is
+\(\left(\begin{smallmatrix}0&C\\C^*&0\end{smallmatrix}\right)\).
+It is invertible, so these columns are independent.
+Replacing \(F\) by \(FC^{-1}\) gives the form
+\(\left(\begin{smallmatrix}0&I\\I&0\end{smallmatrix}\right)\),
+of signature \((r,r)\). Thus \(U\) is nondegenerate and \(U^\perp\)
+has signature \((k,1)\).
+
+Substitution gives
+\[
+ E^*Hx=F^*Hx=E^*Hy_0=F^*Hy_0=0.
+\]
+For example,
+\(F^*Hx=c^*-C^*(C^*)^{-1}c^*=0\) and
+\(E^*Hy_0=b-CC^{-1}b=0\).
+The other two equations use the displayed isotropy and support
+relations. Hence \(x,y_0\in U^\perp\).
+Each removed vector is isotropic and orthogonal to the original
+vector, giving \(h(x,x)=-T\) and \(h(y_0,y_0)=-T'\).
+Since \(((C^*)^{-1}c^*)^*=cC^{-1}\), expansion gives
+\[
+ h(x,y_0)=x^*Hy_0
+ =d-cC^{-1}b-cC^{-1}b+cC^{-1}b=s.
+\]
+In the global conjugate-first convention,
+\(h(x,p)=s+(s/T)(-T)=0\). Splitting off the negative line
+\(\mathbb Cx\) from the space of signature \((k,1)\) proves that
+\(V_+\) has signature \((k,0)\). Expanding the norm gives
+\[
+ h(p,p)=-T'+|s|^2/T.
+\]
+Subtracting \(cC^{-1}\) times the first \(r\) rows from the last
+row of \(\widehat Z\) yields
+\(D_{r+1}=(\det C)s\). Substitution in the actual definition of
+\(G_f\) proves the boxed formula.
+\end{proof}
+For \(r=0\), the empty matrix is invertible with determinant \(1\),
+\(U=0\), and this is the usual Lorentz projection.
+For \(k=0\), \(V_+=0\) and the scalar vanishes on this chart;
+globally the \(2r+2\) Gram vectors lie in dimension \(2r+1\), so
+the source Gram identity gives \(G_f=0\) everywhere.
+If \(D_r=0\), no inverse or limiting formula is used:
+the definition gives \(G_f=|D_{r+1}|^2\ge0\) directly.
+The assumption \(T>0\) is retained, as required by the source.
+
+The determinant line and the positive space in this factorization
+depend on the input configuration. Fixing the first vector at \(r=0\)
+fixes a positive space in which the scalar is the norm of a projected
+second vector; it does not make the two-variable scalar a Gram
+inner product. Part (a) proves that such a reinterpretation of the
+cross-values is impossible. Thus this calculation gives valid positive
+geometry and a precise direct-kernel obstruction, without a historical
+identification or a Xi approximation.
