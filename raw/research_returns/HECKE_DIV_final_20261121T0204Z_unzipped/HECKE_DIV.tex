@@ -1,0 +1,2397 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=27mm,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,longtable,array,enumitem}
+\usepackage[round,authoryear]{natbib}
+\usepackage{xcolor,hyperref,fancyhdr}
+\usepackage{xurl}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,pdftitle={Bounded division on Hecke orbits: reductions, explicit transport, and the split eightfold family},pdfauthor={HECKE DIV research run}}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small HECKE\_DIV}\fancyhead[R]{\small 21 November 2026}\fancyfoot[C]{\thepage}
+\setlength{\parskip}{4pt}\setlength{\parindent}{0pt}
+\setlist{itemsep=2pt,topsep=4pt}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\Q}{\mathbb Q}\newcommand{\Z}{\mathbb Z}\newcommand{\C}{\mathbb C}\newcommand{\R}{\mathbb R}
+\newcommand{\cO}{\mathcal O}\newcommand{\CH}{\operatorname{CH}}\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\End}{\operatorname{End}}\newcommand{\NS}{\operatorname{NS}}\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ext}{\operatorname{Ext}}\newcommand{\Nm}{\operatorname{Nm}}\newcommand{\SU}{\operatorname{SU}}
+\newcommand{\im}{\operatorname{im}}\newcommand{\rk}{\operatorname{rk}}\newcommand{\ch}{\operatorname{ch}}
+\newcommand{\id}{\operatorname{id}}\newcommand{\Span}{\operatorname{span}}\newcommand{\cW}{\mathcal W}
+\newcommand{\findingref}[1]{\hyperref[#1]{\textsf{#1}}}
+\title{Bounded division on Hecke orbits\\\large Corrected reductions, explicit transport, and the split eightfold family}
+\author{Research run \texttt{HECKE\_DIV\_20261121}\\\small GPT-6 Astra Pro; root and three independent task agents}
+\date{21 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We prove precise versions of the bounded-Chow, Hecke-orbit, and Andr\'e--Oort reductions requested in the supplied bridge sketch. Two unqualified assertions in its fourth reduction are false: signed divisor degree does not bound divisor classes, and extra endomorphisms can have isogeny degree one everywhere on an elliptic-power orbit. For a fixed flat Hodge class in a polarized abelian scheme, bounded degrees of integral effective positive and negative parts already bound the clearing multiplier. For Weil classes over $\Q(\sqrt{-3})$, explicit algebraic projectors and graph cycles give certified transport bounds growing as $m^4$ on fourfolds and $m^8$ on eightfolds, where $m$ clears the rational isometry. A bounded effective cycle with any nonzero Weil projection suffices, by an explicit positive-lattice argument, for bounded representatives of every fixed rational Weil class.
+
+Markman's construction supplies explicit uniform bounds on the principal split fourfold family: the normalized sixfold source sheaf is $2065542$-regular for the specified polarization, and its effective Chern-cycle degree is bounded by $3426088289770714707027306735206400$. We compute the isogeny and compensation factors transferring this estimate to fourfolds. For the split eightfold family, a newly located manuscript of Severn supplies the supplier, transfer and dominance inputs. Its proof mechanisms were separately read, and the group and all monodromy matrices were reconstructed exactly. We extract a new explicit factorial formula for a uniformly bounded effective four-cycle with nonzero Weil projection, then compute clearing and degree bounds for every fixed rational Weil class. These assertions concern a fixed polarized integral $\Z[\omega]$ datum, including the principal balanced $E^8$ datum. Neither RH nor GRH is needed for the positive conclusions.
+\end{abstract}
+
+\paragraph{Verification and status.}
+All new propositions asserted as proved below received a complete proof reading, recorded in \texttt{CHECK\_EVENTS.tsv}; several received independent reconstructions. Exact arithmetic scripts are computational certificates, not Lean kernel certificates. Cited results are identified with their actual scope and exact locator. The eightfold conclusion uses Severn's \emph{unrefereed manuscript}, version 1.5, dated 21 October 2026, Hexagon 2610.00387v2, Theorem A, after the checks described in Section~\ref{sec:eightfold}. It is a literature input, not a newly claimed proof of the Hodge conjecture by this run. The quantitative conclusions are SQ8--SQ9 and M10. Part~\ref{part:open} separates stronger unproved extensions and source limitations from the checked findings; it contains no additional premise used in their proofs.
+
+\tableofcontents
+\newpage
+\part{Checked findings and exact consequences of cited inputs}
+
+\section{The datum that must be fixed}
+Let $f:\mathcal A\to S$ be a polarized abelian scheme of relative dimension $g$ over an irreducible complex algebraic variety of finite type. We use a relative ample line bundle $L$ and write $\theta_s=c_1(L_s)$. We may replace $S$ by a smooth open during a Baire argument and then take closure. Put
+\[
+ \deg_L Z=\int_{A_s}\theta_s^{g-p}\cl(Z)
+\]
+for an effective codimension-$p$ cycle, without dividing by $(g-p)!$. Let $t$ be a \emph{global rational flat section} of $R^{2p}f_*\Q$, of Hodge type $(p,p)$ on every fibre. Tate twists are suppressed in formulas for ordinary singular cohomology.
+
+\begin{definition}[R20: complexity]
+For $s\in S(\C)$ define
+\[
+ c_t(s)=\min\left\{\max(N,D):\ N\in\Z_{>0},\ D\in\Z_{\ge0},\quad
+ Nt_s=\cl(Z^+)-\cl(Z^-),\quad \deg_L Z^\pm\le D\right\},
+\]
+where $Z^\pm$ are integral effective cycles. The value is $+\infty$ if there is no such representation. A zero cycle here may mean the empty effective cycle of any specified dimension.
+\end{definition}
+
+The fixed target and the word ``integral'' are indispensable. If $u$ is a primitive nonzero integral Hodge class, a representation of $N(u/q)$ by an integral cycle implies $q\mid N$. Thus no bound uniform over \emph{all rational scalar multiples} of a class is possible. Replacing $L$ by $L^{\otimes b}$ multiplies these degrees by $b^{g-p}$. All numerical claims below state their polarization and class normalization.
+
+For the principal examples set
+\[
+ K=\Q(\omega),\qquad \omega^2+\omega+1=0,\qquad
+ E=\C/(\Z+\Z\omega),\qquad g=2n,\quad n=2\text{ or }4.
+\]
+On $A_0=E^n\times E^n$ take the product principal polarization and the balanced action
+\begin{equation}\label{eq:balanced}
+ \iota(a)(x,y)=(ax,\bar a y).
+\end{equation}
+It has signature $(n,n)$ and split Hermitian form. The unitary period domain has dimension $n^2$. We fix a connected polarized moduli component and a sufficiently fine level, and when necessary a further finite \'{e}tale cover trivializing the determinant local system
+\[
+ \cW=\bigwedge_K^{2n}R^1f_*\Q\subset R^{2n}f_*\Q.
+\]
+It has rational rank two. The determinant of an integral unitary monodromy transformation is a unit of an imaginary quadratic order and has finite image; this explains the finite cover. The algebraization of a finite topological cover is supplied by SGA~1, Expos\'e XII, Th\'eor\`eme~5.1 \citep{SGA1}.
+
+\section{A quantitative reduction to effective degrees}
+\begin{theorem}[P0: degree controls the clearing multiplier]\label{P0}
+In the preceding abelian-scheme setting, assume $t\ne0$. Put $d=g-p$,
+\[
+ V=\frac{1}{g!}\int_{A_s}\theta_s^g,
+ \qquad h=\|t_s\|_{L^2},
+\]
+where the metric is the translation-invariant K\"ahler metric with class $\theta_s$. Both $V$ and $h$ are positive constants. Every representation in R20 satisfies
+\begin{equation}\label{eq:Nbound}
+ N\le \frac{\deg_L Z^++\deg_L Z^-}{d!\sqrt V\,h}.
+\end{equation}
+Consequently a uniform bound for the degrees of integral effective representatives of arbitrary positive integral multiples of this fixed class is equivalent to the two-parameter boundedness condition in the sketch.
+\end{theorem}
+\begin{proof}
+The Lefschetz decomposition for the flat polarization is a decomposition of local systems. Each primitive summand of $t$ is of type $(p-j,p-j)$. The Hodge-star formula on that summand involves a fixed sign, a fixed factorial, and a power of $\theta$. Therefore $\beta_s=*t_s$ is flat in cohomology and
+$\int t_s\cup\beta_s=h^2$ is constant. Harmonic forms on the flat torus $A_s$ are translation invariant. Hence $\beta_s$ has constant pointwise norm $h/\sqrt V$, and its comass is at most that value. Wirtinger's identity, applied to the regular locus with the cycle multiplicities, gives
+\[
+ \left|\int_Z\beta_s\right|
+ \le \frac{h}{\sqrt V}\frac{\deg_L Z}{d!}.
+\]
+Pairing $Nt_s=\cl(Z^+)-\cl(Z^-)$ with $\beta_s$ proves
+$Nh^2\le h(\deg Z^++\deg Z^-)/(d!\sqrt V)$, and division by $h^2$ proves the formula.
+\end{proof}
+
+This assertion concerns degrees after integral coefficients have been cleared. A rational cycle with bounded \emph{weighted} degree can still have arbitrarily large denominators. The distinction is visible in the explicit Hecke transport of Section~\ref{sec:projector}.
+
+\section{The bounded-Chow reduction}
+\begin{theorem}[R21: closed loci and uniformity]\label{R21}
+The sets $S_C=\{s:c_t(s)\le C\}$ are Zariski closed. The following conditions are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $t_s$ is algebraic for every $s$;
+\item $t_s$ is algebraic outside a countable union of proper closed algebraic subsets;
+\item $S_C=S$ for one finite $C$;
+\item $c_t$ is bounded on a Zariski-dense subset of $S$.
+\end{enumerate}
+For a fixed positive integer $N$, the analogous degree loci $S_{N,D}$ are closed. If $Nt_s$ has an integral algebraic representative on a nonempty analytic open, the \emph{same} $N$ has effective representatives of uniformly bounded degree on every fibre.
+\end{theorem}
+\begin{proof}
+First suppose $L$ is relatively very ample. For each pair $d_+,d_-$ of bounded nonnegative degrees use the relative Chow space
+\[
+ T_{d_+,d_-}=\operatorname{Chow}_{g-p,d_+}(\mathcal A/S)
+ \mathop{\times}_S\operatorname{Chow}_{g-p,d_-}(\mathcal A/S).
+\]
+It is projective over $S$ and has finitely many connected components. Relative bounded-degree Chow projectivity is stated directly in \citet[Definition~3.21, (3.21.1)--(3.21.2), p.~119]{Kollar18}. FGA's fixed-Hilbert-polynomial theorem is a related foundational result, but alone is not a bounded-degree theorem: embedded points would allow infinitely many Hilbert polynomials.
+
+The difference of the universal cycle classes is a section of the pulled-back cohomology local system. To see the required local constancy without assuming a flat universal \emph{subscheme}, connect points of a connected Chow component by chains of algebraic curves and normalize the curves. Over a smooth curve the universal cycle has the specialization-compatible fundamental class. In the differentiably locally trivial ambient smooth proper family its class is unchanged by transport along a path. This holds through limiting Chow cycles as well, by specialization of their fundamental classes. Thus the difference between the two cycle classes and $Nt$ is flat, and its vanishing is constant on each connected component.
+
+For fixed $N,d_+,d_-$ select the components on which that difference is zero. They form an open and closed algebraic subspace, proper over $S$. Its image is closed. The union over the finitely many choices $1\le N\le C$, $0\le d_\pm\le C$ is $S_C$, proving closedness. The same argument with $N$ fixed proves closedness of $S_{N,D}$. For a relatively ample $L$ replace it by one fixed relatively very ample power; all degrees are multiplied by the same factor, so the conclusion is unchanged.
+
+Algebraicity of $t_s$ is exactly finiteness of $c_t(s)$, since a finite rational cycle can be cleared and separated into positive and negative parts. Thus (i) covers $S$ by countably many closed $S_C$. A proper algebraic subset has empty analytic interior. A closed ball in the smooth locus of $S$ is a Baire space, so these proper subsets cannot cover it. Some $S_C$ therefore contains an analytic open and equals $S$ by irreducibility. The same argument proves (ii)$\Rightarrow$(iii), including the countably many exceptional subsets in the covering. The other implications follow immediately, with (iv)$\Rightarrow$(iii) using closedness. Finally, cover the nonempty analytic open in the fixed-$N$ assertion by the countably many closed $S_{N,D}$ and apply the same Baire argument.
+\end{proof}
+
+This is an existence theorem. Its Baire step does not identify the successful component or output its degree. The conclusion is stronger than pointwise algebraicity at a countable dense set, because that set can be covered by proper closed loci with bounds depending on the point.
+
+\section{Hecke orbits and the CM dichotomy}
+\begin{theorem}[R22: the tensor-compatible Hecke criterion]\label{R22}
+Let $S=\Gamma\backslash X^+$ be a connected Shimura variety of Hodge type with its polarized abelian scheme after neat level. Let $H$ be a connected $\Q$-algebraic subgroup of the ambient Shimura group, acting through its fixed rational $H^1$ representation. Assume that $H$ acts transitively on $X^+$ through $H(\R)^+$ and preserves the chosen rational tensor, with its Tate-similitude convention fixed. Then the rational orbit of any lift of $x_0\in S$ is analytically dense. Its points are related to $x_0$ by tensor-compatible rational isogenies. If $t_{x_0}$ is algebraic, so is the transported class at every such point. Moreover,
+\[
+ t_s\text{ algebraic for every }s\in S
+ \quad\Longleftrightarrow\quad
+ c_t\text{ bounded on this orbit}.
+\]
+In the Weil family it suffices to use the rational special-unitary suborbit.
+\end{theorem}
+\begin{proof}
+Real approximation gives density of $H(\Q)$ in $H(\R)$; see \citet[Theorem~5.4, p.~54; Lemma~13.5, p.~118]{MilneShim}. Given a real transformation carrying the lift of $x_0$ to a chosen point of $X^+$, approximate it by rational transformations. Those sufficiently close preserve the connected domain, which proves density there and hence in its quotient.
+
+A rational isomorphism of polarized weight-one Hodge structures comes from a rational homomorphism of abelian varieties by the Riemann equivalence \citep[Corollary~6.9, p.~73]{MilneShim}. Clearing an integer denominator gives an isogeny $\psi_x:A_x\to A_{x_0}$. Its pullback takes $t_{x_0}$ to a nonzero rational multiple of the coherently transported $t_x$. Pullback of algebraic cycles is algebraic, so this proves pointwise algebraicity along the orbit. Analytic density implies Zariski density, and R21 proves the displayed equivalence.
+\end{proof}
+
+An arbitrary unitary similitude acts on the rank-two rational Weil space through its $K$-determinant. This action need not preserve a selected rational line. Thus the sketch's scalar $c_x$ requires the tensor compatibility just stated. Algebraicity of one class proves the assertion for that class; the full Hodge conjecture is isogeny invariant when it is known for \emph{every} Hodge class at the initial point.
+
+\begin{definition}
+A sequence of CM points is \emph{strictly special-generic} if every proper special subvariety contains only finitely many terms. Mere failure to lie entirely in one proper special subvariety is weaker and does not suffice.
+\end{definition}
+
+\begin{theorem}[R23: the corrected dichotomy]\label{R23}
+In a special subvariety of a Siegel moduli space, either $S_C=S$ for some $C$, or for every $C$ the CM points of $S_C$ lie in a finite union of proper special subvarieties. In the second case $c_t(x_j)\to\infty$ for every strictly special-generic CM sequence. Such sequences can be chosen in the tensor-compatible orbit of a CM point. Bounded complexity on an infinite subsequence of one such sequence already forces $S_C=S$ for some $C$.
+\end{theorem}
+\begin{proof}
+If $S_C$ is proper, Andr\'e--Oort makes the Zariski closure of its special points a finite union of special subvarieties contained in $S_C$ \citep[Theorem~1.3, p.~380; formulation in Conjecture~1.1, p.~379]{Tsimerman18}. All are proper in $S$. Eventual avoidance of each one gives eventual avoidance of their finite union, so $c_t(x_j)>C$ eventually. This holds for every $C$. Conversely, infinitely many terms with $c_t\le C$ contradict eventual avoidance of that finite union unless $S_C=S$.
+
+There are countably many proper special subvarieties. Enumerate them as $T_1,T_2,\ldots$. At step $j$ choose a CM orbit point outside $T_1\cup\cdots\cup T_j$, possible by the density in R22. This constructs the required sequence. The result extends to fixed polarization type and finite level through the usual finite Shimura maps to a Siegel moduli space. No GRH hypothesis enters this argument.
+\end{proof}
+
+\section{What is correct, and false, in sketch 2.4}
+\begin{proposition}[R24A: bounded effective extra divisors]\label{R24A}
+Assume the very general fibre has $\NS(A_s)_\Q=\Q\theta_s$. The points admitting an effective divisor of degree at most $D$ whose class is not proportional to $\theta_s$ form a proper closed algebraic subset.
+\end{proposition}
+\begin{proof}
+For fixed divisor degree $d$ on its Chow space, put $v=\int\theta_s^g$. The section $\cl(Z)-(d/v)\theta$ is flat. Its nonvanishing selects entire connected components, a finite union proper over $S$. Their image is closed. Take the finite union over $d\le D$. The very general N\'eron--Severi hypothesis makes it proper.
+\end{proof}
+
+\begin{proposition}[R24Asigned: the signed-degree wording is false]\label{R24Asigned}
+If ``degree of a divisor class'' is interpreted as its signed intersection with $\theta^{g-1}$, the assertion fails on the elliptic-power Hecke orbit.
+\end{proposition}
+\begin{proof}
+At every point isogenous to $E^g$, $g\ge2$, choose an integral class $\eta\notin\Q\theta$. Then
+\[
+ \zeta=\left(\int\theta^g\right)\eta
+       -\left(\int\eta\theta^{g-1}\right)\theta
+\]
+is integral, nonzero, not proportional to $\theta$, and has signed degree zero. The resulting locus contains the dense orbit but excludes every rank-one N\'eron--Severi point. It cannot be closed.
+\end{proof}
+
+\begin{proposition}[R24B: bounded abelian subvarieties]\label{R24B}
+If the very general fibre is simple, the fibres containing a nonzero proper abelian subvariety of degree at most $D$ form a proper closed algebraic subset.
+\end{proposition}
+\begin{proof}
+An abelian subvariety of dimension $d$ and degree $e$ has Hilbert polynomial $em^d/d!$, by Riemann--Roch and the triviality of its tangent bundle. There are finitely many choices with $1\le d\le g-1$, $e\le D$. Use the projective relative Hilbert schemes for these polynomials; their projectivity is FGA, expos\'e~221, Th\'eor\`emes~3.1--3.2, pp.~259--260 \citep{FGA}.
+
+The locus of universal subschemes containing the identity and closed under inversion and addition is constructible, by finite-presentation equations and a flattening stratification. It is stable under specialization. Indeed, pull the universal flat subscheme back to a discrete valuation ring. Its generic fibre is schematically dense both in it and in its self-product, because these schemes are flat over the ring. The equations expressing the group laws therefore extend from the generic fibre. Thus the special fibre is again a subgroup. A constructible, specialization-stable subset is closed. Do not impose connectedness at this stage.
+
+In characteristic zero every finite-type group scheme over a field is smooth. Such a subgroup fibre is a finite union of translates of its identity component, whose dimension remains $d$ and whose degree is at most $e$. Its identity component is the required abelian subvariety. Conversely every required abelian subvariety occurs. The finite union of projective images is therefore exactly the stated closed locus. Generic simplicity makes it proper.
+\end{proof}
+
+\begin{proposition}[R24C: degree-one extra endomorphisms]\label{R24C}
+For every $A$ isogenous to $E^g$, $g\ge2$, and every prescribed embedded field $\iota(K)\subset\End^0(A)$, there is an automorphism outside $\iota(K)$ of isogeny degree one. Hence the endomorphism-degree assertion in sketch 2.4 is false.
+\end{proposition}
+\begin{proof}
+Identify $\End^0(A)$ with $M_g(K)$. Choose $0\ne v\in\End(A)$ with $v^2=0$ by clearing denominators of a matrix unit. Then $1+v$ has inverse $1-v$, so it is an automorphism. A field has no nonzero nilpotents, whence $v$ and $1+v$ are outside the prescribed field. This argument applies also to the noncentral balanced embedding \eqref{eq:balanced}.
+\end{proof}
+
+The graph degree is sensitive to the polarization. For $u_m=I+mE_{12}$ on the product principally polarized $E^g$,
+\begin{equation}\label{eq:unipotentgraph}
+ \deg(u_m)=1,\qquad
+ \deg_{p_1^*L\otimes p_2^*L}\Gamma_{u_m}
+ =g!\det(I+u_m^\dagger u_m)
+ =g!\,2^{g-2}(m^2+4).
+\end{equation}
+The middle equality is the top exterior-power formula for the restricted Hermitian polarization; the $2\times2$ block has determinant $m^2+4$ and the other blocks contribute $2^{g-2}$.
+
+\paragraph{R24D: the precise obstruction.}
+R24A--B, followed by R23, exclude bounded effective \emph{inputs} consisting of extra divisors or proper abelian subvarieties along a strictly special-generic CM sequence. The remaining bounded divisor classes are proportional to $\theta$, whose polynomial algebra misses a nonzero Weil class. This follows also from the distinct eigenvalues of $a^*$ on the Weil plane and on $\theta^n$ in Section~\ref{sec:projector}.
+
+They do not exclude bounded final cycles having descriptions with unbounded divisor inputs and cancellation. Indeed, every rational Hodge class on a variety isogenous to $E^g$ is divisor-generated. For the needed form, its Hodge group is the norm-one torus. Over $\C$, $H^1=V_+\oplus V_-$ has weights $+1,-1$; the degree-$2p$ invariants are $\bigwedge^pV_+\otimes\bigwedge^pV_-$. Pairing each plus factor with a minus factor shows that products of degree-two invariants span them. The surjectivity descends to $\Q$, and the Lefschetz $(1,1)$ theorem algebraizes the degree-two invariants. Isogenies preserve this property. Thus the sketch's blanket exclusion of ``built from divisors'' must be read as a restriction on uniformly bounded ingredients, not on all divisor-polynomial expressions.
+
+\begin{proposition}[R24E: order-stable subvarieties have zero Weil projection]\label{R24E}
+Let $A$ be a complex abelian variety of Weil type of dimension $2n$, with an action of an imaginary quadratic order $\cO\subset K$ and a polarization $\theta$ whose Rosati involution restricts to complex conjugation on $K$. Let $Z\subset A$ be an irreducible $n$-dimensional subvariety. If $\iota(a)(Z)=Z$ for every nonzero $a\in\cO$, then the projection of $\cl(Z)$ onto
+\[
+ W_K(A)=\bigwedge_K^{2n}H^1(A,\Q)
+\]
+vanishes. It suffices that $Z$ be preserved by one nonzero $a\in\cO$ for which $a/\bar a$ is not a root of unity.
+\end{proposition}
+\begin{proof}
+Such an element exists in every imaginary quadratic order: fix a nonreal $\alpha\in\cO$ and take $a=m+\alpha$ for a sufficiently large positive integer $m$. The quotients $(m+\alpha)/(m+\bar\alpha)$ tend to $1$ without equalling $1$, whereas $K$ has only finitely many roots of unity. For $\cO=\Z[\omega]$ one may take $a=3+\omega$; its quotient $(8+5\omega)/7$ is not an algebraic integer and hence is not a root of unity.
+
+Put $q=\Nm(a)=a\bar a$. The Rosati condition gives $\iota(a)^*\theta=q\theta$. Since $a\ne0$, $\iota(a)$ is an isogeny, and its restriction $f:Z\to Z$ is finite and surjective. The projection formula gives
+\[
+ \deg(f)\int_Z\theta^n
+ =\int_Z\iota(a)^*\theta^n
+ =q^n\int_Z\theta^n.
+\]
+The ample degree $\int_Z\theta^n$ is positive, so $\deg(f)=q^n$. Proper pushforward of the irreducible cycle therefore yields
+\[
+ \iota(a)_*\cl(Z)=q^n\cl(Z).
+\]
+
+Over $\C$, write $H^1=V_\sigma\oplus V_{\bar\sigma}$. The two extreme summands $\bigwedge^{2n}V_\sigma$ and $\bigwedge^{2n}V_{\bar\sigma}$ form $W_K(A)_\C$, and the pullback eigenvalues there are $a^{2n}$ and $\bar a^{2n}$. Since $\deg\iota(a)=q^{2n}$ and $\iota(a)_*\iota(a)^*=q^{2n}\id$, the pushforward eigenvalues on these two lines are respectively $\bar a^{2n}$ and $a^{2n}$. The other summands are
+\[
+ \bigwedge^rV_\sigma\otimes\bigwedge^{2n-r}V_{\bar\sigma},\qquad 1\le r\le2n-1.
+\]
+The assumption on $a/\bar a$ makes all their scalar eigenvalues distinct from the extreme eigenvalues. The extreme-summand projection is defined over $\Q$ and commutes with $\iota(a)_*$. Neither extreme eigenvalue equals $q^n$, because either equality would imply $(a/\bar a)^n=1$. Projecting the preceding pushforward identity onto the Weil plane consequently gives zero, as required.
+\end{proof}
+
+The hypothesis is stability under the nonzero endomorphisms of the order, or under the single qualifying endomorphism in the proposition. Unspecified finite scalar invariance does not suffice: the graphs in P2 are invariant under the scalar group $\{1,-1\}$ and have nonzero Weil projection.
+
+\paragraph{R24F: divisor and curve constructions need not vanish.}\label{R24F}
+The separate assertion in sketch 2.4 that every cycle built from divisors and curves by intersection and Pontryagin product has zero Weil projection is false on the CM elliptic powers under discussion. P2b gives integral divisor classes $U_j,V_j$ on the paired elliptic surfaces, pulled back to $E^n\times E^n$, with
+\[
+ u_n+\omega v_n
+ =(-1)^{n(n-1)/2}\prod_{j=1}^n(U_j+\omega V_j),\qquad n=2,4,
+\]
+where $u_n,v_n$ form a basis of the integral Weil lattice. Expanding the product gives integral signed sums of divisor intersections representing these nonzero Weil classes. At least one effective product term in each such representation consequently has nonzero Weil projection. Thus divisor intersections already furnish counterexamples to the asserted vanishing; see the full class and cycle calculation in Proposition~\ref{P2b}. This does not supply a uniform bound for the degrees of divisor-polynomial presentations along a Hecke orbit, and does not strengthen the bounded-ingredient conclusion of R24D.
+
+\section{Explicit projectors, graph seeds, and transport}\label{sec:projector}
+\begin{proposition}[P1: an explicit Weil projector]\label{P1}
+Put $a=3+\omega$, so $\Nm(a)=7$, and $T=\iota(a)^*$ on $H^{2n}(A,\Q)$. Define
+\[
+ \lambda_r=a^r\bar a^{2n-r},\quad
+ q_0(X)=(X-a^{2n})(X-\bar a^{2n}),\quad
+ R_n(X)=\prod_{r=1}^{2n-1}(X-\lambda_r).
+\]
+Let $u_n$ be the inverse of $R_n$ modulo $q_0$, of degree at most one, and set $P_n=u_nR_n$. Then $P_n(T)$ is an algebraic projector onto $W_K(A)$ in $h^{2n}(A)$ modulo homological equivalence. Write
+\[
+ \delta_nP_n(X)=\sum_{j=0}^{2n}c_{n,j}X^j,\qquad
+ B_n=\sum_{j=0}^{2n}|c_{n,j}|7^{nj},
+\]
+using the integers in Table~\ref{tab:projectors}. For every effective $n$-cycle $Z$, $\delta_nP_n\cl(Z)$ has an integral signed representative whose two effective degrees are at most $B_n\deg_L Z$.
+\end{proposition}
+\begin{proof}
+After extending scalars, $H^1=V_\sigma\oplus V_{\bar\sigma}$, with both dimensions $2n$. The summand $\bigwedge^rV_\sigma\otimes\bigwedge^{2n-r}V_{\bar\sigma}$ has eigenvalue $\lambda_r$. These eigenvalues are distinct: $a/\bar a$ is not a root of unity in $K$. The Weil plane consists precisely of the two extreme summands. The two polynomials have integer coefficients and are coprime. The Bezout inverse therefore makes $P_n$ equal to one at the extremes and zero at every other eigenvalue.
+
+Every power of $T$ is induced by the transposed graph of an algebraic endomorphism. This constructs the rational projector in the homological motive $h^{2n}(A)$. A projector on the total motive requires composition with the degree-$2n$ K\"unneth projector, itself available by interpolation in $[2]^*$ with eigenvalue $2^j$ on $H^j$; no total-motive idempotence of the unmodified polynomial is asserted.
+
+Since $\iota(a)^*\theta=7\theta$ and $\deg\iota(a)=7^{2n}$, the projection formula gives
+\[
+ \deg_L\bigl(\iota(a)^{j*}Z\bigr)=7^{nj}\deg_L Z.
+\]
+Pullback by the isogeny is effective. Separating positive and negative coefficients of $\delta_nP_n$ proves the bound. The coefficients and interpolation identities were checked independently in rational-polynomial arithmetic and in integer-pair arithmetic in $\Z[\omega]$; both reproducible certificates are included.
+\end{proof}
+
+\begin{table}[htbp]\centering\footnotesize
+\begin{tabular}{c p{63mm} p{63mm}}
+\toprule $n$ & $\delta_n$ & $B_n$\\\midrule
+2 & $476478450$ & $3590815550$\\[4pt]
+3 & $1701760099946011389900$ & $6493952361560098735300$\\[4pt]
+4 & $411891354565851759965785179617340330000$ & $497657009489489182584908205353846834744$\\
+\bottomrule
+\end{tabular}
+\caption{Certified, nonoptimal constants for the specified projector.}\label{tab:projectors}
+\end{table}
+
+The table also includes the sixfold constants used later. The same interpolation proof applies, and a separate integer-pair certificate is included.
+
+For $n=2$, the numerator, in descending powers, is
+\[
+ -26X^4+6275X^3-538398X^2+21574700X-352829351.
+\]
+For $n=4$ the ascending coefficients $c_{4,0},\ldots,c_{4,8}$ are
+\begin{align*}
+&55139367181591318902655856665347132526,\quad
+-23659781552033798345269599858690875,\\
+&6177440678618900865149838094771,\quad
+-74787357945320146306888400,\\
+&-1124625943239818173006244,\quad877467858933519076300,\\
+&-463126331859245054,\quad191445325672975,\quad-58750145999.
+\end{align*}
+In the eightfold case $q_0=X^2+4273X+5764801$; in the fourfold case $q_0=X^2-23X+2401$. The script also provides $R_n$ and $u_n$.
+
+\begin{proposition}[P2: graph seeds and exact raw growth]\label{P2}
+For $B\in M_n(\cO_K)$ let $\Gamma_B\subset E^n\times E^n$ be its graph. Then
+\[
+ \deg_L\Gamma_B=n!\det(I+B^\dagger B).
+\]
+The graphs for $B=I$ and $B=\operatorname{diag}(\omega,1,\ldots,1)$ have degrees $n!2^n$ and independent nonzero Weil projections $t_1,t_2$. For these normalized classes the projector yields representatives of $\delta_nt_i$ with each effective degree at most
+\begin{align*}
+ D_2&=28726524400,\\
+ D_4&=191100291643963846112604750855877184541696.
+\end{align*}
+If $f:A_x\to A_0$ represents a rational special-unitary transformation after clearing its lattice denominator by $m$, then the chosen transported representatives satisfy
+\begin{equation}\label{eq:raw}
+ N_x=\delta_nm^{2n},\qquad D_x\le D_nm^{2n}.
+\end{equation}
+These are upper bounds for specific representatives, not lower bounds for minimal complexity.
+\end{proposition}
+\begin{proof}
+Restriction of the product polarization to the graph gives the Hermitian matrix $I+B^\dagger B$. Its top exterior power proves the determinant formula, with $n!$ from the principal polarization. Both displayed matrices are unitary.
+
+The extreme Weil form
+$\Omega=dz_1\wedge\cdots\wedge dz_n\wedge d\bar y_1\wedge\cdots\wedge d\bar y_n$
+restricts to $\overline{\det B}$ times a nonzero volume form. Its integrals on the two graphs have nonrational ratio $\bar\omega$, proving nonvanishing and rational independence of their Weil projections. P1 gives $D_n=n!2^nB_n$.
+
+Write $f^*=mh$ on $H^1$, where $h$ is the compatible rational special-unitary isometry. Then
+\[
+ f^*\theta_0=m^2\theta_x,\quad \deg f=m^{4n},\quad
+ f^*t_i(A_0)=m^{2n}t_i(A_x),
+\]
+the last equality using $\det_Kh=1$. Pullback preserves effectivity and multiplies the degrees of middle-dimensional cycles by $m^{2n}$, again by the projection formula. This proves \eqref{eq:raw}.
+\end{proof}
+
+For $t=b_1t_1+b_2t_2$, choose $b>0$ with $bb_i\in\Z$. One obtains
+\[
+ N_x=b\delta_nm^{2n},\qquad
+ D_x\le m^{2n}D_n(|bb_1|+|bb_2|).
+\]
+Thus the raw growth exponents are $m^4$ and $m^8$. Division by those powers in rational Chow groups preserves algebraicity but does not by itself replace these representatives by bounded integral positive and negative parts.
+
+\section{One nonzero effective projection suffices}
+\begin{theorem}[P3: an effective degree-only seed criterion]\label{P3}
+Fix the polarized Weil family, its integral $\cO_K$-action, a trivialization of $\cW$, and a nonzero rational section $t$. Suppose every point $s$ of a subset $T\subset S$ admits an effective $n$-cycle $Z_s$ with $\deg_LZ_s\le D$ and $P_n\cl(Z_s)\ne0$. Then there are integers $N,D'$ independent of $s\in T$ with
+\[
+ Nt_s=\cl(Y_s^+)-\cl(Y_s^-),\qquad \deg_LY_s^\pm\le D'.
+\]
+The constants can be computed from $D$, the fixed Weil lattice and its pairing, the fixed target $t$, and P1. Conversely, bounded division for a nonzero $t$ supplies such an effective seed. If $T$ is dense, either condition implies algebraicity on every fibre.
+\end{theorem}
+\begin{proof}
+Let $\Lambda=W_\Q\cap H^{2n}(A_s,\Z)$, identified by transport, and equip it with
+\[
+ Q_W(v,w)=(-1)^n\int v\cup w.
+\]
+The Weil plane is primitive: multiplication by $\theta$ wedges one vector from each $K$-eigenspace, so it kills either top exterior eigenspace. Hodge--Riemann therefore makes $Q_W$ positive definite, and its matrix is flat. Put $V=\int\theta^{2n}/(2n)!$.
+
+The same harmonic-form and comass calculation as P0 gives, for every $Q_W$-unit vector $w$,
+\[
+ |Q_W(P_n\cl(Z_s),w)|=\left|\int_{Z_s}w\right|
+ \le \frac{D}{n!\sqrt V}.
+\]
+Here $P_n$ is orthogonal to its complementary summands for the intersection pairing: an extreme $K$-character can pair to top degree only with the opposite extreme. Taking the supremum over $w$ proves
+\[
+ \|P_n\cl(Z_s)\|\le\frac{D}{n!\sqrt V}.
+\]
+P1 shows that $v_s=\delta_nP_n\cl(Z_s)$ is a nonzero element of the finite set
+\[
+ F_D=\left\{v\in\Lambda:0<\|v\|\le\frac{\delta_nD}{n!\sqrt V}\right\}.
+\]
+On $W$, $T$ has the nonreal eigenvalues $a^{2n},\bar a^{2n}$, so $v,Tv$ are rationally independent for every nonzero rational $v$. For each $v\in F_D$ solve $t=r_vv+s_vTv$. Choose $N$ clearing the finitely many rational coefficients. P1 represents $v_s$ by an integral signed cycle with each degree at most $B_nD$; applying $T$ multiplies each degree by $7^n$. Therefore one may take
+\begin{equation}\label{eq:seedD}
+ D'=\left\lceil NB_nD\max_{v\in F_D}(|r_v|+7^n|s_v|)\right\rceil.
+\end{equation}
+This is the required explicit finite algorithm.
+
+Conversely, project a bounded representation of $Nt_s\ne0$ to $W$. At least one of its two effective parts has nonzero projection and bounded degree. The dense-set conclusion is R21.
+\end{proof}
+
+\paragraph{An explicit denominator envelope.}
+Let $G$ be the positive Gram matrix of $Q_W$ in an integral basis of $\Lambda$, and let $d_t$ clear the coordinates of $t$. Write $a^{2n}=u+v_a\omega$, with $v_a=55$ for $n=2$ and $1265$ for $n=4$. The action of $T$ is a scaled rotation, so
+\[
+ |\det(v,Tv)|=\frac{\sqrt3|v_a|}{2\sqrt{\det G}}\|v\|^2.
+\]
+This determinant, in the integral lattice basis, is a nonzero integer. Define
+\[
+ R=\max\left(1,\left\lfloor
+ \frac{\sqrt3|v_a|\delta_n^2D^2}{2\sqrt{\det G}(n!)^2V}
+ \right\rfloor\right).
+\]
+Cramer's rule proves that $N=d_t\operatorname{lcm}(1,\ldots,R)$ clears all coefficients used in \eqref{eq:seedD}. This is highly inefficient, but it makes precise that a known seed degree removes the separate denominator problem.
+
+
+% BEGIN INCLUDED SOURCE: integral_seeds.tex
+\subsection*{P2b: smaller integral seeds and the exact Weil lattice}
+The polynomial projector is useful on arbitrary family members. At the specific elliptic product one can do substantially better by using explicit divisor classes. The following construction also fixes an integral normalization of the target plane.
+
+\begin{proposition}[P2b: integral divisor-product seeds]\label{P2b}
+For the balanced product $E^n\times E^n$, $n=2,4$, the integral Weil lattice has a basis $u_n,v_n$ with positive Gram matrix
+\begin{equation}\label{eq:WeilGram}
+ G_n=3^{n-1}\begin{pmatrix}2&1\\1&2\end{pmatrix}.
+\end{equation}
+Both basis vectors have integral signed cycle representatives. Their effective positive and negative degrees are bounded respectively by
+\[
+ (D_{u,2},D_{v,2})=(80,80),\qquad
+ (D_{u,4},D_{v,4})=(147456,175104).
+\]
+Thus the raw Hecke transport of this integral basis has multiplier $m^{2n}$ and degrees at most $D_{u,n}m^{2n},D_{v,n}m^{2n}$. No projector denominator is needed for these particular seed cycles.
+\end{proposition}
+\begin{proof}
+Write $e_j,f_j$ for the integral basis dual to the lattice $1,\omega$ on each elliptic factor, with $\int e_jf_j=1$. On a paired surface $E_x\times E_y$ set
+\[
+ (e_x+\omega f_x)(e_y+\omega^2 f_y)=U+\omega V.
+\]
+Exterior products are understood. Expansion gives
+\[
+ U=e_xe_y-e_xf_y+f_xf_y,\qquad V=-e_xf_y+f_xe_y.
+\]
+Let $F_x,F_y$ be the coordinate elliptic divisors and $\Gamma_1,\Gamma_\omega$ the two graphs. Their classes satisfy
+\[
+ V=[\Gamma_1]-[F_x]-[F_y],\qquad
+ U=[\Gamma_\omega]+[\Gamma_1]-2[F_x]-2[F_y].
+\]
+For verification, the graph classes are respectively $\theta+V$ and $\theta+U-V$. Their pairings with the integral exterior basis agree with restriction to the maps $z\mapsto(z,z)$ and $z\mapsto(z,\omega z)$, which determines their Poincar\'e dual classes. Their self-intersections are zero, their mutual intersection is $\Nm(1-\omega)=3$, and their $\theta$-degrees are two. The coordinate divisors each have degree one. Accordingly $U$ has both sign degrees four and $V$ both sign degrees two.
+
+On the $n$ paired surfaces define $u_n,v_n$ by
+\[
+ \zeta=\bigwedge_{i=1}^n(e_{x_i}+\omega f_{x_i})
+        \wedge\bigwedge_{i=1}^n(e_{y_i}+\omega^2f_{y_i})
+       =u_n+\omega v_n.
+\]
+The coefficients are integral. The all-$e$ coefficient is one; the coefficient obtained by replacing only $e_{x_1}$ by $f_{x_1}$ is $\omega$. Thus a rational combination of $u_n,v_n$ is integral only when both coefficients are integers. Since $\zeta,\bar\zeta$ span the two extreme $K$-eigenspaces, $u_n,v_n$ are exactly a basis of the integral Weil lattice.
+
+One has $\zeta^2=\bar\zeta^2=0$ and $\int\zeta\bar\zeta=(-1)^n3^n$. Expanding these identities gives
+$\int u_n^2=\int v_n^2=2(-1)^n3^{n-1}$ and $\int u_nv_n=(-1)^n3^{n-1}$, proving \eqref{eq:WeilGram}.
+
+Up to the harmless overall sign $(-1)^{n(n-1)/2}$, $\zeta$ is the product of the $U_i+\omega V_i$. A term with $k$ factors $V$ and $n-k$ factors $U$ has each effective sign degree
+\[
+ n!\,2^{3n-k-1}.
+\]
+Indeed the total absolute degree on each paired factor is respectively eight or four, the positive and negative degrees are equal, and the product polarization contributes the multinomial factor $n!$. Write $\omega^k=a_k+b_k\omega$. The two bounds are therefore
+\[
+ D_{u,n}=n!\sum_{k=0}^n\binom nk|a_k|2^{3n-k-1},\qquad
+ D_{v,n}=n!\sum_{k=0}^n\binom nk|b_k|2^{3n-k-1}.
+\]
+Using $\omega^0=1$, $\omega^1=\omega$, $\omega^2=-1-\omega$, $\omega^3=1$ and $\omega^4=\omega$ gives the four stated integers. Applying the same special-unitary isogeny calculation as in P2 proves the final assertion. The exterior algebra, lattice minors, Gram matrix, and degree sums are checked by \texttt{integral\_seeds.py}.
+\end{proof}
+
+For a fixed target $t=b_1u_n+b_2v_n$, choose $q_t>0$ with $q_tb_i\in\Z$. The corresponding explicit orbit formulas become
+\[
+ N_x=q_tm^{2n},\qquad
+ D_x\le m^{2n}\bigl(|q_tb_1|D_{u,n}+|q_tb_2|D_{v,n}\bigr).
+\]
+They still describe chosen representatives, not minimal complexity. Dividing these cycles by $N_x$ gives rational cycles of bounded weighted degree on the whole orbit, while their integral clearing multipliers can grow. This explains why rational weighted degree cannot replace the integral-effective condition in R20.
+
+For the principal datum $V=1$ and \eqref{eq:WeilGram} makes the denominator envelope in P3 especially concrete:
+\[
+ R=\max\left(1,\left\lfloor
+ \frac{|v_a|\delta_n^2D^2}{2\,3^{n-1}(n!)^2}
+ \right\rfloor\right),\qquad
+ N=d_t\operatorname{lcm}(1,\ldots,R).
+\]
+Thus the numerical uniform seed degree obtained below produces a numerical denominator for any specified integral-basis normalization.
+
+% END INCLUDED SOURCE: integral_seeds.tex
+
+
+% Remaining checked sections and the separate limitations part follow.
+
+% BEGIN INCLUDED SOURCE: sections_remaining.tex
+\section{The fourfold case and what Markman's construction computes}\label{sec:markman}
+\paragraph{The precise cited theorem.}
+The supplied source is \citet{Markman25}, \emph{Cycles on abelian $2n$-folds of Weil type from secant sheaves on abelian $n$-folds}, arXiv:2502.03415v2. Theorem~1.4.1 constructs a rank-$8d$ reflexive sheaf on a sixfold and supplies the characteristic class used in the argument. Theorem~1.5.1 proves algebraicity of Weil classes on sixfolds of discriminant $-1$. Corollary~1.6.1 deduces the Hodge conjecture for \emph{every abelian fourfold}, using Schoen's compensation construction, \citet[Proposition~10]{Schoen98}. The active globalization proof is the final paragraph of Section~9.3. A proposed proper-moduli argument in a commented paragraph of the supplied \texttt{250531.tex}, lines~580--582, is not a theorem of the paper.
+
+\begin{corollary}[M1: qualitative fourfold boundedness]\label{M1}
+For every fixed flat rational Hodge section on a polarized algebraic family of abelian fourfolds, there are finite integers $N,D$ with the representation in R20 on every fibre. In particular this holds on the fixed $E^4$ Weil family and its tensor-compatible Hecke orbit.
+\end{corollary}
+\begin{proof}
+Markman's Corollary~1.6.1 gives algebraicity at every fibre, and R21 gives the uniform bound. The target normalization and polarization are fixed as in R20.
+\end{proof}
+
+This already proves existence of a \emph{uniform} bound. The numerical $m^4$ bounds of P2 are explicit representatives on the orbit, not numerical values for M1's uniform bound. The next propositions extract genuinely numerical information from the sheaf construction itself.
+
+\begin{proposition}[M2: clearing a twisted characteristic class]\label{M2}
+Let $A$ be a complex abelian variety and $B$ a coherent sheaf of positive rank $r$, twisted by a $\mu_r$-valued \v Cech $2$-cocycle. Assume that its determinant line is trivial, so that its normalized character $\kappa(B)$ equals its character. Then
+\[
+ r^4\kappa_2(B),\qquad 2r^6\kappa_3(B),\qquad
+ 12r^8\kappa_4(B)
+\]
+are cycle classes of integral Chow classes. More generally, $p!r^{2p}\kappa_p(B)$ is integral algebraic. These statements apply also to a holomorphic coherent sheaf on the projective complex torus.
+\end{proposition}
+\begin{proof}
+The cohomology of the real torus underlying $A$ with $\Z/r$ coefficients is the exterior algebra on $H^1$. Consequently $[r]^*$ acts by $r^2=0$ on $H^2(A,\mu_r)$. The pulled-back twisting cocycle is a coboundary of a $\mu_r$-valued $1$-cochain after refining the cover. Untwisting $[r]^*B$ with that cochain produces an ordinary coherent sheaf $E$. Its determinant is $[r]^*\det(B)$ because each scalar used has $r$-th power one. Here the determinant means the determinant of a perfect resolution, as appropriate for a possibly non-locally-free coherent sheaf. Thus $c_1(E)=0$.
+
+The scalars of the cochain are locally constant. They do not change the local Atiyah-class formulas defining the rational character, so naturality gives
+\[
+ \ch_p(E)=[r]^*\kappa_p(B)=r^{2p}\kappa_p(B).
+\]
+This is compatible with Markman's definition in Section~7.4, supplied source lines~3069--3244. GAGA algebraizes $E$ if it was initially holomorphic. On the smooth variety $A$ it has a finite locally free resolution and integral algebraic Chern classes. The Newton identities with $c_1(E)=0$ give
+\[
+ \ch_2(E)=-c_2(E),\quad \ch_3(E)=\tfrac12c_3(E),\quad
+ \ch_4(E)=\tfrac1{12}(c_2(E)^2-2c_4(E)).
+\]
+These prove the three displayed multipliers. The general identity expressing $p!\ch_p$ as an integral Newton polynomial proves the last assertion.
+\end{proof}
+
+For $K=\Q(\sqrt{-3})$ a safe even choice in Markman's construction is $d=12$. The rank is $r=96$, the quotient isogeny in Section~1.5 has degree $(d+1)^2=169$, and M2 gives the explicit multiplier
+\begin{equation}\label{eq:markmanN}
+ N_0=2\cdot96^6=1\,565\,515\,579\,392
+\end{equation}
+for the normalized \emph{sixfold characteristic section} $\kappa_3(B)$. Pullback by an isogeny adds no denominator. For comparison, before twisting, the identity
+\[
+ \kappa_3(F)=\frac{(r-1)(r-2)}{6r^2}c_1^3
+ -\frac{r-2}{2r}c_1c_2+\frac12c_3
+\]
+has coefficient denominator $27\,648$ at rank $96$. That smaller seed calculation alone does not address the twisted deformations.
+
+\begin{proposition}[M4: the same multiplier globalizes]\label{M4}
+Let $\mathcal A\to S$ be an \emph{abelian scheme} with the R20 data. Suppose that on a nonempty analytic open every $t_s$ is $\kappa_p(B_s)$ for a determinant-trivial $\mu_r$-twisted coherent sheaf of fixed rank $r$. For $p=2,3,4$, let $N_p$ be respectively $r^4,2r^6,12r^8$. There is a finite $D$ such that $N_pt_s$ has effective positive and negative parts of degree at most $D$ on every fibre.
+\end{proposition}
+\begin{proof}
+M2 gives an integral Chow representative of $N_pt_s$ at each point of the analytic open. No simultaneous untwisting cochain is needed. The fixed-$N$ form of R21 then globalizes the same multiplier and a finite degree bound.
+\end{proof}
+
+\paragraph{M6: normalization before the degree estimates.}
+If a fixed target is expressed as
+\[
+ t=\sum_i c_i\,(a_i^{-1}f_i)^*\kappa_3+c_hh^3,
+\]
+where $f_i$ are integral endomorphisms and the positive $a_i$ clear rational endomorphisms, its multiplier must also clear every $c_i/a_i^6$ and $c_h$. For the fourfold passage it must clear the rational normalization of the sixfold compensation correspondence as well. Thus \eqref{eq:markmanN} is not advertised as a multiplier for an unspecified fourfold class. The coefficient calculation and the effective degree of a Chern-cycle representative are separate quantitative tasks.
+
+The active paper does not supply stability of every deformed sixfold sheaf, nor of its untwisted pullback. Its stability statements about auxiliary bundles on curves cannot be substituted for such a theorem. Fixed Chern character gives a fixed Hilbert polynomial, but by itself gives no bounded family of sheaves: on an elliptic curve, $L^m\oplus L^{-m}$ has fixed rank and Hilbert polynomial and unbounded instability when $\deg L=1$. M7--M10 below supply a regularity bound for the output sheaf, prove that the required vanishings persist on an analytic open, and compute the resulting Chern-cycle degrees and compensation factors. Global stability is unnecessary for this argument.
+
+\begin{proposition}[M3: the genus-four cyclic ideal seed is obstructed]\label{M3}
+In Markman's Example~8.2.3, take the $a_3=1$ genus-four ideal seed $F_d=I_Z(\Theta)$ with the specified free cyclic symmetry of order $d+1$. For $d\ge3$ the invariant part of its degree-two self-Ext group is too large for the proposed semiregularity map to be injective. This assertion concerns that seed, and not the partial-normalization complex or an Orlov transform of an external square.
+\end{proposition}
+\begin{proof}
+Write $x=c_1(\Theta)$, $\int_Xx^4=24$. The cited example gives
+\begin{equation}\label{eq:genusfourch}
+ \ch(F_d)=1+x-\tfrac d2x^2-\tfrac d6x^3+\tfrac{d^2}{24}x^4.
+\end{equation}
+The tangent bundle is trivial. The $x^4$ coefficient of $\ch(F_d)^\vee\ch(F_d)$ is $d(d+1)/3$, so Riemann--Roch gives $\chi(F_d,F_d)=8d(d+1)$.
+
+Let $q:X\to Y=X/G$ be the free cyclic quotient. The invariant subscheme descends, and $J=I_{\bar Z}$ satisfies $q^*J=I_Z$. Finite \'{e}tale descent identifies
+$\Ext^i_Y(J,J)=\Ext^i_X(I_Z,I_Z)^G$; twisting by $\Theta$ preserves self-Ext. Riemann--Roch under this \'{e}tale cover gives $\chi(J,J)=8d$.
+
+Put $e_i=\dim\Ext^i_Y(J,J)$. A rank-one torsion-free ideal on the smooth projective integral $Y$ is simple: an endomorphism extends as a regular rational function through all codimension-one points, hence everywhere by normality, and is constant. Therefore $e_0=1$. Serre duality gives $e_4=1$ and $e_3=e_1$. The scalar inclusion followed by derived trace on self-Ext is multiplication by the rank, which is one. It splits $H^1(\cO_Y)$ into $\Ext^1(J,J)$, so $e_1\ge4$. Hence
+\[
+ e_2=8d+2e_1-2\ge8d+6.
+\]
+The degree-two semiregularity target has dimension
+\[
+ \dim\bigoplus_{q=0}^2H^{q+2}(Y,\Omega_Y^q)
+ =\binom40\binom42+\binom41\binom43+\binom42\binom44
+ =28.
+\]
+For $d\ge3$, $8d+6>28$, so injectivity is impossible. After removing the trace, the source has dimension at least $8d$ and the target has dimension $22$, which still excludes injectivity for $d=3$.
+\end{proof}
+
+\paragraph{M5: numerical seed checks.}
+Newton identities applied to \eqref{eq:genusfourch} give
+\[
+ c_2=\tfrac{d+1}{2}x^2,\quad
+ c_3=\tfrac{d+1}{6}x^3,\quad
+ c_4=-\tfrac{(d+1)(3d-1)}{24}x^4.
+\]
+At $d=3$ their intersections are $\int c_2x^2=48$, $\int c_3x=16$, $\int c_4=-32$. The scheme has four $W_2$ surfaces of $\Theta$-degree $12$ each and $24$ isolated points. The full $\Ext^2$ has dimension at least $102$, and its cyclic invariant part at least $30$. These calculations locate a failed extension of the genus-three method; they do not disprove eightfold boundedness.
+
+
+% BEGIN INCLUDED SOURCE: regularity_section.tex
+\subsection*{MR1--MR3: a numerical regularity bound for the actual genus-three input}
+Let $X=J(C)$ for a smooth nonhyperelliptic genus-three curve, $L=3\Theta$, and $i:X\hookrightarrow\mathbf P^{26}$ the complete embedding. Its degree is $L^3=162$. In the $d=12$ construction the input is
+\[
+ F=I_{Z/X}(\Theta),\qquad Z=C_1\sqcup\cdots\sqcup C_{13},
+\]
+with thirteen disjoint translated Abel--Jacobi curves. The same bounds apply to the reflected copies used for the second input. The exact supplied-source locators are the genus-three seed, lines~3743--3776, the disjointness hypotheses, lines~5124--5135, and equation \texttt{eq-F-1-and-F-2}, lines~5403--5410.
+
+\begin{proposition}[MR1--MR3: input regularity and presentation]\label{MR}
+With this normalization,
+\[
+ P_C(t)=9t-2,\qquad P_Z(t)=117t-26,\qquad
+ P_F(t)=27t^3+27t^2-108t-12.
+\]
+The sheaf $i_*F$ is $445$-regular. It has a presentation
+\begin{equation}\label{eq:inputpresentation}
+ 0\longrightarrow K\longrightarrow
+ \cO_X(-445L)^{\oplus 2384568978}\longrightarrow F\longrightarrow0,
+\end{equation}
+where $K$ is locally free and $i_*K$ is $449$-regular.
+\end{proposition}
+\begin{proof}
+The Abel--Jacobi class is $\Theta^2/2$, so each curve has $L$-degree nine and Euler characteristic $-2$. This proves the first two polynomials. The defining sequence and Riemann--Roch give
+\[
+ \chi(F(tL))=(3t+1)^3-13(9t+1),
+\]
+which is the third polynomial.
+
+The Gotzmann expansion of $9t-2$ consists of nine linear binomial terms, summing to $9t-27$, followed by twenty-five constants. Its length is $34$, so Gotzmann regularity, in the form \citet[Theorem~2.7]{Dellaca14}, bounds each ambient curve ideal by $34$. The thirteen curves are disjoint: at every ambient stalk at most one of their ideals is nonunit. Hence their tensor product equals their intersection. The product regularity bound of \citet[Proposition~1.5 and Corollary~1.6]{Sidman01} gives
+\[
+ \operatorname{reg}I_{Z/\mathbf P^{26}}\le13\cdot34=442.
+\]
+For comparison, using only the complete union polynomial gives the weaker Gotzmann number $6760$, since the $117$ linear terms sum to $117t-6669$ and $6643$ constants remain.
+
+The sheaf $B=i_*\cO_X(\Theta)$ is $3$-regular: for $j=1,2,3$ its defining groups are $H^j(X,\cO_X((10-3j)\Theta))$, which vanish by positivity on an abelian variety. Higher groups vanish by support dimension. Put $A=I_{Z/\mathbf P^{26}}$. It is locally free off the one-dimensional $Z$, so Sidman's Proposition~1.5 gives $\operatorname{reg}(A\otimes B)\le445$. In that proposition the higher Tor sheaves are supported on $Z$; Lemma~1.4 applies to their dimension at most two. There is an exact sequence
+\[
+ 0\longrightarrow T\longrightarrow A\otimes B\longrightarrow i_*F\longrightarrow0
+\]
+with $T$ supported on $Z$. For every $j\ge1$, $H^{j+1}(T(k))=0$ for all $k$. The cohomology sequence therefore passes $445$-regularity to $i_*F$.
+
+Regularity gives global generation and higher-cohomology vanishing for $F(445L)$. Its number of sections is $P_F(445)=2384568978$, proving the surjection in \eqref{eq:inputpresentation}. The disjoint smooth curves form a codimension-two local complete intersection. Their ideal has projective dimension at most one, so the kernel of this locally free surjection is locally free.
+
+Finally $i_*\cO_X$ is $4$-regular. For $j\ge2$ the sequence \eqref{eq:inputpresentation}, twisted by $(449-j)L$, proves the required vanishing for $K$. For $j=1$, regularity gives surjectivity of
+\[
+ H^0(F(445L))\otimes\operatorname{Sym}^3H^0(\mathbf P^{26},\cO(1))
+ \longrightarrow H^0(F(448L)).
+\]
+It factors through the section map in \eqref{eq:inputpresentation} at twist $448L$. This proves the remaining vanishing and hence $449$-regularity.
+\end{proof}
+
+The input sheaf is now quantitatively controlled. Markman's Proposition~9.2.1 uses a direct-image complex $K^1\to K^2$ on $X\times\widehat X$ and identifies the output as the cokernel of its dual. Its active proof, supplied source lines~5846--5902, gives no ranks or twists for those two bundles. The next section performs the direct-image, normalization and isogeny estimates explicitly. The input regularity proposition by itself is not an output regularity estimate.
+
+% END INCLUDED SOURCE: regularity_section.tex
+
+
+% BEGIN INCLUDED SOURCE: markman_quantitative.tex
+\subsection{An explicit output bound for the genus-three construction}
+\label{sec:markmanquantitative}
+
+We now carry the numerical calculation through the derived direct image.
+The following bounds are new derivations in this run. The geometric inputs
+from \citet[Proposition~9.2.1]{Markman25} are the identification of the
+output sheaf, its reflexivity and rank, and its codimension-four nonfree
+locus. The exact supplied-source locators are
+\texttt{assumption-on-C-i-s}, lines~5124--5135;
+\texttt{eq-F-1-and-F-2}, lines~5403--5410;
+\texttt{prop-local-freeness}, lines~5450--5465; and its proof,
+lines~5846--5950. The direct-image bundles and their numerical estimates
+below are constructed explicitly.
+
+Let $X=J(C)$ for a smooth nonhyperelliptic genus-three curve. Identify
+$\widehat X$ with $X$ by the principal polarization $\Theta$.
+Let $Z_1$ be thirteen disjoint translates of the Abel--Jacobi curve, and
+let $Z_2$ be thirteen disjoint translates of its reflection. We impose
+Markman's general-position hypotheses, including
+\begin{equation}\label{eq:M7H0}
+ H^0\bigl(X,I_{Z_1}(2\Theta)\otimes P\bigr)=0
+ \quad\text{for every }P\in\operatorname{Pic}^0(X).
+\end{equation}
+The translates may be chosen as the two cyclic orbits required for his
+semiregular quotient construction. Put
+\[
+ A=X_x\times\widehat X_\alpha,\qquad Y=X_y\times A,\qquad
+ \pi:Y\longrightarrow A,\qquad a(y,x)=y+x,
+\]
+and, with the normalized Poincar\'e bundle $\mathcal P$,
+\[
+ \mathcal L=\cO(\Theta_y)\otimes a^*\cO(\Theta)
+                  \otimes\mathcal P_{y,\alpha}^{-1}.
+\]
+Let $D_1=\{y\in Z_1\}$, $D_2=\{y+x\in Z_2\}$, and set
+\[
+ \mathcal M=\mathcal L\otimes I_{D_1}I_{D_2},\qquad
+ G=R\pi_*\mathcal M,\qquad E=G^\vee[-1].
+\]
+The sheaf $E$ is reflexive of rank $96$ and is locally free outside a
+closed subset of codimension four. Use the very ample class
+\[
+ H=3(\Theta_x+\Theta_\alpha).
+\]
+Regularity with respect to $H$ means
+$H^i(A,F((m-i)H))=0$ for $i>0$, equivalently regularity of the direct
+image under the embedding defined by $H$.
+
+\begin{proposition}[M7: explicit output regularity]\label{M7}
+The sheaf $E$ is $112$-regular with respect to $H$. More strongly, if
+$m\ge1$ is an integer and $L$ is a line bundle such that
+$c_1(L)-112m^2H$ is nef, then
+\begin{equation}\label{eq:M7strong}
+ H^i(A,[m]^*E\otimes L)=0\qquad(i>0).
+\end{equation}
+The assertion allows arbitrary numerically trivial factors in $L$.
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1: an explicit three-term direct image.}
+The change of coordinates $(y,x)\mapsto(y,z=y+x)$ identifies the two
+curve-union ideals with pullbacks from independent factors. They are Tor
+independent, and their product equals their intersection. Consequently
+\[
+ 0\longrightarrow\mathcal M\longrightarrow\mathcal L
+ \longrightarrow\mathcal L|_{D_1}\oplus\mathcal L|_{D_2}
+ \longrightarrow\mathcal L|_T\longrightarrow0,
+ \qquad T=D_1\cap D_2,
+\]
+is exact on the total space. The scheme $T$ is the disjoint union of
+$169$ smooth components $C_i\times\Sigma_j\times\widehat X$ of dimension
+five. Its map $f:T\to A$ is finite. Up to translations and a sign, its
+first-factor map is
+\[
+ C\times C\longrightarrow C^{(2)}\simeq\Theta\hookrightarrow X.
+\]
+Here nonhyperellipticity makes the Abel map $C^{(2)}\to\Theta$ an
+isomorphism onto a smooth theta divisor, and the first arrow is finite
+flat of degree two.
+
+Define
+\[
+ W=\pi_*\mathcal L,\qquad
+ U=\pi_*(\mathcal L|_{D_1}\oplus\mathcal L|_{D_2}),\qquad
+ \mathcal T=f_*(\mathcal L|_T).
+\]
+On a fibre of $\pi$, $\mathcal L$ has class $2\Theta$, so all its higher
+cohomology vanishes and $W$ is locally free of rank eight. Its restriction
+to each curve has degree six; since the curve has genus three,
+$H^1=0$ and $h^0=4$. Hence $U$ is locally free of rank $26\cdot4=104$.
+The finiteness of $f$ removes its higher direct images. Thus $G$ is
+represented by
+\[
+ [\,W\longrightarrow U\longrightarrow\mathcal T\,]
+\]
+in cohomological degrees $0,1,2$. This uses the exact total-space
+sequence; it does not presume left exactness after every fibre
+specialization.
+
+By \eqref{eq:M7H0}, $W\to U$ is fibrewise injective: a section in its
+kernel vanishes on $Z_1$. Therefore $Q=U/W$ is a vector bundle of rank
+$96$, and $G=[Q\to\mathcal T]$ in degrees $1,2$.
+Each summand of $\mathcal T$ is a vector bundle on a smooth divisor,
+pushed forward to $A$, so it has projective dimension one. Finite
+duality gives
+\[
+ \mathcal T^D:=\mathcal E xt^1_A(\mathcal T,\cO_A)
+ =\bigoplus_{i,j}f_{ij,*}
+       \bigl((\mathcal L|_{T_{ij}})^{-1}\otimes\omega_{T_{ij}}\bigr),
+\]
+with $\mathcal H om(\mathcal T,\cO_A)=0$ and higher Ext sheaves zero.
+Dualizing $[Q\to\mathcal T]$ and shifting by $-1$ yields
+\begin{equation}\label{eq:M7extension}
+ 0\longrightarrow Q^*\longrightarrow E
+          \longrightarrow\mathcal T^D\longrightarrow0.
+\end{equation}
+
+\emph{Step 2: the dual bundles.}
+For every $q\ge1$,
+\begin{equation}\label{eq:M7dualvanishing}
+ H^i(A,W^*(qH))=H^i(A,U^*(qH))=0\qquad(i>0).
+\end{equation}
+For $W$, relative duality gives $W^*=R^3\pi_*\mathcal L^{-1}$.
+Leray and Serre duality on the ninefold $Y$ identify the dual of
+$H^i(A,W^*(qH))$ with
+\[
+ H^{6-i}(Y,\mathcal L\otimes\pi^*\cO_A(-qH)).
+\]
+Project instead onto $X_y$. The line bundle on each $A$-fibre has matrix
+$\operatorname{diag}(1-3q,-3q)$ relative to the product principal
+polarization. It is antiample, so only the sixth direct image can
+be nonzero. Total cohomology below degree six vanishes, as required.
+
+For a curve summand of $U$, relative duality over $A$, followed by Serre
+duality on $C\times A$, gives the same group with degree $6-i$ and
+line bundle $\mathcal L_C(-qH)$. Projecting onto $C$, the $D_1$ fibre
+matrix is again $\operatorname{diag}(1-3q,-3q)$. For $D_2$, use
+$z=y+x$ as the fixed curve coordinate. Its matrix is
+\[
+ \begin{pmatrix}1-3q&1\\1&-3q\end{pmatrix}.
+\]
+The largest eigenvalue before subtracting $3qI$ is
+$(1+\sqrt5)/2<3$, so this is antiample as well. This proves
+\eqref{eq:M7dualvanishing}. Translations only change numerically trivial
+factors. Since $\dim A=6$, both dual bundles are $7$-regular.
+
+\emph{Step 3: a kernel bound from six Buchsbaum--Rim terms.}
+Let $N=h^0(U^*(7H))$. Evaluation and regularity give
+\[
+ 0\longrightarrow K_U\longrightarrow\cO_A(-7H)^N
+                  \longrightarrow U^*\longrightarrow0.
+\]
+The kernel is locally free and $14$-regular. For cohomological degrees
+$2\le i\le6$, twist by $(14-i)H$ and use
+\eqref{eq:M7dualvanishing} and the positivity of $(7-i)H$.
+For $i=1$, the required surjectivity at twist $13H$ follows from
+\[
+ H^0(U^*(7H))\otimes
+       \operatorname{Sym}^6H^0(\mathbf P^M,\cO(1))
+       \longrightarrow H^0(U^*(13H)),
+\]
+which is surjective by $7$-regularity and factors through the evaluation
+map with $H^0(A,6H)$.
+
+Compose evaluation with the vector-bundle surjection $U^*\to W^*$,
+and call its kernel $J$. There is an exact sequence
+\begin{equation}\label{eq:M7kernels}
+ 0\longrightarrow K_U\longrightarrow J\longrightarrow Q^*
+                   \longrightarrow0.
+\end{equation}
+The Buchsbaum--Rim resolution of $J$ has terms
+\begin{equation}\label{eq:M7BR}
+ C_k=\bigwedge^{8+k}\bigl(\cO_A(-7H)^N\bigr)
+             \otimes\operatorname{Sym}^{k-1}W\otimes\det W,
+ \qquad 1\le k\le N-8,
+\end{equation}
+with $C_1\to J$ surjective. The determinant factor and the indexing are
+as in \citet[pp.~41--42]{RaicuSam22}. Exactness here is elementary:
+locally split the surjection as $K\oplus V\to V$, $\dim V=8$.
+The summand with $a$ factors from $K$ becomes, after
+$\bigwedge^{8+k-a}V\otimes\det V^*
+\simeq\bigwedge^{a-k}V^*$, the strand
+\[
+ \bigwedge^{a-k}V^*\otimes\operatorname{Sym}^{k-1}V^*
+\]
+of the polynomial de Rham complex of total degree $a-1$.
+For $a\ge2$ the Euler contracting homotopy proves exactness in
+characteristic zero. The $a=1$ strand maps isomorphically onto $K$,
+while the remaining $V$ maps isomorphically onto the target.
+Thus the augmented complex is locally split exact.
+
+The theorem of the square, with $b(x,\alpha)=x-\alpha$, gives
+$W=\cO_A(\Theta_x)\otimes b^*\mathrm{FM}(\cO_X(2\Theta))$.
+The pullback formula for this Fourier--Mukai bundle gives
+\begin{equation}\label{eq:M7splitW}
+ [2]^*W\simeq Q_0^{\oplus8},\qquad
+ c_1(Q_0)=4\Theta_x-2\Theta_{x-\alpha}.
+\end{equation}
+To check the formula directly, for $L=\cO_X(2\Theta)$ pull the
+Poincar\'e family back by its polarization isogeny $\phi_L=[2]$.
+The theorem of the square identifies it with
+$a^*L\otimes p_2^*L^{-1}$, whose direct image is
+$H^0(L)\otimes L^{-1}$. Changing the Poincar\'e sign changes $[2]$
+to $[-2]$ and leaves the numerical class unchanged.
+Different symmetric normalizations introduce only a numerically trivial
+factor, harmless for every ampleness test below.
+
+The matrix of $c_1(Q_0)$ is
+$\left(\begin{smallmatrix}2&2\\2&-2\end{smallmatrix}\right)$,
+with eigenvalues $\pm2\sqrt2$, whereas $[2]^*H$ has matrix $12I_2$.
+For $q\ge k+7$, the line bundle with class
+$q[2]^*H+(k+7)c_1(Q_0)$ is ample.
+By \eqref{eq:M7splitW}, Kodaira vanishing and the trace splitting
+for $[2]$,
+\[
+ \operatorname{reg}_H
+   (\operatorname{Sym}^{k-1}W\otimes\det W)\le k+13.
+\]
+It follows from \eqref{eq:M7BR} that
+\[
+ \operatorname{reg}_H C_k\le7(8+k)+k+13=69+8k.
+\]
+Only six terms are needed: successive cohomology sequences show that
+$H^i(J((R-i)H))=0$ if
+$H^{i+k-1}(C_k((R-i)H))=0$ for $1\le k\le7-i$.
+The final kernel then has cohomology in degree seven, which vanishes
+by dimension. Therefore
+\[
+ \operatorname{reg}_H J
+ \le\max_{1\le k\le6}\{\operatorname{reg}_H C_k-k+1\}
+ \le\max_{1\le k\le6}(70+7k)=112.
+\]
+Sequence \eqref{eq:M7kernels} and $14$-regularity of $K_U$ give
+$112$-regularity of $Q^*$. No numerical bound for $N$ was needed.
+
+\emph{Step 4: the torsion dual.}
+On a component $T=C\times C\times\widehat X$, let
+$F_1=\{p\}\times C$, $F_2=C\times\{p\}$,
+$S=F_1+F_2$, and let $\Delta_C$ denote the diagonal.
+The addition map to $X$ pulls $\Theta$ back to
+\[
+ A_C=4S-\Delta_C.
+\]
+Indeed $\Theta|_C$ has degree three and the mixed Poincar\'e class
+is $S-\Delta_C$; the formula also gives degree twelve on the diagonal,
+as required by $[2]^*\Theta|_C$.
+The class $R_C=3S-\Delta_C$ is nef. Choose a degree-three morphism
+$C\to\mathbf P^1$ by projection of the plane quartic from one of its
+points. The residual divisor to $\Delta_C$ in its fibre correspondence
+has class $R_C$. Its transitive monodromy is $S_3$ or $A_3$.
+In the $S_3$ case the residual divisor is irreducible, since ordered
+unequal pairs form a transitive orbit. Its self-intersection is
+\[
+ R_C^2=9S^2-6S\Delta_C+\Delta_C^2=18-12-4=2.
+\]
+An effective irreducible divisor of nonnegative self-intersection on a
+smooth surface is nef. In the $A_3$ case the cover is cyclic, and the
+residual divisor is $\Gamma_\sigma+\Gamma_{\sigma^2}$.
+Each graph has self-intersection $-4$; Riemann--Hurwitz gives five
+fixed points, at which the graphs meet transversely.
+Thus its intersection with either graph is $-4+5=1$, and its
+intersection with every other irreducible curve is nonnegative.
+This proves nefness in both cases.
+
+Numerically,
+\[
+ c_1(\mathcal L_T)=3F_1+3F_2-\mathcal P_{c_1,\alpha},
+ \qquad f^*H=3A_C+3\Theta_\alpha.
+\]
+For $q\ge3$ write
+\begin{align*}
+ qf^*H-c_1(\mathcal L_T)
+  ={}&[\,3qA_C-6F_1-3F_2\,]+(3q-1)\Theta_\alpha\\
+    &+[\,3F_1+\Theta_\alpha+\mathcal P_{c_1,\alpha}\,].
+\end{align*}
+The last bracket is a pullback of $\Theta$ under
+$(c_1,\alpha)\mapsto AJ(c_1)+\alpha$, hence nef.
+The first is
+$3qR_C+(3q-6)F_1+(3q-3)F_2$, which is ample on $C\times C$.
+Together with the positive theta class on $\widehat X$ it is ample
+on the product, and adding the last nef class preserves ampleness.
+Kodaira vanishing on the smooth fivefold $T$ yields
+\[
+ H^i(T,\omega_T\otimes\mathcal L_T^{-1}\otimes f^*\cO_A(qH))=0
+ \quad(i>0,\ q\ge3).
+\]
+Thus $\mathcal T^D$ is $8$-regular: its support has dimension five,
+and $8-i\ge3$ for $1\le i\le5$.
+The extension \eqref{eq:M7extension} now proves
+$112$-regularity of $E$.
+
+\emph{Step 5: the stronger estimate.}
+Pull all the displayed exact complexes back by the finite \'etale
+map $[m]$. The duality argument of Step~2 applies after this base
+change: the two fibre matrices are multiplied by $m^2$.
+Subtracting $c_1(L)$ makes them negative definite if
+$c_1(L)-112m^2H$ is nef. Hence $[m]^*U^*\otimes L$ and
+$[m]^*W^*\otimes L$ have no higher cohomology.
+The pulled-back evaluation sequence has middle term
+$L(-7m^2H)^N$, an ample line bundle sum. It follows that
+\[
+ H^j(A,[m]^*K_U\otimes L)=0\qquad(j\ge2).
+\]
+No assertion about its $H^1$, and no multiplication map with a
+varying flat factor, is needed.
+
+For $k\le6$, pull $[m]^*C_k\otimes L$ back once more by $[2]$.
+Its summands have class
+\[
+ [2]^*c_1(L)-7m^2(8+k)[2]^*H+m^2(k+7)c_1(Q_0).
+\]
+After removing a nef class, the matrix is $m^2$ times
+\[
+ 12[112-7(8+k)]I_2+
+       (k+7)\begin{pmatrix}2&2\\2&-2\end{pmatrix}.
+\]
+For $1\le k\le6$ its least eigenvalue is positive; the smallest
+lower bound used here is $168-26\sqrt2>0$.
+Kodaira vanishing and trace therefore give higher-cohomology
+vanishing for the first six terms. The same truncation argument,
+then \eqref{eq:M7kernels}, proves it for $[m]^*Q^*\otimes L$.
+
+For the final term let $T'=T\times_{A,[m]}A$, with
+$g:T'\to T$ finite \'etale and $f':T'\to A$ finite.
+Finite flat base change gives
+$[m]^*\mathcal T^D=f'_*(\omega_{T'}\otimes g^*\mathcal L_T^{-1})$.
+The class
+\[
+ f'^*c_1(L)-g^*c_1(\mathcal L_T)
+ =g^*(3f^*H-c_1(\mathcal L_T))
+       +f'^*(c_1(L)-3m^2H)
+\]
+is ample, by Step~4 and the nef hypothesis.
+Kodaira vanishing on $T'$ and
+\eqref{eq:M7extension} finish the proof of \eqref{eq:M7strong}.
+\end{proof}
+
+\subsection{Effective Chern cycles and the normalized family}
+
+\begin{proposition}[M8: effective third-Chern representatives]\label{M8}
+Let $B$ be a rank-$r$ coherent sheaf, $r\ge3$, on a smooth projective sixfold $A$,
+locally free away from a closed subset of codimension at least four.
+Let $h$ be very ample, let $R\ge0$, and suppose $F=B(Rh)$ is globally
+generated. Assume $c_1(B)=0$ in rational cohomology. Then $c_3(B)$ has
+an integral signed effective representative $Z^+-Z^-$ with
+\begin{align}
+ D^+&:=\deg_h Z^+
+   =\int h^3c_3(B)+(r-2)R\int h^4c_2(B)
+       +\frac{r(r-1)(r-2)}2R^3\int h^6,\label{eq:M8degreesplus}\\
+ D^-&:=\deg_h Z^-
+   =(r-2)R\int h^4c_2(B)
+       +\frac{r(r-1)(r-2)}2R^3\int h^6.\label{eq:M8degreesminus}
+\end{align}
+The cycle identities hold in Chow groups if $c_1(B)=0$ there; the
+stated cohomological assumption suffices for the cycle-class and
+degree conclusions.
+\end{proposition}
+\begin{proof}
+On the locally free open set choose $r-p+1$ general sections of $F$,
+for $p=2,3$. Global generation makes their universal evaluation
+transverse to the matrix-rank strata. Generic smoothness gives an
+expected codimension-$p$ dependence locus, or the empty locus.
+Its class is $c_p(F)$, by the elementary maximal-rank-drop case of
+the Thom--Porteous formula. Let $C_p$ be its effective closure.
+
+If $S$ is the nonfree locus, then $\dim S\le2$.
+The localization sequence gives
+$\CH^p(A)\simeq\CH^p(A\setminus S)$ for $p\le3$, because
+$S$ has no cycle of dimension $6-p$. Consequently $C_p$ represents
+$c_p(F)$ globally. This also explains why possible excess loci
+inside $S$ contribute no unwanted codimension-two or codimension-three
+terms.
+
+The twist identities, after passing to the stated cohomology if
+necessary, are
+\[
+ c_2(F)=c_2(B)+\binom r2R^2h^2,\qquad
+ c_3(F)=c_3(B)+(r-2)Rh\,c_2(B)+\binom r3R^3h^3.
+\]
+Eliminating $c_2(B)$ gives
+\begin{equation}\label{eq:M8cycleidentity}
+ c_3(B)=C_3-(r-2)Rh\,C_2+
+                \frac{r(r-1)(r-2)}3R^3h^3.
+\end{equation}
+The last coefficient is an integer. General divisors in $|h|$ meet
+$C_2$ properly, and three such divisors represent $h^3$ effectively.
+Thus take
+\[
+ Z^+=C_3+\frac{r(r-1)(r-2)}3R^3h^3,\qquad
+ Z^-=(r-2)Rh\,C_2.
+\]
+Intersecting with $h^3$ and expanding $c_2(F),c_3(F)$ gives
+\eqref{eq:M8degreesplus}--\eqref{eq:M8degreesminus}.
+Both displayed integers are nonnegative because the constructed
+cycles are effective.
+\end{proof}
+
+Apply this to the output $E$ of M7. Let $r=96$, $D=\det E$, and let
+$h$ be a symmetric very ample line bundle extending as the fixed
+polarization in the Weil deformation family. Suppose integers $c,C>0$
+satisfy
+\begin{equation}\label{eq:M8comparisons}
+ ch-H\ \text{ample},\qquad Ch-c_1(D)\ \text{ample}.
+\end{equation}
+Here $ch$ means the scalar multiple $c\,h$, not the Chern character.
+Define the ordinary normalized seed
+\[
+ B_0=[r]^*E\otimes D^{-r}.
+\]
+Its first Chern class vanishes in cohomology and
+\begin{equation}\label{eq:M8normalizedcharacter}
+ \ch_p(B_0)=r^{2p}\kappa_p(E),\qquad
+ c_3(B_0)=2r^6\kappa_3(E).
+\end{equation}
+Indeed $[r]^*c_1(E)=r^2c_1(E)$, while the rank-$r$ tensor correction
+subtracts $r^2c_1(E)$, and the same computation in the exponential
+Chern character proves the first identity.
+
+For seed global generation one can already use
+$R_0=112r^2c+rC$: $E(112H)$ is globally generated, so tensoring by
+the ample power $112(ch-H)$ gives $E(112ch)$ globally generated.
+Pull back by $[r]$, then tensor by the globally generated line bundle
+$(h^C\otimes D^{-1})^r$.
+Squares of ample line bundles on abelian varieties are globally
+generated, including arbitrary flat twists
+\citep[Theorem~1.1(a)]{BauerSzemberg96}.
+The determinant of $B_0$ can have a numerically trivial factor.
+Any compatible determinant normalization changes $B_0$ only by a
+flat line bundle and is covered by the same argument.
+
+For persistence in a family, global generation at the seed alone
+would not suffice. M7 provides the stronger explicit regularity bound
+\begin{equation}\label{eq:M8R}
+ R_{\mathrm{safe}}=112r^2c+rC+6.
+\end{equation}
+For $1\le i\le6$ take
+$L_i=D^{-r}\otimes h^{R_{\mathrm{safe}}-i}$, including any required
+flat normalization factor. Then
+\[
+ c_1(L_i)-112r^2H
+ =112r^2(ch-H)+r(Ch-c_1(D))+(6-i)h
+\]
+is ample. Equation \eqref{eq:M7strong}, with $m=r$, proves all six
+vanishings
+\[
+ H^i(A,B_0((R_{\mathrm{safe}}-i)h))=0.
+\]
+Thus the normalized seed is $R_{\mathrm{safe}}$-regular.
+
+For precision about the family step, use the flat determinant-normalized
+$\mu_r$-twisted deformation supplied by Markman's semiregularity
+construction, pulled back from his quotient to the original torus
+family. On a sufficiently small contractible analytic base,
+$[r]^*$ kills its twisting class: multiplication acts as $r^2$ on
+the local system $H^2(-,\mu_r)$. A $\mu_r$-\v Cech trivialization
+over this smaller family produces an ordinary flat coherent family.
+Its seed is the displayed $B_0$ up to a flat line bundle.
+Analytic upper semicontinuity
+\citep[\S7, Satz~3, pp.~62--63]{Grauert60}
+preserves the six proved vanishings on a neighbourhood. Its
+hypotheses hold because the torus family is proper over a reduced
+analytic base and the untwisted coherent sheaf is flat over it.
+The locus where the flat family is locally free is
+open in the total space; properness gives upper semicontinuity of
+the dimension of its closed nonfree fibres. Its codimension is
+therefore at least four on a smaller neighbourhood.
+M8 applies fibrewise with the same $R_{\mathrm{safe}}$ and the same
+intersection numbers. GAGA makes these analytic-fibre sheaves and
+their cycles algebraic. The bounded-Chow argument R21 will be used
+after the fixed lattice and projector conversions below.
+
+If the Weil projection of $c_3(B_0)$ is nonzero, at least one of
+$Z^+,Z^-$ has nonzero Weil projection. This supplies exactly the
+degree-only input of P3. No estimate for its direction relative to
+a prescribed Weil vector is needed at this stage.
+
+\subsection{Exact GRR and a numerical source degree}
+
+\begin{proposition}[M9: a concrete effective sixfold seed]\label{M9}
+For the genus-three $d=12$ construction, take
+$h=3(12\Theta_x+\Theta_\alpha)$. On a nonempty analytic open subset
+of its nine-dimensional Weil period family there is an integral
+effective three-cycle with nonzero Weil projection and degree at most
+\begin{equation}\label{eq:M9Dsource}
+ D_{\mathrm{src}}=
+ 3\,426\,088\,289\,770\,714\,707\,027\,306\,735\,206\,400.
+\end{equation}
+The normalized ordinary sheaf used to construct it is
+$2\,065\,542$-regular with respect to $h$.
+\end{proposition}
+\begin{proof}
+Put $x=\Theta_x$, $y=\Theta_\alpha$, and
+$p=c_1(\mathcal P_{x,\alpha})$. Our matrix convention is
+\[
+ bx+cy+ep\ \longleftrightarrow\
+ \begin{pmatrix}b&e\\e&c\end{pmatrix},\qquad
+ \int_{X\times\widehat X}\exp(bx+cy+ep)=(bc-e^2)^3.
+\]
+The input character is
+$\ch(F)=1+\theta-6\theta^2-2\theta^3$, from the displayed secant
+character in Markman's supplied source, lines~3743--3776.
+Set $(a_0,a_1,a_2,a_3)=(1,1,-6,-2)$ and let
+\[
+ \mathcal D=\left.
+       \sum_{i,j=0}^3 a_i a_j\partial_u^i\partial_v^j
+       \right|_{u=v=0}.
+\]
+Factoring exterior integration into the three symplectic coordinate
+pairs gives
+\[
+ \pi_*\exp(u\theta_y+v\theta_{y+x}-\mathcal P_{y,\alpha})
+ =(u+v)^3
+       \exp\left(\frac{uvx+vp-y}{u+v}\right).
+\]
+For $k\le3$ the degree-$2k$ part is the polynomial
+$(u+v)^{3-k}(uvx+vp-y)^k/k!$. Apply $\mathcal D$ and multiply
+by $(-1)^{k+1}$, since $E=G^\vee[-1]$. One obtains
+\begin{align*}
+ \ch_0(E)&=96,\\
+ \ch_1(E)&=264x+22y-48p,\\
+ \ch_2(E)&=12p^2-132px-11py-144x^2-24xy-y^2,\\
+ \ch_3(E)&=-2p^3-6p^2x+6p^2y+72px^2+12pxy+\tfrac12py^2\\
+          &\hspace{9mm}+24x^3-72x^2y+\tfrac12xy^2-\tfrac16y^3.
+\end{align*}
+Consequently
+\begin{align}
+ \kappa_2(E)&=-\frac{169}{48}(12x+y)^2,\label{eq:M9kappa2}\\
+ \kappa_3(E)&=\frac{13}{3456}
+ \bigl(-10368p^2x+864p^2y+288576x^3\nonumber\\
+ &\hspace{27mm}+51408x^2y+6012xy^2+119y^3\bigr).
+ \label{eq:M9kappa3}
+\end{align}
+
+These formulas also identify the invariant polarization without
+guessing a dual-torus sign convention. Markman's normalized character
+is $\operatorname{Spin}(V)_P$-invariant, as in his main theorem,
+item~3, and supplied-source lines~2406--2468.
+Let $h_0=12x+y$. Differentiating the invariance of the nonzero
+multiple $h_0^2$ in \eqref{eq:M9kappa2} gives
+$h_0\wedge(a\cdot h_0)=0$ for every Lie-algebra element $a$.
+Since $h_0$ is ample, Lefschetz injectivity $H^2\to H^4$ gives
+$a\cdot h_0=0$. The connected group fixes $h_0$.
+Its invariant line in $H^2$ is one-dimensional
+(source lines~3966--3968), so $h_0$ is the required integral
+polarization. Take $h=3h_0$. The third power of every ample line bundle
+on an abelian variety is very ample
+\citep[Theorem~1.1(b)]{BauerSzemberg96}; a local relative symmetric
+representative therefore gives the required relative embedding
+throughout the polarized deformation.
+
+At the seed the polarization type of $h$ is
+$(3,3,3,36,36,36)$, and hence
+\[
+ \Delta_h:=\frac{h^6}{6!}=108^3=1\,259\,712,\qquad
+ \int h^6=906\,992\,640.
+\]
+The determinant class of $E$ has matrix
+$\left(\begin{smallmatrix}264&-48\\-48&22\end{smallmatrix}\right)$.
+Choose $c=2$, $C=12$. The two comparison matrices in
+\eqref{eq:M8comparisons} are
+\[
+ 2h-H=\begin{pmatrix}69&0\\0&3\end{pmatrix},\qquad
+ 12h-c_1(\det E)=\begin{pmatrix}168&48\\48&14\end{pmatrix}.
+\]
+Their leading principal minors are $(69,207)$ and $(168,48)$,
+so both classes are ample. Equation \eqref{eq:M8R} gives
+\[
+ R=112\cdot96^2\cdot2+96\cdot12+6=2\,065\,542.
+\]
+
+For $B_0=[96]^*E\otimes(\det E)^{-96}$, use
+\eqref{eq:M8normalizedcharacter} and the intersection polynomial
+above to obtain
+\begin{align*}
+ \int h^4c_2(B_0)&=30\,136\,419\,515\,105\,280,\\
+ \int h^3c_3(B_0)&=28\,288\,052\,451\,512\,156\,160.
+\end{align*}
+For example $c_2(B_0)=33\,226\,752h^2$ in rational cohomology.
+The coefficient of its $h^3$ component in $c_3(B_0)$ is
+$31\,188\,844\,544$; the remaining Weil component is nonzero by
+Markman's independence-from-$h^3$ assertion.
+Substitution into M8, with $r=96$, gives
+\begin{align*}
+ D^-&=94R\int h^4c_2(B_0)+428640R^3\int h^6\\
+    &=3\,426\,088\,289\,770\,686\,418\,974\,855\,223\,050\,240,\\
+ D^+&=D^-+\int h^3c_3(B_0)\\
+    &=3\,426\,088\,289\,770\,714\,707\,027\,306\,735\,206\,400.
+\end{align*}
+At least one sign has nonzero Weil projection.
+The regularity and nonfree-locus arguments preceding M9 preserve
+these bounds on an analytic neighbourhood, proving the proposition.
+
+The exact calculations were executed in
+\path{work/markman_output_numbers.py}.
+As a distinct integration-order check, the same operator
+$\mathcal D$ was applied to the cube of the determinant of
+\[
+ \begin{pmatrix}
+ u+v&v&-1\\
+ v&v+b&e\\
+ -1&e&c
+ \end{pmatrix}.
+\]
+This is absolute GRR on $X^3$. Its top four homogeneous components
+agree with the four characters just displayed paired against
+$\exp(bx+cy+ep)$. This verifies the arithmetic signs and factorials;
+the geometric proof is the argument above.
+\end{proof}
+
+\subsection{Maximal-order transfer and an explicit fourfold cap}
+
+We first transfer the analytic-open seed to the principal split
+sixfold family. This keeps the subsequent integral lattice calculation
+in a fixed, completely specified lattice.
+
+\begin{lemma}[M10a: principal-sixfold transfer]\label{M10a}
+Set
+\[
+ M=4\cdot16^6\cdot108^3,\qquad
+ D_6=16^3M^6D_{\mathrm{src}}.
+\]
+On a nonempty analytic open subset of the principal split sixfold
+family over $\Q(\omega)$ there is an integral effective three-cycle
+of principal-polarization degree at most $D_6$ with nonzero Weil
+projection.
+\end{lemma}
+\begin{proof}
+At the pure-spinor seed, $f=\sqrt{-12}$ is integral on the homology
+lattice $\Lambda$. In fact the source eigenspaces
+\texttt{eq-W-1-and-2}, lines~1353--1364, give its cohomological
+block matrix
+\[
+ \begin{pmatrix}0&12\theta\\-\theta^{-1}&0\end{pmatrix},
+\]
+where $\theta$ is the unimodular principal-polarization contraction.
+The dual matrix is integral on homology. Since
+$\omega=(f-2)/4$, the lattice
+\[
+ \Lambda_{\cO}=\Lambda+\omega\Lambda
+ \subset\tfrac14\Lambda
+\]
+is $\cO_K$-stable, using $\omega^2+\omega+1=0$.
+Its index $I=[\Lambda_{\cO}:\Lambda]$ divides $4^{12}$.
+The identity on the universal cover defines a quotient isogeny
+$q_{\cO}:A\to A_{\cO}$ of degree $I$.
+
+The Riemann form $16h$ is integral on $\Lambda_{\cO}$: each argument
+has denominator dividing four. It therefore defines an ample
+polarization $h_{\cO}$ with
+$q_{\cO}^*h_{\cO}=16h$. This equality can be arranged for line
+bundles as well, since isogeny pullback is surjective on
+$\operatorname{Pic}^0$. Its polarization product is
+\[
+ \Delta_{\cO}=\frac{16^6\Delta_h}{I}\in\Z,
+ \qquad \Delta_h=108^3.
+\]
+Thus $\Delta_{\cO}$ is an integer divisor of $16^6\Delta_h$.
+All these lattice constructions are constant on a marked analytic
+neighbourhood.
+
+Here is the required quantitative Hermitian comparison.
+For an $\cO_K$-stable lattice with compatible alternating form
+$\mathcal E$, use
+\[
+ \mathfrak h(s,t)=\mathcal E(s,\omega t)
+                         -\bar\omega\,\mathcal E(s,t).
+\]
+It is integral Hermitian, conjugate-linear in the first variable;
+the coefficient of $\omega$ recovers $\mathcal E$.
+Its absolute determinant equals the product $\Delta$ of the
+polarization elementary divisors: on the underlying integral lattice
+the alternating determinant is $\Delta^2$.
+
+In a split Hermitian space of $K$-dimension six, intersect a rational
+maximal isotropic three-plane with the lattice. The intersection is
+a primitive $\cO_K$-submodule. Since $\Z[\omega]$ is a PID, its basis
+$v$ extends to a lattice basis $(v,w)$, with Gram matrix
+\[
+ \begin{pmatrix}0&B\\B^*&D\end{pmatrix},
+ \qquad |\det\mathfrak h|=\Nm(\det B)=\Delta.
+\]
+In this odd half-rank case the determinant itself is negative; its
+absolute value is used throughout. Put
+\[
+ X=(B^*)^{-1}D/2,\qquad w'=w-vX,\qquad u=w'B^{-1}.
+\]
+Then $(v,u)$ has hyperbolic Gram matrix. If $b=\det B$, the entries
+of $X$, $B^{-1}$ and $XB^{-1}$ have denominators dividing
+$2\bar b$, $b$, and $2b\bar b=2\Delta$, respectively.
+The isometry to a hyperbolic basis and its inverse are explicitly
+\[
+ \mu(v)=e,\quad \mu(w)=eX+fB,\qquad
+ \mu^{-1}(e)=v,\quad \mu^{-1}(f)=wB^{-1}-vXB^{-1}.
+\]
+Thus both directions have denominator dividing $2\Delta$.
+Apply this to $A_{\cO}$ and to the fixed principal split target
+lattice, whose product is one. Their comparison has denominator
+dividing $4\Delta_{\cO}$, hence dividing $M$.
+
+Transport the rational comparison across the marked period
+neighbourhood. Multiplication by $M$ gives a $K$-linear isogeny
+$\phi:A_{\cO}\to A_{\mathrm{pr}}$ satisfying
+$\phi^*\theta_{\mathrm{pr}}=M^2h_{\cO}$.
+The rational isometry identifies the period domains, so the image
+of the source analytic open set is again analytic open.
+For an effective three-cycle $Z$, the projection formula gives
+\[
+ \deg_{\theta_{\mathrm{pr}}}
+       ((\phi\circ q_{\cO})_*Z)=16^3M^6\deg_h Z.
+\]
+Isogeny pushforward acts invertibly on rational Weil spaces, so it
+preserves a nonzero Weil projection. M9 proves the claim.
+Only ampleness of $h_{\cO}$ is needed. If a projective embedding of
+the principal target is required for R21, use $3\theta_{\mathrm{pr}}$
+and the fixed degree factor $3^3$; the intrinsic bound remains
+measured by $\theta_{\mathrm{pr}}$.
+\end{proof}
+
+For the next statement choose the saturated integral Weil basis
+$u_3,v_3$ on the principal sixfold component using the balanced
+$E^6$ marking, and pass to the finite determinant cover so that
+these classes are flat. Its positive Gram matrix is
+\[
+ G_3=9\begin{pmatrix}2&1\\1&2\end{pmatrix}.
+\]
+For completeness, write $e_j,f_j$ for the integral basis on each
+elliptic factor with $\int e_jf_j=1$, and put
+\[
+ \Omega_3=\bigwedge_{i=1}^3(e_{x_i}+\omega f_{x_i})
+          \wedge\bigwedge_{i=1}^3(e_{y_i}+\omega^2f_{y_i})
+          =u_3+\omega v_3.
+\]
+The coefficients of the all-$e$ monomial and of the monomial
+obtained by replacing only $e_{x_1}$ by $f_{x_1}$ are $1$ and
+$\omega$. They show that $u_3,v_3$ span the saturated integral
+Weil lattice, since $\Omega_3,\bar\Omega_3$ span its two complex
+eigenlines. Furthermore $\Omega_3^2=\bar\Omega_3^2=0$ and
+$\int\Omega_3\bar\Omega_3=-27$. Expanding gives
+$\int u_3^2=\int v_3^2=-18$ and $\int u_3v_3=-9$;
+the positive Hodge--Riemann form is minus this intersection form.
+These equalities also fix the orientation used in the
+compensation calculation below.
+For the projector P1, use $a=3+\omega$, and write
+$Q_3=\delta_3P_3^{\mathrm{proj}}$ to distinguish this polynomial
+from the seed criterion P3. The explicit values are
+\begin{align*}
+ \delta_3&=1\,701\,760\,099\,946\,011\,389\,900,\\
+ B_3&=6\,493\,952\,361\,560\,098\,735\,300,\\
+ a^6&=37+360\omega.
+\end{align*}
+For reproducibility, the coefficients of $Q_3(T)$ in increasing
+degree are
+\[
+\begin{split}
+(&-266808926179074658393,\ 2660867472861128286,\\
+ &-13456515557549106,\ 43596368737922,\ -93608421858,\\
+ &121120686,\ -62245).
+\end{split}
+\]
+They give $Q_3(a^{6-j}\bar a^j)=\delta_3$ for $j=0,6$ and zero
+for $1\le j\le5$; these seven values were independently checked
+by exact arithmetic in $\Z[\omega]$. The seven eigenvalues are
+distinct, and
+$B_3=\sum_j |[T^j]Q_3|\,7^{3j}$.
+Define the completely explicit integer
+\begin{equation}\label{eq:M10H3}
+ H_3=\max\left\{1,
+   \left\lfloor\frac{\delta_3^2D_6^2}{648}\right\rfloor\right\},
+ \qquad L_3=\operatorname{lcm}(1,2,\ldots,H_3).
+\end{equation}
+
+\begin{proposition}[M10b: sixfold multiplier and degrees]\label{M10b}
+Every fibre of the principal split sixfold component has integral
+effective cycles $Z_s^\pm$ satisfying
+\[
+ N_su_3=[Z_s^+]-[Z_s^-],\qquad
+ 1\le N_s\le360H_3,\qquad
+ \deg Z_s^\pm\le3N_sB_3D_6.
+\]
+A single explicit multiplier valid on every fibre is
+$N_3=360L_3$, with each sign of degree at most $3N_3B_3D_6$.
+\end{proposition}
+\begin{proof}
+On the analytic open subset of M10a, choose an effective cycle
+$Z$ with degree at most $D_6$ and nonzero Weil projection.
+Put
+$z=Q_3(a^*)[Z]=xu_3+yv_3$.
+This is a nonzero integral Weil class, and the polynomial gives
+a signed representative with each sign of degree at most $B_3D_6$.
+The orthogonality and comass argument of P3, with principal volume
+one and $\operatorname{vol}(Z)=\deg Z/3!$, gives
+\[
+ \|z\|\le\frac{\delta_3D_6}{6},\qquad
+ \|z\|^2=18(x^2+xy+y^2).
+\]
+Thus the positive integer $h_z=x^2+xy+y^2$ is at most $H_3$.
+
+Pullback by $a$ acts on this basis by
+\[
+ T=\begin{pmatrix}37&360\\-360&-323\end{pmatrix},\qquad
+ \det(z,Tz)=-360h_z.
+\]
+Cramer's rule therefore represents
+$N_zu_3$, $N_z=360h_z$, by the two integral classes $z,Tz$.
+The absolute values of its coefficients are
+$|360x+323y|$ and $|y|$.
+The cycle-degree multiplier of $a^*$ is $7^3=343$, so its cost
+is bounded by
+\[
+ \bigl(|360x+323y|+343|y|\bigr)B_3D_6.
+\]
+For integral $x,y$ one has $|x|,|y|\le x^2+xy+y^2=h_z$.
+For example the quadratic form is at least $3x^2/4$; for
+$|x|\ge2$ this is at least $|x|$, while the remaining cases are
+immediate. Hence the cost is at most
+$1026h_zB_3D_6<3N_zB_3D_6$.
+
+For each of the finitely many possible $h_z\in[1,H_3]$, use the
+closed locus of R21 for multiplier $360h_z$ and degree bound
+$3(360h_z)B_3D_6$. Their union contains a nonempty analytic open
+subset, so irreducibility makes it the entire component.
+This preserves the stated relation between each multiplier and
+its degree bound. Alternatively each $N_z$ divides $N_3=360L_3$.
+Scale the open-set representatives first; their degrees are then
+at most $3N_3B_3D_6$. R21 applied to this fixed multiplier proves
+the single-multiplier assertion.
+\end{proof}
+
+\begin{theorem}[M10/T5: an explicit fourfold template]\label{M10}
+Let $A_4$ vary in the principal split fourfold component for
+$K=\Q(\omega)$, and let $u_2,v_2$ be its saturated integral flat
+Weil basis in the balanced marking. For
+\[
+ t=\frac{a u_2+b v_2}{q},\qquad a,b\in\Z,\quad q\ge1,
+\]
+there are integral effective codimension-two cycles satisfying
+\[
+ Nt=[Z^+]-[Z^-],\qquad
+ N\le1080qH_3,\qquad
+ \deg Z^\pm\le3240H_3B_3D_6(|a|+|b|).
+\]
+A single explicit multiplier and degree bound for every fibre are
+\[
+ N=1080qL_3,\qquad
+ \deg Z^\pm\le3240L_3B_3D_6(|a|+|b|).
+\]
+Here $D_6$, $H_3$, and $L_3$ are the finite formulas in M10a and
+\eqref{eq:M10H3}, using the integer \eqref{eq:M9Dsource}.
+\end{theorem}
+\begin{proof}
+Fix $B=E_x\times E_y$ with balanced $K$-action and product principal
+polarization $\theta_B$. The compensated variety
+$A_6=A_4\times B$ belongs to the principal split sixfold family,
+with $\theta_6=\theta_4+\theta_B$.
+On $B$ the integral Weil divisors from P2b are
+\[
+ U=\Gamma_\omega+\Gamma_1-2F_x-2F_y,\qquad
+ V=\Gamma_1-F_x-F_y,
+\]
+and
+$\int U^2=\int V^2=-2$, $\int UV=-1$.
+With the marked exterior forms,
+$\Omega_3=\Omega_2\Omega_1$ and therefore
+$u_3=u_2U-v_2V$. Direct pairing yields
+\[
+ \operatorname{pr}_{A_4,*}\bigl(u_3(-2U+V)\bigr)=3u_2,
+ \qquad
+ \operatorname{pr}_{A_4,*}\bigl(u_3(-U+2V)\bigr)=3v_2.
+\]
+
+The signed divisors in these contractions are concretely
+\[
+ -2U+V=3F_x+3F_y-2\Gamma_\omega-\Gamma_1,\qquad
+ -U+2V=\Gamma_1-\Gamma_\omega.
+\]
+Each graph divisor is nef and bounded above by $2\theta_B$ in the
+nef cone. Thus the first divisor's positive and negative parts
+are bounded above by $3\theta_B$ and $6\theta_B$, respectively;
+the second's two parts are each bounded by $2\theta_B$.
+Translate these finitely many divisors generically on $B$ before
+intersecting with any fixed cycle. This makes all intersections
+proper, including for cycles with zero-dimensional image on $B$,
+and preserves their cohomology classes and numerical bounds.
+
+If $Z$ is an effective three-cycle on $A_4\times B$, nef
+intersection positivity gives
+\[
+ 3\int_Z\theta_4^2\theta_B
+ \le\int_Z(\theta_4+\theta_B)^3.
+\]
+Consequently a signed three-cycle whose two signs each have degree
+at most $D'$ gives, after either signed divisor contraction, two
+effective signs of degree at most $3D'$.
+For the first divisor the two separate contributions are bounded
+by $(3+6)D'/3$; for the second they are bounded by $4D'/3$.
+Proper pushforward preserves effectivity and these degree
+identities; components of smaller image dimension contribute zero.
+
+Use the cycle for $N_su_3$ from M10b. The two contractions give
+representatives of both $3N_su_2$ and $3N_sv_2$, with the same
+multiplier and each sign of degree at most $9N_sB_3D_6$.
+Taking their integral combination with coefficients $a,b$ gives
+the class $3qN_st$, with each degree at most
+$9N_sB_3D_6(|a|+|b|)$. Since $N_s\le360H_3$, this is the first
+assertion. Using the single $N_3=360L_3$ gives the second.
+\end{proof}
+
+The stated constants concern the principal split datum. A different
+fixed integral polarized $K$-datum can be compared using the
+Hermitian-lattice calculation above, with its polarization product
+and the corresponding fixed rational target-coordinate factors
+retained explicitly. Neither these factors nor any raw Hecke
+denominator are silently absorbed into M10.
+
+\paragraph{Verification scope.}
+M7.1--M7.5 and M8 received a complete independent second proof check
+by the reductions agent, recorded as R28.1--R28.6 in
+\path{work/markman_regularity_independent_check.md}.
+The complete M9--M10 proofs and the final text received a further
+independent check, recorded as R30.1--R32.3 in
+\path{work/final_integration_review.md} and
+\path{work/reductions_check_events.tsv}.
+The arithmetic script
+\path{work/markman_output_numbers.py} records the two GRR
+integration orders, both positivity matrices, the Chern intersection
+numbers, the source degree, the maximal-order transfer constants,
+and an independent $\Z[\omega]$ Horner evaluation of all seven
+projector eigenvalues. It outputs
+\path{work/markman_output_numbers.json}; it does not expand the
+huge least common multiple. A separate implementation using exact
+rational multinomial sums,
+\path{work/check_markman_numbers_independent.py}, agrees with
+every M9 character coefficient, intersection number, and numerical
+M10 cap. These are exact ordinary computations
+and targeted mathematical proof checks, not formal
+proof-assistant certificates.
+
+% END INCLUDED SOURCE: markman_quantitative.tex
+
+
+\section{The split eightfold family}\label{sec:eightfold}
+\paragraph{Newly located primary input.}
+\citet[Theorem~A]{Severn26}, version~1.5 dated 21 October 2026, proves that the Weil classes on every split eightfold of Weil type for $\Q(\sqrt{-3})$ are algebraic. This is the precise family in the main question after fixing its polarized component. The manuscript was not among the attachments and was obtained from its primary Hexagon page and source. The result is used with its version and manuscript status explicitly recorded.
+
+\begin{theorem}[P4: qualitative bounded division on the split $E^8$ family]\label{P4}
+Using Severn's Theorem~A as the checked cited input, every fixed rational Weil section on a fixed polarized split eightfold family has integral representatives with one finite multiplier and uniformly bounded effective positive and negative degrees. The bound holds on the tensor-compatible Hecke orbit of $E^8$ and on the entire family. No RH or GRH premise is used.
+\end{theorem}
+\begin{proof}
+Severn's theorem makes the section algebraic on every fibre. R21 supplies the finite uniform multiplier and degree. Equivalently, apply R21 to each element of a rational basis of the Weil plane and clear the coefficients of the fixed target. This is an implication of the cited theorem, not a new proof of that theorem.
+\end{proof}
+
+\subsection*{S1--S3: scope and results of the independent manuscript checks}
+The manuscript has two distinct mechanisms. Sections~4--5 transfer algebraic determinant classes from cyclic-cover suppliers by Brauer induction and a divisor-invariant correspondence. Sections~6--9 prove dominance of an explicit family using its boundary monodromy. Both mechanisms were read in full by different agents; the finite data were reconstructed independently. The following account records checks, not new replacements for the cited proofs.
+
+\textbf{S1: supplier and Brauer transfer.}
+The source's Lemmas \texttt{lem:schoen} and \texttt{lem:schoenR}, Proposition \texttt{prop:supply}, and Theorem \texttt{thm:brauer} were checked against \citet[Theorem~2.0, pp.~11--12; Corollary~3.1, pp.~24--25; Lemmas~2.4--2.5, pp.~14--15]{Schoen88} and \citet[Theorem~3.2 and Lemma~3.1]{Milne99}. In the repair of the supplier argument, a primitive cyclic character is faithful: nontrivial inertia makes its stalk zero, and the exceptional fibre has the compactly supported cohomology of a nontrivial rank-one local system on $\C^*$, which vanishes. Proper base change therefore gives the required exceptional-divisor vanishing. The transfer retains the order-two determinant coordinates of orthogonal centralizer factors. It uses the correct inclusion of the Lefschetz group in the endomorphism centralizer, so the pulled-back invariant is divisor-generated. Negative Brauer coefficients invert determinant characters; they do not remove the orthogonal parity coordinates. These points were independently reconstructed in the accompanying audit.
+
+\textbf{S2: exact finite reconstruction.}
+The scripts begin with the ten printed roots, the twenty-term involution tuple, the eight cocycles, and the seventeen boundary intervals in Sections~7--8 and Appendix~A. They do not assume the printed monodromy matrices. The reflection orbit closes with $756$ vectors spanning $K^6$, and its faithful permutation group has order $39\,191\,040$. The connected nonorthogonality graph of the spanning roots proves complex irreducibility. All six scalar units belong to the group; Schur's lemma then gives centre of order six. These checks do not require a group database.
+
+The cocycle relation matrix has rank six, the coboundary matrix rank six, and the concatenation of the eight proposed representatives with the coboundaries rank fourteen. Thus the parabolic quotient has dimension eight and the proposed representatives form a basis. Their cup products reproduce the complete printed skew-Hermitian Gram matrix. Applying the geometric Dehn-twist formula and reducing modulo coboundaries reproduces every one of the seventeen logarithms. Three intervals have return power two, the others return power one. All logarithms square to zero and all their pairwise products vanish. Their $K$-ranks are
+\[
+ 4,1,3,3,2,1,2,1,1,2,4,4,4,1,1,2,1.
+\]
+The intervals give a laminar pants decomposition with eighteen components; each component's local triple has zero parabolic cohomology. An independent printed-block calculation gives rational span dimension $16$ for the Hermitian blocks. The negative sum has leading principal minors
+\[
+ 96,\quad2379,\quad58722,\quad2344041,
+\]
+all positive, while each block has the required semidefinite sign. Exact field arithmetic, Gaussian elimination, and Schreier--Sims computations are supplied as reproducible certificates. They are not formal proofs in Lean.
+
+\textbf{S3: degeneration and dominance.}
+The finite-dimensional calculation is linked to dominance by the source's nilpotent-orbit argument. The interval system gives a common vanishing-cycle image; the limiting Hodge filtration is transverse to it by the effective weight-one limiting mixed Hodge structure. The sixteen-dimensional rational span complexifies to the complete $4\times4$ tangent space, and the leading derivative matrix therefore has rank sixteen at nearby points. The normalization of logarithms and the correction term $2\pi i u_j\psi'(u)$ were checked. The limiting filtration lies in the compact dual, rather than necessarily in the open period domain; this wording does not affect the transverse decomposition used in the proof. The cited nilpotent-orbit and limiting-Hodge inputs are \citet[Theorems~4.12 and 6.16, printed pp.~233 and 255]{Schmid73}. Finally, the finite determinant-monodromy cover and proper cycle loci give globalization. No fatal gap was found within these complete targeted readings. The package distinguishes their scope from an independently formalized verification of the whole manuscript.
+
+\paragraph{What P4 does and does not identify.}
+P4 proves existence of finite uniform $N,D$ for the fixed Weil target. Its Baire argument alone computes neither constant. SQ2--SQ9 below make the supplier and transfer construction quantitative and then use P3 to obtain explicit uniform bounds. For members whose Hodge group is the full special unitary group, Severn's Theorem~11.2 gives the Hodge conjecture for all powers once the Weil classes are algebraic. Extra Hodge classes on arbitrary special members require their own argument; they are not covered merely by the two-dimensional Weil calculation.
+
+
+% BEGIN INCLUDED SOURCE: eightfold_quantitative.tex
+\section{An explicit uniform bound from the eightfold supplier construction}
+\label{sec:eightfold-quantitative}
+
+The following quantitative extraction is new to this run. It uses the geometric supplier and dominance inputs of \citet{Severn26}, with the manuscript status and independent checks recorded in Section~\ref{sec:eightfold}. It does not attribute the numerical bound below to that manuscript. The construction on powers of quotient curves comes from \citet[Theorem~2.0 and Lemmas~2.3--2.6]{Schoen88}, with Severn's local repair where required. The invariant-theory input is the linear-algebraic part of \citet[Lemma~3.5, Proposition~3.6, and Remark~3.7]{Milne99}. Every subsequent denominator and degree estimate is proved below.
+
+We keep $K=\Q(\omega)$ and $\cO=\Z[\omega]$. In this section a polarization class is denoted by $\theta$. For an integral signed cycle $Z=\sum_j a_jZ_j$ of pure dimension $d$, define its degree mass by
+\[
+ \operatorname{mass}_\theta(Z)=\sum_j|a_j|\int_{Z_j}\theta^d.
+\]
+It bounds the degrees of its effective positive and negative parts separately. All degrees remain unnormalized intersection degrees.
+
+\begin{theorem}[SQ1: an explicit effective seed degree]\label{SQ1}
+Consider a fixed polarized split Weil eightfold family for $K$ whose integral homology lattice is $\cO$-stable. Let $\Delta$ be the product of the elementary divisors of its polarization. Define the following positive integers:
+\begin{align}
+ G&=39\,191\,040, & g&=4G+1=156\,764\,161,\label{eq:SQ-Gg}\\
+ R&=(2G+1)G!G^G, & L&=2gR,\label{eq:SQ-RL}\\
+ S_0&=G^{2g}(g!)^2, & S_B&=(L/2)!S_0^R,\label{eq:SQ-S}\\
+ k&=L/2+4, & B_0&=(40G)^k\binom{k}{4}S_B\,8!\,G^8,\label{eq:SQ-B}\\
+ N_{\rm isog}&=4G^8\Delta, & D_8(\Delta)&=N_{\rm isog}^{8}B_0.\label{eq:SQ-D}
+\end{align}
+Here $L$ in \eqref{eq:SQ-RL} is an integer bound for the number of curve factors, not a line bundle.
+
+On a nonempty analytic open subset of this family, every fibre admits an effective integral four-cycle $Z$ with
+\[
+ \deg_\theta Z\le D_8(\Delta),\qquad P_4\cl(Z)\ne0,
+\]
+where $P_4$ is the Weil projector of \findingref{P1}. More precisely, there is a finite collection of effective four-cycles of this degree bound whose projected classes span the Weil plane. Consequently \findingref{P3} and \findingref{R21} give explicit uniform bounded division on the whole fixed family. Formulas for the final bound are given in \findingref{SQ9} below.
+\end{theorem}
+
+The factorial expression is an explicit integer, despite its enormous size. It is neither a practical complexity estimate nor a claim about the least possible multiplier or cycle degree. The proof of the theorem is the sequence \findingref{SQ2}--\findingref{SQ7}.
+
+\subsection{Integral projectors and polarization degree}
+
+\begin{proposition}[SQ2: a common projector denominator]\label{SQ2}
+Let $\mathcal G$ be the finite reflection group reconstructed from Severn's printed roots, so $|\mathcal G|=G$. A cover $C\to\mathbf P^1$ with the printed twenty-involution tuple has genus $g=4G+1$. Its eightfold factor $A\subset J(C)$ can be defined by a Rosati-symmetric primitive idempotent $e$ with
+\[
+ Ge\in\Z[\mathcal G].
+\]
+The lattice $H_1(A,\Z)$ is $\cO$-stable. If $\theta_A$ is the restriction of the canonical principal polarization of $J(C)$, each elementary divisor of $\theta_A$ divides $G$. In particular,
+\begin{equation}\label{eq:SQ-sourcepolarization}
+ \Delta_A\mid G^8,\qquad \int_A\theta_A^8=8!\Delta_A\le8!G^8.
+\end{equation}
+The integer $G$ also clears the primitive rational projectors of all cyclic suppliers.
+\end{proposition}
+\begin{proof}
+There are twenty branch points with inertia order two. Thus Riemann--Hurwitz gives
+\[
+ 2g(C)-2=G\left(-2+20\left(1-\frac12\right)\right)=8G.
+\]
+This uses twenty involutions, not ten elements of order three.
+
+Let $\sigma$ be the six-dimensional representation over $K$, let $\chi$ be its character, and choose a printed reflection $s$. The rational central idempotent for the conjugate pair $\sigma,\bar\sigma$ is
+\[
+ \varepsilon=\frac6G\sum_{a\in\mathcal G}
+       \operatorname{Tr}_{K/\Q}\bigl(\chi(a^{-1})\bigr)a.
+\]
+The trace in every coefficient is a rational algebraic integer and hence belongs to $\Z$. The representation is realizable over $K$, so its rational simple factor is $M_6(K)$. Set
+\[
+ e=\varepsilon\frac{1-s}{2}.
+\]
+On that factor this is the orthogonal projection onto the one-dimensional negative eigenspace of the reflection. It is therefore a primitive idempotent. Both $\varepsilon$ and $s$ are fixed by the Rosati involution $a\mapsto a^{-1}$, and they commute, so $e$ is Rosati symmetric. The factor $6/2=3$ shows directly that $Ge\in\Z[\mathcal G]$. Its image in the Jacobian has dimension eight because the multiplicity space of $\sigma$ has $K$-dimension eight, as in \citet[Section~3, Definition \texttt{def:pt} and Lemma \texttt{lem:weiltype}]{Severn26}.
+
+The exact group certificate also verifies that all six scalar units of $K$ belong to $\mathcal G$. In particular the scalar $\omega I_6$ is a central group element. It commutes with $e$, preserves the abelian subvariety $A$, and acts there with minimal polynomial $X^2+X+1$. It consequently preserves $H_1(A,\Z)$ and supplies the asserted integral $\cO$-action. This source-side integrality will be used in \findingref{SQ7}.
+
+Write $\Lambda=H_1(J(C),\Z)$ and let $E$ be its unimodular alternating form. The lattice of $A$ is the primitive sublattice
+\[
+ \Lambda_A=\Lambda\cap e\Lambda_\Q.
+\]
+Its dual lattice for $E|_{e\Lambda_\Q}$ is $\Lambda_A^\#=e\Lambda$. To prove this, first note that $E(ex,y)=E(x,y)$ for $x\in\Lambda$ and $y\in\Lambda_A$, by self-adjointness of $e$. Conversely, every integral functional on the primitive sublattice $\Lambda_A$ extends to $\Lambda$. Unimodularity represents that extension by pairing with an element of $\Lambda$, and projection by $e$ gives the required representative in $e\Lambda$. Hence
+\[
+ G\Lambda_A^\#=Ge\Lambda\subseteq\Lambda_A.
+\]
+The polarization kernel $\Lambda_A^\#/\Lambda_A$ is annihilated by $G$. Its elementary divisors therefore divide $G$, proving \eqref{eq:SQ-sourcepolarization}.
+
+Finally, for a supplier $(H',\chi')$ with $m=\operatorname{ord}(\chi')$, its primitive rational projector has coefficients
+\[
+ \frac1{|H'|}\sum_{t\in(\Z/m)^\times}\chi'(a)^{-t},\qquad a\in H'.
+\]
+The sums are integral Ramanujan sums, and $|H'|\mid G$. Thus $G$ clears all these projectors as well.
+\end{proof}
+
+\subsection{An explicit bound for the supplier identity}
+
+\begin{proposition}[SQ3: bounded integral supplier coefficients]\label{SQ3}
+For the printed reflection branch data there exists an identity of determinant characters
+\[
+ e_\sigma=\sum_i n_i a(\chi_i),\qquad
+ \sum_i|n_i|\le R=(2G+1)G!G^G,
+\]
+using admissible suppliers $(H'_i,\chi_i)$ with $m_i=\operatorname{ord}(\chi_i)\ge3$ and positive even primitive multiplicity $h_i$. This bound does not depend on the optional deposited $84$-row identity.
+\end{proposition}
+\begin{proof}
+Brauer induction expresses $\sigma$ as an integral combination of representations induced from linear characters of subgroups. Applying the determinant-character homomorphism gives the required membership in the lattice of supplier characters; this is the proof of \citet[Section~5, Theorem \texttt{thm:brauer}]{Severn26}. We recall why its discarded terms contribute zero.
+
+A character of order one or two is real, so the multiplicities for a nonreal pair $\tau,\bar\tau$ agree. Its free determinant coordinates vanish. For a quaternionic $\tau$, the representation carries a nondegenerate invariant alternating form. The isotypic summand of a real one-dimensional character is orthogonal to every other isotypic summand, and the restricted form is nondegenerate. Its multiplicity is therefore even, so the coordinate modulo two also vanishes. If $m\ge3$ but $h=0$, the identity
+\[
+ h=\sum_\tau m_\tau
+       \operatorname{mult}_\chi(\tau|_{H'})
+\]
+is a sum of nonnegative integers. Every multiplicity with $m_\tau>0$ is zero, and the determinant column is again zero. For every remaining term, a nontrivial cyclic branch exponent is $m/2$, because the original inertia is an involution. The cyclic surface-group relation makes the number of these exponents even. They thus pair with their negatives, and $h=2q-2+s$ is even. This proves admissibility of all retained terms, including the unramified case.
+
+The character group has the form $\Z^a\oplus(\Z/2)^b$. Append columns $2e_j$ for the torsion coordinates, and represent the problem in $\Z^{a+b}$. The target has coordinates of absolute value at most one. Every supplier column has entries of absolute value at most $G$: restriction multiplicities are at most the dimensions of the corresponding irreducible representations, and these dimensions are at most $G$. There are at most $G$ irreducible representations, so the number of rows is at most $G$.
+
+We give the integer-linear-algebra bound explicitly. Let an integer column matrix have rank $r$, entries bounded by $M\ge1$, and let $b$ be a vector of coordinate size at most one in its integral column lattice. Choose $r$ independent rows and $r$ independent columns, forming an invertible square matrix $B$. Projection to the selected rows is injective on the rational column span. Set
+\[
+ d=|\det B|\le r!M^r.
+\]
+The subgroup of $\Z^r/B\Z^r$ generated by the other columns has at most $d$ elements. In its Cayley graph a shortest path from zero to the class of $b$, using those columns and their negatives, has at most $d-1$ steps. After subtracting those signed columns, the residual vector $v$ lies in $B\Z^r$ and satisfies
+\[
+ \|v\|_\infty\le1+(d-1)M\le dM.
+\]
+Cofactors of $B$ have absolute value at most $(r-1)!M^{r-1}$. Cramer's rule, including its denominator $d$, gives
+\[
+ |(B^{-1}v)_j|\le r!M^r.
+\]
+The total absolute coefficient is therefore at most $(r+1)r!M^r$. With $r\le G$ and $M=G$, this is bounded by $(2G+1)G!G^G$. Removing the auxiliary columns for the order-two coordinates cannot increase the supplier coefficient sum. This proves the displayed bound.
+\end{proof}
+
+\subsection{Degrees of Schoen's actual cycles}
+
+\begin{proposition}[SQ4: a bounded integral cycle on each curve power]\label{SQ4}
+For an admissible supplier let $C'=C/\ker\chi$, let $m=\operatorname{ord}(\chi)$, and let $h>0$ be its primitive multiplicity. On $C'^h$ there is an integral signed cycle $Y$ of dimension $h/2$, whose class belongs to the determinant subspace of $H^h(C'^h,\Q)$ and has nonzero component in every primitive determinant eigenline. If $H$ is the sum of the degree-one point classes on its factors, then
+\begin{equation}\label{eq:SQ-singlemass}
+ \operatorname{mass}_H(Y)\le m^{3h/2}(h!)^2
+                  \le G^{2g}(g!)^2=S_0.
+\end{equation}
+\end{proposition}
+\begin{proof}
+The rational primitive summand of $H^1(C',\Q)$ has dimension $\varphi(m)h$. Since $m\ge3$, $\varphi(m)\ge2$, and therefore
+\[
+ h\le g(C')\le g(C)=g.
+\]
+Also $m\le G$. These observations justify the final estimate in \eqref{eq:SQ-singlemass} once the first estimate is proved.
+
+Put $X=C/H'$. Schoen's construction uses the finite quotient
+\[
+ q:C'^h\longrightarrow W_0=C'^h/G_0,
+ \qquad \beta_0:W_0\longrightarrow\operatorname{Sym}^hX,
+ \qquad |G_0|=m^{h-1}h!,
+\]
+where $G_0$ is the kernel of the sum map on $(\Z/m)^h$, extended by the symmetric group. It constructs a linear space $P_0\simeq\mathbf P^{h/2}$ in an Abel--Jacobi fibre. The prescribed blow-ups leave its strict transform isomorphic to $P_0$, and the cyclic cover splits over it. A component pushes to $Q_0\subset W_0$ of degree one over $P_0$. The normal-bundle calculation and exceptional-divisor argument give nonzero primitive character components of $[Q_0]$ \citep[Theorem~2.0, Lemmas~2.3--2.6, pp.~11--17]{Schoen88}; for the exceptional exponents one uses \citet[Section~4, Lemma \texttt{lem:schoenR}]{Severn26}.
+
+For a general point $x\in X$, the incidence divisor
+\[
+ D_x=x+\operatorname{Sym}^{h-1}X
+\]
+restricts to the hyperplane class on $P_0$. Indeed, on the complete linear system constituting the Abel--Jacobi fibre, containing $x$ is one linear condition; restriction to the chosen linear subspace gives $\cO_{P_0}(1)$ for general $x$. Consequently
+\[
+ \int_{Q_0}(\beta_0^*D_x)^{h/2}=1.
+\]
+The pullback of $D_x$ to $C'^h$ is numerically $mH$.
+
+Choose an irreducible component $Z_0$ of $q^{-1}(Q_0)$ and let $e_0$ be its degree over $Q_0$. Since $q$ is finite, $e_0\le|G_0|$. The projection formula gives
+\[
+ \deg_H Z_0=\frac{e_0}{m^{h/2}}.
+\]
+To keep the construction integral without assuming flatness of $q$ along $Q_0$, use the orbit sum
+\[
+ \mathcal R_0=\sum_{a\in G_0}a_*Z_0,
+\]
+retaining repetitions. The finite-quotient transfer identity
+\[
+ q^*q_*\cl(Z_0)=\sum_{a\in G_0}a_*\cl(Z_0)
+\]
+shows that $\cl(\mathcal R_0)=e_0q^*[Q_0]$. This is an identity in rational cohomology; it follows equally from the transfer on the finite quotient and Poincar\'e duality for a quotient of a smooth variety. The cycle $\mathcal R_0$ itself is an integral effective cycle. Its degree is bounded by
+\[
+ \deg_H\mathcal R_0
+  =\frac{|G_0|e_0}{m^{h/2}}
+  \le\frac{|G_0|^2}{m^{h/2}}.
+\]
+
+Let $\delta(t)$ be the lift of the residual cyclic action obtained by acting on the first factor, and let
+\[
+ c_m(t)=\sum_{u\in(\Z/m)^\times}\exp(-2\pi iut/m)
+\]
+be the integral Ramanujan sum. It satisfies $|c_m(t)|\le\varphi(m)$. Define the integral signed cycle
+\[
+ Y=\sum_{t=0}^{m-1}c_m(t)\delta(t)_*\mathcal R_0.
+\]
+Its class is $m$ times the rational primitive-character projector applied to $\cl(\mathcal R_0)$. It lies in the determinant subspace and has all primitive components nonzero, by the preceding nonvanishing for $Q_0$ and injectivity of rational pullback under a finite quotient. The automorphisms preserve the numerical point polarization $H$. Therefore
+\begin{align*}
+ \operatorname{mass}_H(Y)
+ &\le m\varphi(m)\frac{|G_0|^2}{m^{h/2}}\\
+ &\le m^2\frac{m^{2h-2}(h!)^2}{m^{h/2}}
+   =m^{3h/2}(h!)^2
+   \le G^{2g}(g!)^2.
+\end{align*}
+The extra factor $|G_0|$ makes the integral transfer estimate deliberately generous. No degree estimate for a resolution or an exceptional divisor enters: the relevant cycle is pushed to $W_0$, and its degree is measured against a divisor pulled back from the symmetric product.
+\end{proof}
+
+\subsection{A middle-cohomology supplier transfer}
+
+\begin{proposition}[SQ5: keeping the suppliers on curve powers]\label{SQ5}
+Choose an identity as in \findingref{SQ3}, and form
+\[
+ B=\prod_i(C_i'{}^{h_i})^{|n_i|},\qquad
+ \ell=\dim B=\sum_i|n_i|h_i\le gR\le L.
+\]
+There is an integral signed cycle $Y_B$ of dimension $\ell/2$ with
+\[
+ \operatorname{mass}_{H_B}(Y_B)\le S_B,
+\]
+where $H_B$ is the sum of the point classes on all its curve factors. For either Weil eigenline $\lambda\subset H^8(A,\C)$, there is a $U$-invariant tensor
+\[
+ \Gamma\in H^{\ell+8}(B\times A,\C)
+\]
+whose correspondence action sends $\cl(Y_B)$ to a nonzero vector of $\lambda$. Here $U$ is the centralizer of $\mathcal G$ in the symplectic group of $H^1(C,\Q)$.
+\end{proposition}
+\begin{proof}
+Take the exterior product of the cycles supplied by \findingref{SQ4}, one for every occurrence counted by $|n_i|$. Every $h_i$ is even, so $\ell$ is even. The product-polarization degree formula gives
+\begin{align*}
+ \operatorname{mass}_{H_B}(Y_B)
+ &\le\frac{(\ell/2)!}{\prod_i((h_i/2)!)^{|n_i|}}
+       \prod_iS_0^{|n_i|}\\
+ &\le(L/2)!S_0^R=S_B.
+\end{align*}
+
+The selected determinant line in $H^{h_i}(C_i'{}^{h_i})$ has character $\operatorname{sign}(n_i)a(\chi_i)$. Its Poincar\'e-dual line has the opposite character and also lies in the tensor piece $H^1(C_i')^{\otimes h_i}$. The pairing is nondegenerate: the primitive eigenspaces for $\chi_i$ and $\chi_i^{-1}$ pair perfectly on the curve, and their determinant pairing is perfect. Equivalently, the alternating tensors pair by a nonzero factorial multiple of the determinant of that pairing. Choose $z_i$ in the dual line pairing nontrivially with the corresponding component of $Y_i$.
+
+If $x$ spans the Weil eigenline of character $e_\sigma$, set
+\[
+ \Gamma=\left(\mathop{\boxtimes}_i
+                   z_i^{\boxtimes|n_i|}\right)\boxtimes x.
+\]
+Its character is zero by the supplier identity. On the order-two character coordinates the absolute values cause no problem, since $|n_i|\equiv n_i\pmod2$. The K\"unneth and projection formulas show that $\Gamma_*\cl(Y_B)$ is $x$ times a product of nonzero pairings. Its cohomological degree is $\ell+8$, so its correspondence action takes $H^\ell(B)$ to $H^8(A)$. Choosing the conjugate lines proves the statement for the other Weil eigenline.
+
+This modifies the supplier transfer of \citet[Proposition \texttt{prop:supply}]{Severn26} by retaining the cycles on curve powers. Their determinant classes are already in middle cohomology. The inverse hard-Lefschetz correspondence used in \citet[Corollary~3.1, p.~25]{Schoen88} is consequently unnecessary for the quantitative argument.
+\end{proof}
+
+\subsection{Explicit divisor generators and the mixed-degree estimate}
+
+\begin{proposition}[SQ6: effective output cycles of degree $B_0$]\label{SQ6}
+For every cover in the selected Hurwitz component, the eightfold factor $A$ admits finitely many effective integral four-cycles of $\theta_A$-degree at most $B_0$ whose Weil projections span $W_K(A)$. In particular one such cycle has nonzero Weil projection.
+\end{proposition}
+\begin{proof}
+For a quotient $\pi:C\to C'$ of degree $a=|\ker\chi|$, let
+\[
+ \eta:C'\longrightarrow J(C')\xrightarrow{\pi^*}J(C)
+\]
+be an Abel--Jacobi map followed by pullback. On rational first cohomology, $\eta^*$ is surjective onto $H^1(C')$ and has a $U$-equivariant right inverse. This follows from the averaging projector for $\ker\chi$ and the identity $\pi_*\pi^*=[a]$. The inclusion $A\hookrightarrow J(C)$ has a rational $U$-equivariant retraction given by $e$. Accordingly the tensor $\Gamma$ of \findingref{SQ5} lifts to a $U$-invariant class on $J(C)^{\ell+1}$ in degree $\ell+8$. Each curve factor occurs in degree one, and the last factor occurs in degree eight, so the first-cohomology splittings give this lift directly in the exterior algebra.
+
+We identify divisors sufficient to span every such invariant. Let $V=H^1(J(C),\Q)$, let $E$ be its polarization form, and let $D$ be the image of $\Q[\mathcal G]$ in $\End(V)$. The algebra $\End_D(V)$ is semisimple and stable under the adjoint involution. Its unitary group is $U$. By \citet[Lemma~3.5]{Milne99}, after scalar extension its unitary elements generate that algebra. Double centralizers then give
+\[
+ \End_U(V)=D.
+\]
+The decomposition of $U$ into symplectic, full orthogonal, and paired general linear factors permits application of the classical first fundamental theorems: the invariants in the exterior algebra of any number of copies of $V$ are generated by the invariants in degree two. This is precisely the linear invariant-theory assertion of \citet[Proposition~3.6 and Remark~3.7]{Milne99}. It applies to the algebra $D$ used here and does not require that $D$ be the full endomorphism algebra of the Jacobian.
+
+An invariant alternating form on $V^{\ell+1}$ is $E$ composed with a self-adjoint matrix in $M_{\ell+1}(D)$. Such matrices are spanned by diagonal identities, diagonal $a+a^{-1}$ blocks, and off-diagonal $a,a^{-1}$ pairs, with $a\in\mathcal G$. Their divisor classes are spanned over $\Q$ by
+\begin{equation}\label{eq:SQ-divisors}
+ \operatorname{pr}_i^*(2\Theta),\qquad
+ (\operatorname{pr}_i+a\operatorname{pr}_j)^*(2\Theta),
+ \quad a\in\mathcal G,\quad i,j\in\{1,\ldots,\ell+1\},
+\end{equation}
+including $i=j$. For $i\ne j$, subtracting the two diagonal polarization classes gives the off-diagonal pair. For $i=j$, the identity
+$(1+a)^\dagger(1+a)=2+a+a^{-1}$ gives the diagonal block. The harmless factors two do not change the rational span. All the line bundles in \eqref{eq:SQ-divisors} are globally generated because $2\Theta$ is globally generated on an abelian variety. Thus the lift of $\Gamma$ is a complex combination of monomials of
+\[
+ c=\frac\ell2+4
+\]
+of these actual divisor classes. No bound on the coefficients of that combination is needed: it will suffice to bound each effective cycle in the finite spanning collection. Notice that the invariant group is $U$, not $\mathcal G$; averaging over $\mathcal G$ would project onto a different space.
+
+We now bound the restrictions of the divisors. Canonical polarizations and the norm identity give
+\[
+ (\pi^*)^*\theta_{J(C)}=a\theta_{J(C')}
+\]
+numerically. The Abel--Jacobi curve has degree $g(C')$ for its canonical theta divisor. Riemann--Hurwitz gives
+\[
+ a(g(C')-1)\le g(C)-1=4G,
+\]
+and hence
+\begin{equation}\label{eq:SQ-curvedegree}
+ \deg\eta^*\theta_{J(C)}=a g(C')\le4G+a\le5G.
+\end{equation}
+On $T=B\times A$, put $H_0=H_B+\theta_A$. The restriction of the product polarization of $J(C)^{\ell+1}$ is at most $5GH_0$ in the nef order. For the divisors in \eqref{eq:SQ-divisors}, the theorem of the square gives a bound of eight times that product polarization. The diagonal case is included because
+\[
+ (1+a)^*\Theta+(1-a)^*\Theta=4\Theta
+\]
+numerically. We therefore have the uniform nef inequality
+\begin{equation}\label{eq:SQ-nef}
+ D_j|_T\le40G H_0.
+\end{equation}
+
+For each monomial, choose successive divisors in the globally generated systems so that they contain no component of the preceding effective intersection. This is possible for the finite collection of effective components of the signed cycle $Y_B\times A$. The intersections are effective with integral multiplicities; an empty divisor or a projection of smaller dimension contributes zero. Push the resulting four-dimensional intersections to $A$.
+
+Write $|Y_B|$ for the effective cycle obtained by replacing every coefficient of $Y_B$ by its absolute value. For one monomial the total degree mass of these pushforwards is, using \eqref{eq:SQ-nef}, at most
+\begin{align*}
+ &(40G)^c\int_{|Y_B|\times A}
+                     (H_B+\theta_A)^c\theta_A^4\\
+ &\hspace{6mm}=(40G)^c\binom c4
+            \operatorname{mass}_{H_B}(Y_B)\int_A\theta_A^8\\
+ &\hspace{6mm}\le(40G)^k\binom k4S_B\,8!G^8=B_0.
+\end{align*}
+Only the term $H_B^{\ell/2}\theta_A^4$ in the expansion survives; this explains the binomial coefficient. The estimate depends on the eightfold dimension, rather than the huge dimension of its ambient Jacobian.
+
+The correspondence of \findingref{SQ5} sends $Y_B$ to a nonzero vector in either Weil eigenline. Since that correspondence is in the complex span of the monomials just considered, the projected classes of the resulting finite collection of effective cycles span both eigenlines. Rationality of the collection and of the Weil projector then gives the assertion over $\Q$. In particular at least one effective cycle in the collection has nonzero projection. Every member has degree at most the total mass bound $B_0$.
+\end{proof}
+
+\subsection{An explicit integral-lattice comparison}
+
+\begin{proposition}[SQ7: controlled isogeny to the fixed family]\label{SQ7}
+Let $\Lambda$ be an $\cO$-stable lattice of rank eight over $\cO$, with a compatible integral polarization of split Weil type and elementary-divisor product $\Delta$. There is a $K$-isometry between its rational Hermitian space and the standard hyperbolic space such that both the isometry and its inverse have denominators dividing $2\Delta$ relative to suitable integral bases. Consequently the source eightfolds of \findingref{SQ2} can be compared with the fixed target family through isogenies $\phi$ satisfying
+\[
+ \phi^*\theta_{\rm target}=N_{\rm isog}^{2}\theta_A,
+ \qquad N_{\rm isog}=4G^8\Delta.
+\]
+For effective four-cycles, their pushforward degrees are multiplied by $N_{\rm isog}^{8}$.
+\end{proposition}
+\begin{proof}
+For the alternating form $E$ define
+\begin{equation}\label{eq:SQ-integralHermitian}
+ h(x,y)=E(x,\omega y)-\bar\omega E(x,y).
+\end{equation}
+Compatibility with the $\cO$-action shows that $h$ is conjugate-linear in its first argument, linear in its second, and Hermitian. Its values on $\Lambda$ lie in $\cO$. The coefficient of $\omega$ in $h(x,y)$ is $E(x,y)$.
+
+If $H$ is its matrix in an $\cO$-basis, then $|\det H|$ is exactly the product of the elementary divisors of $E$. To check the normalization, the identity Hermitian matrix gives a unimodular alternating form on the integral basis $(v_i,\omega v_i)$. Replacing the identity by $H$ multiplies that alternating determinant by the rational determinant of the $K$-linear matrix $H$, namely
+\[
+ \Nm_{K/\Q}(\det H)=(\det H)^2.
+\]
+Thus $\det E=(\det H)^2=\Delta^2$. In signature $(4,4)$, $\det H=\Delta>0$.
+
+Choose a rational isotropic $K$-subspace $I$ of dimension four. The submodule $I\cap\Lambda$ is primitive: if a nonzero $a\in\cO$ satisfies $ax\in I$, then $x\in I$. Since $\cO=\Z[\omega]$ is a principal ideal domain, a basis $v$ of this submodule extends to a basis $(v,w)$ of $\Lambda$. In that basis
+\[
+ H=\begin{pmatrix}0&B\\B^*&D\end{pmatrix},
+ \qquad \Delta=\det H=\Nm(\det B).
+\]
+Put $b=\det B$ and $X=(B^*)^{-1}D/2$. The substitution $w'=w-vX$ kills the lower-right Hermitian block. Set $u=w'B^{-1}$. Then $h(v,u)=I_4$ and $h(u,u)=h(v,v)=0$, so $(v,u)$ is a standard hyperbolic basis.
+
+Let $\mu$ carry this basis to the standard basis $(e,f)$. The formulas in both directions are
+\begin{align*}
+ \mu(v)&=e,& \mu(w)&=fB+eX,\\
+ \mu^{-1}(e)&=v,& \mu^{-1}(f)&=wB^{-1}-vXB^{-1}.
+\end{align*}
+The entries of $X$ have denominator $2\bar b$, those of $B^{-1}$ have denominator $b$, and those of $XB^{-1}$ have denominator $2b\bar b=2\Delta$. Multiplication by $2\Delta$ makes both displayed coordinate matrices integral over $\cO$. This proves the two denominator assertions without any bound on the sizes of the entries of $B$ or $D$.
+
+Apply the construction to the source lattice, whose elementary-divisor product $\Delta_A$ divides $G^8$ by \findingref{SQ2}, and to the fixed target lattice, whose product is $\Delta$. Their comparison has denominator dividing $4\Delta_A\Delta$. Hence the integer $N_{\rm isog}=4G^8\Delta$ clears it uniformly.
+
+Transport the rational comparison over a simply connected polydisc in the Hurwitz component. Multiplication by $N_{\rm isog}$ gives a $K$-linear isogeny from each source fibre to the target fibre at the corresponding period point. The unscaled map is a Hermitian isometry, and \eqref{eq:SQ-integralHermitian} recovers the alternating form from it. Therefore
+\[
+ \phi^*\theta_{\rm target}=N_{\rm isog}^{2}\theta_A.
+\]
+For a four-cycle $Z$, the projection formula gives
+\[
+ \deg_{\theta_{\rm target}}\phi_*Z
+ =\int_Z\phi^*\theta_{\rm target}^4
+ =N_{\rm isog}^{8}\deg_{\theta_A}Z.
+\]
+Isogeny pushforward preserves nonvanishing of the projected Weil class because it induces a rational isomorphism of Weil planes up to a nonzero scalar.
+
+Finally, the independently checked dominance argument of \citet[Section~9, proof of Theorem~A]{Severn26} gives a nonempty analytic open image in the fixed period space. Applying \findingref{SQ6} and the degree formula on that image proves \findingref{SQ1}.
+\end{proof}
+
+\begin{remark}[Integral-action scope]
+The source integral action is certified in \findingref{SQ2}. The target hypothesis is satisfied by the fixed principal balanced $E^8$ family and by the integral block-action family of polarization type $(1^4,3^4)$. A raw principal product $E_f^8$ equipped with diagonal scalar $\omega$ and $\bar\omega$ actions, for a nonmaximal CM order of conductor $f>1$, need not have an $\cO_K$-stable lattice. That realization requires an additional conductor denominator and is not silently included in \eqref{eq:SQ-D}. The fixed integral PEL family and its tensor-compatible Hecke orbit satisfy the stated hypothesis.
+\end{remark}
+
+\subsection{From an effective seed to numerical bounded division}
+
+\begin{proposition}[SQ8: the integral Weil projector and its degree cost]\label{SQ8}
+Let $\delta_4$ and $B_4$ be the eightfold denominator and weighted coefficient sum in Table~\ref{tab:projectors}. Explicitly,
+\begin{align*}
+ \delta_4&=411891354565851759965785179617340330000,\\
+ B_4&=497657009489489182584908205353846834744.
+\end{align*}
+For an effective four-cycle $Z$ of degree at most $D$, the class $\delta_4P_4\cl(Z)$ has an integral signed representative of degree mass at most $B_4D$. A collection with projected classes spanning the Weil plane therefore gives a spanning collection of integral Weil classes with this mass bound.
+\end{proposition}
+\begin{proof}
+We recall the normalization to make the degree cost explicit. Put $a=\iota(3+\omega)$. Since $a^\dagger a=[7]$, one has $a^*\theta=7\theta$. Its action on $H^8$ has nine distinct eigenvalues
+\[
+ (3+\omega)^{8-j}(3+\bar\omega)^j,\qquad 0\le j\le8.
+\]
+The extreme two eigenspaces are exactly the Weil plane. The polynomial of \findingref{P1} is one on those two eigenvalues and zero on the other seven; its cleared numerator is an integral polynomial $Q=\delta_4P_4$. All nine values, the denominator, and all coefficients were recomputed independently in \texttt{severn\_quantitative.py}, and agree with Table~\ref{tab:projectors}.
+
+Pullback of an effective four-cycle by $a^j$ is effective and multiplies its degree by $7^{4j}$. Indeed, $\deg a=7^8$, and the projection formula gives $a_*\theta^4=7^4\theta^4$. Thus the sum of the absolute degree contributions from $Q(a^*)Z$ is at most
+\[
+ \left(\sum_j|Q_j|7^{4j}\right)D=B_4D.
+\]
+The class lies in the Weil plane, and multiplication by the nonzero scalar $\delta_4$ does not change the rational span.
+\end{proof}
+
+\begin{theorem}[SQ9: an explicit uniform complexity cap]\label{SQ9}
+Let $t\ne0$ be a fixed rational flat Weil section on the family of \findingref{SQ1}. Choose $q_t\in\Z_{>0}$ with $q_tt$ integral and put
+\[
+ T=\int(q_tt)^2\in\Z_{>0},\qquad
+ B=B_4D_8(\Delta).
+\]
+Then on every fibre of the family, and hence on its tensor-compatible Hecke orbit,
+\begin{equation}\label{eq:SQ-cap}
+ c_t(s)\le C_8(t,\Delta):=B^4(q_t+4T+4).
+\end{equation}
+In particular there are integral effective cycles with $Nt_s=\cl(Y^+)-\cl(Y^-)$ and both $N$ and the two degrees at most the explicitly specified integer in \eqref{eq:SQ-cap}. The value $t=0$ is represented by the zero cycle with $N=1$.
+\end{theorem}
+\begin{proof}
+On the analytic open subset in \findingref{SQ1}, apply \findingref{SQ8} to its finite spanning collection and select two independent integral Weil classes $y_1,y_2$. Each has a signed representative of mass at most $B$.
+
+Every Weil class is primitive. The polarization has one factor from each $K$-eigenspace, whereas a Weil determinant already fills all eight dimensions of one eigenspace; hence $\theta\wedge y_i=0$. The Hodge star on a primitive $(4,4)$-class in complex dimension eight is $+1$, so the intersection form is positive definite on the Weil plane.
+
+For clarity, the degree-to-norm estimate is given directly on the Weil plane. Choose the invariant K\"ahler metric with class $\theta$ and volume
+\[
+ V=\int\theta^8/8!=\Delta\ge1.
+\]
+Let $w$ be a real Weil class of $L^2$-norm one, represented by its invariant harmonic form. Its pointwise norm is $V^{-1/2}$, so its comass is at most $V^{-1/2}$. Wirtinger's identity gives volume $\deg_\theta Z/4!$ for an effective four-cycle $Z$. If $Z_i$ is the signed representative of $y_i$, then $*w=w$ and hence
+\[
+ |(y_i,w)|=\left|\int_{Z_i}w\right|
+ \le\frac{\operatorname{mass}_\theta(Z_i)}{4!\sqrt V}
+ \le\frac{B}{4!\sqrt V}.
+\]
+Taking the supremum over unit vectors $w$ of the positive Weil plane gives $\|y_i\|\le B/(4!\sqrt V)\le B$. This is the direct mass/comass estimate used in \findingref{P0} and \findingref{P3}; no norm assertion about classes outside the Weil plane is needed.
+
+Let $A=((y_i,y_j))$ be the integral Gram matrix. Its entries have absolute value at most $B^2$, and positive definiteness gives an integer
+\[
+ 1\le d:=\det A\le B^4.
+\]
+The numbers $b_i=(q_tt,y_i)$ are integers and satisfy $|b_i|\le B\sqrt T$. Cramer's rule yields integers $n_1,n_2$ with
+\[
+ d q_tt=n_1y_1+n_2y_2,
+ \qquad |n_1|+|n_2|\le4B^3\sqrt T.
+\]
+The left multiplier is at most $q_tB^4$, and the signed representative on the right has degree mass at most $4B^4\sqrt T$. Both are bounded by the integer $B^4(q_t+4T+4)$.
+
+This bound holds on a nonempty analytic open subset. The closed-locus assertion of \findingref{R21} implies that $S_{C_8}$ is closed algebraic. Since it contains that analytic open and the base is irreducible, it is the whole base. No Baire selection of an unknown degree is used at this final step: the same explicit integer $C_8$ globalizes.
+\end{proof}
+
+\paragraph{A smaller principal-lattice envelope.}
+For the principal balanced family, \findingref{P2b} makes the final two-dimensional calculation more concrete. Write $D=D_8(1)$ and set
+\begin{equation}\label{eq:SQ-H}
+ H=\max\left(1,\left\lfloor
+              \frac{\delta_4^2D^2}{31104}\right\rfloor\right).
+\end{equation}
+For either basis target $u_4$ or $v_4$, one may take the uniform complexity cap
+\begin{equation}\label{eq:SQ-principalcap}
+ N_s\le1265H,\qquad
+ \deg Y_s^\pm\le6325H B_4D.
+\end{equation}
+For $t=(a u_4+b v_4)/q$, with $a,b\in\Z$ and $q>0$, the corresponding bounds are
+\begin{equation}\label{eq:SQ-generaltargetcap}
+ N_s\le1265qH,\qquad
+ \deg Y_s^\pm\le6325H B_4D(|a|+|b|).
+\end{equation}
+If a \emph{single common multiplier} is desired, put
+\begin{equation}\label{eq:SQ-commonN}
+ N_0=1265\operatorname{lcm}(1,\ldots,H).
+\end{equation}
+Then the multiplier $qN_0$ works on every fibre, with both effective degrees at most
+\begin{equation}\label{eq:SQ-commonD}
+ 5N_0B_4D(|a|+|b|).
+\end{equation}
+
+\begin{proof}
+Take an effective seed $Z$ on the analytic open and put $z=\delta_4P_4\cl(Z)=xu_4+yv_4\ne0$. By \findingref{P2b},
+\[
+ \|z\|^2=54(x^2+xy+y^2).
+\]
+The sharper principal-volume estimate in \findingref{P3} gives
+\[
+ 1\le x^2+xy+y^2\le
+       \left\lfloor\frac{\delta_4^2D^2}{54(4!)^2}\right\rfloor\le H.
+\]
+This explains $31104=54(4!)^2$ in \eqref{eq:SQ-H}.
+
+On the basis $(u_4,v_4)$, $T=\iota(3+\omega)^*$ has matrix
+\[
+ \begin{pmatrix}-1504&1265\\-1265&-2769\end{pmatrix}.
+\]
+Consequently
+\[
+ |\det(z,Tz)|=1265(x^2+xy+y^2).
+\]
+It is nonzero, and multiplication by it clears the coefficients of either $u_4$ or $v_4$ in the rational basis $(z,Tz)$. Also $\|Tz\|=2401\|z\|$, and the angle $\alpha$ between the two vectors satisfies
+\[
+ |\sin\alpha|=\frac{1265\sqrt3}{2\cdot2401}.
+\]
+The shortest nonzero vector of the lattice has norm $\sqrt{54}$, equal to the norms of $u_4$ and $v_4$. Thus, if $u_4=rz+sTz$, or if $v_4=rz+sTz$, elementary two-dimensional Cramer's estimates give
+\[
+ |r|+2401|s|
+ \le\frac{4\cdot2401}{1265\sqrt3}<5.
+\]
+The signed representatives of $z$ have each degree at most $B_4D$ by \findingref{SQ8}; those of $Tz$ have each degree at most $2401B_4D$. Taking the multiplier $1265(x^2+xy+y^2)$ proves \eqref{eq:SQ-principalcap}. Taking the indicated integral linear combination and multiplying by $q$ proves \eqref{eq:SQ-generaltargetcap}.
+
+Every possible $x^2+xy+y^2$ divides $\operatorname{lcm}(1,\ldots,H)$. Hence $N_0$ in \eqref{eq:SQ-commonN} clears all the basis coefficients simultaneously, proving the fixed-multiplier estimate \eqref{eq:SQ-commonD} on the analytic open. For the complexity caps use the closed $S_C$ of \findingref{R21}; for the common multiplier use its closed fixed-$N$ locus with the degree in \eqref{eq:SQ-commonD}. In both cases the analytic open forces the locus to be the entire irreducible family. The integer $H$ is an explicit upper envelope, not the least attainable quadratic value or denominator.
+\end{proof}
+
+\paragraph{Verification scope of the numerical extraction.}
+The group order, scalar-unit membership, parabolic basis, cup-product matrix, and all seventeen geometric logarithms were reconstructed exactly before this extraction. The integer-lattice coefficient bound, the integral Schoen transfer, the curve-power contraction, the divisor spanning argument, the $40G$ nef estimate, the binomial intersection formula, the two-sided $2\Delta$ lattice comparison, and the final mass/comass and Gram estimates each received full proof readings, including independent readings by another agent. The projector arithmetic agrees with \findingref{P1}. These are mathematical proof checks and exact arithmetic certificates, not formal theorem-prover verification. The deep cited inputs retain their stated provenance, especially the version-specific supplier repair and dominance theorem in the unrefereed manuscript \citet{Severn26}.
+
+% END INCLUDED SOURCE: eightfold_quantitative.tex
+
+
+\begin{proposition}[P5: the homological motive after algebraicity]\label{P5}
+For a Weil-type abelian $2n$-fold with the projector of P1, algebraicity of $W_K(A)$ is equivalent to
+\[
+ (h^{2n}(A),P_n)\simeq\Q(-n)^{\oplus2}
+\]
+in rational homological motives. This gives a rational realization-theoretic splitting, not a bound on an integral or effective presentation.
+\end{proposition}
+\begin{proof}
+Assume a rational algebraic basis $w_1,w_2$ of $W_K(A)$. The positive Gram matrix is $G_{ij}=(-1)^n\int_Aw_iw_j$. The algebraic dual classes
+\[
+ w^i=(-1)^n\sum_j(G^{-1})_{ij}w_j
+\]
+satisfy $\int_Aw_kw^i=\delta_{ki}$. The two basis cycles give a morphism from $\Q(-n)^{\oplus2}$ to the projected middle motive. The dual cycles, composed with the projector, give its inverse. Their compositions act as the identity on both realizations, hence are identities modulo homological equivalence. P1 is used on $h^{2n}$, or after composition with its algebraic K\"unneth projector on the total motive. Conversely, an isomorphism to the two Tate summands consists of algebraic correspondences and supplies an algebraic basis. The inverse Gram matrix introduces rational denominators and has no effectivity statement, so no stronger conclusion follows.
+\end{proof}
+
+\section{Arithmetic approaches: exact implications and limitations}\label{sec:arithmetic}
+\begin{proposition}[A1: positive bounded-complexity mass suffices]\label{A1}
+Let $\mu_j$ be probability measures on finite Hecke multisets converging weakly to the smooth invariant probability measure $\mu$ on $S(\C)$. Either $S_C=S$ for some finite $C$, or $\mu_j(S_C)\to0$ for every finite $C$. In particular, either of the following forces a global uniform bound:
+\begin{enumerate}[label=(\roman*)]
+\item a fixed $C$ with $\limsup_j\mu_j(S_C)>0$;
+\item a uniform first-moment estimate $\sup_j\int c_t\,d\mu_j\le M<\infty$.
+\end{enumerate}
+In (ii), one can use $S_{\lceil2M\rceil}=S$.
+\end{proposition}
+\begin{proof}
+A proper complex algebraic subset has measure zero for a smooth volume form, as a stratification into smaller-dimensional complex manifolds shows. R21 makes $S_C$ closed. The closed-set inequality for weak convergence gives
+$\limsup_j\mu_j(S_C)\le\mu(S_C)=0$ if $S_C$ is proper. This proves the dichotomy and (i). In (ii), Markov's inequality gives $\mu_j(c_t\le2M)\ge1/2$, so (i) applies. More generally tightness of the complexity distributions is equivalent to global boundedness under this equidistribution hypothesis.
+\end{proof}
+
+The applicable full-Hecke-packet equidistribution input is already unconditional: \citet[Theorem~1.2]{EskinOh06}, for arithmetic quotients of a noncompact $\Q$-simple real algebraic group and double-coset degrees tending to infinity. Pushforward from $\Gamma\backslash G$ to the symmetric-space quotient gives the stated form for the special unitary datum. A GRH-dependent Galois-orbit theorem is a different input and must not be silently substituted. Even an effective rate of equidistribution estimates the measures, not $c_t$; it supplies neither (i) nor (ii) without a cycle estimate. If no uniform bound existed, equidistribution would instead prove escape of complexity in probability.
+
+\begin{proposition}[A2: unbounded height in a fixed-field split Hecke datum]\label{A2}
+Let $\cO_f=\Z+f\cO_K$, $E_f=\C/\cO_f$, and $B_f=E_f^{2n}$. On each pair use the integral $K$-action and polarization matrices
+\[
+ T=\begin{pmatrix}0&-1\\1&-1\end{pmatrix},\qquad
+ H=\begin{pmatrix}2&-1\\-1&2\end{pmatrix}.
+\]
+The resulting Weil data have signature $(n,n)$, fixed polarization type $(1^n,3^n)$, and split Hermitian form. They lie in one polarized $K$-linear rational-isogeny orbit. Moreover,
+\begin{equation}\label{eq:height}
+ h_F(B_{7^r})=2n\,h_F(E)+nr\log7.
+\end{equation}
+In particular the height is unbounded in this fixed-field split eightfold orbit.
+\end{proposition}
+\begin{proof}
+Direct multiplication gives $T^2+T+I=0$ and $T^{\mathsf t}HT=H$. The eigenvalues and Smith invariants of $H$ are $1,3$, so it defines the stated polarization. The two complex tangent eigenvalues of $T$ are $\omega,\bar\omega$, once each per pair. The lattice inclusion $\cO_f\subset\cO_K$ has index $f$; its identity-on-$\C$ isogeny has degree $f$. Thus the product map $\phi_f:B_f\to B_1$ commutes with $K$, has degree $f^{2n}$, and satisfies $\phi_f^*\lambda_1=f\lambda_f$.
+
+For splitness, write a pair's rational $H^1$ as $\Q^2_T\otimes H^1(E_f,\Q)$, with the product of the symmetric $H$ form and the alternating elliptic form. For a nonzero rational vector $a$ in the elliptic factor, $\Q^2_T\otimes\Q a$ is an isotropic $K$-line. The sum of the $n$ such lines is maximal isotropic.
+
+The conductor correction, obtained by subtracting the conductor-one case of \citet[Theorem~1.3]{Heights17}, is
+\[
+ h_F(E_f)-h_F(E)=\frac12\log f-\frac12\sum_{p\mid f}e_f(p)\log p,
+\]
+where, with $\chi=\chi_{-3}$,
+\[
+ e_f(p)=\frac{1-\chi(p)}{p-\chi(p)}
+ \frac{1-p^{-v_p(f)}}{1-p^{-1}}.
+\]
+At the split prime $7$, $\chi(7)=1$, and the correction vanishes. Additivity of Faltings height on products then proves \eqref{eq:height}.
+\end{proof}
+
+The field discriminant stays $-3$; the conductor changes. Thus using a fixed-field Colmez formula without the conductor term would miss the relevant height variation. The displayed sequence lies in a decomposable locus. It proves neither genericity nor unbounded minimal cycle complexity. Its conclusion is narrower and sufficient: a bound $c_t(x)\le F(h_F(A_x))$ with unbounded $F$ need not be uniform on the orbit. No GRH is needed for this counterexample to a height-only strategy.
+
+\begin{proposition}[A3: positivity is not effective-cycle coercivity]\label{A3}
+A fixed positive definite realization pairing and a fixed norm of a target do not formally bound its effective positive and negative degrees, even when the ambient integral lattice and the group generated by effective elements coincide. They also do not bound a varying integral saturation index.
+\end{proposition}
+\begin{proof}
+In $V=\Q^2$ take the Euclidean form, $t=(1,0)$, and the degree functional $d(x,y)=x$. For $m\ge1$ let the effective monoid be generated by $u_m=(m,1)$ and $v_m=(m+1,1)$. Their determinant is $-1$, so they form an integral basis and the difference group is $\Z^2$. Every nonzero effective vector has positive degree. If
+\[
+ t=(a u_m+b v_m)-(c u_m+d v_m),\qquad a,b,c,d\ge0,
+\]
+uniqueness in that basis gives $a-c=-1$ and $b-d=1$. Hence the positive part has degree at least $m+1$ and the negative part at least $m$. Equality is achieved by $t=v_m-u_m$. The minimum of the maximum degree is therefore exactly $m+1$, while $\|t\|^2=1$ for all $m$.
+
+For saturation separately, take the fixed integral lattice $\Z\subset\Q$ with its positive square form, but algebraic sublattice $m\Z$. The norm-one target $1$ has least clearing multiplier $m$.
+\end{proof}
+
+These are logical countermodels to the proposed inference, not geometric counterexamples to Hodge. A positive homological or numerical pairing must be linked to the cone of effective cycles and its integral lattice before it can yield the desired estimate.
+
+\subsection*{The precise use of the two GRH inputs}
+\citet{Alpoge26}'s RH and Dirichlet-GRH assertions are carried as cited theorems under the user's convention. The supplied \texttt{ALPOGE\_Main.lean} contains the entrypoints \path{riemannHypothesis}, \path{riemannZeta_eq_zero_re}, \path{LFunction_ne_zero_of_half_lt_re}, \path{LFunction_eq_zero_re}, and \path{LFunction_eq_zero_re_of_isPrimitive}; \texttt{ALPOGE\_Statements.lean} defines their assertions. The imported proof trees are not supplied in this ZIP, and this run did not compile them. The positivity sketch in \emph{Remark}, steps~3 and~5, p.~3 footnote~3 and the continuation on p.~4, contains no effective Chow-degree or integral saturation estimate. A3 identifies the additional statement that would be required. The source's steps~2, 4, 7, 8, 13, and~17 likewise are not used as if they furnished such an estimate.
+
+\citet{Masullo26}'s Hecke-GRH claim is treated only as the conditional premise attributed by the prompt to Section~1.2. The supplied index identifies Theorem~13.3.1.1, ``Trace Formula'', PDF p.~522, but its nearby main-theorem entries contain editorial placeholders; it does not provide a verifiable numbered statement of the general GRH conclusion. We do not invent one. No proved finding in this paper depends on Masullo's draft. Substituting either GRH premise into an effective orbit estimate would still leave A1's positive-mass or first-moment cycle estimate to prove.
+
+
+% BEGIN INCLUDED SOURCE: prime_section.tex
+\section{What ``bounded over the primes'' precisely means}\label{sec:primes}
+The following arithmetic form supplies the missing qualification in the sketch's prime-language formulation. Closely related bounded-complexity lifting theorems are \citet[Definition~2.3 and Theorems~3.1, 3.4]{BrunjesSerpe09}. The form proved here allows the clearing multipliers to vary without an a priori bound, provided the degrees are those of the \emph{integral} effective parts and the realization is a fixed global section.
+
+\begin{theorem}[P6: arithmetic lifting with varying multipliers]\label{P6}
+Let $F\hookrightarrow\C$ be a number field, $U\subset\operatorname{Spec}\cO_F$ a nonempty open with $\ell$ invertible, and $f:\mathcal X\to U$ smooth and projective. Fix a relative ample $L$ and a nonzero section
+\[
+ t_\ell\in H^0(U,R^{2p}f_*\Q_\ell(p))
+\]
+whose geometric generic value corresponds to a rational Betti class $t_B$ under the chosen comparison. The following conditions are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $t_B$ is rational algebraic;
+\item some fixed positive $N$ and finite $D$ give integral effective representatives of $Nt_\ell$ with both degrees at most $D$ at every geometric residue fibre outside finitely many places;
+\item the same holds at infinitely many places, with $N,D$ fixed;
+\item at infinitely many places it holds with $D$ fixed and positive integers $N_v$ allowed to vary without any assumed bound.
+\end{enumerate}
+In (iv), one of the occurring integers $N_0$ already gives a characteristic-zero effective pair with the same degree bound $D$. No bound on the fields of definition of the geometric residue cycles is required.
+\end{theorem}
+
+\begin{proof}
+We first specify the parameter-space fact needed in mixed characteristic. After replacing $L$ by a fixed relatively very ample power, the bounded-degree relative cycle presheaves are $h$-represented by projective Chow schemes over the noetherian base; this is \citet[Theorem~4.4.11 and Corollary~4.4.13, manuscript pp.~79--81]{SuslinVoevodsky00}. Take the finite union of their products for the allowed positive and negative degree pairs. By the definition of sheafification, a finite type $h$-cover represents the universal sections by genuine effective integral relative cycles. Quasicompactness permits a finite covering family and a common refinement for both cycles.
+
+On each of the finitely many reduced irreducible parameter components, simultaneously flatten the closures of the finitely many generic supports. Proper modifications are surjective, and the strict-transform families are flat and projective. Their associated relative cycles equal the pulled-back original cycles because relative cycles are determined by their generic values. This uses the flattening theorem in the same source, Theorem~2.2.2, and its Section~3.2 construction of cycles of flat subschemes; the detailed proper-cover form is also given by \citet[Lemmas~6.3.19, 6.3.24 and Theorem~6.3.25, pp.~188--193]{Anderson19}. We have obtained a finite type $U$-scheme $T$, surjective on geometric cycle pairs, with actual flat cycle families. Degrees remain the prescribed degrees. We do not assert the existence of a universal flat \emph{subscheme} on the coarse Chow scheme.
+
+The finitely many irreducible components of $T$ which do not dominate $U$ lie over a finite set of closed places $E$. Choose one of the places in (iv) outside $E$, and a parameter point $y$ representing its pair. Choose an irreducible component of $T$ through $y$; it is horizontal. A discrete valuation ring maps its generic point to the generic point of this component and its closed point to $y$, allowing residue-field extension. This is the trait realization of specialization, Stacks Project, Lemma~28.5.10, Tag~054F \citep{Stacks054F}. Pull back the flat cycle families to this trait. Their generic and special cycles are effective and have the same degrees.
+
+Smooth proper base change gives an isomorphism
+\[
+ \mathrm{sp}:H^{2p}(X_{\bar K},\Q_\ell(p))
+ \xrightarrow{\sim}H^{2p}(X_{\bar\kappa},\Q_\ell(p)).
+\]
+The exact Grothendieck locators are SGA~4, Expos\'e XVI, Corollaire~2.2, for this specialization, and SGA~6, Expos\'e X, Appendix~\S7, equation~(7.13.10), original pp.~578--579, for its compatibility with rational cycle classes \citep{SGA4,SGA6}. Hence
+\[
+ \mathrm{sp}\bigl(\cl(Z_K^+-Z_K^-)-N_vt_{\ell,\bar K}\bigr)=0.
+\]
+Injectivity gives the generic equality with that \emph{same} positive integer $N_v$. The fraction field is finitely generated over $F$ and embeds in $\C$ extending the chosen embedding of $F$. Betti--\'{e}tale comparison for cycle classes gives
+\[
+ \cl_B(Z_\C^+-Z_\C^-)=N_vt_B.
+\]
+Both sides are rational Betti classes, so equality after scalar extension to $\Q_\ell$ is equality over $\Q$. This proves (iv)$\Rightarrow$(i). Specializing the characteristic-zero parameter component to a $\bar F$-point preserves its cycle class and degrees. Thus one can take the pair over a finite extension of $F$, with $N_0=N_v$ and the original $D$.
+
+Conversely, a rational cycle for $t_B$ can be spread from $\C$ to a finite type $\bar F$-parameter scheme and then specialized to a closed point of a connected component. Cycle-class constancy gives a cycle over $\bar F$. Clear its coefficients and separate its two signs. Over a finite extension of $F$ all components are defined; after deleting finitely many places their closures are flat. Their geometric residue cycles have the original degrees and specialize to $Nt_\ell$. This proves (i)$\Rightarrow$(ii). The remaining implications are immediate.
+\end{proof}
+
+One can also see explicitly why varying $N_v$ is harmless. On a fixed horizontal parameter component, an equality with $N_v$ transports through a trait to its geometric generic cycle class. Two such integers would give $(N_v-N_w)t_\ell=0$ there; since the section is nonzero, they are equal. Only finitely many components occur. Thus outside finitely many places the possible multipliers for degree at most $D$ belong to a finite set. This observation does not compute their maximum.
+
+\paragraph{Exact application of 032.}
+The supplied \citet[Remark~8.5, printed pp.~50--51]{OpenAI26} concerns an abelian variety over $\overline\Q$ that need \emph{not} be CM. It states that every rational Hodge class specializes, at every good prime, to one rational algebraic cycle compatible simultaneously with the prime-to-$p$ and crystalline realizations. The remark uses the CM transport cited there as [32], Corollaries~3.4 and~6.4. With the compatible global realization fixed over a sufficiently large field of definition, it supplies pointwise cycles of the kind in P6. It supplies no common degree bound after their rational coefficients are cleared. P6 therefore makes the arithmetic gate exact: uniform integral effective degree at infinitely many good places is equivalent to characteristic-zero algebraicity. Pointwise algebraicity in all good characteristics alone is not the lifting argument.
+
+% END INCLUDED SOURCE: prime_section.tex
+
+
+% BEGIN INCLUDED SOURCE: archive_section.tex
+\section{Grothendieck's frameworks and the verified archival locators}\label{sec:archive}
+\paragraph{G1: two letters, and two numbering conventions.}
+The official Montpellier catalogue identifies cote~16 as a dossier concerning correspondences and Poincar\'e--Hodge algebras \citep{Groth16}. Its original PDF was retrieved from the catalogue's actual viewer link, and the relevant pages were rendered and visually inspected. The file has $56$ PDF pages, including the cover; on all inspected content pages the printed archive folio is one less than the one-based PDF page number. The source hash and retrieval details are recorded in the audit notes.
+
+The sketch's attribution of PDF pages~44--50 to a single letter of 4 January 1967 is incorrect. Pages~44--47, printed folios~43--46, are that letter. Page~48, printed folio~47, starts a distinct Coates letter whose manuscript date reads \emph{6.1.1966}. Its semisimplicity discussion is on PDF page~49, printed folio~48, and its Weil-conjecture passage on PDF page~50, printed folio~49. The CSG draft transcriptions L10d and L11d agree with this division and with the second date as written. We do not emend that year on chronological grounds and do not claim a CSG transcription error. The correction is to the supplied sketch's attribution.
+
+\begingroup\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{25mm}>{\raggedright\arraybackslash}p{44mm}>{\raggedright\arraybackslash}p{76mm}@{}}
+\toprule
+Findings & Exact verified framework locator & Relationship, with its limit\\
+\midrule
+\endhead
+R20, R24E--F, P0--P3, P2b, P5, SQ8--SQ9 & Cote~16, \S7, PDF pp.~14--17 / printed folios~13--16; \S8, PDF p.~18 / folio~17 & The integral exterior-algebra Lefschetz construction and its correspondence-ring language organize the projector and pairing. They do not assert bounded effective cycle representatives.\\
+R21, R24A--B, M4 & FGA, expos\'e~221, Th\'eor\`emes~3.1--3.2, pp.~259--260; relative Chow refinement cited in R21 & Projective parameter spaces turn bounded cycle presentations into closed loci. A fixed-Hilbert-polynomial theorem alone must not be mistaken for a bounded-degree theorem.\\
+R22, R23, P4 & SGA~1, Expos\'e XII, Th\'eor\`eme~5.1; rational weight-one Hodge/isogeny equivalence as cited in R22 & Finite monodromy covers are algebraic; Hecke correspondences act through the appropriate tensor stabilizer. The modern Shimura and Andr\'e--Oort inputs are identified separately.\\
+M2--M10, MR1--MR3 & FGA, expos\'e~221, Th\'eor\`emes~3.1--3.2; SGA~6, X, Appendix~\S7, (7.13.10), pp.~578--579 & Coherent-sheaf and cycle-class framework. The actual analytic openness uses Grauert, \S7, Satz~3, pp.~62--63. The numerical regularity and effective Chern estimates are new derivations, not an archival corollary.\\
+SQ1--SQ7 & Cote~16, \S8, PDF p.~18 / folio~17; SGA~1, XII, 5.1; FGA~221, 3.1--3.2 & Finite covers, algebraic correspondences and proper cycle loci organize the supplier transfer. Schoen and Milne provide the modern geometric and invariant-theoretic inputs.\\
+P6 & SGA~4, XVI, Corollaire~2.2; SGA~6, X, Appendix~\S7, (7.13.10), pp.~578--579 & Smooth proper specialization and compatibility with rational cycle classes; the mixed-characteristic cycle parameter theorem is stated separately in P6.\\
+P5, A3 & Cote~16, first Coates letter, PDF pp.~44--47 / folios~43--46; second letter, PDF pp.~48--50 / folios~47--49 & Algebraic Lefschetz inverses, index pairings and semisimplicity concern rational correspondences. Their numerical positivity does not control integral saturation or the size of effective positive and negative parts.\\
+A1, A2 & The correspondence framework of cote~16; specific modern inputs Eskin--Oh, Theorem~1.2, and the conductor formula, Theorem~1.3 & There is no archival theorem of effective Hecke equidistribution or Colmez heights in these pages. Giving their modern exact locators is preferable to inventing an old one.\\
+\bottomrule
+\end{longtable}
+\endgroup
+
+On PDF page~14, printed folio~13, the manuscript explicitly begins with a free integral module of rank $2n$, an alternating form nondegenerate over $\Z$, its exterior algebra, wedge multiplication and contraction. It defines the integral ring generated by those two operators. The parenthetical integral nondegeneracy qualification is visible in the original. This is an integral linear-algebra construction. Interpreting it on the cohomology of a principally polarized abelian variety does not supply an effective cycle theorem.
+
+On PDF page~45, printed folio~44, the first letter displays the critical-degree map $H^{2n-2}\to H^{2n+2}$ in its equivalence discussion. The second letter's semisimplicity passage uses the K\"unneth and index hypotheses. These structural questions are compatible with P5, but the inverse Gram matrix in P5 shows exactly where rational denominators remain even after the realization is a Tate sum.
+
+No original cote~44 scan was used in this run. The sketch's references to that separate Jacobian programme are retained as source pointers only. No finding is attributed to a nonexistent checked proof in runs H7, H8, or H9: those run packages were not supplied. The mapping in \texttt{IMPLICATIONS.md} distinguishes the sketch's labels from independently inspected run statements.
+
+\subsection*{Consequences for Hodge, Tate and the standard conjectures}
+M1 gives the full Hodge conjecture on the fourfold family through the cited Markman corollary. P4 gives algebraicity of the Weil plane throughout the fixed split eightfold family. Together with the full-special-unitary Hodge-group hypothesis, the invariant-theory criterion in Severn's Theorem~11.2 yields the full Hodge conjecture for all powers of those members. P5 describes the resulting rational Tate summand in the category of homological motives. Its dual algebraic correspondences also pass to numerical motives; no claim about integral Chow projectors or rational equivalence is being substituted for the homological statement.
+
+The supplied CM theorem is \citet[Theorem~1.1]{OpenAI26}, with the parallel human proof \citet[Theorem~I]{vanHoften26}. The supplied report \citet[Theorems~2.1, 3.1, and~3.5]{Milne26} records, respectively, the CM-Hodge input, the full Tate conjecture for abelian varieties over finite fields, and the Hodge standard conjecture for abelian varieties. These are cited background results under the prompt's convention. They are not newly derived from the eightfold calculation. Their positivity concerns algebraic classes modulo the relevant equivalence relation; A3 explains why it does not alone construct bounded effective representatives of an arbitrary rational Hodge tensor. The prime-specialization distinction is made in the preceding section.
+
+% END INCLUDED SOURCE: archive_section.tex
+
+
+% BEGIN INCLUDED SOURCE: open_and_bibliography.tex
+\newpage
+\part{Unproved extensions, source limitations, and verification scope}\label{part:open}
+\section{Statements that are not conclusions of this run}
+The requested fixed-family bounded-division statements are proved above, with explicit upper-bound formulas: M10 for the principal split fourfold datum, and SQ1--SQ9 for the integral split eightfold datum. The following stronger statements are kept separate. None is used in a proof in Part~I.
+
+\paragraph{U1: a bound uniform over changing rational targets.}
+No such assertion is made. It is false with the R20 convention: the target $u/q$, for primitive integral $u$, forces $q\mid N$. The formulas explicitly retain the target denominator $q$. The degree formulas also retain the absolute values of its integral coordinates.
+
+\paragraph{U2: arbitrary changing orders and polarization types.}
+SQ1 fixes the target polarized integral $\Z[\omega]$ datum and its finite-type moduli component. Its formula includes the product $\Delta$ of the polarization elementary divisors. We have not proved one constant independent of $\Delta$, of the integral order acting, or of an unbounded index needed to enlarge a nonmaximal-order lattice. The natural principal balanced $E^8$ datum in the question is within the proved scope. A rational $K$-action alone, with no integral-order control, is not silently substituted for that hypothesis.
+
+\paragraph{U3: optimality and cycle equations.}
+The numbers are certified sufficient bounds. They are not least multipliers, least degrees, or lower bounds for complexity. The factorial expression in SQ1 is an exact finite integer specification; expanding its decimal digits is neither required nor computationally feasible here. The proof obtains effective cycles from a finite spanning construction and proper intersections, but does not print equations for a chosen cycle at every point of the moduli space. Closedness transfers the explicit bound to all fibres without selecting a global cycle family.
+
+\paragraph{U4: unrestricted higher-dimensional Hodge conjectures.}
+Algebraicity of the two-dimensional Weil plane on the eightfold family, and the full Hodge conjecture on powers under the cited full-special-unitary hypothesis, do not imply the Hodge conjecture for every abelian variety of every dimension. The general reduction remains R21--R22. Neither arithmetic equidistribution nor a height estimate supplies A1's bounded-complexity mass without an additional cycle construction. P6 gives the corresponding arithmetic lifting criterion, not a proof of its degree hypothesis for every abelian variety.
+
+\paragraph{U5: integral Chow projectors and global sheaf moduli.}
+P1 and P5 are statements modulo homological equivalence with rational coefficients. No integral idempotent modulo rational equivalence is asserted. M7--M10 use a controlled initial sheaf and local semicontinuity; they do not assert stability or properness of a global moduli space of all deformed sheaves. M3 refutes the indicated genus-four ideal-seed extension only. It leaves other complexes and transforms outside its conclusion.
+
+\paragraph{U6: proof-audit boundaries.}
+The complete new arguments in this report have been read and checked; the event log identifies actual independent reconstructions and computations. Standard background theorems remain cited inputs. Severn's manuscript status and the exact scope of S1--S3 are retained. The supplied CM-Hodge results and Alp\"oge's RH/Dirichlet-GRH theorems are carried under the prompt's stated convention. This run inspected the supplied Lean entrypoints and statements; it did not compile the imported archive or independently certify its kernel closure. Masullo's general Hecke-GRH premise is conditional and unused. Only its supplied index was available; no numbered general-GRH theorem was reconstructed from placeholders. No new proof of any of these cited theorems is claimed.
+
+\section{Reproducibility and locator conventions}
+The package contains the standalone source of this paper, its compiled PDF, the requested ledgers and tables, and the computational scripts and audit notes. The scripts distinguish exact rational/integer arithmetic from geometric arguments. Run paths in historical notes name the original working layout; the packaged \path{work/} directory retains that layout. The unmodified supplied-source filenames and their SHA-256 hashes are recorded in \texttt{SOURCE\_MANIFEST.tsv}. The new source-download hashes are recorded where available. Compilation and render checks are reported separately from proof checks.
+
+The source label \texttt{HECKE\_DIV\_20261121} identifies this run. Earlier labels H7, H8, H9, RESEARCH\_SA06 and RESEARCH\_SA07 occur only as quoted pointers in the supplied bridge sketch: their underlying proof packages were not supplied, so no row in those packages is certified here. PDF page numbers for cote~16 are one-based and include the cover; the printed folio is also given. The single verified transcription-note row corrects a bibliographical conflation in the sketch, without asserting a new transcription of illegible manuscript lines.
+
+\begin{thebibliography}{99}
+\bibitem[Alp\"oge(2026)]{Alpoge26}
+Alp\"oge, L. (2026, November 20). \emph{Remark}. Supplied four-page note and Lean entrypoints. \url{https://alpo.ge/remark.pdf}. Locators used: steps~3 and~5, p.~3 footnote~3 and continuation on p.~4; \texttt{ALPOGE\_Main.lean} and \texttt{ALPOGE\_Statements.lean}, entrypoints specified in the text. RH and Dirichlet-GRH are carried as theorems under the task convention; the imported formalization was not rerun.
+
+\bibitem[Anderson(2019)]{Anderson19}
+Anderson, O. E. (2019). \emph{Chow schemes in mixed characteristic} [Doctoral thesis, University of Liverpool]. Locators: Lemmas~6.3.19 and~6.3.24, Theorem~6.3.25, pp.~188--193. The original thesis PDF was inspected and is included among the audit sources.
+
+\bibitem[Barquero-Sanchez et~al.(2017)]{Heights17}
+Barquero-Sanchez, A., Cadwallader, L., Cannon, O., Genao, T., \& Masri, R. (2017). Faltings heights of CM elliptic curves and special Gamma values. \emph{Research in Number Theory, 3}, Article~13. \url{https://doi.org/10.1007/s40993-017-0077-7}. Locator: Theorem~1.3 and the definition of the conductor correction following Theorem~1.1.
+
+\bibitem[Bauer and Szemberg(1996)]{BauerSzemberg96}
+Bauer, T., \& Szemberg, T. (1996). On tensor products of ample line bundles on abelian varieties. \emph{Mathematische Zeitschrift, 223}, 79--85. \url{https://www.informatik.uni-marburg.de/~tbauer/1996-On-tensor-products.pdf}. Locator: Theorem~1.1(a)--(b), printed p.~79; complete proof pp.~79--81.
+
+\bibitem[Br\"unjes and Serp\'e(2009)]{BrunjesSerpe09}
+Br\"unjes, L., \& Serp\'e, C. (2009). \emph{Uniform bounds and ultraproducts of cycles}. arXiv:0901.4853v1. \url{https://arxiv.org/pdf/0901.4853}. Locators: Definition~2.3; Theorems~3.1 and~3.4. The arXiv-version year is used; a later typesetting date in the supplied retrieval is not treated as a new theorem version.
+
+\bibitem[Dellaca(2014)]{Dellaca14}
+Dellaca, R. (2014). \emph{Gotzmann regularity for globally generated coherent sheaves}. arXiv:1410.8612v4. \url{https://arxiv.org/pdf/1410.8612v4}. Locator: Theorem~2.7, p.~3, for the classical Gotzmann regularity statement used in MR.
+
+\bibitem[Eskin and Oh(2006)]{EskinOh06}
+Eskin, A., \& Oh, H. (2006). Ergodic theoretic proof of equidistribution of Hecke points. \emph{Ergodic Theory and Dynamical Systems, 26}, 163--167. \url{https://doi.org/10.1017/S0143385705000428}. Locator: Theorem~1.2; primary preprint \url{https://arxiv.org/pdf/math/0409507}.
+
+\bibitem[Gotzmann(1978)]{Gotzmann78}
+Gotzmann, G. (1978). Eine Bedingung f\"ur die Flachheit und das Hilbertpolynom eines graduierten Ringes. \emph{Mathematische Zeitschrift, 158}, 61--70. \url{https://doi.org/10.1007/BF01214566}. The regularity form is used with the precise modern locator Dellaca, Theorem~2.7; no unchecked original theorem number is assigned.
+
+\bibitem[Grauert(1960)]{Grauert60}
+Grauert, H. (1960). Ein Theorem der analytischen Garbentheorie und die Modulr\"aume komplexer Strukturen. \emph{Publications Math\'ematiques de l'IH\'ES, 5}, 5--64. \url{https://doi.org/10.1007/BF02684746}. Locator: \S7, Satz~3, printed pp.~62--63; hypotheses immediately preceding the statement. The analytic upper-semicontinuity theorem is used for the ordinary flat coherent family in M8. The 1963 correction (volume~16, pp.~35--36, DOI~10.1007/BF02684291) concerns the technical proof; no changed semicontinuity statement is asserted.
+
+\bibitem[Grothendieck(1961)]{FGA}
+Grothendieck, A. (1961). Techniques de construction et th\'eor\`emes d'existence en g\'eom\'etrie alg\'ebrique IV: Les sch\'emas de Hilbert. \emph{S\'eminaire Bourbaki}, expos\'e~221, pp.~249--276. \url{https://www.numdam.org/article/SB_1960-1961__6__249_0.pdf}. Locators: Th\'eor\`emes~3.1--3.2, pp.~259--260. Reprinted in FGA.
+
+\bibitem[Grothendieck(1966--1967)]{Groth16}
+Grothendieck, A. (1966--1967, manuscript dates). \emph{Correspondences and Poincar\'e--Hodge algebras; letters to J. Coates}. Archives Grothendieck, Montpellier, cote~16. \url{https://grothendieck.umontpellier.fr/16.pdf}. Exact inspected locators: \S7, PDF pp.~14--17 / folios~13--16; \S8, PDF p.~18 / folio~17; letter dated 4.1.67, PDF pp.~44--47 / folios~43--46; distinct letter dated 6.1.1966 as written, PDF pp.~48--50 / folios~47--49.
+
+\bibitem[Grothendieck et~al.(1971)]{SGA1}
+Grothendieck, A., et~al. (1971). \emph{Rev\^etements \'etales et groupe fondamental (SGA~1)}. Lecture Notes in Mathematics~224. Springer. Revised typeset edition: \url{https://arxiv.org/pdf/math/0206203}. Locator: Expos\'e XII, Th\'eor\`eme~5.1.
+
+\bibitem[Artin, Grothendieck, and Verdier(1973)]{SGA4}
+Artin, M., Grothendieck, A., \& Verdier, J.-L. (Eds.). (1973). \emph{Th\'eorie des topos et cohomologie \'etale des sch\'emas (SGA~4), tome~3}. Lecture Notes in Mathematics~305. Springer. Locator: Expos\'e XVI, Corollaire~2.2, original p.~214 (retypeset copy p.~139). \url{https://pi.math.cornell.edu/~dkmiller/bin/sga4-3.pdf}.
+
+\bibitem[Berthelot, Grothendieck, and Illusie(1971)]{SGA6}
+Berthelot, P., Grothendieck, A., \& Illusie, L. (Eds.). (1971). \emph{Th\'eorie des intersections et th\'eor\`eme de Riemann--Roch (SGA~6)}. Lecture Notes in Mathematics~225. Springer. Exact locator used in P6: Expos\'e X, Appendix~\S7, equation~(7.13.10), original pp.~578--579. Original page images were visually checked.
+
+\bibitem[Koll\'ar(2017--2018)]{Kollar18}
+Koll\'ar, J. (2017--2018). \emph{Moduli of varieties of general type} [Book manuscript, version at the cited URL]. \url{https://web.math.princeton.edu/~kollar/book/modbook20170720-hyper.pdf}. Locator: Definition~3.21, properties (3.21.1)--(3.21.2), manuscript p.~119. The citation identifies the inspected draft, not an assumed pagination of a later book.
+
+\bibitem[Markman(2025)]{Markman25}
+Markman, E. (2025). \emph{Cycles on abelian $2n$-folds of Weil type from secant sheaves on abelian $n$-folds}. arXiv:2502.03415v2; supplied source \texttt{250531.tex}. \url{https://arxiv.org/html/2502.03415v2}. Locators: Theorems~1.4.1 and~1.5.1; Corollary~1.6.1; \S7.4.2; Example~8.2.3; Proposition~9.2.1; Lemma~9.3.11; final proof of Theorem~1.5.1 at the end of \S9.3. Exact local source-line locators are given in the corresponding proofs and audit notes.
+
+\bibitem[Masullo(2026)]{Masullo26}
+Masullo, A. M. (2026, November 20). \emph{The music of the primes} [Draft, reported as 940 pages]. The supplied \texttt{MASULLO\_STATEMENTS\_INDEX.md} is the inspected source. Locator available: Theorem~13.3.1.1, ``Trace Formula'', PDF p.~522. General Hecke-GRH is attributed by the task to \S1.2; its exact numbered statement was not available in the supplied index. This premise is conditional and unused.
+
+\bibitem[Milne(1999)]{Milne99}
+Milne, J. S. (1999). Lefschetz classes on abelian varieties. \emph{Duke Mathematical Journal, 96}, 639--675. \url{https://jmilne.org/math/articles/1999aP.pdf}. Locators: Lemma~3.1 and Theorem~3.2; Lemma~3.5, Proposition~3.6 and Remark~3.7, preprint pp.~14--18.
+
+\bibitem[Milne(2017)]{MilneShim}
+Milne, J. S. (2017). \emph{Introduction to Shimura varieties} [Notes, September 16 version]. \url{https://www.jmilne.org/math/xnotes/svi.pdf}. Locators: Theorem~5.4, p.~54; Corollary~6.9, p.~73; Lemma~13.5, p.~118.
+
+\bibitem[Milne(2026)]{Milne26}
+Milne, J. S. (2026, November 9). \emph{On the Hodge, Tate, and standard conjectures for abelian varieties}. Hexagon 2611.00244v1; supplied PDF. \url{https://hexagonmath.org/2611.00244v1}. Locators: Theorems~2.1, 3.1 and~3.5, with the meanings distinguished in the text.
+
+\bibitem[OpenAI(2026)]{OpenAI26}
+OpenAI. (2026, October 6). \emph{The rational Hodge conjecture for CM abelian varieties}. Supplied family-032 PDF. Locators: Theorem~1.1; Corollaries~8.3--8.4; Remark~8.5, printed pp.~50--51. The related supplied paper \emph{Weil classes and Hodge classes on abelian powers} is not used to replace the separate eightfold argument.
+
+\bibitem[Raicu and Sam(2022)]{RaicuSam22}
+Raicu, C., \& Sam, S. V. (2022). Bi-graded Koszul modules, K3 carpets, and Green's conjecture. \emph{Compositio Mathematica, 158}, 33--56. \url{https://doi.org/10.1112/S0010437X21007703}. Locator: Buchsbaum--Rim complex on pp.~41--42, immediately before the proof of Theorem~3.2. Its local exactness in the surjective case is also proved directly in M7.
+
+\bibitem[Schmid(1973)]{Schmid73}
+Schmid, W. (1973). Variation of Hodge structure: The singularities of the period mapping. \emph{Inventiones Mathematicae, 22}, 211--319. \url{https://doi.org/10.1007/BF01389674}. Locators: Theorem~4.12, p.~233; Theorem~6.16, p.~255.
+
+\bibitem[Schoen(1988)]{Schoen88}
+Schoen, C. (1988). Hodge classes on self-products of a variety with an automorphism. \emph{Compositio Mathematica, 65}, 3--32. \url{https://www.numdam.org/item/CM_1988__65_1_3_0.pdf}. Locators: Theorem~2.0, pp.~11--12; Lemmas~2.3--2.6, pp.~13--17; Corollary~3.1, pp.~24--25.
+
+\bibitem[Schoen(1998)]{Schoen98}
+Schoen, C. (1998). Addendum to: Hodge classes on self-products of a variety with an automorphism. \emph{Compositio Mathematica, 114}, 329--336. \url{https://doi.org/10.1023/A:1000566205021}. Locator: Proposition~10, used in Markman's Corollary~1.6.1. M10 gives the explicit compensation calculation needed here.
+
+\bibitem[Severn(2026)]{Severn26}
+Severn, B. (2026, October 21). \emph{Weil classes on abelian sixfolds and eightfolds of Weil type for $\Q(\sqrt{-3})$} [Unrefereed manuscript, internal version~1.5]. Hexagon 2610.00387v2. \url{https://hexagonmath.org/pdf/2610.00387v2}. The landing-page title differs; the title and date here follow the inspected manuscript. Locators: Theorems~A, B and~11.2; \S\S4--5, labels \texttt{lem:schoen}, \texttt{lem:schoenR}, \texttt{prop:supply}, \texttt{thm:brauer}; \S\S6--9 and Appendix~A. Source: \url{https://hexagonmath.org/api/v1/works/2610.00387v2/source?path=weil-qsqrt3-v1.5.tex}.
+
+\bibitem[Sidman(2001)]{Sidman01}
+Sidman, J. (2001). \emph{On the Castelnuovo--Mumford regularity of products of ideal sheaves}. arXiv:math/0110184v2. \url{https://arxiv.org/pdf/math/0110184}. Locators: Lemma~1.4, Proposition~1.5 and Corollary~1.6, PDF pp.~3--5. The inspected preprint version fixes the pagination.
+
+\bibitem[Stacks Project Authors(2026)]{Stacks054F}
+Stacks Project Authors. (2026). \emph{The Stacks Project}. Lemma~28.5.10, Tag~054F (trait realization of specialization). \url{https://stacks.math.columbia.edu/tag/054F}. Accessed November 21, 2026.
+
+\bibitem[Suslin and Voevodsky(2000)]{SuslinVoevodsky00}
+Suslin, A., \& Voevodsky, V. (2000). Relative cycles and Chow sheaves. In V. Voevodsky, A. Suslin, \& E. M. Friedlander, \emph{Cycles, transfers, and motivic homology theories} (Annals of Mathematics Studies~143, pp.~10--86). Princeton University Press. \url{https://www.math.ias.edu/Voevodsky/files/files-original/Dropbox/Published_papers/Motives/Collection/s2.pdf}. Locators: Theorem~2.2.2, \S3.2, Theorem~4.4.11 and Corollary~4.4.13 (manuscript pp.~79--81 for the latter two).
+
+\bibitem[Tsimerman(2018)]{Tsimerman18}
+Tsimerman, J. (2018). The Andr\'e--Oort conjecture for $\mathcal A_g$. \emph{Annals of Mathematics, 187}, 379--390. \url{https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p02-p.pdf}. Locators: Theorem~1.3, p.~380; Conjecture~1.1, p.~379, for the precise formulation proved.
+
+\bibitem[van Hoften and Sempliner(2026)]{vanHoften26}
+van Hoften, P., \& Sempliner, J. (2026). \emph{The Hodge conjecture for CM abelian varieties}. Hexagon 2610.00259v2; supplied PDF. \url{https://hexagonmath.org/2610.00259v2}. Locator: Theorem~I.
+\end{thebibliography}
+
+% END INCLUDED SOURCE: open_and_bibliography.tex
+
+
+% END INCLUDED SOURCE: sections_remaining.tex
+
+\end{document}
