@@ -1,0 +1,3868 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=25mm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,longtable,array}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{xurl}
+\usepackage[unicode,colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small CX\_GRH: exact hypotheses and transfers}
+\fancyhead[R]{\small 21 November 2026}
+\fancyfoot[C]{\thepage}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{2em}
+\setcounter{tocdepth}{2}
+\title{\textbf{CX\_GRH}\\[5pt]
+\large What the stipulated Dirichlet GRH and ETH theorems,\newline
+and the conditional all-number-field Hecke claim,\newline
+change in computational complexity}
+\author{Research run CX\_GRH-20261121}
+\date{21 November 2026 (Europe/Berlin)}
+\begin{document}
+\maketitle
+\begin{abstract}
+We identify the analytic premise at the point where it enters each
+selected algorithm and then prove the corresponding transfer.
+The stipulated Dirichlet theorem covers the Miller--Bach test,
+prime-field nonresidues, and qualified primitive-root and
+extension-field constructions. Koiran's general AM proof uses
+Dedekind zeta functions of bounded, possibly nonnormal solution fields;
+it is covered by the all-number-field Hecke claim, conditionally on
+that claim. We preserve the equation-access and output-size distinctions
+in GCT~V, the degree dependence of finite-field factoring, and the
+separate search costs in class-group computation. The supplied ETH
+theorem refutes the usual exponential-time hypotheses and gives
+explicit parameter-preserving counting transfers and its stated
+nearly linear Boolean circuit lower bound. These deductions supply
+no P/NP or VP/VNP separation or collapse. A separate part carries
+every finding into schemes over $\mathbb Z$, finite étale covers,
+representation $K_0$, exterior and Schur operations, Hilbert schemes,
+and the appropriate weight and Artin-motive language. Exact source
+locators, inspected archive scans, proof checks, and unresolved
+extensions are recorded explicitly.
+\end{abstract}
+\clearpage
+\tableofcontents
+\clearpage
+\part{Checked analytic and computational findings}
+
+
+\section{Conventions, premises, and the principal conclusions}
+\label{sec:premises}
+
+This paper answers the supplied \texttt{CX\_GRH} brief by auditing the
+\emph{analytic hypothesis of each proof}, then substituting the two stipulated
+2026 statements at precisely that point.  A proved transfer is different from
+a new proof of its cited analytic or complexity theorem.  Our finding IDs
+identify transfers, encoding refinements, exact dictionaries, and refutations
+of specific proposed shortcuts.  They do not claim discovery of the classical
+algorithms or of the lower bound already stated in the supplied ETH preprint.
+
+All computational bounds use the deterministic Turing bit model unless a
+source's arithmetic model is expressly retained.  A number field supplied by
+an algebraic point need not be normal.  A character of a ray class group of a
+number field is a Hecke character of that field; the phrase ``Dirichlet
+character'' in an older paper does not automatically mean a character over
+$\mathbb Q$.  We use $\log$ for the natural logarithm except where explicitly
+subscripted.  A finite number of small inputs can always be handled directly.
+
+\subsection{The stipulated theorems and the conditional draft claim}
+
+\paragraph{The theorem $A_D$.}
+As instructed, we cite Alp\"oge's Dirichlet GRH theorem as a theorem.
+The exact supplied interfaces are
+\texttt{DirichletLNonvanishingRightOfHalf} and
+\texttt{DirichletLZerosOnLine} in \texttt{ALPOGE\_Statements.lean}, proved by
+\nolinkurl{LFunction_ne_zero_of_half_lt_re} and
+\nolinkurl{LFunction_eq_zero_re} in \texttt{ALPOGE\_Main.lean}.
+The conductor-one case includes the Riemann zeta function; the latter file
+also explicitly states \texttt{riemannHypothesis}.  The narrative conclusion
+is \cite[Remark, p.~4, step~20]{Alpoge2026}.  The theta, positivity, period,
+and cohomology steps~2--19 describe the proposed proof's method; none is an
+extra input to our algorithmic transfers.  We infer no new standard-conjecture
+or purity statement merely from that vocabulary.
+
+\paragraph{The claim $M$.}
+This denotes Masullo's draft claim \cite{Masullo2026} of GRH for Hecke $L$-functions over every
+number field in the usual unitary normalization.  Only finite-order characters,
+including the trivial character, are needed here.  The claim is stated in
+Chapter~1, \S1.2, especially \S1.2.3 (PDF pp.~12--16);
+the conventions are Chapter~3, Definition~3.2.1.2,
+Proposition~3.2.1.3, and Definition~3.2.1.4 (PDF pp.~123--124).
+Theorem~12.5.1.1 (pp.~519--520) and Theorem~13.3.1.1 (p.~522) are
+trace-formula antecedents, not themselves a substitute for the GRH claim.
+The displayed heading Theorem~13.3.1.2 on PDF p.~522 has no theorem body;
+its footnote reads ``Insert statement.''  The preceding sentence has an
+unresolved theorem reference.  We therefore cite the introductory claim $M$,
+not an invented completed statement of Theorem~13.3.1.2.
+This is a correction of the locator, not an authenticity or validity audit.
+Every conclusion using $M$ is marked \textbf{conditional on $M$}.
+
+\paragraph{The theorem $E$.}
+The supplied OpenAI preprint's Theorem~1.1, source label
+\texttt{thm:main}, is accepted as instructed.  For each fixed $k\geq2$, it
+counts satisfying assignments of $k$-CNF formulas on $n\geq20$ variables and
+$m$ clauses in polynomial space and time
+\[
+ (n+m)^{O_k(1)}
+ 2^{O_k(n\log\log n/\sqrt{\log n})}.
+\]
+For each fixed density $D$, when $m\leq Dn$ the exponential factor improves
+to $2^{O_{k,D}(n/\sqrt{\log n})}$.  These are the explicit source bounds,
+which imply the asymptotic form in the brief.  No uniformity in a growing
+clause width $k(n)$ is assumed.  All consequences of $E$ in this paper are
+independent of $A_D$ and $M$.  In the component proofs below,
+$H_A$ and $\mathsf D$ are aliases for $A_D$, and $H_M$ and
+$\mathsf H$ are aliases for $M$; they add no hypotheses.
+
+\paragraph{What was supplied and checked.}
+We read the two Lean interface files and the supplied mathematical sources.
+The full Lean development and the claimed 175,187-file scan TSV are not in
+the attachment.  We consequently make no claim of replaying that development,
+checking its kernel, or inspecting that scan.  This does not change the
+brief's instruction to accept the cited theorems.  Our new proofs have been
+read in full by their author and checked by a second agent or the coordinator;
+the event register distinguishes those checks from cited background and
+from formal verification.  No new proof in this paper is advertised as
+formally verified.
+
+\subsection{Outcome map}
+
+The complete versions, input promises, locators, and proofs occur below.
+``Via $M$'' always means conditional on that draft claim, with no further
+GRH premise.  ``Not discharged by $A_D$'' reports the identified proof gate,
+not logical independence of analytic conjectures.
+
+\begin{longtable}{@{}p{0.27\textwidth}p{0.37\textwidth}p{0.29\textwidth}@{}}
+\toprule
+Problem or conclusion & Exact gate of the cited route & Status and qualification\\
+\midrule
+\endhead
+Miller test with Bach cutoff & Quadratic Dirichlet characters over $\mathbb Q$ & Via $A_D$; deterministic polynomial time for this test. PRIMES was already in P.\\
+Prime-field power nonresidues; primitive roots & Rational Dirichlet characters & Via $A_D$; certified primitive-root construction retains supplied factorization of $p-1$, or report a candidate list.\\
+Hilbert Nullstellensatz in AM & $\zeta_E$ for bounded algebraic solution fields $E$, not necessarily normal & Via $M$: $\mathrm{HN}\in\mathrm{AM}\subseteq\Pi_2^P$. A bounded abelian-witness promise is covered by $A_D$.\\
+Equation-given homogeneous parameters & The same Koiran gate & Via $M$: the standard-graded search lies in $\mathrm{FP}^{\Sigma_2^P}$; unconditional functional PSPACE remains available.\\
+Succinct explicit varieties, strict small separating systems & Koiran in the historical GCT~V EXPH proof & Via $M$ for that proof; construction already has an unconditional PSPACE theorem in later literature.\\
+Succinct explicit varieties, optimal-cardinality h.s.o.p. & Koiran plus equations computable in singly exponential time & Via $M$ only with the additional equation-access premise retained.\\
+Class-group factor bases and verification & Class/ray Hecke characters over $K$; $\zeta_{H_{K,\mathfrak m}}$ suffices & Via $M$; relation-search and smoothness hypotheses are separate.\\
+General finite-field factoring & $\zeta_{\mathbb Q}$ and $\zeta_{\mathbb Q(\zeta_{2\nu},p^{1/\nu})}$ for the explicit construction degrees $\nu\le d^2$ & Via $M$: the complete proof CX-N15 gives $(d^{\log d}\log q)^{O(1)}$ time.\\
+Extension-field nonresidues & Rational Dirichlet characters when the specified prime $r$ divides $p-1$ & Via $A_D$ in every supplied extension model; CX-N13. Other selected algorithms retain their stated character families.\\
+ETH and SETH families & Only $E$, with fixed-width quantifiers & Their usual deterministic lower-bound hypotheses are false; a false premise gives no blanket target-problem algorithm.\\
+Circuit consequence & $E$ plus the cited algorithm-to-lower-bound theorem & Some $L\in\mathrm E^{\mathrm{NP}}$ has $C_L(n)>c n\sqrt{\log n}$ infinitely often.\\
+VP, VNP, permanent, GCT & Symbolic arithmetic circuits and equivariant coordinate data & Numerical counting transfers are proved; no separation or collapse of VP/VNP or P/NP is obtained by these deductions.\\
+\bottomrule
+\end{longtable}
+
+\subsection{CX-R01: the exact inherited number-field scope}
+\label{finding:R01}
+
+\textbf{Finding.} The theorem $A_D$ implies RH for $\zeta_K$ for every finite
+abelian extension $K/\mathbb Q$.  Conditional on $M$, RH holds for $\zeta_K$
+for every number field and for every finite-order Hecke character of every
+number field.  No Artin-holomorphy assertion is needed for these transfers.
+
+\begin{proof}
+For an abelian $K/\mathbb Q$, use the primitive-character factorization
+\[
+ \zeta_K(s)=\prod_{\chi\in\widehat{\operatorname{Gal}(K/\mathbb Q)}}L(s,\chi)
+\]
+with each character replaced by its associated primitive Dirichlet character;
+see \cite[Theorem~4.3, p.~33]{Washington1997}.  This conductor convention
+includes the correct ramified Euler factors.  Every nontrivial factor is
+entire and the trivial factor has its sole pole at $s=1$.  In the open strip
+$0<\Re s<1$ off the central line all factors are finite and nonzero by $A_D$.
+Their finite product is nonzero there, proving the assertion.
+
+For arbitrary $K$, the finite Hecke $L$-function of the trivial idele class
+character is $\zeta_K$.  Archimedean gamma factors and the conductor
+exponential factor are holomorphic and nonzero in that open strip.  Thus
+their inclusion in a completed $L$-function does not change the strip zeros.
+The claim $M$ places those zeros on the central line.  Every finite-order
+ray-class character is unitary and is included in $M$.  If an algorithm uses
+an imprimitive Euler product, the removed local factors have form
+$1-\alpha N\mathfrak p^{-s}$ with $|\alpha|=1$; their zeros have real part
+zero, so they do not change this open-strip conclusion.
+\end{proof}
+
+\subsection{CX-R02: a concrete obstruction to the rank-one shortcut}
+\label{finding:R02}
+
+\textbf{Finding.} For $K=\mathbb Q(\sqrt[3]{2})$, the permutation
+representation on $\operatorname{Hom}_{\mathbb Q}(K,\overline{\mathbb Q})$
+is not a virtual integral sum of rank-one $G_{\mathbb Q}$-representations.
+In particular the proposed representation-theoretic factorization of every
+solution-field zeta function into rational Dirichlet factors fails.
+
+\begin{proof}
+The polynomial $x^3-2$ is Eisenstein at $2$, and its discriminant $-108$ is
+not a rational square.  Its normal closure therefore has group $S_3$.
+The permutation representation $\rho$ has dimension $3$, trace $3$ at the
+identity, and trace $0$ at a three-cycle.  Choose $u,v\in G_{\mathbb Q}$
+mapping to $(12)$ and $(23)$.  Their commutator $c$ maps to a three-cycle.
+Every rank-one character $\chi$ of $G_{\mathbb Q}$, whether or not it
+factors through this $S_3$ quotient, satisfies $\chi(c)=\chi(1)=1$.
+Consequently every integral virtual sum of rank-one characters has trace
+at $c$ equal to its dimension.  The representation $\rho$ has trace $0$
+there and dimension $3$.  Trace is additive in exact sequences, so equality
+in the representation Grothendieck group is impossible.
+\end{proof}
+
+This refutes a specified dictionary, not a logical independence statement
+$A_D\nRightarrow\mathrm{RH}(\zeta_K)$ and not every possible future analytic
+reduction.  The related failure of replacing an arbitrary solution by an
+abelian-valued solution is proved separately in CX-K04.  Part~II states
+these findings again in the language of finite étale covers and $K_0$.
+
+
+
+% CX_GRH: standalone section fragment. No preamble.
+% Bibliography keys are supplied in koiran_bibliography.tex.
+% Checked 2026-11-20 UTC by /root/koiran_gct, GPT-6 Astra Pro,
+% inherited effort (setting not exposed). Independent full-proof checks:
+% /root/eth_consequences and /root, with qualifications incorporated.
+
+\section{Koiran and Noether normalization: the exact analytic gate}
+
+The analytic hypothesis needed by Koiran's proof is RH for the Dedekind
+zeta functions of bounded solution fields. These fields can be arbitrary
+number fields. They need not be Galois over $\mathbb Q$, and passing to a
+Galois closure is unnecessary. Masullo's all-number-field Hecke-GRH claim,
+if accepted as $H_M$, supplies this hypothesis by its trivial-character
+case. The stipulated Alp\"oge Dirichlet-GRH theorem $H_A$ supplies the
+corresponding input for abelian extensions of $\mathbb Q$, but the checked
+factorization argument does not extend this to all solution fields.
+
+Write
+\[
+ H_D:\quad \text{RH holds for $\zeta_E$ for every number field $E$.}
+\]
+Throughout this section, $H_M$ and $H_A$ have the precise meanings fixed
+in the premise register. In particular, $H_M$ remains a conditional
+claim. Our conclusions under $H_M$ are transfers of established
+complexity theorems, together with the encoding and scope refinements
+proved below. They are not independent unconditional proofs of those
+theorems.
+
+\subsection{Source conventions, numerical locators, and representations}
+
+Koiran's published paper and extended report require separate locators.
+The journal version \cite[\S2, Theorem~2, pp.~276--277]{K96} displays
+$\mathrm{RP}^{\mathrm{NP}}$, followed by containment in
+$\Pi_2^{\mathrm P}$. The extended DIMACS report explicitly displays
+$\mathrm{AM}\subseteq\Pi_2^{\mathrm P}$ in \S2, Theorem~2,
+printed pp.~5--6 \cite{K96TR}. Its protocol uses public randomness before
+the nondeterministic collision witnesses. We use this report for the
+requested AM formulation. Koiran's 8 August 1997 erratum, first page,
+second bullet, corrects the lower bound in Theorem~8 and states that
+Theorem~1 and the remainder of the paper are unaffected
+\cite{K97Err}. All transfers here use the corrected version.
+
+The input in Koiran's \S1.1 is a finite list of integer polynomials in
+the Turing model, with sparse encoding. Theorems~4 and~7, Lemma~3, and
+Theorem~8 supply the bounded algebraic witness and reduction modulo
+primes. Theorem~9 and Corollary~1 in \S5, journal p.~282 and DIMACS
+printed p.~12, isolate the effective prime-ideal theorem. The relevant
+analytic result is Lagarias--Odlyzko \cite[Theorem~1.1]{LO77}, whose
+hypothesis is RH for the Dedekind zeta function of the top field.
+
+For GCT~V \cite{GCT5}, the attached \texttt{main.tex} labels and the
+numerical statements of arXiv:1209.5993v5 agree as follows. Page numbers
+in this table refer to that arXiv PDF, not the journal pagination.
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{.14\linewidth}p{.25\linewidth}p{.43\linewidth}r@{}}
+\hline
+Statement & Attached source label & Use & Page \\
+\hline
+Theorem 2.8 & \texttt{tstrongexp} & Strengthened black-box PIT, EXPH under GRH & 24--25 \\
+Proposition 2.9 & \texttt{pstandard} & Standard black-box PIT, PH under GRH & 24 \\
+Theorem 2.10 & \texttt{tkoiran} & Circuit and homogeneous HN & 24 \\
+Lemma 3.1 & \texttt{lnnl0} & Geometric normalization & 26 \\
+Lemma 3.2 & \texttt{lnoether20} & Graded integrality criterion & 26 \\
+Theorem 3.4 & \texttt{tnoetherph} & Equation-given h.s.o.p., functional PH & 27--28 \\
+Theorem 4.1 & \texttt{tnnldetexpspace} & Determinant h.s.o.p., extra equation hypothesis & 30 \\
+Theorem 4.10 & \texttt{tssopverifydet} & Determinant s.s.o.p., construction/verification & 34 \\
+Definition 5.1 & \texttt{dexpvariety} & Explicit families and succinct circuits & 35--36 \\
+Theorem 5.5 & \texttt{tnnlexplicithsop} & Explicit h.s.o.p., extra equation hypothesis & 39 \\
+Theorem 5.11(a) & \texttt{tnnlexpfull} & Border hitting sets give strict separating systems & 43 \\
+Theorem 5.12 & \texttt{tssopexplicit} & Explicit strict s.s.o.p., construction/verification & 44 \\
+Theorem 7.3 & \texttt{thsop} & Simultaneous-conjugation invariant ring & 50 \\
+\hline
+\end{tabular}
+\end{center}
+
+An h.s.o.p. has exactly $\dim R$ algebraically independent homogeneous
+parameters and makes $R$ finite over their polynomial subring. A small
+system of parameters may have polynomially many elements, with no
+optimal-cardinality requirement. The succinct small systems in GCT~V
+are specified through small circuits and are a different output regime
+from explicitly listing exponentially many ambient coordinates.
+``Functional PH'' means a construction with polynomial-time oracle
+access to a fixed level of PH. It is not a decision-language assertion
+and does not mean ordinary polynomial-time construction.
+
+The standard specification preceding GCT~V Theorem~3.4 is a homogeneous
+affine cone defined by homogeneous polynomial equations represented by
+arithmetic circuits with rational constants. The characteristic-zero
+statements here use this effective Turing representation. We do not
+assert Turing bounds for arbitrarily presented transcendental
+coefficients. The stronger refinement in CX-K05 explicitly uses
+standard grading. GCT~V Definition~5.1 also allows differing positive
+weights; the cited mixed-weight theorem is kept separate in CX-K06.
+
+More precisely, Definition~5.1 presents
+$W_n=\overline{\psi_n(K^{r_n})}\subseteq K^{m_n}$ with
+$r_n=\operatorname{poly}(n)$, $m_n=n^{\Omega(1)}$, and
+$\log m_n=\operatorname{poly}(n)$. Thus
+$\dim W_n\le r_n$, although its ambient dimension may be exponential.
+Writing $\psi_n=(f_1,\ldots,f_{m_n})$, the succinct input is a
+uniformly constructible rational circuit, of polynomial total bit
+length, for $F_n(v,x)=\sum_j f_j(v)g_j(x)$. The $g_j$ are linearly
+independent; the $f_j$ and $g_j$ are homogeneous of polynomial degree,
+and $F_n$ has polynomial total degree. Definition~5.6 measures a short output by circuits for
+$\psi_n^*(s)$, including their rational constants' bit lengths.
+Definition~5.7 calls an element strict when it is a specialization
+of a fixed homogeneous-in-$v$ component of $F_n$ at a polynomial-bit
+integer point $x=b$. Hence a strict output is encoded by polynomially
+many such points and component indices, without listing $m_n$
+ambient coefficients. The dimension bound alone does not require the
+small system's cardinality to equal the dimension.
+
+\subsection{CX-K01: the root-field gate without a Galois closure}
+\label{cx:k01}
+
+\paragraph{Statement.}
+In Koiran's proof, the analytic premise can be localized inputwise to
+RH for $\zeta_E$, where $E$ is the field of a bounded algebraic solution
+chosen using Koiran's Theorems~4 and~7. The uniform family of possible
+$E$ is unrestricted. Neither Artin holomorphy nor passage to a splitting
+field is required. If one uses $\operatorname{Li}(x)$ rather than
+Koiran's comparison with the rational prime-counting function, no
+separate RH-for-$\mathbb Q$ premise is needed at this step.
+
+\begin{proof}
+Let $S$ be a satisfiable integer polynomial system of encoding length
+$N$. Koiran's Theorems~7 and~4 give a solution
+$a=(a_1,\ldots,a_t)$, a primitive element $\theta$ for
+$E=\mathbb Q(a_1,\ldots,a_t)$, an integer minimal polynomial $R$ of
+$\theta$, and integer denominators in expressions for the $a_i$.
+The degree, logarithmic discriminant bounds, and denominator logarithms
+are all at most $2^{q(N)}$ for a fixed polynomial $q$.
+
+We can make the primitive element integral without losing that scale.
+If $R$ has leading coefficient $c$ and degree $d$, then
+$c^{d-1}R(T/c)$ is a monic integral polynomial for
+$\beta=c\theta$. Thus $\mathbb Z[\beta]\subseteq\mathcal O_E$
+has finite index, the field discriminant satisfies the usual
+polynomial-discriminant/index relation, and all $a_i$ lie in
+$\mathcal O_E[1/B]$ for an integer $B\ne0$ with singly exponentially
+bounded logarithm. Put $J=[\mathcal O_E:\mathbb Z[\beta]]$ and
+$D_E=\operatorname{disc}(E)$. The logarithm of $J$ has the same bound.
+
+Apply Lagarias--Odlyzko Theorem~1.1 to the trivial extension $E/E$.
+It is a Galois extension, regardless of whether $E/\mathbb Q$ is
+normal. Under RH for $\zeta_E$, the number $\pi_E(x)$ of prime ideals
+of $\mathcal O_E$ of norm at most $x$ satisfies
+\begin{equation}
+ \pi_E(x)=\operatorname{Li}(x)+
+ O\!\left(\sqrt{x}\log(|D_E|x^d)+\log |D_E|\right),
+ \qquad d=[E:\mathbb Q],
+ \label{eq:k01primeideal}
+\end{equation}
+with an effective absolute implied constant. This is an invocation of
+the cited analytic theorem, not a new proof of that theorem.
+
+A prime ideal of residue degree at least two and norm at most $x$
+lies above a rational prime at most $\sqrt{x}$. At most $d$ prime
+ideals lie above any one rational prime. Hence these higher-degree
+prime ideals contribute at most $d\pi_{\mathbb Q}(\sqrt{x})\le
+d\sqrt{x}$. Discard also the prime ideals above divisors of $BJ$;
+there are at most $d\omega(BJ)$, where $\omega$ counts distinct prime
+divisors. At any remaining residue-degree-one prime ideal
+$\mathfrak p$, reduction maps the solution coordinates into
+$\mathcal O_E/\mathfrak p=\mathbb F_p$. The equations of $S$ remain
+valid. Since each rational prime has at most $d$ prime ideals above it,
+the number of rational primes $p\le x$ for which $S$ is soluble is at
+least
+\begin{equation}
+ \frac{1}{d}\left[
+ \operatorname{Li}(x)
+ -O\!\left(\sqrt{x}\log(|D_E|x^d)+d\sqrt{x}+\log|D_E|\right)
+ -d\omega(BJ)\right].
+ \label{eq:k01usefulprimes}
+\end{equation}
+
+All quantities outside $x$ and $\log x$ in this expression are bounded
+by $2^{\operatorname{poly}(N)}$. Choose
+$x=2^{P(N)}$ for a sufficiently large fixed polynomial $P$.
+The main term in \eqref{eq:k01usefulprimes} then dominates its errors
+and the unconditional inconsistent-system bound in Koiran's
+Theorem~5 by the gap required in his Theorem~1. Its primes still have
+polynomial bit length. Koiran's unchanged public-coin protocol in
+DIMACS Theorem~2 therefore applies. This identifies the exact analytic
+gate and shows that no Galois closure is needed. In particular, the
+potential factorial degree growth of a splitting field is avoided.
+
+Finally, every number field $E$ has a primitive element $\theta$.
+Clear denominators in its irreducible polynomial $R$. All roots of
+$R$ generate conjugate copies of $E$. Thus the single equation
+$R(x)=0$ realizes this isomorphism type among the possible solution
+fields. The input family is therefore not confined to abelian fields.
+This observation concerns the fields occurring in the checked proof;
+it does not establish that the complexity conclusion logically
+requires $H_D$.
+\end{proof}
+
+The weaker unconditional prime-ideal estimate in
+Lagarias--Odlyzko Theorem~1.3 starts in the range
+$x\ge\exp(10d(\log|D_E|)^2)$. With singly exponential $d$ and
+$\log|D_E|$, that range need not preserve polynomial bit length of
+the primes. It therefore does not substitute into this proof with the
+same complexity bound. This is a limitation of the checked route,
+not an independence claim about Dirichlet GRH and $\mathrm{HN}\in
+\mathrm{AM}$.
+
+\subsection{CX-K02: conditional HN for circuits and nonzero homogeneous points}
+\label{cx:k02}
+
+\paragraph{Statement.}
+Under $H_M$, feasibility over $\mathbb C$ of polynomial systems given
+by arithmetic circuits with rational constants belongs to
+\[
+ \mathrm{AM}\subseteq\Pi_2^{\mathrm P}.
+\]
+The same bound holds for existence of a nonzero solution of a
+homogeneous such system. The complementary infeasibility predicates
+belong to $\Sigma_2^{\mathrm P}$.
+
+\begin{proof}
+For every number field $E$, the Hecke $L$-function of the trivial
+character is $\zeta_E$. Consequently $H_M\Rightarrow H_D$.
+Apply the corrected Koiran DIMACS Theorem~2, or CX-K01 followed by its
+unchanged hashing protocol. This gives the asserted AM bound for
+Koiran's sparse input representation.
+
+For a circuit representation, introduce a variable $y_g$ for each
+gate. A sum gate and a product gate give, respectively,
+\[
+ y_g-y_h-y_j=0,\qquad y_g-y_hy_j=0.
+\]
+A rational constant $a/b$ gives $by_g-a=0$, with $b\ne0$.
+Wire the input gates to the original variables, and set each output
+gate variable to zero. The result is a polynomial-size sparse system
+of degree at most two and polynomial total coefficient bit length.
+Every original solution has exactly one extension to gate values.
+Conversely, induction over the circuit forces all gate variables to
+equal the intended evaluations. This is a deterministic
+polynomial-time many-one reduction, which preserves AM membership.
+
+For a homogeneous system in $x_1,\ldots,x_t$, adjoin variables
+$u_1,\ldots,u_t$ and the equation
+\[
+ \sum_{i=1}^t u_i x_i=1.
+\]
+A nonzero solution admits such a $u$ by inverting a nonzero coordinate,
+and a solution to this enlarged system necessarily has $x\ne0$.
+This again is a polynomial-size circuit reduction. The standard
+containment used in Koiran is $\mathrm{AM}\subseteq\Pi_2^{\mathrm P}$;
+complementing gives $\Sigma_2^{\mathrm P}$. No containment
+$\mathrm{AM}\subseteq\Sigma_2^{\mathrm P}$ is asserted.
+\end{proof}
+
+\subsection{CX-K03: the bounded abelian-witness consequence of the stipulated Dirichlet theorem}
+\label{cx:k03}
+
+\paragraph{Statement.}
+Fix an explicit polynomial $P$. Consider the promise problem whose
+no-instances are all inconsistent rational circuit systems and whose
+yes-instances have a solution as in CX-K01 with a finite abelian
+Galois field $E/\mathbb Q$ and degree, logarithmic defining-polynomial
+discriminant, and denominator logarithms at most $2^{P(N)}$.
+Under $H_A$, this promise problem is in AM. Its verifier need not
+compute $E$, certify abelianness, or recognize the promise.
+
+\begin{proof}
+For finite abelian $E/\mathbb Q$, the Dedekind zeta function factors
+as the product of primitive Dirichlet $L$-functions attached to
+characters of $\operatorname{Gal}(E/\mathbb Q)$, with the conductor
+convention giving the correct ramified Euler factors. The trivial
+factor is $\zeta_{\mathbb Q}$. The stipulated $H_A$ therefore puts
+all nontrivial zeros of $\zeta_E$ on the critical line.
+
+On every promised yes-instance, CX-K01 now gives the useful-prime
+bound with a uniform polynomial exponent. On every no-instance,
+Koiran's Theorem~5 supplies the unconditional bound. The same gap
+and public-coin protocol used in Koiran's DIMACS Theorem~2 apply.
+The arithmetic promise proves completeness of the analytic estimate;
+the protocol never checks it. Soundness on all inconsistent systems
+is unchanged.
+\end{proof}
+
+The bound on the abelian witness is essential to the statement proved
+here. Koiran's existence of a bounded solution does not say that a
+solution satisfying an additional arithmetic property can be chosen
+with that same bound. We therefore do not replace the quantitative
+promise by the bare assertion that some abelian-valued solution exists.
+
+\subsection{CX-K04: a counterexample to replacing all solution fields by abelian fields}
+\label{cx:k04}
+
+\paragraph{Statement.}
+The satisfiable equation $x^3-2=0$ has no solution in any abelian
+extension of $\mathbb Q$. Hence forcing every witness into an abelian
+field is not an available general reduction.
+
+\begin{proof}
+Eisenstein's criterion at $2$ makes $x^3-2$ irreducible. Its real root
+generates a degree-three subfield of $\mathbb R$ that omits the two
+nonreal conjugates, so that root field is not normal over $\mathbb Q$.
+The other two root fields are conjugate to it and are likewise
+nonnormal. Every intermediate field of a finite abelian Galois
+extension is Galois over $\mathbb Q$, since every subgroup of an
+abelian group is normal. None of these root fields can be an
+intermediate field. A root in an infinite abelian extension would
+already lie in a finite abelian subextension, so that possibility
+also fails.
+\end{proof}
+
+Only the abelian-witness shortcut is refuted. This counterexample does
+not refute the possibility of a different proof of
+$\mathrm{HN}\in\mathrm{AM}$ from $H_A$ alone.
+
+\subsection{CX-K05: the functional PH level for equation-given h.s.o.p.'s}
+\label{cx:k05}
+
+\paragraph{Statement.}
+Assume $H_M$. Let
+$R=\mathbb Q[z_1,\ldots,z_t]/I$ be a nonzero standard positively
+graded algebra, with $I$ specified by homogeneous rational-constant
+arithmetic-circuit equations. Let $N$ be the total encoding length,
+including an explicit list of the ambient coordinates, so $t\le N$.
+An h.s.o.p. of rational linear forms and $\dim R$ can be constructed
+in
+\[
+ \mathrm{FP}^{\Sigma_2^{\mathrm P}}
+\]
+with polynomial output bit length. These forms remain an h.s.o.p.
+after extension of scalars to any characteristic-zero field.
+Unconditionally the construction has a polynomial-space bound.
+
+\begin{proof}
+The bounded-coefficient part of GCT~V Theorem~3.4's proof gives a
+computable polynomial $b(N)$ such that, for $d=\dim R$, there are
+$d$ integral linear forms, each coefficient having at most $b(N)$
+bits, whose common zero on the cone is only its vertex. The relevant
+size argument in that proof bounds the equation degrees by $2^N$,
+passes to a common homogeneous degree at most $2^{N^2}$, and uses a
+nonzero resultant of degree with polynomial logarithm. In particular,
+only a polynomial bit bound is needed for the coefficient grid;
+enumerating all monomials is unnecessary. Nilpotents do not change
+the set of geometric zeros or the dimension, so the same existence
+bound applies to the algebra stated here.
+
+For $L=(L_1,\ldots,L_s)$ let $\operatorname{Good}(I,L)$ mean that
+the equations generating $I$, together with $L_1=\cdots=L_s=0$,
+have no nonzero geometric solution. By CX-K02 this is a
+$\Sigma_2^{\mathrm P}$ predicate. Fix a canonical binary encoding
+of the bounded coefficient lists, padded to polynomial length. For
+any prescribed prefix, the predicate
+\[
+ \exists L\;[\text{$L$ extends the prefix and }
+                    \operatorname{Good}(I,L)]
+\]
+also belongs to $\Sigma_2^{\mathrm P}$: the bounded existential
+guess of $L$ merges with the leading existential block. In explicit
+quantifier form, if Good is $\exists u\,\forall v\,T(I,L,u,v)$
+for polynomial-time $T$, the prefix predicate is
+$\exists (L,u)\,\forall v\,[\operatorname{Prefix}(L)\land
+T(I,L,u,v)]$.
+
+Ask this predicate for $s=0,1,\ldots,t$. The least successful $s$
+equals $d$. Existence at $d$ follows from the bounded-coefficient
+argument. For $s<d$, the generalized principal ideal theorem gives
+\[
+ \dim R/(L_1,\ldots,L_s)\ge d-s>0,
+\]
+so a homogeneous cone cannot be supported only at the origin.
+For $d=0$, the empty list works.
+
+Once $s=d$ is known, recover a successful list one bit at a time.
+Extend the current prefix by zero and ask if a successful completion
+exists. Keep zero when the answer is yes, and otherwise keep one.
+The invariant that the prefix has a completion holds initially and
+is preserved by every step. There are polynomially many coefficient
+bits and polynomially many dimension queries. This proves the
+$\mathrm{FP}^{\Sigma_2^{\mathrm P}}$ bound, rather than merely a
+language membership in PH.
+
+We verify that the searched geometric condition is precisely the
+required ring condition. Good makes $R/(L)$ finite-dimensional over
+$\mathbb Q$: after extending to an algebraic closure, its spectrum is
+supported at the origin, so its homogeneous irrelevant ideal is
+nilpotent. Choose homogeneous representatives of a finite vector-space
+basis of $R/(L)$. They generate $R$ over
+$A=\mathbb Q[L_1,\ldots,L_d]$. Indeed, for any homogeneous element,
+subtract a representative of its class modulo $(L)$. The difference
+is a sum of terms $L_i r_i$, with each $r_i$ of strictly lower degree;
+induction on degree proves the assertion. Thus $R$ is a finite
+$A$-module and is integral over $A$.
+
+Conversely, if $R$ is finite over $A$, its quotient by the images of
+the $L_i$ is finite-dimensional over $\mathbb Q$, so its homogeneous
+cone has no nonzero geometric point. Finally, integral extensions
+preserve dimension, so $\dim A=d$. A nonzero kernel in
+$\mathbb Q[T_1,\ldots,T_d]\to A$ would make $\dim A<d$.
+Thus the parameters are algebraically independent and constitute an
+h.s.o.p. This reasoning permits nilpotents and several irreducible
+components.
+
+All constructed coefficients are rational. Tensoring the finite-module
+presentation and the injection of the parameter polynomial algebra
+with a field extension preserves finiteness and injectivity. Hence
+the same forms work after extending scalars.
+
+For the unconditional bound, use the homogeneous-feasibility PSPACE
+procedure cited in GCT~V Theorem~2.10. Enumerate bounded lists with
+polynomial-space counters and test them using that procedure,
+increasing $s$ until a successful list appears. All counters and
+oracle workspaces are polynomial in $N$, giving a functional PSPACE
+construction, consistent with GCT~V Theorem~3.4.
+\end{proof}
+
+The zero algebra is an excluded trivial case. The coordinate list
+condition rules out encoding exponentially many unused free variables
+by a binary dimension alone. Standard grading is needed for the
+linear homogeneous output asserted here. The oracle bound does not
+give an ordinary polynomial-time algorithm.
+
+\subsection{CX-K06: the exact EXPH transfers for succinct explicit varieties}
+\label{cx:k06}
+
+\paragraph{Statement.}
+Under $H_M$, GCT~V Theorem~5.12 gives construction and verification of
+a strict succinct small system of parameters for an explicit family
+$W_n$ as in Definition~5.1 in the functional exponential hierarchy;
+the determinant version is Theorem~4.10. For an optimal-cardinality
+h.s.o.p., the EXPH assertion in Theorem~5.5 retains the additional
+hypothesis that defining equations can be computed in
+$2^{\operatorname{poly}(n)}$ time; its determinant counterpart is
+Theorem~4.1.
+
+\begin{proof}
+As in CX-K02, $H_M$ supplies $H_D$. Every application of Koiran in
+GCT~V Theorem~2.8 concerns a finite integer or rational circuit system,
+possibly of exponential encoding length. Its arithmetic premise is
+therefore discharged by this same $H_D$.
+
+For clarity about equation access, the proof of Theorem~2.8 itself
+constructs an existential polynomial system of exponential total
+encoding length and exponentially many variables for a candidate
+border-circuit hitting set. Infeasibility of that system is the
+hitting-set predicate. The construction uses
+B\"urgisser \cite[Theorem~5.7]{Burgisser04}, as cited there; it does
+not assume an exponentially small defining ideal for $W_n$.
+The systems are constructed in deterministic exponential time.
+Their good-candidate predicates have polynomial time and quantifier
+bounds in the expanded length, with a constant number of
+alternations. In terms of $n$, those bounds become exponential,
+still with constantly many alternations. Searching a polynomial-length
+description of a hitting set, followed by the transformation in
+GCT~V Theorem~5.11(a), therefore stays in the functional exponential
+hierarchy. The same predicates give the verification assertion in
+Theorem~5.12. This proves the strict s.s.o.p. transfer and preserves
+the output conventions of the cited theorem.
+
+For the optimal-cardinality h.s.o.p. assertion, use GCT~V
+Theorem~5.5 exactly as stated. Its proof invokes the argument of
+Theorem~4.1 and hence Theorem~3.4. Their arithmetic premise is again
+$H_D$. The extra equation algorithm supplies an expanded input of
+length $L\le 2^{\operatorname{poly}(n)}$. Polynomial time and
+polynomial quantifier length in $L$ become exponential time and
+exponential quantifier length in $n$, while the number of alternations
+stays constant. In the standard-graded case this substitution is
+directly the algorithm in CX-K05. For differing positive weights,
+we invoke the stated graded theorem with its representation
+conventions; arbitrary linear combinations of generators of different
+weights are not homogeneous.
+
+Without equation access of the required time bound, this proof has
+no first step of the stated size. The unconditional elimination
+method discussed in GCT~V may produce double-exponential-length
+equations. Supplying $H_D$ does not change that representation cost.
+The extra assumption in Theorem~5.5 therefore remains part of this
+specific EXPH conclusion.
+\end{proof}
+
+We use ``exponential hierarchy'' for the union of constant levels
+defined by alternating exponential time with exponentially bounded
+quantifiers; a functional version permits the corresponding oracle
+construction. The argument proves membership at a fixed finite level
+under the cited source conventions. It does not identify general
+EXPSPACE with EXPH or claim that all normalizations require the
+equation-access hypothesis.
+
+\subsection{CX-K07: the existing unconditional PSPACE construction}
+\label{cx:k07}
+
+\paragraph{Statement.}
+Polynomial-size succinct separating normalization systems for explicit
+varieties already have unconditional polynomial-space constructions,
+independent of $H_A$ and $H_M$. Thus their EXPH construction does not
+become unconditional for the first time through either stipulated
+2026 premise. Optimal-cardinality h.s.o.p.'s and verification of
+arbitrary candidate systems remain different statements.
+
+\begin{proof}
+Forbes--Shpilka \cite[Theorem~7.1, preprint p.~21]{FS18} gives a
+polynomial-space construction of a polynomial-size rational hitting
+set, of polynomial bit complexity, for the closure of small
+bounded-degree algebraic circuits over $\mathbb R$ or $\mathbb C$.
+Its parameters are supplied in unary. Apply it to the polynomially
+bounded parameters of the explicit family and feed the resulting set
+to GCT~V Theorem~5.11(a). Polynomial-space construction followed by
+the polynomial-time output transformation remains polynomial-space.
+
+Guo--Saxena--Sinhababu \cite[Theorems~1.5 and~1.6, p.~6]{GSS19}
+explicitly record the determinant and general explicit-variety
+normalization consequences, and provide the corresponding finite-field
+treatment. These results assume no GRH and predate the new premises.
+Their outputs allow polynomial slack in the number of parameters;
+they do not assert that the cardinality equals the dimension.
+\end{proof}
+
+This is a direct composition of cited algorithms and a correction to
+the scope of the historical comparison. It is not a new discovery of
+the PSPACE algorithm. Guo--Saxena--Sinhababu uses the term e.s.o.p.
+while placing its construction in PSPACE. To avoid conflict with
+GCT~V's polynomial-time convention for that term, the conclusion here
+is stated as a polynomial-space construction of a polynomial-size
+succinct separating system. Neither that theorem nor this composition
+is an assertion about every arbitrary candidate-verification input.
+
+\subsection{Remaining gates and verification status}
+
+The full equation-given h.s.o.p. conclusion in
+$\mathrm{FP}^{\Sigma_2^{\mathrm P}}$ remains conditional on $H_M$
+in this run. From $H_A$ alone, CX-K03 establishes the explicitly
+bounded abelian-witness promise version, and CX-K04 refutes the
+unrestricted abelian-witness shortcut. No logical nonimplication
+between $H_A$ and general HN membership is claimed. The succinct
+optimal-cardinality h.s.o.p. EXPH transfer retains its equation-access
+gate; the small separating-system construction already has the
+unconditional PSPACE bound.
+
+All proofs CX-K01--CX-K07 were read end to end after drafting by
+\texttt{/root/koiran\_gct}, GPT-6 Astra Pro, on 20 November 2026 UTC;
+the inherited effort setting was not exposed. The independent agents
+\texttt{/root/eth\_consequences} and \texttt{/root} each read the
+complete proofs. Their checks found no remaining substantive gap after
+the standard-grading and output-scope qualifications were incorporated.
+Koiran's protocol and erratum, the relevant GCT statements and displayed
+proofs, and the later theorem statements were inspected. The full
+historical analytic and border-hitting-set proofs are carried as cited
+background, not claimed to have been independently reproved. Detailed
+check events and source locators accompany the ledger.
+
+
+\section{Number-theoretic algorithms: exact analytic gates}
+\label{sec:number-algorithms}
+
+Write \(\mathsf D\) for RH for all rational Dirichlet \(L\)-functions,
+including \(\zeta_{\mathbb Q}\), and \(\mathsf H\) for the asserted RH for
+Hecke \(L\)-functions over every number field. All character applications audited here are finite-order ones. The stipulated
+Alp\"oge theorem discharges \(\mathsf D\). Every consequence of
+\(\mathsf H\) below remains \emph{conditional on the all-number-field
+claim of the Masullo draft}. A statement that a published proof's gate is
+not discharged by \(\mathsf D\) is a scope audit, not a theorem of logical
+nonimplication and not an exclusion of a different algorithm.
+
+Finite fields are explicitly represented, for example as
+\(\mathbb F_{p^m}=\mathbb F_p[T]/(g)\), with \(g\) supplied and irreducible.
+A multiplicative primitive root generates \(\mathbb F_{p^m}^{\times}\);
+a primitive element of the extension need only generate the field.
+Integer factorizations supplied as input are stated explicitly.
+
+\subsection{CX-N01: Miller testing with Bach's cutoff}
+\label{cx-n01}
+
+Handle bounded small integers and even inputs directly. For an odd
+integer \(N\), write \(N-1=2^s u\), \(u\) odd, and test all
+\[
+ 2\leq a\leq\min\{N-1,\lceil2(\log N)^2\rceil\}.
+\]
+Reject on a nontrivial gcd, or unless \(a^u\equiv1\pmod N\) or
+\(a^{2^ju}\equiv-1\pmod N\) for some \(0\leq j<s\).
+Under \(\mathsf D\), this is a deterministic polynomial-time primality test.
+
+\paragraph{Exact source gate.}
+Bach explicitly restricts \S6, pp.~369--373, to ordinary Dirichlet
+characters; Theorem~2, p.~372, gives the subgroup bound with constant \(2\),
+and p.~373 states the Miller/Solovay--Strassen witness consequence
+\cite{CXNBach90}. Schoof's complete Theorem~2.2 proof, pp.~105--106,
+explicitly states the smaller sufficient hypothesis of RH for
+\emph{quadratic} Dirichlet characters \cite{CXNSchoof08}.
+
+\paragraph{Full transfer proof.}
+Those quadratic characters belong to \(\mathsf D\), so the cited criterion
+gives a rejecting small base for every composite input. Every prime passes
+all its nonzero bases. Increasing the strict source cutoff to the ceiling
+cannot cause false acceptance, and bounded small inputs handle endpoint
+conventions. There are \(O(b^2)\) bases for \(b=\lceil\log_2N\rceil\), each
+requiring \(O(b)\) modular multiplications. The bit cost is
+\(O(b^3M(b))\), where \(M(b)\) is multiplication cost; schoolbook arithmetic
+gives \(O(b^5)\). Only the power of two in \(N-1\) is extracted.
+This establishes this particular implementation; \(\mathrm{PRIMES}\)
+was already in deterministic \(\mathrm P\) by AKS \cite[Theorem~4.1 p.~785 and Theorem~5.1 p.~789]{CXNAKS04}. \(\square\)
+
+The entire Schoof proof was read for the hypothesis audit. Its squarefree
+case uses quadratic characters modulo prime divisors and their products;
+the repeated-prime case uses a smooth-number estimate and finite-group
+counting. Miller's original locators are Theorem~2, p.~301, and the
+Appendix, pp.~315--316 \cite{CXNMiller76}.
+
+\subsection{CX-N02: a specified prime-field power nonresidue}
+\label{cx-n02}
+
+Given prime \(p\) and a specified prime \(r\mid p-1\), \(\mathsf D\) yields
+an \(r\)-th power nonresidue in deterministic time polynomial in
+\(\log p\), without factoring the rest of \(p-1\).
+
+\paragraph{Proof.}
+The subgroup \(G=(\mathbb F_p^\times)^r\) is proper.
+If \(p\leq2(\log p)^2\), enumerate all nonzero residues.
+Otherwise Bach's Theorem~2 supplies an integer outside \(G\) below that
+cutoff, which is then below \(p\). In either case test candidates by
+\(a^{(p-1)/r}\ne1\). Writing \(a=g^v\) in the cyclic group shows that this
+is equivalent to \(r\nmid v\), exactly the desired condition.
+The search has \(O((\log p)^2)\) candidates, with polynomial bit cost per
+test. The analytic character with kernel \(G\) need not be computed.
+\(\square\)
+
+Bach's Theorem~2 quantifies over all positive integers below its bound.
+Theorem~3, also p.~372, quantifies only over integers coprime to the modulus
+and has constant \(3\). The preceding argument handles the possible zero
+residue and does not conflate these statements. A fallback nonspecific
+constant follows from Shoup's ordinary-character Proposition~9,
+author-preprint p.~10 \cite{CXNShoup92}.
+
+\subsection{CX-N03: certified primitive roots with factored order}
+\label{cx-n03}
+
+Given \(p\) and the complete prime factorization
+\(p-1=\prod_{i=1}^t r_i^{e_i}\), a multiplicative generator of
+\(\mathbb F_p^\times\) can be constructed in deterministic polynomial time
+on \(\mathsf D\).
+
+\paragraph{Proof.}
+Use CX-N02 to find \(a_i\) with \(a_i^{(p-1)/r_i}\ne1\), and set
+\[
+              b_i=a_i^{(p-1)/r_i^{e_i}},\qquad b=\prod_i b_i .
+\]
+If \(a_i=g^{v_i}\), then \(r_i\nmid v_i\), so \(b_i\) has exact order
+\(r_i^{e_i}\). In an abelian group, elements of pairwise coprime orders
+have product of that product order: projection to every primary component
+shows that any annihilating exponent is divisible by every component
+order. Thus \(b\) has order \(p-1\). Since \(t\leq\log_2(p-1)\), the cost
+is polynomial. The supplied factorization also certifies any candidate
+through the tests \(b^{(p-1)/r_i}\ne1\). \(\square\)
+
+No deterministic polynomial-time integer-factorization theorem is
+provided here. A short guaranteed candidate list and efficient
+identification of a generator are different outputs.
+
+\subsection{CX-N04: Shoup's least primitive root bound}
+\label{cx-n04}
+
+For odd prime \(p\), Shoup's Theorem~3 gives the least positive primitive root modulo \(p\) as
+\[
+ O\!\left(t^4(\log t+1)^4(\log p)^2\right),\qquad t=\omega(p-1).
+\]
+The exact author-preprint locators are Theorem~3, p.~4; its proof in
+\S6, p.~13; and Proposition~9, p.~10 \cite{CXNShoup92}.
+All analytic characters used here are rational Dirichlet characters
+modulo \(p\).
+
+\paragraph{Proof of transfer and output.}
+Apply \(\mathsf D\) to the finite family of character powers in the proof.
+The remaining finite sieve is unconditional, so the bound and its
+effective constants remain valid. The product of \(t\) different primes
+is at least \(t!\); hence \(t(\log t+1)=O(\log p)\). The displayed bound is
+therefore \(O((\log p)^6)\). Enumeration gives a polynomial-size list
+containing a primitive root. Supplied factorization of \(p-1\) makes
+recognition polynomial by CX-N03. The small bound alone does not provide
+that factorization or a replacement recognition algorithm. \(\square\)
+
+\subsection{CX-N05: Shoup's quadratic-extension candidate construction}
+\label{cx-n05}
+
+For odd prime \(p\), Shoup's different Theorem~2 constructs a candidate set for a primitive
+root of \(\mathbb F_{p^2}\): author-preprint p.~3, proof \S5, pp.~12--13,
+and Proposition~13 with the ray-class definitions in \S4, pp.~10--12
+\cite{CXNShoup92}. Choose a prime \(\delta\equiv1\pmod4\) for which
+\(-\delta\) is a quadratic nonresidue modulo \(p\), and set
+\[
+ K=\mathbb Q(\sqrt{-\delta}),\quad
+ \mathcal O_K=\mathbb Z[\sqrt{-\delta}],\quad
+ \mathfrak m=p\mathcal O_K .
+\]
+Proposition~10 uses rational characters to give
+\(\delta=O((\log p)^2)\). Inertness identifies
+\(\mathcal O_K/\mathfrak m\) with \(\mathbb F_{p^2}\).
+The later character sums concern finite-order characters of
+\(I_{\mathfrak m}/P_{\mathfrak m}^{+}\). Positivity is vacuous because
+\(K\) is imaginary. These are Hecke characters over \(K\), together with
+the trivial factor \(\zeta_K\). RH for the ray class field zeta
+\(\zeta_{H_{K,\mathfrak m}}\) is sufficient.
+
+\paragraph{Full transfer.}
+Conditional \(\mathsf H\) covers every required character, so the
+published character-sum and sieve estimates remain valid. The enumeration
+is polynomial in \(\log p\), using the stated bounds on \(\delta\) and
+the class number. Reduction gives the candidate set. An unconditional
+deterministic field-isomorphism algorithm transfers it to a supplied
+model \cite[Theorem~(1.2), p.~330]{CXNLenstra91}. With the factorization of \(p^2-1\), order tests identify a
+generator; with only a specified prime \(r\mid p^2-1\), a power test
+identifies an \(r\)-nonresidue in the list. \(\square\)
+
+Here \(\mathsf D\) gives the initial prime selection and \(\zeta_K\),
+because \(K/\mathbb Q\) is quadratic, but does not by this argument
+supply the ray-class factors. The ray class field need not be abelian
+over \(\mathbb Q\). This concerns the stated \emph{primitive-root candidate}
+proof. It is not a necessity claim for each weaker task:
+CX-N13 gives a smaller-hypothesis replacement for every specified
+prime \(r\mid p-1\) in all explicitly given \(\mathbb F_{p^m}\),
+including quadratic nonresidues.
+
+\subsection{CX-N11: an explicit auxiliary Kummer field}
+\label{cx-n11}
+
+Let \(p\) be prime, \(n>1\), and \(p\nmid n\). Set
+\[
+              F=\mathbb Q(\zeta_{2n}),\qquad E=F(p^{1/n}).
+\]
+RH for \(\zeta_E\) and \(\zeta_{\mathbb Q}\) suffices for a prime
+\[
+ q=O(n^4\log^2(np)),\quad q\equiv1\pmod{2n},\quad
+ \gcd\!\left((q-1)/\operatorname{ord}_q(p),n\right)=1.             \tag{N11.1}
+\]
+A search for it has polynomial cost in \(n,\log p\).
+This supplies Buchmann--Shoup's Fact~2.1, p.~1314, and the closely
+related Adleman--Lenstra Proposition~3, p.~351
+\cite{CXNBuchmannShoup96,CXNAdlemanLenstra86}.
+
+\paragraph{Exact analytic input.}
+Bach--Sorenson's Theorem~5.1, p.~1729, gives an unramified rational prime
+with any prescribed Frobenius conjugacy class in \(E/\mathbb Q\),
+\(E\ne\mathbb Q\), satisfying
+\[
+              q\leq(4\log|\Delta_E|+2.5[E:\mathbb Q]+5)^2.      \tag{N11.2}
+\]
+Their convention in \S2, p.~1720 after (2.10), assumes RH for
+\(\zeta_E\) and \(\zeta_{\mathbb Q}\) \cite{CXNBachSorenson96}.
+There is no assumption of general Artin holomorphy.
+
+\paragraph{Full proof of the field, conjugacy, and power conditions.}
+The prime \(p\) is unramified in \(F\).
+For odd \(n\), \(F=\mathbb Q(\zeta_n)\), which includes the case \(p=2\).
+For even \(n\), \(p\) is odd and coprime to \(2n\).
+Thus \(v_{\mathfrak P}(p)=1\) at every \(\mathfrak P\mid p\).
+The polynomial \(X^n-p\) is Eisenstein over the discrete valuation ring
+\(\mathcal O_{F,\mathfrak P}\), hence irreducible over \(F\).
+Writing \(\alpha=p^{1/n}\), we obtain \([E:F]=n\).
+The field \(E/\mathbb Q\) is Galois, since it contains all
+\(\zeta_n^j\alpha\) and the \(2n\)-th roots of unity.
+
+There is an \(F\)-automorphism \(\sigma(\alpha)=\zeta_n\alpha\) of order
+\(n\). If \(\tau(\zeta_n)=\zeta_n^u\), then
+\(\tau\sigma\tau^{-1}=\sigma^u\), as checked on \(F,\alpha\);
+indeed \(\tau(\alpha)=\zeta_n^b\alpha\) for some \(b\).
+The exponent \(u\) is a unit modulo \(n\). Thus each member of the
+conjugacy class of \(\sigma\) fixes \(F\) and generates
+\(\operatorname{Gal}(E/F)\).
+
+Apply (N11.2) to this class. The resulting \(q\) splits in \(F\).
+For even \(n\), whose cyclotomic conductor is \(2n\), this gives
+\(q\equiv1\pmod{2n}\).
+For odd \(n>1\), splitting gives \(q\equiv1\pmod n\), and \(q\ne2\)
+since \(2\not\equiv1\pmod n\). As \(q\) is odd, it is again
+\(1\pmod{2n}\). Also \(q\nmid pn\): the prime \(p\) ramifies in \(E/F\)
+by the Eisenstein construction, and primes dividing \(n\) ramify in \(F\).
+
+Choose a prime \(\mathfrak Q\mid q\) whose Frobenius is \(\sigma^u\).
+In its residue field,
+\(\alpha^q=\zeta_n^u\alpha\), so
+\[
+                    p^{(q-1)/n}=\alpha^{q-1}=\zeta_n^u .
+\]
+The reduction of \(\zeta_n\) has order \(n\), because \(q\nmid n\).
+For every prime \(r\mid n\), therefore,
+\[
+                     p^{(q-1)/r}=(\zeta_n^u)^{n/r}\ne1.
+\]
+Writing \(p=g^a\) in \(\mathbb F_q^\times\), this says \(r\nmid a\).
+Since \(\operatorname{ord}_q(p)=(q-1)/\gcd(a,q-1)\), it proves the gcd
+condition in (N11.1).
+
+Finally \(|\Delta_F|\leq(2n)^{[F:\mathbb Q]}\), and the relative
+discriminant divides the polynomial discriminant ideal
+\((n^np^{n-1})\). The discriminant tower formula gives
+\[
+ \begin{split}
+ \log|\Delta_E|
+ &\leq n[F:\mathbb Q]\log(2n)
+       +[F:\mathbb Q](n\log n+(n-1)\log p)\\
+ &=O(n^2\log(np)),\qquad [E:\mathbb Q]\leq2n^2.
+ \end{split}
+\]
+Equation (N11.2) gives (N11.1), with effective constants.
+Enumeration up to this bound is polynomial in \(n,\log p\);
+primality and order testing, even using trial division of the
+polynomially bounded \(q-1\), retain that cost. \(\square\)
+
+The unique degree-\(n\) field \(K\subset\mathbb Q(\zeta_q)\) is real
+because \(n\mid(q-1)/2\). The image of \(p\) in the cyclic quotient
+\(\operatorname{Gal}(K/\mathbb Q)\) has order \(n\) by (N11.1);
+hence \(p\) is inert and \(\mathcal O_K/p\mathcal O_K\cong\mathbb F_{p^n}\).
+Adleman--Lenstra's Theorem~1, p.~350, Algorithm~A, pp.~350--351,
+and Lemma~6, p.~352, use this mechanism to construct a field model.
+That task is different from factoring an arbitrary input polynomial.
+
+The extension \(E/F\) is cyclic. Equivalently, its finite family of
+Hecke characters over \(F\) supplies \(\zeta_E\). Although \(\mathsf D\)
+covers \(\zeta_F\), the additional Kummer characters are not thereby
+rational Dirichlet characters. Conditional \(\mathsf H\) covers them.
+
+\subsection{CX-N06: Buchmann--Shoup generating sets}
+\label{cx-n06}
+
+Buchmann--Shoup construct a model of \(\mathbb F_{p^n}\) and a set
+generating its multiplicative group in deterministic time
+\[
+                              (n\log p)^{O(n)}.                \tag{N06.1}
+\]
+The main statement is on pp.~1311--1312; p.~1314 explicitly defines
+ERH as RH for Dedekind zeta functions of all number fields
+\cite{CXNBuchmannShoup96}.
+For \(p\nmid n\), their auxiliary field \(K\) is the real cyclic field of
+CX-N11. Fact~4.3, p.~1319, invokes Bach's Theorem~4 for the ray class
+group modulo \(p\mathcal O_K\). A concrete sufficient package is
+\[
+                   \zeta_{\mathbb Q},\quad\zeta_E,\quad
+                   \zeta_{H_{K,p\mathcal O_K}} .
+\]
+The ray modulus has no added infinite places, as in the paper.
+
+\paragraph{Full transfer.}
+Conditional \(\mathsf H\) supplies these zeta hypotheses. CX-N11
+discharges prime selection; CX-N07 discharges ray-class generation.
+The remaining lattice and finite-field operations preserve (N06.1).
+For \(n=1\) and \(p>2\), Bach's Theorem~3 gives a group-generating set of size \(O((\log p)^2)\); \(p=2,n=1\) is trivial. If \(p\mid n\), then \(p\leq n\); enumerating irreducible-polynomial candidates and then all field elements costs \(p^{O(n)}\leq n^{O(n)}\), still within the stated bound. If \(S\) generates \(\mathbb F_{p^n}^\times\), then
+for any specified prime \(r\mid p^n-1\), some member lies outside the
+proper subgroup of \(r\)-th powers. Scanning with the exponent test
+finds it. With complete factorization of \(p^n-1\), isolate primary
+orders and multiply as in CX-N03. A generating set need not contain
+one primitive root. \(\square\)
+
+CX-N13 supplies a stronger nonresidue consequence for primes \(r\mid p-1\)
+when the field model is already supplied.
+For fixed \(n\), the time is polynomial in \(\log p\); for variable
+\(n\), the displayed bound is not polynomial in the usual input
+parameters. Discharging GRH does not change that degree dependence.
+
+\subsection{CX-N07: class-group generators and their exact class field}
+\label{cx-n07}
+
+Bach's class-group bound is
+\[
+        \operatorname{Cl}(\mathcal O_K)=
+        \langle[\mathfrak p]:N\mathfrak p\leq
+                             12(\log|\Delta_K|)^2\rangle .     \tag{N07.1}
+\]
+The original locators are Theorem~4, p.~375, and the corollary on p.~376
+\cite{CXNBach90}. Its analytic family comprises \(\zeta_K\) and the
+nontrivial ideal-class-character \(L_K(s,\chi)\), which are unramified
+finite-order Hecke \(L\)-functions over \(K\).
+
+\paragraph{Proof from the precise character theorem.}
+If those prime classes generate a proper subgroup \(G\), take a
+nontrivial character of the quotient
+\(\operatorname{Cl}(\mathcal O_K)/G\). Its conductor is \(1\).
+The first bound in Bach's Theorem~4 gives a prime with
+\[
+ \chi(\mathfrak p)\ne1,\qquad
+ N\mathfrak p\leq3\log^2(|\Delta_K|^2)=12(\log|\Delta_K|)^2,
+\]
+contradicting triviality on \(G\). The omitted degree-one case has
+trivial class group. \(\square\)
+
+\paragraph{Full class-field transfer.}
+For the Hilbert class field \(H_K\), reciprocity gives
+\[
+ \operatorname{Gal}(H_K/K)\cong\operatorname{Cl}(\mathcal O_K),
+ \qquad
+ \zeta_{H_K}(s)=
+  \prod_{\chi\in\operatorname{Cl}(\mathcal O_K)^\wedge}L_K(s,\chi).
+                                                                    \tag{N07.2}
+\]
+The trivial factor is \(\zeta_K\); the other factors are entire.
+None has a pole in \(0<\Re s<1\). Thus an off-line zero of any factor
+would be an off-line zero of the product. RH for \(\zeta_{H_K}\)
+suffices for all these factors. Conditional \(\mathsf H\) supplies it,
+and hence (N07.1).
+
+For a ray modulus \(\mathfrak m\), the same argument uses the ray
+class field \(H_{K,\mathfrak m}\). Extra Euler factors from imprimitive
+characters have zeros only on \(\Re s=0\), so do not affect the argument.
+\(\square\)
+
+Belabas--Diaz y Diaz--Friedman's refined computed bound assumes RH
+only for the nontrivial class-character factors: author-preprint
+Theorem~1.1 p.~3; Theorem~2.1 p.~5; proof pp.~4--6
+\cite{CXNBDF08}. Their introduction distinguishes this from Bach's use
+of both these factors and \(\zeta_K\). Neither gate should simply be
+replaced by RH for \(\zeta_K\).
+
+Even if \(K/\mathbb Q\) is abelian, so that \(\mathsf D\) covers
+\(\zeta_K\), \(H_K/\mathbb Q\) need not be abelian. The additional
+class-character gate remains in this proof. The bound gives generators,
+not their relations. Algorithmic enumeration must also specify the
+maximal order and its arithmetic, or account for computing them;
+a defining polynomial is not silently the same input.
+
+\subsection{CX-N08: verification of class groups and units}
+\label{cx-n08}
+
+Let \(S\) contain all archimedean places and a finite factor base.
+Write \(K_S\) for the \emph{group of \(S\)-units} and \(H\subset K_S\)
+for the subgroup generated by sampled \(S\)-units. For the valuation map
+\[
+ \phi:H\longrightarrow\mathbb Z^{S_{\rm fin}},\qquad
+ x\longmapsto(\operatorname{ord}_{\mathfrak p}x)_{\mathfrak p},
+\]
+the tentative units and class group are \(\ker\phi\) and
+\(\operatorname{coker}\phi\). In particular, \(K_S\) is not a relation
+lattice. The exact source is Lenstra \S5, equation (5.7), author-preprint
+p.~25 \cite{CXNLenstra92}.
+
+\paragraph{Full verification proof.}
+Assume the factor-base classes generate, \(H\) contains all roots of
+unity, and the tentative groups have the required finite-index and rank
+properties. The exact sequence
+\[
+ 0\longrightarrow\ker\phi\longrightarrow\mathcal O_K^\times
+ \longrightarrow K_S/H\longrightarrow\operatorname{coker}\phi
+ \longrightarrow\operatorname{Cl}(\mathcal O_K)\longrightarrow0
+\]
+implies
+\[
+                              h'R'=hR[K_S:H],                 \tag{N08.1}
+\]
+where primes denote tentative class number and regulator.
+The unit index is \(R'/R\), and the finite class-group index is
+\(h'/h\); the exact sequence multiplies them to \([K_S:H]\).
+If certified bounds give \(a/2<hR<a\) and the computed product also
+satisfies \(a/2<h'R'<a\), then
+\[
+                         1\leq[K_S:H]=(h'R')/(hR)<2.
+\]
+The index is an integer, hence \(1\), proving completeness of both
+units and class group. \(\square\)
+
+Conditional \(\mathsf H\) supplies the factor-base bound. Where the
+chosen analytic estimator assumes RH for \(\zeta_K\), it supplies
+that premise also. The index test itself is algebraic and also works
+with independently certified generators and analytic bounds.
+It gives no rate for collecting sufficient relations. Any additional
+smoothness heuristic or search-complexity assumption in a chosen
+algorithm remains separate.
+
+\subsection{CX-N12: a rigorously conditional randomized class-group algorithm}
+\label{cx-n12}
+
+Biasse--Erukulangara's modified Hafner--McCurley algorithm supplies a
+concrete computation theorem \cite{CXNBiasseErukulangara}. We transfer
+the input explicitly required by its algorithm boxes: a negative
+\emph{fundamental} discriminant \(-d\), giving the full group structure
+of \(\operatorname{Cl}(\mathcal O_{\mathbb Q(\sqrt{-d})})\).
+The Main Theorem and Conjecture~1 are on author-preprint p.~4,
+Algorithm~4 on p.~15, and Corollary~1 on p.~16.
+Conjecture~1 explicitly concerns Hecke \(L\)-functions over number fields.
+
+Conditional on \(\mathsf H\), the algorithm has Las Vegas expected
+bit complexity
+\[
+ \exp\!\left(\left(\frac3{\sqrt8}+o(1)\right)
+                    \sqrt{\log d\,\log\log d}\right).           \tag{N12.1}
+\]
+It remains randomized. The displayed bound is superpolynomial and
+subexponential in the bit length \(\log d\).
+
+\paragraph{The visible number-field family.}
+The expansion step, Proposition~1, author-preprint p.~8, uses
+Jao--Miller--Venkatesan's Theorem~1.1 and Corollary~1.3
+\cite[arXiv version, pp.~3--4; proof pp.~9--10]{CXNJMV09}.
+For modulus \(1\) in imaginary quadratic \(K\), their characters are
+exactly those of \(\operatorname{Cl}(\mathcal O_K)\), and their proof
+explicitly estimates the corresponding Hecke \(L\)-functions.
+Thus RH for \(\zeta_{H_K}\) supplies this step and class generation
+by CX-N07. The rational quadratic character of \(K\) controls the
+separate quadratic splitting and class-number estimates.
+The fact that \(K/\mathbb Q\) is quadratic does not itself eliminate
+the class-character gate.
+
+For completeness, the split-prime factor base in the algorithm can be
+obtained from the same family. Regard each class character as an
+imprimitive character modulo \(d\mathcal O_K\), extended by zero at
+primes dividing \(d\). The second bound of Bach's Theorem~4 gives
+\(\chi(\mathfrak p)\notin\{0,1\}\) with
+\[
+ N\mathfrak p\leq12\log^2(d^2N(d\mathcal O_K))
+              =192(\log d)^2.
+\]
+Such a prime is unramified; it cannot be an inert prime ideal, since
+an inert prime ideal is the principal ideal \((p)\) and has class
+character value \(1\). It therefore lies over a split rational prime.
+Separating a proper generated subgroup by a character proves that
+these split-prime classes generate. Choosing only one of the two
+primes above each split rational prime preserves generation, because
+the two classes are inverses. Only finite Euler factors have
+been added, so no additional number-field character family is needed.
+
+\paragraph{Full transfer, certification, and expected time.}
+Conditional \(\mathsf H\) supplies the precise hypothesis explicitly
+declared in Conjecture~1. Hence the paper's conditional factor-base,
+relation-probability, and class-number estimates apply with the
+published parameters.
+
+Let \(\Lambda\subset\mathbb Z^n\) be the full relation lattice for the
+factor base, and \(\Lambda'\subset\Lambda\) the collected full-rank
+lattice. Every collected vector is a true relation. Since the factor
+base generates,
+\[
+       h'=\det\Lambda'=h[\Lambda:\Lambda'],\qquad
+       h=|\operatorname{Cl}(\mathcal O_K)|.
+\]
+Algorithm~4, steps 15--20, computes a certified \(h^*\) with
+\(h^*\leq h<2h^*\), obtains \(h'\) from the Smith normal form, and
+declares \textsc{Failure} if \(h'\geq2h^*\).
+An accepted output satisfies \(1\leq h'/h<2h^*/h\leq2\);
+the integer index is therefore \(1\). Every accepted group is correct
+under the analytic estimates, and unsuccessful branches are declared
+failures. The Smith-form procedure is itself Las Vegas.
+
+Put \(L(d)=\exp(\sqrt{\log d\,\log\log d})\).
+Corollary~1 supplies a time-bounded run of cost
+\(L(d)^{3/\sqrt8+o(1)}\) with success probability at least
+\(1-1/d^{1+o(1)}\). Independent restarts on failure have a geometric
+number of trials, with expectation at most \(2\) for sufficiently
+large \(d\); the bounded smaller inputs can be handled directly.
+This gives (N12.1) with its randomness retained. The corollary balances
+\[
+             \min_{z>0}\max\{3z,z+1/(4z)\}=3/\sqrt8,
+             \qquad z=1/\sqrt8.
+\]
+The expectation deduction is justified by detectable failures and
+correctness of accepted outputs, not by high success probability alone.
+\(\square\)
+
+\subsection{CX-N09: general finite-field factorization}
+\label{cx-n09}
+
+Evdokimov's published theorem gives deterministic factorization of a
+degree-\(d\) polynomial over an explicit field \(\mathbb F_q\) in
+\[
+                            (d^{\log d}\log q)^{O(1)}            \tag{N09.1}
+\]
+under the relevant GRH. The primary statement and radical-oracle
+description are in the abstract on p.~209 \cite{CXNEvdokimov94}.
+The degree dependence is quasipolynomial. For fixed \(d\), the bound
+is polynomial in \(\log q\); it is not a general polynomial bound
+in \(d,\log q\). Unconditional randomized polynomial-time factorization
+already predates this result \cite[introduction, author pp.~1--2]{CXNGao01}.
+
+\paragraph{A sufficient broad radical gate.}
+Evdokimov's earlier Theorem~I.3, pp.~109--110, gives deterministic
+\(k\)-th root extraction in an explicitly given \(\mathbb F_{p^m}\)
+in time polynomial in \(k,m,\log p\) \cite{CXNEvdokimov89}.
+Its proof uses field construction and isomorphisms from
+Theorems~I.1 and I.2, pp.~107--109. The analytic convention on p.~105
+explicitly allows \emph{Dirichlet characters of abelian number fields}.
+These are finite-order Hecke characters over those fields.
+For example, case III of Theorem~I.1, p.~108, uses the quadratic
+residue character modulo \(p\) over \(K=\mathbb Q(i)\), identifying
+its ideal character using the fact that \(\mathbb Z[i]\) is a PID.
+The hypothesis is not automatically the rational Dirichlet assertion.
+
+Every character allowed by that oracle theorem belongs to
+\(\mathsf H\). Conditional on \(\mathsf H\), the radical oracle has
+the required polynomial bound. Substituting it into the published
+radical-oracle reduction gives (N09.1), with its degree dependence
+unchanged. This uses no assumption of arbitrary Artin holomorphy.
+It is a transfer of the cited algorithmic theorem, not an independent
+reproof of the complete Evdokimov algebraic algorithm.
+CX-N15 supplies an independent composition of the same bound from
+accessible primary algorithm statements, with explicit Kummer-zeta
+hypotheses and without that original internal reduction.
+
+\paragraph{Why a smaller-hypothesis transfer needs its own audit.}
+Gao proves that radicals in an elementary algebra
+\(\mathbb F_q^N\) require only \(r\)-nonresidues in the base
+\(\mathbb F_q\), for primes \(r\mid\gcd(k,q-1)\):
+\S2.4, author-preprint pp.~7--9, Lemma~2.6 \cite{CXNGao01}.
+His introduction, pp.~1--2, records the unconditional reduction to
+completely split prime-field polynomials.
+These facts make a rational-character route a legitimate question;
+they do not alone audit subsequent automorphism splitting.
+Gao's Lemma~3.6, author-preprint p.~16, invokes the latter from
+R\'onyai's work.
+
+The broad \(\mathsf H\)-transfer is therefore established here, while
+a \(\mathsf D\)-only transfer of the entire general theorem is not
+asserted. The separately proved CX-N14 handles several specified
+automorphism-order cases, including prime-order powers whose order divides
+\(p-1\), using at most rational characters. The unrestricted step
+remains a stated gate in this audit.
+
+\subsection{CX-N10: special factorization families preserve their parameters}
+\label{cx-n10}
+
+Bach--von zur Gathen--Lenstra's Theorem~1, p.~6, is a precise
+special-field theorem \cite{CXNBGL01}. Let \(S(p^k)\) be the prime
+divisors of the integer \(\Phi_k(p)\), \(s(p^k)\) its largest prime
+divisor, and \(R(p^k)\) the primes dividing \(\ell-1\) for some
+\(\ell\in S(p^k)\). For an explicit \(\mathbb F_{p^n}\) and \(f\),
+the theorem assumes a degree-\(r\) irreducible polynomial over
+\(\mathbb F_p\) for each \(r\in R(p^k)\) not dividing \(n\), and has time
+\[
+                     (s(p^k)+\deg f+n\log p)^{O(1)}.            \tag{N10.1}
+\]
+
+\paragraph{Transfer.}
+Adleman--Lenstra constructs the extra irreducible-polynomial inputs
+when its auxiliary-prime hypothesis is supplied.
+For each required prime \(r\ne p\), CX-N11 supplies the concrete
+field \(\mathbb Q(\zeta_{2r},p^{1/r})\); characteristic-\(p\)
+extensions use the separate algebraic construction.
+Conditional \(\mathsf H\) covers these hypotheses and removes the
+extra input gates while retaining (N10.1).
+The same paper's Theorem~2, p.~7, constructs a primitive
+\(\ell\)-th root of unity from specified irreducible-polynomial inputs;
+Theorem~3, p.~7, constructs the relevant nonresidues from roots of
+unity. These intermediate tasks have explicit inputs and parameters.
+They do not give a polynomial bound for arbitrary polynomial
+factorization. \(\square\)
+
+For Fermat or Mersenne characteristics, \(k=1\) or \(k=2\) makes
+\(\Phi_k(p)\) a power of \(2\), leaving \(R(p^k)\) empty.
+The corollary on p.~6 is then unconditional, rather than newly
+unconditional by either GRH claim.
+
+R\'onyai's other results also have structural parameters.
+The primary abstract of \cite{CXNRonyai92} gives time polynomial in
+the input degree, coefficient size, \(\log p\), and the rational
+splitting-field degree; the latter may be exponential in the usual
+input length. Gao's introduction, p.~2, records R\'onyai's 1988
+algorithm for finding a nontrivial factor of a degree-\(d\) completely
+split polynomial, with cost polynomial in \(d^r,\log p\), for a
+prime divisor \(r\mid d\). It is polynomial for bounded \(r\), not
+uniformly when \(r\) grows. These are sourced parameter distinctions.
+The full original proofs and precise theorem numbers of these two
+R\'onyai statements were not independently retrieved; no stronger
+rational-Dirichlet transfer is inferred from the acronym GRH.
+
+
+% CX_GRH supplement, for the number-algorithm component.
+% Finding ID CX-N13 agreed with /root/number_algorithms.
+% Cite BIMS17 from koiran_bibliography.tex.
+
+\subsection{CX-N13: nonresidues for primes dividing \texorpdfstring{$p-1$}{p-1} in supplied extensions}
+\label{cx:n13}
+
+\paragraph{Statement.}
+Let $p$ be a prime, let $r$ be a specified prime divisor of $p-1$, and let
+$F=\mathbb F_p[X]/(f)$ be supplied by an irreducible polynomial $f$
+of degree $m$. An $r$-th nonresidue in $F$ can be constructed in
+deterministic $\operatorname{poly}(m\log p)$ time under the stipulated
+Dirichlet-GRH theorem $H_A$. In particular this holds for quadratic
+nonresidues in every supplied extension of every odd prime field.
+For $r=2$ and even $m$, the construction is already unconditional.
+
+\paragraph{Established even-degree input.}
+Bhargava--Ivanyos--Mittal--Saxena \cite[Corollary~1.3, PDF p.~2]{BIMS17}
+gives deterministic $\operatorname{poly}(m\log p)$-time $r$-th-root
+extraction when $r$ is constant and $r\mid\gcd(m,p-1)$.
+The following remark and \S2 specify that the irreducible polynomial
+defining the field is part of the input. For $r=2$, this covers every
+even $m$ and every odd $p$. This is a prior unconditional theorem,
+not a consequence newly obtained from either RH premise.
+For variable $r\mid p-1$, their Theorem~1.2 also gives the transfer
+once $\zeta_r$ is available and $r\mid m$: the supplied irreducible
+$f$ satisfies their Property~1.1. We give the direct algebraic
+argument for odd $r$, so the uniformity does not rely on a
+constant-$r$ root-of-unity algorithm.
+
+\begin{proof}[Proof of the all-degree transfer and output refinement]
+Under $H_A$, CX-N02 supplies $a\in\mathbb F_p^\times$ with
+$a^{(p-1)/r}\ne1$. Put $\zeta=a^{(p-1)/r}$, which has order $r$.
+If $r\nmid m$, then, since $p\equiv1\pmod r$,
+\[
+ a^{(p^m-1)/r}
+ =\zeta^{1+p+\cdots+p^{m-1}}
+ =\zeta^m\ne1.
+\]
+Thus the constant $a$ is the required nonresidue in the supplied field.
+
+Suppose next that $r\mid m$ and $r$ is odd. Set $Q=p^{m/r}$ and let
+$\sigma:F\longrightarrow F$ be $u\longmapsto u^Q$.
+The cyclic group $F^\times$ has order $(Q-1)S$, where
+$S=1+Q+\cdots+Q^{r-1}$. The image of $u\mapsto u^{Q-1}$
+has order $S$. Since $Q\equiv1\pmod r$, we have $r\mid S$,
+so that image contains the element $\zeta$ of order $r$.
+Consequently the $\zeta$-eigenspace of $\sigma$ is nonzero.
+Compute a nonzero element $u$ of this eigenspace by solving
+\[
+ (\sigma-\zeta I)u=0
+\]
+as a linear system over $\mathbb F_p$ in the supplied polynomial
+basis of $F$. The Frobenius matrix and a nonzero kernel vector can
+be computed in polynomial bit complexity in $m\log p$.
+Then $u^{Q-1}=\zeta$. Write $Q=1+rt$. Modulo $r^2$,
+\[
+ 1+Q+\cdots+Q^{r-1}
+ \equiv r+rt\frac{r(r-1)}2\equiv r\pmod{r^2},
+\]
+where oddness of $r$ is used in the second congruence. Therefore
+\[
+ u^{(p^m-1)/r}
+ =\left(u^{Q-1}\right)^{(1+Q+\cdots+Q^{r-1})/r}
+ =\zeta\ne1.
+\]
+This constructs the required $r$-th nonresidue. In this branch
+$r\le m$; in the preceding branch CX-N02 and modular powering
+are polynomial in $\log p$ independently of the numerical value
+of $r$. The claimed uniform polynomial bound follows.
+
+It remains to cover $r=2$ and even $m$, and here no RH assumption
+is needed. Invoke the cited unconditional square-root algorithm.
+Start with $z=-1$. While $z^{(p^m-1)/2}=1$, replace $z$ by any
+square root supplied by that algorithm. Initially $z$ has order $2$.
+A square root of an element of order $2^j$, for $j\ge1$, has order
+$2^{j+1}$: squaring halves that order, and an element with square
+of $2$-power order has no odd order component. Consequently each
+iteration doubles the order. After at most
+$v_2(p^m-1)-1\le\log_2(p^m)$ iterations, $z$ has the full
+$2$-primary order of $F^\times$ and is a nonsquare. Euler tests and
+the polynomially many square-root calls retain polynomial bit
+complexity in $m\log p$. This branch does not call the initial
+$H_A$-dependent prime-field search. The cases exhaust all $m$.
+\end{proof}
+
+This scope correction applies to the corresponding nonresidue
+consequences of CX-N05 and CX-N06. It does not remove the
+number-field Hecke hypothesis from Shoup's broader primitive-root
+candidate-set theorem or supply the same reduction when
+$r\mid p^m-1$ but $r\nmid p-1$. The extension model is supplied;
+the statement does not claim an unconditional construction of that
+model from $p$ and $m$ alone. In characteristic two every element
+is a square, so a quadratic nonresidue does not exist.
+
+An independent elementary verification of the even-degree quadratic
+case, including the $p\equiv3\pmod4$ trace construction, is recorded
+in the working proof notes. It is not presented here as a new
+discovery of the established theorem.
+
+
+\subsection{CX-N14: proved cases of splitting a prime-field algebra from an automorphism}
+\label{finding:CX-N14}
+
+\paragraph{Finding.}
+Let \(A\) be a commutative unital \(\mathbb F_p\)-algebra
+given by an explicit basis and multiplication table, promised to
+be isomorphic to \(\mathbb F_p^d\).
+Let \(\tau\ne1\) be a supplied \(\mathbb F_p\)-algebra automorphism,
+given by its matrix, and let \(h=\operatorname{ord}(\tau)\).
+If at least one of the following conditions holds, where
+\(r\) in (ii) and (iii) is a prime divisor of \(h\),
+\[
+\begin{array}{ll}
+\textnormal{(i)} & p\leq d,\\
+\textnormal{(ii)} & r\mid(p-1),\\
+\textnormal{(iii)} & r\ne p,\quad
+ v_r\!\left(p^{s}-1\right)=1,\quad s=\operatorname{ord}_r(p),
+\end{array}
+\]
+then a nonzero zero divisor of \(A\) can be found deterministically
+in \(\operatorname{poly}(d,\log p)\) bit operations.
+Cases (i) and (iii) are unconditional.
+Case (ii) uses only \(A_D\), through CX-N02.
+For \(A=\mathbb F_p[X]/(f)\), the output yields a proper factor of
+\(f\).
+
+This is a consequence of the stated constructions and the precise
+algebraic algorithms of
+\cite[Lemma~4.2 and Proposition~4.6]{CXNIKRS08};
+it is not presented as a new discovery of those source algorithms.
+The finding identifies concrete parts of the general
+automorphism-splitting step whose analytic requirements are
+discharged or absent.
+
+\paragraph{Order recovery and reduction to prime order.}
+An automorphism of \(\mathbb F_p^d\) permutes the primitive
+idempotents, so its order divides
+\(T=\operatorname{lcm}(1,\ldots,d)\).
+The bit length of \(T\) is polynomial in \(d\), and its prime factors
+are all at most \(d\).
+Starting with \(T\), divide out a prime factor whenever the
+corresponding power of \(\tau\) is the identity.
+Matrix powering performs these tests and determines \(h\) in
+polynomial time.
+The same small-prime factorization finds the prime divisors \(r\)
+of \(h\).
+Replace \(\tau\) by \(\tau^{h/r}\) for a chosen \(r\).
+This has exact order \(r\), and \(r\leq d\).
+The integer \(s=\operatorname{ord}_r(p)\), when \(r\ne p\), and
+the valuation test in (iii) are also computable in polynomial
+time: \(s\leq r-1\), and \(p^s\) has \(O(d\log p)\) bits.
+Thus selecting a covered case requires no unprovided integer
+factorization oracle.
+
+\paragraph{Proof of case (i).}
+Here \(p\leq d\); the supplied automorphism is not needed for
+this case. In particular, it covers every characteristic-order
+case \(r=p\), since a prime divisor of \(h\) is at most \(d\).
+Choose a basis element \(b\) outside the one-dimensional scalar
+subspace \(\mathbb F_p1\).
+Under the promised product decomposition its coordinates are not
+all equal.
+For some \(a\in\mathbb F_p\), the element \(b-a1\) has a zero
+coordinate, and it is nonzero for every \(a\).
+Enumerate the \(p\leq d\) scalars and test the multiplication
+matrices of \(b-a1\) for singularity.
+A singular matrix gives a nonzero zero divisor.
+This requires polynomial time and no analytic assumption.
+\hfill\(\square\)
+
+\paragraph{Proof of case (ii).}
+Use CX-N02 to find an \(r\)-th nonresidue \(a\in\mathbb F_p^*\).
+Set \(\zeta=a^{(p-1)/r}\), of exact order \(r\).
+The prime-order permutation \(\tau\) has an \(r\)-cycle, so its
+\(\zeta\)-eigenspace is nonzero.
+Linear algebra finds
+\[
+ 0\ne z\in A,\qquad \tau(z)=\zeta z.
+\]
+If multiplication by \(z\) is singular, it is already the desired
+zero divisor. Otherwise \(z\) is a unit.
+
+Compute \(B=A^\tau=\ker(\tau-1)\) and its multiplication table by
+linear algebra.
+It is a split \(\mathbb F_p\)-algebra, with components indexed by
+the orbits of \(\tau\).
+The unit \(c=z^r\) belongs to \(B\).
+On each orbit its constant coordinate is the \(r\)-th power of
+some coordinate of \(z\), so \(c\) has an \(r\)-th root in \(B\).
+
+The elementary-algebra root algorithm in
+\cite[\S2.4, Lemma~2.6, author pp.7--9]{CXNGao01}
+finds such a \(y\in B\) in
+\(\operatorname{poly}(d,r,\log p)\) time given a primitive
+\(r^e\)-th root of unity, where \(p-1=r^e w\), \(r\nmid w\).
+The same nonresidue \(a\) supplies that root as \(a^w\).
+Repeated division by \(r\) computes \(e,w\).
+This uses no extension-field nonresidue and no factorization of
+the complementary factor \(w\).
+
+Now
+\[
+ \prod_{j=0}^{r-1}(z-\zeta^j y)=z^r-y^r=0.
+\]
+Every factor is nonzero: \(z=\zeta^j y\) would imply, on applying
+\(\tau\), that \(\zeta z=z\), contradicting invertibility of \(z\).
+At least one factor is a nonunit, since a product of units cannot
+be zero.
+Testing the \(r\leq d\) multiplication matrices finds a nonzero
+nonunit, hence a nonzero zero divisor.
+All operations have polynomial bit complexity.
+\hfill\(\square\)
+
+\paragraph{Constructive removal of fixed components.}
+For case (iii), and also as an unconditional preliminary test in
+any prime-order case, form
+\[
+ J=\bigl(a-\tau(a):a\in A\bigr)\subseteq A.
+\]
+For an explicit basis \(b_1,\ldots,b_d\), this ideal is the linear
+span of the \(d^2\) products
+\(b_j(b_i-\tau(b_i))\), so it is computable by linear algebra.
+It is nonzero because \(\tau\ne1\).
+On a component fixed by \(\tau\), every generator vanishes.
+On a moved component, an abstract primitive idempotent supported
+there proves that some generator has nonzero coordinate.
+Consequently \(J\) is exactly the ideal supported on the moved
+components.
+
+If \(J\ne A\), any nonzero element of \(J\) is a zero divisor,
+annihilated by the nonzero complementary component ideal.
+This immediately solves the problem.
+If \(J=A\), every cycle of \(\tau\) has length \(r\).
+The cyclic action is then semiregular in the sense of IKRS:
+no nonidentity power acts as the identity on a nonzero ideal.
+This establishes the required promise for the next step
+constructively; no component decomposition has been assumed as
+algorithmic input.
+
+\paragraph{Proof of case (iii).}
+We may assume the preceding test gave \(J=A\).
+Put
+\[
+ D_r=\mathbb F_p[T]/(\Phi_r(T)),\qquad
+ C=A\otimes_{\mathbb F_p}D_r,\qquad
+ \zeta=T\bmod\Phi_r(T).
+\]
+The algebra \(D_r\) is semisimple because \(p\ne r\).
+Every primitive \(r\)-th root has Frobenius orbit length
+\(s=\operatorname{ord}_r(p)\).
+It follows that \(D_r\) is a product of copies of
+\(\mathbb F_{p^s}\), and so is \(C\), since \(A\) is split over
+\(\mathbb F_p\).
+No explicit factorization of \(\Phi_r\) is needed for this argument
+or for the construction of \(C\).
+
+The valuation-one hypothesis implies that every element of
+\(r\)-power order in \(C^\times\) has order dividing \(r\).
+For \(1\leq b<r\), let \(\rho_b\) fix \(A\) and send
+\(\zeta\) to \(\zeta^b\).
+In this exponent-\(r\) case, the Teichm\"uller subgroup used in IKRS
+is exactly
+\[
+ \mathcal T_{A,r}
+ =\{u\in C^\times:u^r=1,\ 
+          \rho_b(u)=u^b\text{ for all }1\leq b<r\};
+\]
+their Teichm\"uller exponent lift is congruent to \(b\) modulo \(r\).
+
+IKRS Proposition~4.6, with the semiregular action just verified,
+constructs \(x\in\mathcal T_{A,r}\) satisfying
+\(\tau(x)=\zeta x\) in polynomial time.
+The element \(\zeta\) also belongs to \(\mathcal T_{A,r}\).
+Both have order \(r\).
+Moreover \(x\notin\langle\zeta\rangle\), since \(\tau\) fixes
+\(\zeta\) but does not fix \(x\).
+Thus \(\langle x,\zeta\rangle\cong C_r\times C_r\) is noncyclic.
+IKRS Lemma~4.2 now produces a nonzero zero divisor in
+\(A\), in \(\operatorname{poly}(r,\log|A|)\) time.
+Its conclusion is in \(A\) itself: the source proof makes an
+annihilator idempotent invariant under every \(\rho_b\), and
+\(C^{\{\rho_b\}}=A\).
+Since \(r\leq d\) and \(\log|A|=d\log p\), the required bit
+complexity follows, without GRH.
+\hfill\(\square\)
+
+\paragraph{The remaining branch of this argument.}
+Under \(A_D\), if none of the three cases applies, every relevant
+prime-order branch has
+\[
+ p>d,\qquad
+ r\nmid p(p-1),\qquad
+ s=\operatorname{ord}_r(p)>1,\qquad
+ r^2\mid p^s-1.
+\]
+The fixed-component test may still split individual instances.
+For a semiregular instance in this branch, the above proof supplies
+the element \(x\), but does not supply a coefficient
+Teichm\"uller unit of sufficient \(r\)-power order in \(D_r\),
+or an extension-field radical algorithm that replaces it.
+Gao's general automorphism-splitting Lemma~3.6 cites
+R\'onyai's 1992 result
+\cite[Lemma~3.6, author p.16]{CXNGao01};
+the exact additional analytic input in a chosen general route
+must still be tracked.
+The algebra \(A[\zeta_r]\) in IKRS has extension-field components
+when \(s>1\).
+These statements delimit this proved algorithm.
+They do not assert that a Dirichlet-only alternative for the
+remaining branch is impossible.
+
+\paragraph{A precise sufficient algebraic input for the remaining branch.}
+Let \(e=v_r(p^s-1)\), and suppose an element
+\(\eta\in D_r^\times\), in the explicit power basis of \(D_r\),
+is additionally supplied with
+\[
+ \operatorname{ord}(\eta)=r^e,\qquad
+ \rho_b(\eta)=\eta^{\omega_e(b)}
+ \quad(1\leq b<r),
+ \qquad
+ \omega_e(b)=b^{r^{e-1}}\bmod r^e.
+\]
+These promises can be checked by polynomially many algebra
+operations; in particular, exact order is checked with the two
+powers \(r^e\) and \(r^{e-1}\).
+They say that \(\eta\) belongs to the coefficient
+Teichm\"uller subgroup, with maximum possible \(r\)-power order.
+Embedded in \(C\), it also belongs to \(\mathcal T_{A,r}\)
+and is fixed by \(\tau\).
+Every \(r\)-element of \(C^\times\), including the element \(x\)
+from Proposition~4.6, has order dividing \(r^e\), because each
+field component has \(p^s\) elements.
+If \(\langle x,\eta\rangle\) were cyclic, its order would be
+\(r^e\), and its element \(\eta\) of that order would generate
+it. This would put \(x\) in \(\langle\eta\rangle\), contradicting
+\(\tau(x)=\zeta x\ne x\).
+Thus the group is noncyclic, and Lemma~4.2 gives a nonzero zero
+divisor in \(A\) in polynomial time.
+This explicitly delimits a sufficient additional input; the
+construction of such an \(\eta\) in the remaining branch is not
+claimed here under \(A_D\).
+\hfill\(\square\)
+
+\paragraph{A limit of the valuation-one argument.}
+The valuation hypothesis in CX-N14 cannot simply be deleted from
+its particular noncyclicity proof.
+For an explicit example, take \(p=17\), \(r=3\), and
+\(A=\mathbb F_{17}^3\).
+The polynomial \(T^2+T+1\) has no root over \(\mathbb F_{17}\),
+since a root would have order three in its multiplicative group
+of order sixteen. Thus
+\[
+ D=\mathbb F_{17}[T]/(T^2+T+1)\cong\mathbb F_{17^2},
+ \qquad \zeta=T\bmod(T^2+T+1).
+\]
+Here \(s=\operatorname{ord}_3(17)=2\) and
+\(v_3(17^2-1)=v_3(288)=2\).
+The cyclic group \(D^\times\) contains an element \(\eta\) of
+order nine with \(\eta^3=\zeta\): start with a generator of its
+order-nine subgroup and replace it by its inverse if necessary.
+Set
+\[
+ x=(\eta,\zeta\eta,\zeta^2\eta)\in
+ A\otimes_{\mathbb F_{17}}D=D^3,
+ \qquad
+ \tau(a_0,a_1,a_2)=(a_1,a_2,a_0).
+\]
+Then \(\tau(x)=\zeta x\), \(x\) has order nine, and
+\(x^3=(\zeta,\zeta,\zeta)\).
+The nonidentity cyclotomic automorphism \(\rho_2\) of \(D\)
+is its seventeenth-power Frobenius.
+On every element of order dividing nine, this acts by exponent
+\(17\equiv-1\pmod9\), which is also
+\(\omega_2(2)=2^3\equiv-1\pmod9\).
+It follows coordinate by coordinate that
+\(\rho_2(x)=x^{\omega_2(2)}\); hence \(x\) is in the required
+Teichm\"uller subgroup.
+Nevertheless \(\langle x,\zeta\rangle=\langle x\rangle\)
+is cyclic of order nine.
+This example satisfies the eigenunit properties used from
+Proposition~4.6 but does not force that pair to be noncyclic.
+It makes no assertion about which valid eigenunit a particular
+implementation returns, or about the impossibility of a different
+Dirichlet-only algorithm.
+\hfill\(\square\)
+
+\paragraph{Recovering a polynomial factor.}
+If \(A=\mathbb F_p[X]/(f)\), represent the resulting nonzero zero
+divisor by \(g\) of degree less than \(\deg f\).
+Then \(\gcd(f,g)\) has positive degree because multiplication by
+\(g\) is singular, and has degree less than \(\deg f\) because
+\(g\ne0\) in \(A\). The Euclidean algorithm therefore returns
+a proper factor in polynomial time.
+
+\paragraph{Geometric restatement.}
+The algebra \(A\) is the ring of functions on a constant finite
+\'etale scheme of degree \(d\).
+Its automorphism permutes the components.
+The ideal \(J\) detects the moved-component open-and-closed
+subscheme; the fixed algebra \(A^\tau\) is the orbit quotient.
+In case (ii), a prime-field eigenfunction and an invariant radical
+yield a proper component decomposition.
+In case (iii), the cyclotomic coefficient extension admits the
+stated Teichm\"uller construction, and the source descent returns
+an idempotent on the original finite \'etale scheme.
+The explicit algebra encoding and divisibility/valuation conditions
+remain part of this geometric statement.
+
+
+\subsection{CX-N15: a complete accessible composition for general factorization}
+\label{finding:CX-N15}
+
+\paragraph{Finding and source interface.}
+Assume \(\mathsf H\), the all-number-field Hecke claim.
+Given an explicit finite field \(\mathbb F_q\), \(q=p^m\), and
+\(0\ne f\in\mathbb F_q[X]\) of degree \(d\geq2\), there is a
+deterministic algorithm that returns its complete factorization in
+\[
+ \bigl(d^{\log d}\log q\bigr)^{O(1)}
+\]
+bit operations.
+The composition below uses Adleman--Lenstra Algorithm~A and
+Theorem~1, with its auxiliary-prime step supplied by CX-N11;
+Bach--von zur Gathen--Lenstra Theorem~2; and the IKRS Main Theorem,
+together with the explicitly proved coefficient-unit step of
+CX-N14
+\cite{CXNAdlemanLenstra86,CXNBGL01,CXNIKRS08}.
+It does not require the unretrieved internal reduction of
+Evdokimov's 1994 paper, or a general finite-field factorization
+oracle.
+This gives an independent proof of the broad transfer in CX-N09;
+it does not change that theorem's degree dependence.
+
+\paragraph{Step 1: construct a maximal coefficient unit.}
+Consider a split algebra \(A_0\cong\mathbb F_p^{d_0}\) with a
+supplied nonidentity automorphism and \(p>d\geq d_0\).
+Reduce its automorphism to prime order \(r\leq d_0\) as in
+CX-N14. The branch \(p\leq d\) is handled unconditionally in
+Step~3. The following construction works for every such \(r\),
+including \(r\mid p-1\). Put
+\[
+ s=\operatorname{ord}_r(p),\qquad Q=p^s,
+ \qquad e=v_r(Q-1),\qquad R=r^e.
+\]
+The quantities \(s\leq r-1\), \(e\), and \(R\) are computable
+in polynomial time in \(r,\log p\); no factorization of the
+complementary part of \(Q-1\) is used.
+Adleman--Lenstra Algorithm~A, with CX-N11, constructs an explicit
+field
+\(U=\mathbb F_{p^{sr}}\) in polynomial time in \(r,\log p\).
+Indeed \(sr\leq r(r-1)\) and \(p\nmid sr\), because both
+\(r\) and \(s\) are smaller than \(p\).
+Compute the subfield
+\[
+ B=\ker\bigl(U\longrightarrow U,\ u\longmapsto u^Q-u\bigr)
+   \cong\mathbb F_Q
+\]
+by \(\mathbb F_p\)-linear algebra, and compute its multiplication
+table and inclusion in \(U\).
+This is exactly the explicit-data convention of BGL, adopted
+from Lenstra: basis structure constants suffice, and Frobenius
+kernels provide explicit subfields
+\cite[p.~329 and \S2, p.~332]{CXNLenstra91}.
+
+BGL Theorem~2, p.~7, constructs a primitive \(r\)-th root
+\(\zeta\in B\), given additionally an irreducible polynomial
+over \(\mathbb F_p\) of degree \(\ell\) for each prime
+\(\ell\mid r-1\) with \(\ell\nmid s\).
+All these primes are smaller than \(p\) and at most \(r-1\).
+Trial division factors \(r-1\) in polynomial time in \(r\),
+and Adleman--Lenstra with CX-N11 constructs every required
+auxiliary polynomial in polynomial time in \(r,\log p\).
+Thus all BGL inputs are supplied, and its output and running-time
+conditions apply. When \(r=2\), simply take \(\zeta=-1\);
+there are no auxiliary primes.
+
+Find a nonzero solution of
+\[
+ u^Q=\zeta u\qquad (u\in U)
+\]
+by \(\mathbb F_p\)-linear algebra.
+Such a solution exists: the image of the power map
+\(U^\times\to U^\times\), \(v\mapsto v^{Q-1}\), is the
+cyclic subgroup of order
+\[
+ S=\frac{Q^r-1}{Q-1}=1+Q+\cdots+Q^{r-1}.
+\]
+Since \(Q\equiv1\pmod r\), the integer \(S\) is divisible
+by \(r\); hence this subgroup contains \(\zeta\).
+Let \(c=u^r\). Then
+\[
+ c^Q=(\zeta u)^r=c,
+ \qquad c^{(Q-1)/r}=u^{Q-1}=\zeta\ne1.
+\]
+Thus \(c\in B\) is an \(r\)-th nonresidue.
+Because \(B^\times\) is cyclic of order \(Q-1=R w_0\),
+\(r\nmid w_0\), the element
+\[
+ \eta_0=c^{w_0}\in B^\times
+\]
+has exact order \(R\).
+To verify the last assertion, write \(c=g^a\) for an abstract
+generator \(g\) of \(B^\times\).
+The nonresidue test says \(r\nmid a\), so
+\(\operatorname{ord}(g^{a w_0})=R\).
+This argument uses a generator only to prove the order; none is
+an algorithmic input.
+
+\paragraph{Step 2: descend the unit by equivariant interpolation.}
+Let
+\[
+ D_r=\mathbb F_p[T]/(\Phi_r(T)),\qquad
+ G=(\mathbb Z/r\mathbb Z)^\times,
+ \qquad \rho_b(T)=T^b\quad(b\in G),
+\]
+and put \(\omega(a)=a^{r^{e-1}}\bmod R\).
+This is the multiplicative Teichm\"uller lift of \(G\); its
+values have order dividing \(r-1\) and reduce to \(a\) modulo
+\(r\).
+Since \(p^s\equiv1\pmod R\) and \(s\mid r-1\),
+\(p\bmod R\) has order \(s\) and equals
+\(\omega(p\bmod r)\).
+Indeed reduction modulo \(r\) is injective on the
+prime-to-\(r\) torsion of \((\mathbb Z/R\mathbb Z)^\times\).
+
+Interpolate the unique polynomial \(P\in B[T]\),
+\(\deg P<r-1\), with values
+\[
+ P(\zeta^a)=\eta_0^{\omega(a)}\qquad(a\in G).
+\]
+There are only \(r-1\) distinct nodes, so interpolation has
+polynomial cost.
+Write \(P^{(p)}\) for the polynomial obtained by raising each
+coefficient to the \(p\)-th power.
+For every \(a\in G\), the Frobenius identity and the preceding
+Teichm\"uller congruence give
+\[
+ P^{(p)}(\zeta^{pa})
+   =P(\zeta^a)^p
+   =\eta_0^{p\omega(a)}
+   =\eta_0^{\omega(pa)}
+   =P(\zeta^{pa}).
+\]
+Both polynomials have degree below \(r-1\) and agree on all
+\(r-1\) nodes. Hence \(P^{(p)}=P\), and
+\(P\in\mathbb F_p[T]\).
+These coefficients are extracted on the known prime-field
+subspace of \(B\).
+
+Set \(\eta=P(T)\bmod\Phi_r(T)\in D_r\).
+Evaluation at all roots \(\zeta^a\) is injective after extending
+coefficients to \(B\), because \(\Phi_r\) is separable and
+splits there.
+Every evaluated value is a unit of order \(R\), so
+\(\eta^R=1\) and \(\operatorname{ord}(\eta)=R\), the latter
+already following from evaluation at \(\zeta\).
+For \(a,b\in G\),
+\[
+ P(\zeta^{ab})
+ =\eta_0^{\omega(a)\omega(b)}
+ =P(\zeta^a)^{\omega(b)}.
+\]
+Injectivity of evaluation therefore proves
+\(\rho_b(\eta)=\eta^{\omega(b)}\).
+Thus \(\eta\) is the maximum-order coefficient Teichm\"uller
+unit required by CX-N14, constructed in
+\(\operatorname{poly}(d_0,\log p)\) time under \(\mathsf H\).
+No factorization of \(\Phi_r\) or general polynomial-factorization
+oracle has been used.
+
+For completeness, the last step of CX-N14 applies here for
+every \(r\ne p\), without its prime-field nonresidue shortcut.
+Its moved-component ideal either already splits \(A_0\), or
+establishes a semiregular prime-order automorphism \(\tau\).
+IKRS Proposition~4.6 then supplies
+\(x\in\mathcal T_{A_0,r}\) with
+\(\tau(x)=z x\), where \(z=T\bmod\Phi_r(T)\).
+The algebra \(A_0\otimes D_r\) is a product of copies of
+\(\mathbb F_Q\), so all of its units of \(r\)-power order have
+order dividing \(R\).
+The coefficient unit \(\eta\) has order \(R\) and is fixed
+by \(\tau\). If \(\langle x,\eta\rangle\) were cyclic,
+\(\eta\) would generate it, contradicting
+\(\tau(x)=zx\ne x\).
+IKRS Lemma~4.2 therefore returns a zero divisor in \(A_0\)
+in polynomial time.
+This proves the claimed splitting step for all prime orders in
+the branch \(p>d\), including \(s=1\) and \(r=2\), without
+adding an unstated Dirichlet-character premise.
+
+\paragraph{Step 3: from a general polynomial to a split algebra.}
+Polynomial gcds and derivatives give squarefree preprocessing.
+If a positive-degree polynomial has zero derivative, it is a
+\(p\)-th power: take the coefficient \(p\)-th roots using the
+inverse Frobenius \(a\mapsto a^{p^{m-1}}\), divide the exponents
+by \(p\), and retain the multiplicity \(p\).
+Otherwise a nontrivial gcd with the derivative yields smaller
+factors to process recursively.
+These operations have polynomial bit complexity.
+It therefore suffices to factor a monic squarefree polynomial
+\(f\) of degree at most \(d\).
+
+Compute the multiplication table of
+\(A=\mathbb F_q[X]/(f)\), viewed as an
+\(\mathbb F_p\)-algebra of dimension \(m\deg f\), and then
+compute
+\[
+ B_f=\ker\bigl(A\longrightarrow A,\ a\longmapsto a^p-a\bigr).
+\]
+The map is \(\mathbb F_p\)-linear, so its kernel and the kernel's
+multiplication table are obtained by linear algebra.
+Abstractly, if \(f=\prod_{i=1}^t f_i\) is its distinct
+irreducible factorization, then
+\[
+ A\cong\prod_{i=1}^t\mathbb F_{q^{\deg f_i}},
+ \qquad B_f\cong\mathbb F_p^t.
+\]
+This proves the split promise without knowing the factors.
+The primitive idempotents of \(B_f\) and \(A\) coincide.
+If \(\dim_{\mathbb F_p}B_f=1\), the polynomial is irreducible.
+
+If \(p\leq d\), choose \(b\in B_f\setminus\mathbb F_p1\)
+and enumerate \(b-a1\) for \(a\in\mathbb F_p\).
+Each is nonzero, and at least one has a zero component in
+\(B_f\cong\mathbb F_p^t\).
+Testing multiplication matrices therefore finds a nonzero zero
+divisor after at most \(p\leq d\) tests.
+This early branch works even when \(t<p\).
+
+For \(p>d\), apply the IKRS Main Theorem, p.~3, to the explicit
+\(t\)-dimensional algebra \(B_f\).
+It deterministically gives a decomposition into ideals, each
+with an automorphism whose order equals that ideal's dimension,
+in time \(\operatorname{poly}(t^{\log t},\log p)\).
+If the decomposition has more than one summand, the identity of
+any proper nonzero summand is a nonzero zero divisor of \(B_f\);
+that identity is found by linear algebra in the supplied ideal.
+If there is only one summand, its automorphism has order
+\(t>1\), and the preceding steps with CX-N14 produce a nonzero
+zero divisor of \(B_f\) in polynomial additional time.
+Thus in either case we obtain a nonzero zero divisor \(b\in A\),
+and \(\gcd(f,b)\), using its polynomial representative, is a
+proper nonconstant factor.
+Equivalently, a primitive idempotent \(e_i\) identifies the
+component factor as \(\gcd(f,1-e_i)\).
+Recurse until all factors are irreducible, and reinsert the
+recorded multiplicities.
+
+\paragraph{Running time and exact analytic scope.}
+There are at most \(2d-1\) nodes in the nontrivial factorization
+tree, and every split algebra has dimension at most \(d\).
+Linear algebra in the original quotient has size polynomial in
+\(d,m,\log p\), hence in \(d,\log q\).
+At each node the coefficient construction has polynomial cost;
+the IKRS call has cost
+\(d^{O(\log d)}(\log q)^{O(1)}\).
+Multiplying by the number of nodes preserves the displayed
+\((d^{\log d}\log q)^{O(1)}\) bound.
+
+The analytic assumptions enter the constructed fields and
+auxiliary irreducible polynomials through Adleman--Lenstra's
+auxiliary-prime step only.
+An explicit sufficient family is RH for \(\zeta_{\mathbb Q}\)
+and for
+\[
+ \zeta_{E_\nu},\qquad
+ E_\nu=\mathbb Q(\zeta_{2\nu},p^{1/\nu}),
+\]
+where \(\nu=sr\) or \(\nu=\ell\) for one of the auxiliary
+primes \(\ell\mid r-1\), \(\ell\nmid s\), used at a node.
+CX-N11 supplies the required auxiliary prime from precisely
+these Dedekind-zeta hypotheses, all implied by \(\mathsf H\).
+Every \(\nu\leq d^2\) is coprime to \(p\), because these
+constructions occur only after the branch \(p\leq d\) has
+already been handled, and the factors of \(sr\) are smaller
+than \(p\).
+This is a sufficient family, not a necessity assertion.
+BGL's root-of-unity algorithm with those inputs, the
+Frobenius/eigenvector calculations, interpolation, and IKRS
+are unconditional algebraic steps.
+The construction therefore supplies the formerly isolated
+coefficient-unit gate under \(\mathsf H\) without circularly
+calling general factorization or assuming a polynomial bound
+for its varying degree.
+\hfill\(\square\)
+
+\paragraph{Finite-\'etale restatement.}
+For squarefree \(f\), \(\operatorname{Spec}A\) is a finite
+\'etale scheme over \(\mathbb F_p\).
+Its Frobenius-fixed function algebra \(B_f\) is the constant
+finite \'etale algebra indexing its connected components.
+Idempotents found in \(B_f\) pull back to the corresponding
+open-and-closed decomposition of \(\operatorname{Spec}A\).
+The proof constructs these component projectors with the stated
+quasipolynomial dependence on the input polynomial degree.
+
+
+% Insert near CX-N05/N06/N11; this is a source-gate refinement, not a new finding ID.
+\paragraph{The auxiliary analytic premise in the AL86/BGL route.}
+Adleman--Lenstra's Proposition~3, p.~351 \cite{CXNAdlemanLenstra86},
+uses a variant of Bach--Shallit's FOCS~1985 Theorem~2 to find the
+small auxiliary prime needed for irreducible-polynomial construction.
+In the full 1989 paper \cite[\S8, Lemma~13, pp.~213--214]{CXBachShallit89},
+the analytic statement explicitly assumes RH for the Dedekind zeta
+function of the top number field $L'$ in an abelian extension
+$L'/L$. It supplies a degree-one prime of $L$ with prescribed Artin
+symbol and norm $O(\log^2|\operatorname{disc}(L')|)$; Lemma~14 and
+Theorem~3, p.~214, then bound the auxiliary rational prime.
+Being abelian over $L$ does not make $L'$ abelian over $\mathbb Q$.
+Thus this primary-source chain has a verified $H_M$ gate, also
+realized by the explicit Kummer construction in CX-N11.
+
+BIMS17's \cite[Conjecture~6.3 and Theorem~6.7, pp.~7--8]{BIMS17}
+weak-GRH argument expressly concerns rational Dirichlet characters
+and proves a prime-field least-nonresidue bound. Its general-extension
+Corollary~5.7, pp.~6--7, additionally invokes BGL Theorem~2 and AL86
+for the root-of-unity construction; BGL's theorem takes certain
+auxiliary irreducible polynomials as input
+\cite[Theorem~2, p.~7]{CXNBGL01}.
+The final broad derandomization claim in BIMS17 does not itself
+supply a reduction eliminating that separate input under the narrower
+premise. We therefore do not infer the unrestricted general-extension
+result from $H_A$ by this citation chain. CX-N13 proves a stronger
+positive transfer for every $r\mid p-1$ directly. This source-scope
+conclusion makes no claim that a different $H_A$-only route is
+impossible.
+
+
+\section{What the supplied refutation of ETH changes}
+\label{sec:eth}
+
+\subsection{The precise quantitative premise}
+
+OpenAI's supplied Theorem~1.1, with source label
+\texttt{thm:main}, is stronger than its abstract formulation
+\cite[Theorem~1.1]{OpenAIETH}.
+For each fixed integer \(k\geq2\), it counts the satisfying assignments of a
+\(k\)-CNF with \(n\geq20\) declared variables and \(m\) input clauses in
+\[
+ (n+m)^{O_k(1)}
+ 2^{O_k(n\log\log n/\sqrt{\log n})}
+\]
+bit operations and \((n+m)^{O_k(1)}\) bits of space.
+For each fixed \(D>0\), if \(m\leq Dn\), the running time improves to
+\[
+ (n+m)^{O_{k,D}(1)}2^{O_{k,D}(n/\sqrt{\log n})}.
+\]
+These are theorem premises under the convention requested in this task.
+No Lean replay or independent verification of the complete counting
+algorithm is claimed here.
+
+The constants, polynomial exponents, and thresholds may depend on the
+\emph{fixed} width \(k\). The statement gives no bound uniform in
+\(k=k(n)\). For fixed \(k\), duplicate clauses can be removed and
+tautologies discarded without changing the count; the number of distinct
+non-tautological clauses is at most
+\(\sum_{j=0}^{k}2^j\binom nj=n^{O_k(1)}\).
+Reading a repetitively encoded input still incurs its polynomial
+input-length cost. In this section, \emph{subexponential} means
+\(2^{o(n)}\) in the parameter explicitly named; it does not mean the
+sometimes-used class
+\(\bigcap_{\epsilon>0}\operatorname{DTIME}(2^{n^\epsilon})\).
+
+\subsection{CX-E01: which exponential-time hypotheses are refuted}
+\label{finding:CX-E01}
+
+\paragraph{Finding.}
+The supplied theorem refutes ETH, \(\#\mathrm{ETH}\), fixed-width SETH,
+the analogous counting SETH, their bounded-error randomized versions,
+Gap-ETH, and NSETH. Existing conditional lower-bound theorems remain
+valid implications, but their refuted premises no longer establish
+hardness. Neither side of \(\mathrm P\) versus \(\mathrm{NP}\) is
+established by these deductions.
+
+\paragraph{Proof.}
+For fixed \(k\), choose a constant \(C_k\) bounding the exponential
+coefficient in the theorem and put
+\[
+ h_k(n)=C_k n\log\log n/\sqrt{\log n}.
+\]
+Since \(h_k(n)/n\longrightarrow0\), the exact counter runs in
+\(2^{o(n)}(n+m)^{O_k(1)}\). Its answer is positive exactly when the
+formula is satisfiable and zero exactly when it is unsatisfiable.
+With \(k=3\), this contradicts the positive exponential rate required
+by ETH and by \(\#\mathrm{ETH}\).
+
+SETH asserts that for every \(\epsilon>0\) some fixed \(k\) has no
+algorithm of time
+\(2^{(1-\epsilon)n}(n+m)^{O(1)}\).
+Fix \(\epsilon=1/2\). For \emph{each} fixed \(k\),
+\(h_k(n)\leq n/2\) for all sufficiently large \(n\).
+Finitely many smaller values are absorbed into a \(k\)-dependent
+constant. Thus every fixed width admits the required algorithm with
+the same exponential coefficient \(1/2\). The negation of SETH does
+not require its polynomial factor or threshold to be independent of
+\(k\). The same proof applies to its counting analogue.
+
+A deterministic algorithm is a randomized algorithm with error zero,
+so the corresponding bounded-error hypotheses are also contradicted.
+On the Gap-ETH promise, return YES precisely when the exact count is
+positive. This distinguishes a satisfiable 3-CNF from one in which every
+assignment violates a specified positive fraction of clauses. With
+the usual \(m=O(n)\) promise, the fixed-density bound is directly
+\(2^{o(n)}\operatorname{poly}(n)\). No approximation algorithm is
+needed. Finally the zero-count test is a deterministic, hence also
+nondeterministic, subexponential algorithm for fixed-width CNF
+unsatisfiability. It contradicts NSETH.
+The corresponding hypothesis formulations and their direct use of the
+counter also appear in the supplied preprint
+\cite[\S1.1.1--\S1.1.3]{OpenAIETH}.
+
+For the logical scope, the formulas \(H\Rightarrow B\) and \(\neg H\)
+entail neither \(B\) nor \(\neg B\): assigning either truth value to
+\(B\) satisfies both formulas. Thus deleting the premise of a
+conditional lower bound is not a construction of a faster algorithm
+for its target. This observation is not an independence theorem for
+any particular complexity conjecture.
+The displayed running-time benchmark is superpolynomial, since
+\[
+ \frac{n\log\log n/\sqrt{\log n}}{\log n}\longrightarrow\infty.
+\]
+It is therefore not a polynomial-time bound for SAT. An upper bound
+also supplies no superpolynomial lower bound for SAT. These deductions
+establish neither \(\mathrm P=\mathrm{NP}\) nor
+\(\mathrm P\ne\mathrm{NP}\).
+\hfill\(\square\)
+
+\paragraph{Sparsification and its overhead.}
+The full fixed-width statement already applies without a sparsification
+step. If a separate procedure produces at most \(2^{\epsilon n}\)
+fixed-width formulas on at most \(n\) variables, each with at most
+\(D_\epsilon n\) clauses, in
+\(2^{\epsilon n}\operatorname{poly}_{k,\epsilon}(n+m)\) time,
+pad each formula to \(n\) declared variables by forcing each new
+variable to zero. This preserves its count and gives density at most
+\(D_\epsilon+1\).
+The fixed-density counter then gives the combined bound
+\[
+ \operatorname{poly}_{k,\epsilon}(n+m)
+ 2^{\epsilon n+O_{k,D_\epsilon}(n/\sqrt{\log n})}.
+\]
+This follows by multiplying the per-instance cost by the number of
+instances and charging their construction.
+For decision, a disjunction-equivalent list suffices.
+For counting by addition, the represented satisfying-assignment sets
+must partition the original set, or a separately proved counting
+reconstruction must be provided: overlapping lists cannot simply
+have their counts summed.
+For each fixed \(\epsilon\) the displayed exponent is
+\(\epsilon n+o(n)\).
+Substituting \(\epsilon=\epsilon(n)\) additionally requires control of
+the constants and of the reduction's uniformity.
+None of these extra premises is needed for the direct use of
+Theorem~1.1 above.
+
+\paragraph{Limits of the refutation.}
+The theorem does not give a
+\(2^{(1-\delta)n}\operatorname{poly}(n,m)\) algorithm for
+\emph{unrestricted-width} CNF-SAT, because its width may grow with \(n\).
+Nor does the refutation of SETH logically refute OVC, the 3SUM or APSP
+conjectures, or \(\mathrm{FPT}\ne\mathrm{W[1]}\).
+An implication from SETH to a weaker conjecture has the wrong direction
+for that inference. Unconditional lower bounds, NP-hardness
+reductions, and results based on independent assumptions retain their
+previous status.
+
+\subsection{CX-E02: a parameter-preserving transfer criterion}
+\label{finding:CX-E02}
+
+\paragraph{Finding.}
+Suppose a problem on inputs of length \(L\), with parameter \(u\),
+has a polynomial-time reduction to fixed-width \(k\)-CNF with
+\(N\leq au+b\) variables and \(N+M\leq L^{O(1)}\) variables and clauses
+in the standard explicit encoding, where
+\(a,b,k\) are fixed constants. Then it is decidable in
+\[
+ L^{O(1)}
+ 2^{O(u\log\log u/\sqrt{\log u})}
+\]
+time and polynomial space.
+A parsimonious reduction gives the same bound for its witness count.
+If the formula additionally has \(M=O(N)\) clauses, the
+\(\log\log u\) factor is absent. Polynomially many such calls and
+polynomial-time answer processing preserve these bounds.
+
+\paragraph{Proof.}
+Construct the formula and run the supplied counter or its positivity
+test. For \(N\leq au+b\), after changing constants to cover finitely
+many small values,
+\[
+ N\log\log N/\sqrt{\log N}
+ =O(u\log\log u/\sqrt{\log u}).
+\]
+A polynomial-time reduction produces at most polynomially many bits,
+so the prefactor is \(L^{O(1)}\).
+Parsimoniousness identifies the two counts exactly.
+The fixed-density part of Theorem~1.1 gives the stated improvement
+when \(M=O(N)\).
+Polynomially many calls change only the polynomial factor; their
+workspaces can be reused.
+\hfill\(\square\)
+
+A reduction with \(N=\Theta(u^c)\), \(c>1\), instead gives a benchmark
+exponent of order \(u^c\log\log u/\sqrt{\log u}\), which is not \(o(u)\).
+Ordinary polynomial-time completeness therefore does not suffice to
+transfer subexponential time in the original parameter.
+Similarly, a \(2^{o(v)}\) graph algorithm is not a bound
+\(f(k)v^{O(1)}\) in solution size \(k\), and a formula with \(O(v)\)
+variables does not provide a \(2^{o(t)}\operatorname{poly}(v)\)
+algorithm in treewidth \(t\).
+
+For a claimed polynomial-exponent improvement, such as a
+subquadratic algorithm in \(L\), the actual reduction cost,
+solver prefactor, number of calls, and answer-processing cost must
+each be bounded within that target time.
+The notation \(L^{O(1)}\) alone cannot certify this.
+For fixed-parameter tractability in a parameter \(t\), a sufficient
+separate reduction would have fixed clause width,
+\(N\leq g(t)\), and \(M\leq h(t)L^C\), and run in
+\(h(t)L^C\) time, for computable \(g,h\) and a constant \(C\).
+Substitution into Theorem~1.1 then gives
+\(F(t)L^{O(1)}\) for a computable \(F\): every factor involving
+the bounded variable count is absorbed into \(F(t)\).
+The theorem does not itself construct such a reduction.
+
+The supplied Corollary~1.3 already gives exact subexponential counting
+of independent sets and fixed-\(q\) graph colorings in the vertex
+parameter, and of perfect matchings in \(v+e\)
+\cite[Corollary~1.3]{OpenAIETH}.
+Bounded-set-size Set Splitting has a direct encoding with one bit per
+universe element and, for each set, an all-positive and an all-negative
+clause. These are actual algorithmic transfers.
+Deleting a SETH premise alone supplies no subquadratic algorithm for
+Edit Distance, LCS, or arbitrary Orthogonal Vectors.
+
+\paragraph{A further explicit parameter check: counting cliques.}
+For a graph with \(v\) vertices, the number of \(k\)-cliques can be
+computed in
+\(\operatorname{poly}(v+e)
+ 2^{O(v\log\log v/\sqrt{\log v})}\),
+uniformly for \(0\leq k\leq v\).
+Use a selection bit for every vertex, and for each nonedge
+\(\{a,b\}\) impose \(\neg x_a\vee\neg x_b\).
+Add a Boolean circuit requiring exactly \(k\) selected vertices.
+A balanced tree of binary additions computes the population count
+with \(O(v)\) gates: level \(j\) has \(O(v/2^j)\) additions on
+\(O(j)\) bits, and
+\(\sum_{j\geq1}vj/2^j=O(v)\).
+Comparison with \(k\) adds \(O(\log v)\) gates.
+The gate encoding in CX-E03 gives \(O(v)\) variables and \(O(v^2)\)
+clauses, with a unique extension for each clique.
+Theorem~1.1 proves the bound. This does not assert fixed-parameter
+tractability in \(k\).
+\hfill\(\square\)
+
+\subsection{CX-E03: the Circuit-SAT saving and its exact parameter}
+\label{finding:CX-E03}
+
+\paragraph{Finding.}
+An arbitrary Boolean circuit with \(n\) inputs, \(s\) noninput gates
+of fan-in at most two, and unrestricted fan-out has a deterministic
+satisfiability and exact accepting-input-count algorithm of time
+\[
+ (n+s)^{O(1)}
+ 2^{O((n+s)/\sqrt{\log(n+s)})}
+\]
+and polynomial space.
+For \(s=O(n)\) this is \(2^{o(n)}\).
+This bound does not meet the all-polynomial-size Circuit-SAT premise
+of Williams's Theorem~1.1 \cite[Theorem~1.1]{Williams2013}.
+
+\paragraph{Proof.}
+Introduce one variable for each input and each gate.
+A two-input gate has eight assignments to its inputs and output,
+exactly four inconsistent with its truth function.
+Forbid each inconsistent assignment by a clause of width at most
+three; constants and unary gates need no more clauses.
+Add a unit clause setting the final output to one.
+The resulting formula has \(N=n+s\) variables and
+\(M\leq4s+1\leq5N\) clauses.
+Every input assignment extends to exactly one assignment to the gate
+variables, by evaluation in topological order.
+Thus this reduction preserves the number of accepting inputs.
+Apply the fixed-density part of Theorem~1.1 with \(k=3,D=5\).
+\hfill\(\square\)
+
+Precisely, Williams's Theorem~1.1 assumes a superpolynomial function
+\(q(n)\) such that Circuit-SAT on \(n\) inputs and \(n^a\) gates
+has a deterministic or co-nondeterministic algorithm of time
+\[
+ \frac{2^n\operatorname{poly}(n^a)}{q(n)}
+ \qquad\text{for every fixed }a.
+\]
+Its conclusion is \(\mathrm{NEXP}\not\subseteq\mathrm{P/poly}\).
+For \(a>1\), substituting \(s=n^a\) into the proved benchmark gives an
+exponent of order \(n^a/\sqrt{\log n}>n\).
+Consequently this reduction does not supply that premise.
+This is a diagnosis of the particular attempted inference, not an
+impossibility theorem for other approaches to stronger lower bounds.
+
+\subsection{CX-E04: the quantitative Boolean circuit lower bound}
+\label{finding:CX-E04}
+
+\paragraph{Finding.}
+Under the task's theorem convention there exist a language
+\(L\in\mathrm E^{\mathrm{NP}}\) and \(c>0\) such that
+\[
+ C_L(n)>c\,n\sqrt{\log n}
+ \quad\text{for infinitely many }n,
+\]
+where \(C_L\) counts arbitrary fan-in-two Boolean gates.
+In particular,
+\(\mathrm E^{\mathrm{NP}}\not\subseteq\mathrm{SIZE}(O(n))\).
+The quantitative statement is already
+\cite[Corollary~1.4]{OpenAIETH}; it is not attributed as a new
+circuit lower-bound discovery to this run.
+The qualitative implication is
+\cite[Theorem~6.1]{Williams2013}.
+The finding here is the exact transfer and its scope.
+
+\paragraph{Proof of the transfer.}
+The decision algorithm required by the supplied Corollary~1.4 is
+obtained from the fixed-density part of Theorem~1.1 by testing the
+count for positivity.
+Its premise is therefore satisfied, independently of both GRH
+sources. Apply that corollary.
+Since \(\sqrt{\log n}\longrightarrow\infty\), its language cannot
+have a circuit family of eventual size \(O(n)\).
+\hfill\(\square\)
+
+\paragraph{Check of the cited implication proof.}
+The complete proof in the supplied
+\nolinkurl{quantitative-circuits.tex}, inserted in Appendix~C.1, was
+read and its quantitative parameters checked.
+It uses the unary nondeterministic time hierarchy in
+\cite[Theorem~2.1]{Williams2013} and the local reduction
+\cite[Theorem~1]{JMV2013}.
+The latter gives a clause decoder with
+\(q=n+O(\log n)\) index bits and \(O(n)\) output bits, each depending
+on only constantly many index bits.
+Enumerating inputs of bounded Hamming weight recovers supports and
+truth tables, hence an \(O(n)\)-gate decoder in polynomial time.
+The bits of the first accepting assignment, indexed by padded
+\(dn\)-bit variable names, form a language in
+\(\mathrm E^{\mathrm{NP}}\).
+A hypothetical witness circuit of size
+\[
+ s_n=\left\lfloor\eta n
+          \left\lfloor\sqrt{\log_2 n}\right\rfloor\right\rfloor
+\]
+is guessed. Three copies together with the decoder test whether a
+clause is violated.
+The gate encoding produces
+\[
+ U_n=(3\eta+o(1))n\sqrt{\log_2 n}
+\]
+variables and at most \(5U_n\) clauses.
+For a solver bound \(V^b2^{AV/\sqrt{\log_2 V}}\), its cost is
+\(2^{(3A\eta+o(1))n}\).
+Choosing \(\eta<1/(12A)\) leaves enough margin, including polynomial
+overhead, to contradict the chosen
+\(\mathrm{NTIME}(2^n)\setminus\mathrm{NTIME}(2^{n/2})\)
+language.
+No gap was found in this implication proof.
+This is not a claimed reproof of the counter, the hierarchy theorem,
+or the local-reduction theorem.
+
+The result is a bound in \(\mathrm E^{\mathrm{NP}}\), not in NP;
+it concerns nearly linear Boolean circuits, not all polynomial-size
+circuits or arithmetic circuits for the permanent.
+The displayed existential constant \(c\) and infinitely-often
+quantifier should not be strengthened to
+\(\mathrm E^{\mathrm{NP}}\not\subseteq
+  \mathrm{SIZE}(O(n\sqrt{\log n}))\).
+
+\subsection{CX-E05: a quantitative sparse permanent algorithm}
+\label{finding:CX-E05}
+
+\paragraph{Finding.}
+For \(A\in\{0,1\}^{r\times r}\) with \(e\) nonzero entries, its
+integer permanent can be computed in
+\[
+ \operatorname{poly}(r+e)
+ 2^{O((r+e)/\sqrt{\log(r+e)})}
+\]
+time and polynomial space.
+When \(e=O(r)\), the bound is
+\(\operatorname{poly}(r)2^{O(r/\sqrt{\log r})}\).
+This makes quantitative the matching consequence of the supplied
+Corollary~1.3 by using its sharper fixed-density Theorem~1.1.
+
+\paragraph{Proof.}
+Interpret \(A\) as a bipartite graph with \(2r\) vertices and \(e\)
+edges, with one selection bit for each edge.
+At a vertex of degree \(d\), maintain bits \(a_i,b_i\) saying that
+among the first \(i\) incident edges, respectively, at least one and
+at least two have been selected. Initialize \(a_0=b_0=0\), and set
+\[
+ a_i=a_{i-1}\vee x_i,\qquad
+ b_i=b_{i-1}\vee(a_{i-1}\wedge x_i).
+\]
+Induction on \(i\) proves these meanings.
+Exactly one incident edge is selected if and only if
+\(a_d\wedge\neg b_d=1\).
+This requires \(O(d+1)\) gates.
+Summing degrees, and conjoining the tests, gives \(O(r+e)\) gates;
+an isolated vertex may instead be rejected immediately.
+
+Apply the parsimonious encoding of CX-E03.
+It has \(N=O(r+e)\) variables and \(M=O(N)\) clauses.
+Every perfect matching gives one satisfying assignment with uniquely
+determined gate bits, and every satisfying assignment selects a
+perfect matching.
+The number of these matchings is
+\[
+ \operatorname{per}(A)=
+ \sum_{\sigma\in S_r}\prod_{i=1}^r A_{i,\sigma(i)}.
+\]
+The fixed-density bound proves the assertion.
+\hfill\(\square\)
+
+For dense matrices this encoding has \(\Theta(r^2)\) variables; its
+bound does not give \(2^{o(r)}\) time in matrix dimension.
+Nor does it construct an arithmetic circuit for the formal
+polynomial \(\operatorname{per}_r(X)\).
+The algorithm evaluates an integer count at a supplied 0--1 matrix.
+
+\subsection{CX-E06: VP, VNP, and the surviving GCT gates}
+\label{finding:CX-E06}
+
+\paragraph{Finding and exact logical scope.}
+Neither \(\mathrm{VP}=\mathrm{VNP}\) nor
+\(\mathrm{VP}\ne\mathrm{VNP}\), and neither a polynomial arithmetic
+circuit nor a superpolynomial arithmetic lower bound for the
+permanent, is established by CX-E01--CX-E05.
+The deductions do not discharge the border-hardness or black-box
+identity-testing assumptions in GCT V Theorems~1.7, 2.4, 5.11,
+and~5.14. This is a statement about the premises of these particular
+implications, not a formal independence theorem.
+
+\paragraph{Dictionary and proof.}
+Over a fixed field, VP consists of polynomial-degree families with
+polynomial-size arithmetic circuits. VNP permits Boolean-cube sums
+of such polynomial families.
+For characteristic other than two, the permanent is VNP-complete
+under polynomial projections
+\cite[Theorem~2, p.254]{Valiant1979}.
+The determinant is complete for VBP, the weakly skew or branching
+program subclass; it is not thereby complete for all of VP.
+The corresponding orbit-closure formulation uses the border of
+that model
+\cite[Definitions~2.9, 2.25; Theorems~2.20, 2.29, 7.3]{Burgisser2024}.
+
+The supplied counter accepts a finite bit-string description of a
+fixed-width CNF and returns an integer.
+Its conclusion does not construct, from an arithmetic verifier
+\(g_n(X,Y)\), an arithmetic circuit for the symbolic polynomial
+\[
+ \sum_{Y\in\{0,1\}^{p(n)}}g_n(X,Y).
+\]
+CX-E05 also evaluates only a numerical specialization.
+The lower bound in CX-E04 has a language in
+\(\mathrm E^{\mathrm{NP}}\) as its target and Boolean gates as its
+model. It has neither the family nor the model required for an
+arithmetic permanent lower bound.
+Thus these deductions do not furnish the premises of the cited
+algebraic implications.
+
+There is a separate quantitative obstruction to a tempting inference.
+GCT V Theorem~1.7, source label \texttt{tintronnldetnew}, assumes
+that for some fixed \(\epsilon>0\) the permanent cannot be approximated
+infinitesimally by affine-linear symbolic determinants of size
+at most \(2^{r^\epsilon}\).
+Even if a new argument provided an upper bound
+\(2^{O(r/\sqrt{\log r})}\) in that same determinant or border model,
+it would not refute
+\(2^{r^\epsilon}\) hardness for \(0<\epsilon<1\), because
+\[
+ \frac{r/\sqrt{\log r}}{r^\epsilon}
+ =\frac{r^{1-\epsilon}}{\sqrt{\log r}}\longrightarrow\infty.
+\]
+No such symbolic conversion has been established here in the first
+place.
+The remaining gate is a substantive arithmetic conversion or
+obstruction construction, not an erased GRH assumption.
+\hfill\(\square\)
+
+The GCT assumptions just mentioned are exactly located in the supplied
+source as \texttt{tintronnldetnew}, \texttt{trussell2},
+\texttt{tnnlexpfull}, and \texttt{tequisdit}, respectively.
+Improving the complexity of finding a normalization system is also
+distinct from proving the orbit-closure noncontainment required by a
+permanent lower bound.
+
+
+
+\clearpage\part{Checked geometric restatements and dictionaries}
+
+% CX_GRH: Part II geometry fragment, separate from the complexity section.
+% Root supplies the exact published/archival locator crosswalk.
+
+\section{CX-K08: arithmetic fibers and the geometry of normalization}
+\label{cx:k08}
+
+\paragraph{Statement.}
+The Koiran reduction describes arithmetic fibers of an affine
+finite-type $\mathbb Z$-scheme and a finite \'etale permutation local
+system on an open subscheme of $\operatorname{Spec}\mathbb Z$.
+The h.s.o.p. search in CX-K05 finds a finite morphism to affine space;
+for positive-dimensional standard graded rings, its projective form
+is a finite basepoint-free linear projection. These dictionaries
+preserve the proofs and their analytic hypotheses.
+
+\begin{proof}
+Given integer equations $f_i$, put
+\[
+ X=\operatorname{Spec}\bigl(\mathbb Z[x_1,\ldots,x_t]/(f_i)\bigr).
+\]
+A complex solution exists exactly when $X_{\mathbb Q}$ is nonempty.
+Indeed, a complex point makes the rational ideal proper; a maximal
+ideal of the resulting finitely generated $\mathbb Q$-algebra then
+has a finite extension $E/\mathbb Q$ as residue field. Conversely,
+such a finite residue field embeds in $\mathbb C$. The closed point
+defines $\operatorname{Spec}E\to X_{\mathbb Q}$. Clearing the finitely
+many coordinate denominators extends it to
+\[
+ \operatorname{Spec}\mathcal O_E[1/B]
+     \longrightarrow X_{\mathbb Z[1/B]}
+\]
+for some nonzero integer $B$. Every residue-degree-one closed point
+above a rational prime $p$ gives an $\mathbb F_p$-point of $X$.
+These are the specialization maps counted in CX-K01.
+
+Choose the integral primitive element $\beta$ used there and enlarge
+$B$ to include the index $[\mathcal O_E:\mathbb Z[\beta]]$.
+For a fixed auxiliary prime $\ell$, set
+\[
+ U=\operatorname{Spec}\mathbb Z[1/(\ell B D_E)].
+\]
+The normalization $\pi:\widetilde U\to U$ in $E$ is finite
+\'etale. Its direct image $\pi_*\mathbb Q_\ell$ is a rank
+$[E:\mathbb Q]$ permutation local system. At each $p\in U$,
+Frobenius acts on the embeddings of the residue factors by
+permutation. Its trace counts fixed points, hence residue-degree-one
+primes above $p$. Because the index is inverted, this also equals the
+number of roots of the chosen integral primitive-element polynomial
+in $\mathbb F_p$.
+
+The Euler product of this local system is $\zeta_E$ with the finitely
+many excluded Euler factors removed. The Frobenius eigenvalues are
+roots of unity, so the local system is a weight-zero Artin object.
+That local purity fact does not determine the global zero set of its
+number-field Euler product. In particular, it does not eliminate the
+analytic premise in CX-K01.
+
+If $E/\mathbb Q$ is abelian, its permutation representation decomposes
+into rank-one characters after extending coefficient scalars to a
+splitting field. This gives the Dirichlet factorization used in
+CX-K03. For arbitrary $E$, the representation is
+\[
+ \operatorname{Ind}_{G_E}^{G_{\mathbb Q}}\mathbf1,
+\]
+which need not decompose into one-dimensional representations.
+In a representation-ring dictionary it is the class of this
+permutation object in $K_0$. Applying $\lambda$-operations to that
+class does not supply a theorem about global zeros of its $L$-function.
+This identifies the representation-theoretic object without adding
+an Artin-holomorphy assumption to the proof.
+
+Now let $R$ be as in CX-K05 and let $d=\dim R$. The condition that
+$L_1,\ldots,L_d$ vanish only at the vertex is equivalent, by the
+finite-module argument there, to finiteness of
+\[
+ \operatorname{Spec}R\longrightarrow\mathbb A_{\mathbb Q}^{d}.
+\]
+For $d\ge1$, the forms have no common zero on $\operatorname{Proj}R$.
+They define the finite linear projection
+\[
+ \operatorname{Proj}R\longrightarrow\mathbb P_{\mathbb Q}^{d-1}.
+\]
+For $d=0$, $\operatorname{Proj}R$ is empty, so no such projective
+target is asserted. Finiteness in positive dimension follows from the
+graded finite-module presentation, or by localizing it on the
+standard target charts and taking degree-zero pieces.
+
+Candidate matrices of coefficients form an affine parameter scheme
+$T$. The incidence condition that a projective point lie in all
+candidate kernels is closed in
+$\operatorname{Proj}R\times_{\mathbb Q}T$.
+The projection to $T$ is proper, since $\operatorname{Proj}R$ is
+projective over $\mathbb Q$, so its image is closed. Its complement
+is exactly the open locus of successful matrices. The bounded
+coefficient argument and oracle search in CX-K05 are effective
+statements about rational points of that open locus, with the stated
+bit bounds.
+
+The finite morphism also spreads out. Finiteness over $\mathbb Q$
+provides finitely many monic integral-dependence relations for the
+original generators $z_i$, with coefficients in $\mathbb Q[L]$.
+Clear denominators in the $L_i$, in these coefficients, and in their
+finite expressions modulo the defining ideal. After inverting a
+single nonzero integer $B$, the relations hold over
+$\mathbb Z[1/B]$ and show that the corresponding morphism is finite
+over that base.
+
+This last assertion is precisely finiteness after localization. It
+does not assert flatness at every remaining prime or that every
+special fiber is a Noether normalization with an algebraically
+independent parameter system of the same dimension. No
+Hilbert- or Quot-scheme representability theorem is strengthened by
+the complexity bound. The mathematical dictionary therefore preserves
+both the analytic and geometric limits of the preceding deductions.
+\end{proof}
+
+The archival and published EGA/SGA/FGA locator crosswalk is supplied
+separately for the constructions actually used: finite morphisms,
+integrality, spreading out, projective properness, and finite \'etale
+permutation objects. No additional conclusion about motives,
+$\gamma$-filtrations, Schur functors, or global zeros follows merely
+from placing the same objects in those languages.
+
+This full proof was reread by \texttt{/root/koiran\_gct}, GPT-6 Astra
+Pro, on 20 November 2026 UTC, with inherited effort setting not
+exposed. It was also read in full by \texttt{/root/eth\_consequences}
+and \texttt{/root}. The index localization, exclusion of $\ell$,
+and $d=0$ projective case were explicitly checked and incorporated.
+
+
+\section{The ETH findings as scheme and Grothendieck-group statements}
+\label{sec:eth-geometric}
+
+\subsection{Geometric restatements of CX-E01--CX-E06}
+
+The constructions and proofs in CX-E07--CX-E08 supply the following
+dictionary. The input encoding, variable-count parameter, and
+algorithmic bounds remain those in Part~I.
+
+\begin{longtable}{@{}p{0.12\linewidth}p{0.83\linewidth}@{}}
+\hline
+Finding & Exact geometric restatement\\
+\hline
+CX-E01 &
+For the succinct Boolean scheme \(X_F\), satisfiability is
+nonemptiness and the satisfying-assignment count is its finite
+étale degree. The theorem computes that degree in the stated
+subexponential time in the number of Boolean coordinates.\\[4pt]
+CX-E02 &
+A decision reduction preserves emptiness; a parsimonious reduction
+preserves the rank of the corresponding constant finite étale
+scheme. The quantitative transfer requires the stated linear bound
+on Boolean coordinates. A witness bijection also induces an
+isomorphism of these constant schemes.\\[4pt]
+CX-E03 &
+The gate scheme projects isomorphically to the scheme of accepting
+input assignments: every auxiliary coordinate is a uniquely
+determined Boolean polynomial in the earlier coordinates.
+Thus adding gate variables preserves both nonemptiness and degree.\\[4pt]
+CX-E04 &
+The degree algorithm yields the cited lower bound for Boolean
+circuits of a language in \(\mathrm E^{\mathrm{NP}}\).
+Its circuit size counts Boolean gates; the dictionary does not
+identify these circuits with a representation of an algebraic
+coordinate ring or with arithmetic circuits.\\[4pt]
+CX-E05 &
+The edge-selection constraints define a constant finite étale
+perfect-matching scheme. Its degree is the permanent of the
+specified \(0\)--\(1\) matrix; the construction has \(O(r+e)\)
+Boolean coordinates and a fixed-density presentation.\\[4pt]
+CX-E06 &
+The computed integer is a rank of a finite free algebra.
+A symbolic permanent family and a graded equivariant
+orbit-closure coordinate ring require further data.
+The rank statement therefore supplies neither the arithmetic
+circuit construction nor the Schur-multiplicity obstruction
+specified by those algebraic questions.\\
+\hline
+\end{longtable}
+
+\subsection{CX-E07: counting as the degree of a finite étale scheme}
+\label{finding:CX-E07}
+
+\paragraph{Finding.}
+For a Boolean \(k\)-CNF \(F\), put
+\[
+ X_F=\operatorname{Spec}
+ \frac{\mathbb Z[x_1,\ldots,x_n]}
+ {\bigl(x_i^2-x_i\ (1\leq i\leq n),\;
+     \prod_{\ell\in C}(1-\ell(x))\ (C\text{ a clause of }F)\bigr)},
+\]
+where \(\ell(x)=x_i\) for a positive literal and
+\(\ell(x)=1-x_i\) for a negative literal.
+There is an isomorphism
+\[
+ X_F\cong\bigsqcup_{\#F}\operatorname{Spec}\mathbb Z.
+\]
+Consequently \(p:X_F\to\operatorname{Spec}\mathbb Z\) is finite étale,
+and
+\[
+ \operatorname{rank}_{\mathbb Z}p_*\mathcal O_{X_F}=\#F,
+ \qquad
+ [p_*\mathcal O_{X_F}]=\#F[\mathcal O]\quad\hbox{in }K_0(\mathbb Z).
+\]
+The supplied theorem computes this degree, from the displayed
+bounded-locality presentation, with its stated time and space bounds.
+The presentation is succinct; an explicit list of the components or
+a basis of its coordinate algebra need not be produced.
+
+\paragraph{Proof.}
+The ideals \((x_i)\) and \((x_i-1)\) are comaximal in
+\(\mathbb Z[x_i]\).
+The Chinese remainder theorem, applied successively in all variables,
+identifies
+\[
+ \mathbb Z[x_1,\ldots,x_n]/(x_i^2-x_i)_i
+ \cong\prod_{a\in\{0,1\}^n}\mathbb Z
+\]
+by evaluation.
+The polynomial attached to a clause evaluates to one at an assignment
+violating that clause, and to zero at one satisfying it.
+Quotienting by all clause polynomials therefore removes precisely
+the factors corresponding to nonsatisfying assignments.
+The surviving factors give the asserted disjoint-union isomorphism.
+Their coordinate module is free of rank \(\#F\), which proves the
+rank and \(K_0\) identities.
+The input formula and the factored clause presentation use the same
+literal data, so the counter computes that rank without changing the
+parameters beyond fixed encoding constants.
+\hfill\(\square\)
+
+\paragraph{The exact dictionary for CX-E01--CX-E05.}
+Satisfiability is nonemptiness of \(X_F\).
+A witness chooses one of its components.
+Counting computes the degree of \(p\).
+A parsimonious reduction in CX-E02 preserves the number of components
+and hence the isomorphism class of the constant finite étale scheme.
+A specified witness bijection identifies the component sets.
+In the gate constructions of CX-E03 and CX-E05 there is a more
+explicit isomorphism: projection forgets gate variables, and its
+inverse assigns each gate the multilinear Boolean polynomial of
+its predecessors.
+For each Boolean input, the gate clauses permit exactly that value;
+the product decomposition proved above therefore shows that the
+projection and its inverse compose to the identity as morphisms
+over \(\mathbb Z\).
+The gate variables introduce no extra components.
+All quantitative bounds remain bounds in the size of the specified
+presentation; they are not complexity assertions about a scheme
+given only up to an unencoded isomorphism.
+
+\paragraph{Exterior powers, weights, and the exact limits.}
+In the \(\lambda\)-ring of vector bundles,
+\[
+ \lambda_t([p_*\mathcal O_{X_F}])=(1+t)^{\#F},
+\]
+because the \(j\)-th exterior power of a free module of rank \(\#F\)
+has rank \(\binom{\#F}{j}\).
+Its reduced rank class is zero, so this construction produces no
+nonzero class in the positive \(\gamma\)-filtration.
+For a fiber over \(\mathbb F_q\) and \(\ell\ne\operatorname{char}\mathbb F_q\),
+the geometric \(\ell\)-adic cohomology is concentrated in degree zero,
+has dimension \(\#F\), and has identity Frobenius.
+The fiber's zeta function is consequently
+\((1-t)^{-\#F}\).
+These facts follow component by component from the proved
+decomposition. The object has weight zero and its Artin motive is
+a sum of unit objects; no new purity theorem is asserted.
+
+\subsection{CX-E08: the additional data a GCT obstruction would require}
+\label{finding:CX-E08}
+
+\paragraph{Finding.}
+The rank computation in CX-E07 does not, through this dictionary,
+construct a separating representation in a determinant-orbit-closure
+coordinate ring.
+
+\paragraph{Exact comparison and proof.}
+Let \(E=\mathbb Z^{m^2}\), let \(G=\mathrm{GL}(E)\), and let
+\(\mathbb V\) be the affine coefficient space associated to
+\(\operatorname{Sym}^m(E^*)\).
+Take the schematic closure in \(\mathbb V\) of the determinant orbit.
+After base change to the complex numbers, a containment of a padded
+permanent orbit closure \(Y\) in the determinant orbit closure \(X\)
+would give a graded \(G\)-equivariant quotient
+\[
+ \mathbb C[X]\longrightarrow\mathbb C[Y].
+\]
+In every finite homogeneous degree, rational representations of this
+general linear group are semisimple.
+Write \(E_{\mathbb C}=E\otimes_{\mathbb Z}\mathbb C\).
+For each irreducible polynomial representation
+\(S_\lambda E_{\mathbb C}\), equivariance
+therefore sends its isotypical source summand onto the target
+summand. Writing the two summands as
+\(S_\lambda E_{\mathbb C}\otimes M_\lambda\) and
+\(S_\lambda E_{\mathbb C}\otimes N_\lambda\), surjectivity implies
+\(\dim N_\lambda\leq\dim M_\lambda\).
+A reversed inequality would obstruct the containment
+\cite[\S7.4, (7.6), p.~38, and (7.9), p.~39]{Burgisser2024}.
+This is a statement in the Grothendieck group of rational
+representations, with Schur and exterior-power operations, rather
+than a statement about total rank alone.
+
+CX-E07 provides a bounded-degree Boolean presentation and the integer
+\(\#F\).
+Its decomposition into unit components supplies no such graded
+\(G\)-representation, map of coordinate rings, or inequality of Schur
+multiplicities.
+Consequently this proved dictionary does not produce that obstruction.
+A new construction furnishing these additional data, with the
+appropriate complexity guarantees, would be needed.
+This verifies the missing data in the attempted implication; it does
+not rule out a future construction.
+\hfill\(\square\)
+
+The exact EGA, SGA, FGA and archival locators for the constructions in
+this section are given in the paper's common geometric source
+dictionary. The mathematical identifications above use only the
+displayed decomposition, finite-module operations, and the
+characteristic-zero representation statement explicitly indicated.
+
+
+\section{A common geometric dictionary, with integral models}
+\label{sec:common-geometry}
+
+Every restatement in this part retains the input encoding and the hypotheses
+of Part~I.  A complexity theorem is not an isomorphism-invariant assertion
+about an unencoded abstract scheme.  Published EGA/SGA/FGA locators support
+the mathematical constructions.  The archive cotes identify inspected
+historical companions; they are not presented as manuscripts containing AM,
+ETH, or GCT complexity assertions.
+
+\subsection{CX-G01: the representation-ring form of the analytic gates}
+\label{finding:CX-G01}
+
+\textbf{Finding.} Let $U=\operatorname{Spec}\mathbb Z[1/(B\ell)]$ and let
+$\pi:Y\to U$ be the finite étale cover obtained by spreading out a number
+field $E/\mathbb Q$, with all ramified primes inverted.  Its permutation
+local system has class
+\[
+ [\pi_*\mathbb Q_\ell]
+ = [\operatorname{Ind}_{G_E}^{G_{\mathbb Q}}\mathbf1]
+ \quad\text{in }K_0(\operatorname{Rep}_{\mathbb Q_\ell}^{\mathrm{fin}}G_{\mathbb Q}).
+\]
+Its unramified Euler product is $\zeta_E$ with the excluded local factors
+removed.  This exactly transports CX-R01--R02 and CX-K01--K04 into the
+language of finite étale covers and representation Grothendieck groups.
+
+\begin{proof}
+The geometric fiber is the finite continuous $G_{\mathbb Q}$-set
+$\operatorname{Hom}_{\mathbb Q}(E,\overline{\mathbb Q})$.
+The stalk of the pushforward is the vector space of functions on that set.
+A Frobenius cycle of length $f$ has characteristic polynomial $T^f-1$,
+and hence reciprocal local factor $1-t^f$.  Its cycle lengths are the
+residue degrees of the primes of $E$ above $p$.  Taking $t=p^{-s}$ gives
+exactly the factors $(1-p^{-fs})$ in the reciprocal of the Dedekind Euler
+factor.  Trace counts fixed points, hence degree-one primes, as needed by
+Koiran.  The equivalence between finite étale covers and finite
+fundamental-group sets is \cite[Exp.~V, \S4 Theorem~1, and \S7]{SGA1}.
+
+For an abelian $E/\mathbb Q$, character decomposition gives the primitive
+Dirichlet factorization in CX-R01.  For the cubic field of CX-R02, the
+commutator trace calculation proves that the class is not a virtual sum of
+rank-one objects, even allowing other conductors.  Taking $K_0$ does not
+remove this obstruction.  The nonabelian Dedekind hypothesis remains the
+same conditional input $M$.
+\end{proof}
+
+A finite-order ray-class character over $K$ instead defines a rank-one
+local system on an open of $\operatorname{Spec}\mathcal O_K$, through
+class field theory \cite[Introduction, Theorems~0.4--0.5]{MilneCFT}.
+Its pushforward to an open of $\operatorname{Spec}\mathbb Z$ generally has
+higher rank.  This is the exact dictionary for the Hecke hypotheses in
+CX-N05--N08 and the class-field applications.  The corresponding objects
+are Artin motives, with a coefficient field containing the finite character
+values.  No general motivic conjecture is used.
+
+\paragraph{Text and archive locations.}
+Equivariant modules are treated in \cite[Exp.~I 4.7.1--4.7.2]{SGA3}.
+The local determinant formalism is
+\cite[Exp.~XV, \S3 no.~1, Proposition~1, and no.~2]{SGA5}; that source's
+global rationality statement is over finite fields, not over
+$\operatorname{Spec}\mathbb Z$.
+The archival companions are cote~98, scan~12 (numbered sheet~11),
+``Exemple I'' on finite $G$-sets, and scan~11 (sheet~10), the degree axioms
+for norm morphisms \cite{Archive98}.
+
+\subsection{CX-G02: multiplicative groups, Kummer torsors, and factoring}
+\label{finding:CX-G02}
+
+\textbf{Finding.} The modular operations of CX-N01--N06 are operations
+on $\mathbb G_m$ and on explicit finite étale algebras.
+An $r$-th power nonresidue $a\in\mathbb F_q^\times$, with $r\mid q-1$,
+is precisely a nonzero class in
+$\mathbb F_q^\times/(\mathbb F_q^\times)^r$, equivalently the Kummer
+torsor
+\[
+ \operatorname{Spec}\mathbb F_q[t]/(t^r-a)
+\]
+has no $\mathbb F_q$-section.  A primitive root generates
+$\mathbb G_m(\mathbb F_q)$; a generating set is a different output.
+
+\begin{proof}
+$\mathbb G_m=\operatorname{Spec}\mathbb Z[t,t^{-1}]$ represents units,
+so its multiplication and power maps are literally the modular operations.
+Miller's gcd tests take place in the same explicit residue ring
+$\mathbb Z/N\mathbb Z$.
+For the torsor, $r$ is invertible and $a\ne0$, so the derivative
+$rt^{r-1}$ is a unit in the quotient.  The algebra is finite étale and
+$\mu_r$ acts by multiplying $t$.  After adjoining a root, all other roots
+differ from it by $\mu_r$, proving the torsor property.  A rational section
+is exactly an $r$-th root of $a$.  Cyclicity gives the original power test
+$a^{(q-1)/r}\ne1$ for prime $r$.  Primary-component assembly and the order
+tests in Part~I are unchanged; the dictionary supplies no factorization of
+the integer $q-1$.
+
+For squarefree $f\in\mathbb F_q[t]$, the algebra
+$A=\mathbb F_q[t]/(f)$ is finite étale.  Its product decomposition into
+fields is the connected-component decomposition of $\operatorname{Spec}A$.
+The Chinese remainder theorem sends a monic irreducible factor to its
+primitive projector $e$.  Conversely, $(1-e)A$ has quotient the corresponding
+field, and its inverse image in $\mathbb F_q[t]$ is generated by that factor.
+Both conversions use polynomial arithmetic and linear algebra.  Repeated
+factors are treated by squarefree decomposition, including Frobenius-root
+extraction over the perfect base field.  Thus factoring is the effective
+idempotent decomposition problem.  Existence of the finite étale
+decomposition does not compute its idempotents or change the bound of the
+selected factoring algorithm.
+\end{proof}
+
+\paragraph{Locations.}
+$\mathbb G_m$ and $\mu_r$ occur in the diagonalizable-group formalism
+\cite[Exp.~VIII 1.1--1.2]{SGA3}; the exact torsor sequence is
+\cite[Exp.~IX 3.2]{SGA4}.  See also \cite[Exp.~V \S7]{SGA1}.
+Cote~28, scan~3 (sheet~2), writes the action map $G\times X\to X$ and its
+axioms \cite{Archive28}; cote~98, scan~12 (sheet~11), supplies the finite
+$G$-set companion \cite{Archive98}.  These are locations of the language,
+not historic primality or factoring algorithms.
+
+\paragraph{The extension refinements in this language.}
+CX-N13 constructs a nontrivial class in
+$H^1_{\mathrm{et}}(\operatorname{Spec}\mathbb F_{p^m},\mu_r)$
+for a specified prime $r\mid p-1$ from the supplied field model.
+Its odd-$r$ Frobenius eigenspace is computed on that finite free
+$\mathbb F_p$-algebra; its power test is exactly the torsor's
+failure to have a section. The even-degree quadratic case retains
+its unconditional construction.
+For CX-N14, a supplied automorphism of a constant finite étale
+$\mathbb F_p$-scheme gives the same component action. The moved-component
+ideal and the descended idempotent construct a proper open-and-closed
+subscheme. The cases $p\le d$, $r\mid p-1$, and
+$v_r(p^{\operatorname{ord}_r(p)}-1)=1$, and the optional coefficient
+Teichmüller unit, retain precisely their hypotheses and bounds.
+For CX-N15, the Frobenius-fixed algebra
+$B_f=\ker(a\mapsto a^p-a)$ inside
+$A=\mathbb F_q[X]/(f)$ is $\mathbb F_p^t$, where $t$ is the number
+of connected components of the finite étale scheme $\operatorname{Spec}A$.
+Its primitive idempotents are exactly those of $A$.
+The coefficient extension, eigenspace and equivariant interpolation
+construct the unit needed to split this constant component scheme.
+The resulting open-and-closed decompositions of $\operatorname{Spec}A$
+therefore compute the factors in
+$(d^{\log d}\log q)^{O(1)}$ time, under the exact cyclotomic--Kummer
+Dedekind-zeta family in CX-N15. The pointwise Frobenius calculation is
+an algebraic construction; its required number-field prime bound is
+still the stated conditional analytic input.
+Thus the Kummer and descent operations carry the complete proofs,
+not merely their existence conclusions, into this dictionary.
+
+\subsection{CX-G03: ideal-class computation as Picard-group computation}
+\label{finding:CX-G03}
+
+\textbf{Finding.} For $X=\operatorname{Spec}\mathcal O_K$,
+the class group is $\operatorname{Pic}(X)$.  CX-N07 bounds the prime-divisor
+line bundles generating this group, with exactly the same conditional
+premise.  CX-N08 and the concrete class-group computation concern completeness
+of the principal-divisor and unit data, with their original search bounds.
+
+\begin{proof}
+A nonzero fractional ideal $I$ of the Dedekind domain $\mathcal O_K$ is an
+invertible module.  Tensor product corresponds to ideal multiplication.
+Conversely, choose a basis of the generic fiber of a rank-one locally free
+module and embed it in $K$; clearing denominators identifies it with a
+fractional ideal.  An isomorphism of two such modules extends generically
+to multiplication by a scalar in $K^\times$.  Thus isomorphism classes
+are exactly fractional ideals modulo principal fractional ideals.
+The prime ideal $\mathfrak p$ corresponds, in effective-divisor notation,
+to $\mathcal O_X(-\mathfrak p)$; changing all signs does not affect generation.
+The factor-base map is the divisor-to-line-bundle map, with kernel the
+principal-divisor relations supported on that base.  Units are the kernel
+of the principal-divisor map from $K^\times$.  These are precisely the
+objects in the exact sequence behind CX-N08, so its index identity and
+its separate relation-search cost are preserved.
+\end{proof}
+
+The Hilbert-class-field cover is
+$\operatorname{Spec}\mathcal O_{H_K}\to\operatorname{Spec}\mathcal O_K$,
+finite étale at finite places.  For ray class fields, delete the modulus
+primes and retain the real-place conditions in the arithmetic character data.
+Their characters give the local systems of CX-G01.  The required analytic
+factor is $\zeta_{H_K}$ or the pertinent Hecke factors, not automatically
+$\zeta_K$ alone.
+
+\paragraph{Locations.}
+The cohomological identification is
+\cite[Exp.~IX, Theorem~3.3]{SGA4}; its $K_0$ and $\gamma$ language is in
+\cite[Exp.~V 3.10; Exp.~VI 3.2--3.3]{SGA6}.
+Cote~2, scan~5 (sheet~4), discusses rank augmentation and Picard comparison
+in dimension at most one \cite{Archive2}.  No class-group complexity
+theorem is attributed to that manuscript.
+
+\subsection{CX-G04: integral orbit closures and the role of Hilbert and Quot schemes}
+\label{finding:CX-G04}
+
+\textbf{Finding.} Let $G=\operatorname{GL}_{m^2,\mathbb Z}$ act on the
+coefficient space $V_{\mathbb Z}$ of degree-$m$ forms in $m^2$ variables.
+If $I_{\mathbb Q}$ is the ideal of the characteristic-zero determinant
+orbit closure, then
+\[
+ I_{\mathbb Z}=I_{\mathbb Q}\cap\mathbb Z[V],\qquad
+ X_{\mathbb Z}=\operatorname{Spec}(\mathbb Z[V]/I_{\mathbb Z})
+\]
+defines a flat $G$-scheme over $\mathbb Z$.  Its projectivization is a flat
+projective family and defines a point of the appropriate Hilbert scheme.
+This supplies integral objects for CX-E06--E08 and CX-K05--K08, without
+asserting special-fiber equality with every characteristic-$p$ orbit closure.
+
+\begin{proof}
+The quotient embeds in $\mathbb Q[V]/I_{\mathbb Q}$ and is torsion free
+over $\mathbb Z$.  A torsion-free module over the PID $\mathbb Z$ is a
+filtered union of finitely generated torsion-free submodules, which are
+free.  Filtered colimits preserve flatness, proving flatness.
+
+The determinant orbit closure is a cone in characteristic zero: over an
+algebraic closure, any nonzero scalar multiple of the determinant is
+obtained by scalar change of variables.  Its ideal is therefore homogeneous,
+as is its contraction.  Every graded quotient piece is finitely generated
+and torsion free over $\mathbb Z$, hence free.  On a standard affine chart
+of Proj, localization preserves flatness and the degree-zero component is
+a direct summand over $\mathbb Z$.  Thus Proj is flat.  It is finitely
+presented by noetherianity.  The graded pieces have the same dimensions in
+every fiber, so the fiber Hilbert polynomials coincide.  For their polynomial
+$P$, \cite[\S3, Theorem~3.2]{FGA221} supplies the classifying morphism
+\[
+ \operatorname{Spec}\mathbb Z\longrightarrow
+ \operatorname{Hilb}^{P}(\mathbb P(V)_{\mathbb Z}/\mathbb Z).
+\]
+
+The integral change-of-variables formula defines the original coaction.
+For $f\in I_{\mathbb Z}$ its image in
+$\mathbb Z[G]\otimes(\mathbb Z[V]/I_{\mathbb Z})$ vanishes after tensoring
+with $\mathbb Q$.  This target is flat and torsion free over $\mathbb Z$,
+so the image already vanishes.  Hence the ideal is $G$-stable, proving the
+asserted integral action.  This argument does not claim that formation of
+a scheme-theoretic image commutes with all special-fiber base changes.
+\end{proof}
+
+Neither finite presentation nor representability gives an efficient list
+of equations or a succinct computation of $P$.  No step bounds the degrees
+or bit sizes of ideal generators as a function of the succinct circuit
+parameter.  The independent equation-access gate of CX-K06 therefore remains.
+The effective statement is the search for a finite morphism in CX-K08;
+placing its data in Hilbert or Quot schemes does not compute that search.
+
+\paragraph{Locations.}
+Linear spaces, actions, and comodules are
+\cite[Exp.~I 4.6.3.1, 4.7.1--4.7.2]{SGA3}; finite morphisms and base change
+are \cite[6.1.4--6.1.5]{EGA2}.  The parameter spaces and their projective
+embeddings are \cite[\S3, Theorems~3.1--3.2, pp.~259--260;
+Proposition~3.8, p.~265]{FGA221}.
+The archival companions are cote~28, scan~3 (sheet~2), and cote~98,
+scan~44 (sheet~43), headed ``Familles limit\'ees de faisceaux coh\'erents''
+\cite{Archive28,Archive98}.  The latter sheet is not used in place of the
+published representability theorem.
+
+\subsection{CX-G05: exterior powers, Schur operations, and loss of information under rank}
+\label{finding:CX-G05}
+
+\textbf{Finding.} The representation objects and locally free sheaves above
+have exact-category Grothendieck rings, tensor multiplication, and exterior
+operations $\lambda^i$.  With rank augmentation $\varepsilon$, the usual
+operations on rank-zero classes are
+\[
+ \gamma_t(x)=\lambda_{t/(1-t)}(x),\qquad
+ F^j_\gamma=\left\langle
+  \prod_a\gamma^{i_a}(x_a):\ \varepsilon(x_a)=0,\ \sum_a i_a\geq j
+ \right\rangle .
+\]
+These are the existing structures of
+\cite[Exp.~V 2.4, 3.10(3.10.1); Exp.~VI 3.2--3.3]{SGA6}.
+For the Boolean scheme of CX-E07, with $N=\#F$,
+\[
+ [p_*\mathcal O_{X_F}]=N[\mathcal O],\qquad
+ \lambda_t(N[\mathcal O])=(1+t)^N.
+\]
+Its reduced rank class is zero.  This rank data does not determine the
+equivariant coordinate-ring classes required for the obstruction in CX-E08.
+
+\begin{proof}
+CX-E07 identifies the pushforward with a direct sum of $N$ copies of
+$\mathcal O$.  Its $i$-th exterior power has rank $\binom Ni$, giving the
+displayed series.  Subtracting $N[\mathcal O]$ gives zero, so all positive
+$\gamma$-operations on that reduced class vanish, functorially after base
+change.
+
+For the loss of representation data, the trivial and sign representations
+of $C_2$ over $\mathbb Q$ both have rank one.  Their traces at the nonidentity
+element are $1$ and $-1$.  Additivity of trace in exact sequences shows that
+their $K_0$ classes differ.  Thus rank is not injective.  A count transported
+only by the rank-class dictionary cannot specify the equivariant class,
+let alone its graded Schur multiplicities.  This refutes that particular
+reconstruction from rank; it is not a complexity separation or a claim
+that no extra reduction could ever provide such data.
+\end{proof}
+
+Over a $\mathbb Q$-scheme, Schur functors on locally free $\mathcal E$ are
+images of rational Young idempotents on $\mathcal E^{\otimes d}$.
+Idempotents split, giving locally free images.  One can likewise work after
+inverting the required factorial denominators.  This is not an assertion
+of integral semisimplicity over $\mathbb Z$.
+Their classes are universal Schur operations; integrally these classes can
+be written using Jacobi--Trudi,
+\[
+ s_\lambda(\mathcal E)
+ =\det(h_{\lambda_i-i+j}(\mathcal E)),\qquad
+ \sum_{i\geq0}h_i(\mathcal E)t^i=\lambda_{-t}([\mathcal E])^{-1},
+\]
+with $h_0=1$ and $h_i=0$ for $i<0$
+\cite[Chapter~I \S3, (3.4), p.~41]{Macdonald1995}.
+The representation interpretation is the equivariant-module language of
+\cite[Exp.~I 4.7.1--4.7.2]{SGA3}.  Cote~2, scan~5 (sheet~4), is the rank
+augmentation companion, and cote~98, scan~12 (sheet~11), is the finite
+$G$-set companion \cite{Archive2,Archive98}.  No plethysm or Kronecker
+problem from the parallel prompts is being asserted solved.
+
+\subsection{CX-G06: the exact boundary between pointwise weights and global GRH}
+\label{finding:CX-G06}
+
+\textbf{Finding.} The finite-monodromy arithmetic sheaves in CX-G01 have
+root-of-unity Frobenius eigenvalues at good primes, hence pointwise weight
+zero.  Tensor, exterior, and characteristic-zero direct-summand operations
+preserve that property.  This fact does not supply an additional proof of
+the global zero-location input used in Part~I.
+
+\begin{proof}
+A finite-order matrix is annihilated by $T^a-1$ for some $a$; all its
+eigenvalues are roots of unity.  Tensor eigenvalues and exterior-power
+eigenvalues are products of these, and eigenvalues of a stable direct
+summand occur among those of the original representation.  All complex
+absolute values are one.  This proves precisely the pointwise assertion.
+
+The number-field GRH assertion concerns analytic continuation and zeros of
+an infinite Euler product in $s$.  The preceding finite-order linear-algebra
+argument supplies no such continuation or zero estimate.  In our proved
+implications the required global assertion remains $A_D$ or $M$, exactly
+as recorded in CX-G01.  This identifies the scope of the argument, not
+logical independence of mathematical theories.
+
+For the Boolean scheme, CX-E07 gives the stronger explicit description.
+After base change to $\overline{\mathbb F}_q$, its étale cohomology is $N$
+copies of $\mathbb Q_\ell$ in degree zero and zero in higher degrees.
+Frobenius is the identity.  Hence the fiber zeta function is $(1-t)^{-N}$
+and its Artin motive is a sum of $N$ unit motives.  The counting algorithm
+computes this multiplicity from a succinct presentation; it constructs
+no nontrivial motive and changes no purity theorem.
+\end{proof}
+
+The existing finite-field results are
+\cite[\S1.2; Theorem~3.3.1, p.~204; Corollary~3.3.9, p.~207]{WeilII},
+with the Euler-factor and direct-image formalism of
+\cite[Exp.~XV \S3, no.~1 Proposition~1, and no.~2]{SGA5}.
+The inspected archival comparison is cote~34, scan~64 (sheet~63),
+crossed-out Remark~1.17, which relates a proposed openness assertion to
+Riemann--Weil in higher dimension; scan~74 (sheet~73), equation~(2.5.5),
+uses the curve case for an invariant-cohomology vanishing
+\cite{Archive34}.  The crossed-out status of the first passage is part
+of the locator.  These are finite-field cohomological companions, not
+number-field zero-location statements.  Our finding changes neither
+their mathematical scope nor the published Weil~II theorem.
+
+\section{Where every finding lives in this dictionary}
+\label{sec:crosswalk}
+
+\begin{longtable}{@{}p{0.17\textwidth}p{0.42\textwidth}p{0.34\textwidth}@{}}
+\toprule
+Findings & Restatement and proof-carrying dictionary & Exact locations and archival companions\\
+\midrule
+\endhead
+CX-R01--R02 & The finite étale permutation object, rank-one decomposition, and commutator obstruction of CX-G01. & SGA1 V \S4 Thm.~1, \S7; SGA3 I4.7.2; cote98/12 (sheet11).\\
+CX-K01--K04 & Nonempty generic fiber, bounded closed point, degree-one specializations; abelian promise and cubic obstruction. CX-K08 and CX-G01 carry the proofs. & SGA1 V \S7; SGA5 XV \S3 no.1; cote98/11--12 (sheets10--11).\\
+CX-K05--K07 & Search for a finite map from a graded affine scheme to affine space; a small separating system and a dimension-size system retain different output requirements. CX-K08 and CX-G04 preserve these distinctions. & EGAII6.1.4--6.1.5; FGA221 Thms3.1--3.2; cote98/44 (sheet43).\\
+CX-K08 & Integral spreading, finite étale cover, Frobenius trace, and open locus of finite linear projections. & SGA1 V \S7; EGAII6.1.4; FGA221 \S3; cote28/3 and cote98/11--12,44.\\
+CX-N01--N04 & Explicit residue-ring and $\mathbb G_m$ computations; Kummer torsor classes and generators, retaining the factorization input. CX-G02. & SGA3 VIII1.1--1.2; SGA4 IX3.2; cote28/3, cote98/12.\\
+CX-N05--N06 & Ray-character local systems on arithmetic curves and their direct images, together with finite-field group computations. CX-G01--G02. & SGA1 V \S7; SGA3 I4.7.2; SGA4 IX3.2; cote98/11--12.\\
+CX-N07--N08, CX-N12 & Picard generators, $S$-units, principal-divisor relations, and the same certification index. CX-G03. & SGA4 IX3.3; SGA6 V3.10, VI3.2; cote2/5 (sheet4).\\
+CX-N09--N11, CX-N13--N15 & Connected-component/idempotent computation for finite étale algebras, Kummer power classes, and Frobenius in the stated arithmetic cover. CX-G01--G02; the prime-field automorphism and general composition proofs construct open-and-closed decompositions with their original bounds. & SGA1 V \S7; SGA4 IX3.2; SGA3 VIII1.1; cote98/12, cote28/3.\\
+CX-E01--E05 & Emptiness and degree of the succinct Boolean finite étale scheme, parsimonious gate isomorphisms, and the original Boolean circuit model. The table and proof in CX-E07 give each restatement. & SGA1 V \S7; SGA6 VI3.2--3.3; SGA5 XV \S3; cote98/11--12, cote2/5.\\
+CX-E06, CX-E08 & Symbolic polynomials and graded equivariant coordinate rings of the integral orbit models; multiplicity quotient condition. CX-G04--G05. & SGA3 I4.7.2; FGA221 Thm3.2; SGA6 V2.4; cote28/3, cote98/44.\\
+CX-E07 & Degree equals rank and the multiplicity of the unit Artin motive; reduced $\gamma$-class is zero. CX-G05--G06. & SGA6 V3.10, VI3.2; SGA5 XV \S3; cote2/5, cote98/11.\\
+CX-G01--G06 & The displayed geometric proofs are already in the requested language; no further translation changes their premises. & The individual exact locators and scan numbers are supplied with each finding.\\
+\bottomrule
+\end{longtable}
+
+Here ``cote98/12'' means PDF scan~12 of cote~98, including the archival
+cover as scan~1; the sheet itself is numbered~11.  The same convention is
+used throughout.  The archive references are to the inspected page content,
+not a claim of dating or priority beyond the archive's catalogue.
+
+
+\clearpage\part{Unproved extensions and verification record}
+
+\section{Unproved extensions: exact status and current gates}
+\label{sec:unproved}
+
+This part contains questions and proposed extensions, not additional
+theorems. The transfers in Parts~I--II have proofs and recorded checks.
+An analytic hypothesis absent from the stipulated theorem is not thereby
+proved necessary, and a failed reduction is not a logical independence
+result. The following register prevents those distinctions from being
+lost when the conclusions are reused.
+
+\paragraph{CX-U01: an unrestricted Dirichlet-only HN transfer.}
+The checked general route reaches RH for the Dedekind zeta function of
+the bounded solution field (CX-K01). Applying prime-ideal counting to
+the field itself avoids the unnecessary Galois-closure gate.
+The bounded abelian-witness promise is proved in CX-K03.
+The cubic in CX-K04 refutes replacement of every witness by an abelian
+one; CX-R02 separately refutes a virtual rank-one representation
+decomposition. Neither refutation excludes a different complexity
+proof. A new argument relating rational Dirichlet zeros to the needed
+prime supply, or a different AM protocol, would be required to go
+further. The unconditional prime-ideal estimate inspected in
+Lagarias--Odlyzko does not keep the primes at polynomial bit length
+with the available solution-field bounds.
+
+\paragraph{CX-U02: an unrestricted Dirichlet-only factoring transfer.}
+The main hypothesis classification is proved: CX-N15 gives a complete
+general factoring algorithm under $M$, using precisely the sufficient
+family $\zeta_{\mathbb Q}$ and
+$\zeta_{\mathbb Q(\zeta_{2\nu},p^{1/\nu})}$ for its explicit construction
+degrees $\nu\le d^2$. It constructs the maximal coefficient Teichmüller
+unit by a Frobenius eigenspace and equivariant interpolation, without
+the historical radical oracle or the unretrieved internal EVD94 reduction.
+Those retrieval limitations remain historical source facts, not gaps in
+CX-N15. CX-N13 and CX-N14 give smaller-hypothesis cases.
+
+The stronger extension asking for a general proof from $A_D$ alone
+remains unproved. A reduction to polynomials split over the prime field
+does not itself remove the root-of-unity extensions used to split
+automorphisms. After CX-N14 the uncovered branch can be restricted to
+$p>d$, $r\nmid p(p-1)$ and
+$r^2\mid p^{\operatorname{ord}_r(p)}-1$.
+A coefficient Teichmüller unit of maximal $r$-power order is a proved
+sufficient extra input there. CX-N15 supplies it under its explicit
+Dedekind-zeta family; no reduction of that construction to rational
+Dirichlet characters, and no impossibility of such a reduction, is proved.
+One further natural shortcut was checked directly: BGL Theorem~3
+requires roots for every prime divisor of $\Phi_k(p)$ and retains the
+largest such prime in its running time, even for one desired nonresidue.
+Its alternative Theorem~(5.1) requires a degree-$r$ irreducible polynomial
+when $r\nmid k$, exactly the missing input at $k=\operatorname{ord}_r(p)<r$;
+see \cite[\S5, p.~20 and algorithm pp.~20--24]{CXNBGL01}.
+Thus that source-based substitution does not close the smaller gate.
+
+\paragraph{CX-U03: general polynomial-time finite-field factoring.}
+The Evdokimov bound in CX-N09 and the independent composition CX-N15
+are quasipolynomial in the degree.
+The special-field and structural-parameter results in CX-N10 preserve
+their parameters. Deleting an analytic hypothesis changes none of
+these exponents. No general deterministic polynomial-time factoring
+claim is made. The source-specific transfers answer the requested
+hypothesis question without asserting this stronger algorithm.
+
+\paragraph{CX-U04: unrestricted class-group search complexity.}
+CX-N07 proves the factor-base transfer, and CX-N08 proves what the
+index certificate establishes. The cost of finding enough independent
+relations remains an algorithm-specific question. CX-N12 supplies a
+concrete rigorous imaginary-quadratic computation theorem with its
+randomness and subexponential bound retained. No general smoothness
+heuristic is promoted to a theorem by substituting the GRH premise.
+
+\paragraph{CX-U05: equations, symbolic circuits, and GCT separation.}
+For an optimal-cardinality succinct h.s.o.p., the historical EXPH
+proof still needs the equation-access assumption of GCT~V
+Theorem~5.5. A polynomial-size separating system has a different,
+already unconditional PSPACE construction. The ETH counter and the
+Boolean circuit lower bound supply neither symbolic permanent
+circuits nor graded equivariant coordinate-ring multiplicities.
+The proved rank dictionary loses information, as CX-G05 demonstrates.
+The remaining gates are therefore the specified equation algorithm,
+arithmetic conversion, or obstruction construction. No conclusion
+about P versus NP, VP versus VNP, or general determinant border
+complexity is claimed beyond the explicit statements in Part~I.
+
+\paragraph{CX-U06: stronger quantitative ETH transfers.}
+The source theorem fixes clause width. The paper does not interchange
+that quantifier with a width growing with input length. A graph's
+vertex parameter is not its treewidth or solution-size parameter.
+Likewise the Circuit-SAT encoding introduces one variable per gate,
+and the nearly linear Boolean lower bound is in
+$\mathrm E^{\mathrm{NP}}$. The exact reduction size, solver prefactor,
+and computational model must be supplied before any stronger
+fine-grained or parameterized conclusion follows.
+
+\section{Source and verification conventions}
+\label{sec:source-conventions}
+
+The accompanying \texttt{QUESTIONS.tsv} records each treated question
+and its proved finding, refutation, or remaining gate.
+\texttt{CHECK\_EVENTS.tsv} records actual checks using the categories
+specified in the brief. A targeted proof check means that the stated
+proof or the relevant hypothesis-bearing part was read; it does not
+mean a formal certificate. A cited theorem whose statement is used
+without an independent reproof is identified as such.
+
+The research run is \texttt{CX\_GRH-20261121}, begun at
+23:00:34 UTC on 20 November 2026, or 00:00:34 on 21 November in
+Europe/Berlin. The coordinator and three researchers used
+GPT-6 Astra Pro. Their effort setting was not exposed by the runtime
+and is not guessed. Dates in the consolidated registers use the
+Europe/Berlin calendar; original UTC dates in component working notes
+are explicitly identified. No new finding was checked by a Lean
+kernel in this run.
+
+The prior run's \texttt{BRIDGES\_QUESTIONS.tsv} rows Q07 and Q08
+were read as earlier work, then rechecked: Q07's broad Dedekind gate
+was sharpened to the bounded solution field, and Q08's Dirichlet
+scope was verified against Bach's original Theorems~2--4 and
+Schoof's complete quadratic-character proof. Their earlier check
+labels are not inherited as certificates for this paper.
+
+Archive scan numbers count the cover as scan~1. The paper also gives
+the manuscript's sheet number, when present. Mathematical content
+was inspected on the cited scans. These historical references locate
+constructions and comparisons; none is cited as a manuscript proof
+of a modern complexity statement. In particular the crossed-out
+passage in cote~34 retains that qualification.
+
+The attached sources remain the primary record for the stipulated
+2026 theorems. Literature links in the bibliography identify the
+consulted editions or author versions. Differences between printed
+journal pagination and author-PDF pagination are stated at the
+point of citation. Retrieval failures and source limitations are
+recorded without inventing statement numbers or attributing a
+full-proof audit to an abstract.
+
+
+\clearpage\begin{thebibliography}{99}
+
+\bibitem{Alpoge2026} L.~Alp\"oge, \emph{Remark}, 20 November 2026, supplied four-page note,
+\url{https://alpo.ge/remark.pdf}; supplied \texttt{ALPOGE\_Main.lean} and
+\texttt{ALPOGE\_Statements.lean}. Exact interfaces and step locator in Section~\ref{sec:premises}.
+
+
+\bibitem{Masullo2026} A.~M.~Masullo, \emph{The Music of the Primes}, supplied 940-page draft,
+20 November 2026. Chapter~1 \S1.2; Chapter~3 Definitions~3.2.1.2 and~3.2.1.4,
+Proposition~3.2.1.3; Theorems~12.5.1.1 and~13.3.1.1. The empty heading
+13.3.1.2 is not used as a theorem statement.
+
+
+\bibitem{Washington1997} L.~C.~Washington, \emph{Introduction to Cyclotomic Fields},
+2nd ed., Graduate Texts in Mathematics 83, Springer, 1997, Theorem~4.3, p.~33.
+\url{https://doi.org/10.1007/978-1-4612-1934-7}.
+
+
+\bibitem{MilneCFT} J.~S.~Milne, \emph{Class Field Theory}, v4.03, 6 August 2020,
+Introduction Theorems~0.4--0.5 (Hilbert and ray class fields).
+\url{https://www.jmilne.org/math/CourseNotes/CFT.pdf}.
+
+
+\bibitem{SGA1} A.~Grothendieck et al., \emph{Rev\^etements \'etales et groupe fondamental},
+SGA~1, LNM~224, Springer, 1971; Exp.~V \S4, Theorem~1, and \S7.
+\url{https://grothendiecksga.com/read/sga1/fr/V-4.html};
+\url{https://grothendiecksga.com/read/sga1/fr/V-7.html} (consulted text transcription).
+
+
+\bibitem{SGA3} M.~Demazure and A.~Grothendieck (eds.), \emph{Sch\'emas en groupes},
+SGA~3, LNM~151--153, Springer, 1970; Exp.~I 4.6.3.1, 4.7.1--4.7.2;
+Exp.~VIII 1.1--1.2. Revised text consulted at
+\url{https://wstein.org/sga/SGA3/Exp1-20jan2010.pdf} and
+\url{https://wstein.org/sga/SGA3/Exp8-8nov09.pdf}.
+
+
+\bibitem{SGA4} M.~Artin, A.~Grothendieck, J.-L.~Verdier (eds.),
+\emph{Th\'eorie des topos et cohomologie \'etale des sch\'emas}, SGA~4,
+LNM~269, 270, 305, Springer, 1972--1973; Exp.~IX 3.2--3.3.
+\url{https://grothendiecksga.com/read/sga4/fr/IX-3.html} (consulted transcription).
+
+
+\bibitem{SGA5} A.~Grothendieck, with collaborators, \emph{Cohomologie $\ell$-adique
+et fonctions $L$}, SGA~5, ed.~L.~Illusie, LNM~589, Springer, 1977;
+Exp.~XV \S3, no.~1, Proposition~1, and no.~2, theorem and corollary to Lemma~1.
+\url{https://grothendiecksga.com/read/sga5/fr/XV-3.html} (consulted transcription).
+
+
+\bibitem{SGA6} P.~Berthelot, A.~Grothendieck, L.~Illusie (eds.),
+\emph{Th\'eorie des intersections et th\'eor\`eme de Riemann--Roch}, SGA~6,
+LNM~225, Springer, 1971; Exp.~V 2.4, 3.10 (3.10.1);
+Exp.~VI Theorems~3.2--3.3.
+\url{https://grothendiecksga.com/read/sga6/fr/VI-3.html} and
+\url{https://grothendiecksga.com/read/sga6/fr/V-3.html} (consulted transcriptions).
+
+
+\bibitem{EGA2} A.~Grothendieck and J.~Dieudonn\'e, \emph{\'El\'ements de g\'eom\'etrie
+alg\'ebrique II}, Publ. Math. IH\'ES 8 (1961), 5--222; 6.1.4--6.1.5.
+\url{https://www.numdam.org/item/PMIHES_1961__8__5_0/}.
+
+
+\bibitem{FGA221} A.~Grothendieck, \emph{Techniques de construction et th\'eor\`emes
+d'existence en g\'eom\'etrie alg\'ebrique IV: les sch\'emas de Hilbert},
+S\'eminaire Bourbaki, Exp.~221, 1960--1961, pp.~249--276;
+\S3 Theorems~3.1--3.2, pp.~259--260, Proposition~3.8, p.~265.
+\url{https://www.numdam.org/article/SB_1960-1961__6__249_0.pdf}.
+
+
+\bibitem{WeilII} P.~Deligne, \emph{La conjecture de Weil II}, Publ. Math. IH\'ES 52
+(1980), 137--252; \S1.2, Theorem~3.3.1, p.~204, Corollary~3.3.9, p.~207.
+\url{https://publications.ias.edu/sites/default/files/Number40.pdf}.
+
+
+\bibitem{Macdonald1995} I.~G.~Macdonald, \emph{Symmetric Functions and Hall Polynomials},
+2nd ed., Oxford University Press, 1995; Chapter~I \S3, equation~(3.4), p.~41.
+\url{https://math.berkeley.edu/~corteel/MATH249/macdonald.pdf}.
+
+
+\bibitem{Archive2} Archives Grothendieck, Universit\'e de Montpellier, cote~2,
+\emph{Riemann--Roch: notes antiques}, scan~5, numbered sheet~4.
+\url{https://grothendieck.umontpellier.fr/2.pdf}.
+
+
+\bibitem{Archive28} Archives Grothendieck, cote~28, \emph{Groupes alg\'ebriques
+(SGA~3): notes manuscrites}, circa 1970, scan~3, numbered sheet~2.
+\url{https://grothendieck.umontpellier.fr/28.pdf}.
+
+
+\bibitem{Archive34} Archives Grothendieck, cote~34,
+\emph{SGA~7: notes manuscrites}, catalogue dating circa 1967--1973;
+scan~64 (sheet~63), crossed-out Remark~1.17; scan~74 (sheet~73),
+equation~(2.5.5) and its Riemann--Weil explanation.
+\url{https://grothendieck.umontpellier.fr/34.pdf}.
+
+
+\bibitem{Archive98} Archives Grothendieck, cote~98, scans~11--12 (sheets~10--11),
+norm-morphism axioms and finite $G$-sets; scan~44 (sheet~43),
+\emph{Familles limit\'ees de faisceaux coh\'erents}.
+\url{https://grothendieck.umontpellier.fr/98.pdf}.
+
+
+\bibitem{K96}
+Pascal Koiran, \emph{Hilbert's Nullstellensatz Is in the Polynomial
+Hierarchy}, Journal of Complexity \textbf{12} (1996), 273--286.
+doi:10.1006/jcom.1996.0019.
+Journal copy consulted:
+\url{https://cs.uwaterloo.ca/~r5olivei/courses/2025-spring-cs860/K96-HN-PH.pdf}.
+
+
+
+\bibitem{K96TR}
+Pascal Koiran, \emph{Hilbert's Nullstellensatz Is in the Polynomial
+Hierarchy}, DIMACS Technical Report 96-27, July 1996.
+Author's extended version:
+\url{https://perso.ens-lyon.fr/pascal.koiran/Publis/DIMACS.96-27.ps}.
+Archive record:
+\url{https://archive.dimacs.rutgers.edu/TechnicalReports/abstracts/1996/96-27.html}.
+
+
+
+\bibitem{K97Err}
+Pascal Koiran, erratum to \emph{Hilbert's Nullstellensatz Is in the
+Polynomial Hierarchy}, 8 August 1997, two pages.
+\url{https://perso.ens-lyon.fr/pascal.koiran/Publis/hn.erratum.ps}.
+
+
+
+\bibitem{LO77}
+J.~C. Lagarias and A.~M. Odlyzko, \emph{Effective Versions of the
+Chebotarev Density Theorem}, in A. Fr\"ohlich (ed.), \emph{Algebraic
+Number Fields}, Academic Press, 1977, 409--464.
+Consulted TeXromancers transcription, Theorem~1.1 on PDF p.~4:
+\url{https://aareyanmanzoor.github.io/assets/articles/lagarias-odlyzko.pdf}.
+The transcription is not presented as an original scan.
+
+
+
+\bibitem{GCT5}
+Ketan D. Mulmuley, \emph{Geometric Complexity Theory V: Efficient
+algorithms for Noether Normalization}, Journal of the American
+Mathematical Society \textbf{30} (2017), 225--309.
+doi:10.1090/jams/864.
+Attached \texttt{main.tex}; numbered locators checked against
+arXiv:1209.5993v5, \url{https://arxiv.org/pdf/1209.5993}.
+
+
+
+\bibitem{Burgisser04}
+Peter B\"urgisser, \emph{The complexity of factors of multivariate
+polynomials}, Foundations of Computational Mathematics \textbf{4}
+(2004), 369--396, Theorem~5.7, as invoked in GCT~V Theorem~2.8.
+
+
+
+\bibitem{FS18}
+Michael A. Forbes and Amir Shpilka, \emph{A PSPACE Construction of a
+Hitting Set for the Closure of Small Algebraic Circuits}, Proceedings
+of STOC 2018, 1180--1192. doi:10.1145/3188745.3188792.
+Consulted ECCC TR17-163, Theorem~1.1 p.~3 and Theorem~7.1 p.~21:
+\url{https://eccc.weizmann.ac.il/report/2017/163/download/}.
+
+
+
+\bibitem{GSS19}
+Zeyu Guo, Nitin Saxena, and Amit Sinhababu,
+\emph{Algebraic Dependencies and PSPACE Algorithms in Approximative
+Complexity over Any Field}, Theory of Computing \textbf{15}(16)
+(2019), 1--30. doi:10.4086/toc.2019.v015a016.
+Theorems~1.5 and~1.6, p.~6.
+\url{https://www.cse.iitk.ac.in/users/nitin/papers/toc18-ADinPH.pdf}.
+
+% Optional: only if the parent uses the least-prime result elsewhere.
+
+
+\bibitem{CXNBachSorenson96}
+Eric Bach and Jonathan Sorenson, \emph{Explicit bounds for primes in
+residue classes}, Mathematics of Computation \textbf{65}(216)
+(1996), 1717--1735. doi:10.1090/S0025-5718-96-00763-6.
+Theorem~5.1, p.~1729; analytic convention in \S2, p.~1720.
+Author-uploaded original text:
+\url{https://www.researchgate.net/publication/220576951_Explicit_bounds_for_primes_in_residue_classes}.
+
+
+
+\bibitem{BIMS17}
+Vishwas Bhargava, G\'abor Ivanyos, Rajat Mittal, and Nitin Saxena,
+\emph{Irreducibility and deterministic $r$-th root finding over finite
+fields}, Proceedings of ISSAC 2017, eight-page author version.
+doi:10.1145/3087604.3087620.
+Corollary~1.3 and field-input convention, PDF p.~2.
+\url{https://www.cse.iitk.ac.in/users/nitin/papers/irred-and-rth-root.pdf}.
+ECCC TR17-016: \url{https://eccc.weizmann.ac.il/report/2017/016/}.
+
+
+
+
+\bibitem{CXBachShallit89}
+Eric Bach and Jeffrey Shallit, \emph{Factoring with cyclotomic polynomials},
+Mathematics of Computation \textbf{52}(185) (1989), 201--219.
+doi:10.1090/S0025-5718-1989-0947467-1.
+\S8, Lemma~13 pp.~213--214; Lemma~14 and Theorem~3 p.~214.
+Full version of the FOCS~1985 paper, pp.~443--450.
+\url{https://www.ams.org/journals/mcom/1989-52-185/S0025-5718-1989-0947467-1/S0025-5718-1989-0947467-1.pdf}.
+
+
+
+\bibitem{CXNBach90}
+E. Bach, \emph{Explicit bounds for primality testing and related problems},
+Math. Comp. \textbf{55} (1990), no.~191, 355--380.
+\url{https://doi.org/10.1090/S0025-5718-1990-1023756-8}.
+Original journal locators: \S6, pp.~369--373, Theorems~2--3 p.~372;
+Miller consequence p.~373; Theorem~4 p.~375; class-group corollary p.~376.
+
+
+
+\bibitem{CXNSchoof08}
+R. Schoof, \emph{Four primality testing algorithms}, in
+\emph{Algorithmic Number Theory: Lattices, Number Fields, Curves and Cryptography},
+MSRI Publications \textbf{44} (2008), 101--126.
+Theorem~2.2, pp.~105--106.
+\url{https://pub.math.leidenuniv.nl/~stevenhagenp/ANTproc/05rene.pdf}.
+
+
+
+\bibitem{CXNMiller76}
+G. L. Miller, \emph{Riemann's hypothesis and tests for primality},
+J. Comput. System Sci. \textbf{13} (1976), 300--317.
+Theorem~2 p.~301; Appendix pp.~315--316.
+\url{https://www.cs.cmu.edu/~glmiller/Publications/Papers/Mi76.pdf}.
+
+
+
+\bibitem{CXNShoup92}
+V. Shoup, \emph{Searching for primitive roots in finite fields},
+Math. Comp. \textbf{58} (1992), no.~197, 369--380.
+\url{https://doi.org/10.1090/S0025-5718-1992-1106981-9}.
+Locators in this section refer to the 16-page author preprint:
+Theorems~2--3 pp.~3--4, Proposition~9 p.~10, Proposition~13 pp.~11--12,
+proofs \S\S5--6 pp.~12--13.
+\url{https://www.shoup.net/papers/primroots.pdf}.
+
+
+
+\bibitem{CXNBuchmannShoup96}
+J. Buchmann and V. Shoup,
+\emph{Constructing nonresidues in finite fields and the Extended Riemann Hypothesis},
+Math. Comp. \textbf{65} (1996), no.~215, 1311--1326.
+Main statement pp.~1311--1312; ERH definition and Fact~2.1 p.~1314;
+Fact~4.3 p.~1319; algorithm \S5.
+\url{https://shoup.net/papers/nonresidues.pdf}.
+
+
+
+\bibitem{CXNAdlemanLenstra86}
+L. M. Adleman and H. W. Lenstra, Jr.,
+\emph{Finding irreducible polynomials over finite fields},
+Proc. 18th ACM Symposium on Theory of Computing (1986), 350--355.
+Theorem~1 p.~350; Algorithm~A pp.~350--351; Proposition~3 p.~351;
+Lemma~6 p.~352.
+\url{https://pub.math.leidenuniv.nl/~lenstrahw/PUBLICATIONS/1986a/art.pdf}.
+
+
+
+\bibitem{CXNBDF08}
+K. Belabas, F. Diaz y Diaz, and E. Friedman,
+\emph{Small generators of the ideal class group},
+Math. Comp. \textbf{77} (2008), no.~262, 1185--1197.
+\url{https://doi.org/10.1090/S0025-5718-07-02003-0}.
+Locators refer to the author version dated 5 December 2005:
+introduction pp.~2--3, Theorem~1.1 p.~3, Theorem~2.1 p.~5,
+proof pp.~4--6.
+\url{https://www.math.u-bordeaux.fr/~kbelabas/research/OnBach.pdf}.
+
+
+
+\bibitem{CXNLenstra92}
+H. W. Lenstra, Jr., \emph{Algorithms in algebraic number theory},
+Bull. Amer. Math. Soc. \textbf{26} (1992), no.~2, 211--244.
+Locators refer to the author preprint:
+\S5 following Problem~5.6, exact sequence and (5.7), p.~25.
+\url{https://pub.math.leidenuniv.nl/~lenstrahw/PUBLICATIONS/1992a/art.pdf}.
+
+
+
+\bibitem{CXNBiasseErukulangara}
+J.-F. Biasse and M. R. Erukulangara,
+\emph{A proof of the conjectured run time of the Hafner--McCurley class group algorithm},
+Adv. Math. Commun. \textbf{17} (2023), no.~6, 1388--1405.
+\url{https://doi.org/10.3934/amc.2021055}.
+Locators refer to the accepted author PDF: Main Theorem and Conjecture~1 p.~4;
+Proposition~1 p.~8; Algorithm~4 p.~15; Proposition~6 pp.~15--16;
+Corollary~1 p.~16.
+\url{https://par.nsf.gov/servlets/purl/10324557}.
+
+
+
+\bibitem{CXNJMV09}
+D. Jao, S. D. Miller, and R. Venkatesan,
+\emph{Expander graphs based on GRH with an application to elliptic curve cryptography},
+J. Number Theory \textbf{129} (2009), 1491--1504.
+\url{https://doi.org/10.1016/j.jnt.2008.11.006}.
+Theorem~1.1 pp.~3--4, Corollary~1.3 p.~4, proofs pp.~9--10
+in arXiv:0811.0647v2.
+\url{https://arxiv.org/pdf/0811.0647}.
+
+
+
+\bibitem{CXNEvdokimov94}
+S. A. Evdokimov,
+\emph{Factorization of polynomials over finite fields in subexponential time under GRH},
+Algorithmic Number Theory, LNCS \textbf{877} (1994), 209--219.
+\url{https://doi.org/10.1007/3-540-58691-1_58}.
+Runtime and radical-oracle formulation: abstract p.~209.
+The complete algebraic proof was not independently retrieved for this audit.
+
+
+
+\bibitem{CXNEvdokimov89}
+S. A. Evdokimov,
+\emph{Factoring a solvable polynomial over a finite field and Generalized Riemann Hypothesis},
+Zap. Nauchn. Sem. LOMI \textbf{176} (1989), 104--117;
+English translation J. Soviet Math. \textbf{59} (1992), no.~3, 842--849.
+\url{https://doi.org/10.1007/BF01104107}.
+Russian-original locators: character convention p.~105;
+Theorem~I.1 pp.~107--108; Theorem~I.2 pp.~108--109;
+Theorem~I.3 pp.~109--110; Theorem~2.1 p.~110.
+\url{https://www.mathnet.ru/eng/znsl4535}.
+
+
+
+\bibitem{CXNGao01}
+S. Gao, \emph{On the deterministic complexity of factoring polynomials},
+J. Symbolic Comput. \textbf{31} (2001), 19--36.
+\url{https://doi.org/10.1006/jsco.1999.1001}.
+Locators refer to the author version dated 17 March 1999:
+prime-field reduction pp.~1--2; \S2.4 and Lemma~2.6 pp.~7--9;
+Lemma~3.6 p.~16.
+\url{https://www.math.clemson.edu/~sgao/papers/FacPoly.pdf}.
+
+
+
+\bibitem{CXNBGL01}
+E. Bach, J. von zur Gathen, and H. W. Lenstra, Jr.,
+\emph{Factoring polynomials over special finite fields},
+Finite Fields Appl. \textbf{7} (2001), 5--28.
+\url{https://doi.org/10.1006/ffta.2000.0306}.
+Theorem~1 and corollary p.~6; Theorems~2--3 p.~7.
+\url{https://pub.math.leidenuniv.nl/~lenstrahw/PUBLICATIONS/2001a/art.pdf}.
+
+
+
+\bibitem{CXNRonyai92}
+L. R\'onyai, \emph{Galois groups and factoring polynomials over finite fields},
+SIAM J. Discrete Math. \textbf{5} (1992), no.~3, 345--365.
+\url{https://doi.org/10.1137/0405026}.
+The parameterized statement was checked in the primary abstract;
+the complete original proof was not independently retrieved.
+
+
+
+\bibitem{CXNIKRS08}
+G. Ivanyos, M. Karpinski, L. R\'onyai, and N. Saxena,
+\emph{Trading GRH for algebra: algorithms for factoring polynomials and related structures},
+ECCC Report TR08-099 (2008).
+Main Theorem p.~3; \S4.1--\S4.2, Lemma~4.2 p.~14,
+Lemma~4.5 p.~16 and Proposition~4.6 pp.~16--17
+in the report's printed numbering.
+\url{https://eccc.weizmann.ac.il/report/2008/099/download/}.
+
+
+
+\bibitem{CXNLenstra91}
+H. W. Lenstra, Jr., \emph{Finding isomorphisms between finite fields},
+Math. Comp. \textbf{56} (1991), no.~193, 329--347.
+\url{https://doi.org/10.1090/S0025-5718-1991-1052099-2}.
+Theorem~(1.2), p.~330; explicit-data convention pp.~329--330.
+\url{https://pub.math.leidenuniv.nl/~lenstrahw/PUBLICATIONS/1991b/art.pdf}.
+
+
+
+\bibitem{CXNAKS04}
+M. Agrawal, N. Kayal, and N. Saxena, \emph{PRIMES is in P},
+Ann. of Math. \textbf{160} (2004), no.~2, 781--793.
+\url{https://doi.org/10.4007/annals.2004.160.781}.
+Theorem~4.1 p.~785 and Theorem~5.1 p.~789.
+\url{https://annals.math.princeton.edu/wp-content/uploads/annals-v160-n2-p12.pdf}.
+
+
+\bibitem{OpenAIETH}
+OpenAI, \emph{The Exponential Time Hypothesis is False},
+OpenAI Math Release preprint, 17 October 2026, revised 25 October 2026.
+Supplied LaTeX source:
+\texttt{LIT\_OpenAI\_ETH\_is\_False/main\_full\_version.tex};
+Theorem~1.1 (\texttt{thm:main}), Corollaries~1.3 and~1.4,
+\S1.1.1--\S1.1.3, Appendix~C.1; the quantitative circuit proof is
+\texttt{quantitative-circuits.tex}.
+\url{https://github.com/openai/math/blob/main/preprints/The-Exponential-Time-Hypothesis-is-False-October-25-2026/paper.pdf}.
+
+
+
+\bibitem{Williams2013}
+R. Williams, \emph{Improving exhaustive search implies superpolynomial
+lower bounds}, SIAM J. Comput. \textbf{42} (2013), 1218--1244.
+\url{https://doi.org/10.1137/10080703X}.
+Theorem numbering used here follows the author's full version dated
+4 May 2010: Theorems~1.1 (printed p.2), 2.1 (p.7), and~6.1
+(pp.20--21).
+\url{https://people.csail.mit.edu/rrw/improved-algs-lbs2.pdf}.
+
+
+
+\bibitem{JMV2013}
+H. Jahanjou, E. Miles, and E. Viola, \emph{Local reductions},
+ECCC Report TR13-099, revision~2, 27 November 2013,
+Theorem~1 (printed p.2), Corollaries~2--3 (p.3), \S6.
+\url{https://eccc.weizmann.ac.il/report/2013/099/revision/2/download/}.
+Conference version: ICALP 2015, 749--760.
+
+
+
+\bibitem{Valiant1979}
+L. G. Valiant, \emph{Completeness classes in algebra},
+Proceedings of STOC 1979, 249--261; Theorem~2, p.254.
+\url{https://doi.org/10.1145/800135.804419}.
+Inspected scan:
+\url{https://sites.math.washington.edu/~billey/colombia/references/valiant.completeness.1979.pdf}.
+
+
+
+\bibitem{Burgisser2024}
+P. B\"urgisser, \emph{Completeness classes in algebraic complexity theory},
+arXiv:2406.06217v1, 10 June 2024.
+Definitions~2.9 (p.6), 2.25 (p.12);
+Theorems~2.20 (p.10), 2.29 (p.13), and~7.3 (p.37).
+\url{https://arxiv.org/pdf/2406.06217}.
+
+
+\end{thebibliography}
+
+\end{document}

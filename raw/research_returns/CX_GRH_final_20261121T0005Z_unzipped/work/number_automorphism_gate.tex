@@ -1,0 +1,307 @@
+\subsection{CX-N14: proved cases of splitting a prime-field algebra from an automorphism}
+\label{finding:CX-N14}
+
+\paragraph{Finding.}
+Let \(A\) be a commutative unital \(\mathbb F_p\)-algebra
+given by an explicit basis and multiplication table, promised to
+be isomorphic to \(\mathbb F_p^d\).
+Let \(\tau\ne1\) be a supplied \(\mathbb F_p\)-algebra automorphism,
+given by its matrix, and let \(h=\operatorname{ord}(\tau)\).
+If at least one of the following conditions holds, where
+\(r\) in (ii) and (iii) is a prime divisor of \(h\),
+\[
+\begin{array}{ll}
+\textnormal{(i)} & p\leq d,\\
+\textnormal{(ii)} & r\mid(p-1),\\
+\textnormal{(iii)} & r\ne p,\quad
+ v_r\!\left(p^{s}-1\right)=1,\quad s=\operatorname{ord}_r(p),
+\end{array}
+\]
+then a nonzero zero divisor of \(A\) can be found deterministically
+in \(\operatorname{poly}(d,\log p)\) bit operations.
+Cases (i) and (iii) are unconditional.
+Case (ii) uses only \(A_D\), through CX-N02.
+For \(A=\mathbb F_p[X]/(f)\), the output yields a proper factor of
+\(f\).
+
+This is a consequence of the stated constructions and the precise
+algebraic algorithms of
+\cite[Lemma~4.2 and Proposition~4.6]{CXNIKRS08};
+it is not presented as a new discovery of those source algorithms.
+The finding identifies concrete parts of the general
+automorphism-splitting step whose analytic requirements are
+discharged or absent.
+
+\paragraph{Order recovery and reduction to prime order.}
+An automorphism of \(\mathbb F_p^d\) permutes the primitive
+idempotents, so its order divides
+\(T=\operatorname{lcm}(1,\ldots,d)\).
+The bit length of \(T\) is polynomial in \(d\), and its prime factors
+are all at most \(d\).
+Starting with \(T\), divide out a prime factor whenever the
+corresponding power of \(\tau\) is the identity.
+Matrix powering performs these tests and determines \(h\) in
+polynomial time.
+The same small-prime factorization finds the prime divisors \(r\)
+of \(h\).
+Replace \(\tau\) by \(\tau^{h/r}\) for a chosen \(r\).
+This has exact order \(r\), and \(r\leq d\).
+The integer \(s=\operatorname{ord}_r(p)\), when \(r\ne p\), and
+the valuation test in (iii) are also computable in polynomial
+time: \(s\leq r-1\), and \(p^s\) has \(O(d\log p)\) bits.
+Thus selecting a covered case requires no unprovided integer
+factorization oracle.
+
+\paragraph{Proof of case (i).}
+Here \(p\leq d\); the supplied automorphism is not needed for
+this case. In particular, it covers every characteristic-order
+case \(r=p\), since a prime divisor of \(h\) is at most \(d\).
+Choose a basis element \(b\) outside the one-dimensional scalar
+subspace \(\mathbb F_p1\).
+Under the promised product decomposition its coordinates are not
+all equal.
+For some \(a\in\mathbb F_p\), the element \(b-a1\) has a zero
+coordinate, and it is nonzero for every \(a\).
+Enumerate the \(p\leq d\) scalars and test the multiplication
+matrices of \(b-a1\) for singularity.
+A singular matrix gives a nonzero zero divisor.
+This requires polynomial time and no analytic assumption.
+\hfill\(\square\)
+
+\paragraph{Proof of case (ii).}
+Use CX-N02 to find an \(r\)-th nonresidue \(a\in\mathbb F_p^*\).
+Set \(\zeta=a^{(p-1)/r}\), of exact order \(r\).
+The prime-order permutation \(\tau\) has an \(r\)-cycle, so its
+\(\zeta\)-eigenspace is nonzero.
+Linear algebra finds
+\[
+ 0\ne z\in A,\qquad \tau(z)=\zeta z.
+\]
+If multiplication by \(z\) is singular, it is already the desired
+zero divisor. Otherwise \(z\) is a unit.
+
+Compute \(B=A^\tau=\ker(\tau-1)\) and its multiplication table by
+linear algebra.
+It is a split \(\mathbb F_p\)-algebra, with components indexed by
+the orbits of \(\tau\).
+The unit \(c=z^r\) belongs to \(B\).
+On each orbit its constant coordinate is the \(r\)-th power of
+some coordinate of \(z\), so \(c\) has an \(r\)-th root in \(B\).
+
+The elementary-algebra root algorithm in
+\cite[\S2.4, Lemma~2.6, author pp.7--9]{CXNGao01}
+finds such a \(y\in B\) in
+\(\operatorname{poly}(d,r,\log p)\) time given a primitive
+\(r^e\)-th root of unity, where \(p-1=r^e w\), \(r\nmid w\).
+The same nonresidue \(a\) supplies that root as \(a^w\).
+Repeated division by \(r\) computes \(e,w\).
+This uses no extension-field nonresidue and no factorization of
+the complementary factor \(w\).
+
+Now
+\[
+ \prod_{j=0}^{r-1}(z-\zeta^j y)=z^r-y^r=0.
+\]
+Every factor is nonzero: \(z=\zeta^j y\) would imply, on applying
+\(\tau\), that \(\zeta z=z\), contradicting invertibility of \(z\).
+At least one factor is a nonunit, since a product of units cannot
+be zero.
+Testing the \(r\leq d\) multiplication matrices finds a nonzero
+nonunit, hence a nonzero zero divisor.
+All operations have polynomial bit complexity.
+\hfill\(\square\)
+
+\paragraph{Constructive removal of fixed components.}
+For case (iii), and also as an unconditional preliminary test in
+any prime-order case, form
+\[
+ J=\bigl(a-\tau(a):a\in A\bigr)\subseteq A.
+\]
+For an explicit basis \(b_1,\ldots,b_d\), this ideal is the linear
+span of the \(d^2\) products
+\(b_j(b_i-\tau(b_i))\), so it is computable by linear algebra.
+It is nonzero because \(\tau\ne1\).
+On a component fixed by \(\tau\), every generator vanishes.
+On a moved component, an abstract primitive idempotent supported
+there proves that some generator has nonzero coordinate.
+Consequently \(J\) is exactly the ideal supported on the moved
+components.
+
+If \(J\ne A\), any nonzero element of \(J\) is a zero divisor,
+annihilated by the nonzero complementary component ideal.
+This immediately solves the problem.
+If \(J=A\), every cycle of \(\tau\) has length \(r\).
+The cyclic action is then semiregular in the sense of IKRS:
+no nonidentity power acts as the identity on a nonzero ideal.
+This establishes the required promise for the next step
+constructively; no component decomposition has been assumed as
+algorithmic input.
+
+\paragraph{Proof of case (iii).}
+We may assume the preceding test gave \(J=A\).
+Put
+\[
+ D_r=\mathbb F_p[T]/(\Phi_r(T)),\qquad
+ C=A\otimes_{\mathbb F_p}D_r,\qquad
+ \zeta=T\bmod\Phi_r(T).
+\]
+The algebra \(D_r\) is semisimple because \(p\ne r\).
+Every primitive \(r\)-th root has Frobenius orbit length
+\(s=\operatorname{ord}_r(p)\).
+It follows that \(D_r\) is a product of copies of
+\(\mathbb F_{p^s}\), and so is \(C\), since \(A\) is split over
+\(\mathbb F_p\).
+No explicit factorization of \(\Phi_r\) is needed for this argument
+or for the construction of \(C\).
+
+The valuation-one hypothesis implies that every element of
+\(r\)-power order in \(C^\times\) has order dividing \(r\).
+For \(1\leq b<r\), let \(\rho_b\) fix \(A\) and send
+\(\zeta\) to \(\zeta^b\).
+In this exponent-\(r\) case, the Teichm\"uller subgroup used in IKRS
+is exactly
+\[
+ \mathcal T_{A,r}
+ =\{u\in C^\times:u^r=1,\ 
+          \rho_b(u)=u^b\text{ for all }1\leq b<r\};
+\]
+their Teichm\"uller exponent lift is congruent to \(b\) modulo \(r\).
+
+IKRS Proposition~4.6, with the semiregular action just verified,
+constructs \(x\in\mathcal T_{A,r}\) satisfying
+\(\tau(x)=\zeta x\) in polynomial time.
+The element \(\zeta\) also belongs to \(\mathcal T_{A,r}\).
+Both have order \(r\).
+Moreover \(x\notin\langle\zeta\rangle\), since \(\tau\) fixes
+\(\zeta\) but does not fix \(x\).
+Thus \(\langle x,\zeta\rangle\cong C_r\times C_r\) is noncyclic.
+IKRS Lemma~4.2 now produces a nonzero zero divisor in
+\(A\), in \(\operatorname{poly}(r,\log|A|)\) time.
+Its conclusion is in \(A\) itself: the source proof makes an
+annihilator idempotent invariant under every \(\rho_b\), and
+\(C^{\{\rho_b\}}=A\).
+Since \(r\leq d\) and \(\log|A|=d\log p\), the required bit
+complexity follows, without GRH.
+\hfill\(\square\)
+
+\paragraph{The remaining branch of this argument.}
+Under \(A_D\), if none of the three cases applies, every relevant
+prime-order branch has
+\[
+ p>d,\qquad
+ r\nmid p(p-1),\qquad
+ s=\operatorname{ord}_r(p)>1,\qquad
+ r^2\mid p^s-1.
+\]
+The fixed-component test may still split individual instances.
+For a semiregular instance in this branch, the above proof supplies
+the element \(x\), but does not supply a coefficient
+Teichm\"uller unit of sufficient \(r\)-power order in \(D_r\),
+or an extension-field radical algorithm that replaces it.
+Gao's general automorphism-splitting Lemma~3.6 cites
+R\'onyai's 1992 result
+\cite[Lemma~3.6, author p.16]{CXNGao01};
+the exact additional analytic input in a chosen general route
+must still be tracked.
+The algebra \(A[\zeta_r]\) in IKRS has extension-field components
+when \(s>1\).
+These statements delimit this proved algorithm.
+They do not assert that a Dirichlet-only alternative for the
+remaining branch is impossible.
+
+\paragraph{A precise sufficient algebraic input for the remaining branch.}
+Let \(e=v_r(p^s-1)\), and suppose an element
+\(\eta\in D_r^\times\), in the explicit power basis of \(D_r\),
+is additionally supplied with
+\[
+ \operatorname{ord}(\eta)=r^e,\qquad
+ \rho_b(\eta)=\eta^{\omega_e(b)}
+ \quad(1\leq b<r),
+ \qquad
+ \omega_e(b)=b^{r^{e-1}}\bmod r^e.
+\]
+These promises can be checked by polynomially many algebra
+operations; in particular, exact order is checked with the two
+powers \(r^e\) and \(r^{e-1}\).
+They say that \(\eta\) belongs to the coefficient
+Teichm\"uller subgroup, with maximum possible \(r\)-power order.
+Embedded in \(C\), it also belongs to \(\mathcal T_{A,r}\)
+and is fixed by \(\tau\).
+Every \(r\)-element of \(C^\times\), including the element \(x\)
+from Proposition~4.6, has order dividing \(r^e\), because each
+field component has \(p^s\) elements.
+If \(\langle x,\eta\rangle\) were cyclic, its order would be
+\(r^e\), and its element \(\eta\) of that order would generate
+it. This would put \(x\) in \(\langle\eta\rangle\), contradicting
+\(\tau(x)=\zeta x\ne x\).
+Thus the group is noncyclic, and Lemma~4.2 gives a nonzero zero
+divisor in \(A\) in polynomial time.
+This explicitly delimits a sufficient additional input; the
+construction of such an \(\eta\) in the remaining branch is not
+claimed here under \(A_D\).
+\hfill\(\square\)
+
+\paragraph{A limit of the valuation-one argument.}
+The valuation hypothesis in CX-N14 cannot simply be deleted from
+its particular noncyclicity proof.
+For an explicit example, take \(p=17\), \(r=3\), and
+\(A=\mathbb F_{17}^3\).
+The polynomial \(T^2+T+1\) has no root over \(\mathbb F_{17}\),
+since a root would have order three in its multiplicative group
+of order sixteen. Thus
+\[
+ D=\mathbb F_{17}[T]/(T^2+T+1)\cong\mathbb F_{17^2},
+ \qquad \zeta=T\bmod(T^2+T+1).
+\]
+Here \(s=\operatorname{ord}_3(17)=2\) and
+\(v_3(17^2-1)=v_3(288)=2\).
+The cyclic group \(D^\times\) contains an element \(\eta\) of
+order nine with \(\eta^3=\zeta\): start with a generator of its
+order-nine subgroup and replace it by its inverse if necessary.
+Set
+\[
+ x=(\eta,\zeta\eta,\zeta^2\eta)\in
+ A\otimes_{\mathbb F_{17}}D=D^3,
+ \qquad
+ \tau(a_0,a_1,a_2)=(a_1,a_2,a_0).
+\]
+Then \(\tau(x)=\zeta x\), \(x\) has order nine, and
+\(x^3=(\zeta,\zeta,\zeta)\).
+The nonidentity cyclotomic automorphism \(\rho_2\) of \(D\)
+is its seventeenth-power Frobenius.
+On every element of order dividing nine, this acts by exponent
+\(17\equiv-1\pmod9\), which is also
+\(\omega_2(2)=2^3\equiv-1\pmod9\).
+It follows coordinate by coordinate that
+\(\rho_2(x)=x^{\omega_2(2)}\); hence \(x\) is in the required
+Teichm\"uller subgroup.
+Nevertheless \(\langle x,\zeta\rangle=\langle x\rangle\)
+is cyclic of order nine.
+This example satisfies the eigenunit properties used from
+Proposition~4.6 but does not force that pair to be noncyclic.
+It makes no assertion about which valid eigenunit a particular
+implementation returns, or about the impossibility of a different
+Dirichlet-only algorithm.
+\hfill\(\square\)
+
+\paragraph{Recovering a polynomial factor.}
+If \(A=\mathbb F_p[X]/(f)\), represent the resulting nonzero zero
+divisor by \(g\) of degree less than \(\deg f\).
+Then \(\gcd(f,g)\) has positive degree because multiplication by
+\(g\) is singular, and has degree less than \(\deg f\) because
+\(g\ne0\) in \(A\). The Euclidean algorithm therefore returns
+a proper factor in polynomial time.
+
+\paragraph{Geometric restatement.}
+The algebra \(A\) is the ring of functions on a constant finite
+\'etale scheme of degree \(d\).
+Its automorphism permutes the components.
+The ideal \(J\) detects the moved-component open-and-closed
+subscheme; the fixed algebra \(A^\tau\) is the orbit quotient.
+In case (ii), a prime-field eigenfunction and an invariant radical
+yield a proper component decomposition.
+In case (iii), the cyclotomic coefficient extension admits the
+stated Teichm\"uller construction, and the source descent returns
+an idempotent on the original finite \'etale scheme.
+The explicit algebra encoding and divisibility/valuation conditions
+remain part of this geometric statement.

@@ -1,0 +1,548 @@
+% CX_GRH: standalone section fragment. No preamble.
+% Bibliography keys are supplied in koiran_bibliography.tex.
+% Checked 2026-11-20 UTC by /root/koiran_gct, GPT-6 Astra Pro,
+% inherited effort (setting not exposed). Independent full-proof checks:
+% /root/eth_consequences and /root, with qualifications incorporated.
+
+\section{Koiran and Noether normalization: the exact analytic gate}
+
+The analytic hypothesis needed by Koiran's proof is RH for the Dedekind
+zeta functions of bounded solution fields. These fields can be arbitrary
+number fields. They need not be Galois over $\mathbb Q$, and passing to a
+Galois closure is unnecessary. Masullo's all-number-field Hecke-GRH claim,
+if accepted as $H_M$, supplies this hypothesis by its trivial-character
+case. The stipulated Alp\"oge Dirichlet-GRH theorem $H_A$ supplies the
+corresponding input for abelian extensions of $\mathbb Q$, but the checked
+factorization argument does not extend this to all solution fields.
+
+Write
+\[
+ H_D:\quad \text{RH holds for $\zeta_E$ for every number field $E$.}
+\]
+Throughout this section, $H_M$ and $H_A$ have the precise meanings fixed
+in the premise register. In particular, $H_M$ remains a conditional
+claim. Our conclusions under $H_M$ are transfers of established
+complexity theorems, together with the encoding and scope refinements
+proved below. They are not independent unconditional proofs of those
+theorems.
+
+\subsection{Source conventions, numerical locators, and representations}
+
+Koiran's published paper and extended report require separate locators.
+The journal version \cite[\S2, Theorem~2, pp.~276--277]{K96} displays
+$\mathrm{RP}^{\mathrm{NP}}$, followed by containment in
+$\Pi_2^{\mathrm P}$. The extended DIMACS report explicitly displays
+$\mathrm{AM}\subseteq\Pi_2^{\mathrm P}$ in \S2, Theorem~2,
+printed pp.~5--6 \cite{K96TR}. Its protocol uses public randomness before
+the nondeterministic collision witnesses. We use this report for the
+requested AM formulation. Koiran's 8 August 1997 erratum, first page,
+second bullet, corrects the lower bound in Theorem~8 and states that
+Theorem~1 and the remainder of the paper are unaffected
+\cite{K97Err}. All transfers here use the corrected version.
+
+The input in Koiran's \S1.1 is a finite list of integer polynomials in
+the Turing model, with sparse encoding. Theorems~4 and~7, Lemma~3, and
+Theorem~8 supply the bounded algebraic witness and reduction modulo
+primes. Theorem~9 and Corollary~1 in \S5, journal p.~282 and DIMACS
+printed p.~12, isolate the effective prime-ideal theorem. The relevant
+analytic result is Lagarias--Odlyzko \cite[Theorem~1.1]{LO77}, whose
+hypothesis is RH for the Dedekind zeta function of the top field.
+
+For GCT~V \cite{GCT5}, the attached \texttt{main.tex} labels and the
+numerical statements of arXiv:1209.5993v5 agree as follows. Page numbers
+in this table refer to that arXiv PDF, not the journal pagination.
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{.14\linewidth}p{.25\linewidth}p{.43\linewidth}r@{}}
+\hline
+Statement & Attached source label & Use & Page \\
+\hline
+Theorem 2.8 & \texttt{tstrongexp} & Strengthened black-box PIT, EXPH under GRH & 24--25 \\
+Proposition 2.9 & \texttt{pstandard} & Standard black-box PIT, PH under GRH & 24 \\
+Theorem 2.10 & \texttt{tkoiran} & Circuit and homogeneous HN & 24 \\
+Lemma 3.1 & \texttt{lnnl0} & Geometric normalization & 26 \\
+Lemma 3.2 & \texttt{lnoether20} & Graded integrality criterion & 26 \\
+Theorem 3.4 & \texttt{tnoetherph} & Equation-given h.s.o.p., functional PH & 27--28 \\
+Theorem 4.1 & \texttt{tnnldetexpspace} & Determinant h.s.o.p., extra equation hypothesis & 30 \\
+Theorem 4.10 & \texttt{tssopverifydet} & Determinant s.s.o.p., construction/verification & 34 \\
+Definition 5.1 & \texttt{dexpvariety} & Explicit families and succinct circuits & 35--36 \\
+Theorem 5.5 & \texttt{tnnlexplicithsop} & Explicit h.s.o.p., extra equation hypothesis & 39 \\
+Theorem 5.11(a) & \texttt{tnnlexpfull} & Border hitting sets give strict separating systems & 43 \\
+Theorem 5.12 & \texttt{tssopexplicit} & Explicit strict s.s.o.p., construction/verification & 44 \\
+Theorem 7.3 & \texttt{thsop} & Simultaneous-conjugation invariant ring & 50 \\
+\hline
+\end{tabular}
+\end{center}
+
+An h.s.o.p. has exactly $\dim R$ algebraically independent homogeneous
+parameters and makes $R$ finite over their polynomial subring. A small
+system of parameters may have polynomially many elements, with no
+optimal-cardinality requirement. The succinct small systems in GCT~V
+are specified through small circuits and are a different output regime
+from explicitly listing exponentially many ambient coordinates.
+``Functional PH'' means a construction with polynomial-time oracle
+access to a fixed level of PH. It is not a decision-language assertion
+and does not mean ordinary polynomial-time construction.
+
+The standard specification preceding GCT~V Theorem~3.4 is a homogeneous
+affine cone defined by homogeneous polynomial equations represented by
+arithmetic circuits with rational constants. The characteristic-zero
+statements here use this effective Turing representation. We do not
+assert Turing bounds for arbitrarily presented transcendental
+coefficients. The stronger refinement in CX-K05 explicitly uses
+standard grading. GCT~V Definition~5.1 also allows differing positive
+weights; the cited mixed-weight theorem is kept separate in CX-K06.
+
+More precisely, Definition~5.1 presents
+$W_n=\overline{\psi_n(K^{r_n})}\subseteq K^{m_n}$ with
+$r_n=\operatorname{poly}(n)$, $m_n=n^{\Omega(1)}$, and
+$\log m_n=\operatorname{poly}(n)$. Thus
+$\dim W_n\le r_n$, although its ambient dimension may be exponential.
+Writing $\psi_n=(f_1,\ldots,f_{m_n})$, the succinct input is a
+uniformly constructible rational circuit, of polynomial total bit
+length, for $F_n(v,x)=\sum_j f_j(v)g_j(x)$. The $g_j$ are linearly
+independent; the $f_j$ and $g_j$ are homogeneous of polynomial degree,
+and $F_n$ has polynomial total degree. Definition~5.6 measures a short output by circuits for
+$\psi_n^*(s)$, including their rational constants' bit lengths.
+Definition~5.7 calls an element strict when it is a specialization
+of a fixed homogeneous-in-$v$ component of $F_n$ at a polynomial-bit
+integer point $x=b$. Hence a strict output is encoded by polynomially
+many such points and component indices, without listing $m_n$
+ambient coefficients. The dimension bound alone does not require the
+small system's cardinality to equal the dimension.
+
+\subsection{CX-K01: the root-field gate without a Galois closure}
+\label{cx:k01}
+
+\paragraph{Statement.}
+In Koiran's proof, the analytic premise can be localized inputwise to
+RH for $\zeta_E$, where $E$ is the field of a bounded algebraic solution
+chosen using Koiran's Theorems~4 and~7. The uniform family of possible
+$E$ is unrestricted. Neither Artin holomorphy nor passage to a splitting
+field is required. If one uses $\operatorname{Li}(x)$ rather than
+Koiran's comparison with the rational prime-counting function, no
+separate RH-for-$\mathbb Q$ premise is needed at this step.
+
+\begin{proof}
+Let $S$ be a satisfiable integer polynomial system of encoding length
+$N$. Koiran's Theorems~7 and~4 give a solution
+$a=(a_1,\ldots,a_t)$, a primitive element $\theta$ for
+$E=\mathbb Q(a_1,\ldots,a_t)$, an integer minimal polynomial $R$ of
+$\theta$, and integer denominators in expressions for the $a_i$.
+The degree, logarithmic discriminant bounds, and denominator logarithms
+are all at most $2^{q(N)}$ for a fixed polynomial $q$.
+
+We can make the primitive element integral without losing that scale.
+If $R$ has leading coefficient $c$ and degree $d$, then
+$c^{d-1}R(T/c)$ is a monic integral polynomial for
+$\beta=c\theta$. Thus $\mathbb Z[\beta]\subseteq\mathcal O_E$
+has finite index, the field discriminant satisfies the usual
+polynomial-discriminant/index relation, and all $a_i$ lie in
+$\mathcal O_E[1/B]$ for an integer $B\ne0$ with singly exponentially
+bounded logarithm. Put $J=[\mathcal O_E:\mathbb Z[\beta]]$ and
+$D_E=\operatorname{disc}(E)$. The logarithm of $J$ has the same bound.
+
+Apply Lagarias--Odlyzko Theorem~1.1 to the trivial extension $E/E$.
+It is a Galois extension, regardless of whether $E/\mathbb Q$ is
+normal. Under RH for $\zeta_E$, the number $\pi_E(x)$ of prime ideals
+of $\mathcal O_E$ of norm at most $x$ satisfies
+\begin{equation}
+ \pi_E(x)=\operatorname{Li}(x)+
+ O\!\left(\sqrt{x}\log(|D_E|x^d)+\log |D_E|\right),
+ \qquad d=[E:\mathbb Q],
+ \label{eq:k01primeideal}
+\end{equation}
+with an effective absolute implied constant. This is an invocation of
+the cited analytic theorem, not a new proof of that theorem.
+
+A prime ideal of residue degree at least two and norm at most $x$
+lies above a rational prime at most $\sqrt{x}$. At most $d$ prime
+ideals lie above any one rational prime. Hence these higher-degree
+prime ideals contribute at most $d\pi_{\mathbb Q}(\sqrt{x})\le
+d\sqrt{x}$. Discard also the prime ideals above divisors of $BJ$;
+there are at most $d\omega(BJ)$, where $\omega$ counts distinct prime
+divisors. At any remaining residue-degree-one prime ideal
+$\mathfrak p$, reduction maps the solution coordinates into
+$\mathcal O_E/\mathfrak p=\mathbb F_p$. The equations of $S$ remain
+valid. Since each rational prime has at most $d$ prime ideals above it,
+the number of rational primes $p\le x$ for which $S$ is soluble is at
+least
+\begin{equation}
+ \frac{1}{d}\left[
+ \operatorname{Li}(x)
+ -O\!\left(\sqrt{x}\log(|D_E|x^d)+d\sqrt{x}+\log|D_E|\right)
+ -d\omega(BJ)\right].
+ \label{eq:k01usefulprimes}
+\end{equation}
+
+All quantities outside $x$ and $\log x$ in this expression are bounded
+by $2^{\operatorname{poly}(N)}$. Choose
+$x=2^{P(N)}$ for a sufficiently large fixed polynomial $P$.
+The main term in \eqref{eq:k01usefulprimes} then dominates its errors
+and the unconditional inconsistent-system bound in Koiran's
+Theorem~5 by the gap required in his Theorem~1. Its primes still have
+polynomial bit length. Koiran's unchanged public-coin protocol in
+DIMACS Theorem~2 therefore applies. This identifies the exact analytic
+gate and shows that no Galois closure is needed. In particular, the
+potential factorial degree growth of a splitting field is avoided.
+
+Finally, every number field $E$ has a primitive element $\theta$.
+Clear denominators in its irreducible polynomial $R$. All roots of
+$R$ generate conjugate copies of $E$. Thus the single equation
+$R(x)=0$ realizes this isomorphism type among the possible solution
+fields. The input family is therefore not confined to abelian fields.
+This observation concerns the fields occurring in the checked proof;
+it does not establish that the complexity conclusion logically
+requires $H_D$.
+\end{proof}
+
+The weaker unconditional prime-ideal estimate in
+Lagarias--Odlyzko Theorem~1.3 starts in the range
+$x\ge\exp(10d(\log|D_E|)^2)$. With singly exponential $d$ and
+$\log|D_E|$, that range need not preserve polynomial bit length of
+the primes. It therefore does not substitute into this proof with the
+same complexity bound. This is a limitation of the checked route,
+not an independence claim about Dirichlet GRH and $\mathrm{HN}\in
+\mathrm{AM}$.
+
+\subsection{CX-K02: conditional HN for circuits and nonzero homogeneous points}
+\label{cx:k02}
+
+\paragraph{Statement.}
+Under $H_M$, feasibility over $\mathbb C$ of polynomial systems given
+by arithmetic circuits with rational constants belongs to
+\[
+ \mathrm{AM}\subseteq\Pi_2^{\mathrm P}.
+\]
+The same bound holds for existence of a nonzero solution of a
+homogeneous such system. The complementary infeasibility predicates
+belong to $\Sigma_2^{\mathrm P}$.
+
+\begin{proof}
+For every number field $E$, the Hecke $L$-function of the trivial
+character is $\zeta_E$. Consequently $H_M\Rightarrow H_D$.
+Apply the corrected Koiran DIMACS Theorem~2, or CX-K01 followed by its
+unchanged hashing protocol. This gives the asserted AM bound for
+Koiran's sparse input representation.
+
+For a circuit representation, introduce a variable $y_g$ for each
+gate. A sum gate and a product gate give, respectively,
+\[
+ y_g-y_h-y_j=0,\qquad y_g-y_hy_j=0.
+\]
+A rational constant $a/b$ gives $by_g-a=0$, with $b\ne0$.
+Wire the input gates to the original variables, and set each output
+gate variable to zero. The result is a polynomial-size sparse system
+of degree at most two and polynomial total coefficient bit length.
+Every original solution has exactly one extension to gate values.
+Conversely, induction over the circuit forces all gate variables to
+equal the intended evaluations. This is a deterministic
+polynomial-time many-one reduction, which preserves AM membership.
+
+For a homogeneous system in $x_1,\ldots,x_t$, adjoin variables
+$u_1,\ldots,u_t$ and the equation
+\[
+ \sum_{i=1}^t u_i x_i=1.
+\]
+A nonzero solution admits such a $u$ by inverting a nonzero coordinate,
+and a solution to this enlarged system necessarily has $x\ne0$.
+This again is a polynomial-size circuit reduction. The standard
+containment used in Koiran is $\mathrm{AM}\subseteq\Pi_2^{\mathrm P}$;
+complementing gives $\Sigma_2^{\mathrm P}$. No containment
+$\mathrm{AM}\subseteq\Sigma_2^{\mathrm P}$ is asserted.
+\end{proof}
+
+\subsection{CX-K03: the bounded abelian-witness consequence of the stipulated Dirichlet theorem}
+\label{cx:k03}
+
+\paragraph{Statement.}
+Fix an explicit polynomial $P$. Consider the promise problem whose
+no-instances are all inconsistent rational circuit systems and whose
+yes-instances have a solution as in CX-K01 with a finite abelian
+Galois field $E/\mathbb Q$ and degree, logarithmic defining-polynomial
+discriminant, and denominator logarithms at most $2^{P(N)}$.
+Under $H_A$, this promise problem is in AM. Its verifier need not
+compute $E$, certify abelianness, or recognize the promise.
+
+\begin{proof}
+For finite abelian $E/\mathbb Q$, the Dedekind zeta function factors
+as the product of primitive Dirichlet $L$-functions attached to
+characters of $\operatorname{Gal}(E/\mathbb Q)$, with the conductor
+convention giving the correct ramified Euler factors. The trivial
+factor is $\zeta_{\mathbb Q}$. The stipulated $H_A$ therefore puts
+all nontrivial zeros of $\zeta_E$ on the critical line.
+
+On every promised yes-instance, CX-K01 now gives the useful-prime
+bound with a uniform polynomial exponent. On every no-instance,
+Koiran's Theorem~5 supplies the unconditional bound. The same gap
+and public-coin protocol used in Koiran's DIMACS Theorem~2 apply.
+The arithmetic promise proves completeness of the analytic estimate;
+the protocol never checks it. Soundness on all inconsistent systems
+is unchanged.
+\end{proof}
+
+The bound on the abelian witness is essential to the statement proved
+here. Koiran's existence of a bounded solution does not say that a
+solution satisfying an additional arithmetic property can be chosen
+with that same bound. We therefore do not replace the quantitative
+promise by the bare assertion that some abelian-valued solution exists.
+
+\subsection{CX-K04: a counterexample to replacing all solution fields by abelian fields}
+\label{cx:k04}
+
+\paragraph{Statement.}
+The satisfiable equation $x^3-2=0$ has no solution in any abelian
+extension of $\mathbb Q$. Hence forcing every witness into an abelian
+field is not an available general reduction.
+
+\begin{proof}
+Eisenstein's criterion at $2$ makes $x^3-2$ irreducible. Its real root
+generates a degree-three subfield of $\mathbb R$ that omits the two
+nonreal conjugates, so that root field is not normal over $\mathbb Q$.
+The other two root fields are conjugate to it and are likewise
+nonnormal. Every intermediate field of a finite abelian Galois
+extension is Galois over $\mathbb Q$, since every subgroup of an
+abelian group is normal. None of these root fields can be an
+intermediate field. A root in an infinite abelian extension would
+already lie in a finite abelian subextension, so that possibility
+also fails.
+\end{proof}
+
+Only the abelian-witness shortcut is refuted. This counterexample does
+not refute the possibility of a different proof of
+$\mathrm{HN}\in\mathrm{AM}$ from $H_A$ alone.
+
+\subsection{CX-K05: the functional PH level for equation-given h.s.o.p.'s}
+\label{cx:k05}
+
+\paragraph{Statement.}
+Assume $H_M$. Let
+$R=\mathbb Q[z_1,\ldots,z_t]/I$ be a nonzero standard positively
+graded algebra, with $I$ specified by homogeneous rational-constant
+arithmetic-circuit equations. Let $N$ be the total encoding length,
+including an explicit list of the ambient coordinates, so $t\le N$.
+An h.s.o.p. of rational linear forms and $\dim R$ can be constructed
+in
+\[
+ \mathrm{FP}^{\Sigma_2^{\mathrm P}}
+\]
+with polynomial output bit length. These forms remain an h.s.o.p.
+after extension of scalars to any characteristic-zero field.
+Unconditionally the construction has a polynomial-space bound.
+
+\begin{proof}
+The bounded-coefficient part of GCT~V Theorem~3.4's proof gives a
+computable polynomial $b(N)$ such that, for $d=\dim R$, there are
+$d$ integral linear forms, each coefficient having at most $b(N)$
+bits, whose common zero on the cone is only its vertex. The relevant
+size argument in that proof bounds the equation degrees by $2^N$,
+passes to a common homogeneous degree at most $2^{N^2}$, and uses a
+nonzero resultant of degree with polynomial logarithm. In particular,
+only a polynomial bit bound is needed for the coefficient grid;
+enumerating all monomials is unnecessary. Nilpotents do not change
+the set of geometric zeros or the dimension, so the same existence
+bound applies to the algebra stated here.
+
+For $L=(L_1,\ldots,L_s)$ let $\operatorname{Good}(I,L)$ mean that
+the equations generating $I$, together with $L_1=\cdots=L_s=0$,
+have no nonzero geometric solution. By CX-K02 this is a
+$\Sigma_2^{\mathrm P}$ predicate. Fix a canonical binary encoding
+of the bounded coefficient lists, padded to polynomial length. For
+any prescribed prefix, the predicate
+\[
+ \exists L\;[\text{$L$ extends the prefix and }
+                    \operatorname{Good}(I,L)]
+\]
+also belongs to $\Sigma_2^{\mathrm P}$: the bounded existential
+guess of $L$ merges with the leading existential block. In explicit
+quantifier form, if Good is $\exists u\,\forall v\,T(I,L,u,v)$
+for polynomial-time $T$, the prefix predicate is
+$\exists (L,u)\,\forall v\,[\operatorname{Prefix}(L)\land
+T(I,L,u,v)]$.
+
+Ask this predicate for $s=0,1,\ldots,t$. The least successful $s$
+equals $d$. Existence at $d$ follows from the bounded-coefficient
+argument. For $s<d$, the generalized principal ideal theorem gives
+\[
+ \dim R/(L_1,\ldots,L_s)\ge d-s>0,
+\]
+so a homogeneous cone cannot be supported only at the origin.
+For $d=0$, the empty list works.
+
+Once $s=d$ is known, recover a successful list one bit at a time.
+Extend the current prefix by zero and ask if a successful completion
+exists. Keep zero when the answer is yes, and otherwise keep one.
+The invariant that the prefix has a completion holds initially and
+is preserved by every step. There are polynomially many coefficient
+bits and polynomially many dimension queries. This proves the
+$\mathrm{FP}^{\Sigma_2^{\mathrm P}}$ bound, rather than merely a
+language membership in PH.
+
+We verify that the searched geometric condition is precisely the
+required ring condition. Good makes $R/(L)$ finite-dimensional over
+$\mathbb Q$: after extending to an algebraic closure, its spectrum is
+supported at the origin, so its homogeneous irrelevant ideal is
+nilpotent. Choose homogeneous representatives of a finite vector-space
+basis of $R/(L)$. They generate $R$ over
+$A=\mathbb Q[L_1,\ldots,L_d]$. Indeed, for any homogeneous element,
+subtract a representative of its class modulo $(L)$. The difference
+is a sum of terms $L_i r_i$, with each $r_i$ of strictly lower degree;
+induction on degree proves the assertion. Thus $R$ is a finite
+$A$-module and is integral over $A$.
+
+Conversely, if $R$ is finite over $A$, its quotient by the images of
+the $L_i$ is finite-dimensional over $\mathbb Q$, so its homogeneous
+cone has no nonzero geometric point. Finally, integral extensions
+preserve dimension, so $\dim A=d$. A nonzero kernel in
+$\mathbb Q[T_1,\ldots,T_d]\to A$ would make $\dim A<d$.
+Thus the parameters are algebraically independent and constitute an
+h.s.o.p. This reasoning permits nilpotents and several irreducible
+components.
+
+All constructed coefficients are rational. Tensoring the finite-module
+presentation and the injection of the parameter polynomial algebra
+with a field extension preserves finiteness and injectivity. Hence
+the same forms work after extending scalars.
+
+For the unconditional bound, use the homogeneous-feasibility PSPACE
+procedure cited in GCT~V Theorem~2.10. Enumerate bounded lists with
+polynomial-space counters and test them using that procedure,
+increasing $s$ until a successful list appears. All counters and
+oracle workspaces are polynomial in $N$, giving a functional PSPACE
+construction, consistent with GCT~V Theorem~3.4.
+\end{proof}
+
+The zero algebra is an excluded trivial case. The coordinate list
+condition rules out encoding exponentially many unused free variables
+by a binary dimension alone. Standard grading is needed for the
+linear homogeneous output asserted here. The oracle bound does not
+give an ordinary polynomial-time algorithm.
+
+\subsection{CX-K06: the exact EXPH transfers for succinct explicit varieties}
+\label{cx:k06}
+
+\paragraph{Statement.}
+Under $H_M$, GCT~V Theorem~5.12 gives construction and verification of
+a strict succinct small system of parameters for an explicit family
+$W_n$ as in Definition~5.1 in the functional exponential hierarchy;
+the determinant version is Theorem~4.10. For an optimal-cardinality
+h.s.o.p., the EXPH assertion in Theorem~5.5 retains the additional
+hypothesis that defining equations can be computed in
+$2^{\operatorname{poly}(n)}$ time; its determinant counterpart is
+Theorem~4.1.
+
+\begin{proof}
+As in CX-K02, $H_M$ supplies $H_D$. Every application of Koiran in
+GCT~V Theorem~2.8 concerns a finite integer or rational circuit system,
+possibly of exponential encoding length. Its arithmetic premise is
+therefore discharged by this same $H_D$.
+
+For clarity about equation access, the proof of Theorem~2.8 itself
+constructs an existential polynomial system of exponential total
+encoding length and exponentially many variables for a candidate
+border-circuit hitting set. Infeasibility of that system is the
+hitting-set predicate. The construction uses
+B\"urgisser \cite[Theorem~5.7]{Burgisser04}, as cited there; it does
+not assume an exponentially small defining ideal for $W_n$.
+The systems are constructed in deterministic exponential time.
+Their good-candidate predicates have polynomial time and quantifier
+bounds in the expanded length, with a constant number of
+alternations. In terms of $n$, those bounds become exponential,
+still with constantly many alternations. Searching a polynomial-length
+description of a hitting set, followed by the transformation in
+GCT~V Theorem~5.11(a), therefore stays in the functional exponential
+hierarchy. The same predicates give the verification assertion in
+Theorem~5.12. This proves the strict s.s.o.p. transfer and preserves
+the output conventions of the cited theorem.
+
+For the optimal-cardinality h.s.o.p. assertion, use GCT~V
+Theorem~5.5 exactly as stated. Its proof invokes the argument of
+Theorem~4.1 and hence Theorem~3.4. Their arithmetic premise is again
+$H_D$. The extra equation algorithm supplies an expanded input of
+length $L\le 2^{\operatorname{poly}(n)}$. Polynomial time and
+polynomial quantifier length in $L$ become exponential time and
+exponential quantifier length in $n$, while the number of alternations
+stays constant. In the standard-graded case this substitution is
+directly the algorithm in CX-K05. For differing positive weights,
+we invoke the stated graded theorem with its representation
+conventions; arbitrary linear combinations of generators of different
+weights are not homogeneous.
+
+Without equation access of the required time bound, this proof has
+no first step of the stated size. The unconditional elimination
+method discussed in GCT~V may produce double-exponential-length
+equations. Supplying $H_D$ does not change that representation cost.
+The extra assumption in Theorem~5.5 therefore remains part of this
+specific EXPH conclusion.
+\end{proof}
+
+We use ``exponential hierarchy'' for the union of constant levels
+defined by alternating exponential time with exponentially bounded
+quantifiers; a functional version permits the corresponding oracle
+construction. The argument proves membership at a fixed finite level
+under the cited source conventions. It does not identify general
+EXPSPACE with EXPH or claim that all normalizations require the
+equation-access hypothesis.
+
+\subsection{CX-K07: the existing unconditional PSPACE construction}
+\label{cx:k07}
+
+\paragraph{Statement.}
+Polynomial-size succinct separating normalization systems for explicit
+varieties already have unconditional polynomial-space constructions,
+independent of $H_A$ and $H_M$. Thus their EXPH construction does not
+become unconditional for the first time through either stipulated
+2026 premise. Optimal-cardinality h.s.o.p.'s and verification of
+arbitrary candidate systems remain different statements.
+
+\begin{proof}
+Forbes--Shpilka \cite[Theorem~7.1, preprint p.~21]{FS18} gives a
+polynomial-space construction of a polynomial-size rational hitting
+set, of polynomial bit complexity, for the closure of small
+bounded-degree algebraic circuits over $\mathbb R$ or $\mathbb C$.
+Its parameters are supplied in unary. Apply it to the polynomially
+bounded parameters of the explicit family and feed the resulting set
+to GCT~V Theorem~5.11(a). Polynomial-space construction followed by
+the polynomial-time output transformation remains polynomial-space.
+
+Guo--Saxena--Sinhababu \cite[Theorems~1.5 and~1.6, p.~6]{GSS19}
+explicitly record the determinant and general explicit-variety
+normalization consequences, and provide the corresponding finite-field
+treatment. These results assume no GRH and predate the new premises.
+Their outputs allow polynomial slack in the number of parameters;
+they do not assert that the cardinality equals the dimension.
+\end{proof}
+
+This is a direct composition of cited algorithms and a correction to
+the scope of the historical comparison. It is not a new discovery of
+the PSPACE algorithm. Guo--Saxena--Sinhababu uses the term e.s.o.p.
+while placing its construction in PSPACE. To avoid conflict with
+GCT~V's polynomial-time convention for that term, the conclusion here
+is stated as a polynomial-space construction of a polynomial-size
+succinct separating system. Neither that theorem nor this composition
+is an assertion about every arbitrary candidate-verification input.
+
+\subsection{Remaining gates and verification status}
+
+The full equation-given h.s.o.p. conclusion in
+$\mathrm{FP}^{\Sigma_2^{\mathrm P}}$ remains conditional on $H_M$
+in this run. From $H_A$ alone, CX-K03 establishes the explicitly
+bounded abelian-witness promise version, and CX-K04 refutes the
+unrestricted abelian-witness shortcut. No logical nonimplication
+between $H_A$ and general HN membership is claimed. The succinct
+optimal-cardinality h.s.o.p. EXPH transfer retains its equation-access
+gate; the small separating-system construction already has the
+unconditional PSPACE bound.
+
+All proofs CX-K01--CX-K07 were read end to end after drafting by
+\texttt{/root/koiran\_gct}, GPT-6 Astra Pro, on 20 November 2026 UTC;
+the inherited effort setting was not exposed. The independent agents
+\texttt{/root/eth\_consequences} and \texttt{/root} each read the
+complete proofs. Their checks found no remaining substantive gap after
+the standard-grading and output-scope qualifications were incorporated.
+Koiran's protocol and erratum, the relevant GCT statements and displayed
+proofs, and the later theorem statements were inspected. The full
+historical analytic and border-hitting-set proofs are carried as cited
+background, not claimed to have been independently reproved. Detailed
+check events and source locators accompany the ledger.
