@@ -1,0 +1,198 @@
+# A finite cross-correspondence criterion for a specified variety
+
+**Scope and input.** Fix \(k=\mathbf F_q\), a prime \(\ell\ne\operatorname{char}k\), and \(E=\overline{\mathbf Q}_\ell\), with the algebraic-number embedding used in CC-AG01. This section uses the proved abelian-sector equivalence CC-AG01, and therefore the inspected cited all-abelian Tate and numerical–homological inputs underlying AQ.15. It gives an exact remaining criterion for a specified smooth projective variety; it does not assert that its cycle condition always holds. Literature cutoff: 20 November 2026; proof checks: 21 November 2026 UTC.
+
+## The homological category used here
+
+Let \(\mathcal H_{\ell,E}(k)\) be the category of pure motives formed from **\(E\)-linear algebraic correspondences modulo the kernel of their \(E\)-valued \(\ell\)-adic cycle class**, followed by idempotent completion and inversion of the Tate object. Use the usual correction of commutativity by cohomological parity. Its realization \(R\) on the ordinary direct sum of cohomology is faithful. Indeed, Poincaré duality and the Künneth formula identify the class of a correspondence with its graded linear action; being zero under the action is exactly the equivalence relation imposed.
+
+This coefficient convention matters. For arbitrary varieties we do not identify this category with a naive scalar extension of rational homological Hom spaces without proving scalar injectivity. Nor do we begin by realizing arbitrary numerical motives. On the abelian–Artin subcategory, the numerical–homological equality and scalar-injectivity proof in AQ.15 do identify it with \(\mathcal A_{q,E}\); hence that subcategory embeds fully faithfully in \(\mathcal H_{\ell,E}(k)\).
+
+All cohomological projectors needed here are algebraic in the homological category. The characteristic polynomials of Frobenius on distinct cohomological degrees are relatively prime by their different weights. The Chinese remainder theorem produces polynomials in the Frobenius correspondence acting as identity in one degree and zero in the others. Their idempotent identities hold after realization and thus in this category. Frobenius semisimplicity is not required for this construction: the full characteristic polynomials already annihilate the relevant generalized eigenspaces. This is the finite-field construction discussed by Milne (1994), author-manuscript pp. 5–6.
+
+## CC-XC01 — An abelian target realizing the semisimplification
+
+Let \(X/k\) be nonempty, smooth and projective of pure dimension \(d\), and put
+
+\[
+ H=h_{\ell,E}(X),\qquad V=R(H)=\bigoplus_i H^i_{\mathrm{et}}(X_{\bar k},E).
+\]
+
+There exist finitely many \(Y_\nu/k\), each an abelian variety or a finite étale scheme, and an idempotent \(e\) on
+
+\[
+ T=\bigoplus_{\nu=1}^s h(Y_\nu),\qquad M=(T,e)\in\mathcal A_{q,E},
+\]
+
+such that \(W=R(M)\) is isomorphic, as a Frobenius module, to \(V^{\mathrm{ss}}\). In particular \(\dim_E W=\dim_E V\). No semisimplicity assumption on \(V\) is made.
+
+**Proof.** Deligne's Weil theorem (1974, Theorem 1.6, p. 276) gives integral algebraic Frobenius eigenvalues of weight \(i\) on \(H^i(X)\). Their products with their complex conjugates are \(q^i\), so they are \(p\)-units. Thus every eigenvalue belongs to \(W(q)\), independently of possible Jordan blocks.
+
+For an eigenvalue \(\alpha\) in a positive degree \(i\), choose \(\gamma\) with \(\gamma^i=\alpha\). As in AQ-WEIL-EXIST, \(\gamma\) is an integral weight-one Weil number. Honda's Main Theorem gives an abelian variety \(B_\alpha/k\) with eigenvalue \(\gamma\) on \(H^1\). Then \(H^i(B_\alpha^i)\) contains the Künneth summand \(H^1(B_\alpha)^{\otimes i}\) and hence the eigenvalue \(\alpha\). The eigenvalues in degree zero are roots of unity, since Frobenius permutes the finitely many geometric connected components of \(X\). A root of unity of order \(r\) occurs in \(H^0(\operatorname{Spec}\mathbf F_{q^r})\).
+
+Use enough copies of these varieties to accommodate every algebraic multiplicity in the characteristic polynomial of \(V\). This gives a finite \(T\) whose semisimple realization contains the desired eigenspaces with at least those multiplicities. Project onto the desired subspaces. This projector commutes with Frobenius; AQ.15 after coefficient extension lifts it to \(e\). Its image has exactly \(V^{\mathrm{ss}}\) as realization. No Tate twist was necessary in this construction, because all degrees of \(X\) are nonnegative and its eigenvalues are integral. \(\square\)
+
+## CC-XC02 — A determinant condition on one projected cross-cycle map
+
+Fix \(T,e,M,W\) as in CC-XC01. A codimension-\(d\) cycle \(z_\nu\) on \(X\times Y_\nu\) acts in degree zero from \(h(X)\) to \(h(Y_\nu)\). Define the projected cross-cycle map
+
+\[
+ \begin{split}
+ \kappa:\ 
+ \bigoplus_{\nu=1}^s
+ \bigl(\mathrm{CH}^d(X\times Y_\nu)_{\mathbf Q}
+              \otimes_{\mathbf Q}E\bigr)
+ &\longrightarrow \operatorname{Hom}_{E[F]}(V,W),\\
+ (z_\nu)_\nu&\longmapsto R(e)\circ R((z_\nu)_\nu).
+ \end{split}                                      \tag{CC-XC.1}
+\]
+
+Write \(I=\operatorname{im}\kappa\). It is a finite-dimensional \(E\)-linear subspace of \(\operatorname{Hom}_E(V,W)\). Choose bases of the equal-dimensional spaces \(V,W\); the condition \(\det|_I\not\equiv0\) is independent of those choices.
+
+**Theorem.** The following conditions are equivalent:
+
+1. \(H\) is isomorphic in \(\mathcal H_{\ell,E}(k)\) to an object of \(\mathcal A_{q,E}\).
+2. \(H\simeq M\) in that category.
+3. \(I\) contains an invertible linear map.
+4. The determinant polynomial is not identically zero on \(I\).
+
+When they hold, Frobenius on \(V\) is automatically semisimple. Thus the determinant condition incorporates both semisimplicity and the needed cross-correspondence algebraicity.
+
+**Complete proof.** By the definition of the homological category and the idempotent completion,
+
+\[
+ I=R\bigl(\operatorname{Hom}_{\mathcal H_{\ell,E}}(H,M)\bigr).
+                                                        \tag{CC-XC.2}
+\]
+
+The codimension in (CC-XC.1) is \(d=\dim X\), independently of \(\dim Y_\nu\): the action
+
+\[
+ a\longmapsto(p_{Y_\nu})_*\bigl(p_X^*a\smile\operatorname{cl}(z_\nu)\bigr)
+\]
+
+adds \(2d\) and then subtracts \(2d\) from cohomological degree, with cancelling Tate twists. The cycle is defined over \(k\), so its action commutes with Frobenius. Different cohomological degrees have disjoint Frobenius spectra, so a Frobenius-equivariant map between these realizations preserves the degrees.
+
+Suppose (3). By (CC-XC.2), choose \(f:H\to M\) with invertible realization \(\phi:V\to W\). Its Frobenius equivariance shows that \(V\) is semisimple, since \(W\) is. We must still prove that \(f\) has an algebraic inverse; faithfulness alone would not establish this.
+
+Poincaré duality gives an isomorphism
+
+\[
+ \delta_H:H\xrightarrow{\sim}H^\vee(-d).
+\]
+
+Transfer its realization across \(\phi\) to the Frobenius-equivariant isomorphism
+
+\[
+ b=(\phi^\vee(-d))^{-1}\,R(\delta_H)\,\phi^{-1}:
+       W\longrightarrow W^\vee(-d).               \tag{CC-XC.3}
+\]
+
+Both \(M\) and \(M^\vee(-d)\) belong to \(\mathcal A_{q,E}\). Its full realization theorem, AQ.15, therefore lifts \(b\) to an algebraic morphism
+\(\delta_M:M\to M^\vee(-d)\). This step requires fullness only inside the already established abelian sector.
+
+Now form the algebraic morphism
+
+\[
+ g=\delta_H^{-1}\circ f^\vee(-d)\circ\delta_M:
+          M\longrightarrow H.                    \tag{CC-XC.4}
+\]
+
+Using (CC-XC.3), its realization is
+
+\[
+ R(g)=R(\delta_H)^{-1}\,
+       \phi^\vee(-d)\,
+       (\phi^\vee(-d))^{-1}\,
+       R(\delta_H)\,\phi^{-1}
+       =\phi^{-1}.
+\]
+
+Faithfulness of the homological realization now gives \(gf=1_H\) and \(fg=1_M\). Thus (3) implies (2). This argument needs neither a separate surjectivity assumption for reverse cross-correspondences nor numerical–homological equivalence for \(X\).
+
+Condition (2) implies (1), and an isomorphism in (2) has invertible realization, so it implies (3). If (1) holds, say \(H\simeq M'\) with \(M'\in\mathcal A_{q,E}\), then \(V\) is semisimple. Hence \(R(M')\simeq V\simeq V^{\mathrm{ss}}\simeq W\). Full faithfulness within \(\mathcal A_{q,E}\) lifts this Frobenius-module isomorphism and its inverse to \(M'\simeq M\); therefore (1) implies (2).
+
+Finally (3) implies (4). Conversely, a nonzero polynomial on a finite-dimensional vector space over the infinite field \(E\) is nonzero at some point: after choosing coordinates this follows by induction on the number of variables, using the finitely many roots of a nonzero one-variable polynomial. Apply this to \(\det|_I\) to deduce (3) from (4). This proves all equivalences and the semisimplicity conclusion. \(\square\)
+
+**Finite witnesses.** The image \(I\) is spanned by the images of algebraic cycles and is finite-dimensional. Consequently it has a finite spanning collection of such images. Equivalently, the condition is witnessed by finitely many cycles \(z_1,\ldots,z_t\) for which
+
+\[
+ \det\!\left(\sum_{j=1}^t x_j\kappa(z_j)\right)
+\]
+
+is not the zero polynomial. This is an existence criterion; it supplies no effective method or complexity bound for finding the cycles.
+
+## CC-XC03 — The semisimple version as a finite projected Tate condition
+
+**Corollary.** If Frobenius on \(V\) is semisimple, then the conditions in CC-XC02 are also equivalent to the surjectivity of \(\kappa\).
+
+**Proof.** Under semisimplicity, \(V\simeq W\) as Frobenius modules. Surjectivity then puts such an isomorphism in \(I\), so CC-XC02 applies. Conversely, if \(H\simeq M\), transport any Frobenius-equivariant map \(V\to W\) across that isomorphism to an endomorphism of \(W\). Full faithfulness on \(M\) supplies its algebraic endomorphism. Composing gives the required morphism \(H\to M\), and (CC-XC.2) places its realization in \(I\). Thus \(\kappa\) is onto. \(\square\)
+
+One sufficient hypothesis for this projected surjectivity is the usual Tate surjectivity in **codimension \(d\)** on each of the finitely many \(X\times Y_\nu\):
+
+\[
+ \mathrm{CH}^d(X\times Y_\nu)_{\mathbf Q}
+       \otimes_{\mathbf Q}\mathbf Q_\ell
+ \twoheadrightarrow
+ H^{2d}((X\times Y_\nu)_{\bar k},\mathbf Q_\ell(d))^{F=1}.
+                                                        \tag{CC-XC.5}
+\]
+
+Indeed, Poincaré duality and Künneth identify this invariant space with the Frobenius-equivariant maps from \(H^*(X)\) to \(H^*(Y_\nu)\). Extend scalars to \(E\), sum, and project by \(e\). Every map to \(W=eR(T)\) is obtained by projecting its composition with the inclusion \(W\hookrightarrow R(T)\), so (CC-XC.5) implies the surjectivity of (CC-XC.1). This remains a condition on a specified finite family and specified codimension. It requires no Tate assertion for all varieties or all codimensions. The projected condition can be weaker than full surjectivity in (CC-XC.5).
+
+Without semisimplicity, surjectivity onto \(\operatorname{Hom}_{E[F]}(V,W)\) alone would not guarantee an invertible map: all such maps could have nontrivial kernel. The determinant criterion is the exact formulation retaining that issue.
+
+## CC-XC04 — Tate and numerical–homological equality after the criterion
+
+**Corollary.** Suppose the equivalent conditions of CC-XC02 hold for \(X\). Let \(k'/k\) be any finite extension, let \(n\ge0\), let \(A/k'\) be an abelian variety and \(S/k'\) finite étale, and put
+
+\[
+ Z=X_{k'}^{\,n}\times A\times S.
+\]
+
+For the fixed prime \(\ell\), Frobenius on \(H^*(Z_{\bar k},\mathbf Q_\ell)\) is semisimple; the rational Tate cycle map is surjective in every codimension; and numerical equivalence and \(\ell\)-adic homological equivalence agree on rational algebraic cycles of \(Z\).
+
+**Complete proof.** If \(Z\) is empty, all assertions are vacuous, so assume it is nonempty. Base change of algebraic correspondences preserves the isomorphism \(h_{\ell,E}(X)\simeq M\) proved in CC-XC02. Its base change remains an abelian–Artin motive over \(k'\). Tensoring, and then multiplying by \(h(A)\) and \(h(S)\), gives an isomorphism of \(h_{\ell,E}(Z)\) with an object of \(\mathcal A_{q',E}\), where \(q'=\#k'\). AQ.15 applies over every finite field. It proves semisimplicity after extension to \(E\), and semisimplicity over \(\mathbf Q_\ell\) follows because a characteristic-zero operator is semisimple if and only if its extension to an algebraic closure is.
+
+For codimension \(r\), fullness on the abelian sector identifies algebraic morphisms \(\mathbf 1\to h_{\ell,E}(Z)(r)\) with the Frobenius-invariant vectors of its realization. The weight decomposition shows that only cohomological degree \(2r\) contributes. Consequently
+
+\[
+ \operatorname{im}\!\left(
+ \mathrm{CH}^r(Z)_{\mathbf Q}\otimes_{\mathbf Q}E
+ \longrightarrow H^{2r}(Z_{\bar k},E(r))
+ \right)
+ =H^{2r}(Z_{\bar k},E(r))^{F=1}.                 \tag{CC-XC.6}
+\]
+
+Here is the descent to the usual \(\mathbf Q_\ell\)-valued Tate statement. Let \(C_\ell\) denote the image of
+\(\mathrm{CH}^r(Z)_{\mathbf Q}\otimes_{\mathbf Q}\mathbf Q_\ell\)
+in \(U=H^{2r}(Z_{\bar k},\mathbf Q_\ell(r))^{F=1}\).
+Flat scalar extension commutes both with that image and with the kernel defining \(F=1\) invariants. Equation (CC-XC.6) therefore says \(C_\ell\otimes_{\mathbf Q_\ell}E=U\otimes_{\mathbf Q_\ell}E\). Faithful flatness of a field extension gives \(U/C_\ell=0\). This argument uses the image subspace; it does not presume injectivity after scalar extension of rational homological classes.
+
+Write \(D=\dim Z\). The Poincaré pairing
+
+\[
+ H^{2r}(Z_{\bar k},\mathbf Q_\ell(r))
+ \times
+ H^{2D-2r}(Z_{\bar k},\mathbf Q_\ell(D-r))
+ \longrightarrow\mathbf Q_\ell
+\]
+
+is perfect and Frobenius invariant. Its restriction to the two invariant subspaces is perfect: after diagonalizing semisimple Frobenius over \(E\), eigenvalues \(\lambda,\mu\) can pair nontrivially only when \(\lambda\mu=1\); the \(1\)-eigenspace is therefore paired perfectly with the other \(1\)-eigenspace. Nondegeneracy descends to \(\mathbf Q_\ell\).
+
+If a rational cycle \(z\) is numerically trivial but \(a=\operatorname{cl}_\ell(z)\ne0\), this invariant perfect pairing provides an invariant complementary class \(b\) with \(\langle a,b\rangle\ne0\). The already proved rational Tate surjectivity expresses \(b\) as a finite \(\mathbf Q_\ell\)-linear combination of classes of rational complementary cycles. Numerical triviality makes every corresponding intersection degree zero, contradicting the chosen pairing. Thus numerical triviality implies homological triviality. The converse follows directly from compatibility of the cycle class with intersection degrees. This proves the assertion on rational cycles without assuming numerical realization at the start. \(\square\)
+
+The conclusion is for the specified prime \(\ell\) and this class of products and base extensions. It does not assert the determinant condition for arbitrary \(X\), or a comparison with another prime without an additional argument.
+
+## Relation to Milne and the remaining question
+
+Milne (1994), **Proposition 1.15 and Corollary 1.16**, author-manuscript pp. 11–12, derive semisimplicity, numerical–homological equality and full realization from the full Tate conjecture. **Proposition 2.6 and Remark 2.7**, p. 15, then give the global abelian/Artin-generation conclusion under that hypothesis. Those inspected statements do not themselves state the particular one-sided finite-target criterion above. Here we prove that criterion using only the already settled abelian-sector realization and the specified cycle condition for \(X\). No historical priority claim is made.
+
+For a particular \(X\), the unresolved requirement has therefore been made concrete: construct finitely many cross-correspondences whose projected realization has nonzero determinant. Pure numerical Frobenius eigenvalues alone do not establish this. The adopted RH and Dirichlet GRH do not provide these cycles or prove the determinant condition.
+
+## Sources and locators
+
+- Deligne, P. (1974). La conjecture de Weil: I. *Publications Mathématiques de l'IHÉS, 43*, 273–307. **Theorem 1.6, p. 276**. https://www.numdam.org/item/PMIHES_1974__43__273_0.pdf.
+- Honda, T. (1968). Isogeny classes of abelian varieties over finite fields. *Journal of the Mathematical Society of Japan, 20*(1–2), 83–95. https://doi.org/10.2969/jmsj/02010083. Main Theorem, p. 83; primary PDF: https://people.math.rochester.edu/faculty/doug/otherpapers/Honda-Ab.pdf.
+- Milne, J. S. (1994). Motives over finite fields. In U. Jannsen, S. L. Kleiman, & J.-P. Serre (Eds.), *Motives* (Proceedings of Symposia in Pure Mathematics, Vol. 55, Part 1, pp. 401–459). American Mathematical Society. https://jmilne.org/math/articles/1994aP.pdf. Author-manuscript pp. 5–6 for finite-field projectors, corrected symmetry and duality; pp. 11–12 for Proposition 1.15 and Corollary 1.16; p. 15 for Proposition 2.6 and Remark 2.7.
+- Proved internal inputs: **CC-AG01** in research/consequences_criteria_abelian_group.tex; **AQ.15/AQ-ABELIAN-RECOGNITION** and **AQ-WEIL-EXIST** in research/archive_questions.tex. Their exact all-abelian primary inputs and limits are recorded in CC-TATE01–02 and the corresponding source ledger.

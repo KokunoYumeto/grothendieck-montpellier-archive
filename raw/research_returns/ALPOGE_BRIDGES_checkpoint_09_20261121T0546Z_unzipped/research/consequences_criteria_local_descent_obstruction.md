@@ -1,0 +1,253 @@
+# A local obstruction to the gcd of all descent multiplicities
+
+## CC-AG15 — Identical exponent and index data can give a different gcd
+
+The finite fixed-object decision procedure CC-AG12 remains valid. This section rules out a proposed shortcut for the *whole* geometric multiplicity monoid. It gives an exact local obstruction which survives every root-of-unity twist, with no bound on the degree of a possible lift. The motivic formulation uses only the previously specified classification within the abelian--Artin--Tate sector. The final abelian-variety formulation uses classical Honda--Tate alone.
+
+### A finite local criterion
+
+Let a geometric simple label have stabilized representative
+
+\[
+ \xi=[\gamma,9],\qquad
+ K=\mathbf Q(\gamma^N)\quad(N\ge1).
+ \tag{CC-AG.126}
+\]
+
+Assume that \(K\) has no real embeddings, \(3\nmid[K:\mathbf Q]\), and its minimal representative exponent and geometric Schur index are
+
+\[
+ h_\xi=9,\qquad d_\xi=3.
+ \tag{CC-AG.127}
+\]
+
+Suppose there is a place \(v\mid p\) of \(K\) with all three properties:
+
+1. The geometric division-algebra invariant at \(v\) has exact order \(3\) in \(\mathbf Q/\mathbf Z\).
+2. The element \(\gamma\) is a cube in \(K_v\).
+3. The field \(K_v\) contains all twenty-seven-th roots of unity.
+
+Then the exact geometric multiplicity monoid for descent from \(\mathbf F_{p^3}\) is
+
+\[
+ H_{\mathbf F_{p^3}}(O_\xi)=3\mathbf N.
+ \tag{CC-AG.128}
+\]
+
+For the simple finite target with label \(\beta=\gamma^3\) over \(\mathbf F_{p^{27}}\), the exact monoid for base extension from \(\mathbf F_{p^3}\) is also \(3\mathbf N\).
+
+**Complete proof of the criterion.** Let \(\alpha\in W(p^3)\) have germ \(\xi\), after Galois conjugation if needed. For some \(N\ge1\),
+
+\[
+ \alpha^{9N}=\gamma^{3N}.
+ \tag{CC-AG.129}
+\]
+
+Stabilization gives \(K\subset L=\mathbf Q(\alpha)\). Write \(c=[L:K]\). Taking the relative norm in (CC-AG.129) shows that \(N_{L/K}(\alpha)\) represents the germ at exponent \(3c\). By \(h_\xi=9\),
+
+\[
+ 3\mid c.
+ \tag{CC-AG.130}
+\]
+
+The field \(L\) has no real embeddings. At any place \(z\mid p\), its finite-source invariant is
+
+\[
+ -\frac{\operatorname{ord}_z(\alpha)}
+           {\operatorname{ord}_z(p^3)}[L_z:\mathbf Q_p]
+ =-\frac{\operatorname{ord}_z(\alpha)f_z}{3}
+                                      \quad\bmod\mathbf Z,
+ \tag{CC-AG.131}
+\]
+
+where the valuation is normalized to have value group \(\mathbf Z\) and \(f_z\) is the residue degree over \(\mathbf F_p\). All other invariants vanish. Thus its source index \(d_\alpha\) is either \(1\) or \(3\), and the exact geometric multiplicity is
+
+\[
+ r_\alpha=\frac{c d_\alpha}{3}.
+ \tag{CC-AG.132}
+\]
+
+Suppose \(3\nmid r_\alpha\). Equations (CC-AG.130)--(CC-AG.132) force
+
+\[
+ v_3(c)=1,\qquad d_\alpha=1.
+ \tag{CC-AG.133}
+\]
+
+The element \(\theta=\alpha^3/\gamma\in L\) is a root of unity, since \(\theta^{3N}=1\). Factor it uniquely as
+\(\theta=\theta_3\theta_{3'}\), where the two factors have respectively power-of-three and prime-to-three orders. Both factors are integral powers of \(\theta\), so belong to \(L\).
+
+Write the order of \(\theta_3\) as \(3^m\). If \(m\ge1\), the cyclotomic degree formula gives
+\(2\cdot3^{m-1}\mid[L:\mathbf Q]\). Since \(3\nmid[K:\mathbf Q]\), (CC-AG.133) implies \(m\le2\). Thus
+
+\[
+ \theta_3^9=1.
+ \tag{CC-AG.134}
+\]
+
+If \(n\) is the order of \(\theta_{3'}\), choose an integer \(u\) with \(3u\equiv1\pmod n\), and put \(\rho=\theta_{3'}^u\in L\). Then \(\rho^3=\theta_{3'}\). Define
+
+\[
+ \alpha'=\alpha/\rho,\qquad L'=\mathbf Q(\alpha').
+\]
+
+It satisfies
+
+\[
+ (\alpha')^3=\gamma\theta_3,
+ \qquad (\alpha')^{27}=\gamma^9.
+ \tag{CC-AG.135}
+\]
+
+Consequently \(K\subset L'\subset L\), by stabilization, and \(\alpha'\) has the same Weil conditions and the same germ as \(\alpha\): multiplication by a root of unity changes neither. The norm argument (CC-AG.130) therefore gives \(3\mid[L':K]\). Because \([L':K]\) divides \(c\), it follows that
+
+\[
+ v_3([L':K])=1,\qquad 3\nmid[L:L'].
+ \tag{CC-AG.136}
+\]
+
+Now use the specified place \(v\). Choose \(b\in K_v\) with \(b^3=\gamma\). The roots of
+\(X^{27}-\gamma^9\) are exactly \(b\zeta\), with \(\zeta^{27}=1\), and all lie in \(K_v\) by assumption. They are distinct, since the characteristic is zero. The minimal polynomial of \(\alpha'\) over \(K\) divides this polynomial, so it splits into distinct linear factors over \(K_v\). Hence
+
+\[
+ L'\otimes_K K_v\simeq K_v^{[L':K]}.
+ \tag{CC-AG.137}
+\]
+
+This is the completion-factor correspondence of Milne (2020), Propositions 8.1--8.2, p. 136; it also follows directly by applying the Chinese remainder theorem to the split minimal polynomial.
+
+Choose one resulting place \(w\) of \(L'\), so \(L'_w=K_v\). The same completion decomposition for \(L/L'\), and equality of vector-space dimensions, give
+
+\[
+ \sum_{z\mid w}[L_z:L'_w]=[L:L'].
+ \tag{CC-AG.138}
+\]
+
+The right side is prime to \(3\). Therefore at least one summand is prime to \(3\). For that \(z\), the source invariant equals \([L_z:K_v]\) times the geometric invariant at \(v\). Indeed the germ equation makes their normalized slopes equal, and the local degree multiplies in the tower. Its order is consequently still \(3\). This contradicts \(d_\alpha=1\) in (CC-AG.133).
+
+We have proved that every source simple contributes a multiple of \(3\). Positive direct sums do too, since the base-change decomposition has one geometric orbit for each source simple and no cancellation. Thus the geometric monoid is contained in \(3\mathbf N\).
+
+For attainment, take any root \(\alpha_0^3=\gamma\). It is a Weil \(p^3\)-number of the correct weight and germ. Stabilization gives \(K\subset\mathbf Q(\alpha_0)\); its relative degree is at most \(3\), while (CC-AG.130) makes it divisible by \(3\). It is exactly \(3\). At \(v\), the polynomial \(X^3-\gamma\) splits completely, using the local cube root and \(\mu_3\subset K_v\). Thus there is a local degree-one place above \(v\), at which the source invariant has order \(3\). Equation (CC-AG.131) bounds the index by \(3\), so it is exactly \(3\). Its multiplicity is \(3\cdot3/3=3\). Direct sums give every nonnegative multiple of \(3\), proving (CC-AG.128).
+
+For the finite target, stabilization and the unchanged normalized slopes give centre \(K\), index \(3\), and geometric base change equal to the one simple object \(S_\xi\). A finite-target source multiplicity must therefore belong to the geometric monoid. Conversely \(\alpha_0^9=\gamma^3=\beta\), so the source just constructed already gives three copies of this finite target. Direct sums prove the asserted finite-target equality. This completes the proof of the criterion. \(\square\)
+
+### A completely explicit instance
+
+Take
+
+\[
+ p=163,\qquad s^2=-23,\qquad K=\mathbf Q(s),\qquad
+ \omega=(1+s)/2,
+\]
+
+\[
+ \eta=818+399s=419+798\omega,
+ \qquad \gamma=p^3\bar\eta,
+ \qquad \xi=[\gamma,9].
+ \tag{CC-AG.139}
+\]
+
+Then every hypothesis of the criterion holds. In particular
+
+\[
+ h_\xi=9,\qquad d_\xi=3,\qquad
+ H_{\mathbf F_{163^3}}(O_\xi)=3\mathbf N.
+ \tag{CC-AG.140}
+\]
+
+**Complete verification.** The integral basis and norm formula for \(K\) were proved in CC-AG14:
+\(\mathcal O_K=\mathbf Z[\omega]\) and
+\(N(x+y\omega)=x^2+xy+6y^2\). Direct calculation gives
+
+\[
+ N(\eta)=818^2+23\cdot399^2=4330747=163^3,
+ \qquad \operatorname{Tr}(\eta)=1636\equiv6\pmod{163}.
+ \tag{CC-AG.141}
+\]
+
+The two roots of \(X^2+23\) modulo \(163\) are \(125\) and \(38\). At \(s=125\), \(\eta\) vanishes; at \(s=38\), it equals \(6\). Thus \(p\) splits as \(\mathfrak p\bar{\mathfrak p}\), with
+\(\mathfrak p=(p,s-125)\), and
+
+\[
+ (\eta)=\mathfrak p^3,
+ \qquad (\gamma)=\mathfrak p^3\bar{\mathfrak p}^{\,6},
+ \qquad \gamma\bar\gamma=p^9.
+ \tag{CC-AG.142}
+\]
+
+The two roots are simple, so their Hensel lifts also identify both completions with \(\mathbf Q_{163}\).
+
+The ideal \(\mathfrak p\) is not principal. A generator would have norm \(163\). Writing its coordinates in the integral basis would give
+
+\[
+ (2x+y)^2=652-23y^2.
+\]
+
+It suffices to test \(|y|\le5\), since larger absolute values give a negative right side. For \(|y|=0,1,2,3,4,5\), the values are
+
+\[
+ 652,\quad629,\quad560,\quad445,\quad284,\quad77,
+\]
+
+none of which is a square. The class of \(\mathfrak p\) therefore has exact order \(3\), by (CC-AG.142).
+
+Exactly as can also be checked directly here, the valuations of \(\gamma/\bar\gamma\) are nonzero. No positive power of \(\gamma\) is rational, so \(K\) is its stabilized centre. A representative in \(K\) at exponent \(n\) would have ideal
+\(\mathfrak p^{n/3}\bar{\mathfrak p}^{2n/3}\). Integrality of its valuations requires \(3\mid n\), and the exact order-three class then requires \(9\mid n\). The displayed \(\gamma\) realizes exponent \(9\), so \(h_\xi=9\).
+
+The slopes at the two \(p\)-adic places are \(1/3\) and \(2/3\), with local degree one. The geometric invariants have exact order \(3\) at both, and all others vanish, since \(K\) is imaginary quadratic. Thus \(d_\xi=3\). Also \(3\nmid[K:\mathbf Q]=2\).
+
+It remains to check the local cube and roots-of-unity conditions, not merely the ideal valuations. At \(\mathfrak p\), the unit \(\gamma/p^3=\bar\eta\) has residue \(6\). At \(\bar{\mathfrak p}\), the unit \(\gamma/p^6=1/\eta\) has residue \(1/6\). The explicit congruence
+
+\[
+ 35^3\equiv6\pmod{163}
+ \tag{CC-AG.143}
+\]
+
+and simple-root Hensel lifting show that these units are cubes in their respective \(\mathbf Q_{163}\) completions. Since their extracted powers of \(p\) have exponents \(3\) and \(6\), \(\gamma\) is itself a cube at both places.
+
+Finally,
+
+\[
+ 6^{27}\equiv1\pmod{163},\qquad
+ 6^9\equiv58\not\equiv1\pmod{163}.
+ \tag{CC-AG.144}
+\]
+
+Thus \(6\) has exact order \(27\) modulo \(163\). The root of \(X^{27}-1\) at \(6\) is simple. Its Hensel lift in \(\mathbf Q_{163}\) still has order exactly \(27\), since its reduction does. Its powers give all twenty-seven-th roots of unity. The criterion applies, proving (CC-AG.140) and its finite-target counterpart. All numerical identities and the finite nonsquare test are also checked by the accompanying exact integer script. \(\square\)
+
+### What this rules out, and the classical threefold version
+
+Put \(t=h_\xi/d_\xi\). The norm argument always supplies the necessary divisibility
+\(t/\gcd(t,a)\mid r\) for source exponent \(a\). In this example,
+
+\[
+ t=3,\qquad a=3,\qquad
+ \frac{t}{\gcd(t,a)}=1,\qquad
+ \gcd H_{\mathbf F_{163^3}}(O_\xi)=3.
+ \tag{CC-AG.145}
+\]
+
+Consequently the proposed equality between that gcd and the necessary norm divisor is false. Moreover CC-AG14 has the same values \(h=9,d=3,a=3\), and the same stabilized quadratic field \(K\), but its monoid has gcd \(1\). These integer and centre data alone do not determine the answer: the local root-of-unity and root conditions matter. This does not invalidate the finite test CC-AG12, whose full local-index computation retains those conditions.
+
+The element \(\gamma\) in (CC-AG.139) is an integral weight-one Weil \(163^9\)-number. Classical Honda--Tate therefore gives a simple abelian threefold \(A/\mathbf F_{163^9}\), with Frobenius characteristic polynomial
+
+\[
+ \bigl(X^2-1636\cdot163^3 X+163^9\bigr)^3.
+ \tag{CC-AG.146}
+\]
+
+It is geometrically simple: every positive power of \(\gamma\) still has centre \(K\) and index \(3\), so the argument using Tate's isogeny criterion in the classical corollary to CC-AG14 applies at every finite extension. Let \(I_{\rm geom}\) be the set of integers \(r\ge0\) for which \(A_{\bar{\mathbf F}_{163}}^r\) is isogenous to the base extension of an abelian variety over \(\mathbf F_{163^3}\). Let \(I_{27}\) be the analogous set requiring an isogeny already over \(\mathbf F_{163^{27}}\) to \(A_{\mathbf F_{163^{27}}}^r\). Then
+
+\[
+ I_{\rm geom}=I_{27}=3\mathbf N.
+ \tag{CC-AG.147}
+\]
+
+Here \(r\ge0\), and the zero case has its usual meaning. To see that no motivic assumption is used in (CC-AG.147), decompose any source abelian variety up to isogeny into simple factors. A factor with this geometric isogeny type has Weil label \(\alpha\) and dimension \([L:\mathbf Q]d_\alpha/2\), hence contributes \(c d_\alpha/3\) copies of the geometric threefold. The complete arbitrary-twist argument above proves that every such number is divisible by \(3\), using only classical local indices. Conversely, \(\alpha_0^3=\gamma\) gives a simple nine-dimensional source variety whose ninth Frobenius power has the characteristic polynomial of \(A_{\mathbf F_{163^{27}}}^{3}\). Tate's finite-field isogeny criterion realizes the required isogeny, and products give all multiples. Thus both assertions are consequences of classical Honda--Tate and the explicit arithmetic, independent of any higher-codimension Tate or all-CM Hodge input.
+
+## Primary references and exact locators
+
+- Milne, J. S. (1994). Motives over finite fields. In U. Jannsen, S. Kleiman, & J.-P. Serre (Eds.), *Motives* (Proceedings of Symposia in Pure Mathematics, Vol. 55, Part 1, pp. 401--459). American Mathematical Society. Version used: corrected author manuscript, November 2, 2019. https://www.jmilne.org/math/xnotes/Seattle1.pdf . Exact locators: geometric-Frobenius convention p. 17; Theorems 2.15--2.16, p. 18; Theorems 2.18--2.19, p. 20. Reused only on the established abelian-generated category.
+- Milne, J. S. (2020, July 19). *Algebraic number theory* (Version 3.08) [Author course notes]. https://www.jmilne.org/math/CourseNotes/ANT.pdf . Exact locators: relative field norm, Proposition 2.19, pp. 31--32; cyclotomic degree, Theorem 6.4(a), p. 99; simple-root Hensel lifting, Proposition 7.31, p. 120; completions and factorization, Propositions 8.1--8.2 and the proof of 8.2, p. 136.
+- Tate, J. (1966). Endomorphisms of abelian varieties over finite fields. *Inventiones Mathematicae, 2*, 134--144. https://doi.org/10.1007/BF01404549 . Exact locator: Theorem 1(c), p. 139. Primary scan: https://pazuki.perso.math.cnrs.fr/index_fichiers/Tate66.pdf .
+- Tate, J. (1971). Classes d'isogénie des variétés abéliennes sur un corps fini (d'après T. Honda). In *Séminaire Bourbaki: Vol. 1968/69, exposés 347--363* (Exposé 352, pp. 95--110). Springer-Verlag. https://www.numdam.org/article/SB_1968-1969__11__95_0.pdf . Exact locator: Theorem 1(i)--(ii), equations (1)--(2), and Remark 2, p. 96. The classical endomorphism-algebra invariant has the opposite sign to the stated motivic convention, with identical index denominators.

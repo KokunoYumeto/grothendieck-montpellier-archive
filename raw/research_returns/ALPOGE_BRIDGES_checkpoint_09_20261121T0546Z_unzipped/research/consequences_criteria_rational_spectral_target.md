@@ -1,0 +1,540 @@
+# A rational abelian-sector target for arbitrary smooth projective cohomology
+
+The remaining cross-cycle question in cote 15 can be put against one
+**rational** target determined by the Frobenius polynomials of the
+specified variety. The rational orbit and Schur-index obstructions in
+CC-AG08 automatically vanish for the actual cohomology of a smooth
+projective variety. The reason is crystalline Frobenius at the finite
+places and the hard-Lefschetz pairing at the real places. This is a
+deduction from those established results and the previously scoped
+abelian-sector classification, with no historical-priority claim.
+
+The arithmetic divisibility statement below is unconditional. Its
+interpretation inside the rational abelian--Artin--Tate category uses
+exactly the all-abelian inputs already recorded in CC-TATE01--02,
+AQ-ABELIAN-RECOGNITION, and CC-AG08. No Tate assertion, numerical
+realization, or Frobenius semisimplicity is assumed for the specified
+variety.
+
+## Primary inputs and conventions
+
+Let \(k=\mathbf F_q\), \(q=p^a\), and let \(X/k\) be a nonempty smooth
+projective scheme, pure of dimension \(d\). Use geometric Frobenius
+\(F\) on étale cohomology. For \(0\leq i\leq 2d\), put
+\[
+ P_i(t)=\det(t-F\mid H^i_{\mathrm{et}}
+                  (X_{\bar k},\mathbf Q_\ell))\in\mathbf Z[t].
+                                                        \tag{CC-XC.R11}
+\]
+This is the monic characteristic polynomial, rather than the
+\(\det(1-tF)\) convention. It is independent of \(\ell\ne p\); its roots
+are nonzero integral \(q\)-Weil numbers of weight \(i\).
+
+The precise primary results used are:
+
+* Deligne (1974), Theorem 1.6, printed p. 276, gives the finite-field
+  Weil theorem in the smooth projective case. Katz and Messing (1974),
+  Theorem 1, printed p. 74, identify the characteristic polynomials in
+  a reasonable Weil cohomology with the étale ones. Their immediately
+  preceding paragraph explicitly includes crystalline cohomology.
+  Their Corollary 1(2), p. 75, also transfers hard Lefschetz to those
+  theories.
+* Put \(K_0=W(k)[1/p]\), and let \(\sigma\) be Witt Frobenius, of order
+  \(a\). The rational crystalline cohomology
+  \(C_i=H^i_{\mathrm{cris}}(X/W(k))[1/p]\) is a finite-dimensional
+  \(K_0\)-space with an invertible \(\sigma\)-semilinear Frobenius
+  \(\varphi\). Thus \(\varphi^a\) is \(K_0\)-linear. The Stacks Project,
+  Remark 60.24.13, tag 07MY, gives perfectness, and Theorem 60.26.4,
+  tag 07N5, gives Frobenius invertibility after inverting \(p\).
+  Their hypotheses hold for the structure crystal over
+  \((W(k),(p),\gamma)\); Situation 60.26.1 and Definition 60.26.2,
+  tags 07N2--07N3,
+  specify the Frobenius lift and the nondegenerate structure.
+* Deligne (1980), Theorem 4.1.1, printed p. 217, gives hard Lefschetz
+  for a smooth projective variety of pure dimension over an
+  algebraically closed field and an ample line bundle. We use its
+  ordinary Poincaré-duality consequence, with an ample line bundle
+  already defined over \(k\).
+* The rational simple-object index formula is the previously scoped
+  CC-AG08: Milne (1994), corrected author version of 2 November 2019,
+  Proposition 2.8, p. 14, and Theorems 2.15--2.16, p. 18. Here
+  \(\operatorname{End}\) means the endomorphism algebra of the
+  cohomological motive, with the geometric-Frobenius convention
+  specified on Milne's printed p. 17.
+
+For clarity, Katz--Messing state their argument for an absolutely
+irreducible smooth projective variety. The polynomial equality needed
+here also follows for our \(X\). Partition its geometric connected
+components into Frobenius orbits. For an orbit of length \(s\), one
+component is defined over \(\mathbf F_{q^s}\) and is geometrically
+connected and smooth, hence geometrically irreducible. In either
+cohomology theory, after extending coefficients, the orbit contributes
+the direct sum of the \(s\) component spaces, cyclically permuted by
+\(F\), with \(F^s\) on a chosen component equal to its
+\(\mathbf F_{q^s}\)-Frobenius. In the crystalline statement this
+means the linear base change of \(\varphi^a\), whose \(s\)-th
+power agrees with the \(\varphi^{as}\) for the enlarged constant
+field; it does not mean a semilinear extension acting on the
+new coefficient field. A cyclic block operator \(B\) satisfies
+\[
+ \det(t-B)=\det(t^s-B^s\mid\text{one component});
+                                                        \tag{CC-XC.R12}
+\]
+one sees this by using \(B\) to identify successive component spaces,
+which gives the usual block companion matrix. Katz--Messing on the
+chosen component proves the equality on the orbit, and then on their
+direct sum. The crystalline coefficient extension used here is
+proper-smooth base change: Stacks, Remark 60.24.9, tag 07MU, modulo
+\(p^n\), followed by perfect \(p\)-adic completion as in 07MY. We
+therefore have, without assuming semisimplicity,
+\[
+ \det(t-\varphi^a\mid C_i)=P_i(t).
+                                                        \tag{CC-XC.R13}
+\]
+
+## CC-XC11: automatic Schur-index divisibility and its rational target
+
+Factor the monic rational polynomial as
+\[
+ P_i(t)=\prod_f f(t)^{m_f},
+                                                        \tag{CC-XC.R14}
+\]
+where the \(f\) are distinct monic irreducible polynomials in
+\(\mathbf Q[t]\) and \(m_f>0\). Choose a root \(\alpha_f\), put
+\(K_f=\mathbf Q(\alpha_f)\), and normalize every \(p\)-adic valuation
+by \(v_p(p)=1\). Define
+\[
+ d_f=\operatorname{lcm}_v
+ \operatorname{den}\begin{cases}
+ i/2,&v\text{ real},\\[2pt]
+ -[K_{f,v}:\mathbf Q_p]\,v_p(\alpha_f)/a,&v\mid p,\\[2pt]
+ 0,&\text{otherwise}.
+ \end{cases}
+                                                        \tag{CC-XC.R15}
+\]
+The entries are taken in \(\mathbf Q/\mathbf Z\), and the denominator
+of zero is one. These are exactly the local invariants and Schur
+index of the rational abelian-sector simple object labelled by the
+Galois orbit of \(\alpha_f\).
+
+**Theorem.** For every factor in (CC-XC.R14),
+\[
+                         d_f\mid m_f.                  \tag{CC-XC.R16}
+\]
+Consequently there is a unique rational isomorphism class
+\(M_i(X)\in\mathcal A_q\), pure of weight \(i\), with polynomial
+\(P_i(t)\). If \(S_f\) is the rational simple with label \(f\), it is
+\[
+ M_i(X)=\bigoplus_f S_f^{\oplus m_f/d_f},\qquad
+ M(X)=\bigoplus_{i=0}^{2d}M_i(X).
+                                                        \tag{CC-XC.R17}
+\]
+For every \(\ell\ne p\), its realization is isomorphic to the
+semisimplification of the graded Frobenius module \(H^*(X_{\bar k},
+\mathbf Q_\ell)\). The target admits a rational presentation
+\[
+ M(X)=(T,e),\qquad
+ T=\bigoplus_{\nu=1}^{s}h(Y_\nu),
+                                                        \tag{CC-XC.R18}
+\]
+where every \(Y_\nu/k\) is an abelian variety or a finite étale
+scheme and \(e\) is a rational numerical projector. By the established
+numerical--homological equality on this sector, it is a projector
+in every corresponding homological realization. No Tate twist is
+needed in (CC-XC.R18).
+
+The unique isomorphism class in (CC-XC.R17) is a spectral target. The
+statement does not identify \(h(X)\) with it.
+
+### Complete proof
+
+**The \(p\)-adic denominators.** Fix \(f\), and fix a place \(v\mid p\)
+of \(K_f\). The place corresponds to an irreducible factor
+\(f_v\in\mathbf Q_p[t]\) of \(f\), of degree
+\[
+ n_v=\deg f_v=[K_{f,v}:\mathbf Q_p].
+\]
+Set \(F_{\mathrm{cris}}=\varphi^a\) and choose an integer \(B\) at
+least \(\dim_{K_0} C_i\). On \(C_i\) take the entire
+\(\mathbf Q_p\)-primary block
+\[
+ U_v=\ker\bigl(f_v(F_{\mathrm{cris}})^B\bigr).
+                                                        \tag{CC-XC.R19}
+\]
+Its dimension is \(m_f n_v\): after an algebraic closure of the
+coefficient field it is precisely the sum of the generalized
+eigenspaces for the \(n_v\) distinct roots of \(f_v\), each of
+algebraic multiplicity \(m_f\).
+
+It is essential here to take the whole \(f_v\)-block, not an
+individual factor over \(K_0\). Since the coefficients of \(f_v\)
+lie in \(\mathbf Q_p\), they are fixed by \(\sigma\). Also
+\(\varphi F_{\mathrm{cris}}=F_{\mathrm{cris}}\varphi\).
+Consequently (CC-XC.R19) is preserved by \(\varphi\) and by its inverse.
+In a \(K_0\)-basis of \(U_v\), write \(\varphi=A\sigma\) with
+\(A\in\mathrm{GL}_{m_fn_v}(K_0)\). Then
+\[
+ \det(F_{\mathrm{cris}}\mid U_v)
+   =\det A\cdot\sigma(\det A)\cdots\sigma^{a-1}(\det A)
+   =N_{K_0/\mathbf Q_p}(\det A).
+                                                        \tag{CC-XC.R20}
+\]
+The extension \(K_0/\mathbf Q_p\) is unramified, so
+\(v_p(\det A)\) is an integer and \(\sigma\) preserves the valuation.
+All roots of the irreducible \(f_v\) have the same \(p\)-adic
+valuation as \(\alpha_f\) at \(v\). Taking valuations of
+(CC-XC.R20) gives
+\[
+ m_f n_v\,v_p(\alpha_f)=a\,v_p(\det A),\qquad
+ m_f\,\frac{[K_{f,v}:\mathbf Q_p]v_p(\alpha_f)}a
+        \in\mathbf Z.                                 \tag{CC-XC.R21}
+\]
+Thus each finite-place denominator in (CC-XC.R15) divides \(m_f\).
+This argument used the characteristic polynomial, with its full
+algebraic multiplicities, and never discarded a possible Jordan block.
+
+**A linear algebra fact for the real places.** Suppose \(V\) is a
+finite-dimensional vector space over an algebraically closed
+characteristic-zero field, \(B\) a nondegenerate alternating form,
+and \(F\) an invertible operator satisfying
+\[
+ B(Fx,Fy)=c\,B(x,y),\qquad c\ne0.
+                                                        \tag{CC-XC.R22}
+\]
+If \(V_\lambda\) denotes the generalized \(\lambda\)-eigenspace,
+then
+\[
+ B(V_\lambda,V_\mu)=0\quad\hbox{unless }\lambda\mu=c.
+                                                        \tag{CC-XC.R23}
+\]
+Indeed the adjoint of \(F\) is \(cF^{-1}\). If
+\(\lambda\mu\ne c\), then \(cF^{-1}-\lambda\) is invertible
+on \(V_\mu\). For \(x\in V_\lambda\), choose \(N\) with
+\((F-\lambda)^N x=0\). Every \(y\in V_\mu\) equals
+\((cF^{-1}-\lambda)^N z\) for some \(z\in V_\mu\), and the
+adjoint identity gives
+\[
+ B(x,y)=B((F-\lambda)^N x,z)=0.
+ \]
+The generalized eigenspaces sum to all of \(V\), so the
+nondegeneracy of \(B\) implies that its pairing between
+\(V_\lambda\) and \(V_{c/\lambda}\) is perfect. In particular,
+if \(\lambda^2=c\), the restriction to \(V_\lambda\) is a
+nondegenerate alternating form, and
+\[
+                         \dim V_\lambda\text{ is even}. \tag{CC-XC.R24}
+\]
+This proof does not require \(F\) to be diagonalizable.
+
+**Odd-degree cohomology.** First suppose \(i\le d\) is odd. Choose
+an ample line bundle on \(X\) over \(k\), and view its first Chern
+class as \(L\in H^2(X_{\bar k},\mathbf Q_\ell)\) after trivializing
+the Tate twist. Then \(F(L)=qL\). Hard Lefschetz and Poincaré
+duality show that
+\[
+ B_i(x,y)=\operatorname{Tr}(x\smile y\smile L^{d-i})
+                                                        \tag{CC-XC.R25}
+\]
+is nondegenerate and alternating on \(H^i\). The trace means the
+sum of the component traces when \(X_{\bar k}\) is disconnected;
+this pairing is still perfect. Frobenius acts on a component's
+top cohomology by \(q^d\) and permutes the components. Therefore
+\[
+ \begin{aligned}
+ q^{d-i}B_i(Fx,Fy)
+ &=\operatorname{Tr}
+       \bigl(F(x\smile y\smile L^{d-i})\bigr)\\
+ &=q^d B_i(x,y),
+ \end{aligned}
+ \qquad B_i(Fx,Fy)=q^iB_i(x,y).                         \tag{CC-XC.R26}
+\]
+Apply (CC-XC.R24) after extending coefficients to
+\(\overline{\mathbf Q}_\ell\). Every occurrence of
+\(\lambda=q^{i/2}\) or \(\lambda=-q^{i/2}\) has even
+algebraic multiplicity.
+
+For odd \(i>d\), put \(j=2d-i<d\). Hard Lefschetz gives the
+isomorphism
+\[
+ L^{i-d}:H^j\xrightarrow{\sim}H^i,\qquad
+ F_i L^{i-d}=q^{i-d}L^{i-d}F_j.                         \tag{CC-XC.R27}
+\]
+It carries generalized eigenspaces for \(\beta\) to those for
+\(q^{i-d}\beta\), preserving their dimensions. The real
+eigenvalues \(\pm q^{i/2}\) therefore correspond to
+\(\pm q^{j/2}\), whose multiplicities are even by the preceding
+case.
+
+Now if \(K_f\) has a real embedding, a real conjugate of
+\(\alpha_f\) must be one of \(\pm q^{i/2}\), by its Weil absolute
+value. Its irreducible polynomial divides \(t^2-q^i\).
+When this splits over \(\mathbf Q\), each relevant linear factor
+has even exponent in odd degree. When it is irreducible, the
+centre is the real quadratic field \(\mathbf Q(q^{i/2})\);
+each of its two roots has generalized eigenspace dimension \(m_f\),
+so \(m_f\) is again even. For even \(i\), the real invariant
+\(i/2\) is zero and imposes no condition. Thus every real-place
+denominator in (CC-XC.R15) also divides \(m_f\).
+
+The other invariants vanish. Taking their least common multiple
+proves (CC-XC.R16).
+
+**The rational motive and its effective presentation.** Each root
+\(\alpha\) is a \(p\)-unit: both \(\alpha\) and its complex
+conjugate \(q^i/\alpha\) are algebraic integers, so their
+valuations at a prime away from \(p\) are nonnegative and sum
+to zero. Thus the roots belong to the Weil-label group of
+CC-AG08. They have constant multiplicity \(m_f\) on each rational
+Galois orbit. Equation (CC-XC.R16) is exactly the second
+divisibility condition in CC-AG08. That theorem gives (CC-XC.R17),
+including uniqueness of the rational isomorphism class. Its
+realization is semisimple, with characteristic polynomial \(P_i\).
+Over any characteristic-zero field, two semisimple operators with
+the same characteristic polynomial are isomorphic as modules
+over the polynomial ring: decompose them by irreducible factors,
+whose simple modules are the corresponding residue fields. This
+proves the assertion about every \(\ell\)-adic semisimplification.
+
+For the presentation without twists, consider first a root
+\(\alpha\) in positive degree \(i\). Choose \(\gamma\) with
+\(\gamma^i=\alpha\). It is integral, and every complex conjugate
+has absolute value \(q^{1/2}\), so it is a weight-one integral
+\(q\)-Weil number. Honda's Main Theorem supplies an abelian
+variety \(B/k\) with \(\gamma\) on \(H^1\). The Künneth summand
+\(H^1(B)^{\otimes i}\) of \(H^i(B^i)\) then has eigenvalue
+\(\alpha\). In degree zero, every root is a root of unity,
+and a root of order \(n\) occurs in
+\(h(\operatorname{Spec}\mathbf F_{q^n})\).
+
+Thus each simple \(S_f\) appearing in (CC-XC.R17) occurs in the
+rational semisimple decomposition of the cohomology motive of
+one such abelian variety or finite étale scheme. Indeed its
+realization contains a label in the orbit \(f\), and the
+classification CC-AG08 identifies the unique rational simple
+with that orbit. Take enough copies to accommodate the desired
+integer number \(m_f/d_f\) of each rational simple. Semisimplicity
+then supplies a rational summand projector on their finite
+direct sum \(T\). On this sector numerical and homological
+equivalence agree, so a rational cycle representative of the
+projector gives (CC-XC.R18) in every realization. This completes
+the proof. \(\square\)
+
+The index \(d_f\) and the abstract rational isomorphism class
+(CC-XC.R17) can be computed from the factorizations of \(P_i\),
+number-field local degrees and valuations. This assertion does
+not say that those polynomials alone print equations for the
+varieties \(Y_\nu\) or cycles representing \(e\); a presentation
+in the already understood abelian sector is additional concrete
+data to be chosen. Once chosen, it remains fixed throughout the
+cross-cycle search below.
+
+## CC-XC12: one fixed rational target and a finite cycle certificate
+
+Fix a rational presentation (CC-XC.R18) of the target just proved
+to exist. Write \(r_\nu=\dim Y_\nu\), treating components of a
+finite étale \(Y_\nu\) as dimension zero. For rational cycles
+\[
+ z_\nu\in\mathrm{CH}^d(X\times Y_\nu)_{\mathbf Q},\qquad
+ w_\nu\in\mathrm{CH}^{r_\nu}(Y_\nu\times X)_{\mathbf Q},
+                                                        \tag{CC-XC.R28}
+\]
+let
+\[
+ f=e\circ z:h(X)\longrightarrow M(X),\qquad
+ g=w\circ e:M(X)\longrightarrow h(X).
+                                                        \tag{CC-XC.R29}
+\]
+These expressions refer first to correspondences; the numerical
+projector \(e\) is used through its homological class on the
+abelian sector. The codimensions in (CC-XC.R28) give degree-zero
+cohomological maps in both directions.
+
+**Theorem.** The following conditions are equivalent.
+
+1. For some \(\ell\ne p\), the object \(h_{\ell,E}(X)\), with
+   \(E=\overline{\mathbf Q}_\ell\), belongs to the abelian sector
+   of the homological category used in CC-XC02.
+2. For some such \(\ell\), the determinant is nonzero on the image
+   of the single projected cross-cycle map
+   \[
+   \bigoplus_\nu
+       \mathrm{CH}^d(X\times Y_\nu)_{\mathbf Q}\otimes E
+     \longrightarrow
+       \operatorname{Hom}_{E[F]}
+       \bigl(H^*(X_{\bar k},E),R_E(M(X))\bigr),\quad
+         z\longmapsto R_E(ez).
+                                                        \tag{CC-XC.R30}
+   \]
+3. There are rational cycles (CC-XC.R28) for which
+   \[
+       \det(gf\mid H^i(X_{\bar k},\mathbf Q_\ell))\ne0
+          \quad\text{for every }0\le i\le2d.
+                                                        \tag{CC-XC.R31}
+   \]
+   Here the determinants are rational numbers independent of
+   \(\ell\ne p\), so the condition can be checked at no chosen
+   cohomological prime.
+4. Rational correspondences give mutually inverse isomorphisms
+   between \(h(X)\) and this fixed \(M(X)\) in every
+   \(\ell\)-adic homological realization, \(\ell\ne p\).
+
+The certificates in (3) are finite and their verification is the
+intersection-number procedure of CC-XC05. Enumerating only the
+cycles (CC-XC.R28), with \(T\) and \(e\) fixed, is a one-sided
+procedure that halts exactly when these conditions hold. It
+does not decide nonmembership by failing to halt.
+
+### Complete proof
+
+CC-XC11 shows that the fixed \(R_E(M(X))\) is precisely the
+semisimple target required in CC-XC02, with the same dimension in
+each degree. Its proof uses only a presentation by abelian
+varieties and finite étale schemes, which (CC-XC.R18) provides.
+CC-XC02 therefore applies verbatim to (CC-XC.R30): (1) and (2)
+are equivalent. If they hold, an invertible projected map has
+an algebraic inverse in the \(E\)-coefficient homological
+category, by the duality argument proved there.
+
+Write such an inverse pair as finite sums of rational cycle
+representatives with coefficients in \(E\):
+\[
+ f_E=\sum_{u=1}^{b}c_u\,e z_u,\qquad
+ g_E=\sum_{v=1}^{c}d_v\,w_v e.
+ \]
+The projector is already rational. The product
+\[
+ D(x,y)=\prod_{i=0}^{2d}
+       \det\!\left(
+       \left.\sum_{u,v}x_u y_v\,w_v e z_u
+       \right|H^i(X_{\bar k},E)\right)
+                                                        \tag{CC-XC.R32}
+ \]
+is a polynomial in finitely many variables over \(E\), nonzero
+at the coefficients of \(f_E,g_E\). A nonzero polynomial over
+an extension field of \(\mathbf Q\) cannot vanish on every
+rational tuple: induct on the number of variables, using the
+infinitely many rational values for the last variable. Choose
+such a tuple. It gives rational \(f,g\) satisfying (CC-XC.R31)
+at the selected prime.
+
+For these rational correspondences, CC-XC05 supplies the
+prime-independent rational characteristic polynomial of \(gf\)
+in every degree. Explicitly, the rational Frobenius polynomials
+\(P_i\) are pairwise coprime by their weights; the Chinese
+remainder theorem, using the full characteristic polynomials
+\(P_i\) including their repeated factors, gives rational polynomials in Frobenius
+acting as cohomological projectors. Their construction needs
+no semisimplicity. The intersection trace of the composition
+of such a projector with \((gf)^n\), including its parity sign,
+gives the trace in the single degree \(i\). Newton's identities
+then give that degree's characteristic polynomial. All these
+intersection degrees are rational and independent of
+\(\ell\), as proved in CC-XC05. Therefore the nonzero
+determinants just obtained are nonzero in every realization.
+This proves (3).
+
+Conversely suppose (3). On every degree, Cayley--Hamilton
+expresses the inverse of \(gf\) as a polynomial in \(gf\)
+with rational coefficients: the constant term of its
+characteristic polynomial is nonzero. Combine these inverse
+polynomials using the rational cohomological projectors just
+described. This gives a rational correspondence \(u\) acting
+as \((gf)^{-1}\) in every degree and every
+\(\ell\ne p\). Set \(g'=ug\). Then \(g'f=1\) on every
+realization of \(X\). Since the dimensions of \(X\) and
+\(M(X)\) agree in each degree by CC-XC11, \(f\) is an
+isomorphism there and \(fg'=1\) on \(M(X)\) as well.
+Identities of these linear actions are identities in each
+homological category, by its definition. Thus (4) holds.
+Condition (4) implies (1), completing the equivalences.
+
+Finally, rational algebraic cycles over the fixed finite field,
+with rational coefficients, can be enumerated as in CC-XC07.
+The fixed numerical projector is represented by a fixed rational
+matrix of cycles on the products \(Y_\nu\times Y_\mu\). For each pair of lists
+(CC-XC.R28), the finite compositions, intersections, traces,
+and Newton identities are exactly the certificate verifier
+CC-XC05. A successful certificate proves (3). If (1) holds,
+the finite rational specialization above provides some
+certificate in the enumeration, so the procedure eventually
+finds it. No step asserts termination when (1) fails.
+\(\square\)
+
+## What this removes and what remains
+
+For arbitrary smooth projective \(X/\mathbf F_q\), neither
+Galois-orbit multiplicities nor local Schur indices are an
+additional rational-target obstruction: (CC-XC.R16) proves
+their required divisibilities. The spectral target is uniquely
+fixed before searching for cross-correspondences. The remaining
+condition is a finite positive certificate on \(X\) and that
+target, rather than a search for a target isomorphism class.
+
+The proof has not made Frobenius on \(H^*(X)\) semisimple:
+semisimplicity follows only after the determinant certificate,
+because then \(H^*(X)\) is isomorphic to the semisimple
+abelian-sector realization. Nor has it supplied the
+cross-cycles for all \(X\). The arbitrary-variety
+Tate/effectivity question therefore retains this explicit
+cycle-existence gate. Projectivity is used in the real-place
+argument through hard Lefschetz; the proof is not asserted
+for arbitrary smooth nonproper schemes or without that
+pairing. The already proved nonexistence of a
+\(\mathbf Q\)-valued fibre functor on the whole rational
+abelian category also remains unchanged.
+
+## APA bibliography and exact locators
+
+Deligne, P. (1974). La conjecture de Weil: I.
+*Publications Mathématiques de l'IHÉS, 43*, 273--307.
+Theorem 1.6, p. 276.
+https://www.numdam.org/item/PMIHES_1974__43__273_0.pdf
+
+Deligne, P. (1980). La conjecture de Weil: II.
+*Publications Mathématiques de l'IHÉS, 52*, 137--252.
+Theorem 4.1.1, p. 217; the paired odd-Betti-number consequence
+is Corollary 4.1.5, p. 218.
+https://publications.ias.edu/sites/default/files/Number40.pdf
+
+Honda, T. (1968). Isogeny classes of abelian varieties over
+finite fields. *Journal of the Mathematical Society of Japan,
+20*(1--2), 83--95. Main Theorem, p. 83.
+https://doi.org/10.2969/jmsj/02010083
+
+Katz, N. M., & Messing, W. (1974). Some consequences of the
+Riemann hypothesis for varieties over finite fields.
+*Inventiones Mathematicae, 23*, 73--77.
+Theorem 1, p. 74; Corollary 1, p. 75; Theorem 2, p. 76,
+for the cohomological-projector input already used in CC-XC05.
+https://web.math.princeton.edu/~nmk/old/katzmessing.pdf
+
+Milne, J. S. (1994). Motives over finite fields. In U. Jannsen,
+S. L. Kleiman, & J.-P. Serre (Eds.), *Motives* (Proceedings
+of Symposia in Pure Mathematics, Vol. 55, Part 1, pp. 401--459).
+American Mathematical Society. Corrected author version,
+2 November 2019: Propositions 2.4, 2.6, 2.8,
+pp. 13--14; endomorphism convention, p. 17;
+Theorems 2.15--2.16, p. 18. The full-Tate hypothesis in its
+Section 2 is used here only through the already justified
+abelian-sector restriction CC-AG08.
+https://www.jmilne.org/math/xnotes/Seattle1.pdf
+
+The Stacks Project Authors. (2026). *The Stacks Project*.
+Remark 60.24.9 (base change), tag 07MU;
+Remark 60.24.13 (perfectness), tag 07MY;
+Situation 60.26.1, tag 07N2;
+Definition 60.26.2, tag 07N3;
+Theorem 60.26.4 (Frobenius after inverting \(p\)), tag 07N5.
+https://stacks.math.columbia.edu/tag/07MU ;
+https://stacks.math.columbia.edu/tag/07MY ;
+https://stacks.math.columbia.edu/tag/07N2 ;
+https://stacks.math.columbia.edu/tag/07N3 ;
+https://stacks.math.columbia.edu/tag/07N5
+
+Proved internal inputs: CC-AG08 (rational abelian-sector
+classification), CC-XC02 (one projected determinant
+criterion), and CC-XC05--07 (finite rational-cycle
+certificates and their one-sided enumeration). The external
+computability and intersection-theory inputs to the last
+three results are retained with their exact locators in
+research/consequences_criteria_cycle_certificates.tex.

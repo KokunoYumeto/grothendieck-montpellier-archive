@@ -1,0 +1,450 @@
+# Effective construction of the fixed rational spectral target
+
+CC-XC11 identifies the rational isomorphism class of the target
+for a smooth projective variety from its Frobenius polynomials.
+Here the remaining choice of a concrete abelian-sector
+presentation is also made effective. This construction always
+terminates on the stated spectral input. The subsequent search
+for cross-cycles from the arbitrary variety retains its
+one-sided termination condition.
+
+The inputs from the established abelian sector are precisely
+Tate surjectivity, numerical--homological equality, and
+Frobenius semisimplicity on abelian varieties and their
+products, as recorded in AQ-ABELIAN-RECOGNITION and
+CC-TATE01--02. The algorithm never assumes any of these
+properties for the arbitrary input variety.
+
+## CC-XC14: a terminating concrete-target algorithm
+
+Fix \(q=p^a\). Suppose a finite list
+\[
+ P_0(t),\ldots,P_N(t)\in\mathbf Z[t]                       \tag{CC-XC.E1}
+\]
+has the following properties. Each polynomial is monic,
+has nonzero constant term, and all its roots are
+integral \(q\)-Weil numbers of weight equal to its index.
+The polynomial \(1\), with no roots, is permitted.
+For every rational irreducible factor \(f^{m_f}\) of
+\(P_i\), the Schur index \(d_f\) from (CC-XC.R15)
+divides \(m_f\). These are promised conditions on the
+input; they are satisfied by the Frobenius polynomials
+of every smooth projective \(X/\mathbf F_q\), by
+CC-XC11, and also by the polynomials of a proper smooth
+scheme supplied as input, by CC-XC13.
+
+If a smooth scheme has components of different dimensions,
+split it into the finitely many open-and-closed unions of
+components of each fixed dimension. These unions are defined
+over \(k\), and their degreewise polynomials multiply to the
+polynomials of the whole scheme. The index \(d_f\) depends
+only on \(f,q,i\), so its divisibility survives addition of
+the factor multiplicities. The final cross-cycle procedure
+below is applied separately to these pure-dimensional pieces;
+the whole object belongs to the abelian sector exactly when
+each piece does, since that sector is closed under finite
+direct sums and direct summands.
+
+**Theorem.** There is a terminating algorithm that
+constructs finitely many explicitly presented abelian
+varieties and finite étale schemes \(Y_\nu/\mathbf F_q\),
+together with a rational matrix of algebraic cycles
+representing a numerical idempotent
+\[
+ e\in\operatorname{End}_{\mathcal A_q}(T),\qquad
+ T=\bigoplus_\nu h(Y_\nu),                               \tag{CC-XC.E2}
+\]
+such that, for every \(\ell\ne p\),
+\[
+ \det(t-F\mid R_\ell(T,e)^i)=
+ \begin{cases}
+ P_i(t),&0\le i\le N,\\
+ 1,&i>N.
+ \end{cases}                                           \tag{CC-XC.E3}
+\]
+Here \(R_\ell(T,e)^i\) is the degree-\(i\) realization;
+the projector is valid in every such realization.
+The object \((T,e)\) is the unique rational spectral
+target specified by the list.
+
+For a smooth projective input variety \(X/\mathbf F_q\)
+given by equations, one may first compute its
+Frobenius polynomials and then run this algorithm.
+After these two terminating steps, the fixed-target
+cross-cycle search in CC-XC12 halts exactly when the
+cohomological motive of \(X\) belongs to the abelian
+sector. This conclusion does not assert termination
+of that last search for every \(X\), and gives no
+complexity or cycle-degree bound.
+
+### Complete proof and algorithm
+
+**1. Computational operations and numerical ranks on
+abelian products.** A smooth projective geometrically
+integral variety over a finite field is called a
+“nice variety” in Poonen--Testa--van Luijk (2015).
+Their Proposition 8.1, author p. 10, computes its
+zeta function. Separating its factors by their
+weights then computes the degreewise Frobenius
+polynomials, as in the proof of Proposition 8.2
+on that page. Every abelian
+variety, including every product used below, meets
+these hypotheses.
+
+Let \(Z/k\) be an abelian variety of dimension
+\(D\), and fix \(0\le r\le D\). Write
+\(\operatorname{Num}^r(Z)_{\mathbf Q}\) for rational
+codimension-\(r\) cycles over \(k\) modulo numerical
+equivalence. Its dimension is the computable integer
+\[
+ R_r(Z)=
+ \operatorname{ord}_{t=q^r}
+       \det(t-F\mid H^{2r}(Z_{\bar k},\mathbf Q_\ell)).
+                                                        \tag{CC-XC.E4}
+\]
+Indeed, semisimplicity identifies the right side
+with the dimension of the Frobenius-invariant
+subspace of \(H^{2r}(Z)(r)\). Tate surjectivity
+and numerical--homological equality, with the
+scalar-injectivity statement in AQ.15, identify
+that space with
+\(\operatorname{Num}^r(Z)_{\mathbf Q}\otimes\mathbf Q_\ell\).
+Only the known abelian sector is used in this
+rank computation.
+
+The complementary intersection pairing between
+\(\operatorname{Num}^r(Z)_{\mathbf Q}\) and
+\(\operatorname{Num}^{D-r}(Z)_{\mathbf Q}\) is
+perfect. By the definition of numerical
+equivalence it is nondegenerate on both sides;
+the spaces are finite-dimensional, so it is a
+perfect pairing and their dimensions agree.
+Enumerate \(R=R_r(Z)\) cycles \(z_1,\ldots,z_R\)
+of codimension \(r\) and \(R\) cycles
+\(w_1,\ldots,w_R\) of complementary codimension
+until
+\[
+             \det(z_u\cdot w_v)_{1\le u,v\le R}\ne0.
+                                                        \tag{CC-XC.E5}
+\]
+Such a pair of lists exists because cycles over
+\(k\) span both numerical spaces. Each candidate
+is finitely checkable: Poonen--Testa--van Luijk,
+Lemma 8.7, author p. 11, computes the intersection
+numbers. Exhaustive enumeration therefore
+terminates. When \(R=0\), use empty lists.
+
+The classes of the \(z_u\) form a rational basis.
+For any further rational cycle \(z\), the
+intersection numbers \(z\cdot w_v\), followed by
+inversion of the rational matrix in (CC-XC.E5),
+give its coordinates in that basis. In
+particular, numerical equality is now decidable
+for cycles of this codimension on \(Z\).
+The argument is the finite-dimensional
+intersection-matrix method appearing in
+Poonen--Testa--van Luijk, Theorem 8.15(b),
+author p. 13, specialized here to a known
+arithmetic numerical rank. It does not call
+their conditional algorithm on an arbitrary
+variety.
+
+**2. Effective numerical endomorphisms of an
+abelian sum.** Let
+\[
+                   T_+=\bigoplus_{\nu=1}^{s}h(A_\nu)
+                                                        \tag{CC-XC.E6}
+\]
+be a finite sum of abelian varieties over \(k\).
+For every ordered pair \((\nu,\mu)\), apply
+Step 1 to
+\[
+ Z=A_\nu\times A_\mu,\qquad r=\dim A_\nu.
+ \]
+This computes a rational cycle basis for the
+block
+\(\operatorname{Hom}(h(A_\nu),h(A_\mu))\)
+in the numerical category, with a finite
+coordinate test for every cycle in the block.
+Taking all blocks gives a rational basis for
+the finite-dimensional algebra
+\(\operatorname{End}(T_+)\).
+
+Composition is also computable. Represent
+the two correspondences by cycles, pull them
+to the triple product, intersect, and push
+forward to the first and third factors.
+All these varieties are smooth projective.
+The effective Chow-intersection operation
+is Poonen--Testa--van Luijk, Remark 8.18,
+author p. 14; the pullbacks along projections
+and proper pushforwards are computable from
+equations and generic degrees, as in the
+complete verifier CC-XC05. Step 1 gives
+the numerical coordinates of the resulting
+cycle. Thus for each rational element \(e\)
+of this algebra the test
+\[
+                              e^2=e                     \tag{CC-XC.E7}
+\]
+is a finite exact rational calculation.
+No test of numerical equivalence on a
+product involving the arbitrary \(X\) is
+being used.
+
+**3. Testing the image polynomial of a
+projector.** Suppose \(e\) passes (CC-XC.E7).
+Numerical--homological equality on the
+abelian products makes its realization an
+idempotent in every \(\ell\)-adic realization.
+All cycles are defined over \(k\); consequently
+this idempotent commutes with Frobenius.
+
+Compute the degreewise Frobenius polynomials
+of every \(A_\nu\), and the rational
+cohomological projectors \(\pi_{i,\nu}\)
+by the Chinese remainder construction in
+CC-XC05. Here \(F_\nu\) is the correspondence
+acting as geometric Frobenius, represented
+by the transpose graph of the relative
+\(q\)-power endomorphism in the cohomological
+correspondence convention. For \(n\ge0\), the rational number
+\[
+ s_{i,n}=(-1)^i\sum_\nu
+   \operatorname{Tr}_{\mathrm{corr}}
+       \bigl(\pi_{i,\nu}F_\nu^n e_{\nu\nu}\bigr)
+                                                        \tag{CC-XC.E8}
+\]
+is computable by intersection with the
+diagonal. The notation
+\(\operatorname{Tr}_{\mathrm{corr}}\) is the
+ordinary intersection trace, which is the
+alternating cohomological trace. Hence the
+factor \((-1)^i\) in (CC-XC.E8) gives exactly
+\[
+ s_{i,n}=\operatorname{Tr}
+       (F^n\mid\operatorname{im}e\cap H^i(T_+)).
+ \]
+For the direct sum the trace is the sum
+of the diagonal block traces; off-diagonal
+blocks do not contribute. The formula
+holds at every \(\ell\ne p\) and is
+independent of it.
+
+In particular \(s_{i,0}\) is the integer
+rank of the image in degree \(i\). First
+test that it equals the desired degree
+of \(P_i\), using the value zero outside
+the specified degrees. For a matched
+rank \(b_i\), the \(b_i\) further traces
+\(s_{i,1},\ldots,s_{i,b_i}\) determine the
+characteristic polynomial of Frobenius
+on that image by Newton's identities.
+Compare it with \(P_i\). Test every degree
+up to the maximum of \(N\) and twice the
+largest dimension of the \(A_\nu\).
+The realization is zero above the latter
+bound, so any nonconstant prescribed
+polynomial in that range rejects the
+candidate. All larger degrees vanish
+on both sides. This gives
+a finite exact test of every required
+image polynomial. For a zero desired
+rank, the rank test suffices.
+
+**4. Explicit degree-zero target.**
+Every integral weight-zero Weil number
+is a root of unity, by Kronecker's
+theorem, so factor
+\[
+                       P_0(t)=\prod_n\Phi_n(t)^{b_n},
+                                                        \tag{CC-XC.E9}
+\]
+with finitely many nonzero \(b_n\).
+One can find the indices \(n\) by
+enumerating cyclotomic polynomials and
+matching the irreducible factors;
+the root-of-unity property guarantees
+termination. For each \(n\), the
+Frobenius on
+\(h(\operatorname{Spec}\mathbf F_{q^n})\)
+is a regular cyclic permutation with
+characteristic polynomial \(t^n-1\).
+Choose by the rational Chinese remainder
+algorithm a polynomial \(u_n(t)\) that
+is \(1\) modulo \(\Phi_n(t)\) and \(0\)
+modulo every other cyclotomic factor
+of \(t^n-1\).
+
+The explicit rational correspondence
+\(u_n(F)\), a rational linear
+combination of Frobenius graphs,
+is an idempotent on this finite étale
+scheme and its image has polynomial
+\(\Phi_n(t)\). The identity holds as
+a correspondence here: \(F^n=1\)
+and the permutation action of
+\(\mathbf Q[t]/(t^n-1)\) is faithful.
+Take \(b_n\) copies. This constructs
+a concrete rational Artin projector
+\((T_0,e_0)\) with polynomial \(P_0\).
+It is zero if \(P_0=1\).
+
+**5. Exhaustive search and termination.**
+Use the effective enumeration of
+abelian varieties and finite lists
+established in CC-XC07: enumerate
+projective equations together with
+explicit identity, inverse and group
+law on finite affine covers, and
+retain the smooth geometrically
+connected commutative group schemes.
+The finite algebraic verifications
+and their exhaustiveness are explained
+in that proof. For each finite list
+\(T_+\), Steps 1--2 terminate and
+give a finite rational basis of
+\(\operatorname{End}(T_+)\). Enumerate
+all rational coefficient tuples in
+that basis, retain the idempotents,
+and apply Step 3. The desired
+positive-degree list is \(P_i\)
+for \(1\le i\le N\), with polynomial
+\(1\) in degree zero and outside
+that range. Dovetail these searches
+over all lists so that each finite
+stage in each search is eventually
+executed.
+
+The promised index divisibilities
+give the unique rational object
+\(\bigoplus_{i\ge1,f}S_f^{m_f/d_f}\)
+by CC-AG08. The effective-presentation
+argument in CC-XC11 proves that it
+is a rational summand of a finite
+sum of abelian varieties: take a
+weight-one root for each positive
+weight eigenvalue, apply Honda,
+and take tensor powers and enough
+copies. This argument needs only
+the promised spectral conditions,
+not the existence of an \(X\).
+Consequently some enumerated list
+contains it, and some rational
+idempotent in the computed basis
+has exactly the required image
+polynomials. The dovetailed search
+eventually accepts this projector.
+
+Return
+\[
+                     (T,e)=(T_0\oplus T_+,e_0\oplus e).
+                                                        \tag{CC-XC.E10}
+\]
+The construction satisfies
+(CC-XC.E3), and uniqueness follows
+from CC-AG08. If every positive-degree
+polynomial is \(1\), this
+step can instead return \(T_+=0\)
+immediately. The completely zero
+list returns the zero object.
+
+Finally, if a smooth projective
+variety \(X\) is the original
+input, its Frobenius polynomials
+are computable by CC-XC05 using
+Poonen--Testa--van Luijk,
+Propositions 8.1--8.2. CC-XC11
+verifies all the promises, so
+the construction just proved
+terminates and supplies the
+concrete target required by
+CC-XC12. That theorem then
+proves the exact one-sided
+termination assertion for the
+remaining cross-cycle search.
+\(\square\)
+
+## Scope of the algorithmic conclusion
+
+The guaranteed stage uses cycle
+searches only on products of
+abelian varieties, where the
+relevant ranks and equivalence
+relations are already known.
+It produces equations and
+rational projector cycles,
+rather than only a list of
+Weil labels. The search on
+products involving \(X\)
+begins only after that target
+has been fixed, and its
+universal termination is not
+proved. In particular this
+theorem does not assert an
+algorithm deciding arbitrary
+Tate classes or numerical
+equivalence on arbitrary
+smooth projective varieties.
+
+When proper nonprojective
+smooth cohomology polynomials
+are supplied as spectral
+input, the target construction
+still applies by CC-XC13.
+The final assertion about
+computing from projective
+equations and applying the
+fixed-target cycle verifier
+retains its projective scope.
+
+## APA bibliography and exact locators
+
+Poonen, B., Testa, D., &
+van Luijk, R. (2015).
+Computing Néron--Severi
+groups and cycle class
+groups. *Compositio
+Mathematica, 151*(4),
+713--734.
+https://doi.org/10.1112/S0010437X14007878
+Inspected author manuscript:
+https://math.mit.edu/~poonen/papers/compute_ns.pdf
+Exact author-page locators:
+§7.1, pp. 6--7;
+Propositions 8.1--8.2,
+p. 10; Lemma 8.7,
+p. 11; Theorem 8.15(b),
+p. 13; Remark 8.18,
+p. 14. Theorem 8.36(b),
+p. 19, has its own
+conditional hypotheses and
+is not used on arbitrary
+\(X\) in this construction.
+
+Honda, T. (1968). Isogeny
+classes of abelian varieties
+over finite fields.
+*Journal of the Mathematical
+Society of Japan, 20*(1--2),
+83--95. Main Theorem, p. 83.
+https://doi.org/10.2969/jmsj/02010083
+
+Milne, J. S. (2020).
+*Algebraic number theory*
+(Version 3.08, 19 July 2020).
+Corollary 5.6, printed p. 87,
+for the Kronecker
+root-of-unity criterion.
+https://www.jmilne.org/math/CourseNotes/ANT.pdf
+
+The exact all-abelian
+primary inputs and their
+scope are those in
+CC-TATE01--02 and AQ.15.
+The complete rational
+classification, cycle
+enumeration, and
+intersection-trace proofs
+are CC-AG08, CC-XC05--07,
+and CC-XC11--13.

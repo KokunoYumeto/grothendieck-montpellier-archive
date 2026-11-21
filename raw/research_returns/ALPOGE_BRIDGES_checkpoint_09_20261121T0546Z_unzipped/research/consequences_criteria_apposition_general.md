@@ -1,0 +1,604 @@
+# Cote 123: ordered apposition quadruples in every simple type
+
+**Scope.** Let \(G\) be a connected complex simple **adjoint** algebraic group. Write \(r=\operatorname{rank}G\), \(h\) for its Coxeter number, \(W\) for its Weyl group, and \(z=|Z(G_{\mathrm{sc}})|\). Automorphisms are complex algebraic automorphisms. An ordered apposition pair \((T,T')\) means that some principal element \(c\in T\) has order \(h\), satisfies \(Z_G(c)^\circ=T\), normalizes \(T'\), and induces a Coxeter element on \(\mathfrak t'\). This is the inspected Kostant convention used in CC-AP01; the order matters. The full centralizer of \(c\) need not be connected.
+
+This module answers the classification, inner-rigidity, and existence-of-an-outer-invariant-class questions on cote 123, physical PDF page 22, footer 21, for every simple type. It also answers the “some opposite Borels” question for arbitrary two maximal tori. It does not claim that the outer-invariant class is unique or canonical. The stronger “all containing Borels are opposite” question is settled throughout the classical types, by CC-AP03 and CC-APG06–08 below; no classification of that property in the exceptional types is inferred. No RH or GRH input is used; no historical novelty is asserted. Literature cutoff: 20 November 2026. Proof and source inspection: 21 November 2026 UTC.
+
+| ID | Conclusion |
+|---|---|
+| CC-APG01 | All ordered apposition pairs form one \(G\)-orbit. Their tori intersect trivially. Every quadruple has trivial inner stabilizer, and its full automorphism group is exactly the stabilizer of its inner-conjugacy class in \(\operatorname{Out}(G)\). |
+| CC-APG02 | An explicit finite root-datum group \(K=A_h\times_{(\mathbf Z/h)^\times}N_W(\langle C\rangle)\) classifies the quadruples by its free action on \(W\times W\). Its order is \(hz\varphi(h)\). The two counts in the letter are \(|W|^2/(hz\varphi(h))\) and, with a generating principal element, \(|W|^2/(hz)\). |
+| CC-APG03 | Given any Borel subgroup \(B\) and any maximal torus \(S\), some Borel containing \(S\) is opposite to \(B\). |
+| CC-APG04 | An inner-conjugacy class of apposition quadruples invariant under all outer automorphisms exists if and only if the simple type is not \(A_{2m}\), \(m\geq1\). In every allowed type there is a quadruple whose full automorphism group is \(\operatorname{Out}(G)\). |
+| CC-APG05 | For every quadruple, explicit membership tests in \(A_h\) and \(N_h\), with equality of their multipliers, determine its full automorphism subgroup of \(\operatorname{Out}(G)\). In \(A_{2m}\) it is always trivial. |
+| CC-APG06 | In type \(C_r\), every pair of containing Borels is opposite if and only if \(r\leq2\). For every \(r\geq3\), an explicit pair of selfdual eigenline flags witnesses failure. In particular the answer is affirmative in \(B_2=C_2\). |
+| CC-APG07 | In type \(B_r\), every pair of containing Borels is opposite if and only if \(r\leq2\). An explicit scaled Fourier minor gives nonopposite choices for every \(r\geq3\). |
+| CC-APG08 | In every simple type \(D_r\), \(r\geq4\), there are nonopposite containing Borels. An isotropic eigenline in the cyclic element's two-dimensional kernel gives a direct witness. |
+
+## Known structure inputs, with inspected locators
+
+Kostant (2010), arXiv:1003.0046v1, gives the following primary inputs. For a maximal torus \(T\), simple roots \(\alpha_1,\ldots,\alpha_r\), highest root \(\theta=\sum_i n_i\alpha_i\), and \(\alpha_i(\rho^\vee)=1\), put
+
+\[
+ \zeta=e^{2\pi i/h},\qquad
+ c=\exp(2\pi i\rho^\vee/h),\qquad
+ x=\sum_{i=1}^r b_i e_{\alpha_i}+b_0e_{-\theta},
+ \qquad b_i\ne0.
+ \tag{CC-APG.1}
+\]
+
+Here \(h=1+\sum_i n_i\). **Proposition 1.1, p. 5**, identifies the \(\zeta\)-eigenspace of \(\operatorname{Ad}c\) with the span of the displayed \(r+1\) root vectors. **Theorem 1.2, p. 6**, says that an element in this eigenspace is regular semisimple exactly when all \(r+1\) coefficients are nonzero. **Theorem 1.3, p. 6**, says that \(T'=Z_G(x)\) is a maximal torus, that \(C=\operatorname{Ad}c|_{\mathfrak t'}\) is a Coxeter element, and that its \(\zeta\)-eigenspace is exactly \(\mathbf Cx\). The cyclic-element characterization immediately before **Theorem 1.4, p. 6**, together with that theorem, supplies a homogeneous invariant \(J_h\) of degree \(h\) for which \(J_h(x)\ne0\).
+
+The **principal-element paragraph at the end of p. 7**, immediately before Proposition 1.8, states that the adjoint group has one conjugacy class of regular elements of order \(h\), and that every representative in \(G\) of a Weyl Coxeter element belongs to that class. **Proposition 1.8 and Theorem 1.9, p. 8**, identify all Cartans Coxeter for \(c\) with the cyclic centralizers above and assert that \(T\) acts transitively on them. The short proofs of Theorems 1.7 and 1.9 were read in full. These are known inputs, not reproved claims of this module.
+
+Kostant (1959), **Theorem 8.6 and the immediately following Corollary 8.6, p. 1026**, give the original Coxeter/apposition statements; their author-reprint OCR was inspected. The original definition in §7.3, p. 1018, remains a located but uninspected scan reference. The equivalent characterization above is directly supported by the inspected primary statements.
+
+For Bruhat decomposition we use Steinberg (1965), **§2.4(a)–(b), p. 52**. For the orthogonal diagram-orbit argument we use the **proof of Theorem 9.4, pp. 72–73**, which explicitly excludes precisely \(A_n\) with \(n\) even. Our application is written out below; Steinberg's theorem itself concerns rational cross-sections, not the quadruple assertion. Standard torus and pinning facts are recorded in Milne (2017), **Corollary 17.36, p. 363**, and **Propositions 23.44–23.45 and Corollaries 23.46–23.49, pp. 497–499**; the author-hosted text of these statements and their short proofs was directly inspected.
+
+## CC-APG01 — One pair orbit and rigidity of every quadruple
+
+**Proposition.** All ordered apposition pairs are conjugate to the pair \((T,T')\) in (CC-APG.1). For that pair,
+
+\[
+ T\cap N_G(T')=\langle c\rangle,\qquad
+ T\cap T'=\{1\}.
+ \tag{CC-APG.2}
+\]
+
+Every ordered quadruple \(\mathcal Q=(T,B,T',B')\), with \(T\subset B\), \(T'\subset B'\), and \((T,T')\) in apposition, has trivial stabilizer in \(G=\operatorname{Inn}(G)\). If \([\mathcal Q]\) denotes its inner-conjugacy class, the quotient map induces an isomorphism
+
+\[
+ \operatorname{Aut}(G;\mathcal Q)
+ \;\xrightarrow{\ \sim\ }\;
+ \operatorname{Stab}_{\operatorname{Out}(G)}([\mathcal Q]).
+ \tag{CC-APG.3}
+\]
+
+In particular its automorphism group is finite and embeds in \(\operatorname{Out}(G)\).
+
+**Proof.** Given an ordered apposition pair, choose its principal element. Conjugacy of principal elements carries it to \(c\), and carries the first torus to \(Z_G(c)^\circ=T\). Kostant's Theorem 1.9 then supplies a conjugation by \(T\) carrying its second torus to the chosen \(T'\). This proves the single-orbit assertion.
+
+Let \(t\in T\cap N_G(T')\). As \(t\) commutes with \(c\), its action on \(\mathfrak t'\) preserves the one-dimensional \(\zeta\)-eigenspace \(\mathbf Cx\). Hence \(\operatorname{Ad}(t)x=\lambda x\) for some \(\lambda\in\mathbf C^\times\). Comparison of the nonzero root-vector coefficients in (CC-APG.1) gives
+
+\[
+ \alpha_i(t)=\lambda\quad(1\leq i\leq r),
+ \qquad (-\theta)(t)=\lambda.
+\]
+
+The highest-root relation implies \(\lambda^{-(h-1)}=\lambda\), so \(\lambda^h=1\). Because \(G\) is adjoint, the simple roots are a basis of \(X^*(T)\). They determine \(t\) uniquely. If \(\lambda=\zeta^j\), their values agree with those of \(c^j\), so \(t=c^j\). Conversely \(c\) normalizes \(T'\), proving the first equality in (CC-APG.2).
+
+If also \(t\in T'\), then \(t\) centralizes \(x\), whence \(\lambda=1\) and \(t=1\). This proves the second equality.
+
+An element of \(G\) preserving both \(T\) and a containing Borel \(B\) lies in \(N_G(T)\cap B=T\): the Weyl group acts freely on the chambers, or equivalently on the Borels containing \(T\). If it preserves the whole quadruple, it also lies in \(T'\), and is therefore the identity. This proves inner rigidity.
+
+The kernel of the map in (CC-APG.3) is this inner stabilizer. Its image lies in the stated class stabilizer. Conversely, if an outer class preserves \([\mathcal Q]\), choose a representative algebraic automorphism \(a\). There is \(g\in G\) with \(\operatorname{Int}(g)a(\mathcal Q)=\mathcal Q\); thus the outer class lies in the image. Injectivity and surjectivity prove (CC-APG.3), including its group structure. \(\square\)
+
+The two torus positions are genuinely distinct in this convention. The reverse normalizer intersection will have order \(z\), whereas \(T\cap N_G(T')\) has order \(h\); no general symmetry of ordered apposition is being assumed.
+
+## CC-APG02 — Exact finite classification and the two counts
+
+Put
+
+\[
+ K=N_G(T)\cap N_G(T'),\quad
+ W_0=N_G(T)/T,\quad W_1=N_G(T')/T',
+ \quad U_h=(\mathbf Z/h\mathbf Z)^\times.
+\]
+
+Retain \(C\in W_1\) induced by \(c\). Define the following two finite groups and homomorphisms:
+
+\[
+\begin{aligned}
+ A_h&=\{w\in W_0:\ w(c)=c^a\text{ for some }a\in U_h\},
+ &\mu_0(w)&=a,\\
+ N_h&=N_{W_1}(\langle C\rangle),
+ &w C w^{-1}&=C^{\mu_1(w)}.
+\end{aligned}
+ \tag{CC-APG.4}
+\]
+
+The exponents are unique because \(c\) and \(C\) have order \(h\). The first group has a purely integral root-datum description:
+
+\[
+ A_h=\{w\in W_0:\ w\rho^\vee-a\rho^\vee\in hP^\vee
+                   \text{ for some }a\in U_h\},
+ \tag{CC-APG.5}
+\]
+
+where \(P^\vee=X_*(T)\) is the coweight lattice for adjoint \(G\).
+
+**Theorem.** Both maps in (CC-APG.4) are surjective. The natural map to the two Weyl groups identifies
+
+\[
+ K \simeq A_h\times_{U_h}N_h.
+ \tag{CC-APG.6}
+\]
+
+If \(F=(T')^c\) is the finite fixed subgroup of \(T'\), there is an exact sequence
+
+\[
+ 1\longrightarrow \langle c\rangle\times F
+ \longrightarrow K\xrightarrow{\ \mu\ }U_h
+ \longrightarrow1,
+ \qquad F\simeq Z(G_{\mathrm{sc}}).
+ \tag{CC-APG.7}
+\]
+
+The last isomorphism is as finite complex diagonalizable groups and need not be canonical. In particular \(|K|=hz\varphi(h)\). No splitting of the extension by \(U_h\) is asserted.
+
+After choosing one base Borel for each torus, the inner-conjugacy classes of ordered apposition quadruples are exactly
+
+\[
+ K\backslash(W_0\times W_1),
+ \qquad
+ k\cdot(w_0,w_1)=(p_0(k)w_0,p_1(k)w_1).
+ \tag{CC-APG.8}
+\]
+
+This action is free. Consequently their number is
+
+\[
+ \frac{|W|^2}{hz\varphi(h)}.
+ \tag{CC-APG.9}
+\]
+
+If the data also include a generating principal element \(P\) of \(T\cap N_G(T')\), the classification is the free quotient
+
+\[
+ (\langle c\rangle\times F)\backslash(W_0\times W_1),
+ \qquad\text{with number }\frac{|W|^2}{hz}.
+ \tag{CC-APG.10}
+\]
+
+Equations (CC-APG.4)–(CC-APG.8) are a finite root-datum classification in every type, rather than just a formula for the cardinality.
+
+**Proof.** We give the eigenvector, normalizer, and lattice steps explicitly.
+
+First, for every \(a\in U_h\), the Coxeter element \(C\) has a regular eigenvector with eigenvalue \(\zeta^a\). Indeed, \(C\) is defined over the rational cocharacter space of \(T'\). Its one-dimensional \(\zeta\)-eigenspace has a nonzero vector \(v\) defined over \(\mathbf Q(\zeta)\). This vector is a scalar multiple of \(x\), so every root is nonzero on \(v\). Applying the automorphism \(\zeta\mapsto\zeta^a\) to the coordinates gives a \(\zeta^a\)-eigenvector; roots have rational coefficients, so their nonzero values stay nonzero. In particular every primitive power \(C^b\) has a regular \(\zeta\)-eigenvector.
+
+We will also need
+
+\[
+ Z_{W_1}(C)=\langle C\rangle.
+ \tag{CC-APG.11}
+\]
+
+To prove it, let \(w\) commute with \(C\). Then \(wv=\lambda v\), because the \(\zeta\)-eigenspace is one-dimensional. Since \(J_h(v)\ne0\) and \(J_h\) is \(W_1\)-invariant, homogeneity implies \(\lambda^h=1\). The resulting homomorphism \(Z_{W_1}(C)\to\mu_h\) is injective: a Weyl element fixing a regular complex vector is the identity. For completeness, write such a vector \(v=a+ib\) in the real Cartan space. Carry \(a\) into a closed Weyl chamber. Its stabilizer is the reflection group generated by the walls through \(a\); this follows by joining adjacent chambers whose closures contain \(a\). For every root of this stabilizer's root system, its value on \(b\) is nonzero, since its value on \(a\) is zero and its value on \(v\) is nonzero. Thus \(b\) lies in an open chamber for that reflection group and has trivial stabilizer. This proves the asserted injectivity. Its image contains the scalar actions of \(1,C,\ldots,C^{h-1}\), namely all of \(\mu_h\), proving (CC-APG.11).
+
+By CC-APG01, \(S=T\cap N_G(T')=\langle c\rangle\) is intrinsic to the ordered pair. Therefore every \(k\in K\) normalizes \(S\), defining \(\mu(k)\in U_h\) by
+
+\[
+ kck^{-1}=c^{\mu(k)}.
+\]
+
+This map is surjective. Fix \(a\in U_h\). The element \(c^a\) is regular of order \(h\), since its root values are the primitive-power transforms of those of \(c\). The principal conjugacy statement gives \(n\in G\) with \(ncn^{-1}=c^a\). Both centralizers have identity component \(T\), so \(n\) normalizes \(T\). The Cartan \(\operatorname{Ad}(n)\mathfrak t'\) is stable under \(c\); on it the action is conjugate to \(C^{a^{-1}}\). The preceding eigenvector argument gives a regular \(\zeta\)-eigenvector there. That vector belongs to \(\mathfrak g(\zeta)\), so Kostant's Theorems 1.2–1.3 identify its Cartan as a cyclic centralizer Coxeter for \(c\). By Theorem 1.9, some \(t\in T\) carries \(nT'n^{-1}\) to \(T'\). Then \(k=tn\) belongs to \(K\) and \(\mu(k)=a\).
+
+Now \(F=(T')^c\) centralizes \(c\), so it normalizes \(Z_G(c)^\circ=T\) and belongs to \(K\). If \(k\in\ker\mu\), its image in \(W_1\) centralizes \(C\), and hence equals \(C^j\) by (CC-APG.11). It follows that \(c^{-j}k\in T'\) and centralizes \(c\), so \(c^{-j}k\in F\). Conversely \(\langle c\rangle\) and \(F\) lie in \(\ker\mu\). They commute and intersect trivially by \(T\cap T'=1\). Thus
+
+\[
+ \ker\mu=\langle c\rangle\times F.
+ \tag{CC-APG.12}
+\]
+
+We identify \(F\) and verify finiteness integrally. Write \(Q\subset P\) for the root and weight lattices of \(T'\). Its character lattice is \(Q\), because \(G\) is adjoint. The induced action \(D\) of \(C\) on characters is again a Coxeter element (using the inverse convention makes no difference). Choose simple reflections so that \(D=s_1\cdots s_r\), and let \(\omega_i\) be the fundamental weights. The reflection formula gives
+
+\[
+ (1-D)\omega_i=s_1\cdots s_{i-1}\alpha_i.
+ \tag{CC-APG.13}
+\]
+
+The vectors on the right form a \(\mathbf Z\)-basis of \(Q\): the \(i\)-th equals \(\alpha_i\) plus an integral combination of \(\alpha_1,\ldots,\alpha_{i-1}\). Hence \(1-D\) is invertible over \(\mathbf Q\) and \((1-D)P=Q\). Its induced map yields
+
+\[
+ P/Q \ \simeq\ Q/(1-D)Q.
+ \tag{CC-APG.14}
+\]
+
+The right side is \(X^*(F)\). The left side is \(X^*(Z(G_{\mathrm{sc}}))\). This proves \(F\simeq Z(G_{\mathrm{sc}})\), \(|F|=z\), and (CC-APG.7). It also proves \(T'\cap N_G(T)=F\): for \(t'\) in that intersection, write \(t'ct'^{-1}=c^a\). Projecting to \(W_1\), where \(t'\) is trivial, gives \(C=C^a\), hence \(a=1\) and \(t'\in F\).
+
+Consider the map \(K\to W_0\times W_1\). Its kernel is \(T\cap T'=1\); its two multiplier values agree, so its image lies in the fiber product of (CC-APG.6). Its projection onto \(W_0\) is exactly \(A_h\). To see the nontrivial inclusion, represent \(w_0\in A_h\) by \(n\in N_G(T)\). Then \(ncn^{-1}=c^a\) for its specified \(a\), and the same Cartan-transitivity argument used above adjusts \(n\) by an element of \(T\) to lie in \(K\), without changing \(w_0\).
+
+Its projection onto \(W_1\) is all of \(N_h\). Given \(w_1\in N_h\), choose \(k\in K\) with \(\mu(k)=\mu_1(w_1)\), using the proved surjectivity. Then \(w_1p_1(k)^{-1}\) centralizes \(C\), so it equals \(C^j\). Multiplication by \(c^j\) adjusts \(p_1(k)\) to \(w_1\). This also proves surjectivity of \(\mu_1\); surjectivity of \(\mu_0\) follows from that of \(\mu\).
+
+Finally, for any pair \((w_0,w_1)\) with matching multipliers, first lift \(w_0\) to \(k\in K\). The discrepancy \(w_1p_1(k)^{-1}\) is a power \(C^j\), and multiplication by \(c^j\) corrects the second projection while leaving the first unchanged, since \(c\in T\). This proves surjectivity onto the fiber product. The exponential lattice \(X_*(T)=P^\vee\) gives (CC-APG.5) directly.
+
+All pair representatives are conjugate by CC-APG01. Once the pair is fixed, precisely \(K\) remains for conjugation. Borels containing either torus form a free transitive set for the corresponding Weyl group, so (CC-APG.8) follows. Inner rigidity makes this action free, giving (CC-APG.9).
+
+For the enriched data, every generator \(c^u\), \(u\in U_h\), is principal and makes \(T'\) Coxeter. Indeed \(C^u\) has a regular \(\zeta\)-eigenvector, and conjugating \(c^u\) to \(c\) lets one apply Kostant's Theorems 1.2–1.3 to that vector, just as above. The group \(K\) acts on \(u\) by multiplication by \(\mu(k)\), and this action is transitive. Normalize the generator to \(c\); its remaining stabilizer is \(\ker\mu=\langle c\rangle\times F\). The action on the Borel pair stays free. This proves (CC-APG.10). \(\square\)
+
+The values of \(h,z\) in the formula are the usual root-datum values:
+
+| Type | \(h\) | \(z\) |
+|---|---:|---:|
+| \(A_r\) | \(r+1\) | \(r+1\) |
+| \(B_r,C_r\) | \(2r\) | \(2\) |
+| \(D_r\) | \(2r-2\) | \(4\) |
+| \(E_6\) | \(12\) | \(3\) |
+| \(E_7\) | \(18\) | \(2\) |
+| \(E_8\) | \(30\) | \(1\) |
+| \(F_4\) | \(12\) | \(1\) |
+| \(G_2\) | \(6\) | \(1\) |
+
+For example the counts are four in \(B_2=C_2\), twelve in \(G_2\), and 768 in \(D_4\). In type \(A_{n-1}\), (CC-APG.9) reduces to the already independently calculated \((n!)^2/(n^2\varphi(n))\). These formulas agree exactly with the two expressions on the inspected original page.
+
+## CC-APG03 — Opposite Borels exist for any two maximal tori
+
+**Proposition.** Let \(G\) be a connected complex reductive group. Given a Borel subgroup \(B_0\) and a maximal torus \(S\), there exists a Borel \(B_1\supset S\) opposite to \(B_0\). In particular, for any two maximal tori and any containing Borel for the first, some containing Borel for the second is opposite to it.
+
+**Proof.** Choose opposite Borels \(B,B^{-}\) containing \(S\), and let \(U,U^{-}\) be their unipotent radicals. Write \(B_0=gBg^{-1}\). By the precise Bruhat decomposition in Steinberg §2.4,
+
+\[
+ g=u\dot w b,\qquad
+ u\in U\cap\dot wU^{-}\dot w^{-1},\quad b\in B,
+\]
+
+where \(\dot w\in N_G(S)\). Put \(D=\dot wB^{-}\dot w^{-1}\). This is a Borel containing \(S\), and \(u\in D\). The Borels \(\dot wB\dot w^{-1}\) and \(D\) are opposite. Conjugate both by \(u\); the first becomes \(B_0\), while the second remains \(D\), since \(u\in D\). Thus \(B_1=D\) is the required Borel. \(\square\)
+
+This proof does not use apposition. It does not imply opposition for every containing Borel, as the explicit composite type-A counterexamples show.
+
+## CC-APG04 — Exact existence criterion for an outer-invariant class
+
+Let \(\Gamma=\operatorname{Out}(G)\), identified with the automorphism group of its Dynkin diagram. The pinning realizes \(\Gamma\) as algebraic automorphisms preserving a fixed Borel \(B_1\), maximal torus \(T_1\), and the collection of simple root vectors. This identification and section are the inspected Milne Propositions 23.44–23.45 and Corollaries 23.46–23.47.
+
+**Theorem.** There exists an inner-conjugacy class of ordered apposition quadruples invariant under every element of \(\Gamma\) if and only if \(G\) is not of type \(A_{2m}\), \(m\geq1\). In every allowed type one may choose a representative fixed by the entire pinned group \(\Gamma\). It then has full automorphism group exactly \(\Gamma\). One may also include a generating principal element fixed by \(\Gamma\).
+
+**Proof.** We first construct the representative whenever the diagram is not \(A_{2m}\). Each \(\Gamma\)-orbit of simple roots then consists of pairwise orthogonal roots. This can be read directly from the diagrams: the two arms exchanged in \(D_r\), all three outer vertices in \(D_4\), the exchanged pairs in \(E_6\), and the reflected pairs in \(A_{2m-1}\) contain no adjacent vertices. In \(A_{2m}\) the middle two vertices are adjacent, which is the unique exception. When \(\Gamma=1\), the orbits are singletons. The same precise fact is used in the proof of Steinberg's Theorem 9.4, pp. 72–73.
+
+For each simple root \(\alpha_i\), the pinning gives a root homomorphism \(\phi_i:\operatorname{SL}_2\to G\), compatible with the action of \(\Gamma\). Orthogonal simple roots generate commuting rank-one subgroups: their roots have no sum or difference in the root system, and the Chevalley root commutator relations give commutation of all their positive and negative root subgroups. Therefore, for each orbit \(O\), the map
+
+\[
+ \phi_O:\operatorname{SL}_2\longrightarrow G,\qquad
+ A\longmapsto\prod_{i\in O}\phi_i(A)
+\]
+
+is a group homomorphism. Its product is independent of ordering, and its image is fixed pointwise by \(\Gamma\). Being the image of a connected group containing the identity, it lies in \(H=(G^\Gamma)^\circ\).
+
+Choose the same standard Weyl representative
+
+\[
+ s=\begin{pmatrix}0&1\\-1&0\end{pmatrix}
+\]
+
+in every \(\operatorname{SL}_2\), order the finitely many \(\Gamma\)-orbits in any way, and put
+
+\[
+ n=\prod_O\phi_O(s)\in H.
+ \tag{CC-APG.15}
+\]
+
+Its Weyl image relative to \(T_1\) is a product of every simple reflection exactly once. It is consequently a Coxeter element. By Kostant's principal-lift statement, \(n\) is regular semisimple of order \(h\) in adjoint \(G\). Thus
+
+\[
+ T_0=Z_G(n)^\circ
+\]
+
+is a maximal torus, and the ordered pair \((T_0,T_1)\) is in apposition with principal element \(n\). Both tori are \(\Gamma\)-stable, and \(n\) is fixed by \(\Gamma\).
+
+We must also produce a \(\Gamma\)-stable Borel containing \(T_0\); stability of the torus alone would not imply this. Since \(H\) is a connected linear algebraic group and \(n\in H\) is semisimple, \(n\) lies in a torus \(S\subset H\), by Milne Corollary 17.36. The torus \(S\) centralizes \(n\), so \(S\subset T_0\). No root \(\alpha\) of \((G,T_0)\) can restrict trivially to \(S\), since that would imply \(\alpha(n)=1\), contradicting regularity of \(n\).
+
+Consequently one may choose
+
+\[
+ v\in X_*(S)\otimes_{\mathbf Z}\mathbf R
+\]
+
+outside the finitely many hyperplanes defined by the restrictions of these roots. Then \(\alpha(v)\ne0\) for every root. As \(S\subset G^\Gamma\), the vector \(v\) is fixed by \(\Gamma\). The positive system \(\{\alpha:\alpha(v)>0\}\) is therefore \(\Gamma\)-stable, and its Borel \(B_0\supset T_0\) is \(\Gamma\)-stable. Together with the original pinned \(B_1\), this gives a quadruple
+
+\[
+ (T_0,B_0,T_1,B_1)
+\]
+
+fixed by all of \(\Gamma\), and the generator \(n\) is fixed as well. CC-APG01 says that the full automorphism group injects into \(\Gamma\). Since it contains the pinned copy just constructed, it equals \(\Gamma\).
+
+For the converse, suppose the type is \(A_{2m}\), so \(G=\operatorname{PGL}_n\) with odd \(n=2m+1\geq3\). We recall the complete obstruction proved in CC-AP04–05. The diagonal/Fourier normal form identifies the ordered Borel choices with two permutations \(\pi,\sigma\) of \(\mathbf Z/n\). Every simultaneous inner normalizer acts on their labels by
+
+\[
+ j\longmapsto aj+b,\qquad
+ c\longmapsto a^{-1}c+d,\qquad a\in(\mathbf Z/n)^\times.
+\]
+
+Inverse transpose, representing the nontrivial outer class, sends their orderings to \(\pi^{\mathrm{rev}}\) and \(-\sigma^{\mathrm{rev}}\). If the class were invariant, the affine permutation \(j\mapsto aj+b\) would reverse an ordering of \(n\) distinct entries. It would be an involution with exactly one fixed point. Hence \(a^2=1\), and its fixed-point equation has exactly one solution, forcing \(\gcd(a-1,n)=1\). Therefore \(a=-1\pmod n\).
+
+The Fourier condition would then say that the translation \(c\mapsto c-d\) also reverses an ordering of \(n\) distinct entries. It is an involution, so \(2d=0\). Since \(n\) is odd, \(d=0\), making it the identity, which cannot reverse such an ordering. This contradiction excludes every outer-invariant class in type \(A_{2m}\), and a fortiori excludes an invariant enriched class. \(\square\)
+
+Thus the letter's necessary outer-invariance condition for a distinguished class fails exactly in these even-rank \(A\)-types. In all the other types an invariant class exists; uniqueness, a preferred choice among invariant classes, and a count of all invariant classes are separate questions not asserted here.
+
+## CC-APG05 — A finite test for the full automorphism group of every class
+
+**Corollary.** In a type other than \(A_{2m}\), choose the \(\Gamma\)-fixed base quadruple and principal element \(c\) constructed in CC-APG04. Use its two Borels as origins for the \(W_0\)- and \(W_1\)-torsors. The group \(\Gamma\) acts on each Weyl group, preserving \(K\subset W_0\times W_1\). For a representative \((w_0,w_1)\), put
+
+\[
+ d_i(\gamma)=\gamma(w_i)w_i^{-1}\quad(i=0,1).
+\]
+
+Its full automorphism group, embedded in \(\Gamma\), is exactly
+
+\[
+\begin{split}
+ \Gamma_{w_0,w_1}=\{\,\gamma\in\Gamma:\;&
+ d_0(\gamma)\in A_h,\quad d_1(\gamma)\in N_h,\\
+ &\mu_0(d_0(\gamma))=\mu_1(d_1(\gamma))\,\}.
+\end{split}
+ \tag{CC-APG.16}
+\]
+
+Here \(A_h,N_h,\mu_0,\mu_1\) are defined as in (CC-APG.4), now for this base pair and \(c\). In type \(A_{2m}\) the full automorphism group is trivial for every quadruple.
+
+**Proof.** An automorphism \(\gamma\in\Gamma\) fixes both base tori and both base Borels. Its action on the two Borel torsors is therefore
+\((w_0,w_1)\mapsto(\gamma(w_0),\gamma(w_1))\); there is no affine translation of either origin. It fixes \(c\), so it also preserves the intrinsic simultaneous normalizer \(K\), its two Weyl projections, and its multiplier map.
+
+The orbit \(K\cdot(w_0,w_1)\) is \(\gamma\)-stable if and only if there is \(k\in K\) with
+\[
+ p_i(k)w_i=\gamma(w_i)\quad(i=0,1).
+\]
+Equivalently \((d_0(\gamma),d_1(\gamma))\in K\). The fiber-product identification (CC-APG.6) gives precisely the three conditions in (CC-APG.16). By (CC-APG.3), this orbit stabilizer is the full automorphism group of the quadruple. For type \(A_{2m}\), the only nontrivial outer element fixes no class, by CC-APG04, so (CC-APG.3) gives triviality. \(\square\)
+
+Every part of this test is finite. If torus coordinates are taken relative to the \(\Gamma\)-stable base Borel instead of the cyclic coordinates of (CC-APG.1), write \(c=\exp(2\pi i\eta/h)\), with \(\eta\in X_*(T_0)\) specified modulo \(hX_*(T_0)\). Then the first condition is computed by
+\[
+ w\eta-a\eta\in hX_*(T_0).
+\]
+This is the same root-lattice test as (CC-APG.5) after a change of the chosen positive system; it does not require the \(\Gamma\)-stable Borel to be the cyclic construction's original Borel.
+
+## CC-APG06 — The complete “all opposite” answer in type C
+
+**Theorem.** Let \(G=\operatorname{PSp}_{2r}(\mathbf C)\), with \(r\geq1\). Every ordered apposition pair admits only opposite choices of its two containing Borels if and only if \(r\leq2\). For each \(r\geq3\) the construction below gives a concrete nonopposite pair of containing Borels. Here \(C_1=A_1\) and \(C_2=B_2\) are included with their usual low-rank identifications.
+
+**Proof.** Put \(n=2r\), \(\zeta=e^{2\pi i/n}\), and equip \(V=\mathbf C^n\), with basis \(e_0,\ldots,e_{n-1}\), with the alternating form
+
+\[
+ \langle e_i,e_j\rangle=(-1)^i\,\mathbf 1_{i+j=n-1}.
+ \tag{CC-APG.17}
+\]
+
+It is nondegenerate, and alternating because \(n-1\) is odd. Define the cyclic shift \(X e_j=e_{j+1}\), with indices modulo \(n\), and set
+
+\[
+ v_a=\sum_{j=0}^{n-1}\zeta^{ja}e_j,\qquad
+ Qe_j=\zeta^j e_j.
+\]
+
+Direct substitution in (CC-APG.17) gives
+\(\langle Xu,v\rangle+\langle u,Xv\rangle=0\), including the two wrap-around terms. Thus \(X\in\mathfrak{sp}(V)\). Moreover,
+
+\[
+ Xv_a=\zeta^{-a}v_a,\quad
+ QXQ^{-1}=\zeta X,\quad
+ \langle v_a,v_b\rangle
+   =n\zeta^{-b}\,\mathbf 1_{b=a+r\;(\mathrm{mod}\ n)}.
+ \tag{CC-APG.18}
+\]
+
+The Fourier vectors form a basis. Let \(T_0\) be the diagonal maximal torus of \(\operatorname{PSp}(V)\), and \(T_1\) the maximal torus diagonal in this Fourier basis and preserving the form. It is the group centralizer of \(X\), interpreted in the adjoint quotient.
+
+We verify Kostant apposition rather than inferring it from the Fourier appearance alone. Label the weights of \(e_0,\ldots,e_{r-1}\) as \(\varepsilon_0,\ldots,\varepsilon_{r-1}\); the weight of \(e_{n-1-i}\) is \(-\varepsilon_i\). Take the simple roots
+
+\[
+ \alpha_i=\varepsilon_i-\varepsilon_{i-1}\quad(1\leq i<r),
+ \qquad \alpha_r=-2\varepsilon_{r-1}.
+\]
+
+Their highest root is \(\theta=-2\varepsilon_0
+=2\alpha_1+\cdots+2\alpha_{r-1}+\alpha_r\). The matrix \(X\) is the sum, with all coefficients one, of the simple-root vectors
+
+\[
+ E_{i,i-1}+E_{n-i,n-i-1}\quad(1\leq i<r),
+ \qquad E_{r,r-1},
+\]
+
+and the negative-highest-root vector \(E_{0,n-1}\). Each displayed vector satisfies the symplectic infinitesimal condition for (CC-APG.17), and the sum is exactly \(X\). This is Kostant's cyclic construction, with \(h=2r=n\), so \((T_0,T_1)\) is an ordered apposition pair by the inspected Theorems 1.2–1.3.
+
+One may also see the principal element explicitly. The matrix \(Q\) multiplies the form by \(\zeta^{-1}\). Choose \(\lambda^2=\zeta\); then \(\lambda Q\in\operatorname{Sp}(V)\), and its adjoint class \(c=[\lambda Q]\) has all simple-root values equal to \(\zeta\). It is the principal element of (CC-APG.1). Its action sends \(v_a\) to a multiple of \(v_{a+1}\), compatibly with (CC-APG.18). By CC-APG01 it suffices to analyze Borel choices for this one pair.
+
+We spell out the Borel and opposition conditions. Borels of \(\operatorname{Sp}(V)\), and hence of its adjoint quotient, stabilize complete selfdual flags \(F_\bullet\), where
+\[
+ F_{n-k}=F_k^\perp.
+\]
+Indeed a basis for an isotropic flag can be completed to a symplectic basis, and its stabilizer is the standard triangular Borel in that basis. The group is transitive on these flags, and all Borels arise in this way. If the Borel contains one of our tori, its flag is a flag of sums of the distinct torus eigenlines.
+
+Thus the choices for \(T_0\) are orderings \(\pi\) of the coordinate labels satisfying
+\[
+ \pi(n-1-j)=n-1-\pi(j);
+\]
+the choices for \(T_1\) are orderings \(\sigma\) of the Fourier labels satisfying
+\[
+ \sigma(n-1-j)=\sigma(j)+r\pmod n.
+ \tag{CC-APG.19}
+\]
+Equivalently the first \(r\) labels choose one member of each dual pair, in any order, and the remaining labels are the reversed dual partners.
+
+Two such symplectic Borels are opposite exactly when their complete flags are opposite as ordinary linear flags. In one direction an opposite symplectic Borel pair can be conjugated to upper and lower triangular symplectic Borels, whose linear flags are opposite. This also follows directly from the root decomposition: after fixing their common maximal torus, no common root subgroup means that the two positive root systems are negatives. Conversely, suppose the two full flags \(F_\bullet,G_\bullet\) are opposite. They give lines
+\[
+ L_i=F_i\cap G_{n+1-i},\qquad
+ V=\bigoplus_{i=1}^n L_i.
+\]
+Selfduality shows \(\langle L_i,L_j\rangle=0\) unless \(i+j=n+1\): use the \(F\)-flags when \(i+j\leq n\), and the \(G\)-flags when \(i+j\geq n+2\). Nondegeneracy then makes the remaining pairings nonzero. Their common symplectic stabilizer is the diagonal torus in these lines, with paired diagonal entries inverse. Hence it is a maximal torus, proving symplectic opposition as defined in the letter.
+
+The full-flag Fourier test from CC-AP02 therefore applies with the restrictions (CC-APG.19): for every \(1\leq k<n\), the square minor with rows
+\(\{\pi(k),\ldots,\pi(n-1)\}\) and columns
+\(\{\sigma(0),\ldots,\sigma(n-k-1)\}\)
+must be nonzero.
+
+For \(r=1\), every relevant minor is an entry of the \(2\times2\) Fourier matrix and is nonzero. For \(r=2\), the \(1\times1\) minors are nonzero, and all \(3\times3\) minors are nonzero because the inverse Fourier matrix has no zero entry and cofactors are its entries times the nonzero determinant. For a relevant \(2\times2\) minor, the first two Fourier labels are not dual partners; their difference is therefore odd modulo four. If its distinct rows are \(u,v\) and columns are \(a,b\), its determinant is a nonzero scalar times
+\[
+ 1-\zeta^{(v-u)(b-a)}.
+\]
+Here \(v-u\not\equiv0\pmod4\), and \(b-a\) is a unit modulo four. The displayed value is nonzero. All required minors are consequently nonzero, for every pair of selfdual flags.
+
+Now let \(r\geq3\). Choose the coordinate flag's first two labels to be \(n-1,r-1\), and the Fourier flag's first two labels to be \(0,2\). Each pair consists of two distinct nondual labels, so each extends to a selfdual ordering of the form (CC-APG.19), by choosing one member of each remaining dual pair and then appending the reversed partners. The last two coordinate labels are \(r,0\). The relevant minor at \(k=n-2\) has row set \(\{0,r\}\) and column set \(\{0,2\}\); it is
+\[
+ \begin{pmatrix}1&1\\1&\zeta^{2r}\end{pmatrix}
+ =\begin{pmatrix}1&1\\1&1\end{pmatrix}.
+\]
+It is singular. Equivalently, \(v_0-v_2\ne0\) has zero coordinates in rows \(0,r\), so it belongs both to the coordinate \(F_{n-2}\) and the Fourier \(G_2\). The full flags fail the opposition condition. By the proved symplectic equivalence, their Borels are not opposite. This supplies the stated counterexample in every rank \(r\geq3\). \(\square\)
+
+In particular \(C_2\) has four inner-conjugacy classes by CC-APG02, and all four have opposite Borels. This differs from the type \(A_3\) behavior at the same matrix dimension: the selfduality restrictions on allowed Fourier flags are essential.
+
+## CC-APG07 — The complete “all opposite” answer in type B
+
+**Theorem.** For the adjoint group \(\operatorname{SO}_{2r+1}(\mathbf C)\) of type \(B_r\), every pair of containing Borels for an apposition pair is opposite if and only if \(r\leq2\). For \(r\geq3\), explicit nonopposite choices are given below.
+
+**Proof.** The cases \(B_1=A_1\) and \(B_2=C_2\) follow from the proved low-rank results; apposition and opposition are invariant under these group isomorphisms. Let \(r\geq3\), put \(m=2r\), and use the basis \(e_0,\ldots,e_m\) of \(V=\mathbf C^{m+1}\), with symmetric form
+
+\[
+ (e_i,e_j)=(-1)^i\mathbf 1_{i+j=m}.
+ \tag{CC-APG.20}
+\]
+
+It is symmetric because \(m\) is even. Put
+
+\[
+ X=\sum_{i=0}^{m-1}E_{i+1,i}
+       +E_{0,m-1}+E_{1,m}.
+ \tag{CC-APG.21}
+\]
+
+This lies in \(\mathfrak{so}(V)\), as follows either by direct substitution in (CC-APG.20) or from the root vectors just below. Let \(T_0\) be the diagonal torus, with weights \(\varepsilon_i\) on \(e_i\), \(0\leq i<r\), zero on \(e_r\), and \(-\varepsilon_i\) on \(e_{m-i}\). Choose the simple roots
+
+\[
+ \alpha_i=\varepsilon_i-\varepsilon_{i-1}\quad(1\leq i<r),
+ \qquad \alpha_r=-\varepsilon_{r-1}.
+\]
+
+The simple-root vectors are
+\[
+ E_{i,i-1}+E_{m+1-i,m-i}\quad(1\leq i<r),
+ \qquad E_{r,r-1}+E_{r+1,r}.
+\]
+Their sum is the subdiagonal sum in (CC-APG.21). The highest root is
+\(\theta=-\varepsilon_0-\varepsilon_1
+=\alpha_1+2\alpha_2+\cdots+2\alpha_r\);
+its negative-root vector is \(E_{0,m-1}+E_{1,m}\). Thus \(X\) is the cyclic element with all simple and negative-highest coefficients nonzero. Kostant's theorem gives the ordered apposition pair \((T_0,T_1)\), where \(T_1=Z_G(X)\).
+
+Here is an eigenbasis making the counterexample explicit. Choose \(a\in\mathbf C^\times\) with \(a^m=2\), put \(\zeta=e^{2\pi i/m}\), and set \(\lambda_j=a\zeta^j\), \(j\in\mathbf Z/m\). Define
+\[
+ v_j=e_0+\sum_{i=1}^{m-1}\lambda_j^{m-i}e_i+e_m,
+ \qquad w=e_0-e_m.
+ \tag{CC-APG.22}
+\]
+The row equations in (CC-APG.21) give
+\[
+ Xv_j=\lambda_jv_j,\qquad Xw=0.
+\]
+These \(m+1\) eigenvectors have distinct eigenvalues and form a basis. Moreover,
+\[
+ (v_j,v_b)=2m\,\mathbf 1_{b=j+r},\qquad
+ (w,v_j)=0,\qquad(w,w)=-2.
+ \tag{CC-APG.23}
+\]
+For the first identity, with \(\lambda=\lambda_j\), \(\mu=\lambda_b\), expand the form as
+\[
+ 2+\sum_{i=1}^{m-1}(-1)^i\lambda^{m-i}\mu^i
+   =2\sum_{i=0}^{m-1}(-\mu/\lambda)^i.
+\]
+The ratio is an \(m\)-th root of unity, so the sum has exactly the claimed values. Thus \(T_1\) has the dual eigenline pairs \(v_j,v_{j+r}\), while \(w\) is its nonisotropic zero-weight line.
+
+A torus-containing Borel of the odd orthogonal group is specified by a complete isotropic flag: choose one line from each dual pair, order those \(r\) lines, put the zero-weight line in the middle of the associated complete flag, and append the reversed dual partners. The argument of CC-APG06 for symplectic flags also proves the analogous opposition assertion here. In particular opposite orthogonal Borels have opposite complete linear flags; the middle self-paired line contributes diagonal entry \(1\) in the common special-orthogonal torus.
+
+Choose the first two coordinate lines to be \(e_{m-1},e_{r-1}\), and the first two Fourier lines to be \(v_0,v_2\). In each case these are distinct nondual lines when \(r\geq3\), so they extend to torus-containing Borel flags. The coordinate \(F_{m-1}=F_2^\perp\) omits exactly rows \(1,r+1\). The matrix for the map
+\[
+ \langle v_0,v_2\rangle\longrightarrow V/F_{m-1}
+\]
+in those two rows is
+\[
+ \begin{pmatrix}
+ a^{m-1}&a^{m-1}\zeta^{-2}\\
+ a^{r-1}&a^{r-1}\zeta^{-2}
+ \end{pmatrix}.
+\]
+It is singular. The nonzero vector \(v_2-\zeta^{-2}v_0\) belongs to \(F_{m-1}\cap G_2\). Since \(\dim V=m+1\), this is exactly a failure of the full-flag opposition condition. The containing orthogonal Borels are therefore not opposite. By the single pair orbit, these are counterexamples for the original apposition question in every type \(B_r\), \(r\geq3\). \(\square\)
+
+## CC-APG08 — Nonopposition in every simple type D
+
+**Theorem.** In the adjoint group of type \(D_r\), \(r\geq4\), an apposition pair always has some choices of containing Borels which are not opposite.
+
+**Proof.** Work first in \(\operatorname{SO}_{2r}(\mathbf C)\); quotienting its center preserves tori, Borels, their root systems, and the apposition and opposition properties. Put \(n=2r\). On the basis \(e_0,\ldots,e_{n-1}\), choose the symmetric form
+\[
+ (e_i,e_{n-1-i})=s_i,\qquad
+ s_i=(-1)^i\ (0\leq i<r),\quad
+ s_{n-1-i}=s_i,
+ \tag{CC-APG.24}
+\]
+with other entries zero. For the diagonal torus \(T_0\), write \(\varepsilon_i\) for the weight on \(e_i\), \(0\leq i<r\), so the weight on \(e_{n-1-i}\) is \(-\varepsilon_i\).
+
+Take the simple roots
+\[
+ \alpha_i=\varepsilon_i-\varepsilon_{i-1}\quad(1\leq i<r),
+ \qquad \alpha_r=-\varepsilon_{r-2}-\varepsilon_{r-1}.
+\]
+The highest root is
+\[
+ \theta=-\varepsilon_0-\varepsilon_1
+ =\alpha_1+2\alpha_2+\cdots+2\alpha_{r-2}
+    +\alpha_{r-1}+\alpha_r.
+\]
+The following skew-adjoint matrices are root vectors for these simple roots and the negative highest root:
+\[
+\begin{aligned}
+ u_i&=E_{i,i-1}+E_{n-i,n-i-1} &&(1\leq i<r),\\
+ u_r&=E_{r,r-2}+E_{r+1,r-1},&
+ u_0&=E_{0,n-2}+E_{1,n-1}.
+\end{aligned}
+\]
+Their form compatibility follows directly from (CC-APG.24); the two entries of each \(u_i\) cancel under the adjoint condition. Put
+\[
+ X=u_0+u_1+\cdots+u_r.
+ \tag{CC-APG.25}
+\]
+Kostant's cyclic theorem makes \(X\) regular semisimple and gives the apposition pair \((T_0,T_1)\), with \(T_1=Z_{\operatorname{SO}(V)}(X)\). We use its image in the adjoint group at the end.
+
+The row equations of (CC-APG.25) show that
+\[
+ \ker X=\langle u,v\rangle,\qquad
+ u=e_0-e_{n-1},\quad v=e_{r-1}-e_r.
+ \tag{CC-APG.26}
+\]
+Indeed all coordinates except \(0,n-1,r-1,r\) vanish in the kernel, and the remaining equations are \(x_0+x_{n-1}=0\) and \(x_{r-1}+x_r=0\). The restricted form satisfies
+\[
+ (u,u)=-2,\qquad
+ (v,v)=-2(-1)^{r-1},\qquad(u,v)=0.
+\]
+Choose \(\lambda^2=(-1)^r\). Then
+\[
+ w_+=u+\lambda v,\qquad w_-=u-\lambda v
+\]
+span the two isotropic lines in this nondegenerate plane, and \((w_+,w_-)=-4\).
+
+These are \(T_1\)-eigenlines. To justify this directly, \(T_1\) preserves \(\ker X\) and its form. It is connected, so it preserves each of the two isotropic lines. Moreover the special-orthogonal torus of this plane, acting trivially on its orthogonal complement, centralizes \(X\): the complement is \(X\)-stable by skew-adjointness and nondegeneracy of the kernel. Thus it lies in \(T_1\), acts nontrivially on both lines, and makes them a genuine pair of distinct torus weight lines.
+
+The coordinate line \(\mathbf Ce_1\) is an isotropic \(T_0\)-eigenline and
+\[
+ (e_1,w_+)=0.
+ \tag{CC-APG.27}
+\]
+This follows because its only paired coordinate is \(n-2\), which is absent from the support \(0,n-1,r-1,r\) of \(w_+\) for \(r\geq4\).
+
+Choose a Borel containing \(T_0\) whose first isotropic line is \(\mathbf Ce_1\), and one containing \(T_1\) whose first isotropic line is \(\mathbf Cw_+\). Such choices exist: in either torus eigenbasis, put the desired line first and extend by one line from each remaining dual pair to a maximal isotropic flag. Its stabilizer is a Borel. In the even orthogonal case the two choices of final maximal-isotropic extension can have the same Borel; this does not change the first line or the argument.
+
+If these two Borels were opposite, their first isotropic lines would pair nontrivially. Indeed conjugate an opposite pair to standard upper and lower triangular orthogonal Borels. Their first lines are the paired endpoint lines \(e_0,e_{n-1}\); the common invariant form has a nonzero pairing there, which is preserved by conjugation. The first line of a Borel's isotropic flag is unique, so the implication applies to our chosen lines independently of the possible final-extension ambiguity. Equation (CC-APG.27) contradicts it. The two Borels are not opposite.
+
+Finally, under the finite central quotient \(\operatorname{SO}_{2r}\to G_{\mathrm{ad}}\), the cyclic Cartans still give apposition by the adjoint principal element, and opposite Borels lift to opposite Borels. The same pair therefore refutes the “all” assertion for the required adjoint group. \(\square\)
+
+The complete classical answer to the universal-choice question is consequently:
+
+| Simple type | Are all containing Borel choices opposite? |
+|---|---|
+| \(A_r\) | Yes exactly when \(r+1\) is prime. |
+| \(B_r\), \(r\geq2\) | Yes exactly when \(r=2\). |
+| \(C_r\), \(r\geq2\) | Yes exactly when \(r=2\). |
+| \(D_r\), \(r\geq4\) | No. |
+
+In every row, some opposite choices still exist by CC-APG03.
+
+## Primary bibliography and proof provenance
+
+Grothendieck, A. (1969, October 22). *Letter to B. Kostant*. Montpellier archives, cote 123, physical PDF page 22, footer 21. https://grothendieck.umontpellier.fr/123.pdf. The original page and its two counts were visually inspected.
+
+Kostant, B. (1959). The principal three-dimensional subgroup and the Betti numbers of a complex simple Lie group. *American Journal of Mathematics, 81*(4), 973–1032. https://doi.org/10.2307/2372999. Theorem 8.6 and the immediately following Corollary 8.6, p. 1026; author-reprint OCR inspected at https://dokumen.pub/collected-papers-volume-i-1955-1966-2009nbsped-9780387095820-0387095829.html. Author reprint in *Collected Papers*, Vol. I, pp. 130–189 (2009), https://doi.org/10.1007/b94535_11. Original definition §7.3, p. 1018, is not represented as a directly inspected scan.
+
+Kostant, B. (2010). Experimental evidence for the occurrence of \(E_8\) in nature and the radii of the Gosset circles. *Selecta Mathematica, 16*, 419–438. https://doi.org/10.1007/s00029-010-0023-1. Inspected version: https://arxiv.org/pdf/1003.0046v1 (1 March 2010). Proposition 1.1 p. 5; Theorems 1.2–1.4 p. 6; Theorem 1.7 and principal-element paragraph p. 7; Proposition 1.8 and Theorem 1.9 p. 8. The two short conjugacy proofs were read in full; the underlying 1959 theorems remain known inputs.
+
+Milne, J. S. (2017). *Algebraic groups: The theory of group schemes of finite type over a field* (Cambridge Studies in Advanced Mathematics, Vol. 170). Cambridge University Press. Author-hosted text: https://www.jmilne.org/math/Books/iAG2017.pdf. Corollary 17.36 p. 363; Propositions 23.44–23.45 and Corollaries 23.46–23.49 pp. 497–499. The cited statements and short proofs were read in the extracted author-hosted text; no whole-book verification is claimed.
+
+Steinberg, R. (1965). Regular elements of semi-simple algebraic groups. *Publications Mathématiques de l'IHÉS, 25*, 49–80. https://doi.org/10.1007/BF02684397. Primary scan: https://www.numdam.org/item/PMIHES_1965__25__49_0/. §2.4(a)–(b) p. 52; Theorem 9.4 and its complete proof pp. 72–73. Its orbit-of-orthogonal-roots argument is used explicitly, with no attribution of our quadruple statement to that theorem.
+
+**Proof provenance.** CC-APG01–08 are complete deductions from the specifically listed structure inputs and the already fully proved type-A normalizer and outer-action calculations in CC-AP04–05. The centralizer-of-Coxeter argument, integral computation of the finite fixed torus, exact fiber product, free orbit counts, Bruhat opposition argument, invariant-quadruple construction, full finite automorphism test, and classical matrix and flag calculations are all supplied. Nothing here independently reproves the whole Kostant theory, the algebraic-group structure theorem, RH, or Dirichlet GRH.
