@@ -1,0 +1,226 @@
+\subsection{R-21: arithmetic rank recovery and a fixed-dimension algorithm}
+
+\paragraph{Statement R-21.}
+The integer Gram model admits an explicit spectral separation from
+zero. Moreover, for each fixed ambient dimension $N$, every orbit-closure
+multiplicity $m_\lambda(f)$ of a rational degree-$n$ form can be computed
+exactly in time polynomial in the numerical degree $D=nd$ and the
+coefficient bit length. This is an elementary consequence of a compressed
+coefficient kernel and weight extraction. The exponent of the polynomial
+depends on $N$; this assertion is not polynomial in $\log d$ and does not
+give a uniform polynomial-time algorithm when $N$ grows.
+
+\paragraph{1. An integral spectral bound.}
+Let $A$ be an $a\times b$ integer matrix of positive rank $r$, with
+entries of absolute value at most $H$, and put $G=AA^{\mathsf T}$,
+$T=\operatorname{tr}G\leq abH^2$. Then
+\begin{equation}\label{R21:gap}
+ \lambda_{\min}^{+}(G)\geq
+ \begin{cases}
+ 1,&r=1,\\[1mm]
+ \bigl((r-1)/T\bigr)^{r-1},&r>1.
+ \end{cases}
+\end{equation}
+More generally the same bound holds for any nonzero positive semidefinite
+integer symmetric matrix, with its own rank and trace.
+
+\begin{proof}
+If the positive eigenvalues are $\eta_1\leq\cdots\leq\eta_r$, their
+product is the elementary symmetric coefficient $e_r(G)$, a positive
+integer. For a Gram matrix it is also a sum of squared integer minors
+by Cauchy--Binet. Thus $\prod_i\eta_i\geq1$.
+If $r=1$ this proves the claim. Otherwise the arithmetic--geometric
+mean inequality gives
+\[
+ \prod_{i=2}^r\eta_i\leq
+ \left(\frac{\sum_{i=2}^r\eta_i}{r-1}\right)^{r-1}
+ \leq\left(\frac{T}{r-1}\right)^{r-1},
+\]
+which proves \eqref{R21:gap}. The proof for an integer positive
+semidefinite matrix uses the same integer characteristic coefficient.
+\end{proof}
+
+The exponential dependence on matrix dimension can occur even at fixed
+entry height. If $S$ is the nilpotent superdiagonal shift of size $r$
+and $A=I-HS$ with integer $H\geq2$, then
+$A^{-1}=\sum_{j=0}^{r-1}H^jS^j$. Its top-right entry is $H^{r-1}$,
+so $\|A^{-1}\|_2\geq H^{r-1}$ and
+$\lambda_{\min}(AA^{\mathsf T})\leq H^{-2(r-1)}$.
+This is a concrete limitation on dimension-independent spectral
+separation from integrality alone.
+
+For example, let $A_\lambda$ be the integral matrix in R-06 constructed
+from the tensor $n!f$, where the original polynomial has integer monomial
+coefficients. Set $c_\lambda=f^\lambda/D!$. Its projected Gaussian
+covariance for the original, unscaled symmetric tensor is
+\begin{equation}\label{R21:gaussiantransport}
+ \mathcal G_\lambda(f)=
+ \frac{c_\lambda^2}{(n!)^{2d}}
+ A_\lambda\operatorname{diag}(\alpha!)A_\lambda^{\mathsf T}.
+\end{equation}
+When $A_\lambda\ne0$, every $\alpha!\geq1$, so its least positive eigenvalue is at least
+$c_\lambda^2/(n!)^{2d}$ times the bound in \eqref{R21:gap} for
+$A_\lambda A_\lambda^{\mathsf T}$. Both matrices have the same image,
+so the comparison is made on their common support. The factorials in
+this statement are necessary; the passage from an integral polynomial
+to an integral symmetric tensor cannot be omitted.
+The explicit matrix dimensions and height in R-06 show that this
+bound alone does not yield polynomial precision in growing GCT size.
+
+\paragraph{2. A compressed integral coefficient kernel.}
+Assume $f=\sum_{|\beta|=n}f_\beta x^\beta$ has integer coefficients;
+rational inputs can be cleared of a common denominator without changing
+the orbit span. Let $f_{\rm ten}\in(\mathbb C^N)^{\otimes n}$ be the
+usual symmetric-tensor embedding and set
+$v=(n!f_{\rm ten})^{\otimes d}$.
+For matrices of variables $Z,W$, write
+\[
+ Z\cdot f=\sum_{|\beta|=n}g_\beta(Z)x^\beta,
+ \qquad
+ \Phi(Z)=Z^{\otimes D}v=\sum_{|\alpha|=D}Z^\alpha c_\alpha.
+\]
+There are
+\[
+ M=\binom{N^2+D-1}{D}
+\]
+column labels $\alpha$. Form the polynomial
+\begin{equation}\label{R21:kernel}
+ \mathcal K_f(Z,W)=
+ \left(n!\sum_{|\beta|=n}\beta!\,
+                     g_\beta(Z)g_\beta(W)\right)^d
+       =\sum_{\alpha,\gamma}B_{\alpha\gamma}Z^\alpha W^\gamma.
+\end{equation}
+Then $B=C_f^{\mathsf T}C_f$ is an $M\times M$ positive semidefinite
+integer matrix. Thus its kernel coefficients replace the exponentially
+tall tensor-coordinate matrix without constructing its $N^D$ rows.
+
+\begin{proof}
+For a composition $\beta$ of $n$, the symmetric-tensor embedding of
+the monomial $x^\beta$ is
+$(\beta!/n!)$ times the sum of all distinct tensor words with
+composition $\beta$. There are $n!/\beta!$ such words.
+Consequently the coefficient of each such word in
+$Z^{\otimes n}(n!f_{\rm ten})$ is $\beta!g_\beta(Z)$, and its
+bilinear tensor inner product with the analogous expression in $W$ is
+\[
+ \sum_{|\beta|=n}\frac{n!}{\beta!}
+                 (\beta!g_\beta(Z))(\beta!g_\beta(W))
+ =n!\sum_{|\beta|=n}\beta!g_\beta(Z)g_\beta(W).
+\]
+Taking $d$ tensor powers gives \eqref{R21:kernel}. Comparing coefficients
+gives $B_{\alpha\gamma}=c_\alpha^{\mathsf T}c_\gamma$.
+The vectors are real and integral; the resulting real Gram matrix is
+also positive semidefinite for the corresponding Hermitian inner product.
+\end{proof}
+
+For $\alpha=(\alpha_{ij})$, define its row-sum weight by
+\[
+ \operatorname{wt}(\alpha)_i=\sum_{j=1}^N\alpha_{ij}.
+\]
+The matrix $B$ is block diagonal by these weights. Denote the block
+of weight $\mu$ by $B_\mu$ and set $r_\mu=\operatorname{rank}B_\mu$,
+with $r_\mu=0$ if a coordinate of $\mu$ is negative or the block is
+absent. For $\delta=(N-1,N-2,\ldots,0)$, the exact formula is
+\begin{equation}\label{R21:weightformula}
+ m_\lambda(f)=
+ \sum_{\sigma\in S_N}\operatorname{sgn}(\sigma)
+              r_{\lambda+\delta-\sigma\delta},
+ \qquad \lambda\vdash D,\quad\ell(\lambda)\leq N.
+\end{equation}
+This is a signed Weyl extraction from positive Gram ranks, not a new
+cancellation-free tableau rule.
+
+\begin{proof}
+For a diagonal matrix $t$, the identity
+$\Phi(tZ)=t^{\otimes D}\Phi(Z)$ shows that $c_\alpha$ has weight
+$\operatorname{wt}(\alpha)$. Distinct tensor-weight spaces are
+orthogonal in the word basis, proving the block decomposition.
+As in R-06, the coefficient span is exactly the $GL_N$ orbit span:
+a functional vanishes on every coefficient if and only if its
+polynomial evaluation vanishes on all matrices, equivalently on the
+Zariski-dense invertible matrices. Hence $r_\mu$ is exactly the
+dimension of the $\mu$ weight space of this orbit span.
+
+Its character is $\sum_\mu r_\mu z^\mu$.
+Multiplication by the Weyl alternant
+$\sum_{\sigma\in S_N}\operatorname{sgn}(\sigma)z^{\sigma\delta}$
+turns $s_\nu(z)$ into the alternant with exponent $\nu+\delta$.
+The coefficient of $z^{\lambda+\delta}$ is therefore $m_\lambda(f)$:
+the strictly decreasing dominant exponent occurs in precisely that
+alternant, with coefficient one. Expanding this coefficient proves
+\eqref{R21:weightformula}. The orbit-span multiplicities are the
+coordinate-ring multiplicities under the consistent dual convention
+already fixed in R-05.
+\end{proof}
+
+\paragraph{3. Exact cost and sufficient approximation precision.}
+Let $H=\max\{1,|f_\beta|\}$ and put
+\[
+ H_B=N^{3D}(n!H)^{2d},\qquad T_0=MH_B.
+\]
+Every entry of $B$ has absolute value at most $H_B$.
+Indeed each tensor coefficient has absolute value at most
+$N^D(n!H)^d$, and each Gram entry sums $N^D$ products of two such
+coefficients. Thus $\operatorname{tr}B_\mu\leq T_0$ for every block.
+The spectral lemma, without knowing the block rank, gives
+\begin{equation}\label{R21:uniformgap}
+ \lambda_{\min}^{+}(B_\mu)\geq
+ \eta_0:=T_0^{-(M-1)}
+\end{equation}
+for every nonzero block. To see this, use rank at most $M$,
+$T_0\geq1$, and discard the factor $(r-1)^{r-1}\geq1$ from
+\eqref{R21:gap}; a rank-one positive eigenvalue is at least one.
+
+If a Hermitian approximation to each block has entrywise error
+less than $\eta_0/(4M)$, its operator error is less than
+$\eta_0/4$. The min--max principle then places each eigenvalue
+within that distance of its exact value. Counting the approximate
+eigenvalues above $\eta_0/2$ recovers the exact rank. For example,
+entry precision of
+\begin{equation}\label{R21:bits}
+ p=\left\lceil (M-1)\log_2T_0+\log_2(8M)\right\rceil
+\end{equation}
+absolute entry error at most $2^{-p}$ suffices, with room for an
+additional eigenvalue-approximation error at most $\eta_0/8$. For this integral coefficient matrix there is also a simpler exact
+recovery route: absolute entry error below $1/2$ permits rounding each
+entry to its exact integer, followed by exact elimination. The smaller
+error above is needed only for the stated direct spectral threshold;
+it must not be confused with a necessary precision for integer recovery.
+The spectral statement is an explicit conditioning bound; it does not by itself bound the cost of a
+random-matrix integration oracle.
+
+For fixed $N$, $M$ is polynomial in $D$, and
+\[
+ \log H_B=O\bigl(D\log N+D\log n+d\log H\bigr).
+\]
+The $g_\beta$ and the kernel in \eqref{R21:kernel} can be expanded
+by integer polynomial arithmetic in a fixed number of variables.
+Their dense coefficient arrays, at degrees at most $D$ in each
+matrix alphabet, have polynomial size in $D$.
+Their coefficient bit lengths are bounded by the same elementary
+factorial and multinomial estimates. Thus all kernel entries can
+be computed in polynomial bit complexity for fixed $N$.
+Exact rational elimination computes each required block rank in
+polynomial bit complexity as well: intermediate reduced fractions
+are ratios of minors, whose sizes are bounded by the factorial
+expansion bound $M!H_B^M$. Formula \eqref{R21:weightformula} needs
+at most $N!$ block ranks for a given label. This proves the claimed
+fixed-dimension algorithm; \eqref{R21:bits} is polynomial in the
+same numerical parameters.
+
+There are two relevant limits to this conclusion. In GCT the ambient
+dimension is $N=n^2$, so neither the size exponent nor the precision
+bound is uniform polynomial in matrix size. Also, an orbit of one
+fixed quaternary form is not the entire image of all four-variable
+permanent pencils. Applying this algorithm to one specialization
+does not compute the multiplicities of $\mathcal P_{m,4}$.
+
+\paragraph{The slope-method gate.}
+The supplied Alp\"oge note, step~13 on printed p.~4 (G-B10), names
+the Bost slope inequality as a step. That step itself gives no integral-metric construction or
+degree-dependent constants for the coefficient matrices above. A transfer to this rank problem would require such
+a construction and bounds strong enough to control the displayed
+dimensions and heights. The present spectral estimate supplies a
+self-contained arithmetic bound and an exact restricted algorithm;
+it neither uses nor challenges the stipulated RH/Dirichlet-GRH input.
+
