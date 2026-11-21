@@ -1,0 +1,2386 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=27mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools,booktabs,longtable,array}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\setlist{itemsep=3pt,topsep=5pt}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{3em}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\DeclareMathOperator{\CH}{CH}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\NS}{NS}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Alb}{Alb}
+\title{JAC1964: primitive incidence polarizations,\newline pencil heights, and the arithmetic complement}
+\author{Run JAC1964--20261121\\GPT-6 Astra Pro; collaborative mathematical investigation}
+\date{21 November 2026\\Working manuscript: checkpoint version}
+\begin{document}
+\maketitle
+\begin{abstract}
+Accepting the supplied 032 results, we prove that the correctly signed
+primitive incidence self-duality of an odd-dimensional abelian variety is
+a rational polarization in every characteristic. An explicit quadric
+pencil refutes the proposed uncorrected H9 height identity, even when
+all fibres are geometrically integral and the restricted cycles are
+rationally zero. We give the admissible local correction and a precise
+no-correction criterion. Algebraic Lefschetz correspondences prove the
+restriction and fixed-part assertions of the sixth theorem. An
+all-primes monodromy argument also determines the variable incidence
+sign under explicit Lefschetz monodromy hypotheses. The arithmetic
+investigation constructs an actual orthogonal Chow Picard summand for
+CM varieties and isolates its complementary height problem. A Fermat
+quartic Ceresa class shows that this complement is nonempty.
+The unrestricted seventh theorem, with the customary meaning of
+$\tau$-equivalence, is false even for CM abelian threefolds.
+This is a checkpoint manuscript; the statement-level audit is in
+\texttt{CHECK\_EVENTS.tsv}. Its arithmetic additions are still being
+extended and reviewed. No general arithmetic Hodge-index theorem is
+claimed.
+\end{abstract}
+\tableofcontents
+\newpage
+\section{Scope, inputs, and conventions}
+All new deductions are labelled by stable finding IDs. ``Proved'' means
+proved from the explicitly accepted and cited inputs, with the
+whole-proof reading recorded in the check log; it does not mean formal
+verification. The model effort setting is not exposed in this session.
+The original archive images were not supplied, so the transcription
+audit is mathematical, not palaeographic.
+
+The incidence interpretation of the higher Picard variety is specified
+below. We work with rational cycles and rational homomorphisms of
+abelian varieties, clearing denominators on actual families. We do not
+tensor geometric point groups with $\mathbf Q$ to define varieties.
+No integral universal cycle or principal polarization is asserted.
+
+The attached 032, Theorem 1.1 and Corollary 8.4, the supplied
+van Hoften--Sempliner and Milne reports, and Alp\"oge's advertised
+Riemann-hypothesis and Dirichlet-GRH statements are accepted as inputs,
+as requested. Their full proofs and the omitted Lean dependency tree
+were not independently certified here. The bridge sketch and H9 are
+questions to test, not input theorems. The exact scopes of the analytic
+inputs are recorded in the arithmetic section.
+
+\part{Checked findings and cited background}
+% Proof-ready contributions by /root/programme_audit.
+% Run JAC1964-20261121; GPT-6 Astra Pro; effort setting not exposed.
+% All statements are rational, unless explicitly stated otherwise.
+
+\section{Incidence Picard varieties and the next theorem of the programme}
+
+For a smooth projective variety $V$ of dimension $d$ over an algebraically
+closed field, write $A^p(V)=\mathrm{CH}^p(V)_{\mathrm{alg}}$ and
+\[
+ I^p(V)=\{z\in A^p(V):\Gamma_*z=0\text{ in }\mathrm{Pic}^0(T)
+ \text{ for every smooth projective }T
+ \text{ and }\Gamma\in\mathrm{CH}^{d-p+1}(V\times T)\}.
+\]
+Saito's higher Picard variety, denoted $P^p(V)$ here, represents
+$A^p(V)/I^p(V)$ on algebraically closed points
+\cite[Theorem~(3.6)(i)]{Saito1979}.
+This is the incidence construction suggested by cote~44, scans~2 and~9.
+It must not be silently substituted for the universal regular algebraic
+representative, a different universal problem.  Saito supplies duality
+\emph{up to isogeny}, not an assertion of a canonical integral principal
+polarization \cite[Proposition~(4.4)]{Saito1979}.
+Rational families below mean rational homomorphisms of abelian varieties,
+obtained by clearing the denominators of the cycles first.  They do not
+mean that one tensors the abstract group of geometric points with
+$\mathbf Q$; that operation would lose the construction over
+$\overline{\mathbf F}_p$, where all abelian-variety points are torsion.
+
+\begin{lemma}[JAC-P00: rational descent of the incidence construction]
+\label{jac:P00}
+Let $F$ be any field and let $V/F$ be smooth and projective.  The
+incidence Picard variety of $V_{\overline F}$, together with its quotient
+map on algebraically trivial cycles, has a model over $F$ in the isogeny
+category.  If $T/F$ is abelian and $u:T\to P^p(V)$ is a rational
+homomorphism over $F$, there is a cycle
+$Z\in\mathrm{CH}^p(T\times V)_{\mathbf Q}$ whose family map is $u$.
+\end{lemma}
+
+\begin{proof}
+Saito's quotient is canonical: its universal property among Picard
+homomorphisms gives a unique isomorphism from each conjugate quotient
+to the quotient of $V_{\overline F}$.  These isomorphisms satisfy the
+cocycle identity.  The variety, its group law, the finite correspondence
+data witnessing that its quotient map is a Picard homomorphism, and
+one surjective generating family are defined over a finite extension
+of $F$.  The latter can be taken from Saito's Poincar\'e cycle, whose
+family map is a positive integer times the identity.  An automorphism
+fixing these data fixes the quotient map on that generating family.
+Uniqueness of the comparison isomorphism, and surjectivity of the
+family map, then force that comparison to be the identity.  This
+proves, using finite algebraic data rather than the set of all cycles,
+that the canonical descent datum is trivial on an open subgroup of
+the absolute Galois group.
+
+Here are the details that also cover an imperfect $F$.  Enlarge a
+finite separable extension to a finite Galois extension $L/F$, and
+choose $r\ge0$ so that the preceding finite field of definition lies
+in $L^{1/p^r}$ in characteristic $p$; take $r=0$ in characteristic
+zero.  Raising the coefficients of the variety and its group law to
+$p^r$ gives an abelian variety $Q/L$, and relative Frobenius gives an
+isogeny $f:P_{\overline F}\to Q_{\overline F}$.
+Transport the canonical descent datum by $f$ and its rational inverse.
+For $\sigma\in\operatorname{Gal}(L/F)$ this gives
+\[
+ c_\sigma:{}^\sigma Q\longrightarrow Q
+ \quad\text{in the rational category},\qquad
+ c_{\sigma\tau}=c_\sigma\,{}^\sigma c_\tau.
+\]
+These maps are defined over $L$: homomorphisms of abelian varieties
+acquire no new elements under purely inseparable extensions, and the
+remaining Galois invariance follows from the cocycle identity and the
+triviality of the datum on automorphisms fixing $L$.  For the former
+standard rigidity fact, see \cite[Example~4.2.14, p.~38]{ConradAV}.
+
+Rational Galois descent is effective by the following explicit
+construction.  Let $G=\operatorname{Gal}(L/F)$ and
+$R=\operatorname{Res}_{L/F}Q$.  Over $L$ identify
+$R_L=\prod_{\sigma\in G}{}^\sigma Q$.  The maps
+\[
+ i:Q\longrightarrow R_L,\quad
+ i(x)=(c_\sigma^{-1}x)_\sigma,
+ \qquad
+ q:R_L\longrightarrow Q,\quad
+ q((x_\sigma))=\frac1{|G|}\sum_\sigma c_\sigma x_\sigma
+\]
+satisfy $qi=1$.  The cocycle identity makes $e=iq$ Galois invariant,
+so $e\in\operatorname{End}^0_F(R)$.  For a positive integer $N$ with
+$Ne$ integral, its image is an abelian variety over $F$ whose base
+change is isomorphic to $P$ in the isogeny category.  This supplies the
+required rational model and its transported quotient map.  Uniqueness
+in the rational category follows from the same quotient universal
+property.
+
+Finally pull a normalized rational Poincar\'e cycle back by $u$ over
+$\overline F$.  The resulting family is defined over some finite
+extension $F'/F$.  Put $d_s=[F':F]_{\rm sep}$ and
+$d_i=[F':F]_{\rm insep}$, and let
+$\pi:(T\times V)_{F'}\to T\times V$.
+Define $Z=(d_sd_i)^{-1}\pi_*Z_{F'}$.  After base change to
+$\overline F$, flat base change for Chow groups expresses this as
+the average of the $d_s$ conjugate cycles, each with multiplicity
+$d_i$.  The multiplicity is the length of the corresponding local
+factor of $F'\otimes_F\overline F$.  Every conjugate induces $u$,
+because $u$ is defined over $F$ for the compatible quotient descent
+datum.  Hence $Z$ induces $u$.  This explains explicitly both the
+separable conjugates and the inseparable factor; it does not treat a
+purely inseparable extension as if it had extra automorphisms.
+\end{proof}
+
+\begin{lemma}[JAC-P01: detection by the odd realization]
+\label{jac:P01}
+Let $V,W$ be smooth projective varieties over an algebraically closed
+field, and let
+$\Gamma\in\mathrm{CH}^{\dim V-p+q}(V\times W)_{\mathbf Q}$.
+Fix a prime $\ell$ invertible in the field.  If the action of $\Gamma$
+from $H^{2p-1}(V,\mathbf Q_\ell)$ to
+$H^{2q-1}(W,\mathbf Q_\ell(q-p))$ is zero, then the induced rational
+homomorphism $P^p(V)\longrightarrow P^q(W)$ is zero.
+
+More generally, for an abelian variety $T$ and
+$Z\in\mathrm{CH}^q(T\times W)_{\mathbf Q}$, the homomorphism
+$T\longrightarrow P^q(W)$ defined by $t\mapsto Z_t-Z_0$ depends only
+on the K\"unneth component
+\[
+ [Z]_{1,2q-1}\in H^1(T,\mathbf Q_\ell)\otimes
+ H^{2q-1}(W,\mathbf Q_\ell(q)).
+\]
+In particular, it is zero if that component is zero.
+\end{lemma}
+
+\begin{proof}
+For the second assertion, test $Z_t-Z_0$ by an arbitrary incidence
+correspondence
+$\Xi\in\mathrm{CH}^{\dim W-q+1}(W\times S)$.
+The composition $\Xi\circ Z$ is a divisor class on $T\times S$.
+Its component in $H^1(T)\otimes H^1(S)$ depends only on
+$[Z]_{1,2q-1}$, by the K\"unneth formula and integration over $W$.
+A divisor correspondence on $T\times S$ gives a homomorphism
+$T\to\mathrm{Pic}^0(S)$; its rational Tate-module action is precisely
+the mixed degree-one component.  Faithfulness of the rational Tate
+module on homomorphisms of abelian varieties therefore says that this
+homomorphism is zero when the indicated mixed component is zero.
+Consequently every $Z_t-Z_0$ is annihilated by every incidence tester.
+It is zero in $A^q(W)/I^q(W)$ by definition, proving the assertion.
+The argument applies to rational cycles after clearing denominators.
+
+Every algebraically trivial cycle is a finite sum of differences of
+fibres of families parametrized by smooth projective curves.
+For one such family
+$U\in\mathrm{CH}^{p}(C\times V)$, its only relevant odd component
+gives the map $H^1(C)\to H^{2p-1}(V)(p-1)$.
+Composition with $\Gamma$ is zero by the hypothesis.  Composing further
+with each incidence tester on $W$ gives a divisor correspondence on
+$C\times S$ with zero mixed component.  The induced
+$\operatorname{Alb}(C)\to\mathrm{Pic}^0(S)$ is zero, by the same
+faithfulness argument.  Thus $\Gamma_*$ sends every element of
+$A^p(V)$ into $I^q(W)$, and its action on $P^p(V)$ is zero.
+\end{proof}
+
+The lemma does not assume the standard conjecture~D.  The use of
+cohomology concerns correspondences acting on families of cycles;
+it does not identify homological and incidence equivalence of individual
+cycles.
+
+\begin{theorem}[JAC-P02: Theorem~6 for incidence Picard varieties]
+\label{jac:P02}
+Let $X$ be smooth projective of dimension $n$ over an algebraically
+closed field, and assume that its normalized Lefschetz lowering
+operator is algebraic.  For a smooth hyperplane section $j:Y\hookrightarrow X$,
+restriction induces
+\[
+ j^*:P^p(X)\longrightarrow P^p(Y).
+\]
+It is an isogeny if $2p\le n-1$, has finite kernel if $2p=n$, and
+is surjective if $2p\ge n+1$.  Each assertion means the corresponding
+split statement in the rational category of abelian varieties, hence
+the asserted statement for the original integral homomorphism.
+
+Suppose further that $Y=Y_\eta$ is the generic member of a pencil with
+smooth codimension-two base locus, and put $K=k(t)$.  In the critical
+case $n=2p$, the image of $P^p(X)_K$ is the image of the $K/k$-trace
+of $P^p(Y_\eta)$, up to isogeny.  Thus the rational form of all clauses
+of cote~44, scan~4, Theorem~6, holds whenever the Lefschetz standard
+conjecture holds for $X$.  In particular, it holds for abelian $X$
+in every characteristic.
+\end{theorem}
+
+\begin{proof}
+Write $L$ for multiplication by the hyperplane class and $\Lambda$
+for the normalized lowering operator: it sends $L^a v$ to
+$L^{a-1}v$ for a primitive vector $v$ and $a>0$, and kills $v$.
+The standard conjecture supplies an algebraic correspondence for this
+operator.  The correspondence
+\[
+ R=\Lambda_X\circ j_*
+\]
+has degree zero and induces $P^p(Y)\to P^p(X)$.
+Put $r=2p-1$.
+For $r<n$, no Lefschetz string terminates in degree $r$, so
+\[
+ Rj^*=\Lambda_X L_X=\operatorname{id}\quad\text{on }H^r(X).
+\]
+By Lemma~\ref{jac:P01}, the same identity holds on $P^p(X)$.
+If $r<n-1$, weak Lefschetz makes $j^*:H^r(X)\to H^r(Y)$ an
+isomorphism, hence $j^*R$ is also the identity on $H^r(Y)$ and on
+$P^p(Y)$.  This proves the first assertion and, when $r=n-1$,
+the assertion of finite kernel.
+
+For $r\ge n$, the Gysin map
+$j_*:H^r(Y)\to H^{r+2}(X)(1)$ is an isomorphism by the dual of
+weak Lefschetz.  No Lefschetz string begins in degree $r+2>n$,
+so $L_X\Lambda_X=\operatorname{id}$ there.  For $y\in H^r(Y)$,
+\[
+ j_*j^*Ry=L_X\Lambda_Xj_*y=j_*y.
+\]
+Injectivity of $j_*$ gives $j^*R=\operatorname{id}$ on $H^r(Y)$;
+Lemma~\ref{jac:P01} transfers this identity to $P^p(Y)$.
+These are precisely the algebraic inverse mechanisms of cote~16,
+scan~33, formula~B(4), and scans~40 and~45, clauses~(iv) and~(iv bis).
+
+Here is a cycle-level proof of the fixed-part assertion, so no inference
+from invariant cohomology to algebraicity of a correspondence is left
+unstated.  Write $p=m$, $n=2m$, let $B$ be the base locus, and let
+\[
+ b:\widetilde X=\operatorname{Bl}_B X\longrightarrow X,
+ \qquad e:E\hookrightarrow\widetilde X,
+ \qquad q:E\longrightarrow B
+\]
+be the blow-up, exceptional divisor, and its projection.  Let $T/k$
+be an abelian variety and
+$u:T_K\longrightarrow P^m(Y_\eta)$ a homomorphism.  Saito's
+Poincar\'e $m$-cycle supplies, after division by its positive integer
+multiplier, a rational cycle on $P^m(Y_\eta)\times Y_\eta$
+inducing the identity \cite[\S4.1]{Saito1979}.  Lemma~\ref{jac:P00}
+descends its pullback by $u$ to a rational cycle
+\[
+ Z_\eta\in\mathrm{CH}^m(T_K\times Y_\eta)_{\mathbf Q}
+\]
+inducing $u$.  In particular the construction is valid even when
+$K=k(t)$ is imperfect.  Subtracting $Z_0$ normalizes
+the family at the identity of $T$.
+
+Close a cycle representative in $T\times\widetilde X$.
+The codimension-two blow-up formula gives
+\[
+ \overline Z=(1_T\times b)^*Z_X+
+ (1_T\times e)_*(1_T\times q)^*Z_B,
+\]
+where
+$Z_X\in\mathrm{CH}^m(T\times X)_{\mathbf Q}$ and
+$Z_B\in\mathrm{CH}^{m-1}(T\times B)_{\mathbf Q}$ are defined over
+$k$.  Write $k_B:B\hookrightarrow X$ and $i:B_K\hookrightarrow Y_\eta$.
+The mixed component relevant to $Z_B$ is
+$H^1(T)\otimes H^{n-3}(B)$.
+Weak Lefschetz identifies $H^{n-3}(X)$ with $H^{n-3}(B)$.
+An algebraic inverse is
+\[
+ S=\Lambda_X^2\circ(k_B)_*.
+\]
+Indeed, $(k_B)_*k_B^*=L_X^2$ and $\Lambda_X^2L_X^2$ is the
+identity on degree $n-3$.  Define an algebraic rational cycle over $k$
+by
+\[
+ W_X=Z_X+L_X\circ S\circ Z_B\in
+ \mathrm{CH}^m(T\times X)_{\mathbf Q}.
+\]
+For $x\in H^{n-3}(X)$ the projection formula gives
+\[
+ i_*k_B^*x=i_*i^*j_\eta^*x=L_{Y_\eta}j_\eta^*x
+ =j_\eta^*L_Xx.
+\]
+It follows that $Z_\eta$ and $j_\eta^*W_X$ have the same
+$H^1(T)\otimes H^{n-1}(Y_\eta)$ component.  Lemma~\ref{jac:P01}
+says they induce the same rational homomorphism from $T_K$ to
+$P^m(Y_\eta)$.  The latter factors through $P^m(X)_K$ since $W_X$
+is defined over $k$.  When $m=1$ the exceptional term has no mixed
+component, since $H^{-1}(B)=0$, and the same conclusion follows.
+
+Every homomorphism from a constant abelian variety has therefore image
+in $\operatorname{Im}j_\eta^*$.  Conversely, this image is itself the
+image of a homomorphism from the constant variety $P^m(X)_K$.
+The universal property of the $K/k$-trace proves the asserted equality
+of images up to isogeny, using the rational $K$-model of
+Lemma~\ref{jac:P00}.
+\end{proof}
+
+\section{An explicit test of the primitive sign}
+
+\begin{proposition}[JAC-P03: the uncorrected correspondence is indefinite]
+\label{jac:P03}
+There exist normalized algebraic families of codimension-two cycles
+on an abelian threefold for which the divisor correspondence of
+cote~44, scan~9, is nondegenerate and indefinite.  Neither quotienting
+by its kernel nor multiplication by a common sign makes it a
+polarization.  The primitive qualification in scan~8 is essential.
+\end{proposition}
+
+\begin{proof}
+Let $E$ be an elliptic curve, set $X=E_1\times E_2\times E_3$,
+write $a_i$ for the pullback of $[0]\in\mathrm{CH}^1(E_i)$, and use
+$h=a_1+a_2+a_3$ as polarization.  On $E\times E$ put
+\[
+ P=[\Delta_E]-[E\times0]-[0\times E].
+\]
+As a correspondence $P$ is the symmetric degree-one Chow--K\"unneth
+projector, hence ${}^tP\circ P=P$.
+As a divisor correspondence it induces
+\[
+ E\longrightarrow\widehat E,
+ \qquad t\longmapsto\mathcal O_E(t-0)=-\lambda_{\mathcal O_E(0)}(t),
+\]
+where the polarization convention is
+$\lambda_L(t)=t_t^*L\otimes L^{-1}$.
+Thus the sign calibration is fixed, rather than hidden in a convention.
+
+Define two families on $E_t\times X$ by
+\[
+ z_\pm=P_{t,1}\,(a_2\pm a_3).
+\]
+Their incidence divisor correspondences are
+\[
+ D_\pm=\deg_{E_2\times E_3}(a_2\pm a_3)^2\,P
+       =\pm2P,
+\]
+and the mixed incidence correspondence between the two families
+is zero because $(a_2+a_3)(a_2-a_3)=0$.
+Use independent parameters for the two families, obtaining a family
+over $T=E\times E$.  Its symmetric homomorphism $T\to\widehat T$
+has diagonal blocks $-2\lambda_{\mathcal O(0)}$ and
+$+2\lambda_{\mathcal O(0)}$.  It is an isogeny, but its associated
+rational line bundle restricts to a negative-degree line bundle on one
+elliptic factor and a positive-degree one on the other.  It cannot be
+ample.  Its negative cannot be ample either.  Passing through a finite
+quotient does not change this conclusion, since the pullback of an
+ample line bundle by an isogeny is ample.
+
+The degree-one parameter components make the primitive issue explicit.
+For $\alpha\in H^1(E_1)$, they have images
+\[
+ u_\pm(\alpha)=\alpha(a_2\pm a_3).
+\]
+One has $u_+(\alpha)=L_X\alpha$ and $L_Xu_-(\alpha)=0$.
+Moreover, for $\alpha,\beta\in H^1(E_1)$,
+\[
+ \int_Xu_+(\alpha)u_+(\beta)=2\int_E\alpha\beta,
+ \qquad
+ \int_Xu_-(\alpha)u_-(\beta)=-2\int_E\alpha\beta,
+\]
+and the cross pairing vanishes.  The lower Lefschetz and primitive
+pieces require different signs.  In the divisor convention above,
+the primitive $m=2$ correspondence $D_-=-2P$ already gives the
+positive homomorphism $2\lambda_{\mathcal O(0)}$.
+\end{proof}
+
+\section{Primitive middle cycles need not reach the incidence Jacobian}
+
+\begin{proposition}[JAC-P04: an abelian-fourfold domain test for H9]
+\label{jac:P04}
+Let $X=E_1\times E_2\times E_3\times E_4$ over $\mathbf C$,
+$a_i=[0]$ pulled back from $E_i$, and $h=a_1+a_2+a_3+a_4$.
+For a sufficiently high-degree Lefschetz pencil relative to $h$, let
+$Y_\eta$ be its geometric generic member.  The codimension-two cycle
+\[
+ \alpha=(a_1-a_2)(a_3-a_4)
+\]
+satisfies $h\alpha=0$ and $\deg\alpha^2=4$.  Its restriction to
+$Y_\eta$ is homologically trivial, but no nonzero multiple of that
+restriction is algebraically equivalent to zero.
+\end{proposition}
+
+\begin{proof}
+The relations $a_i^2=0$ give
+\[
+ h\alpha=0,
+ \qquad
+ \alpha^2=(-2a_1a_2)(-2a_3a_4)=4a_1a_2a_3a_4.
+\]
+In particular $\alpha$ has nonzero cohomology class.  Since the Gysin
+map $H^4(Y_\eta)\to H^6(X)$ is an isomorphism by weak Lefschetz
+and duality, the equality $j_*j^*\alpha=d\,h\alpha=0$ gives
+$j^*\alpha=0$ in cohomology, for the degree-$d$ pencil.
+
+Apply SGA~7~II, Expos\'e~XX, Theorem~4.1
+\cite[printed p.~355]{SGA7II}.  Its hard-Lefschetz hypothesis holds
+for $X$.  Its algebraic-retraction hypothesis~B is supplied by the
+algebraic Lefschetz operator, as noted in Expos\'e~XX, \S3.4.
+For sufficiently high degree the pencil satisfies condition~A by
+Expos\'e~XVIII, Corollary~6.4.  In characteristic zero its variable
+middle cohomology has level greater than one for sufficiently high
+degree, by Expos\'e~XX, Remark~4.3 (printed p.~356).
+The cited theorem says that a middle-dimensional cycle on $X$ with
+algebraically trivial generic restriction has zero cohomology class
+on $X$.  Applied to any nonzero multiple of $\alpha$, this contradicts
+$\deg\alpha^2=4$.  Therefore no such multiple is algebraically
+trivial on $Y_\eta$.
+\end{proof}
+
+This example identifies the enlargement between cote~44, scan~4,
+Theorem~5, which explicitly requires algebraic triviality on $Y$,
+and H9, which assumes only homological triviality.  The latter condition
+does not provide a point of the incidence Picard variety.  It provides
+a class in the Griffiths group in this example.  A general intermediate
+Jacobian or normal function is a different object and does not remove
+this distinction.
+
+\begin{proposition}[JAC-P05: the customary reading of Theorem~7 is false]
+\label{jac:P05}
+If $\tau$-equivalence means that a nonzero integral multiple is
+algebraically equivalent to zero, the unrestricted equality of numerical
+and $\tau$-equivalence in cote~44, scan~6, fails already for complex
+abelian threefolds of CM type, including one defined over a number field.
+\end{proposition}
+
+\begin{proof}
+Take the Fermat quartic
+\[
+ C:\quad T_0^4+T_1^4=T_2^4
+\]
+and embed it in its Jacobian $J=J(C)$ using a rational base point.
+Bloch's Theorem~(4.1), printed p.~104 of \cite{Bloch1984L}, states
+that its Ceresa cycle $\Xi=[C]-[-1]_*[C]$ has infinite order modulo
+algebraic equivalence.  This is the rational non-torsion assertion,
+stronger than merely $\Xi\not\sim_{\rm alg}0$.
+Bloch's Lemma~(3.1), printed p.~99, gives an isogeny
+\[
+ J\longrightarrow E\times E\times E',\qquad
+ E:y^2=x^3-x,\quad E':y^2=x^3+x.
+\]
+Both elliptic curves have CM by $\mathbf Q(i)$, as is seen from
+$(x,y)\mapsto(-x,iy)$; thus $J$ is of CM type.
+On $H^4(J,\mathbf Q)$ the involution $[-1]^*$
+acts as $(-1)^4=1$.  Thus this cycle is homologically trivial, hence
+numerically trivial by compatibility of cycle classes and intersection.
+Its infinite order modulo algebraic equivalence means that it is not
+$\tau$-equivalent to zero.  This gives the required counterexample.
+\end{proof}
+
+Ceresa's original theorem also gives a very general genus-three
+Jacobian example.  The explicit Bloch example has the advantage that
+both the infinite-order statement and the CM isogeny have directly
+verified primary-source locators.  A theorem making Hodge classes
+algebraic says nothing that would force a homologically trivial
+cycle such as $\Xi$ to become algebraically trivial.
+
+For divisors the statement is correct in every characteristic:
+SGA~6, Expos\'e~XIII, Theorem~4.6 identifies numerical triviality
+with $\tau$-triviality; definitions are in \S\S4.1 and~4.4.
+The supplied archive page does not itself define $\tau$.  Accordingly,
+the preceding refutation is explicitly tied to this customary reading,
+not to a guessed replacement of $\tau$ by homological equivalence.
+
+\begin{lemma}[JAC-P06: the finite-field meaning of the last claim]
+\label{jac:P06}
+Over $k=\overline{\mathbf F}_p$, every algebraically trivial Chow class
+is torsion.  Hence $\tau$-triviality means torsion in the Chow group,
+and numerical equivalence equal to $\tau$-equivalence would identify
+the rational Chow group with cycles modulo numerical equivalence.
+\end{lemma}
+
+\begin{proof}
+An algebraically trivial cycle is a finite sum of images, under cycle
+correspondences, of degree-zero zero-cycles on smooth projective curves.
+For a curve $C/k$, its degree-zero Chow group is $J(C)(k)$.  Every
+point and the curve are defined over a finite field, and each finite
+group $J(C)(\mathbf F_q)$ is torsion.  Thus $J(C)(k)$ is torsion,
+and so is each of its images under a correspondence.  A finite sum of
+torsion elements is torsion.  If a nonzero multiple of a Chow class
+is algebraically trivial, another nonzero multiple is therefore zero
+in the Chow group.  The converse is immediate.
+\end{proof}
+
+
+\section{The primitive incidence polarization in every characteristic}
+\label{sec:T4}
+
+All varieties in this section are over an algebraically closed field $k$.
+We work with rational correspondences and with $\ell$-adic cohomology,
+$\ell\ne\operatorname{char}k$; Tate twists in displayed K\"unneth components
+are suppressed when no confusion is possible. A rational polarization means
+an element of $\operatorname{NS}(B)_{\mathbf Q}$ a positive integral multiple
+of which is the class of an ample line bundle. It does not mean a principal
+polarization or an integral universal cycle.
+
+Write $P^p(X)=\operatorname{Pic}^p(X)$ for Saito's higher Picard variety:
+\[
+ A^p(X)/K^p(X)\simeq P^p(X)(k),\qquad
+ A^p(X)=\operatorname{CH}^p(X)_{\rm alg}.
+\]
+Here $K^p$ is the incidence kernel, tested by divisor-valued
+correspondences. The construction, rational Poincar\'e cycles and the
+canonical duality isogeny are the cited results
+\cite[Theorem~3.6, \S4.1, Proposition~4.4]{Saito1979}.
+The notation is the precise incidence interpretation of cote~44,
+scan~2, Theorems~1--3, and scan~8. It must not be replaced without proof
+by a universal regular algebraic representative.
+
+\begin{lemma}[JAC-T4.1: primitive incidence summand]
+\label{lem:primitive-summand}
+Let $A$ be an abelian variety of dimension $n=2m-1$, and let $h$ be a
+rational ample divisor class. Let $e_h$ denote the cohomological projector
+of $H^n(A)$ onto
+\[
+ H^n(A)_{\rm prim}=\ker\bigl(L_h:H^n(A)\longrightarrow H^{n+2}(A)\bigr)
+\]
+along $L_hH^{n-2}(A)$, extended by zero in other degrees.
+It is represented by a rational algebraic correspondence. It induces an
+idempotent on $P^m(A)$ in the isogeny category. Its image $B=P^m(A)_{\rm prim}$
+has a nondegenerate symmetric rational incidence correspondence
+$d_B\in\operatorname{NS}(B\times B)_{\mathbf Q}$, rigidified along the two
+axes. For a rational Poincar\'e family $z\in\operatorname{CH}^m(B\times A)_{\mathbf Q}$
+inducing the inclusion $B\longrightarrow P^m(A)$, it is
+\begin{equation}\label{eq:incidence}
+ d_B=\operatorname{pr}_{12*}(z_{13}\cdot z_{23})_{11}.
+\end{equation}
+The subscript $11$ removes the pullbacks of divisor classes on the two
+factors. The family may be chosen with cohomology entirely in
+$H^1(B)\otimes H^n(A)_{\rm prim}$.
+\end{lemma}
+
+\begin{proof}
+The Lefschetz standard conjecture and the algebraic K\"unneth projectors
+hold for abelian varieties; for an exact classical locator see
+\cite[Theorem~2A11]{Kleiman68}. Thus the primitive projector is algebraic.
+The incidence-detection lemma Lemma~\ref{jac:P01} says that a correspondence
+whose relevant odd cohomological action is zero acts as zero on higher
+Picard varieties. In particular, its action depends only on the
+homological class of that component. Applying this to $e_h^2-e_h$ gives
+an actual idempotent in $\operatorname{End}^0(P^m(A))$.
+
+The Poincar\'e pairing on $H^n(A)$ makes its primitive summand orthogonal
+to $L_hH^{n-2}(A)$: if $L_hu=0$, then
+$\int_Au\,L_hv=\int_A(L_hu)\,v=0$.
+Hard Lefschetz makes this an orthogonal direct sum of nondegenerate
+spaces. Consequently $e_h$ is self-transpose in degree $n$. Saito's
+transpose compatibility for incidence duality
+\cite[Proposition~4.4, especially (4.4.1)--(4.4.2)]{Saito1979}, together
+with incidence detection, says that the induced idempotent is
+self-adjoint for the canonical rational duality of $P^m(A)$.
+Writing the resulting isogeny decomposition as
+$P^m(A)\sim B\times B'$, this duality is block diagonal. Since the full
+duality is an isogeny, each block is an isogeny. In particular the block
+on $B$ is nondegenerate.
+
+Choose Saito's Poincar\'e cycle and divide it by its positive integer
+$k_m$ so that it induces the identity, then pull it back to $B\times A$.
+Apply the degree-one K\"unneth projector on the parameter factor and
+$e_h$ on the $A$ factor. These operations preserve the required map to
+the incidence quotient and give the asserted mixed cohomological
+component. Subtracting constant restrictions rigidifies the family at
+the origin without changing this component. Composition of
+correspondences gives \eqref{eq:incidence}. Equivalently, the
+unnormalized universal cycle would multiply this correspondence by
+$k_m^2$, a positive rational square. Symmetry follows by interchanging
+the two parameter factors. The block argument proves its
+nondegeneracy. This also proves independence of the chosen normalized
+family, in the N\'eron--Severi group, from Saito's incidence identities.
+\end{proof}
+
+\begin{lemma}[JAC-T4.2: transfer of the curve test to an abelian product]
+\label{lem:curve-test}
+Let $C$ be a smooth projective pointed curve of positive genus $b$, and
+let $A$ have dimension $2m-1$. Suppose a rational algebraic class
+$\xi\in H^1(C)\otimes H^{2m-1}(A)$ satisfies
+$(1\otimes L_h)\xi=0$. Let $J=J(C)$, let
+$a:C\longrightarrow J$ be its Abel map, and let $\theta$ be its canonical
+principal polarization. There is a rational algebraic class
+$w\in H^1(J)\otimes H^{2m-1}(A)$ with
+$(a\times1)^*w=\xi$. For $H=\theta+h$ on $J\times A$,
+\begin{equation}\label{eq:curve-transfer}
+ H^bw=0,\qquad
+ \int_{J\times A}w^2H^{b-1}
+ =(b-1)!\int_{C\times A}\xi^2.
+\end{equation}
+Hence 032, Corollary~8.4, gives
+\[
+ (-1)^m\int_{C\times A}\xi^2\ge0,
+\]
+with equality if and only if $\xi=0$.
+\end{lemma}
+
+\begin{proof}
+The Abel map identifies $h^1(C)$ and $h^1(J)$ by rational algebraic
+correspondences. One can use its graph, the divisor correspondence of
+the Poincar\'e bundle, and the inverse Lefschetz correspondence on $J$
+to obtain an algebraic inverse to $a^*:H^1(J)\to H^1(C)$.
+More explicitly, $w=(b-1)!\,(L_\theta^{b-1})^{-1}(a\times1)_*\xi$ on the indicated mixed component; the inverse is algebraic by the Lefschetz standard conjecture for $J$. Indeed, $a_*a^*x=x\theta^{b-1}/(b-1)!$ for $x\in H^1(J)$. Apply this inverse to the first factor of $\xi$ and project to
+$H^1(J)\otimes H^{2m-1}(A)$; the latter projector is algebraic because
+both varieties in the product are abelian. This constructs $w$ as an
+algebraic class, not merely as a cohomological tensor. It is unique as a
+cohomological tensor, and $h\,w=0$.
+
+The dimension of $J\times A$ is $b+2m-1$, and $w$ has codimension $m$.
+Every term in $(\theta+h)^bw$ with a positive power of $h$ vanishes.
+The remaining term $\theta^bw$ also vanishes because its degree on $J$
+is $2b+1$. Thus $w$ is primitive for the product ample class.
+Likewise $w^2H^{b-1}=w^2\theta^{b-1}$.
+The canonical polarization of the Jacobian gives
+\[
+ a_*[C]=\frac{\theta^{b-1}}{(b-1)!}
+ \quad\hbox{in cohomology}.
+\]
+Only its pairing with $H^2(J)$ is needed here. In this form it follows
+immediately from the identification of the canonical alternating
+pairings on $H^1(C)$ and $H^1(J)$: in a symplectic basis
+$\theta=\sum_{i=1}^b x_i\wedge y_i$, expansion of
+$\theta^{b-1}$ gives $(b-1)!$ times the complementary wedges.
+The identification of the pairings is Jacobian autoduality
+\cite[Chapter~III, Theorem~6.8 and Summary~6.11]{MilneAV}.
+Projection formula now gives \eqref{eq:curve-transfer}.
+
+Apply the Hodge standard conjecture in the exact form of 032,
+Corollary~8.4, to the abelian variety $J\times A$, codimension $m$ and
+ample class $H$. Its degree exponent is
+$(b+2m-1)-2m=b-1$, and its sign is $(-1)^m$.
+The factor $(b-1)!$ is positive. The equality assertion follows from
+positive definiteness and the injectivity of $a^*$ in degree one.
+\end{proof}
+
+\begin{theorem}[JAC-T4.3: cote 44, Theorem 4, on the primitive incidence quotient]
+\label{thm:T4}
+Accept 032, Corollary~8.4, as in the task specification. For every
+abelian variety $A$ of odd dimension $2m-1$ over an algebraically closed
+field of any characteristic, and every rational ample class $h$, the
+symmetric homomorphism on $P^m(A)_{\rm prim}$ defined by
+\[
+ (-1)^m d_B
+\]
+is a rational polarization. Equivalently, with
+$\phi_L(x)=t_x^*L\otimes L^{-1}$, the rational divisor class
+\begin{equation}\label{eq:T4-divisor}
+ \ell_B=\frac{(-1)^m}{2}\,\Delta_B^*d_B
+ \quad\in\operatorname{NS}(B)_{\mathbf Q}
+\end{equation}
+is ample. After multiplication by a positive integer it defines an
+actual polarization in every characteristic, including characteristic
+$2$.
+\end{theorem}
+
+\begin{proof}
+Use Lemma~\ref{lem:primitive-summand} to choose a normalized universal
+family $z$ and the nondegenerate symmetric incidence correspondence
+$d_B$. For a symmetric rigidified divisorial correspondence, the
+class $\Delta^*d_B/2$ is the rational N\'eron--Severi class inducing
+that correspondence. Indeed, for a line bundle $L$ the associated
+biextension class is
+$m_B^*c_1(L)-p_1^*c_1(L)-p_2^*c_1(L)$, whose diagonal pullback is
+$[2]^*c_1(L)-2c_1(L)=2c_1(L)$.
+Thus \eqref{eq:T4-divisor} induces $(-1)^md_B$, which is still
+nondegenerate.
+
+Let $C\to B$ be the normalization of any integral curve in $B$.
+It is nonconstant, so $C$ has positive genus. Translate it so that a
+chosen point maps to the origin; translations do not change
+N\'eron--Severi classes. Pulling back $z$ gives $z_C$ on $C\times A$,
+whose cohomology is in
+$H^1(C)\otimes H^{2m-1}(A)_{\rm prim}$.
+Refined pullback and projection formula for the incidence product give
+\begin{equation}\label{eq:degree-test}
+ \deg_C(\ell_B)=\frac{(-1)^m}{2}
+       \deg_{C\times A}(z_C\cdot z_C).
+\end{equation}
+There are no omitted degree-zero or degree-two parameter components:
+the family was projected to the degree-one component before this
+calculation. Lemma~\ref{lem:curve-test} makes the right side
+nonnegative. Hence $\ell_B$ is nef.
+
+A nef line bundle on an abelian variety whose associated symmetric
+homomorphism is an isogeny is ample. To recall a short precise version
+of this criterion, clear denominators and call the resulting bundle
+$L$. Nondegeneracy gives $\chi(L)\ne0$ and
+$\deg\phi_L=\chi(L)^2$, whereas nefness and Riemann--Roch give
+$\chi(L)>0$. For an ample $H_0$, the polynomial
+$\chi(L+tH_0)=(c_1(L)+tc_1(H_0))^{\dim B}/(\dim B)!$
+is positive for all $t\ge0$. Mumford's index theorem therefore gives
+index zero; its effective nondegenerate criterion then gives
+ampleness \cite[Chapter~III, \S16, Index Theorem, and Chapter~II,
+\S6, Application~1]{MumfordAV}. This argument is valid in arbitrary
+characteristic. Applying it to \eqref{eq:T4-divisor} proves the theorem.
+The zero-dimensional $B$ case is immediate. Rational coefficients
+justify all divisions even when the characteristic divides a chosen
+integral denominator; no assertion about an integral principal
+polarization follows.
+\end{proof}
+
+\paragraph{Archive meaning and the exact input.}
+This is the primitive reading required by the marginal instruction in
+cote~44, scan~8, and the incidence product in scan~9. Cote~16,
+scans~34, 36, 38, 40 supplies the Lefschetz language; scans~49--50 places
+positivity in the ring of correspondences. The passage from cycle
+positivity to an ample divisor is the curve test above; it is not the
+unproved assertion that a cohomologically nondegenerate correspondence
+is automatically a polarization. The input 032 is used only on
+$J(C)\times A$ in Lemma~\ref{lem:curve-test}. No Hodge conjecture for a
+non-CM characteristic-zero abelian variety and no new algebraicity
+claim for such Hodge classes is inferred.
+
+\paragraph{Sign calibration.}
+For an elliptic curve, the normalized divisor
+$P=\Delta-E\times\{0\}-\{0\}\times E$ induces
+$x\mapsto\mathcal O_E(x-0)=-\phi_{\mathcal O_E(0)}(x)$.
+Its self-incidence is $P$, and $\deg\Delta^*P=-2$.
+Thus the sign in \eqref{eq:T4-divisor} is indeed $(-1)^m$ under the
+stated convention: for $m=1$ it gives the positive elliptic
+polarization. The frequently written sign $(-1)^{m-1}$ belongs instead
+to the alternating primitive cohomological pairing before the
+incidence-to-divisor identification. Confusing these two conventions
+would reverse the conclusion already for a curve.
+
+
+% Research contribution of /root/h9_height, JAC1964-20261121.
+% This is a section fragment, not a standalone document.
+% Sources are identified in H9_sources.md. All claims below have an explicit
+% logical status. No formal proof certificate is asserted.
+
+\section{The pencil formula: a counterexample and its local repair}
+
+The text of cote 44, scan 4, assumes that the restrictions of the two
+cycles are algebraically equivalent to zero. H9 replaces this hypothesis by
+homological triviality. These are different hypotheses. Moreover, geometric
+integrality of the fibres does not remove higher-codimension vertical
+corrections. The following counterexample satisfies even the stronger
+condition that the restrictions are rationally equivalent to zero.
+
+\subsection*{H9-C1. A quadric counterexample, with both local contributions}
+
+\textbf{Claim.} For every integer $m\geq2$, over every algebraically closed
+field $k$, there is a
+Lefschetz pencil on a smooth $2m$-dimensional quadric $X$, all of whose fibres
+are geometrically integral, and a codimension-$m$ cycle $Z$ such that
+\[
+ Z|_{Y}=0\quad\text{in }\operatorname{CH}^{m}(Y),\qquad
+ (-1)^m\deg(Z^2)=2.
+\]
+Here $Y$ is the generic fibre over $K=k(t)$. Consequently every
+bilinear pairing on its Chow group gives height zero to the restriction,
+whereas the uncorrected expression in H9(a) gives $2$. The claim also
+refutes the literal formula of cote 44, scan 4, under just its recorded
+geometrically integral-fibre hypothesis.
+
+\textbf{Proof.}
+Write
+\[
+ X=\{uv+\textstyle\sum_{i=1}^{m} w_i z_i=0\}
+       \subset\mathbf P^{2m+1}.
+\]
+Use the pencil of hyperplanes $a u+b v=0$, with parameter $[a:b]$.
+Its base is the smooth quadric
+\[
+ B=\{u=v=0,\ \textstyle\sum w_i z_i=0\}\simeq Q^{2m-2}.
+\]
+The members with $ab\ne0$ are smooth odd-dimensional quadrics. This remains
+true in characteristic two: after eliminating $v$, the equation is
+$-t u^2+\sum w_i z_i=0$; the only possible projective singular point
+from its partial derivatives would have all $w_i,z_i$ zero, and then
+the equation forces $u=0$ since $t\ne0$. The two
+remaining members, $u=0$ and $v=0$, are cones over $B$, each with precisely
+one ordinary quadratic singularity, at the $v$- or $u$-vertex respectively.
+For $m\geq2$ the base $B$ is a smooth integral positive-dimensional quadric,
+so its cones are integral. The axis is transverse, and the total space
+obtained by blowing up $B$ is smooth. At each singular point the local
+equation is $\sum w_i z_i=0$ in $2m$ variables; its polar form is
+nondegenerate also in characteristic two. Thus this is a Lefschetz pencil in
+the precise sense of SGA 7 II, XVII, 2.2. It lies in the generic orbit of
+pencils under the orthogonal group: equivalently its pencil line meets the
+dual quadric transversely in two points.
+
+Put
+\[
+ L_+=\mathbf P\langle w_1,\ldots,w_m\rangle,\qquad
+ L_-=\mathbf P\langle w_1,\ldots,w_{m-1},z_m\rangle
+       \subset B.
+\]
+These are maximal $(m-1)$-planes in the two different families on $B$.
+Let $P_{\infty,+},P_{\infty,-}$ be their cones with the $u$-vertex and
+$P_{0,+},P_{0,-}$ their cones with the $v$-vertex. They are $m$-planes on
+$X$. Denote their Chow classes by the same symbols and set
+\[
+ Z=P_{\infty,+}-P_{\infty,-}.
+\]
+The two planes in this difference belong to the two different families on
+$X$. Replacing the vertex while retaining $L_+$ interchanges these families;
+the same holds for $L_-$. This assertion can be checked without a
+classification theorem. Quotient by
+$\langle w_1,\ldots,w_{m-1}\rangle$ and use the rank-one matrix description
+of the quadric surface $uv+w_mz_m=0$, with matrix
+$\left(\begin{smallmatrix}u&w_m\\-z_m&v\end{smallmatrix}\right)$.
+The two row lines are fibres of one ruling and the two column lines are
+fibres of the other. Varying the row (respectively column) gives a
+$\mathbf P^1$-family joining $P_{\infty,+}$ to $P_{0,-}$ (respectively
+$P_{\infty,-}$ to $P_{0,+}$), after adjoining the common subspace.
+Consequently
+\[
+ [P_{0,+}]-[P_{0,-}]=-Z.
+\]
+
+We check the intersection number directly. For an $m$-plane $P\subset X$,
+the normal-bundle sequence is
+\[
+ 0\longrightarrow N_{P/X}\longrightarrow
+ \mathcal O_{\mathbf P^m}(1)^{\oplus(m+1)}
+ \longrightarrow\mathcal O_{\mathbf P^m}(2)\longrightarrow0.
+\]
+The last map is surjective since $X$ is smooth. Therefore
+\[
+ [P]^2=[h^m]\frac{(1+h)^{m+1}}{1+2h}
+       =\frac{1+(-1)^m}{2}.
+\]
+Here $[h^m]$ denotes extraction of the coefficient of $h^m$. If $\alpha$
+and $\beta$ are the two middle plane classes, a linear section degenerating
+to two planes gives $h^m=\alpha+\beta$. Since $\deg(h^m\alpha)=1$,
+\[
+ \alpha\beta=\frac{1-(-1)^m}{2},\qquad
+ (\alpha-\beta)^2=2(-1)^m.
+\]
+For the degeneration $h^m=\alpha+\beta$, intersect $X$ with the
+$\mathbf P^{m+1}$ on which all $z_i$ vanish. Its equation is $uv=0$, and
+its components are $P_{\infty,+}$ and $P_{0,+}$; the row--column families
+above identify $[P_{0,+}]=\beta$. Thus every Chow relation used in this
+calculation has an explicit geometric realization.
+
+On the generic fibre, take the affine parameterization $v=-t u$. Its
+equation is $-t u^2+\sum w_i z_i=0$. The restrictions of the two planes
+appearing in $Z$ are $L_+$ and $L_-$. They are rationally equivalent over
+$K$, not merely after passing to $\overline K$. Indeed, put
+$W=\langle w_1,\ldots,w_{m-1}\rangle$ and consider the smooth $K$-conic
+\[
+ C_t=\{-t u^2+w_mz_m=0\}\subset\mathbf P^2_K.
+\]
+It is parameterized by
+\[
+ [r:s]\longmapsto[u:w_m:z_m]=[rs:r^2:t s^2].
+\]
+The family of projective $(m-1)$-planes
+$\mathbf P(W\oplus\ell)$, for the isotropic lines $\ell$ represented by
+$C_t$, lies in $Y$. At $[r:s]=[1:0]$ and $[0:1]$ its members are $L_+$
+and $L_-$. Since these are $K$-rational points of $C_t\simeq\mathbf P^1_K$,
+the two fibre cycles are rationally equivalent. Thus $Z|_Y=0$ as asserted.
+
+We now compute the correction at each singular fibre. Write
+$q:\widetilde X=\operatorname{Bl}_{B}X\to X$,
+$j:E\hookrightarrow\widetilde X$, and $p:E\to B$. Set
+\[
+ t_X=q^*Z,\quad \delta_B=[L_+]-[L_-],\quad
+ e=j_*p^*\delta_B,
+\]
+and let $u_\infty,u_0$ be the differences of the strict transforms of
+$P_{\infty,\pm}$ and $P_{0,\pm}$, respectively. Then
+\[
+ u_\infty=t_X-e,\qquad u_0=-t_X-e.                 \tag{H9.1}
+\]
+For completeness, these identities follow directly from the incidence
+model $\widetilde X\subset X\times\mathbf P^1$. On
+$P_{\infty,\pm}\times\mathbf P^1$, the incidence equation is $a u=0$;
+its divisor is the union of the plane in the fibre $a=0$ and
+$L_\pm\times\mathbf P^1$. This is precisely the refined pullback of
+$P_{\infty,\pm}$. On $P_{0,\pm}\times\mathbf P^1$ the equation is
+$b v=0$, yielding the analogous identity. Taking differences proves
+(H9.1), including the coefficients and signs.
+
+The projection formula gives $t_X e=0$ because $q_*e=0$. Since
+$\mathcal O_E(E)=\mathcal O_E(-1)$ and $p_*c_1(\mathcal O_E(1))=1$,
+\[
+ e^2=-\delta_B^2=-2(-1)^{m-1}=2(-1)^m,
+ \qquad t_X^2=2(-1)^m.
+\]
+It follows that
+\[
+ \begin{array}{c|cc}
+  &u_\infty&u_0\\\hline
+ u_\infty&4(-1)^m&0\\
+ u_0&0&4(-1)^m
+ \end{array},\qquad
+ t_Xu_\infty=2(-1)^m,\quad t_Xu_0=-2(-1)^m.
+                                                        \tag{H9.2}
+\]
+In particular $t_X=(u_\infty-u_0)/2$ is itself a rational vertical cycle.
+Its admissible correction is
+\[
+ t_X-\tfrac12u_\infty+\tfrac12u_0=0.
+\]
+Each local Schur-complement term is
+$(2(-1)^m)^2/(4(-1)^m)=(-1)^m$. Thus each singular fibre contributes $1$
+after multiplication by the H9 sign $(-1)^m$, and the two contributions
+cancel the uncorrected value $2$. This proves the counterexample and the
+claimed local refinement.\hfill$\square$
+
+This is a mathematical insufficiency of the stated hypothesis, not evidence
+that the word ``int\`egres'' was transcribed incorrectly. Without images of
+the original manuscript no palaeographic alteration is justified.
+
+\subsection*{H9-T1. The corrected intersection formula}
+
+Let $f:\mathcal X\to C$ be a projective morphism from a smooth projective
+$2m$-fold to a smooth projective curve over an algebraically closed field,
+with smooth generic fibre $Y$. Use rational Chow groups. Call
+$x\in\operatorname{CH}^m(\mathcal X)_{\mathbf Q}$ admissible if
+$x|_Y$ is numerically trivial and
+\[
+ \deg(xv)=0
+ \quad\text{for every codimension-$m$ cycle $v$ supported in fibres.}
+                                                        \tag{H9.3}
+\]
+The geometric intersection-height normalization used here is
+\[
+ h_m(x|_Y,y|_Y)=(-1)^m\deg(xy)                    \tag{H9.4}
+\]
+for admissible extensions. Its independence of extensions follows from
+the localization exact sequence: two extensions of the same Chow class
+differ, modulo rational equivalence, by a vertical cycle, and (H9.3)
+annihilates this difference. This is the signed degree of the pairing in
+Kahn, \emph{Refined height pairing}, Definition 2.2, Proposition 2.8 and
+equation (2.9). The terminology ``geometric intersection height'' specifies
+the construction; comparison with a particular Bloch biextension or a
+N\'eron--Tate pairing is a separate compatibility statement.
+
+Suppose $x_0,y_0$ extend numerically trivial generic-fibre cycles and that
+vertical corrections are to be made inside a finite-dimensional space
+$W$ spanned by numerical classes of vertical cycles. Let
+$R=\operatorname{rad}(W)$ for the intersection form. Assume $x_0$ and $y_0$
+are orthogonal to $R$. Choose representatives $v_1,\ldots,v_r$ for a basis
+of $W/R$, put $M_{ij}=\deg(v_iv_j)$ and
+\[
+ a_i=\deg(x_0v_i),\qquad b_i=\deg(y_0v_i).
+\]
+Then $M$ is invertible, the corrected classes are
+\[
+ x=x_0-\sum_i(M^{-1}a)_i v_i,\qquad
+ y=y_0-\sum_i(M^{-1}b)_i v_i,
+\]
+and direct bilinear expansion gives
+\[
+ h_m(x|_Y,y|_Y)=(-1)^m\left(\deg(x_0y_0)-a^{\!t}M^{-1}b\right).
+                                                        \tag{H9.5}
+\]
+The expression is independent of the chosen representatives modulo $R$.
+If $W$ contains all the vertical numerical classes, the corrected cycles
+satisfy (H9.3). Conversely, existence of a correction in $W$ requires
+$x_0\perp R$, because adding an element of $W$ cannot change its pairing
+with $R$. The finite-dimensional linear algebra proves this criterion is
+also sufficient. Hence (H9.5) states both the formula and its exact
+existence gate.
+
+For a pencil with blowup map $q$ and $x_0=q^*Z$, $y_0=q^*Z'$, the
+projection formula gives $\deg(x_0y_0)=\deg(ZZ')$. Fibres at different
+closed points are disjoint, so the matrix can be organized into local
+blocks, after separating the radical. Formula (H9.5) is the requested
+local variant, including higher-dimensional vertical cycles; it is not
+restricted to irreducible components of fibres. For $m=1$ it recovers the
+usual intersection-matrix correction in Shioda, \emph{On the Mordell--Weil
+lattices}, Theorem 8.6, equations (8.11)--(8.15), printed p.~228. The
+original printed page was rendered and read in this run.
+
+\subsection*{H9-T2. A cohomological hypothesis that removes all corrections}
+
+\textbf{Claim.} Let a Lefschetz pencil on a smooth projective $2m$-fold
+$X$ have generic fibre $Y$ and smooth blowup $q:\widetilde X\to X$.
+Fix $\ell\ne\operatorname{char}k$. Suppose at each singular fibre $Y_s$
+the specialization map
+\[
+ H^{2m}(Y_s,\mathbf Q_\ell(m))\longrightarrow
+ H^{2m}(Y_{\bar\eta_s},\mathbf Q_\ell(m))       \tag{H9.6}
+\]
+is injective. If $Z,Z'$ restrict to homologically trivial cycles on $Y$,
+then $q^*Z,q^*Z'$ are admissible and
+\[
+ h_m(Z|_Y,Z'|_Y)=(-1)^m\deg(ZZ').               \tag{H9.7}
+\]
+This statement holds in every characteristic subject to the explicit
+injectivity hypothesis (H9.6).
+
+\textbf{Proof.} On the smooth locus of the pencil the fibre classes of
+$q^*Z$ form a section of the locally constant sheaf
+$R^{2m}f_*\mathbf Q_\ell(m)$. The section is zero at the geometric generic
+point, hence zero on this locus. At a singular fibre, compatibility of the
+class of a global cycle with specialization and (H9.6) imply
+$i_s^*\operatorname{cl}(q^*Z)=0$ in the ordinary cohomology of $Y_s$,
+where $i_s:Y_s\hookrightarrow\widetilde X$. For any $m$-dimensional cycle $V$
+inside any fibre, the compatibility of the cycle class with cap products
+and the trace gives
+\[
+ \deg(q^*Z\cdot V)=
+ \operatorname{Tr}_{V}(i_s^*\operatorname{cl}(q^*Z)\cap[V])=0.
+\]
+Thus $q^*Z$ is admissible; similarly for $Z'$. Formula (H9.7) follows
+from (H9.4) and the projection formula.\hfill$\square$
+
+In the ordinary nodal Picard--Lefschetz setting, a sufficient condition
+for (H9.6) is that every local vanishing cycle is nonzero in the middle
+cohomology of the nearby smooth fibre. Indeed, the relevant exact sequence
+is
+\[
+ H^{2m-1}(Y_{\bar\eta_s})\longrightarrow\mathbf Q_\ell(-m)
+ \longrightarrow H^{2m}(Y_s)
+ \longrightarrow H^{2m}(Y_{\bar\eta_s})\longrightarrow0.
+\]
+The first arrow is pairing with the vanishing cycle. Poincar\'e duality
+makes it surjective when that cycle is nonzero, proving injectivity of the
+next specialization map. This identifies the additional local condition
+missing in H9; the ordinary quadric pencil has zero middle cohomology and
+therefore zero vanishing cycles. The precise SGA framework is SGA 7 II,
+XVIII, 5.3.2 (printed p.~287), 5.3.4--5.3.5 (p.~288): condition $(A)$ says
+that the direct-image sheaves agree with the extensions of their
+restrictions to the smooth locus. Proposition 6.2 (p.~319) identifies
+$(A)$ with nontrivial inertia action on middle cohomology at every
+singular fibre. These original printed pages were independently read in
+the programme audit. Using condition $(A)$, rather than an unqualified
+quadratic-monodromy convention, makes (H9.6) available in every
+characteristic covered by that condition.
+
+Assuming the attached 032 Corollary 8.4, if $X$ is an abelian $2m$-fold,
+the right side of (H9.7) is positive definite on its primitive algebraic
+cohomology. If $h$ is the ample hyperplane class defining the pencil, put
+\[
+ C_{\rm prim}=\{Z\in\operatorname{CH}^m(X)_{\mathbf Q}:
+                          h\operatorname{cl}(Z)=0\},\quad
+ R=\operatorname{im}(C_{\rm prim}\to\operatorname{CH}^m(Y)_{\mathbf Q}),
+ \quad
+ R_0=\operatorname{im}(\operatorname{CH}^m_{\rm hom}(X)_{\mathbf Q}
+                         \to\operatorname{CH}^m(Y)_{\mathbf Q}).
+\]
+Here $\ker(j^*:H^{2m}(X)\to H^{2m}(Y))=\ker L_h$: indeed
+$j_*j^*=L_h$, and $j_*:H^{2m}(Y)\to H^{2m+2}(X)$ is injective by
+Poincar\'e duality and weak Lefschetz in degree $2m-2$. Thus every element
+of $C_{\rm prim}$ satisfies the restriction hypothesis of H9-T2.
+For pencils satisfying (H9.6), $h_m$ on $R$ has radical exactly $R_0$:
+the inclusion of $R_0$ in the radical follows because a homologically
+trivial ambient class has zero intersection with every algebraic class;
+the opposite inclusion follows from (H9.7) and positive definiteness of
+the primitive form. In particular the restriction map induces an
+isometry
+\[
+ C_{\rm prim}/\operatorname{CH}^m_{\rm hom}(X)_{\mathbf Q}
+       \xrightarrow{\sim}R/R_0
+\]
+for the signed primitive intersection form on the left and the geometric
+height on the right. For injectivity, if a restriction belongs to $R_0$,
+subtract a homologically trivial ambient lift; the resulting restriction
+is zero, so its height is zero and positivity forces its ambient
+cohomology class to vanish. This proves the assertion without pretending
+that a cohomology class has a canonical Chow representative. The argument
+does not turn homologically trivial restrictions into points of an
+algebraic intermediate Jacobian.
+
+\subsection*{H9-T3. The precise quotient statement behind H9(b)}
+
+Here is the valid linear-algebra implication, separating all geometric
+inputs. Let $V$ be a rational vector space of cycle classes equipped with
+a symmetric form $B$, and let
+\[
+ a:V\longrightarrow
+ (J(K)/\operatorname{Tr}_{K/k}J(k))\otimes\mathbf Q
+\]
+be a defined homomorphism. Suppose $J$ is polarized and a height comparison
+has established
+\[
+ B(v,w)=\langle a(v),a(w)\rangle_{\rm NT}.
+                                                        \tag{H9.8}
+\]
+Then $B$ is positive semidefinite and
+\[
+ \operatorname{rad}B=\ker a.
+\]
+Indeed the right side is positive definite on the Lang--N\'eron space
+after quotienting torsion, so $B(v,v)=0$ is equivalent to $a(v)=0$; the
+bilinear identity proves the radical statement. Thus $B$ is positive
+definite on $V$ if and only if $a$ is injective; it is always positive
+definite on $V/\ker a$.
+
+Applied to a pencil, (H9.8) must use the corrected form (H9.5). Replacing
+it by the uncorrected primitive intersection form additionally requires
+that every local correction vanish. The quadric example has nonzero
+primitive classes with zero generic restriction, so injectivity on the
+original primitive space fails. This does not by itself refute a bare
+logical equivalence of two positivity assertions (both are true for a
+quadric); it refutes the claimed identification and its asserted proof.
+
+There is also a distinct domain obstruction. H9 assumes only homological
+triviality, whereas Grothendieck's $P^m$ is constructed from algebraically
+trivial cycles. SGA 7 II, XX, Theorem 4.1 and Remark 4.3 provide examples
+where these restrictions are not algebraically trivial, even with
+$X=E^4$: with $a_i$ the divisor class from the $i$th elliptic factor and
+$h=\sum a_i$, the class
+\[
+ \alpha=(a_1-a_2)(a_3-a_4)
+\]
+satisfies $h\alpha=0$ and $\alpha^2=4$. On sufficiently high-degree
+Lefschetz hyperplane sections, its restriction is homologically trivial
+but not algebraically trivial. The original locators are printed
+pp.~355--356; the full source hypotheses and their verification are
+supplied by the independent programme audit. In particular, the regular
+homomorphism from algebraically trivial cycles defining $P^m$ cannot be
+applied to this cycle. One can ask for other, additional maps or
+projections on a larger group, but H9 has not specified or proved such a
+construction. Thus its displayed ``image'' in the algebraic $P^m$ of
+cote 44 is not defined on the stated domain by the construction cited.
+
+The repaired route must retain three pieces: the admissible height on
+homologically trivial cycles; the local vertical form; and, only on the
+algebraically representable part, comparison with an abelian
+N\'eron--Tate height. The supplied CM-Hodge and standard-conjecture theorems
+give positivity of the primitive intersection form for abelian $X$; they
+do not remove either of the two explicit counterexamples above.
+
+\subsection*{H9-T4. Polarization of the fixed primitive part of an ample section}
+
+\textbf{Claim.} Assume 032, Corollary 8.4. Let $X$ be an abelian variety
+of dimension $2m$ over an algebraically closed field of any characteristic,
+let $j:Y\hookrightarrow X$ be a smooth ample divisor, and write
+$h=[Y]$, $n=2m-1$. The fixed primitive summand of the incidence higher
+Picard variety $P^m(Y)$ has a rational polarization given by its
+$(-1)^m$-signed incidence correspondence. Its cohomological subspace is
+\[
+ F=j^*\ker\bigl(L_h^2:H^{n}(X)\longrightarrow H^{n+4}(X)\bigr)
+       \subset H^n(Y).
+\]
+This proves the relevant part of Theorem 4 even though $Y$ need not be
+abelian. The residual summand is the variable part, on which $j_*$ is zero.
+
+\textbf{Proof.}
+Hard Lefschetz on $X$ gives an isomorphism
+$L_h:H^n(X)\to H^{n+2}(X)$; its inverse $\beta$ is algebraic because
+the Lefschetz standard conjecture holds for abelian varieties. Let $e$
+be the algebraic primitive projector in degree $n$ on $X$, with image
+$\ker L_h^2$, and extend it by zero in other degrees. Define
+\[
+ r=\beta j_*,\qquad \Pi_F=j^*e\beta j_*.
+\]
+Since $j_*j^*=L_h$, one has $rj^*=1$ and $\Pi_F^2=\Pi_F$ on
+cohomology. The correspondence $\Pi_F$ is algebraic. The incidence
+detection lemma from JAC-T4.1 therefore induces an idempotent on
+$P^m(Y)$ in the isogeny category.
+
+The decomposition
+\[
+ H^n(Y)=j^*H^n(X)\oplus\ker j_*
+\]
+is orthogonal for the middle pairing on $Y$. On its first summand the
+pairing is $\int_X uvh$. For $u\in\ker L_h^2$ and
+$v=L_hw\in L_hH^{n-2}(X)$ one has
+$\int_Xuvh=\int_X(L_h^2u)w=0$. Thus $\Pi_F$ is self-adjoint for
+the pairing on $Y$. Saito's transpose compatibility and nondegenerate
+incidence duality imply that its image $B_F$ is a nondegenerate
+self-dual isogeny factor of $P^m(Y)$. Moreover it is primitive for $Y$:
+if $u\in\ker L_h^2$, then
+$j_*L_{j^*h}j^*u=L_h^2u=0$, and
+$j_*:H^{n+2}(Y)\to H^{n+4}(X)$ is injective by dual weak Lefschetz.
+
+It remains to verify the sign on all curves in $B_F$. Pull a normalized
+rational Poincar\'e family back to a smooth pointed curve $C$ mapping to
+$B_F$, and apply the parameter degree-one projector. Its class is an
+algebraic tensor
+\[
+ \xi\in H^1(C)\otimes F.
+\]
+Set $\eta=(1\otimes r)\xi\in H^1(C)\otimes H^n(X)$.
+It is algebraic, $j^*\eta=\xi$, and $h^2\eta=0$.
+If $b$ is the genus of $C$ and $\theta$ the canonical principal
+polarization on $J(C)$, the algebraic inverse to the Abel pullback
+lifts $\eta$ to an algebraic class
+$w\in H^1(J(C))\otimes H^n(X)$. It satisfies $h^2w=0$.
+For $H=\theta+h$ on the abelian variety $J(C)\times X$,
+\[
+ H^{b+1}w=0.
+\]
+Indeed terms with $h$-exponent at least two vanish, while terms with
+$h$-exponent zero or one have excessive degree on $J(C)$.
+Consequently $w$ is primitive of codimension $m$. In its quadratic form
+only one term of $H^b$ survives, and the Abel curve-class formula yields
+\[
+ \begin{aligned}
+ \int_{J(C)\times X}w^2H^b
+ &=b\int_{J(C)\times X}w^2\theta^{b-1}h\\
+ &=b!\int_{C\times X}\eta^2h
+ =b!\int_{C\times Y}\xi^2.
+ \end{aligned}                                                \tag{H9.9}
+\]
+The factor $b!$ is positive. By 032, Corollary 8.4, the last intersection
+has sign $(-1)^m$ and is zero only if $\xi=0$. The same curve test and
+nef-plus-nondegenerate criterion as in JAC-T4.3 therefore prove that
+the signed incidence class on $B_F$ is ample. This finishes the proof.
+\hfill$\square$
+
+The projectors used here implement the hyperplane formula of cote 16,
+scan 40; the cohomological fixed/variable decomposition belongs to
+SGA 7 II, XVIII, \S5. The input 032 is applied only to the genuinely
+abelian product $J(C)\times X$, never to $J(C)\times Y$.
+
+\subsection*{H9-T5. A finite-field Newton witness eliminates the remaining part}
+
+\textbf{Claim.} Let a Lefschetz pencil of ample sections of an abelian
+$2m$-fold be defined over a finite field of characteristic $p$. Write
+$U$ for its smooth locus and $\mathcal V_\ell$ for its variable
+$R^{2m-1}$-local system. Assume that $\mathcal V_\ell$ is nonzero and
+remains absolutely irreducible under every finite-index restriction of
+geometric monodromy, for a fixed prime $\ell\ne p$. Let
+$B_{\rm var}$ be the variable incidence factor of $P^m(Y)$ over the
+generic field, after a finite extension making the factor and universal
+cycle defined. If one smooth closed fibre has a Frobenius eigenvalue on
+its variable cohomology with normalized $p$-adic slope outside
+$[m-1,m]$, then $B_{\rm var}=0$. In that case H9-T4 proves the primitive
+Theorem 4 for the full incidence quotient of the generic fibre.
+
+\textbf{Proof.}
+The algebraic correspondence $1-j^*L_h^{-1}j_*$ induces the variable
+idempotent on the incidence quotient. It is self-adjoint, so its image
+$B_{\rm var}$ has nondegenerate incidence duality. A normalized Poincar\'e
+cycle gives, for every $\ell\ne p$, an algebraic correspondence map
+\[
+ V_\ell B_{\rm var}\longrightarrow\mathcal V_\ell(m)
+                                                        \tag{H9.10}
+\]
+over a finite cover of $U$. This map is injective: a vector in its
+kernel pairs to zero with every other vector under the pullback of the
+middle pairing, whereas that pullback is the realization of the
+nondegenerate incidence isogeny. A choice of polarization on
+$B_{\rm var}$ identifies $V_\ell B_{\rm var}$ with
+$H^1(B_{\rm var},\mathbf Q_\ell)(1)$. Thus (H9.10) is equivalently
+\[
+ H^1(B_{\rm var},\mathbf Q_\ell)(-(m-1))
+       \lhook\joinrel\longrightarrow\mathcal V_\ell.       \tag{H9.11}
+\]
+If $B_{\rm var}$ is nonzero, the irreducibility hypothesis, which survives
+the finite field-of-definition extension, forces (H9.11) to be an
+isomorphism.
+
+At every point of the finite cover lying above a smooth fibre, the
+right side is unramified. Therefore the left side is unramified and
+the N\'eron--Ogg--Shafarevich criterion gives good reduction of
+$B_{\rm var}$ there. Smooth proper base change specializes (H9.11).
+If the residue field has cardinality $q$, the Frobenius eigenvalues on
+$H^1$ of this reduction are algebraic integers $\gamma$ for which
+$q/\gamma$ is also an algebraic integer. Hence, at every embedding into
+$\overline{\mathbf Q}_p$,
+\[
+ 0\leq\frac{v_p(\gamma)}{v_p(q)}\leq1.
+\]
+The Tate twist $-(m-1)$ multiplies geometric-Frobenius eigenvalues by
+$q^{m-1}$. Thus all slopes on the variable part must belong to
+$[m-1,m]$. Passing to a finite extension of a residue field raises
+each eigenvalue and $q$ to the same positive power and leaves these
+normalized slopes unchanged. A single smooth original fibre with a
+slope outside the interval therefore contradicts $B_{\rm var}\ne0$.
+This proves the claim.\hfill$\square$
+
+The geometric irreducibility hypothesis is the standard monodromy
+condition studied in SGA 7 II, XVIII, 6.7.2; it is stated explicitly
+here so that no exceptional pencil is silently included. The good
+reduction criterion and the integrality/duality of Frobenius on abelian
+varieties are background inputs. This proof does not assert that every
+high-degree pencil has the required Newton witness. Producing that
+witness is the residual concrete gate of this method; purity of the
+complex absolute values alone is insufficient to do so.
+
+
+% Draft extension submitted for independent root/programme review.
+% It becomes a checked finding only when the full argument is read and logged.
+
+\subsection*{H9-T6. The variable incidence sign from integral monodromy}
+
+The Newton test in H9-T5 is a useful way to prove that the variable
+incidence factor is zero. The following argument instead determines its
+sign when it is nonzero. It uses Grothendieck's integral monodromy pairing,
+not a sign assigned to one $\ell$-adic scalar.
+
+\textbf{Hypotheses.} Let $Y$ be the generic fibre of an odd-dimensional
+Lefschetz pencil of fibre dimension $n=2m-1$. Suppose its middle
+cohomology has an algebraic self-adjoint variable projector, and let
+$B$ be the corresponding incidence factor of $P^m(Y)$. Assume:
+\begin{enumerate}
+\item for every $\ell\ne\operatorname{char}k$, the variable local system
+      $\mathcal V_\ell$ is nonzero and absolutely irreducible after every
+      finite-index restriction of geometric monodromy;
+\item at one ordinary quadratic singular fibre the vanishing cycle in
+      $\mathcal V_\ell$ is nonzero for every such $\ell$;
+\item $B$ has its nondegenerate symmetric incidence duality and a
+      normalized rational Poincar\'e cycle, as in Saito's construction.
+\end{enumerate}
+For the ample-section pencils considered in H9-T4, the algebraic variable
+projector is $1-j^*L_h^{-1}j_*$ on the relevant odd degree. The first two
+hypotheses are the precise Picard--Lefschetz monodromy hypotheses; their
+standard generic-pencil instances are in SGA 7 II, XVIII, 6.7.2.
+
+\textbf{Claim.} Under these hypotheses the rational divisor class
+\[
+ \ell_m=\frac{(-1)^m}{2}\Delta_B^*d_B
+\]
+is a rational polarization of $B$, in every characteristic. Consequently,
+under the same monodromy hypotheses, H9-T4 and H9-T6 together prove the
+primitive Theorem 4 for the full incidence quotient of a generic ample
+section of an abelian variety, accepting 032 Corollary 8.4 for its fixed
+part.
+
+\paragraph{H9-L1: a rational square detected at almost all primes.}
+If $r\in\mathbf Q^*$ is a square in $\mathbf Q_\ell$ for all but
+finitely many primes $\ell$, then $r$ is a square in $\mathbf Q$.
+In particular $r>0$.
+
+\emph{Proof.} Otherwise the quadratic field $\mathbf Q(\sqrt r)$
+defines a nonprincipal quadratic Dirichlet character $\chi$ of some
+conductor. At primes outside the conductor, local squareness implies
+$\chi(\ell)=1$, so only finitely many Euler factors of $L(s,\chi)$
+differ from those of $\zeta(s)$, for real $s>1$. The quotient
+$L(s,\chi)/\zeta(s)$ therefore has a finite positive nonzero limit as
+$s\downarrow1$. On the other hand, a nonprincipal periodic character
+has bounded partial sums and zero sum over a period. Summation by parts
+shows that $\sum_{n\ge1}\chi(n)n^{-s}$ stays bounded as $s\downarrow1$
+(indeed converges at $s=1$), whereas $\zeta(s)\to+\infty$.
+This is a contradiction. No Riemann hypothesis is used.\hfill$\square$
+
+\paragraph{H9-L2: the rank-one monodromy coefficient.}
+Let an abelian variety have semistable reduction over a strictly
+henselian trait, and suppose the toric rank is one. Let $L_0$ be a
+genuine polarization and let $E_0$ be the alternating form on the Tate
+module defined by $c_1(L_0)$. Choose a primitive generator $v_0$ of the
+toric cocharacter lattice, and choose the same generator of
+$\mathbf Q_\ell(1)$ in the monodromy operator and in the values of $E_0$.
+Then the tame monodromy logarithm has the form
+\[
+ N_\ell(x)=-q_0 E_0(x,v_0)v_0,\qquad q_0\in\mathbf Q_{>0},
+                                                        \tag{H9.12}
+\]
+where the rational number $q_0$ is independent of $\ell$.
+
+\emph{Derivation from the cited theorem.} SGA 7 I, IX, 9.2 identifies
+the monodromy operator with the scalar extension of the integral
+pairing between the two toric character lattices. Theorem 10.4(a),
+printed p.~444, asserts that this integral pairing is common to all
+primes; 10.4(b) asserts positivity after composing with a genuine
+polarization. In rank one, choose integral bases and write $u$ for
+the monodromy coefficient and $s\ne0$ for the polarization coefficient
+on the two lattices. Positivity is $us>0$. In compatible rational toric
+and quotient coordinates, $N(y)=u v_0$ and $E_0(v_0,y)=s$, so
+\[
+ q_0=u/s=(us)/s^2>0.
+\]
+This proves rationality and positivity simultaneously; it never interprets
+one $\ell$-adic square as a real square. The sign in (H9.12) is the minus
+sign from alternating the arguments of $E_0$. It agrees with the curve
+case: a one-node Jacobian has $N(y)=v_0$ with
+$E_0(v_0,y)=1$. The compatibility of this curve normalization with
+the general monodromy pairing is explicitly SGA 7 I, IX, 12.5 and 12.7.
+Under a ramified extension of traits of index $e$, the monodromy pairing
+is multiplied by $e>0$ (IX, 10.3.5, printed p.~443).
+
+\paragraph{Proof of H9-T6.}
+If $B=0$ there is nothing to prove, so suppose $B\ne0$. Work over one
+finite extension of the generic field on which $B$, the normalized
+Poincar\'e cycle and a genuine polarization $L_0$ are defined. Let
+\[
+ f_\ell:V_\ell B\longrightarrow\mathcal V_\ell(m)
+\]
+be the map of realizations given by this cycle. As in H9-T5,
+nondegenerate incidence duality makes $f_\ell$ injective. The
+irreducibility hypothesis makes it an isomorphism, for every
+$\ell\ne\operatorname{char}k$.
+
+Every geometric endomorphism of $B$ is defined over a finite extension.
+Tate-module faithfulness gives
+\[
+ \operatorname{End}^0(B_{\overline K})\otimes\mathbf Q_\ell
+   \lhook\joinrel\longrightarrow
+ \operatorname{End}_{G'}(V_\ell B)
+\]
+after a sufficiently small finite-index monodromy subgroup $G'$.
+Absolute irreducibility makes the right side $\mathbf Q_\ell$.
+It follows that $\operatorname{End}^0(B_{\overline K})=\mathbf Q$.
+Consequently the nondegenerate symmetric class $\ell_m$ is
+\[
+ \ell_m=c L_0\quad\text{in }\operatorname{NS}(B)_{\mathbf Q},
+ \qquad c\in\mathbf Q^* .                              \tag{H9.13}
+\]
+The task is to determine the sign of this single rational number.
+
+Let $Q_\ell$ denote the middle cup-product pairing on
+$\mathcal V_\ell(m)$, with values in $\mathbf Q_\ell(1)$.
+The incidence formula gives the following exact sign:
+\[
+ E_{\ell_m}=(-1)^{m-1}f_\ell^*Q_\ell=cE_0.            \tag{H9.14}
+\]
+To verify it, write the mixed class of the universal cycle as
+$z=\sum_i e_i\otimes u_i$, with $e_i\in H^1(B)$ and
+$u_i\in H^n(Y)(m)$. In the product $z_{13}z_{23}$ the odd-degree
+class $u_i$ crosses the degree-one parameter class $e_j$, producing
+a minus sign. Thus
+\[
+ d_B=-\sum_{i,j}Q_\ell(u_i,u_j)e_i\boxtimes e_j.
+\]
+Pulling back to the diagonal and dividing by two shows that the
+alternating form of $\Delta^*d_B/2$ is $-f_\ell^*Q_\ell$.
+Multiplying by $(-1)^m$ proves (H9.14).
+
+At the chosen singular fibre, take a finite trait extension that makes
+the abelian variety semistable and the toric lattice split. Let its
+ramification index relative to the original pencil parameter be $e>0$.
+The nonzero Picard--Lefschetz operator has rank one. Hence the toric rank
+of $B$ is one: by IX, 9.2 and the nondegeneracy in 10.4, rank of monodromy
+equals rank of the toric character lattice.
+
+SGA 7 II, XV, 3.3.3--3.3.6, printed pp.~191--192, supplies a vanishing generator
+$\delta_\ell$, normalized up to sign by the primitive quotient of the
+exceptional quadric. With the same tame-character convention as in
+(H9.12), its formula, in relative dimension $2m-1$, is
+\[
+ N_\ell(x)=e(-1)^m Q_\ell(x,\delta_\ell)\delta_\ell.
+                                                        \tag{H9.15}
+\]
+Here twists are suppressed only after choosing a generator of
+$\mathbf Q_\ell(1)$. More intrinsically, XV defines the untwisted
+vanishing generator in $H^{2m-1}(Y)(m-1)$; tensoring it with that
+generator puts it in $H^{2m-1}(Y)(m)$, and dividing both cup-product
+values and the tame character by that same generator gives (H9.15).
+Thus no unrecorded unit is introduced into the coefficient.
+
+Put $v_\ell=f_\ell^{-1}\delta_\ell$. Since $f_\ell$ intertwines
+monodromy, $v_\ell$ spans the toric line, so
+$v_\ell=a_\ell v_0$ for some $a_\ell\in\mathbf Q_\ell^*$.
+Combining (H9.14) and (H9.15) gives
+\[
+ N_\ell(x)=-e c a_\ell^2 E_0(x,v_0)v_0.
+\]
+Comparison with (H9.12), using $E_0$ nondegenerate, proves
+\[
+ a_\ell^2=\frac{q_0}{e c}\quad\text{for every }\ell\ne
+ \operatorname{char}k.                                \tag{H9.16}
+\]
+The right side is the same nonzero rational number for all these primes.
+H9-L1 therefore says it is a rational square and in particular positive.
+Since $q_0>0$ and $e>0$, one obtains $c>0$. Equation (H9.13) now proves
+that $\ell_m$ is a rational polarization.
+
+For the final assertion, the fixed primitive and variable incidence
+summands are orthogonal and their dualities are block diagonal.
+H9-T4 polarizes the former and the argument just completed polarizes
+the latter. A product of the two rational polarizations is ample,
+and ampleness descends under the isogeny giving the decomposition.
+This proves the claimed extension of Theorem 4.\hfill$\square$
+
+\paragraph{Scope.}
+The result concerns the geometric generic fibre under explicit monodromy
+hypotheses. It does not assert positivity on every special fibre of a
+pencil, where new incidence factors can appear. Nor does it identify
+the height of a merely homologically trivial generic cycle with a
+N\'eron--Tate height on $P^m$: the E^4 domain obstruction remains.
+The original H9(b) therefore does not follow from this extension.
+\part{Arithmetic proof drafts and unresolved gates}
+This part contains full arithmetic proof drafts, including conditional
+lemmas whose hypotheses are substantive. The current checking status is
+recorded by finding ID in the event log. Inclusion here does not assert
+that the remaining arithmetic height-sign problem has been solved.
+\section{Arithmetic sibling of cote 44: corrected theorem and remaining
+gate}\label{arithmetic-sibling-of-cote-44-corrected-theorem-and-remaining-gate}
+
+Run: \texttt{JAC1964-20261121}. Author/checker:
+\texttt{/root/arithmetic\_sign}, GPT-6 Astra Pro; effort setting not
+exposed. Date: 2026-11-21 UTC. These are working proof sections for
+incorporation into the parent manuscript. They are not an independent
+review of the parent manuscript. No Lean build was attempted here.
+Accepted attached results are used at their stated scope.
+
+\subsection{A. Conventions and exact
+background}\label{a.-conventions-and-exact-background}
+
+Let \(K\) be a number field, \(A/K\) an abelian variety of dimension
+\(g\), and \(\ell=c_1(L)\) for a symmetric ample line bundle. All Chow
+groups and Chow motives have rational coefficients. Write \(L\) also for
+multiplication by \(\ell\). The raw Beilinson--Bloch pairing, normalized
+by \([K:\mathbf Q]\), is denoted \(h_K\). Thus \(h_K\) is invariant
+under finite extension of the field of definition. This normalization is
+distinct from the choice whether the bilinear Néron--Tate form is the
+polarization of \(\widehat h\) with or without a factor two; below the
+Néron--Tate convention is Künnemann's.
+
+\textbf{Background AR-B1 (existence and functoriality).} Künnemann,
+\emph{Height pairings for algebraic cycles on abelian varieties}, Ann.
+Sci. ENS 34 (2001), Theorem 1.6 and Corollary 1.7, give the pairing on
+every abelian variety over a number field. Section 1.3 records
+compatibility with correspondences; §1.4, equation (7), gives the
+extension-of-field scaling before normalization. The pairing uses
+extensions perpendicular to vertical cycles; an arbitrary closure on a
+model is insufficient. The correspondence projection formula is also
+Künnemann 1996, §5, equation (18), from Lemma 4.1.
+
+\textbf{Background AR-B2 (Picard comparison and sign).} Künnemann,
+\emph{Higher Picard varieties and the height pairing}, Amer. J. Math.
+118 (1996), Theorem 8.2, equation (23), identifies the height of
+algebraically trivial cycles with the Néron--Tate biextension pairing on
+higher Picard varieties, with the positive comparison integer \(k_X^p\).
+His Theorem 6.1 calibrates the raw curve height as \textbf{minus} the
+positive Jacobian pairing. Let \(B^p(A_K)\) be algebraically trivial
+cycles modulo geometric incidence equivalence. Theorem 12.1(ii) gives
+
+\[
+ x\ne0,\quad L^{g+2-2p}x=0
+ \quad\Longrightarrow\quad
+ (-1)^p h_K(x,L^{g+1-2p}x)>0.
+\]
+
+The old regular-model hypothesis in the 1996 statement can be met after
+finite extension using AR-B1; the positive base-change factor does not
+affect the conclusion. This is a known theorem, not a new consequence of
+GRH or of the attached CM Hodge theorem. For \(g=2m-1,p=m\), the
+positive candidate is
+
+\[
+q_A(x,y)=(-1)^m h_K(x,y),\qquad Lx=Ly=0.
+\tag{AR.1}
+\]
+
+Consequently ``the BB height equals a positive Néron--Tate height''
+requires a specified signed duality. With the parent's convention
+\(\phi_L(a)=t_a^*L\otimes L^{-1}\), the signed incidence is
+\((-1)^m D\). Its Hodge cup-product counterpart carries \((-1)^{m-1}\);
+the incidence dictionary supplies the extra minus. The \(m=1\)
+Faltings--Hriljac case is an indispensable check.
+
+\textbf{Background AR-B3 (motivic Lefschetz).} Künnemann, \emph{A
+Lefschetz decomposition for Chow motives of abelian schemes}, Invent.
+Math. 113 (1993), Theorem 5.1, Theorem 5.2, and Corollary 5.3, all on
+printed p.96, supply actual Chow projectors, motivic hard Lefschetz, and
+transposition compatibility. For \(g=2m-1\), the primitive projector
+\(\pi_P\) on \(h^g(A)\) satisfies \({}^t\pi_P=\pi_P\); the primitive
+motive \(P\) has its perfect middle Poincaré pairing. These three
+statements were checked directly in the rendered source page, not
+inferred from a cohomological decomposition.
+
+\textbf{Background AR-B4 (degree one is faithful).} The functor from
+abelian varieties up to isogeny to degree-one Chow motives is fully
+faithful (contravariantly). In particular,
+
+\[
+\operatorname{End}_{\mathrm{Chow}}(h^1B)=\operatorname{End}(B)_{\mathbf Q}^{\mathrm{op}},
+\]
+
+and the Betti realization of this endomorphism algebra is faithful. A
+directly inspected modern statement is Laga--Shnidman, \emph{Ceresa
+cycles of bielliptic Picard curves}, arXiv:2312.12965, Proposition 4.5,
+citing Kings, \emph{Higher regulators, Hilbert modular surfaces, and
+special values of L-functions}, Duke Math. J. 92 (1998), Proposition
+2.2.1. The contravariant/opposite convention changes no invertibility
+assertion below.
+
+\subsection{B. Exact removal of the irrelevant Beauville
+grades}\label{b.-exact-removal-of-the-irrelevant-beauville-grades}
+
+For \([n]^*x=n^{2p-s}x\), say \(x\) has Beauville grade \(s\). The
+well-known height selection rule is
+
+\[
+h_K(\operatorname{CH}^p_{(s)},\operatorname{CH}^{g+1-p}_{(t)})=0
+\quad\text{unless}\quad s+t=2.
+\tag{AR.2}
+\]
+
+An explicit literature locator is Zhang, \emph{Gross--Schoen cycles and
+dualising sheaves}, Invent. Math. 179 (2010), §5.3, printed p.68. For
+completeness its proof is one line: the projection formula gives
+
+\[
+h_K([n]^*x,[n]^*y)=n^{2g}h_K(x,y),
+\]
+
+whereas the eigenvalue computation gives \(n^{2(g+1)-s-t}\) times the
+original pairing. Take \(n>1\).
+
+\textbf{Proposition AR-1 (primitive grade reduction).} Put
+
+\[
+V^p=\ker\bigl(L^{g+2-2p}:\operatorname{CH}^p(A)_{\mathrm{hom}}
+\longrightarrow\operatorname{CH}^{g+2-p}(A)\bigr),\qquad 2p\le g+1.
+\]
+
+Then \(V^p_{(s)}=0\) for \(s\ge2\). Every \(V^p_{(s)}\) with \(s\le0\)
+belongs to the radical of the signed height on \(V^p\). Thus
+semipositivity on the full primitive group is equivalent to
+semipositivity on grade one. Strict positivity on the full group is
+equivalent to strict positivity on grade one together with the vanishing
+of the primitive grades \(s\le0\).
+
+\emph{Proof.} A grade-\(s\) class of codimension \(p\) is a Chow class
+of \(h^i(A)\) with \(i=2p-s\). For \(s\ge2\), put \(e=g+2-2p\). Then
+\(i\le g\) and \(e\le g-i\). Motivic hard Lefschetz makes \(L^{g-i}\) an
+isomorphism. If \(L^e x=0\), multiply by \(L^{g-i-e}=L^{s-2}\) to obtain
+\(L^{g-i}x=0\), hence \(x=0\). Consequently every surviving primitive
+grade is at most one. Multiplication by a symmetric \(\ell\) has grade
+zero. Equation (AR.2) therefore pairs a primitive grade \(s\le0\) only
+with grade \(2-s\ge2\), which has just been proved zero. This proves the
+radical assertion and both equivalences. No assertion that all negative
+Beauville grades vanish was used. \(\square\)
+
+For \(g=2m-1,p=m\), the grade-one component of \(V^m\) is exactly
+
+\[
+V^m_{(1)}=\operatorname{CH}^m(P).
+\tag{AR.3}
+\]
+
+Indeed the motivic Lefschetz decomposition of \(h^g(A)\) is a direct sum
+of the primitive middle summand and longer Lefschetz strings. On the
+middle-degree term of each longer string, \(L\) has a left inverse; on
+\(P\), it is zero. This checks that (AR.3) is a Chow-level assertion,
+rather than merely a statement about realization.
+
+\textbf{Corollary AR-1a (the threefold has no additional lower-grade
+gate).} If \(g=3,p=2\), then \(\operatorname{CH}^2_{(s)}(A)=0\) for
+every \(s<0\), and \(\operatorname{CH}^2_{(0)}(A)_{\mathrm{hom}}=0\).
+Consequently the full primitive homologically trivial group equals
+\(\operatorname{CH}^2(P)\), and strict positivity has no separate
+lower-grade vanishing condition.
+
+\emph{Proof.} Fourier gives \[
+\mathcal F:\operatorname{CH}^2_{(s)}(A)
+ \simeq\operatorname{CH}^{1+s}_{(s)}(\widehat A).
+\] For \(s<-1\) the target has negative codimension. For \(s=-1\) it is
+\(\operatorname{CH}^0_{(-1)}=0\). For \(s=0\), a homologically trivial
+class maps to a homologically trivial divisor of grade zero. Such a
+divisor lies in \(\operatorname{Pic}^0\), which has grade one, so it is
+zero. Fourier is invertible and preserves homological triviality. AR-1
+removes all primitive grades at least two; only grade one remains.
+\(\square\)
+
+\subsection{C. A CM Chow summand with a strictly positive
+height}\label{c.-a-cm-chow-summand-with-a-strictly-positive-height}
+
+Assume the attached 032 Theorem 1.1, i.e.~the rational Hodge conjecture
+for products of CM abelian varieties. Its Lemma 8.1 supplies effective
+CM realizations; in weight one it is the usual realization by a CM
+abelian variety. The statement below uses those accepted inputs,
+classical motivic Lefschetz, and the established Picard height theorem.
+It does not use GRH.
+
+\textbf{Theorem AR-2 (orthogonal Picard summand and exact remaining
+arithmetic gate).} Let \(A/K\) be CM, \(\dim A=2m-1\), with symmetric
+ample \(L\). After a finite number-field extension \(K'/K\), there are a
+CM abelian variety \(B/K'\), an actual self-transpose Chow idempotent
+\(e\) of the primitive middle motive \(P\), and an orthogonal
+decomposition
+
+\[
+P=M\oplus N,\qquad M\simeq h^1(B)(1-m),
+\tag{AR.4}
+\]
+
+with the following properties.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(H(M)\) is the maximal rational sub-Hodge structure of \(H(P)\)
+  having only types \((m,m-1)\) and \((m-1,m)\). Thus \(H(N)\) has no
+  nonzero such sub-Hodge structure.
+\item
+  \(\operatorname{CH}^m(M)\simeq\operatorname{Pic}^0(B)(K')_{\mathbf Q}\).
+  The restriction of \(q_A=(-1)^m h_{K'}\) to this full Chow summand is
+  a Néron--Tate form for a rational polarization, with the positive
+  comparison normalization of AR-B2. It is strictly positive on every
+  nonzero class.
+\item
+  The two Chow summands are height orthogonal. Therefore the
+  semipositivity problem on the full primitive homologically trivial
+  Chow group over \(K'\) reduces \textbf{exactly} to
+\end{enumerate}
+
+\[
+(-1)^m h_{K'}(z,z)\ge0
+\qquad(z\in\operatorname{CH}^m(N)).
+\tag{AR-GATE}
+\]
+
+For strict positivity one must additionally prove the vanishing of the
+primitive grades \(s\le0\) and strict positivity on the nonzero classes
+of \(\operatorname{CH}^m(N)\).
+
+\emph{Proof.} Let \(W\subset H(P)\) be the sum of all rational sub-Hodge
+structures of the indicated types. Polarizable Hodge structures are
+semisimple; this sum is a sub-Hodge structure and has an orthogonal
+complement. Because \(A\) is CM, so is \(W\). Its twist \(W(m-1)\) is
+effective of weight one. The degree-one case of 032 Lemma 8.1, followed
+by Poincaré complete reducibility, gives a CM \(B\) and an isomorphism
+
+\[
+H^1(B)(1-m)\simeq W.
+\]
+
+A complex CM abelian variety admits a number-field model (Milne, Abelian
+Varieties, version 1.10, Proposition 16.10, printed p.65). After
+enlarging \(K\), both \(B\) and chosen polarizations are defined over
+the same number field. Write \(b=\dim B\). The inclusion of this
+weight-one twist into \(H^g(A)\) is a Hodge class of codimension
+\(b+m-1\) on \(B\times A\). Theorem 1.1 applied to \(B\times A\) makes
+it an algebraic correspondence. This is exactly the codimension
+bookkeeping in the proof of 032 Corollary 8.2: \(n=1,r_0=m-1\).
+
+The correspondence can be chosen over \(\overline{\mathbf Q}\). Indeed
+spread each of its finitely many cycle components over a finitely
+generated extension of \(\overline{\mathbf Q}\), or equivalently
+represent it by a complex point of the Hilbert scheme of the fixed
+variety \(B\times A\). Take the connected component of that finite-type
+Hilbert scheme containing this point. Because the scheme is defined over
+the algebraically closed field \(\overline{\mathbf Q}\), that component
+contains a \(\overline{\mathbf Q}\)-point. The universal family is flat,
+and its Betti cycle class on the fixed complex variety is locally
+constant on the analytification; connectedness therefore preserves the
+class. Specializing each component in this way preserves the original
+rational Hodge correspondence. Finitely many algebraic coefficients and
+cycle equations require only one finite extension \(K'\). Sandwich the
+resulting correspondence between the actual degree-one and primitive
+Chow projectors. We obtain a Chow morphism
+
+\[
+u:M_0=h^1(B)(1-m)\longrightarrow P
+\]
+
+whose realization is the chosen injection onto \(W\).
+
+There is an algebraic, perfect alternating form on \(M_0\) given by a
+polarization of \(B\) and motivic hard Lefschetz. On \(P\), use
+\((-1)^{m-1}\) times the middle Poincaré form. Its restriction to the
+types occurring in \(W\) is a Hodge polarization. Both forms are perfect
+at the Chow-motive level: for \(B\) this is motivic hard Lefschetz; for
+\(P\) it is AR-B3. They define a Chow adjoint \(u^\dagger\). The
+realization of
+
+\[
+a=u^\dagger u\in\operatorname{End}_{\mathrm{Chow}}(M_0)
+\]
+
+is positive and invertible: for the positive Hodge Hermitian forms,
+\((av,v)=(uv,uv)>0\) for nonzero \(v\). By AR-B4 this is an actual
+rational isogeny endomorphism of \(B\), so \(a^{-1}\) exists in the Chow
+endomorphism algebra. This step does \textbf{not} infer Chow
+invertibility from a general cohomological isomorphism; it uses full
+faithfulness specifically in degree one.
+
+Set
+
+\[
+v=a^{-1}u^\dagger,\qquad e=uv=u a^{-1}u^\dagger.
+\]
+
+Then \(vu=1\), \(e^2=e\), and \(e^\dagger=e\), by direct composition.
+Since the form on \(P\) is a scalar multiple of its Poincaré pairing,
+\(e^\dagger=e\) says precisely \({}^t e=e\) within \(P\). Its
+realization is the orthogonal projector onto \(W\). The complementary
+motive \(N=(P,1-e)\) therefore has the stated realization. No assertion
+that a realization-zero complementary motive is zero is made; such a
+conclusion would need a separate nilpotence theorem. This avoids a
+hidden lift from homological to Chow motives.
+
+The retraction identifies \(\operatorname{CH}^m(M)\) with
+\(\operatorname{CH}^1(h^1B)=\operatorname{Pic}^0(B)(K')_{\mathbf Q}\).
+Such classes are algebraically trivial. This identification is also
+injective modulo incidence equivalence: if \(u_*x\) is incidence
+equivalent to zero, apply the correspondence \(v\); then \(x\) is
+incidence equivalent to zero as a divisor on \(B\), hence \(x=0\) in
+\(\operatorname{Pic}^0(B)_{\mathbf Q}\). The latter assertion follows
+either from the identity correspondence in the definition of incidence
+equivalence, or from the ordinary Picard universal property. Thus
+AR-B2's primitive strict positivity applies to every nonzero class of
+this Chow summand, not only to an unspecified quotient. Its Theorem 8.2
+identifies the form with the pullback of the signed primitive Picard
+polarization, giving the stated Néron--Tate description.
+
+For \(x=e_*x\) and \(y=(1-e)_*y\), the height projection formula gives
+
+\[
+h_{K'}(x,y)=h_{K'}(x,{}^t e(1-e)_*y)=0.
+\]
+
+Combining this with AR-1 and (AR.3) proves the exact gate and the
+strict-positivity assertion. Finite base change is harmless for classes
+descending to \(K\): normalized heights are unchanged, and pullback on
+rational Chow groups is injective since pushforward composed with
+pullback multiplies by \([K':K]\). \(\square\)
+
+\textbf{Scope caution.} The decomposition is asserted over \(K'\). For a
+fixed initial \(K\), positivity on all of \(N(K')\) is a sufficient
+condition for positivity on descended classes, not a claim of logical
+equivalence with positivity over \(K\) alone. The exact equivalence in
+the theorem concerns the group over \(K'\). The theorem is a derived
+consequence of stated inputs; no claim of literature novelty is made.
+
+\subsection{D. A small explicit complement which the reduction does not
+erase}\label{d.-a-small-explicit-complement-which-the-reduction-does-not-erase}
+
+Let \(E/K\) have an automorphism \(\rho\) of order six acting on
+\(H^{1,0}(E)\) by a primitive sixth root \(\zeta\), and assume this
+automorphism is defined over \(K\). For example take a \(j=0\) elliptic
+curve after extending its number field. On \(A=E^3\), use the product
+polarization and let \(\rho_\Delta=(\rho,\rho,\rho)\). Let
+\(\Pi=\pi_1\otimes\pi_1\otimes\pi_1\) be the degree-one tensor Chow
+projector. Put
+
+\[
+e_3=\Pi\,\frac16\sum_{r=0}^5(-1)^r\rho_\Delta^{*r}.
+\tag{AR.5}
+\]
+
+\textbf{Proposition AR-3.} Equation (AR.5) is an actual rational Chow
+idempotent, self-transpose on the middle motive, and its motive \(T\) is
+primitive. Its Hodge realization has dimension two and types
+\((3,0),(0,3)\). Its entire \(\operatorname{CH}^2(T)\) lies in Beauville
+grade one and is homologically trivial. Consequently its height is a
+concrete surviving case of (AR-GATE), with positive-sign candidate
+\(h_K(z,z)\).
+
+\emph{Proof.} The cyclic group character projector is idempotent because
+the coefficient character \(r\mapsto(-1)^r\) is a rational character of
+the order-six group. It commutes with \(\Pi\). Transposition replaces
+group elements by their inverses and fixes the character projector;
+\(\pi_1\) of an elliptic curve is self-transpose. In the tensor
+\(H^1(E)^{\otimes3}\), the eigenvalues are \(\zeta^3=-1\), \(\zeta\),
+\(\zeta^{-1}\), and \(\zeta^{-3}=-1\), according to the number of
+holomorphic factors. The two all-holomorphic/all-antiholomorphic tensors
+are exactly the \(-1\)-eigenspace. Multiplication by each factor's
+divisor class kills the factor \(h^1(E)\), since it would land in
+\(h^3(E)=0\); this is exact in the Chow-motive grading. Hence
+\(L\Pi=0\), so \(T\) is primitive. Finally \(T\subset h^3(A)\), and
+\(\operatorname{CH}^2(h^3(A))=\operatorname{CH}^2_{(1)}(A)\). It has
+zero ordinary degree-four cycle realization. \(\square\)
+
+This is a specified motive and a specified height problem. It is not an
+assertion that \(\operatorname{CH}^2(T)\) is known to contain a nonzero
+class, nor an assertion that all its heights have been determined. No
+general height-to-\(L'\) identity for this group follows from the
+supplied papers.
+
+\subsubsection{D.2 The complementary gate contains a nonzero
+Fermat-quartic
+cycle}\label{d.2-the-complementary-gate-contains-a-nonzero-fermat-quartic-cycle}
+
+\textbf{Theorem AR-7 (a nonzero CM complementary class).} Let
+\(C:x^4+y^4=z^4\), let \(J=\operatorname{Jac}(C)\), and choose a
+degree-one base class after a finite number-field extension. Write \[
+\kappa=[C]-[-1]_*[C]\in\operatorname{CH}^2(J)_{\rm hom,\mathbf Q}.
+\] Let \(\pi_P\) be the primitive middle Chow projector for a symmetric
+theta divisor, and let \(e\) be the Picard-summand projector of AR-2.
+Then \[
+z_N=(\pi_P-e)_*\kappa\in\operatorname{CH}^2(N)
+\tag{AR.9}
+\] is nonzero modulo algebraic equivalence, even over
+\(\overline{\mathbf Q}\). In particular (AR-GATE) is a genuine remaining
+sign problem on a group containing a specified nonzero class. In this
+example \(H(N)\) has precisely types \((3,0),(0,3)\), each of dimension
+one.
+
+\emph{Proof.} Bloch, \emph{Algebraic cycles and values of L-functions},
+J. reine angew. Math. 350 (1984), Lemma (3.1), p.99, gives an isogeny
+\(J\to E^2\times E'\), of degree a power of two, where \(E:y^2=x^3-x\)
+and \(E':y^2=x^3+x\). Thus \(J\) is CM; over \(\overline{\mathbf Q}\) it
+is isogenous to the cube of a \(j=1728\) elliptic curve. Bloch's Theorem
+(4.1), p.104, says that this Ceresa cycle has infinite order modulo
+algebraic equivalence. Its class modulo algebraic equivalence is
+independent of the chosen embedding (Theorem (3.4) and following text,
+p.102).
+
+We first check that \(\kappa\) has grade one, so the Chow projector
+\(\pi_3\) does not discard its nonzero Griffiths class. It is odd under
+\([-1]^*\), hence only odd Beauville grades can occur. The Fourier
+isomorphism \[
+\mathcal F:\operatorname{CH}^2_{(s)}(J)
+ \simeq\operatorname{CH}^{1+s}_{(s)}(\widehat J)
+\] kills every odd \(s\ge3\), by dimension, and every odd \(s\le-3\), by
+negative codimension. For \(s=-1\) the target is
+\(\operatorname{CH}^0_{(-1)}(\widehat J)=0\), since
+\(\operatorname{CH}^0\) is spanned by the fundamental class and has
+grade zero. Therefore
+\(\kappa\in\operatorname{CH}^2_{(1)}(J)=\operatorname{CH}^2(h^3J)\).
+
+Motivic Lefschetz gives \(h^3(J)=P\oplus Lh^1(J)\). The codimension-two
+Chow group of the second summand is an image under \(L\) of
+\(\operatorname{Pic}^0(J)_{\mathbf Q}\); all these classes are
+algebraically trivial. The same is true of \(\operatorname{CH}^2(M)\),
+by AR-2. Consequently \[
+\kappa-z_N=(1-\pi_P)_*\kappa+e_*\kappa
+\] is algebraically trivial. Bloch's theorem now forces \(z_N\) to be
+nonzero modulo algebraic equivalence. This argument is unchanged after
+finite extension.
+
+For the final Hodge-type assertion, the rational CM decomposition of
+\(H^3(E^3)\) splits off its two extreme types \((3,0),(0,3)\). One can
+see rationality explicitly by applying the scalar CM endomorphism
+\(1+i\): its eigenvalues on the extreme types satisfy \(T^2+4T+8\),
+while those on \((2,1),(1,2)\) satisfy \(T^2-4T+8\). These coprime
+rational polynomials give the two rational Hodge substructures. The full
+level-one part has dimension \(18\). The Lefschetz summand \(LH^1(J)\)
+is six-dimensional and lies entirely in that part. The extreme
+two-dimensional substructure is already primitive, by Hodge type. Thus
+the primitive middle piece has a twelve-dimensional maximal level-one
+part and the indicated two-dimensional complement. \(\square\)
+
+This proof refutes a CM-wide assertion that homological triviality is
+algebraic triviality up to torsion: the rational Griffiths quotient is
+nonzero already for this CM Jacobian. It does not refute the arithmetic
+Hodge-index sign conjecture. The new statement here is the precise
+placement of the known nonzero cycle in the orthogonal complementary
+Chow summand, using AR-2; Bloch's nonvanishing theorem is an accepted
+established input.
+
+The Beauville Fourier grading used above is the standard Fourier
+decomposition (Beauville, \emph{Sur l'anneau de Chow d'une variété
+abélienne}, Math. Ann. 273 (1986), 647--651). An explicitly read
+statement with the grading convention is Shen--Vial, \emph{The Fourier
+transform for certain hyperkähler fourfolds}, Introduction A, p.2,
+displayed (1) and property (a). Its Fourier inversion is also recalled
+in Künnemann 1993, §2, printed p.88.
+
+\subsubsection{D.3 A canonical nonzero complementary cycle with an exact
+local height
+formula}\label{d.3-a-canonical-nonzero-complementary-cycle-with-an-exact-local-height-formula}
+
+\textbf{Theorem AR-8 (Fermat symmetry and Gross--Schoen reduction).} For
+the Fermat quartic choose the hyperflex \(P_0=(1:0:1)\) and its Abel
+embedding \(f(x)=[x-P_0]\). Let \(X_1\) be the grade-one part of
+\(f_*[C]\), and set \[
+\eta=\mathcal F(X_1)\in\operatorname{CH}^2(J).
+\] One can choose the splitting in AR-2 so that
+\(\eta\in\operatorname{CH}^2(N)\). This class is nonzero modulo
+algebraic equivalence. Let \(K'\) contain the relevant definitions and
+admit a semistable model of \(C\), and put \[
+\Omega_{K'}=\frac{\omega_a^2}{[K':\mathbf Q]},
+\qquad
+\Phi_{K'}=\frac{1}{[K':\mathbf Q]}
+ \sum_v\varphi(C_v)\deg(v).
+\] Then the raw normalized middle height has the exact value \[
+h_{K'}(\eta,\eta)
+ =\frac16 h_{K'}(\Delta_{P_0},\Delta_{P_0})
+ =\frac7{24}\Omega_{K'}-\frac16\Phi_{K'}.
+\tag{AR.10}
+\] Thus this specified nonzero complementary class has nonnegative
+height exactly when \(7\Omega_{K'}\ge4\Phi_{K'}\), and strictly positive
+height exactly when the inequality is strict. There is no positive
+Picard contribution to subtract for this choice of splitting.
+
+\emph{Proof.} The tangent \(x=z\) meets \(C\) at \(P_0\) with
+multiplicity four, so \(K_C\sim4P_0\). Let \(G=\mu_4^2\) act by the two
+coordinate scalings on the affine equation \(x^4+y^4=1\). Each
+\(\gamma P_0\) satisfies \(4\gamma P_0\sim K_C\), so \(\gamma P_0-P_0\)
+is four-torsion in \(J\). Translation by a torsion point acts
+identically on rational Chow groups: if \(na=0\), then
+\([n]\circ t_a=[n]\); since \([n]_*\) is invertible on rational Chow
+groups by the Chow--Künneth eigenvalue decomposition,
+\([n]_*t_{a*}=[n]_*\) implies \(t_{a*}=1\). Therefore the class
+\(f_*[C]\), its grade-one part, and its Fourier transform \(\eta\) are
+\(G\)-invariant. The last assertion uses the \(G\)-invariance of the
+symmetric principal theta class; the Fourier kernel is consequently
+\(G\)-equivariant.
+
+The holomorphic differentials have \(G\)-characters \[
+(1,1),\quad(1,2),\quad(2,1)\qquad\text{in }(\mathbf Z/4)^2.
+\] Their exterior triple has trivial character. In a mixed exterior
+triple of type \((2,1)\), canceling a holomorphic and antiholomorphic
+character leaves one of the three nonzero characters above; using three
+distinct indices gives \((0,2),(2,0),(2,2)\), again nonzero. Conjugation
+handles type \((1,2)\). Hence \(H^3(J)^G\) consists exactly of the two
+extreme Hodge types. In particular it has no overlap with \(W=H(M)\).
+
+Let \(p_G=|G|^{-1}\sum_{\gamma\in G}\gamma_*\). This is an exact
+self-transpose Chow idempotent. It commutes with the primitive projector
+because \(G\) preserves theta. In AR-2 replace the constructed inclusion
+by \[
+u'=(1-p_G)u.
+\] Its realization is unchanged on \(W\); therefore the same adjoint
+argument gives a split inclusion and a self-transpose projector \(e'\).
+Now \(p_Gu'=0\) holds exactly, and transposition gives
+\((u')^\dagger p_G=0\), hence \(e'p_G=0\). Since \(p_G\eta=\eta\), we
+get \(e'\eta=0\). Zhang's Theorem 1.5.6 says \(\eta\) is primitive;
+therefore \(\eta\in\operatorname{CH}^2(N)\) for this splitting.
+
+By AR-7, the Ceresa class is \(2X_1\) and is nonzero modulo algebraic
+equivalence. Fourier is an invertible algebraic correspondence and
+preserves algebraic equivalence, so \(\eta\) is likewise nonzero. Zhang,
+\emph{Gross--Schoen cycles and dualising sheaves} (2010), Theorem 1.5.6,
+printed p.14, gives the first equality in (AR.10) in genus three. His
+Theorem 1.3.1, printed p.5, gives the second because \(P_0-K_C/4=0\) in
+the rational Picard group. Dividing every global intersection by
+\([K':\mathbf Q]\) gives the displayed normalization. \(\square\)
+
+The theorem makes the remaining calculation concrete; it does not
+establish the inequality in (AR.10). Good finite places contribute zero
+to \(\Phi_{K'}\). For the displayed integral plane quartic, every odd
+prime is a smooth-reduction prime by the partial derivatives. Thus only
+places over \(2\) and the archimedean places can contribute to
+\(\Phi_{K'}\). The admissible self-intersection \(\Omega_{K'}\) also
+includes arithmetic metric and model information. A computation of these
+terms, including the semistable reduction at \(2\), would settle the
+height of this cycle. Positivity of this one nonzero class would still
+not establish positivity of the whole group \(\operatorname{CH}^2(N)\).
+
+\subsection{E. Mixed-characteristic and constant-family
+checks}\label{e.-mixed-characteristic-and-constant-family-checks}
+
+The correct arithmetic analogue of an intersection formula has the form
+
+\[
+h_K(z,z')=\frac1{[K:\mathbf Q]}\widehat{\deg}
+ \bigl(\widehat z^{\mathrm{adm}}\cdot\widehat z'^{\mathrm{adm}}\bigr),
+\tag{AR.6}
+\]
+
+with vertical-orthogonal extensions and the compatible Green-current
+data. Künnemann 2001, §1.2--1.4, is the exact construction used here.
+Thus a raw closure intersection does not become a height merely by
+inserting \((-1)^m\). The parent's quadric counterexample to the
+uncorrected pencil formula is consistent with this distinction: integral
+fibers do not remove all higher-codimension local correction terms.
+
+\textbf{Constant-family check.} For the constant family
+\(B\times C\to C\) over a field \(k\), and a constant section \(s_P\)
+with \(P\in B(k)\), the geometric canonical height over \(k(C)\) is
+zero. Indeed the pullback of a line bundle from \(B\) along the constant
+map is a constant one-dimensional vector space tensored with
+\(\mathcal O_C\), hence has degree zero; the same holds after every
+multiplication by \(n\). If \(k=K\) is a number field and \(P\) is
+nontorsion, its arithmetic Néron--Tate height on \(B/K\) is strictly
+positive for an ample polarization. Therefore the arithmetic value
+cannot be recovered from that geometric degree alone. The missing term
+is genuine arithmetic metric/finite-place information. This is a
+counterexample to any claimed direct replacement of a geometric height
+by the number-field height with all these terms omitted, not a
+counterexample to a correctly normalized biextension formula.
+
+For ordinary divisors, Faltings--Hriljac gives \(h_K(D,D)<0\) when the
+Jacobian class of \(D\) is nontorsion. For a primitive codimension-two
+class on a threefold the proposed positive sign is \(+h_K\). These two
+low-dimensional checks prevent an unsigned ``BB is NT-positive''
+statement.
+
+\subsection{F. What GRH actually
+gives}\label{f.-what-grh-actually-gives}
+
+\textbf{Lemma AR-4 (central sign).} Let \(F\) be holomorphic in a
+neighborhood of the real interval \([c,\infty)\), real on that interval,
+positive for sufficiently large real arguments, and nonzero for every
+real \(s>c\). If \(F\) vanishes to order \(r\ge1\) at \(c\), then
+\(F^{(r)}(c)>0\). In particular \(F'(c)\ge0\), with strict inequality
+exactly when \(r=1\).
+
+\emph{Proof.} Continuity and the absence of a real zero on
+\((c,\infty)\) give \(F(s)>0\) there. In the expansion
+\(F(c+t)=a_rt^r+O(t^{r+1})\), \(a_r\) is real and nonzero. Positivity
+for small \(t>0\) forces \(a_r>0\), and \(F^{(r)}(c)=r!a_r\).
+\(\square\)
+
+If \(F=G L\), with \(G(c)>0\) real and \(L(c)=0\), then
+\(F'(c)=G(c)L'(c)\). Thus GRH supplies the lemma's zero-free interval
+for an appropriately normalized real self-dual completed \(L\)-function,
+provided poles and the positivity normalization have also been handled.
+A complex non-self-dual Hecke \(L\)-function has no ordered derivative
+sign until an appropriate real combination has been specified.
+
+\textbf{Corollary AR-5 (conditional height sign).} If a proven formula
+gives \(q_A(z,z)=C L'(c)\), \(C>0\), with the hypotheses of AR-4, then
+\(q_A(z,z)\ge0\). It is strictly positive if the central zero is simple.
+If the central zero has higher order, the formula gives zero; it does
+not prove \(z=0\). To deduce positivity for an entire cycle space one
+needs a spanning family and control of cross terms, or a formula for
+every vector in that space. A regulator determinant alone is
+insufficient: the real symmetric matrix
+\(\operatorname{diag}(-1,-1,1,\ldots,1)\) has positive determinant and
+is not positive definite.
+
+The attached Alpöge \texttt{Statements.lean} quantifies over Dirichlet
+characters \(\chi:\operatorname{DirichletCharacter}(\mathbf C,N)\). Its
+\texttt{Main.lean} proves exactly those advertised Dirichlet statements
+from imported results; it contains no theorem for arbitrary number-field
+Hecke characters. We accept the cited theorem; this is a scope check,
+not a re-verification of its proof. The Masullo index labels 14.1.2.1
+(printed p.529) a \textbf{Conjecture}, and 14.1.2.3 (p.531) a
+proposition conditional on that conjecture and 14.1.2.2. The row on
+p.522 whose opening reads ``13.3.1.2 (Divisor of L(s, chi))'' includes
+unfinished statement text (the index parses its number as 13.3.1).
+Accordingly any use of broad Hecke GRH is explicitly \textbf{conditional
+(Hecke-GRH/Masullo)}. No such input supplies the height identity in
+AR-5.
+
+\subsubsection{F.2 The concrete CM derivative and the newer
+triple-product
+comparison}\label{f.2-the-concrete-cm-derivative-and-the-newer-triple-product-comparison}
+
+Bloch 1984, Proposition (5.2), printed p.107, proves that the Hecke
+\(L\)-function of the Fermat-quartic rank-two motive of types
+\((3,0),(0,3)\) has a simple zero at \(s=2\). This is a theorem about
+order of vanishing. The proposition does not state an arithmetic height
+identity or an ordered sign for the derivative. The introduction,
+printed p.95, explicitly presents the height formula as a possible
+further assertion. Thus the supplied Dirichlet-GRH theorem, Bloch's
+nonvanishing, and (AR.10) are three distinct inputs.
+
+A stronger next comparison is available in Yuan--Zhang--Zhang,
+\emph{Triple product L-series and Gross--Kudla--Schoen cycles},
+manuscript dated 14 November 2023, with appendix by Yifeng Liu.
+Proposition 1.3.2, printed p.7, expresses the trilinear cycle height as
+a coefficient \(\mathcal L(\pi)\) times a product of local invariant
+pairings. Theorem 1.3.3, printed p.8, states \[
+\mathcal L(\pi)=
+\frac{16\zeta_F(2)^2}{L(1,\pi_L,\mathrm{ad})}
+ L'(1/2,\pi_L)+\sum_{p\in S}c_p\log p,
+\qquad c_p\in\overline{\mathbf Q},
+\tag{AR.11}
+\] where \(S\) consists of rational primes below ramification places of
+\(\pi\). The exact generalized Gross--Kudla formula holds in their
+everywhere-unramified case. This is stronger than the older September
+2012 manuscript, Theorem 1.2.4, whose hypotheses included at least two
+finite nonsplit quaternion places.
+
+The Fermat quartic is \(X_0(64)\); for example the explicit modular-form
+embedding and the relation \(x^4+y^4=z^4\) are given in Fang-Ting Tu,
+\emph{Arithmetic of Quaternion Orders and Its Applications} (Waseda
+dissertation, February 2012), §5.3.2, p.59. Hence the relevant modular
+elliptic constituents are unramified away from \(2\). If one carries out
+the precise trilinear-cycle identification and the local test-vector
+normalizations for this example, the possible correction in (AR.11) is
+supported at \(2\). Its shape is \(c_2\log2\); its vanishing or sign is
+not supplied by an \(L\)-function zero-free theorem. The whole
+identification is retained as a task, rather than treating a general
+modular parametrization as an automatic equality with \(\eta\).
+
+The newer Gao--Zhang manuscript, \emph{Heights of Ceresa and
+Gross--Schoen cycles}, Theorems 1.1 and 1.4, constructs canonical adelic
+height objects and proves a lower bound on a suitable Zariski-open part
+of moduli. This offers genuine geometry for the Bost route below. A
+bound with an additive constant on an unspecified open subset does not
+determine the sign at this fixed Fermat point. The specific formula
+(AR.10), or a completed comparison including the term in (AR.11),
+remains the concrete height gate.
+
+\subsection{G. Testing the two suggested Alpöge
+mechanisms}\label{g.-testing-the-two-suggested-alpuxf6ge-mechanisms}
+
+\subsubsection{G.1 Sign-only Weil/explicit-formula
+route}\label{g.1-sign-only-weilexplicit-formula-route}
+
+The note's footnote 3, printed p.3, explains the sign in the
+finite-field trace calculation using concentration in middle cohomology
+and the opposing zero-mode parity, with a bound from repeated Parseval.
+Step 5 (pp.3--4) changes to a von Mangoldt/Guinand--Weil variance setup.
+Neither statement identifies the cycle intersection or arithmetic height
+form with the analytic form.
+
+A minimal algebra check isolates the missing information. Let \(F=pI\)
+on \(\mathbf Q^2\), \(p>0\). Both \(b_+=I\) and
+\(b_\pm=\operatorname{diag}(1,-1)\) satisfy \(F^tbF=p^2b\); they have
+the same Frobenius eigenvalues and traces and different signatures. Thus
+eigenvalue purity and trace parity do not determine a compatible form's
+signature. This is an information-loss test, not a proposed geometric
+counterexample. A valid geometric transfer still needs an identification
+of the form and its polarization.
+
+\subsubsection{G.2 Bost slope route}\label{g.2-bost-slope-route}
+
+Bost, \emph{Algebraic leaves of algebraic foliations over number
+fields}, Publ. Math. IHES 93 (2001), §4.1.4, Proposition 4.5, equation
+(4.11), gives for an injective \(K\)-linear map between hermitian
+bundles
+
+\[
+\widehat{\deg}_{n}(E)
+\le\operatorname{rk}(E)\bigl(\widehat\mu_{\max}(F)+h(\varphi)\bigr).
+\tag{AR.7}
+\]
+
+Proposition 4.6, equation (4.14), is its filtered version. The note's
+step 13, p.4, names this inequality. The attached Lean map points to
+\texttt{Formalism/LatticeSlopes/LatticeSlopesProofs/SlopeInequality.lean}
+and \texttt{Formalism/LatticeSlopes/Statement.lean}; these
+implementation files were \textbf{not attached or read}, and no claim is
+made to have run them.
+
+\textbf{Proposition AR-6 (precise slope gate).} Suppose that a geometric
+construction associates to a cycle \(z\) a hermitian line
+\(\overline{\mathcal B}_z\) with
+\(\widehat{\deg}_n\overline{\mathcal B}_z=q_A(z,z)\), and an injective
+map \(\varphi:\mathcal B_z^\vee\to F_z\) satisfying
+
+\[
+\widehat\mu_{\max}(F_z)+h(\varphi)\le0.
+\tag{AR.8}
+\]
+
+Then \(q_A(z,z)\ge0\); a strict upper bound in (AR.8) gives strict
+positivity.
+
+\emph{Proof.} Apply (AR.7) to the rank-one source
+\(\overline{\mathcal B}_z^\vee\), whose normalized degree is
+\(-q_A(z,z)\). \(\square\)
+
+The hypotheses in AR-6 are substantive: the line must be the cycle's
+canonical arithmetic biextension/height object, and the map and norm
+bounds must be proved. Merely declaring a trivial line to have metric
+\(e^{-q_A(z,z)}\) is circular. To see why the inequality by itself
+yields no sign, let \(E_a=(\mathcal O_K,\|1\|_\sigma=e^{-a})\). Then
+\(\widehat{\deg}_n(E_a)=\widehat\mu_{\max}(E_a)=a\), and the identity
+map has height zero. Equation (AR.7) becomes \(a\le a\) for every
+positive or negative real \(a\).
+
+This explicitly tests the next tool: a Bost proof of (AR-GATE) would
+require (AR.8) for the height line of every class in the complementary
+motive \(N\), including local and archimedean terms. Neither the
+four-page note nor the supplied Lean map provides this bridge. On the
+Picard summand the Poincaré biextension already gives the canonical
+object and the result is known independently.
+
+\subsection{H. Sources and reading
+record}\label{h.-sources-and-reading-record}
+
+\begin{itemize}
+\tightlist
+\item
+  Attached 032: Theorem 1.1; Lemma 8.1; Corollary 8.2 and its proof.
+  Accepted inputs; targeted statement/codimension reading.
+\item
+  Attached cote 44 scan004: Theorem 5 and its margin. It assumes
+  algebraically trivial generic restrictions; its printed intersection
+  formula is handled separately by the parent's H9 counterexample and
+  correction.
+\item
+  Künnemann 1993:
+  https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735\_0113/LOG\_0011.pdf
+  . Direct PDF downloaded, rendered printed pp.96--98; Theorems 5.1,5.2,
+  Corollary 5.3 directly read.
+\item
+  Künnemann 1996: DOI https://doi.org/10.1353/ajm.1996.0033 . Primary
+  paper's indexed PDF at
+  https://citeseerx.ist.psu.edu/document?doi=24752c170be79846ab861e9c80a8977cac60035f\&repid=rep1\&type=pdf
+  . Web retrieval exposed full extracted text after direct-download
+  failures. Lemma 4.1, equation (18), Theorems 6.1,8.2,9.1,12.1, and
+  Remark 12.2 were targeted-read; not a full proof audit.
+\item
+  Künnemann 2001:
+  https://www.numdam.org/item/10.1016/s0012-9593(01)01068-0.pdf .
+  §1.2--1.4, Theorem 1.6, Corollary 1.7 directly read via extracted
+  primary PDF.
+\item
+  Milne, Abelian Varieties v1.10:
+  https://www.jmilne.org/math/CourseNotes/AV110.pdf . Proposition 16.10,
+  printed p.65, model over a number field; statement read, proof omitted
+  in this source.
+\item
+  Zhang 2010:
+  https://web.math.princeton.edu/\textasciitilde shouwu/publications/gross-schoen.pdf
+  . §5.3, p.68, height selection; directly read.
+\item
+  Laga--Shnidman: https://arxiv.org/pdf/2312.12965 . Proposition 4.5,
+  Proposition 5.9 and Proposition 5.10 directly read; Kings Prop.2.2.1
+  is cited through this source, not directly read.
+\item
+  Bost 2001:
+  https://www.numdam.org/item/PMIHES\_2001\_\_93\_\_161\_0.pdf . §4.1.4,
+  Propositions 4.5--4.6, equations (4.11),(4.14), directly read.
+\item
+  Attached Alpöge note: pp.3--4, footnote3, steps5 and13; attached
+  Main/Statements; Lean-map §4 and §5. No formal build and no claim to
+  inspect omitted implementation files.
+\item
+  Attached Masullo index: rows 13.3.1.2,14.1.2.1,14.1.2.3. The full
+  paper is not attached; broad Hecke GRH is retained as an explicit
+  hypothesis.
+\end{itemize}
+
+\subsection{I. Self-check summary}\label{i.-self-check-summary}
+
+AR-1: exponent \(g-i-e=s-2\) checked; grade zero of symmetric \(\ell\)
+checked; no unproved Beauville vanishing inserted. AR-2: codimension
+\(b+m-1\), twist \(1-m\), Chow degree \(m+(1-m)=1\), exact inverse
+specifically in \(h^1\), self-transpose projector, incidence injection,
+field extension scope, and height orthogonality each checked. AR-3:
+idempotent group algebra character, transpose/inverse, eigenvalue
+multiplicities \(1,3,3,1\), primitive tensor action, and grade
+\(2p-i=1\) checked. AR-4: poles, real-valuedness, positivity
+normalization, order of zero, and derivative/leading-coefficient
+distinction checked. AR-6: dual-source sign and rank-one rescaling test
+checked. AR-7: Fourier odd-grade elimination, primitive versus Lefschetz
+summand, algebraic triviality of the discarded terms, and the two CM
+characteristic polynomials checked; root independently confirmed this
+argument. AR-1a: all negative grades and the homologically trivial
+grade-zero divisor image checked. AR-8: hyperflex canonical class,
+torsion translation using invertible multiplication, all twenty exterior
+character triples, exact averaged-projector annihilation, and the
+constants 7/24 and 1/6 checked. The character enumeration independently
+returned only the all-holomorphic and all-antiholomorphic triples as
+invariant.
+
+Remaining parent-facing review request: independently check AR-2's
+motivic-adjoint sign and field-descent argument before promoting it in
+the final paper. It is a complete written argument from stated
+background, not a formal certificate and not a claimed solution of
+(AR-GATE).
+\section{What remains to be proved}
+The full primitive arithmetic height form on the complementary CM Chow
+motive remains to be controlled. A formula for one special cycle does
+not prove positivity for every cycle. Analytic derivative signs require
+an applicable real self-dual $L$-function and a proved height identity
+with its local terms and positive constants. The Bost slope inequality
+requires an actual canonical height line and a proved norm estimate.
+Neither missing input is silently supplied by purity or Dirichlet GRH.
+
+The geometric H9 assertions cannot be completed in their original form:
+the counterexamples above refute the formula and the asserted incidence
+domain. Their repaired statements are the explicitly stated admissible
+formula, no-correction criterion, and conditional quotient lemma.
+\begin{thebibliography}{99}
+\bibitem{Saito1979} H. Saito, \emph{Abelian varieties attached to cycles of intermediate dimension}, Nagoya Math. J. 75 (1979), 95--119. Definition 3.1; Proposition 3.4; Theorem 3.6; \S4.1; Proposition 4.4; Corollary 4.5; Theorem 4.6; Proposition 5.2. \url{https://doi.org/10.1017/S0027763000024855}.
+\bibitem{Kleiman68} S. L. Kleiman, \emph{Algebraic cycles and the Weil conjectures}, in Dix expos\'es sur la cohomologie des sch\'emas (1968), 359--386, Theorem 2A11.
+\bibitem{MilneAV} J. S. Milne, \emph{Abelian Varieties}, course notes, v2.00 (2008), Chapter I, Theorem 11.1; Chapter III, Theorem 6.8 and Summary 6.11. \url{https://www.jmilne.org/math/CourseNotes/AV.pdf}.
+\bibitem{MumfordAV} D. Mumford, \emph{Abelian Varieties}, Oxford University Press, 1970. Chapter II, \S6, Application 1, p.~60; Chapter III, \S16, Index Theorem, p.~155.
+\bibitem{ConradAV} B. Conrad, \emph{Abelian varieties}, notes by T. Feng (2015), Example 4.2.14, p.~38.
+\bibitem{SGA7I} A. Grothendieck et al., \emph{Groupes de monodromie en g\'eom\'etrie alg\'ebrique, I}, SGA 7 I, Lecture Notes in Mathematics 288, Springer, 1972. Expos\'e IX, \S9.2, 10.3.5 (p.~443), Theorem 10.4 (p.~444), \S\S12.5 and 12.7.
+\bibitem{SGA7II} P. Deligne and N. Katz, eds., \emph{Groupes de monodromie en g\'eom\'etrie alg\'ebrique, II}, SGA 7 II, Lecture Notes in Mathematics 340, Springer, 1973. Expos\'e XV, 3.3.3--3.3.6, pp.~191--192; XVII, \S2.2; XVIII, 5.3.2--5.3.5, pp.~287--288, Proposition 6.2, p.~319, Corollary 6.4, 6.7.2; XX, Theorem 4.1 and Remark 4.3, pp.~355--356.
+\bibitem{Bloch1984L} S. Bloch, \emph{Algebraic cycles and values of L-functions}, J. reine angew. Math. 350 (1984), 94--108. Lemma 3.1, p.~99; Theorem 4.1, p.~104; Proposition 5.2, p.~107.
+\end{thebibliography}
+\end{document}

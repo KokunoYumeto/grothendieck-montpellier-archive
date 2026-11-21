@@ -1,0 +1,36 @@
+# Known statements and the exact contribution here
+
+All statements below are used at their stated scope. Targeted source reading is distinguished from proof verification; no formal build was performed. Run JAC1964-20261121; author/checker /root/arithmetic_sign, GPT-6 Astra Pro, effort setting not exposed.
+
+| Input and exact locator | Established content used | What remains or is derived here |
+|---|---|---|
+| Attached 032, Theorem 1.1, Lemma 8.1, Corollary 8.2 | CM Hodge algebraicity and effective Hodge realizations | AR-2 constructs a genuine self-transpose Chow summand using degree-one full faithfulness. Hodge algebraicity alone does not identify every homologically trivial cycle with a Picard point. |
+| Künnemann 1993, Invent. Math. 113, 85–102, Theorems 5.1–5.2 and Corollary 5.3, p.96 | Motivic Lefschetz and transpose-compatible Chow projectors | AR-1 removes primitive grades at least two. AR-1a also removes all lower homologically trivial grades in codimension two on a threefold. |
+| Künnemann 1996, Amer. J. Math. 118, 781–797, Theorem 6.1 p.788; Theorem 8.2, eq.(23), p.791; Theorems 9.1 and 12.1, pp.792,795 | Signed higher-Picard/Néron–Tate comparison and strict positivity modulo incidence | AR-2 proves that the full split Picard Chow summand injects into that quotient and therefore inherits strict positivity. The complementary group is retained. |
+| Künnemann 2001, Ann. Sci. ENS 34, 503–523, Theorem 1.6 and Corollary 1.7, p.507; §§1.2–1.4 | Heights for every abelian variety over a number field, admissible extensions, functoriality and base change | Raw closure intersections still require vertical and metric corrections; the constant-family test rules out omitting arithmetic data. |
+| Laga–Shnidman, arXiv:2312.12965, Proposition 4.5, citing Kings 1998 Proposition 2.2.1 | Full faithfulness of degree-one Chow motives of abelian varieties | The inverse of u†u in AR-2 exists in the actual Chow endomorphism algebra. No general cohomological-to-Chow inverse is assumed. Kings's original proposition was not directly read. |
+| Bloch 1984, J. reine angew. Math. 350, 94–108, Lemma (3.1) p.99; Theorem (3.4) p.102; Theorem (4.1) p.104 | The Fermat-quartic Jacobian is CM and its Ceresa class has infinite order modulo algebraic equivalence | AR-7 places a nonzero rational Griffiths class in the exact AR-2 complement. AR-8 uses the μ4² symmetries to put the canonical Fourier class entirely in that complement. |
+| Bloch 1984, Proposition (5.2), p.107; introductory discussion p.95 | The relevant rank-two CM L-function has a simple zero at s=2 | This does not identify its derivative with a height or prove its ordered sign. |
+| Zhang 2010, Invent. Math. 179, 1–73, Theorem 1.3.1 p.5, Theorem 1.5.6 p.14, §5.3 p.68 | Gross–Schoen local height identity, Fourier-Ceresa height relation, and height grade selection | AR-8 gives h(η,η)=7Ω/24−Φ/6 for a specified nonzero complementary CM class. The remaining local inequality is 7Ω>4Φ. |
+| Yuan–Zhang–Zhang, manuscript 14 November 2023, Proposition 1.3.2 p.7 and Theorem 1.3.3 p.8 | Trilinear cycle heights compared with a central derivative up to Σ c_p log p at ramified primes; equality in the everywhere-unramified case | For the Fermat modular constituents only p=2 can occur. The precise cycle/test-vector identification and c₂ remain tasks. The 2012 manuscript has stronger hypotheses and must not be quoted as a general formula. |
+| Gao–Zhang, Heights of Ceresa and Gross–Schoen cycles, Theorems 1.1 and 1.4 | Canonical adelic height objects and a positive-growth lower bound on an open moduli locus | An additive-constant lower bound on an unspecified open locus does not prove nonnegativity at the fixed Fermat point. |
+| Bost 2001, Publ. Math. IHES 93, 161–221, Proposition 4.5, eq.(4.11), p.199; Proposition 4.6, eq.(4.14), p.200 | Injection and filtered slope inequalities | AR-6 identifies the exact canonical height line, dual source, injection, and upper-bound gate needed for a height sign. The rank-one metric-rescaling test proves that the inequality alone gives no sign. |
+| Attached Alpöge note pp.3–4, footnote 3, steps 5 and 13; Main.lean and Statements.lean | Accepted Dirichlet-GRH statements and the indicated variance/slope mechanisms | No arbitrary number-field Hecke-GRH statement is present in the attached Lean theorem interfaces. Neither mechanism supplies the cycle-height comparison. |
+| Attached Masullo index, 14.1.2.1 p.529, 14.1.2.3 p.531 | Broad GRH is labelled conjectural and the later proposition is conditional | Hecke-GRH/Masullo remains an explicit hypothesis when invoked. The unfinished divisor row on p.522 is not promoted to a theorem. |
+
+## Primary-source links
+
+- Künnemann 1993: https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0113/LOG_0011.pdf
+- Künnemann 1996: https://doi.org/10.1353/ajm.1996.0033 ; indexed primary PDF: https://citeseerx.ist.psu.edu/document?doi=24752c170be79846ab861e9c80a8977cac60035f&repid=rep1&type=pdf
+- Künnemann 2001: https://www.numdam.org/item/10.1016/s0012-9593(01)01068-0.pdf
+- Laga–Shnidman: https://arxiv.org/pdf/2312.12965
+- Bloch p.107 original OCR: https://gdz.sub.uni-goettingen.de/fulltext/PPN243919689_0350/00000113?_format=xml
+- Zhang 2010: https://web.math.princeton.edu/~shouwu/publications/gross-schoen.pdf
+- Yuan–Zhang–Zhang 2023: https://web.math.princeton.edu/~shouwu/publications/triple2023.pdf
+- Gao–Zhang: https://ziyangjeremygao.github.io/articles/HP.pdf
+- Bost: https://www.numdam.org/item/PMIHES_2001__93__161_0.pdf
+- Tu dissertation, §5.3.2 p.59: https://waseda.repo.nii.ac.jp/record/19702/files/Honbun-5932.pdf
+
+## Explicit unresolved assertions
+
+The proof notes establish a split positive Picard block, exact height orthogonality, a nonzero complementary Fermat class, and its local-height formula. They do not establish positivity on the complementary Chow group; do not establish the Fermat height inequality; do not supply c₂; do not assert a full Hecke-GRH theorem from the Dirichlet interface; and do not turn a regulator determinant into a positive quadratic form.
