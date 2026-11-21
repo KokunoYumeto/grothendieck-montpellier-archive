@@ -1,0 +1,13 @@
+# Independent whole-proof review: ordinary rank-two unit exclusion
+
+Verdict: PASS for the generic theorem, restriction variant, and actual Type II source corollary.
+
+The reverse stable-lattice orientation is correct: Urban Theorem 1.1, with first block 1 and second block eta epsilon^a, gives 0→k→Lbar→k(delta)→0. Over a DVR the auxiliary fractional module has rank one. The no-quotient-1 conclusion forces nonsplitting. I read the theorem's full setup and proof on author pp6–10, not only its statement.
+
+Intersecting the ordinary characteristic-zero line with the chosen lattice gives a saturated submodule. Its quotient is free of rank one and unramified. In the residual local semisimplification only 1 has trivial inertia because a is nonzero modulo p−1, so the quotient is exactly 1 and the subline delta. That subline splits the reverse extension on the full decomposition group. At every q≠p, including q|D, inertia factors through a group of order at most two after using the unramified restriction to E; averaging gives local splitting. The class therefore lies in the exact strict group killed by the previously checked auxiliary-unit bridge. Finite extension of the residual coefficient field is a finite direct sum over Fp and preserves vanishing. No weight bound is used.
+
+For the restriction variant the residual image is finite, and restriction to the normal index-two subgroup is semisimple after global semisimplification. Its two distinct conjugation-invariant characters extend separately. The determinant gives precisely the two listed pairs, and the quadratic twist preserves the ordinary and away-E conditions.
+
+For actual source points r=push(f,S.r), TanDet's full finite-quotient argument proves that S.R/(ker f)^2, and hence the embedded image of f, is finite over the coefficient DVR. Its fraction field is therefore a finite p-adic field. The canonical Wfun uses only corner entries and diag(-1,1). Source typeII_facts gives absolute irreducibility and det W=eta; its normalization uses the class-number coprimality already in GD, not the desired strict Selmer vanishing. The exact residual matrix is diag(eta chi^e,chi^-e). Thus W⊗chi^e has the needed pair with a=2e, without an additional quadratic twist. The full local source proof gives ordered inertia (chi^e,chi^-e) on the rational decomposition group, including inert p. PtInertiaAway gives trivial inertia after restriction to E when psi=1. All stated source hypotheses match.
+
+The source GD condition also forces the auxiliary discriminant odd when N=2. The generic theorem has no such parity condition; the Type II corollary explicitly retains GD. No assertion about arbitrary bare Adm2 representations or all stable rank-three sources is made.
