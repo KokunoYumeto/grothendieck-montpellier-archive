@@ -1,4 +1,4 @@
-# The two GRH proofs of 20 November 2026: our working-through, status as of 21 Nov 2026 20:43 UTC
+# The two GRH proofs of 20 November 2026: our working-through, status as of 21 Nov 2026 22:13 UTC
 
 On 20 Nov 2026 two proofs of generalized Riemann hypotheses appeared:
 - **L. Alpöge**: RH, and GRH for Dirichlet L-functions. A note (https://alpo.ge/remark.pdf), with a Lean formalization
@@ -115,7 +115,7 @@ Connes and Consani's F_{1²} (arXiv:2609.00299). In [split_zero/](split_zero/):
 | 45 | SIGN_NEXT: SIGN NEXT Grothendiecks Hodge-index route after the sign-only proof | [SIGN_NEXT_checkpoint_02_20261121T0430Z](../../raw/research_returns/SIGN_NEXT_checkpoint_02_20261121T0430Z_unzipped/) | [INTAKE_SIGN_NEXT_20261121.md](intakes/SIGN_NEXT/INTAKE_SIGN_NEXT_20261121.md), [INTAKE_SIGN_NEXT_20261121_part2.md](intakes/SIGN_NEXT/INTAKE_SIGN_NEXT_20261121_part2.md) |
 | 46 | HODGE_DIVISION: HODGE DIVISION bounding the detector degree of Weil classes | [HODGE_DIVISION_checkpoint_12_20261121T1939Z](../../raw/research_returns/HODGE_DIVISION_checkpoint_12_20261121T1939Z_unzipped/) | [INTAKE_HODGE_DIVISION_20261121.md](intakes/HODGE_DIVISION/INTAKE_HODGE_DIVISION_20261121.md), [INTAKE_HODGE_DIVISION_20261121_part2.md](intakes/HODGE_DIVISION/INTAKE_HODGE_DIVISION_20261121_part2.md) |
 | 47 | KTOWER: KTOWER the Galois action on the tower the K groups of Z and cote 149 | [KTOWER_checkpoint_06_20261121T2002Z](../../raw/research_returns/KTOWER_checkpoint_06_20261121T2002Z_unzipped/) | [INTAKE_KTOWER_20261121.md](intakes/KTOWER/INTAKE_KTOWER_20261121.md) |
-| 48 | MAS_ARTIN: MAS ARTIN Masullo s central trace identity over Q the S Artin gate and the analytic premis | [MAS_ARTIN_checkpoint_06_20261121T2001Z](../../raw/research_returns/MAS_ARTIN_checkpoint_06_20261121T2001Z_unzipped/) | [INTAKE_MAS_ARTIN_20261121.md](intakes/MAS_ARTIN/INTAKE_MAS_ARTIN_20261121.md) |
+| 48 | MAS_ARTIN: MAS ARTIN Masullo s central trace identity over Q the S Artin gate and the analytic premis | [MAS_ARTIN_checkpoint_08_20261121T2131Z](../../raw/research_returns/MAS_ARTIN_checkpoint_08_20261121T2131Z_unzipped/) | [INTAKE_MAS_ARTIN_20261121.md](intakes/MAS_ARTIN/INTAKE_MAS_ARTIN_20261121.md) |
 
 ## Left out
 - **Copies of other people's work** that came back inside the returns. Link to the originals instead:
