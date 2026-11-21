@@ -5,6 +5,7 @@ Where these come from: the 6,439 places where earlier second passes of this arch
 facsimile against witness H. Two thirds of those changes (3,211 of the 5,032 that changed the text) were at places
 witness C had not marked as doubtful: look for these kinds everywhere, not only at its doubt marks. The counts say where
 the errors were; they never decide a reading. The ink decides.
+The one-line refinements that name runs (SP72-SP83, SP114-SP117) come from those runs' own feedback of 20-21 Nov.
 
 **Where the first readings were changed most often** (559 pages read twice, token by token; tokens changed per 100,
 on average 7):
@@ -56,6 +57,8 @@ sign were wrong twice as often as the others.
      degree, count or date the page forces, and never regularise one silently.
    - Worn signs: a short stroke between two terms may be a map, a minus or a plus; two ticks or a ∩ between the rows of
      a diagram may be = or ⊂. Read them by the formula and the rows of the diagram, then confirm on the ink.
+   - A relation written vertically (two upright strokes between stacked objects) stays vertical: it is neither a
+     horizontal = nor an arrow (SP74, SP83).
    - Pairs he writes one for the other (i and j, m and n, X and Y, K and k, V and W): keep the letter as written, even
      where the argument needs the other; the meant one goes in the notes.
    - Letters his hand forms alike are a different case from such slips. Where his p looks like an n, or his ζ like a
@@ -68,6 +71,7 @@ sign were wrong twice as often as the others.
      places checked (« because » given as « avec », « systématiques » as « systématique »).
    - Endings (a final s, de and des, le and les): the grammar does not decide them; he breaks agreement himself (2 of
      the 6 endings checked by eye).
+   - A terminal pen return is not a letter: compare the ending with an ending of the same page (SP83).
 3. **Omissions (1,009).**
    - A one-word insertion (la, le, de, un, et, des, ne, même) is small and easily misread: words in an insertion were
      changed at 13 in 100 in witness C, against 5 for a plain word; of 10 such words Michel Hua checked by eye, witness H
@@ -75,18 +79,31 @@ sign were wrong twice as often as the others.
    - Prefixes are written above the line (sous-, quasi-, ⊗-, Δ-, pseudo-, contra-): 28 of the 30 checked by eye are on
      the page. Look above the line before taking a prefix as absent.
    - Margin notes, slanted notes, the punctuation that survives a cancellation.
+   - A curved leader that carries an insertion to its place is not a parenthesis, a strike or a comma: trace its path
+     first, and record the attachment apart from the words (SP74, SP75, SP78, SP83).
 4. **Drawings and diagrams (886).** What looks like a drawing may be a crossing-out, a hatched formula, a matrix or a
    diagram to set (17 such cases checked by eye). In a real figure, count the sides, points and strokes twice.
+   Running text is never drawn: a word, letter or sign of the text is transcribed, with `\unsure` where in doubt, never
+   set as a picture (on the calibration pages of 21 Nov the three-reader passes drew inserted words, struck letters
+   and typed overstrikes as TikZ, and the reading was lost). A real figure keeps its open and filled points, pen gaps,
+   line weights and layers: never a generic graph, never a description in words (SP78, SP82, SP83).
 5. **Readable ink left as illegible (711).** The full-resolution halves, or one tight crop, usually read it.
 6. **Insertions put in the wrong place (500).** Decide where an insertion attaches (which word, line, item, margin or
    leaf) separately from what it says.
 7. **Struck text (417).** Three separate questions: which words are struck, whether the line is a strike at all, and
    which words replace them. A struck word given as live, or a live one given as struck, is witness C's commonest silent
    error.
+   A descender from the line above, or a leader or a drawing that crosses a word, is not a strike: follow the stroke
+   to its letter (SP75, SP82, SP83).
 8. **Abbreviations expanded, spelling modernised (389).** His short forms stay in the text: tt, ess., t.f., il f. et il
    s., tot^t, néc^t, ss-, ½, and = standing for « même ». An expansion goes only in the abbreviations list.
+   A stop is read, not supplied (autom, mod, gén without a dot stay so; four points stay four), and inside a doubt
+   mark the alternatives keep the written short form (SP75, SP79; the calibration of 21 Nov).
 9. **Text that is not on the page (128).** A word the sentence needs is either an insertion that was missed or not on
    the page. If it is not on the page, it is not transcribed, not even as a doubtful reading; it goes in the notes.
+   Nothing is completed: an unbalanced parenthesis, a word cut at the paper's edge, a label missing from a sequence
+   stay as they are (SP78, SP79, SP82). Two witnesses agreeing on a word the sentence wants is no evidence: in SP78
+   both added « en » where only « une » is written, in SP83 both dropped a detached accent.
 10. **Other (292).**
 
 **Witness H.** Its page n is our scan n + 1. Its editorial page markers, synopses and notes are not source text; its
@@ -100,6 +117,8 @@ pages of cotes 156-1, 156-2, 156-3, 126 and 13. Name it once in the notes of the
 never as a doubt mark. A faint dot is punctuation only where the sentence or the
 formula gives it a place, and only if it is as dark as the writing around it; a second model, reading 366 hard places,
 took 27 of the marks the passes had added for specks of the paper.
+Show-through from the other face, or the reversed listing of a reused sheet, is not text: settle the face of the
+sheet first (SP82, SP83). Thin foliation numbers in another hand are not his numbering (SP82).
 
 **Typescripts.**
 - **A letter typed over another:** record the letter underneath, where it can be read, as `\deleted{x}` before the
@@ -112,6 +131,7 @@ took 27 of the marks the passes had added for specks of the paper.
 **Small things that were changed often.**
 - **Accents:** an accent is one short stroke whose slant need not tell acute from grave. Where a stroke is there, write
   the accent the word has in French; note a missing accent only where no stroke is there.
+  A proper name's accent is read on each leaf: Teichmuller and Teichmüller both occur (SP78).
 - **Letters of one cote in formulas:** on cote 156-3 a capital E in a formula may be his ε; compare it with an ε of
   the same page.
 - **Page numbers:** look at the head of the sheet for his own page number before the first line. Earlier readings left
