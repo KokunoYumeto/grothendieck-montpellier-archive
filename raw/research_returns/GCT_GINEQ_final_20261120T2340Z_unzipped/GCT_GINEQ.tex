@@ -1,0 +1,1911 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype,amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs,longtable,array,enumitem}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small GCT\_GINEQ}
+\fancyhead[R]{\small Norms, certificates, and tensor rank}
+\fancyfoot[C]{\thepage}
+\setlist{nosep}\setlength{\emergencystretch}{2em}
+\newcommand{\R}{\mathbb R}\newcommand{\C}{\mathbb C}
+\newcommand{\Z}{\mathbb Z}\newcommand{\Q}{\mathbb Q}
+\newcommand{\F}{\mathbb F}
+\newcommand{\BR}{\underline{\mathrm R}}\newcommand{\TR}{\mathrm R}
+\newcommand{\SR}{\mathrm R_{\mathrm{sym}}}
+\newcommand{\BSR}{\underline{\mathrm R}_{\mathrm{sym}}}
+\newcommand{\HS}[1]{\lVert #1\rVert_{\mathrm F}}
+\newcommand{\op}[1]{\lVert #1\rVert_{\mathrm{op}}}
+\newcommand{\nuc}[1]{\lVert #1\rVert_*}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\GL}{\mathrm{GL}}\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\Spec}{\operatorname{Spec}}\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\sgn}{\operatorname{sgn}}\newcommand{\diag}{\operatorname{Diag}}
+\newcommand{\tr}{\operatorname{tr}}\newcommand{\id}{\operatorname{id}}
+\newcommand{\Span}{\operatorname{span}}\newcommand{\Gr}{\operatorname{Gr}}
+\newcommand{\Hilb}{\operatorname{Hilb}}\newcommand{\coker}{\operatorname{coker}}
+\newcommand{\calO}{\mathcal O}\newcommand{\CP}{\mathbb P}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+\newenvironment{finding}[2]{\par\medskip\noindent\textbf{Finding #1 (#2).}\ \itshape}{\par\medskip}
+\newenvironment{background}[2]{\par\medskip\noindent\textbf{Background #1 (#2).}\ }{\par\medskip}
+\title{\textbf{Grothendieck's inequality and tensor norms\\against rank and border rank}\\[5pt]
+\large Exact bounds, semidefinite certificates, and the algebraic-geometric dictionary}
+\author{Research report for GCT\_GINEQ\\\small Run GCT\_GINEQ-2026-11-20-R1}
+\date{20--21 November 2026\\\small Sources checked in this run; local date Europe/Berlin}
+\begin{document}
+\maketitle
+\begin{abstract}
+Projective and injective norms give exact information about matrix multiplication,
+determinant, and permanent tensors, but matrix rank inequalities do not transfer
+unchanged to tensor rank. We prove that none of three familiar full-tensor norm
+ratios is bounded by any fixed constant times rank, even on square matrix
+multiplication tensors. Valid support-dimension bounds are dominated by mode
+flattenings. Matrix nuclear/operator certificates applied to a linear flattening,
+including a Koszul flattening, do certify border rank; with arbitrary invertible
+matrix preconditioning their optimal strength is exactly that of the same
+flattening. Explicit singular spectra give $n^2$ for matrix multiplication,
+$\binom n{\lfloor n/2\rfloor}$ for row determinant and permanent tensors, and
+$\binom n{\lfloor n/2\rfloor}^2$ for their symmetric polynomial tensors.
+A uniform injective-norm bound on the whole flattening image,
+combined with border substitution, improves these bounds: it gives
+$n^2+n-1$ for matrix multiplication and explicit additive
+improvements for the determinant and permanent families. Coordinate
+restrictions further reduce the residual-image problem exactly to
+the border rank of a smaller member of the same family.
+A dimension-sensitive Grothendieck gap gives a valid rank certificate, but the
+natural flattenings here have gap one. We distinguish these deductions from
+stronger known Koszul results, the Unique Games threshold, and recent numerical
+preprints. A separate part gives the scheme, group-scheme, exterior-power,
+Hilbert-scheme, and $K_0$ dictionary, and the precise limits of a translation
+to weights or motives. No claim of a new rank record, exact Grothendieck
+constant, or separation of complexity classes is made.
+\end{abstract}
+\clearpage
+{\small\tableofcontents}
+\newpage
+
+\section*{Reading and verification conventions}
+\addcontentsline{toc}{section}{Reading and verification conventions}
+A \emph{finding} is a deduction formulated and proved in this run, not a
+claim of historical priority. Known results are labelled background and
+cited by statement or equation. The proofs are ordinary mathematical proofs,
+checked by model rereading and, where recorded, separate reconstruction or
+exact finite computations. They are not Lean proofs and have not been
+externally refereed. \texttt{CHECK\_EVENTS.tsv} records the actual checks.
+The model identifier is GPT-6 Astra Pro; a reasoning-effort setting was not
+exposed and is not invented. No result of Alp\"oge or Masullo, and no
+statement from an unseen earlier run, is used.
+
+There are three different problems: row tensors have $n$ factors of
+dimension $n$; the determinant/permanent polynomials give symmetric tensors
+with $n$ factors of dimension $n^2$; the determinant--padded-permanent
+orbit-closure problem is a further problem. These distinctions are essential.
+
+\part{Checked analytic and algebraic findings}
+\section{Norms, fields, and tensor conventions}
+Let $V_1,\ldots,V_d$ be finite-dimensional real or complex Hilbert spaces
+with specified standard metrics. Define
+\[
+ \eps(T)=\max_{\|x_i\|=1}
+       \abs{\langle T,x_1\otimes\cdots\otimes x_d\rangle},\qquad
+ \pi(T)=\inf_{T=\sum_\alpha\bigotimes_i x_{i\alpha}}
+             \sum_\alpha\prod_i\|x_{i\alpha}\|.
+\]
+These are the Hilbert injective/spectral and projective/nuclear norms.
+The complex pairing is Hermitian; absolute values make the equivalent
+multilinear coefficient convention harmless. Nuclear norm is not a count
+of terms, nor an average of the nuclear norms of matrix flattenings.
+
+\begin{background}{B-01}{duality and symmetric norms}
+The norms $\pi,\eps$ are dual, the nuclear infimum is attained, and
+\begin{equation}\label{eq:duality}
+ \abs{\langle Z,T\rangle}\leq\eps(Z)\pi(T),\qquad
+ \HS T^2\leq\pi(T)\eps(T).
+\end{equation}
+For a symmetric tensor the injective norm is attained on a repeated unit
+vector, and the nuclear norm admits a symmetric attaining decomposition.
+Locators: Friedland--Lim \cite{FL}, \S2, equations (5)--(8) and the
+following duality argument; Proposition 3.1; \S5, equation (23),
+Theorem 5.1, Corollaries 5.2--5.3.
+\end{background}
+
+Write $\TR$ for CP rank. Over $\C$, $\BR$ is Zariski border rank,
+equivalently Euclidean border rank. Over $\R$ we use Euclidean border
+rank unless stated otherwise. Polynomial minor certificates also bound
+complex border rank of a real tensor. Symmetric/Waring rank and border
+rank, $\SR,\BSR$, allow scalar multiples of powers only. No rank version
+of Comon's conjecture is assumed.
+For $T\ne0$ put
+\begin{equation}\label{eq:ratios}
+ a(T)=\frac{\HS T^2}{\eps(T)^2},\qquad
+ b(T)=\frac{\pi(T)^2}{\HS T^2},\qquad
+ c(T)=\frac{\pi(T)}{\eps(T)}.
+\end{equation}
+Duality gives $a\leq c\leq b$. For matrices each is bounded by matrix
+rank; this assertion is false for tensors.
+
+With matrix units orthonormal, define
+\[
+ M_n=\sum_{i,j,k=1}^n E_{ij}\otimes E_{jk}\otimes E_{ki},\quad
+ D_n=\sum_{\sigma\in S_n}\sgn(\sigma)\bigotimes_{i=1}^n e_{\sigma(i)},
+ \quad
+ P_n=\sum_{\sigma\in S_n}\bigotimes_{i=1}^n e_{\sigma(i)}.
+\]
+The last two are the \emph{row tensors}. Put $E=\F^{n\times n}$.
+Let $\mathcal D_n,\mathcal P_n\in\Sym^nE$ have diagonal polynomials
+$\det X,\operatorname{per}X$. Their ordered-basis coefficients are
+$\pm1/n!$ and $1/n!$ on the $(n!)^2$ ordered perfect matchings of
+matrix units, so their squared Hilbert norms are one. This tensor
+normalization is in characteristic zero; Part II treats the integral form.
+
+\begin{background}{B-02}{known exact norms}
+Derksen \cite{Der}, Corollary 1.10, gives
+$\pi(M_n)=n^3,\eps(M_n)=1$; Theorems 1.14--1.15 give
+$\pi(P_n)=n^{n/2},\pi(D_n)=n!$. The former uses the sharp
+permanent inequality of Carlen--Lieb--Loss \cite{CLL}, Theorem 1.1,
+equation (1.1). The same values hold over both fields: real
+decompositions provide the upper bounds and the complex spectral
+inequalities give matching lower bounds. Coordinates: Derksen
+\S1.5, equation (4), and \S1.7.
+\end{background}
+
+\begin{table}[ht]\centering\small
+\begin{tabular}{lllll}\toprule
+Tensor & order & $\HS T^2$ & $\eps(T)$ & $\pi(T)$\\\midrule
+$M_n$ & $3$ & $n^3$ & $1$ & $n^3$\\
+$D_n$ & $n$ & $n!$ & $1$ & $n!$\\
+$P_n$ & $n$ & $n!$ & $n!/n^{n/2}$ & $n^{n/2}$\\
+$\mathcal D_n$ & $n$ & $1$ & $n^{-n/2}$ & $n^{n/2}$\\
+$\mathcal P_n$ & $n$ & $1$ & $n!/n^n$ & $n^n/n!$\\\bottomrule
+\end{tabular}
+\caption{Exact norms over both fields. The first three rows use B-02;
+the last two are proved in F-04.}\label{tab:norms}
+\end{table}
+
+\section{Valid norm-to-rank conversions}
+\begin{finding}{F-01}{support bounds and their limitation}
+Let $d\geq2$, let $q_i$ be the mode-$i$ flattening rank of $T\ne0$,
+and put $Q_T=\min_j\prod_{i\ne j}q_i$. Then
+\begin{equation}\label{eq:support}
+ \pi(T)\leq\sqrt{Q_T}\HS T,\qquad
+ \eps(T)\geq\HS T/\sqrt{Q_T}.
+\end{equation}
+Consequently
+\begin{equation}\label{eq:support-rank}
+ \BR(T)\geq\ceil{b(T)^{1/(d-1)}}.
+\end{equation}
+The analogous bounds with $a,c$ are valid but weaker. Each is at most
+$\max_iq_i$, the mode-flattening bound.
+\end{finding}
+\begin{proof}
+The image of the mode-$i$ contraction is a support $E_i\subset V_i$
+of dimension $q_i$. Projection to $E_i^\perp$ annihilates $T$, since
+all contractions in the other factors vanish there. The commuting
+orthogonal projections therefore show $T\in\bigotimes_i E_i$.
+Projecting any decomposition, or test vectors, shows that both norms
+computed in these smaller spaces equal the original norms.
+Fix $j$ and orthonormal bases in the other supports. Expansion gives
+$T=\sum_\alpha e_{\alpha_1}\otimes\cdots\otimes v_\alpha
+\otimes\cdots\otimes e_{\alpha_d}$, with $P_j=\prod_{i\ne j}q_i$
+summands. Hence
+\[
+ \pi(T)\leq\sum_\alpha\|v_\alpha\|
+ \leq\sqrt{P_j}\Big(\sum_\alpha\|v_\alpha\|^2\Big)^{1/2}
+ =\sqrt{P_j}\HS T.
+\]
+Testing against the basis vectors and $v_\alpha/\|v_\alpha\|$
+gives $\eps(T)\geq\|v_\alpha\|$, and thus
+$\HS T^2\leq P_j\eps(T)^2$. Minimize over $j$.
+It follows that $a,b,c\leq Q_T$.
+If $\BR(T)\leq r$, the $(r+1)$-minors of every mode flattening
+vanish, since they vanish on every sum of $r$ pure tensors.
+Thus $q_i\leq r$, so $Q_T\leq r^{d-1}$.
+Finally $Q_T\leq(\max_iq_i)^{d-1}$; taking ceilings cannot
+exceed the integer $\max_iq_i$.
+\end{proof}
+For a real tensor this particular bound with its real nuclear norm
+also bounds complex border rank: real support expansion proves the
+norm estimate, and real/complex mode ranks coincide. This is not a
+general permission to substitute real norms in complex dual certificates.
+
+\begin{finding}{F-02}{linear-flattening norm certificates and saturation}
+Let $\Phi:\bigotimes_i V_i\to\operatorname{Mat}_{u,v}(\F)$ be linear
+and let the integer $c_\Phi\geq1$ bound the rank of $\Phi$ on every
+pure tensor. Put $A=\Phi(T)\ne0$. Certificates
+$0\leq L\leq\nuc A$ and $U\geq\op A>0$ imply
+\begin{equation}\label{eq:matrix-cert}
+\BR(T)\geq\max\left\{
+\ceil{\frac{L^2}{c_\Phi\HS A^2}},
+\ceil{\frac{\HS A^2}{c_\Phi U^2}},
+\ceil{\frac L{c_\Phi U}}\right\}.
+\end{equation}
+Each bound is at most $\ceil{\rank A/c_\Phi}$.
+With exact norms and arbitrary invertible matrix preconditioning,
+the best such bound equals $\ceil{\rank A/c_\Phi}$.
+\end{finding}
+\begin{proof}
+Rank subadditivity and the vanishing of $(c_\Phi r+1)$-minors give
+$\rank A\leq c_\Phi\BR(T)$. For its $s$ nonzero singular values $s_i$,
+\[
+ \frac{(\sum s_i)^2}{\sum s_i^2}\leq s,\qquad
+ \frac{\sum s_i^2}{(\max s_i)^2}\leq s,\qquad
+ \frac{\sum s_i}{\max s_i}\leq s.
+\]
+These prove the certificates and their ceiling. In a singular-vector
+basis an invertible left preconditioner multiplying direction $i$
+by $1/s_i$ and acting as the identity on the complementary subspace
+makes every nonzero singular value one. Every ratio then equals $s$.
+Preconditioning preserves ranks on all pure tensors, so $c_\Phi$
+is unchanged.
+\end{proof}
+This identifies the strength of a specified linear map. It does not
+assert that all uses of norms reduce to linear flattenings.
+
+Finite semidefinite witnesses for F-02 are
+\[
+\begin{pmatrix}I_u&Z\\Z^*&I_v\end{pmatrix}\succeq0,\qquad
+L=\operatorname{Re}\tr(Z^*A),\qquad
+\begin{pmatrix}UI_u&A\\A^*&UI_v\end{pmatrix}\succeq0 .
+\]
+Schur complements give $\op Z\leq1$ and $\op A\leq U$; matrix duality
+gives $L\leq\nuc A$. Rational Gram or $LDL^*$ factorizations,
+or exact algebraic certificates with directed enclosures, suffice.
+An approximate objective alone is not a certificate. These Hilbert
+matrix SDPs require no Grothendieck constant.
+
+\section{Explicit bounds for the tensor families}
+\begin{finding}{F-03}{flat singular spectra}
+A mode flattening of $M_n$ has $n^2$ singular values $\sqrt n$.
+A $k\mid(n-k)$ flattening of $D_n$ or $P_n$ has $\binom nk$
+singular values $\sqrt{k!(n-k)!}$.
+A $k\mid(n-k)$ flattening of $\mathcal D_n$ or $\mathcal P_n$
+has $\binom nk^2$ singular values $1/\binom nk$.
+All other singular values vanish. Consequently
+\begin{align}
+ \BR(M_n)&\geq n^2,\label{eq:MMbound}\\
+ \BR(D_n),\BR(P_n)&\geq\binom n{\lfloor n/2\rfloor},\label{eq:rowbound}\\
+ \BR(\mathcal D_n),\BR(\mathcal P_n)&\geq
+          \binom n{\lfloor n/2\rfloor}^{\!2}.\label{eq:polybounds}
+\end{align}
+The last bound also holds for symmetric border rank. The assertions
+hold over both fields with the stated conventions.
+\end{finding}
+\begin{proof}
+Every row of the first flattening of $M_n$ has $n$ unit entries.
+Distinct rows have disjoint supports, because the remaining two
+matrix-unit indices determine the first. Its row Gram matrix is $nI$.
+For a row tensor, group a nonzero row by its underlying $k$-element
+subset $I$, and its columns by $I^c$. The block is $k!$ by
+$(n-k)!$. For $P_n$ its entries are one. For $D_n$ the sign is
+a fixed shuffle sign times the sign of the row order and the sign
+of the column order. Thus each block is an outer product of sign
+vectors, with singular value $\sqrt{k!(n-k)!}$.
+The blocks have disjoint row and column supports.
+
+For a symmetric polynomial tensor a row consists of $k$ matrix units
+with distinct row set $I$ and column set $J$. For each pair $(I,J)$
+there are $(k!)^2$ such ordered lists, and $((n-k)!)^2$
+complementary column lists. The permanent block is constant $1/n!$.
+The determinant sign factors into signs of the partial matching,
+the complementary matching, and a fixed shuffle sign depending on
+$(I,J)$. Thus every block has rank one and singular value
+$k!(n-k)!/n!=1/\binom nk$. There are $\binom nk^2$ blocks.
+All three matrix norm ratios equal rank for a flat nonzero singular
+spectrum. Apply F-02 with $c_\Phi=1$ and maximize at
+$k=\lfloor n/2\rfloor$. A power is pure, so these minors also
+vanish on the symmetric border-rank locus.
+\end{proof}
+These are Hilbert-normalized catalecticants. Differential conventions
+can change basis lengths by factorials, so their singular values must
+not be quoted without a normalization.
+
+\begin{finding}{F-04}{symmetric polynomial norms and nuclear decompositions}
+Over both fields,
+\[
+\eps(\mathcal D_n)=n^{-n/2},\quad\pi(\mathcal D_n)=n^{n/2},
+\qquad
+\eps(\mathcal P_n)=n!/n^n,\quad\pi(\mathcal P_n)=n^n/n!.
+\]
+Real symmetric nuclear decompositions exist with at most
+$n!2^{n-1}$ and $4^{n-1}$ terms, respectively.
+\end{finding}
+\begin{proof}
+By B-01 maximize the diagonal polynomials on $\HS X=1$.
+The product of singular values gives
+$|\det X|\leq n^{-n/2}$, attained at $I/\sqrt n$.
+The CLL inequality followed by arithmetic-geometric mean for the
+row norms gives
+$|\operatorname{per}X|\leq(n!/n^{n/2})\prod_i\|\operatorname{row}_iX\|
+\leq n!/n^n$, attained by the matrix all of whose entries are $1/n$.
+
+Let $P_\sigma$ have its unit entry in row $i$ at column $\sigma(i)$.
+For uniform $\sigma$ and independent signs $\eta_i$, let
+$X_{\sigma,\eta}=\diag(\eta)P_\sigma/\sqrt n$, a real unit matrix.
+Coefficientwise sign averaging gives
+\begin{equation}\label{eq:det-average}
+\mathbb E_{\sigma,\eta}
+\left[\sgn(\sigma)\Big(\prod_i\eta_i\Big)X_{\sigma,\eta}^{\otimes n}\right]
+=n^{-n/2}\mathcal D_n.
+\end{equation}
+Every row occupancy must be odd, hence exactly one since there are
+$n$ factors. A surviving matching has a unique compatible $\sigma$
+and coefficient $\sgn(\sigma)/(n!n^{n/2})$, proving the identity.
+The total absolute weight is one, so $\pi(\mathcal D_n)\leq n^{n/2}$.
+Duality and squared Hilbert norm one give equality.
+
+For independent sign vectors $\eta,\theta$, put
+$Y_{\eta,\theta}=(\eta_i\theta_j)_{ij}/n$. It has Hilbert norm one.
+Sign averaging now forces every row and column occupancy to be one,
+and gives
+\begin{equation}\label{eq:perm-average}
+\mathbb E_{\eta,\theta}
+\left[\Big(\prod_i\eta_i\Big)\Big(\prod_j\theta_j\Big)
+Y_{\eta,\theta}^{\otimes n}\right]
+=\frac{n!}{n^n}\mathcal P_n.
+\end{equation}
+The surviving coefficient is $n^{-n}$. This proves the nuclear
+upper bound; duality gives equality. Global negation of $\eta$
+in \eqref{eq:det-average} leaves the weighted tensor unchanged.
+In \eqref{eq:perm-average}, either independent global negation has
+that property. The numbers of terms reduce to $n!2^{n-1}$ and
+$2^{2n-2}$. These are decompositions by powers attaining the norm.
+\end{proof}
+
+\begin{center}\small
+\begin{tabular}{lll}\toprule
+Tensor & F-01 bound & F-03 bound\\\midrule
+$M_n$ & $\ceil{n^{3/2}}$ & $n^2$\\
+$D_n$ & $\ceil{(n!)^{1/(n-1)}}$ & $\binom n{\lfloor n/2\rfloor}$\\
+$P_n$ & $\ceil{(n^n/n!)^{1/(n-1)}}$ & $\binom n{\lfloor n/2\rfloor}$\\
+$\mathcal D_n$ & $\ceil{n^{n/(n-1)}}$ & $\binom n{\lfloor n/2\rfloor}^2$\\
+$\mathcal P_n$ & $\ceil{(n^{2n}/(n!)^2)^{1/(n-1)}}$
+ & $\binom n{\lfloor n/2\rfloor}^2$\\\bottomrule
+\end{tabular}
+\end{center}
+Here $n\geq2$. By F-01 every full-norm conversion in the middle
+column is dominated even by a mode flattening. Knowing the full
+norm exactly has not improved rank through this conversion.
+
+\section{Why matrix intuition fails}
+\begin{finding}{F-05}{no fixed Grothendieck-factor repair}
+No finite constant $C$ makes any one of $a(T),b(T),c(T)\leq C\TR(T)$
+valid on all square matrix multiplication tensors. The border-rank
+versions fail as well. The same failure occurs along each of the four
+determinant/permanent families above; for the symmetric polynomial
+families even Waring rank may replace rank on the right.
+\end{finding}
+\begin{proof}
+All three ratios for $M_n$ equal $n^3$. Strassen's seven-term formula
+gives $\TR(M_2)\leq7$ over both fields (Derksen \cite{Der},
+\S1.5, equation (5)). Tensoring decompositions factorwise gives
+$\TR(S\boxtimes T)\leq\TR(S)\TR(T)$.
+The identification
+$E_{ij}\otimes E_{ab}\mapsto E_{(i,a),(j,b)}$ in each factor proves
+$M_n\boxtimes M_m=M_{nm}$. Consequently
+\[
+ \TR(M_{2^k})\leq7^k,\qquad
+ a(M_{2^k})=b(M_{2^k})=c(M_{2^k})=8^k.
+\]
+The quotient $(8/7)^k$ is unbounded. This argument does not assume
+multiplicativity of an arbitrary tensor norm.
+
+For the other families, the real decompositions recorded in
+Derksen \S1.7, equation (8), and \S8, p.~23 (the five-term
+display and final unnumbered display before Remark 8.1), give
+\[
+ \TR(P_n)\leq2^{n-1},\qquad
+ \TR(D_n)\leq(5/6)^{\lfloor n/3\rfloor}n!.
+\]
+Their three ratios are $n^n/n!$ and $n!$ respectively.
+F-04 gives symmetric-rank upper bounds $n!2^{n-1}$ and $4^{n-1}$
+for $\mathcal D_n,\mathcal P_n$, whose ratios are
+$n^n$ and $(n^n/n!)^2$. Put $A_n=n^n/(2^{n-1}n!)$.
+The binomial expansion gives, for $n\geq2$,
+\[
+ \frac{A_{n+1}}{A_n}
+ =\frac{(1+1/n)^n}{2}
+ \geq\frac{2+(n-1)/(2n)}2\geq\frac98.
+\]
+The quotients of norm ratios by the displayed rank upper bounds
+are therefore at least $A_n$, $(6/5)^{\lfloor n/3\rfloor}$,
+$A_n$, and $A_n^2$. All are unbounded.
+Border rank is no larger than rank, so the border versions also fail.
+\end{proof}
+No fixed power of either Grothendieck constant repairs these
+inequalities. Already $M_2$ refutes constant one; its powers refute
+every fixed constant while keeping tensor order three.
+
+\begin{finding}{F-06}{a degeneration and an exact rational counterexample}
+Let $W=e_1\otimes e_1\otimes e_2+
+e_1\otimes e_2\otimes e_1+
+e_2\otimes e_1\otimes e_1$. Over both fields,
+$\TR(W)=3$ and $\BR(W)=2$. The rational tensor
+\[
+ T_t=\frac{(e_1+t e_2)^{\otimes3}-e_1^{\otimes3}}t,\qquad t=1/100,
+\]
+has rank two and $a(T_t)>2$, hence $b(T_t),c(T_t)>2$.
+\end{finding}
+\begin{proof}
+The slice pencil of $W$ is
+$\left(\begin{smallmatrix}y&x\\x&0\end{smallmatrix}\right)$,
+with determinant $-x^2$. Its rank-one members occupy only one
+line. If $W$ had rank two, its mode rank two would force independent
+first factors and would express this pencil as the span of two
+independent rank-one matrices, a contradiction. Its three displayed
+terms give rank three. For $t\ne0$, the two first factors and the
+two squared remaining factors of $T_t$ are independent, so its rank
+is exactly two. It tends to $W$; the mode rank of $W$ is two.
+This proves the border assertion, including the real Euclidean case.
+
+Friedland--Lim \cite{FL}, Lemma 6.2, equations (34)--(37), gives
+after rescaling $\eps(W)=2/\sqrt3$ over both fields. Directly,
+\[
+ \HS{T_t}^2=3+3t^2+t^4\geq3,\quad
+ \HS{T_t-W}=\sqrt{3t^2+t^4}\leq2t=1/50.
+\]
+Since $\eps\leq\HS{\cdot}$, the triangle inequality gives
+$\eps(T_t)<6/5+1/50=61/50$. Hence
+$a(T_t)>7500/3721>2$. Duality gives the other two inequalities.
+\end{proof}
+The same lemma gives $\pi_\R(W)=3$ and
+$\pi_\C(W)=3\sqrt3/2$. Over $\C$ all three ratios at $W$ are $9/4$;
+over $\R$ they are $9/4$, $3$, and $3\sqrt3/2$ in the order
+$a,b,c$. The field distinction is material.
+
+\begin{finding}{F-07}{bounded summands and unavoidable divergence}
+Suppose $\eps(Z)\leq U$, $U>0$, $B>0$, $\delta\geq0$, and
+$T'=\sum_{j=1}^r\lambda_j A_j$, with unit pure $A_j$,
+$|\lambda_j|\leq B$, and $\HS{T-T'}\leq\delta$. Then
+\begin{equation}\label{eq:bounded}
+ r\geq
+ \frac{(\abs{\langle Z,T\rangle}-\delta\HS Z)_+}{UB}.
+\end{equation}
+If $\TR(T)>r$, every sequence of decompositions of length at most
+$r$ converging to $T$ has total term norm tending to infinity.
+\end{finding}
+\begin{proof}
+We have $|\langle Z,T'\rangle|\leq U\sum_j|\lambda_j|\leq UrB$,
+and Cauchy--Schwarz bounds the error pairing by $\delta\HS Z$.
+For the second assertion, any bounded subsequence of total weights
+bounds all the terms. The pure tensors of Hilbert norm at most
+a fixed number form a compact set: they are a continuous image of
+a bounded scalar interval times unit spheres. Pad by zero terms
+and pass to a subsequence for each of the finitely many terms.
+Their limits give a length-at-most-$r$ decomposition of $T$,
+contradicting its rank.
+\end{proof}
+Thus a summand bound in \eqref{eq:bounded} certifies the specified
+bounded-summand problem; it cannot be imposed in unrestricted border
+rank. Also the convex hull of the full rank-one cone is the whole
+tensor space: any finite sum becomes an average by scaling its terms.
+Nuclear balls relax normalized atoms, not that unrestricted cone.
+
+\section{A necessary source correction}
+\begin{finding}{F-08}{correct flattening norm comparisons}
+If a three-tensor $A$ has mode ranks $(q_1,q_2,q_3)$, put
+$s=\min(q_2,q_3)$. Its first flattening satisfies
+\[
+ \nuc{A_{(1)}}\leq\pi(A)\leq\sqrt s\,\nuc{A_{(1)}},
+ \qquad
+ \eps(A)\leq\op{A_{(1)}}\leq\sqrt s\,\eps(A).
+\]
+The supplied Friedland--Lim v3 displays at equation (57) and immediately
+before (60) cannot be used literally as their proof.
+\end{finding}
+\begin{proof}
+Restrict to minimal supports as in F-01. Flattening a pure tensor
+preserves its product norm, proving the first nuclear inequality.
+Enlarging the set of spectral test vectors proves the first spectral
+inequality. In an SVD
+$A_{(1)}=\sum_\ell s_\ell x_\ell\otimes V_\ell$, every reshaped
+$V_\ell$ has Hilbert norm one in a $q_2$ by $q_3$ matrix space,
+and hence nuclear norm at most $\sqrt s$. Expanding these matrices
+by SVD proves the nuclear upper bound. The contraction $A(x)$
+for unit $x$ has operator norm at most $\eps(A)$, so for a
+Hilbert-unit $V$,
+$|\langle A,x\otimes V\rangle|\leq\eps(A)\nuc V
+\leq\sqrt s\,\eps(A)$. This proves the other bound.
+
+For the first source defect set $A=e\otimes I_m$, $m>1$, with $e$
+unit. Its spectral norm is one, but the right side of (57), with
+denominator $\|x\|\op M$, is at least $m$ at $x=e,M=I_m$.
+The denominator must be $\|x\|\nuc M$.
+The other displayed assertion,
+$\nuc M\leq\sqrt{\rank M}\op M$, fails for $I_m$.
+Its correct Frobenius version is
+$\nuc M\leq\sqrt{\rank M}\HS M$.
+\end{proof}
+The standard conclusion is the form of \cite{FL}, Theorem 9.4,
+needed here. These defect statements concern the supplied source and
+its arXiv v3 PDF; no claim about every later typesetting is made.
+
+\section{Grothendieck's inequality as a certificate}
+\subsection{The Banach spaces and the directions of the bounds}
+For a real $m$ by $n$ matrix define
+\[
+ Q(A)=\max_{x_i,y_j\in\{-1,1\}}\sum_{ij}a_{ij}x_i y_j,\qquad
+ S(A)=\max_{\|u_i\|=\|v_j\|=1}\sum_{ij}a_{ij}\langle u_i,v_j\rangle .
+\]
+Absolute values give the same optima by negating one side. A Gram
+matrix realizes the second maximum in dimension at most $m+n$.
+Allowing norms at most one gives the same value, by padding with
+private orthogonal coordinates.
+
+\begin{background}{B-03}{the discrete Grothendieck inequality}
+$Q(A)\leq S(A)\leq K_G^\R Q(A)$.
+In tensor-norm language $Q$ is the injective norm on
+$\ell_1^m\otimes\ell_1^n$, equivalently the bilinear-form norm on
+$\ell_\infty^m\times\ell_\infty^n$, and $S=\gamma_2^*$.
+The dual statement compares the projective norm on
+$\ell_\infty^m\otimes\ell_\infty^n$ to $\gamma_2$.
+These are not the Hilbert tensor norms used above.
+Locators: Pisier \cite{Pis}, Theorem 2.4, (2.4)--(2.5);
+Theorem 3.1, (3.13)--(3.14).
+\end{background}
+
+\begin{finding}{F-09}{directional SDP certificate}
+Set $C_A=\frac12\left(\begin{smallmatrix}0&A\\A^T&0\end{smallmatrix}\right)$.
+If $X\succeq0$ has diagonal one, and
+$\diag(z)-C_A\succeq0$, then, with
+$L=\langle C_A,X\rangle$ and $U=\sum_i z_i$,
+\[
+ L\leq S(A)\leq U,\qquad L/K\leq Q(A)\leq U
+\]
+for any proved $K\geq K_G^\R$.
+\end{finding}
+\begin{proof}
+Factoring $X$ as a Gram matrix gives feasible unit vectors and value
+$L$. For any feasible Gram matrix $Y$,
+\[
+ \langle C_A,Y\rangle
+ =\langle\diag(z),Y\rangle-\langle\diag(z)-C_A,Y\rangle
+ \leq\sum_i z_i,
+\]
+because the trace pairing of positive semidefinite matrices is
+nonnegative. Apply B-03. No strong-duality assumption is required.
+\end{proof}
+In particular, division by $K$ supplies a \emph{lower} bound on
+the sign norm. It does not turn a primal SDP value into a spectral
+upper bound.
+
+\begin{finding}{F-10}{the direct cube/Hilbert route and the natural targets}
+For a real tensor $W$ and a coordinate flattening $F$,
+\[
+ \eps_\C(W)\leq\op{F(W)}\leq Q(F(W))\leq S(F(W)),
+ \quad Q(F(W))\geq\HS W,\quad S(F(W))\geq\nuc{F(W)}.
+\]
+Using $S(F(T))$ directly as a spectral upper bound in F-01 gives
+a rank lower bound at most one. A nuclear dual witness certified
+solely by $S(F(W))\leq1$ gives at most $\op{F(T)}\leq\HS T$,
+so this route in F-01 is also uninformative.
+Moreover the natural flattenings in F-03 all satisfy
+$Q(A)=S(A)=\sum_{ij}|a_{ij}|$.
+\end{finding}
+\begin{proof}
+Grouping unit tensor factors gives unit matrix test vectors.
+A real matrix has the same real and complex Hilbert operator norm;
+real unit vectors lie in the coordinate cube, proving the first chain.
+For independent random signs $x,y$,
+$\mathbb E(x^TAy)^2=\sum a_{ij}^2$, so $Q(A)\geq\HS A$.
+In a thin SVD $A=U\Sigma V^T$, the rows of $U,V$ have norm at most
+one. Use these rows as SDP vectors and pad if necessary.
+The objective is $\tr\Sigma$, proving $S(A)\geq\nuc A$.
+Thus $S(F(W))\leq1$ implies $\nuc{F(W)}\leq1$, whence
+\[
+ |\langle T,W\rangle|
+ =|\langle F(T),F(W)\rangle|\leq\op{F(T)}.
+\]
+This argument concerns real witnesses; for a real target such
+witnesses also give valid complex dual bounds because the first
+chain bounds $\eps_\C(W)$. The two F-01 conclusions follow.
+
+For the last assertion, an entrywise nonnegative matrix has
+$Q=S=\sum a_{ij}$: every vector inner product is at most one,
+and all equal unit vectors attain equality. Row and column sign
+switches preserve both optima. The $M_n$ and permanent matrices are
+already nonnegative. In the determinant matrices, F-03 decomposed
+the support into disjoint rank-one blocks with factored signs.
+Each row and column belongs to one block, so all these signs can
+be removed simultaneously. This proves the assertion.
+\end{proof}
+This is a limitation of a specified unscaled relaxation and of the
+natural maps. It does not exclude preconditioning, tensor-specific
+constructions, noncommutative inequalities, or higher SDP/SOS methods.
+
+\begin{finding}{F-11}{a genuinely Grothendieck-based rank test}
+Let $K_G^\R(s)$ mean the vector-dimension-$s$ Grothendieck constant
+(Pisier \cite{Pis}, (4.4)). A nonzero real matrix of rank $q$ has an
+optimal vector solution for $S(A)$ in dimension at most $q$.
+Thus $S(A)\leq K_G^\R(q)Q(A)$.
+If $L\leq S(A)$, $Q(A)\leq U$, and
+$\kappa_s\geq K_G^\R(s)$ are independently certified, then
+\begin{equation}\label{eq:rank-sensitive}
+ L>\kappa_s U\quad\Longrightarrow\quad\rank A>s.
+\end{equation}
+For real $A=\Phi(T)$ with atom rank cost $c_\Phi$, the test with
+$s=c_\Phi r$ certifies $\BR_\C(T)>r$ as well.
+\end{finding}
+\begin{proof}
+Start with a maximizing vector family. Set $w_i=\sum_j a_{ij}v_j$.
+Their span $E$ has dimension at most $q$, since it is the image
+of the row space of $A$. Replacing $u_i$ by $w_i/\|w_i\|$ when
+nonzero maximizes the objective with $v$ fixed and hence preserves
+the global maximum. If $w_i=0$, choose any unit vector in $E$.
+The space $E$ is nonzero because $A\ne0$ has positive optimum.
+Now set $z_j=\sum_i a_{ij}u_i\in E$ and replace $v_j$ by its unit
+direction, choosing an arbitrary unit vector of $E$ at a zero.
+Again the global maximum is preserved. All vectors now lie in $E$.
+The definition and monotonicity of $K_G^\R(s)$ prove
+\eqref{eq:rank-sensitive}. Real and complex ranks of a real matrix
+coincide; apply the minor argument of F-02.
+\end{proof}
+The universal $K_G$ cannot produce such a strict violation.
+Nor can the same basic SDP upper bound serve as $U$:
+then $L\leq S(A)\leq U$ and $\kappa_s\geq1$.
+A separate bound on the sign optimum is necessary.
+F-10 shows that this test gives no rank information on the
+natural target matrices; even elsewhere it remains bounded by
+the rank of the chosen flattening.
+
+\subsection{A small exact certificate}
+Let $A=\left(\begin{smallmatrix}1&1\\1&-1\end{smallmatrix}\right)$.
+Use $u_1=(1,0),u_2=(0,1)$ and
+$v_1=(3/5,4/5),v_2=(3/5,-4/5)$. All are rational unit vectors,
+and their SDP objective is $14/5$.
+For signs,
+$Q(A)=|y_1+y_2|+|y_1-y_2|=2$.
+Since $K_G^\R(1)=1$, F-11 proves $\rank A>1$.
+This upper bound on $Q$ also has a finite SOS certificate.
+Put $f=x_1(y_1+y_2)+x_2(y_1-y_2)$ and
+\begin{align*}
+ H_0={}&(x_1^2-1)(y_1+y_2)^2+(x_2^2-1)(y_1-y_2)^2\\
+ &+(2+2x_1x_2)(y_1^2-1)+(2-2x_1x_2)(y_2^2-1).
+\end{align*}
+Expansion gives $f^2-4=H_0$ and
+$2-f=\frac14(2-f)^2-\frac14H_0$.
+Modulo the Boolean equations, the right side is a square.
+The included exact-arithmetic script checks the Gram data and the
+polynomial identity. This demonstrates a certificate, not a
+uniform polynomial-size SOS theorem.
+
+\section{Koszul flattenings and the precise method ceiling}
+\begin{finding}{F-12}{Koszul cost, certificates, and dimension bound}
+For $T\in A\otimes B\otimes C$, with dimensions $a,b,c$, let
+\[
+ K_p(T):B^*\otimes\Lambda^p A\longrightarrow
+          \Lambda^{p+1}A\otimes C,\qquad 0\leq p<a,
+\]
+send $\beta\otimes\omega$ to
+$\sum_\nu\beta(b_\nu)(a_\nu\wedge\omega)\otimes c_\nu$
+when $T=\sum_\nu a_\nu\otimes b_\nu\otimes c_\nu$.
+Its rank on a nonzero pure tensor is
+$c_p=\binom{a-1}p$. Thus F-02 applies with $c_\Phi=c_p$, and
+\[
+ \frac{\rank K_p(T)}{c_p}
+ \leq \min\left\{\frac{ba}{a-p},\frac{ca}{p+1}\right\}.
+\]
+Nuclear/operator SDP certificates on this map cannot exceed its
+ordinary Koszul rank certificate.
+\end{finding}
+\begin{proof}
+For $T=a_0\otimes b_0\otimes c_0\ne0$, contraction by $b_0$
+has one-dimensional image, and tensoring by $c_0$ does not change rank.
+Choose a basis with $a_0=e_1$. Wedge multiplication by $e_1$
+annihilates basis wedges containing $e_1$ and maps the other
+$\binom{a-1}p$ basis wedges to independent wedges.
+Subadditivity and minors extend the bound to border rank.
+The source and target dimensions are
+$b\binom ap$ and $c\binom a{p+1}$; divide their minimum by
+$\binom{a-1}p$. The last assertion is F-02.
+\end{proof}
+The construction works after a restriction in a factor as well.
+It is a map of exterior-power bundles in Part II, not merely a
+coordinate matrix.
+
+\section{A stronger route: norms on an entire flattening image}
+The preceding limitations do not exhaust norm-assisted arguments.
+Border substitution introduces information about every tensor in a
+flattening image, rather than only the rank of that flattening.
+This leads to strictly stronger bounds than the basic bounds of F-03.
+
+\begin{finding}{F-13}{image substitution with an injective-norm certificate}
+Flatten $T$ into a map with image
+$U\subseteq H_1\otimes\cdots\otimes H_b$, where $b\geq2$, and
+write $q=\dim U>0$. Over $\C$,
+\begin{equation}\label{eq:image-sub}
+ \BR(T)\geq q+\min_{0\ne u\in U}\BR(u)-1.
+\end{equation}
+The analogous assertion holds for real Euclidean border rank.
+Let $P_U$ be the Hilbert orthogonal projector and define
+\begin{equation}\label{eq:alpha}
+ \alpha(U)=\max_{\substack{z=x_1\otimes\cdots\otimes x_b\\\|x_i\|=1}}
+                    \|P_Uz\|^2
+           =\max_{\substack{u\in U\\\HS u=1}}\eps(u)^2.
+\end{equation}
+If a certified $0<\alpha_0\leq1$ bounds $\alpha(U)$ above, then
+\begin{equation}\label{eq:image-norm}
+ \BR(T)\geq q+\ceil{\alpha_0^{-1/(b-1)}}-1.
+\end{equation}
+Moreover $\alpha(U)$ is the injective norm of $P_U$ regarded as
+a $2b$-tensor in the factors $H_i$ and their conjugate spaces.
+\end{finding}
+\begin{proof}
+For \eqref{eq:image-sub}, let $\BR(T)=r$ and take rank-at-most-$r$
+approximants $T_\nu\to T$. Choose $q$ fixed domain vectors whose
+images under $T$ are independent. Their images under $T_\nu$
+remain independent for large $\nu$, span $q$-planes $U_\nu$, and
+$U_\nu\to U$ in the Grassmannian.
+In a length-at-most-$r$ decomposition of $T_\nu$, let $S_\nu$
+be the span of all the pure tensors in the remaining $b$ factors.
+Then $U_\nu\subseteq\operatorname{im}T_\nu\subseteq S_\nu$ and
+$q\leq s_\nu:=\dim S_\nu\leq r$.
+Choose a basis of $S_\nu$ from those pure atoms, and take the span
+$L_\nu$ of any $s_\nu-q+1$ of them. Dimension counting gives
+$U_\nu\cap L_\nu\ne0$. A nonzero $u_\nu$ in that intersection
+has rank at most $s_\nu-q+1\leq r-q+1$.
+Normalize its Hilbert norm to one and pass to a convergent subsequence.
+The limit $u$ has norm one, belongs to $U$, and has border rank
+at most $r-q+1$. This proves \eqref{eq:image-sub}.
+The same compactness proof works over $\R$ with Euclidean closure.
+The atom span $S_\nu$, not the possibly smaller image of $T_\nu$,
+is essential in this argument.
+
+For \eqref{eq:alpha}, write
+$\|P_Uz\|=\max_{\HS u=1,u\in U}|\langle u,z\rangle|$
+and interchange compact maxima. If $\alpha(U)\leq\alpha_0$,
+then $a(u)\geq1/\alpha_0$ for every $u\ne0$ in $U$.
+F-01 on the remaining $b$ factors gives
+$\BR(u)\geq\ceil{\alpha_0^{-1/(b-1)}}$.
+For the projector tensor, its spectral test values are
+$|\langle y,P_Ux\rangle|$ for unit pure $x,y$.
+Positive semidefinite Cauchy--Schwarz bounds this by
+$\sqrt{\langle x,P_Ux\rangle\langle y,P_Uy\rangle}\leq\alpha(U)$.
+Taking $x=y$ at a maximizer gives equality.
+\end{proof}
+For three factors the border-substitution principle is known:
+Landsberg--Micha{\l}ek \cite{LM}, Proposition 2.3, with the
+one-dimensional restriction. The proof above records the precise
+arbitrary-order image form and its norm certificate.
+For complex border rank, the bound must hold on the whole complex
+image $U_\C$, not just its real points. For example
+$\Span_\R\{I_2,\left(\begin{smallmatrix}0&-1\\1&0\end{smallmatrix}\right)\}$
+has no nonzero real matrix of rank one, but its complexification does.
+Replacing complex minima by real minima would give a false assertion.
+
+\begin{finding}{F-14}{explicit image-norm bounds for the target tensors}
+For $M_n$ the first-flattening image has $\alpha(U)=1/n$, and hence
+\begin{equation}\label{eq:strong-MM}
+ \BR(M_n)\geq n^2+n-1.
+\end{equation}
+For the $k\mid b$ flattenings, $b=n-k\geq2$, the image constants are
+\[
+\begin{array}{c|c|c}
+T& q=\dim U&\alpha(U)\text{ or a certified upper bound}\\ \hline
+D_n&\binom nk&1/b!\\
+P_n&\binom nk&b!\binom nb/n^b\\
+\mathcal D_n&\binom nk^2&\binom nb/n^b\\
+\mathcal P_n&\binom nk^2&\alpha(U)\leq b!\binom nb/n^b .
+\end{array}
+\]
+The first three displayed constants are exact. In particular, putting
+$h=\lfloor n/2\rfloor$ and $b=\lceil n/2\rceil$ for $n\geq3$ gives
+\begin{align}
+ \BR(D_n)&\geq\binom nh+b-1,\label{eq:strong-D}\\
+ \BR(P_n)&\geq\binom nh+1,\label{eq:strong-P}\\
+ \BR(\mathcal D_n)&\geq
+  \binom nh^2+\ceil{\left(\frac{n^b}{\binom nb}\right)^{1/(b-1)}}-1,
+        \label{eq:strong-polyD}\\
+ \BR(\mathcal P_n)&\geq\binom nh^2+1.\label{eq:strong-polyP}
+\end{align}
+The polynomial bounds also hold for symmetric border rank.
+For example \eqref{eq:strong-polyD} gives
+$\BR(\mathcal D_4)\geq38$. All these bounds hold over $\C$ and
+for real Euclidean border rank.
+\end{finding}
+\begin{proof}
+Up to row/column permutations and transposition, the image for $M_n$
+consists of matrices $I_n\otimes X$. Their operator norm is $\op X$
+and their Hilbert norm is $\sqrt n\,\HS X$.
+Thus the maximum squared ratio is $1/n$, attained for rank-one $X$.
+F-13 with $q=n^2,b=2$ gives \eqref{eq:strong-MM}.
+
+The image for $D_n$ is the alternating subspace $\Lambda^b\F^n$
+embedded in the tensor power. Its orthogonal antisymmetrizer satisfies
+\[
+ \|P_U(x_1\otimes\cdots\otimes x_b)\|^2
+     =\frac{\det(\langle x_i,x_j\rangle)_{ij}}{b!}\leq1/b!.
+\]
+Orthogonal $x_i$ give equality. A stronger uniform matrix-norm
+estimate in this image gives \eqref{eq:strong-D}. For a unit
+alternating $u$, apply the same unitary in all $b$ factors to
+rotate a first-factor test vector to $e_1$.
+In an orthonormal wedge basis, the squared Hilbert norm of that
+contraction is $1/b$ times the sum of squared wedge coefficients
+whose index set contains $1$. It is at most $\HS u^2/b$.
+Thus the first matrix flattening of every $u$ has spectral stable
+rank at least $b$, and therefore $\BR(u)\geq b$.
+Use \eqref{eq:image-sub}.
+
+If $U\subseteq\Sym^b H$, Banach's symmetric spectral theorem B-01
+and interchange of compact maxima give
+$\alpha(U)=\max_{\|x\|=1}\|P_Ux^{\otimes b}\|^2$.
+For $P_n$, an orthonormal basis of $U$ is indexed by $b$-element
+subsets, each vector being the normalized sum of its $b!$ orders.
+Consequently
+$\|P_Ux^{\otimes b}\|^2=b!\,e_b(|x_1|^2,\ldots,|x_n|^2)$,
+where $e_b$ is the elementary symmetric polynomial.
+For nonnegative entries of sum one,
+$e_b\leq\binom nb/n^b$. One direct proof averages two entries:
+the only varying term with their sum fixed is their product times
+the nonnegative $e_{b-2}$ of the other entries. Repeatedly averaging
+a largest and a smallest entry converges to the constant vector:
+the variance decreases by half their squared difference.
+This process never decreases $e_b$.
+Equality at constant moduli proves the claimed exact $\alpha$.
+
+For $\mathcal D_n$, the normalized symmetric tensors of all
+$b$ by $b$ minors form an orthonormal basis of $U$, by their
+disjoint monomial supports and unit Hilbert norms. For a unit
+matrix $X$,
+\[
+ \|P_UX^{\otimes b}\|^2
+ =\sum_{|I|=|J|=b}|\det X_{I,J}|^2
+ =e_b(s_1(X)^2,\ldots,s_n(X)^2)
+ \leq\binom nb/n^b .
+\]
+The middle equality follows by applying an SVD to the exterior
+power $\Lambda^bX$. Equality holds at $I/\sqrt n$.
+For $\mathcal P_n$, $U$ is contained in the symmetric subspace
+supported on ordered matrix-unit lists with distinct row indices.
+The squared norm of the projection of $X^{\otimes b}$ to that
+larger subspace is $b!\,e_b(r_1,\ldots,r_n)$, with
+$r_i=\sum_j|X_{ij}|^2$ and $\sum_i r_i=1$.
+Projection to $U$ is no larger, proving the stated upper bound.
+
+For $b\geq2$, $b!\binom nb/n^b=\prod_{j=0}^{b-1}(1-j/n)<1$.
+F-13 therefore gives an improvement of at least one in both
+permanent cases, and gives \eqref{eq:strong-polyD}.
+All calculations allowed complex vectors and attainments were real.
+\end{proof}
+
+These are norm certificates combined with known border substitution.
+They are not asserted to be new rank records.
+They do improve a plain flattening and show why an assertion that
+all norm-assisted methods are bounded by flattening rank would be
+false. The orthogonal projector depends nonlinearly on the image;
+the argument also tests incidence with a secant variety. F-02 and
+the linear-map barrier below do not apply to this combined argument.
+No polynomial-time procedure for arbitrary projector injective norms
+or a constant-factor Grothendieck relaxation for them is asserted.
+
+\begin{finding}{F-23}{exact reduction of the residual images}
+Let $T_n$ be any of $D_n,P_n,\mathcal D_n,\mathcal P_n$,
+and let $2\leq b\leq n-1$. In the $(n-b)\mid b$
+flattening image $U_{n,b}$,
+\begin{equation}\label{eq:exact-residual}
+ \min_{0\ne u\in U_{n,b}}\BR(u)=\BR(T_b).
+\end{equation}
+Consequently, if $s=1$ for the row families and $s=2$
+for the polynomial families,
+\begin{equation}\label{eq:recursive-image}
+ \BR(T_n)\geq\binom nb^{s}+\BR(T_b)-1.
+\end{equation}
+These are CP border ranks over $\C$, or real Euclidean border
+ranks with the same field on both sides.
+In particular, for $n\geq3$,
+\[
+ \BR(\mathcal D_n),\BR(\mathcal P_n)\geq\binom n2^2+3.
+\]
+The last inequality holds also at $n=2$ directly. It gives $39$
+at $n=4$. Every CP lower bound here also bounds symmetric
+border rank when the target is symmetric.
+\end{finding}
+\begin{proof}
+For a row tensor, an image basis is indexed by $b$-element
+coordinate subsets $I$; its vectors are the alternating,
+respectively symmetric squarefree, tensors on those subsets.
+Write a nonzero image vector in that basis and select $I$
+with nonzero coefficient. Apply the coordinate projection
+$\F^n\to\F^I$ in every remaining factor. Every other
+$b$-element subset has a coordinate outside $I$ and vanishes.
+The selected vector becomes a nonzero scalar multiple of $D_b$
+or $P_b$, with the prescribed normalization.
+
+For a polynomial tensor, the image basis is indexed by pairs
+$(I,J)$ of $b$-element row and column subsets. Its vectors
+are the normalized coefficient tensors of the corresponding
+$b$ by $b$ minors or permanents. Choose a nonzero coefficient
+and apply in every factor the coordinate projection
+$\F^{n\times n}\to\F^{I\times J}$. A different row or column
+subset necessarily uses a matrix entry outside this block
+in every one of its monomials, and is annihilated. The
+selected term becomes a nonzero multiple of $\mathcal D_b$
+or $\mathcal P_b$.
+
+A tensor product of linear maps takes pure tensors to pure
+tensors or zero; it therefore cannot increase rank or border
+rank. This proves the lower inequality in
+\eqref{eq:exact-residual}. Conversely, a basis vector is an
+embedded copy of $T_b$. Its rank and border rank equal those
+of $T_b$: inclusion gives one inequality and coordinate
+projection back gives the other. This proves equality.
+F-13 and the image dimensions of F-03 now prove
+\eqref{eq:recursive-image}. Finally, the normalized quadratic
+coefficient matrices of $\det_2$ and $\operatorname{per}_2$
+each consist, after permutation, of two nonzero two-by-two
+off-diagonal blocks. Both have matrix rank four. Take $b=2$.
+\end{proof}
+This is an algebraic refinement of the norm-assisted image
+method, with no priority claim. A certified CP lower bound
+$l_b$ for the smaller tensor can be substituted on the right
+of \eqref{eq:recursive-image}; in particular, the norm bounds
+of F-14 can be used recursively. A lower bound for the smaller
+tensor's \emph{symmetric} border rank cannot be substituted
+unless it is independently known to bound its CP border rank.
+For example the known CP equality
+$\BR(\mathcal D_3)=17$ from \cite{CHL}, Theorem 1.2,
+gives $\BR(\mathcal D_5)\geq116$ and
+$\BR(\mathcal D_6)\geq416$.
+Conner--Huang--Landsberg \cite{CHuangL}, Theorem 1.1 and
+the following identification, give $\BR(\mathcal P_3)=16$;
+thus $\BR(\mathcal P_5)\geq115$ and
+$\BR(\mathcal P_6)\geq415$.
+These complex CP lower bounds also bound real Euclidean
+border rank. The minimum-residual gate is thus
+an exact smaller-instance problem, not merely an unspecified
+projector optimization.
+
+\section{Comparison with stronger known bounds and barriers}
+\begin{background}{B-04}{selected comparison theorems}
+The following are literature results, not new findings or computations
+reperformed here. They also prevent interpreting our norm bounds as
+current rank records.
+\end{background}
+
+For matrix multiplication, Landsberg--Ottaviani \cite{LO},
+Theorem 1.1 and Corollary 1.2, give
+$\BR(M_n)\geq2n^2-n$ using restricted Koszul flattenings.
+Landsberg--Micha{\l}ek \cite{LM}, Theorem 1.1, give
+$2n^2-\ceil{\log_2n}-1$, combining border substitution with
+Koszul flattenings. These are comparison formulas, not claims of
+best bounds in every small dimension: Conner--Harper--Landsberg
+\cite{CHL}, Theorem 1.1, give $\BR(M_3)\geq17$.
+F-14 is weaker than the first formula by $(n-1)^2$.
+By F-02 any bound that actually comes from one specified linear
+Koszul matrix can be rewritten as a nuclear/operator certificate
+after matrix preconditioning. This does not eliminate the work of
+computing that matrix's rank.
+
+For the row tensors, Han--Ju--Kim \cite{HJK},
+Proposition 3.2 and Theorem 4.2, use recursive Koszul maps and prove
+\[
+ \BR(D_n)\geq\frac{n^{n-1}}{(n-1)!}=\frac{n^n}{n!}
+ \quad(n\geq3,\ \text{characteristic zero}).
+\]
+Their Theorem 5.6 gives $\BR(P_4)=\TR(P_4)=8$ and the lower bounds
+$15,29,55$ for $\BR(P_5),\BR(P_6),\BR(P_7)$.
+The later \cite{HJK4}, Theorem 1.1, proves $\BR(D_4)=12$
+over subfields of $\C$, by border apolarity.
+Han--Song \cite{HS}, Theorem A, prove $\TR(P_5)=16$ in
+characteristic zero; Proposition 4.1 gives
+$\BR(P_n)\geq\binom n{\lfloor n/2\rfloor}+1$ over $\C$ and
+its subfields, the same numerical permanent bound as F-14.
+The paper explicitly leaves $\BR(P_5)\in\{15,16\}$ unsettled.
+Its rank theorem must not be used as a border-rank equality.
+
+The symmetric row permanent $P_n$ represents a scalar multiple of
+the monomial $x_1\cdots x_n$. Han \cite{Han}, Theorem A,
+proves in a 2026 preprint that its \emph{symmetric} border rank is
+$2^{n-1}$ in characteristic zero. This is neither a theorem about
+the permanent in $n^2$ variables nor an equality for ordinary
+CP border rank.
+
+For the symmetric determinant polynomial tensor, Farnsworth
+\cite{Farn}, Theorem 1.3, gives for $n\geq5$
+\[
+ \BSR(\mathcal D_n)\geq(1+\delta_n)
+                   \binom n{\lfloor n/2\rfloor}^{\!2},
+\quad
+\delta_n=
+\begin{cases}
+\dfrac{8(n^3+6n^2-8)}{(n-1)(n+2)(n+4)^2(n^2-2)},&n\text{ even},\\[5pt]
+\dfrac{16(n^2+8n+9)}{(n+3)(n+5)^2(n^2-2)},&n\text{ odd}.
+\end{cases}
+\]
+Theorem 1.6 gives $\BSR(\mathcal D_4)\geq38$.
+Theorem 1.8 and Corollary 1.11 give the historical interval
+$14\leq\BSR(\mathcal P_3)\leq16$.
+Those are symmetric-border statements; lower bounds on $\BSR$
+alone do not lower-bound CP border rank.
+The later \cite{CHL}, Theorem 1.2, gives the stronger and different
+statement $\BR(\mathcal D_3)=17$ over $\C$.
+It is about the tensor in $(\C^9)^{\otimes3}$, not $D_3$.
+Conner--Huang--Landsberg \cite{CHuangL}, Theorem 1.1,
+settles the permanent case with $\BR(\mathcal P_3)=16$.
+Together with the symmetric rank upper bound $16$ from F-04,
+this also gives $\BSR(\mathcal P_3)=\SR(\mathcal P_3)=16$.
+Our norm argument for $\mathcal D_4$ gives the value $38$ for
+ordinary CP border rank as well; F-23 improves it to $39$
+for both degree-four polynomial tensors. No priority or
+current-record assertion is made.
+
+\begin{background}{B-05}{barriers with a stated scope}
+For a nonzero linear map $L:(\C^N)^{\otimes3}\to\operatorname{Mat}_{u,v}$,
+put $\rho(L)=\max_{\text{pure }x}\rank L(x)$ and
+$\operatorname{Pot}(L)=\max_T\rank L(T)/\rho(L)$.
+The classical general rank-method barrier is
+$2^dN^{\lfloor d/2\rfloor}$ for order $d$, from
+Efremenko--Garg--Oliveira--Wigderson \cite{EGOW},
+Theorem 3 and Corollary 4; it gives $8N$ for three factors.
+A 2026 preprint of Lovitz \cite{Lov}, Theorem 1.2 and Corollary 1.3,
+states the sharper bounds
+\[
+ 2N-2\leq\sup_L\operatorname{Pot}(L)
+       \leq2N-2+\frac2{N+1},
+\]
+with equality at the upper bound for odd $N$.
+Accordingly the associated integer border-rank certificates cannot
+exceed $2N-1$.
+\end{background}
+This recent preprint is cited background, not a proof independently
+reproduced here. F-02 inherits this ceiling, including arbitrary
+invertible output preconditioning. For $M_n$ substitute $N=n^2$.
+F-13 is outside this single-linear-map argument because it uses
+subspace/secant incidence. Nonlinear equations, border substitution,
+and arbitrary GCT obstructions are not ruled out.
+For growing tensor order the three-factor ceiling must not be
+substituted with $N=n$; one must use the actual order and dimensions,
+or the exact matrix sizes and pure-atom costs.
+
+There is also a representation-size issue. A matrix SDP is polynomial
+in its explicit matrix size, not necessarily in the parameter $n$
+of a succinct tensor formula. Balanced catalecticants and many
+Koszul matrices have exponentially many rows or columns in $n$.
+Existence of a finite norm certificate is not by itself an efficient
+algorithm in that succinct parameter.
+
+\section{The constant, approximation, and what has not changed}
+\begin{background}{B-06}{Unique Games threshold}
+The exact real Grothendieck constant is
+$K_G^\R=\sup_{A\ne0}S(A)/Q(A)$.
+Raghavendra--Steurer \cite{RS}, Theorem 1.1, prove that,
+assuming UGC, approximation to the real bipartite quadratic/sign
+problem with loss factor strictly below $K_G^\R$ is NP-hard.
+Thus such a polynomial-time algorithm is excluded under UGC
+and $\mathsf P\ne\mathsf{NP}$. Their algorithm obtains arbitrarily close reciprocal
+guarantees $1/K_G^\R-\eta$, and Theorem 1.3 makes the constant
+computable to any prescribed accuracy in time depending on that
+accuracy. For the algorithm's correctly directed bound see
+\S3.3, equations (3.5)--(3.7).
+\end{background}
+The author-hosted PDF prints $K_G-\eta$ in the displayed
+Theorem 1.2 under a loss-factor convention, inconsistent with
+Theorem 1.1. Its proof gives the reciprocal guarantee just stated,
+equivalently loss factor $K_G+\epsilon$.
+We use the proof's direction and record this source discrepancy.
+Nothing here resolves UGC or identifies the exact constant.
+
+The recent primary sources located during this run report
+\[
+ 1.773\leq K_G^\R<1.77987164,\qquad
+ 1.4<K_G^\C<1.404898554746.
+\]
+For the real lower bound see Heilman--Jones--Malavolta
+\cite{HJMreal}, Theorem 1.1; for the upper bound see Peng
+\cite{Peng}, Theorem 1.1 and \S6, (41)--(43).
+The complex interval is \cite{HJMcomplex}, Theorem 1.1, (1.2).
+These are date-specific, computer-assisted preprint reports.
+Their large numerical certificates have not been rerun here.
+We do not label the table an exhaustive global record: Peng
+mentions a stronger reported Ren value not independently
+source-verified in this run. The exact constants remain unknown;
+a numerical interval is not an exact value.
+None of F-01--F-14 depends on these new numerical endpoints.
+
+\begin{background}{B-07}{hardness of generic tensor norms}
+Friedland--Lim \cite{FL}, Theorem 8.1, give the stated
+NP-hardness for real tensor spectral and nuclear norms of order
+at least three; their complex result is Theorem 8.10 for order
+at least four. The supplied paper must not be cited as proving
+its complex three-tensor case. The input model is generic
+explicit tensors; it does not prohibit the special closed
+formulas in Table \ref{tab:norms}.
+\end{background}
+
+\begin{background}{B-08}{cut norm and XOR interpretation}
+Alon--Naor \cite{AN}, Lemma 2.1, Theorem 4.3 and \S4.4,
+connect the sign problem to cut-norm approximation and its
+rounding. Tsirelson's correlation theorem identifies bipartite
+real vector correlations with the quantum correlations relevant
+to XOR games: Pisier \cite{Pis}, Theorem 12.12 and \S19.
+Thus $Q$ and $S$ have classical and quantum bias interpretations.
+They are not tensor CP-rank measures.
+\end{background}
+F-09 certifies the direction of the sign-norm approximation.
+F-11 gives a matrix-rank test only with dimension-sensitive
+constants and an independent sign upper certificate.
+F-05 rules out a fixed-$K_G$ repair of the false full-tensor
+rank inequalities. F-13--F-14 add a different, nonlinear
+image-norm route, without determining $K_G$ or changing
+the UGC threshold.
+
+\part{The findings in Grothendieck's frameworks}
+\section{Integral tensor spaces and secant equations}
+The translation in this part is mathematical, not a claim that
+Grothendieck stated the modern complexity conclusions. The archival
+locators in \S\ref{sec:archive} identify the underlying constructions;
+the deductions are proved here. Analytic inequalities retain their
+chosen archimedean metrics. There is no metric-free version obtained
+merely by changing terminology.
+
+\begin{finding}{F-15}{an integral secant model}
+Let $V_i=\Z^{n_i}$, $V=\bigotimes_iV_i$, and
+$\mathbb A(V)=\Spec\Sym(V^*)$. The universal sum morphism
+\[
+ \phi_r:\left(\prod_i\mathbb A(V_i)\right)^r\longrightarrow\mathbb A(V),
+ \qquad(v_{ij})\longmapsto\sum_{j=1}^r\bigotimes_i v_{ij}
+\]
+has scheme-theoretic image defined by $\ker\phi_r^*$.
+Its coordinate ring is torsion-free, hence flat over $\Z$.
+Its complex fiber is the usual affine Segre secant cone.
+Every equation in this kernel vanishes on sums of $r$ pure
+tensors over every commutative ring.
+\end{finding}
+\begin{proof}
+The coordinates of $\phi_r$ are integer polynomials
+$\sum_j\prod_i x_{ij,k_i}$. Its image coordinate ring is the
+image of $\Sym(V^*)$ in the polynomial ring of the source.
+This is a subring of an integral domain, hence a domain and a
+torsion-free $\Z$-module. A torsion-free module over $\Z$ is flat.
+The flat base change $\Z\to\C$ preserves the kernel of the
+coordinate homomorphism, so the complex image scheme is the
+closure of the complex sums. Substitution in an arbitrary ring
+preserves each integer polynomial identity.
+\end{proof}
+Kernel formation need not commute with nonflat reduction modulo
+every prime. Thus the statement does not identify every special
+fiber with the independently formed secant scheme. The foundation
+for the kernel and closure construction is EGA I \cite{EGA1},
+\S9.5, Propositions 9.5.1 and 9.5.4, Corollary 9.5.2,
+Definition 9.5.3.
+
+\begin{finding}{F-16}{bundle form of the flattening certificates}
+Let $A,B,C$ be finite locally free sheaves on a scheme $S$.
+The map $K_p(t)$ of F-12 is a canonical morphism
+$B^*\otimes\Lambda^p A\to\Lambda^{p+1}A\otimes C$,
+compatible with arbitrary base change.
+For the universal sum of $r$ pure tensors all
+$(r\binom{a-1}p+1)$-minors vanish over $\Z$.
+\end{finding}
+\begin{proof}
+The map is the composition of contraction, tensoring with
+$\Lambda^p A$, and exterior multiplication. All are canonical
+for locally free sheaves and commute with base change.
+In a frame its entries are linear in $t$ with coefficients
+$0,1,-1$. F-12 proves the pure-tensor rank calculation over
+a field. Apply its rank bound to the universal sum over $\Q$;
+the specified minors are zero polynomials over $\Q$.
+They have integer coefficients, so are zero over $\Z$ and
+after every base change.
+\end{proof}
+For any such matrix of bundle maps, rank at most $s$ is expressed
+by $\Lambda^{s+1}\Phi=0$, equivalently its $(s+1)$-minors.
+With target rank $f$, these minors generate
+$\operatorname{Fitt}_{f-s-1}(\coker\Phi)$ when that index is meaningful.
+At an archimedean point, F-02 supplies an analytic certificate
+that some such minor does not vanish. The minor, not a
+Hermitian norm over $\Z$, is the algebraic information.
+Exterior powers and their $K_0$ classes are treated in
+SGA 6 \cite{SGA6}, Expos\'e V, Examples 2.2(b) and Lemma 2.2.1.
+
+\section{Hilbert schemes, limiting spans, and image incidence}
+\begin{finding}{F-17}{the FGA parameter space retaining a limiting span}
+Let $X\subset\CP(V)$ be integral, nondegenerate, and projective
+over an algebraically closed field. For $1\leq r\leq\dim V$,
+let $U_r\subset\Hilb^r(X)$ parametrize reduced length-$r$
+subschemes of independent points. Close the graph of its span map
+$U_r\to\Gr(r,V)$ in $\Hilb^r(X)\times\Gr(r,V)$, obtaining $\Gamma$.
+If $\mathcal S$ is the pullback of the tautological rank-$r$
+subbundle, the image of
+$\CP(\mathcal S)\to\CP(V)$ is exactly $\sigma_r(X)$.
+\end{finding}
+\begin{proof}
+The Hilbert scheme and Grassmannian are projective, hence so
+are $\Gamma$ and the projective bundle; its image is closed.
+Over $U_r$ the image consists of the spans of independent
+distinct $r$-tuples. Such tuples form a nonempty dense open
+of $X^r$: nondegeneracy allows their successive choice, and
+$X^r$ is irreducible. The sum of the tautological lines over
+this dense open parametrizes a dense part of the usual secant
+construction. The corresponding open of $\CP(\mathcal S)$
+is dense because $\Gamma$ is the graph closure.
+Continuity puts the image of the whole projective bundle in
+the closure of the open image; properness gives the reverse
+containment. This is $\sigma_r(X)$.
+\end{proof}
+Here projectivization parametrizes lines. This construction
+retains both the length-$r$ scheme and its limiting $r$-plane.
+It does not identify that plane with the actual span of the
+limiting scheme if the evaluation rank drops. At the boundary
+$Z\subset\CP(L)$, but equality of spans is not automatic.
+This distinction is why border rank is not casually replaced
+by a statement about the actual span of an arbitrary limiting
+Hilbert point. The representability input is FGA \cite{FGA},
+Bourbaki expos\'e 221, Theorems 3.1--3.2 and the Hilbert
+specialization after Proposition 3.8.
+Projectivity implies properness by EGA II \cite{EGA2},
+Theorem 5.5.3(i); universal closedness and base change are
+Definition 5.4.1 and Proposition 5.4.2.
+
+\begin{finding}{F-18}{the scheme dictionary for F-13}
+Let $Y\subset\CP(W)$ be the Segre variety for the remaining
+tensor factors. For $s\geq1$ the locus
+\[
+ \mathcal I_{q,s}
+ =\{U\in\Gr(q,W):\CP(U)\cap\sigma_s(Y)\ne\varnothing\}
+\]
+is closed. If a complex tensor has a flattening image of dimension $q$
+and border rank at most $r$, that image belongs to
+$\mathcal I_{q,r-q+1}$.
+\end{finding}
+\begin{proof}
+In $\Gr(q,W)\times\sigma_s(Y)$ take the incidence of pairs
+$(U,[w])$ with $w\in U$. It is the zero locus of the
+tautological line's map into the universal quotient bundle.
+Projection to the Grassmannian is proper, since the second
+factor is projective; its image is closed and is precisely
+$\mathcal I_{q,s}$.
+The approximating $q$-planes constructed in F-13 each meet
+$\sigma_{r-q+1}(Y)$ by the atom-span dimension argument.
+Closedness puts their limit in the same incidence locus.
+\end{proof}
+Thus a uniform image-norm estimate in F-14 certifies avoidance
+of a projective secant-incidence locus. The projector is metric
+data on the complex tautological bundle. Avoidance is the
+algebraic-geometric conclusion. The projectors do not themselves
+form regular algebraic functions over $\Z$.
+The universal incidence, exterior-power, and proper-image
+constructions make sense in relative form over $\Z$; as in F-15,
+care is needed in identifying special-fiber secants.
+For a Waring-only problem the residual atom variety must be
+Veronese; it cannot silently be replaced by Segre.
+Our lower bounds use the larger CP atom set and consequently
+also bound symmetric border rank.
+
+\section{Group schemes, \texorpdfstring{$K_0$}{K0}, and what a class forgets}
+The group scheme $\prod_i\GL(V_i)$ acts on the tensor bundle.
+Explicitly $\GL_n=\Spec\Z[x_{ij},\det(x_{ij})^{-1}]$.
+For an integral tensor $t$, the kernel of the orbit-map
+homomorphism $\Sym(V^*)\to\Z[\prod_i\GL(V_i)]$ defines an
+integral orbit-closure model; flat base change to $\C$ gives
+the usual complex orbit closure, as in F-15.
+SGA 3 \cite{SGA3}, Expos\'e I, \S4.5--\S4.6, supplies
+the group and module schemes.
+In characteristic zero the polynomial problem instead uses
+$\GL(W)$ on $\Sym^n(W^*)$ and the Veronese variety; integral
+symmetrization requires the convention in F-22 below.
+
+\begin{finding}{F-19}{metrics are extra data}
+No nonzero norm on a tensor space is invariant under the full
+product-$\GL$ action. Even the ratios in \eqref{eq:ratios}
+generally vary along one orbit.
+\end{finding}
+\begin{proof}
+Scalar multiplication by $\lambda>1$ in one factor would imply
+$N(\lambda T)=N(T)$ under invariance, whereas homogeneity gives
+$N(\lambda T)=\lambda N(T)$.
+For the ratios take
+$T_t=e_1^{\otimes d}+t e_2^{\otimes d}$, $0<t\leq1$, $d\geq2$.
+All lie in one product-$\GL$ orbit. Their norms are
+$\HS{T_t}^2=1+t^2$, $\eps(T_t)=1$, $\pi(T_t)=1+t$.
+For the spectral claim use Cauchy--Schwarz on the two coordinate
+products in the first two factors and bound the other coordinates
+by one; $e_1^{\otimes d}$ attains one.
+The displayed decomposition proves the nuclear upper bound;
+pairing with $e_1^{\otimes d}+e_2^{\otimes d}$, of spectral norm
+one, proves its lower bound. Thus $b(T_t)=(1+t)^2/(1+t^2)$ varies.
+\end{proof}
+The exact dictionary for F-01--F-14 is therefore a locally free
+sheaf with a chosen Euclidean/Hermitian metric on an archimedean
+fiber, not just its underlying scheme. Norm duality, convexity,
+and PSD statements remain real/complex analytic statements.
+Optimizing a certificate over an orbit is an additional operation,
+not a consequence of writing $\GL$ as a group scheme.
+
+For finite locally free sheaves,
+$\lambda^i[E]=[\Lambda^iE]$ in $K_0(S)$, and exterior-power
+filtrations make $\lambda_t([E]+[F])=\lambda_t[E]\lambda_t[F]$.
+For representations use $K_0$ of the exact tensor category of
+finite locally free representations. Over $\C$ for a reductive
+group this recovers the usual representation ring.
+The Koszul source and target have classes
+$[B^*]\lambda^p[A]$ and $[C]\lambda^{p+1}[A]$.
+Schur functors give the corresponding associated bundles and
+characters. Over $\Z$ one uses integral Schur functors;
+Young idempotents involving factorial or hook-length division
+are only available after the corresponding localization.
+These constructions explain dimensions and representation types,
+not the rank of a particular section-induced map.
+
+\begin{finding}{F-20}{a precise $K_0$ and $\gamma$ limitation}
+The source and target classes of a morphism, even with all their
+$\lambda$- and $\gamma$-operations, do not determine its rank.
+The virtual class of its two-term complex also does not do so.
+\end{finding}
+\begin{proof}
+Over $\Spec\C$, compare the zero and identity maps
+$\C^N\to\C^N$. Both have the same source/target class pair,
+and all ring, $\lambda$, or $\gamma$ expressions in those
+classes therefore agree. Their ranks are $0,N$.
+The virtual two-term classes are both $[\C^N]-[\C^N]=0$.
+In the family $z\,\id$ over $\mathbb A^1$, these classes remain
+constant although rank jumps at $z=0$.
+For an extension example in $\operatorname{Rep}_\C(\mathbb G_a)$,
+the trivial two-dimensional representation and
+$z\mapsto\left(\begin{smallmatrix}1&z\\0&1\end{smallmatrix}\right)$
+both have class $2[\mathbf1]$, but only the first has trivial action.
+\end{proof}
+This does not say that $K_0$ of an image, or tensor-dependent
+equivariant constructions, is useless. Those may contain the
+rank information one first needs to determine.
+The exact $\lambda$ and $\gamma$ foundations are SGA 6,
+Expos\'e V, Definition 2.1, Examples 2.2(b), Lemma 2.2.1,
+the representation-ring example, Proposition 3.2(ii), and
+\S3.10, (3.10.1). The last defines the filtration by products
+of $\gamma^{i_j}(x_j)$ with augmentation-zero $x_j$ and
+$\sum i_j$ at least the filtration degree.
+
+\section{Weights, purity, and motives: the exact nonimplication}
+\begin{finding}{F-21}{constant stalks and absolute point motives do not give rank}
+Over $\mathbb F_q$, with $\ell\ne\operatorname{char}\mathbb F_q$,
+the zero tensor point and a nonzero pure tensor point have the
+same constant-$\Q_\ell$ stalk with Frobenius weight zero, and
+the same absolute point motive, but different tensor ranks.
+\end{finding}
+\begin{proof}
+Each rational point as an abstract scheme is $\Spec\mathbb F_q$.
+The constant sheaf's stalk and degree-zero cohomology are
+$\Q_\ell$, with Frobenius eigenvalue one. Both are pure of
+weight zero. Both abstract points have the unit motive.
+Their ranks in the ambient tensor representation are zero and one.
+\end{proof}
+This rules out only the proposed inference from these specified
+data. Sheaves constructed from secant geometry or relative motives
+with the embedding retained may contain further information;
+none is constructed by the norm proofs here.
+The \'etale site is SGA 4 \cite{SGA4}, Expos\'e VII, \S1.2.
+Purity is used in the sense of Deligne \cite{WeilII},
+Definition 1.2.2. No theorem from SGA 5, or the weights theorem
+of Weil II, is asserted to imply a tensor-rank lower bound.
+There is consequently no fabricated SGA 5 or manuscript locator
+for such a nonexistent implication.
+
+\section{Integral determinant and permanent, without dividing by \texorpdfstring{$n!$}{n!}}
+\begin{finding}{F-22}{an integral catalecticant dictionary}
+The determinant and permanent are integral polynomials in
+$\Sym^n(E^*)$, $E=\Z^{n^2}$. Their normalized Hilbert tensors
+$\mathcal D_n,\mathcal P_n$ are naturally defined over
+$\Z[1/n!]$, not as integral sections with the same coefficients.
+The bidegree-$(k,n-k)$ coproduct of $F(x+y)$ defines an integral map
+\[
+ C_k(F):\Gamma^k E\longrightarrow\Sym^{n-k}(E^*).
+\]
+For determinant and permanent this map has rank $\binom nk^2$
+over every field. On a polynomial power $\ell^n$ its rank is
+at most one, possibly zero in small characteristic.
+\end{finding}
+\begin{proof}
+A squarefree degree-$n$ monomial has $n!$ ordered tensor
+positions, so the coefficient of each normalized symmetric
+position is its polynomial coefficient divided by $n!$.
+The integral coproduct avoids that division:
+$\Gamma^kE$ is the dual of $\Sym^k(E^*)$, and its columns
+are the Hasse derivatives
+$\partial^{[\alpha]}x^\beta=\binom\beta\alpha x^{\beta-\alpha}$.
+For determinant/permanent, a nonzero column differentiates a
+matching of $k$ distinct rows and columns. It equals, up to
+determinant sign, the complementary minor or permanent.
+Every pair $(I,J)$ of $k$-element row and column sets occurs.
+The $\binom nk^2$ complementary polynomials have disjoint
+monomial supports and coefficients $\pm1$ or $1$, so remain
+nonzero and independent over every field. This gives their
+rank and a free integral basis for the image.
+Finally the relevant coproduct of a power is
+$\binom nk\ell(x)^k\ell(y)^{n-k}$, an outer product,
+so has rank at most one after every base change.
+\end{proof}
+Hence its $(r+1)$-minors vanish on sums of $r$ polynomial
+powers and their closures, as a universal integral assertion.
+In characteristic zero it is the catalecticant in F-03 up to
+the conventional nonzero basis scalings.
+In characteristic $p\leq n$, the polynomial power map
+$\ell\mapsto\ell^n$ and the complete-linear-system Veronese
+model must not be identified through characteristic-zero
+symmetrization: multinomial coefficients can vanish.
+Divided powers provide the appropriate integral distinction.
+The no-rank-drop statement above is specific to this Hasse
+matrix; arbitrary flattening ranks can drop modulo primes.
+None of these integral assertions equips the fibers with a
+Hilbert norm.
+
+\section{Orbit-closure obstructions and the representation ring}
+\begin{background}{B-09}{the no-occurrence theorem, with its range}
+Let $Z_{n,m}$ be the padded-permanent orbit closure and
+$\Omega_n$ the determinant orbit closure in the degree-$n$
+polynomial representation. B\"urgisser--Ikenmeyer--Panova
+\cite{BIP}, Theorem 1.4 in arXiv v3, prove that for
+$n\geq m^{25}$ every irreducible occurrence in
+$\C[Z_{n,m}]$ also occurs in $\C[\Omega_n]$.
+Their Corollary 2.6 gives the analogous comparison with a
+power-sum orbit closure.
+\end{background}
+An actual equivariant closed inclusion $Z\hookrightarrow\Omega$
+induces a graded equivariant surjection of coordinate rings.
+Over $\C$ semisimplicity therefore forces multiplicity inequalities
+in every degree. Occurrence-support inclusion is weaker:
+it retains only whether a coefficient of an irreducible class in
+the representation ring is zero. $K_0$ retains multiplicities;
+passing to support discards more information.
+Thus B-09 is not orbit-closure inclusion, not a prohibition of
+multiplicity obstructions, and not a consequence of a tensor-norm
+barrier. The supplied Landsberg survey \cite{Land}, \S2.2--\S2.3,
+provides the Segre/Veronese and equation dictionary; its \S2.9
+concerns a different nonnormality issue.
+
+\section{Exact archival and textual crosswalk}\label{sec:archive}
+The \emph{R\'esum\'e} is catalogue item \textbf{CSG17} in the
+CSG published-works archive. That catalogue dates it 1953;
+Grothendieck Circle's bibliography also catalogues it as 1956.
+We do not infer an unverified manuscript/publication chronology
+from those differing dates. The facsimile used is the 1996 USP
+reprint, DOI \texttt{10.11606/resimeusp.v2i4.74836}, with its
+original internal pagination and 80 PDF leaves.
+The table gives \emph{one-based} scan leaves; subtract one for
+a zero-based PDF index. A leaf printed $8'$ explains why the
+offset is not constant throughout the facsimile.
+
+\begingroup\small
+\begin{longtable}{p{2.1cm}p{7.7cm}p{1.5cm}p{1.5cm}}
+\toprule
+Source key & Exact textual locator & Printed page & Scan leaf\\\midrule
+\endhead
+G53-N & CSG17, \S1 no.1, Definition 1 and Theorem 1:
+extremal reasonable norms and projective infimum formula & 8 & 8\\
+G53-D & CSG17, \S1 no.1, Theorem 2 and duality corollary & $8'$ & 9\\
+G53-G & CSG17, \S4 no.2, Theorems 1 and 2, fundamental theorem & 59--60 & 60--61\\
+G53-I & CSG17, \S4 no.2, Corollary 1 after Theorem 3,
+inequality (8) & 61 & 62\\
+G53-P & CSG17, \S4 no.3, opening of the proof & 62 & 63\\
+EGA-image & EGA I, 9.5.1--9.5.2, and 9.5.3--9.5.4;
+NUMDAM \texttt{PMIHES\_1960\_\_4\_\_5\_0} & 176--177 & 175--176\\
+EGA-proper & EGA II, Definition 5.4.1, Proposition 5.4.2;
+Theorem 5.5.3(i); NUMDAM \texttt{PMIHES\_1961\_\_8\_\_5\_0}
+& 100; 104 & 97; 101\\
+SGA3-G & SGA 3 I, \S4.5--\S4.6, general linear and module schemes & 29 & 42\\
+SGA6-L & SGA 6 V, Definition 2.1; Examples 2.2(b),
+Lemma 2.2.1 & 314--316 & 321--323\\
+SGA6-R & SGA 6 V, representation-ring example following the
+exterior-power discussion & 317 & 324\\
+SGA6-G & SGA 6 V, Proposition 3.2(ii);
+\S3.10, (3.10.1), $\gamma$-filtration & 325; 331 & 332; 338\\
+FGA-Q & Bourbaki expos\'e 221, Theorems 3.1--3.2;
+NUMDAM \texttt{SB\_1960-1961\_\_6\_\_249\_0}, catalogue CSG44
+& 259--260 & 12--13\\
+FGA-H & Same expos\'e, Hilbert specialization after Proposition 3.8;
+Remarks 3.9 & 265--266 & 18--19\\
+WII & Deligne, Weil II, Definition 1.2.2, in the IAS facsimile
+listed in \cite{WeilII} & 153 & 17\\
+\bottomrule
+\end{longtable}
+\endgroup
+The original R\'esum\'e, EGA, and SGA pages listed here were
+visually inspected by the geometry agent; the check ledger
+distinguishes source-statement/location checks from proof audits.
+The modern \texttt{AG/AG-22.pdf} transcription was only a
+cross-check, not substituted for the scan.
+\textbf{CSG17 is a published-work catalogue identifier, not a
+Montpellier unpublished-manuscript shelfmark. No such manuscript
+cote was established or is claimed.} The verified published
+locator and facsimile are supplied explicitly rather than
+inventing an additional archival field.
+
+\subsection{Every finding and its exact dictionary}
+\begingroup\small
+\begin{longtable}{p{1.8cm}p{9.0cm}p{2.1cm}}
+\toprule
+Finding IDs & Reformulation and proof transport & Text anchors\\\midrule
+\endhead
+F-01 & On a metrized archimedean fiber, mode-image subspaces
+are supports of the tensor section; their dimensions are
+determinantal ranks. Orthogonal expansion proves the same
+inequalities; F-15--F-16 carry the rank conclusion integrally.
+& G53-N/D; EGA-image\\
+F-02, F-03 & Bundle maps have nonvanishing exterior minors.
+Hilbert duality certifies their ranks; F-22 supplies the
+integral polynomial catalecticant. The singular values require
+the stated metrics.
+& G53-D; SGA6-L; EGA-image\\
+F-04 & Finite signed averages are identities of symmetric
+tensor sections over characteristic zero. Their coefficient
+proofs survive algebraically after removing denominators;
+nuclear lengths are archimedean data.
+& G53-N/D; SGA3-G; F-22\\
+F-05 & Integral tensor identities for multiplication and
+decompositions give the rank upper bounds. Tensor products
+and reindexing are morphisms of locally free modules.
+The analytic ratios on their real/complex fibers disprove
+the proposed rank conversion.
+& G53-N/D; SGA3-G\\
+F-06 & $T_t=W+t(\cdots)+t^2e_2^{\otimes3}$ is a polynomial
+family over $\Z[t]$; over $t\ne0$ it is a sum of two powers.
+Its special fiber lies in a secant closure. The slice pencil
+proves its rank is three. Norms remain fiberwise.
+& EGA-image; FGA-H; G53-D\\
+F-07, F-08 & Compact normalized atoms and norm duality live
+on the metrized fiber. Unrestricted scheme-theoretic
+degenerations do not impose bounded coefficients. The
+identity-matrix counterexamples are sections of free bundles.
+& G53-N/D; FGA-H\\
+F-09--F-11 & PSD Gram matrices and real sign cubes belong
+to the analytic real fiber. Grothendieck's inequality
+compares the specified Banach tensor norms, not an
+\'etale or $K_0$ norm. Any certified matrix-rank conclusion
+is a determinantal condition on the corresponding bundle map.
+& G53-G/I/P; EGA-image\\
+F-12, F-16 & Contraction followed by exterior multiplication
+is a natural morphism of locally free sheaves. Its
+pure-section rank calculation proves universal integral
+minor equations.
+& SGA6-L; SGA3-G\\
+F-13, F-14, F-18, F-23 & The image is a point of a Grassmannian;
+border rank forces incidence with a residual Segre secant.
+Projector injective norms certify avoidance on the complex
+fiber. The proper incidence proof transports the limiting
+argument exactly. Coordinate quotients of free sheaves isolate
+a smaller determinant or permanent section and prove the
+exact residual-rank reduction.
+& FGA-Q/H; EGA-proper; G53-N/D\\
+F-15, F-17 & Scheme-theoretic images and projective
+Hilbert/Grassmann incidence express secant membership.
+Retaining the limiting plane prevents an unjustified
+span-of-limit identification.
+& EGA-image/proper; FGA-Q/H\\
+F-19 & The same group scheme preserves rank but does
+not preserve a chosen norm. Scalar multiplication and
+the diagonal family prove the failure directly.
+& SGA3-G; G53-N\\
+F-20 & Classes of sources, targets, and two-term complexes
+coincide for maps of different rank. All $\lambda$ and
+$\gamma$ expressions in those classes coincide as well.
+The morphism itself must be retained.
+& SGA6-L/R/G\\
+F-21 & Two abstract rational points have identical
+constant \'etale stalks, weight zero, and unit motives.
+The embedding carries the differing tensor rank.
+No tensor-rank theorem is imported from purity.
+& SGA 4 VII 1.2; WII\\
+F-22 & The coproduct of an integral symmetric polynomial
+uses the divided-power dual domain. Primitive complementary
+minor supports give a characteristic-independent rank;
+normalized symmetric Hilbert tensors require $1/n!$.
+& SGA6-L; SGA3-G; EGA-image\\
+\bottomrule
+\end{longtable}
+\endgroup
+For relative image Grassmannians over a possibly nonreduced base,
+one works on the determinantal rank-$q$ stratum: the
+$(q+1)$-minors vanish scheme-theoretically and the $q$-minors
+generate the unit ideal. An invertible $q$-minor then puts the
+map locally in block form with an identity block and zero
+complementary block, so its image is a subbundle.
+Constant ranks on geometric fibers alone would not suffice.
+
+\part{Unchecked findings, remaining gates, and implications}
+\section{Status at session close}
+There are \textbf{no unchecked new mathematical assertions
+presented as findings}. F-01--F-23 have full proofs and
+recorded whole-proof model checks. The computational checks
+in the package are finite exact identities and normalization
+checks, not formal verification of the entire paper.
+Cited background is not relabelled as an independently
+reproved result. In particular, the large computations behind
+the recent numerical constants and cited border-apolarity or
+recursive-Koszul results were not rerun.
+
+The following stronger claims are not established:
+\begin{enumerate}
+\item An improved asymptotic matrix-multiplication exponent
+lower bound, a superpolynomial determinantal-complexity lower
+bound, or a separation of $\mathsf P$ and $\mathsf{NP}$.
+Our proved rank inequalities and counterexamples do not
+imply any of them.
+\item A universal impossibility theorem for norm-based,
+semidefinite, nonlinear, or geometric methods.
+F-02 and B-05 concern specified linear-map certificates;
+F-13 is an explicit reason not to overstate that barrier.
+\item A polynomial-time way to compute the residual
+projector norm in F-13 for arbitrary input, or a reduction
+of that norm to the classical Grothendieck SDP with a
+dimension-independent guarantee.
+\item An exact value of either Grothendieck constant, or
+an independently rerun certification of the 2026 endpoints.
+\item A tensor-dependent \'etale sheaf or motive with a
+proved weight-to-rank implication. F-21 only refutes a
+specific automatic translation using constant-point data.
+\item An unpublished-manuscript archival cote for the
+R\'esum\'e. The published-work catalogue ID, exact original
+facsimile leaves, EGA/SGA/FGA locators, and the distinction
+between those kinds of reference are verified.
+\end{enumerate}
+The first five are limits of the proved scope, not missing
+lemmas in any stated finding. The last is a bibliographic
+field left explicitly unverified. If an unpublished-manuscript
+cote is required in addition to the published archive
+locator, that archival subrequest remains incomplete.
+
+\section{Implications for the complexity question}
+The useful positive result is more precise than a choice
+between norms and geometry. Nuclear duality certifies
+matrix ranks of flattenings; an injective norm of the
+\emph{entire image projector}, combined with border
+substitution, can improve a plain flattening. The improvements
+in F-14 follow with explicit constants and complex-field
+proofs; F-23 reduces the residual problem for all four
+determinant/permanent families exactly to a smaller member.
+The latter mechanism depends on nonlinear image and
+incidence data and has no generic computational efficiency
+claim. It does not change the Grothendieck constant.
+
+The determinant/permanent norm table also shows why exact
+large norms alone do not separate arithmetic complexity:
+both determinant and permanent tensors have large projective
+norms, and the determinant polynomial itself has exponential
+catalecticant ranks despite efficient determinant evaluation.
+Waring/CP rank measures restricted decompositions, not
+unrestricted arithmetic circuits or determinantal complexity.
+Orbit-closure noncontainment requires equations or
+representation-theoretic data for the relevant polynomial
+orbits. The present inequalities do not produce such an
+obstruction. B-09 remains a restriction on occurrence
+obstructions in its stated range, not on every such approach.
+
+If the next objective is a stronger GCT bound, the concrete
+gate left by this work is a stronger uniform certificate for
+the residual image's avoidance of a secant variety, or a
+different tensor-dependent construction that escapes the
+identified linear-map ceiling. Merely replacing a norm by a
+constant-factor SDP approximation, or a bundle map by its
+$K_0$ source and target classes, does not pass that gate.
+\texttt{LEDGER.md} records the attempted routes, corrections,
+and this endpoint; \texttt{QUESTIONS.tsv} records each
+question's proved, refuted, or remaining status.
+
+\begin{thebibliography}{99}
+\bibitem{Gro}
+A. Grothendieck, \emph{R\'esum\'e de la th\'eorie m\'etrique
+des produits tensoriels topologiques}, catalogue CSG17,
+1953 (also catalogued as 1956), Boletim Soc. Mat. S\~ao Paulo
+8, 1--79; facsimile reprint 1996.
+\url{https://revistas.usp.br/resenhasimeusp/en/article/download/74836/78406/100978}.
+DOI \texttt{10.11606/resimeusp.v2i4.74836}.
+Catalogue: \url{https://csg.igrothendieck.org/published-works/}.
+Exact locators and scan leaves: \S\ref{sec:archive}.
+
+\bibitem{FL}
+S. Friedland and L.-H. Lim, \emph{Nuclear Norm of Higher-Order Tensors},
+arXiv:1410.6072v3, 18 May 2016 (the supplied source).
+\url{https://arxiv.org/pdf/1410.6072}.
+Used locators: \S2 (5)--(8); Proposition 3.1; \S5 (23),
+Theorem 5.1, Corollaries 5.2--5.3; Lemma 6.2 (34)--(37);
+Theorems 8.1, 8.10; Lemma 9.2 (57), display before (60),
+Theorem 9.4. The source corrections are F-08.
+
+\bibitem{Der}
+H. Derksen, \emph{On the Nuclear Norm and the Singular Value
+Decomposition of Tensors}, arXiv:1308.3860v2, 21 April 2014.
+\url{https://arxiv.org/pdf/1308.3860}.
+Corollaries 1.2, 1.10; Theorems 1.14--1.15; \S1.5 (4)--(5);
+\S1.7 (8); \S8, p.~23, unnumbered five-term determinant
+decomposition and final display before Remark 8.1.
+
+\bibitem{CLL}
+E. Carlen, E. H. Lieb, M. Loss,
+\emph{An Inequality of Hadamard Type for Permanents},
+arXiv:math/0508096v1, Theorem 1.1, equation (1.1).
+\url{https://arxiv.org/pdf/math/0508096}.
+
+\bibitem{Pis}
+G. Pisier, \emph{Grothendieck's Theorem, past and present},
+arXiv:1101.4195v3, 4 June 2011; supplied
+\texttt{grothendieck.bams-june3.tex}.
+\url{https://arxiv.org/pdf/1101.4195}.
+Theorems 2.4, 3.1, 12.12; equations (2.4)--(2.5),
+(3.13)--(3.14), (4.4); \S\S19, 22.
+
+\bibitem{AN}
+N. Alon and A. Naor, \emph{Approximating the Cut-Norm via
+Grothendieck's Inequality}, SIAM J. Comput. 35 (2006), 787--803.
+Lemma 2.1, Theorem 4.3, \S4.4.
+\url{https://web.math.princeton.edu/~nalon/PDFS/cutnorm3.pdf}.
+
+\bibitem{RS}
+P. Raghavendra and D. Steurer, \emph{Towards Computing the
+Grothendieck Constant}, SODA 2009, 525--534.
+Theorems 1.1, 1.3; algorithm proof \S3.3, (3.5)--(3.7).
+\url{https://www.dsteurer.org/paper/grothendieck.pdf}.
+The displayed Theorem 1.2 direction is discussed in the text.
+
+\bibitem{HJMreal}
+S. Heilman, C. Jones, G. Malavolta,
+\emph{Primal/Dual Method for the Grothendieck Constant},
+arXiv:2610.10477v2, 14 November 2026, Theorem 1.1;
+certification components Theorems 4.1--4.2.
+\url{https://arxiv.org/pdf/2610.10477}.
+
+\bibitem{Peng}
+B. Peng, \emph{Certified Fourier rounding for the real
+Grothendieck inequality}, arXiv:2610.24417, October 2026.
+Theorem 1.1; \S6 (41)--(43).
+\url{https://arxiv.org/abs/2610.24417}.
+Author-posted full text inspected at
+\url{https://hub.valency.io/works/W_uhkyapjd}.
+
+\bibitem{HJMcomplex}
+S. Heilman, C. Jones, G. Malavolta,
+\emph{Sharper Bounds for the Complex Grothendieck Constant},
+arXiv:2609.25462, September 2026, Theorem 1.1 (1.2);
+Theorem 7.1.
+\url{https://www.stevenheilman.org/~heilman/papers/grothcx.pdf}.
+
+\bibitem{LO}
+J. M. Landsberg and G. Ottaviani,
+\emph{New Lower Bounds for the Border Rank of Matrix Multiplication},
+Theory of Computing 11(11) (2015), 285--298.
+Theorem 1.1, Corollary 1.2, p.~286; Theorem 2.1.
+\url{https://theoryofcomputing.org/articles/v011a011/v011a011.pdf}.
+
+\bibitem{LM}
+J. M. Landsberg and M. Micha{\l}ek,
+\emph{A $2n^2-\log_2(n)-1$ lower bound for the border rank
+of matrix multiplication}, arXiv:1608.07486v1;
+IMRN 2018(15), 4722--4733.
+Theorem 1.1; Proposition 2.3, p.~3; \S2, (2)--(4).
+\url{https://arxiv.org/pdf/1608.07486}.
+
+\bibitem{EGOW}
+K. Efremenko, A. Garg, R. Oliveira, A. Wigderson,
+\emph{Barriers for Rank Methods in Arithmetic Complexity},
+ITCS 2018, LIPIcs 94, Article 1.
+Theorem 3, p.~1:10; Corollary 4, p.~1:11.
+\url{https://www.math.ias.edu/~avi/PUBLICATIONS/EfremenkoGaOlWi2018.pdf}.
+
+\bibitem{Lov}
+B. Lovitz, \emph{Explicit tensors beyond the linear flattening barrier},
+arXiv:2610.08504v1, October 2026, Theorem 1.2 and
+Corollary 1.3, pp.~2--3.
+\url{https://arxiv.org/abs/2610.08504}.
+Full manuscript inspected at \url{https://borowiecki.dev/pdf/2610.08504}.
+Preprint statement used as background.
+
+\bibitem{HJK}
+J. I. Han, J.-H. Ju, Y. Kim,
+\emph{Recursive Koszul flattenings of determinant and permanent tensors},
+arXiv:2503.12032v1, 15 March 2025.
+Proposition 3.2; Theorem 4.2, p.~9; Theorem 5.6, pp.~14--15.
+\url{https://arxiv.org/pdf/2503.12032}.
+
+\bibitem{HJK4}
+J. I. Han, J.-H. Ju, Y. Kim,
+\emph{The border rank of the $4\times4$ determinant tensor is twelve},
+arXiv:2510.11051v2, 18 August 2026, Theorem 1.1, p.~2.
+\url{https://arxiv.org/pdf/2510.11051}.
+
+\bibitem{Han}
+J. I. Han, \emph{The border Waring rank of $x_1\cdots x_n$
+is $2^{n-1}$}, arXiv:2609.09141v1, 8 September 2026,
+Theorem A, p.~2.
+\url{https://arxiv.org/pdf/2609.09141}.
+
+\bibitem{HS}
+J. I. Han and J. Song, \emph{The rank of the $5\times5$
+permanent tensor is sixteen}, arXiv:2608.09708v2,
+27 August 2026, Theorem A, p.~3; Proposition 4.1, pp.~10--11.
+\url{https://arxiv.org/pdf/2608.09708}.
+
+\bibitem{Farn}
+C. Farnsworth, \emph{Koszul--Young Flattenings and Symmetric
+Border Rank of the Determinant}, arXiv:1505.05079v2,
+11 November 2015. Theorems 1.3, 1.6, 1.8; Corollary 1.11.
+\url{https://arxiv.org/pdf/1505.05079}.
+
+\bibitem{CHuangL}
+A. Conner, H. Huang, J. M. Landsberg,
+\emph{Bad and good news for Strassen's laser method:
+Border rank of $\operatorname{perm}_3$ and strict submultiplicativity},
+arXiv:2009.11391v1, 23 September 2020.
+Theorem 1.1 and the following identification, p.~3; proof in \S5.
+\url{https://arxiv.org/pdf/2009.11391}.
+
+\bibitem{CHL}
+A. Conner, A. Harper, J. M. Landsberg,
+\emph{New lower bounds for matrix multiplication and $\det_3$},
+Forum of Mathematics, Pi 11 (2023), e17,
+DOI \texttt{10.1017/fmp.2023.14}.
+Theorems 1.1--1.2, \S1.2, p.~4.
+\url{https://arxiv.org/abs/1911.07981}.
+
+\bibitem{BIP}
+P. B\"urgisser, C. Ikenmeyer, G. Panova,
+\emph{No occurrence obstructions in geometric complexity theory},
+arXiv:1604.06431v3, 17 September 2018 (supplied source).
+Theorem 1.4, p.~3; Corollary 2.6, p.~7.
+\url{https://arxiv.org/pdf/1604.06431}.
+Older version numbering is not used.
+
+\bibitem{Land}
+J. M. Landsberg, \emph{Geometric complexity theory: an introduction
+for geometers}, supplied \texttt{gctsurvey12-10.tex}.
+\S2.2, Relevant algebraic varieties; \S2.3, First equations;
+\S2.9, Bad news. These are definitions and context, not the
+source of the later BIP theorem.
+
+\bibitem{EGA1}
+A. Grothendieck and J. Dieudonn\'e,
+\emph{\'El\'ements de g\'eom\'etrie alg\'ebrique I},
+Publ. Math. IH\'ES 4 (1960), \S9.5, pp.~176--177.
+NUMDAM \texttt{PMIHES\_1960\_\_4\_\_5\_0}.
+\url{https://www.numdam.org/article/PMIHES_1960__4__5_0.pdf}.
+
+\bibitem{EGA2}
+A. Grothendieck, with J. Dieudonn\'e,
+\emph{\'El\'ements de g\'eom\'etrie alg\'ebrique II},
+Publ. Math. IH\'ES 8 (1961).
+Definition 5.4.1 and Proposition 5.4.2, p.~100;
+Theorem 5.5.3(i), p.~104.
+\url{https://www.numdam.org/article/PMIHES_1961__8__5_0.pdf}.
+
+\bibitem{SGA3}
+M. Demazure and A. Grothendieck et al.,
+\emph{Sch\'emas en groupes}, SGA 3, Expos\'e I,
+\S4.5--\S4.6, p.~29.
+\url{https://library.slmath.org/nonmsri/sga/sga/pdf/sga3-1.pdf}.
+
+\bibitem{SGA6}
+P. Berthelot, A. Grothendieck, L. Illusie et al.,
+\emph{Th\'eorie des intersections et th\'eor\`eme de Riemann--Roch},
+SGA 6, Expos\'e V, Definition 2.1, Examples 2.2(b),
+Lemma 2.2.1, representation-ring example, Proposition 3.2(ii),
+\S3.10, (3.10.1).
+\url{https://library.slmath.org/nonmsri/sga/sga/pdf/sga6.pdf}.
+
+\bibitem{FGA}
+A. Grothendieck, \emph{Techniques de construction et th\'eor\`emes
+d'existence en g\'eom\'etrie alg\'ebrique IV: les sch\'emas de Hilbert},
+S\'eminaire Bourbaki, expos\'e 221 (May 1961), 249--276.
+Theorems 3.1--3.2; after Proposition 3.8; Remarks 3.9.
+NUMDAM \texttt{SB\_1960-1961\_\_6\_\_249\_0}, catalogue CSG44.
+\url{https://www.numdam.org/article/SB_1960-1961__6__249_0.pdf}.
+
+\bibitem{SGA4}
+M. Artin, A. Grothendieck, J.-L. Verdier et al.,
+\emph{Th\'eorie des topos et cohomologie \'etale des sch\'emas},
+SGA 4, Expos\'e VII, \S1.2 (the \'etale site).
+No tensor-rank implication is attributed to this construction.
+
+\bibitem{WeilII}
+P. Deligne, \emph{La conjecture de Weil II},
+Publ. Math. IH\'ES 52 (1980), 137--252.
+Definition 1.2.2, p.~153.
+\url{https://publications.ias.edu/sites/default/files/Number40.pdf}.
+\end{thebibliography}
+\end{document}
+
+
+
+
+
