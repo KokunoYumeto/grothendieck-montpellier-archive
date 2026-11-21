@@ -1,0 +1,210 @@
+\section{A terminating exact-minimum procedure with explicit cycle input}
+\label{sec:exact-algorithm}
+
+A uniform upper certificate and an exact minimum are different outputs.
+This section gives a finite procedure for the second output once the
+arithmetic variety, target cycle, and bounded parameter spaces are
+actually presented. Its termination uses the finite-field Tate theorem
+accepted as an input of this task, specifically
+\cite[Theorem 3.1 and \S3.2]{MilneReport2026}. It supplies no practical
+running-time estimate. The Frobenius-dimension and intersection-rank
+search follows the finite-field strategy of
+\cite[Theorem 8.36, author PDF p.~19]{PoonenTestaVanLuijk}; the additional
+step here minimizes over the supplied complete bounded cycle families.
+
+\paragraph{Input convention.}
+Let $X/\mathbb F_q$ be an explicitly presented abelian fourfold, let
+$H$ be an explicit ample integral polarization, and let $C\geq1$ be an
+integer known to satisfy $c_H(t)\leq C$. The target is given by actual
+cycles with equations,
+\[
+             t=\frac{\cl(Z_0^+)-\cl(Z_0^-)}{n_0},
+             \qquad n_0\in\mathbb Z_{>0}.
+\]
+The supports and their multiplicities may be defined over a specified
+finite extension of $\mathbb F_q$. In addition, the complete
+individual-cycle bounded-degree parameter space $\mathcal Q_C$ of B01
+(the factor of its pair space $\mathcal H_C=\mathcal Q_C\times\mathcal Q_C$) is supplied by
+explicit equations, with its universal families or effective
+point-to-cycle maps, including every multiplicity type and the empty
+cycle. Thus every effective surface cycle of $H$-degree at most $C$
+occurs in this parameter space. R42 below constructs these equations
+and families from an explicit projective model. Merely naming an
+abstract Betti or $\ell$-adic vector is not this input model; R43 treats
+a class given in an exact topological marking.
+
+\paragraph{Standard intersection computation (R40a).}
+We use the known algorithm for exact intersection numbers, including
+improper intersections, from Poonen--Testa--van Luijk,
+Lemma~8.7 \cite[author PDF p.~11]{PoonenTestaVanLuijk}.
+Their Remark~8.9, pp.~11--12, also records the derived-sheaf formula
+\[
+ \deg(Z\cdot\beta)
+ =\chi\bigl(X,\mathcal O_Z\mathbin{\otimes^{\mathbf L}}
+                         \mathcal O_\beta\bigr).
+\]
+Here the formula applies to integral supports of complementary
+dimension on smooth $X$, and is extended bilinearly to cycles with
+multiplicities. It may be evaluated using Tor sheaves and coherent
+Euler characteristics. This is a cited background algorithm, not an
+additional new theorem of this paper. The degree is taken over a common field
+of definition, so extending that field does not multiply the geometric
+intersection number.
+
+\begin{theorem}[R40: an exact local minimum from finite intersection data]
+\label{thm:R40}
+Under the stated input convention and the cited Tate input, there is a
+terminating algorithm that returns $c_H(t)$ and a representative
+attaining it in one fixed prime-to-characteristic realization. Under
+the supplied identification of numerical and homological equivalence
+in each realization under consideration, the same algorithm returns
+the simultaneous-realization minimum.
+\end{theorem}
+\begin{proof}
+We first obtain a finite complete system of tests for equality of cycle
+classes, and then search the bounded parameter space.
+
+\emph{The geometric Tate dimension.}
+Frobenius on $H^1$ of an abelian variety over a finite field is
+semisimple: its rational algebra is contained in the center of the
+semisimple algebra of endomorphisms defined over the ground finite
+field. The argument appears in
+\cite[\S2, pp.~138--139; Theorem 2(a), p.~140]{Tate1966}.
+Its exterior powers are semisimple as well. The eigenvalues on
+$H^4(X_{\overline{\mathbb F}_q},\mathbb Q_\ell(2))$ are the products
+of four $H^1$ eigenvalues, divided by $q^2$.
+
+All the relevant polynomials are computable from finite-field point
+counts. For a deliberately inefficient finite method, the known Betti
+numbers $b_i=\binom8i$ show that the numerator and denominator of the
+zeta function each have degree $128$. Point counts through extension
+degree $256$ determine its Taylor series through that degree and hence
+the rational function by rational-function reconstruction. The Weil
+weights separate its $H^1$ factor from the other factors. Taking the
+fourth exterior power then computes the polynomial on $H^4(2)$.
+Every point count in this prescription is itself a finite enumeration;
+no complexity estimate is intended.
+
+Determine which roots of the degree-$70$ polynomial on $H^4(2)$ are
+roots of unity, retaining their multiplicities, and denote their total
+multiplicity by $r$. This is a finite algebraic-number operation. For
+example, a root of unity of order $m$ occurring here has
+$\varphi(m)\leq70$; the elementary bound
+$\varphi(m)^2\geq m/2$ reduces the test to $m\leq9800$.
+Factorization and comparison with these cyclotomic polynomials suffice.
+The resulting number $r$ is the dimension of the geometric Tate
+subspace $V$, the union of the subspaces fixed by finite powers of
+twisted Frobenius.
+
+The Poincar\'e pairing is nondegenerate on $V$. After diagonalizing
+Frobenius, an eigenvalue can pair only with its inverse. Roots of unity
+have root-of-unity inverses, and no non-root-of-unity eigenspace can
+pair with $V$. Nondegeneracy on the full middle cohomology therefore
+restricts to nondegeneracy on $V$.
+
+\emph{An algebraic basis and its intersection matrix.}
+Enumerate effective integral surface cycles over all finite extensions
+of $\mathbb F_q$, for example by enumerating homogeneous ideals and
+their reduced irreducible supports. Compute their pairwise intersection
+numbers by the standard intersection algorithm above. Continue through finite prefixes until
+the intersection matrix has rank $r$, and then choose $r$ cycles
+$\beta_1,\ldots,\beta_r$ with nonsingular Gram matrix.
+One must retain the whole finite prefix when testing rank: greedily
+discarding cycles with self-intersection zero would be invalid.
+
+This search terminates. Every enumerated cycle is defined over a finite
+extension and hence has class in $V$. The Tate input says that these
+classes span $V$, and its pairing is nondegenerate. Some finite prefix
+therefore has rank $r$. The chosen cycles form a basis of $V$ over
+$\mathbb Q_\ell$. For any cycle class $x\in V$, the rational vector
+\[
+                   v(x)=\bigl(\deg(x\cdot\beta_i)\bigr)_{i=1}^r
+\]
+is consequently a complete equality test: $v(x)=0$ if and only if
+$x=0$ in the selected realization. Rational coefficients cause no
+problem because the Gram determinant is a nonzero rational number.
+
+\emph{The finite list of bounded cycle classes.}
+Compute the finitely many geometric connected components of
+$\mathcal Q_C$. Absolute decomposition and the incidence relations of
+irreducible components are finite polynomial-algebra operations over
+the algebraic closure of a finite field. Choose a closed point on each
+component, by search over finite extensions if necessary, and use the
+supplied universal families to obtain its effective cycle $Z_j$.
+Record its $H$-degree $d_j$ and the exact intersection vector
+$v_j=v([Z_j])$.
+
+The cycle class is constant on each geometric connected component:
+the ambient variety $X$ is fixed, and the relative class in the constant
+cohomology local system is locally constant, as in B01. Thus this finite
+list includes the class of every effective cycle of degree at most
+$C$. It is harmless if several components give the same class. Include
+$(d_j,v_j)=(0,0)$ for the empty cycle. If the parameter-space embedding
+uses a multiple $kH$, its surface degree is divided by $k^2$ when
+recording the $H$-degree.
+
+\emph{The exact finite minimization.}
+Compute
+\[
+ v(t)=\frac{v([Z_0^+])-v([Z_0^-])}{n_0}
+\]
+by exact rational arithmetic. For each integer $1\leq N\leq C$ and
+each ordered pair of labels $i,j$, test
+\[
+                         v_i-v_j=Nv(t).
+\]
+Among the successful tests return the smallest
+$\max(N,d_i,d_j)$, together with its two chosen cycles. There is at
+least one successful test because $c_H(t)\leq C$. Every successful
+test is an actual cohomological representation by the nondegenerate
+basis test. Conversely, every representation of complexity at most
+$C$ occurs in the list of component classes and multipliers. Hence
+the returned number is exactly the minimum, not merely another upper
+bound.
+
+Finally, a zero intersection vector says that the difference is
+numerically trivial. Under the supplied equality of numerical and
+homological equivalence for every realization in use, this is the same
+simultaneous equality. In particular the input target is an actual
+rational cycle throughout; no oracle for rationality of an arbitrary
+$\ell$-adic Tate vector has been introduced.
+\end{proof}
+
+\begin{corollary}[R41: a finite description of the entire local function]
+\label{cor:R41}
+Fix an arithmetic abelian fourfold with its extending polarization and
+a compatible target class. Suppose that an actual generic rational
+cycle representing the target, its exact generic minimum $C_0<\infty$,
+and the integer $b_{C_0-1}$ of B04 have been computed. Suppose also that
+the required bounded parameter spaces and universal families are
+explicit at the remaining good places. Then the function
+$v\mapsto c_v(t_v)$ on geometric good reductions is computable as the
+constant value $C_0$ together with a finite table of exceptions.
+\end{corollary}
+\begin{proof}
+If $C_0=1$, specialization gives $c_v(t_v)\leq1$ and the positive
+multiplier convention gives equality, so no $b_0$ is needed.
+For $C_0>1$, B03 and B04 give $c_v(t_v)=C_0$ outside their excluded
+rational characteristics and the prime divisors of $b_{C_0-1}$.
+There are only finitely many places of the fixed number field above
+this finite set of rational primes. Retain those places at which the
+given model has good reduction; bad-reduction places are outside the
+domain of this function.
+
+At each remaining good place, specialize the explicit rational cycle
+to obtain the input target. Properness of the relevant cycle parameter
+spaces, or the usual effective cycle specialization after a finite
+extension, gives the upper bound $C_0$ from a generic representative
+attaining that bound. Apply Theorem~\ref{thm:R40} with $C=C_0$ to
+compute the exact value at this place. Residue-field extension does not
+alter the geometric minimum. The finitely many resulting values,
+together with the constant outside the listed places, give the asserted
+finite description.
+\end{proof}
+
+R41 assumes that the generic minimum and bounded parameter-space data
+have already been computed. The following sections supply these steps
+from equations and an explicit Betti marking: R42 constructs the
+parameter spaces, R43 computes the generic minimum and an attaining
+cycle, and R44 constructs the exceptional integer. R45 combines these
+with the present finite-field procedure.
