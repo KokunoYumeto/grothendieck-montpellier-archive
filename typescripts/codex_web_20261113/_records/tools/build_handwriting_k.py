@@ -161,7 +161,8 @@ def plan():
 
 
 T_K = H.HERE / "PROMPT_TEMPLATE_HANDWRITING_K.md"   # G1-G3 of METHOD_AUDIT_AND_PLAN_20261117.md (round 1, controls)
-T_K2 = H.HERE / "PROMPT_TEMPLATE_HANDWRITING_K2.md"  # rounds 2-7: K plus Hua's transcription as a witness after the freeze
+T_K2 = H.HERE / "PROMPT_TEMPLATE_HANDWRITING_K3.md"  # 21 Nov 2026: K3 = K2 (rounds 2-7: K plus Hua's transcription as a witness
+# after the freeze) + the eight lessons of 19-20 Nov (TO_SEND/MAX_GPT-6.2_Astra_Work/_k3/apply_k3_20261121.py); K2 kept beside it
 HUA_T = pathlib.Path.home() / "Documents/ai_math_sources_20261114/hua_michel/commutator_grothendieck-project/transcripts"
 SMALL = T / "packages_work/SMALL_FOR_EXPIRING_ACCOUNT_20261117.txt"
 EXCLUDED_EXTRA = ["P177_153_MPL_93_092-134"]  # the user runs this Pro prompt unchanged on Codex as a test (.AUDIT2_)
