@@ -1,0 +1,144 @@
+\subsection{Exact native evaluation of every identifying row}
+\label{sec:kt-native-full-rows}
+
+The new implementation consists of
+\path{ring_full_evaluator.cpp} and
+\path{ktower_complete_native_ring.py}.  The original
+\path{verify_ring_schur_parallel.py} is not edited.  Its complete
+structural prefix is executed before any native evaluation; it
+reconstructs the thirteen neighbor frames, the full signed-permutation
+source and target spaces, the contraction, the harmonic basis and
+its identity minor, and compares every integer of the native input
+\path{model.txt} with the verified model.  We use the coefficient-space
+and Schur-complement conclusions of K17-U3-RESIDUAL-RING.
+
+\begin{proposition}[KT-NATIVE-FULL-ROWS]
+Suppose the new wrapper returns a complete unit certificate for a
+model with $k=e-1$, modulus $M>1$, and positive harmonic dimension
+$d$.  Then all $d$ identifying rows and both determinants in that
+certificate are exact over
+\[
+ B_M=(\mathbf Z/M\mathbf Z)[w]/(w^2-w+2).
+\]
+The certificate proves the same full two-class comparison unit
+criterion as K17-U3-RESIDUAL-RING, at every coefficient place above
+every prime divisor of $M$.  Primality and squarefreeness of $M$
+are not hypotheses.  The conclusion requires successful completion
+of the structural prefix and the full native calculation, not a
+sample of rows or a progress log.
+\end{proposition}
+\begin{proof}
+Write $o(P)$ for the row of all signed-permutation orbit sums
+evaluated at a point $P=(z,w)$, and let $C$ be the checked sparse
+matrix whose columns are the harmonic basis.  Thus the harmonic
+evaluation row is $o(P)C$.  For a frame $F$ the transformed coordinates
+used by both implementations are
+\[
+ z'_j=\sum_i\overline{F_{ij}}z_i,
+ \qquad w'_j=\sum_iF_{ij}w_i.
+\]
+The stored convention lists columns first; the native loops use
+that same convention.  The two verified frame lists have six and
+seven members.  Put $E=1+2^e+2^{2e}$ modulo $M$.  For each identifying
+point, the native routine computes the two rows
+\[
+ \begin{split}
+ A(P)&=o(P)C,\\
+ S(P)&=\left(E^2o(P)-E\sum_{F\in\mathcal F_2}o(FP)
+                         -\sum_{F\in\mathcal F_4}o(FP)\right)C.
+ \end{split}                                                    \tag{KT-NF.1}
+\]
+Linearity of multiplication by $C$ shows that (KT-NF.1) equals
+the original verifier's expression, which projects separately
+after each frame evaluation.  Each orbit sum uses every distinct
+permutation of its sorted triple of exponent pairs exactly once.
+Precomputing powers and pair products only reuses equal ring
+elements; it neither deletes a monomial nor changes its multiplicity.
+All operations use arbitrary-precision integers reduced modulo $M$.
+Rows are written to their original indices in disjoint storage;
+each worker has its own temporary arithmetic objects.  Every one
+of the $d$ rows is evaluated using all thirteen frames.  The native
+completion counter and the wrapper require exactly $d$ rows.
+
+Consequently the matrices are precisely the original $A_0$ and
+$S_e=E^2A_0-EB_2-B_4$.  The preserved structural proof identifies
+the columns with the whole harmonic kernel.  Under the checked
+conditions
+\[
+ \gcd\bigl(M,336(2e-1)!\bigr)=\gcd(M,E)=1,
+\]
+the carried denominator cancellation identifies $S_e=A_0D_e$,
+where
+\[
+ D_e=E^2I-E2^kS_{11}-2^{2k}\operatorname{inc}S_{21}.
+\]
+
+For $x=a+bw$, multiplication and inversion use
+\[
+ (a+bw)(c+dw)=(ac-2bd)+(ad+bc+bd)w,
+ \quad \bar x=(a+b)-bw,
+ \quad N(x)=a^2+ab+2b^2.
+\]
+Here $x$ is a unit exactly when $\gcd(N(x),M)=1$: the forward
+implication follows by taking the determinant of multiplication
+by $x$ on the free rank-two module $B_M$, and the reverse follows
+from $x\bar x=N(x)$.  The scalar determinant routine works in
+$\mathbf Z/M\mathbf Z$ because every entry of $A_0$ is checked
+to have zero $w$ coordinate.  The second routine works in $B_M$.
+Both use only row interchanges and subtraction of multiples of
+a row whose pivot is a unit.  At each stage the original
+determinant is the signed product of the previous pivots times
+the determinant of the remaining block.  The last entry is
+multiplied without inversion.  Thus successful outputs are the
+exact determinants, including when the final entry is a nonunit.
+Failure to find a unit pivot is reported as inconclusive and
+cannot yield a unit certificate.
+
+The wrapper checks that $\det A_0$ is a unit and independently
+checks the ring identity
+\[
+ \det D_e=\det S_e\,(\det A_0)^{-1}
+\]
+and $\gcd(N(\det D_e),M)=1$.  Therefore $D_e$ is invertible
+over $B_M$ by its adjugate.  Base change preserves this inverse
+at every coefficient place over a prime divisor of $M$.
+The Schur-complement argument of K17-U3-RESIDUAL-RING gives the
+full two-class comparison there; its integral conjugation
+involution supplies the opposite minuscule direction as well.
+\end{proof}
+
+\paragraph{Completed control and provenance.}
+For $e=26$, $M=697446897311$, all 732 native identifying rows
+give
+\[
+ \det A_0=65303065346,\qquad
+ \det S_e=212516823907,\qquad
+ \det D_e=243170653113,
+\]
+with zero $w$ coordinates and determinant norm gcd one.
+The unchanged completed report
+\path{native_full_e26_small_control.json} records this fresh
+native calculation.  A separate reconciliation
+\path{native_full_e26_reconciliation.json} matches all three
+residues, the dimensions, parameters, input hashes, frame hash
+and full-row count to the carried complete original-Python
+\path{e26_m697446897311/verify_ring_schur.json} report.
+Fresh original-Python evaluation also agrees on identifying
+rows $0,366,731$ and on the two stored extra points.  These
+last two checks compare pointwise evaluation formulas; they
+are not additional operator-identity tests.  No fresh full
+Python rerun is asserted.
+
+The independent integer controls in
+\path{audit_full_ring_native.py} compare 24 small random
+determinants with the literal permutation formula, over six
+moduli including nonsquarefree composite moduli.  Every
+returned determinant and unit status agrees.  The invertible
+matrix $\left(\begin{smallmatrix}3&1\\5&2\end{smallmatrix}\right)$
+over $\mathbf Z/15\mathbf Z$ correctly yields an inconclusive
+pivot search, and a one-by-one nonunit is correctly detected.
+Four malformed determinant inputs and four malformed or
+nonunit-denominator model inputs are rejected.  These controls
+supplement the complete mathematical argument and the full
+$e=26$ control; they do not certify any unfinished higher-weight
+calculation.

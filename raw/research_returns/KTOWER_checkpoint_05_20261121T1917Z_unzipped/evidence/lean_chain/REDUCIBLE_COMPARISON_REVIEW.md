@@ -1,0 +1,39 @@
+# Reducible comparison theorems and residual cyclicity: independent review
+
+**PASS for the complete new mathematical arguments and the stated source-scope conclusions. No new Selmer upper bound or K-group vanishing is obtained by this review.** Read the full `unitary_audit/reducible_comparison/reducible_comparison_results.tex`, including the two new proofs, and re-read the final coefficient/lattice clarifications. The exact reviewed file and primary hashes are recorded in `reducible_comparison_review_manifest.json`.
+
+## 1. General matrix algebra example
+
+The displayed algebra is closed under multiplication because its two adjacent lower entries are multiples of the same square-zero ideal. It is the direct sum `O³ ⊕ ε(O/varpi^n)²` as an O-module, so after arbitrary base change it still embeds coordinatewise in the three-by-three matrix algebra over the base-changed square-zero ring. Its determinant is the product of its three diagonal entries and hence takes values in the coefficient algebra. Ordinary matrix Cayley–Hamilton applies over every such commutative coefficient ring. The anti-automorphism `X↦J X^t J` exchanges the outer diagonal idempotents and the two adjacent modules. All structural pair products vanish; thus `I=0` while both displayed extension modules have length n. The example correctly makes no global automorphic claim.
+
+This proves the required failure of a general implication from a small reducibility conormal to small off-diagonal modules, even with a flat complete-intersection coefficient algebra. It is consistent with the direction of the cited GMA bounds.
+
+## 2. Residual ordinary minus line
+
+Read Urban's Theorem 1.1 and its complete printed proof, author pages 6–10, in `urban_eisenstein_klingen_1998v1.pdf`. In the application, B is the coefficient DVR itself, the ideal is its maximal ideal, and the two ordered rank-one blocks are `1` and `ηχ^e`. The semisimple residual congruence extends to the coefficient group algebra, so its characteristic-polynomial hypothesis holds there as well. The two blocks are distinct already on inertia at ell by GD. Urban's auxiliary nonzero finite submodule of the coefficient field is free of rank one over this DVR. Its residual extension therefore has the exact two one-dimensional ends displayed in RC.9. A split reduction would give a forbidden quotient isomorphic to the first residual block, so the cocycle is nonzero.
+
+The ordinary local line intersects every stable lattice in a saturated rank-one module. The unit-root quotient reduces to 1 because `a_ell≡1`; its complementary residual ordinary character is `ηχbar^e`. This line is different from the global residual submodule 1 because their inertial characters differ. Their sum is the entire local residual representation, proving splitting on the full decomposition group. Restricting to the auxiliary field preserves nonzeroness by index-two restriction/corestriction. Removing the factor η changes the quotient-conjugation action by its sign, giving a nonzero **minus** class. The assumed unramifiedness of `rho_f|G_E` away from ell is explicitly retained and supplies the stated global ramification control.
+
+## 3. Finite/divisible coefficient transport for the target
+
+The even exponent gives the rational coefficient character positive complex-conjugation sign. GD supplies an inertia element with `χbar^(−e)−1` a unit, so global and ell-local invariants of `(Q_ell/Z_ell)(χ^(−e))` vanish. The long exact sequence for multiplication by ell thus identifies global ell-torsion with finite-coefficient classes and makes ell-local strictness descend to those classes.
+
+At every other inertia group the cyclotomic action is trivial. Its invariants are the full divisible coefficient module, so multiplication by ell is surjective and the map on H¹ from finite to divisible coefficients is injective. This is the precise reason the finite class remains unramified. Restriction to the quadratic field and extension of the residue field are injective. The resulting image has conjugation sign **plus**. No claim that finite unramified cohomology at 2 vanishes is needed or made: the extra decomposition-group condition at 2 merely restricts the original domain.
+
+The plus image and the constructed minus line are disjoint because ell is odd. Hence total residual Greenberg dimension one forces the original strict group to have no ell-torsion, and therefore to vanish as an ell-primary torsion group. The same conclusion survives relaxing local conditions, since both independent subspaces still lie in the relaxed ambient cohomology group. This proves KT-RESIDUAL-CYCLICITY-SCOPE under its stated, previously checked ordinary-source hypotheses. It does not establish cyclicity.
+
+## 4. Exact primary-source scope
+
+- **Bellaïche–Chenevier 2007 author version:** checked Proposition 1.5.1 (pp.32–34), Theorems 1.5.5–1.5.6 (pp.35–36), and Remark 1.5.8 (p.38). Their statements give the reducibility ideal, extension injection, exact image through the selected Cayley–Hamilton quotient, and possible strict loss in the faithful trace quotient. The new report distinguishes this edition from final-book pagination. These imported general theorems were checked for scope, not independently re-proved in full.
+- **Berger–Klosin 2011 author draft:** checked the two absolutely irreducible blocks, Assumption 5.1 (p.13), and Theorems 8.5–8.6 (p.23). For precision, the divisible module `W=Hom_O(rho2,rho1)⊗E/O` and its required upper bound are explicit immediately before/in Theorem 6.4 (p.16); later formulas in that draft abbreviate the coefficient notation. Their proofs use this upper-bound input. Grouping two characters does not make them absolutely irreducible.
+- **Berger–Klosin 2013 author draft:** checked the two-block setup, Assumptions 2.6–2.7 (p.6), Assumption 4.2 and Lemma 4.4 with its complete short proof (p.12), plus the introduction's explanation of passing to the characteristic-zero image. Surjectivity onto the Selmer group explicitly depends on the Selmer upper bound.
+- **Allen–Newton–Thorne II:** the separate completed primary audit remains applicable; individual constituent polarization and cyclotomic distinction fail.
+- **Berger–Klosin 2026 v1:** checked the full §10 setup, Theorem 10.2 and its complete proof, Theorem 10.4 and its complete proof, Definition 8.22 and nearby examples, and Proposition 2.12/Corollary 2.16 with their complete elementary proofs. Also read the intervening main-conjecture specialization argument for scope. The latter's imported Iwasawa theorems were not independently audited. The official source is a recent preprint, not a claimed published theorem.
+
+## 5. Why the 2026 theorem does not close the current problem
+
+The formal parallel choice `Ψ=χ^(e+1)` gives `(a,b)=(2e+2,−e−1)`, outside `b≥−1`; reversing the outer labels gives `a=2−2e`, outside `a≥3`. Characteristic-zero weights cannot be replaced by their residual congruence classes. The prescribed two ordered ordinary flags also differ from the flags constructed here. The final draft correctly avoids claiming that a locally split point cannot admit additional flags.
+
+Under the explicitly labelled formal substitution, S2(c), retained as Theorem 10.4(6), is precisely a one-dimensional `χ^(−e)` Greenberg condition. Definition 8.22 places inertia restrictions at **both** ell-adic places for this parallel negative character. The new minus-line argument shows that importing this cyclicity would already force the target plus component to vanish. The theorem additionally requires the specified ordinary family and reduced specializations. Neither that family comparison nor its integral relation to the unsaturated odd cotangent has been constructed. The proposed scope conclusion is therefore exact and appropriately limited.
+
+No Lean kernel build, global R=T application, or new arithmetic upper bound was performed.

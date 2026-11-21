@@ -1,0 +1,63 @@
+\subsection{Exact replay optimizations}
+\label{sec:higher4-replay-equivalence}
+
+The higher-degree replay uses two algebraically exact changes to the
+previous standard-library verifier. Neither changes a mathematical check.
+
+\begin{proposition}[K17-REPLAY-EQUIVALENCE]
+Deleting zero terms from each immutable harmonic-basis column and
+clearing the common matrix denominator before Faddeev--LeVerrier
+recursion preserve every exact value and every retained verification
+in the stated replay wrappers.
+\end{proposition}
+
+\begin{proof}
+First, if the harmonic basis has integer columns \(H_{ij}\), its evaluation
+at an orbit-value vector \(v\) is
+\[
+ \sum_i H_{ij}v_i
+   =\sum_{i:H_{ij}\ne0}H_{ij}v_i.
+\]
+The new wrapper caches the nonzero entries of each column and uses the
+right-hand sum. The cache retains the actual basis object and is rebuilt
+when that object changes; the verifier does not mutate its basis.
+Both components of every value in \(\mathbf Z[\omega]\) use this exact
+identity. All orbit, kernel-rank, evaluation-determinant, neighbor,
+operator, characteristic-polynomial, and extra-point checks remain.
+
+Second, let \(A\in M_d(\mathbf Q)\), choose the positive least common
+multiple \(D\) of its entry denominators, and put \(B=DA\in M_d(\mathbf Z)\).
+Then
+\[
+ \det(XI-B)=D^d\det((X/D)I-A).
+ \tag{RE.1}
+\]
+Thus the coefficient of \(X^{d-i}\) for \(A\) equals the corresponding
+coefficient for \(B\), divided by \(D^i\). The wrapper constructs \(B\)
+entry by entry and verifies \(B_{ij}/D=A_{ij}\) exactly. It runs the
+same Faddeev--LeVerrier recurrence on \(B\):
+\[
+ C_0=I,
+ \quad c_i=-\frac{\operatorname{tr}(BC_{i-1})}{i},
+ \quad C_i=BC_{i-1}+c_iI.
+ \tag{RE.2}
+\]
+Every trace division is checked to have zero integer remainder.
+It retains the terminal check \(C_d=0\) and returns the exact rational
+coefficients \(c_i/D^i\). Formula (RE.1) proves that these are precisely
+the coefficients returned by the original rational recurrence. The
+original checks that they are integers, equal the entire saved
+characteristic polynomial, multiply from the stated factors, and give
+the exact comparison value are all retained.
+
+The files
+\path{hecke_general/higher4/replay_sparse_harmonics.py}
+and \path{hecke_general/higher4/replay_integral_faddeev.py}
+read the frozen verifier without modifying it. Each replacement checks
+that its complete old function occurs exactly once. The first wrapper
+uses only the zero-term change; the second also uses (RE.1)--(RE.2).
+The added stage messages affect no arithmetic. The initial degree has
+separate original, sparse-only, and integer-recurrence execution records;
+comparison of completed reports is recorded independently of this
+algebraic equivalence argument.
+\end{proof}

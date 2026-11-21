@@ -1,0 +1,77 @@
+\subsection{Summing complete orbit evaluations before projection}
+\label{sec:kt-sum-first-replay}
+
+\begin{proposition}[KT-SUM-FIRST-REPLAY]
+The separate wrapper \path{replay_cyclic_sum_first.py}
+preserves the full finite-model assertions of the frozen
+\path{harmonic_hecke_certificate.py}.  A completed report
+certifies every checked operator entry and the whole
+characteristic polynomial, with the same mathematical
+meaning as a successful full frozen replay.
+\end{proposition}
+\begin{proof}
+Work over $\mathbf Z[\omega]$, with $\omega^2+\omega+1=0$.
+Let $o(P)$ be the row of all invariant orbit sums evaluated
+at $P$, and let $H$ be the full checked integer harmonic
+basis matrix.  The original transformed evaluation is
+\[
+                    \sum_{g\in\mathcal N} o(gP)H.
+\]
+The new routine evaluates the same complete row $o(gP)$
+for every member of the same checked neighbor list and
+returns
+\[
+                    \left(\sum_{g\in\mathcal N}o(gP)\right)H.
+                                                               \tag{KT-SF.1}
+\]
+These expressions are equal by finite distributivity.
+The coordinate transformations, conjugation convention,
+orbit enumeration and integer coefficients are unchanged.
+Both coordinates in $1,\omega$ are summed exactly.  The
+cached sparse columns of $H$ delete only zero coefficients;
+the cache retains its matrix object and is replaced whenever
+the degree uses another matrix.
+
+The wrapper retains complete source and target orbit
+enumeration, the exact contraction, the full harmonic-kernel
+rank and containment checks, and every identifying-point
+evaluation.  It additionally checks the relevant matrix
+shapes and that the number of identifying points equals
+the harmonic dimension.  The original nonzero evaluation
+determinant and all operator identities are retained, as
+are both extra-point operator identities at every prime.
+Equation (KT-SF.1) therefore changes neither an entry nor
+the scope of an entry check.
+
+The conversion to the rational real form, conjugation
+identities, factor-product reconstruction and comparison
+values are also retained.  Only the characteristic-polynomial
+algorithm is replaced by KT-CYCLIC-CHARPOLY: its explicit
+monic candidate is certified by a full modular cyclic basis
+and exact integer Horner evaluation.  Failure to find that
+basis is inconclusive and cannot give a completed report.
+
+The wrapper executes byte snapshots of the frozen source,
+setup driver and cyclic module.  It records source and input
+hashes at the beginning and end and requires equality.
+The frozen verifier first writes a distinct pending file;
+only after these checks does the wrapper atomically write
+the named final report, with its effective source hash and
+all cyclic certificates.  Thus an unfinished computation
+or a changed source/input does not produce a final report
+from this run.
+\end{proof}
+
+\paragraph{Complete carried control.}
+The full degree $k=13$, $e=14$, of harmonic dimension $14$
+was extracted without modifying any of its contents from
+the carried higher-two dataset.  The new replay completed
+both $p=7$ and $p=13$, including every neighbor, the two
+extra-point identities at each prime, and both entire
+characteristic polynomials.  The complete numerical result
+object equals the $k=13$ result of the carried full report.
+The old dataset hash, old report hash, extracted dataset
+hash, new report hash, and source-hash equality are recorded
+in \path{sum_first_k13_reconciliation.json}.
+This is a fresh full replay of that carried degree.  Higher
+weights require their own completed reports.

@@ -1,0 +1,229 @@
+\section{An explicit choice of the constant in K17-VK-EXP7}
+\label{sec:kt-c7-explicit}
+
+\paragraph{Finding KT-C7-EXPLICIT.}
+Under the stipulated archive theorems and the carried K17-VK-PT and
+K17-VK-EXP7 argument, one explicit admissible choice is
+\[
+ C_7=10^{\,10^{3500}},\qquad
+ \log|K_{4k}(\mathbf Z)|\le C_7(2k)^7\quad(k\ge1).
+\]
+This is a very coarse upper bound for a permissible constant.  It is
+not the least constant and offers no numerical vanishing criterion.
+Its purpose is to remove the unevaluated cohomology constants from the
+source reconstruction requested in item 4.
+
+All source locators below are relative to
+\path{src/Development/AutomorphicArithmetic/AutomorphicVarieties/}
+at commit \path{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}.
+The theorem \path{cohBoundFree},
+\path{AutomorphicForms/TemperedLocalComponents/CohBoundFree.lean}:93--99,
+returns existential constants.  Its helper \path{cohBound_of}:69--91
+obtains a base-level witness $c$ at line 75 and returns
+$(c3^{dn^2},dn^2)$ at line 79, with $d=[F:\mathbf Q]$.
+The witness ultimately comes from finite orbits and stabilizer
+cohomology.  The following retention of the source's explicit lower
+bounds replaces it with an integer expression.
+
+\subsection{An explicit arithmetic-group cohomology bound}
+
+Let $F$ be imaginary quadratic of absolute discriminant $D$ and let
+$n\ge1$.  Define
+\[
+ I=D^n(2n)^{2n},\quad R=n^nI^2,\quad T=(2R+1)^{2n},
+\]
+\[
+ A=I^{1+2n^2},\quad B=(T+1)^{2n^2},\quad H=AB^2T^n,
+ \qquad b(D,n)=HAB^H.
+\tag{KT-C7.1}
+\]
+\paragraph{Finding KT-COH-EXPLICIT.}
+For every finite-dimensional complex representation $V$ of
+$\mathrm{GL}_n(\mathcal O_F)$,
+\[
+ \sum_{q\ge0}\dim H^q(\mathrm{GL}_n(\mathcal O_F),V)
+ \le b(D,n)\dim V.
+\tag{KT-C7.2}
+\]
+
+\paragraph{Proof.}
+\path{HermiteNormalForms/SmulStrictMono.lean}:17--19,244--249 defines
+$\mathrm{dd}=dn$, $I_0=D^n(dn)^{dn}$, $RR=n^nI_0^2$, and
+\[
+ \operatorname{orbBound}(q)
+ =I_0^{1+dn^2}\bigl((2RR+1)^{dn}+1\bigr)^{dn^2(q+1)}.
+\]
+For $d=2$ this is exactly $AB^{q+1}$.
+\path{HermiteNormalForms/ColsMinSmul.lean}:34--75 bounds the number
+of group orbits of ordered $q$-simplices of its Hermitian nerve by
+this integer.  The augmented permutation resolution is exact by the
+archive theorem \path{ConeExtensionAcyclic.sx_exact}, used at
+\path{BuildingsResidueChars/BoundedComplexOfBoundedSimplicialComplex.lean}:18.
+
+First bound a vertex stabilizer.  By
+\path{HermiteNormalForms/Stabfin.lean}:24--26 choose a nonsingular
+matrix $A_0$ whose $n$ columns are minimal vectors of the vertex $v$.
+Every minimal vector of $v$ is in the set
+$\operatorname{nearVec}(A_0)$ defined at
+\path{HermiteNormalForms/SmulStrictMono.lean}:258--259.
+By \path{HermiteNormalForms/Nearvec.lean}:9--38 this set has at most
+$T$ elements.  A stabilizer element is determined by the images of
+the $n$ columns: equality on those columns gives equality after
+multiplication by $A_0$, and then equality because $\det A_0\ne0$.
+This is the injection in \path{Stabfin.lean}:35--50, now with its
+cardinality retained.  Hence
+\[
+ |\operatorname{Stab}(v)|\le T^n.
+\tag{KT-C7.3}
+\]
+
+Choose one representative from each orbit of ordered $1$-simplices;
+there are at most $AB^2$.  The injection in
+\path{BuildingsResidueChars/AdelicRepDimensionBounded.lean}:22--68
+maps the $q+1$ distinct vertices of an injective ordered $q$-simplex
+into the disjoint union of the stabilizers of the first vertices of
+these representatives.  This union has at most $AB^2T^n=H$ elements.
+There is consequently no injective $q$-simplex when $q\ge H$.
+
+The original resolution includes repeated tuples.  The normalized
+alternating endomorphism is a chain map by
+\path{BuildingsResidueChars/AltChainOfPermSplit.lean}:5--46.
+It is the identity on the augmentation and zero in a degree in which
+all tuples repeat a vertex, by
+\path{BuildingsResidueChars/RepHomAlternatingSumEqZero.lean}:10--57.
+The projective-resolution comparison in
+\path{BuildingsResidueChars/ExtVanishingOfResolutionEndo.lean}:32--38
+therefore gives $H^q=0$ for $q\ge H$.
+Projectivity follows from finite stabilizers over $\mathbf C$, exactly
+as in \path{AutomorphicForms/TemperedLocalComponents/BddArith.lean}:41--49.
+
+In degree $q$, an equivariant homomorphism from the permutation term
+to $V$ is determined by one vector for each orbit.  Its dimension is
+at most $AB^{q+1}\dim V$; this is the source argument
+\path{BuildingsResidueChars/PermutationModuleHomologyRank.lean}:4--34.
+Cohomology is a subquotient of this Hom term.  Consequently
+\[
+ \sum_q\dim H^q
+ \le\left(\sum_{q=0}^{H-1}AB^{q+1}\right)\dim V
+ \le HAB^H\dim V.
+\]
+This proves KT-COH-EXPLICIT. \hfill$\square$
+
+\subsection{The principal-level coefficient}
+
+If $F$ has class number one, write $K(m)$ for the principal subgroup
+of $\mathrm{GL}_n(\widehat{\mathcal O}_F)$ of level $m$.  We claim that
+the same total adelic cohomology quantity used by \path{cohBoundFree}
+satisfies
+\[
+ \operatorname{cohDim}(\mathrm{GL}_n(F),K(m),\xi)
+ \le b(D,n)m^{2n^2}\dim\xi.
+\tag{KT-C7.4}
+\]
+
+An adelic matrix $g$ determines a full $\mathcal O_F$-lattice $L$ in
+$F^n$ whose completion is $g\widehat{\mathcal O}_F^n$.
+For an explicit construction, choose an integer $a>0$ with
+\[
+ a\widehat{\mathcal O}_F^n\subseteq
+ g\widehat{\mathcal O}_F^n\subseteq
+ a^{-1}\widehat{\mathcal O}_F^n.
+\]
+The middle lattice gives a submodule of the finite quotient
+$a^{-1}\mathcal O_F^n/a\mathcal O_F^n$ by Chinese remainders; take
+its inverse image for $L$.  The same finite quotient shows that its
+completion is the prescribed one.  Since $\mathcal O_F$ is a PID,
+$L=\gamma\mathcal O_F^n$ for a matrix $\gamma\in\mathrm{GL}_n(F)$.
+Thus $g=\gamma k$ with $k\in K(1)$.
+There is one rational orbit at level one, with stabilizer
+$\mathrm{GL}_n(\mathcal O_F)$.
+
+The fibers at level $m$ have cardinality
+$[K(1):K(m)]\le m^{2n^2}$, by
+\path{BuildingsResidueChars/LevelSubgroupIndexBoundOfCardOhat.lean}:22--38.
+The Shapiro fiber argument
+\path{BuildingsResidueChars/OrbitBoundOfShapiroFunctorial.lean}:3--23,
+with KT-COH-EXPLICIT, proves (KT-C7.4).
+This is the one-orbit, base-level-one specialization of the helper
+\path{gen} in \path{CohBoundFree.lean}:28--60.
+
+\subsection{Substituting six explicit fields}
+
+Take $F_0=\mathbf Q(\sqrt{-3})$ for the rank-three branch and take
+the six rank-two fields with absolute discriminants
+\[
+ \mathcal D=\{3,7,11,19,43,67\}.
+\]
+They are pairwise coprime, so they satisfy the same six-field
+requirement as K17's illustrative choices.
+All have class number one.  To check this, Minkowski's bound says
+that every ideal class has an integral representative of norm at
+most $(2/\pi)\sqrt D$ (J.~S.~Milne,
+\emph{Algebraic Number Theory}, version 3.08, Theorem 4.3, p.~70;
+\url{https://www.jmilne.org/math/CourseNotes/ANT.pdf}).
+For $D=3,7$ this is $<2$.  For $D=11,19$ it is $<3$, and $2$ is
+inert.  For $D=43$ it is $<5$, and $2,3$ are inert.  For $D=67$ it
+is $<6$, and $2,3,5$ are inert.  In the last two cases the only
+possible nonunit norm is $4$, whose ideal is the principal ideal
+$(2)$.  Thus all representatives are principal.  Inertness follows
+from $-D\equiv5\pmod8$ at $2$ and the indicated quadratic
+nonresidues at the odd primes; the accompanying exact script checks
+each instance.
+
+K17, \path{evidence/work/k_quantitative_refinement.md},
+sections 4--5, permits constants $B_0$ for rank three at level $6$
+and $B_D$ for rank two at level $18$.  Hence (KT-C7.4) allows
+\[
+ B_0=6^{18}b(3,3),\qquad B_D=18^8b(D,2).
+\tag{KT-C7.5}
+\]
+The levels and the use of the full rational group are explicit in
+\path{AutomorphicForms/TemperedLocalComponents/KlevThree.lean}:18--28
+and \path{GaloisLibrary/CrystallineBaseChange/KlevThree.lean}:17--27:
+both use \path{cohBoundFree ... n top} and replace a level $M$ by
+$3M$.  The carried K17 exponent-seven proof therefore permits the
+fully explicit integer
+\[
+ C_7^*=20\left(6^{18}b(3,3)+32\,18^8
+                 \sum_{D\in\mathcal D}b(D,2)\right).
+\tag{KT-C7.6}
+\]
+Every quantity in this expression is now given by integer additions,
+multiplications, and powers in (KT-C7.1).
+
+\subsection{Evaluation by elementary decimal bounds}
+
+For $(D,n)=(3,3)$, $I=1{,}259{,}712<10^7$ and $2R+1<10^{14}$.
+Thus
+\[
+ T<10^{84},\quad A<10^{133},\quad B\le10^{1512},
+ \quad H<10^{3409},\quad \log_{10}b(3,3)<10^{3413}.
+\]
+For $n=2$ and $D\le67$, $I\le1{,}149{,}184<10^7$ and again
+$2R+1<10^{14}$.  Hence
+\[
+ T<10^{56},\quad A<10^{63},\quad B\le10^{448},
+ \quad H<10^{1071},\quad \log_{10}b(D,2)<10^{1074}.
+\]
+The $+1$ in $B$ causes no loss: an integer $T<10^u$ has
+$T+1\le10^u$.
+Also $6^{18}<10^{15}$, $18^8<10^{11}$, and
+$20(10^{15}+192\cdot10^{11})<10^{18}$.
+It follows that
+\[
+ C_7^*<10^{18+10^{3413}}<10^{10^{3414}}<10^{10^{3500}}.
+\]
+This proves KT-C7-EXPLICIT.  The exact-arithmetic replay is
+\path{check_c7_arithmetic.py}; it verifies these inequalities without
+trying to expand a double-exponential integer.
+
+\paragraph{Scope.}
+The source-standing result and the constant calculation are distinct.
+The former is an explicit substitution in named archive theorems;
+the latter is a new elementary quantitative refinement of the source's
+finite-orbit proof, using those theorems as inputs.  Neither is a new
+Lean kernel certificate.  The geometric constants arise from
+Hermitian reduction complexes and finite congruence-level fibers.
+Their interpretation as a bound for integral Tate pieces over
+$\operatorname{Spec}\mathbf Z$ uses the carried K17-VK-PT bridge.
+They do not establish vanishing or Vandiver's conjecture.

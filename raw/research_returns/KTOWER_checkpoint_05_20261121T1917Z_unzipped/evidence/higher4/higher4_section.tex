@@ -1,0 +1,317 @@
+\section{Complete residual-ring certificates in the next weights}
+\label{sec:kt-higher4}
+
+This section uses K17-MINUS7-GENERAL-SOURCE and
+K17-U3-RESIDUAL-RING as carried results.  Their entire written
+proofs and the complete verifier were read again for the present
+audit.  The direct source proof KT-ONECHAR-CLOSED supplies the
+\path{OneCharU_s} input.  All conclusions below use actual complete
+reports; progress logs and producer output alone do not certify a row.
+
+\subsection{The native determinant preserves the exact criterion}
+
+Put
+\[
+ B_M=(\mathbf Z/M\mathbf Z)[w]/(w^2-w+2),\qquad
+ \overline{a+bw}=(a+b)-bw.
+\]
+The norm is $N(a+bw)=a^2+ab+2b^2$, and
+\[
+ x\in B_M^\times\quad\Longleftrightarrow\quad
+                  \gcd(N(x),M)=1.                 \tag{KT-H.1}
+\]
+No assumption that $M$ is prime or squarefree is involved.
+
+\begin{lemma}[KT-NATIVE-DETERMINANT]
+Whenever the included native determinant routine terminates
+successfully, its output is the exact determinant over $B_M$.
+A failure to find an individual unit pivot is inconclusive.
+Replacing the two determinant routines in the full residual-ring
+verifier by this routine preserves every successful unit conclusion.
+\end{lemma}
+\begin{proof}
+The source \path{ring_determinant.cpp}, lines 12--22,
+implements multiplication using $w^2=w-2$, conjugation, the norm,
+and inversion by $\bar xN(x)^{-1}$.  Formula (KT-H.1) justifies
+every inverse.  The loop at lines 31--42 uses row interchanges and
+subtracts pivot-row multiples.  A row interchange changes the
+accumulated sign.  Earlier column entries in both swapped rows
+are zero, so swapping only the active suffix is equivalent to
+the full row interchange.
+
+Inductively the original determinant equals the signed product
+of previous pivots times the determinant of the active block.
+For a unit pivot, the usual elementary block elimination proves
+the next instance of this identity over any commutative ring.
+The final entry is multiplied without inversion.  Thus a returned
+value is the exact determinant, even if that last entry is a
+nonunit.  If no unit pivot is available, the program exits without
+a determinant certificate.  The distinction is necessary:
+$\left(\begin{smallmatrix}2&3\\3&2\end{smallmatrix}\right)$
+has determinant one over $\mathbf Z/6\mathbf Z$ but no unit
+entry in its first column.
+
+The wrapper requires successful exit, the expected number of
+pivot inversions, residue representatives in the correct range,
+and norm-unit determinants.  All full-model assertions precede
+the substituted routine and remain unchanged.  When a producer
+report is present, the comparison point, dimensions, and all
+three determinant values must also agree with it.  Otherwise the
+report is explicitly a new complete exact computation, rather
+than an independently repeated numerical result.
+\end{proof}
+
+The independent controls in \path{audit_native_controls.py}
+compare both the existing executable and a fresh compilation with
+literal Leibniz determinants.  All 34 matrices are saved with
+their seed and outputs.  There were 28 exact returns and six
+correctly inconclusive pivot searches; every returned determinant
+agreed.  Three malformed inputs were rejected.  These controls
+test ring arithmetic and are not substitutes for large-model
+computations.
+
+\paragraph{Completeness of the coefficient space.}
+The preserved verifier reconstructs every signed-permutation
+orbit in the source and target bidegrees, checks every saved
+column against the full contraction, rejects duplicate sparse
+indices, and verifies a distinct-coordinate identity minor.
+The split-contraction argument in K17-U3-RESIDUAL-RING, followed
+by reduction at every maximal ideal and Nakayama, proves that
+these columns form the entire harmonic kernel over $B_M$.
+All six norm-two and seven norm-four frames are independently
+enumerated and compared.  Every identifying-point evaluation
+for every frame is recomputed.  Parallel completion order is
+removed by restoring the original row indices and rejecting
+missing or repeated rows.  The two additional stored points are
+not checked by this residual-ring verifier.
+
+For $k=e-1$ and $E_e=1+2^e+2^{2e}$, the matrix thus obtained is
+\[
+ S_e=E_e^2A_0-E_eB_2-B_4.
+\]
+The denominator cancellation in the carried proof identifies it
+with the evaluation matrix of
+\[
+ D_e=E_e^2I-E_e2^kS_{11}-2^{2k}\operatorname{inc}S_{21}.
+                                                        \tag{KT-H.2}
+\]
+Since $\det A_0$ is a unit, $\det S_e/\det A_0=\det D_e$.
+When $\gcd(M,336(2e-1)!)=\gcd(M,E_e)=1$, a unit value in
+(KT-H.2) proves the full two-class comparison is a unit at every
+coefficient place over every prime divisor of $M$.  The inherited
+integral conjugation involution also covers the opposite
+minuscule direction.
+
+\subsection{Completed rows and the arithmetic conclusion}
+
+Use the following exact residual integers:
+\[
+\begin{array}{c|r}
+ M_{26,1}&697446897311\\
+ M_{26,2}&1346178024590512195284390892511906772585800385915601\\
+ M_{28,1}&323026426255399\\
+ M_{28,2}&1850161514202910077636429426241454885347275557889859421603\\
+ M_{30,1}&236017358500033404991\\
+ M_{30,2}&17825126775144482230877986030193435571179905679430331.
+\end{array}                                             \tag{KT-H.3}
+\]
+
+\begin{proposition}[KT-HIGHER4-CERTIFIED]
+The full alternate-field unitary comparisons are units at every
+coefficient place above every prime divisor of the six
+integers in (KT-H.3), in their corresponding weights.
+The full classical cubic comparisons are units for all six
+integers in (KT-H.3).
+\end{proposition}
+\begin{proof}
+The completed unitary reports give the following residues;
+all displayed elements have zero $w$ coefficient:
+\[
+\begin{array}{c|c|r}
+(e,i)&\text{quantity}&\text{residue}\\\hline
+(26,1)&\det A_0&65303065346\\
+(26,1)&\det D_e&243170653113\\
+(26,2)&\det A_0&1151061946436479205314087272743639226699780220614009\\
+(26,2)&\det D_e&268141211335182978418440922413180866515460840367849\\
+(28,1)&\det A_0&222297174863416\\
+(28,1)&\det D_e&110403897672730\\
+(28,2)&\det A_0&52319251349733998033648500176324776672876486412159569342\\
+(28,2)&\det D_e&1469637909832672408423505694160941756010299985599249215332\\
+(30,1)&\det A_0&129139130004479025515\\
+(30,1)&\det D_e&166602791931417452321\\
+(30,2)&\det A_0&11603147216938395361272501808831427722560693296986105\\
+(30,2)&\det D_e&8004246273119905385907729021266082827377552171226936.
+\end{array}                                             \tag{KT-H.4}
+\]
+The full invariant source, target and kernel dimensions are
+$(5197,4465,732)$ for $e=26$, $(6942,6027,915)$ for $e=28$,
+and $(9094,7969,1125)$ for $e=30$.
+The reports recompute respectively all 732, 915 or 1125 identifying
+rows.  Both norm gcds, the denominator gcd, and the scalar-pivot
+gcd are one.  The full-model argument above proves the unitary
+assertions.  The report names are
+\path{e26_m697446897311/verify_ring_schur.json} and the
+\path{verify_ring_schur_parallel.json} reports in the other
+two corresponding case directories, together with
+\path{ktower_complete_ring.json} in the large $e=28$ case directory
+and both $e=30$ case directories.  These last three are new
+complete exact computations; no prior producer determinant is
+claimed to have been independently replayed.
+
+For
+\[
+ J_e=\det\bigl((1+2^{2e})^3I-T_2^3\mid
+                         S_{2e+1}(\Gamma_1(7))\bigr),
+\]
+the completed full classical calculations give
+\[
+\begin{array}{c|r}
+(e,i)&J_e\bmod M_{e,i}\\\hline
+(26,1)&564487428902\\
+(26,2)&540110375711722242001383842413974682809788702229075\\
+(28,1)&291047394117369\\
+(28,2)&1361695747498278489585646473526121447210917280902628497429\\
+(30,1)&106624733533355298729\\
+(30,2)&11520444014513425541585786124609238893503523917343666.
+\end{array}                                             \tag{KT-H.5}
+\]
+Their full dimensions are respectively 101, 109 and 117.
+Every residue and every inverted pivot is coprime to its modulus.
+The carried full integral cusp-model proof includes the diamond
+correction in $T_2$ and all cubic twists.  It therefore gives the
+asserted classical units.  These files are
+\path{gl2_e26_residual_certificate.json},
+\path{gl2_e28_residual_certificate.json}, and
+\path{gl2_e30_residual_certificate.json}.
+\end{proof}
+
+\begin{theorem}[KT-K52-K56-K60-VANISH]
+\label{thm:kt-k52-k56-k60-vanish}
+Under the stipulated archive-theorem convention and the carried
+arithmetic comparisons and small-prime results,
+\[
+       K_{52}(\mathbf Z)=K_{56}(\mathbf Z)=K_{60}(\mathbf Z)=0.
+\]
+\end{theorem}
+\begin{proof}
+The full initial-field $E=\mathbf Q(\sqrt{-3})$ computation at
+$e=26$, at the test primes seven and thirteen, has completed
+carried original, sparse, and integer-Faddeev replay reports.
+Their common hash is
+\path{d68b88a445f2c3726ce84aee3465c290a03e184b2eed8f521d71c010642c2515}.
+Fresh reconciliation verifies their complete data wrapper, its
+entire degree object, and its neighbor hash against the present
+support calculation.  This is a carried complete computation
+with a new hash reconciliation, not a new execution of those
+three replays.
+
+The corresponding full $e=28$ integer-Faddeev replay has also
+completed, in \path{ktower_full_replay_e28.json}.  Its report hash is
+\path{93a510c1136be190c45333eac43e62598b7b275d2bb28f8466489dbb190b4c84};
+the current data hash is
+\path{e5f4785307ebaec12f692c36e08e84cca2e9a8264204d11c5f9c879c3697df85}.
+Fresh reconciliation checks that data hash, the full degree
+object, and the common neighbor hash.  The report verifies every
+neighbor evaluation, exact characteristic polynomials, and both
+extra points for its full 105-dimensional harmonic space.
+
+The full $e=30$ integer-Faddeev replay is complete in
+\path{ktower_full_replay_e30.json}, with report hash
+\path{b1ddcc47506e3fa0613a39f83f82eb14a8bbc37a0d3960bb88bfc7f7bae8255a}
+and data hash
+\path{629d1a34dbeaae989d471f10178c4813d3b056b98530f7a9474b8fcce01d1cc0}.
+Its complete input object and neighbor hash have also been
+reconciled.  The invariant source and target dimensions are
+1057 and 932, and the entire 125-dimensional harmonic space
+passes all neighbor evaluations, exact characteristic
+polynomials, and both extra points at each test prime.
+
+Fix $e\in\{26,28,30\}$.
+The exact support certificate and its independent check prove
+that every prime at least $2^{31}$ dividing both full
+initial-field comparison integers divides $M_{e,1}$ or
+$M_{e,2}$.  Repeated exact gcd division removes the entire
+remaining integer.  The other factors are proved to have
+prime divisors below the cutoff.  No factorization or primality
+claim about either large residual integer is needed.
+
+Suppose a prime $\ell$ divides the order of $K_{2e}(\mathbf Z)$.
+The carried Rognes--Weibel input excludes $\ell=2$; the
+stipulated Vandiver verification and Kurihara equivalence
+exclude all odd $\ell<2^{31}$.  For the remaining primes the
+source datum over $\mathbf Q(\sqrt{-3})$ holds, and $\ell$ differs
+from both test primes.  The closed OneChar theorem and full
+initial-field coverage force $\ell$ into the preceding residual
+support.  Both alternate unitary comparisons and both classical
+cubic comparisons in this weight are units by
+KT-HIGHER4-CERTIFIED.  Since $\ell>2e+1$, the hypotheses of
+K17-MINUS7-GENERAL-SOURCE hold.  That theorem makes the strict
+negative Tate Selmer group zero, and VK-PT makes the same
+$\ell$-primary $K$-group zero, a contradiction.  Every primary
+part vanishes; finiteness proves the result.
+\end{proof}
+
+\paragraph{Completed-report boundary.}
+At the updated reconciliation cutoff, 16:26 UTC on
+21 November 2026, all six alternate unitary comparisons,
+all six classical comparisons, and all three initial-field
+full computations have complete reports.  The exact hashes
+and unit checks are recorded in
+\path{certificate_audit_snapshot.json}.  This reconciliation
+does not claim another execution of the large-model computations
+by the reviewer.  The earlier identifiers KT-K52-VANISH and
+KT-K52-K56-VANISH remain valid restrictions of the present theorem.
+
+\subsection{The remaining uniform problem}
+
+The source argument is uniform in $e$.  In the full proof of
+K17-MINUS7-GENERAL-SOURCE the inequality $\ell>2e+1$ is used
+only to imply $(\ell-1)\nmid2e$.  The same proof therefore works
+for every even $e\ge2$ and prime $\ell\ge5$ with $\ell\ne7$
+and $(\ell-1)\nmid2e$, provided its two full determinant-unit
+hypotheses hold.  The local slope argument imposes no additional
+inequality between $e$ and $\ell$.
+
+Let $R_e$ record the remaining prime support of the initial-field
+gcd after independently known vanishing primes are removed.
+Let $F_e$ be the full integral two-class unitary comparison over
+$\mathbf Q(\sqrt{-7})$, and let $J_e$ be the full classical cubic
+comparison.  A sufficient uniform assertion is
+\[
+               \gcd(R_e,N(F_e)J_e)=1               \tag{KT-H.6}
+\]
+in every weight, with exceptional source characters handled
+separately.  No such all-weight coprimality theorem has been
+proved here.  A failure of (KT-H.6) would identify a common
+automorphic congruence, without by itself producing a Selmer
+class.  The quartic order bound controls size in each weight
+and supplies no uniform bound on the prime support.
+
+The modular harmonic and Schur shortcuts impose two further
+\emph{computational} conditions: invertibility of the contraction
+denominators and of $E_e$.  They can be bypassed using a saturated
+integral characteristic-zero harmonic lattice and the full
+two-class determinant.  They are not intrinsic obstructions
+to the global unit criterion.
+
+\begin{lemma}[KT-SCHUR-PIVOT-SUPPORT]
+For even positive $e$, the union of the prime divisors of
+$E_e=1+2^e+2^{2e}$ is unbounded.  Every prime $\ell\ne3$
+dividing $E_e$ satisfies $(\ell-1)\nmid2e$.
+\end{lemma}
+\begin{proof}
+Given $B\ge7$, choose a positive even $e$ divisible by $p-1$
+for every prime $5\le p\le B$.  Then $E_e\equiv3\pmod p$
+for each such $p$.  It is odd and has exactly one factor three:
+if $x=2^e\equiv1\pmod3$, then $x^2+x+1\equiv3\pmod9$.
+Since $E_e>3$, it has a prime divisor greater than $B$.
+If a prime $\ell\ne3$ dividing $E_e$ also satisfied
+$(\ell-1)\mid2e$, then $x=2^e$ would satisfy $x^2=1$ and
+$x^2+x+1=0$ modulo $\ell$.  Hence $x=-2$ and $4=1$,
+forcing $\ell=3$, a contradiction.
+\end{proof}
+
+Thus a fixed small-prime cutoff alone cannot justify the scalar
+Schur pivot in every weight, even in the generic source range.
+This lemma does not assert that its pivot primes divide $R_e$;
+the unresolved global assertion remains (KT-H.6).

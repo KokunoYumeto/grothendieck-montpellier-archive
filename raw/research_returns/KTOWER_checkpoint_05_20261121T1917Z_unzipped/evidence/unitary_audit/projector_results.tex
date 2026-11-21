@@ -1,0 +1,746 @@
+\section{An integral involution projector and the remaining normal-length gate}
+\label{sec:kt-projector}
+
+This section separates a new integral conormal criterion from a
+source-located limitation of the existing point-counting argument.
+The subsequent KT-ODD-CONORMAL-SELMER-EQUIVALENCE identifies
+that conormal with the dual of the original strict Selmer
+module.  Its minor criterion is therefore an equivalent
+formulation, with no arithmetic gate reduction claimed.
+All source references use the pinned commit of KT-ONECHAR-CLOSED.
+These are mathematical proofs and source inspections; no Lean
+compilation is claimed.  The hypotheses and notation of
+KT-ADJOINT-ACTUAL-HOST-POINT are retained.  In particular $O$ is
+any finite coefficient DVR over $\mathbf Z_\ell$, $\ell>3$,
+$e\geq2$ is even, $\eta=\chi_{-3}$, $\Psi=\varepsilon_\ell^e$,
+and $(\ell-1)\nmid2e$.
+
+\subsection{Part I: what the present length proof actually detects}
+
+Write $\mathcal A_j$ for the source's torus weight spaces and
+$x:A\to O$ for its base augmentation.  The literal definitions in
+\texttt{CommutativeAlgebra/ResMapBijective.lean:245--268} are
+\[
+ \begin{split}
+ \operatorname{satSq}(x)
+   &=\{f:\text{ some }0\ne c\in O\text{ has }cf\in(\ker x)^2\},\\
+ L_{-1}&=\operatorname{im}\bigl(\mathcal A_{-1}\cap\ker x
+                     \longrightarrow A/\operatorname{satSq}(x)\bigr),\\
+ C_A&=L_{-1}/\langle F_i\bmod\operatorname{satSq}(x)\rangle_O.
+ \end{split}                                                    \tag{KP.1}
+\]
+Here $F_i$ are the negative weight-one equations.  The quantity
+\texttt{cotLen} is $\operatorname{length}_O C_A$.  Saturation
+makes the ambient lattice $L_{-1}$ torsion-free; it does not make
+its quotient $C_A$ torsion-free.  The latter integral torsion is
+precisely the quantity bounded.
+
+The following is the exact chain used in the archived proof.
+In the middle four entries, filenames are relative to
+\texttt{CommutativeAlgebra/GradedModulesLength/}.
+\begin{center}
+\begin{tabular}{p{0.34\textwidth}p{0.59\textwidth}}
+\textbf{Source locator} & \textbf{Operation relevant to the projector}\\\hline
+\texttt{UnitaryThreeGroups/ModelLower.lean:296--369,374--398}
+ & Constructs the normalized dual-number point from the strict
+ Selmer cocycle, then lifts its derivation to the ambient model.\\
+\texttt{Mprime.lean:38--80}
+ & Injects the torsion input into
+ $\operatorname{Hom}_O(C_A,O/(a))$.  It does not inject $C_A$
+ into a generic point algebra.\\
+\texttt{MainCotSpan.lean:32--70}
+ & Takes the Smith normal form of the integral linearized
+ negative equations, cuts the zero-weight variables, and invokes
+ the Rees/Euler-characteristic estimate.\\
+\texttt{ToDegInjective.lean:187--219}
+ & Introduces $F_i^2$ and $E_i^2$ in the Rees sections and the
+ auxiliary ideal $I_2$ in (KP.2).\\
+\texttt{TwoSigned.lean:17--95}
+ & Bounds localized lengths of the auxiliary quotient by
+ $2^{r+1+r'}$ times generic orbit valuations.\\
+\texttt{AlgMemCoef.lean:92--143}
+ & Compares the lower contribution
+ $2^{r+r'}\sum_i c_i$ with that upper bound, yielding the factor
+ $2$ in the final estimate.\\
+\texttt{EtHolds.lean:71--103,123--137}
+ & Detects elements by characteristic-zero points only after
+ every nonzero element of $O$ is assumed invertible.\\
+\end{tabular}
+\end{center}
+The equations $F_i,G_i,E_i,E'_i,Z_i$ have weights
+$-1,-2,1,2,0$, respectively.  The exact auxiliary ideal is
+\[
+        I_2=(F_i^2,\ G_i,\ E_i^2,\ E'_i,\ Z_i).              \tag{KP.2}
+\]
+Thus even if a chosen $F_i$ is odd under an involution,
+its square is even, and the class of $F_i$ can remain an odd
+nilpotent in the auxiliary quotient.  The localized-length
+bound explicitly allows this thickening.  The generic reduced
+orbit bound by one occurs before multiplying by the powers of
+two which account for (KP.2).
+
+More precisely, \texttt{EtHolds.et\_holds} assumes
+\texttt{\(\forall c\ne0,\) IsUnit (algebraMap O C c)}.
+Its proof constructs an algebra structure over $\operatorname{Frac}O$
+at lines 84--93 and obtains finiteness and reducedness over that
+field at lines 99--103.  This is not a flatness or reducedness
+assertion for the integral host ring.  None of the displayed
+length statements has an involution as an argument.  The audited
+chain therefore supplies no injection of the integral odd
+conormal into a torsion-free reduced trace algebra.  This is a
+limitation of the proposed refinement, not a defect in the
+stated source inequality.
+
+\begin{lemma}[KT-FIXED-GENERIC-POINTS]
+Let $B$ be a finite torsion-free $O$-algebra with reduced generic
+fiber, and let $\kappa$ be an $O$-algebra involution.  If every
+geometric generic point is fixed by $\kappa$, then $\kappa=1$ on
+$B$.  The analogous conclusion for the integral odd cotangent
+of an arbitrary augmented complete local $O$-algebra does not
+follow from its reduced generic point set.
+\end{lemma}
+\begin{proof}
+The finite reduced algebra $B\otimes_O\operatorname{Frac}O$
+is a product of finite separable fields, since the coefficient
+field has characteristic zero.  Its geometric points separate
+elements.  Hence $b-\kappa(b)$ vanishes in the generic fiber
+for every $b\in B$, and torsion-freeness gives $b=\kappa(b)$.
+
+For the second assertion let $\varpi$ be a uniformizer and, for
+any $n\geq1$, set
+\[
+ R_n=O[[u]]/(\varpi^n u,u^2),\qquad
+ x(u)=0,\qquad \kappa(u)=-u.                                \tag{KP.3}
+\]
+Give $u$ weight $-1$.  As an $O$-module,
+$R_n=O\oplus (O/\varpi^n)u$.  Its generic fiber and its maximal
+torsion-free reduced quotient are both $\operatorname{Frac}O$
+and $O$, respectively; the unique generic point is fixed.
+Nevertheless
+\[
+       (\ker x/(\ker x)^2)_{-1}^{-}
+                    =(O/\varpi^n)u                           \tag{KP.4}
+\]
+has length $n$.  The example is a counterexample to the
+generic-reduction inference alone; it is not claimed to satisfy
+all the source hypotheses \texttt{M1--M4}.
+\end{proof}
+
+Even in a flat reduced algebra, an individual fixed point
+can have nonzero integral odd cotangent when other generic
+points are present.  For example
+\[
+ R'_n=O[[u]]/(u(u^2-\varpi^{2n})),\qquad \kappa(u)=-u          \tag{KP.5}
+\]
+is finite free of rank three over $O$, and reduced.  The generic
+points $u=\varpi^n$ and $u=-\varpi^n$ are interchanged, while
+$u=0$ is fixed.  At the augmentation $u=0$ its odd cotangent is
+$O/(\varpi^{2n})$.  Indeed the only linear relation is
+$-\varpi^{2n}u$, so its length is $2n$.  Reducedness follows
+from the embedding into its reduced generic fiber, using
+torsion-freeness.  This second example distinguishes a fixed
+point from a branch with trivial integral normal conormal.
+It does not refute a possible length bound counting only
+nonfixed generic points: the two interchanged points could
+account for the length $2n$ in this example.
+
+\subsection{Part II: an involution on the actual normalized ring}
+
+Keep $J$ and $K$ from (HS.1) and (HS.4), and put
+$D=\operatorname{diag}(-1,1,-1)$.  The matrix automorphism
+\[
+ \kappa(M)=D\theta(M)D=K M^{-t}K                             \tag{KP.6}
+\]
+extends to $GG_3$ by leaving its sign component unchanged.
+It commutes with $\theta$, fixes $r_0$, and commutes with
+conjugation by $T(t)=\operatorname{diag}(t,1,t^{-1})$.
+We first verify the local condition needed to use (KP.6) on
+the source's integral functor.
+
+\begin{lemma}[KT-ORDINARY-INTEGRAL-COMPONENT]
+Under the hypotheses above and the carried local component
+theorem, the source's local quotient $U.R/I_t$ represents the
+framed ordinary functor with prescribed ordered inertial
+characters $(\varepsilon_\ell^e,1,\varepsilon_\ell^{-e})$.
+It is a power series ring in twelve variables over $O$.
+Consequently $I_t$ is stable under $\kappa$.
+\end{lemma}
+\begin{proof}
+The proof of KT-ORDINARY-ON-BASE-COMPONENT already establishes
+formal smoothness of the fixed-inertia Borel lifting functor,
+including unramified nonsplit $\eta$.  Its relative tangent
+dimension is nine, as follows.  The twisted adjoint Borel Lie
+algebra $\mathfrak b$ has dimension six and $H^2(G,\mathfrak b)=0$.
+Local Euler characteristic over $G=G_{\mathbf Q_\ell}$ gives
+$h^1(\mathfrak b)-h^0(\mathfrak b)=6$.  Therefore the framed
+cocycle space $Z^1(G,\mathfrak b)$ has dimension twelve.
+The map to $H^1(I,\mathfrak t)^{G/I}$ is onto by the proof of
+(HS.8).  Since $\dim\mathfrak t=3$, $H^2(G,\mathfrak t)=0$,
+and $\dim H^1(G/I,\mathfrak t)=h^0(\mathfrak t)$, the latter
+space has dimension three.  Prescribing inertia leaves nine
+parameters.  In the nonsplit case $h^0(\mathfrak t)=1$, whereas
+in the split case it is three; the cancellation just used works
+in both cases.  Thus $R_B\simeq O[[z_1,\ldots,z_9]]$.
+
+Choose an inertia element $\tau$ for which the three residual
+eigenvalues $\bar\Psi(\tau),1,\bar\Psi(\tau)^{-1}$ are distinct;
+the stated GD condition ensures such an element.  The
+characteristic polynomial of the unrestricted universal
+matrix $r(\tau)$ has three simple residual roots.  Hensel
+factorization in the unrestricted complete local ring itself
+therefore gives three ordered roots and their spectral
+idempotents.  The resulting ordered eigenflag lies in the big
+cell around the standard flag.  For an ordinary lift it is the
+unique invariant flag in that neighborhood: an invariant flag
+is stable under $r(\tau)$ and its residual ordering specifies
+which spectral lines it contains.
+
+The big cell is uniquely parametrized by a lower unipotent
+matrix congruent to one, with three coordinates.  Consequently
+every framed ordinary lift is uniquely a conjugate of a Borel
+lift by such a matrix.  This gives a representing ring
+\[
+              R_{\rm ord}=R_B[[z_{10},z_{11},z_{12}]].        \tag{KP.7}
+\]
+It also shows that this is a closed subfunctor of the
+unrestricted framed functor.  Indeed use its canonical Hensel
+eigenflag, require every $r(g)$ to preserve it, and require the
+three diagonal inertia characters to have the prescribed
+values.  These are closed matrix equations in the universal
+ring.  For the sign $-1$ action, preservation means preservation
+under the semidirect action on flags; conjugation into
+$B\rtimes\{\pm1\}$ is the same condition because $\theta$
+preserves the upper Borel.  Thus $U.R\to R_{\rm ord}$ is
+surjective, with prime kernel $P$.
+
+KT-ORDINARY-ON-BASE-COMPONENT gives $I_t\subset P$.  The carried
+theorem \texttt{component\_basic} states that $I_t$ is prime and
+$\dim U.R/I_t=13$; see
+\texttt{OrdinaryComponentUniquePrimeDimThirteenNearBase.lean:11--35}.
+Equation (KP.7) gives $\dim U.R/P=13$.  A strict inclusion of
+these primes would append one more prime to a chain of length
+thirteen in $U.R/P$, a contradiction.  Hence $P=I_t$.
+
+Finally $\kappa$ preserves $B$, reverses and inverts its three
+diagonal characters, and therefore preserves their prescribed
+ordered list.  It carries a congruent conjugating matrix to
+another such matrix.  It thus preserves the represented
+ordinary functor, proving the asserted stability of $I_t$.
+\end{proof}
+
+\begin{lemma}[KT-EQUIVARIANT-MARKED-SLICE]
+The actual source ring
+\[
+ S=\operatorname{Univ}\bigl(\operatorname{NormCond}(c,g_1)
+                        (\operatorname{BoxCond}(\mathrm{Kill},I_t))\bigr)
+\]
+admits an $O$-algebra involution $\kappa_S$, commuting with the
+source torus action and fixing its base augmentation.  On
+unmarked representations it is (KP.6); on the marked slice it
+is this operation followed by a functorial normalization.
+The ordinary adjoint points constructed above admit
+$\kappa_S$-fixed representatives.  On the rational strict
+Selmer dual-number directions, $\kappa_S$ acts by $-1$.
+\end{lemma}
+\begin{proof}
+The local lemma, $\kappa(r_0)=r_0$, and $\kappa(1)=1$ show that
+the unnormalized box conditions are stable.  Congruent
+conjugation preserves them by the source's local conjugacy
+theorem and the definition of the killed subgroup.
+
+It remains to treat the actual marking, rather than assume
+that its linearization suffices.  Work first with
+$r(c).\mathrm{mat}=1$, as in the source's normalized functor,
+and set $M=r(g_1).\mathrm{mat}$.  Since $\eta(g_1)=1$, the two
+remaining marking equations are
+\[
+ Z_1(M)=M_{12}-M_{23}=0,\qquad
+ Z_2(M)=M_{21}-M_{32}=0.                                    \tag{KP.8}
+\]
+This is the literal marking after
+\texttt{MatGstar} and \texttt{NormEx.anti\_shape}; indices here
+are one-based.  Define genuinely odd functions
+\[
+           F_i(M)=\frac{Z_i(M)-Z_i(\kappa M)}2.              \tag{KP.9}
+\]
+They have torus weights $1$ and $-1$ and satisfy
+$F_i(\kappa M)=-F_i(M)$.
+
+Put $X=E_{12}-E_{23}$, $Y=E_{21}-E_{32}$, and use the Cayley
+cross-section
+\[
+ W=xX+yY,\qquad
+ H(x,y)=(1-W/2)^{-1}(1+W/2),\qquad x,y\in\mathfrak m_R.
+                                                                  \tag{KP.10}
+\]
+Both $X$ and $Y$ lie in $\mathfrak{so}(J)$.
+Consequently $H J H^t=J$, so conjugation by $H$ preserves
+$r(c).\mathrm{mat}=1$.  The cross-section has the identities
+\[
+ \begin{split}
+ H(x,y)^{-1}&=H(-x,-y),\\
+ \kappa H(x,y)&=H(-x,-y),\\
+ T(t)H(x,y)T(t)^{-1}&=H(tx,t^{-1}y).
+ \end{split}                                                    \tag{KP.11}
+\]
+The first identity, in particular, stays within the same
+cross-section; an arbitrary ordered product of root groups
+would not have this property.
+
+At $M_0=\operatorname{diag}(q,1,q^{-1})$, the Jacobian in
+$(x,y)$ of either pair
+$Z_i(HMH^{-1})$ or $F_i(HMH^{-1})$ is
+\[
+               \begin{pmatrix}q^{-1}-q&0\\0&q-q^{-1}\end{pmatrix}.
+                                                                  \tag{KP.12}
+\]
+For $Z$ this follows by differentiating $[xX+yY,M_0]$.
+For $F$ the same derivative follows because these gauge
+directions are $\kappa$-odd and $M_0$ is fixed.  The residual
+value $q=\bar\Psi(g_1)$ satisfies $q^2-1\in k(O)^\times$
+by \texttt{D.Marked(g1)}.  Thus the formal implicit function
+theorem gives a unique $(x,y)\in\mathfrak m_R^2$ making either
+pair of marking functions zero.  Equivalently one may solve
+successively modulo every power of $\mathfrak m_R$ using the
+unit Jacobian, and take the unique limit.  This also proves
+functoriality in every complete coefficient algebra.
+
+Let $N_F$ send the old $Z$-slice to the new $F$-slice using
+this gauge, and let $N_Z$ send the new slice to the old.
+They are mutual inverses: if $r'=H\cdot r$, then
+$H^{-1}=H(-x,-y)$ is a gauge in the same cross-section taking
+$r'$ back to its required old marking; uniqueness forces it
+to be the inverse normalization.  The same argument applies
+in the other direction.  Formula (KP.11) and uniqueness show
+that $N_F$ is torus-equivariant, and that the $F$-normalization
+on the $c$-normalized functor is $\kappa$-equivariant.
+Transport the genuine involution of the $F$-slice through
+$N_Z\circ\kappa\circ N_F$.  This proves the functorial
+involution on the old slice, and representability gives
+$\kappa_S$.  The base lift needs no gauge, so its augmentation
+is fixed.
+
+The original global adjoint lift in (HS.14) is literally fixed by
+(KP.6): its matrices are $A(g)D^{j(g)}$, where $A(g)$
+preserves $K$, and both $A(g)$ and $D$ are fixed by $\kappa$.
+Its matrix at $c$ is already one.  The local conjugation in
+(HS.15) was used to verify its ordinary local property;
+we do not replace the global representative by that locally
+conjugated one.  The original lift is therefore on the
+$F$-slice.  Applying $N_Z$ gives a $\kappa_S$-fixed point on
+the actual old slice, with all the host conditions unchanged.
+
+Finally the source's rational strict Selmer cocycles have
+the literal shape $\gamma(g)=t(g)(E_{21}-E_{32})$ and satisfy
+$t(c)=t(g_1)=0$; see
+\texttt{ShaInjGen.lean:101--129,153--187,216--288}.
+The differential of $\kappa$ is $X\mapsto-KX^tK$, which sends
+$E_{21}-E_{32}$ to its negative.  The corresponding
+dual-number lift has $M=M_0$ exactly, so both marking gauges
+are one.  The transported involution therefore sends its
+derivation to its negative, as claimed.
+\end{proof}
+
+\subsection{The exact unsquared conormal inequality}
+
+Let $x_0:S\to O$ denote the base augmentation, put
+$J_0=\ker x_0$, and write
+\[
+       C^-_{-1}=\bigl(J_0/J_0^2\bigr)_{\text{weight }-1}^{\kappa_S=-1}.
+                                                                  \tag{KP.13}
+\]
+Unlike (KP.1), this is the ordinary integral cotangent of the
+actual ring.  No saturation or reduced quotient is taken.
+It is a finite $O$-module, although finite \emph{length} is an
+additional assertion when needed below.  The finite module
+decomposes by torus weights and by the two idempotents
+$(1\pm\kappa_S)/2$.
+
+\begin{theorem}[KT-ODD-CONORMAL-GATE]
+For every $0\ne b\in O$, the rational strict Selmer torsion
+chunk $\mathcal X[b]$ used in \texttt{sha\_inj} injects into
+\[
+               \operatorname{Hom}_O(C^-_{-1},O/(b)).         \tag{KP.14}
+\]
+Here $\mathcal X$ is exactly the rational strict Selmer module
+for the character $(\Psi)^{-1}$ in the source's convention.
+In particular, if $C^-_{-1}$ has finite length, then
+\[
+           \operatorname{length}_O\mathcal X
+                   \leq\operatorname{length}_O C^-_{-1}.    \tag{KP.15}
+\]
+Choose a finite torus- and involution-equivariant presentation
+of $S$ over $O$.  Let $u_1,\ldots,u_n$ be its odd variables of
+weight $-1$, and let $f_1,\ldots,f_m$ be its odd defining
+equations of weight $-1$.  Write
+\[
+ f_j=\sum_{i=1}^n b_{ij}u_i+\text{terms of degree at least two},
+       \qquad B_-=(b_{ij})\in M_{n\times m}(O).              \tag{KP.16}
+\]
+Then $C^-_{-1}=\operatorname{coker} B_-$.  If $\Delta$ is any
+nonzero $n$-rowed minor, then
+\[
+       \operatorname{length}_O\mathcal X
+                  \leq\operatorname{length}_O C^-_{-1}
+                  \leq v_O(\Delta).                         \tag{KP.17}
+\]
+A unit maximal minor therefore proves vanishing.  If the
+matrix has full rank, the best bound in (KP.17) is exactly
+the valuation of its maximal-minor ideal.  For $n=0$ the
+empty minor is one and the module is zero.
+\end{theorem}
+\begin{proof}
+The explicit proof of \texttt{ShaInjGen} gives an injective
+map from $\mathcal X[b]$ to the normalized cocycles just used.
+Although the abstract \texttt{sha\_inj} statement permits an
+annihilator $a$, its proof takes $a=b$; see
+\texttt{ShaInj.lean:29--38}.  The construction
+\texttt{ModelLower.main\_der} gives, before passing to the
+ambient model, a derivation
+$D:S\to O/(b)$ at $x_0$ with
+\[
+ D\bigl(r(g)_{ij}\bigr)=\Psi(g)^{\mathrm{wt}_1(j)}\gamma(g)_{ij}.
+                                                                  \tag{KP.18}
+\]
+The unit factor in (KP.18) and the injectivity of the cocycle
+map make the map to derivations injective.  Equivalently, two
+derivations agreeing on all universal matrix entries agree
+by uniqueness of the representing dual-number lift.  Each
+derivation factors through $J_0/J_0^2$.  The cocycle has only
+weight $-1$, so torus-equivariance, or (KP.18) applied to
+torus conjugates, makes it zero on every other weight.
+KT-EQUIVARIANT-MARKED-SLICE gives $D\circ\kappa_S=-D$.
+Since two is a unit, it is zero on the even summand.  This
+proves (KP.14).  The construction is additive; no unproved
+compatibility with the saturated ambient quotient is used.
+
+For a finite-length $O$-module $C$, the elementary divisor
+decomposition shows
+\[
+\operatorname{length}_O\operatorname{Hom}_O(C,O/(b))
+\leq\operatorname{length}_O C.
+\]
+The finite residue field
+converts the injection into the same length inequality for
+each torsion chunk, even if only its additive injectivity is
+used.  The source's $\mathcal X$ is torsion, as in
+\texttt{VlenLe.lean:13--42}; taking the increasing union of
+its bounded torsion chunks proves (KP.15).
+
+For completeness, an equivariant finite presentation is
+obtained by choosing weight and involution eigenvectors in
+$J_0/(J_0^2+\mathfrak m_OJ_0)$, lifting them to $J_0$, and
+using the corresponding power series variables.  The torus
+is diagonalizable and two is invertible, so the lifts can be
+projected to the specified weight and sign.  The resulting
+map from a finite power series ring is onto by complete
+Nakayama.  Its ideal is closed and finitely generated;
+apply the same weight/sign projections and Nakayama to
+choose finitely many homogeneous eigen-equations.  The
+formal torus action here is the one induced by the entry
+weights; the Cayley change of slice is equivariant for it.
+
+Modulo the square of the augmentation ideal, an equation
+can affect the odd weight $-1$ variables only if it has that
+same weight and sign.  Thus (KP.16) is exactly a presentation
+of (KP.13).  Selecting a nonzero maximal minor gives a
+square full-rank relation submatrix; its cokernel surjects
+onto $\operatorname{coker}B_-$.  Smith normal form proves
+the bound by $v_O(\Delta)$ and the equality for the
+maximal-minor ideal.
+\end{proof}
+
+This is an exact integral conormal criterion, but no
+matrix $B_-$ or unit minor has been evaluated in this run.
+KT-ODD-CONORMAL-SELMER-EQUIVALENCE further proves that
+it is equivalent to the original strict Selmer vanishing
+problem.  In particular (KP.17) deletes no automorphic
+branch from the existing trace-product bound and is not
+counted as a stricter arithmetic gate.
+
+\subsection{Unsquared normal equations along the adjoint branch}
+
+The following exact algebra describes what a proposed
+replacement by an arithmetic Jacobian would have to measure.
+For any augmented ring with an involution as above, let
+\[
+ Q=(s-\kappa_S(s):s\in S),\quad B=S/Q,\quad N=Q/Q^2.         \tag{KP.19}
+\]
+Thus $B$ is the fixed-locus quotient, and $N$ its integral
+normal conormal.  The involution is the identity on $B$
+and is minus the identity on $N$.
+
+\begin{lemma}[KT-UNSQUARED-NORMAL-JACOBIAN]
+There is a canonical isomorphism
+\[
+       (J_0/J_0^2)^-\simeq N\otimes_{B,x_0}O.               \tag{KP.20}
+\]
+For an equivariant presentation
+$S=O[[v_1,\ldots,v_a,u_1,\ldots,u_b]]/(f^+_j,f^-_j)$,
+where $v$ is even and $u$ is odd, the $B$-module $N$ has the
+presentation
+\[
+ B^{\{f^-_j\}}\xrightarrow{\,\mathcal J^-\,}B^b
+              \longrightarrow N\longrightarrow0,
+ \qquad
+ \mathcal J^-_{ij}=\left.\frac{\partial f^-_j}{\partial u_i}\right|_{u=0}.
+                                                                  \tag{KP.21}
+\]
+Consequently, at any integral fixed point
+$\xi:B\to O_\xi$ with $O_\xi$ a finite coefficient DVR,
+if $\mathcal J^-(\xi)$ has full row rank over its fraction
+field, then
+\[
+ \operatorname{length}_{O_\xi}(N\otimes_{B,\xi}O_\xi)
+       =v_{O_\xi}\!\left(\operatorname{Fitt}_0
+                  (N\otimes_{B,\xi}O_\xi)\right)
+       \leq v_{O_\xi}(\Delta_\xi)                            \tag{KP.22}
+\]
+for every nonzero maximal minor $\Delta_\xi$ of the evaluated
+unsquared matrix.  The ideal in (KP.22) is independent of
+the chosen presentation.
+\end{lemma}
+\begin{proof}
+Write $J_0=J_0^+\oplus J_0^-$.  Commutativity and the two
+projectors give
+\[
+              (J_0^2)^-=J_0^+J_0^- .                        \tag{KP.23}
+\]
+The ideal $Q$ is generated by $J_0^-$, its odd part is
+$J_0^-$, and its even part consists of sums of products of
+two odd elements, hence lies in $Q^2$.  Therefore $N$ is
+entirely odd.  Also
+$Q\cap J_0^2=J_0Q$: its odd part is (KP.23), and its even
+part is contained in $Q^2\subset J_0Q$.  It follows that
+\[
+ Q/Q^2\otimes_B O=Q/J_0Q
+       \simeq\operatorname{im}(Q\to J_0/J_0^2)
+       =(J_0/J_0^2)^-,
+\]
+proving (KP.20).  This is an integral identity, not a
+comparison with the reduced generic fixed locus.
+
+In the displayed presentation, $Q$ is generated by the
+classes of the $u_i$.  An even equation has no term linear
+in the odd variables.  An odd equation, modulo $(u)^2$,
+is exactly the column in (KP.21).  The even equations
+specialized at $u=0$ define $B$.  These observations give
+the right-exact presentation (KP.21), including all its
+relations; multiples of the even equations vanish in $B$
+and add none.  Base change to $O_\xi$ is right exact, and
+Smith normal form proves (KP.22).  Presentation independence
+is the defining invariance of the zeroth Fitting ideal.
+\end{proof}
+
+At an actual adjoint point, the coefficient module underlying
+these odd normal cocycles has a particularly precise form.
+Use left multiplicative cocycles
+$r_\epsilon(g)=(1+\epsilon\gamma(g))r(g)$, exactly as in
+\texttt{IsDeform}; thus their coefficient representation is
+$\operatorname{ad}_{GG}r$, not its Tate dual.
+
+\begin{lemma}[KT-ADJOINT-ODD-NORMAL-MODULE]
+Let $\rho$ be the two-dimensional representation used in the
+adjoint lift of KT-ADJOINT-ACTUAL-HOST-POINT, over a
+characteristic-zero coefficient field.  For that literal
+$\kappa$-fixed lift, the even and odd summands of
+$\mathfrak{gl}_3$ as $G_{\mathbf Q}$-modules are
+\[
+ \begin{split}
+   (\mathfrak{gl}_3)^+&\simeq\operatorname{Ad}^0\rho,\\
+   (\mathfrak{gl}_3)^-&\simeq
+       \eta\otimes\left(\mathbf1\oplus
+                    \operatorname{Sym}^4\rho\otimes(\det\rho)^{-2}\right).
+ \end{split}                                                     \tag{KP.24}
+\]
+Replacing $\rho$ by its dual leaves the normalized symmetric
+fourth in this formula unchanged.
+\end{lemma}
+\begin{proof}
+The differential of $\kappa$ is $X\mapsto-KX^tK$.
+Its even space is $\mathfrak{so}(K)$ of dimension three,
+and its odd space is the $K$-self-adjoint space of dimension
+six.  Put $V=\operatorname{Ad}^0\rho$.  The invariant trace
+form identifies $V$ with $V^*$, and the elementary
+$\mathrm{GL}_2$ decomposition is
+\[
+ \bigwedge^2 V\simeq V,\qquad
+ \operatorname{Sym}^2 V\simeq\mathbf1\oplus
+                      \operatorname{Sym}^4\rho(\det\rho)^{-2}.
+                                                                  \tag{KP.25}
+\]
+One way to verify the second identity is to write
+$V=\operatorname{Sym}^2\rho\otimes(\det\rho)^{-1}$.
+Multiplication of binary quadratics gives the surjection
+$\operatorname{Sym}^2(\operatorname{Sym}^2\rho)
+\to\operatorname{Sym}^4\rho$; its one-dimensional kernel is
+$(\det\rho)^2$.  Over characteristic zero this sequence
+splits.  The alternating identity follows from the
+invariant volume and trace form of the determinant-one
+three-dimensional representation.
+
+The actual GG matrix is $A(g)D^{j(g)}$, with
+$\eta(g)=(-1)^{j(g)}$ and $A(g)=\operatorname{Ad}^0\rho(g)$.
+For $j(g)=1$ its action on the Lie algebra is
+\[
+   X\longmapsto A(g)D\theta_{\rm Lie}(X)D A(g)^{-1}
+              =A(g)\kappa_{\rm Lie}(X)A(g)^{-1}.             \tag{KP.26}
+\]
+For $j(g)=0$ it is ordinary conjugation by $A(g)$.  Thus
+the sign $\eta$ occurs on precisely the odd summand of
+(KP.25), proving (KP.24).  Finally
+$\rho^*\simeq\rho\otimes(\det\rho)^{-1}$ implies
+\[
+ \operatorname{Sym}^4(\rho^*)\otimes\det(\rho^*)^{-2}
+       \simeq\operatorname{Sym}^4\rho\otimes(\det\rho)^{-2}.
+\]
+No Tate twist is introduced here.  A later use of local or
+global duality would have to dualize and Tate-twist the
+coefficient module separately.
+\end{proof}
+
+At a fixed two-sided point the carried characteristic-zero
+rigidity statement \texttt{M4} leaves only the torus tangent.
+That tangent is nonzero (some nonzero-weight function is
+nonzero at the point) and is even because the point is fixed
+and $\kappa_S$ commutes with the torus.  Hence every odd
+normal tangent is zero.  Here the passage from the actual
+ring to the finite graded model can be made explicitly.
+A functional on $N\otimes_{B,\xi}\operatorname{Frac}O_\xi$
+gives the odd derivation
+$D(s)=\phi((s-\kappa_S(s))/2\bmod Q^2)$.
+Since $N$ is a finite $B$-module and $\xi(B)\subset O_\xi$,
+the values of $D$ are bounded in the fraction field.
+After multiplication by some nonzero $c\in O$, the map
+$f+\epsilon cD$ takes values in the complete coefficient
+order
+\[
+ (O+\mathfrak m_{O_\xi})\oplus
+                  \epsilon\mathfrak m_{O_\xi},\qquad\epsilon^2=0.
+                                                                  \tag{KP.27}
+\]
+This order has the same residue field as $O$ and is
+\texttt{IsCO}, by the same finite-order argument as in
+KT-ADJOINT-ACTUAL-HOST-POINT.  If the restriction of $D$
+to the model is zero, its value on every universal matrix
+entry is zero.  Uniqueness in \texttt{S.rep}, applied to
+(KP.27), makes the two homomorphisms $f+\epsilon cD$ and
+$f$ equal; hence $D=0$.  The torus derivative is bounded
+as well, by its functorial action over (KP.27).  Restrictions
+therefore preserve linear independence between an odd
+normal tangent and the even torus tangent, so \texttt{M4}
+indeed excludes the former.  This avoids any assertion
+about unrestricted algebraic differentials of a completed
+power series ring.
+
+It follows that (KP.21) has full generic row rank at such
+a point, so (KP.22) is a finite local normal-length
+invariant.  It does not make that invariant a unit:
+characteristic-zero rigidity says only that the
+corresponding integral normal module is torsion.
+
+\paragraph{Precisely what remains for a branchwise replacement.}
+The base inequality (KP.17) and the branch inequalities
+(KP.22) are proved separately.  To replace an adjoint
+trace-difference factor in the current global bound by
+\emph{branchwise} normal Jacobian values, one still needs
+an integral comparison bounding
+$\operatorname{length}_O C^-_{-1}$ by those normal modules,
+with appropriate residue degrees, ramification normalizations,
+and a term controlling any vertical or embedded contribution.
+The existing squared Rees construction (KP.2) does not give
+that comparison.  A passage to the finite flat reduced
+trace algebra does not give it either, by (KP.3)--(KP.4).
+The exact missing assertion can also be stated as a kernel
+condition: if a quotient $q:S\to S^{\rm flat,red}$ has trivial
+involution, the image of the odd part of $\ker q$ in
+$(J_0/J_0^2)_{-1}$ must be proved zero before that quotient
+can discard the relevant Selmer conormal.  Point detection
+alone proves no such containment in $J_0^2$.
+
+The following conditional transfer makes the desired
+numerical comparison concrete.  Its extra hypotheses are
+not being asserted for the archived deformation model.
+
+\begin{lemma}[KT-NORMAL-FLAT-TRANSFER, conditional criterion]
+Let $B_0$ be a finite flat $O$-algebra whose generic fiber
+is a product of fields $K_1,\ldots,K_s$.  Let $L$ be a
+finite $B_0$-module equipped with a surjective $O$-linear map
+$L\twoheadrightarrow C^-_{-1}$.  Suppose
+\[
+            B_0^m\xrightarrow{\mathcal J} B_0^n
+                       \longrightarrow L\longrightarrow0
+                                                                  \tag{KP.28}
+\]
+is a presentation, and $H$ is any $n$ by $n$ matrix obtained
+by $B_0$-linear combinations of its relation columns such
+that $\det H$ is nonzero in every $K_i$.  Let $O_i$ be the
+integral closure of $O$ in $K_i$, let
+$f_i=[k(O_i):k(O)]$, and let $H_i$ be the image of $H$ in
+$M_n(O_i)$.  Then
+\[
+ \operatorname{length}_O\mathcal X
+ \leq \operatorname{length}_O C^-_{-1}
+ \leq \operatorname{length}_O L
+ \leq v_O\!\left(\operatorname{Norm}_{B_0/O}(\det H)\right)
+ =\sum_{i=1}^s f_i\,v_{O_i}(\det H_i).                      \tag{KP.29}
+\]
+In particular this replaces a trace comparison by normal
+relation determinants whenever the stated integral
+comparison is supplied.  Full row rank of $\mathcal J$
+over every $K_i$ suffices for the existence of such an $H$.
+\end{lemma}
+\begin{proof}
+The image of $H$ is contained in the image of
+$\mathcal J$, so $\operatorname{coker}H$ surjects onto $L$.
+Since $O$ is local, $B_0$ is finite free as an $O$-module.
+After restricting scalars, $H$ is a square matrix over $O$
+which is invertible over its fraction field.  Smith normal
+form gives
+\[
+ \operatorname{length}_O\operatorname{coker}H
+     =v_O(\det_O H)
+     =v_O\!\left(\operatorname{Norm}_{B_0/O}(\det_{B_0}H)\right).
+\]
+The last equality can be checked after tensoring with the
+fraction field and decomposing into the $K_i$; determinants
+on a field extension restrict to field norms.  The usual
+valuation of a field norm is $f_i$ times the normalized
+valuation in $O_i$.  This proves the last equality of
+(KP.29), and the quotient maps prove the two intermediate
+inequalities.  Finite length now permits applying
+KT-ODD-CONORMAL-GATE for the first one.
+
+For the final assertion take $H=\mathcal J P$ with an
+$m$ by $n$ matrix $P$ of indeterminates.  Full row rank in
+$K_i$ makes $\det(\mathcal J_iP)$ a nonzero polynomial
+for every $i$.  A finite union of their zero loci cannot
+contain all matrices over the infinite field
+$\operatorname{Frac}O$; equivalently expand coefficients
+in bases of the finite extensions.  Choosing such a
+matrix and clearing denominators supplies $P$ over $O$,
+and hence the required $H$.
+\end{proof}
+
+For the actual application the full fixed-locus ring $B$
+in (KP.19) retains torus directions and is not the finite
+algebra required in this lemma.  One must descend the
+relevant normal module to an appropriate finite
+weight-zero algebra and control its integral torsion
+before taking a flat reduced quotient.  A presentation
+over that algebra, the surjection onto the base conormal,
+and full generic rank on every retained component are
+substantive hypotheses.  They are not consequences of
+having a finite set of reduced automorphic isotypes.
+
+Formula (KP.24) identifies the candidate arithmetic normal
+deformation problem: the $\eta$-twisted normalized symmetric
+fourth, together with the $\eta$ scalar line and the actual
+ordinary/away-prime conditions.  An equality of its integral
+Fitting ideal with an automorphic congruence ideal or a
+special $L$-value would be an additional theorem.  None is
+asserted here.  The present structural results are the
+actual integral projector, its unsquared conormal presentation,
+and the precise duality with the original strict Selmer
+module.  No all-weight vanishing or removal of the adjoint
+source family has been inferred from them.
