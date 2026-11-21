@@ -149,6 +149,12 @@ conjugation on K.
 
   δ_W(A) ≤ c_t(A) ≤ C_{n,a}(δ, T)·δ_W(A)⁴,  C_{n,a}(δ,T) = δ·Nm^{2n}·max( R⁴/(n!)⁴, 4√T·κ·R³/(n!)³ ).
 
+[Sharp form (added 21 Nov 2026 after the intake of HODGE_DIVISION; the sharpening is the run's, HD-WQ, GPT-6 Astra
+(ChatGPT Pro mode), confirmed and rederived in the intake): δ_W ≤ c_t ≤ C′·δ_W². On W, A = [a]^* satisfies
+A + A^† = s := a^{2n} + ā^{2n} and A^†A = q² := Nm(a)^{2n}, so the Gram matrix is exactly d·[[1, s/2], [s/2, q²]] and only
+the factor Hd (H = 4q² − s²) needs clearing, not det G ~ d². Then N ≤ δH(RD/n!)² and the degrees are ≤ 4δq√(HT)·κRD²/n!.
+The statement above stays true; it is not sharp.]
+
 **Proof.**
 1. **The projector.** T_a := [a]^* acts on H^{2n}(A,C) = ⊕_j ∧^jV_a ⊗ ∧^{2n−j}V_ā by λ_j = a^j ā^{2n−j}.
    - V_a and V_ā are the eigenspaces of a on H¹, each of dimension 2n.
@@ -395,7 +401,10 @@ Proposition O.** It is the next attack.
   the (±i)-part of the Prym.
 - An explicit D₀(Q(i)) follows from the same Bézout scheme as GHOSTS R12, once the polarization type of Θ|_B is fixed:
   - deg_{3Θ} W₄(C) = 3⁴·9!/5!;
-  - deg_{3Θ} T₀ = 3⁴·4!·(product of the elementary divisors of Θ|_B);
+  - deg_{3Θ} T₀ = 3⁴·4!·(product of the elementary divisors of Θ|_B); [superseded (21 Nov 2026, after the intake of
+    HODGE_DIVISION, HD-G03, confirmed): this is a 4-dimensional degree and is wrong for T₀. The norm fibre T₀ is a finite
+    union of translates of the 6-dimensional N, of type (1,1,1,1,4,4) (Lange–Ortega, arXiv 0805.1020, §4), degree
+    8,398,080, as §5 (Q1-03) already uses.]
   - (1 − σ²)^*Θ ≤ 4Θ on B, since (1 − σ²)^†(1 − σ²) = 2(1 − σ²) has eigenvalues 0 and 4.
 - The one missing number is the type of Θ|_B. Its kernel has order 2⁸ by complementarity with the pulled-back
   J(C/σ²). Whether it is (2,2,2,2) is the computation to finish. **Not claimed here.**
@@ -495,6 +504,10 @@ Let h(x,y) = M(ix, y) + i·M(x, y) on Λ_B = H₁(B,Z). It is a unimodular hermi
    the balanced action and the product polarization: h(e₁,e₁) = 1).
    - Schoen's Prym family can bound δ_W only on the even component.
    - The odd component, which contains E_i⁴, needs another source, or a compensation step (GHOSTS R20–R24 style).
+   - [Closed (21 Nov 2026, after the intake of HODGE_DIVISION, HD-G06, confirmed): the even lattice is U⊕U, the odd one
+     I_{2,2}; S^*I_{1,1}S = 2U and S^*US = 2I_{1,1} with S = [[1,1],[1,−1]], so a degree-2⁴ isogeny carries the even type to
+     the odd type, pulling the target polarization back to 2ξ. A detecting surface pushes forward with degree ≤ 4·D_Pr, so
+     δ_W ≤ D_all = 4·914,248,581,120 = 3,656,994,324,480 on both components.]
 
 ### Q1-03: D₀(Q(i)) = 914,248,581,120 on the even component, given Schoen's S-a and S-b. Proved here modulo those.
 
@@ -534,7 +547,10 @@ Let h(x,y) = M(ix, y) + i·M(x, y) on Λ_B = H₁(B,Z). It is a unimodular hermi
     - On T₀, P = [4]∘φ + const, because Σσ^t is constant on the norm fibre. Since [4]^*w′ = 4⁴w′, we get
       ∫_{φ(Ξ(Y_j))} w′ ≠ 0. So Z := φ(Ξ(Y_j)) is a 2-dimensional detector, and Ξ(Y_j) is a component of W₄(C) ∩ T₀, as
       used above.
-- **S-b: not in the 1988 text; proved here instead, modulo one lattice fact.**
+- **S-b: not in the 1988 text; proved here instead, modulo one lattice fact.** [Published by van Geemen 1996, *Theta
+  functions and cycles on some abelian fourfolds*, Math. Z. 221 (1996) 617–632, Theorem 5.3(3), pp. 629-630; the proof in
+  §5 is a second route. (Added 21 Nov 2026 after the intake of HODGE_DIVISION, HD-G02, with the main session's check of the
+  locator against the GDZ scan, `recent_results_20261110\papers\hodge_sources_20261121\vanGeemen_1996_MathZ221_617-632_GDZ\`.)]
   - **What 1988 says.** p. 26 counts moduli and lists (h, m) = (4,4), our case, among the four pairs where the method
     "has a chance". The dimension condition is 6 = (3/2)h ≥ (φ(m)/2)(h/2)² = 4. **Theorem 3.2 (p. 26) proves only
     (4, 3), K = Q(μ₃).** The (4, 4) dominance is not proved in 1988.
@@ -594,7 +610,9 @@ degree ≤ 4, because the units of Z[i] are μ₄.
    **C₄(Q(i)) = δ·D₀(Q(i))⁴·max(2,359,296, 6,553,600·√T)**, with D₀(Q(i))⁴ ≈ 6.99·10⁴⁷.
 
 **Status.** Q1-01, Q1-02 and Q1-04 are proved. Q1-03 is proved given S-a and S-b; **the gate is reading Schoen 1988 (the
-Q(i) case) and the 1998 Addendum.** The odd component needs its own source.
+Q(i) case) and the 1998 Addendum.** The odd component needs its own source. [21 Nov 2026, after the intake of
+HODGE_DIVISION: the odd component is reached by the degree-16 isogeny of HD-G06 (Q1-02 above), and S-b is van Geemen 1996,
+Th. 5.3(3).]
 
 **In the project's terms.** The evenness of the hermitian lattice is an integral invariant that a rational Hodge-theoretic
 argument cannot see. It is the integral refinement the "(sur Z !)" of cote 16, scan 014 points to.

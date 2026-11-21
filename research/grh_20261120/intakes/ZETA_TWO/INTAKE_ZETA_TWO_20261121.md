@@ -105,7 +105,10 @@ constants). Refuted: 0. The transcription note: reclassified as an edit to our b
 - **Masullo's draft, located defects** (added 21 Nov 2026 after the intakes of GRH_NIGHT and TRACE_DET, Claude Opus 5.5
   at effort high): gaps at §9.3.2 (pp. 425-426: MT-M01, MT-M02, MT-M05), §11.3 (p. 495, F-SM-19, repaired), §12.3-§12.4
   (the intertwiner, ALPOGE_BRIDGES), (10.3.2.4) p. 454 off by one at odd s (MAS-BOUND), and Theorem 13.3.1.2 (p. 522)
-  blank. Every "conditional on M" above carries this note.
+  blank. Every "conditional on M" above carries this note. [Also: Theorem 11.1.2.1(2), p. 480, cutoff strictness fails
+  (GRH_NIGHT MT-M34, core lemma checked against the PDF); (11.3.2.2), p. 495, found independently as MT-M36 (confirmed).
+  The decisive open point is the geometric trace identity on narrow strips (Q-MAS-GEOMETRIC-NARROW = R-MAS-KERNEL); nothing
+  found refutes M. (corrected 21 Nov 2026 after the intake of GRH_NIGHT part 3, Claude Opus 5.5 at effort high)]
 - **A fourth input class** (added 21 Nov 2026 after the intake of ALPOGE_BRIDGES part 3, Claude Opus 5.5 at effort high):
   cited 2026 preprints, unverified by us (van Hoften-Sempliner, Hexagon 2610.00259v2, Thm I; Madapusi, Hexagon
   2610.00226v1, Thm 1.1, Cor 6.2; Milne, Hexagon 2611.00244v1). They are neither A nor M; G-STD-HDG, the abelian

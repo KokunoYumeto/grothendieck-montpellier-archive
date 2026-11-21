@@ -103,7 +103,10 @@ none refuted. One source defect (FL v3) confirmed against the source.
     μ_5 = 11; confirmed with an independent exhaustive enumeration in the BR_PENCIL intake). F-23's identity
     min_U BR = BR(T_b) stays as the j = 1 case, and R-01 (j = 1) re-proves F-13/F-23 with proper incidence over every
     algebraically closed field, the field translation asked for in §5.5 below. (corrected 21 Nov 2026 after the intake of
-    BR_PENCIL, Claude Opus 5.5 at effort high)]
+    BR_PENCIL, Claude Opus 5.5 at effort high)] [Superseded again over C: BR(det_4), BR(per_4) ≥ 43 in characteristic 0
+    (BR_PENCIL final, R-08, R-10: μ_7 = 14, 36 − 7 + 14 = 43), confirmed with independent computation covering all but 25
+    border-apolarity cases, which rest on the run's certificates (verifiers rerun, passing). 42 stays the all-field bound;
+    44 is open. (corrected 21 Nov 2026 after the intake of BR_PENCIL part 2, Claude Opus 5.5 at effort high)]
   - **Degrees 5 and 6.** det_5 >= 116 and det_6 >= 416, against Farnsworth's (1+delta_n)C(n,h)^2, which gives 107 and
     410. per_5 >= 115 and per_6 >= 415.
   - **Large n.** Farnsworth's additive term (about 4^n/n^4) overtakes F-23's (about C(n/2,n/4)^2, roughly 2^n/n). So

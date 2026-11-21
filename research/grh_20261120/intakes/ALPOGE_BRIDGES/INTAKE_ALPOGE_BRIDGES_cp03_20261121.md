@@ -69,7 +69,10 @@ Intake by Claude Opus 5.5 at effort high (agent af2a18f62da23b48e), the agent th
     Brieskorn (ICM 1970) and Slodowy (LNM 815, 1980), which came out of exactly these Grothendieck questions. Whether the
     rank r − 1 in types B, C, F, G is stated there is the gate.
 - **F-SM-19 to F-SM-22** are the first concrete defect reports on Masullo's draft from our runs. F-SM-19 is a slip with an
-  evident repair (F-SM-20). F-SM-21/22 locate the substantive gap: the global-to-local intertwiner of §12.3-§12.4, in
+  evident repair (F-SM-20) [found independently as GRH_NIGHT MT-M36, confirmed: under the draft's own measure conventions
+  (Def A.2.3.6, p. 549; Def A.3.2.1, pp. 559-560) the section average is identically zero for every number field, so the
+  normalization (12.2.1.2), p. 505, fails too (corrected 21 Nov 2026 after the intake of GRH_NIGHT part 3, Claude Opus 5.5
+  at effort high)]. F-SM-21/22 locate the substantive gap: the global-to-local intertwiner of §12.3-§12.4, in
   Thm 12.4.1.1, pp. 514-519.
 - **Cote 66, subject 21:** the answer is Gabber's affine proper base change. It is new only as the reading of the archive
   question.

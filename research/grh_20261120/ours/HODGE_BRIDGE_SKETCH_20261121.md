@@ -150,7 +150,9 @@ Masullo. Beilinson–Bloch at the central point stays open there.
     concentration plus continuity, and 1.7 is unproved. Checkpoint 03: the analytic seesaw is realized (B17, a double
     lift V → P → V), but its upper space has signature (3,1) at every real place, so the definite matching with
     Alpöge's MainX remains (the run's G1). 1.7 is still not proved. (corrected 21 Nov 2026 after the intake of THETA3,
-    parts 1 and 2, Claude Opus 5.5 at effort high)]
+    parts 1 and 2, Claude Opus 5.5 at effort high)] [THETA3 final (checkpoint 07): 1.7 was not proved by the run's end;
+    the analytic seesaw and an exact finite transform are proved, the arithmetic MainX matching is open. (corrected 21 Nov
+    2026 after the intake of THETA3 part 4, Claude Opus 5.5 at effort high)]
 
 **Mechanism.** For a Hermitian space over a CM field and a family of Hecke characters, the theta correspondence
 gives: at definite signature, numbers (periods, central values); at signature (n,1), cohomology classes and special
