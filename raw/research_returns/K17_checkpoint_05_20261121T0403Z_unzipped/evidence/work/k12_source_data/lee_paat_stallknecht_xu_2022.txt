@@ -1,0 +1,1486 @@
+                                                Polynomial upper bounds on the number of
+                                            differing columns of ∆-modular integer programs
+arXiv:2105.08160v5 [math.OC] 16 Nov 2022
+
+
+
+
+                                                                                                 Jon Lee
+                                                     Department of Industrial and Operations Engineering, University of Michigan, USA, jonxlee@umich.edu
+
+                                                                                              Joseph Paat
+                                                       Sauder School of Business, University of British Columbia, BC Canada, joseph.paat@sauder.ubc.ca
+
+                                                                                           Ingo Stallknecht
+                                                           Department of Mathematics, ETH Zürich, Switzerland, ingo.stallknecht@ifor.math.ethz.ch
+
+                                                                                                 Luze Xu
+                                                     Department of Industrial and Operations Engineering, University of Michigan, USA, xuluze@umich.edu
+
+
+                                            We study integer-valued matrices with bounded determinants. Such matrices appear in the theory of integer
+                                            programs (IP) with bounded determinants. For example, Artmann et al. showed that an IP can be solved in
+                                            strongly polynomial time if the constraint matrix is bimodular, that is, the determinants are bounded in absolute
+                                            value by two. Determinants are also used to bound the ℓ1 -distance between IP solutions and solutions of its
+                                            linear relaxation. One of the first works to quantify the complexity of IPs with bounded determinants was
+                                            that of Heller, who identified the maximum number of differing columns in a totally unimodular matrix. Each
+                                            extension of Heller’s bound to general determinants has been super-polynomial in the determinants or the
+                                            number of equations. We provide the first column bound that is polynomial in both values. For integer programs
+                                            with box constraints, our result gives the first ℓ1 -distance bound that is polynomial in the determinants and the
+                                            number of equations. Our result can also be used to derive a bound on the height of Graver basis elements
+                                            that is polynomial in the determinants and the number of equations. Furthermore, we show a tight bound on
+                                            the number of differing columns in a bimodular matrix; this is the first tight bound since Heller. Our analysis
+                                            reveals combinatorial properties of bimodular IPs that may be of independent interest.
+
+
+
+
+                                             1. Introduction.         The feasible region of an integer linear program with box constraints
+                                           can be written as
+                                                                               IP := {x ∈ Zn : Ax = b, ℓ ≤ x ≤ u},
+                                           for a constraint matrix A ∈ Zm×n with rank A = m and vectors b ∈ Zm and ℓ, u ∈ (Z ∪ {±∞})n
+                                           with ℓ < u. Integer programs have been used for many decades to model problems in opera-
+                                           tions research, computer science, and mathematics; see [7, 28, 34] and the references therein.
+                                           One parameter that impacts the structure of IP is the largest absolute m × m minor of A,
+                                           which we denote by
+
+                                                                  ∆(A) := max {| det B | : B is an m × m submatrix of A} .
+
+                                           We say that A is ∆-modular if ∆(A) ≤ ∆.
+                                              To illustrate the impact that ∆(A) has on IP, consider the distance between IP and its
+                                           linear relaxation
+                                                                        LP := {x ∈ Rn : Ax = b, ℓ ≤ x ≤ u}.
+
+                                                                                                     1
+2
+
+This distance, which is referred to as proximity in the literature, is defined as the maximum
+distance from any vertex of LP to the closest feasible IP solution:
+
+                                       π := ∗ max              min kx∗ − z∗ k1 .
+                                             x   is a vertex   z∗ ∈IP
+                                                 of LP
+
+We assume IP 6= ∅ whenever discussing π. Proximity is often used in the analysis of integer
+programming algorithms. For instance, proximity can also be used to bound the state space
+of a dynamic program [14]. Proximity also translates into an upper bound on the integrality
+gap: for an objective vector c ∈ Rn and vectors x∗ ∈ LP and z∗ ∈ IP that maximize x → c⊺ x
+over LP and IP, respectively, the integrality gap |c⊺ x∗ − c⊺ z∗ | is at most π · kck∞ . In a seminal
+paper by Cook et al. [11], they showed that π ≤ n2 ∆(A).1 Eisenbrand and Weismantel [14]
+proved π ≤ m(2mkAk∞ + 1)m , where kAk∞ is the largest absolute entry of A; this was the
+first upper bound on π that was independent of n. Their proof approach extends2 to show
+
+                                             π ≤ m(2m + 1)m ∆(A).
+
+In the special
+           √       case when ℓ = 0 and u ≡ ∞, Lee et al. [25] demonstrated that π ≤
+3m2 log2 ( 2m∆(A)1/m )∆(A); their proof crucially relied on sparsity results that are not appli-
+cable when ℓ and u take general values [1]. No upper bounds on π have been provided that
+are polynomial in ∆(A) and m for general values of ℓ and u.
+   Testing if IP 6= ∅ is NP-hard in general [10], although it can be tested in polynomial time if
+n is fixed [26]. The parameter ∆(A) is also known to influence how efficiently we can test if
+IP 6= ∅, at least when ∆(A) is small. For example, every vertex of LP is integer valued when
+∆(A) = 1. Therefore, testing if IP 6= ∅ simplifies to testing if LP 6= ∅. Matrices with ∆(A) = 1
+are called unimodular, and after elementary row operations they are equivalent to totally
+unimodular (TU) matrices. The study of TU matrices dates back to Hoffman and Kruskal [21]
+with one prominent example being the vertex-edge incidence matrix of a bipartite graph. It
+remains an open question if IP 6= ∅ can be tested efficiently when ∆(A) is fixed.
+   If ∆(A) = 2, then A is called bimodular. One prominent example of a bimodular matrix is
+the vertex-edge incidence matrix of a graph whose so-called odd cycle packing number is one;
+see [8, 9] for combinatorial optimization algorithms over such graphs. When the constraint
+matrix is bimodular, the vertices of LP may not be integer valued. However, such matrices do
+impose the nice property that if IP 6= ∅, then every vertex of LP lies on an edge containing
+a vector in IP [37]; Veselov and Chirkov used this property in a polynomial time algorithm
+to test if IP 6= ∅ when A contains no m × m minors equal to zero. Artmann et al. [3] used a
+more combinatorial approach to design an optimization algorithm that runs in strongly poly-
+nomial time for general bimodular matrices. The algorithm in [3] heavily relies on Seymour’s
+combinatorial characterization of TU matrices [35]. Cevallos et al. [6, Theorem 5.4] argue
+that compact linear extended formulations (LEFs) do not always exist for bimodular integer
+programs; in their paper, they write “A natural approach to solve bimodular integer programs
+would have been to try to find a compact LEF of the feasible solutions to (conic) bimodular inte-
+ger programs, thus avoiding the partially involved combinatorial techniques used in [3], which
+is so far the only method to efficiently solve bimodular integer programs. Theorem 5.4 shows
+
+1
+  Cook et al.’s original result considers inequality-form polyhedra, the ℓ∞ rather than ℓ1 -distance, and totally ∆-
+modular matrices, which have all absolute minors bounded by ∆. A closer analysis revealed that ∆(A) suffices;
+see [25, Lemma 3].
+2
+    See the footnote on Page 3 of [29] for a discussion on this extension.
+                                                                                                  3
+
+that this approach cannot succeed.” Glanzer et al. used combinatorial properties of the con-
+straint matrix to optimize over IP efficiently in the setting when A has at most three distinct
+absolute determinants [16]. These examples illustrate the importance of combinatorial prop-
+erties of the constraint matrix; this leads to a third, more combinatorial, property of IP that
+is influenced by ∆(A): the number of differing columns that A can have.
+   We say that two vectors a, a ∈ Rd differ if a 6= ±a.3 We say that a multiset X ⊆ Rd has
+differing columns if every pair of vectors in X differs and 0 6∈ X. We also treat the matrix
+A as a multiset of its columns, and we denote the number of differing columns by |A|. For
+m, ∆ ∈ Z≥1 , we denote the maximum number of differing columns in a ∆-modular matrix by
+                       c(∆, m) := max {|A| : A ⊆ Zm , rank A = m, and ∆(A) ≤ ∆} .
+The rank A = m condition is necessary. Otherwise, one can add a row of all zeros to any
+integer-valued matrix with m − 1 rows; the resulting matrix A will have ∆(A) = 0.
+   One of the first bounds on c(∆, m) is due to Heller [19], who proved c(1, m) = 1/2 · (m2 +
+m). Early generalizations of Heller’s result focused on c(∆, m) for fixed values of ∆. Lee
+showed c(∆, m) ≤ fL (∆) · m2∆ [24, Proposition 10.1] for some function fL , and Anstee showed
+c(∆, m) ∈ O(m2∆(1+log2 ∆) ) for totally ∆-modular matrices [2, Theorem 3.2]. In the case when
+A only contains primitive columns, Kung showed |A| ≤ fK (∆) · m2 for a super-polynomial
+function fK [23, Theorem 1.1], and |A| ≤ m2 when no nonzero minor is divisible by three [22,
+Theorem 1.1]. Oxley and Walsh recently showed |A| ≤ 1/2 · (m2 + m) + m − 1 when A is
+bimodular, but only when A contains primitive columns, and only when m is sufficiently
+large [30, Theorem 1.1]. The best known upper bound on c(∆, m) for fixed ∆ is given by
+Geelen et al. [15, Theorem 2.2.4]. They demonstrated that c(∆, m) ≤ 1/2 · m2 +fG (∆)m, where
+fG (∆) is a number that can be lower bounded by the “power tower” with base ∆ iterated
+three times.
+   For fixed values of m, the best known upper bound on c(∆, m) was due to Heller [19] and
+Glanzer et al. [17]:
+                                    
+                                     1/2 · (m2 + m),            if ∆ = 1;
+                                    
+                                    
+                        c(∆, m) ≤ m ∆,  2                                                  (1)
+                                                                 if ∆ = 2, 3;
+                                    
+                                    1/2 · m2 ∆2+log2 log2 (∆) , if ∆ ≥ 4.
+                                    
+
+The inequality c(3, m) ≤ 3m2 is present in the analysis in [17, Subsection 3.3] but not stated.
+In summary, neither Geelen et al. nor Glanzer et al. provided an upper bound on c(∆, m) that
+is polynomial in ∆.
+   An interesting variation of c(∆, m) is considered by Oxley and Walsh [30] and Kung [22,
+23], who considered the maximum number of differing primitive columns in a ∆-modular
+matrix, which we denote by cp (∆, m); a primitive vector v = (v1 , . . . , vt ) is an integer valued
+vector with gcd{v1 , . . . , vt } = 1. It is easy to see that cp (1, m) = c(1, m), and only when ∆ ≥
+2 is there a distinction between cp (∆, m) and c(∆, m). By identifying excluded minors in
+matroids representable by bimodular matrices, Oxley and Walsh gave a bound of cp (2, m) =
+c(1, m) + m − 1 for sufficiently large values of m. Our analysis shows cp (2, m) = c(1, m) + m for
+m ∈ {3, 5} and cp (2, m) = c(1, m) + m − 1 otherwise; for a lower bound, see our tight example
+analysis in Section 4, and for a matching upper bound, see (23) (24), (25) in Section 4. Of
+course, the big open question in this line of work is the determination of c(∆, m) and cp (∆, m)
+for general values of ∆.
+3
+    Glanzer et al. [17] used the term distinctive rather than differing.
+4
+
+   1.1. Statement of results. Our first main result is the exact value of c(2, m). This is the
+first tight column number bound since Heller’s result.
+    T HEOREM 1 (An exact bound when ∆ = 2).       For every m ∈ Z≥1 , we have
+                                           1
+                                  c(2, m) = (m2 + m) + m.
+                                           2
+   Our proof of Theorem 1 reveals new combinatorial properties about bimodular matrices.
+We show that submatrices contain at most one disjoint circuit, which is an inclusion-wise
+minimal set of linearly dependent columns; this generalizes a result of Heller that certain
+submatrices of TU matrices have no circuits. See Lemma 7 for a precise statement and Sec-
+tion 3 for more discussion. As previously quoted, combinatorial properties of the constraint
+matrix are critical in algorithms designed for ∆-modular IPs. For this reason, we believe our
+combinatorial analysis may be of independent interest.
+   Our proof of Theorem 1 requires a lower bound on c(2, m). We give a bound for general ∆.
+    P ROPOSITION 1 (A lower bound on c(∆, m)).      For every ∆, m ∈ Z≥1 , we have
+                              1 2
+                                (m + m) + m(∆ − 1) ≤ c(∆, m).
+                              2
+  Geelen et al.’s result implies that c(∆, m) = c(1, m) + h(∆)m for some function h. Heller’s
+result and Theorem 1 support our conjecture that h(∆) = ∆ − 1; we prove this when m ≤ 2.
+  P ROPOSITION 2 (An exact bound when m ≤ 2). Suppose m ≤ 2. For every ∆ ∈ Z≥1 , we
+have
+                                        1
+                             c(∆, m) = (m2 + m) + m(∆ − 1).
+                                        2
+  Our second main result is the first upper bound on c(∆, m) that is polynomial in ∆ and m.
+    T HEOREM 2 (An upper bound on c(∆, m)). For every ∆, m ∈ Z≥1 , we have
+                              (
+                                1/2 · (m2 + m) + m(∆ − 1), if ∆ ≤ 2;
+                    c(∆, m) ≤                                                               (2)
+                                1/2 · (m2 + m)∆2 ,         if ∆ ≥ 3.
+
+  Our third main results connects c(∆, m) with the proximity value π. We apply Theorem 2
+to establish the first upper bound on π that is polynomial in m and ∆(A). Unlike in [25], our
+new bound applies when the variable bounds ℓ and u are arbitrary.
+ T HEOREM 3 (LP to IP proximity). Set ∆ := ∆(A), where A ∈ Zm×n is the constraint
+matrix in IP. The proximity value π satisfies
+
+                  π ≤ (m + 1)∆(2c(∆, m) + 1) ≤ m(m + 1)2 ∆3 + (m + 1)∆.
+
+Column number bounds can also be applied to bound so-called Graver basis elements in test
+sets for integer programs; see, e.g., [27, §3.7]. By directly substituting Theorem 2 into the
+results in [27, §3.7], one derives a bound of O(m3 ∆3 ) on the ℓ1 -norm of Graver basis vectors;
+the previously known bound of O(mm ∆) can be found in Diaconis et al. [12, Theorem 1] or
+by modifying a proof of Eisenbrand et al. [13, Lemma 2].
+  The paper proceeds as follows. We begin with a proof of Proposition 1 because it is used to
+establish the equations in Theorem 1 and Proposition 2; see Section 2. Our new combinatorial
+                                                                                                          5
+
+  results for bimodular matrices are given in Section 3. Sections 4, 5, 6, and 7 contain the
+  proofs of Theorem 1, Proposition 2, Theorem 2, and Theorem 3, respectively.
+  Notation and preliminaries. We use bold font to denote vectors in dimension two or higher.
+  0, 1, and Ik denote the all-zero matrix, the all-one matrix, and the k × k identity matrix,
+  respectively. We denote the ith standard unit vector in Rt by eit . For the ith standard unit
+  vector in Rm , we drop the subscript and write ei . We use a⊺ to denote a row vector. We write
+  [b1 | · · · |bt ] to denote a matrix with columns b1 , . . . , bt−1 , and bt . We often partition the rows
+  of a matrix, and it is convenient to refer to these inline; for matrices B ∈ Zr×t and C ∈ Zs×t ,
+  we adopt the notation                              
+                                                     B
+                                          (B, C) :=        ∈ Z(r+s)×t .
+                                                     C
+  A basis is an invertible (square) matrix. We let conv B and span B denote the convex hull of
+  and the linear space spanned by the columns of B ⊆ Rd , respectively. For v = (v1 , . . . , vt ) ∈ Rt ,
+  we denote the support of v by supp v := {i = 1, . . . , t : vi 6= 0}. A ∆-modular matrix B with
+  differing columns is maximal if there does not exist a ∆-modular matrix B ′ ) B with differing
+  columns.
+     We use elementary operations to refer to elementary row operations that preserve inte-
+  grality. Elementary operations do not affect differing columns or ∆-modularity of a matrix.
+  We write B ∼ B ′ if B and B ′ are equivalent up to elementary operations. We also freely swap
+  columns and multiply them by −1 because these operations do not affect differing columns
+  or ∆-modularity.
+     We often analyze the determinant structure of matrices with linearly dependent rows. To
+  do this, we note that every matrix B ∈ Zm×n can be transformed via elementary operations
+  into a matrix (B, 0), where B ∈ Zrank B×n has full row rank. We always use B to denote a full
+  row rank projection of B obtained via elementary operations. Elementary operations preserve
+  linear relationships, so the following holds:
+                                  
+                             B b
+     Suppose that [B |b] ∼           and let v ∈ R|B| . We have Bv = b if and only if Bv = b. (3)
+                             0 0
+
+  Consequently,
+
+                if A is ∆-modular with rank A = m and B ⊆ A, then B is ∆-modular.                       (4)
+
+    2. A proof of Proposition 1. We use a generalization of the lower bound construction
+  given by Heller. Let m, ∆ ∈ Z≥1 , and let A ∈ Zm×n consist of the following columns:
+  (i) ei for every i = 1, . . . , m.
+ (ii) ke1 for every k = 2, . . . , ∆.
+(iii) ke1 − ei for every k = 1, . . . , ∆ and i = 2, . . . , m.
+(iv) ei − ej for every 2 ≤ i < j ≤ m.
+    The following example illustrates A for m = 4 and ∆ = 3:
+                                                            
+                 1 0 0 0 2 3 1 1 1 2 2 2 3 3 3 0 0 0
+                0 1 0 0 0 0 −1 0 0 −1 0 0 −1 0 0 1 1 0 
+                0 0 1 0 0 0 0 −1 0 0 −1 0 0 −1 0 −1 0 1  .
+                                                            
+
+                 0 0 0 1 0 0 0 0 −1 0 0 −1 0 0 −1 0 −1 −1
+6
+
+From the definition, we see that A has differing columns, rank A = m, and
+                                                   
+                                               m−1      1
+                                                           m2 + m + m(∆ − 1).
+                                                                  
+           |A| = m + (∆ − 1) + (m − 1)∆ +             =
+                                                 2      2
+
+   If m = 1, then it is easy to verify that A is ∆-modular. Assume that m ≥ 2 and the proposition
+is true for m − 1. Consider a matrix B ⊆ A. We prove ∆(A) ≤ ∆ by proving | det B | ≤ ∆.
+   Let Â be the matrix formed by the last m − 1 rows of A. The matrix C ⊆ Â corresponding
+to (iv) form the incidence matrix of a directed graph on m − 1 vertices, and Â \ C is a multiset
+of standard unit vectors or negatives thereof. It is well known that ∆(C) = 1 and ∆(Â) =
+1; see [34, (4) on Page 268]. Therefore, if B contains a column of the form (ii), then by
+expanding det B along this column and using ∆(Â) = 1, we conclude | det B | ≤ ∆.
+   For any column of A, if we project out one of the last m − 1 components, then the resulting
+column is either 0 or it is of the form of one of (i)–(iv), albeit in dimension m − 1, and possibly
+negated. Thus, if any of the last m − 1 rows of B contains exactly one non-zero entry, which
+necessarily equals ±1, then we expand det B along this row and induct on m to conclude
+| det B | ≤ ∆. In particular, if B contains a column of the form (i), then | det B | ≤ ∆.
+   Assume that B only contains columns of the form (iii) and (iv), and each of the last m − 1
+rows of B contain at least two non-zero entries. The invertible matrix B must contain at least
+one column of the form (iii) otherwise the first row would be all-zero. Consider a column of
+the form (iii) and suppose B also contains a column of the form (iv) with overlapping support,
+say B contains a = ke1 − ei and a′ = ei − ej . The matrix [B |a + a′ ] \ {a′ } = [B |ke1 − ej ] \ {a′ }
+has the same absolute determinant as B and contains one more column satisfying (iii) than
+B does. After performing this replacement at most m − 2 more times, we can assume that B
+does not contain columns of the form (i) or (ii), each of the last m − 1 rows of B contains at
+least two non-zero entries, and B does not contain a column of the form (iii) and a column
+of the form (iv) with overlapping supports. Given that B contains a column a = ke1 − ei
+of the form (iii) and the ith row of B contains at least two non-zero entries, there exists
+another a′ ∈ B whose support contains the index i. After the previous replacement steps, we
+know that a′ must also be of the form (iii), that is, a′ = k ′ e1 − ei for some k ′ 6= k. Note that
+a − a′ = (k − k ′)e1 and [B |a − a′ ] \ {a′ } contains the column (k − k ′)e1 , which is of the form (i)
+or (ii). Hence, | det B | = | det([B |a − a′ ] \ {a′ })| ≤ ∆.                                         
+
+  3. Structural properties of bimodular matrices. In order to motivate the results in this
+section, we turn to a result of Heller. Consider a TU matrix with differing columns of the form
+
+                                                1 β⊺
+                                                    
+                                          A=           ,                                     (5)
+                                                0 Â
+
+where β ∈ Zn−1 and Â ∈ Z(m−1)×(n−1) . Although A has differing columns, the matrix Â may
+not. After possibly multiplying columns of A by −1, suppose two non-differing columns of
+Â are actually equal. Heller showed that the set of columns in Â with multiplicity at least
+two is linearly independent; see [19, (ii) on page 1358]. This linear independence is crucial
+in his determination of c(1, m). The results in this section can be viewed as a generalization
+of Heller’s result to bimodular matrices. It is not hard to find examples where this linear
+independence fails to hold for bimodular matrices. Rather than linear independence, we show
+that the set of columns in Â with multiplicity at least two can have at most one circuit after
+appropriate elementary operations; see Lemma 7.
+                                                                                                              7
+
+   This section is outlined as follows. First, we formally define the set M of columns with
+ multiplicity at least two; see Equation (7). Next, we provide general results of bimodular
+ matrices in Subsection 3.1. We argue that a bimodular matrix can have at most one non-
+ primitive column (Lemma 1 (i)), and we analyze circuits in the absence of non-primitive
+ columns in Subsection 3.2. Finally, we provide more precise structural statements about A
+ when it contains two or three linearly independent columns whose sum is divisible by two;
+ see Subsections 3.3 and 3.4.
+   Let A ⊆ Zm be a maximal bimodular matrix with rank A = m and differing columns. For
+ any primitive column a0 ∈ A, we can transform a0 to e1 via elementary operations to relabel
+ A as (5). The columns in (5) depend on the primitive column a0 mapped to e1 , and we make
+ specific choices of a0 in later subsections. By multiplying columns of A by −1, we assume that
+                           if two columns b, c ∈ Â do not differ, then b = c.                              (6)
+ Assumption (6) implies that Â contains a unique maximal set of differing columns, which
+ we denote by A/e1 . We note that if A is a representation of a matroid M, then A/e1 is
+ a representation of the matroid obtained from M by first contracting the element e1 , then
+ removing “loops”, and finally removing “parallel” columns that are negations of each other.
+ Note that the matrix A/e1 may contain a column and a dilation αb for |α| ≥ 2 because we
+ consider differing columns; this distinguishes our use of “/ ” from the regular “simplification”
+ of A/e1 in matroid theory. Nevertheless, our use of the notation “/ ” is meant to evoke the
+ common notation for matroid contraction.
+    A matrix B = [e1 |a1 | · · · |am−1 ] = [(1, 0)|(β1 , b1 )| · · · |(βm−1 , bm−1 )] ⊆ A is a basis if and only
+ if B/e1 = [b1 | · · · |bm−1 ] ⊆ A/e1 is a basis because | det B | = | det B/e1 |. Therefore, A/e1 is
+ bimodular. For each b ∈ Zm−1 , we define the original set of columns in A corresponding to
+ b to be                                                            
+                                                          β
+                                            O(b) :=              ∈A .
+                                                          b
+ A column a ∈ A is said to be an original of b ∈ A/e1 if a = (β, b) for some β ∈ Z. Denote the
+ set of columns of A/e1 with multiple originals by
+                                      M := {b ∈ A/e1 : |O(b)| ≥ 2}.                                         (7)
+ As a reminder, throughout this section we assume bimodularity and maximality of A, as well
+ as (5) and (6).
+
+    3.1. General properties of A and M .
+     L EMMA 1. The matrix A satisfies the following properties:
+  (i) A contains at most one non-primitive column, which needs to be of the form 2a for some
+      a ∈ Zm . Moreover, if A only contains primitive columns, then |O(0)| = 1.
+ (ii) If a ∈ Zm ∩ conv[0|A|− A], then [a|A] is bimodular. In particular, if b ∈ A/e1 and k := |O(b)|,
+      then O(b) = {(β, b), . . . , (β + k − 1, b)} ⊆ A.
+(iii) For each b ∈ A/e1 , it follows that |O(b)| ≤ 3.
+    Proof.
+ (i) Let αa ∈ A be non-primitive with α ≥ 2 and a ∈ Z. Let [αa|B] ⊆ A be a basis. We have
+     2 ≥ | det[αa|B]| = α| det[a|B]| ≥ α because A is bimodular and [a|B] is integer valued.
+        If 2a, 2c ∈ A are distinct non-primitive columns, then they must be linearly inde-
+     pendent because A has differing columns. Let [2a|2c|B] ⊆ A be a basis. We have 2 ≥
+     | det[2a|2c|B]| ≥ 4, which is a contradiction.
+ 8
+                              Pt                                                              Pt
+(ii) We can write a = i=1 ci vi , where c1 , . . . , ct ∈ [0|A| − A], v1 , . . . , vt ≥ 0, and i=1 vi = 1.
+     Fix [a1 | · · · |am−1 ] ⊆ A. By multi-linearity of the determinant and the fact that [0|A| − A] is
+     bimodular, it follows that
+                                        t
+                                        X                           t
+                                                                    X
+                  det a a1 · · · am−1 =
+                                    
+                                          vi det ci a1 · · · am−1 ≤
+                                                                
+                                                                      vi 2 = 2.
+                                                 i=1                                     i=1
+
+      Hence, [a|A] is bimodular.
+           Let b ∈ A/e1 with k = |O(b)|. We have O(b) = {(β1 , b), . . . , (βk , b)} ⊆ A with β1 < β2 <
+      · · · < βk by Assumption (6). By the maximality of A and the previous paragraph, we have
+      (β̂, b) ∈ A for every β1 ≤ β̂ ≤ βk . Hence, {β1 , β2 , . . . , βk } = {β1 , β1 + 2, . . . , β1 + k − 1}.
+(iii) Assume k := |O(b)| ≥ 4 for some b ∈ A/e1 . By (ii), we know that (β, b), (β + 3, b) ∈ A for
+      some β ∈ Z. Let [B |(β, b)|(β + 3, b)] ⊆ A be a basis. We have
+                                                                              
+                                            β β+3                          β 3
+                             2 ≥ det B                   = det B                    ≥ 3,
+                                            b b                            b 0
+    which is a contradiction.                                                                   
+                                                                   m×d               rank C×d
+ Recall the ‘bar’ notation defined in (3): We write C ∼ (C, 0) ∈ Z     , where C ∈ Z          .
+     L EMMA 2. Assume that A only contains primitive columns. Let C ⊆ M be a circuit. Then
+  (i) 3 ≤ |C | ≤ 4.                                                            
+ (ii) There exists a vector γ ∈ Z|C| such that det γP   ⊺
+                                                          , C = 2, where γ ⊺ , C ∈ Z|C|×|C|.
+(iii) If C is unimodular, then γ in (ii) satisfies 1/2 · a∈(γ ⊺ ,C) a ∈ Zm .
+(iv) If C is not unimodular, then |C | = 3. Consequently, γ in (ii) satisfies 1/2 · (a + a′ ) for two
+      columns a, a′ ∈ (γ ⊺ , C).
+    Proof. Set t := |C | and C := [b1P    | · · · |bt ]. We have t ≥ 3 otherwise A contains a non-primitive
+                                             t−1
+ column. By Cramer’s rule, bt = i=1 bi vi for some (v1 , . . . , vt−1 ) =: v ∈ {±2, ±1, ±1/2}t−1 . If
+ vi ∈ {±2} for some i, then swap the roles of i and t so that v ∈ {±1, ±1/2}t−1 . By (4), we can
+ assume that C = C to simplify the remaining proof.
+    For each i = 1, . . . , t, the inclusion bi ∈ M implies (β, bi ) ∈ A for at least two choices of β ∈
+ Z. By Lemma 1 (ii)-(iii), we have (β, bi ) ∈ A for every β ∈ {βi , . . . , βi + ki }, where ki ∈ {1, 2}.
+ At least one value ei ∈ {βi , . . . , βi + ki } is even.
+    Define the sets
+                  Ω := {ω = (ω1 , . . . , ωt−1 ) : ωi ∈ {βi , βi + 1} ∀ i = 1, . . . , t − 1} , and
+                  Σ := {ω ⊺ v : ω ∈ Ω}.
+ Each component of v is non-zero, so |Σ| ≥ t ≥ 3. For each ω ∈ Ω and ωt ∈ {βt , βt + 1},
+                                                    
+       ω1    ωt−1 ωt           ω1      ωt−1 ωt − ω⊺ v
+                                                         = det b1 · · · bt−1 ·|ωt − ω⊺ v| ≤ 2.
+                                                                           
+  det 1 · · · t−1 t = det 1 · · · t−1
+       b     b    b            b       b         0
+   Suppose | det[b1 | · · · |bt−1 ]| = 1, i.e., C is unimodular. By Cramer’s rule, v ∈ {±1}t−1 and
+ Σ ⊆ Z. Hence, ωt − ω ⊺ v ∈ {±2, ±1, 0} for each ωt ∈ {βt , βt + 1} and ω ⊺ v ∈ Σ. This implies that
+ 4 ≥ |Σ| ≥ t ≥ 3 and that there exists at least one choice ω̂ ⊺ v and ω̂t such that |ω̂t − ω̂ ⊺ v| = 2.
+ From the previous equation, we see that Property (ii) holds with γ := (ω̂, ω̂t ). We also have
+ that
+                              t−1              t−1                                  t−1
+                                                                    ω̂t − ω̂ ⊺ v
+                    X                 X                                    X               
+        X          ω̂t                 ω̂i                    ω̂i                                  ω̂i
+              a=     t     −       vi    i  +      (1 + vi )    i =               +     (1 + vi )    i
+          ⊺
+                   b                   b                      b          0                         b
+       a∈(γ ,C)                i=1              i=1                                      i=1
+                                                                                                        9
+
+has all even components because v ∈ {±1}t−1 ; this implies that (iii) holds.
+   Suppose | det[b1 | · · · |bt−1 ]| = 2, i.e., C is not unimodular. We have ωt − ω ⊺ v ∈ {±1, ±1/2, 0}
+for each ωt ∈ {βt , βt + 1} and ω⊺ v ∈ Σ. If t ≥ 4, then σmax − σmin ≥ 3/2, where σmin and σmax
+are the minimum and maximum values in Σ, respectively. Therefore, (βt + 1) − σmin > 1 or
+βt − σmax < −1, which is a contradiction. Thus, |Σ| = t = 3, and v ∈ {±1/2}t−1 . Furthermore,
+there is at least one choice ω̂ ⊺ v and ω̂t such that |ω̂t − ω̂ ⊺ v| = 1. Property (ii) holds with
+γ := (ω̂, ω̂t ). We have b3 = b1 v1 + b2 v2 ∈ Zm−1 , which implies 1/2 · (b1 + b2 ) ∈ Zm−1 because
+v ∈ {±1/2}2 . Similarly, 1/2 · (ω̂1 + ω̂2 ) ∈ Z because v ∈ {±1/2}2 , |ω̂3 − ω̂ ⊺ v| = 1, and ω̂3 ∈ Z.
+Hence, 1/2 · ((ω̂1 , b1 ) + (ω̂2 , b2 )) ∈ Zm , which implies that (iv) holds.                       
+
+   3.2. Circuits in M when A contains only primitive columns. In this subsection, we
+assume that A only contains primitive columns and M contains a circuit; these assumptions
+allow us to apply Lemma 2. Choose B ∗ ⊆ A satisfying
+                                                     1 X
+                      B ∗ is linearly independent and ·      a ∈ Zm ,                 (8)
+                                                     2 a∈B ∗
+
+and minimizing |B ∗ |. The set B ∗ exists and |B ∗ | ≤ 4 by Lemma 2 (iii)-(iv). Furthermore, 2 ≤
+|B ∗ | because we assumed that A only contains primitive columns. After applying elementary
+operations, we assume that
+                                         ∗                    ∗          ∗ 
+                       B ∗ = e1 · · · e|B |−1 e1 + · · · + e|B |−1 + 2e|B | .
+                            
+                                                                                             (9)
+  L EMMA 3.    After possibly multiplying columns of A by −1, we can assume that
+                                              ∗
+                                                                                            
+                                    ∗ |BX       |−1                                        
+               A ∩ span B ∗ ⊆ B ∗ ∪ e|B | +          αi ei : α1 , . . . , α|B ∗ |−1 ∈ {0, 1} .      (10)
+                                             i=1
+                                                                                            
+
+Furthermore, |O(b)| = 1 for each b ∈ B ∗ /e1 and
+                                    M = {b ∈ A/e1 : |O(b)| = 2}.                                    (11)
+   Proof. Set s := |B ∗ | ≥ 2. Let a ∈ A ∩ span B ∗ \ B ∗ . By Cramer’s rule and the assumption that
+A is bimodular, we can write a = B ∗ v, where v = (v1 , . . . , vs ) ∈ {±1, ±1/2, 0}s . For proving
+(10), it suffices to show vs = 1/2 because a = B ∗ v ∈ Zm implies vi ∈ {±1/2} for all i = 1, . . . , s −
+1.
+                                                                          s
+                               s−1 ). Suppose vs = 0; then v ∈ {0, ±1} and |I | ≤ 1 otherwise /2 · (a +
+   Set I := supp(v1 , . . . , vP                                                                 1
+
+(e + · · · + e + 2e ) + i∈{1,...,s−1}\I e ) ∈ Z , which contradicts the minimality of B ∗ . How-
+   1          s−1     s                           i      m
+
+ever, |I | ≤ 1 implies a ∈ B ∗ , which   P is a contradiction.      Suppose vs ∈ {±1}; then v ∈ {0, ±1}s
+                                                            i      m
+and |I | = 0 otherwise /2 · (a + i∈{1,...,s−1}\I e ) ∈ Z , which contradicts the minimality of
+                             1
+
+B ∗ . However, |I | = 0 implies a = 0, which contradicts that A has differing columns. Thus,
+vs = ±1/2 and by possibly replacing a by −a, we assume that vs = 1/2. This proves (10).
+   It follows directly from (10) that |O(b)| = 1 for each b ∈ B ∗ /e1 . Assume to the contrary
+that |O(b)| ≥ 3 for some b ∈ A/e1 . It follows from Lemma 1 (ii)-(iii) that O(b) = {a, a +
+e1 , a + 2e1 } for some a ∈ A. Inclusion (10) implies that if c ∈ A ∩ span B ∗ , then c + 2e1 6∈ A.
+Therefore a 6∈ span B ∗ , and C = [e2 | · · · |es−1 |e1 + · · · + es−1 + 2es |a|a + 2e1 ] ⊆ A has linearly
+independent columns. Recall (3): we have C ∼ (C, 0), where
+                                 s−1                    s−1
+            C = e2s+1 · · · es+1                            + 2ess+1 a a + 2e1s+1 ∈ Z(s+1)×(s+1)
+                 
+                                       e1s+1 + · · · + es+1
+                                                                                 
+
+is invertible and det C ≥ 4, which contradicts (4).                                                    
+10
+
+  Define the matrices
+                                                                                                
+                                           |B ∗ |−2                                             
+                                     ∗        X
+                                   |B |−1
+                      C ∗ :=    e    +                 αi eim−1 : α1 , . . . , α|B ∗ |−2 ∈ {0, 1}              (12)
+                                m−1                                                             
+                                              i=1
+
+and                         h                      ∗
+                                                                                               i
+                                                                         |B ∗ |−2     |B ∗ |−1
+            D ∗ := B ∗ /e1 = e1m−1 e2m−1 · · · e|B
+                                                m−1
+                                                     |−2
+                                                         e1
+                                                          m−1 + · · · + em−1      + 2em−1        .             (13)
+By (10), we can assume that C ∗ contains all columns in (A ∩ span B ∗ )/e1 that have multiple
+originals, i.e., M ∩ span D ∗ ⊆ C ∗ .
+     L EMMA 4.    If [b|b + d] ⊆ M for some b ∈ M \ C ∗ and d ∈ span D ∗ , then d ∈ [D ∗ | − D ∗ ].
+ Proof. Set s := |B ∗ | − 1 ≥ 1. By Cramer’s rule and the bimodularity of A/e1 , we have d =
+D v, where v = (v1 , . . . , vs ) ∈ {±1, ±1/2, 0}s . Set D ∗ = [d1 | · · · |ds ]. Recall (3):
+  ∗
+
+                                                                     
+                                                          D∗ 0 d
+                                      [D ∗ |b|b + d] ∼  0 1 1 
+                                                           0 0 0
+
+where D ∗ = [d1 | · · · |ds ] = [e1s | · · · |ess−1 |e1s + · · · + ess−1 + 2ess ] and d = D ∗ v. For every choices of
+(γ1 , b) and (γ2 , b + d) in A, we have
+                                                                     
+                                  0               0      1 γ1 γ2
+                          det  d1 · · · ds−1 ds 0 d  = 2|γ2 − γ1 − vs | ≤ 2.
+                                  0               0      0 1 1
+    If vs 6∈ Z, then 2(γ2 − γ1 − vs ) is odd and contained in {±2, ±1, 0}. There are two choices
+for both γ1 and γ2 because [b|b + d] ⊆ M . However, this means that there are at least three
+distinct odd values of 2(γ2 − γ1 − vs ) in {±2, ±1, 0}, which is a contradiction. Hence, vs ∈ Z.
+This implies that v ∈ {±1, 0}s because D ∗ v = d ∈ ZP           m−1
+                                                                    .
+    Set I := supp(v1 , . . . , vs ). If |I | ≥ 2, then /2 · (d + i∈{1,...,s}\I di ) ∈ Zm−1 . This implies there
+                                                      1
+
+exist originals of b, b + d, and di for each i ∈ {1, . . . , s} \ I that satisfy (8). However, there are
+only s + 2 − |I | < s + 1 = |B ∗ | columns here, which contradicts the minimality of B ∗ . Hence,
+|I | = 1 and d ∈ [D ∗ | − D ∗ ].                                                                             
+  L EMMA 5. If C = [b1 | · · · |bt ] ⊆ M is a circuit, then [D ∗ |bj1 | · · · |bjt−1 ] contains a circuit for
+every choice of indices j1 , . . . , jt−1 ∈ {1, . . . , t}.
+  Proof. Set s := |B ∗ | − 1 ≥ 1, and set D ∗ = [d1 | · · · |ds ]. Assume to the contrary that
+[D ∗ |b1 | · · · |bt−1 ] has linearly independent columns. Using linear independence and (3), we
+have                                                        
+                                                         D 0
+                                            [D ∗ |C] ∼  0 C  ,
+                                                         0 0
+where D ∗ = [d1 | · · · |ds ] = [e1s | · · · |ess−1 |e1s + · · · + ess−1 + 2ess ] and C ∈ Z(t−1)×t . By Lemma 2 (ii),
+there exists some γ = (γ1 , . . . , γt ) ∈ Zt such that (γ ⊺ , C) ⊆ A and | det(γ ⊺ , C)| = 2. Therefore,
+                                                     1 γ⊺
+                                                             
+                               0               0
+                       det  d1 · · · ds−1 ds 0  = det D ∗ · det(γ ⊺ , C) = 4,
+                               0               0     0 C
+which contradicts (4).                                                                                            
+                                                                                                             11
+
+  L EMMA 6. If C ⊆ M is a circuit and |C \ C ∗ | ≥ 2, then C \ C ∗ = [b|b+d] for some b ∈ M \ C ∗
+and d ∈ D ∗ . Given that |C | ∈ {3, 4} from Lemma 2 (i), it follows that C ∩ C ∗ 6= ∅.
+  Proof. Set s := |B ∗ | − 1 ≥ 1 and t := |C |. By Lemma 5, we know that rank[D ∗ |C] ≤ rank D ∗ +
+rank C − 1 = s + t − 2. Also, by |C \ C ∗ | ≥ 2 and M ∩ span D ∗ ⊆ C ∗ , we know that rank[D ∗ |C] ≥
+rank D ∗ + 1 = s + 1. By Lemma 2 (i), we have t ∈ {3, 4}. In both cases, we argue that |C \ C ∗ | =
+2 and rank[D ∗ |C] = s + 1. It will then follow from Lemma 4 and after possibly multiplying the
+column by −1, that C \ C ∗ = [b|b + d] for b ∈ M \ C ∗ and d ∈ D ∗ .
+  Assume that t = 3; then rank[D ∗ |C] = s + 1. If |C \ C ∗ | = 3, then [D ∗ |C] ∼ [D ∗ |es+1    s+1
+                                                                                          m−1 |em−1 +
+d1 |es+1      2                 1   2           ∗                            1   2
+     m−1 + d ] for distinct d , d ∈ span D . By Lemma 4, we have d , d ∈ [D | − D ]. The
+                                                                                        ∗      ∗
+          s+1     1 s+1        2                           2     1      ∗      ∗
+matrix [em−1 + d |em−1 + d ] is contained in M but d − d ∈         / [D | − D ] for any two distinct
+columns in D ∗ ; this contradicts Lemma 4. Therefore, |C \ C ∗ | = 2 when t = 3.
+  Assume that t = 4. If rank[D ∗ |C] = s + 1, then |C \ C ∗ | = 2 as in the case t = 3. Assume to
+the contrary that rank[D ∗ |C] = s + 2. By (3), we can assume that
+                                                                  
+                                               D ∗ 0 D ∗ u3 D ∗ u4
+                                  [D ∗ |C] ∼  0 I2 v3       v4  ,
+                                                0 0    0      0
+
+where D ∗ = [e1s | · · · |ess−1 |e1s + · · · + ess−1 + 2ess ], u3 = (u31 , . . . , u3s ) and u4 are contained in
+{0, ±1/2, ±1}s , and v3 = (v13 , v23 ) and v4 = (v14 , v24 ) are contained in {0, ±1}2 . Lemma 2 (iv)
+implies C is unimodular because t = 4, and Lemma 2 (iii) implies 1/2 · (1 + v3 + v4 ) ∈ Z2 . We
+derive a contradiction in two cases.
+  First, assume that v3 ∈ {±1}2 or v4 ∈ {±1}2 . Say v3 ∈ {±1}2 ; then v4 = 0 and |C \ C ∗ | = 3.
+For δ ∈ Z and γ = (γ1 , γ2 ) ∈ Z2 , the matrix
+                                                                       
+                                          0         0    1 γ⊺      δ
+                       E(γ, δ) :=  d1 · · · ds−1 ds 0 D ∗ u3  ∈ Z(s+3)×(s+3)
+                                          0         0 0 I2 v3
+has an absolute determinant of 2|δ − γ ⊺ v3 − u3s | = |2(δ − γ ⊺ v3 ) − 2u3s | ∈ {0, 1, 2}. Given that
+C ⊆ M , there are two choices for each of γ1 , γ2 , and δ such that (E(γ, δ), 0) ⊆ A. Thus, there
+are at least four distinct values of 2(δ − γ ⊺ v3 ) − 2u3s in {±2, ±1, 0} that have the same parity,
+namely, the same parity as 2u3s . However, this is a contradiction.
+  Second, assume that v3 ∈ {±e12 } and v4 ∈ {±e22 } or that v3 ∈ {±e22 } and v4 ∈ {±e12 }; then
+|C \ C ∗ | = 4. By Lemma 4, we have D ∗ u3 , D ∗ u4 ∈ [D ∗ | − D ∗ ]. By possibly multiplying the
+column by −1, we assume D ∗ u3 ∈ D ∗ . Set F := D ∗ \{D ∗ u3 } and F := D ∗ \{D ∗ u3 }. By Lemma
+2 (ii), there exists a vector γ = (γ1 , . . . , γ4 ) ∈ Z4 such that (γ ⊺ , C) ⊆ A and 2 = det(γ ⊺ , C) .
+Let δ ∈ Zs−1 be such that (δ ⊺ , F ) ⊆ A. We have
+            ⊺                        
+             δ γ1 γ2 γ3          γ4                             
+                                                     F 0 D ∗ u3
+      det  F 0 0 D ∗ u3 D ∗ u4  = det                        3   · det(γ ⊺ , C) = 2 det D ∗ = 4,
+                                                      0 I 2  v
+             0 e12 e22 v3       v4
+which is a contradiction.
+ Therefore, |C \ C ∗ | = 2 and rank[D ∗ |C] = s + 1 when t = 4.                                              
+ We arrive at our main result in this section. We repeat assumptions for the reader.
+  L EMMA 7. Assume that A only contains primitive columns and let C 1 ⊆ M be a circuit.
+Choose B ∗ ⊆ A that satisfies (8) and minimizes |B ∗ |, and assume that B ∗ has the form (9).
+Recall C ∗ from (12) and D ∗ from (13).
+ 12
+
+  (i) If |B ∗ | = 2, then C 1 = [C ∗ |b|b + 2e1m−1 ] for some b ∈ A/e1 . Furthermore, C 1 is the unique
+      circuit in M , so |M | ≤ m.
+ (ii) If |B ∗ | = 3, then C 1 = [C ∗ |b|b + d] for some b ∈ A/e1 and d ∈ D ∗ . Furthermore, C 1 is the
+      unique circuit in M , so |M | ≤ m.
+(iii) If |B ∗ | = 4, then either C 1 = C ∗ , or |C 1 ∩ C ∗ | = 2 and |C 1 | = 4. Moreover, if M contains
+      multiple circuits, say C 1 6= C ∗ , then M contains precisely three circuits: C 1 , C ∗ , and the
+      symmetric difference C 1 △C ∗ . Regardless of the number of circuits, |M | ≤ m + 1.
+    Proof. We have |C 1 | ∈ {3, 4} by Lemma 2 (i).
+  (i) Note that C ∗ = [e1m−1 ], so |C 1 \ C ∗ | ≥ 2. It follows from Lemma 6 that |C 1 \ C ∗ | = 2 and
+      C \ C ∗ = [b|b + 2e1m−1 ] for some b ∈ M \ C ∗ . Therefore, C 1 = [C ∗ |b|b + 2e1m−1 ].
+          If M contains another circuit C 2 , then C 2 = [C ∗ |b′ |b′ + 2e1m−1 ] with b 6= b′ . The col-
+      umn e1m−1 is linearly dependent on [b|b + 2e1m−1 ] and on [b′ |b′ + 2e1m−1 ]. Hence, [b|b +
+      2e1m−1 |b′ |b′ + 2e1m−1 ] ⊆ M \ C ∗ contains a circuit C 3 . However, |C 3 \ C ∗ | = |C 3 | ≥ 3 because
+      C 3 ⊆ M \ C ∗ ; this contradicts Lemma 6.
+ (ii) Note that C ∗ = [e2m−1 |e1m−1 + e2m−1 ], so |C 1 \ C ∗ | ≥ 1. If |C 1 \ C ∗ | = 1, then C 1 ⊆ span C ∗ =
+      span D ∗ , which contradicts M ∩ span D ∗ ⊆ C ∗ . Thus, |C 1 \ C ∗ | ≥ 2. It follows from Lemma 6
+      that |C 1 \ C ∗ | = 2 and C 1 \ C ∗ = [b|b + d] for some b ∈ M \ C ∗ and d ∈ D ∗ . Hence,
+      C 1 = [C ∗ |b|b + d] because rank[e2m−1 |b|b + d] = rank[e1m−1 + e2m−1 |b|b + d] = 3.
+          If M contains another circuit C 2 , then C 2 = [C ∗ |b′ |b′ + d′ ] for some b′ ∈ M \ C ∗ and
+      d ∈ D ∗ . We know that [b|b + d|b′ |b′ + d′ ] ⊆ M \ C ∗ does not contain a circuit because
+        ′
+
+      such a circuit would not satisfy Lemma 6. Therefore, rank[b|b+d|b′ |b′ +d′ ] = 4. However,
+      e1m−1 +e2m−1 is linearly dependent on [e2m−1 |b|b+d] and on [e2m−1 |b′ |b′ +d′ ], which implies
+      that [e2m−1 |b|b + d|b′ |b′ + d′ ] is a circuit with five columns; this contradicts Lemma 2 (i).
+(iii) If |C 1 | = 3 and C 1 is unimodular, then |B ∗ | ≤ 3 by Lemma 2 (iii), which contradicts the
+      minimality of |B ∗ | in Case (iii). If |C 1 | = 3 and C 1 is not unimodular, then |B ∗ | ≤ 2 by
+      Lemma 2 (iv), which again contradicts the minimality of |B ∗ | in this case. Hence, |C 1 | = 4.
+          Suppose C 1 6= C ∗ ; then |C 1 \ C ∗ | ≥ 1 because both matrices are circuits. Recall M ∩
+      span D ∗ ⊆ C ∗ ; see the sentence after (13). If |C 1 \ C ∗ | = 1, then C 1 ⊆ M ∩ span C ∗ =
+      M ∩ span D ∗ ⊆ C ∗ because C 1 is a circuit; this contradicts |C 1 \ C ∗ | = 1. It then follows
+      from Lemma 6 that |C 1 \ C ∗ | = 2. Hence, C 1 = [c1 |c2 |b1 |b1 + d1 ] for some c1 , c2 ∈ C ∗ ,
+      b1 ∈ M \ C ∗ , and d1 ∈ D ∗ . We have
+                                                         
+                                                           0 1 0 1 0 d11
+                                                                              
+                                                          0 0 1 1 0 d12 
+                                       ∗ 1     1    1
+                                                                             
+                                                                             1
+                                    [C |b |b + d ] ∼     1 1 1 1 0 d3  ,                              (14)
+                                                         0 0 0 0 1 1 
+                                                           0 0 0 0 0 0
+
+      where d := (d11 , d12 , d13 ) ∈ D ∗ = [(1, 0, 0)|(0, 1, 0)|(1, 1, 2)].
+        Given that C 1 is a circuit, d1 linearly depends on c1 and c2 . From this and (14), we can
+      determine [c1 |c2 ] (the index sets refer to the matrix on the right hand side of (14)):
+
+                         If d = (1, 0, 0), then [c1 |c2 ] is indexed by {1, 2} or {3, 4}.
+                         If d = (0, 1, 0), then [c1 |c2 ] is indexed by {1, 3} or {2, 4}.               (15)
+                         If d = (1, 1, 2), then [c1 |c2 ] is indexed by {1, 4} or {2, 3}.
+
+        C LAIM 1. If C 2 ⊆ M is a circuit and C 2 6= C ∗ , then C 1 \ C ∗ = C 2 \ C ∗ .
+                                                                                                          13
+
+      Proof. Assume to the contrary that there exists a circuit C 2 ⊆ M with C 2 6= C ∗ and
+   C 1 \ C ∗ 6= C 2 \ C ∗ . As was the case with C 1 , we can write C 2 = [c3 |c4 |b2 |b2 + d2 ] for
+   some c3 , c4 ∈ C ∗ , b2 ∈ M \ C ∗ and d2 ∈ D ∗ . We know that [b1 |b1 + d1 ] 6= [b2 |b2 + d2 ]
+   because C 1 \ C ∗ 6= C 2 \ C ∗ . Also, [b1 |b1 + d1 |b2 |b2 + d2 ] ⊆ M \ C ∗ does not contain a circuit
+   because such a circuit would not satisfy Lemma 6. Thus, rank[b1 |b1 + d1 |b2 |b2 + d2 ] = 4
+   and d1 6= d2 . It follows from (15) that {c1 , c2 } \ {c3 , c4 } 6= ∅; say c1 6∈ {c3 , c4 }. Similarly, we
+   can assume that c3 6∈ {c1 , c2 }. Consequently, any three columns of [d1 |d2 |c1 |c3 ] are linearly
+   independent. However, this implies [b1 |b1 + d1 |b2 |b2 + d2 |c1 |c3 ] is a circuit of cardinality
+   six, which contradicts Lemma 2 (i).                                                                      ⋄
+      Recall |M ∩ C ∗ | ≥ 2. By Claim 1, every circuit in M is contained in (14). By Lemma 6,
+   any circuit in M besides C ∗ uses columns 5 and 6 alongside two of the first four columns.
+   This shows that either M only contains one circuit, namely C 1 , or M contains the three
+   circuits C 1 , C ∗ , and C 1 △C ∗ .
+      Suppose |M ∩ C ∗ | ≤ 3. Hence, C ∗ is not contained in M . For any two columns in M ∩ C ∗
+   and any choice of (d11 , d12 , d13 ), there exists at most one pair of columns in M ∩ C ∗ that
+   form a circuit with columns 5 and 6; see (15). Hence, M contains at most one circuit, so
+   |M | ≤ m.
+      Suppose |M ∩ C ∗ | = 4; then M ∩ C ∗ = C ∗ . Let c ∈ M ∩ C ∗ . The matrix M \ {c} satisfies
+   |M ∩ C ∗ \ {c}| = 3. Therefore, |M \ {c}| ≤ m from the previous paragraph. Hence, |M | ≤
+   m + 1.                                                                                                   
+
+  3.3. Additional structural properties when |B ∗ | = 2.
+  L EMMA 8. Assume that A only contains primitive columns. Choose B ∗ ⊆ A that satisfies (8)
+and minimizes |B ∗ |, and assume that B ∗ has the form (9). If |B ∗ | = 2, m ≥ 3 and |M | = m, then
+                                                 1
+                                                   m2 + m + 3.
+                                                         
+                                         |A| ≤                                                         (16)
+                                                 2
+  Proof. The assumption |M | = m implies that M contains a circuit, so we can apply
+Lemma 7. Suppose m = 3. The following claim shows that (16) holds.
+  C LAIM 2.    A ∼ [e1 |e1 + 2e2 |e2 |e1 + e2 |e3 |e1 + e3 |e1 + 2e2 + e3 |2e1 + 2e2 + e3 |e1 + e2 + e3 ].
+  Proof of Claim. By Lemma 7 (i) and (12), the circuit has the form [e12 |b|b + 2e12 ] for some
+b ∈ A/e1 . After elementary operations, we have
+                                                                                            
+                                                     1 1 β0 β0 + 1 β1 β1 + 1 β2 β2 + 1
+           β β + 1 β1 β1 + 1      β2     β2 + 1
+A ⊇ B ∗ 10 0 1                                      ∼0 2 1      1   0      0    2       2 .
+           e2 e2      b    b    b + 2e12 b + 2e12
+                                                       0 0 0     0   1      1    1       1
+We assume, without loss of generality, that the equivalence in the latter displayed equation
+is an equation. We must have β0 = 0 because it is the midpoint of the columns of B ∗ ; see
+Lemma 1 (ii). By subtracting the third row from the first row β1 many times, we assume
+β1 = 0; we then see that 2|β2 − 2| ≤ 2 using bimodularity with columns 2, 6, and 7 and that
+2|β2 | ≤ 2 using bimodularity with columns 2, 5, and 8. Hence, β2 = 1. By Lemma 1 (ii) and
+the maximality of A, it follows that 1/2 · ((β2 + 1, 2, 1) + (β1, 0, 1)) = (1, 1, 1) ∈ A. Thus, A has
+at least c(2, 3) = 9 columns.
+   The following equation follows from the definition of A/e1 :
+                                                     X
+                           |A| = |O(0)| + |A/e1 | +
+                                                                         
+                                                             |O(b)| − 1 .
+                                                        b∈A/e1
+14
+
+By using (11) and Lemma 1 (i), we see that
+                                        X
+               |A| = |O(0)| + |A/e1 | +                  |O(b)| − 1 = 1 + |A/e1 | + |M |.
+                                                                   
+
+                                                b∈A/e1
+
+
+The matrix A/e1 ⊆ Z2 is bimodular and contains 2e12 and e12 . It is quickly verified that (after
+multiplying columns by −1), we have |A/e1 | ≤ 5; see also the proof of Proposition 2 for an
+argument of this. Hence,
+
+                                  |A| = 1 + |A/e1 | + |M | ≤ 1 + 5 + 3 = 9.                                (17)
+
+Thus, |A| = 9 and A can be transformed via elementary operations to the form in Claim 2. ⋄
+  Suppose m ≥ 4. It follows from Lemma 7 (i) that M = [e1m−1 |b1 | · · · |bm−1 ] and M contains
+exactly one circuit [e1m−1 |b1 |b2 ] = [e1m−1 |b1 |b1 + 2e1m−1 ]. Hence,
+
+                                        E := b1 b2 · · · bm−1
+                                                                  
+
+
+is a basis and | det E | = | det[b1 |b2 | · · · |bm−1 ]| = | det[b1 |2e1m−1 | · · · |bm−1 ]| = 2. Observe that
+
+                            E ∼ e2m−1 e2m−1 + 2e1m−1 e3m−1 · · · em−1
+                                                                                     
+                                                                              m−1 ,
+
+
+so if Ew ∈ A/e1 for some w = (w1 , . . . , wm−1 ) ∈ Rm−1 , then w3 , . . . , wm−1 ∈ {−1, 0, 1}.
+  For i = 1, . . . , m − 1, let βi ∈ Z be such that (βi , bi ), (βi + 1, bi ) ∈ A. Define
+
+                    Γ := {γ = (γ1 , . . . , γm−1 ) : γi ∈ {βi , βi + 1} ∀ i = 1, . . . , m − 1}.
+
+For each (β, b) ∈ A and γ = (γ1 , . . . , γm−1 ) ∈ Γ, Cramer’s rule and bimodularity of A/e1 imply
+E −1 b =: v = (v1 , . . . , vm−1 ) ∈ {±1, ±1/2, 0}m−1 . Furthermore,
+                                 ⊺              ⊺          
+                                 γ β              γ β − γ⊺v
+                            det          = det                  = 2|β − γ ⊺ v| ≤ 2,
+                                 E b              E       0
+
+so |β − γ ⊺ v| ≤ 1. As v3 , . . . , vm−1 ∈ {−1, 0, 1}, the maximum σmax and minimum σmin of {β −
+γ ⊺ v : γ ∈ Γ} satisfy 2 ≥ σmax − σmin ≥ 1/2 · | supp(v1 , v2 )| + | supp(v3 , . . . , vm−1 )|. Thus, we have
+| supp(v3 , . . . , vm−1 )| ≤ 2 because |β − γ ⊺ v| ≤ 1 holds for all γ ∈ Γ. This leads to a natural
+partition of A. For j = 0, 1, 2, define
+
+             Aj := (β, b) ∈ A : E −1 b = (v1 , . . . , vm−1 ) with | supp(v3 , . . . , vm−1 )| = j .
+                      
+
+
+We have M ⊆ [A0 |A1 ] because M = [e1m−1 |b1 | · · · |bm−1 ] and [e1m−1 |b1 |b2 ] is a circuit.
+     C LAIM 3.   A0 ∼ [e1 |e1 + 2e2 |e2 |e1 + e2 |e3 |e1 + e3 |e1 + 2e2 + e3 |2e1 + 2e2 + e3 |e1 + e2 + e3 ].
+  Proof of Claim. By definition, A0 = A ∩ span{e1 , (β1 , b1 ), (β2 , b1 + 2e1m−1 )} and rank A0 = 3.
+Recall (3): A0 ∼ (A0 , 0), where A0 is a full row rank bimodular matrix. One such sequence of
+elementary operations maps e1 to e13 , e2 to e23 , and b1 to e33 . By Claim 2, we know that |A0 | = 9
+and A0 can be transformed via elementary operations to the form described in Claim 3.               ⋄
+  C LAIM 4. For each i = 3, . . . , m − 1, there are at most four columns (β, b) ∈ A such that
+E −1 b = (v1 , . . . , vm−1 ) satisfies supp(v3 , . . . , vm−1 ) = {i}. Consequently, |A1 | ≤ 4(m − 3).
+                                                                                                             15
+
+  Proof of Claim. Following Claim 3, we assume
+
+      A0 = [e1 |e1 + 2e2 |e2 |e1 + e2 |e3 |e1 + e3 |e1 + 2e2 + e3 |2e1 + 2e2 + e3 |2e1 + e2 + e3 ].       (18)
+
+Set
+          F i := (β, b) ∈ A : E −1 b = (v1 , . . . , vm−1 ) satisfies supp(v3 , . . . , vm−1 ) = {i} .
+                
+
+We claim that
+
+                  a − a′ ∈ [A0 | − A0 ] for every pair of distinct columns a, a′ ∈ F i .                  (19)
+
+Assume to the contrary that (19) is violated by some a, a′ ∈ F i . Recall (3): [A0 |a − a′ ] ∼ (F , 0),
+where F has full row rank and differing columns. We have rank F = 3 because a, a′ ∈ F i .
+Claim 2 established that a rank-3 bimodular matrix A containing A0 has at most                   nine differing
+                                                                                                            
+columns. It follows      that   F is not bimodular.   In particular,   there   exists a basis  a − a′ |c|d ⊆ F
+
+such that | det a − a′ |c|d | ≥ 3. By (4), any basis in A containing [a|a′ |c|d] has an absolute
+determinant of at least three, which contradicts that A is bimodular. This shows that (19) is
+true.
+  Note that F i contains (βi , bi ) and (βi + 1, bi ). Let a, a′ ∈ F i \ {(βi , bi ), (βi + 1, bi )}. The
+following are columns of [A0 | − A0 ] according to (19): a − (βi , bi ), a − (βi + 1, bi ) = a −
+(βi , bi ) − e1 , a′ − (βi, bi ), and a′ − (βi +1, bi ) = a′ − (βi, bi ) − e1 . From (18) and the assumption
+that A only contains primitive columns, it follows that
+                          
+              βi             β
+       a − i , a − ii ∈ e1 + e2 , e1 + e3 , −(e1 + 2e2 + e3 ), 2e1 + 2e2 + e3 , −e2 , −e3 .
+                        ′
+                                      
+              b              b
+
+Furthermore, a − a′ = (a − (βi , bi )) − (a′ − (βi , bi )) is a column of [A0 | − A0 ]. Define S 1 :=
+{e1 + e2 , e1 + e3 , −(e1 + 2e2 + e3 )} and S 2 := {2e1 + 2e2 + e3 , −e2 , −e3 }. It is quickly checked
+that if both (a − (βi , bi )) and (a′ − (βi , bi )) are in S 1 or both are in S 2 , then a − a′ 6∈ [A0 | − A0 ].
+Hence, there are at most two columns F i \ {(βi , bi ), (βi + 1, bi )}. Equivalently, |F i | ≤ 4.             ⋄
+  C LAIM 5. |A2 | ≤ m−3
+                              
+                            2
+                               .
+   Proof of Claim. Let (β, b) ∈ A2 . Set E −1 b =: v = (v1 , . . . , vm−1 ), where supp(v3 , . . . , vm−1 ) =
+{i, j } for some i, j ∈ {3, . . . , m − 1}. To prove the claim, it suffices to show that there is no other
+                                                                    ′
+column (β ′ , b′ ) ∈ A2 such that E −1 b′ =: v′ = (v1′ , . . . , vm−1  ) satisfies supp v′ = {i, j }. Indeed,
+                                           2
+this will show that a column of A is uniquely determined by two indices in {3, . . . , m − 1}.
+   For simplicity, assume i = 3 and j = 4. Recall 2 ≥ σmax − σmin ≥ 1/2 · | supp(v1 , v2 )| +
+| supp(v3 , . . . , vm−1 )| ≥ | supp(v3 , v4 )| = 2. Therefore, it must hold that supp v = {3, 4}; in par-
+ticular, v1 = v2 = 0. Assume to the contrary that A contains another column (β ′ , b′ ) such
+that E −1 b′ =: v′ = (v1′ , . . . , vm−1
+                                     ′
+                                         ) satisfies supp v′ = {3, 4}. As was the case with v, we have
+supp v = {3, 4}. Recall that M ⊆ [A0 |A1 ]. This implies b 6∈ M and |O(b)| = 1. Therefore, b
+            ′
+
+and b′ are distinct because |O(b′ )| = 1 and (β, b) 6= (β ′ , b′ ). In fact, the two columns dif-
+fer according to assumption (6). Given that v3 , v4 , v3′ , v4′ ∈ {−1, 1}, the columns (v3 , v4 ) and
+(v3′ , v4′ ) must have different sign patterns, say v3 = v3′ = 1 and v4 = −v4′ = 1. By multi-linearity
+of the determinant,
+                                                       
+                                                         v3 v3′
+                                                                
+               1 2        ′   5       m−1
+                                              
+                                                                  · det b1 · · · bm−1 = 2| det E | = 4.
+                                                                                      
+      det b b b b b · · · b                     = det         ′
+                                                         v4 v4
+
+This contradicts that A/e1 is bimodular.                                                                      ⋄
+16
+
+  Finally, we prove (16) by combining Claims 3, 4, and 5:
+                                                           
+                     0      1      2                    m−3    1
+             |A| = |A | + |A | + |A | ≤ 9 + 4(m − 3) +        = (m2 + m) + 3.
+                                                         2     2
+                                                                                                        
+
+   3.4. Additional structural properties when |B ∗ | = 3. Throughout Section 3, we have
+assumed that A has the form (5). In order to transform A into this form, we identify a
+primitive column to transform into e1 . Our choice of a primitive column thus far has been
+somewhat arbitrary when in reality there are multiple choices. For example, if [e1 |e2 |e1 +
+e2 + 2e3 ] ⊆ A, then any of these columns can be chosen. Moreover, these columns are inter-
+changeable: if we label the columns as a1 , a2 , and a3 , then for any permutation σ ∈ S 3 there
+are elementary operations such that [aσ(1) |aσ(2) |aσ(3) ] = [e1 |e2 |e1 + e2 + 2e3 ]. The discussion
+surrounding Equation (20) in the proof of Lemma 9 illustrates this symmetry in more detail.
+In Lemma 9, we consider swapping the roles of e1 and another primitive column in [e1 |e2 |e1 +
+e2 + 2e3 ]. In order to formalize our argument, we define A/a for a primitive column a ∈ A
+to be the matrix A/e1 after identifying a with e1 . We use Ma to denote the set of columns of
+A/a with at least two originals in A, and we use O(C) to denote the set of original columns
+in A corresponding to a subset C ⊆ A/a.
+   L EMMA 9. Assume that A only contains primitive columns and M contains a circuit. Choose
+  ∗
+B ⊆ A that satisfies (8) and minimizes |B ∗ |, and assume that B ∗ has the form (9). If |B ∗ | = 3,
+then there exists at least one column a ∈ [e1 |e2 |e1 + e2 + 2e3 ] such that Ma does not contain a
+circuit. It follows that |Ma | ≤ m − 1.
+  Proof. Let a ∈ [e1 |e2 |e1 + e2 + 2e3 ]. As stated in the previous paragraph, we can assume
+a = e1 by applying elementary operations to A. Lemma 7 (ii) implies |Ma | ≤ m for each
+a ∈ [e1 |e2 |e1 + e2 + 2e3 ].
+   C LAIM 6. Suppose there exists a column a ∈ [e1 |e2 |e1 + e2 + 2e3 ] such that Ma contains a
+circuit C; then there exists a column a′ ∈ [e1 |e2 |e1 + e2 + 2e3 ] \ {a} such that Ma′ contains a
+circuit C ′ . Furthermore, O(C) = O(C ′).
+   Proof of Claim. Without loss of generality, a = e1 . It follows from Lemma 7 (ii) that C =
+[e1m−1 + e2m−1 |e2m−1 |e3m−1 |d + e3m−1 ] for some d = (d1 , d2 , 0) ∈ [e1m−1 |e1m−1 + 2e2m−1 ]. Given that
+C ⊆ M , we have (α, e2m−1 + e3m−1 ) and (α + 1, e2m−1 + e3m−1 ) are in A for some α ∈ Z. By (10),
+we can assume α = 0, so e2 + e3 , e1 + e2 + e3 ∈ A. Similarly, we can assume e3 , e1 + e3 ∈ A.
+Suppose (β, d + e3m−1 ), (β + 1, d + e3m−1 ) ∈ A. Hence,
+                                                                                       
+                                               1 0 1 0 1 0 1 0 1 β β+1
+                                             0 1 1 1 1 0 0 0 0 d1 d1                   
+                          ∗           ′
+                                                                                       
+                                                                                       ′
+                 A = [B | O(C) | A ] =  0 0 2 1 1 1 1 0 0 d2 d2 A  .
+                                                                                                     (20)
+                                            0 0 0 0 0 0 0 1 1 1                 1      
+                                               0 0 0 0 0 0 0 0 0 0              0
+
+Columns 4-11 in (20) correspond to O(C).
+  Suppose d = e1m−1 , or equivalently suppose (d1 , d2 ) = (1, 0). It follows that β = 0, and
+Columns 4-11 correspond to O(C ′ ), where C ′ ⊆ Me2 is a circuit. This proves the claim.
+  Suppose d = e1m−1 + 2e2m−1 or equivalently suppose (d1 , d2 ) = (1, 2). From (4), the top left
+4 × 11 submatrix of (20) is bimodular. From this, we see that β = 1: if β ≤ 0, then the first
+                                                                                                 17
+
+four rows of columns 2,7,9, and 10 form a basis with absolute determinant greater than two,
+and if β ≥ 2, then the first four rows of columns 2,6,8, and 11 form a basis with absolute
+determinant greater than two. Conduct the following three elementary row operations to A
+followed by multiplying columns by −1: (1) subtract the second row from the first row and
+subtract twice the second row from the third row; (2) multiply the third row by −1; (3) add
+the third row to the first row; (4) negate columns 6 and 7:
+                                                                
+                                  1 1 0 0 1 1 0 0 1 0 1
+                                0 1 1 1 1 0 0 0 0 1 1           
+                                                                
+                                                              ′′ 
+                            A ∼  0 2 0 1 1 1 1 0 0 0 0 A .
+                                                                                      (21)
+                                0 0 0 0 0 0 0 1 1 1 1           
+                                  0 0 0 0 0 0 0 0 0 0 0
+
+Columns 4-11 in (20) correspond to O(C), where C ⊆ A/e1 is a circuit. Similarly, Columns
+4-11 in (21) correspond to O(C ′ ), where C ′ ⊆ A/e2 is a circuit. Furthermore, Columns 4-11
+in (20) are equivalent up to row and column operations to Columns 4-11 in (21). Now, e2 on
+the right hand side of (21) is equivalent to e1 + e2 + 2e3 in (20). Therefore, in the original
+representation of A in (20), we conclude that there is a circuit C ′ ⊆ Me1 +e2 +2e3 such that
+O(C ′ ) = O(C).                                                                                    ⋄
+   Assume to the contrary that Me1 , Me2 , and Me1 +e2 +2e3 each contain a circuit. Call these
+circuits C 1 , C 2 , and C 3 , respectively. By Claim 6, for each i ∈ {1, 2, 3}, there exists some
+ji ∈ {1, 2, 3} \ {i} such that O(C i) = O(C ji ). Since there is an odd number of circuits here,
+we conclude that O(C 1 ) = O(C 2 ) = O(C 3 ). This means that columns 4-11 in (20) equal
+O(C 1 ), O(C 2), and O(C 3 ). Suppose (d1 , d2 ) = (1, 0). Denote column 4 by c. There is no col-
+umn c′ among 5-11 such that c − c′ ∈ {±(e1 + e2 + 2e3 )}. Therefore, c is not an original
+column of C 3 , which is a contradiction. Similarly, if (d1 , d2 ) = (1, 2), then we see that column
+10 is not an original column of O(C 2 ). This proves Lemma 9.                                      
+  This ends our discussion on new combinatorial properties of bimodular constraint matrices.
+We reiterate to the reader that we believe Lemmas 7 and 9 may be of independent interest in
+future research. Next, we apply these properties to prove Theorem 1.
+
+  4. A proof of Theorem 1. Proposition 1 proves c(2, m) ≥ 1/2 · (m2 + m) + m. We prove
+c(2, m) = 1/2 · (m2 + m) + m using induction on m. It is quickly verified that when m = 1 the
+unique maximal bimodular matrix is [1|2] (up to multiplying columns by −1). This proves
+c(2, 1) = 2. Assume that m ≥ 2 and
+                                     1 2   
+                         c(2, k) =     k +k +k        ∀ k = 1, . . . , m − 1.                  (22)
+                                     2
+Let A ∈ Zm×n be a maximal bimodular matrix with rank A = m and differing columns. After
+elementary operations, we can assume that e1 ∈ A. For the inductive step, we use the follow-
+ing relationship between |A| and |A/e1 |:
+                                                  X
+                         |A| = |O(0)| + |A/e1 | +
+                                                                 
+                                                       |O(b)| − 1 .
+                                                    b∈A/e1
+
+
+Recall M = {b ∈ A/e1 : |O(b)| ≥ 2}. We consider two cases: when A only contains primitive
+columns and when A contains a non-primitive column.
+Case 1. Assume that A only contains primitive columns. We have |O(0)| = 1 by Lemma 1 (i).
+18
+
+Subcase 1.1. Assume that M contains a circuit or M contains a column b′ with |O(b′ )| = 3.
+If |O(b′ )| = 3, then by Lemma 1 (ii) we have B ∗ ⊆ A that satisfies (8) and |B ∗ | = 2. If M
+contains a circuit, then we choose B ∗ ⊆ A that satisfies (8) and minimizes |B ∗ |. We have
+2 ≤ |B ∗ | ≤ 4Paccording to Lemma 2. In both cases, we can assume that B ∗ has the form (9),
+and |M | = b∈A/e1 (|O(b)| − 1) by (11).
+   Suppose |B ∗ | = 2. If m = 2, then A ⊆ span B ∗ by Lemma 3. It follows from (10) that A ⊆ A ∩
+span B ∗ ⊆ [B ∗ |e2 |e1 + e2 ]. Hence, |A| ≤ 4 = 1/2 · (m2 + m) + m − 1. Suppose m ≥ 3. Lemma 7 (i)
+implies |M | ≤ m. If |M | = m, then |A| ≤ 1/2 · (m2 + m) + 3 by Lemma 8. If |M | ≤ m − 1, then
+
+           |A| = 1 + |A/e1 | + |M | ≤ 1 + c(2, m − 1) + (m − 1) ≤ 1/2 · m2 + m + m − 1.
+                                                                                 
+
+Therefore,                    (
+                              1/2 · (m2 + m) + m − 1,   if m ≥ 4 or m = 2;
+                      |A| ≤                                                                   (23)
+                              1/2 · (m2
+                                          + m) + m,     if m = 3.
+   Suppose |B ∗ | = 3. We have [e1m−1 |e1m−1 + 2e2m−1 ] ⊆ A/e1 and every column of A/e1 is prim-
+itive because 2 < |B ∗ | = 3. Therefore, A/e1 satisfiesP Inequality (23). By Lemma 9, there exists
+                 1 2 1       2     3
+a column a ∈ [e |e |e + e + 2e ] such that |Ma | = b∈A/a (|O(b)| − 1) ≤ m − 1. Therefore,
+                               (
+                                1/2 · (m2 + m) + m − 2, if m ≥ 5 or m = 3;
+                        |A| ≤                                                                (24)
+                                1/2 · (m2 + m) + m − 1, if m = 4.
+
+
+  Suppose |B ∗ | = 4. If m = 4, then |A| ≤ 12 = 1/2 · (m2 + m) + m − 2 by (10). Suppose m ≥ 5;
+then |M | ≤ m + 1 by Lemma 7 (iii). The matrix B ∗ /e1 satisfies |B ∗ /e1 | = 3. Furthermore,
+B ∗ /e1 has minimal cardinality among all subsets of A/e1 satisfying (8) otherwise we would
+contradict the minimality of B ∗ . Hence, A/e1 satisfies Inequality (24) for m − 1. Therefore,
+                                  
+                                           2
+                                  1/2 · (m + m) + m − 1, if m ≥ 6;
+                                  
+                           |A| ≤ 1/2 · (m2 + m) + m,         if m = 5;                     (25)
+                                          2
+                                    /2 · (m + m) + m − 2, if m = 4.
+                                  1
+
+Subcase 1.2. Assume that M does not contain a circuit and M = {b ∈ A/e1 : |O(b)| = 2}.
+This implies |M | ≤ m − 1 and |A| ≤ 1 + c(2, m − 1) + (m − 1) ≤ 1/2 · (m2 + m) + m − 1.
+Case 2. Assume that A contains a non-primitive column a. The column 1/2 · a is contained in
+A because A is maximal, and the column is primitive by Lemma 1. By transforming 1/2 · a to
+e1 using elementary operations, a transforms to 2e1 , and we can write
+
+                                                    2 β⊺
+                                                         
+                                      1     ′
+                                               
+                                A = 2e A =                  ,
+                                                    0 Â
+
+where A′ ∈ Zm×(n−1) and e1 ∈ A′ . From this identity we see that Â ⊇ A/e1 is unimodular, so
+|A/e1 | ≤ c(1, m − 1) = 1/2 · (m2 − m).
+  We refer to known results in matroid theory to complete the case; see [31] for a thorough
+introduction on matroids. From Lemma 1 (i) and (ii), it follows that a − a′ 6∈ p · Zm for any
+distinct columns a, a′ ∈ A′ and any prime number p ≥ 3. This, along with the assumption that
+A′ is bimodular, demonstrates that the matrix A′ is a representation of a matroid M over
+the field GF(p) for any prime number p ≥ 3. Similarly, the matrix A/e1 is a representation
+of the simplification M/e1 of the minor of M obtained by contracting e1 ; here we use the
+                                                                                                19
+
+fact that A/e1 is defined to have differing columns. According to Kung [22, Lemma 2.2.1],
+M does not contain the Reid geometry. By [22, Theorem 3.1], it follows that |A′ | − |A/e1 | =
+|M| − |M/e1 | ≤ 2m − 1 . Therefore,
+                                                        1          1
+         |A| = 1 + |A′ | ≤ 1 + (2m − 1) + |A/e1 | ≤ 2m + (m2 − m) = (m2 + m) + m.
+                                                        2          2
+We remark that this matroid argument does not apply to Case 1, where A/e1 may not be
+unimodular so |A/e1 | ≤ c(1, m − 1) cannot be used in the last inequality.        
+Tight examples. Proposition 1 provides an example of a bimodular matrix A with a non-
+primitive column that satisfies |A| = c(2, m); therefore, the upper bound in Case 2 is tight.
+In the following paragraphs, we discuss the tightness of the bounds (23), (24), and (25),
+which consider when A only contains primitive columns. We highlight two special cases:
+when m = 3 and |B ∗ | = 2 and when m = 5 and |B ∗ | = 4. These cases are special because
+according to (23), (24), (25) and Subcase 1.2, they are the only cases when |A| may equal
+c(2, m).
+  When |B ∗ | = 2, the bound (23) is attainable. If m ≥ 4 or m = 2, then a tight example
+comes from deleting the non-primitive column from the example for c(2, m) in Section 2. This
+example is the vertex-edge incidence matrix of the directed complete graph on m vertices
+together with the identity matrix and m − 1 extra columns e1 + ei for i = 2, . . . , m. In this
+example, B ∗ corresponds to [e1 − e2 |e1 + e2 ]. For the special case when m = 3, a tight example
+with c(2, 3) = 9 columns is the matrix in Claim 2:
+                                                                          
+                     1 1 0 1 0 1 1 2 1               1 1 0 1 −1 0 0 1 0
+                    0 2 1 1 0 0 2 2 1  ∼  −1 1 1 0 0 −1 1 0 0  .
+                     0 0 0 0 1 1 1 1 1               0 0 0 0 1 1 1 1 1
+
+This example is the vertex-edge incidence matrix of the directed complete graph on three
+vertices appended to an identity matrix and three extra columns e1 + e2 , e1 + e3 , e2 + e3 .
+   When |B ∗ | = 3, the upper bound (24) for m ≥ 5 or m = 3 can be achieved by the example
+of the vertex-edge incidence matrix of the directed complete graph with the identity matrix
+and m − 2 extra columns e1 + e2 − ei for i = 3, . . . , m. For m = 4, the upper bound (24) can be
+achieved by the previous example with one extra column e1 + e2 − e3 − e4 . In these examples,
+one choice of B ∗ is [e3 |e1 − e2 |e1 + e2 − e3 ].
+   When |B ∗ | = 4, the upper bound (25) is tight for m = 4, 5. By setting A to the right hand
+side (10), we obtain a tight example when m = 4; here, B ∗ = [e1 |e2 |e3 |e1 + e2 + e3 + 2e4 ]. For
+the special case when m = 5, a tight example with 20 = c(2, 5) many columns consists of the
+twelve columns in the previous example for m = 4 and eight extra columns:
+                                                                            
+                       1 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 1 1
+                     0 1 0 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1
+                                                                            
+                      0 0 1 1 0 0 0 0 1 1 1 1 0 0 0 0 −1 0 0 1  .
+                                                                            
+                      0 0 0 2 1 1 1 1 1 1 1 1 0 0 0 0 −1 −1 1 1 
+                       0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1
+
+This example is equivalent to the vertex-edge incidence matrix of the directed complete graph
+minus the column e1 − e2 , along with the identity matrix and six extra columns: e1 + e2 − ei
+for i = 3, 4, 5 and e1 + e2 − e3 − e4 − e5 + ei for i = 3, 4, 5. Here, B ∗ corresponds to [e3 |e1 −
+e4 |e2 − e4 |e1 + e2 − e3 ].
+20
+
+   The bound (25) for m ≥ 6 already shows that the maximal example in this case has at
+most c(2, m) − 1 differing columns. However, we believe that this bound can be improved.
+Our current maximal example found for m = 6 has 1/2 · (m2 + m) + m − 2 = c(2, m) − 2 = 25
+columns. The example is the vertex-edge incidence matrix of the directed complete graph
+with identity matrix except e1 , e2 , along with −e1 + ei + ej for i 6= j ∈ {3, 4, 5, 6}. Here, one
+choice of B ∗ is [e3 − e4 |e5 − e6 | − e1 + e3 + e4 | − e1 + e5 + e6 ]. Our current maximal example
+found for m ≥ 7 has 1/2 · (m2 + m) + m − 3 = c(2, m) − 3 columns. The example is the vertex-
+edge incidence matrix of the directed complete graph without the column e1 − e2 , along with
+the identity matrix and the columns e1 + e2 − ei for i = 3, . . . , m. Here, B ∗ corresponds to
+[e3 |e1 − e4 |e2 − e4 |e1 + e2 − e3 ].
+
+  5. A proof of Proposition 2. If m = 1, then [1| · · · |∆] is the unique maximal ∆-modular
+matrix with differing columns (up to multiplication by −1). Thus, the result holds for m = 1.
+  Suppose m = 2. Let A ∈ Z2×n be a ∆-modular matrix with differing columns that satisfies
+rank A = 2 and |A| = c(∆, 2). Let [b1 |b2 ] ⊆ A satisfy | det[b1 |b2 ]| = ∆. Each column a ∈ A can
+be written as a = v1 b1 + v2 b2 for v1 , v2 ∈ [−1, 1]. Otherwise, say if |v1 | > 1, then we derive the
+contradiction | det[a|b2 ]| = |v1 | · | det[b1 |b2 ]| > ∆. After possibly multiplying columns of A by
+−1, we assume that v2 ∈ [0, 1] for each column v1 b1 + v2 b2 ∈ A.
+  Set Π := {v1 b1 + v2 b2 ∈ Z2 : v1 , v2 ∈ [0, 1)}. It is well known that |Π| = | det[b1 |b2 ]| = ∆;
+see [5, §VII]. Partition Π as Π = {0} ∪ Π1 ∪ Π2 ∪ Πint , where
+
+                             Π1 := {v1 b1 ∈ Π : v1 ∈ (0, 1)} ,
+                             Π2 := {v2 b2 ∈ Π : v2 ∈ (0, 1)} ,
+                             Πint := {v1 b1 + v2 b2 ∈ Π : (v1 , v2 ) ∈ (0, 1)2 } .
+
+   After multiplying columns by −1, we assume that if v1 b1 ∈ A for some v1 ∈ [−1, 1], then
+v1 ≥ 0. Hence, we assume A ∩ (Π1 + {0, −b1 }) ⊆ Π1 .4 We partition A \ Π as follows:
+
+            A \ Π = A ∩ Πint − b1
+                                  
+
+                   ∪ A ∩ Π1 + {b2 , −b1 + b2 } ∪ A ∩ {b2 , b1 + b2 , −b1 + b2 }
+                                                                               
+                                                                                       (26)
+                            2       1       1
+                                      
+                   ∪ A ∩ Π + {±b } ∪ {b }.                                             (27)
+
+   Suppose v1 b1 + b2 ∈ A for some v1 ∈ [−1, 1]; it follows that if w1 b1 + b2 ∈ A for some
+w1 ∈ [−1, 1], then |v1 − w1 | ≤ 1. Indeed, otherwise we obtain the contradiction | det[v1 b1 +
+b2 |w1 b1 + b2 ]| = |v1 − w1 | · | det[b1 |b2 ]| > ∆. This implies that the set in (26) has cardinality
+at most |Π1 | + 2; furthermore, the cardinality is equal to |Π1 | + 2 if and only if A contains two
+columns v1 b1 + b2 and (v1 + 1)b1 + b2 for some v1 ∈ [−1, 1]. Similarly, it can be shown that
+the set in (27) has cardinality at most |Π2 | + 2.
+   We claim that either the set in (26) has cardinality at most |Π1 | + 1 or the set in (27) has
+cardinality at most |Π2 | + 1. Assume that the set in (26) has cardinality |Π1 | + 2. Thus, A
+contains two columns of the form v1 b1 +b2 and (v1 +1)b1 +b2 . Replace b2 with v1 b1 +b2 ; the
+result is another basis in A of absolute determinant ∆. After this replacement, we can assume
+that A contains the columns b2 and b1 + b2 . The matrix A cannot contain a column of the
+form −b1 + v2 b2 for v2 > 0 otherwise | det[b1 + b2 | − b1 + v2 b2 ]| = |1 + v2 | · | det[b1 |b2 ]| > ∆.
+Hence, the set in (27) is contained in (A ∩ (Π2 + b1 )) ∪ {b1 }, which contains at most |Π2 | + 1
+
+4
+  For sets X, Y ⊆ Rd , the Minkowski sum is X + Y := {x + y : x ∈ X, y ∈ Y }. For y ∈ Rd , we write X + y instead
+of X + {y}.
+                                                                                                         21
+
+many elements. In other words, the union of the sets in (26) and (27) has cardinality at most
+|Π1 | + |Π2 | + 3.
+  The column 0 is in Π \ A, and |Π| = ∆. Therefore, |A ∩ Π| = |A ∩ (Πint ∪ Π1 ∪ Π2 )| ≤ |Π| − 1.
+The set A ∩ (Πint − b1 ) is contained in a translation of Πint , so |A ∩ (Πint − b1 ) | ≤ |Πint |. By
+combining our upper bounds and applying the claim in the previous paragraph, we obtain
+
+      |A| = |A ∩ Π| + |A \ Π| ≤ (|Π| − 1) + (|Πint | + |Π1 | + |Π2 | + 3) = 2(|Π| − 1) + 3 = 2∆ + 1.
+
+The equation c(∆, 2) = 2∆ + 1 then follows from Proposition 1.
+
+  6. A proof of Theorem 2. Let A ∈ Zm×n be a ∆-modular matrix with rank A = m and
+differing columns that satisfies c(∆, m) = |A|. Let B ⊆ A satisfy | det B | = ∆. If ∆ ≤ 2, then
+Theorem 2 follows from Theorem 1 and Heller’s result. Therefore, assume ∆ ≥ 3. We can
+assume that B is in Hermite Normal Form (See [34, §4.1]):5
+                                                                  
+                                                  Im−k ∗ · · · ∗
+                                                          . . .. 
+                                1       m
+                                                     δ 1    . . 
+                          B = b ··· b ∼                           ,
+                                                           ..
+                                                              . ∗
+                                                                  
+                                                
+                                                                δk
+                             Qk
+where δ1 , . . . , δk ≥ 2, i=1 δi = ∆, and for each bi = (bi1 , . . . , bim ), we have 0 ≤ bij < bii for all
+j = 1, . . . , i − 1 and bij = 0 for all j = i + 1, . . . , m.
+                                                                                               Qk−1
+   Each column a = (a1 , . . . , am ) ∈ A \ B satisfies |am | ≤ δk because |am | · i=1 δi =
+| det[b1 | · · · |bm−1 |a]| ≤ ∆. After possibly multiplying columns by −1, we can assume that am ∈
+{0, . . . , δk } for all columns a. For r ∈ Z, define
+                                              
+                                     A[r] := (a1 , . . . , am ) ∈ A : am = r .
+
+For each prime number p, define
+                                                             δk
+                                                             [
+                                                Â[p] :=              A[i].
+                                                           i=1, p|i
+
+By applying a union bound, we see that
+                                                                        δk
+                                                                        X
+                                    c(∆, m) = |A| ≤ |A[1]| +                    Â[p] .               (28)
+                                                                       p=2,
+                                                                      p prime
+
+
+We use (28) to upper bound |A| in terms of c(1, m), . . . , and c(∆ − 1, m). Our analysis distin-
+guishes between the cases k = 1 and k ≥ 2.
+Case 1. Assume that k = 1. Recall ∆ ≥ 3. For this range of ∆, Glanzer et al. [17, Subsection
+3.2] showed that
+                                  ∆                   
+                                 X        ∆                ∆
+                      c(∆, m) ≤       c       , m + 2c         ,m .                    (29)
+                                 p=2,
+                                           p                2
+                                           p prime
+
+
+5
+    We use the convention that blank entries in a matrix are zero.
+22
+
+
+
+Case 2. Assume that k ≥ 2. For a prime p ∈ {2, . . . , δk } and an integer i divisible by p, we can
+divide the mth row of A[i] by p. We have
+                                                                   
+                                  1      m−1
+                                                                   ∆
+                      Â[p] ≤     b ··· b        Â[p]       ≤ c        ,m                     (30)
+                                                                    p
+
+because the columns in the middle expression form a ⌊∆/p⌋-modular matrix with rank-m.
+  Consider A[1]. For each a = (a1 , . . . , am ) ∈ A[1], we have
+                                                                                    
+                                                        Im−k ∗ · · · ∗      ∗     ∗
+                                                            δ1 · · · ∗     ∗     ∗ 
+                                                                        ..   ..   .. 
+                                                                                    
+                                                                ..
+                  1
+            det[b | · · · | bm−2        m
+                                 | a | b ] = det 
+                                                                   .    .    .    . 
+                                                                                     
+                                                     
+                                                                     δk−2 ∗      ∗ 
+                                                                          am−1 bm
+                                                                                 m−1
+                                                                                     
+                                                                            1    δk
+                                                                          k−2
+                                                                          Y
+                                              = am−1 δk − bm
+                                                           m−1                  δi
+                                                                          i=1
+                                              ≤ ∆.
+
+Thus, |am−1 δk − bm                                                                 m
+                  m−1 | ≤ δk−1 δk . The Hermite Normal Form assumption implies 0 ≤ bm−1 < δk ,
+so we have |am−1 | ≤ δk−1 . For each r ∈ Z, define the column set
+                                      
+                           A[1, r] := (a1 , . . . , am ) ∈ A[1] : |am−1 | = r .
+
+With these sets, we can upper bound |A[1]|:
+                                                  ⌊log 2 (δk−1 −1)⌋
+                                                        X                [
+                       |A[1]| ≤ |A[1, δk−1 ]| +                                    A[1, s2i ] .
+                                                        i=0           s∈Z, s odd
+
+
+The matrix [b1 | · · · |bm−1 |A[1, δk−1 ]] is ∆-modular of full row rank, and the (m − 1)st row is
+divisible by δk−1 ; dividing the (m − 1)st row by δk−1 shows |A[1, δk−1 ]| ≤ c(∆/δk−1 , m).
+  For each i = 0, . . . , ⌊log2 (δk−1 − 1)⌋, define
+                                                    [
+                                         A[i] :=       A[1, s2i ].
+                                                  s∈Z, s odd
+
+
+If A[i] = A[1, s2i ] for a single odd integer s, then    perform the following elementary operation
+to the full row rank matrix b1 | · · · |bm−1 |A[i] : subtract s2i times the mth row from the (m −
+1)st row. The (m − 1)st row of the resulting matrix is divisible by δk−1 , so |A[i]| ≤ c(∆/δk−1 , m).
+   Suppose A[i] 6= A[1, s2i ] for a single odd integer s. For each column a =
+(a1 , . . . , am−2 , s2i , 1) ∈ A[i], if we add 2i times the mth row to the (m − 1)st row, then the result-
+ing column is (a1 , . . . , am−2 , (s + 1)2i, 1); in particular, the (m − 1)st entryis divisible by 2i+1
+because s is odd. Perform this elementary operation to the full rank matrix b1 | · · · |bm−2 |A[i] :
+add 2i times the mth row to the (m − 1)st row. The (m − 1)st row of the resulting matrix is
+divisible by 2i+1 . Hence, |A[i]| ≤ c(⌊∆/2i+1 ⌋, m).
+                                                                                                   23
+
+  Substituting (30) and our bounds for |A[1, δk−1 ]| and A[i] into (28), we see that
+             δk                             ⌊log2 (δXk−1 −1)⌋                  
+             X                 ∆          ∆                              ∆           ∆
+c(∆, m) ≤             c           , m +c      ,m +               max c       ,m ,c        ,m  .
+             p=2,
+                               p         δk−1             ℓ=0
+                                                                        δk−1        2ℓ+1
+            p prime
+
+If δk−1 = 2, then ⌊log2 (δk−1 − 1)⌋ = 0 and
+                                                         δk                             
+                                                         X                 ∆             ∆
+                                     c(∆, m) ≤                    c           , m + 2c     ,m .   (31)
+                                                         p=2,
+                                                                           p             2
+                                                        p prime
+
+If δk−1 = 3, then ⌊log2 (δk−1 − 1)⌋ = 1 and
+                                           δk                                  
+                                           X                 ∆             ∆         ∆
+                          c(∆, m) ≤                 c           , m + 2c     ,m +c     ,m .       (32)
+                                           p=2,
+                                                             p             3         2
+                                          p prime
+
+If δk−1 ≥ 4, then
+                       δk                                 ⌊log2 (δk−1
+                                                                        X−1)⌋−1  ∆  
+                       X                 ∆              ∆
+     c(∆, m) ≤                  c           , m + 2c        ,m +               c    ℓ+1
+                                                                                        ,m .      (33)
+                       p=2,
+                                         p             δk−1             ℓ=0
+                                                                                  2
+                      p prime
+
+This completes Case 2.
+  We now use the two cases to bound c(∆, m). Define g(∆, m) := 1/2 · (m2 + m)∆2 . We
+use induction on ∆ to show c(∆, m) ≤ g(∆, m). Glanzer et al. demonstrated that c(∆, m) ≤
+g(∆, m) for ∆ ≤ 3; see (1). Thus, we assume that ∆ ≥ 4 and c(δ, m) ≤ g(δ, m) for each δ < ∆.
+To prove c(∆, m) ≤ g(∆, m), it suffices to upper bound the right hand sides of (29), (32),
+and (33) by g(∆, m). Given that ∆ ≥ 4, we do not need to bound (31) because it is less
+than (29).                                                           P
+  Using the definition of g(δ, m) and the prime zeta function p(s) := p prime 1/ps , we arrive at
+the bound
+                      ∆                  ∆
+                     X          ∆           X    1
+                          g        ,m ≤            g(∆, m) ≤ p(2)g(∆, m).                   (34)
+                     p=2,
+                                p          p=2,
+                                                p2
+                               p prime                                p prime
+
+We know p(2) < 1/2 [36, A085548]. We extend (29) using the induction hypothesis, (34), and
+the definition of g(⌊∆/2⌋, m):
+                                            
+                                           1
+                          c(∆, m) ≤ p(2) +     g(∆, m) < g(∆, m).
+                                           2
+Similarly, we extend (32):
+                                                 
+                                           2 1
+                     c(∆, m) ≤ p(2) + +              g(∆, m) < g(∆, m).
+                                           9 4
+                    Pt−1
+We extend (33) using i=0 1/4i+1 = 1/3 · (1 − 1/4t ) < 1/3, the induction hypothesis and (34):
+                                                                
+                           2     1                           1 1
+        c(∆, m) ≤ p(2) + 2 +         g(∆, m) ≤ p(2) + +              g(∆, m) < g(∆, m).
+                         δk−1 3                              8 3
+24
+
+                                                                                                 
+  As a final remark, the term ∆2 in Theorem 2 comes from our ability to bound g(∆, m) via
+induction. If we apply our proof analysis to some other upper bound g(∆, m) = m2 ∆q , where
+1 ≤ q ≤ 2, then it suffices for q to belong to the following set:
+                                                                         
+                                        2    1 2        1     2
+                      q ∈ R≥0 : max q + q , q + q           ,     ≤ 1 − p(q) .
+                                        3    2 4      2 − 1 2q
+
+From numerical computation, q = 1.95 is in this set. Thus, c(∆, m) ≤ m2 ∆1.95 . We chose to
+present m2 ∆2 for simplicity.
+   An open question is whether c(∆, m) ≤ h(m)∆ for a polynomial h. Since posting the first
+version of this manuscript, we became aware of geometric arguments by Gennadiy Averkov
+and Matthias Schymura that c(∆, m) ≤ f(m)∆, where f is super-polynomial [4]. In fact, we
+can give a quick argument showing that c(∆, m) ≤ 3m ∆. If B ⊆ A satisfies | det B | = ∆, then
+every a ∈ A satisfies kB −1 ak∞ ≤ 1. Hence, A ⊆ Π + B {−1, 0, 1}m , where Π := {Bv ∈ Zm : v ∈
+[0, 1)m }. From this, we see that |A| ≤ 3m · |Π| = 3m ∆.
+
+  7. A proof of Theorem 3. Recall that when it comes to bounding π the matrix A does
+not necessarily have differing columns as is the case with the other results in this manuscript.
+  Let x∗ be a vertex of LP satisfying π = minz∈IP kx∗ − zk1 . By standard LP results, there
+exists a vector c ∈ Rn such that x∗ is the unique maximizer of x → c⊺ x over LP; see [7,
+Chapter 3]. By possibly perturbing c, we can assume that there is unique maximizer z∗ of
+z → c⊺ z over IP. Note that z∗ is a vertex of conv IP. Let k ≤ 2c(∆, m) + 1 denote the number
+of distinct columns of A. By applying [32, Theorem 2] with T = ∅ and B = A, there exists a
+matrix W ∈ Zk×n such that
+
+                              conv IP = conv{x ∈ LP : W x ∈ Zk }.
+
+The previous equation implies z∗ is also the unique maximizer of z → c⊺ z over the mixed
+integer linear set {x ∈ LP : W x ∈ Zk }, which has k many integer constraints.
+   Consider the difference vector x∗ − z∗ . From the equation π = minz∈IP kx∗ − zk1 , it follows
+that π ≤ kx∗ − z∗ k1 . The difference vector was first analyzed by Cook et al. [11] and later
+in [18, 20, 25, 33, 38]. The proof of mixed integer proximity in [33, Theorem 2] established
+that
+                                                 Xn
+                                         ∗    ∗
+                                        x −z =       λi ui ,
+                                                  i=1
+        1       n    n
+                                                       Pn
+where u , . . . , u ∈ Z and λ1 , . . . , λn ≥ 0 satisfy i=1 λi ≤ k. The result [25, Claim 8] demon-
+strated that kui k1 ≤ (m + 1)∆ for each i = 1, . . . , n. Therefore, π ≤ kx∗ − z∗ k1 ≤ (m + 1)∆k.
+The result now follows from Theorem 2.                                                           
+
+  Acknowledgments J. Lee was supported in part by ONR grant N00014-21-1-2135 and
+AFOSR grant FA9550-19-1-0175. J. Paat was supported by a Natural Sciences and Engineer-
+ing Research Council of Canada (NSERC) Discovery Grant [RGPIN-2021-02475]. The authors
+would like to thank Jim Geelen for making us aware of the results in [15]. We thank Stefan
+Kuhlmann for his comments on our lower bound construction, and we thank Rico Zenklusen
+for his comments regarding [6].
+                                                                                                     25
+
+References
+ [1] Aliev I, J De Loera, Oertel T, O’Neil C (2017) Sparse solutions of linear diophantine equations.
+     SIAM Journal on Applied Algebra and Geometry 1:239–253.
+ [2] Anstee R (1990) Forbidden configurations, discrepancy and determinants. European Journal of
+     Combinatorics 11:15–19.
+ [3] Artmann S, Weismantel R, Zenklusen R (2017) A strongly polynomial algorithm for bimodular
+     integer linear programming. Proceedings of the 49th Annual ACM SIGACT Symposium on Theory
+     of Computing, 1206–1219.
+ [4] Averkov G, Schymura M (2021) Personal communication.
+ [5] Barvinok A (2002) A Course in Convexity, volume 54 (Providence, Rhode Island: Graduate Studies
+     in Mathematics, American Mathematical Society).
+ [6] Cevallos A, Weltge S, Zenklusen R (2018) Lifting linear extension complexity bounds to the
+     mixed-integer setting. Proceedings of the 2018 Annual ACM-SIAM Symposium on Discrete Algo-
+     rithms 788 – 807.
+ [7] Conforti M, Cornuéjols G, Zambelli G (2014) Integer Programming (Springer).
+ [8] Conforti M, Fiorini S, Huynh T, Joret G, Weltge S (2020) The stable set problem in graphs with
+     bounded genus and bounded odd cycle packing number. Proceedings of the 2020 ACM-SIAM Sym-
+     posium on Discrete Algorithms, 2896–2915.
+ [9] Conforti M, Fiorini S, Huynh T, Weltge S (2020) Extended formulations for stable set polytopes of
+     graphs without two disjoint odd cycles. Proceedings of the 2020 International Integer Programming
+     and Combinatorial Optimization, 104–116.
+[10] Cook S (1971) The complexity of theorem-proving procedures. Proceedings of the 1971 ACM
+     Symposium on Theory of Computing 151–158.
+[11] Cook W, Gerards A, Schrijver A, Tardos É (1986) Sensitivity theorems in integer linear program-
+     ming. Mathematical Programming 34:251–264.
+[12] Diaconis P, Graham R, Sturmfels B (1993) Primitive Partition Identities. Combinatorics, Paul Erdös
+     is Eighty 2:173–192.
+[13] Eisenbrand F, Hunkenschröder C, Klein K (2018) Faster algorithms for integer programs with
+     block structure. 45th International Colloquium on Automata, Languages, and Programming (ICALP
+     2018), I. Chatzigiannakis, C. Kaklamanis, D. Marx, and D. Sannella (eds) 49:1–49:13.
+[14] Eisenbrand F, Weismantel R (2018) Proximity results and faster algorithms for integer program-
+     ming using the Steinitz lemma. Proceedings of the Twenty-Ninth Annual ACM-SIAM Symposium on
+     Discrete Algorithms, 808–816.
+[15] Geelen J, Nelson P, Walsh Z (2021) Excluding a line from C-representable matroids. Online
+     Preprint: https://arxiv.org/abs/2101.12000.
+[16] Glanzer C, Stallknecht I, Weismantel R (2021) On the Recognition of {a, b, c}-Modular Matrices.
+     Singh M, Williamson DP, eds., Integer Programming and Combinatorial Optimization, 238–251
+     (Cham: Springer), ISBN 978-3-030-73879-2.
+[17] Glanzer C, Weismantel R, Zenklusen R (2018) On the number of distinct rows of a matrix with
+     bounded subdeterminants. SIAM Journal of Discrete Mathematics 32:1706–1720.
+[18] Granot F, Skorin-Kapov J (1990) Some proximity and sensitivity results in quadratic integer
+     programming. Mathematical Programming 47:259–268.
+[19] Heller I (1957) On linear systems with integral valued solutions. Pacific Journal of Mathematics
+     7:1351 – 1364.
+[20] Hochbaum DS, Shanthikumar JG (1990) Convex separable optimization is not much harder than
+     linear optimization. Journal of the ACM 37:843–862.
+26
+
+[21] Hoffman A, Kruskal J (1956) Integral boundary points of convex polyhedra. Linear Inequalities
+     and Related Systems 24:223–246.
+[22] Kung J (1990) Combinatorial geometries representable over GF(3) and GF(q). I. The number of
+     points. Discrete Computational Geometry 5:83–95.
+[23] Kung J (1990) The long-line graph of a combinatorial geometry. II geometries representable over
+     two fields of different characteristics. Journal of Combinatorial Theory Series B 50:41–53.
+[24] Lee J (1989) Subspaces with well-scaled frames. Linear Algebra and its Applications 115:21–56.
+[25] Lee J, Paat J, Stallknecht I, Xu L (2020) Improving proximity bounds using sparsity. Proceedings
+     of the 2020 International Symposium on Combinatorial Optimization 115 – 127.
+[26] Lenstra H (1983) Integer programming with a fixed number of variables. Mathematics of Opera-
+     tions Research 8:538 – 548.
+[27] Loera JD, Hemmecke R, Köppe M (2012) Algebraic and Geometric Ideas in the Theory of Dis-
+     crete Optimization (Philadelphia, PA: Society for Industrial and Applied Mathematics), URL
+     http://dx.doi.org/10.1137/1.9781611972443.
+[28] Nemhauser GL, Wolsey LA (1988) Integer and Combinatorial Optimization. Wiley interscience
+     series in discrete mathematics and optimization (Wiley).
+[29] Oertel T, Paat J, Weismantel R (2020) The distributions of functions related to parametric integer
+     optimization. SIAM Journal on Applied Algebra and Geometry 4:422 – 440.
+[30] Oxley    J,   Walsh    Z     (2021)            2-modular       matrices.     Online      Preprint:
+     https://arxiv.org/abs/2105.04525.
+[31] Oxley JG (1992) Matroid theory (Oxford University Press).
+[32] Paat J, Schlöter M, Weismantel R (2021) The integrality number of an integer program. Mathe-
+     matical Programming To appear, https://doi.org/10.1007/s10107-021-01651-0.
+[33] Paat J, Weismantel R, Weltge S (2018) Distances between optimal solutions of mixed-integer
+     programs. Mathematical Programming 179:455–467.
+[34] Schrijver A (1986) Theory of linear and integer programming (John Wiley & Sons, Inc. New York,
+     NY).
+[35] Seymour P (1980) Decomposition of regular matroids. Journal of Combinatorial Theory B
+     28:305–359.
+[36] Sloane NJ, et al. (2018) The on-line encyclopedia of integer sequences. Published electronically
+     at https://oeis.org/A085548.
+[37] Veselov S, Chirkov A (2009) Integer programming with bimodular matrix. Discrete Optimization
+     6:220–222.
+[38] Werman M, Magagnosc D (1991) The relationship between integer and real solutions of con-
+     strained convex programming. Mathematical Programming 51:133–135.
+

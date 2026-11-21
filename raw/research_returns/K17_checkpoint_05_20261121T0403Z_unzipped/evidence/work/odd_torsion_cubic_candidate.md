@@ -1,0 +1,235 @@
+# A cubic-companion gate beyond one-variable Greenberg
+
+Researcher: /root/archive_kummer, GPT-6 Astra Pro, 2026-11-21. Status: complete conditional algebraic proof candidate, awaiting independent whole-proof audit. No arithmetic nonvanishing of the new cubic residue is asserted.
+
+## 1. Statement and exact scope
+
+Let \(p\) be odd, \(\Gamma=\langle\gamma\rangle\cong\mathbb Z_p\), \(\Delta\cong\mathbb F_p^\times\), \(\Lambda=\mathbb Z_p[[\Gamma]]\), and \(R=\Lambda[1/p]\). Let \(H\) be a second-countable free pro-\(p\) group with commuting continuous \(\Gamma\)- and \(\Delta\)-actions. Write \(M=H^{\rm ab}\), and assume it is finitely generated over \(\Lambda\). Let \(T\) be its \(\Lambda\)-torsion submodule and \(Q=M/T\). Assume:
+
+1. \(Q[1/p]\) is free of rank one over \(R\) in each odd \(\Delta\)-character and zero in the even characters.
+2. Every nonzero even character component \(T_e[1/p]\) is cyclic over \(R\).
+3. Every nonzero odd character component \(T_o[1/p]\) is cyclic over \(R\). There may be several such characters; each has its own companion polynomial. Allowing degrees greater than one and repeated roots is part of the statement. When all are zero, the argument reduces to the previously audited pair-pole theorem.
+4. Exact \(\Delta\)-eigenlifts of abelian eigenclasses can be chosen in \(H\), also inside arbitrarily small \(\Delta\)-stable neighborhoods, as in the earlier free-basis construction.
+5. There is a continuous \(\Gamma\times\Delta\)-equivariant homomorphism \(\rho\) to the weight-completed free prounipotent group over \(\mathbb Q_p\) on one generator \(s_m\) for every odd \(m\ge3\). Its image is Zariski dense in every finite weight quotient. In rational Levi coordinates, \(\gamma s_m=u^m s_m\), with \(u\) a topological generator of \(1+p\mathbb Z_p\), and \(\delta s_m=\omega(\delta)^m s_m\).
+
+The additional conditions will be explicit nonvanishing conditions on the actual quadratic and cubic companions, defined below. They imply that \(\rho\) is injective.
+
+This is a possible sufficient gate when the odd module is no longer rationally free. It does not prove that the gate holds for the arithmetic group. In particular it does not assert Greenberg, its negation, or nonvanishing of any unspecified Massey product.
+
+All coefficient rings below consist of power series with a single bounded denominator at each fixed assigned degree. The ring \(R\) is not identified with \(\mathbb Q_p[[T]]\).
+
+## 2. Integral torsion and an actual free basis
+
+The module \(M\) is \(\mathbb Z_p\)-torsion free because \(H\) is free pro-\(p\). The finitely generated torsion module \(T\) has a nonzero annihilator. Removing its power-of-\(p\) factor does not change annihilation, by torsion freeness. Weierstrass preparation then gives an annihilating distinguished polynomial. Thus \(T\) is finite free over \(\mathbb Z_p\). It is closed: if \(f\) is such an annihilator, then \(T=\ker(f:M\to M)\). It is saturated over \(\mathbb Z_p\), because \(p x\in T\) implies \(fpx=0\), hence \(fx=0\), so \(x\in T\). Therefore \(Q\) is also \(\mathbb Z_p\)-torsion free.
+
+A compact torsion-free \(\mathbb Z_p\)-module is a product of copies of \(\mathbb Z_p\), by dualizing the classification of divisible \(p\)-primary groups. The exact sequence \(0\to T\to M\to Q\to0\) consequently splits continuously as \(\mathbb Z_p\)-modules: the dual of \(Q\) is divisible and hence injective. Apply this within each integral \(\Delta\)-idempotent to obtain a \(\Delta\)-equivariant splitting. It need not be \(\Gamma\)-equivariant, and none will be assumed.
+
+Choose a convergent product basis in each odd component of \(Q\), finite bases of \(T^+\) and \(T^-\), and compatible exact eigenlifts. The lifts of the convergent basis tend to one, since the quotient map is open and the eigenlift hypothesis applies inside shrinking invariant neighborhoods. They form an actual compact free basis of all of \(H\). Indeed the resulting map from the free pro-\(p\) group on that pointed convergent set induces an isomorphism on abelianizations; its image is Frattini-surjective and therefore all of \(H\). A continuous section exists by freeness of \(H\); its image is again Frattini-surjective in the source and hence all of the source. The map is an isomorphism.
+
+Assign degrees \(1,2,3\), respectively, to variables lifting \(Q,T^+,T^-\). This weighted Magnus expansion is injective. Finite quotients kill a tail of the convergent free basis, so ordinary finite-rank Magnus injectivity detects every nonidentity element at a finite assigned degree. At each such degree its coefficient module is a finite sum of completed tensor products of the indicated compact modules.
+
+The \(\Gamma\)-action preserves this filtration. A lift of \(T^+\) has no degree-one term, and its image under \(\Gamma\) still has abelian class in \(T^+\). A lift of \(T^-\) has no degree-one term and no degree-two term. The latter assertion follows from parity: complex conjugation acts positively on every degree-two monomial (two odd degree-one variables or one even variable), while an exact odd eigenlift has negative leading character. Its \(\Gamma\)-image has the same property because the actions commute. The images of degree-one variables have degree at least one. This proves preservation on generators and thus on the completed algebra.
+
+## 3. Removing finite linear resonances
+
+For every nonzero odd character component, let \(q_o(z)\) be the characteristic polynomial of \(\gamma\) on \(T_o[1/p]\). The linear target coordinate at \(s_m\), restricted to this component, satisfies
+
+\[
+q_o(u^m)\,\ell_m(T_o)=0.
+\]
+
+There are only finitely many positive integers \(m\) for which any of these finitely many \(q_o(u^m)\) vanish, since the powers \(u^m\) are distinct. Quotient the target free Lie algebra by the ideal generated by the corresponding finitely many \(s_m\), and let \(\rho'\) be the resulting representation. The quotient is still freely generated by all the other odd generators; it is equivariant and the image remains dense in each finite weight quotient.
+
+Now every linear target coordinate kills \(T\) and factors through \(Q\). An odd torsion eigenlift has only odd target lengths, so after its length-one part has been removed its image starts in length at least three. Even lifts start in length at least two. Thus each target image starts in length at least its source assigned degree \(1,2,\) or \(3\), exactly as required for a first-nonzero-degree argument.
+
+Choose a character-preserving \(R\)-basis of \(Q[1/p]\). The isomorphism and its inverse have bounded denominators, since both integral modules are finitely generated over \(\Lambda\). They induce injective bounded changes on every fixed completed tensor degree; the tensor modules are torsion free over \(\mathbb Z_p\). Their orbit coordinates are bounded measures, with transforms in
+
+\[
+\mathbb Z_p[[T_1,\ldots,T_s]][1/p].
+\]
+
+In a matching odd character, the linear target map is a nonzero scalar multiple of evaluation at \(T=u^m-1\). The scalar is nonzero by density. Rescale each retained \(s_m\), independently, so that the singleton kernel is exactly evaluation. This is an automorphism in the arithmetic-weight completion, because each finite weight quotient has only finitely many generators.
+
+## 4. Even companions and the pair condition
+
+For each even \(e\), multiply a rational cyclic generator \(v_e\) by a power of \(p\) to make it integral. Choose an actual eigenlift \(y_e\), and its actual conjugates \(y_{e,j}=\gamma^j(y_e)\), \(0\le j<\deg q_e\), where \(q_e\) is the characteristic polynomial of \(\gamma\) on \(T_e[1/p]\). These conjugate abelian classes form a rational basis, though not necessarily an integral basis.
+
+Their assigned-degree-two parts are an invertible finite linear change of the old even variables plus quadratic expressions in the degree-one variables. Replacing the old even variables by these leading parts is a homogeneous triangular automorphism of the rational completed tensor algebra. Its inverse has a bounded denominator in each degree.
+
+Write \(q_e(z)=z^{r_e}-\sum_j c_{e,j}z^j\). The actual companion error
+
+\[
+E_e=\gamma^{r_e}(y_e)
+       \left(\prod_j y_{e,j}^{\,c_{e,j}}\right)^{-1}
+\]
+
+lies in \(H'\). Its degree-two part is an odd-free quadratic tensor \(C_e\), since odd torsion variables have degree three. The actual coefficients \(c_{e,j}\) are integral. All roots of \(q_e\) lie in \(1+\mathfrak m\) in a finite splitting field, because a continuous pro-\(p\) action on its finite integral lattice is unipotent modulo \(p\).
+
+For retained target weights \(m,n\), with \(z=u^{m+n}\), comparison of target length two gives
+
+\[
+q_e(z)B_{e,0;m,n}
+  =C_{e;a,b}(u^m-1,u^n-1),\qquad B_{e,j;m,n}=z^jB_{e,0;m,n}.
+\]
+
+Here \(a,b\) are the odd residue characters of \(m,n\), and \(C_{e;a,b}\) is zero unless \(a+b=e\). This follows either from the associated graded \(\Delta\)-action or the identity theorem on a residue grid.
+
+**Pair-NV:** for every root \(\beta\) of every \(q_e\), there is a matching ordered pair \((a,b)\) for which
+
+\[
+C_{e;a,b}(T,\beta/(1+T)-1)\ne0.
+\]
+
+After a constant partial-fraction change of the finite even variables, their kernels are
+
+\[
+\frac{C_{e;a,b}(T_1,T_2)}
+ {((1+T_1)(1+T_2)-\beta)^k},
+\quad 1\le k\le {\rm mult}_{q_e}(\beta).
+\]
+
+The same numerator occurs for all pole orders in a given cyclic component. No simple-root assumption is made.
+
+## 5. The odd companion and the precise cubic condition
+
+For each nonzero odd character \(o\), choose \(v_o,y_o,y_{o,j}\) in the same way. Every \(y_{o,j}\) has assigned degree at least three. Its degree-three part has the form
+
+\[
+Z_{o,j}=\sum_l b_{jl}Z_l+
+  A_j(X,X,X)+B_j(X,Y)+D_j(Y,X),
+\]
+
+with \(b\) a finite invertible rational matrix. After the even change of variables, this is still a homogeneous triangular automorphism: solve for the old \(Z_l\) by subtracting the lower-variable expressions and multiplying by \(b^{-1}\). The coefficient denominators remain bounded in each fixed degree. This preserves a nonzero first assigned degree of the whole group element.
+
+Let \(E_o\) be the actual companion error formed from \(q_o\). It belongs to \(H'\). Its degree-three part has no linear odd-torsion term, and consists only of \(XXX\), \(XY\), and \(YX\) terms. Substitute the already determined even kernels into this part. For an ordered odd character triple \((a,b,c)\) this gives a meromorphic function
+
+\[
+\mathcal C_{o;a,b,c}(T_1,T_2,T_3).
+\]
+
+Put \(z_i=1+T_i\). The function belongs to the localization of
+\(\mathcal O[[T_1,T_2,T_3]][1/p]\) obtained by inverting the finitely many proper adjacent-pair factors
+
+\[
+z_1z_2-\beta,\qquad z_2z_3-\beta
+\]
+
+coming from the even companions. It has no full triple-product denominator. Its character is \(a+b+c=o\). Comparison of target length three gives
+
+\[
+q_o(z_1z_2z_3)B_{o,0}=\mathcal C_o,\qquad
+B_{o,j}=(z_1z_2z_3)^jB_{o,0}
+\]
+
+on all retained weight grids where the denominators are nonzero.
+
+**Triple-NV:** for each nonzero odd character \(o\) and each root \(\alpha\) of \(q_o\), at least one matching ordered triple has nonzero restriction
+
+\[
+\mathcal C_{o;a,b,c}
+ \left(T_1,T_2,\frac{\alpha}{(1+T_1)(1+T_2)}-1\right)\ne0
+\tag{C3}
+\]
+
+in the fraction field of the bounded-denominator two-variable ring. The proper pair factors remain nonzero functions on this triple divisor, so this restriction is well defined in that fraction field.
+
+A constant partial-fraction change of the odd companion variables yields kernels
+
+\[
+\frac{\mathcal C_{o;a,b,c}(T_1,T_2,T_3)}
+ {(z_1z_2z_3-\alpha)^k},
+\quad 1\le k\le {\rm mult}_{q_o}(\alpha).
+\]
+
+This retains repeated roots and the entire odd cyclic module.
+
+## 6. Justification of substitution and analytic identities
+
+All constructions so far are in the actual compact free basis followed by bounded rational changes, not in a subgroup of finite abelian index. In a finite arithmetic-weight target quotient, ordinary finite-rank Magnus substitution applies after truncating the convergent free basis. Those truncations converge to the identity on \(H\). The continuous image in the finite target quotient is compact, so its coefficient functions are bounded. Thus the tensor evaluations converge, and every fixed-degree rational change preserves this convergence. Equivalently these are finite iterated integrals of bounded functions against bounded measures.
+
+Choose a large ordinary integer lower bound on every test weight so that no singleton resonance remains and no pair or triple sum is an integer \(w>0\) with \(u^w\) a root of any companion polynomial. Only finitely many such \(w\) exist. Within each odd residue class there remain Cartesian grids with interior \(p\)-adic accumulation points, for example sufficiently large representatives followed by \(m_0+(p-1)p^n\).
+
+For a nonidentity \(g\), choose its first nonzero assigned degree \(d\) after the invertible changes. If \(\rho'(g)=1\), its target length-\(d\) coefficient is the image of this homogeneous component alone: higher source degrees have greater target length and lower source degrees are zero. Decompose the component into ordered tilings of \(d\) positions by singletons, pairs and triples. The coefficient of a fixed tiling is a bounded-denominator function \(A\) in the singleton variables. Its image is \(A\) times the pair and triple kernels at the corresponding blocks.
+
+For any fixed odd residue assignment the sum of these finitely many meromorphic terms vanishes on the large Cartesian grid. Clearing every pair and triple denominator gives a bounded-denominator analytic function. Repeated one-variable identity theorems imply that it is identically zero. We have an identity in the fraction field of the full bounded power-series ring.
+
+## 7. Complete separation of pair and triple poles
+
+Among nonzero tilings, first maximize the number of triple blocks, then the number of pair blocks. Choose one such tiling, fix its block positions and root labels, and choose a componentwise maximal vector of its pair and triple pole orders. At each selected block choose the matching odd residue types supplied by Pair-NV or Triple-NV; these choices are independent since the blocks are disjoint. At every singleton choose its own fixed character.
+
+For each selected block \(B\), of length two or three, set
+
+\[
+S_B=\prod_{i\in B}z_i-\alpha_B.
+\]
+
+Retain as base variables the singleton variables and all but the last variable of each selected block. Solving for that last variable,
+
+\[
+z_{\max B}=\frac{\alpha_B+S_B}
+                   {\prod_{i\in B,\ i\ne\max B}z_i},
+\]
+
+is an invertible change of formal coordinates over the splitting integers. The constants \(\alpha_B-1\) are in the maximal ideal. Let \(K_{\rm base}\) be the fraction field of the bounded-denominator base-variable ring.
+
+Here is the needed divisor fact in full. On the stratum \(S_B=0\), a coordinate monomial is constant exactly when its exponent vector is an integer linear combination of the indicator vectors of the selected blocks. This follows by eliminating the last variable of each block: the exponent of every remaining variable in a block is its original exponent minus the exponent of the eliminated variable; singleton exponents remain unchanged. Therefore an interval indicator with entries zero or one is constant exactly when it is a union of whole selected blocks and contains no singleton. An interval of length two or three cannot be a union of two selected blocks, since each selected block has length at least two. It is therefore constant only when it is exactly one selected block. All other adjacent-pair or adjacent-triple denominators are nonzero in \(K_{\rm base}\) at \(S=0\).
+
+Thus every denominator other than a selected outer block factor is a unit in \(K_{\rm base}[[S_B]]\). This includes every proper pair denominator internal to a selected triple. A different root at the same interval also gives a unit, its constant term being a nonzero root difference. The identity embeds in the multivariate Laurent-series ring with finite negative bounds.
+
+Extract the coefficient \(\prod_B S_B^{-k_B}\) for the selected pole-order vector. To supply all selected triple negative exponents, a term must contain each selected triple with its selected root: no pair denominator or other triple interval can do so. Maximality of the triple count forces exactly those triple blocks and forbids extras. Their internal pair denominators lie inside these blocks and cannot supply the pole of any selected external pair. Therefore all selected pairs with their roots must also occur. Maximality of the pair count now forbids extra pairs. We have isolated the same tiling and root labels.
+
+For these remaining terms, contribution requires the pole-order vector to dominate the selected vector componentwise. A strict domination is excluded by the Pareto-maximal choice, and any incomparable vector is insufficient in some component. Wrong character labels vanish on the chosen residue grid: the sum of the two or three target residue characters determines the even or odd companion character, respectively. Thus several odd character components cause no extra ambiguity, even if their polynomials share roots. The assumption of one cyclic module per character avoids the separate problem of several indistinguishable same-character blocks. Consequently the sole possible contribution is
+
+\[
+A_{\rm selected}\,
+\prod_{\text{selected pairs}}C_e|_{S_B=0}\,
+\prod_{\text{selected triples}}\mathcal C_o|_{S_B=0}.
+\]
+
+The first factor is nonzero, and all the other factors are nonzero by the two conditions. Their variables are the independent base variables of disjoint blocks, so their embeddings in \(K_{\rm base}\) are injective. A field has no zero divisors. This contradicts the zero coefficient. If no nonlinear blocks occur, the same argument is just the ordinary singleton identity theorem.
+
+Therefore \(\rho'\) is injective. Since \(\rho'\) is a quotient of \(\rho\), the original \(\rho\) is injective as well.
+
+## 8. What the cubic condition measures
+
+At assigned degree three, pull back to one odd component to obtain the genuine rational \(\Gamma\)-module extension
+
+\[
+0\longrightarrow W_3
+\longrightarrow E_3
+\longrightarrow T_o
+\longrightarrow0,
+\qquad
+W_3=L_3(Q)\oplus[Q,T^+]
+\]
+
+in rational graded coordinates. The displayed direct sum is a vector-space description; the \(\Gamma\)-action may mix its second summand into the first via the quadratic even companion. The odd companion represents the extension class modulo \(q_o(\gamma)W_3\). Evaluating the even letters gives the meromorphic numerator used in (C3).
+
+Changing an actual lift of the same cyclic class changes its leading target kernel by a function \(A\) having only proper pair denominators. Hence
+
+\[
+\mathcal C'_o-\mathcal C_o=q_o(z_1z_2z_3)A.
+\]
+
+Its restriction to a root divisor is unchanged. Replacing the rational cyclic generator by \(f(\gamma)v_o\), with \(f\) invertible modulo \(q_o\), multiplies the restricted numerator by the nonzero scalar \(f(\alpha)\), up to such a vanishing term. The property is therefore independent of these choices. Rank-one free-coordinate changes multiply by invertible one-variable factors; changing even coordinates changes the expression but not the actual triple pole of the odd lift.
+
+This is a specified class-three extension condition. Calling it an ordinary triple Massey product without further work would omit its defining system and indeterminacy. The quadratic cup theorem alone does not determine it. In a class-three truncated free Lie presentation, the action on an odd degree-three letter can be changed by a matching element of \(L_3(Q)\subset W_3\), leaving the abelian module and even the ordinary class-two quotient unchanged. The degree-three extension is therefore extra data. In particular a zero cubic companion is compatible with the same lower-degree data. This is a formal compatibility observation, not an arithmetic counterexample.
+
+## 9. Arithmetic interpretation and the gates still open
+
+For the arithmetic application take \(p\ge5\), with the smaller primes already covered separately. The earlier arithmetic source checks establish finite \(\Lambda\)-generation, freeness of \(H\), and the actual rational target. For nonexceptional odd character \(a\), the complete proof of Wake–Wang-Erickson, Ordinary pseudorepresentations and modular forms, Proposition 2.2.6 (printed pages 3–4), gives
+
+\[
+\operatorname{Ext}^1_\Lambda(M_a^\#(1),\Lambda)
+   =X_{\omega a^{-1}},
+\qquad
+\operatorname{Ext}^2_\Lambda(M_a^\#(1),\Lambda)=0.
+\]
+
+The left module is the \(p\)-ramified module (the source's fraktur symbol); the right module is unramified. The rank of \(M_a\) is one independently of Greenberg, by the local-unit exact sequence in that proof. After inverting \(p\), the PID decomposition shows that its torsion elementary divisors, after the indicated involution and twist, are exactly the elementary divisors of the even unramified module. A root \(\alpha\) on the odd torsion corresponds to the root \(u/\alpha\) on that even module. Thus cyclicity character by character of \(X^+[1/p]\) gives the contemplated cyclic odd companions; a single nonzero cyclic even component is the first concrete case. The exceptional odd characters were treated separately by Coleman and Stickelberger in the established Greenberg section; this extension does not remove those exceptions silently.
+
+The even module must still satisfy the rational cyclicity and Pair-NV assumptions. Without Greenberg these do not follow merely from its characteristic ideal. Moreover odd-\(H^1\) cup surjectivity, by itself, no longer forces the free-\(Q\) quadratic component to be nonzero: classes supported on odd torsion may contribute to those cups. A possible stronger route is to use norm-compatible cyclotomic-unit classes, whose universal cohomology restrictions land in a torsion-free Iwasawa coefficient module and hence annihilate \(\Lambda\)-torsion. The exact integral Shapiro and coefficient-specialization argument for that route has not been supplied here, so it is not used in the theorem.
+
+Most decisively, no source presently checked supplies (C3) for the arithmetic odd companion. Even if Pair-NV and all cyclicity hypotheses are provided, the new cubic residue remains an explicit independent gate. The divisor argument shows that mixed even/odd nested denominators do not themselves block this first extension; the missing input is arithmetic noncancellation in the actual class-three extension.
+
+Primary source for the displayed module comparison: https://arxiv.org/pdf/1510.01661v4, local work/wake_wang_erickson_ordinary.pdf and .txt. Its full Proposition 2.2.6 proof was read again during this task. The analytic proof above is new and is recorded in full for independent audit.

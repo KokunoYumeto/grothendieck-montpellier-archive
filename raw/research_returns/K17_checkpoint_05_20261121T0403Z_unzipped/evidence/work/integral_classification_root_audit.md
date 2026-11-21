@@ -1,0 +1,15 @@
+# Root independent proof check: integral generation classification
+
+Reviewer: /root, GPT-6 Astra Pro; effort label not exposed. Date: 2026-11-21 UTC. Complete final TeX read and argument independently reconstructed. Verdict PASS, relative to the already checked kernel theorem and arithmetic/rational inputs.
+
+I proposed the separated abelian-image filtration argument independently of the written fragment and then read every step of the final proof. I also freshly read Sharifi's original notes, Corollary3.3.14 and Proposition3.4.1 with their complete proofs, and Proposition3.4.7/Corollary3.4.8 with their proofs, printed pp89–92.
+
+The exact Kummer isomorphism identifies Mplus with the twisted Pontryagin dual of A-infinity-minus. The injectivity of the finite-layer minus class maps proves nonvanishing; the finite-kernel/cokernel comparison to Xminus and mu=0 give finite Zp rank. Since the arithmetic cyclotomic kernel H is free pro-p, its compact abelianization has no p-torsion. Thus Mplus is genuinely a positive-rank free Zp module, not merely a nonzero finite error in a pseudo-isomorphism.
+
+For M^n=image(F^nH), separatedness requires proof because quotient filtrations need not preserve it abstractly. Here the fiber over any fixed abelian class is compact, and its intersections with F^nH are nested compact sets. Membership in every M^n therefore supplies a point of the intersection of all F^nH, which is the identity by the proved faithful image. This proves separatedness of M and of its plus part.
+
+The associated graded image is a quotient of the actual Lie algebra and kills every bracket, hence is a quotient of its Lie abelianization. Integral eigenspace projectors are valid because p is odd. The plus filtration has zero successive quotient in each odd weight. Every even Lie-abelianization piece is finite: the actual graded piece is finite free, its bracket module is a finite sum of finitely generated compact images, and rational freeness on odd letters makes the rational even abelianization zero. No interchange of an infinite direct product with tensoring is involved; each assertion is made in a fixed weight.
+
+If there were only finitely many nonzero plus successive quotients, the filtration would eventually be stationary. Separation makes the stationary module zero, and the finite chain of finite quotients makes Mplus finite. This contradicts its positive free rank. Consequently infinitely many even Lie-abelianization pieces are nonzero finite p-groups. This is stronger than exhibiting one obstruction, and it excludes any homogeneous odd generating collection, even without an assumption of free generation.
+
+Regular-prime generation remains the cited Sharifi–Brown result, and the all-weight prime2 result is separate. No first defect weight or defect order is supplied by this general argument. The explicit37 and691 results retain that additional information. The result applies to every odd Vandiver prime and hence every odd prime below2^31 via the already checked published range.
