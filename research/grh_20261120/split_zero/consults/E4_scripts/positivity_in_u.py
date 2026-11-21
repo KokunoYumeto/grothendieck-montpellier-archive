@@ -1,6 +1,6 @@
 """Rank three: is every f in N[u], u = q + q^-1 (the normalized count of the Gaussian line R = Res P^1 from F_{q^2})?
 And are the two cells the split and the inert sheet: lambda_2(v) = lambda_1(v^2)?  (main session, Claude Opus 5.5 at
-effort max, 21 Nov 2026 ~19:5x UTC.) Reads e3_constants.json (a8d75352's 132 constants, field f = the bar-invariant
+effort max, 21 Nov 2026 ~19:3x UTC.) Reads e3_constants.json (a8d75352's 132 constants, field f = the bar-invariant
 factor in c = +-(v - v^-1)^a f)."""
 import os, sys, json
 import sympy as sp

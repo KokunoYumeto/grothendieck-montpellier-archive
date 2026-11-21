@@ -2,7 +2,7 @@
 with every admissible Lambda1/Lambda2 (not only the first), count the cancelling pairs 1 + eps the ring needs:
 excess = sum over all structure constants and q-exponents of (d - |c|)/2, in total and in the bottom cell (target Sigma).
 Integer-polynomial arithmetic only (the table of consult_a157422a_dimension_ring_verify.py, rebuilt on lists in D).
-Main session, Claude Opus 5.5 at effort max, 21 Nov 2026 ~20:2x UTC.  Run: python -I -B dimension_ring_minimal_pairs.py"""
+Main session, Claude Opus 5.5 at effort max, 21 Nov 2026 ~19:5x UTC.  Run: python -I -B dimension_ring_minimal_pairs.py"""
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.stdout.reconfigure(encoding="utf-8")

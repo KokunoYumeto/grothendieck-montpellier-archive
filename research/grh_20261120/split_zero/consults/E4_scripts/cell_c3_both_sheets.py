@@ -2,7 +2,7 @@
 (D = 0, lambda_1 = 0) by cell_c3_check.py.  Here: both cells at both points, q = -1 (v = i) and q = i (v = e^{i pi/4},
 D = 2, lambda_2 = 0).  For each (cell, point): is the trace form's block on the cell monomial, and does the weighted
 cyclic slot relation c(x,y;z) w(z) = c(y, pi z; pi^-1 x) w(pi^-1 x) hold on all 64 cell triples?
-Main session, Claude Opus 5.5 at effort max, 21 Nov 2026 ~20:1x UTC."""
+Main session, Claude Opus 5.5 at effort max, 21 Nov 2026 ~19:4x UTC."""
 import os, sys, json, itertools
 sys.stdout.reconfigure(encoding="utf-8")
 here = os.path.dirname(os.path.abspath(__file__))
