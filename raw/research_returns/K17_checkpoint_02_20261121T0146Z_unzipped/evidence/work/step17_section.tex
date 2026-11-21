@@ -1,0 +1,304 @@
+\section{Recovering the arithmetic statement behind step 17}
+\label{sec:step17}
+
+\paragraph{Source contract and provenance.}
+Alp\"oge's \emph{Remark}, p.~4, step~17 and footnote~6, names
+$H^1(\mathcal O_E[1/\ell],\mathbb Q_\ell/\mathbb Z_\ell(-e))$
+and a weakening of Vandiver, but supplies neither quantifiers nor a theorem
+number for that weakening. The attached map identifies candidate modules only.
+We recovered those modules from the public mirror
+\url{https://github.com/CocoSgt/riemann-hypothesis-lean}, at commit
+\texttt{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}.
+The retrieved \texttt{src/Main.lean} is byte-identical to the supplied file;
+its SHA-256 is recorded in the evidence manifest. Git blob identifiers were
+checked for the manifest-based downloads. These are source inspections, not
+a new Lean build or a claim to have authenticated the entire mirror. Under
+the prompt's stipulated theorem contract, we use the recovered unconditional
+Alp\"oge theorem below. The arithmetic translation and consequences are the
+new deductions checked here.
+
+In this section a source path beginning with \texttt{AV/} abbreviates
+\path{src/Development/AutomorphicArithmetic/AutomorphicVarieties/}.
+The source facts have precise declaration locators; no theorem is inferred
+merely from a file name or from a proposition's definition.
+
+\subsection{The local conditions and the fields}
+
+Put $D_\ell(e)=\mathbb Q_\ell/\mathbb Z_\ell(-e)$ and, for a number field $E$,
+\[
+ \mathcal S_\ell(E,e)=
+ \ker\left(H^1_{\mathrm{et}}(\operatorname{Spec}\mathcal O_E[1/\ell],D_\ell(e))
+       \longrightarrow\prod_{v\mid\ell}H^1(E_v,D_\ell(e))\right).
+ \tag{S1}
+\]
+Thus the selected classes are unramified outside $\ell$ and locally trivial
+at every place above $\ell$. They are a subgroup of the displayed $H^1$,
+not that entire group. The source definitions are
+\path{src/Formalism/GaloisCohomology/Statement.lean}, declarations
+\texttt{LData}, \texttt{qzTw}, \texttt{Sha}, and \texttt{shaLen}.
+
+For a finite extension coefficient ring $O\subset\overline{\mathbb Q}_\ell$
+which is finite over $\mathbb Z_\ell$ and is a DVR, write
+\[
+ D_O=O\otimes_{\mathbb Z_\ell}(\mathbb Q_\ell/\mathbb Z_\ell),
+ \qquad e(O)=\operatorname{length}_O(O/\ell O).
+ \tag{S2}
+\]
+For a Dirichlet character $\psi$ modulo $N$ with values in $O^\times$, define
+$\mathcal V_{\ell,N}(e,\psi)$ to be the subgroup of
+$H^1(G_{\mathbb Q},D_O(\psi^{-1}\chi_\ell^{-e}))$
+whose restriction is zero on every finite inertia group and on every
+decomposition group at a prime dividing $\ell N$. Here $\chi_\ell$ is the
+cyclotomic character. Set
+\[
+ v_{\ell,N}(e,\psi)
+ =\operatorname{length}_O\mathcal V_{\ell,N}(e,\psi)/e(O).
+ \tag{S3}
+\]
+In (S3) the quotient of lengths is used only when the module has finite
+length. Literally, the source's \texttt{Vn} applies
+\texttt{ENat.toNat} to its extended-natural lengths (which sends
+infinity to zero); every estimate used below simultaneously proves
+finiteness, so (S3) then gives exactly its value. These are
+\texttt{Coef}, \texttt{Vlen}, and \texttt{Vn} in
+\path{AV/HeightAndVanishing/DirichletPrimeToLPartMulLPowerPart.lean}, together
+with \texttt{QO}, \texttt{eO}, \texttt{shaFam}, and \texttt{ShaU} in
+\path{AV/GaloisLibrary/SelmerTransport/ConjStableShaFam.lean}.
+The scalar character is defined in
+\path{AV/CharacterLevelBounds/ShaFamMono.lean}, \texttt{rho}.
+
+\begin{proposition}[K17-FIELD-DESC: the field interpretation]
+Let $e>0$, let $\ell$ be odd, and suppose $E/\mathbb Q$ is a cyclic
+extension of degree prime to $\ell$, cut out by $\psi$. Suppose $O$ contains
+the values of $\psi$. Restriction gives an isomorphism
+\[
+ \mathcal V_{\ell,N}(e,\psi)
+ \simeq
+ \left(O\otimes_{\mathbb Z_\ell}\mathcal S_\ell(E,e)\right)^{\psi},
+ \tag{S4}
+\]
+where the right side is the $\psi$-eigenspace for the natural action of
+$\operatorname{Gal}(E/\mathbb Q)$ on cohomology, including its action on
+the Tate coefficients. The same description applies to character components
+inside a larger abelian extension of degree prime to $\ell$.
+\end{proposition}
+\begin{proof}
+Write $\Delta=\operatorname{Gal}(E/\mathbb Q)$. All positive-degree
+cohomology of $\Delta$ with $\ell$-primary coefficients vanishes: it is
+annihilated by $|\Delta|$, which acts invertibly on those coefficients.
+Inflation--restriction consequently identifies the global $H^1$ on the
+left with the indicated eigenspace of $H^1(G_E,D_O(-e))$. The same argument
+applies to decomposition and inertia groups, since their quotient groups
+have order dividing $|\Delta|$. Hence restriction detects the vanishing of
+each local restriction.
+
+An unramified local class at a place $w\nmid\ell$ of $E$ lies in
+\[
+ H^1_{\mathrm{unr}}(E_w,D_O(-e))
+ =D_O/(\operatorname{N}w^{-e}-1)D_O=0.
+\]
+The last equality holds because $\operatorname{N}w^{-e}-1$ is a nonzero
+element of $\mathbb Q_\ell$ and multiplication by any nonzero scalar from
+$\mathbb Z_\ell$ is surjective on the divisible module $D_O$.
+Thus all extra decomposition conditions away from $\ell$, including
+those dividing $N$, are automatic after the inertia conditions. The local
+conditions at $\ell$ are exactly (S1). Restriction therefore gives (S4).
+Finite flatness of $O$ over $\mathbb Z_\ell$ commutes with the cochain
+description and the eigenspace idempotent, so no scalar-extension defect
+remains. This proves the assertion.
+\end{proof}
+
+For CM fields the source's ``plus'' notation is twist-dependent. If $c_E$
+is complex conjugation, then
+\[
+ \mathcal S_\ell(E,e)^+
+ =\{x\in\mathcal S_\ell(E,e):c_E x=(-1)^e x\}.
+ \tag{S5}
+\]
+It is not always the $+1$ eigenspace. See
+\path{AV/LengthEqAddEigen.lean}, \texttt{ShaPlus}, \texttt{ShaMinus},
+\texttt{shaLen\_eq\_add}, and
+\path{AV/PartsSign.lean}, \texttt{mk\_mem\_ShaPlus\_iff}.
+The direct sum of these two eigenspaces uses that $2$ is invertible;
+the source treats $\ell=2$ separately.
+
+The fields used in the larger twisting argument are not arbitrary number
+fields. The source's \texttt{Host} fixes a Dirichlet character $\chi$ of
+modulus $m$, an integer $a\ge2$, and primes $q\equiv3\pmod8$,
+$d\equiv7\pmod{16}$ with $(qd,m)=1$. They determine
+\[
+ E=F_\chi\,\mathbb Q(\mu_{2^{a+2}})^+
+      \mathbb Q(\sqrt{-q})\,\mathbb Q(\sqrt{-d}),
+ \qquad N=\operatorname{lcm}(2^{a+2},m)qd,
+ \tag{S6}
+\]
+where $F_\chi$ is the fixed field of $\ker\chi$. This is the fixed-field
+description encoded by \texttt{IsCompField} and
+\texttt{isCompField\_ofChar} in \path{AV/StmtFields.lean}, and by
+\texttt{Host.H} in
+\path{AV/HeightAndVanishing/DirichletPrimeToLPartMulLPowerPart.lean}.
+Indeed the four congruence conditions in that definition fix respectively
+the real $2$-power cyclotomic field, $F_\chi$, and the two quadratic fields;
+the intersection of the corresponding subgroups fixes their compositum.
+The selected character components have $\psi(-1)=(-1)^e$.
+
+For completeness, the exact finite-parameter organization is in
+\path{AV/HeightAndVanishing/LayerLe.lean}, where \texttt{PointHV}
+is the proposition defined to assert the following statement:
+for each $\chi$ and function $j:\mathbb N\to\mathbb N$, there are
+$C,r_1,r_2\in\mathbb N$, with $r_1,r_2$ prime, such that, for every host
+with character $\chi$, both auxiliary primes smaller than $q,d$, every
+$t\ge2$ satisfying \texttt{Host.Big}, and every $B\ge0$ satisfying
+the specified \texttt{LayerLe} bounds at the finite set \texttt{Bchi},
+the weighted sum of the lengths in (S5), over all odd primes and
+$1\le e<t$, is bounded by $(Nt)^C+CB$.
+Here \texttt{Host.Big} means $2t+1<q,d$ and each of
+$m,\operatorname{ord}\chi,p_K(\chi),h_K(\chi),p_1(\chi)$ is less than
+$q,d$. The finite exceptional set is
+\[
+ B_\chi=\{3\}\cup
+ \{\text{odd prime divisors of }
+   (\operatorname{ord}\chi)m p_K(\chi)h_K(\chi)p_1(\chi)\}.
+\]
+The three auxiliary quantities are the least primes/class number specified
+in \path{AV/StmtFields.lean}, \texttt{pK}, \texttt{hStar}, \texttt{pOne}.
+We record this definition to identify the fields and classes in the
+note. The closed source proof composition in the following host-family
+subsection supplies its theorem inputs; the stated layer bounds remain
+explicit premises. The deductions about $\mathbb Z$ below use the unconditional,
+quantified theorem next, and do not assume an unverified numerical value
+for any of these constants or layer bounds.
+
+\subsection{The unconditional character theorem}
+
+The exact admissibility condition \texttt{GD} is in
+\path{AV/HeightAndVanishing/Counts.lean}. In ordinary notation it says:
+$e\ge1$, $N$ is even, $\ell$ is odd, the order of $\psi$ is prime to
+$\ell$, the factor $\psi_\ell$ supported at the $\ell$-part of the
+conductor satisfies $\psi_\ell^2=1$, and
+$\psi(-1)=(-1)^e$. There is an auxiliary imaginary quadratic field $K$
+such that
+\[
+ \ell\nmid |D_K|h_K,\quad (|D_K|,N)=1,\quad
+ K\not\subset\mathbb Q(\mu_\ell)F_{\psi/\psi_\ell},\quad
+ (\ell-1)\nmid2e. \tag{S7}
+\]
+The third condition is exactly the source's subgroup noncontainment
+\texttt{eta}; it has not been silently deleted. The source definition
+of \texttt{chiP} agrees with $\psi/\psi_\ell$ under its prime-to-$\ell$
+order hypothesis. In particular these conditions force $\ell\ge5$.
+
+\begin{sourcefact}[Alp\"oge: K17-S17, the recovered quantitative theorem]
+For every imaginary quadratic $K$ there exist $c_5,A\in\mathbb N$ with
+the following property. Fix $e,N$, a subgroup
+$H\subset(\mathbb Z/N\mathbb Z)^\times$, and distinct primes $p,p'$
+not dividing $30N|D_K|$. For each prime $\ell$ in a finite set $L$ choose
+a permitted coefficient ring $O_\ell$. If at least one character with
+kernel $H$ satisfies (S7) and the preceding admissibility conditions at
+each $\ell\in L$, then all the associated lengths are finite and
+\[
+ \sum_{\ell\in L}\log\ell
+   \sum_{\ker\psi=H}v_{\ell,N}(e,\psi)
+ \le 2c_5\varphi([(\mathbb Z/N\mathbb Z)^\times:H])
+          (N(e+1))^A(\log p+\log p'). \tag{S8}
+\]
+The character sum is over the characters valued in $O_\ell$; existence
+of one such faithful character provides its whole orbit.
+
+Exact locators: \path{AV/UnitaryThreeGroups/KatoUse.lean},
+\texttt{CorGK}; and \path{AV/SmallClassNumbers/CorGKOf.lean},
+\texttt{UpperTheory.V.SmallClassNumbers.corGK}, an unconditional theorem.
+\end{sourcefact}
+
+\paragraph{Proof reconstruction and the cited inputs.}
+The arithmetic input \texttt{PropGK} supplies, for an auxiliary prime $p$,
+a nonzero integer $n_p$ such that
+\[
+ \log|n_p|\le c_5\varphi([G:H])(N(e+1))^A\log p,
+ \qquad
+ \sum_{\ker\psi=H}v_{\ell,N}(e,\psi)\le2v_\ell(n_p)
+ \quad(\ell\ne p). \tag{S9}
+\]
+Its source proof is \texttt{propGK} in
+\path{AV/UnitaryThreeGroups/OrbEquiv.lean}. It combines
+\texttt{OneChar} (the Selmer-length estimate by rank-three/rank-two
+automorphic congruences) with \texttt{CongruenceNumberRankThree}
+(a nonzero norm of Frobenius-trace differences). The latter provides the
+integer and its archimedean size, while the former bounds its local
+valuation. The faithful-character orbit has size $\varphi([G:H])$.
+Their unconditional inputs are assembled in
+\texttt{SmallClassNumbers.corGK\_of}, \texttt{litN}, and \texttt{corGK}
+of the file cited above: local and global Galois cohomology, the Kato
+input, adjoint vanishing, automorphy, and congruence-number estimates.
+These are cited Alp\"oge theorems under the source contract; they are
+not independent new automorphy proofs in this paper.
+
+Here is the complete elementary passage from (S9) to (S8).
+Use (S9) twice, with $p$ and $p'$. For each $\ell$ at least one applies,
+so the nonnegative length sum is at most
+$2v_\ell(n_p)+2v_\ell(n_{p'})$. For a nonzero integer $n$,
+\[
+ \sum_{\ell\in L}v_\ell(n)\log\ell\le\log|n|
+\]
+because the product of the indicated prime powers divides $|n|$.
+Summing and using the two archimedean estimates proves (S8), including
+the auxiliary-prime cases. This is precisely
+\path{AV/UnitaryThreeGroups/CorGSumLog.lean}, \texttt{corGK}.
+The complete source proofs of this passage and of the orbit/norm
+translation were read in this run.
+
+\subsection{The rational-field specialization}
+
+\begin{theorem}[K17-S17-Q]
+There exist absolute $C,A\in\mathbb N$ such that for every positive even
+integer $e$ and every finite set of primes $L$ satisfying
+$\ell\ge5$ and $(\ell-1)\nmid2e$,
+\[
+ \mathcal S_\ell(\mathbb Q,e)\text{ is finite},\qquad
+ \sum_{\ell\in L}\log\ell\,
+   \operatorname{length}_{\mathbb Z_\ell}\mathcal S_\ell(\mathbb Q,e)
+ \le C(e+1)^A. \tag{S10}
+\]
+In particular the group is zero whenever $\log\ell>C(e+1)^A$
+and the displayed prime conditions hold.
+\end{theorem}
+\begin{proof}
+In (S8) take $K=\mathbb Q(\sqrt{-3})$, $N=2$, $H=G$, the trivial
+character, and auxiliary primes $p=7,p'=11$. The discriminant is $-3$
+and the class number is one. The character conditions are immediate;
+evenness of $e$ gives the parity condition. For $\ell\ge5$ the field
+$K$ is not contained in $\mathbb Q(\mu_\ell)$, since the latter is
+unramified at $3$ whereas $K$ is ramified there. This checks (S7).
+All these checks are also made by \texttt{gd} in
+\path{AV/SmallClassNumbers/ClassNumberThree.lean}.
+
+Choose the bottom coefficient ring. It is isomorphic to
+$\mathbb Z_\ell$ by \texttt{exists\_coef} in
+\path{AV/SmallClassNumbers/LenEqZeroIff.lean}. Then $D_O=D_\ell(0)$
+and $e(O)=1$, since $O/\ell O\simeq\mathbb F_\ell$ is a simple
+$O$-module. The extra local condition at $2$ is automatic by the
+unramified local calculation in the proof of K17-FIELD-DESC.
+Thus the length in (S8) is the length in (S10).
+
+The right side of (S8) is
+$2c_5 2^A(e+1)^A(\log7+\log11)$, bounded by
+$36c_5 2^A(e+1)^A$. Take $C=36c_5 2^A$.
+This is the proof \texttt{bound\_of} in
+\texttt{ClassNumberThree.lean}; its unconditional input and conclusion
+are \texttt{corGK} and \texttt{bound} in
+\texttt{SmallClassNumbers/CorGKOf.lean}.
+For the last assertion use $L=\{\ell\}$. A nonzero finite
+$\mathbb Z_\ell$-module has length at least one, contradicting
+the strict inequality on $\log\ell$. The source independently states
+this cocycle formulation as \texttt{Large} and proves
+\texttt{large\_of} in \texttt{LenEqZeroIff.lean}.
+\end{proof}
+
+\paragraph{What is and is not numerical here.}
+The source has also a proposition \texttt{CorG} with a displayed
+$e^7N^{18}|D_K|^5$ shape. A definition of that proposition is not a
+proof of it. We have used the established \texttt{CorGK}, with its
+existential exponent, throughout. Neither ``100ish'' in footnote~6
+nor an unspecified constant is a certified degree range. The next
+section gives every vanishing and cyclicity conclusion that actually
+follows from (S10), and identifies the remaining numerical gate.
