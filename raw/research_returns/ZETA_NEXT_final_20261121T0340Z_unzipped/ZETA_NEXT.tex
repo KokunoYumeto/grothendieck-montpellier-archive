@@ -1,0 +1,2472 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\DeclareMathOperator{\Gal}{Gal}
+\allowdisplaybreaks
+\setlength{\emergencystretch}{3em}
+\title{ZETA\_NEXT\\Effective class numbers from quadratic zero exclusion,\\
+bad fibres of $\Lambda$-schemes, and the non-CM gate}
+\author{GPT-6 Astra Pro\\Research run of 21 November 2026}
+\date{21 November 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Using the supplied theorem of Alp\"oge and the explicitly checked
+constants in Stark's exceptional-zero argument, we prove
+$\operatorname{Res}_{s=1}\zeta_K(s)>1/(173\log D_K)$ for every normal
+$K\ne\mathbb Q$, and $1/(173n!\log D_K)$ for every field of degree
+$n\ge2$.  This gives effective Brauer--Siegel inequalities, explicit
+fixed-degree CM class-number bounds, and explicit Galois-orbit bounds
+for every CM point of $\mathcal A_g$, including products and
+nonmaximal endomorphism orders.  The orbit bound has exponent
+$1/(28672g^4)$ and a completely specified positive constant.
+Only the averaged Colmez formula is needed.
+
+The proposed bad-fibre statement for flat finite-type $\Lambda$-schemes
+is false without separatedness: a gluing construction inserts the
+zeta function of an arbitrary affine finite-field scheme into a single
+bad factor.  For proper flat $\Lambda$-schemes the statement is true,
+on actual cohomology: a Frobenius-tower comparison identifies special
+cohomology with a Galois-stable summand of generic cohomology.
+We also prove the corrected proper $\Lambda$-RH conclusion.
+
+For absolute-Hodge motives of abelian type we construct the canonical
+maximal CM summand as the invariants of the connected derived motivic
+group.  We give exact residual $L$-function lists for curves and
+abelian varieties, explicitly evaluate the full symplectic case and
+powers of a non-CM elliptic curve, and exhibit a simple non-CM
+Jacobian with a rank-two non-Tate CM summand in primitive degree four.
+The splitting theorems are unconditional.  Applying RH to their CM
+factors remains conditional on the stated Masullo claim; RH for their
+non-CM factors is identified as the remaining analytic input.
+\end{abstract}
+
+\tableofcontents
+\clearpage
+\section*{Reading conventions, source status, and the answer to the task}
+\addcontentsline{toc}{section}{Reading conventions and answer to the task}
+
+This paper continues ZETA\_TWO and its intake of 21 November 2026.
+Its IA01 audit and \path{CONDITIONAL_AUDIT.tsv} stand as requested;
+we do not repeat them.  A \emph{finding} means a proved deduction or
+counterexample established in this work.  It does not assert novelty
+against all of the literature.  Every finding below has received a
+complete proof reading; the methods, actors, dates, and limited scope
+of each check appear in \path{CHECK_EVENTS.tsv}.
+
+\paragraph{The supplied zero theorem A.}
+We cite as a theorem the supplied four-page version of L.~Alp\"oge,
+\emph{Remark} \cite{Alpoge}.  The endpoint used here is step~20 on
+p.~4, not step~17.  In \path{ALPOGE_Main.lean} the declarations are
+\path{riemannHypothesis}, \path{riemannZeta_eq_zero_re},
+\path{LFunction_ne_zero_of_half_lt_re},
+\path{LFunction_eq_zero_re}, and
+\path{LFunction_eq_zero_re_of_isPrimitive}; their precise predicates
+are in \path{ALPOGE_Statements.lean}.  We use RH for $\zeta$ and
+Dirichlet GRH, especially nonvanishing to the right of $1/2$ for
+quadratic characters.  We do not infer GRH for a general Dedekind
+zeta function from this input.  No step of the theta, positivity,
+or Lean argument is re-audited.
+
+\paragraph{The separate conditional input M.}
+The Masullo input is the draft's claim in \S1.2, PDF p.~12, for all
+unitary Hecke characters of every number field, including
+infinite-order characters.  That assertion is unnumbered in the
+supplied draft.  Theorem~13.3.1.2, PDF p.~522, is its intended
+\emph{Divisor of $L(s,\chi)$} endpoint but has no completed statement
+or proof; \S14.1.2, PDF p.~528, discusses the intended consequence.
+These are the exact source statuses already recorded in ZETA\_TWO
+MDOC01 \cite{Masullo,ZetaTwo}.  Every use of M in this paper is
+explicitly conditional.  Anderson's same-weight factorization,
+Corollary~5.7.2 and Remark~5.7.3, p.~181 \cite{Anderson1986}, is
+carried through ZETA\_TWO CM01; no new proof of that known theorem
+is claimed.
+
+\paragraph{Principal answers.}
+For a number field write $D_K=|\operatorname{disc}K|$,
+$w_K=|\mu(K)|$ and $(r_1,r_2)$ for its signature.  NX01--NX03 prove
+\[
+ h_KR_K>
+ \frac{w_K\sqrt{D_K}}
+ {173\,2^{r_1}(2\pi)^{r_2}\log D_K}
+ \quad(K/\mathbb Q\ \hbox{normal},\ K\ne\mathbb Q),
+\]
+and give the explicit factorial loss for arbitrary degree.
+NC01--NC04 propagate this to CM class numbers, heights, and all CM
+orbits.  In particular, for an explicit $c_g>0$ and all CM fields
+$E$ of degree $2g$,
+\[
+ h_E>c_gD_E^{1/4}(\log D_E)^{-g}.
+\]
+The full orbit formula, with its constants defined before and in
+NC04, is
+\[
+ |\Gal(\overline{\mathbb Q}/\mathbb Q)\cdot x|
+ \ge \frac{|\operatorname{disc}Z(\operatorname{End}_{\overline{\mathbb Q}}A_x)|^{1/P_g}}
+ {s_gT_g^{1/P_g}},\qquad P_g=28672g^4.
+\]
+There is no residual ineffective constant in these displayed
+statements.  They do not themselves supply an algorithm for every
+other step of a general Andr\'e--Oort proof.
+
+NX-L01 refutes the exact bad-fibre conjecture asked in the prompt:
+its hypotheses do not include separatedness.  NX-L02--NX-L03 prove
+the proper-flat splitting assertion, and NX-L04 proves that the
+multiplicities need not be the generic inertia multiplicities.
+NX-L05 explains a failed proper counterexample route; NX-L06 gives
+meromorphic continuation and half-integer divisor lines in the
+proper case using A.
+
+NG01 closes ZT06's CM-summand gap for every pure factor of abelian
+type.  NG02--NG03 compute the residual lists; NG04--NG07 make their
+content concrete.  For a general abelian variety the list is an
+exact abstract formula; evaluating its primitive CM projectors
+requires the actual Mumford--Tate representation.  No general
+algorithm recovering that representation from equations is asserted.
+The non-CM RH statements which the question asks us to name remain
+the analytic inputs explicitly identified by these formulas.
+
+\paragraph{Finite factors and the meaning of $\zeta_X$.}
+For a variety over $\mathbb Q$, the Euler product is understood
+through a chosen model $\mathcal X$ over an open of
+$\operatorname{Spec}\mathbb Z$; its incomplete form is denoted by
+$\zeta_X^S$.  For a finite-type scheme over $\mathbb Z$ it is the
+closed-point Euler product.  Restoring bad primes always uses the
+actual fibres, as in ZETA\_TWO ZT04.  No bad local factor is silently
+replaced by the canonical generic inertia factor.
+
+\paragraph{Archive conventions.}
+The available cote-and-scan locators are carried from the supplied
+predecessor and intakes, not newly viewed manuscripts.  They are
+listed precisely in the final framework table and
+\path{IMPLICATIONS.md}.  None of the new analytic estimates,
+perfectoid comparisons, or Faltings--Deligne theorems is attributed
+to an unavailable Grothendieck scan.  Where the supplied material
+does not provide a cote and scan, that absence is stated.
+
+\part{Checked findings}
+
+
+\section{Explicit residues and effective Brauer--Siegel}
+\label{sec:normal}
+
+Throughout, $D_K=|\operatorname{disc}(K)|$, $n_K=[K:\mathbf Q]$,
+$(r_1,r_2)$ is the signature, $w_K=|\mu(K)|$, and
+$\kappa_K=\operatorname*{Res}_{s=1}\zeta_K(s)$.
+The regulator uses the usual logarithmic embedding with a factor $2$
+at complex places, and is $1$ in unit rank zero. Thus
+\begin{equation}\label{eq:classformula}
+ h_KR_K=\frac{w_K\sqrt{D_K}}{2^{r_1}(2\pi)^{r_2}}\kappa_K.
+\end{equation}
+This is the analytic class number formula, in precisely the normalization
+of Garcia--Lee \cite[(1), p.~2]{GarciaLee}.
+
+\subsection{The constants in Stark's reduction}
+
+Here are the inputs, with their original locators checked against the
+1974 facsimile. Stark \cite[Lemma~3, pp.~139--140]{Stark} gives at most one
+zero in
+\[
+ \operatorname{Re}s\geq1-\frac1{4\log D_K},\qquad
+ |\operatorname{Im}s|\leq\frac1{4\log D_K};
+\]
+such a zero is real and simple. Write it as $\beta_0$ if it exists, and
+set $\beta_1=\beta_0$ in that case, and
+$\beta_1=1-(4\log D_K)^{-1}$ otherwise. His Lemma~4, equation~(11),
+pp.~140--141, gives
+\begin{equation}\label{eq:stark-residue}
+ \kappa_K>C_4^{-1}(1-\beta_1),\qquad
+ C_4=2\exp\left(\frac{21}{8}
+                 +\frac{\gamma+2\log2}{4\log3}\right)<43.2.
+\end{equation}
+The displayed constant follows by taking $c_1=0$, $c_2=2/\log3$ in
+Stark's equation~(7), p.~139, and $c_4=2c_3$ on p.~141.
+Garcia--Lee \cite[\S3, pp.~16--17]{GarciaLee} independently records this
+same extraction. In particular $4C_4<173$.
+For an exact numerical check of the last strict inequality, one may use
+$\gamma<289/500$, $\log2<347/500$, and $\log3>549/500$;
+the exponent in $C_4/2$ is then less than $3073/1000$.
+The rational Taylor-series certificate supplied with this paper proves
+$8\exp(3073/1000)<173$ without floating-point comparisons.
+
+Stark's Lemma~8, p.~145, has exactly the constants $4$ for a normal
+extension of $\mathbf Q$ and $4n_K!$ otherwise: a real zero in the
+corresponding interval descends to a quadratic subfield. Theorem~$1'$,
+p.~148, equations~(24)--(25), is the resulting residue statement;
+its no-quadratic-subfield clause uses the very same zero exclusion.
+We extend that clause using Alp\"oge's theorem, not the other branch of
+Theorem~$1'$ involving the constant $c_8$. No numerical assertion about
+Stark's tentative value $c_8=\pi/6$ is needed here.
+
+\begin{theorem}[NX01: normal fields, with an absolute constant]
+\label{NX01}
+Assume the supplied theorem of Alp\"oge in the sense fixed in the
+introduction. For every normal number field $K/\mathbf Q$ of degree
+$n_K\geq2$,
+\begin{equation}\label{eq:normal-lower}
+ \boxed{\quad
+ \kappa_K>\frac1{173\log D_K},\qquad
+ h_KR_K>
+ \frac{w_K\sqrt{D_K}}
+ {173\,2^{r_1}(2\pi)^{r_2}\log D_K}.
+ \quad}
+\end{equation}
+More precisely, $173$ may be replaced by $4C_4$ with $C_4$ as in
+\eqref{eq:stark-residue}. The field $\mathbf Q$ is handled separately:
+$D=1$, $\kappa=hR=1$.
+\end{theorem}
+
+\begin{proof}
+Suppose that a real zero $\beta$ lies in
+$[1-(4\log D_K)^{-1},1)$. Since $D_K\geq3$, this interval lies strictly
+to the right of $1/2$. Stark's Lemma~8 gives a quadratic subfield
+$F\subset K$ with $\zeta_F(\beta)=0$. The factorization
+$\zeta_F(s)=\zeta(s)L(s,\chi_{D_F})$ contradicts the supplied
+Riemann and Dirichlet nonvanishing theorems at $\beta$.
+Thus $\beta_0$ does not exist, and \eqref{eq:stark-residue} gives
+$\kappa_K>(4C_4\log D_K)^{-1}>(173\log D_K)^{-1}$.
+Equation~\eqref{eq:classformula} gives the second inequality.
+The conclusion uses only zero exclusion near $1$ for normal Dedekind
+zeta functions; it asserts no full GRH for them.
+\end{proof}
+
+\begin{theorem}[NX02: transfer through the Galois closure]
+\label{NX02}
+For every number field $K$ of degree $n\geq2$, under the same input,
+\begin{equation}\label{eq:all-fields-lower}
+ \boxed{\quad
+ \kappa_K>\frac1{173n!\log D_K},\qquad
+ h_KR_K>
+ \frac{w_K\sqrt{D_K}}
+ {173n!\,2^{r_1}(2\pi)^{r_2}\log D_K}.
+ \quad}
+\end{equation}
+The factor $n!$ can be replaced by $1$ for normal $K$. In particular,
+for a CM field $E$ of degree $2g$,
+\begin{equation}\label{eq:cm-hR}
+ h_ER_E>\frac{w_E\sqrt{D_E}}
+ {173(2g)!(2\pi)^g\log D_E}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+For clarity we spell out the normal-closure mechanism behind Stark's
+Lemma~8, rather than treating a lower bound for the residue of the
+closure as a lower bound for the residue of its subfield.
+Let $L$ be the Galois closure, $m=[L:\mathbf Q]\leq n!$, and express $L$
+as the compositum of $a\leq n$ conjugates of $K$. Stark's Lemma~7,
+p.~143, gives
+\[
+ D_L\mid D_K^{am/n},\qquad \log D_L\leq m\log D_K\leq n!\log D_K.
+\]
+The Aramata--Brauer divisibility used in the proof of Stark's
+Lemma~8 says that $\zeta_L/\zeta_K$ is entire, since $L/K$ is normal.
+Consequently a real zero of $\zeta_K$ in
+$[1-(4n!\log D_K)^{-1},1)$ would also be a zero of $\zeta_L$ in its
+Stark interval, contrary to NX01's zero-exclusion argument.
+
+If the exceptional zero $\beta_0$ in Stark's Lemma~4 for $K$ exists,
+it therefore satisfies $1-\beta_0>(4n!\log D_K)^{-1}$; if it does not,
+$1-\beta_1=(4\log D_K)^{-1}$ is at least this large.
+Apply \eqref{eq:stark-residue} and then
+\eqref{eq:classformula}. For a CM field $r_1=0$, $r_2=g$.
+\end{proof}
+
+\begin{theorem}[NX03: a quantitative Brauer--Siegel statement]
+\label{NX03}
+Let $K/\mathbf Q$ be normal, $n\geq2$, and put $L=\log D_K$. Then
+\begin{align}
+ \frac{w_K\sqrt{D_K}}{173\,2^{r_1}(2\pi)^{r_2}L}
+ &<h_KR_K\notag\\
+ &\leq\frac{w_K\sqrt{D_K}}{2^{r_1}(2\pi)^{r_2}}
+       \left(\frac{eL}{2(n-1)}\right)^{n-1}.
+ \label{eq:effective-BS}
+\end{align}
+In particular the following error interval is explicit:
+\begin{align*}
+ -\frac n2\log(2\pi)-\log(173L)+\log2
+ &<\log(h_KR_K)-\frac12L\\
+ &\leq\log(2n^2)+(n-1)\log\left(\frac{eL}{2(n-1)}\right).
+\end{align*}
+Along any sequence of normal fields with $D_K\to\infty$ and
+$n/\log D_K\to0$, these inequalities give
+$\log(h_KR_K)/\log\sqrt{D_K}\to1$ with the displayed effective error.
+For arbitrary fields of fixed degree, the same conclusion and error
+hold with the additional term $-\log(n!)$ in the lower bound.
+\end{theorem}
+
+\begin{proof}
+The lower bound is NX01. The upper bound is Louboutin
+\cite[Theorem~1(1), p.~1195]{NC-Louboutin2001}, inserted into the class number
+formula. For the error interval use $w_K\geq2$ and
+$2^{r_1}(2\pi)^{r_2}\leq(2\pi)^{n/2}$ in the lower estimate.
+For the upper estimate, $w_K\leq2n^2$: indeed
+$\varphi(w_K)\leq n$ and the prime-power product formula gives
+$\varphi(t)^2\geq t/2$ for every positive integer $t$.
+Divide the resulting logarithmic bounds by $L$. If $x=(n-1)/L\to0$,
+then $x\log(e/(2x))\to0$, proving the assertion, and the other error
+terms visibly tend to zero. The fixed-degree assertion uses NX02.
+\end{proof}
+
+\subsection{An independent upper bound relevant to the earlier programme}
+
+\begin{proposition}[NX04: a class-number upper bound needs no new RH]
+\label{NX04}
+For any number field $K$ of degree $n\geq2$,
+\begin{equation}\label{eq:minkowski-class-upper}
+ h_K\leq\sqrt{D_K}\left(1+\tfrac12\log D_K\right)^{n-1}.
+\end{equation}
+Thus a previously established sufficient power
+$2h_K|D_p|/|\mu(K)|$ can be bounded above effectively by substituting
+\eqref{eq:minkowski-class-upper}, whenever the other factors of that
+earlier statement have their specified finite meaning.
+\end{proposition}
+
+\begin{proof}
+Minkowski's ideal-class bound \cite[Theorem~4.3, p.~70]{MilneANT} gives an integral ideal in every class
+of norm at most
+$M=(4/\pi)^{r_2}(n!/n^n)\sqrt{D_K}\leq\sqrt{D_K}$.
+For the last inequality one may use $n!/n^n\leq2^{1-n}$ and
+$r_2\leq n/2$; for $n\geq2$ the resulting factor
+$2\pi^{-n/2}$ is at most $1$.
+The Euler factors of $\zeta_K$ show that its nonnegative Dirichlet
+coefficients are bounded coefficientwise by those of $\zeta(s)^n$.
+If $d_n(m)$ denotes the latter coefficients, induction on $n$ gives,
+for $X\geq1$,
+\[
+ \sum_{m\leq X}d_n(m)\leq X(1+\log X)^{n-1}.
+\]
+Indeed the induction step follows by summing
+$\sum_{a\leq X}(X/a)(1+\log X)^{n-2}$ and using
+$\sum_{a\leq X}1/a\leq1+\log X$.
+Count ideals up to $\sqrt{D_K}$ to conclude.
+\end{proof}
+
+\paragraph{Geometric and programme interpretation.}
+NX01--NX03 concern $\zeta_{\operatorname{Spec}\mathcal O_K}$ and the
+arithmetic special-value combination $h_KR_K$; they give quantitative
+information about the integral Picard group and the archimedean unit
+lattice. They do not produce a decomposition of the corresponding
+\'{e}tale complex, nor an integral $K$-theory calculation from zero
+location. This distinction is exactly that of ZETA\_TWO ZT08, SV01--SV02.
+The theorem extends ZETA\_TWO IA05's zero-exclusion reduction to explicit
+residue bounds. NX04 applies to the sufficient-power expression in
+SA06 B.4e as recorded in \texttt{INTAKE\_RESEARCH\_SA06\_20261120.md},
+\S4.1; it does not repair the different refuted assertion B.4c.
+A lower bound for $hR$ would require an \emph{upper} bound for $R$ to
+give a lower bound for $h$. The CM argument below avoids that problem
+by an exact regulator quotient. An upper bound for $hR$, in contrast,
+needs a regulator lower bound to give an upper bound for $h$.
+
+No manuscript statement of these new explicit estimates has been
+identified in Grothendieck's archive. The exact programme anchors
+available in the supplied record are SA06 B.4a--e and the determinant
+discussion of cote~60, scans~3, 5, 7, 9, as recorded in ZETA\_TWO AR01
+and its archive section. These anchors are cited as inherited readings,
+not as new facsimile inspections or claims that the archive contains
+the present analytic theorem.
+
+
+% Consequences of the effective residue estimate, /root/cm_effectivity.
+% IDs NC01--NC04. Uses theorem/proposition/proof environments and amsmath/amssymb.
+% Bibliography keys are supplied in cm/bibliography.tex.
+
+\section{Effective CM class numbers and CM-point orbits}
+
+Throughout this section, $D_E$ denotes the positive absolute discriminant of
+$E$, and $\kappa_E=\operatorname*{Res}_{s=1}\zeta_E(s)$.
+We use the quadratic Dirichlet GRH theorem supplied as Alp\"oge's theorem
+and carried in ZETA\_TWO IA05.  No statement in this section uses Masullo's
+claim, the general individual Colmez conjecture, or GRH for a nonquadratic
+Hecke character.  The residue estimate used from NX02 is
+\begin{equation}\label{eq:NC-residue-input}
+ \kappa_E>\frac{1}{173[ E:\mathbf Q]!\log D_E}
+ \qquad([E:\mathbf Q]\geq2).
+\end{equation}
+For normal $E$, NX01 permits the factorial to be replaced by $1$.
+
+\begin{theorem}[NC01: explicit Siegel bounds for CM class numbers]
+\label{NC01}
+Let $E$ be any CM field of degree $2g$, let $F=E^+$, and put
+\[
+ c_g=\frac{2}{173(2\pi)^g(2g)!}
+       \begin{cases}
+       1,&g=1,\\
+       \bigl(4(g-1)/e\bigr)^{g-1},&g\geq2.
+       \end{cases}
+\]
+Then
+\begin{equation}\label{eq:NC01-log}
+ h_E\ \geq\ \frac{h_E}{h_F}\ >\
+ c_g\frac{D_E^{1/4}}{(\log D_E)^g}.
+\end{equation}
+Consequently, for every explicitly given $\varepsilon>0$,
+\begin{equation}\label{eq:NC01-epsilon}
+ h_E>c_g\left(\frac{e\varepsilon}{g}\right)^g
+                 D_E^{1/4-\varepsilon}.
+\end{equation}
+If $E$ is normal, the same statements hold with $c_g$ multiplied by
+$(2g)!$.  In particular, for $H\geq1$, the condition $h_E\leq H$ implies
+\begin{equation}\label{eq:NC01-cutoff}
+ D_E<\left\{\frac{H}{c_g(e/(8g))^g}\right\}^{8}.
+\end{equation}
+For imaginary quadratic fields one retains the natural, stronger exponent:
+\begin{equation}\label{eq:NC01-quadratic}
+ h_E>\frac{\sqrt{D_E}}{173\pi\log D_E}
+ \geq\frac{e\varepsilon}{173\pi}D_E^{1/2-\varepsilon}
+ \qquad(\varepsilon>0).
+\end{equation}
+The constants are deliberately coarse and are completely explicit.
+The stronger large-discriminant quadratic estimates in
+ZETA\_TWO IA02--IA03 remain available; they are not reproved here.
+\end{theorem}
+
+\begin{proof}
+The relative analytic class number formula, in the normalization of
+\cite[\S3, equation (21), p.~1200]{NC-Louboutin2001}, is
+\begin{equation}\label{eq:NC01-relative}
+ \frac{h_E}{h_F}=
+ \frac{Q_Ew_E}{(2\pi)^g}
+ \sqrt{\frac{D_E}{D_F}}\frac{\kappa_E}{\kappa_F},
+ \qquad Q_E\in\{1,2\},\quad w_E\geq2.
+\end{equation}
+This formula accounts for the regulator ratio
+$R_E/R_F=2^{g-1}/Q_E$; replacing a bound for $h_ER_E$ by a bound for
+$h_E$ without this step would be invalid.
+For $g\geq2$, Louboutin's explicit upper bound
+\cite[Theorem~1(1), p.~1195]{NC-Louboutin2001} gives
+\[
+ \kappa_F\leq
+ \left(\frac{e\log D_F}{2(g-1)}\right)^{g-1}.
+\]
+Combining this with \eqref{eq:NC-residue-input} gives the stronger
+field-dependent bound
+\begin{equation}\label{eq:NC01-strong}
+ \frac{h_E}{h_F}>
+ \frac{2}{173(2\pi)^g(2g)!\log D_E}
+ \sqrt{\frac{D_E}{D_F}}
+ \left(\frac{2(g-1)}{e\log D_F}\right)^{g-1}.
+\end{equation}
+The discriminant identity
+$D_E=D_F^2N_{F/\mathbf Q}(\mathfrak d_{E/F})$ implies
+$D_F\leq D_E^{1/2}$.  Hence the square root in
+\eqref{eq:NC01-strong} is at least $D_E^{1/4}$, while
+$\log D_F\leq\tfrac12\log D_E$.  This proves
+\eqref{eq:NC01-log} for $g\geq2$.  For $g=1$ use
+$F=\mathbf Q$, $\kappa_F=1$, and
+$D_E^{1/2}\geq D_E^{1/4}$ directly in
+\eqref{eq:NC01-relative}.  Finally $h_F\geq1$.
+
+For $t>0$, the maximum of $t^g e^{-\varepsilon t}$ occurs at
+$t=g/\varepsilon$ and equals $(g/(e\varepsilon))^g$.
+With $t=\log D_E$, this proves \eqref{eq:NC01-epsilon}.
+Taking $\varepsilon=1/8$ proves \eqref{eq:NC01-cutoff}.
+Normality changes only the residue constant, as stated.
+For \eqref{eq:NC01-quadratic}, a quadratic field is normal and has
+$R_E=1$, so NX01 and the ordinary class number formula give
+$h_E=w_E\sqrt{D_E}\kappa_E/(2\pi)>
+\sqrt{D_E}/(173\pi\log D_E)$.
+The same calculus inequality with $g=1$ gives its second inequality.
+\end{proof}
+
+\paragraph{Arithmetic-geometric meaning of NC01.}
+Here $h_E=|\operatorname{Pic}(\operatorname{Spec}\mathcal O_E)|$.
+The unit logarithm determinant in $K_1(\mathcal O_E)$ is the regulator;
+\eqref{eq:NC01-relative} cancels this determinant against its counterpart
+for $\operatorname{Spec}\mathcal O_F$.  On the generic fibres,
+$\zeta_E/\zeta_F$ is the $L$-function of the genuine Artin summand
+$\operatorname{Ind}_{G_F}^{G_{\mathbf Q}}\chi_{E/F}$ in
+$H^0(\operatorname{Spec}E)$, where $\chi_{E/F}$ is the quadratic
+character of $G_F$.  The passage through the normal closure in NX02
+controls a possible exceptional quadratic constituent, not every zero
+of this Artin $L$-function.  Thus NC01 changes the effectivity of the
+class-number estimate without asserting the full RH of $\zeta_E$.
+
+\begin{theorem}[NC02: an explicit logarithmic CM height bound]
+\label{NC02}
+For $g\geq1$, define
+\[
+ a_g=2^{g-1}\left(\frac{75}{2}+16g!\right),
+ \qquad b_g=4g(2^g-1),\qquad H_g(D)=a_g\log D+b_g.
+\]
+Let $A/\overline{\mathbf Q}$ have dimension $g$ and complex
+multiplication by the full ring $\mathcal O_E$ of a CM field of degree
+$2g$.  Let $h_F$ be the stable height in Faltings' original normalization.
+Then
+\begin{equation}\label{eq:NC02-height}
+ h_F(A)\leq H_g(D_E).
+\end{equation}
+This assertion holds for every CM type, including imprimitive types.
+\end{theorem}
+
+\begin{proof}
+We spell out the constants in the proved argument of
+\cite[Proposition~5.3 and its proof, pp.~19--20]{NC-Wei2021}.
+Use first the height $h_W$ defined with the squared archimedean norm
+$(2\pi)^{-g}\int|\omega\wedge\overline\omega|$.
+This is the normalization of Yuan--Zhang
+\cite[\S1.1, p.~534; Theorem~1.1, p.~535]{NC-YuanZhang2018}
+and Wei.  Gaudron--R\'emond
+\cite[\S2.3, pp.~351--352]{NC-GRPeriods2014} give
+\begin{equation}\label{eq:NC02-normalization}
+ h_W(A)=h_F(A)+\frac g2\log\pi.
+\end{equation}
+Their Theorem~1.1, p.~345, has positive left hand side and upper bound
+$16h_F(A)+49g$, so it implies $h_F(A)>-49g/16$.
+In particular $h_W(A)>-4g$.
+
+Stark's Lemma~9, pp.~145--146, applied with $[F:\mathbf Q]=g$, says
+that a real zero of $L(s,\chi_{E/F})=\zeta_E(s)/\zeta_F(s)$ in
+\[
+ 1-\frac{1}{16g!\log D_E}\leq s<1
+\]
+would descend to an imaginary quadratic subfield of $E$.
+Alp\"oge's quadratic Dirichlet GRH excludes this.  The only possible
+zero in the wider square of side $1/(4\log D_E)$ is real and simple
+(Stark Lemma~3; also \cite[\S1, p.~3]{NC-Wei2021}), so
+$C_{\mathrm{zero}}(g)=16g!$ satisfies the hypothesis of Wei's
+Proposition~5.3.
+
+Let $\Phi_0$ be the type of $A$.  The averaged Colmez identity is
+\[
+ 2^{-g}\sum_\Phi h_W(E,\Phi)=
+ -\frac12\frac{L'(0,\chi_{E/F})}{L(0,\chi_{E/F})}
+ -\frac14\log(D_E/D_F).
+\]
+Wei's estimate in the proof of Proposition~5.3 bounds the right hand
+side above by
+\[
+ \frac12\left\{
+ \left(\frac{75}{2}+16g!\right)\log D_E
+ +\frac g2\bigl(\psi(1/2)-\log\pi\bigr)\right\},
+\]
+where $\psi$ is the logarithmic derivative of the gamma function.
+Isolate the summand $\Phi_0$ and use $h_W(E,\Phi)>-4g$ for the
+other $2^g-1$ summands.  Since
+$\psi(1/2)-\log\pi=-\gamma-\log(4\pi)<0$, discarding the last
+term gives $h_W(A)\leq H_g(D_E)$.
+Equation \eqref{eq:NC02-normalization} then gives
+\eqref{eq:NC02-height}.  No individual Colmez formula was used.
+\end{proof}
+
+\paragraph{Geometric meaning of NC02.}
+The height is the normalized arithmetic degree of the metrized Hodge
+line $\det(e^*\Omega^1_{\mathcal A/\mathcal O_K})$ on an abelian
+scheme after a field extension giving good reduction.
+Averaging the CM types expresses that degree in terms of the logarithmic
+derivative of a weight-zero Artin $L$-function.  The polarizable
+weight-one CM realization $H^1(A)$ is present through this Hodge line;
+its own infinite-order Hecke $L$-function is not assumed to satisfy GRH.
+NC02 strengthens the averaged-height consequence recorded after
+ZETA\_TWO IA05 and does not settle the individual Colmez identity
+which IA05 explicitly leaves as a separate input.
+
+\subsection{Explicit constants for the orbit statements}
+
+For each integer $r\geq1$, let $c_r,a_r,b_r$ have the values just
+specified and define
+\begin{align*}
+ \alpha_r&=2^{10}r^3,& B_r&=(14r)^{64r^2},&
+ \eta_r&=\frac{1}{16\alpha_r},\\
+ U_r&=a_r+\frac{b_r+1}{\log3},&
+ q_r&=2+\frac{r}{2\alpha_r},&
+ s_r&=2\cdot3^{4r^2},\\
+ f_r&=\frac{c_r^{1/(2\alpha_r)}}
+              {2^{r/\alpha_r}B_rU_r^2},&&&\\
+ \ell_r&=\min\left\{1,\,
+           f_r\left(\frac{e\eta_r}{q_r}\right)^{q_r}\right\}.&&&
+\end{align*}
+Every constant here is positive and given by elementary operations.
+The isogeny estimate to be used is
+\cite[Theorem~1.4, p.~2060; definition of $\kappa(A)$, p.~2058]
+{NC-GRPol2014}: two isogenous abelian varieties $A,A'$ of dimension $r$
+defined over a number field of degree $k$ have an isogeny in each
+direction of degree at most
+\begin{equation}\label{eq:NC-GR}
+ \bigl(B_rk\max\{h_F(A),\log k,1\}^{2}\bigr)^{\alpha_r}.
+\end{equation}
+The theorem permits the isogeny over any extension on which the two
+varieties are isogenous.  In the applications below there is already
+an isogeny over the stated field.
+
+\begin{theorem}[NC03: primitive full-ring CM orbits]
+\label{NC03}
+Let $A/\overline{\mathbf Q}$ be geometrically simple of dimension $g$
+with $\operatorname{End}(A)=\mathcal O_E$ for a CM field $E$ of degree
+$2g$.  If $A$ and all its endomorphisms are defined over $K$, then
+\begin{equation}\label{eq:NC03-def}
+ [K:\mathbf Q]\geq\ell_g D_E^{\eta_g}.
+\end{equation}
+For a polarized $A$ with field of moduli $\mathbf Q(A)$,
+\begin{equation}\label{eq:NC03-moduli}
+ [\mathbf Q(A):\mathbf Q]\geq
+ \frac{\ell_g}{s_g}D_E^{1/(16384g^3)}.
+\end{equation}
+This is an effective version of Tsimerman's Theorems~1.2 and~4.2.
+\end{theorem}
+
+\begin{proof}
+Put $D=D_E$, $k=[K:\mathbf Q]$, and fix the primitive CM type $\Phi$
+of $A$.  The usual CM ideal construction gives $h_E$ isomorphism
+classes in $S(E,\Phi)$; the quotient by the kernel of an integral ideal
+$I\subset\mathcal O_E$ has isogeny degree $N(I)$, and every class
+arises in this way.  The precise facts used are recorded in
+\cite[\S2.2, p.~382, proof of Proposition~2.2]{NC-Tsimerman2018}.
+Because all endomorphisms of $A$ are defined over $K$, their common
+ideal kernels and these quotients are defined over $K$ as well.
+For each quotient $A_I$, apply \eqref{eq:NC-GR} to $A,A_I$ over $K$.
+It gives an isogeny $A\to A_I$ of degree at most
+\[
+ N=\bigl(B_gk\max\{H_g(D),\log k,1\}^{2}\bigr)^{\alpha_g}.
+\]
+All homomorphisms in this isogeny class commute with the fixed
+$E$-action: after fixing one $E$-linear isogeny, the rational Hom space
+is a rank-one module over the commutative algebra
+$\operatorname{End}^0(A)=E$.  Thus the isogeny just obtained is among
+those classified by integral ideals.  There are consequently at least
+$h_E$ integral ideals of norm at most $N$.
+
+For any number field of degree $2g$ and any $N\geq1$,
+\[
+ \#\{I\subset\mathcal O_E:N(I)\leq N\}
+ \leq N^2\zeta_E(2)
+ \leq N^2\zeta(2)^{2g}<2^{2g}N^2.
+\]
+The middle inequality follows by bounding each rational-prime Euler
+factor by $(1-p^{-2})^{-2g}$.  Hence $h_E<2^{2g}N^2$.
+If $k>D$, \eqref{eq:NC03-def} follows from $\ell_g\leq1$ and
+$\eta_g<1$.  Assume therefore $k\leq D$.  As $D\geq3$,
+\[
+ \max\{H_g(D),\log k,1\}\leq U_g\log D.
+\]
+The lower bound NC01 and the last ideal count give
+\[
+ c_g\frac{D^{1/4}}{(\log D)^g}
+ <2^{2g}(B_gkU_g^2(\log D)^2)^{2\alpha_g}.
+\]
+Taking $2\alpha_g$-th roots and solving for $k$ yields
+\[
+ k>f_g\frac{D^{1/(8\alpha_g)}}{(\log D)^{q_g}}.
+\]
+For $t>0$, the maximum of $t^{q_g}e^{-\eta_gt}$ is
+$(q_g/(e\eta_g))^{q_g}$.  Using $t=\log D$ proves
+\eqref{eq:NC03-def} by the definition of $\ell_g$.
+Finally Tsimerman's Lemma~4.1, p.~384, gives a field of definition of
+$A$ and all its endomorphisms of degree at most
+$s_g[\mathbf Q(A):\mathbf Q]$.  (The lemma is formulated with
+unpolarized field of moduli and its extension defines every
+polarization.  Taking the compositum with the polarized field of
+moduli preserves the bound $s_g$ on the relative degree.)
+Apply \eqref{eq:NC03-def} to that field.
+\end{proof}
+
+\paragraph{Which quantitative steps changed.}
+The analytic inputs to the orbit argument are now the explicit
+class-number lower bound NC01 and the logarithmic height bound NC02.
+The ideal count is elementary.  The isogeny estimate
+\eqref{eq:NC-GR} has specified constants, so it leaves no ineffective
+constant in NC03.  Its exponent is intentionally sacrificed to keep
+one uniform, directly evaluable expression.  This is an orbit estimate;
+no numerical degree bound for arbitrary special subvarieties is being
+claimed from it.
+
+\begin{theorem}[NC04: all CM points, including nonmaximal orders]
+\label{NC04}
+For $g\geq1$ define the following further explicit constants:
+\begin{align*}
+ \beta_g&=16\alpha_g,\\
+ M_g&=\max_{1\leq r\leq g}\ell_r^{-16\alpha_r},\\
+ A_g^*&=\max_{1\leq r\leq g}a_r,
+ &C_g^*&=\max_{1\leq r\leq g}b_r,\\
+ V_g&=1+g\{A_g^*(\log M_g+\beta_g)+C_g^*\},\\
+ T_g&=M_g^g(B_gV_g^2)^{4g\alpha_g},
+ &P_g&=28g\alpha_g=28672g^4.
+\end{align*}
+Let $x\in\mathcal A_g(\overline{\mathbf Q})$ be a CM point, let
+$A_x$ be its principally polarized abelian variety, and let
+$R_x=Z(\operatorname{End}_{\overline{\mathbf Q}}A_x)$, an order in a
+product of CM fields.  Then
+\begin{equation}\label{eq:NC04-orbit}
+ |\operatorname{Gal}(\overline{\mathbf Q}/\mathbf Q)\cdot x|
+ \geq s_g^{-1}T_g^{-1/P_g}\,|\operatorname{disc}R_x|^{1/P_g}.
+\end{equation}
+In particular the full Galois-orbit assertion of
+\cite[Theorem~5.2, p.~385]{NC-Tsimerman2018} has an explicit exponent
+and an explicit multiplicative constant under Alp\"oge's theorem.
+\end{theorem}
+
+\begin{proof}
+Put $d=[\mathbf Q(x):\mathbf Q]$ and $A=A_x$.
+By the same Lemma~4.1 and the compositum just described,
+choose $K$ over $\mathbf Q(x)$ with
+$k=[K:\mathbf Q]\leq s_gd$ such that $A$ and every geometric
+endomorphism are defined over $K$.
+
+R\'emond's maximal-order replacement theorem
+\cite[Theorem~1.1, pp.~1--2 of the author preprint]{NC-Remond2017}
+provides a $K$-isogenous abelian variety $B/K$ whose endomorphism
+ring is a maximal order.  This theorem works over the same base
+field: no extension depending on the index of the original order
+is needed.  All geometric rational endomorphisms of $B$ are defined
+over $K$, by transport through the $K$-isogeny.  The integral ones
+are therefore defined over $K$ too.
+
+Repeated application of R\'emond's Theorem~1.2, p.~2, decomposes
+$B$ over $K$ as a product of simple factors $B_j$ with maximal
+endomorphism rings.  Every geometric endomorphism of each factor is defined over $K$,
+by its inclusion into and projection from $B$.  Such a factor is
+geometrically simple: applying the same Theorem~1.2 over
+$\overline{\mathbf Q}$ to a geometric proper abelian subvariety
+would give a nontrivial idempotent endomorphism.  This idempotent
+is defined over $K$, contradicting simplicity over $K$.
+As $A$ is CM, each factor has dimension $r_j\leq g$,
+$\operatorname{End}(B_j)=\mathcal O_{E_j}$ for a CM field of degree
+$2r_j$, and primitive CM type (\cite[\S7, paragraph preceding Lemma~7.5,
+pp.~17--18 of the preprint]{NC-Remond2017}).  There are at most $g$ factors,
+counting repetitions, with $\sum_jr_j=g$.
+
+NC03 in its field-of-definition form implies, for every $j$,
+\[
+ D_{E_j}\leq(k/\ell_{r_j})^{16\alpha_{r_j}}
+          \leq M_g k^{\beta_g}.
+\]
+The stable Faltings height is additive on products
+(\cite[\S2.3, p.~352]{NC-GRPeriods2014}).  NC02 thus gives
+\begin{align*}
+ h_F(B)&\leq\sum_j\{a_{r_j}\log D_{E_j}+b_{r_j}\}\\
+ &\leq g\{A_g^*\log M_g+C_g^*\}
+          +gA_g^*\beta_g\log k.
+\end{align*}
+It follows that
+\[
+ \max\{h_F(B),\log k,1\}
+ \leq V_g(1+\log k)\leq V_gk,
+\]
+where the last inequality holds for $k\geq1$.
+The isogeny estimate \eqref{eq:NC-GR}, applied with $B$ as the
+height input, supplies an isogeny $\varphi:B\to A$ of degree
+\begin{equation}\label{eq:NC04-degree}
+ N\leq(B_gV_g^2)^{\alpha_g}k^{3\alpha_g}.
+\end{equation}
+
+Identify the centres of the rational endomorphism algebras by
+$\varphi$.  Let $\mathcal O$ be the integral closure of $\mathbf Z$
+in this centre.  Since $\operatorname{End}(B)$ is maximal,
+its centre is $\mathcal O$: adjoining central algebraic integers
+would otherwise give a strictly larger order.  Also
+$R_x\subset\mathcal O$, because an integral endomorphism acts on
+an integral homology lattice and is integral over $\mathbf Z$.
+The kernel of $\varphi$ is killed by its order $N$, so there is an
+isogeny $\psi:A\to B$ with $\psi\varphi=[N]_B$.
+For $u\in\mathcal O$ the endomorphism
+$\varphi u\psi$ of $A$ is central and represents $Nu$ under our
+identification.  Thus
+\[
+ N\mathcal O\subset R_x\subset\mathcal O,
+ \qquad [\mathcal O:R_x]\leq N^{\operatorname{rank}_{\mathbf Z}\mathcal O}
+                         \leq N^{2g}.
+\]
+The discriminant of the product order $\mathcal O$ is the product
+of the discriminants of its field factors, one for each simple
+isogeny component, retaining separate components even if their
+fields are isomorphic.  There are at most $g$ of these.  The discriminant-index formula
+and \eqref{eq:NC04-degree} give
+\begin{align*}
+ |\operatorname{disc}R_x|
+ &=|\operatorname{disc}\mathcal O|[\mathcal O:R_x]^2\\
+ &\leq M_g^gk^{g\beta_g}N^{4g}\\
+ &\leq M_g^g(B_gV_g^2)^{4g\alpha_g}
+             k^{g\beta_g+12g\alpha_g}
+   =T_gk^{P_g}\leq T_g(s_gd)^{P_g}.
+\end{align*}
+Solving for $d$, which is precisely the Galois-orbit cardinality,
+proves \eqref{eq:NC04-orbit}.
+\end{proof}
+
+\paragraph{Geometric meaning and exact scope of NC03--NC04.}
+The points lie in the moduli scheme $\mathcal A_g/\mathbf Q$.
+Isogeny preserves the rational CM motive and all its $\ell$-adic
+realizations, while replacing the endomorphism order changes an integral
+lattice.  NC04 quantifies that lattice change by
+$N\mathcal O\subset R_x$ and the discriminant-index identity.
+The Hodge line supplies the height used to bound the isogeny.
+Hence these results make the CM-orbit input to Tsimerman's proof
+effective, including the centre of a nonmaximal endomorphism ring.
+They use the abelian category and its endomorphisms, not a presumed
+motivic splitting for arbitrary varieties.  The weight-one non-CM
+factors in ZETA\_TWO ZT06 remain a different question.
+
+\paragraph{The distinction from a full effective Andr\'e--Oort algorithm.}
+NC04 supplies all constants in the arithmetic orbit lower bound requested
+here.  The complete proof in \cite[\S6.3, Theorem~6.1, and \S6.5,
+p.~388]{NC-Tsimerman2018} also uses a subpolynomial counting theorem and
+an o-minimal reduction from special subvarieties to special points.
+Those cited steps, as stated there, supply no algorithm for their
+constants or finite families; such an algorithm does not follow from
+NC04 alone.  This identifies the scope of the present proof, not a
+claim that effective replacements cannot exist.  Indeed, for powers
+of the modular curve there already is such a replacement:
+Binyamini \cite[\S1.2, Theorem~1, preprint p.~2; \S1.4, pp.~3--4]
+{NC-Binyamini2020} gives effective bounds for maximal special
+subvarieties once the possible exceptional imaginary quadratic field
+is removed by Dirichlet GRH.  That specialization is effective under
+the supplied Alp\"oge theorem.  The two nonarithmetic effectivity
+issues for the original o-minimal proof are listed separately in the
+same \S1.4.
+
+\paragraph{Archive and programme locators.}
+These quantitative class-number and moduli-height estimates are not
+statements found in EGA, SGA, FGA, or the supplied Grothendieck scans.
+Their direct programme targets are ZETA\_TWO IA05 and its intake
+\S6(1)(a), and the appended CM class-number discussion in
+INTAKE\_RESEARCH\_SA06\_20261120, \S4, rows B.4a--B.4e, restated
+in ZETA\_TWO IAQ-008--012.  The supplied intake does not identify a
+cote-and-scan for B.4a--B.4e; none is invented here.  The explicit
+archive connection specified in ZETA\_TWO's intake \S5.4 is
+cote~15, scan~70 for SA06 A.8a, concerning quadratic
+class-number/supersingular questions.  The related row A.8c has
+neither a separate cote-and-scan locator nor a definition of its
+ring $R$ in the supplied intake.  The sharper quadratic estimates
+remain ZETA\_TWO IA02--IA03.
+The cohomological determinant interpretation is the one already fixed
+in ZETA\_TWO ZT08: SGA~6, Exp.~V, \S2 and (7.1.1), and the programme's
+cote~60, scans~3--9.  These locators concern the framework, not a
+claim that the new numerical inequalities occur in the archive.
+
+
+% Task 2 contribution. Stable IDs NX-L01--NX-L07.
+% Whole-proof readings and their exact scope are recorded in CHECK_EVENTS.tsv.
+
+\section{Bad fibres of $\Lambda$-schemes}
+
+\subsection{The separatedness qualification is substantive}
+
+A $\Lambda$-structure on a flat scheme over $\mathbb Z$ means commuting
+endomorphisms $\psi_q$ lifting Frobenius at every prime $q$; the definition
+itself does not require separatedness (Borger, introduction, p.~2, and
+\S1.1, p.~6).  Borger explicitly adds separatedness at the beginning of
+\S6 before Theorem~6.1 and Corollary~6.2.  The conjecture in the present
+prompt says ``flat and of finite type'' without adding separatedness.
+That literal statement has a counterexample.
+
+\begin{theorem}[NX-L01: arbitrary extra bad factors without separatedness]
+\label{NX-L01}
+Fix a prime $p$, let $Y=\mathbb A^d_{\mathbb Z}$, and let
+$Z\subseteq Y_{\mathbb F_p}$ be any closed subscheme.  Glue two copies
+$Y_1,Y_2$ along the identity of $U=Y\setminus |Z|$, and call the resulting
+scheme $X$.  Then $X$ is flat and of finite type over $\mathbb Z$ and
+admits a $\Lambda$-structure.  Its generic fibre is $Y_{\mathbb Q}$ and
+\[
+ \zeta_X(s)=\zeta(s-d)\,Z(Z,p^{-s}).
+\]
+Thus its $p$-factor in the correction of ZETA\_TWO~ZT04 is exactly
+$Z(Z,p^{-s})$.  In particular the proposed cyclotomic integral-Tate
+factor assertion is false as stated.
+\end{theorem}
+
+\begin{proof}
+Write $\varphi_q:Y\to Y$ for coordinatewise $q$th powers.  The fold map
+$r:X\to Y$ is the identity on each chart, and write $i_1:Y\to X$ for the
+first chart.  Because Frobenius on $Y_{\mathbb F_p}$ is the identity on
+its topological space, $\varphi_p^{-1}(U)=U$.  Consequently the two
+maps $\varphi_p:Y_a\to Y_a$ glue to an endomorphism $\psi_p$ of $X$.
+For $q\ne p$, set
+\[
+ \psi_q=i_1\circ\varphi_q\circ r.
+\]
+The identities $r i_1=1$, $r\psi_p=\varphi_p r$ and
+$\psi_p i_1=i_1\varphi_p$, together with
+$\varphi_q\varphi_{q'}=\varphi_{q'}\varphi_q$, prove pairwise
+commutativity for all primes.  At $q\ne p$ the overlap is the whole
+fibre, so $r:X_{\mathbb F_q}\simeq Y_{\mathbb F_q}$ and $\psi_q$
+restricts to its absolute Frobenius.  At $p$ this assertion holds on
+both affine charts by construction.  These commuting Frobenius lifts
+supply the $\Lambda$-structure by the flat criterion in Borger~\S1.1.
+Flatness and local finite type are local on the source; the two affine
+charts are flat and of finite type, and their finite union is
+quasi-compact.  Thus $X$ satisfies the hypotheses in the assertion.
+
+For each $r\geq1$, the two copies have precisely the points of
+$Y(\mathbb F_{p^r})\setminus Z(\mathbb F_{p^r})$ identified.  Hence
+\[
+ \#X(\mathbb F_{p^r})=p^{dr}+\#Z(\mathbb F_{p^r}).
+\]
+All other fibres are those of $Y$.  Taking the exponential of
+$\sum_{r\geq1}\#X(\mathbb F_{p^r})t^r/r$ proves the local identity,
+then the global Euler product and the stated ZT04 correction.
+
+For a completely explicit choice, take $p=5$, $d=2$, and
+$Z:\ y^2=x^3-x$ in $\mathbb A^2_{\mathbb F_5}$.  Its smooth projective
+completion $E$ (discriminant $64\ne0$ in $\mathbb F_5$) has one
+point at infinity and eight points over $\mathbb F_5$: the five affine $x$-values give respectively
+$1,1,2,2,1$ choices for $y$.  Silverman, \emph{The Arithmetic of Elliptic Curves}, second edition,
+Theorem~V.2.4 (p.~143), gives
+\[
+ Z(E,t)=\frac{1+2t+5t^2}{(1-t)(1-5t)},\qquad
+ Z(Z,t)=\frac{1+2t+5t^2}{1-5t}.
+\]
+The two numerator inverse roots are $-1+2i,-1-2i$, of absolute value
+$\sqrt5$, whereas every inverse root of a product of factors
+$(1-\xi5^jt)^{\pm1}$ with $j\in\mathbb Z$ has absolute value an
+integral power of $5$.  The numerator has no root in common with
+$1-5t$, so cancellation cannot repair the discrepancy.  This proves
+refutation.  The chosen $X$ is not separated: the two sections of $X$
+obtained by lifting the point $(0,0)$ agree over $\mathbb Z[1/5]$ and
+disagree at $5$.  In particular this example says nothing against a
+version that expressly assumes separatedness.
+\end{proof}
+
+\subsection{A local comparison for a proper Frobenius lift}
+
+For the proper question, a comparison must go beyond proper base
+change: proper base change alone does not identify the generic and
+special fibres of a singular family.  The following construction uses
+the lift at the bad prime.  Its finite-coefficient form is recorded
+first because filtered colimits and passage to $\mathbb Q_\ell$ must
+not be interchanged without an argument.
+
+\begin{theorem}[NX-L02: the proper Frobenius tower]
+\label{NX-L02}
+Let $\mathcal X$ be a proper flat scheme of finite type over
+$\mathbb Z_p$, and let $\varphi:\mathcal X\to\mathcal X$ be a
+$\mathbb Z_p$-endomorphism whose special fibre is absolute Frobenius.
+For every prime $\ell\ne p$ and every $a\geq1$, there are natural,
+$G_{\mathbb Q_p}$-equivariant isomorphisms
+\[
+ H^i(\mathcal X_{\overline{\mathbb F}_p},\mathbb Z/\ell^a)
+ \simeq
+ \mathop{\rm colim}_{\varphi^*}
+ H^i(\mathcal X_{\overline{\mathbb Q}_p},\mathbb Z/\ell^a).
+ \tag{L2.1}
+\]
+Here $G_{\mathbb Q_p}$ acts on the left through its unramified
+quotient.  In particular
+$H^i(\mathcal X_{\overline{\mathbb F}_p},\mathbb Q_\ell)$ is
+isomorphic to a $G_{\mathbb Q_p}$-stable direct summand of
+$H^i(\mathcal X_{\overline{\mathbb Q}_p},\mathbb Q_\ell)$.
+\end{theorem}
+
+\begin{proof}
+Put $C=\widehat{\overline{\mathbb Q}_p}$ and let $C^\flat$ be its tilt.
+We use the following precise analytic results: Huber (1994),
+Remark~4.6(iv)(d), identifies the generic fibre of the formal completion
+of a proper scheme with the analytification of its algebraic generic
+fibre; Scholze, \emph{Perfectoid spaces}, Theorem~5.2 gives tilting of
+perfectoid algebras, Theorem~7.12 gives the equivalence of their
+\'etale sites, Definition~7.14 and Corollary~7.18 give cohomological
+continuity for perfectoid tilde-limits, and Theorem~9.7 (Huber's
+Theorem~3.8.1) gives the algebraic--adic comparison with the finite
+coefficients used here.  These are cited, not proved again below.
+The construction required to apply them in this setting is as follows.
+
+Complete $\mathcal X$ along its special fibre.  The topological
+space of the resulting formal scheme $\mathfrak X$ is
+$|\mathcal X_{\mathbb F_p}|$, on which $\varphi$ is the identity.
+Every formal affine open $\mathfrak U=\operatorname{Spf}A$ is
+therefore invariant under inverse image by $\varphi$, and the map on
+it is a continuous endomorphism of $A$ lifting Frobenius modulo $p$.
+Set
+\[
+ B=(A/pA)^{\mathrm{perf}},\qquad
+ A_\infty=\widehat{\mathop{\rm colim}_{\varphi} A}^{\,(p)}.
+ \tag{L2.2}
+\]
+The ring $A$ is $p$-torsion-free, by flatness.  Filtered colimits of
+$p$-torsion-free $\mathbb Z_p$-modules are $p$-torsion-free.  For any
+$p$-torsion-free ring $D$, its $p$-adic completion is again
+$p$-torsion-free and its reduction modulo $p^n$ is $D/p^nD$: this
+follows by applying the inverse limit to the exact multiplication by
+$p$ sequences for $D/p^mD$, whose transition maps are surjective.
+Consequently $A_\infty$ is $p$-torsion-free and
+$A_\infty/pA_\infty=B$.  Since $B$ is perfect, the strict-$p$-ring
+characterization of Witt vectors gives the canonical isomorphism
+\[
+ A_\infty\simeq W(B).
+ \tag{L2.3}
+\]
+For this characterization see Scholze, Proposition~5.13(i) and
+Remark~5.14, or Bhatt, \emph{Lecture II: $\delta$-rings},
+Proposition~3.2.  All these identifications commute with restriction
+to smaller formal opens.  Indeed, a principal formal open defined by
+$f$ has reduction $B_f$ after perfection, and its completed ring is
+the unique strict $p$-ring lifting $B_f$; thus the transition maps are
+the Witt lifts of the maps on the perfected special fibre.
+
+Define
+\[
+ D_B=\bigl(W(B)\otimes_{\mathbb Z_p}\mathcal O_C\bigr)^{\wedge}_p,
+ \qquad R_B=D_B[1/p].
+\]
+The $\mathcal O_C$-module $D_B$ is torsion-free: its uncompleted
+version is flat over $\mathcal O_C$, $p$-adic completion preserves
+$p$-torsion-freeness, and every nonzero scalar of $\mathcal O_C$
+divides a power of $p$.  Hence $D_B$ is flat over the valuation ring
+$\mathcal O_C$ (also see Scholze, Lemma~5.3(i)).  Its reduction modulo
+$p$ is $B\otimes_{\mathbb F_p}\mathcal O_C/p$, and Frobenius induces
+an isomorphism $D_B/p^{1/p}\longrightarrow D_B/p$: on the first
+factor it is the automorphism of $B$, and on the second it is the
+perfectoid Frobenius isomorphism for $\mathcal O_C$.  Thus $D_B^a$
+satisfies Definition~5.1(ii) of Scholze, and $R_B$ is perfectoid by
+Theorem~5.2.  Under tilting it corresponds to
+\[
+ R_B^\flat=
+ \bigl(B\otimes_{\mathbb F_p}\mathcal O_{C^\flat}\bigr)^{\wedge}[1/\varpi^\flat],
+ \tag{L2.4}
+\]
+where the completion is with respect to any pseudouniformizer.  To
+check (L2.4), reduce both integral almost rings modulo matching
+pseudouniformizers and use
+$\mathcal O_C/p\simeq\mathcal O_{C^\flat}/p^\flat$; their reductions
+are the same $B$-algebra.  The uniqueness part of Theorem~5.2 gives
+the identification, compatibly with maps in $B$ and with valued-field
+automorphisms of $C$.  No choice of a coordinate system or of a
+semisimple Frobenius action is involved.
+
+For precision about integral structures, throughout this construction
+$\operatorname{Spa}(R_B,R_B^+)$ uses for $R_B^+$ the integral closure
+of $D_B$ in $R_B$.  On the characteristic-$p$ side use the integral
+closure of $(B\otimes\mathcal O_{C^\flat})^{\wedge}$ in $R_B^\flat$.
+These are corresponding plus rings under Scholze's Lemma~6.2: open
+integrally closed subrings are determined by their images modulo
+the scalar ideal $\mathfrak m_C R_B^\circ$ (respectively
+$\mathfrak m_{C^\flat}(R_B^\flat)^\circ$); the two images here
+are the integral closures of the same image of
+$B\otimes_{\mathbb F_p}\overline{\mathbb F}_p$.  Taking an integral
+closure imposes no new condition on valuations already bounded by
+the original ring.  Thus (L2.4) identifies the required affinoid
+pairs, not just their rings after inverting a pseudouniformizer.
+
+The affinoid perfectoid spaces attached to the $R_B$ glue to a
+perfectoid space $\mathcal X_\infty$.  For an explicit check on the
+open domains, a principal formal open $D(f)$ has analytic domain
+$|f|=1$.  In $W(B)$, the image of $f$ differs from its Teichm\"uller
+lift $[\bar f]$ by an element of $pW(B)$, so the same domain is
+$|[\bar f]|=1$.  Its rational localization is the completed base
+change of $W(B_{\bar f})$.  Finite principal refinements of overlaps
+therefore give precisely the same open affinoid domains on both
+sides of tilting.  More explicitly, take a finite
+formal affine cover of $\mathfrak X$.  The associated affinoid domains
+cover $(\mathcal X_C)^{\mathrm{ad}}$ by properness, and their inverse
+images under every $\varphi$ are themselves.  On each such domain
+$R_B$ is the completion of the direct limit of the affinoid coordinate
+rings in the $\varphi$-tower.  A compatible family of bounded
+continuous valuations on those rings gives a valuation bounded on
+the common integral direct-limit ring.  It is therefore continuous
+for the $p$-adic topology and extends uniquely to its completion.  This identifies
+the underlying space with the inverse limit of the affinoid spaces;
+the induced residue-field maps have dense image.  The same argument
+on overlaps glues the identifications.  Hence
+\[
+ \mathcal X_\infty\ \sim\
+ \varprojlim_{\varphi}(\mathcal X_C)^{\mathrm{ad}}
+ \tag{L2.5}
+\]
+in the sense of Scholze's Definition~7.14.
+
+By (L2.4) its tilt is the perfection of the generic fibre of the
+constant formal model
+$\mathcal X_{\mathbb F_p}\times_{\mathbb F_p}\mathcal O_{C^\flat}$.
+For this identification, apply Huber's result first to the
+proper noetherian model
+$\mathcal X_{\mathbb F_p}\times_{\mathbb F_p}\mathbb F_p[[u]]$,
+where $u$ maps to a pseudouniformizer of $C^\flat$, and then base change
+to $C^\flat$.  Formal generic fibres commute with that base change on
+the displayed affine rings.  This avoids applying Huber's noetherian
+statement directly over $\mathcal O_{C^\flat}$.  The generic fibre is
+therefore
+$(\mathcal X_{\mathbb F_p}\times_{\mathbb F_p}C^\flat)^{\mathrm{ad}}$.
+Perfection induces an equivalence of \'etale topoi: use universal
+homeomorphism invariance, or Scholze's Corollary~7.19 on the relative
+Frobenius tower.  Its finite-coefficient cohomology is therefore that
+of $\mathcal X_{\overline{\mathbb F}_p}$, by algebraic--adic comparison
+and proper base change (SGA~4, XII, Theorem~5.1 and Corollary~5.2).
+Combining this with tilting of \'etale sites and Corollary~7.18 proves
+(L2.1).  The construction, reduction, and tilting are functorial for
+the semilinear action of $G_{\mathbb Q_p}$ on $C$ and $C^\flat$.
+On the constant characteristic-$p$ model the resulting action on
+cohomology is exactly the action on the residue field, by proper base
+change.  This proves the asserted Galois equivariance.
+
+It remains to justify the rational direct-summand assertion; it is
+not an interchange of an inverse limit with a filtered colimit.
+Write
+$M_i=H^i(\mathcal X_{\overline{\mathbb Q}_p},\mathbb Z_\ell)$,
+a finitely generated $\mathbb Z_\ell$-module, and $T=\varphi^*$.
+For any finitely generated $\mathbb Z_\ell$-module $M$ with
+endomorphism $T$, the sequence $T^{n!}$ converges in
+$\operatorname{End}_{\mathbb Z_\ell}(M)$ to an idempotent $e$.
+Indeed, on each finite module $M/\ell^aM$ the images of powers of $T$
+stabilize, $T$ is a permutation of the stable image, and a sufficiently
+large factorial kills the transient part and is divisible by the
+order of that permutation.  The resulting idempotents are compatible
+as $a$ varies.  Thus
+\[
+ M=M^{\mathrm{u}}\oplus M^{\mathrm{n}},\quad
+ M^{\mathrm{u}}=eM,\quad
+ \mathop{\rm colim}_T(M/\ell^aM)=M^{\mathrm{u}}/\ell^aM^{\mathrm{u}}.
+ \tag{L2.6}
+\]
+Every operator commuting with $T$, including the Galois action,
+commutes with $e$.  On $M^{\mathrm{u}}$ the map $T$ is invertible,
+and on the other summand it is topologically nilpotent.
+
+The universal-coefficient exact sequence is
+\[
+ 0\longrightarrow M_i/\ell^aM_i\longrightarrow
+ H^i(\mathcal X_{\overline{\mathbb Q}_p},\mathbb Z/\ell^a)
+ \longrightarrow M_{i+1}[\ell^a]\longrightarrow0.
+\]
+Take the exact filtered colimit under $T$ and use (L2.1) and (L2.6).
+The resulting rightmost groups are killed by a fixed power of $\ell$,
+independent of $a$, since the torsion subgroup of $M_{i+1}$ is finite.
+The leftmost groups are $M_i^{\mathrm{u}}/\ell^aM_i^{\mathrm{u}}$,
+with surjective transition maps.  Taking the inverse limit and then
+inverting $\ell$ therefore yields
+\[
+ H^i(\mathcal X_{\overline{\mathbb F}_p},\mathbb Q_\ell)
+ \simeq M_i^{\mathrm{u}}\otimes\mathbb Q_\ell
+ \subseteq M_i\otimes\mathbb Q_\ell.
+ \tag{L2.7}
+\]
+The inclusion is a $G_{\mathbb Q_p}$-stable direct summand by the
+idempotent $e$.  This finishes the proof.
+\end{proof}
+
+\begin{theorem}[NX-L03: bad-prime splitting for proper flat $\Lambda$-schemes]
+\label{NX-L03}
+Let $X$ be proper and flat of finite type over $\mathbb Z$, with a
+$\Lambda$-structure.  For every prime $p$ and every $\ell\ne p$,
+\[
+ H^i(X_{\overline{\mathbb F}_p},\mathbb Q_\ell)
+ \simeq\bigoplus_j V_{p,i,j}\otimes\mathbb Q_\ell(-j),
+ \tag{L3.1}
+\]
+where each $V_{p,i,j}$ has finite image under
+$G_{\mathbb F_p}$ and is semisimple.  In particular geometric
+Frobenius is semisimple and its eigenvalues have the form
+$\xi p^j$, with $\xi$ a root of unity and $j\in\mathbb Z$.
+After a finite extension of $\mathbb F_p$, every cohomology group is
+a direct sum of integral Tate twists.  The bounded derived
+$\mathbb Q_\ell$-representation $R\Gamma_c(X_{\overline{\mathbb F}_p},\mathbb Q_\ell)$
+likewise splits, noncanonically, into those summands in their respective
+degrees.  Consequently every factor of $R_{X,S}$ in ZETA\_TWO~ZT04
+is cyclotomic integral-Tate for this proper class, including at bad
+primes.
+\end{theorem}
+
+\begin{proof}
+Apply NX-L02 to $X\times\mathbb Z_p$ and $\varphi=\psi_p$.
+Borger's Theorem~6.1 and Corollary~6.2 apply to the proper, hence
+separated, scheme $X$: its generic-fibre cohomology is potentially
+a direct sum of integral Tate twists, and its global Galois action
+is abelian.  Over $\overline{\mathbb Q}_\ell$ it is thus a direct
+sum of characters $\epsilon\chi_\ell^{-j}$ with $\epsilon$ of
+finite order.  One can see semisimplicity without enlarging the
+coefficient field by splitting after the finite-index subgroup in
+Corollary~6.2 and averaging an equivariant projection over the finite
+quotient.  The $G_{\mathbb Q_p}$-stable direct summand supplied by
+NX-L02 is semisimple of the same form.  Its inertia action is trivial
+because it is the cohomology of a variety over $\mathbb F_p$.
+Therefore only unramified constituents occur, and geometric
+Frobenius on each is $\epsilon(F_p)p^j$.  This is (L3.1), with the
+finite characters grouped over $\mathbb Q_\ell$.
+
+For the assertion about the derived object, use the elementary
+hereditary property of finite-dimensional representations of an
+invertible operator over $\mathbb Q_\ell$.  They are torsion modules
+over the principal ideal domain $\mathbb Q_\ell[T,T^{-1}]$;
+$\operatorname{Ext}^r=0$ for $r\geq2$.  In the continuous subcategory
+relevant here the eigenvalues are $\ell$-adic units, and the same
+finite-length module calculation applies.  The truncation triangles
+of a bounded complex consequently split successively.  This gives
+a noncanonical direct sum of its cohomology objects shifted to their
+degrees.  Properness identifies compactly supported and ordinary
+cohomology.  Notice that this argument does not invoke a motivic
+splitting or the Tate conjecture.
+
+Finally the trace formula of SGA~5, XV, \S3, no.~2, unnumbered theorem,
+equation~(1), expresses the local zeta function as
+\[
+ Z(X_{\mathbb F_p},t)=
+ \prod_i\det(1-tF_p\mid H^i(X_{\overline{\mathbb F}_p},\mathbb Q_\ell))^{(-1)^{i+1}}.
+\]
+Every determinant splits into the claimed factors by (L3.1).  The
+canonical local factors of the abelian Artin--Tate generic
+representations have the same form, since inertia invariants of a
+finite-image representation again have finite-image Frobenius.
+Taking their ratio is precisely ZT04.  This proves the final claim.
+\end{proof}
+
+\begin{proposition}[NX-L04: proper splitting does not preserve multiplicities]
+\label{NX-L04}
+Even for a finite flat proper $\Lambda$-scheme, the bad special-fibre
+cohomology need not equal the generic-fibre cohomology or its inertia
+invariants.  In particular NX-L03 does not remove the finite
+correction in ZT04.
+\end{proposition}
+
+\begin{proof}
+Take $X=\mu_p=\operatorname{Spec}\mathbb Z[t]/(t^p-1)$, with
+$\psi_q(t)=t^q$.  The quotient is free of rank $p$ over $\mathbb Z$;
+the endomorphisms commute, preserve the relation, and lift Frobenius.
+The generic geometric fibre has $p$ points, whereas the reduced
+special fibre at $p$ is a single rational point.  Thus generic $H^0$
+has dimension $p$ and special $H^0$ has dimension $1$.
+Moreover $X_{\mathbb Q}$ has one rational point and the cyclotomic
+factor $\operatorname{Spec}\mathbb Q(\zeta_p)$ (for $p=2$ the latter
+is a second rational point).  Its generic canonical local factor at
+$p$ is $(1-t)^{-2}$ because each number-field component has one
+residue-degree-one prime over $p$.  Its actual special-fibre local
+factor is $(1-t)^{-1}$.  The ZT04 correction is therefore $1-t$.
+This also shows directly that special $H^0$ is not the full
+inertia-invariant part of generic $H^0$.
+\end{proof}
+
+\begin{corollary}[NX-L05: the vertical elliptic blowup has no Frobenius lift]
+\label{NX-L05}
+Let $E\subset\mathbb P^2_{\mathbb F_p}$ be a smooth plane cubic and set
+$\mathcal B=\operatorname{Bl}_{E}(\mathbb P^2_{\mathbb Z_p})$.
+This is a proper flat scheme with generic fibre $\mathbb P^2_{\mathbb Q_p}$,
+but it has no $\mathbb Z_p$-endomorphism lifting absolute Frobenius on
+its special fibre.  In particular a vertical elliptic blowup of a
+Tate generic fibre cannot provide a proper counterexample to NX-L03.
+More generally, any proper flat model with
+$H^i(\mathcal X_{\overline{\mathbb Q}_p},\mathbb Q_\ell)=0$ and
+$H^i(\mathcal X_{\overline{\mathbb F}_p},\mathbb Q_\ell)\ne0$ has no
+such Frobenius lift.
+\end{corollary}
+
+\begin{proof}
+The general assertion is immediate from the direct-summand conclusion
+of NX-L02.  We compute the indicated nonzero group for the blowup,
+so that the obstruction is explicit.  Locally the centre is cut out
+by the regular sequence $(p,F)$, with $F\bmod p$ an equation for $E$.
+The blowup charts have equations $F=pu$ and $p=Fv$.  The total blowup
+is integral, since its Rees algebra embeds in the polynomial ring
+of the integral ambient scheme, and is therefore flat over the DVR
+$\mathbb Z_p$.  It is projective, and after inverting $p$ the ideal
+is the unit ideal, giving the stated generic fibre.
+
+Its reduced special fibre, which here is its whole special fibre,
+is the union of the strict transform $D\simeq\mathbb P^2_{\mathbb F_p}$
+and the exceptional divisor $P=\mathbb P(N_{E/\mathbb P^2_{\mathbb Z_p}})$,
+a $\mathbb P^1$-bundle over $E$; their intersection is the copy of $E$
+which is the section corresponding to the rank-one normal bundle
+inside the special fibre.  These assertions also follow immediately
+from the two displayed blowup charts; the strict transform is unchanged
+because blowing up the Cartier divisor $E$ in $\mathbb P^2_{\mathbb F_p}$
+is the identity.
+
+The constant-sheaf sequence for the union $D\cup_E P$ is exact on
+all geometric stalks.  Its long cohomology sequence contains
+\[
+ H^2(D)\oplus H^2(P)\longrightarrow H^2(E)
+ \longrightarrow H^3(\mathcal B_{\overline{\mathbb F}_p})
+ \longrightarrow H^3(D)\oplus H^3(P)\longrightarrow H^3(E).
+\]
+All coefficients here are $\mathbb Q_\ell$.  The first arrow is
+surjective: the pullback of $H^2(E)$ to $P$ restricts identically along
+the section $E\hookrightarrow P$.  Also $H^3(D)=H^3(E)=0$.
+For the projective-line bundle $P\to E$, proper and smooth base
+change give relative cohomology $\mathbb Q_\ell$ in degree zero,
+$\mathbb Q_\ell(-1)$ in degree two, and zero otherwise.  The relative
+hyperplane class supplies the latter identification.  In its Leray
+spectral sequence the only term of total degree three is
+$H^1(E,\mathbb Q_\ell)(-1)$, and no differential can reach or leave
+it because $E$ has cohomological dimension two.  Consequently
+\[
+ H^3(\mathcal B_{\overline{\mathbb F}_p},\mathbb Q_\ell)
+ \simeq H^1(E_{\overline{\mathbb F}_p},\mathbb Q_\ell)(-1),
+\]
+a two-dimensional group.  On the generic fibre
+$H^3(\mathbb P^2_{\overline{\mathbb Q}_p},\mathbb Q_\ell)=0$.
+NX-L02 therefore excludes a Frobenius lift.  In weights language this
+is a weight-three elliptic contribution in the special fibre.  The
+base-change inputs used in this computation have the exact locators
+SGA~4, XII, Theorem~5.1 and Corollary~5.2, and XVI, Theorem~2.1.
+\end{proof}
+
+\begin{corollary}[NX-L06: the corrected proper $\Lambda$-RH conclusion]
+\label{NX-L06}
+Using the stipulated Alp\"oge theorem A, let $X$ be a proper flat
+$\Lambda$-scheme of finite type over $\mathbb Z$.  Then $\zeta_X(s)$
+has meromorphic continuation, and every non-real zero or pole has
+real part in $\tfrac12\mathbb Z$.  More precisely, its global
+Dirichlet--Tate factors have their non-real divisors on lines
+$\Re(s)=j+\tfrac12$ with $j\in\mathbb Z$, while its actual local
+factors and the finite correction factors in ZT04 have their divisors
+on lines $\Re(s)=j$ with $j\in\mathbb Z$.
+\end{corollary}
+
+\begin{proof}
+Borger, Theorem~6.1 and Corollary~6.2, give abelian Artin--Tate
+cohomology of $X_{\mathbb Q}$, so on a good open its virtual zeta
+factor is a finite product of integral shifts of primitive Dirichlet
+$L$-functions with integer exponents.  Restoring the omitted primes
+is exactly ZETA\_TWO~ZT04.  NX-L03 makes each actual and correction
+factor a product of $(1-\xi p^{j-s})^{\pm1}$, whose divisor has
+$\Re(s)=j$.  The supplied Alp\"oge \emph{Remark}, step~20, p.~4,
+and the endpoint declarations
+\texttt{LFunction\_eq\_zero\_re} and
+\texttt{LFunction\_ne\_zero\_of\_half\_lt\_re} in
+\texttt{ALPOGE\_Main.lean}, supply the Dirichlet zero-location and
+nonvanishing statements.  Together with the classical functional
+equations and their real trivial divisors, they place the non-real
+divisors of the global shifted factors on $j+\tfrac12$, as in
+ZETA\_TWO~ZT01.  Cancellation in a finite meromorphic product removes
+divisor support and cannot create new support.  This proves the claim.
+No Masullo input enters this corollary.
+\end{proof}
+
+\paragraph{Exact scope of the resolution.}
+NX-L01 refutes the conjecture literally asked, since separatedness
+was not one of its hypotheses.  NX-L02--NX-L03 answer the proper flat
+question positively on actual cohomology, including semisimplicity;
+NX-L04 shows why equality with the whole generic cohomology or with
+its inertia invariants would be a different and false assertion.
+A separately proposed \emph{separated, nonproper} strengthening is
+not settled by these arguments: the counterexample is nonseparated,
+and the formal generic-fibre comparison used in NX-L02 relies on
+properness.  No $\Lambda$-equivariant compactification is asserted.
+This limitation does not leave the literal conjecture undecided.
+
+\begin{proposition}[NX-L07: cyclotomic local factors do not imply a $\Lambda$-structure]
+\label{NX-L07}
+The integer ring $\mathbb Z[\zeta_5]$ has cyclotomic integral-Tate
+local zeta factors but admits no Frobenius lift at $5$, hence no
+$\Lambda$-structure.  Thus the prompt's local-factor observation for
+abelian integer rings is valid without asserting that all those
+rings are $\Lambda$-rings.
+\end{proposition}
+
+\begin{proof}
+Every nonzero ideal of the ring of integers $\mathcal O_K$ of a
+number field meets $\mathbb Z$ nontrivially: if $0\ne x$ lies in the
+ideal, its monic minimal polynomial gives a nonzero integer constant
+term in the ideal $(x)$.  Therefore every unital $\mathbb Z$-algebra
+endomorphism of $\mathcal O_K$ is injective.  It extends to an
+endomorphism of $K$, hence to an automorphism since $K$ is
+finite-dimensional over $\mathbb Q$, and preserves its integral
+closure $\mathcal O_K$ in both directions.  Its reduction modulo
+any integer is consequently an automorphism.
+
+Apply this to $K=\mathbb Q(\zeta_5)$.  Reducing the cyclotomic
+polynomial modulo $5$ gives
+$\Phi_5(T)=(T-1)^4$ in $\mathbb F_5[T]$, so
+\[
+ \mathbb Z[\zeta_5]/5\mathbb Z[\zeta_5]
+ \simeq\mathbb F_5[\varepsilon]/(\varepsilon^4).
+\]
+Its Frobenius kills the nonzero element $\varepsilon$, and is not an
+automorphism.  It cannot be the reduction of a ring endomorphism.
+On the other hand, each local zeta factor of $\operatorname{Spec}\mathcal O_K$
+is a product of $(1-t^f)^{-1}$ over the residue degrees $f$ of the
+primes above the rational prime.  Each such factor splits into
+$(1-\xi t)^{-1}$ over the $f$th roots of unity.  These have integral
+Tate index $j=0$, proving the local-factor claim independently of
+the nonexistent $\Lambda$-structure.
+\end{proof}
+
+\subsection{Placement in Grothendieck's frameworks}
+
+NX-L01 is a statement about flat nonseparated schemes over
+$\operatorname{Spec}\mathbb Z$, obtained by Zariski gluing.  Its
+local zeta factor is a multiplicative invariant of point counts;
+the weight-one factor is the realization of $h^1(E)$ and cannot be
+replaced by integral Tate weights.  The full half-integer-line
+statement is not refuted: those two inverse roots have weight one,
+so their local divisors lie on $\Re(s)=1/2$.
+
+NX-L02 and NX-L03 concern actual $\ell$-adic realizations, including
+semisimplicity, and hence strengthen a mere assertion in a
+Grothendieck group.  Their local determinants are computed in the
+$\lambda$-ring $K_0$ of finite-dimensional representations, using
+exterior powers.  This is the formalism of SGA~6, V, \S2 and
+\S7, (7.1.1), used already in ZETA\_TWO~ZT08 and SV01.  The sheaf
+operations and proper base change live in SGA~4, XII, Theorem~5.1
+and Corollary~5.2; compact supports are treated in XVII, \S\S5.1--5.3;
+the zeta determinant is SGA~5, XV, \S3, no.~2, equation~(1).
+The perfectoid step is a later comparison theorem, not a theorem
+silently ascribed to EGA, SGA, or FGA.
+
+For the archive connection, the supplied predecessor places exterior
+and symmetric powers and characteristic determinants at cote~60,
+scans~3 and~5 (ZETA\_TWO, \emph{IMPLICATIONS}, \S5, placement table);
+its scan~7, archival p.~6, records a reciprocal characteristic-polynomial
+identity, while scan~9, archival p.~8, records Weil and dual/Tate
+normalizations.  These exact locators are carried from the checked
+predecessor, not newly inspected scans in this run.  DP\_MULT~DP11
+and its intake identify the binomial/identity-Adams special case;
+that case does not encompass NX-L01, whose Frobenius lifts are
+nonidentity.  DP\_MULT's reported cote~153, PDF p.~3/archive p.~2,
+concerns binomial polynomials, not a bad-fibre cohomology theorem.
+No motive-level or cycle-level decomposition is asserted by (L3.1).
+
+
+% Contribution /root/noncm_gate; model GPT-6 Astra Pro; effort not exposed.
+% Whole-proof check events are supplied separately in CHECK_EVENTS.tsv.
+% Bibliography entries are supplied in bibliography.tex.
+
+\section{The non-CM gate for curves and abelian varieties}
+\label{sec:noncm-gate-next}
+
+We use the convention of ZETA\_TWO CM01:
+$\operatorname{wt} M(n)=\operatorname{wt}M-2n$ and
+$L(M(n),s)=L(M,s+n)$.  ``CM'' in this section means
+\emph{potentially CM in the category of motives for absolute Hodge
+cycles}, including every Artin motive.  In particular a nonabelian
+finite-image Artin representation is in the CM category.  The splitting
+results below are unconditional and do not use either zero theorem.
+Only the assertions about the zeros of their CM factors use the
+conditional input \textbf{M} of ZETA\_TWO CM01.  Its scope is all unitary
+Hecke characters, including infinite-order characters; the source and
+dependency audit of that input are carried from CM01 and MDOC01.
+For a chosen finite-type integral model $\mathcal X$, the superscript
+$S$ means the Euler product over $p\notin S$.  The full model zeta
+function is always
+\[
+ \zeta_{\mathcal X}(s)=
+       \left(\prod_{p\in S}Z(\mathcal X_p,p^{-s})\right)
+                                  \zeta_X^S(s).
+\]
+The actual exceptional fibres therefore remain explicit; none is
+replaced by a generic-fibre inertia factor without the correction in
+ZETA\_TWO ZT04.
+
+\subsection{NG01: a canonical maximal-CM summand, with descent}
+\label{NG01}
+
+\paragraph{Finding NG01.}
+Let $M$ be a pure motive of abelian type over $\mathbb Q$, for absolute
+Hodge cycles.  There is a canonical decomposition over $\mathbb Q$
+\[
+                    M=C(M)\oplus N(M),                         \tag{NG01.1}
+\]
+where $C(M)$ is potentially CM and $N(M)$ has no nonzero potentially-CM
+motivic subobject.  Let $G_M$ be the algebraic group of the neutral
+Tannakian category generated by $M$, for the Betti fibre functor, and put
+$D_M=(G_M^\circ)^{\rm der}$.  Then
+\[
+ H_B(C(M))=H_B(M)^{D_M},\qquad
+ H_B(N(M))=\langle (d-1)v:d\in D_M,\ v\in H_B(M)\rangle.       \tag{NG01.2}
+\]
+The second expression is interpreted after scalar extension to an
+algebraic closure and then descended.  Equivalently it is the sum of the
+nontrivial $D_M$-isotypic summands.  These formulas retain the action of
+the entire, possibly disconnected group $G_M$.
+
+Every $\ell$-adic realization of (NG01.1) is an actual direct sum of
+Galois representations.  When $M=h^j(A)$, its CM part is therefore
+available for the Hecke factorization of ZETA\_TWO CM01, and the quotient
+of the good-prime local polynomial of $h^j(A)$ by that of $C(M)$ is the
+local polynomial of $N(M)$.  This gives an exact factorization of the
+incomplete $L$-function.
+
+\paragraph{Proof.}
+The category is semisimple neutral Tannakian by Deligne--Milne,
+Proposition~6.5 \cite{NGDeligneMilne}.  The fully faithful Hodge realization over an
+algebraically closed field (Theorem~6.25) and the descent sequence
+(Proposition~6.23) identify $G_M^\circ$ with the Mumford--Tate group of
+$H_B(M)$; see also Commelin, Remark~4.14(1) \cite{NGCommelin}.  In particular $G_M^\circ$
+is reductive.  Its derived group $D_M$ is connected semisimple and is
+characteristic in $G_M^\circ$, hence normal in $G_M$.
+
+Restrict the representation $V=H_B(M)$ to $D_M$.  Complete reducibility
+gives the direct sum of its trivial isotypic component $V^{D_M}$ and
+the sum $V_{\ne1}$ of all its nontrivial isotypic components.  Normality
+of $D_M$ implies that every $g\in G_M$ preserves the trivial isotypic
+component and permutes the nontrivial ones.  Thus both summands and the
+projection $e:V\to V^{D_M}$ are $G_M$-equivariant.  Tannaka duality
+identifies $e$ with an idempotent endomorphism of $M$ over $\mathbb Q$.
+This proves the descent of the projector, rather than merely its
+existence after an unspecified finite extension.  Its image and kernel
+give (NG01.1), and semisimplicity gives (NG01.2).
+
+The identity component of the group acting on $V^{D_M}$ is a quotient
+of the torus $G_M^\circ/D_M$.  An abelian motive with torus identity
+component is in the category generated by Artin motives and potentially
+CM abelian motives (Commelin, \S4.16, following Lemma~3.8 and
+Theorem~4.13).  Hence $C(M)$ is potentially CM.  Conversely the connected
+group acting on a potentially-CM subobject is a torus.  A morphism from
+the connected semisimple group $D_M$ to this torus is trivial.  Such a
+subobject is therefore contained in $V^{D_M}$, which proves maximality
+and the assertion about $N(M)$.  The same argument proves uniqueness
+and functoriality for morphisms: apply it in the common category
+generated by source and target, where a morphism respects the trivial
+and nontrivial isotypic components.  The formula using spans agrees with
+$V_{\ne1}$ because its quotient is $D_M$-trivial and the category of
+$D_M$-representations is semisimple.
+
+A realization functor preserves direct sums and idempotents, so the
+$\ell$-adic splitting follows.  At a good prime the determinant of
+Frobenius on a direct sum is the product of the two determinants.  The
+CM factor has the compatible Hecke description already used in
+ZETA\_TWO CM01.  Division of the known good-prime polynomial of $h^j(A)$
+by that polynomial is therefore a polynomial, independent of the
+auxiliary $\ell$, and is the polynomial on $N(M)_\ell$.  This last
+argument avoids assuming a separate compatibility theorem for every
+possible absolute-Hodge projector.  Multiplication of the local
+identities proves the asserted incomplete Euler-product identity.
+\hfill$\square$
+
+\paragraph{The precise role of Faltings.}
+Faltings, \S5, S\"atze~3--4, printed p.~360 \cite{NGFaltings}, proves semisimplicity of
+$H^1_\ell(A)$ and the endomorphism theorem.  Since the Zariski closure
+$G_\ell$ acts faithfully on this semisimple representation, its
+unipotent radical is trivial; in characteristic zero all its tensor
+and exterior representations are semisimple.  Consequently
+$H^j_\ell(A)=\bigwedge^jH^1_\ell(A)$ is semisimple for every $j$.
+For clarity, the reductivity implication can be checked directly:
+on every irreducible constituent the normal connected unipotent
+radical has a nonzero fixed subspace, which is stable under $G_\ell$,
+and therefore is the whole constituent.  Faithfulness forces that
+radical to be trivial.  The finite component group causes no
+semisimplicity problem in characteristic zero.
+
+At a fixed $\ell$ there is also a canonical maximal potentially
+abelian subrepresentation
+\[
+ \bigl(H^j_\ell(A)\bigr)^{(G_\ell^\circ)^{\rm der}}.           \tag{NG01.3}
+\]
+One must not identify (NG01.3) with $C(h^j(A))_\ell$ by citing
+Faltings alone.  Deligne gives the inclusion
+$G_\ell^\circ\subseteq\operatorname{MT}(A)_{\mathbb Q_\ell}$,
+and hence inclusion of the motivic CM part in (NG01.3).
+Equality follows, for example, when the Mumford--Tate conjecture is
+known for $A$.  Faltings' endomorphism theorem for $H^1$ does not assert
+that every projector in a higher tensor power is an absolute-Hodge
+projector.  The proof of NG01 uses the motivic group and supplies the
+required motivic splitting without making this identification.
+
+\paragraph{Scope of the closure.}
+NG01 closes the decomposition gap in ZETA\_TWO ZT06 whenever the pure
+factor is of abelian type.  Deligne--Milne, Proposition~6.26 and
+Corollary~6.27,
+include curves, products with abelian and zero-dimensional varieties,
+Fermat hypersurfaces, K3 surfaces, and the stated unirational varieties
+of dimension at most three.  The conclusion is about motives for
+absolute Hodge cycles.  It is not a general construction of Chow
+projectors, and it does not assert such a splitting for an arbitrary
+smooth projective variety outside the abelian-type category.
+
+\subsection{NG02: the exact list for every curve}
+\label{NG02}
+
+\paragraph{Finding NG02.}
+Let $C/\mathbb Q$ be a reduced separated finite-type curve.  Zero-dimensional
+components can be added as separate Artin terms, so first assume its
+components have dimension one.  Passing to the reduction does not
+change the zeta function, so this also treats nonreduced curves.
+Let $\widetilde C\to C$ be its
+normalization, $\overline C$ the smooth projective compactification of
+$\widetilde C$, $D=\overline C\setminus\widetilde C$, $Z$ the finite
+singular locus of $C$, and $\widetilde Z$ its inverse image.  All finite
+schemes in the following formula are reduced.  Put
+\[
+ \Pi=H^0(\overline C_{\overline{\mathbb Q}},\mathbb Q),\qquad
+ B=H^0(Z)-H^0(\widetilde Z)-H^0(D),\qquad
+ J=\operatorname{Pic}^0(\overline C/\mathbb Q).
+\]
+Thus $\Pi$ is the permutation Artin motive of geometric connected
+components and $B$ is a virtual Artin motive.  For a sufficiently
+large finite $S$, the incomplete zeta function of a spread-out model is
+\[
+ \zeta^S_C(s)=
+ \frac{L^S(\Pi+B,s)L^S(\Pi,s-1)}{L^S(H^1(J),s)}.             \tag{NG02.1}
+\]
+Write the $\mathbb Q$-isogeny decomposition
+\[
+                     J\sim_{\mathbb Q}\prod_i B_i^{m_i},
+\]
+with $B_i$ pairwise nonisogenous $\mathbb Q$-simple abelian varieties,
+and let $I_{\rm nc}$ consist of those that are not geometrically of CM
+type.  The complete non-CM list in (NG02.1) is precisely
+\[
+            \bigl\{\,L^S(B_i,s)\text{ with multiplicity }m_i:
+                                i\in I_{\rm nc}\,\bigr\}.     \tag{NG02.2}
+\]
+Each factor has weight one and its desired RH line is $\Re s=1$.
+All corrections for singularities, missing points, and geometric
+components are already in the explicitly displayed Artin factors.
+
+\paragraph{Proof.}
+Normalization is an isomorphism away from the indicated finite closed
+sets.  The scissor relation gives
+\[
+ [C]=[\overline C]-[D]-[\widetilde Z]+[Z]
+                  \quad\text{in }K_0(\operatorname{Var}_{\mathbb Q}).
+\]
+The relations spread over a sufficiently small open of
+$\operatorname{Spec}\mathbb Z$ by the same finite-presentation argument
+used in ZETA\_TWO ZT06 (EGA IV$_3$, (8.8.2)).  For a smooth projective
+curve the pure cohomology is $\Pi$, $H^1(J)$, and $\Pi(-1)$ in degrees
+zero, one, and two.  The geometrically connected case is
+Deligne--Milne, Proposition~6.14; for general components the same
+identity descends with the permutation action, or equivalently follows
+by restriction of scalars from their fields of definition.  No
+rational base point is needed: changing a geometric Abel--Jacobi map
+by translation does not change its map on $H^1$.  Applying
+the trace formula to the spread-out scissor relation proves (NG02.1).
+
+The isogeny decomposition gives the direct sum of the $H^1(B_i)$ with
+the stated multiplicities.  The sum of all isotypic factors that
+become CM is stable under Galois, so its central idempotent is defined
+over $\mathbb Q$.  Equivalently it is the degree-one projector of NG01.
+Deligne--Milne, Proposition~6.21, identifies degree-one motives with
+abelian varieties up to isogeny; therefore a nonzero CM submotive of
+$H^1(B_i)$ would give a nonzero CM isogeny factor of $B_i$.  Simplicity
+forces the whole $B_i$ to have potential CM.  Thus no such subobject
+exists for $i\in I_{\rm nc}$, and every other factor belongs to CM01.
+This proves completeness of (NG02.2).  Faltings' theorem verifies the
+corresponding degree-one semisimple Galois decomposition, including
+the endomorphism idempotents.  No splitting of the mixed
+compact-support cohomology of an open or singular curve has been
+assumed; its Grothendieck class is what the scissor calculation uses.
+\hfill$\square$
+
+\paragraph{Extension to nonseparated curves.}
+The same exact non-CM list applies to any finite-type
+$\mathbb Q$-scheme $C$ of dimension at most one, without a
+separatedness assumption.  Reduce $C$ first.  For every
+one-dimensional irreducible component choose a dense affine open
+$U_i$ contained in that component and avoiding all other components.
+These opens are also open in $C$ and are pairwise disjoint: take
+an affine neighbourhood of its generic point inside the open
+complement of the other components.  Put $U=\coprod_iU_i$ and
+$Z_0=(C\setminus U)_{\rm red}$.  Every one-dimensional generic point
+lies in $U$, so $Z_0$ is zero-dimensional and finite over $\mathbb Q$.
+For this last assertion no separatedness is needed: a zero-dimensional
+finite-type scheme has finitely many open-and-closed points, each
+with an Artinian finite-dimensional coordinate algebra over the base.
+Thus $U$ is separated, and the closed-point scissor identity gives,
+after enlarging $S$,
+\[
+               \zeta_C^S(s)=\zeta_U^S(s)L^S(H^0(Z_0),s).
+                                                               \tag{NG02.4}
+\]
+Apply (NG02.1) to $U$: its virtual Artin term $B_U$ is simply
+replaced by $B_U+H^0(Z_0)$.  The residual list (NG02.2) and the
+order identity (NG02.3) are unchanged with this replacement.
+Indeed the added factor is Artin, and the smooth projective
+normalizations of the $U_i$ depend only on the function fields of
+the original components.  Consequently the Jacobian factors in
+the list do not depend on the affine opens chosen.  If $U$ is empty,
+the entire zeta function is Artin.  This proves the extension by
+separated strata and does not require a proper compactification
+of a nonseparated normalization.\hfill$\square$
+
+\paragraph{A precise coefficient refinement.}
+For a $\mathbb Q$-simple $B_i$, let $E_i$ be the centre of the division
+algebra $\operatorname{End}^0_{\mathbb Q}(B_i)$ and write its dimension
+over $E_i$ as $d_i^2$.  Over $\overline{\mathbb Q}_\ell$, Faltings'
+endomorphism theorem and the double-centralizer decomposition give
+$[E_i:\mathbb Q]$ pairwise nonisomorphic irreducible constituents, each
+of rank
+\[
+                  r_i=\frac{2\dim B_i}{d_i[E_i:\mathbb Q]},
+\]
+and each of multiplicity $d_i$.  Indeed the rational Betti realization
+is a free module over the division algebra, so its dimensions at all
+embeddings of $E_i$ are equal.  The commutant becomes the
+product of $[E_i:\mathbb Q]$ matrix algebras
+$M_{d_i}(\overline{\mathbb Q}_\ell)$; comparison with the commutant of
+a semisimple representation proves both assertions.  This identifies
+the degree-two (GL$_2$-type) systems and the higher-rank systems in
+(NG02.2) without calling every abelian-variety factor a GL$_2$
+$L$-function.  If a coefficient refinement or automorphic realization
+is known, it may be used; the rational $L(B_i,s)$ is already an exact
+named factor and needs no such additional identification.
+
+\paragraph{Noncancellation for the curve product.}
+Under \textbf{M}, and assuming meromorphic continuation of the displayed
+non-CM product, every point with
+$\tfrac12<\Re s<\tfrac32$ and $\Re s\ne1$ satisfies
+\[
+ \operatorname{ord}_s\zeta^S_C
+       =-\operatorname{ord}_s
+             \prod_{i\in I_{\rm nc}}L^S(B_i,s)^{m_i}.          \tag{NG02.3}
+\]
+To check this, the weight-zero Artin factors have their nontrivial
+divisors on the boundary $\Re s=1/2$, and their weight-two twists on
+the boundary $\Re s=3/2$.  Their possible real endpoint divisors in
+this open strip are on $\Re s=1$.  The CM weight-one factors have
+their global divisors on $\Re s=1$ by CM01; their omitted local
+Hecke factors have weight one and therefore divisors on
+$\Re s=1/2$.  Deleted factors of the Artin terms lie on real parts
+zero or one.  Thus all other terms are invertible at the indicated
+points and the order identity follows directly from (NG02.1).
+This version with incomplete functions needs no new assertion about
+the complete bad-prime factors of a general non-CM abelian variety.
+When individual non-CM factors are known to be holomorphic
+in the strip, their positive multiplicities prevent cancellation
+among them.  Without holomorphy, the exact converse is for the
+aggregate meromorphic product, not for every separate factor.
+
+\subsection{NG03: the exact abelian-variety list}
+\label{NG03}
+
+\paragraph{Finding NG03.}
+Let $A/\mathbb Q$ have dimension $g$ and choose a polarization over
+$\mathbb Q$.  Let $P^r(A)$ denote primitive degree-$r$ cohomology,
+$0\le r\le g$, and set
+\[
+                  C_r=C(P^r(A)),\qquad N_r=N(P^r(A)).
+\]
+These are absolute-Hodge motives over $\mathbb Q$.  Then
+\[
+ \zeta_A^S(s)=
+ \prod_{r=0}^g\prod_{k=0}^{g-r}
+ \left\{L^S(C_r,s-k)L^S(N_r,s-k)\right\}^{(-1)^r}.            \tag{NG03.1}
+\]
+Here $P^0=C_0=\mathbb Q(0)$ and $N_0=0$.  Consequently the exact
+residual list after the CM part of ZT06 is removed is
+\[
+ \boxed{\ \left\{L^S(N_r,s-k):1\le r\le g,\quad
+                    0\le k\le g-r,\quad N_r\ne0\right\}.\ } \tag{NG03.2}
+\]
+The exponent is $(-1)^r$, the weight is $r+2k$, and the desired line is
+$\Re s=(r+1)/2+k$.  The remaining analytic requirements are precisely
+continuation, functional equation and divisor RH for these factors,
+to the extent not known independently, together with the explicit
+finite local factors of ZT04.  Under \textbf{M} the CM factors satisfy
+the conclusion of CM01; no assertion that \textbf{M} settles
+(NG03.2) is made.
+
+\paragraph{Proof.}
+The cohomology algebra is the exterior algebra of $H^1(A)$
+(Deligne--Milne, Proposition~6.13).  The symplectic Lefschetz
+decomposition is
+\[
+ h^j(A)=\bigoplus_{\substack{r+2k=j\\0\le r\le g\\0\le k\le g-r}}
+                         P^r(A)(-k).                         \tag{NG03.3}
+\]
+One may construct it directly on the exterior algebra: in a symplectic
+basis, wedge multiplication by the polarization and contraction by
+the inverse alternating form, with the degree operator, form the
+standard $\mathfrak{sl}_2$ triple.  Every irreducible
+$\mathfrak{sl}_2$-string beginning in degree $r\le g$ has the degrees
+$r,r+2,\ldots,2g-r$.  Its lowest-degree vectors are exactly the kernel
+of contraction, namely $P^r$; successive multiplication by the
+polarization supplies the indicated Tate twists.  Complete
+reducibility gives (NG03.3).  The operators are Hodge morphisms and
+are absolute Hodge by Deligne's theorem, so the decomposition exists
+in the chosen motivic category over $\mathbb Q$.
+
+Apply NG01 to each primitive object.  Tate twists do not change
+whether the connected derived group acts trivially, hence
+$C(P^r(-k))=C_r(-k)$ and $N(P^r(-k))=N_r(-k)$.  Frobenius determinants
+multiply on these direct sums.  Degree $j=r+2k$ has parity $r$, and
+$L(M(-k),s)=L(M,s-k)$.  The trace-formula Euler product now gives
+(NG03.1).  The list (NG03.2) and its weight and signs follow.  As in
+ZT06, this is an exact factorization and a sufficient analytic gate;
+it does not claim a converse that would rule out meromorphic
+cancellation between distinct residual factors.\hfill$\square$
+
+\paragraph{What is, and is not, computed uniformly.}
+For a specified Mumford--Tate representation $V=H^1_B(A)$, (NG03.2)
+is finite linear algebra.  If $X_1,\ldots,X_t$ span
+$\operatorname{Lie}(\operatorname{MT}(A)^{\rm der})$, then
+\[
+             H_B(C_r)=\bigcap_{a=1}^t
+                  \ker\bigl(d\rho_r(X_a):P^r_B\to P^r_B\bigr).
+                                                                    \tag{NG03.4}
+\]
+The derived group is connected, so Lie-algebra invariants and group
+invariants agree.  The complementary isotypic subspace then gives
+$N_r$, and local determinants give its Euler factors.  No general
+effective algorithm recovering the full Mumford--Tate representation
+of an arbitrary abelian variety from equations is proved by
+Faltings or Deligne.  Thus (NG03.2)--(NG03.4) are an exact universal
+formula with a specified input, not a claimed algorithm solving that
+separate identification problem.  If only $A\sim A_{\rm CM}\times
+A_{\rm nc}$ is known, the correct formula is
+\[
+ C(h^j(A))=
+ \bigoplus_{a+b=j}\bigwedge^a h^1(A_{\rm CM})\otimes
+                       C\!\left(\bigwedge^b h^1(A_{\rm nc})\right).
+                                                                    \tag{NG03.5}
+\]
+Indeed the derived group acts trivially on the first factor and
+surjects onto the derived group acting on the second.  This formula
+does not discard the CM summands created inside exterior powers of
+the non-CM part.
+
+\subsection{NG04: the full symplectic case}
+\label{NG04}
+
+\paragraph{Finding NG04.}
+Suppose $\operatorname{MT}(A)=\operatorname{GSp}_{2g}$ in its standard
+representation.  Then $C(h^{2i}(A))=\mathbb Q(-i)$,
+$C(h^{2i+1}(A))=0$, and $N_r=P^r$ for $1\le r\le g$.
+In particular
+\[
+ \zeta_A^S(s)=\prod_{i=0}^g\zeta^S(s-i)
+       \prod_{r=1}^g\prod_{k=0}^{g-r}L^S(P^r(A),s-k)^{(-1)^r},
+ \qquad \operatorname{rank}P^r={2g\choose r}-{2g\choose r-2}. \tag{NG04.1}
+\]
+The non-CM functions are the primitive exterior-power Hasse--Weil
+$L$-functions and their indicated shifts.  For a full-symplectic
+abelian surface this means $L(H^1(A),s)$,
+$L(H^1(A),s-1)$, and the rank-five primitive exterior-square function
+$L(P^2(A),s)$; the lines are $1$, $2$, and $3/2$, respectively.
+
+\paragraph{Proof.}
+The derived group is $\operatorname{Sp}_{2g}$.  We give a direct check
+of its invariants in the exterior algebra, so no assumption about
+unknown algebraic cycles is involved.  Choose a symplectic basis
+$e_1,f_1,\ldots,e_g,f_g$.  The diagonal torus sends $e_i$ to $t_i e_i$
+and $f_i$ to $t_i^{-1}f_i$.  A zero-weight exterior monomial must
+contain both $e_i,f_i$ or neither, for every $i$; hence no odd-degree
+invariant exists.  In degree $2i$, the zero-weight monomials are the
+products of $i$ distinct pairs $e_a\wedge f_a$.  The subgroup
+permuting the symplectic pairs acts transitively on these monomials,
+with positive sign because each pair has degree two.  Thus any
+$\operatorname{Sp}_{2g}$-invariant is a scalar multiple of their sum.
+That sum is $1/i!$ times the $i$-th power of the polarization bivector,
+which is indeed invariant.  The invariant space therefore has
+dimension exactly one.  NG01 identifies it with $\mathbb Q(-i)$,
+using the polarization defined over $\mathbb Q$.
+
+For $r\le g$, wedge multiplication by the polarization is injective
+from degree $r-2$ to degree $r$.  Its image and the primitive kernel
+form a direct sum by the symplectic Lefschetz decomposition in NG03.
+This gives the displayed rank.  In positive even primitive degree
+the sole invariant, the power of the polarization, is in the image
+of wedge multiplication and hence has zero intersection with the
+primitive kernel.  In odd degree there is no invariant at all.
+Consequently $C(P^r)=0$ for every $r\ge1$.  Substitute in NG03.
+\hfill$\square$
+
+\subsection{NG05: every power of a non-CM elliptic curve}
+\label{NG05}
+
+\paragraph{Finding NG05.}
+Let $E/\mathbb Q$ be non-CM and $m\ge1$.  Adopt the convention that
+$\binom m t=0$ outside $0\le t\le m$.  For $0\le b\le a\le m$, put
+\[
+ d_m(a,b)=\binom ma\binom mb-
+                        \binom m{a+1}\binom m{b-1}.           \tag{NG05.1}
+\]
+The complete decomposition is
+\[
+ h^j(E^m)=\bigoplus_{\substack{0\le b\le a\le m\\a+b=j}}
+       \left(\operatorname{Sym}^{a-b}h^1(E)(-b)\right)^{\oplus d_m(a,b)}.
+                                                                    \tag{NG05.2}
+\]
+The CM terms are exactly $a=b$, and all other terms are non-CM.
+Consequently
+\[
+ \zeta_{E^m}^S(s)=
+ \prod_{0\le b\le a\le m}
+ L^S(\operatorname{Sym}^{a-b}E,s-b)^{(-1)^{a+b}d_m(a,b)},       \tag{NG05.3}
+\]
+where $L(\operatorname{Sym}^0E,s)=\zeta(s)$.  The distinct non-CM
+analytic inputs, before their specified shifts, are exactly
+$L(\operatorname{Sym}^nE,s)$, $1\le n\le m$.  Their motivic RH lines
+are $\Re s=(n+1)/2$.  Their analytic continuation is already known:
+for $n\ge2$ see Newton--Thorne, \emph{Symmetric power functoriality
+for holomorphic modular forms, II}, Theorem~A and Corollary~B
+(printed pp.~117--118) \cite{NGNewtonThorne}; the $n=1$ case is the modularity theorem
+used in ZETA\_TWO ZT07.  Their RH is an additional analytic assertion.
+
+\paragraph{Proof.}
+Write $V=h^1(E)$ and $W=\mathbb Q^m$ with trivial action.
+Then $h^j(E^m)=\bigwedge^j(V\otimes W)$.  The Mumford--Tate group
+of a non-CM elliptic curve is $\operatorname{GL}_2$ (for example,
+Moonen, Example~2.1.13 \cite{NGMoonen}); its derived group is $\operatorname{SL}_2$.
+We compute the decomposition directly.  On a diagonal matrix with
+eigenvalues $x,y$, the exterior-character generating series is
+\[
+                      (1+tx)^m(1+ty)^m.
+\]
+The coefficient of $t^{a+b}x^ay^b$ is
+$w(a,b)=\binom ma\binom mb$.  The irreducible
+$\operatorname{GL}_2$-representation of highest weight $(a,b)$,
+$a\ge b$, has character
+$x^ay^b+x^{a-1}y^{b+1}+\cdots+x^by^a$ and is
+$\operatorname{Sym}^{a-b}V\otimes(\det V)^b$.
+For fixed total degree, subtraction of the adjacent weight
+multiplicities $w(a,b)-w(a+1,b-1)$ therefore isolates its highest-weight
+multiplicity.  This is (NG05.1).  The exterior representation is
+semisimple, so this character calculation gives its direct-sum
+decomposition.  Equivalently, it is the two-row case of the exterior
+Cauchy decomposition.  The corresponding Hodge-equivariant
+projectors are absolute Hodge and descend as morphisms in the
+$\mathbb Q$-category generated by $V$: its full motivic group is a
+subgroup of $\operatorname{GL}(V)$ whose identity component is already
+$\operatorname{GL}(V)$, so it equals that group.  Thus the identity is motivic.
+Since $\det V=\mathbb Q(-1)$, it is exactly (NG05.2).
+
+For $a>b$, $\operatorname{Sym}^{a-b}V$ is a nontrivial irreducible
+$\operatorname{SL}_2$-representation, hence has no derived-group
+invariants.  For $a=b$ it is the trivial representation, followed by
+a Tate twist.  NG01 proves the asserted complete CM/non-CM
+classification.  Taking determinants in degree $j=a+b$ gives
+(NG05.3).\hfill$\square$
+
+In particular the first example beyond a curve is
+\[
+ \zeta_{E^2}^S(s)=
+ \frac{\zeta^S(s)\,\zeta^S(s-1)^3\,\zeta^S(s-2)
+                        L^S(\operatorname{Sym}^2E,s)}
+      {L^S(E,s)^2 L^S(E,s-1)^2}.                              \tag{NG05.4}
+\]
+Thus the non-CM gate for $E^2$ contains a symmetric-square
+$L$-function, even though the only simple abelian isogeny factor is
+$E$.  Conversely its degree-two cohomology has three Tate summands,
+even though $h^1(E^2)$ has no CM summand.  This refutes the procedure
+of removing only the exterior algebra of the CM isogeny factors and
+calling everything left non-CM.
+
+\subsection{NG06: non-Tate CM terms can occur in higher degree}
+\label{NG06}
+
+\paragraph{Finding NG06.}
+Let $A/\mathbb Q$ have dimension $g$, and suppose that over a number
+field $F$ it has an action by an imaginary quadratic field $K$.
+Suppose that the $K$-action on $H^1(A)$ has signature $(p,q)$, where
+$p+q=g$.  Over $F$, the rational Hodge subspace
+\[
+                         W=\bigwedge_K^g H^1(A)               \tag{NG06.1}
+\]
+has rank two over $\mathbb Q$, occurs as a summand of $H^g(A)$,
+and has Hodge types $(p,q)$ and $(q,p)$.  It is a CM absolute-Hodge
+motive.  If $p\ne q$, it is not Artin--Tate.  Its Galois-stable sum of
+conjugates in $h^g(A)_{\overline{\mathbb Q}}$ descends to a CM summand
+over $\mathbb Q$, and is included by NG01.
+
+\paragraph{Proof.}
+Over a splitting field for $K$, write
+$H^1=V_\sigma\oplus V_{\bar\sigma}$, with each summand of dimension
+$g$.  The exterior algebra decomposes by its bidegree in these two
+spaces.  The sum
+\[
+                      \bigwedge^g V_\sigma\ \oplus\
+                      \bigwedge^g V_{\bar\sigma}
+\]
+is invariant under the coefficient Galois group and defines the
+rational direct summand (NG06.1).  Taking determinants adds the Hodge
+indices, so its two types are precisely $(p,q)$ and $(q,p)$.
+The projector onto these two extreme exterior degrees, along all
+the mixed degrees, is invariant under $G_F$ because the $K$-action
+is defined over $F$.  Its absolute-Hodge realization thus descends
+over $F$.
+The summand is a free rank-one $K$-module.  Its Mumford--Tate group
+commutes with $K$ and is consequently contained in
+$\operatorname{Res}_{K/\mathbb Q}\mathbb G_m$.  It is therefore a
+torus.  Deligne's theorem makes its Hodge projector an absolute-Hodge
+projector, and the CM characterization used in NG01 proves the CM
+assertion.  An Artin--Tate pure Hodge structure has only diagonal
+types, so $p\ne q$ excludes that possibility.
+
+The projector is defined over a finite extension by Deligne,
+Proposition~2.9 \cite{NGDeligne82}.  There are only finitely many conjugate subobjects.
+Their sum is Galois stable, remains CM because the category is closed
+under direct sums and quotients, and has a projector in the semisimple
+category.  Conjugation preserves the CM category because it preserves
+Artin motives and the endomorphism criterion for CM abelian varieties.
+Choose a finite Galois extension defining the sum and a projector
+onto it, and average the projector over its finite Galois group.
+Every conjugate projector has image in the same subobject and is the
+identity on it.  Their average consequently has the same image and
+is still idempotent; it is Galois invariant and descends over
+$\mathbb Q$.  This proves the final assertion without assuming the
+original $K$-action is defined over $\mathbb Q$.\hfill$\square$
+
+For example, signature $(2,1)$ in dimension three yields a weight-three
+CM term of types $(2,1)$ and $(1,2)$.  The statement is a construction
+for every abelian variety with the specified action and signature;
+it does not claim that an arbitrary abelian threefold has that action.
+Together with NG05, it explains why higher CM terms must be selected
+degree by degree and cannot be read solely from a list of CM
+degree-one factors.
+
+\subsection{NG07: an explicit non-CM Jacobian with non-Tate CM cohomology}
+\label{NG07}
+
+\paragraph{Finding NG07.}
+Let $C/\mathbb Q$ be the smooth projective curve with affine equation
+\[
+                            y^3=x^5-x-1,
+\]
+and let $A=\operatorname{Jac}(C)$.  Then $A$ is an absolutely simple
+non-CM abelian fourfold and $h^1(A)$ has no nonzero CM summand.
+Nevertheless $h^4(A)$ contains a rank-two CM summand $W$ defined over
+$\mathbb Q$, with Hodge types $(3,1)$ and $(1,3)$.  In particular
+$W$ is not Artin--Tate.  It occurs in the primitive part $P^4(A)$
+for the canonical Jacobian polarization.
+
+\paragraph{Proof.}
+Zarhin, Theorem~1.1 and Examples~1.3(1) of
+\emph{The endomorphism rings of jacobians of cyclic covers of the
+projective line} \cite{NGZarhin}, apply to the exact family
+$y^p=x^n-x-1$ with $n\ge5$ and $p$ odd.  For $n=5,p=3$ they give
+\[
+ \operatorname{End}_{\overline{\mathbb Q}}(A)=\mathbb Z[\zeta_3],
+ \qquad \dim A=(3-1)(5-1)/2=4.
+\]
+In particular $A$ is absolutely simple.  Its geometric endomorphism
+algebra has dimension two over $\mathbb Q$, so cannot contain a
+commutative semisimple subalgebra of dimension $2\dim A=8$; thus
+$A$ is non-CM.  NG02, or the degree-one equivalence in
+Deligne--Milne 6.21, shows that $h^1(A)$ has no CM subobject.
+For separate input checks, the discriminant of $x^5-x-1$ was computed as
+$2869$, its reduction modulo $3$ is irreducible, and its reduction
+modulo $2$ is
+$(x^2+x+1)(x^3+x^2+1)$.  These computations are recorded separately;
+the Galois-group conclusion used here is Zarhin's stated example.
+
+Put $K=\mathbb Q(\zeta_3)$ and let
+$\delta(x,y)=(x,\zeta_3y)$.  A basis of regular differentials is
+\[
+ \frac{dx}{y},\quad \frac{dx}{y^2},\quad
+                    \frac{x\,dx}{y^2},\quad
+                    \frac{x^2\,dx}{y^2}.                    \tag{NG07.1}
+\]
+For completeness, at a finite branch point $y$ is a local parameter
+and $dx$ has order two, so all four forms are regular.  At the unique
+point at infinity, $x,y,dx$ have orders $-3,-5,-4$, respectively.
+The forms in (NG07.1) therefore have orders $1,6,3,0$, respectively,
+and are regular there.  They are linearly independent: the first has
+$\delta$-eigenvalue $\zeta_3^2$, while the remaining three have
+eigenvalue $\zeta_3$ and are independent powers of $x$ times the same
+nonzero differential.  The genus is four, so they form a basis.
+This proves that the $K$-signature is $(3,1)$, up to exchanging the
+two embeddings.
+
+NG06 now supplies
+$W=\bigwedge_K^4 H^1(A)$, of types $(3,1)$ and $(1,3)$.
+Here $K$ is the entire geometric endomorphism algebra, so Galois acts
+on it by field automorphisms, either fixing or exchanging its two
+embeddings.  The sum of the two extreme exterior eigenspaces that
+defines $W$ and its complementary mixed-degree subspace are
+therefore stable under the full Galois group.  Their absolute-Hodge
+projector is defined over $\mathbb Q$, so $W$ itself, with rank two,
+descends; it is not necessary to enlarge it to a sum of conjugates.
+
+Finally $\delta$ preserves the canonical Jacobian polarization.
+Consequently the polarization pairs the two $K$-eigenspaces in
+$H^1$ with one another and has no same-eigenspace component.  The
+contraction operator therefore kills both
+$\bigwedge^4 V_\sigma$ and $\bigwedge^4 V_{\bar\sigma}$.
+This puts $W$ in $P^4(A)$.  Its non-diagonal Hodge types prove that
+it is not Artin--Tate.\hfill$\square$
+
+\paragraph{Placement in Grothendieck's frameworks.}
+Over $U=\operatorname{Spec}\mathbb Z[1/S\ell]$, for separated models
+the formulas are
+identities in $K_0(D_c^b(U,\mathbb Q_\ell))$ for the realizations of
+$Rf_!\mathbb Q_\ell$, with actual pure direct-sum projectors in the
+abelian-type cases and a virtual scissor identity for open or singular
+curves.  The nonseparated-curve extension (NG02.4) uses the finite sum
+of the compact-support classes of its separated strata.
+The support and trace framework is SGA~4 XVII,
+\S\S5.1--5.3, and SGA~5 XV, \S3, no.~2, equation~(1), as located and
+used in ZETA\_TWO ZT04--ZT06.  Exterior powers, determinants and
+their passage to Grothendieck groups are the $\lambda$-ring mechanism
+of SGA~6 V, \S2 and \S7, (7.1.1), and ZETA\_TWO ZT08.
+The relevant documented archive locations are cote~60, scans~3 and~5
+for determinant/exterior-power algebra, scan~7 for reciprocity, and
+scan~9 for the explicit Weil and dual/Tate hypotheses.  Cote~34,
+scans~64 and~74, remains the finite-field Riemann--Weil context
+recorded in the predecessor.  These are carried archival locators,
+not new readings of unavailable scans, and none is attributed the
+later Faltings--Deligne splitting theorem.  In the runs, NG01--NG03
+close the specific abelian-type decomposition gap noted in
+INTAKE\_ZETA\_TWO, \S1, row ZT06 and \S5.1; NG05 refines the first
+non-CM example ZT07; NG01 and NG06--NG07 extend the usable scope of CM01.
+
+
+\clearpage
+\section{Framework and predecessor locator register}
+
+The following register states where the language and the predecessor
+questions live.  It distinguishes a framework locator from a claim
+that a new theorem occurs at that locator.
+
+\small
+\begin{longtable}{p{.19\textwidth}p{.37\textwidth}p{.36\textwidth}}
+\toprule
+Findings & Scheme, motive, or determinant interpretation & Exact supplied or classical anchor\\
+\midrule
+\endhead
+NX01--NX04; NC01 &
+$\zeta_{\operatorname{Spec}\mathcal O_K}$, the finite Picard group,
+and the logarithmic unit lattice; explicit size bounds, not a recovery
+of integral $K$-theory from zeros. &
+ZETA\_TWO IA05, ZT08, SV01--SV02; SA06 B.4a--e in its intake
+\S4.1. No cote/scan for B.4a--e is supplied.\\[3pt]
+NC02--NC04 &
+The metrized determinant of the Hodge bundle on the abelian moduli
+problem; isogenies of CM motives and indices of central integral
+orders. &
+ZETA\_TWO IA05 and intake \S6(1)(a);
+SGA~6 V, \S2 and (7.1.1), for the determinant framework only.
+No EGA/SGA/FGA theorem is asserted to be the new numerical bound.\\[3pt]
+Quadratic specialization &
+Class numbers and the existing supersingular-count input. &
+SA06 A.8a; cote~15, scan~70 as carried in the ZETA\_TWO intake
+\S5.4; IA02--IA03. A.8c is a related row whose ring $R$ is not
+defined by the supplied intake.\\[3pt]
+NX-L01--NX-L07 &
+Frobenius lifts on flat schemes; actual special-fibre
+$\ell$-adic cohomology, compact supports, and local determinants. &
+Borger \S1.1, Theorem~6.1, Corollary~6.2;
+SGA~4 XII 5.1--5.2, XVI 2.1, XVII \S\S5.1--5.3;
+SGA~5 XV \S3 no.~2 equation~(1);
+ZETA\_TWO ZT04--ZT05.\\[3pt]
+NX-L01; binomial scope &
+Commuting Frobenius lifts versus the special identity-Adams
+binomial structure. &
+DP\_MULT DP11; its intake, verdict table.
+DP\_MULT reports cote~153, PDF scan~3/archive p.~2
+for binomial polynomials.\\[3pt]
+NG01--NG07 &
+Absolute-Hodge motives, canonical idempotents, exterior powers,
+Lefschetz strings, and compatible local determinants. &
+Deligne--Milne 6.5, 6.13--6.14, 6.21, 6.23, 6.25--6.27;
+Faltings \S5 S\"atze~3--4; ZETA\_TWO ZT06--ZT08, CM01.\\[3pt]
+NG02 and models &
+Scissor classes spread to a good open; singular and open curves
+give virtual Artin corrections. &
+EGA IV$_3$ (8.8.2); SGA~4 XVII \S\S5.1--5.3;
+ZETA\_TWO ZT06.\\[3pt]
+All determinant translations &
+Exterior powers, reciprocal characteristic polynomials, and the
+explicit separation of purity from determinant algebra. &
+Cote~60 scans~3 and~5; scan~7 (archive p.~6);
+scan~9 (archive p.~8), the latter explicitly assuming Weil
+and dual/Tate data. ZETA\_TWO AR01, ZT08.\\[3pt]
+Weight terminology &
+Finite-field Riemann--Weil statements are distinct from global
+non-CM RH. &
+Cote~34 scan~64, struck Remark~1.17;
+scan~74, (2.5.5). Readings carried from ZETA\_TWO AR01
+and its intake \S\S1,5.5; no transcription change.\\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\part{Unchecked findings and boundaries}
+\section{Check status and the residual analytic questions}
+
+\paragraph{Unchecked findings.}
+There are no unchecked findings included in this paper.
+Each proof in Part~I has a recorded whole-proof reading in
+\path{CHECK_EVENTS.tsv}; important cross-checks have a second reader.
+These are targeted mathematical checks, not proof-assistant
+formalizations.  The finite computations are auxiliary certificates
+of the specific arithmetic or numerical assertions they check.
+
+\paragraph{What remains outside the proved assertions.}
+The following limits are part of the exact conclusions, not silently
+assumed missing lemmas.
+\begin{enumerate}
+\item The new residue estimate is a zero-exclusion and special-value
+statement.  It does not prove the full RH of a nonabelian
+Dedekind zeta function.
+\item The class-number and CM-orbit constants are explicit.
+The general o-minimal counting and family-reduction statements
+used elsewhere in Tsimerman's proof do not become effective algorithms
+merely by substituting this orbit bound.  The cited modular-curve
+effective replacement is distinguished in the CM section.
+\item The literal $\Lambda$-scheme conjecture is refuted, and the
+proper-flat question is proved.  A new version restricted to
+separated nonproper schemes is a different question: the present
+gluing example does not address it, and the proper tower proof
+does not assert a $\Lambda$-equivariant compactification.
+\item The abelian-type CM/non-CM splitting is motivic, but it is
+not a claim that every higher-tensor $\ell$-adic projector is a
+motivic projector.  NG01 supplies the required splitting without
+assuming the Mumford--Tate conjecture.
+\item NG02--NG05 name the non-CM analytic inputs exactly.
+Their divisor RH, and in general the continuation and functional
+equations not already known, remain the analytic gate.
+For powers of a non-CM elliptic curve the cited symmetric-power
+functoriality removes the continuation gate.
+\item The CM-factor RH conclusions in the non-CM section are
+conditional on M in its stated infinite-order scope.
+The supplied draft's unnumbered claim is not promoted to a completed
+numbered theorem.
+\end{enumerate}
+
+The task's three-hour stopping review was not required to decide any
+of the three requested mathematical outputs: they reached the
+proved/refuted/reduction states recorded in the ledger.
+The ledger records actual elapsed-time checkpoint and review events,
+without treating document assembly as mathematical movement.
+
+\clearpage
+\begin{thebibliography}{99}
+\addcontentsline{toc}{section}{Bibliography and exact source locators}
+
+
+\bibitem{Alpoge}
+L.~Alp\"oge, \emph{Remark}, supplied four-page version of
+20 November 2026, step~20, p.~4.  Endpoint declarations in
+\path{ALPOGE_Main.lean}, with their predicate definitions in
+\path{ALPOGE_Statements.lean}, as specified in the introduction.
+\url{https://alpo.ge/remark.pdf}.  The supplied theorem status and
+ZETA\_TWO IA01 audit are accepted as instructed.
+
+\bibitem{Masullo}
+A.~M.~Masullo, \emph{The Music of the Primes}, supplied 940-page
+draft, 20 November 2026.  The claim used is \S1.2, PDF p.~12,
+unnumbered.  The intended but empty divisor endpoint is
+Theorem~13.3.1.2, PDF p.~522; compare \S14.1.2, PDF p.~528.
+The supplied \path{MASULLO_STATEMENTS_INDEX.md} and ZETA\_TWO
+MDOC01 fix this documentary status.
+
+\bibitem{Anderson1986}
+G.~W.~Anderson, \emph{Cyclotomy and an extension of the Taniyama
+group}, Compositio Math. \textbf{57} (1986), 153--217.
+\S5.3, p.~178; Corollary~5.7.2 and Remark~5.7.3, p.~181.
+\url{https://www.numdam.org/item/CM_1986__57_2_153_0.pdf}.
+The same-weight factorization is carried through ZETA\_TWO CM01.
+
+\bibitem{ZetaTwo}
+\emph{ZETA\_TWO}, supplied return
+\path{RETURN_ZETA_TWO_final_20261121T0032Z/}.
+Paper statements ZT01, ZT04--ZT08, CM01, IA01--IA05,
+SV01--SV02, AR01 and MDOC01; the existing
+\path{CONDITIONAL_AUDIT.tsv}; and
+\path{INTAKE_ZETA_TWO_20261121.md},
+\S1 (verdicts), \S4 (framework), \S5.1 (ZT06 gap),
+\S5.4 (SA06), \S5.5 (archive readings), \S6(1)(a--c)
+(the present questions).
+
+\bibitem{DPMult}
+\emph{DP\_MULT}, supplied
+\path{RETURN_DP_MULT_checkpoint_03_20261121T0205Z/},
+statement DP11; \path{INTAKE_DP_MULT_20261121.md},
+\S1 verdict for DP11 and \S5 programme links.
+DP11 is the binomial/identity-Adams criterion, not a claim that
+every torsion-free $\lambda$-ring has identity Adams operations.
+
+\bibitem{SA06}
+\path{INTAKE_RESEARCH_SA06_20261120.md}, \S1 rows
+A.8a--c and B.4a--g; \S4.1, final class-number paragraph,
+and \S4.2 rows B.4a--e.  In particular B.4e supplies the
+sufficient-power expression carried here, while B.4c remains
+refuted.  No exact manuscript cote and scan for B.4a--e
+is supplied in this intake.
+
+\bibitem{SGA4}
+M.~Artin, A.~Grothendieck, J.-L.~Verdier et al.,
+\emph{Th\'eorie des topos et cohomologie \'etale des sch\'emas},
+SGA~4. Tome~3, Lecture Notes in Math.~305 (1973):
+Expos\'e XII, Th\'eor\`eme~5.1 and Corollaire~5.2;
+Expos\'e XVI, Th\'eor\`eme~2.1;
+Expos\'e XVII, \S\S5.1--5.3.
+
+\bibitem{SGA5}
+A.~Grothendieck et al., \emph{Cohomologie $\ell$-adique et
+fonctions $L$}, SGA~5, Lecture Notes in Math.~589 (1977),
+Expos\'e XV, \S3, no.~2, unnumbered Th\'eor\`eme, equation~(1).
+
+\bibitem{SGA6}
+P.~Berthelot, A.~Grothendieck, L.~Illusie et al.,
+\emph{Th\'eorie des intersections et th\'eor\`eme de Riemann--Roch},
+SGA~6, Lecture Notes in Math.~225 (1971),
+Expos\'e V, \S2 and \S7, equation~(7.1.1).
+
+\bibitem{EGA4}
+A.~Grothendieck and J.~Dieudonn\'e,
+\emph{\'El\'ements de g\'eom\'etrie alg\'ebrique IV$_3$},
+Publ. Math. IH\'ES \textbf{28} (1966), (8.8.2).
+
+\bibitem{WeilII}
+P.~Deligne, \emph{La conjecture de Weil. II},
+Publ. Math. IH\'ES \textbf{52} (1980), 137--252,
+Th\'eor\`eme~3.3.1, as used in ZETA\_TWO ZT04--ZT06.
+
+
+\bibitem{Stark} H.~M.~Stark, \emph{Some effective cases of the
+Brauer--Siegel theorem}, Invent. Math. \textbf{23} (1974), 135--152.
+Lemma~2 and (7), pp.~137--139; Lemma~3, pp.~139--140; Lemma~4 and
+(11)--(13), pp.~140--141; Lemmas~6--7, p.~143; Theorem~3,
+pp.~144--145; Lemma~8, p.~145; Lemma~9, pp.~145--146;
+Theorem~$1'$ and (24)--(25), p.~148.
+\url{https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0023/PPN356556735_0023.pdf}.
+The article is printed pp.~135--152, volume PDF scans~142--159.
+
+\bibitem{GarciaLee} S.~R.~Garcia and E.~S.~Lee,
+\emph{Unconditional explicit Mertens' theorems for number fields and
+Dedekind zeta residue bounds}, arXiv:2007.10313v4 (12 March 2021).
+Analytic class number formula (1), p.~2; residue upper bound (2),
+p.~3; \S3, pp.~16--17, explicit $c_4$ and its zero-free branch.
+\url{https://arxiv.org/pdf/2007.10313}.
+
+\bibitem{MilneANT} J.~S.~Milne, \emph{Algebraic Number Theory},
+version 3.08 (2020), Theorem~4.3, printed p.~70 / PDF p.~72.
+\url{https://www.jmilne.org/math/CourseNotes/ANT.pdf}.
+
+
+\bibitem{NC-Louboutin2001}
+S.~Louboutin, \emph{Explicit upper bounds for residues of Dedekind zeta
+functions and values of $L$-functions at $s=1$, and explicit lower bounds
+for relative class numbers of CM-fields}, Canad. J. Math. \textbf{53}
+(2001), 1194--1222. Theorem~1(1), p.~1195; equation~(21), p.~1200.
+\url{https://doi.org/10.4153/CJM-2001-045-5}.
+
+\bibitem{NC-Wei2021}
+X.~Wei, \emph{Smallness of Faltings heights of CM abelian varieties},
+arXiv:2111.00617v1, 2021. Normalization and Theorem~2.1, p.~8;
+Theorem~5.2, p.~19; Proposition~5.3 and proof, pp.~19--20;
+Proposition~5.4 proof, p.~21.
+\url{https://arxiv.org/abs/2111.00617}.
+
+\bibitem{NC-YuanZhang2018}
+X.~Yuan and S.-W.~Zhang, \emph{On the averaged Colmez conjecture},
+Ann. of Math. \textbf{187} (2018), 533--638.
+Normalization, p.~534; Theorem~1.1, p.~535.
+\url{https://doi.org/10.4007/annals.2018.187.2.4}.
+
+\bibitem{NC-GRPeriods2014}
+\'E.~Gaudron and G.~R\'emond, \emph{Th\'eor\`eme des p\'eriodes et
+degr\'es minimaux d'isog\'enies}, Comment. Math. Helv. \textbf{89}
+(2014), 343--403. Theorem~1.1, p.~345; \S2.3, pp.~351--352.
+\url{https://doi.org/10.4171/CMH/322}.
+
+\bibitem{NC-GRPol2014}
+\'E.~Gaudron and G.~R\'emond, \emph{Polarisations et isog\'enies},
+Duke Math. J. \textbf{163} (2014), 2057--2108.
+Constants, p.~2058; Theorem~1.4, p.~2060.
+\url{https://doi.org/10.1215/00127094-2782528}.
+Author PDF: \url{https://lmbp.uca.fr/~gaudron/art13.pdf}.
+
+\bibitem{NC-Tsimerman2018}
+J.~Tsimerman, \emph{The Andr\'e--Oort conjecture for $\mathcal A_g$},
+Ann. of Math. \textbf{187} (2018), 379--390.
+\S2.2 and Proposition~2.2, p.~382; Lemma~4.1, p.~384;
+Theorems~4.2 and~5.2, p.~385.
+\url{https://doi.org/10.4007/annals.2018.187.2.2}.
+
+\bibitem{NC-Remond2017}
+G.~R\'emond, \emph{Vari\'et\'es ab\'eliennes et ordres maximaux},
+Rev. Mat. Iberoam. \textbf{33} (2017), 1173--1195.
+Theorems~1.1 and~1.2; explicit same-base-field convention in the
+opening of \S1.  Author preprint pp.~1--2; proof of Theorem~1.1
+in Proposition~2.3, p.~6.
+\url{https://www-fourier.univ-grenoble-alpes.fr/~remond/5783.pdf}.
+
+\bibitem{NC-Binyamini2020}
+G.~Binyamini, with an appendix by E.~Kowalski,
+\emph{Some effective estimates for Andr\'e--Oort in $Y(1)^n$},
+J. Reine Angew. Math. \textbf{767} (2020), 17--35,
+doi:10.1515/crelle-2019-0028.
+The locators above use arXiv:1809.05302v2 (27 May 2021),
+\url{https://arxiv.org/pdf/1809.05302}.
+
+
+% Bibliography entries for task 2; insert in the master thebibliography.
+\bibitem{NXLBorger} J. Borger, \emph{$\Lambda$-rings and the field with one element},
+arXiv:0906.3146. Supplied source
+\path{LIT_Borger_Lambda_rings_and_the_field_with_one_element/lrfoe13.tex};
+primary PDF edition dated 26 November 2024, pp.~2 and~6 (definition and flat
+Frobenius-lift criterion), \S6 opening and Theorem~6.1, pp.~19--20
+(abelian finite-coefficient Galois action), Corollary~6.2 and equation~(6.2.1),
+p.~20 (potential integral-Tate splitting). Supplied source labels
+\texttt{thm:lambda-varieties-are-abelian} and
+\texttt{cor:lambda-varieties-are-Artin-Tate}.
+\url{https://arxiv.org/pdf/0906.3146}.
+
+\bibitem{NXLScholze} P. Scholze, \emph{Perfectoid spaces},
+Publ. Math. Inst. Hautes \'Etudes Sci. \textbf{116} (2012), 245--313.
+The primary author PDF used here is the 19 November 2011 version:
+Definition~5.1(ii), Theorem~5.2, and Lemma~5.3, pp.~21--23;
+Proposition~5.13(i) and Remark~5.14, p.~25;
+Lemma~6.2 and Theorem~6.3, p.~30;
+Theorem~7.12, p.~43;
+Definition~7.14, pp.~43--44, and Theorem~7.17, Corollaries~7.18--7.19,
+p.~44;
+Theorem~9.7 (citing Huber, Theorem~3.8.1), p.~49.
+\url{https://people.mpim-bonn.mpg.de/scholze/PerfectoidSpaces.pdf}.
+
+\bibitem{NXLHuber} R. Huber, \emph{A generalization of formal schemes and rigid
+analytic varieties}, Math. Z. \textbf{217} (1994), 513--551,
+Remark~4.6(iv)(d), printed p.~544. The hypotheses are locally noetherian
+schemes and a proper morphism; the characteristic-$p$ application in NX-L02
+is descended to $\mathbb F_p[[u]]$ before base change.
+\url{https://virtualmath1.stanford.edu/~conrad/Perfseminar/refs/Huberformalrigid.pdf}.
+
+\bibitem{NXLBhatt} B. Bhatt, \emph{Lecture II: $\delta$-rings},
+Columbia prismatic-cohomology lectures, Proposition~3.2, pp.~5--6
+(unique strict-$p$ lift of a perfect $\mathbb F_p$-algebra).
+The primary PDF text was retrieved; the direct local download returned 403.
+The proof can use Scholze, Remark~5.14, alone.
+\url{https://websites.umich.edu/~bhattb/teaching/prismatic-columbia/lecture2-delta-rings.pdf}.
+
+\bibitem{NXLSilverman} J. H. Silverman, \emph{The Arithmetic of Elliptic Curves},
+second edition, Graduate Texts in Mathematics 106, Springer, 2009,
+Theorem~V.2.4, printed p.~143 (elliptic-curve zeta numerator).
+The explicit trace $a_5=-2$ in NX-L01 is recomputed directly.
+\url{https://www.math.ens.psl.eu/~obenoist/refs/Silverman.pdf}.
+
+
+
+\bibitem{NGFaltings}
+G. Faltings, \emph{Endlichkeitss\"atze f\"ur abelsche Variet\"aten
+\"uber Zahlk\"orpern}, Invent. Math. \textbf{73} (1983), 349--366,
+\S5, S\"atze 3--4, printed p.~360 (PDF p.~12).
+\url{https://math.uchicago.edu/~drinfeld/Deligne's_conjecture_Manin_conf/Faltings_argument/Faltings.pdf}.
+
+\bibitem{NGDeligneMilne}
+P. Deligne and J. S. Milne, \emph{Tannakian Categories}, in
+\emph{Hodge Cycles, Motives, and Shimura Varieties}, LNM 900,
+Springer (1982), 101--228.  Corrected transcription of 15 August 2012,
+with the original statement numbering: Propositions 6.5, 6.13--6.14,
+6.21, 6.23; Theorem 6.25; Proposition 6.26 and Corollary 6.27.
+\url{https://www.jmilne.org/math/xnotes/tc2012.pdf}.
+
+\bibitem{NGDeligne82}
+P. Deligne (notes by J. S. Milne), \emph{Hodge cycles on abelian
+varieties}, in \emph{Hodge Cycles, Motives, and Shimura Varieties},
+LNM 900, Springer (1982), 9--100, Proposition 2.9 and Theorem 2.11.
+The updated transcription dated 1 October 2018 places these on
+pp.~18--19.
+\url{https://jmilne.org/math/Documents/Deligne82.pdf}.
+
+\bibitem{NGCommelin}
+J. Commelin, \emph{The Mumford--Tate conjecture for products of
+abelian varieties}, Algebraic Geometry \textbf{6}(6) (2019), 650--677,
+Lemma 3.8 (p.~655); Theorem 4.13 and Remark 4.14 (pp.~657--658);
+\S4.16 and Lemma 4.17 (p.~658).
+\url{https://content.algebraicgeometry.nl/2019-6/2019-6-028.pdf}.
+
+\bibitem{NGMoonen}
+B. Moonen, \emph{Families of Motives and the Mumford--Tate Conjecture},
+Example 2.1.13 (p.~10 in the author's 52-page manuscript),
+for the Mumford--Tate group of a non-CM elliptic curve.
+\url{https://www.math.ru.nl/~bmoonen/Papers/FMMTC.pdf}.
+
+\bibitem{NGNewtonThorne}
+J. Newton and J. A. Thorne, \emph{Symmetric power functoriality for
+holomorphic modular forms, II}, Publ. Math. IH\'ES \textbf{134}
+(2021), 117--152, Theorem A (p.~117), Corollary B (p.~118).
+\url{https://www.numdam.org/item/10.1007/s10240-021-00126-4.pdf}.
+
+\bibitem{NGZarhin}
+Y. G. Zarhin, \emph{The endomorphism rings of jacobians of cyclic
+covers of the projective line}, arXiv:math/0103203v2 (8 September
+2002), Theorem 1.1 and Examples 1.3(1), PDF p.~2; genus formula in
+\S1, PDF p.~1, and differential description in Remark 3.1,
+PDF pp.~7--8.
+\url{https://arxiv.org/pdf/math/0103203}.
+
+
+\end{thebibliography}
+\end{document}

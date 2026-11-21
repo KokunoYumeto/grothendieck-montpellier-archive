@@ -1,0 +1,160 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\DeclareMathOperator{\Gal}{Gal}
+\allowdisplaybreaks
+\setlength{\emergencystretch}{3em}
+\title{ZETA\_NEXT\\Effective class numbers from quadratic zero exclusion,\\
+bad fibres of $\Lambda$-schemes, and the non-CM gate}
+\author{GPT-6 Astra Pro\\Research run of 21 November 2026}
+\date{21 November 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Using the supplied theorem of Alp\"oge and the explicitly checked
+constants in Stark's exceptional-zero argument, we prove
+$\operatorname{Res}_{s=1}\zeta_K(s)>1/(173\log D_K)$ for every normal
+$K\ne\mathbb Q$, and $1/(173n!\log D_K)$ for every field of degree
+$n\ge2$.  This gives effective Brauer--Siegel inequalities, explicit
+fixed-degree CM class-number bounds, and explicit Galois-orbit bounds
+for every CM point of $\mathcal A_g$, including products and
+nonmaximal endomorphism orders.  The orbit bound has exponent
+$1/(28672g^4)$ and a completely specified positive constant.
+Only the averaged Colmez formula is needed.
+
+The proposed bad-fibre statement for flat finite-type $\Lambda$-schemes
+is false without separatedness: a gluing construction inserts the
+zeta function of an arbitrary affine finite-field scheme into a single
+bad factor.  For proper flat $\Lambda$-schemes the statement is true,
+on actual cohomology: a Frobenius-tower comparison identifies special
+cohomology with a Galois-stable summand of generic cohomology.
+We also prove the corrected proper $\Lambda$-RH conclusion.
+
+For absolute-Hodge motives of abelian type we construct the canonical
+maximal CM summand as the invariants of the connected derived motivic
+group.  We give exact residual $L$-function lists for curves and
+abelian varieties, explicitly evaluate the full symplectic case and
+powers of a non-CM elliptic curve, and exhibit a simple non-CM
+Jacobian with a rank-two non-Tate CM summand in primitive degree four.
+The splitting theorems are unconditional.  Applying RH to their CM
+factors remains conditional on the stated Masullo claim; RH for their
+non-CM factors is identified as the remaining analytic input.
+\end{abstract}
+
+\tableofcontents
+\clearpage
+\section*{Reading conventions, source status, and the answer to the task}
+\addcontentsline{toc}{section}{Reading conventions and answer to the task}
+
+This paper continues ZETA\_TWO and its intake of 21 November 2026.
+Its IA01 audit and \path{CONDITIONAL_AUDIT.tsv} stand as requested;
+we do not repeat them.  A \emph{finding} means a proved deduction or
+counterexample established in this work.  It does not assert novelty
+against all of the literature.  Every finding below has received a
+complete proof reading; the methods, actors, dates, and limited scope
+of each check appear in \path{CHECK_EVENTS.tsv}.
+
+\paragraph{The supplied zero theorem A.}
+We cite as a theorem the supplied four-page version of L.~Alp\"oge,
+\emph{Remark} \cite{Alpoge}.  The endpoint used here is step~20 on
+p.~4, not step~17.  In \path{ALPOGE_Main.lean} the declarations are
+\path{riemannHypothesis}, \path{riemannZeta_eq_zero_re},
+\path{LFunction_ne_zero_of_half_lt_re},
+\path{LFunction_eq_zero_re}, and
+\path{LFunction_eq_zero_re_of_isPrimitive}; their precise predicates
+are in \path{ALPOGE_Statements.lean}.  We use RH for $\zeta$ and
+Dirichlet GRH, especially nonvanishing to the right of $1/2$ for
+quadratic characters.  We do not infer GRH for a general Dedekind
+zeta function from this input.  No step of the theta, positivity,
+or Lean argument is re-audited.
+
+\paragraph{The separate conditional input M.}
+The Masullo input is the draft's claim in \S1.2, PDF p.~12, for all
+unitary Hecke characters of every number field, including
+infinite-order characters.  That assertion is unnumbered in the
+supplied draft.  Theorem~13.3.1.2, PDF p.~522, is its intended
+\emph{Divisor of $L(s,\chi)$} endpoint but has no completed statement
+or proof; \S14.1.2, PDF p.~528, discusses the intended consequence.
+These are the exact source statuses already recorded in ZETA\_TWO
+MDOC01 \cite{Masullo,ZetaTwo}.  Every use of M in this paper is
+explicitly conditional.  Anderson's same-weight factorization,
+Corollary~5.7.2 and Remark~5.7.3, p.~181 \cite{Anderson1986}, is
+carried through ZETA\_TWO CM01; no new proof of that known theorem
+is claimed.
+
+\paragraph{Principal answers.}
+For a number field write $D_K=|\operatorname{disc}K|$,
+$w_K=|\mu(K)|$ and $(r_1,r_2)$ for its signature.  NX01--NX03 prove
+\[
+ h_KR_K>
+ \frac{w_K\sqrt{D_K}}
+ {173\,2^{r_1}(2\pi)^{r_2}\log D_K}
+ \quad(K/\mathbb Q\ \hbox{normal},\ K\ne\mathbb Q),
+\]
+and give the explicit factorial loss for arbitrary degree.
+NC01--NC04 propagate this to CM class numbers, heights, and all CM
+orbits.  In particular, for an explicit $c_g>0$ and all CM fields
+$E$ of degree $2g$,
+\[
+ h_E>c_gD_E^{1/4}(\log D_E)^{-g}.
+\]
+The full orbit formula, with its constants defined before and in
+NC04, is
+\[
+ |\Gal(\overline{\mathbb Q}/\mathbb Q)\cdot x|
+ \ge \frac{|\operatorname{disc}Z(\operatorname{End}_{\overline{\mathbb Q}}A_x)|^{1/P_g}}
+ {s_gT_g^{1/P_g}},\qquad P_g=28672g^4.
+\]
+There is no residual ineffective constant in these displayed
+statements.  They do not themselves supply an algorithm for every
+other step of a general Andr\'e--Oort proof.
+
+NX-L01 refutes the exact bad-fibre conjecture asked in the prompt:
+its hypotheses do not include separatedness.  NX-L02--NX-L03 prove
+the proper-flat splitting assertion, and NX-L04 proves that the
+multiplicities need not be the generic inertia multiplicities.
+NX-L05 explains a failed proper counterexample route; NX-L06 gives
+meromorphic continuation and half-integer divisor lines in the
+proper case using A.
+
+NG01 closes ZT06's CM-summand gap for every pure factor of abelian
+type.  NG02--NG03 compute the residual lists; NG04--NG07 make their
+content concrete.  For a general abelian variety the list is an
+exact abstract formula; evaluating its primitive CM projectors
+requires the actual Mumford--Tate representation.  No general
+algorithm recovering that representation from equations is asserted.
+The non-CM RH statements which the question asks us to name remain
+the analytic inputs explicitly identified by these formulas.
+
+\paragraph{Finite factors and the meaning of $\zeta_X$.}
+For a variety over $\mathbb Q$, the Euler product is understood
+through a chosen model $\mathcal X$ over an open of
+$\operatorname{Spec}\mathbb Z$; its incomplete form is denoted by
+$\zeta_X^S$.  For a finite-type scheme over $\mathbb Z$ it is the
+closed-point Euler product.  Restoring bad primes always uses the
+actual fibres, as in ZETA\_TWO ZT04.  No bad local factor is silently
+replaced by the canonical generic inertia factor.
+
+\paragraph{Archive conventions.}
+The available cote-and-scan locators are carried from the supplied
+predecessor and intakes, not newly viewed manuscripts.  They are
+listed precisely in the final framework table and
+\path{IMPLICATIONS.md}.  None of the new analytic estimates,
+perfectoid comparisons, or Faltings--Deligne theorems is attributed
+to an unavailable Grothendieck scan.  Where the supplied material
+does not provide a cote and scan, that absence is stated.
+
+\part{Checked findings}
