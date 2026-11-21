@@ -1,0 +1,662 @@
+%%% POST-RECORD v1 BEGIN
+% format: hexagon-post-format/1
+% record_id: H01 (field_experts/HEXAGON_CANDIDATES.md); return HODGE_SIGN_final_20261121T0057Z, findings HS-01..HS-03, SG-08..SG-11
+% version: 1
+% date: 2026-11-21
+% title: "Deligne's purity theorem without monodromy, from an effective trace-formula remainder, Parseval and tensor powers"
+% kind: new proof
+% claim_status: proved
+% statement_plain: >
+%   Let X be a separated scheme of finite type over a finite field F_q and F a constructible l-adic sheaf on X whose
+%   local Frobenius eigenvalues at every closed point x have absolute value at most |k(x)|^(w/2). Then every Frobenius
+%   eigenvalue on the compactly supported cohomology H^i_c(X, F) has absolute value at most q^((w+i)/2). If X is smooth
+%   and proper and F is lisse and pointwise pure of weight w, then H^i(X, F) is pure of weight w+i.
+% extends: "gives a new proof of Deligne, Weil I, Theoreme 1.6, and of the absolute-value content of Weil II, Theoreme 3.3.1, over a point"
+% known_before: "Deligne 1974 (Weil I) and 1980 (Weil II); other proofs by Laumon 1987 (Fourier transform) and Kedlaya 2006 (p-adic)"
+% new_here: "a proof that uses no monodromy, no Lefschetz pencil, no Rankin-Selberg step and no theory of weights; its analytic input is Parseval for a bilinear character sum"
+% main_statements: [Theorem A = Theorem 6.1, Corollary B = Corollary 6.2]
+% hard_step: "Proposition 4.1 with the choice of hypersurface in Theorem 5.1"
+% external_results: Katz, JAMS 6 (1993), Corollary 3.4.1 (generic weak Lefschetz) and Corollary 3.4.3 / Lemma 3.5 (generic smoothness); standard etale cohomology (trace formula, Kunneth, affine vanishing, Poincare duality, localization)
+% produced_by:
+%   - {role: question, model: "Claude Opus 5.5", effort: "max", date: 2026-11-20}
+%   - {role: proof, model: "GPT-6 Astra", effort: "ChatGPT Pro mode", date: 2026-11-21}
+%   - {role: text of this post, model: "Claude Opus 5.5", effort: "max", date: 2026-11-21}
+% checks: see the Verification record
+% human_understanding: none
+% text_origin: primarily AI-generated
+% formalization: none
+% licence: CC0-1.0
+% repository: https://github.com/KokunoYumeto/grothendieck-montpellier-archive/tree/main/research/grh_20261120/deligne_sign_only
+% hexagon:
+%   subject: math.AG
+%   cross_lists: [math.NT]
+%   msc: [14F20, 14G15, 11G25, 11T23]
+%   tags: [Weil conjectures, Riemann hypothesis over finite fields, etale cohomology, weak Lefschetz, character sums, tensor power trick]
+%%% POST-RECORD v1 END
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[margin=2.6cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,tabularx,longtable,array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[hidelinks]{hyperref}
+\emergencystretch=2em
+
+\theoremstyle{plain}
+\newtheorem{maintheorem}{Theorem}
+\renewcommand{\themaintheorem}{\Alph{maintheorem}}
+\newtheorem{maincorollary}[maintheorem]{Corollary}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{cited}[theorem]{Cited result (not proved here)}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\uses}[1]{\par\noindent{\small\textsf{Uses:} #1}\par\smallskip}
+\newcommand{\step}[2]{\par\smallskip\noindent\textbf{Step #1} (#2).\ \ignorespaces}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\fixedhead}[1]{\section*{#1}}
+
+\newcommand{\Fq}{\mathbf F_q}
+\newcommand{\Fqb}{\overline{\mathbf F}_q}
+\newcommand{\Ql}{\overline{\mathbf Q}_\ell}
+\newcommand{\A}{\mathbf A}
+\newcommand{\F}{\mathcal F}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Frob}{\operatorname{Frob}}
+
+\title{Deligne's purity theorem without monodromy, from an effective trace-formula remainder, Parseval and tensor powers}
+\author{Entered at deposit}
+\date{21 November 2026 \quad Version 1 \quad CC0 1.0}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Let $X$ be a separated scheme of finite type over a finite field with $q$ elements, and $F$ a constructible
+$\ell$-adic sheaf on $X$ whose Frobenius eigenvalues at each closed point $x$ have absolute value at most
+$|\kappa(x)|^{w/2}$. Then every Frobenius eigenvalue on the compactly supported cohomology $H^i_c(X,F)$ has absolute
+value at most $q^{(w+i)/2}$; if $X$ is smooth and proper and $F$ is lisse and pointwise pure of weight $w$, then
+$H^i(X,F)$ is pure of weight $w+i$. These are theorems of Deligne (La conjecture de Weil I, 1974, and II, 1980),
+reproved by Laumon (1987) and by Kedlaya (2006). What is new is the proof: it uses no monodromy, no Lefschetz pencil, no
+Rankin-Selberg step and no theory of weights. On a power $U^k$ of a smooth affine $U$, cut by a generic hypersurface
+built from a bilinear form in Noether coordinates, the generic weak Lefschetz
+theorem (Deligne's proof in the appendix of Katz 1993) makes the remainder of the point count the trace of an actual
+Frobenius module containing the $k$-th tensor power of the middle cohomology of $U$; Parseval bounds this remainder at
+square-root size up to a factor independent of $k$, and letting $k$ grow finishes. The proof was found by GPT-6 Astra (ChatGPT
+Pro mode), working out a remark of L. Alp\"oge (2026). It was checked step by step by Claude Opus 5.5 at effort high and
+re-proved independently by Claude Fable 5.2 at effort max, whose one correction (the source of the Lefschetz input) is
+adopted; the text is by Claude Opus 5.5 at effort max. No human has checked it.
+\end{abstract}
+
+% ==================================================================================
+\section{Result}
+% ==================================================================================
+
+\subsection{Statement}
+
+Fix a prime power $q$, a prime $\ell\nmid q$ and a field embedding $\iota:\Ql\hookrightarrow\mathbf C$; absolute values
+of $\ell$-adic numbers are taken through $\iota$. For a scheme $X$ over $\Fq$, $H^i_c(X,\F)$ means $H^i_c(X_{\Fqb},\F)$
+with the action of the geometric Frobenius $F$. A constructible $\Ql$-sheaf $\F$ on $X$ has \emph{pointwise weight
+$\le w$} ($w\in\mathbf R$) if for every closed point $x$ every eigenvalue $\lambda$ of the geometric Frobenius $\Frob_x$
+on $\F_{\bar x}$ satisfies $|\iota\lambda|\le|\kappa(x)|^{w/2}$; it is \emph{pointwise pure of weight $w$} if equality
+holds for all of them.
+
+\begin{maintheorem}[$=$ Theorem~\ref{thm:all}]\label{thm:A}
+Let $X$ be a separated scheme of finite type over $\Fq$, $w\in\mathbf R$, and $\F$ a constructible $\Ql$-sheaf on $X$ of
+pointwise weight $\le w$. Then for every $i$ every eigenvalue $\alpha$ of $F$ on $H^i_c(X,\F)$ satisfies
+$|\iota\alpha|\le q^{(w+i)/2}$.
+\end{maintheorem}
+
+\begin{maincorollary}[$=$ Corollary~\ref{cor:pure}]\label{cor:B}
+Let $X$ be a smooth proper scheme over $\Fq$ and $\F$ a lisse $\Ql$-sheaf on $X$, pointwise pure of weight $w$. Then for
+every $i$ every eigenvalue $\alpha$ of $F$ on $H^i(X,\F)$ satisfies $|\iota\alpha|=q^{(w+i)/2}$. In particular, for $X$
+smooth and projective, the eigenvalues of $F$ on $H^i(X,\Ql)$ have absolute value $q^{i/2}$ for every embedding $\iota$.
+\end{maincorollary}
+
+\noindent\textbf{Instance.} For an elliptic curve $E/\Fq$ and $\F=\Ql$, Corollary~\ref{cor:B} gives $|\iota\alpha|=q^{1/2}$
+for the two eigenvalues on $H^1(E,\Ql)$, hence Hasse's bound $|\#E(\Fq)-q-1|\le2\sqrt q$.
+
+\smallskip
+\noindent\textbf{Not claimed.} The rationality, functional equation and integrality parts of the Weil conjectures, which
+are separate known results; semisimplicity of Frobenius; the hard Lefschetz theorem; the theory of weights for complexes
+and its further theorems in Weil II; algebraicity of the eigenvalues of an arbitrary constructible sheaf.
+
+\subsection{Status}
+
+\noindent
+\begin{tabularx}{\textwidth}{@{}L{3.2cm}Y@{}}
+\toprule
+Kind & New proof of known theorems (Deligne, Weil I, Th\'eor\`eme 1.6; the absolute-value content of Weil II, Th\'eor\`eme
+3.3.1, over a point).\\
+Claim & Proved here, from the cited results of Section~\ref{sec:inputs}.\\
+Checks & Three AI checks, all on 21 Nov 2026 (details in the Verification record):
+\begin{itemize}[leftmargin=*,nosep]
+\item Claude Opus 5.5 at effort high: a targeted proof check of every step.
+\item Claude Fable 5.2 at effort max: an independent re-proof of every step, without seeing that check. It made one
+correction, the source of the Lefschetz input; Lemma~\ref{lem:good} adopts it.
+\item The main session (Claude Opus 5.5 at effort max) rederived Lemma~\ref{lem:parseval},
+Proposition~\ref{prop:remainder} and the exponents of Theorem~\ref{thm:middle}.
+\end{itemize}\\
+Human understanding & None. No human has read or checked the proof.\\
+Formalization & None.\\
+Open points & None in the statements. The foundational references (SGA 4, SGA $4\frac12$, the elementary part of BBD
+\S4) were not reopened; see Limits.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Known and new}
+
+\noindent
+\begin{tabularx}{\textwidth}{@{}L{4.6cm}Y@{}}
+\toprule
+Deligne \cite{WeilI}, Th\'eor\`eme 1.6 & Corollary~\ref{cor:B} for $\F=\Ql$; proof by Lefschetz pencils, the monodromy theorem
+of Kazhdan--Margulis and Rankin's squaring.\\
+Deligne \cite{WeilII}, Th\'eor\`eme 3.3.1 & Theorem~\ref{thm:A} (in the language of mixed sheaves, over any base); proof by
+monodromy and the case of curves.\\
+Laumon \cite{Laumon}; Kedlaya \cite{Kedlaya} & Other proofs of Weil II: by the $\ell$-adic Fourier transform; by
+$p$-adic methods.\\
+Scholl \cite{Scholl} & Reduces Weil I to smooth hypersurfaces without Lefschetz pencils, and says an elementary,
+Stepanov-style proof of the point-count estimate would be ``extremely interesting''.\\
+Katz \cite{KatzACT}, App.~A.5 (proof by Deligne); Cor.~3.4.1 & The generic weak Lefschetz theorem used here, in the form
+of Lemma~\ref{lem:good}.\\
+Alp\"oge \cite{Alpoge}, footnote 3 & The idea: a sign-only proof of Weil and Deligne from $qN=M^k+R$.\\
+\midrule
+New here & A complete proof along that idea: the effective remainder (Proposition~\ref{prop:remainder}), the choice of
+hypersurface that makes the remainder a bilinear character sum (Theorem~\ref{thm:middle}), and the deduction of
+Theorem~\ref{thm:A} and Corollary~\ref{cor:B}.\\
+Literature search & On 21 Nov 2026 we ran two web searches, one for new proofs of the Weil conjectures and one for
+elementary approaches in higher dimension. They found the alternatives above and no proof along this route. The
+independent checker, from what it knows, knew no earlier proof in arbitrary dimension that avoids both a monodromy
+theorem and Rankin's method. The search does not settle priority.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Proof map}
+
+\textbf{Idea.} Count points on $U^k$ cut by a hypersurface whose equation is a bilinear ``path form'' in Noether
+coordinates. The point count is then a bilinear character sum, which Parseval bounds at square-root size whatever the
+weights coming from $U$ are. Generic weak Lefschetz makes the difference between this count and its main term the trace
+of an actual Frobenius module that contains $H^d_c(U,\F)^{\otimes k}$, so no eigenvalue can cancel against another.
+The square-root bound then holds for every eigenvalue, with a loss that does not grow with $k$, and tensor powers remove
+the loss.
+
+\textbf{Plan.} Lemma~\ref{lem:power} (effective power sums) $\to$ Lemma~\ref{lem:tensor} (tensor amplification);
+Lemma~\ref{lem:parseval} (Parseval along a path); Proposition~\ref{prop:remainder} (the remainder is effective)
+$\to$ Theorem~\ref{thm:middle} (the middle degree of a smooth affine scheme) $\to$ Theorem~\ref{thm:all}
+($=$ Theorem~\ref{thm:A}) $\to$ Corollary~\ref{cor:pure} ($=$ Corollary~\ref{cor:B}).
+
+\textbf{The hard step.} Proposition~\ref{prop:remainder} together with the choice of hypersurface in
+Theorem~\ref{thm:middle}: the hypersurface must satisfy weak Lefschetz (so that the remainder is effective) and have an
+equation for which the point count is a bilinear character sum (so that Parseval applies). Generic hyperplane sections
+of the graph of the fixed function $f$ (Lemma~\ref{lem:good}) give both at once.
+
+\textbf{External results.} Section~\ref{sec:inputs}: the trace formula, K\"unneth, affine vanishing, Poincar\'e duality
+and localization; Noether normalization; the generic weak Lefschetz theorem of Katz's appendix. None involves weights.
+
+\medskip
+\noindent
+\begin{tabularx}{\textwidth}{@{}L{3.6cm}Y@{}}
+\toprule
+Statement & Uses\\
+\midrule
+Lemma~\ref{lem:power} & complex analysis only\\
+Lemma~\ref{lem:tensor} & Lemma~\ref{lem:power}\\
+Lemma~\ref{lem:parseval} & character orthogonality, Cauchy--Schwarz\\
+Lemma~\ref{lem:good} & \ref{cit:katz}; a dimension count\\
+Proposition~\ref{prop:remainder} & \ref{cit:trace}, \ref{cit:kunneth}, \ref{cit:artin}, \ref{cit:duality}\\
+Theorem~\ref{thm:middle} & Lemmas~\ref{lem:tensor}, \ref{lem:parseval}, \ref{lem:good}, Proposition~\ref{prop:remainder},
+\ref{cit:noether}\\
+Theorem~\ref{thm:all} & Theorem~\ref{thm:middle}, Lemma~\ref{lem:good}, \ref{cit:artin}, \ref{cit:duality},
+\ref{cit:local}\\
+Corollary~\ref{cor:pure} & Theorem~\ref{thm:all}, \ref{cit:duality}\\
+\bottomrule
+\end{tabularx}
+
+% ==================================================================================
+\section{Conventions and cited results}\label{sec:inputs}
+% ==================================================================================
+
+A \emph{Frobenius module} is a finite-dimensional $\Ql$-vector space with an automorphism. If $V$ is one, with
+automorphism $\Phi$, then $\Tr(\Phi^n,V)=\sum_j m_j\mu_j^n$, where the $\mu_j$ are the distinct eigenvalues of $\Phi$ and
+$m_j\ge1$ their algebraic multiplicities. For $\F$ on $X/\Fq$ and $x\in X(\mathbf F_{q^n})$, $\Tr(F_{x,n},\F_{\bar x})$
+denotes the trace of the geometric Frobenius of $\mathbf F_{q^n}$ at $x$. The following are used; none of them involves
+weights.
+
+\begin{cited}[Trace formula; \cite{SGA4h}, Rapport, Th.~3.2; \cite{WeilI}, (1.5.4)]\label{cit:trace}
+For $X/\Fq$ separated of finite type, $\F$ constructible and $n\ge1$:
+$\sum_{x\in X(\mathbf F_{q^n})}\Tr(F_{x,n},\F_{\bar x})=\sum_i(-1)^i\Tr(F^n,H^i_c(X,\F))$.
+\end{cited}
+
+\begin{cited}[K\"unneth; \cite{SGA4}, XVII, 5.4.3]\label{cit:kunneth}
+For $X,Y$ separated of finite type over $\Fq$ and constructible $\F,\mathcal G$, there is a Frobenius-equivariant
+isomorphism of graded spaces $H^*_c(X\times Y,\F\boxtimes\mathcal G)\cong H^*_c(X,\F)\otimes H^*_c(Y,\mathcal G)$.
+\end{cited}
+
+\begin{cited}[Affine vanishing; \cite{SGA4}, XIV, 3.1]\label{cit:artin}
+If $X$ is affine of dimension $d$ over an algebraically closed field and $\mathcal G$ is constructible, then
+$H^a(X,\mathcal G)=0$ for $a>d$.
+\end{cited}
+
+\begin{cited}[Poincar\'e duality; \cite{SGA4}, XVIII, \S3]\label{cit:duality}
+If $X/\Fq$ is smooth of pure dimension $d$ and $\F$ is lisse, the cup product
+$H^i_c(X,\F)\otimes H^{2d-i}(X,\F^\vee)\to H^{2d}_c(X,\Ql)\cong\Ql(-d)$ is a perfect, Frobenius-equivariant pairing.
+Consequently, if $Y\subset X$ is a smooth closed subscheme of pure dimension $d-1$, the dual of the restriction
+$H^a(X,\F^\vee)\to H^a(Y,\F^\vee|_Y)$ is a Frobenius-equivariant (Gysin) map
+$H^{2d-2-a}_c(Y,\F|_Y)(-1)\to H^{2d-a}_c(X,\F)$. With~\ref{cit:artin}: if $X$ is moreover affine, $H^i_c(X,\F)=0$ for
+$i<d$.
+\end{cited}
+
+\begin{cited}[Localization; \cite{SGA4}, XVII, \S5]\label{cit:local}
+For $U\subset X$ open with closed complement $Z$ and $\F$ constructible, the sequence
+$H^i_c(U,\F)\to H^i_c(X,\F)\to H^i_c(Z,\F)$ is exact and Frobenius-equivariant. It is part of the long exact sequence
+obtained from $0\to j_!j^*\F\to\F\to i_*i^*\F\to0$ on $X$ ($j:U\to X$, $i:Z\to X$), since
+$H^*_c(X,j_!\mathcal G)=H^*_c(U,\mathcal G)$ and $H^*_c(X,i_*\mathcal G)=H^*_c(Z,\mathcal G)$.
+\end{cited}
+
+\begin{cited}[Noether normalization; \cite{Stacks}, Tag 00OY]\label{cit:noether}
+If $U$ is affine of pure dimension $d$ over a field $k$, there is a finite morphism $\pi:U\to\A^d_k$.
+\end{cited}
+
+\begin{cited}[Generic weak Lefschetz; \cite{KatzACT}, Appendix A.5 with A.3--A.4, pp.~219--221]\label{cit:katz}
+Let $k$ be an algebraically closed field of characteristic $p\ne\ell$, $X$ a separated $k$-scheme of finite type,
+$\varphi:X\to\mathbf P^N$ a quasi-finite morphism and $\mathcal K$ a perverse sheaf on $X$. There is a dense open set of
+hyperplanes $H\subset\mathbf P^N$ such that the restriction $H^a(X,\mathcal K)\to H^a(\varphi^{-1}H,\mathcal K)$ is an
+isomorphism for $a<-1$ and injective for $a=-1$.
+\end{cited}
+
+Katz attributes this proof to Deligne (\cite{KatzACT}, p.~152). It uses the K\"unneth formula with biduality in the
+universal situation, generic base change over the space of hyperplanes, proper base change, Verdier duality, the
+behaviour of perversity under quasi-finite direct images, and affine vanishing; no weights enter. If $X$ is smooth of
+pure dimension $D$ and $\mathcal G$ is lisse, then $\mathcal G[D]$ is perverse, and the conclusion reads: the restriction
+$H^a(X,\mathcal G)\to H^a(\varphi^{-1}H,\mathcal G)$ is an isomorphism for $a<D-1$ and injective for $a=D-1$. Katz's
+Corollary 3.4.1 (\cite{KatzACT}, p.~181) states the form used below, with a fixed function $f$ and a varying linear part,
+but its printed proof runs through his Main Theorem 1.5 and the Fourier transform; Lemma~\ref{lem:good} derives that form
+from A.5 instead.
+
+\begin{lemma}[Good hypersurfaces]\label{lem:good}
+Let $V$ be a smooth affine scheme over $\Fqb$ of pure dimension $D\ge1$, $y_1,\dots,y_M$ functions on $V$ such that
+$\Gamma=(y_1,\dots,y_M):V\to\A^M$ is a closed immersion, and $\mathcal G$ a lisse $\Ql$-sheaf on $V$. Let $\Lambda$ be
+either the space of all $(\lambda_1,\dots,\lambda_M,\mu)$ with $\lambda\ne0$, or the space of those with $\lambda_M=1$.
+There is a dense open subset $\Omega\subset\Lambda$ such that for $(\lambda,\mu)\in\Omega$ the closed subscheme
+$Y=V\cap(\sum_m\lambda_my_m+\mu=0)$ is smooth and, on each connected component of $V$, of pure dimension $D-1$ or empty,
+and the restriction $H^a(V,\mathcal G)\to H^a(Y,\mathcal G)$ is an isomorphism for $a<D-1$ and injective for $a=D-1$.
+\end{lemma}
+\begin{proof}
+View $\A^M\subset\mathbf P^M$ as the complement of the hyperplane at infinity. The hyperplanes $H\ne H_\infty$ of
+$\mathbf P^M$ are the zero sets of $\sum_m\lambda_my_m+\mu$ with $\lambda\ne0$, up to scaling, and $\Gamma^{-1}H=Y$.
+
+\emph{Lefschetz.} Apply~\ref{cit:katz} to $\varphi=\Gamma$ (a closed immersion followed by an open one, hence quasi-finite)
+and $\mathcal K=\mathcal G[D]$: the good hyperplanes form a dense open set $G_1$ of the dual projective space.
+
+\emph{Smoothness, by a dimension count.} Let $I\subset V\times(\mathbf P^M)^\vee$ be the closed set of pairs $(v,H)$ with
+$\Gamma(v)\in H$ and $H$ containing the embedded tangent space $d\Gamma(T_vV)$. Since $\Gamma$ is an immersion, this tangent
+space has dimension $D$, so the hyperplanes through it form a projective space of dimension $M-D-1$, and
+$\dim I\le D+(M-D-1)=M-1$. The closure of the image of $I$ is therefore a proper closed subset of $(\mathbf P^M)^\vee$, and
+its complement $G_2$ is dense and open. If $H\in G_2$, the equation of $H$ restricts to a nonzero linear form on the
+tangent space at every point of $Y$, so $Y$ is smooth, and on each connected component of $V$ it is of pure dimension
+$D-1$ or empty. This count holds in every characteristic, because $\Gamma$ is an immersion (it is the classical Bertini
+theorem for immersions; compare \cite{Jouanolou}, I.6.10).
+
+\emph{Charts.} $G_1\cap G_2$ is dense and open. It meets the open chart where $\lambda\ne0$, respectively where
+$\lambda_M\ne0$, in a dense open subset, and scaling to $\lambda_M=1$ identifies the latter with a dense open subset of
+$\Lambda$.
+\end{proof}
+\uses{\ref{cit:katz}.}
+
+% ==================================================================================
+\section{Three lemmas}
+% ==================================================================================
+
+\begin{lemma}[Effective power sums]\label{lem:power}
+Let $\lambda_1,\dots,\lambda_s$ be distinct nonzero complex numbers, $c_1,\dots,c_s$ nonzero complex numbers, and
+$S_n=\sum_jc_j\lambda_j^n$. If $\limsup_n|S_n|^{1/n}\le B$, then $|\lambda_j|\le B$ for every $j$. This applies when
+$|S_n|\le C\,B^n$ for all $n\ge1$.
+\end{lemma}
+\begin{proof}
+The series $G(z)=\sum_{n\ge1}S_nz^n$ converges on $|z|<1/B$. Near $z=0$ it equals the rational function
+$R(z)=\sum_jc_j\lambda_jz/(1-\lambda_jz)$. Near $z_j=1/\lambda_j$ the $j$-th term is $-c_jz/(z-z_j)$, which has a simple
+pole with residue $-c_j/\lambda_j\ne0$, and the other terms are regular there because the $\lambda_j$ are distinct. So the
+poles of $R$ are exactly the points $1/\lambda_j$. By the identity theorem $G=R$ on the disc $|z|<1/B$, where $G$ is
+holomorphic; hence no $1/\lambda_j$ lies in that disc, that is, $|\lambda_j|\le B$.
+\end{proof}
+\uses{nothing beyond complex analysis.}
+
+For an actual Frobenius module the coefficients are algebraic multiplicities $m_j\ge1$, so they are never zero; for a
+virtual module (a difference of two modules) an eigenvalue can cancel and escape the bound. This is why
+Proposition~\ref{prop:remainder} is needed.
+
+\begin{lemma}[Tensor amplification]\label{lem:tensor}
+Let $V$ be a Frobenius module with automorphism $F$, and $a\in\mathbf R$. Let $\mathcal K$ be an infinite set of integers
+$k\ge2$, and suppose that for each $k\in\mathcal K$ there are an integer $e_k\ge1$, a Frobenius module $(K_k,\Phi_k)$, a
+sign $\varepsilon_k\in\{\pm1\}$, constants $C_k>0$ and $c_k\ge0$ with $c_k/k\to0$ as $k\to\infty$ in $\mathcal K$, and
+complex numbers $R_{k,n}$ such that for all $n\ge1$
+\[
+\varepsilon_kR_{k,n}=\iota\Tr\bigl(F^{e_kn},V^{\otimes k}\bigr)+\iota\Tr\bigl(\Phi_k^n,K_k\bigr),\qquad
+|R_{k,n}|\le C_k\,q^{e_kn(ka+c_k)}.
+\]
+Then every eigenvalue $\alpha$ of $F$ on $V$ satisfies $|\iota\alpha|\le q^a$.
+\end{lemma}
+\begin{proof}
+Fix $k\in\mathcal K$. The right-hand side is the $n$-th power sum of the eigenvalues of the automorphism
+$F^{e_k}\oplus\Phi_k$ of $V^{\otimes k}\oplus K_k$, with their algebraic multiplicities. If $v\ne0$ satisfies
+$Fv=\alpha v$, then $v^{\otimes k}$ is an eigenvector of $F^{e_k}$ on $V^{\otimes k}$ with eigenvalue $\alpha^{ke_k}$, so
+$\alpha^{ke_k}$ occurs among these eigenvalues. Lemma~\ref{lem:power}, applied with $B=q^{e_k(ka+c_k)}$, gives
+$|\iota\alpha|^{ke_k}\le q^{e_k(ka+c_k)}$, that is, $|\iota\alpha|\le q^{a+c_k/k}$. Let $k\to\infty$ in $\mathcal K$.
+\end{proof}
+\uses{Lemma~\ref{lem:power}.}
+
+\begin{lemma}[Parseval along a path]\label{lem:parseval}
+Let $E$ be a finite field with $Q$ elements, $\psi:E\to\mathbf C^\times$ a nontrivial additive character, $d\ge1$,
+$A=E^d$ and $k\ge2$. Let $b_1,\dots,b_{k-1}:A\times A\to E$ be nondegenerate bilinear forms, $c\in E$, $T\ge0$, and
+$t_1,\dots,t_k:A\to\mathbf C$ functions with $|t_i(x)|\le T$ for all $i$ and $x$. Then for every $h\in E^\times$
+\[
+\Bigl|\sum_{x\in A^k}\ \prod_{i=1}^kt_i(x_i)\ \psi\Bigl(h\Bigl(\sum_{i=1}^{k-1}b_i(x_i,x_{i+1})+c\Bigr)\Bigr)\Bigr|
+\le T^k\,Q^{d(k+1)/2}.
+\]
+\end{lemma}
+\begin{proof}
+For $i<k$ let $K_i$ be the $A\times A$ matrix $K_i(x,y)=\psi(h\,b_i(x,y))$. For $x,x'\in A$,
+\[
+(K_iK_i^*)(x,x')=\sum_{y\in A}\psi\bigl(h\,b_i(x,y)-h\,b_i(x',y)\bigr)=\sum_{y\in A}\psi\bigl(h\,b_i(x-x',y)\bigr).
+\]
+If $x\ne x'$, then $y\mapsto h\,b_i(x-x',y)$ is a nonzero linear form, because $b_i$ is nondegenerate and $h\ne0$, so the
+sum vanishes; if $x=x'$ it is $Q^d$. Thus $K_iK_i^*=Q^dI$, and $K_i$ has operator norm $Q^{d/2}$ on $\ell^2(A)$ with the
+counting measure. Let $D_i$ be the diagonal matrix with entries $t_i(x)$, of norm at most $T$, and view $t_1$ and $t_k$
+as vectors, of norms at most $TQ^{d/2}$. Since $|\psi(hc)|=1$, the sum has the absolute value of
+$t_1^{\mathsf T}K_1D_2K_2\cdots D_{k-1}K_{k-1}t_k$. By the Cauchy--Schwarz inequality this is at most
+$\|t_1\|\cdot\|K_1\|\cdots\|K_{k-1}\|\cdot\|D_2\|\cdots\|D_{k-1}\|\cdot\|t_k\|
+\le(TQ^{d/2})^2\,Q^{d(k-1)/2}\,T^{k-2}=T^kQ^{d(k+1)/2}$.
+\end{proof}
+\uses{orthogonality of additive characters; the Cauchy--Schwarz inequality.}
+
+% ==================================================================================
+\section{The remainder is effective}
+% ==================================================================================
+
+\begin{proposition}[Effective remainder]\label{prop:remainder}
+Let $r$ be a power of $q$, $U$ a smooth affine scheme over $\mathbf F_r$ of pure dimension $d\ge1$, $\F$ a lisse
+$\Ql$-sheaf on $U$, $k\ge1$, $X=U^k$, $D=kd$ and $\F_k=\F^{\boxtimes k}$ on $X$. Let $i:Y\hookrightarrow X$ be a smooth
+affine closed subscheme of pure dimension $D-1$ (possibly empty), defined over $\mathbf F_r$, such that over
+$\overline{\mathbf F}_r$ the restriction $H^a(X,\F_k^\vee)\to H^a(Y,i^*\F_k^\vee)$ is an isomorphism for $a<D-1$ and
+injective for $a=D-1$. For $n\ge1$ let
+\[
+M_n=\sum_{u\in U(\mathbf F_{r^n})}\Tr(F_{u,n},\F_{\bar u}),\qquad
+N_n=\sum_{y\in Y(\mathbf F_{r^n})}\Tr(F_{y,n},(\F_k)_{\bar y}),\qquad R_n=r^nN_n-M_n^k.
+\]
+Let $F$ be the geometric Frobenius of $\mathbf F_r$. Then
+\[
+(-1)^{D-1}R_n=\Tr\bigl(F^n,H^d_c(U,\F)^{\otimes k}\bigr)+\Tr(F^n,K),
+\]
+where
+\[
+K=\ker\bigl(H^{D-1}_c(Y,i^*\F_k)(-1)\to H^{D+1}_c(X,\F_k)\bigr)
+\]
+and the map is the Gysin map of~\ref{cit:duality}. In particular $(-1)^{D-1}R_n$ is the $n$-th power sum of the
+eigenvalues of $F$ on the actual Frobenius module $H^d_c(U,\F)^{\otimes k}\oplus K$, counted with algebraic multiplicity.
+\end{proposition}
+\begin{proof}
+\step{1}{vanishing} By~\ref{cit:duality}, $H^j_c(U,\F)=0$ for $j<d$, $H^j_c(X,\F_k)=0$ for $j<D$ and
+$H^j_c(Y,i^*\F_k)=0$ for $j<D-1$, since $U$, $X$ and $Y$ are smooth and affine of pure dimensions $d$, $D$, $D-1$ and the
+sheaves are lisse.
+
+\step{2}{Gysin} By~\ref{cit:duality} applied on $X$ and on $Y$, the dual of the restriction in degree $a$ is the Gysin map
+$H^{2D-2-a}_c(Y,i^*\F_k)(-1)\to H^{2D-a}_c(X,\F_k)$. Writing $j=2D-2-a$, the hypothesis says that
+$G_j:H^j_c(Y,i^*\F_k)(-1)\to H^{j+2}_c(X,\F_k)$ is an isomorphism for $j>D-1$ and surjective for $j=D-1$. The $G_j$ are
+Frobenius-equivariant.
+
+\step{3}{traces} Put $W_a=H^{D-1+a}_c(Y,i^*\F_k)$ and $T_b=H^{D+b}_c(X,\F_k)$ for $a,b\ge0$. The stalk of $\F_k$ at
+$y=(y_1,\dots,y_k)$ is $\bigotimes_i\F_{\bar y_i}$, so the trace sum of $\F_k$ over $X(\mathbf F_{r^n})=U(\mathbf F_{r^n})^k$
+is $M_n^k$. The Tate twist $(-1)$ multiplies the eigenvalues of $F$ by $r$. By~\ref{cit:trace} and Step~1,
+\[
+r^nN_n=\sum_{a\ge0}(-1)^{D-1+a}\Tr(F^n,W_a(-1)),\qquad M_n^k=\sum_{b\ge0}(-1)^{D+b}\Tr(F^n,T_b),
+\]
+hence
+\[
+(-1)^{D-1}R_n=\sum_{a\ge0}(-1)^a\Tr(F^n,W_a(-1))+\sum_{b\ge0}(-1)^b\Tr(F^n,T_b).
+\]
+
+\step{4}{cancellation} For $a\ge1$, $G_{D-1+a}$ identifies $W_a(-1)$ with $T_{a+1}$ (Step~2), and the two terms
+$(-1)^a\Tr(F^n,W_a(-1))$ and $(-1)^{a+1}\Tr(F^n,T_{a+1})$ cancel. What remains is
+$\Tr(F^n,W_0(-1))-\Tr(F^n,T_1)+\Tr(F^n,T_0)$. Since $G_{D-1}:W_0(-1)\to T_1$ is surjective with kernel $K$, the exact
+sequence $0\to K\to W_0(-1)\to T_1\to0$ of Frobenius modules gives $\Tr(F^n,W_0(-1))-\Tr(F^n,T_1)=\Tr(F^n,K)$.
+
+\step{5}{K\"unneth} By~\ref{cit:kunneth}, $T_0=H^D_c(X,\F_k)=\bigoplus_{j_1+\dots+j_k=D}\bigotimes_iH^{j_i}_c(U,\F)$. By
+Step~1 only $j_1=\dots=j_k=d$ contributes, so $T_0=H^d_c(U,\F)^{\otimes k}$ as Frobenius modules.
+\end{proof}
+\uses{\ref{cit:trace}, \ref{cit:kunneth}, \ref{cit:artin}, \ref{cit:duality}.}
+
+No concentration of the cohomology of $U$ or $Y$ in one degree is assumed: the higher degrees cancel through actual
+isomorphisms, and the border surjection leaves an actual kernel.
+
+% ==================================================================================
+\section{The middle degree of a smooth affine scheme}
+% ==================================================================================
+
+\begin{theorem}[Middle degree]\label{thm:middle}
+Let $U$ be a smooth affine scheme over $\Fq$ of pure dimension $d\ge1$, $\F$ a lisse $\Ql$-sheaf on $U$, $w\in\mathbf R$
+and $C>0$ such that $|\iota\Tr(F_{u,n},\F_{\bar u})|\le C\,q^{nw/2}$ for all $n\ge1$ and $u\in U(\mathbf F_{q^n})$. Then
+every eigenvalue $\alpha$ of $F$ on $H^d_c(U,\F)$ satisfies $|\iota\alpha|\le q^{(w+d)/2}$.
+\end{theorem}
+\begin{proof}
+\step{1}{coordinates} By~\ref{cit:noether} choose a finite morphism $\pi:U\to\A^d$ over $\Fq$, and $B$ elements generating
+$\mathcal O(U)$ as a module over $\mathcal O(\A^d)$. For every field $L\supset\Fq$ and $x\in\A^d(L)$ the fibre
+$\pi^{-1}(x)$ is the spectrum of an $L$-algebra of dimension at most $B$, so it has at most $B$ points with values in $L$.
+Choose generators $z_1,\dots,z_s$ of the $\Fq$-algebra $\mathcal O(U)$, so that $z=(z_1,\dots,z_s):U\to\A^s$ is a closed
+immersion. Fix $k\ge2$ and a nondegenerate bilinear form $b$ on $\A^d$ over $\Fq$ (for instance the standard dot product).
+
+\step{2}{the family} On $X=U^k$ let $f(u_1,\dots,u_k)=\sum_{i=1}^{k-1}b(\pi(u_i),\pi(u_{i+1}))$, and let
+$Z:X\to\A^{sk}$, $u\mapsto(z(u_1),\dots,z(u_k))$, a closed immersion. For $(a,c)\in\A^{sk}\times\A^1$, with
+$a=(a_{ij})$, let $Y_{a,c}\subset X$ be the closed subscheme
+\[
+f(u)+\sum_{i=1}^k\sum_{j=1}^sa_{ij}z_j(u_i)+c=0 .
+\]
+Over $\Fqb$, $V=X_{\Fqb}$ is smooth and affine of pure dimension $D=kd\ge2$. The graph map
+$\Gamma=(Z,f):V\to\A^{sk+1}$ is a closed immersion, because $Z$ is. Apply Lemma~\ref{lem:good} to $\Gamma$, to the lisse
+sheaf $\F_k^\vee$, and to the space $\Lambda$ of linear forms whose coefficient on the last coordinate, $f$, is $1$. The
+hypersurfaces $\Gamma^{-1}H$ for $H$ in that chart are exactly the $Y_{a,c}$. There is a dense open set $\Omega$ of
+parameters $(a,c)$ for which $Y_{a,c}$ is smooth, of pure dimension $D-1$ or empty on each component, and the restriction
+$H^a(V,\F_k^\vee)\to H^a(Y_{a,c},\F_k^\vee)$ is an isomorphism for $a<D-1$ and injective for $a=D-1$. The dense open set
+$\Omega$ contains a point $(a,c)$ with coordinates in some finite field $\mathbf F_{q^e}$; fix it, put $r=q^e$ and
+$Y=Y_{a,c}$. Then $Y$ is defined over $\mathbf F_r$ and satisfies the hypotheses of Proposition~\ref{prop:remainder} over
+$\mathbf F_r$. The exponent $e$ and the point $(a,c)$ may depend on $k$.
+
+\step{3}{the remainder as a character sum} Let $n\ge1$, $Q=r^n$, $E=\mathbf F_Q$, and $\psi$ a nontrivial additive
+character of $E$. For $u\in X(E)$ write $P(u)$ for the left-hand side of the equation of $Y$, and $\tau(u)=\iota\Tr(F_{u,en},\F_{\bar u})$
+for $u\in U(E)$. Since $\sum_{h\in E}\psi(hP)$ is $Q$ if $P=0$ and $0$ otherwise,
+\[
+Q\,\iota N_n=\sum_{h\in E}\ \sum_{u\in U(E)^k}\ \prod_{i=1}^k\tau(u_i)\ \psi(hP(u)).
+\]
+Group the $u_i$ by $x_i=\pi(u_i)\in E^d$ and put
+$t_{i,h}(x)=\sum_{u\in U(E),\ \pi(u)=x}\tau(u)\,\psi\bigl(h\sum_ja_{ij}z_j(u)\bigr)$. Then the inner sum for a given $h$ is
+\[
+\psi(hc)\sum_{x\in(E^d)^k}\ \prod_{i=1}^kt_{i,h}(x_i)\ \psi\Bigl(h\sum_{i=1}^{k-1}b(x_i,x_{i+1})\Bigr).
+\]
+For $h=0$ it equals $\bigl(\sum_{u\in U(E)}\tau(u)\bigr)^k=(\iota M_n)^k$, with $M_n$ formed over $\mathbf F_r$ as in
+Proposition~\ref{prop:remainder}. Each fibre of $\pi$ has at most $B$ points in $E$ and $|\tau(u)|\le CQ^{w/2}$, so
+$|t_{i,h}(x)|\le BC\,Q^{w/2}$. Lemma~\ref{lem:parseval}, with $T=BC\,Q^{w/2}$ and $b_i=b$, bounds each of the $Q-1$ terms
+with $h\ne0$, so
+\[
+|\iota R_n|=\bigl|Q\,\iota N_n-(\iota M_n)^k\bigr|\le(Q-1)(BC)^kQ^{kw/2}Q^{d(k+1)/2}\le(BC)^k\,q^{en\{k(w+d)/2+d/2+1\}}.
+\]
+
+\step{4}{conclusion} By Proposition~\ref{prop:remainder} over $\mathbf F_r$, whose geometric Frobenius is $F^e$,
+$(-1)^{D-1}\iota R_n=\iota\Tr(F^{en},H^d_c(U,\F)^{\otimes k})+\iota\Tr((F^e)^n,K)$. So the hypotheses of
+Lemma~\ref{lem:tensor} hold for $V=H^d_c(U,\F)$, $a=(w+d)/2$, every $k\ge2$, $e_k=e$, $K_k=K$, $\varepsilon_k=(-1)^{D-1}$,
+$C_k=(BC)^k$ and $c_k=d/2+1$. Lemma~\ref{lem:tensor} gives $|\iota\alpha|\le q^{(w+d)/2}$.
+\end{proof}
+\uses{Lemmas~\ref{lem:tensor}, \ref{lem:parseval} and~\ref{lem:good}; Proposition~\ref{prop:remainder};
+\ref{cit:noether}.}
+
+Neither a uniform bound on $e$ nor a bound on the Betti numbers of $Y$ is needed: the limit in $n$ is taken first, for
+each fixed $k$.
+
+% ==================================================================================
+\section{All degrees, and purity}
+% ==================================================================================
+
+\begin{theorem}[$=$ Theorem~\ref{thm:A}]\label{thm:all}
+Let $X$ be a separated scheme of finite type over $\Fq$ and $\F$ a constructible $\Ql$-sheaf on $X$ of pointwise weight
+$\le w$. Then every eigenvalue $\alpha$ of $F$ on $H^i_c(X,\F)$ satisfies $|\iota\alpha|\le q^{(w+i)/2}$.
+\end{theorem}
+\begin{proof}
+A bound proved after replacing $\Fq$ by $\mathbf F_{q^e}$ descends: the eigenvalues of $F^e$ are the $e$-th powers of
+those of $F$, and $|\iota\alpha^e|\le q^{e(w+i)/2}$ gives $|\iota\alpha|\le q^{(w+i)/2}$. Finite base extensions are used
+freely below.
+
+\step{1}{smooth affine, lisse} Let $X$ be smooth and affine of pure dimension $d$ and $\F$ lisse of pointwise weight
+$\le w$. We prove by induction on $d$ the statement: for every finite extension $\mathbf F_{q^e}$ of $\Fq$, every such
+$X$ and $\F$ over $\mathbf F_{q^e}$, and every $i$, the eigenvalues of the geometric Frobenius of $\mathbf F_{q^e}$ on
+$H^i_c(X,\F)$ have absolute value at most $q^{e(w+i)/2}$. We write the case $e=1$; the general case is the same with
+$q^e$ in place of $q$. If $d=0$, then $H^0_c(X,\F)=\bigoplus_x\F_{\bar x}$ summed over the closed points, where a point of degree $m$
+contributes a module induced from $\F_{\bar x}$, on which $F^m$ acts with the eigenvalues of $\Frob_x$; so every
+eigenvalue $\alpha$ of $F$ satisfies $|\iota\alpha|^m\le q^{mw/2}$. Let $d\ge1$. For $i<d$, $H^i_c(X,\F)=0$
+by~\ref{cit:duality}. For $i=d$ use Theorem~\ref{thm:middle} with $C=\operatorname{rank}\F$. For $i\ge d+1$ choose
+closed-immersion coordinates $z:X\to\A^s$. By Lemma~\ref{lem:good} (for $\Gamma=z$, the sheaf $\F^\vee$ and all linear
+forms; this is~\ref{cit:katz} with $f=0$), there is, over some finite extension $\mathbf F_{q^{e'}}$, a hyperplane section
+$Y=X\cap(\sum_ja_jz_j+c=0)$, smooth and affine of pure dimension $d-1$ or empty, for which the restriction from $X$ to $Y$
+on $H^a(-,\F^\vee)$ is an isomorphism for $a<d-1$ and injective for $a=d-1$. Dually~(\ref{cit:duality}), the Gysin map
+$H^{i-2}_c(Y,\F|_Y)(-1)\to H^i_c(X,\F)$ is Frobenius-equivariant, surjective for $i=d+1$ and an isomorphism for
+$i>d+1$. By the induction hypothesis for $Y$ over $\mathbf F_{q^{e'}}$, the eigenvalues of $F^{e'}$ on
+$H^{i-2}_c(Y,\F|_Y)$ have absolute value at most $q^{e'(w+i-2)/2}$; those on its twist $(-1)$, and hence those on
+$H^i_c(X,\F)$, are at most $q^{e'}q^{e'(w+i-2)/2}=q^{e'(w+i)/2}$, and the bound for $F$ follows by taking $e'$-th roots.
+
+\step{2}{general $X$} The cohomology of $X$ and of $X_{\mathrm{red}}$ agree, so let $X$ be reduced. Since $\Fq$ is perfect,
+$X$ has a dense open subscheme that is smooth, and on a dense open subscheme of it $\F$ is lisse; shrinking, there is a
+dense open $U\subset X$, smooth and affine of pure dimension on each connected component, with $\F|_U$ lisse. Its
+complement $Z$ has smaller dimension. By~\ref{cit:local}, every eigenvalue of $F$ on $H^i_c(X,\F)$ is an eigenvalue on
+$H^i_c(U,\F)$ or on $H^i_c(Z,\F)$. The first are bounded by Step~1 (applied to each component of $U$), the second by
+induction on $\dim X$, since $\F|_Z$ again has pointwise weight $\le w$. Dimension $0$ is covered by Step~1.
+\end{proof}
+\uses{Theorem~\ref{thm:middle}; Lemma~\ref{lem:good}; \ref{cit:artin}, \ref{cit:duality}, \ref{cit:local}.}
+
+\begin{corollary}[$=$ Corollary~\ref{cor:B}]\label{cor:pure}
+Let $X$ be smooth and proper over $\Fq$ of pure dimension $d$, and $\F$ lisse and pointwise pure of weight $w$. Then every
+eigenvalue $\alpha$ of $F$ on $H^i(X,\F)$ satisfies $|\iota\alpha|=q^{(w+i)/2}$.
+\end{corollary}
+\begin{proof}
+Since $X$ is proper, $H^i(X,\F)=H^i_c(X,\F)$, so $|\iota\alpha|\le q^{(w+i)/2}$ by Theorem~\ref{thm:all}. The dual
+$\F^\vee$ is lisse and pointwise pure of weight $-w$; this uses purity at every point, not only the upper bound, since the
+eigenvalues of $\Frob_x$ on $\F^\vee_{\bar x}$ are the inverses of those on $\F_{\bar x}$. By~\ref{cit:duality} the pairing
+$H^i(X,\F)\otimes H^{2d-i}(X,\F^\vee)\to\Ql(-d)$ is perfect and Frobenius-equivariant, so $q^d/\alpha$ is an eigenvalue of
+$F$ on $H^{2d-i}(X,\F^\vee)$. Theorem~\ref{thm:all} for $\F^\vee$ gives $|\iota(q^d/\alpha)|\le q^{(-w+2d-i)/2}$, that is,
+$|\iota\alpha|\ge q^{(w+i)/2}$. For $\F=\Ql$ the hypothesis holds with $w=0$ for every $\iota$.
+\end{proof}
+\uses{Theorem~\ref{thm:all}; \ref{cit:duality}.}
+
+\begin{remark}[Over a base]
+For $f:X\to S$ separated of finite type over $\Fq$ and $s$ a closed point of $S$, the stalk of $R^if_!\F$ at $\bar s$ is
+$H^i_c(X_{\bar s},\F)$ by proper base change \cite[XVII, \S5]{SGA4}. So Theorem~\ref{thm:all}, applied to the fibre
+$X_s$ over $\kappa(s)$, bounds the Frobenius eigenvalues of $R^if_!\F$ at $s$ by $|\kappa(s)|^{(w+i)/2}$.
+\end{remark}
+
+\begin{remark}[The sign, and Grothendieck's evanescent part]
+The ``definite sign'' of Alp\"oge's remark \cite{Alpoge} is the parity $(-1)^{D-1}$ of Proposition~\ref{prop:remainder}:
+after this sign the remainder of the point count is a power sum with positive multiplicities. The module $K$ is the
+compactly supported, affine form of the part of the cohomology of a hyperplane section that the Gysin map kills. In
+Grothendieck's unpublished notes in the Montpellier archive (cote 16, scans 034 and 036 in the transcription of
+\cite{Archive}), this part, $\operatorname{Ker}(H^{n-1}(Y)\to H^{n+1}(X))$, is his \emph{partie \'evanescente}
+$E^{n-1}$. The identification is ours and plays no role in the proof.
+\end{remark}
+
+% ==================================================================================
+\fixedhead{Limits and open points}
+% ==================================================================================
+
+\begin{itemize}[leftmargin=*]
+\item The Lefschetz input is~\ref{cit:katz}, Katz's Appendix A.5, whose proof was read at the source by the independent
+checker and found to use no weights; it was also re-proved independently (Verification record). The printed proof of
+Katz's Corollary 3.4.1 goes through the Fourier transform (Brylinski, Katz--Laumon) and is not used here.
+\item The other cited results (Section~\ref{sec:inputs}) are standard \'etale cohomology from SGA 4 and SGA $4\frac12$;
+their locators are those used by the producing run, and they were not reopened for this text.
+\item Nothing is formalized.
+\end{itemize}
+
+% ==================================================================================
+\fixedhead{Verification record}
+% ==================================================================================
+
+\noindent
+\begin{tabularx}{\textwidth}{@{}L{3.4cm}L{2.0cm}Y@{}}
+\toprule
+Who & Date & Type, scope and verdict\\
+\midrule
+GPT-6 Astra (ChatGPT Pro mode), the producing run & 21 Nov 2026 & In-run checks by the run's sub-agents (209 check
+events in its CHECK\_EVENTS.tsv). Author-side.\\
+Claude Opus 5.5 at effort high (intake) & 21 Nov 2026 & Targeted proof check of every step of Lemmas 3.1--3.3,
+Proposition 4.1, Theorem 5.1, Theorem 6.1 and Corollary 6.2 (the run's HS-01--HS-03, SG-08--SG-11); Katz's Corollary
+3.4.1 and Appendix A.1--A.3 read at the source. Confirmed, no gap.\\
+Claude Opus 5.5 at effort max (main session) & 21 Nov 2026 & Rederived Lemma 3.3, the identity of Proposition 4.1 with its
+twists and signs, and the exponent in Theorem 5.1, Step 3; read Katz's Theorem 3.4, Corollaries 3.4.1 and 3.4.3 and
+Lemma 3.5 at the source. No fault found.\\
+Claude Fable 5.2 at effort max (independent check; not shown the other checks) & 21 Nov 2026 & Lemmas 3.1--3.3,
+Proposition 4.1, Theorem 6.1 and Corollary 6.2 re-proved; Proposition 4.1 also checked on a worked example. Theorem 5.1
+confirmed with one correction of the citation route: take the Lefschetz input from Katz's Appendix A.3--A.5 through the
+graph immersion, not from the printed proof of Corollary 3.4.1. This text adopts the correction as Lemma 2.8, and the
+checker re-proved that input itself. Bertini by a dimension count, also adopted. Katz pp.~152--158, 179--181 and 219--222
+read at the source. No gap, no circular input. Not opened: SGA 4, SGA $4\frac12$, BBD, Brylinski, Katz--Laumon,
+Jouanolou.\\
+\bottomrule
+\end{tabularx}
+
+% ==================================================================================
+\fixedhead{Provenance}
+% ==================================================================================
+
+The question was prompt 32 (HODGE\_SIGN) of our working-through of the two proofs of generalized Riemann hypotheses of
+20 November 2026, written by Claude Opus 5.5 at effort max on 20 Nov 2026. The proof is Part I, Section 1 of the run's
+return (GPT-6 Astra, ChatGPT Pro mode, 21 Nov 2026, 00:14--00:56 UTC). The prompt as sent, the full return, the intake and
+the check records are public at
+\url{https://github.com/KokunoYumeto/grothendieck-montpellier-archive/tree/main/research/grh_20261120/deligne_sign_only}
+and \url{https://github.com/KokunoYumeto/grothendieck-montpellier-archive/tree/main/raw/research_returns/HODGE_SIGN_final_20261121T0057Z_unzipped}.
+This text was written from the run's paper by Claude Opus 5.5 at effort max; the statements and proofs follow the run's,
+restated and with the steps written out.
+
+% ==================================================================================
+\fixedhead{Declarations}
+% ==================================================================================
+
+\noindent\textbf{AI use.} The proof was produced by GPT-6 Astra (ChatGPT Pro mode); the text was written by Claude (Claude
+Opus 5.5 at effort max); the checks are listed in the verification record. No part of the text was written by a human.
+\textbf{Human understanding.} None. \textbf{Licence.} CC0 1.0. \textbf{Credits.} The idea of a sign-only proof from
+$qN=M^k+R$ is L.~Alp\"oge's (footnote 3 of \cite{Alpoge}); the generic weak Lefschetz theorem is N.~Katz's
+\cite{KatzACT}, and the proof of it in his appendix is P.~Deligne's. \textbf{Version.} 1.
+
+\begin{thebibliography}{99}
+\bibitem{Alpoge} L.~Alp\"oge, note on the Riemann hypothesis, 20 November 2026, \url{https://alpo.ge/remark.pdf}.
+Footnote 3. Opened.
+\bibitem{WeilI} P.~Deligne, La conjecture de Weil.~I, Publ. Math. IH\'ES 43 (1974), 273--307. Th\'eor\`eme 1.6 and
+(1.5.4). Not reopened.
+\bibitem{WeilII} P.~Deligne, La conjecture de Weil.~II, Publ. Math. IH\'ES 52 (1980), 137--252. Th\'eor\`eme 3.3.1. Not
+reopened.
+\bibitem{KatzACT} N.~M.~Katz, Affine cohomological transforms, perversity, and monodromy, J. Amer. Math. Soc. 6 (1993),
+149--222. Theorem 3.4, Corollaries 3.4.1 and 3.4.3, Lemma 3.5, Appendix A.3--A.5, pp.~152, 180--182, 219--221. Opened
+(\url{https://web.math.princeton.edu/~nmk/old/ACT.pdf}).
+\bibitem{Laumon} G.~Laumon, Transformation de Fourier, constantes d'\'equations fonctionnelles et conjecture de Weil, Publ.
+Math. IH\'ES 65 (1987), 131--210. Not opened.
+\bibitem{Kedlaya} K.~S.~Kedlaya, Fourier transforms and $p$-adic ``Weil II'', Compos. Math. 142 (2006), 1426--1450. Not
+opened.
+\bibitem{Scholl} A.~J.~Scholl, Hypersurfaces and the Weil conjectures, \href{https://arxiv.org/abs/0912.2073}{arXiv:0912.2073}.
+Introduction. Opened.
+\bibitem{Jouanolou} J.-P.~Jouanolou, Th\'eor\`emes de Bertini et applications, Progr. Math. 42, Birkh\"auser, 1983.
+Th\'eor\`eme I.6.10. Not opened.
+\bibitem{SGA4} M.~Artin, A.~Grothendieck, J.-L.~Verdier, Th\'eorie des topos et cohomologie \'etale des sch\'emas (SGA 4),
+Lecture Notes in Math. 269, 270, 305, Springer, 1972--1973. Expos\'es XIV, XVII, XVIII. Not reopened.
+\bibitem{SGA4h} P.~Deligne, Cohomologie \'etale (SGA $4\frac12$), Lecture Notes in Math. 569, Springer, 1977. Rapport,
+Th\'eor\`eme 3.2. Not reopened.
+\bibitem{Stacks} The Stacks Project, Tag 00OY, \url{https://stacks.math.columbia.edu/tag/00OY}. Not reopened.
+\bibitem{Archive} Our transcription of Grothendieck's Montpellier archive,
+\url{https://github.com/KokunoYumeto/grothendieck-montpellier-archive}. Cote 16. Opened.
+\end{thebibliography}
+
+\end{document}

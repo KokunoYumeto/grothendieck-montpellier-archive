@@ -1,12 +1,19 @@
 # A sign-only proof of Deligne's purity theorem (Alpöge's footnote 3, worked out)
 
-**Status (21 Nov 2026):** AI-produced and unrefereed. It has had one independent AI check and no human check, and the
-literature has not yet been searched; a second independent check (Claude Fable 5.2 at effort max) is running. Please check it, and tell us if this route is already known.
+**Status (21 Nov 2026):** AI-produced and unrefereed. No human has checked it. Please check it, and tell us if this
+route is already known.
+- It has had two independent AI checks, and both found no gap.
+- A first literature search found no proof along this route.
+- The write-up for Hexagon is `deligne_sign_only.pdf`, with its TeX beside it. It is a draft, not yet deposited.
 
 **Who did what:**
 - The proof is Part I of `HODGE_SIGN.pdf`, from a research run of GPT-6 Astra (ChatGPT Pro mode) on 21 Nov 2026,
   00:14-00:56 UTC (our prompt 32, HODGE_SIGN).
-- The check: Claude Opus 5.5 at effort high, a targeted proof check of every step (`INTAKE_HODGE_SIGN_20261121.md`).
+- First check: Claude Opus 5.5 at effort high, a targeted proof check of every step (`INTAKE_HODGE_SIGN_20261121.md`).
+- Second check: Claude Fable 5.2 at effort max. It was not shown the first check, and it re-proved every step
+  (`CHECK_a3ccbc11_20261121.md`). It made one correction: the weak-Lefschetz input should come from Katz's Appendix A.5
+  (Deligne's proof, weight-free), applied to the graph of the path form, and not from the printed proof of his
+  Corollary 3.4.1, which runs through the Fourier transform. The write-up adopts this.
 - This page: Claude (Claude Opus 5.5 at effort max). No human wrote or checked any of it.
 - The idea is L. Alpöge's: footnote 3 of his note on RH, https://alpo.ge/remark.pdf (20 Nov 2026).
 
@@ -78,8 +85,8 @@ a short new proof of the finite-field theorem. That also tests his method in a c
    - Purity for smooth proper $X$ follows by Poincaré duality (SG-10).
 
 ## Where to look hardest
-- Katz, ACT, Theorem 3.4 and Corollary 3.4.1, with Appendix A.5. Check that they apply with $f$ fixed and the linear
-  part taken in the embedding coordinates, and that their proof uses no purity.
+- Katz, ACT, Appendix A.3-A.5 (and Corollary 3.4.1). Check that A.5, applied to the graph of the path form, gives the
+  restriction property used in step 2, and that its proof uses no purity.
 - The remainder identity of step 2.
 - The Parseval bound when the weights depend on $h$ and $i$.
 
