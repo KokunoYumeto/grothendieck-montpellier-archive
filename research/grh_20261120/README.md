@@ -1,4 +1,4 @@
-# The two GRH proofs of 20 November 2026: our working-through, status as of 21 Nov 2026 01:54 UTC
+# The two GRH proofs of 20 November 2026: our working-through, status as of 21 Nov 2026 01:56 UTC
 
 On 20 Nov 2026 two proofs of generalized Riemann hypotheses appeared:
 - **L. Alpöge**: RH, and GRH for Dirichlet L-functions. A note (https://alpo.ge/remark.pdf), with a Lean formalization
@@ -20,7 +20,10 @@ Who did what:
 No human has checked any of it. Corrections are welcome as GitHub issues.
 
 ## The result to look at first
-One result of the night (prompt 32, HODGE_SIGN) is being written up as a paper, and is linked here once it is posted.
+**[A sign-only proof of Deligne's purity theorem](deligne_sign_only/)** (prompt 32, HODGE_SIGN). It works out
+Alpöge's footnote 3 into a complete proof of Weil I 1.6 and Weil II 3.3.1. The proof uses the trace formula, Katz's
+generic weak Lefschetz, Parseval for a bilinear character sum and tensor powers, and no monodromy. It has had one AI
+check, and the literature is not yet searched.
 
 ## What the intakes found so far
 
@@ -48,6 +51,8 @@ The intakes are in [`intakes/`](intakes/), each with its check events.
 - **Grothendieck's texts** (32 HODGE_SIGN, 29 DELTA23):
   - Cote 44, Th. 5 (scan 004) fails as written. The counterexample is $\mathbf P^2\times\mathbf P^2$ with the
     flag-threefold pencil, and the correction comes from the nodal fibres.
+  - The sign in Alpöge's step 5 is Grothendieck's evanescent part $E^{n-1}$ (cote 16, scans 034 and 036).
+  - The Δ invariant on $\widehat{GT}$ reduces to one statement of our SECTION_GHOSTS run (E.190.4), by sextic
     reciprocity.
 - **Alpöge's step 2** (34 DP_MULT): the bound of the divided-power step is sharpened, to slope
   $1/(p-1)-1/(p^h-1)$ with a constant loss of $h-1$.
@@ -65,29 +70,29 @@ In [`ours/`](ours/):
 
 ## The runs
 
-| Prompt | Run | Sent (UTC, folder time) | Newest return | Our intake |
-|---:|---|---|---|---|
-| 22 | ALPOGE_BRIDGES: ALPOGE RH bridges into the programme | 20 Nov 20:53 | [ALPOGE_BRIDGES_checkpoint_03_20261121T0116Z](../../raw/research_returns/ALPOGE_BRIDGES_checkpoint_03_20261121T0116Z_unzipped/) | [INTAKE_ALPOGE_BRIDGES_20261121.md](intakes/ALPOGE_BRIDGES/INTAKE_ALPOGE_BRIDGES_20261121.md), [INTAKE_ALPOGE_BRIDGES_cp03_20261121.md](intakes/ALPOGE_BRIDGES/INTAKE_ALPOGE_BRIDGES_cp03_20261121.md) |
-| 23 | ALPOGE_GCT: ALPOGE GCT purity and plethysm | 20 Nov 20:03 | [ALPOGE_GCT_checkpoint_03_20261121T0117Z](../../raw/research_returns/ALPOGE_GCT_checkpoint_03_20261121T0117Z_unzipped/) | [INTAKE_ALPOGE_GCT_20261121.md](intakes/ALPOGE_GCT/INTAKE_ALPOGE_GCT_20261121.md), [INTAKE_ALPOGE_GCT_cp03_20261121.md](intakes/ALPOGE_GCT/INTAKE_ALPOGE_GCT_cp03_20261121.md) |
-| 24 | GCT_NSRH: GCT NONSTANDARD RH and purity by positivity | 20 Nov 22:40 | [GCT_NSRH_checkpoint_03_20261121T0115Z](../../raw/research_returns/GCT_NSRH_checkpoint_03_20261121T0115Z_unzipped/) | not yet |
-| 25 | GCT_PLETH: GCT PLETHYSM through Grothendiecks lambda rings | 20 Nov 22:40 | [GCT_PLETH_checkpoint_03_20261121T0116Z](../../raw/research_returns/GCT_PLETH_checkpoint_03_20261121T0116Z_unzipped/) | [INTAKE_GCT_PLETH_20261121.md](intakes/GCT_PLETH/INTAKE_GCT_PLETH_20261121.md), [INTAKE_GCT_PLETH_cp03_20261121.md](intakes/GCT_PLETH/INTAKE_GCT_PLETH_cp03_20261121.md) |
-| 26 | GCT_KRON: GCT KRONECKER through lambda operations on G-sets | 20 Nov 22:40 | [GCT_KRON_checkpoint_03_20261121T0117Z](../../raw/research_returns/GCT_KRON_checkpoint_03_20261121T0117Z_unzipped/) | [INTAKE_GCT_KRON_20261121.md](intakes/GCT_KRON/INTAKE_GCT_KRON_20261121.md), [INTAKE_GCT_KRON_cp03_20261121.md](intakes/GCT_KRON/INTAKE_GCT_KRON_cp03_20261121.md) |
-| 27 | GCT_GINEQ: GCT GROTHENDIECK INEQUALITY and tensor norms | 20 Nov 22:40 | [GCT_GINEQ_final_20261120T2340Z](../../raw/research_returns/GCT_GINEQ_final_20261120T2340Z_unzipped/) | [INTAKE_GCT_GINEQ_20261121.md](intakes/GCT_GINEQ/INTAKE_GCT_GINEQ_20261121.md) |
-| 28 | CX_GRH: GRH and ETH in complexity Koiran GCT V | 20 Nov 22:40 | [CX_GRH_final_20261121T0005Z](../../raw/research_returns/CX_GRH_final_20261121T0005Z_unzipped/) | [INTAKE_CX_GRH_20261121.md](intakes/CX_GRH/INTAKE_CX_GRH_20261121.md) |
-| 29 | DELTA23: DELTA 2-3 reciprocity of frames on GT | 20 Nov 22:40 | [DELTA23_checkpoint_02_20261121T0029Z](../../raw/research_returns/DELTA23_checkpoint_02_20261121T0029Z_unzipped/) | not yet |
-| 30 | AN_GRH: GRH ANABELIAN Hooley Chebotarev and cote 149 | 20 Nov 23:04 | [AN_GRH_checkpoint_02_20261121T0144Z](../../raw/research_returns/AN_GRH_checkpoint_02_20261121T0144Z_unzipped/) | not yet |
-| 31 | K17: STEP17 K-groups of Z Soule and pro-l kernels | 20 Nov 23:04 | [K17_checkpoint_02_20261121T0146Z](../../raw/research_returns/K17_checkpoint_02_20261121T0146Z_unzipped/) | not yet |
-| 32 | HODGE_SIGN: HODGE SIGN sign-only purity as the Hodge index route cotes 16 44 | 20 Nov 23:04 | back (final); being written up, linked when posted | taken in |
-| 33 | TRACE_DET: TRACE DET cote 1 trace formula and the determinants | 20 Nov 23:04 | [TRACE_DET_checkpoint_02_20261121T0121Z](../../raw/research_returns/TRACE_DET_checkpoint_02_20261121T0121Z_unzipped/) | not yet |
-| 34 | DP_MULT: DP MULT divided powers and the multiplicity of step 2 | 20 Nov 23:04 | [DP_MULT_checkpoint_02_20261121T0120Z](../../raw/research_returns/DP_MULT_checkpoint_02_20261121T0120Z_unzipped/) | [INTAKE_DP_MULT_20261121.md](intakes/DP_MULT/INTAKE_DP_MULT_20261121.md), [INTAKE_DP_MULT_cp02_20261121.md](intakes/DP_MULT/INTAKE_DP_MULT_cp02_20261121.md) |
-| 35 | ZETA_TWO: ZETA TWO RH for schemes and motives from the two proofs | 20 Nov 23:04 | [ZETA_TWO_final_20261121T0032Z](../../raw/research_returns/ZETA_TWO_final_20261121T0032Z_unzipped/) | not yet |
-| 36 | CUE_GCT: CUE GCT random matrices and isolation through GCT | 21 Nov 00:41 | [CUE_GCT_checkpoint_01_20261121T0135Z](../../raw/research_returns/CUE_GCT_checkpoint_01_20261121T0135Z_unzipped/) | not yet |
-| 37 | THETA3: HODGE THETA three signatures | 21 Nov 00:45 | [THETA3_checkpoint_01_20261121T0134Z](../../raw/research_returns/THETA3_checkpoint_01_20261121T0134Z_unzipped/) | not yet |
-| 38 | HECKE_DIV: HODGE HECKE DIVISION bounded division on Hecke orbits | 21 Nov 00:45 | [HECKE_DIV_checkpoint_01_20261121T0134Z](../../raw/research_returns/HECKE_DIV_checkpoint_01_20261121T0134Z_unzipped/) | not yet |
-| 39 | GHOSTS: HODGE GHOST CLASSES at supersingular and ordinary primes | 21 Nov 00:45 | [GHOSTS_checkpoint_01_20261121T0135Z](../../raw/research_returns/GHOSTS_checkpoint_01_20261121T0135Z_unzipped/) | not yet |
-| 40 | JAC1964: HODGE JACOBIANS 1964 cote 44 every characteristic | 21 Nov 00:45 | [JAC1964_checkpoint_01_20261121T0136Z](../../raw/research_returns/JAC1964_checkpoint_01_20261121T0136Z_unzipped/) | not yet |
-| 41 | DEG_L: HODGE DEGREES ARE L VALUES Rallis and semiregularity | 21 Nov 00:45 | [DEG_L_checkpoint_01_20261121T0132Z](../../raw/research_returns/DEG_L_checkpoint_01_20261121T0132Z_unzipped/) | not yet |
-| 42 | GRH_NIGHT: GRH NIGHT everything that follows from the two proofs | 21 Nov 00:59 | [GRH_NIGHT_checkpoint_01_20261121T0147Z](../../raw/research_returns/GRH_NIGHT_checkpoint_01_20261121T0147Z_unzipped/) | not yet |
+| Prompt | Run | Newest return | Our intake |
+|---:|---|---|---|
+| 22 | ALPOGE_BRIDGES: ALPOGE RH bridges into the programme | [ALPOGE_BRIDGES_checkpoint_03_20261121T0116Z](../../raw/research_returns/ALPOGE_BRIDGES_checkpoint_03_20261121T0116Z_unzipped/) | [INTAKE_ALPOGE_BRIDGES_20261121.md](intakes/ALPOGE_BRIDGES/INTAKE_ALPOGE_BRIDGES_20261121.md), [INTAKE_ALPOGE_BRIDGES_cp03_20261121.md](intakes/ALPOGE_BRIDGES/INTAKE_ALPOGE_BRIDGES_cp03_20261121.md) |
+| 23 | ALPOGE_GCT: ALPOGE GCT purity and plethysm | [ALPOGE_GCT_checkpoint_03_20261121T0117Z](../../raw/research_returns/ALPOGE_GCT_checkpoint_03_20261121T0117Z_unzipped/) | [INTAKE_ALPOGE_GCT_20261121.md](intakes/ALPOGE_GCT/INTAKE_ALPOGE_GCT_20261121.md), [INTAKE_ALPOGE_GCT_cp03_20261121.md](intakes/ALPOGE_GCT/INTAKE_ALPOGE_GCT_cp03_20261121.md) |
+| 24 | GCT_NSRH: GCT NONSTANDARD RH and purity by positivity | [GCT_NSRH_checkpoint_03_20261121T0115Z](../../raw/research_returns/GCT_NSRH_checkpoint_03_20261121T0115Z_unzipped/) | [INTAKE_GCT_NSRH_20261121.md](intakes/GCT_NSRH/INTAKE_GCT_NSRH_20261121.md), [INTAKE_GCT_NSRH_cp03_20261121.md](intakes/GCT_NSRH/INTAKE_GCT_NSRH_cp03_20261121.md) |
+| 25 | GCT_PLETH: GCT PLETHYSM through Grothendiecks lambda rings | [GCT_PLETH_checkpoint_03_20261121T0116Z](../../raw/research_returns/GCT_PLETH_checkpoint_03_20261121T0116Z_unzipped/) | [INTAKE_GCT_PLETH_20261121.md](intakes/GCT_PLETH/INTAKE_GCT_PLETH_20261121.md), [INTAKE_GCT_PLETH_cp03_20261121.md](intakes/GCT_PLETH/INTAKE_GCT_PLETH_cp03_20261121.md) |
+| 26 | GCT_KRON: GCT KRONECKER through lambda operations on G-sets | [GCT_KRON_checkpoint_03_20261121T0117Z](../../raw/research_returns/GCT_KRON_checkpoint_03_20261121T0117Z_unzipped/) | [INTAKE_GCT_KRON_20261121.md](intakes/GCT_KRON/INTAKE_GCT_KRON_20261121.md), [INTAKE_GCT_KRON_cp03_20261121.md](intakes/GCT_KRON/INTAKE_GCT_KRON_cp03_20261121.md) |
+| 27 | GCT_GINEQ: GCT GROTHENDIECK INEQUALITY and tensor norms | [GCT_GINEQ_final_20261120T2340Z](../../raw/research_returns/GCT_GINEQ_final_20261120T2340Z_unzipped/) | [INTAKE_GCT_GINEQ_20261121.md](intakes/GCT_GINEQ/INTAKE_GCT_GINEQ_20261121.md) |
+| 28 | CX_GRH: GRH and ETH in complexity Koiran GCT V | [CX_GRH_final_20261121T0005Z](../../raw/research_returns/CX_GRH_final_20261121T0005Z_unzipped/) | [INTAKE_CX_GRH_20261121.md](intakes/CX_GRH/INTAKE_CX_GRH_20261121.md) |
+| 29 | DELTA23: DELTA 2-3 reciprocity of frames on GT | [DELTA23_checkpoint_02_20261121T0029Z](../../raw/research_returns/DELTA23_checkpoint_02_20261121T0029Z_unzipped/) | not yet |
+| 30 | AN_GRH: GRH ANABELIAN Hooley Chebotarev and cote 149 | [AN_GRH_checkpoint_02_20261121T0144Z](../../raw/research_returns/AN_GRH_checkpoint_02_20261121T0144Z_unzipped/) | [INTAKE_AN_GRH_20261121.md](intakes/AN_GRH/INTAKE_AN_GRH_20261121.md) |
+| 31 | K17: STEP17 K-groups of Z Soule and pro-l kernels | [K17_checkpoint_02_20261121T0146Z](../../raw/research_returns/K17_checkpoint_02_20261121T0146Z_unzipped/) | [INTAKE_K17_20261121.md](intakes/K17/INTAKE_K17_20261121.md) |
+| 32 | HODGE_SIGN: HODGE SIGN sign-only purity as the Hodge index route cotes 16 44 | [HODGE_SIGN_final_20261121T0057Z](../../raw/research_returns/HODGE_SIGN_final_20261121T0057Z_unzipped/) | [INTAKE_HODGE_SIGN_20261121.md](intakes/HODGE_SIGN/INTAKE_HODGE_SIGN_20261121.md) |
+| 33 | TRACE_DET: TRACE DET cote 1 trace formula and the determinants | [TRACE_DET_checkpoint_02_20261121T0121Z](../../raw/research_returns/TRACE_DET_checkpoint_02_20261121T0121Z_unzipped/) | [INTAKE_TRACE_DET_20261121.md](intakes/TRACE_DET/INTAKE_TRACE_DET_20261121.md) |
+| 34 | DP_MULT: DP MULT divided powers and the multiplicity of step 2 | [DP_MULT_checkpoint_02_20261121T0120Z](../../raw/research_returns/DP_MULT_checkpoint_02_20261121T0120Z_unzipped/) | [INTAKE_DP_MULT_20261121.md](intakes/DP_MULT/INTAKE_DP_MULT_20261121.md), [INTAKE_DP_MULT_cp02_20261121.md](intakes/DP_MULT/INTAKE_DP_MULT_cp02_20261121.md) |
+| 35 | ZETA_TWO: ZETA TWO RH for schemes and motives from the two proofs | [ZETA_TWO_final_20261121T0032Z](../../raw/research_returns/ZETA_TWO_final_20261121T0032Z_unzipped/) | [INTAKE_ZETA_TWO_20261121.md](intakes/ZETA_TWO/INTAKE_ZETA_TWO_20261121.md) |
+| 36 | CUE_GCT: CUE GCT random matrices and isolation through GCT | [CUE_GCT_checkpoint_01_20261121T0135Z](../../raw/research_returns/CUE_GCT_checkpoint_01_20261121T0135Z_unzipped/) | [INTAKE_CUE_GCT_20261121.md](intakes/CUE_GCT/INTAKE_CUE_GCT_20261121.md) |
+| 37 | THETA3: HODGE THETA three signatures | [THETA3_checkpoint_01_20261121T0134Z](../../raw/research_returns/THETA3_checkpoint_01_20261121T0134Z_unzipped/) | [INTAKE_THETA3_20261121.md](intakes/THETA3/INTAKE_THETA3_20261121.md) |
+| 38 | HECKE_DIV: HODGE HECKE DIVISION bounded division on Hecke orbits | [HECKE_DIV_checkpoint_01_20261121T0134Z](../../raw/research_returns/HECKE_DIV_checkpoint_01_20261121T0134Z_unzipped/) | [INTAKE_HECKE_DIV_20261121.md](intakes/HECKE_DIV/INTAKE_HECKE_DIV_20261121.md) |
+| 39 | GHOSTS: HODGE GHOST CLASSES at supersingular and ordinary primes | [GHOSTS_checkpoint_01_20261121T0135Z](../../raw/research_returns/GHOSTS_checkpoint_01_20261121T0135Z_unzipped/) | not yet |
+| 40 | JAC1964: HODGE JACOBIANS 1964 cote 44 every characteristic | [JAC1964_checkpoint_01_20261121T0136Z](../../raw/research_returns/JAC1964_checkpoint_01_20261121T0136Z_unzipped/) | not yet |
+| 41 | DEG_L: HODGE DEGREES ARE L VALUES Rallis and semiregularity | [DEG_L_checkpoint_01_20261121T0132Z](../../raw/research_returns/DEG_L_checkpoint_01_20261121T0132Z_unzipped/) | not yet |
+| 42 | GRH_NIGHT: GRH NIGHT everything that follows from the two proofs | [GRH_NIGHT_checkpoint_01_20261121T0147Z](../../raw/research_returns/GRH_NIGHT_checkpoint_01_20261121T0147Z_unzipped/) | not yet |
 
 ## Left out
 - **Copies of other people's work** that came back inside the returns. Link to the originals instead:
