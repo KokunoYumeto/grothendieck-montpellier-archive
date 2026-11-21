@@ -99,6 +99,11 @@ none refuted. One source defect (FL v3) confirmed against the source.
   - **The degree-4 polynomial tensors (F-23).** CP border rank of det_4 and of per_4 is at least 39, as tensors in
     (C^16)^{(x)4}. This also bounds symmetric border rank. For det_4 it improves the best published symmetric bound
     I found, 38 (Farnsworth Th. 1.6). Farnsworth's bound does not bound CP border rank.
+    [Superseded: BR(det_4), BR(per_4) ≥ 42 (BR_PENCIL R-05, with R-01 multidimensional substitution and the fifth minimum
+    μ_5 = 11; confirmed with an independent exhaustive enumeration in the BR_PENCIL intake). F-23's identity
+    min_U BR = BR(T_b) stays as the j = 1 case, and R-01 (j = 1) re-proves F-13/F-23 with proper incidence over every
+    algebraically closed field, the field translation asked for in §5.5 below. (corrected 21 Nov 2026 after the intake of
+    BR_PENCIL, Claude Opus 5.5 at effort high)]
   - **Degrees 5 and 6.** det_5 >= 116 and det_6 >= 416, against Farnsworth's (1+delta_n)C(n,h)^2, which gives 107 and
     410. per_5 >= 115 and per_6 >= 415.
   - **Large n.** Farnsworth's additive term (about 4^n/n^4) overtakes F-23's (about C(n/2,n/4)^2, roughly 2^n/n). So

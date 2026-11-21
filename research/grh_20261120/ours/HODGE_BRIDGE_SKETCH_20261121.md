@@ -314,7 +314,10 @@ intakes of HECKE_DIV part 2 and DEG_L, Claude Opus 5.5 at effort high)]
   048–050, a second letter dated "6.1.1966" as written (HECKE_DIV; our `16_scan048.tex` reads `\margin{6.1.1966}`), so
   scans 049 and 050 belong to the second letter (corrected 21 Nov 2026 after the intake of HECKE_DIV, Claude Opus 5.5 at
   effort high)]; his lettering, C = "Λ algebraic").** "A + index
-  implies B"; C(X) ⟺ C(Y) and A(X × X) in the critical degree H^{2n−2} → H^{2n+2} (scan 45); "C(X) together with
+  implies B"; C(X) ⟺ C(Y) and A(X × X) in the critical degree H^{2n−2} → H^{2n+2} (scan 45) [corrected form,
+  SIGN_NEXT SN-C03/C04, checked: C_G(X) ⟺ C_G(Y) + R₀ + L_T·j_*-surjectivity on a hyperplane section W of X×X (Kleiman
+  2.13); the literal A″ fails (SN-C02). For abelian varieties C and I hold, conditional on 032 (SN-11). (corrected 21 Nov
+  2026 after the intake of SIGN_NEXT, Claude Opus 5.5 at effort high)]; "C(X) together with
   the index relation I(X × X) implies that the ring of correspondance classes for X is semi-simple" (scan 49); "the
   deduction of the Weil conjectures from the conjectures C and A" (scan 50); Λ_Y = φ^*Λ_X²φ_*, so C(X) implies C(Y)
   (scan 40). So the answer to "does the sign make Λ algebraic" is his own: with the index theorem, as in
@@ -350,7 +353,10 @@ intakes of HECKE_DIV part 2 and DEG_L, Claude Opus 5.5 at effort high)]
   characteristic, JAC1964 JAC-T4.3 (intake-checked; conditional on 032 Cor. 8.4 through Milne's report). H9(a) is
   refuted also by JAC1964 H9-C1 (a quadric pencil, every m ≥ 2), with the local correction H9-T1 (one Schur term per
   singular fibre whose specialization map is not injective) and no correction under H9-T2. (corrected 21 Nov 2026 after
-  the intake of JAC1964, Claude Opus 5.5 at effort high)]
+  the intake of JAC1964, Claude Opus 5.5 at effort high)] [Th. 5 corrected also by SIGN_NEXT SN-44-01 (orthogonal
+  projection onto the vertical classes; the same correction as H9-T1, derived independently). P²×P²: one unit per node,
+  0 = 3 − (1+1+1) (SN-44-04, checked). (corrected 21 Nov 2026 after the intake of SIGN_NEXT, Claude Opus 5.5 at effort
+  high)]
 - **3.5 (from memory; the arithmetic sibling).** Over a number field the height pairing of Beilinson and Bloch on
   cycles algebraically equivalent to zero is the Néron–Tate pairing on higher Picard varieties (Künnemann; H. Saito's
   varieties are Grothendieck's P^i), so its sign there is Th. 4. For cycles only homologically trivial the sign is
@@ -400,6 +406,10 @@ Opus 5.5 at effort high).
 - H8 corrections (corrected 21 Nov 2026 after the intake of HODGE_SIGN, Claude Opus 5.5 at effort high; string model,
   not Φ₀ on ΛM₀): the primitive scalar is r!d!/(d−r)!, and (r!)² holds only at d = r (SL-04); H8(iv) needs a specified
   order, and in the string model the indices are 1, 32 and 2^13·3^10 (SL-09).
+- IF-03 (corrected 21 Nov 2026 after the intake of SIGN_NEXT, Claude Opus 5.5 at effort high): the indices of Z[L,D] in
+  the actual exterior order Φ₀ ⊂ End(ΛM₀) (cote 16 scan 014, no 7) are 1, 2⁷, 2²⁷3⁴, 2⁸¹3³³ for n = 1–4; with degree
+  projectors 1, 2², 2¹⁰3², 2³²3¹⁰ (independently recomputed in the SIGN_NEXT intake). IF-01: the integral Fock
+  intertwiner Φ_n: F_n → Λ*(Z^{2n}) is a bijection of integral bases, divided powers preserved (checked).
 - What we have: H8 (12 Nov): integral hard Lefschetz on Λ^*(Z^{2n}) is Wilson's diagonal form; the minimal class
   θ^{g−2}/(g − 2)! gives cokernel Z/(g − 1) from H² to H^{2g−2}. It is the correct integral form of cote 16 no 7:
   with Λ₀ the contraction, Λ₀²L₀² = 4 on H⁰ for n = 2, so Z[L₀, Λ₀] is not the ring of matrix units his basis

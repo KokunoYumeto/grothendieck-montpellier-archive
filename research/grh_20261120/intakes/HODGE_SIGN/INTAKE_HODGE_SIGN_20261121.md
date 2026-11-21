@@ -393,6 +393,11 @@ sign: it is the degree of E^{n−1}, not the sign of an intersection form.
       injective at every singular fibre); step 2 on the quadric pencil by H9-C1 with H9-T1 (each node contributes 1;
       the P²×P² local terms are not yet computed). Step 3 is the next test of H9-T2's hypothesis. (corrected 21 Nov 2026
       after the intake of JAC1964, Claude Opus 5.5 at effort high)]
+    - [Rows of this run, 21 Nov: U-01 stays (SIGN_NEXT SN-14: trace data alone cannot give scan 049's positivity, even
+      with correspondence coefficients); U-02 is closed for positivity, conditional on 032 (SN-11), and refuted
+      literally (SN-12, a simple CM fourfold over F = Q(α), f = T⁴ − 5T² + T + 1, K = Q(i)); U-03 is solved (SN-44-01,
+      SN-44-04). U-04 and U-05: see the SIGN_NEXT intake (IF-01 checked; IF-05 to IF-09 at statement level).
+      (corrected 21 Nov 2026 after the intake of SIGN_NEXT, Claude Opus 5.5 at effort high)]
   - Th. 4 for abelian varieties stays on the sketch's route through 032 Cor. 8.4. SG-04 gives it for powers of CM elliptic
     curves without 032.
 - **38, HODGE_HECKE_DIVISION:**

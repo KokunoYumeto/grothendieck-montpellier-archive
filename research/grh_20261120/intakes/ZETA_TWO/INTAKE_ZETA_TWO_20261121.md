@@ -106,6 +106,10 @@ constants). Refuted: 0. The transcription note: reclassified as an edit to our b
   at effort high): gaps at §9.3.2 (pp. 425-426: MT-M01, MT-M02, MT-M05), §11.3 (p. 495, F-SM-19, repaired), §12.3-§12.4
   (the intertwiner, ALPOGE_BRIDGES), (10.3.2.4) p. 454 off by one at odd s (MAS-BOUND), and Theorem 13.3.1.2 (p. 522)
   blank. Every "conditional on M" above carries this note.
+- **A fourth input class** (added 21 Nov 2026 after the intake of ALPOGE_BRIDGES part 3, Claude Opus 5.5 at effort high):
+  cited 2026 preprints, unverified by us (van Hoften-Sempliner, Hexagon 2610.00259v2, Thm I; Madapusi, Hexagon
+  2610.00226v1, Thm 1.1, Cor 6.2; Milne, Hexagon 2611.00244v1). They are neither A nor M; G-STD-HDG, the abelian
+  AQ-Q-15 rows and BR-EFF of ALPOGE_BRIDGES rest on them, and so does every use of 032 Cor. 8.3/8.4.
 
 ## 4. In the language of algebraic geometry and Grothendieck's frameworks
 
@@ -151,7 +155,11 @@ Make no edit outside this folder; these are the edits for the coordinator.
   - The attack this opens (prompt 22's successor, CC-F01b): **decide the bad fibres of Λ-schemes.** Conjecture to test:
     for a Λ-scheme X flat of finite type over Z, every bad-fibre factor of R_{X,S} is a product of (1 − ζ p^{j−s})^{±1}
     with ζ a root of unity and j ∈ Z. It holds for Spec Z[1/n], Spec of abelian rings of integers and their localizations,
-    and split tori. If true, ζ_X of every Λ-scheme has all non-real divisors on Re s ∈ ½Z: on i + 1/2 from Dirichlet L
+    and split tori. [Correction: it holds for Spec Z[1/n], μ_n = Spec Z[t]/(t^n − 1) and split tori; abelian rings of
+    integers are not Λ-rings (ZETA_NEXT NX-L07, confirmed: Z[ζ₅] has no Frobenius lift at 5), though their local factors
+    are cyclotomic. The conjecture as worded is refuted for nonseparated Λ-schemes (ZETA_NEXT NX-L01, confirmed: two copies
+    of A^d_Z glued along A^d − |Z|, bad factor (1 + 2t + 5t²)/(1 − 5t) for y² = x³ − x over F₅). (corrected 21 Nov 2026
+    after the intake of ZETA_NEXT, Claude Opus 5.5 at effort high)] If true, ζ_X of every Λ-scheme has all non-real divisors on Re s ∈ ½Z: on i + 1/2 from Dirichlet L
     (A), on integers from the fibres. This is the correct unconditional "RH for Λ-schemes", and Borger's Frobenius lifts
     at the bad prime p (ψ_p lifts the absolute Frobenius of X_p) are the tool to try first.
   - Also for CC-F01b: ZT01 shows that an all-prime identity is what makes ζ_X equal to the Dirichlet product; for a
