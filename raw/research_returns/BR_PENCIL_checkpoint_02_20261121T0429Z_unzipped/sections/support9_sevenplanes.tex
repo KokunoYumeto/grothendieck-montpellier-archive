@@ -1,0 +1,283 @@
+% P-15. Complete proof; the accompanying exact checker supplies the finite certificate.
+\subsection{The support-nine seven-planes}
+\begin{finding}{P-15}{a border-apolarity obstruction for three support-nine seven-planes}
+Let $k$ be an algebraically closed field of characteristic zero.  Put
+$B=C=k^{\{0,1,2\}\times\{0,1,2\}}$, and for row and column pairs
+$I=\{r<s\}$, $J=\{c<d\}$ put
+\[
+ Q^{\epsilon}_{I,J}=
+ x_{rc}\otimes x_{sd}+x_{sd}\otimes x_{rc}
+ +\epsilon(x_{rd}\otimes x_{sc}+x_{sc}\otimes x_{rd}),
+ \qquad \epsilon\in\{-1,1\}.
+\]
+Here the two displayed factors are $B,C$, rather than multiplication in a
+symmetric algebra.  In the following two ordered lists the notation $01$
+means the pair $\{0,1\}$:
+\begin{align*}
+ \mathcal S_A&=((01,01),(01,02),(01,12),(02,01),(02,02),(02,12),(12,01)),\\
+ \mathcal S_B&=((01,01),(01,02),(01,12),(02,01),(02,02),(12,01),(12,12)).
+\end{align*}
+For $A=k^7$ with basis $a_0,\ldots,a_6$, define
+$T^{\epsilon}_{\mathcal S}=\sum_{q=0}^6a_q\otimes Q^{\epsilon}_{\mathcal S(q)}$.
+Then
+\[
+ \underline R(T^{-}_{\mathcal S_A})\ge14,\qquad
+ \underline R(T^{+}_{\mathcal S_A})\ge14,\qquad
+ \underline R(T^{+}_{\mathcal S_B})\ge14.
+\]
+The first of these is the determinant coordinate type
+$[0,1,3,6,7,9,18]$ in the four-by-four rectangle indexing; the other two
+are the permanent types $[0,1,3,6,7,9,18]$ and $[0,1,3,6,7,18,21]$.
+\end{finding}
+
+\paragraph{Proof and finite certificate.}
+We give all reductions, including the meaning and completeness of the
+finite linear-arrangement enumeration.  The attached checker
+\path{check_support9_sevenplanes.py} reconstructs the matrices below
+from the displayed lists and signs.  It reads no project data and imports
+no other project code.  Its ranks and kernel computations are over
+$\mathbb Q$; there are no floating-point or finite-field rank decisions.
+The three resulting verification records are
+\path{support9_det_verification.json},
+\path{support9_perA_verification.json}, and
+\path{support9_perB_verification.json}.
+
+\emph{The necessary extension.}
+Let $U=T(C^*)\subset A\otimes B$.  The nine contractions are independent,
+so $\dim U=9$.  The proper-incidence argument used in R-04, equivalently
+the degree $(2,1,0)$ and $(1,2,0)$ border-apolarity necessary conditions,
+says that $\underline R(T)\le13$ would provide a $13$-plane
+$E\supset U$ such that
+\begin{align}
+ \operatorname{rank}\Phi_A(E)&\le78,&
+ \Phi_A(E):A\otimes E&\longrightarrow\Lambda^2A\otimes B,\label{eq:P15-A}\\
+ \operatorname{rank}\Phi_B(E)&\le104,&
+ \Phi_B(E):B\otimes E&\longrightarrow A\otimes\Lambda^2B.\label{eq:P15-B}
+\end{align}
+On a pure vector $a\otimes b\in E$, the two maps are
+$a'\otimes(a\otimes b)\mapsto a\wedge a'\otimes b$ and
+$b'\otimes(a\otimes b)\mapsto a\otimes(b\wedge b')$.
+The bounds are $(7-1)13$ and $(9-1)13$.
+This invocation is a necessary condition, not an assertion that these two
+conditions alone characterize border rank.
+
+The exact baseline matrices have dimensions and ranks
+\[
+\begin{array}{c|c|c|c}
+ &\text{matrix on }U&\text{rank on }U&\text{allowed rank increment}\\\hline
+ \Phi_A&189\times63&62&16\\
+ \Phi_B&252\times81&80&24
+\end{array}.
+\]
+These numbers are the same in the three cases.  The checker constructs
+each entry by the displayed wedge formulas and verifies both ranks by
+exact Gaussian elimination.
+
+\emph{Reduction to weight subspaces.}
+Let $(\mathbb G_m)^6$ act with weights $e_r+f_c$ on both $x_{rc}$ factors,
+and weight $-(e_r+e_s+f_c+f_d)$ on the corresponding $a_q$.
+It fixes $T$ and preserves $U$.  The closed rank conditions
+\eqref{eq:P15-A}--\eqref{eq:P15-B}, together with $U\subset E$, form a
+closed torus-invariant subvariety of $\operatorname{Gr}(13,A\otimes B)$.
+Choose an integral cocharacter separating all distinct torus characters
+on $A\otimes B$.  A limit at zero of its orbit exists by properness of
+the Grassmannian.  The limit still satisfies all conditions, and its
+eigenspace decomposition for this cocharacter is the torus weight
+decomposition.  Consequently an admissible $E$ may be assumed torus
+invariant.
+
+Write $V=(A\otimes B)/U=\bigoplus_wV_w$.  For each weight $w$ the
+ambient coordinate block consists of the pairs $(q,v)$ with
+\[
+ w=\operatorname{wt}(x_v)-\operatorname{wt}(Q_{\mathcal S(q)}).
+\]
+The image $U$ has one dimension in weight $-\operatorname{wt}(x_v)$ for
+each of the nine variables, and zero dimensions in the other weights.
+In an image-weight block, omit its final coordinate in lexicographic
+$(q,v)$ order; the coefficient of the omitted coordinate in the image
+vector is nonzero.  The remaining coordinates give a specified basis of
+$V_w$.  In a nonimage block take every coordinate.  Thus no choice of
+quotient representatives is left unspecified.
+
+For $\mathcal S_A$, there are $33$ nonzero quotient blocks: $15$ of
+dimension one, $15$ of dimension two, and three of dimension three.
+For $\mathcal S_B$, the corresponding numbers are $34=16+16+2$.
+The total quotient dimension is $54$ in both cases.
+An admissible extension is therefore specified by subspaces
+$F_w\subset V_w$ with $\sum_w\dim F_w=4$.
+
+\emph{The rank formula in quotient weight blocks.}
+For either orientation $o\in\{A,B\}$, let $K_o$ be the image of the
+baseline map on $U$.  Quotient each codomain weight block by its part of
+$K_o$.  In the checker this quotient is represented by an integer-row
+basis $H$ for the left nullspace of the baseline block $M_0$.  It checks
+$HM_0=0$, $\operatorname{rank}H=\#\operatorname{rows}H$, and
+$\#\operatorname{rows}H=\#\operatorname{rows}M_0-\operatorname{rank}M_0$.
+Thus $\ker H=\operatorname{im}M_0$, and this is an exact quotient map.
+For a factor basis vector with weight $\lambda_j$, write
+\[
+ L^o_{w,j}:V_w\longrightarrow
+       (\operatorname{codomain}\Phi_o/K_o)_{w+\lambda_j}
+\]
+for the resulting linear map.  Its matrix is $H$ times the explicitly
+constructed wedge columns.  For any chosen $F_w$ the exact rank increment
+is
+\begin{equation}
+ \Delta_o(E)=
+ \sum_{\gamma}\dim\left(
+       \sum_{w+\lambda_j=\gamma}L^o_{w,j}(F_w)\right).
+ \label{eq:P15-increment}
+\end{equation}
+Different target weights form a direct sum.  Formula
+\eqref{eq:P15-increment} proves both the weight-count bounds used below
+and the validity of subsequently quotienting by already fixed components.
+
+\emph{Initial saturation.}
+A support is a set $S$ of at most four quotient weights whose capacities
+sum to at least four.  There are $46\,119$ eligible supports for
+$\mathcal S_A$ and $51\,985$ for $\mathcal S_B$.
+Replace all $F_w$, for $w\in S$, by the whole $V_w$, obtaining a maximal
+space $E_S$.  If an admissible $E$ has support $S$, then the kernels of
+its wedge maps inject into those for $E_S$.  Equations
+\eqref{eq:P15-A}--\eqref{eq:P15-B} require both kernels for $E$ to have
+dimension at least $13$, so a kernel of dimension below $13$ for $E_S$
+excludes $S$.
+The full wedge matrices on $A\otimes B$ have sizes $189\times441$ and
+$252\times567$.  Decomposing them into weight blocks and precomputing
+the ranks for every local support of at most four weights makes this
+finite saturation calculation small.  Every support of size at most two
+is excluded.  The surviving supports, before further tests, are
+\[
+\begin{array}{c|r|r|r}
+ &\text{eligible supports}&\text{three weights}&\text{four weights}\\\hline
+ T^{-}_{\mathcal S_A}&46\,119&236&13\,019\\
+ T^{+}_{\mathcal S_A}&46\,119&244&13\,518\\
+ T^{+}_{\mathcal S_B}&51\,985&200&11\,783
+\end{array}.
+\]
+There are only two possible remaining multiplicity patterns:
+$(1,1,1,1)$ and $(2,1,1)$.
+
+\emph{Completeness of the linear-arrangement enumeration.}
+For linear maps $C_1,\ldots,C_N$ on $k^d$, start with the zero equation
+space and repeatedly add the row space of one $C_j$, retaining each
+result of rank below $d$ and identifying equal row spaces by exact
+row reduction.  This enumerates every possible intersection
+$K=\bigcap_{j\in Z}\ker C_j\ne0$.
+To such a $K$ assign the indices for which $C_j|_K=0$.
+Its actual stratum consists of the nonzero vectors of $K$ on which every
+other $C_j$ is nonzero.  It is nonempty: each prohibited additional zero
+locus is a proper linear subspace of $K$, and a finite union of proper
+linear subspaces cannot cover a nonzero vector space over the infinite
+field $k$.
+Conversely, the exact zero pattern of any nonzero vector occurs in this
+list, by intersecting all the kernels that contain that vector.  Thus
+these are locally closed strata; they are not being replaced silently
+by their linear spans.
+
+If a subsequent quotient produces new kernel conditions inside $K$, an
+intersection $K'\subset K$ is compatible with the original stratum
+exactly when none of the originally required nonzero maps vanishes
+identically on $K'$.  The same finite-union argument proves both directions.
+The checker explicitly makes this compatibility test whenever fixed
+components have been quotiented out.
+
+\emph{Four weight lines.}
+For a line $F_w=kx$ the characters $w+\lambda_j$, as $j$ varies in one
+orientation, are distinct.  Hence its contribution has one dimension
+precisely for those $j$ with $L^o_{w,j}x\ne0$.
+The combined $7+9$ column-vanishing conditions are linear equations in
+at most three coordinates.  The arrangement procedure above therefore
+lists every exact joint zero pattern in both orientations.
+For several lines, the number of distinct active output weights is a
+lower bound for \eqref{eq:P15-increment}.
+A preliminary bound sums each line's minimum increment and subtracts
+the largest possible loss from repeated output weights; this is valid
+because each column has rank at most one.
+
+If an arrangement stratum has a one-dimensional kernel, its line is
+fixed.  Compute the actual sum of the images of all fixed lines, and
+exclude the case if its ranks already exceed $16$ or $24$.
+Otherwise quotient by those fixed images.  In every case that survives
+this step there are one or two parameter lines.
+For one line, apply the arrangement procedure to its columns in the
+new quotient, with the compatibility test just proved.  The rank
+increment equals the number of its nonzero columns.
+For two lines, do this for each line and use the number of distinct
+active weights in their union.  Every resulting case is excluded.
+Here are the complete counts; all ranks in the fixed-image step are
+computed over $\mathbb Q$:
+\[
+\begin{array}{c|r|r|r}
+ &T^-_{\mathcal S_A}&T^+_{\mathcal S_A}&T^+_{\mathcal S_B}\\\hline
+ \text{supports excluded by minimum/overlap}&12\,307&12\,798&11\,519\\
+ \text{further supports excluded by joint weight unions}&176&180&36\\
+ \text{joint four-line states remaining}&7\,225&7\,697&2\,182\\
+ \text{states excluded by fixed-image ranks}&6\,619&7\,057&1\,972\\
+ \text{one-parameter-line states, all excluded}&592&626&210\\
+ \text{two-parameter-line states, all excluded}&14&14&0\\
+ \text{refined two-line state pairs, all excluded}&32&22&0
+\end{array}.
+\]
+
+\emph{A double component and two lines.}
+For a two-dimensional quotient block, its double component is fixed.
+For a three-dimensional block, a two-plane has the unique form
+$\ker n$ for a nonzero dual normal $n$, modulo scaling.
+Let $L:k^3\to D$ be any one of its column maps.
+The complete rank-drop rule is
+\[
+\begin{array}{c|c|l}
+ \operatorname{rank}L&\operatorname{rank}(L|_{\ker n})&\text{condition}\\\hline
+ 0&0&\text{always}\\
+ 1&0&n\text{ spans the row space of }L\\
+ 1&1&\text{otherwise}\\
+ 2&1&n\text{ annihilates }\ker L\\
+ 2&2&\text{otherwise}\\
+ 3&2&\text{always}.
+\end{array}
+\]
+Indeed, in rank one the restriction is zero exactly when
+$\ker n=\ker L$; in rank two the one-dimensional kernel of $L$ lies in
+$\ker n$ exactly in the stated case; the other two rows are immediate.
+Both nontrivial drop conditions are linear equations in $n$.
+For rank one, equations cutting out the line $\operatorname{row}L$ are
+obtained from a basis of its annihilator.  For rank two, the equation is
+evaluation on a generator of $\ker L$.
+
+The same arrangement algorithm therefore lists every possible rank
+pattern of the double component, jointly in the two orientations.
+Combine it with the two line patterns.  At each output weight, the
+dimension of the sum in \eqref{eq:P15-increment} is at least the largest
+of the dimensions contributed by the three components.  Summing these
+maxima excludes every case:
+\[
+\begin{array}{c|r|r}
+ &\text{arrangement states tested}&\text{states excluded}\\\hline
+ T^-_{\mathcal S_A}&42\,274&42\,274\\
+ T^+_{\mathcal S_A}&45\,489&45\,489\\
+ T^+_{\mathcal S_B}&31\,796&31\,796.
+\end{array}
+\]
+This completes the enumeration of every torus-fixed four-dimensional
+extension quotient.  There is no admissible $E$, contradicting the
+necessary condition for border rank at most $13$.  The three asserted
+lower bounds follow.\qed
+
+\paragraph{Algebraic-geometric dictionary for P-15.}
+The tensor and both wedge maps are maps between finite free
+$\mathbb Z$-modules.  Their rank conditions are determinantal closed
+subschemes of the relevant relative Grassmannian.  The incidence
+condition $U\subset E$ is a closed condition on the tautological bundle;
+the Grassmannian's projectivity gives the proper projection used in R-04
+and the cocharacter specialization used here.  The acting split torus is
+the group scheme $(\mathbb G_m)^6$, and its character decomposition is
+an integral representation-ring decomposition.  Exterior powers in the
+two wedge maps are the usual $\lambda$-operations on locally free sheaves.
+The locally closed arrangement strata are obtained by intersections of
+linear closed subschemes and complements of further such subschemes.
+These are precisely the scheme, group-scheme, and $K_0$ constructions
+identified in the paper's common Grothendieck locator table.
+The certificate uses characteristic-zero rational linear algebra;
+no statement about bad primes, purity, an $\ell$-adic weight filtration,
+or a motivic realization is inferred from it.
