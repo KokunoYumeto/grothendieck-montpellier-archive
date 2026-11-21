@@ -1,0 +1,205 @@
+# Cote 123: exact Lie-algebra quotient ranks and the subregular question
+
+**Scope.** Complex semisimple Lie algebras and complex simple adjoint algebraic groups. These are unconditional characteristic-zero results; neither RH nor Dirichlet GRH is used. The original question is Grothendieck's letter to Kostant of 22 October 1969, cote 123, physical PDF page 23, handwritten/printed footer 22, visually inspected. It asks about both the Lie-algebra and group quotient maps, proposes a strict rank drop below \(r-1\) for subregular elements in nonsimply-laced types, and suggests uniqueness of the subregular orbit might characterize ADE. The two proposed distinctions are false. The group quotient away from the unipotent locus must be treated separately, as in BR-12305–08.
+
+**Literature and proof status.** Richardson (1987) is a primary announcement with proof outlines, as he expressly says on p. 228. Its stated results are used as known inputs, not represented as independently re-proved here. Its exceptional table has three demonstrable printing/omission errors and one explicitly unresolved entry. The errors are corrected below using its own theorems. The formerly unresolved entry is explicitly settled in Dinar (2020), Corollary 5.5; a separate short deduction from Johnson–Sommers' theorem is proved below. Johnson–Sommers was inspected in arXiv:1706.04820v2, 5 February 2018, and Dinar in arXiv:1905.01829v4, 7 April 2020; both journal publications are 2020. Literature cutoff: 20 November 2026. Actual inspection date: 21 November 2026 UTC. No novelty is claimed.
+
+## CC-RK01 — Reduction to nilpotent elements and precise classical locators
+
+Let \(\chi_{\mathfrak g}:\mathfrak g\to\mathfrak t/W\) be the adjoint quotient and write \(x=s+e\) for the Jordan decomposition. Set
+
+\[
+ \mathfrak l=\mathfrak g^s,
+ \qquad \mathfrak l_{\mathrm{der}}=[\mathfrak l,\mathfrak l]
+       =\bigoplus_j\mathfrak l_j,
+ \qquad e=(e_j)_j.
+\]
+
+Richardson's **Proposition 1.2, p. 229**, gives
+
+\[
+ \operatorname{rank}(d\chi_{\mathfrak g})_x
+   =\dim\mathfrak z(\mathfrak l)
+       +\sum_j\operatorname{rank}(d\chi_{\mathfrak l_j})_{e_j}.
+ \tag{CC-RK.1}
+\]
+
+His notation \(\mathfrak g(s)\) in that proposition is the fixed subspace of the group centralizer; for semisimple \(s\), the centralizer is a connected Levi subgroup and that subspace is \(\mathfrak z(\mathfrak l)\). The simple-factor sum is the product decomposition of the quotient. Thus the following nilpotent data, together with the exceptional table below, determine the rank at every element.
+
+For a nilpotent matrix let \(\lambda=(\lambda_1\geq\cdots\geq\lambda_k)\) denote its Jordan partition.
+
+| Type | Exact nilpotent rank | Primary locator |
+|---|---:|---|
+| \(A_r=\mathfrak{sl}_{r+1}\) | \(\lambda_1-1\) | Richardson, Theorem 4.2.1, p. 233 |
+| \(B_r=\mathfrak{so}_{2r+1}\), \(C_r=\mathfrak{sp}_{2r}\) | \(\lfloor\lambda_1/2\rfloor\) | Richardson, Theorem 4.3.3, p. 233 |
+| \(D_r=\mathfrak{so}_{2r}\) | \(\lfloor\lambda_1/2\rfloor+\mathbf1_{\{k=2,\ \lambda_1\text{ odd}\}}\) | Richardson, Lemma 4.4.1 and Theorem 4.4.2(a)–(c), p. 234 |
+
+The partition conditions are in **§4.1, p. 232**: even parts have even multiplicity in orthogonal types; odd parts have even multiplicity in symplectic type. In \(D_r\), a very even partition labels two orbits, and both have the displayed rank. The compact \(D_r\) formula is precisely a restatement of the three cases in Theorem 4.4.2: with two parts, either both are odd or the partition is \((r,r)\) with \(r\) even. This is a citation of a known computation, not a novelty claim for the all-element matrix formulas separately proved in the root module.
+
+## CC-RK02 — Completed exceptional nilpotent rank table
+
+The following table groups the **Bala–Carter labels in Richardson's Carter convention** by the rank of the quotient differential. Every unlisted **nonzero** nilpotent orbit has rank \(1\); the zero orbit always has rank \(0\). This expressly excludes zero from the source's abbreviated “all other” rows.
+
+| Type | Rank | Orbits |
+|---|---:|---|
+| \(E_6\) | 6 | \(E_6\) |
+| | 5 | \(E_6(a_1)\) |
+| | 4 | \(D_5\) |
+| | 3 | \(E_6(a_3),D_5(a_1),A_5\) |
+| | 2 | \(A_4+A_1,D_4,A_4\) |
+| \(E_7\) | 7 | \(E_7\) |
+| | 6 | \(E_7(a_1)\) |
+| | 5 | \(E_7(a_2)\) |
+| | 4 | \(E_7(a_3),E_6,D_6\) |
+| | 3 | \(E_7(a_4),D_6(a_1),E_6(a_1),D_5+A_1,D_5\) |
+| | 2 | \(A_6,E_7(a_5),E_6(a_3),D_6(a_2),D_5(a_1)+A_1,A_5+A_1,(A_5)',D_5(a_1),D_4+A_1,(A_5)'',D_4\) |
+| \(E_8\) | 8 | \(E_8\) |
+| | 7 | \(E_8(a_1)\) |
+| | 6 | \(E_8(a_2)\) |
+| | 5 | \(E_8(a_3),E_7\) |
+| | 4 | \(E_8(a_4),E_8(b_4),E_7(a_1)\) |
+| | 3 | \(E_8(a_5),E_8(b_5),D_7,E_7(a_2),E_6+A_1,E_6\) |
+| | 2 | \(E_8(a_6),D_7(a_1),E_8(b_6),E_7(a_3),E_6(a_1)+A_1,A_7,D_7(a_2),D_6,D_5+A_2,E_6(a_1),E_7(a_4),D_6(a_1),D_5+A_1,D_5\) |
+| \(F_4\) | 4 | \(F_4\) |
+| | 3 | \(F_4(a_1)\) |
+| | 2 | \(F_4(a_2),B_3,C_3\) |
+| \(G_2\) | 2 | \(G_2\) |
+
+**Derivation and source corrections.** Richardson's **Appendix, pp. 239–240**, lists the nonzero exponents at each orbit; **Lemma 2.1, Proposition 2.2 and Corollary 2.3, p. 230**, identify their number with the differential rank. The table above counts those lists, with the following explicit changes. Both appendix pages were visually inspected, so these are defects in the printed source, not OCR repairs.
+
+1. The regular \(E_8\) exponent list ends with printed \(27\); the correct last exponent is \(29\). The ordinary exponent list is \(1,7,11,13,17,19,23,29\), also directly inspected in Dinar's **Table 2, arXiv v4 p. 11**. The rank is \(8\) either way, but the exponent itself matters in CC-RK03.
+2. The \(E_8(a_1)\) row includes a spurious \(9\), giving eight printed entries. Richardson's **Lemma 5.1, p. 234**, says the subregular exponents are precisely the first \(r-1\) ordinary exponents. Thus this row is \(1,7,11,13,17,19,23\), and its rank is \(7\).
+3. The class \(E_6\subset E_8\) is omitted from the rank-\(3\) rows. A regular nilpotent in the standard \(E_6\) Levi has exactly the common ordinary exponents \(1,7,11\), by Richardson's **Propositions 3.1 and 6.1, pp. 231, 234**, or the multiplicity formulation **§8.1, p. 238**. Its rank is therefore \(3\). This is a theorem-based insertion, not a conjectural correction.
+4. The \(E_8(a_2)\) entry has the source's explicit question mark at \(19\). The complete deduction below removes that question mark using Johnson–Sommers.
+
+No independent reconstruction of every exceptional-orbit computation is claimed. The table is the application of those known primary results with the four changes explicitly justified here.
+
+## CC-RK03 — The formerly unresolved \(E_8(a_2)\) entry has rank six
+
+**Proposition.** For \(e\in\mathfrak e_8\) in the orbit \(E_8(a_2)\),
+
+\[
+ \operatorname{rank}(d\chi_{\mathfrak e_8})_e=6,
+ \qquad
+ \operatorname{Exp}(\mathfrak e_8,e)=\{1,7,11,13,17,19\}.
+ \tag{CC-RK.2}
+\]
+
+**Direct known theorem.** Dinar, arXiv:1905.01829v4, **Corollary 5.5, p. 14, proof p. 15**, states that the quotient differential has rank \(s\) at the distinguished nilpotent orbit \(Z_r(a_{r-s})\) in the list fixed at the end of **§4, p. 9**. That list includes \(E_8(a_2)\), hence \(r=8,s=6\). The opening of **§5, p. 12**, explicitly identifies this as the case left undecided by Richardson. **Table 1, p. 10**, and **Table 2, p. 11**, give the relevant orbit and ordinary exponent data. The statement, its short proof, and the preceding local argument in Lemma 5.1, Proposition 5.3 and Lemma 5.4, pp. 12–14, were inspected. This is not a claim to have independently reconstructed the whole paper or its separate integrability theorem.
+
+**Inputs for a separate complete deduction.** Johnson–Sommers, arXiv:1706.04820v2, **§1.3, equations (1.1)–(1.2), pp. 2–3; Definition 1.2 and Theorem 1.3(1)–(2), p. 3; Figure 1(b), p. 4; §5.9, p. 15**. In their notation this orbit is the first-family case \(s=2\), induced from a Levi with two orthogonal simple roots. Their parameter \(s\) counts the simple roots of the inducing Levi semisimple part and is different from Dinar's parameter \(s=6\). In \(E_8\), the short-root representation \(V_\phi\) is the adjoint representation. Their theorem identifies the lowest-degree adjoint copy in the ideal of the orbit closure inside the nilpotent cone at degree \(m_{8-2+1}=m_7=23\), and an additional copy at degree \(m_8=29\). The statement of **Corollary 3.2, p. 9**, also gives normality of this closure, but normality is not needed separately in the following proof.
+
+**Complete proof of the deduction.** Let \(A=\mathbf C[\mathcal N]\), and let \(I\subset A\) be the homogeneous ideal defining \(\overline{G e}\). The adjoint isotypic multiplicity in \(A\), degree by degree, is one in each degree
+
+\[
+ 1,7,11,13,17,19,23,29
+\]
+
+and zero in all other degrees. This is Kostant's result recalled by Johnson–Sommers in §1.3: these copies are the derivatives of the eight fundamental invariants. Their Theorem 1.3(1) says that \(I\) contains no adjoint copy of degree less than \(23\), and that it contains the copy in degree \(23\). Part (2) says it contains the copy in degree \(29\). Each homogeneous graded piece is finite dimensional and is a semisimple rational \(G\)-module over \(\mathbf C\). Applying \(\operatorname{Hom}_G(\mathfrak e_8,-)\) to
+
+\[
+ 0\longrightarrow I_j\longrightarrow A_j
+     \longrightarrow (A/I)_j\longrightarrow0
+\]
+
+is therefore exact. Consequently the adjoint multiplicity in \(A/I=\mathbf C[\overline{G e}]\) is one in the six degrees \(1,7,11,13,17,19\) and zero in the other degrees. Richardson's **Proposition 2.5 and Corollary 2.6, p. 231**, identify the total multiplicity with the quotient-differential rank and the graded multiplicities with the orbit exponents. This gives (CC-RK.2). \(\square\)
+
+Equivalently, the degree-\(19\) derivative copy of a degree-\(20\) fundamental invariant cannot vanish on the entire orbit. If it vanished at \(e\), equivariance would make it vanish on \(Ge\), hence on its closure, contradicting the minimum degree \(23\) of an adjoint copy in \(I\). This explains directly why the missing exponent is present.
+
+**Additional source precision.** The arXiv v2 line in §5.9 describing the *subregular* \(E_8(a_1)\) ideal prints \(V_{17}\); Theorem 1.3 with \(s=1\) instead forces \(V_{29}\). Our argument uses the numbered theorem and the separate, consistent \(E_8(a_2)\) entry \(V_{23}\), not that erroneous subregular line. No unsupported claim about whether a later journal rendering corrects this typo is made.
+
+## CC-RK04 — Subregular uniqueness and rank do not characterize ADE
+
+**Known Lie-algebra statement.** For every complex simple Lie algebra \(\mathfrak g\), of dimension \(N\) and rank \(r\), there is exactly one nilpotent orbit of dimension \(N-r-2\). For \(x\) in that orbit,
+
+\[
+ \operatorname{rank}(d\chi_{\mathfrak g})_x=r-1.
+ \tag{CC-RK.3}
+\]
+
+The uniqueness statement is Richardson's **§5 opening paragraph, p. 234**, and the rank statement is his **Lemma 5.1 on the same page**, for all simple types. Johnson–Sommers independently restate the uniqueness in **§1.2, p. 2**. Richardson attributes the rank theorem to Slodowy; the exact inspected numbered locator used here is Richardson's Lemma 5.1, not an invented Slodowy theorem number. In type \(A_1\), the subregular orbit is the zero orbit, and the same formula gives rank zero.
+
+**Unipotent consequence, with complete proof.** The original adjoint group \(G\) also has exactly one unipotent orbit of dimension \(N-r-2\). Embed \(G\) faithfully in \(\operatorname{GL}(\mathfrak g)\) by its adjoint representation. For a nilpotent \(X\) in its Lie algebra, the finite matrix sum \(\exp(X)\) is unipotent and lies in \(G\), since it is the usual complex Lie-group exponential. Conversely, if \(u\in G\) is unipotent, put \(M=u-I\) and consider the polynomial curve
+
+\[
+ u^t=\sum_{j\geq0}\binom tj M^j.
+\]
+
+The sum is finite. At every nonnegative integer \(t\) its value is a power of \(u\), hence lies in the Zariski-closed subgroup \(G\). The inverse image of \(G\) under this curve is closed in \(\mathbf A^1\) and contains infinitely many points, so it is all of \(\mathbf A^1\). Differentiating at \(t=0\) gives \(\log u\in\operatorname{Lie}(G)\), and this matrix is nilpotent. The finite exponential and logarithm polynomials are inverse on the nilpotent and unipotent varieties, respectively, by their formal power-series identities modulo a sufficiently high power of a nilpotent matrix. Both commute with conjugation. They therefore give a \(G\)-equivariant isomorphism of these varieties, identifying their individual orbits and orbit dimensions. The known unique nilpotent orbit transfers to the claimed unique unipotent orbit. \(\square\)
+
+Thus the uniqueness speculation is refuted in all simple types, as is the proposed strict inequality below \(r-1\) for the Lie-algebra quotient in nonsimply-laced types. The next proposition transfers the rank statement specifically at unipotent elements and therefore settles the original subregular rank assertion for both maps. The distinction between general Lie and group ranks remains essential away from this locus, as in BR-12305–08.
+
+## CC-RK05 — All nilpotent ranks transfer to the unipotent group quotient
+
+Let \(G\) be any connected complex semisimple algebraic group, with maximal torus \(T\), Lie algebras \(\mathfrak g,\mathfrak t\), and Weyl group \(W\). The group need not be simply connected. Denote the two quotient maps by
+
+\[
+ \chi_{\mathfrak g}:\mathfrak g\longrightarrow\mathfrak t/W,
+ \qquad
+ \chi_G:G\longrightarrow T/W.
+\]
+
+**Proposition.** If \(e\in\mathfrak g\) is nilpotent and \(u=\exp(e)\), then
+
+\[
+ \operatorname{rank}(d\chi_G)_u
+       =\operatorname{rank}(d\chi_{\mathfrak g})_e.
+ \tag{CC-RK.4}
+\]
+
+Consequently the whole nilpotent table in CC-RK01–03 also gives the ranks at the corresponding unipotent elements in every central form of \(G\). In particular, the unique subregular unipotent orbit has quotient-differential rank \(r-1\) in **every** simple type. The ranks in \(B_r,C_r,F_4,G_2\) are \(r-1,r-1,3,1\), respectively, for both original maps.
+
+**Primary structural inputs.** The Lie-algebra restriction isomorphism is recalled by Richardson in **§1, p. 229**. The group restriction isomorphism
+\(\mathbf C[G]^G\simeq\mathbf C[T]^W\), without a simply-connected hypothesis, is Steinberg's **Corollary 6.4, p. 63**, proved from **Lemmas 6.2–6.3, p. 62**. These exact printed pages and statements were inspected. The following is a complete local analytic deduction; no global equivalence of the two ambient quotient maps is asserted.
+
+**Proof.** The torus exponential has derivative the identity at \(0\). Choose a sufficiently small \(W\)-invariant open neighborhood \(V\subset\mathfrak t\) of \(0\) on which it is a biholomorphism onto its image \(V_T\subset T\), a \(W\)-invariant neighborhood of \(1\). Since the exponential is \(W\)-equivariant, it induces a biholomorphism
+
+\[
+ \psi:V/W\xrightarrow{\sim}V_T/W.
+ \tag{CC-RK.5}
+\]
+
+Here the two finite-group quotients are open analytic neighborhoods in the analytifications of \(\mathfrak t/W\) and \(T/W\). Indeed a \(W\)-invariant open set is saturated for the finite orbit quotient, and its holomorphic functions on the quotient are the invariant holomorphic functions; applying this to the exponential and its equivariant inverse proves the assertion.
+
+The open set \(U=\chi_{\mathfrak g}^{-1}(V/W)\) contains the nilpotent cone. A regular semisimple \(x\in U\) is conjugate to a \(t\in V\): its Cartan conjugacy class is a \(W\)-orbit, and its quotient value lies in \(V/W\). Equivariance of the exponential and the two restriction isomorphisms give
+
+\[
+ \chi_G(\exp x)=\psi(\chi_{\mathfrak g}(x))
+ \tag{CC-RK.6}
+\]
+
+for all such \(x\). Regular semisimple elements form a Zariski-open dense subset of \(\mathfrak g\), hence are analytically dense in \(U\). Both sides of (CC-RK.6) are holomorphic on \(U\); after embedding the affine target \(T/W\) into an affine space, equality of each coordinate extends by continuity to all \(U\).
+
+For completeness, the derivative of the exponential in a faithful matrix representation satisfies
+
+\[
+ (L_{u^{-1}})_*(d\exp)_e(Y)
+   =\int_0^1 \exp(-t\,\operatorname{ad}e)Y\,dt
+   =\left(\sum_{j\geq0}
+       \frac{(-1)^j(\operatorname{ad}e)^j}{(j+1)!}\right)Y.
+ \tag{CC-RK.7}
+\]
+
+The integral identity follows by differentiating the exponential power series term by term, or by integrating
+\(\exp((1-t)e)Y\exp(te)\) before left translation. Since \(\operatorname{ad}e\) is nilpotent, the displayed sum is finite and has constant term \(1\). It is therefore an invertible endomorphism of \(\mathfrak g\), so \((d\exp)_e\) is invertible. Differentiating (CC-RK.6) at \(e\) gives
+
+\[
+ (d\chi_G)_u\circ(d\exp)_e
+       =(d\psi)_0\circ(d\chi_{\mathfrak g})_e.
+\]
+
+Both \((d\exp)_e\) and \((d\psi)_0\) are isomorphisms. Taking ranks proves (CC-RK.4). Analytic and algebraic tangent differentials of these algebraic quotient maps agree, so this is the rank asked for in the original letter. \(\square\)
+
+## Exact bibliography and available primary files
+
+Grothendieck, A. (1969, October 22). *Letter to B. Kostant* [Manuscript, cote 123, physical PDF p. 23, footer 22]. Université de Montpellier. https://grothendieck.umontpellier.fr/123.pdf
+
+Richardson, R. W. (1987). Derivatives of invariant polynomials on a semisimple Lie algebra. In M. Cowling, C. Meaney, & W. Moran (Eds.), *Miniconference on harmonic analysis and operator algebras* (Proceedings of the Centre for Mathematical Analysis, Australian National University, Vol. 15, pp. 228–241). Australian National University. https://maths.anu.edu.au/files/CMAProcVol15-Richardson_1.pdf
+
+Johnson, B., & Sommers, E. (2020). Equations for some nilpotent varieties. *International Mathematics Research Notices, 2020*(14), 4433–4464. https://doi.org/10.1093/imrn/rny132 . Inspected author version: arXiv:1706.04820v2, 5 February 2018, https://arxiv.org/pdf/1706.04820v2 . All page locators in this module refer to that version.
+
+Dinar, Y. (2020). On integrability of transverse Lie–Poisson structures at nilpotent elements. *Journal of Geometry and Physics, 155*, Article 103690. https://doi.org/10.1016/j.geomphys.2020.103690 . Inspected author version: arXiv:1905.01829v4, 7 April 2020, https://arxiv.org/pdf/1905.01829v4 . All Dinar page locators in this module refer to that version.
+
+Steinberg, R. (1965). Regular elements of semi-simple algebraic groups. *Publications Mathématiques de l'IHÉS, 25*, 49–80. https://doi.org/10.1007/BF02684397 . The general restriction isomorphism used here is Corollary 6.4, p. 63, with Lemmas 6.2–6.3, p. 62.
+
+Local primary snapshots: `research/cc_sources/Richardson1987.pdf`, its extracted text, and visually inspected table images `Richardson1987_table-12.png`/`Richardson1987_table-13.png`; `research/cc_sources/JohnsonSommers2018.pdf` and its extracted text; `research/cc_sources/Dinar2019v4.pdf` and its extracted text. The source and check ledgers accompanying this module record the exact retrieval references, inspection scopes, and actual proof-reading events.
