@@ -1,0 +1,25 @@
+# A33 independent whole-proof review
+
+Date: 2026-11-21. Reviewer: GPT-6 Astra Pro, effort not exposed, `/root/effective_galois`.
+
+**PASS**, at complete source SHA256 `7862f2921fd6af6c98b000c51d967b17a0327a02f403d2c8eb15b55672dcd3c6`, `work/gt_certificates/positive_rank_theta/A33_QUINTIC_ORDINARY_REDUCTION.tex`. Read the entire statement, five proof steps, integral real-multiplication addition, source/scope paragraphs, and final individual canonical-class sufficient condition. No mathematical correction was needed. This is mathematical review, not formal verification.
+
+## Entire argument
+
+The hyperelliptic involution inverts the order-five torsion class and therefore lifts to a deck-inverting automorphism. Its square is a deck transformation both fixed and inverted by conjugation, hence is the identity. At each original branch point a reflection fixes exactly one of the five points in the etale fibre. Completed local rings identify the local actions, so the total different remains six. The resulting reflection quotient has genus two in every original p-rank.
+
+The pullback images of the two conjugate reflection Jacobians lie in the whole Prym. Their norms are killed by two as homomorphisms of abelian varieties and hence vanish. Their intersection is killed by five scheme-theoretically, so their sum is the whole four-dimensional Prym and gives the displayed isogeny from J_E squared. The geometric two-torsion representation has no invariants and its only nontrivial simple F2[C5]-module has dimension four. Thus the Prym rank is zero or four, and the quotient rank is zero or two.
+
+The added integral correspondence T = v_* sigma v^* satisfies v^*T = (sigma + sigma^-1)v^*. The deck norm identity gives T^2+T-1=0 after using the finite kernel of pullback. This defines an injective integral copy of the full quadratic integer ring of discriminant five, since any nonzero ideal contains a nonzero integer and multiplication by a nonzero integer is nonzero on the Jacobian. Norm and pullback are adjoint for the canonical principal polarizations, the automorphism is adjoint to its inverse, and the reflection relations imply T is Rosati-fixed. All maps are defined over the finite extension used in the section argument. Hence the universal target really can be restricted to ordinary genus-two Jacobians with this specified Rosati-invariant integral real multiplication.
+
+For a hypothetical collision, one finite constant extension defines the chosen cover, the reflection data, and a point above the first base point. A single fixed prime-to-two path lifts to a common rational pair of points with equal full sections upstairs. The normal-core calculation preserves the full pro-odd topology: an odd quotient of the normal index-five subgroup can be intersected over its five conjugates, and the resulting extension still has odd order. This does not replace the arithmetic Galois quotient or infer a full section collision merely from equality of abelian Kummer classes.
+
+In the zero-new-rank alternative, the four-point divisor gives a separable degree-two function. Uniqueness of the hyperelliptic pencil and the free order-five deck action yield the stated contradiction. In the ordinary alternative, both maps v and v sigma push the *same* common lifted section collision to the same ordinary target. Equality of both images forces equality of the lifted points, because otherwise their reflection descriptions would give a fixed point of sigma squared. Ramification of v does not prevent functorial maps of the arithmetic fundamental groups: pullback of etale covers remains etale.
+
+The final finite detector conditions remain additional assumptions. If the base point is Weierstrass, one can choose the reflection fixing its lift; then the first quotient fibre is a singleton, so one detector suffices. The pullback of an odd cyclic cover of E to D has odd monodromy; a pointed connected component and its normal closure over the original degree-five cover stay within a tower of odd groups. The ramified double map is only used as a morphism for pullback, not as a forbidden etale two-cover of the original tower. No claim that the detector conditions always hold is made.
+
+## Recovered-source reading
+
+Read the complete recovered A1 B.40 statement and proof in `recovered/ANABELIAN_A1_cp03_text/ANABELIAN_A1/ANABELIAN_A1_paper.tex`: the reflection lift, completed-local-ring different calculation and two Prym images are correctly attributed. Its original result is cubic and restricted to its stated rank/genus conditions; those conditions are not silently transferred to the new quintic statement.
+
+Read complete recovered successor A.4 and A.37 statements and proofs in `recovered/ANABELIAN_SUCCESSOR_final_text/ANABELIAN_SUCCESSOR_paper.tex`. A.4 explicitly gives equality of the full lifted point sections before passing to Kummer classes. A.37 describes the pointed cubic reflection twist and why its elliptic quotient does not change. The new source credits this infrastructure and states its new quintic/two-map conclusion separately.

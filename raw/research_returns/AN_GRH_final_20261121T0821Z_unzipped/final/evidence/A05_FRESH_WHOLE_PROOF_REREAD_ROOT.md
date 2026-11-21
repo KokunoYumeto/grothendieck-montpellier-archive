@@ -1,0 +1,13 @@
+# A05: fresh complete root rereading during the final main-route probe
+
+Date: 2026-11-21. Reader: GPT-6 Astra Pro; effort not exposed; AN_GRH /root. Type: targeted proof check. Outcome: PASS, with the distinction from the requested Hooley route retained.
+
+During this session, before the 07:26 continuation, I directly reread the entire A05 subsection in `final/proof_sources/a1_section.tex`, source SHA256 `9344bca6b04a1f5eb2b11a3bcf1b17d582b567ac829319975b73958b2e2e01eb`. The reading covered all six proof steps, every displayed formula, and the concluding consequence for the stipulated Alpoge theorem. It did not cover A01-A04 as part of this fresh event, and it is not a fresh whole-publication review of SGA or Saidi-Tamagawa. The earlier source audits remain separately recorded.
+
+The relative configuration argument keeps the full arithmetic quotient and the specified geometric prime-to-characteristic and cuspidal pro-r kernels. The finite Frattini-action/core argument and comparison establish the required exactness before point-section transport is used. The diagonal boundary extension and unbounded inertia test establish the punctured-group isomorphism over the proper curve with the required cusp information.
+
+The open-subgroup comparison retains the compactification/Frobenius and cusp data needed for point counts. Compactness and the stated finite exceptional set supply genuine sections at the required points, without asserting a stronger general section-conjecture theorem. The punctured Kummer class has the indicated residues, and the quotient by it is an arithmetic class because the weight-one Frobenius module has no invariants. Evaluating at good genuine sections and then taking infinitely many r-power roots away from finitely many excluded values contradicts finite-field Kummer injectivity.
+
+The finitely generated-field step uses the specified specialization and arithmetic surjectivity. In the low-genus cases, the Kummer kernel is characteristic-primary, using Lang-Neron and the divisor description of the multiplicative group rather than a false assertion that the field's multiplicative group is finitely generated. The genus-zero coordinates and genus-one multiplication cover give the stated degree contradiction; the latter counts more boundary values than the degree of the principal function. The characteristic-zero case uses all-prime Kummer injectivity.
+
+No new gap was identified in this full rereading. A05 is the alternative cuspidal/configuration proof of the exact point-separation assertion. This check does not turn it into a proof through Hooley, does not supply a primitive-cover existence theorem, and does not count as movement of the still-open requested route.

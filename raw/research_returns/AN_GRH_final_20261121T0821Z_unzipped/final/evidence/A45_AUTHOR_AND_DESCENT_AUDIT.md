@@ -1,0 +1,42 @@
+# A45 author audit and independent descent review
+
+Recorded: 2026-11-21T06:12:28.947598+00:00.
+Reader: GPT-6 Astra Pro; effort not exposed; /root/effective_galois.
+Combined source: `work/effective_galois/nonconstant_deck/A45_COMPLETE.tex`.
+Combined source SHA256: `e6577cdf1bfb85815c9996d7b55f74112f5aeb95eb7b2ba0c3a238a032394d42`.
+
+## Complete mathematical reading
+
+PASS as an author whole-proof check of the main criterion and the degree39 corollary, together with an independent whole-proof reading of row_audit's integral descent supplement. I read every statement and all proof steps in the combined source. This is not formal proof-assistant verification or a different-model check. The independent arithmetic implementation for the degree39 table is still a separate pending event at the time of this audit; the retained-linear producer has run successfully.
+
+The rational projection uses an inverse of n only on the finite rational p-primary group. Its connected-kernel membership follows from nb=(n−sum sigma^i)delta lying in the connected image and b=r(nb), so it does not assume a connected whole norm kernel. The geometric deck difference is killed by the original-field exponent even if it is not rational. Exact order of that difference makes the function separable in every characteristic.
+
+The conjugate-field bound yields e dividing2p^a, while odd n prime to p gives gcd(e,n)=1. The geometric group action is faithful and free. The intermediate curve has genus one because its genus is below n. If the positive points share a fibre, their equal indices force the negative points to share a fibre as well, giving sigma²x=x. Otherwise each positive point is totally ramified with index e dividing p^a. The two disjoint n-orbits give different degree at least2ne, hence p≤e≤g−1. The invariant-field argument gives K=F K^G, and the finite etale pullback from the intermediate elliptic quotient is D. Therefore total ramification descends to P and Q. This proves the exact higher-genus obstruction and the range2≤g≤p.
+
+## Integral descent supplement
+
+Row source SHA256: `73b9c93683a781567d599211caefa482506ad02acd4a3c531ddfcec67be28a2d`. I independently read its full general-p statement and proof, including the added actual-image paragraph SD.9a. The full cyclotomic algebra may be a product; after unramified splitting, the exponent automorphism acts freely on the primitive-root indices. Flat base change commutes with its kernel of invariants, so the full algebra is a finite etale cyclic torsor over the invariant algebra. Effective module descent applies to finite nonfree torsion modules even when p divides the deck-action order. The equality of exponents follows from the tensor-product isomorphism. The Ramanujan-sum projector n e_d is integral, Frobenius invariant and satisfies p_d²=n p_d; it gives an actual canonical conductor subvariety and an exact p-primary decomposition. Each conductor exponent is unchanged over its own minimal deck field. The proper-conductor caveat for a larger full deck field is essential and retained.
+
+I directly opened and read the complete statement and displayed proof of Stacks Project Proposition35.3.9, Tag023N, at https://stacks.math.columbia.edu/tag/023N (web ref turn665568119view0). This is the exact unrestricted faithfully flat module-descent result used. No claim of reading the entire Stacks descent chapter is made. The duplicate rational-projection paragraph SD12–13 was omitted in the combined source because ND3–6 already proves it fully; all other supplement mathematics is retained.
+
+## Actual degree39 corollary
+
+The model is the nontrivial F4 quadratic twist of A27; b=92 in the stated F256 model obeys b²+b=u and b4+b=1. The identified Frobenius is the negative of the original Frobenius on the Jacobian. The cyclic9 and13 subgroup actions become1 and8, so the cyclic39 quotient has Frobenius34 of exact order4. Its stable kernel defines a quotient of the finite etale Phi4−1 isogeny over F4. The Abel–Jacobi connectedness result and the zero point give a connected pointed cover over that field, with minimal full deck field F256.
+
+The exact F4 conductor3 table[2,1,1] yields L=1+T+4T² and exponent2. Over F256 its table[74,91,91] yields L(1)=240 and exponent16 by the checked degree3 integral module argument. The conductor13 table is exactly the retained A32 table and has odd relative order. The new conductor39 value is2 times a unit in the full rank24 cyclotomic Z2 algebra; the displayed binary Bezout identity certifies the unit. Thus its rational group has2-part order2^24. Each constant-deck primitive coherent character line has reduced Frobenius scalar1, so the already cited functorial stable-part comparison gives all geometric two-torsion rational, of dimension24. This makes the whole two-primary group elementary, of exponent2. Primitive semilinear descent preserves that exponent to F4. The exact odd-denominator conductor decomposition therefore gives whole exponents2 and16 over the two fields. The strictness claim concerns this specified cover and fields, not nonexistence of other successful covers.
+
+## Computation provenance
+
+Producer `work/effective_galois/nonconstant_deck/probe_A27_c39.py` SHA256 `ba4e7e52e9b55ede2be71ea494f96ba06099660fb49c6a65f62cf5b73bb966bf` ran to exit0; output `work/effective_galois/nonconstant_deck/probe_A27_c39.json` SHA256 `b00b78526902d5fb77a46b4c10c7c6d17b934359a3d06ee412e7ea6840db530f`. It imports the retained linear-interpolation A32 arithmetic and reads the previously checked A32 point/13-label list. It newly computes three-primary projections, their cyclic9 group and Frobenius action, the twist F4 point labels, all256 cyclic39 labels, exact cyclotomic reductions, integer Smith diagonals, and the binary Bezout identity. The Smith diagonal is supplementary; the proof uses the displayed Bezout and finite character argument. This is not a newly independent implementation of Jacobian arithmetic.
+
+The first exploratory run deliberately stopped upon discovering cyclic9, where the first prototype had expected an elementary3-primary group. The final code handles that actual cyclic9 case and passes; no failed run is reported as a pass. A separate earlier A16 direct Kummer enumeration also passed arithmetically, but failed to furnish a useful bounded-exponent witness: its conductor3 exponent is16 and conductor5 exponent8, already too large for degree15. That failed candidate is retained as probe_A16_characters.py/.json. No theorem is inferred from the abstract module example alone.
+
+## Completed independent certificate and final narrow delta
+
+At 2026-11-21T06:13:14Z I completed a rerun of row_audit's independent Cantor checker after reading its entire driver and arithmetic functions. Exit0; source31d5dffe21731f0cafcd40eac31334494d017055cb095363c4793705c13dd2cc; JSON911ee355c093503f616f321ac0ca4b5399caf6259f37d1a46774251ab94d6de9 exactly matches the separate producer. Its whole per-point enumeration, both cyclic subgroups, all Frobenius labels, twist coordinates and cyclotomic Bezout assertions pass. The retained rerun is under nonconstant_deck/independent_cantor_rerun/. This is a rerun of the second independent arithmetic implementation, not a third implementation.
+
+Final combined source SHA256: `1e930f85e1658b909ec1a44723535c7383dad39405b6812209543bec737e11c5`. Relative to the fully read e6577cdf source, the only change is one computation-provenance paragraph recording this now completed independent checker and rerun. Every mathematical statement and proof is unchanged. I read that entire narrow addition and rechecked exact concatenation and all balanced display delimiters. Final author mathematical PASS remains in force.
+
+## Actual conductor-three module precision
+
+After the06:15 checkpoint, one sentence was added after ND19, explicitly identifying the degree-three-cover Prym's two-primary module with the actual conductor-three subvariety in J_D. The degree13 quotient has pullback/norm composite[13] in both directions on that conductor, and13 is invertible on two-primary groups. These maps are defined over both stated fields, so rational exponents are preserved. This merely makes the previously invoked odd-denominator splitting precise; no numerical or geometric conclusion changes. I checked the entire narrow delta. Final combined source SHA256 `857762034e0810724f154a54c4f7ee3c71e31df8cfba45242ae9f5961856a417`.

@@ -1,0 +1,13 @@
+# A48 geometric singular-arrow corollary: complete root reading
+
+Date: 2026-11-21, approximately 06:50 UTC. Reader: GPT-6 Astra Pro; effort not exposed; AN_GRH /root. Event: targeted proof check. Outcome: PASS.
+
+Source read in full: `work/row_audit/A48_GEOMETRIC_SINGULAR_ARROWS_COROLLARY.tex`, SHA256 `621be08cff1bade89a711744b4182984e6e5e04ac2da11cd7df3d89724445714`. I read the entire corollary, all four proof steps and the final scope paragraph. I also directly read the retained primary Raynaud2000 text at printed pp74–75 (setup and Proposition1), pp84–85 (Heisenberg construction, Lemma16, Theorem17 and Corollary18), and p86 (the characteristic-two genus-two choices). This is not a whole-publication audit or independent re-proof. The primary PDF SHA256 is `ad8cd27ee1169d46c9e79e902e02bc40fc66145ffe35b79b4c86f62b381b183f`.
+
+For genus2 in characteristic2, the cyclic degree5 stage has genus6; n=3 satisfies the exact divisibility and degree inequality. The constructed Heisenberg extension of J[3] by mu3 has order3^13. Taking the actual geometric Galois closure introduces at most five conjugate H-extensions over the cyclic stage. Restriction embeds its group into H^5 and surjects to H, yielding degree5*3^a with13<=a<=65. This is prime to13 and2, so it is disjoint from the retained A32 cyclic13 cover.
+
+The induced no-theta representation factors through that closure. Raynaud Proposition1(4) preserves the lack of a theta divisor under induction, and1(5) gives the pulled-back whole Jacobian in the theta support. The chosen cyclic class lies on the relative-Frobenius twist, and norm composed with pullback is multiplication by the degree prime to13, so every primitive class retains its exact conductor. The connected fibre product therefore satisfies the actual-projector injection from the already checked PI.2.
+
+The A32 primitive factor is ordinary of dimension12; the whole A32 covering curve is not claimed ordinary. Its geometric rank12 injects into the new primitive factor. Riemann–Hurwitz gives g(Y)=d+1 and primitive dimension12d. Each of the12 character spaces has coherent dimensiond, and each nonzero theta-kernel gives a singular arrow, so rank(F)<=12d-12 and the stable rank is no larger. Together with the injection this proves12<=f<=12(d-1), an actual geometric failure of the all-singular-implies-nilpotent inference. Finite-field descent preserves geometric data; extra pointing may require further constants and is not claimed to preserve the old rational-unit property.
+
+This is an actual finite-field existence corollary, not explicit equations or an exact new rank computation. A04 had already refuted the weaker logical inference. No main witness-supply reduction is inferred from strengthening that refutation.

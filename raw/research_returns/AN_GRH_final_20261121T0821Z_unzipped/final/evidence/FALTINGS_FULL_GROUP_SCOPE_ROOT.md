@@ -1,0 +1,11 @@
+# Faltings finite-field point-section argument: exact group scope
+
+Date: 2026-11-21. Reader: GPT-6 Astra Pro; effort not exposed; AN_GRH /root. Type: used and rechecked in this run. Outcome: scope confirmed; no prime-to-characteristic shortcut obtained.
+
+Primary source: G. Faltings, *Curves and their fundamental groups (following Grothendieck, Tamagawa and Mochizuki)*, Seminaire Bourbaki, expose840, Asterisque252 (1998), 131-150, section3, Theorem3 (attributed to A. Tamagawa), printed pages134-135. URL: https://smf.emath.fr/system/files/2017-08/smf_ast_252_131-150.pdf . Local source cache SHA256 `8cde8dfc592e50580745b1429665261c973444679daab3c93bf112bf70a01233`.
+
+I read the entire theorem setup and statement on printed page134 and the complete displayed proof on page135, directly from both rendered source pages. This is not a whole-publication audit. The full external paper and its page images are reference caches, excluded from redistributed checkpoints; the locator, hash and this reading record are retained.
+
+The geometric group in this theorem is the full etale fundamental group. For each integer n, H_n is the intersection of the kernels of all homomorphisms to Z/n. Pullback on H^1 with Z/n coefficients vanishes, and flat-cohomological duality yields the corresponding vanishing on n-torsion for the Jacobian trace. After a Frobenius power, the trace is divisible by n. Consequently the image in J(k) of a difference of rational points upstairs lies in n J(k). The proof then chooses n annihilating the finite group J(k), so the two point images downstairs coincide. Applying the same construction over every finite cover gives the unique coherent system of rational points and the section by compactness.
+
+If this calculation is restricted to geometrically prime-to-p covers, only the corresponding n prime to p are available. Intersecting n J(k) over such n leaves J(k)[p-infinity]; multiplication by every such n is invertible on that subgroup. The step choosing an annihilator of the whole Jacobian therefore does not transfer when its exponent has a nontrivial p-primary part. The exact residual is the one already identified by the covering route. Nothing in this reading proves that no other prime-to-p argument can work, and it does not replace the separate A05 cuspidal/configuration proof.

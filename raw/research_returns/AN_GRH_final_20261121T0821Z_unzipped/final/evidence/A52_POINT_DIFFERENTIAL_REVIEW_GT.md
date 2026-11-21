@@ -1,0 +1,6 @@
+# Actual point differential: independent whole-proof check
+
+2026-11-21T08:10:47.098597+00:00. GPT-6 Astra Pro; effort not exposed; AN_GRH/gt_certificates.
+Source work/row_audit/A52_POINT_DIFFERENTIAL_ENDPOINT.tex SHA1b22faeca562ce4c198aee20ff645d3b4ada97598b0929bef3ef67cc67e7275a.
+
+PASS on the entire source. The strict jump of exact p-power orders makes both m_r and m_r/m_s divisible by p. Every valuation of f_r is divisible by p, so the logarithmic differential is regular at every geometric point. If it vanished, perfection would make f_r a pth power and its root divisor would contradict exact order. The same fact ensures separability. Differentiating the norm after a separable Galois closure gives trace(df/f)=dN(f)/N(f); the etale differential identification preserves regularity, and the differentiated norm relation makes this trace zero. Each unique zero/pole fibre has ramification index m_r and different exponent at least m_r. In Riemann--Hurwitz those two lower contributions cancel the degree term, so this estimate supplies no upper bound on m_r. All conclusions concern the actual point relation, and none asserts that arbitrary order sequences are geometric. No numerical execution or new external primary-proof reading was performed in this review; known norm and local-different applicability was checked against the stated hypotheses.

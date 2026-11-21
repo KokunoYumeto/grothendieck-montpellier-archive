@@ -1,0 +1,9 @@
+# A49 variable-quotient supply note: author complete-proof check
+
+Reviewer: GPT-6 Astra Pro; effort not exposed; AN_GRH/gt_certificates.
+Date: 2026-11-21.
+Final source SHA256: ee040f74b52aa585476ccddd12739846a3ed1d4a36bb5518c38ada42883d7be8.
+
+PASS. I read the entire statement, proof and final qualification. This is an author proof check, not an independent review or numerical execution. A42's explicit extension degrees keep the actual S-primary kernel fixed. Including the finite canonical support in S makes the complementary projection kill kappa_P. The Weil lower bound for the Jacobian grows quadratically in Q, whereas the curve count grows linearly. Thus the quotient eventually exceeds the point count, while the fixed-kernel pair bound gives at least two singleton cosets. The exact count is at most2(B-1) ordered distinct pairs and therefore at most that many nonsingleton points. Zero contains P, so an empty coset is nonzero; at most one singleton coset is zero. Coefficients0 and1 at two nonzero cosets prohibit a uniform augmentation in every characteristic. Fourier inversion then gives one nontrivial character and its entire signed p-orbit of unit values. It does not connect different signed p-orbits. Iterating finite forbidden support gives pairwise coprime conductors only, with no primality assertion.
+
+I reread A42's full primary-stabilization statement and Step1, the previously checked genus-two difference argument in recovered successor A.10/A.35, and the whole new proof. The final delta from1c8e71bc merely specifies the smooth proper finite-field setup, points explicitly to PE.3 and the progression j=1 moduloM, and adds the existing Milne/ASrun citations. No argument changed. This closes the nonuniformity-only subquestion for unrestricted quotient exponents, not the existing universal full-faithful-factor supply gate. No review-movement claim is made.

@@ -1,0 +1,15 @@
+# A26–A27 source and verification scope
+
+Date: 2026-11-21. Model: GPT-6 Astra Pro. Effort: not exposed.
+
+A26 is written in `A26_RANK_ONE_AUGMENTATION.tex`. Its final citation clarification explicitly invokes the already-proved A12 connected Lang pullback, applied to the based Abel map; the zero point supplies the prescribed split fibre. The group-ring criterion itself is recovered A1 B.2. Recovered successor A.10 and A.35 contain its Fourier/empty-coset ingredients, including the precise scalar `(N+1)/|V|`, but retain a pair-count inequality in their stated sufficient conclusions. The current corollary removes that inequality when N is even. The searches read the complete recovered proofs at those exact rows; the two still-missing archives are not claimed searched at proof level.
+
+The parity input is Pries–Zhu, *The p-rank stratification of Artin-Schreier curves*, Annales de l'Institut Fourier **62** (2012), 707–726, Lemma 2.6, p. 712, with the lower-jump explanation immediately before it. The original publisher PDF and the displayed proof of the lemma were opened at <https://www.numdam.org/item/10.5802/aif.2692.pdf>. Retrieval refs: `turn363631960view0`, `turn363631960view1`. In genus two and rank one, the two jumps are1,3; Frobenius preserves them, so the two ramification points are individually rational. This last finite-field parity consequence is the present elementary argument.
+
+A27 is written in `RANK_ONE_AUGMENTATION_OBSTRUCTION.tex`. Its exact model is `y^2+y=u*x^3+x+u/x` over F4 with `u^2+u+1=0`. The displayed all-extension obstruction concerns only the numerical premise of A26. It neither contradicts the valid conditional A26 theorem nor asserts that all actual cyclic covers have even relative class number.
+
+The producer enumerated all72 displayed coefficient models in `rank_one_F4_split_search.py`; its output distinguishes coefficient models from isomorphism classes. The independent verifier `verify_A27_independent.py` imports no producer code. It uses direct y-solutions, a quartic companion matrix and Bareiss determinants instead of the producer's Artin-Schreier trace criterion and the exploratory probes' two quadratic trace recurrences. Full factorization and orders of2 are retained for every degree1 through9. The proof's two-dimensional block decomposition uses only the exact characteristic polynomial, resultant36 and Cayley–Hamilton; it invokes no elliptic isogeny classification and no semisimplicity premise.
+
+The first candidate `y^2+y=x^3+x+x^(-1)` over F4 was rejected. It has a genuine numerical success at extension degree2 and prime5: rational5-torsion rank2 gives25>24 points. The original failing probe remains in `RANK_ONE_SPLIT_GATE_PROBE.json`; it was not overwritten by the successful counterexample's certificate. The second candidate's exploratory arithmetic is separately retained in `RANK_ONE_F4_SECOND_CANDIDATE.json`.
+
+The all-extension assertion in A27 is proved symbolically for m>=10 using the Frobenius blocks and a monotone inequality, with the complete finite table closing m1..9. It is not extrapolated from a bounded search.

@@ -1,0 +1,14 @@
+# A51 transitive-deck supplement: independent whole-proof review
+
+Date: 2026-11-21. Reader: GPT-6 Astra Pro; effort not exposed; /root/effective_galois.
+Source: work/row_audit/A51_TRANSITIVE_DECK_SUPPLEMENT.tex.
+SHA256: 2d127609310816ba0388587bb9b72c55789e892cb74ce1938884b2afbf8b85c3.
+Outcome: PASS. The entire statement, proof, determinant argument and quotient-supply discussion were read. No correction requested.
+
+The full cyclotomic algebra modulo two is finite etale, and transitivity on every geometric primitive-root index gives invariants F2. Frobenius permutes its field factors transitively. Bijective semilinearity on the actual geometric two-torsion module forces equal ranks on these factors, hence freeness of one common rank. The geometric two-rank bound and primitive dimension phi(n) force that rank to be zero or one. In rank one, F=c tau has fth power equal to the cyclic norm of c. This lies in F2× and therefore is one. Integral torsor descent at the finite mod-two level applies without averaging or a field-factor assumption and yields a one-dimensional rational fixed space. All assertions in TD.2 follow on the actual subvariety.
+
+The auxiliary-adic character spaces each have dimension two in genus two. Their single Frobenius cycle gives det(1-TF)=det(1-T^f R) by successive block elimination. Integrality and dimension give exactly 1+S T^f+q^f T^(2f). In the ordinary case the actual rational two-torsion is nonzero, so the special value is even and S is odd; in the zero-rank case it is odd and S is even. A finite abelian two-group with one-dimensional two-torsion is cyclic, so its exponent is precisely the two-part of that special value. No valuation upper bound is inferred.
+
+The rank-one tower's deck degree grows proportionally to ell^r after its fixed initial segment. Thus the fixed-base finite field enlarged to that deck degree has cardinality exponentially larger than the prescribed quotient order ell^r. The stated curve and Jacobian Weil lower bounds prove both TD.9 assertions. This invalidates using the particular empty-coset size inequality or a fixed small projection kernel for this tower quotient, without claiming no empty coset or successful cover can exist by another argument. The common-refinement and individual-generator-bound limitations are consistent with the already checked A51 main proof.
+
+Inputs are the previously checked actual-conductor decomposition and full finite-etale descent from A45, the genus-two unramified character formula, and the cited numerical Frobenius/Weil facts. Their exact source scope is retained in the earlier A51 and A45 audits; no new whole-publication audit or computational check is claimed. This result concerns actual primitive factors, but does not establish universal cover supply or eliminate the remaining witness condition.

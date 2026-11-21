@@ -1,0 +1,18 @@
+# A52 trace/norm boundary: independent whole-proof review
+
+Date: 2026-11-21. Reader: GPT-6 Astra Pro; effort not exposed; /root/effective_galois.
+Source: work/row_audit/A52_TRACE_NORM_BOUNDARY.tex.
+Final SHA256: 4ce87bfbbb18b296ac866884834049a1b7d482ec99e2a115552a55c37a34f1ba.
+Outcome: PASS. The complete original 0847e32ae4077ac0c62116a19fb5beeaad2d58253b713462dd9c3b94f76c16e2 was read, including every statement and proof through TN.10. One kernel-equality ambiguity was corrected; exact reversal of that sole text replacement recovers the reviewed original hash. The proof is sound at the final hash. This is not formal verification.
+
+The full-product finite-etale descent is applied to an actual inclusion Rb_r into the rational primitive group. Flatness preserves this inclusion; its scalar extension maps to exactly O b_r. Since O is finite free of rank f over R, its cardinality is W^f. The proof does not confuse the number of rational generators with the full deck-orbit module size.
+
+For a nonzero faithful integral value alpha, the ideal inclusion (alpha) into the annihilator gives the required finite-module surjection. Alpha is a nonzero global cyclotomic algebraic integer, so it is nonzero in every p-adic factor; O/(alpha) is finite. The p-adic index is the p-part of its global integer norm, yielding the exact W^f divisibility. Every complex conjugate has absolute value at most the coefficient norm. Taking the phi(n)th root therefore proves ||A||_1≥W^(1/h). No chosen character factor is discarded.
+
+In the fully transitive case, the actual class module extends from Z_p/m to O/m. An operator with all proper conductor components zero and faithful component divisible by m has every coefficient in m Z_p, by the integral prime-to-p cyclotomic product decomposition. Its integer coefficients are thus divisible by m. Augmentation zero gives norm at least 2m, attained by the displayed m(1−sigma^(ell^(r−1))). This exact minimum is explicitly limited to the conductor-isolating class. It is not extended to arbitrary operators killing only the primitive projection.
+
+If the top faithful value is zero, monic division gives the literal integer trace factorization with quotient degree below the preceding level. Both the divisor and class pullback identities are correct. The norm composite is multiplication by the prime-to-p covering degree, so pullback is injective on the actual p-primary class group. Hence a relation upstairs descends to the older class, and its principal function is the older principal function pulled back, up to a geometric constant. The manuscript correctly avoids claiming arithmetic descent when the operator is not Frobenius-invariant.
+
+Successive monic division proves the same assertion across an arbitrary jump. The shifted supports are disjoint, so the stated coefficient-norm inflation is exact. All translated functions factor through the older level, which makes the kernel of the generated-field action contain the level-transition kernel. It can be larger if there is further descent. I requested precisely that containment wording; the final source includes it. The larger level therefore cannot be used as the faithful group order. Finally, the exact subtraction in TN.10 is positive for every integer d≥1 and d_0>1, proving that even the optimistic inflated inequality would imply the older one.
+
+The final two-case scope is exhaustive at the top faithful evaluation and does not claim a geometric tower counterexample, universal exponent bound, or improved full witness supply. Inputs are the already checked A45 actual-module descent and elementary norm/pullback identities. No new whole-primary-publication review or numerical implementation is claimed here.

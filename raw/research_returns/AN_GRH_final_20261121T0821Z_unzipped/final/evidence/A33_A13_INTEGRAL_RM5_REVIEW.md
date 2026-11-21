@@ -1,0 +1,13 @@
+# A33 nonemptiness supplement on the A13 curve: independent whole-proof review
+
+Date: 2026-11-21. Reviewer: GPT-6 Astra Pro; effort not exposed; AN_GRH/gt_certificates.
+
+**PASS.** Read the entire `work/row_audit/A33_SUPPLEMENT_A13_RM5.tex`, SHA256 `87a2edb3d9a51b8018b3c04af15682d40fe5eb5d9ddaae45b7ae3f08f811f3f1`, including the purely two-primary theta corollary. No arithmetic rerun or formal verification is claimed in this event.
+
+The already verified Frobenius polynomial gives `(pi+V)^2=5`. All three geometric nonzero two-torsion points are rational because the three Weierstrass points are rational. Over the perfect base field, the reduced subgroup splits the etale quotient of the finite commutative group scheme A[2]. Cartier self-duality and ordinarity then identify the entire connected factor as mu2 squared, of rank four. This uses the full finite group scheme, not just its geometric points. Frobenius is identity on the constant etale part and zero on the multiplicative part; its dual Verschiebung has the reverse restrictions. Their sum therefore acts as identity on all of A[2].
+
+The quotient property of [2] gives an integral, field-defined endomorphism T with `pi+V=2T+1`. Torsion-freeness of the endomorphism group yields `T^2+T−1=0`, and duality gives Rosati symmetry. Irreducibility over Q proves injectivity of the quadratic integer-ring action. This establishes the actual integral RM5 input required for A37 nonemptiness.
+
+For the corollary, the previously checked relation `Phi^2−Phi+4=0` for four-power Frobenius implies `Phi=1 mod4` on the etale two-adic Tate module, because Phi is invertible there. A35 over F4 places every geometric two-primary theta point in the rational Jacobian. The verified three-point count of C(F4), together with injectivity and field-definition of the actual Abel translate, leaves precisely the three Weierstrass theta classes. Their order divides two; they are nonzero because the Raynaud line is non-effective for an ordinary curve. Hence a non-Weierstrass point has a nonzero odd-primary canonical component, with no assertion on its prime support.
+
+Milne's Theorem 11.1 and the opening of Section 16 were reopened and read for the Cartier-dual group-scheme assertion: https://jmilne.org/math/xnotes/AVs.pdf, references `turn296115496view0`, `turn296115496view1`. These passages explicitly distinguish the general group-scheme pairing from its prime-to-characteristic geometric-point form. Lemma 19.2 and its complete displayed proof had also been reopened for the Frobenius–Rosati relation. The previously verified A13/A24 point counts and A35 theorem are carried as checked inputs rather than presented as new calculations here.
