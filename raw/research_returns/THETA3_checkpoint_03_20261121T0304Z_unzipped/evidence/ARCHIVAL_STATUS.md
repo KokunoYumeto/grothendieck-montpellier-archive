@@ -1,0 +1,1 @@
+No Grothendieck archive scans or text-of-record transcriptions were supplied. No transcription correction is asserted. TRANSCRIPTION_NOTES.tsv has its required schema and no invented data rows. Exact archival sources will be recorded if actually obtained.

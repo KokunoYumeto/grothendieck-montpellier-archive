@@ -1,0 +1,406 @@
+\subsection{THETA3-A8: the completed Taylor tensor is the canonical harmonic jet}\label{A8}
+
+This comparison concerns a fixed polarized abelian variety and its
+rigidified theta line bundle.  When the polarized torus and its CM
+action in 032 are realized by an archive datum, it identifies the
+actual analytic section and its derivatives.  It does not identify
+an arbitrary representation in a theta packet with that section.
+The distinction between a divided Taylor coefficient and a
+differential operator is retained throughout.
+
+\paragraph{The completed theta function is the Appell--Humbert reading.}
+First use principal symplectic coordinates.  Write $Z=X+iY$ with
+$Y>0$, put $\Lambda=\Z^g+Z\Z^g$, and set
+\[
+ H(z,w)=z^tY^{-1}\overline w,\qquad
+ \widehat\vartheta(Z,z)
+       =\exp\left(\frac\pi2z^tY^{-1}z\right)\vartheta(Z,z).
+ \tag{A8a}
+\]
+For $\lambda=a+Zb$ with $a,b\in\Z^g$, the usual theta multiplier
+and a direct calculation give
+\[
+ \widehat\vartheta(Z,z+\lambda)
+  =(-1)^{a^tb}
+    \exp\left(\pi H(z,\lambda)+\frac\pi2H(\lambda,\lambda)\right)
+       \widehat\vartheta(Z,z).
+ \tag{A8b}
+\]
+Indeed, the ordinary multiplier is
+$\exp(-\pi i b^tZb-2\pi i b^tz)$.  The new linear term is
+$\pi z^t(Y^{-1}\lambda-2ib)=\pi z^tY^{-1}\overline\lambda$.
+For the constant term, use
+$\lambda-\overline\lambda=2iYb$ to obtain
+\[
+ \frac\pi2\lambda^tY^{-1}\lambda-\pi i b^tZb
+  =\frac\pi2\lambda^tY^{-1}\overline\lambda+\pi i a^tb.
+\]
+This proves (A8b), including its sign.
+
+For a finite Schwartz input, choose a common lattice level $N$ so
+that the positions in its support lie in $N^{-1}\Z^g$ and its
+coefficients are invariant under $N\Z^g$.  The same reindexing
+argument gives (A8b) on $N\Lambda$.  Equivalently,
+$w\mapsto\widehat\vartheta_\varphi(Z,Nw)$ is a section of the
+$N^2$-th power of the line bundle on $\C^g/\Lambda$ with the
+displayed multiplier.  A nonprincipal polarization is handled in
+an integral symplectic lattice with its actual Riemann form; the
+same calculation uses its corresponding Hermitian form and
+semicharacter.  In the restriction-of-scalars coordinates of 032,
+the exponent and Hermitian form are the sums over real embeddings.
+
+The archive's \texttt{AnFr.IsTh}, in
+\texttt{Definitions/ThetaValues/ThConst.lean}, is exactly the law
+\[
+ \theta(z+\lambda)
+   =\chi(\lambda)^k
+       \exp\left(k\pi H(z,\lambda)
+                +\frac{k\pi}{2}H(\lambda,\lambda)\right)\theta(z).
+\]
+Thus (A8a), with the stated level scaling, is its analytic reading.
+Here the polarized lattice, semicharacter, and rigidification must
+be matched, and the two readings must represent the same actual
+section.  For that section, two nowhere-vanishing trivialization
+identifications with the same multiplier have a holomorphic
+periodic frame ratio.  This ratio descends to a compact complex
+torus, hence is constant, and the rigidification fixes that
+constant.  This does not claim that the multiplier determines an
+arbitrary section of a higher tensor power.  The $E$-adjointness of
+$H$ is the Rosati adjointness of
+the polarization and supplies \texttt{AnPt.adj}.  The tangent
+frame supplies \texttt{AnPt.der}.
+
+There is a conjugation in the embedding labels that must be kept.
+The torus with period $Z$ is naturally
+$A=\mathcal F_P^\vee/\iota(\Lambda_{\mathrm{rat}})$, with
+$\iota(u)(v)=\psi_P(v,u)$ for $v\in\mathcal F_P$.
+In the graph frame this is $\iota(p,q)=Zq-p$, which gives the
+displayed period lattice.  Rosati adjointness gives
+$\iota(au)(v)=\iota(u)(\overline a v)$.
+Consequently the tangent variable dual to the tensor block
+$(\mathcal F_P)_\tau$ has the archive tangent label $c\tau$.
+The $c\mu$ Taylor-tensor block of 032 therefore corresponds to
+the $\mu$ tangent variables in this convention.
+
+\paragraph{What the archive's canonical derivative means.}
+The exact definitions are as follows.  In
+\texttt{Formalism/LocalToGlobal/ProjectiveLattices/IsThRule.lean},
+\texttt{NabV} assigns to a framed point $y$, a section $F$ of
+$L^k$, and a monomial $\alpha$ in the $E$-eigenvectors of the
+tangent space a scalar $\operatorname{nab}_y^\alpha(F)$.
+\texttt{ThGerm.lean}, \texttt{ChartAt} and \texttt{IsNab}, require
+that, for $k\geq0$, these scalars be computed from a formal-group
+chart, a compatible biextension frame, a normalized primitive,
+and a canonical gauge.  They are not arbitrary ordinary
+derivatives in an unspecified local generator.
+
+The precise correction is in
+\texttt{ExpTiePf.lean}, theorem \texttt{tie\_holds}: if $f$ is the
+section's formal coefficient in such a chart, $\phi$ is the formal
+exponential with the prescribed tangent frame, and $h_L$ is the
+chart's canonical potential, then the corrected exponential germ
+is
+\[
+       g=\bigl(f\exp(kh_L)\bigr)\circ\phi,
+ \qquad
+       \operatorname{nab}_y^\alpha(F)=\alpha!\,[z^\alpha]g.
+ \tag{A8c}
+\]
+This is the actual sign and factorial convention.  The definition
+\texttt{expVal} in \texttt{IsExpChart.lean} includes $\alpha!$.
+The analytic chart constructed in
+\texttt{ExistsAnalyticBiextensionChartComplexPoint.lean} has
+additive formal group and $h=0$, and its germ is the Taylor series
+of the Appell--Humbert reading.  The two proof files
+\texttt{HarmonicValueCanonicalConnectionEqPolyDeriv.lean} and
+\texttt{ThetaValueAnalyticFrameEqPolyDerivFock.lean} use exactly
+these data, rather than identifying a raw theta series with an
+integral local coefficient.
+
+For completeness, the residual ambiguity has a precise and much
+smaller form.  The normalized exponential-frame comparison
+\texttt{GaugeUniqSt}, proved in \texttt{GaugeUniqPf.lean}, gives
+\[
+       g'_b=g_b\exp(-kq),\qquad
+ q(z)=\sum_{\tau,i,j}q_{\tau ij}z_{\tau i}z_{c\tau,j},
+ \tag{A8d}
+\]
+where one representative of each conjugate pair is used.
+In particular $q$ is homogeneous of degree two; there are no
+linear or higher terms.  These restrictions come from the
+rigidification and the CM adjointness cocycle in
+\texttt{IsExpGauge}, not from a choice to disregard other terms.
+The formal exponential is unique for its tangent frame.
+For the chart used by \texttt{IsNab}, compatibility under jet
+truncation follows from existence of germs for every section of
+every nonnegative tensor power: this is
+\texttt{GlobalTheory.NablaPinCompare.compat\_of\_germs} in
+\texttt{ExistsIsNabNotIsNablaPin.lean}, using properness and
+ampleness.  It is therefore legitimate to apply the exponential
+and gauge comparison to the actual \texttt{IsNab} data.  All the
+archive statements in this paragraph are source inputs read at
+the pinned mirror commit; no Lean build or transitive dependency
+certificate is claimed here.
+
+\paragraph{A stronger harmonic comparison, with proof.}
+Let $z_{\tau i b}$ denote the coordinate in tangent embedding
+$\tau$, row $i$, and section column $b$.  Let
+\[
+ \Delta_{\tau ij}
+     =\sum_b
+       \frac{\partial^2}
+       {\partial X_{\tau i b}\partial X_{c\tau,jb}}.
+\]
+For any polynomial $P$ satisfying
+$\Delta_{\tau ij}P=0$ for every conjugate pair and all rows, and
+sections $F_b$ of the same nonnegative power $L^k$, one has
+\[
+ \sum_\alpha P_\alpha
+      \prod_b\operatorname{nab}_y^{\alpha_b}(F_b)
+   =P(\partial)\left(\prod_b\theta_b(z_b)\right)\bigg|_{z=0},
+ \tag{A8e}
+\]
+where $\theta_b$ are their Appell--Humbert readings in the matched
+tangent frame.  The scalar coefficients can be complex; the
+arithmetic version uses the indicated coefficient field.
+
+Here is a direct proof, which also explains why highest-weight
+conditions are unnecessary for this particular equality.  Pair a
+polynomial and a formal series by
+$[P,F]=P(\partial)F(0)$.  On monomials,
+\[
+       [P,z_aF]=[\partial_{X_a}P,F].
+\]
+Indeed both sides are zero unless the relevant exponents agree,
+and in the remaining case both are the same product of
+factorials.  Iteration proves
+$[P,Q(z)F]=[Q(\partial_X)P,F]$ for every polynomial $Q$.
+Only finitely many terms of an exponential contribute to this
+pairing.  Therefore, writing $Q(z)=\sum_b q(z_b)$, (A8d) gives
+\[
+ [P,\exp(-kQ)F]
+      =[\exp(-kQ(\partial_X))P,F]=[P,F],
+\]
+because $Q(\partial_X)$ is a linear combination of the displayed
+$\Delta_{\tau ij}$ and annihilates $P$.  Apply (A8c) in each
+chart, use uniqueness of the exponential coordinates, and compare
+with the analytic chart.  This proves (A8e).  In particular every
+polynomial supported in just one embedding is covered, regardless
+of its row weights.
+
+The archive's \texttt{HHa} is more restrictive: by
+\texttt{RowDeg.lean}, it is the joint harmonic space together with
+lower-row-unipotent invariance and specified degree in every row.
+Those extra conditions select highest-weight vectors for the
+automorphic construction.  They are not needed for the
+coefficient identity just proved.  Equation (A8e) thus extends the
+archive's stated harmonic comparison at this precise point; it
+does not assert an extension of its automorphic generation or
+integrality theorems to arbitrary weights.
+
+\paragraph{The determinant for A6 and all normalization factors.}
+If $n$ theta sections live on the same torus and the chosen
+embedding has at least $n$ tangent rows, then
+\[
+       P=\det(X_{\sigma i b})_{1\leq i,b\leq n}
+ \tag{A8f}
+\]
+belongs to \texttt{HHa}.  It is harmonic because it uses no
+$c\sigma$ variables.  Its row degrees are one in the first $n$
+rows of $\sigma$ and zero elsewhere.  Replacing a selected lower
+row by that row plus a multiple of an earlier row preserves its
+determinant; operations on an unselected row leave it unchanged.
+This proves the required row invariance, including all rows beyond
+$n$.  Its coefficients are integers, so it also satisfies the
+coefficient condition in \texttt{harmA}.
+
+In the A6 construction the prescribed line types can differ at
+compact places.  Their honest common torus is then the product of
+the individual polarized tori.  At the active embedding $c\mu$,
+the tensor block has dual tangent label $\mu$ by the preceding
+calculation.  Write those tangent coordinates as $z_{ij}$, where $i$ is a
+cotangent direction and $j$ is the multiplicity-line factor.  The
+product theta section is
+$\widehat\Theta(z)=\prod_{j=1}^n\widehat\theta_j(z_j)$, and the
+required operator is
+\[
+ \mathcal D=\det(\partial_{z_{ij}}),\qquad
+ \mathcal D\widehat\Theta(0)
+       =\det\bigl(\partial_{z_{ij}}
+                         \widehat\theta_j(0)\bigr)_{i,j}.
+ \tag{A8g}
+\]
+Expand the determinant.  In each summand precisely one derivative
+acts on each separate factor, so (A8g) follows from the product
+rule with coefficient one.  This polynomial need not satisfy the
+row-degree or row-invariance conditions for the full
+$n^2$-dimensional embedding block of the product torus.  It does
+use only $\mu$ tangent coordinates, so the proved extension (A8e)
+applies.  This closes the analytic comparison for the actual
+different-type product used in A6, whenever the indicated
+polarized product is placed in the archive datum.
+
+To check the factorial separately, write
+$\widehat\Theta(z)=\sum_d\langle T_d,z^{\otimes d}\rangle$
+as in 032, (4.10).  For homogeneous $P$ of degree $d$, with the
+natural symmetric-tensor pairing,
+\[
+          P(\partial)\widehat\Theta(0)
+                 =d!\,\langle P,T_d\rangle.
+ \tag{A8h}
+\]
+For a multiindex $\alpha$ of degree $d$, both sides equal
+$\alpha!$ times the coefficient of $z^\alpha$; this proves the
+formula.  The double alternation in A6 maps a symmetric product
+of $n$ degree-one tensors to the two exterior products with
+coefficient one.  Its determinant functional is $n!$ times the
+natural symmetric-tensor pairing in (A8h).  Consequently (A8g),
+the A6 wedge, and the archive's ordinary differential convention
+have precisely the same determinant coefficient.  There is no
+extra $n!$ in the wedge itself.
+
+For the archive's translated theta values, its second comparison
+theorem retains the additional scalar $M^{-\deg P}$ and uses
+\[
+ \mathcal F_{q,a}\theta(z)
+   =\exp\left(-q\pi H(z,a)-\frac{q\pi}{2}H(a,a)\right)
+       \theta(z+a),\qquad q=M^2.
+ \tag{A8i}
+\]
+The translation is $a=M^{-2}\operatorname{mk}(x_2)$ and the
+untranslated function is $w\mapsto\theta(Mw)$.  The oddness,
+ideal-divisibility and representative conditions on $M,x,x_2$ in
+that theorem remain part of its hypothesis.  They are not
+consequences of an arbitrary finite Schwartz input.  Likewise,
+the final automorphic convention must retain the archive's
+complex conjugations and its negative standard additive
+character; the analytic equality (A8e) does not silently change
+032's positive additive character.
+
+\paragraph{Specialization to the CM elliptic frame in C18.}
+For a CM elliptic curve with the invariant coordinate $z$ and
+Weierstrass sigma function, the reduced theta function has the
+form
+\[
+ \theta_{\mathrm{red}}(z)
+       =\exp(-e_2^*z^2/2)\sigma(z).
+ \tag{A8j}
+\]
+This is the standard reduced-theta normalization used in
+Bannai--Kobayashi, Example 1.9, pp.~10--11 of
+\url{https://arxiv.org/abs/math/0610163v4}.
+If $H(z,a)=h z\overline a$ with $h>0$ and
+$\eta(a)=e_2^*a+\pi h\overline a$, direct substitution in (A8i)
+gives
+\[
+ \exp\left(-\pi H(z,a)-\frac\pi2H(a,a)\right)
+          \theta_{\mathrm{red}}(z+a)
+       =\exp(-e_2^*z^2/2)\,
+             e^{-\eta(a)(z+a/2)}\sigma(z+a).
+ \tag{A8k}
+\]
+Thus the common factor for the canonical analytic reading of
+C18's tame translated sections is
+\[
+      q_{\mathrm{can}}(t)
+       =\exp\bigl(-e_2^*\lambda(t)^2/2\bigr)
+                         \frac{\sigma(\lambda(t))}{t}.
+ \tag{A8l}
+\]
+Equal-degree ratios cancel this entire factor.  For tensor degree
+$d$ the exact normalized operator on its integral coefficient is
+$q_{\mathrm{can}}^{-d}D(q_{\mathrm{can}}^d\,\cdot)$.
+On an elliptic curve with a CM field acting through a single
+tangent embedding, the opposite tangent multiplicity is zero.
+The quadratic ambiguity (A8d) is therefore zero, and (A8c)
+identifies every nonnegative-order canonical jet with the actual
+Taylor derivative of the reduced-theta reading.  Harmonicity
+does not discard the nonquadratic factor in (A8l): it is the
+specified conversion from the integral local generator to the
+canonical analytic generator.
+
+\paragraph{Exact archive source locations.}
+All these locators refer to the recovered mirror at commit
+\texttt{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}.
+The common prefix for \texttt{IsThRule.lean},
+\texttt{ThGerm.lean}, \texttt{IsExpChart.lean}, and
+\texttt{RowDeg.lean} is
+\texttt{Formalism/LocalToGlobal/ProjectiveLattices/}.
+The prefix for \texttt{ExpTiePf.lean},
+\texttt{GaugeUniq.lean}, and \texttt{GaugeUniqPf.lean} is
+\texttt{Formalism/SharpRestriction/Divisibility/GeneratorPowers/}.
+The prefix for the three files beginning
+\texttt{ExistsAnalyticBiextensionChart},
+\texttt{HarmonicValueCanonicalConnection}, and
+\texttt{ThetaValueAnalyticFrame}, whose full basenames are given
+above, is
+\texttt{Development/AbelianVarietyTheory/Proofs/CuspFormEvaluations/}.
+The file \texttt{ExistsIsNabNotIsNablaPin.lean} is under
+\texttt{Development/AbelianVarietyTheory/Proofs/UnitaryExistence/}.
+Finally \texttt{ThConst.lean} is under
+\texttt{Development/AbelianVarietyTheory/Definitions/ThetaValues/}.
+
+The arithmetic assertion requires that the chosen imaginary
+quadratic CM order, its action, the rigidified polarization and
+the invariant differential be the ones in the archive datum.
+Neither a general CM field nor an unspecified analytic torus
+provides those data automatically.  For the weak tensor-degree
+estimate of C18, passage from its raw sigma normalization to
+(A8l) additionally requires control of $e_2^*$; equal-degree
+ratios do not require it.  If $e_2^*$ is integral, the same Bell
+proof extends by allowing the quadratic term: its new weight
+inequality is $1/(p-1)\leq2p/(p^2-1)$.  This last observation is
+an elementary implication, not an unproved integrality assertion
+about $e_2^*$.
+
+\paragraph{The resulting inert-prime specialization.}
+Under C19's hypotheses, the required integrality of $e_2^*$ is
+proved.  Suppose in addition that the algebraic differential,
+rigidification and tame torsion lifts are matched as above, and
+that any change of the integral tangent frame has unit determinant.
+For a local tensor expression of degree $d$, its canonical
+analytic reading is $Q^dv$ with $Q=q_{\mathrm{can}}$ and
+$v\in R[[t]]$.  Its order-$r$ canonical local jet is therefore
+$D^r(Q^dv)(0)$.  C19 gives the explicit bound
+\[
+ v_p\bigl(D^r(Q^dv)(0)\bigr)
+ \geq\max\left\{0,\frac{r}{p^2-1}
+                         -\frac{s_p(r)}{p-1}\right\}.
+\]
+For equal-degree quotients the common factor cancels and the
+bound improves to
+\[
+ v_p\bigl(D^rv(0)\bigr)
+ \geq\max\left\{0,
+          \left\lfloor\frac{rp}{p^2-1}\right\rfloor-1\right\}.
+\]
+For actual archive sections of nonnegative power these are the
+jets in (A8c).  For local ratios and negative tensor degree, they
+are the induced local connection expressions, obtained by the
+product and quotient rules.  They make no assertion about the
+unconstrained negative-power values of an arbitrary
+\texttt{NabV} satisfying only \texttt{IsNab}.
+
+The level normalization can also be checked exactly.  For the
+degree-one reduced theta function and integer $M$, linearity of
+$H$ gives
+\[
+ \mathcal F_{M^2,a}\bigl(z\mapsto\theta_{\mathrm{red}}(Mz)\bigr)(z)
+      =\bigl(\mathcal F_{1,Ma}\theta_{\mathrm{red}}\bigr)(Mz).
+\]
+An order-$r$ derivative on the right contributes $M^r$, which
+cancels the archive's $M^{-r}$ in (A8i).  Thus, when $M$ and the
+relevant torsion order are prime to $p$, the displayed C19 bounds
+apply to this normalized value without an additional level
+denominator.  This is an elliptic specialization with specified
+normalizations, not an assertion that the higher-dimensional
+032 torus has such an elliptic realization.
+
+\framework{The comparison fixes a rigidified line bundle, its
+formal completion, and the correspondence between an algebraic
+section and its analytic reading.  It is compatible with the
+correspondence and polarization viewpoint in Grothendieck's
+\emph{cote44}, scans 7--8, and with the dimension and Lefschetz
+discussion in \emph{cote16}, scans 43--46.  No algebraic inverse
+Lefschetz operator or Chow projector is inferred from equality of
+analytic jets.}
