@@ -1,0 +1,70 @@
+# Current Grothendieck–Teichmüller scope: 20 November 2026
+
+Research addendum `consequences_criteria`; GPT-6 Astra Pro; effort setting not exposed. This updates the literature status without enlarging the adopted Alpöge input or claiming a kernel check of another proof archive.
+
+## CC-GT01. The 2026 rational claim has substantive primary support
+
+It would be outdated to label rational Deligne–Drinfeld freeness simply open. OpenAI's 23 September 2026 preprint, Theorem 1.1, asserts freeness of the rational graded solution Lie algebra on one generator in each odd weight at least three, together with its weight-completed version. Its mirrored introduction, the statement of its all-weight upper bound, and parts of the argument were inspected; the entire 41-page original proof and its Lean archive were not independently checked here. Plectis Atlas itself is an index of other parties' reports, not our verification method. The Valency page could not be retrieved directly.
+
+Two subsequent primary mathematical texts supply stronger evidence than an index entry:
+
+| Source | Exact locator inspected | Mathematical contribution |
+|---|---|---|
+| Willwacher (2026b), arXiv:2610.15592v4, 28 October | Theorem 1.1, p. 2; Theorem 2.2, p. 3, proved in §§3.1–3.3, pp. 4–6 | The required upper bound \(\dim_{\mathbb Q}\mathfrak{grt}_1(\mathbb Q)_n\le d_n\), where \(d_n\) is the dimension of the free Lie algebra on odd generators |
+| Hirose (2026), arXiv:2610.23719v1, 16 October | Theorem 4 and §1.2, p. 2 | An integral Hoffman spanning theorem modulo confluence relations, combined there with Brown and Furusho to identify the motivic group with \(\mathrm{GRT}\) |
+
+For the first paper, the full chain proving the upper bound was read: integral rank comparison, the characteristic-two projection, its explicit reconstruction, the image restriction, and the free-Lie dimension calculation. The key derivation intertwining and square-zero identities were checked algebraically. This is a targeted reading of an existing proof, not an independent reproof or a formal verification. Theorem 1.3 and §4 give further characteristic-two structure, but they are unnecessary when Brown's injection is retained. Hirose's theorem and stated motivic consequence were inspected; his full technical proof was not checked in this run.
+
+Neither proof uses RH or Dirichlet GRH. They are external 2026 mathematical results, not achievements attributable to the adopted analytic input.
+
+## CC-GT02. What Drinfeld and Brown had already supplied
+
+Drinfeld (1991), Proposition 6.3, p. 859, gives a homogeneous element of \(\mathfrak{grt}_1\) in every odd degree \(n\ge3\) with nonzero depth-one term. The unnumbered “Questions” immediately following ask about precisely one generator in each odd degree and freeness. The primary proposition, proof and questions were visually inspected on the rendered original scan; its existence assertion should not be conflated with freeness or exhaustion.
+
+Brown (2012), Theorem 1.1, p. 950, gives the motivic Hoffman basis; the paragraph immediately following explains why it proves Conjecture 1 on p. 949, namely faithfulness of the motivic action. The structure of the motivic prounipotent Lie algebra is recalled on p. 950. An exact numbered modern formulation of its free-subalgebra consequence is Willwacher (2026a), Theorem 1.1, p. 1. His Theorem 1.2, also p. 1, extends the assertion to any homogeneous odd-degree family with nonzero depth-one coefficients. These are injectivity statements. The upper bound in CC-GT01 supplies the distinct exhaustion step.
+
+## CC-GT03. Combining injection and upper bound, including completion
+
+**Statement.** Let
+\[
+ \mathfrak f=\operatorname{Lie}_{\mathbb Q}\langle e_3,e_5,e_7,\ldots\rangle,
+ \qquad \deg e_j=j.
+\]
+Write \(\mathfrak g^{\mathrm{gr}}=\bigoplus_n\mathfrak{grt}_{1,n}(\mathbb Q)\) for the graded algebra of polynomial solutions, and \(\widehat{\mathfrak g}=\prod_n\mathfrak{grt}_{1,n}(\mathbb Q)\) for its weight completion; some sources use \(\mathfrak{grt}_1\) for the latter. Take the weight-preserving injection \(\iota:\mathfrak f\hookrightarrow\mathfrak g^{\mathrm{gr}}\) supplied by Brown's result and the upper bound of Willwacher (2026b), Theorem 1.1. Then \(\iota\) is an isomorphism, and its extension \(\prod_n\mathfrak f_n\to\widehat{\mathfrak g}\) is an isomorphism of complete Lie algebras.
+
+**Proof.** In every weight \(n\), the space \(\mathfrak f_n\) is finite-dimensional: only finitely many generators can occur, and every generator has degree at least three. Injectivity gives
+\[
+ \dim\mathfrak f_n\le\dim\mathfrak{grt}_{1,n}.
+\]
+The cited upper bound reverses this inequality. Therefore the injective linear map \(\iota_n\) is bijective in every weight. Their direct sum is a bijective graded Lie homomorphism, hence a Lie algebra isomorphism. Their product is a continuous bijection for the product, equivalently weight-filtration, topologies; its inverse is the product of the degreewise inverses and is continuous. A bracket component of fixed weight is a finite sum of brackets of lower-weight components, so the product map and its inverse preserve the completed bracket. This proves the completed assertion. \(\square\)
+
+This deduction identifies exactly which result completed the rational theorem. It supplies no theorem about the full profinite absolute Galois group.
+
+## CC-GT04. The full profinite question is a different assertion
+
+Fix Drinfeld's original profinite group \(\widehat{\mathrm{GT}}\), with its commutator, invertibility, symmetry, hexagon and pentagon conditions. Bortnovskyi, Dolgushev, Holikov, and Pashkovskyi (2026 revision), §1.3, equations (1.5)–(1.8), pp. 4–5, gives the fixed Ihara embedding and cyclotomic compatibility. In that paper's coordinates,
+\[
+ \operatorname{Ih}(g)=\bigl((\chi_{\mathrm{cyc}}(g)-1)/2,f_g\bigr),
+ \qquad
+ x\mapsto x^{\chi_{\mathrm{cyc}}(g)},\quad
+ y\mapsto f_g^{-1}y^{\chi_{\mathrm{cyc}}(g)}f_g.
+\]
+Its cyclotomic projection is \((m,f)\mapsto2m+1\), so the composite equals \(\chi_{\mathrm{cyc}}\). The paper's introduction distinguishes surjectivity of this whole embedding from its proved surjectivity onto particular quotients; its Theorems 5.3 and 5.7 concern such quotient results. Rational Lie-algebra freeness does not establish full profinite surjectivity.
+
+The safe status statement for this report is precise: **the full profinite identification is not settled by the adopted RH/Dirichlet GRH or by the rational Deligne–Drinfeld theorem; the inspected 2026 primary profinite work treats full surjectivity as unresolved.** No exhaustive claim about all unpublished assertions is needed. The gentle, pro-\(\ell\), prounipotent, and higher-genus variants must not be substituted for the fixed original profinite embedding.
+
+## CC-GT05. The exact positive role of the cyclotomic quotient
+
+The cyclotomic character and Kronecker–Weber identify finite abelian characters of \(G_{\mathbb Q}\) with Dirichlet characters. Consequently the adopted GRH controls the analytic factors of finite abelian Artin representations and their Tate twists, including the Borger realizations of CC-F01 and CC-F01b. Those results also apply to arithmetic representations known to factor through the cyclotomic projection in the preceding diagram.
+
+This analytic statement concerns those representations and their \(L\)-functions. It does not determine the kernel of the cyclotomic projection, the associator component \(f_g\), or surjectivity of \(\operatorname{Ih}\). Abstractly, surjectivity after projection cannot establish surjectivity before projection: for any profinite abelian group \(A\), the map \(A\to A\times C_2\), \(a\mapsto(a,1)\), has surjective composite with the projection to \(A\) and is a proper embedding. This elementary observation is a counterexample to that general inference, not a counterexample to any conjecture about the actual group \(\widehat{\mathrm{GT}}\).
+
+## Exact bibliography and access record
+
+1. **Brown, F. (2012).** Mixed Tate motives over \(\mathbb Z\). *Annals of Mathematics, 175*(2), 949–976. https://doi.org/10.4007/annals.2012.175.2.10 . Primary PDF: https://annals.math.princeton.edu/wp-content/uploads/annals-v175-n2-p10-p.pdf . Theorem 1.1 and its stated consequence directly inspected.
+2. **Drinfeld, V. G. (1991).** On quasitriangular quasi-Hopf algebras and on a group that is closely connected with \(\operatorname{Gal}(\overline{\mathbb Q}/\mathbb Q)\). *Leningrad Mathematical Journal, 2*(4), 829–860. Original Russian publication: *Algebra i Analiz, 2*(4), 149–181 (1990). Scan: https://www.lamfa.u-picardie.fr/marin/docs/drinfeld.pdf . Proposition 6.3 and the following unnumbered Questions, p. 859, visually inspected on the rendered original page.
+3. **Willwacher, T. (2026a).** *On free generators in the Grothendieck–Teichmüller Lie algebra* (arXiv:2607.18793v2, 6 August 2026). https://arxiv.org/pdf/2607.18793v2 . Theorems 1.1–1.2, p. 1, directly inspected.
+4. **Willwacher, T. (2026b).** *The Deligne–Drinfeld conjecture after OpenAI* (arXiv:2610.15592v4, 28 October 2026). https://arxiv.org/pdf/2610.15592v4 . Theorem 1.1 and its entire proof chain in §§1–3 read; key algebraic identities checked. Theorem 1.3 and §4 are additional, not required inputs to CC-GT03.
+5. **Hirose, M. (2026).** *Confluence relations, Hoffman basis over \(\mathbb Z_{(2)}\), and the Deligne–Drinfeld conjecture* (arXiv:2610.23719v1, 16 October 2026). https://arxiv.org/pdf/2610.23719v1 . Theorem 4 and §1.2, p. 2, directly inspected; full technical proof not independently checked here.
+6. **Bortnovskyi, I., Dolgushev, V. A., Holikov, B., & Pashkovskyi, V. (2024/2026).** *Accessing non-abelian quotients of the Grothendieck–Teichmueller group via elementary tools* (arXiv:2405.11725v3, 6 August 2026). https://arxiv.org/pdf/2405.11725v3 . Introduction, §1.3, equations (1.5)–(1.8), pp. 4–5, and the described quotient scope directly inspected.
+7. **OpenAI. (2026, September 23).** *The Deligne–Drinfeld conjecture*. OpenAI Math Release preprint. https://github.com/openai/math/blob/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/preprints/The-Deligne-Drinfeld-conjecture-September-23-2026/paper.pdf . Inspected mirror: https://wcook04.github.io/plectis-atlas/papers/The-Deligne-Drinfeld-conjecture-September-23-2026.html . Theorem 1.1 and dimension-bound route inspected; the complete original proof and Lean archive were not checked in this run.
