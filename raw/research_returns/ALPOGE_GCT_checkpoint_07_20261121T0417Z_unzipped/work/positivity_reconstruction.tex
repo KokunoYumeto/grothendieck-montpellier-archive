@@ -1,0 +1,127 @@
+\subsection{A polynomial finite-prefix certificate under a denominator bound}
+
+\begin{proposition}[P-F13: universal denominator and finite reconstruction]
+\label{prop:finiteprefix}
+Let $R,A\ge1$ be given integers. Suppose a nonzero global
+quasi-polynomial $f(n)$, $n\ge0$, has a positive rational form
+\[
+ F(T)=\sum_{n\ge0}f(n)T^n
+ =\frac{N(T)}{Q(T)},\qquad
+ Q(T)=\prod_{j=1}^{r}(1-T^{a_j}).
+\]
+\[
+ 1\le r\le R,\quad 1\le a_j\le A,
+ \quad N\in\mathbb Z_{\ge0}[T]\setminus\{0\}.
+\]
+Define
+\[
+ D(T)=\prod_{a=1}^{A}(1-T^a)^R,
+ \qquad M=\deg D=\frac{RA(A+1)}2.
+\]
+Then $F=P/D$ for a unique polynomial $P\in\mathbb Z[T]$ with
+$\deg P<M$, and
+\[
+ P(T)=D(T)\left(\sum_{n=0}^{M-1}f(n)T^n\right)\bmod T^M.
+ \tag{P-F13a}
+\]
+Consequently those first $M$ coefficients determine the entire
+generating function. Under the stated denominator promise, a proposed
+positive form with at most $R$ denominator factors of weights at most
+$A$ and with numerator degree smaller than its denominator degree can
+be certified by these $M$ coefficients.
+
+Let $b$ bound the binary lengths of the supplied integers
+$f(0),\ldots,f(M-1)$. Reconstruction and verification of any proposed
+denominator take bit complexity polynomial in the numeric parameters
+$R,A$ and $b$. A positive form can be found by a finite search through
+at most $\binom{A+R}{R}-1$ denominators, with polynomial work per
+denominator, once those coefficient values are supplied.
+Equivalently, positive-form selection for the reconstructed rational
+function has certificates verifiable in polynomial time in this data.
+No polynomial-time algorithm for evaluating the original multiplicities
+or selecting a successful denominator is assumed or proved.
+\end{proposition}
+
+\begin{proof}
+Let $c_a$ be the number of occurrences of $a$ among the $a_j$.
+Then $0\le c_a\le R$, and
+\[
+ D/Q=\prod_{a=1}^{A}(1-T^a)^{R-c_a}\in\mathbb Z[T].
+\]
+By the global quasi-polynomial properness argument in P-F9,
+$\deg N<\deg Q$. Hence
+\[
+ P=N(D/Q)\in\mathbb Z[T],\qquad
+ \deg P=\deg N+M-\deg Q<M.
+\]
+Since $D(0)=1$, multiplying the first $M$ coefficients of $F$ by $D$
+and discarding terms of degree at least $M$ recovers every coefficient
+of $P$, proving (P-F13a). Uniqueness follows immediately. More
+explicitly, two strictly proper rational functions whose denominators
+divide $D$ and whose first $M$ coefficients agree have a difference
+$(P_1-P_2)/D$ with $\deg(P_1-P_2)<M$ and zero of order at least $M$
+at zero. Multiplication by $D(0)\ne0$ forces $P_1-P_2=0$.
+
+For an effective verifier, fix a candidate list
+$1\le a_1\le\cdots\le a_r\le A$, $1\le r\le R$, and put
+$Q'=\prod_j(1-T^{a_j})$ and $d'=\deg Q'\le RA\le M$.
+Its only possible strictly proper numerator is
+\[
+ N'(T)=Q'(T)\left(\sum_{n=0}^{M-1}f(n)T^n\right)\bmod T^{d'}.
+ \tag{P-F13b}
+\]
+Accept this list exactly if all coefficients of $N'$ are nonnegative,
+$N'\ne0$, and the polynomial identity
+\[
+ D(T)N'(T)=Q'(T)P(T)
+ \tag{P-F13c}
+\]
+holds. If it is accepted, (P-F13c) proves $N'/Q'=P/D=F$.
+Conversely any positive form with the stated bounds has a strictly
+proper numerator, is recovered by (P-F13b), and passes (P-F13c).
+Thus the test is both necessary and sufficient under the promise.
+The same argument proves the first-$M$-coefficients version of the
+certificate.
+
+Here is an explicit bit bound. Write $\|B\|_1$ for the sum of the
+absolute values of the coefficients of a polynomial $B$. One has
+$\|D\|_1\le2^{AR}$ and $\|Q'\|_1\le2^R$. If
+$|f(n)|<2^b$ for $n<M$, formula (P-F13a) bounds the absolute value
+of every coefficient of $P$ by $2^{b+AR}$, and (P-F13b) bounds that
+of every coefficient of $N'$ by $2^{b+R}$. All degrees in the
+construction and in (P-F13c) are at most $M+RA$. Ordinary integer
+polynomial multiplication, truncation and equality tests therefore
+have bit complexity polynomial in $R,A,b$. This counts $R,A$ by
+their numeric values; it does not claim polynomial complexity in
+$\log R,\log A$.
+
+There are $\binom{A+r-1}{r}$ weakly increasing lists of length $r$,
+so the sum for $1\le r\le R$ is $\binom{A+R}{R}-1$.
+Enumerating these and using the verifier must find an accepted list
+under the assumed existence of a positive form. The list, together
+with the deterministically recovered numerator if desired, is a
+polynomial-size witness for successful selection from the supplied
+finite data. The number of lists is not asserted to be polynomial.
+\end{proof}
+
+\paragraph{Application and scope.}
+Under a specified bound $A\le A_0$ in PH3, P-F12 supplies a
+representation-theoretic bound $r\le R$. P-F13 reduces construction of
+a positive form to the first $RA_0(A_0+1)/2$ exact stretching
+multiplicities and finite denominator selection. For $G=GL_m$, the
+Weyl estimate in P-F12 bounds the binary lengths of all these values
+by a polynomial in $m,R,A_0,\log(\lambda_1+1)$. The number of
+required coefficients and the work of verifying a candidate are
+therefore polynomial in these expanded parameters. This avoids
+verification across a possibly exponential least-common-multiple
+period, and it does not provide an efficient coefficient oracle.
+
+The denominator promise is essential. A finite prefix, by itself,
+does not prove PH3 for an otherwise unbounded original series.
+For example, the two nonnegative global quasi-polynomials
+$1$ and $1+\mathbf1_{\{n\equiv M\pmod{M+1}\}}$ agree for
+$n=0,\ldots,M-1$ and differ at $n=M$. Thus (P-F13c) certifies the
+original multiplicity series only when its membership in the stated
+denominator class is known, as it is conditionally under PH3.
+Historical priority for this elementary rational reconstruction is
+not asserted.
