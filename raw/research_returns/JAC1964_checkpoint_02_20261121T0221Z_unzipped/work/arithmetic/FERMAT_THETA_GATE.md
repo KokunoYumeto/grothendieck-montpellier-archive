@@ -1,0 +1,97 @@
+# A theta-integral form of the remaining archimedean gate
+
+Run JAC1964-20261121. Author/checker /root/arithmetic_sign; GPT-6 Astra Pro, effort setting not exposed.
+
+## Proposition AR-12
+
+Let \(C\) be a nonhyperelliptic complex curve of genus three, with period matrix \(\tau\in\mathfrak H_3\), and let \(J=\mathbf C^3/(\mathbf Z^3+\tau\mathbf Z^3)\). Use Haar measure \(\mu\) of mass one. Write
+\[
+T(\tau)=\prod_{\epsilon\ {\rm even}}\theta_\epsilon(0,\tau),
+\qquad
+I(\tau)=\int_J\log\left|
+  \frac{\phi(z,\tau)}{\theta_a(z,\tau)^2}
+\right|\,d\mu(z),
+\]
+where \(\phi\) is Frobenius' theta function with the normalization of de Jong 2020, Theorem 4.1, and \(a\) is any theta characteristic. The integral is finite and independent of \(a\). The individual archimedean term in AR-9 is
+\[
+A(C)=-\frac1{18}\log\|\chi'_{18}\|_{\rm Hdg}-\lambda(C)
+     =\frac{I(\tau)}7-\frac1{18}\log|T(\tau)|
+        -\frac{10}{63}\log2.
+\tag{AR.19}
+\]
+Consequently, for the Fermat curve over \(\mathbf Q\), every archimedean term has the same value. With the normalized averaging convention of AR-9, its sufficient strict height gate becomes
+\[
+I(\tau_F)>
+\frac7{18}\log|T(\tau_F)|+\frac{10}{9}\log2-\frac{D_2}{3}.
+\tag{AR.20}
+\]
+
+### Proof with all normalizations
+
+Put \(H=\log\|H\|(C)\), \(K=\log\|K\|(C)\) in de Jong's notation. His 2020 Theorem A and equation (5), printed pp.1389–1390, give
+\[
+\lambda(C)=-\frac17K+\frac27H
+                +\frac{12}{7}\log2-3\log(2\pi).
+\]
+The normalized theta norms from his §5.3 have weight factors \((\det\operatorname{Im}\tau)^4\) for \(\phi\) and \((\det\operatorname{Im}\tau)^{1/4}\) for \(\theta_a\). Their Gaussian factors cancel in the quotient, so
+\[
+K-2H=\frac72\log\det\operatorname{Im}\tau+I(\tau).
+\]
+The equality of the integrals of \(\log\|\theta_a\|\) for different \(a\) follows from translation invariance and his equation (22); logarithms of zeros and poles of a nonzero meromorphic function on a compact complex manifold are locally integrable.
+
+De Jong 2018, §8, uses the primitive algebraic modular form
+\[
+\chi'_{18}=2^{-28}(2\pi i)^{54}T(\tau)
+           (dz_1\wedge dz_2\wedge dz_3)^{\otimes18}.
+\]
+His §3, equation (3.1), uses the Hodge norm
+\(\|dz_1\wedge dz_2\wedge dz_3\|_{\rm Hdg}
+=(\det\operatorname{Im}\tau)^{1/2}\), agreeing with the 2020 convention. Hence
+\[
+-\frac1{18}\log\|\chi'_{18}\|_{\rm Hdg}
+=\frac{14}{9}\log2-3\log(2\pi)
+ -\frac1{18}\log|T(\tau)|
+ -\frac12\log\det\operatorname{Im}\tau.
+\]
+Subtract the formula for \(\lambda\). The determinant and \(2\pi\) terms cancel, and
+\(14/9-12/7=-10/63\). This proves (AR.19).
+Since \(C\) is defined over \(\mathbf Q\), all its complex base changes are isomorphic, so the normalized archimedean average equals this value. Substituting (AR.19) into \(A_\infty>-D_2/21\) and multiplying by seven proves (AR.20). \(\square\)
+
+## An exact period matrix available for evaluation
+
+The following matrix can be used:
+\[
+\tau_F=
+\begin{pmatrix}
+\frac12+i&-\frac12&-\frac{1+i}{2}\\
+-\frac12&\frac12+i&\frac{1+i}{2}\\
+-\frac{1+i}{2}&\frac{1+i}{2}&1+i
+\end{pmatrix}.
+\tag{AR.21}
+\]
+It follows by specializing Guàrdia 2001, Proposition 5, printed p.160. Set \(a=1+\sqrt2\). In that proposition the scalar is
+\[
+t_a=\frac{a^2}{2(a^2+1)}
+\frac{\mathcal K((a-a^{-1})/(a+a^{-1}))}{\mathcal K(a^{-2})}.
+\]
+Here the arguments are \(1/\sqrt2\) and \((\sqrt2-1)^2\). The descending Landen identity, DLMF 19.8.11–12, gives
+\[
+\mathcal K(1/\sqrt2)
+=(4-2\sqrt2)\mathcal K((\sqrt2-1)^2),
+\]
+and substitution gives \(t_a=1/2\). The general symmetric matrix in Proposition 5 then gives (AR.21). Its imaginary part has eigenvalues \(1,1\pm1/\sqrt2\), so it lies in \(\mathfrak H_3\), with determinant \(1/2\).
+
+The specialized display on Guàrdia's p.161 has an asymmetric entry: the (1,2) entry contains an extra \(+i\), while the (2,1) entry is \(-1/2\). This is present in the original scanned page, not just the extracted text. We therefore derive (AR.21) from the general symmetric Proposition 5 and the exact Landen identity rather than quote that inconsistent display.
+
+## Scope of the progress
+
+Formula (AR.19) eliminates spectral invariants from the remaining archimedean quantity and fixes every normalization. It supplies a concrete theta integral and a fixed algebraic period matrix for further calculation. It does not supply a rigorous lower bound on that logarithmic integral. Exploratory numerical integration, if performed, must be identified separately from a certified interval, especially near the zero and pole divisors of the integrand.
+
+## Primary sources and checks
+
+- Robin de Jong, Frobenius' theta function and Arakelov invariants in genus three, Pure Appl. Math. Q. 16(5) (2020), 1387–1418. Theorem A and equation (5), pp.1389–1390, rendered and visually checked; §5.1–5.4 pp.1404–1406 and §4.5 p.1401 read for norms and the meromorphic quotient. https://archive.intlpress.com/site/pub/files/_fulltext/journals/pamq/2020/0016/0005/PAMQ-2020-0016-0005-a002.pdf
+- Robin de Jong, On the height of Gross–Schoen cycles in genus three (2018), §§3,8, for the Hodge metric and primitive algebraic modular-form normalization. https://pmc.ncbi.nlm.nih.gov/articles/PMC6413647/
+- Jordi Guàrdia, Arakelov computations in genus 3 curves, J. Théor. Nombres Bordeaux 13(1) (2001), 157–165, Proposition 5 pp.160–161, both pages rendered and visually checked. https://www.numdam.org/item/JTNB_2001__13_1_157_0.pdf
+- NIST Digital Library of Mathematical Functions, §19.8(ii), equations 19.8.11–12. https://dlmf.nist.gov/19.8
+
+Independent review: h9_height directly read the 2020 formulas and 2018 normalizations and rederived (AR.19), confirming the coefficient \(-10/63\), determinant cancellation and \(2\pi\) cancellation. No numerical sign was inferred by that check.
