@@ -16,7 +16,7 @@ RC = "C:/Users/user/Documents/claude_tools/rclone/rclone.exe"
 DRIVE = "gdrive:Codex web upload 2026-11-13"
 SOURCES = [pathlib.Path("C:/Users/user/Downloads"),
            pathlib.Path("C:/Users/user/Documents/Papors/Chatnotes/CHat translates and clean/Noether Multilingual")]
-PAT = re.compile(r"^([A-Z]{1,2}\d+(?:-\d+)?-\d+|CTRL-\d+(?:-\d+)?)_(out|checkpoint_(\d+))(?:\s*\(\d+\))?\.zip$")
+PAT = re.compile(r"^([A-Z]{1,2}\d+(?:-\d+)?-\d+|CTRL-\d+(?:-\d+)?)_(out|(?:work_)?checkpoint(?:_(\d+))?)(?:\s*\(\d+\))?\.zip$")  # 21 Nov 2026: also <ID>_checkpoint.zip and <ID>_work_checkpoint.zip (no number = 0)
 # 17 Nov 2026 (batch K, Claude Opus 5.5 at effort high): control folders CTRL-<cote> re-transcribe pages that already
 # have a Pro first pass and a Claude second pass; their returns are filed apart, in returns_control/, never in returns/.
 def returns_root(ID):
