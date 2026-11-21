@@ -1,0 +1,284 @@
+# The rational essential image of extension of the finite field
+
+The results here are concrete consequences of the classical Milne
+classification applied in CC-AG08, within the established abelian,
+Artin, and Tate numerical category. They are not claims of new
+literature results. In contrast to the split coefficient statement
+CC-AG07, they retain rational coefficients and actual objects, including
+their positive multiplicities.
+
+Fix $q=p^a$. Let the target field $B$ be either $\mathbb F_{q^m}$, for a
+positive integer $m$, or $\overline{\mathbb F}_p$. In the notation of
+CC-AG08, extension of the base field acts on split labels by the
+surjective, $\Gamma$-equivariant map
+$$f_B:W(q)\longrightarrow\Lambda_B,\qquad
+ \alpha\longmapsto
+ \begin{cases}
+       \alpha^m,& B=\mathbb F_{q^m},\\
+       [\alpha,a],& B=\overline{\mathbb F}_p.
+ \end{cases}                                                   \tag{CC-AG.34}$$
+Here $\Gamma=\operatorname{Gal}(\overline{\mathbb Q}/\mathbb Q)$. For a
+$\Gamma$-orbit $O$ in the source or target, write $S_O$ for its rational
+simple object and $d_O$ for its Schur index, with the exact
+local-invariant convention of CC-AG08.
+
+## CC-AG09: the orbit and index criterion for the essential image
+
+For a target orbit $O'$, define $$\mathscr L_B(O')=
+   \{O\subset W(q): O\text{ is a }\Gamma\text{-orbit},
+                         \ f_B(O)=O'\}.$$ For each such source orbit,
+put $$c_O=\frac{|O|}{|O'|},\qquad
+ r_O=\frac{c_Od_O}{d_{O'}},\qquad
+ H_B(O')=\left\{\sum_{O\in\mathscr L_B(O')}a_Or_O:
+       a_O\in\mathbb Z_{\ge0},\ \text{finite support}\right\}.
+                                                               \tag{CC-AG.35}$$
+Then $c_O$ and $r_O$ are positive integers, and
+$$(S_O)_B\simeq S_{O'}^{\oplus r_O}.                \tag{CC-AG.36}$$ In
+particular, the formula includes the arithmetic divisibility
+$d_{O'}\mid c_Od_O$.
+
+Let an actual rational target object have its unique simple
+decomposition $$M=\bigoplus_{O'}S_{O'}^{\oplus b_{O'}}.
+                                                               \tag{CC-AG.37}$$
+It belongs to the essential image of $\mathcal A_q\to\mathcal A_B$ if
+and only if $$b_{O'}\in H_B(O')
+                       \quad\text{for every }O'.              \tag{CC-AG.38}$$
+The rational isomorphism classes of its preimages are exactly the
+finite-support nonnegative integer solutions of
+$$\sum_{O\in\mathscr L_B(O')}a_Or_O=b_{O'}
+                      \quad\text{for every }O'.               \tag{CC-AG.39}$$
+No unspecified object-descent condition remains in this criterion.
+
+For a finite target extension, $\mathscr L_B(O')$ is finite: its source
+labels are precisely the roots of $$\prod_{\beta\in O'}(t^m-\beta)
+                               \ \in\mathbb Q[t].             \tag{CC-AG.40}$$
+Thus the criterion consists of finitely many field and index
+calculations and nonnegative integer equations for a given target
+object. For the geometric target the lift set can be infinite, but each
+additive monoid $H_B(O')\subset\mathbb N$ is still finitely generated.
+This latter assertion does not supply an effective bound on the orders
+of roots of unity that one must inspect.
+
+On Grothendieck groups, the corresponding coefficient condition is
+instead divisibility by $\gcd\{r_O:O\in\mathscr L_B(O')\}$. That is the
+group completion of (CC-AG.35), rather than a replacement for the stated
+actual-object condition.
+
+#### Complete proof.
+
+The image of the transitive finite $\Gamma$-set $O$ under a
+$\Gamma$-equivariant map is the transitive set $O'$. Its fibres all have
+the same cardinality $c_O$: an element of $\Gamma$ carrying one target
+label to another gives a bijection between the corresponding fibres.
+Consequently $c_O=|O|/|O'|$ is a positive integer. If $\alpha\in O$, the
+stabilizer inclusion also identifies $$c_O=[K_\alpha:K_{f_B(\alpha)}].
+                                                               \tag{CC-AG.41}$$
+Here $K_\alpha=\mathbb Q(\alpha)$; for a germ the target field is its
+stabilized centre from (CC-AG.24). The field inclusion is literal for
+the chosen labels, because a sufficiently large power representing the
+germ lies in $\mathbb Q(\alpha)$.
+
+After extending coefficients to $E$, CC-AG08 gives $(S_O)_E$
+multiplicity $d_O$ on each label of $O$. Extension of the base field
+merges exactly the labels having the same image under $f_B$. Thus
+$(S_O)_{B,E}$ has multiplicity $c_Od_O$ on every label of $O'$ and zero
+elsewhere. The rational classification in the target says that a
+rational object with this support is a sum of copies of the single
+simple $S_{O'}$, whose split multiplicity is $d_{O'}$ at each of these
+labels. Its number of copies is therefore $r_O=c_Od_O/d_{O'}$, a
+positive integer. This proves (CC-AG.36) and the asserted index
+divisibility.
+
+Every rational source object is a unique finite sum
+$\bigoplus_O S_O^{\oplus a_O}$. Applying (CC-AG.36) gives exactly
+(CC-AG.39). This proves necessity of (CC-AG.38). Conversely, for each of
+the finitely many target orbits with $b_{O'}>0$, membership in the
+monoid supplies a finite nonnegative expression for $b_{O'}$. Taking the
+corresponding finite sum of source simples constructs a preimage.
+Simples mapping to different target orbits cannot interfere with these
+equations, and every $r_O$ is positive. Thus a target coefficient zero
+forces all the associated source coefficients to be zero. Uniqueness of
+simple decompositions proves the preimage classification (CC-AG.39),
+including the zero object.
+
+For a finite extension, every eligible label is an $m$-th root of a
+label of $O'$, and every such root is a Weil $q$-number by the root
+argument in CC-AG07. The product (CC-AG.40) is Galois invariant and
+hence has rational coefficients. Its roots form a finite set,
+partitioned by the source orbits, proving finiteness. Their centre
+fields and the local-invariant formula of CC-AG08 give the stated
+arithmetic data.
+
+For the geometric target, surjectivity of (CC-AG.34) ensures that the
+set of $r_O$'s is nonempty. Let $c$ be its least member; it is also the
+least positive element of $H_B(O')$. For each residue class modulo $c$
+which meets $H_B(O')$, let $h_i$ be the least member in that class.
+Every $h\in H_B(O')$ is of the form $h_i+tc$ with an integer $t\ge0$.
+Hence $H_B(O')$ is generated by $c$ and the finitely many $h_i$. Each
+$h_i$, by definition of the monoid, is itself a finite sum of the
+original $r_O$'s. Taking the union of these finitely many finite
+supports shows that finitely many of the actual lift indices already
+generate $H_B(O')$. The argument proves existence, without an effective
+cutoff on the lift set.
+
+Finally, allowing arbitrary integer, rather than nonnegative integer,
+source multiplicities gives the subgroup of $\mathbb Z$ generated by the
+$r_O$'s. That subgroup is their greatest common divisor times
+$\mathbb Z$. Independence of the target orbit components proves the
+Grothendieck-group assertion. $\square$
+
+## CC-AG10: an exact even-multiplicity obstruction over $\mathbb F_3$
+
+Set $$K=\mathbb Q(s),\quad s^2=-5,\qquad
+ \beta=2+s\in W(9),\qquad
+ \xi=[\beta,2]\in\mathcal W_3.
+                                                               \tag{CC-AG.42}$$
+Let $T_9\in\mathcal A_9$ and
+$T_{\mathrm{geom}}\in\mathcal A_{\overline{\mathbb F}_3}$ be the simple
+rational objects of the orbits of $\beta$ and $\xi$, respectively. Both
+have rank two, endomorphism field $K$, and Schur index one, and
+$(T_9)_{\overline{\mathbb F}_3}\simeq T_{\mathrm{geom}}$.
+
+For every nonnegative integer $b$, either one of the objects
+$$T_9^{\oplus b},\qquad
+                T_{\mathrm{geom}}^{\oplus b}$$ is the base extension of
+an object in $\mathcal A_3$ if and only if $b$ is even. Thus the
+geometric multiplicity monoid in (CC-AG.35) for this orbit is exactly
+$2\mathbb N$. In particular, extension of the base field
+$\mathcal A_3\to\mathcal A_{\overline{\mathbb F}_3}$ is not essentially
+surjective over rational coefficients.
+
+#### Complete proof.
+
+We first establish the small number-field facts explicitly. The ring of
+integers of $K$ is $\mathcal O_K=\mathbb Z[s]$. Indeed, if $x+ys$ with
+$x,y\in\mathbb Q$ is integral, its trace and norm are integers, so
+$2x\in\mathbb Z$ and $x^2+5y^2\in\mathbb Z$. Their discriminant $-20y^2$
+is an integer. Writing $y$ in lowest terms shows that its denominator is
+at most two, because its denominator squared divides $20$. Thus
+$x=A/2,\ y=B/2$ for integers $A,B$, and $$A^2+5B^2\equiv0\pmod4$$ forces
+both $A$ and $B$ to be even. This proves one inclusion; the reverse
+inclusion is immediate because $s$ is integral.
+
+The two ideals $$\mathfrak p=(3,s-1),\qquad
+       \overline{\mathfrak p}=(3,s+1)$$ are distinct prime ideals with
+residue field $\mathbb F_3$. Reduction of $s^2+5$ modulo $3$ gives
+$(s-1)(s+1)$ with distinct roots, and the Chinese remainder theorem
+gives $$(3)=\mathfrak p\overline{\mathfrak p}.$$ Now $\beta$ vanishes
+modulo $\mathfrak p$ and is equal to $1$ modulo
+$\overline{\mathfrak p}$. Its field norm is $4+5=9$. Unique ideal
+factorization and the multiplicativity of the norm therefore give
+$$(\beta)=\mathfrak p^2.             \tag{CC-AG.43}$$ The ideal
+$\mathfrak p$ is not principal. A generator would be an integer
+$x+ys\in\mathcal O_K$ satisfying $$x^2+5y^2=3,$$ which has no integral
+solution: nonzero $y$ makes the left side at least five, and $y=0$ would
+make three a square. Consequently the ideal class of $\mathfrak p$ has
+order exactly two. The ideal facts used here are Milne (2020),
+Theorem 3.20, p. 53, and Propositions 4.1--4.2, p. 69; no class-number
+table is being used.
+
+The two complex conjugates of $\beta$ have absolute value $3$, and
+(CC-AG.43) shows that it is a $3$-unit. Hence $\beta$ is a Weil
+$9$-number of weight one. Every root of unity in $K$ is an integral
+unit; its positive norm is one, and the equation $x^2+5y^2=1$ shows that
+it is $1$ or $-1$. The ratio $\beta/\overline\beta$ is neither $1$ nor
+$-1$, since $\beta$ has both nonzero real and nonzero imaginary parts.
+It is therefore not a root of unity. It follows that
+$\mathbb Q(\beta^N)=K$ for every $N\ge1$: otherwise the two conjugates
+would have equal $N$-th powers. In particular, $K_\xi=K$, and the germ
+orbit has two elements.
+
+The two places above $3$ have local degree one. At them the slopes of
+$\beta$, relative to $q_0=9$, are respectively $2/2=1$ and $0/2=0$.
+There are no real places. Formula (CC-AG.25) therefore makes every local
+invariant zero, both for $\beta$ and for its stabilized germ. It follows
+that $$d_\beta=d_\xi=1,\qquad
+       D_\beta=D_\xi=K,\qquad
+       \operatorname{rank}T_9
+         =\operatorname{rank}T_{\mathrm{geom}}=2.
+                                                               \tag{CC-AG.44}$$
+The label-to-germ map is a bijection on these two-element orbits.
+Equation (CC-AG.36) now gives the claimed geometric base change of
+$T_9$.
+
+Consider any source orbit which maps to the orbit of $\xi$. Replacing a
+chosen label $\alpha\in W(3)$ by a Galois conjugate if necessary,
+arrange that $[\alpha,1]=\xi$. By the definition of a germ, for some
+integer $N\ge1$, $$\alpha^{2N}=\beta^N.             \tag{CC-AG.45}$$ Put
+$L=\mathbb Q(\alpha)$. Since $\mathbb Q(\beta^N)=K$, this equation
+proves the required inclusion $K\subset L$. It also proves that $\alpha$
+is integral: it is a root of a monic polynomial with coefficient
+$\beta^N$, an algebraic integer. Passing to fractional ideals in
+$\mathcal O_L$, (CC-AG.43)--(CC-AG.45) give $$(\alpha)^{2N}
+                           =(\mathfrak p\mathcal O_L)^{2N}.$$ The group
+of fractional ideals is free abelian on the prime ideals, so its power
+maps are injective and $$(\alpha)=\mathfrak p\mathcal O_L.
+                                                               \tag{CC-AG.46}$$
+The relative ideal norm sends this equality to
+$$\bigl(N_{L/K}(\alpha)\bigr)
+                        =\mathfrak p^{[L:K]}.                 \tag{CC-AG.47}$$
+This is exactly Proposition 4.1(a),(c) of Milne (2020), p. 69; the
+extension $L/K$ need not be Galois. Since the class of $\mathfrak p$ has
+order two, (CC-AG.47) forces $[L:K]$ to be even.
+
+For clarity, the source Schur index is also exactly one. The field $L$
+contains the imaginary quadratic field $K$, so it has no real
+embeddings. At a place $v$ above $3$, let $e_v,f_v$ be its ramification
+index and residue degree. The normalized integral valuation satisfies
+$\operatorname{ord}_v(3)=e_v$ and $[L_v:\mathbb Q_3]=e_vf_v$. Since the
+source field is $\mathbb F_3$, its invariant from (CC-AG.25) is
+$$-\frac{\operatorname{ord}_v(\alpha)}{e_v}
+                          e_vf_v
+          =-\operatorname{ord}_v(\alpha)f_v
+          \equiv0\pmod{\mathbb Z}.
+                                                               \tag{CC-AG.48}$$
+All other invariants vanish as well. Hence $d_\alpha=1$. The transition
+multiplicity is therefore $$r_O=\frac{[L:\mathbb Q]}{[K:\mathbb Q]}
+                              \frac{d_\alpha}{d_\xi}
+             =[L:K],
+                                                               \tag{CC-AG.49}$$
+which is even. Every rational source object is a sum of such simples,
+proving that a geometric preimage can exist only in even multiplicity.
+
+Finally, choose $\alpha$ with $\alpha^2=\beta$. It is a Weil $3$-number
+by the root calculation of CC-AG07. The field $L=\mathbb Q(\alpha)$
+contains $K$. The element $\beta$ is not a square in $K$: a square root
+in $K$ would be integral and would have positive norm three, contrary to
+the equation already considered. Thus $[L:K]=2$. Equivalently, the
+minimal polynomial of $\alpha$ is the irreducible polynomial
+$$t^4-4t^2+9.$$ The index computation (CC-AG.48) applies, so
+$d_\alpha=1$, and its simple rational object has rank four. Equation
+(CC-AG.36) gives two copies of $T_{\mathrm{geom}}$. Finite extension to
+$\mathbb F_9$ already gives two copies of $T_9$, since the power map has
+orbit fibre size two and both relevant indices are one. Taking arbitrary
+finite sums realizes every even multiplicity. An odd-multiplicity
+finite-field preimage would give an odd-multiplicity geometric preimage
+after further base extension, which has just been excluded. This proves
+both asserted equivalences and
+$H_{\overline{\mathbb F}_3}(O_\xi)=2\mathbb N$. $\square$
+
+## Scope and primary references
+
+The criterion describes the exact rational essential image within
+$\mathcal A_q$. It does not assert that every smooth projective variety
+belongs to that category, that numerical projectors lift to Chow
+projectors, or that the rational category has a neutral fibre functor.
+The latter has already been disproved by AQ-RATIONAL-FIBRE. The
+arbitrary-variety Tate gate remains the one separated in CC-XC01--04 and
+BR-EFF01.
+
+-   Milne, J. S. (1994). Motives over finite fields. In U. Jannsen,
+    S. Kleiman, & J.-P. Serre (Eds.), *Motives* (Proceedings of Symposia
+    in Pure Mathematics, Vol. 55, Part 1, pp. 401--459). American
+    Mathematical Society. Corrected author version dated November 2,
+    2019: <https://www.jmilne.org/math/xnotes/Seattle1.pdf>. The
+    classification, rank, invariant, and scalar-extension inputs are the
+    exact statements listed in CC-AG08.
+
+-   Milne, J. S. (2020, July 19). *Algebraic number theory*
+    (Version 3.08) \[Author course notes\].
+    <https://www.jmilne.org/math/CourseNotes/ANT.pdf>. Exact ideal
+    inputs: Theorem 3.20, printed p. 53; Proposition 4.1(a),(c) and
+    Proposition 4.2(a), printed p. 69. These are ideal factorization and
+    norm identities, rather than a precomputed assertion about the
+    example's ideal class.
