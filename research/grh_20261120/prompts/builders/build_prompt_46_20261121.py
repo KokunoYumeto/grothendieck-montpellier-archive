@@ -44,6 +44,7 @@ controlled by one integer, the detector degree δ_W. This run bounds it.
 - `RETURN_<RUN>_*/` for GHOSTS, HECKE_DIV, DEG_L, THETA3, JAC1964 and SIGN_NEXT: each run's paper and registers.
 - `INTAKE_*`: our intakes of these runs, with their check events.
 - `PREVIOUS_PROMPT_39.md` and its attachments (the GHOSTS prompt as sent, with its sources).
+- `Schoen_1988_Hodge_classes_on_self-products_Compositio_65.pdf` (Compositio Math. 65 (1988) 3-32, from Numdam).
 - `032_The-rational-Hodge-conjecture-for-CM-abelian-varieties-October-6-2026.pdf`, the van Hoften-Sempliner deposit
   (Hexagon 2610.00259) and Milne's report (Hexagon 2611.00244).
 
@@ -61,6 +62,7 @@ for run in ("GHOSTS", "HECKE_DIV", "DEG_L", "THETA3", "JAC1964", "SIGN_NEXT"):
     return_files(run, out, ["*.tex", "QUESTIONS.tsv", "LEDGER.md", "IMPLICATIONS.md", "CHECK_EVENTS.tsv"])
     for f in sorted((INT / run).glob("INTAKE_*")):
         put(f, out / f.name)
+put(D / "recent_results_20261110/papers/hodge_sources_20261121/Schoen_1988_Hodge_classes_on_self-products_Compositio_65.pdf", out / "Schoen_1988_Hodge_classes_on_self-products_Compositio_65.pdf")
 for name, rel in (("032_The-rational-Hodge-conjecture-for-CM-abelian-varieties-October-6-2026.pdf",
                    "recent_results_20261110/papers/032_The-rational-Hodge-conjecture-for-CM-abelian-varieties-October-6-2026.pdf"),
                   ("Hexagon_2610.00259v2_vanHoften_Sempliner_CM_Hodge.pdf",

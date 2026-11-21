@@ -1,4 +1,4 @@
-# The two GRH proofs of 20 November 2026: our working-through, status as of 21 Nov 2026 04:39 UTC
+# The two GRH proofs of 20 November 2026: our working-through, status as of 21 Nov 2026 04:45 UTC
 
 On 20 Nov 2026 two proofs of generalized Riemann hypotheses appeared:
 - **L. Alpöge**: RH, and GRH for Dirichlet L-functions. A note (https://alpo.ge/remark.pdf), with a Lean formalization

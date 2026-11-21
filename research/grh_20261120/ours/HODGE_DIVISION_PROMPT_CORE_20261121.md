@@ -35,12 +35,15 @@ classes are then algebraic on the whole family, with an explicit division bound.
 
 ## Targets, in order
 
-1. **Q(i), n = 2, principal component.**
-   - Compute the polarization type of Θ restricted to the (±i)-Prym B of an unramified cyclic 4-cover of a genus-3 curve.
-     The kernel has order 2⁸; decide whether it is B[2].
-   - Run GHOSTS R12's Bézout scheme: W₄(C) ∩ T₀ in J(C) embedded by 3Θ, with deg W₄ = 3⁴·9!/5!, and (1 − σ²)^*Θ ≤ 4Θ.
-   - Prove Schoen's dominance in this case, with the exact locator.
-   - Output: an explicit D₀(Q(i)) and C₄(Q(i)).
+1. **Q(i), n = 2, principal component: the even half is done; check it, and do the odd half.**
+   - Done in the attack (§5): Θ restricted to the (±i)-Prym is of type (2,2,2,2) (the kernel is B[2]). The principal
+     component splits into an even part (reached by Prym lattices) and an odd part (E_i⁴ with the product polarization).
+     On the even part D₀(Q(i)) = 914,248,581,120, with C₄(Q(i)) explicit. Its inputs:
+     - Schoen 1988 (Compositio Math. 65, 3-32, attached), Theorem 2.0 (pp. 11-12) and Corollary 3.1 (p. 25);
+     - the attack's own proof of dominance for (h, m) = (4, 4), via a base-point-free pencil and a Hurwitz count. Schoen's
+       p. 26 lists that case only as possible, and his Theorem 3.2 proves (4, 3).
+   - Check that dominance proof independently, step by step.
+   - Then find a cycle source for the odd component, and give its D₀ and C₄.
 2. **n = 3 (sixfolds), every K with h_K = 1 and every determinant.**
    - Decide whether Schoen's sixfold Prym family (unramified cyclic covers of genus-4 curves; 9 = 9 dimensions) dominates
      each Weil sixfold family, by computing the differential of the period map.
