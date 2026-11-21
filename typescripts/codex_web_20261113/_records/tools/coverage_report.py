@@ -100,7 +100,9 @@ def skip(c, n):  # blank or the logo sheet: the plans' lists, else the scan cach
 rows, tot = [], dict(pages=0, skip=0, before=0, first_w=0, first_p=0, second=0, out=0, queued=0, none=0)
 nolist = {}
 for c in sorted(PAGES, key=lambda c: [int(x) for x in c.split("-")]):
-    if c.startswith(("140-", "157-")):  # La Longue Marche and Les Derivateurs: finished texts (PROJECT_RECORD)
+    if c.startswith("140-"):  # La Longue Marche: transcribed by our pilot (longue_marche_pro_pilot_20261104), counted apart.
+        # 19 Nov 2026: Les Derivateurs (157-*) is counted here. Its manuscript had no reading of ours before round D
+        # (18 Nov); the Kuenzer-Malgoire-Maltsiniotis edition is a second witness, not our transcription (the user, P6893).
         continue
     s = dict(pages=PAGES[c], skip=0, before=0, first_w=0, first_p=0, second=0, out=0, queued=0, none=0)
     for n in range(1, PAGES[c] + 1):
@@ -131,8 +133,9 @@ stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 L = [f"# Coverage of the Montpellier archive, cote by cote ({stamp})", "",
      f"Readings counted by when their return was filed: before or since {cut:%d %b %Y %H:%M} UTC. A page is "
      "**without a reading** when no return holds it; it is then out in Work now, queued (Work or Pro), or in no route. "
-     "Blank scans and the logo sheet are left out. La Longue Marche (140-*) and Les Dérivateurs (157-*) are finished "
-     "texts and not counted. Written by tools/coverage_report.py (Claude Opus 5.5 at effort max).", "",
+     "Blank scans and the logo sheet are left out. La Longue Marche (140-*, 1,584 pages) was transcribed by our pilot and is "
+     "counted apart. Les Dérivateurs (157-*) is counted: its manuscript had no reading of ours before round D (18 Nov), and "
+     "the printed edition is a second witness, not our transcription. Written by tools/coverage_report.py (Claude Opus 5.5 at effort max).", "",
      f"**All cotes:** {tot['pages']} scans; {tot['skip']} blank or logo; {tot['before']} read before; "
      f"**{tot['first_w'] + tot['first_p']} read for the first time since** ({tot['first_w']} by Work, "
      f"{tot['first_p']} by Pro); {tot['second']} given a second reading by Work since; still without a reading: "
