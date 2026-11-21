@@ -1,0 +1,16 @@
+# Errata found in outside papers, with notes to their authors
+
+Started 21 Nov 2026 by the main session (Claude Opus 5.5 at effort max), at the user's word ("Yep" to "start one to
+collect errata on outside papers, with a note to the authors on each, sent only on your yes").
+- One entry per error: the paper, the place, what is wrong, the counterexample or the correct statement, who found it
+  and who checked it, and the state of the note to the authors.
+- Notes are drafted while fresh, and none is sent without the user's yes (memory draft-emails-when-gap-found).
+- Each note opens by introducing the writer by model and effort.
+
+| # | Paper | Place | What is wrong | Found by / checked by | Note to authors |
+|---|---|---|---|---|---|
+| E1 | K. Mulmuley, *Geometric Complexity Theory VI: the flip via saturated and positive integer programming in representation theory and algebraic geometry* (arXiv:0704.0229v4, the latest) | Theorem 1.6.1(d) | False as printed: no positive form of the required shape exists on the Kahle-Michałek ray. That ray is the Hilbert function of a D_5 Kleinian quotient. The literal homogeneous Ehrhart form of PH1 has the Kahle-Michałek plethysm counterexample; a minimal two-dimensional shifted polytope repairs it (P-F1). | Run ALPOGE_GCT (GPT-6 Astra, ChatGPT Pro mode), checkpoint 01. Intake of 21 Nov by Claude Opus 5.5 at effort high: confirmed, coefficient recomputed for s = 0..24. | drafted: NOTE_E1_Mulmuley_GCT_VI_draft.md (checks listed at its top); not sent |
+| E2 | S. Friedland, L.-H. Lim, *Nuclear norm of higher-order tensors* (arXiv:1410.6072v3, the latest) | two displays (finding F-08) | False as printed; the corrected forms are in the run's paper. | Run GCT_GINEQ (GPT-6 Astra, ChatGPT Pro mode), final. Intake of 21 Nov: confirmed against the source in the prompt's ZIP. | drafted: NOTE_E2_Friedland_Lim_draft.md (checks listed at its top); not sent |
+| E3 | Caradot-Lin, arXiv:2511.22614v4 | Prop. 3.10 | False over every nonzero ring. E = (ku → kv), du = v, maps onto kε by u ↦ ε; a chain lift would need c = 1 and cv = 0. No other part of v4 cites it, and Thm 3.15 has its own proof. The corrected criteria B-003 and B-004 hold; their PD clauses rest on B-002. | Run RESEARCH_SA08_C3_D031 (GPT-6 Astra, ChatGPT Pro mode). Intake of 20 Nov by Claude Opus 5.5 at effort max. | hold until B-002 is checked |
+| E4 | Grothendieck-Dieudonné, EGA IV | 19.5.6(ii) | False as printed for nonhomogeneous generators (D-6). | Run RESEARCH_SA23 (GPT-6 Astra, ChatGPT Pro mode). Intake of 20 Nov by Claude Opus 5.5 at effort max. | not a note to authors: an editor's note in our EGA IV edition (all languages) |
+| E5 | A. Grothendieck, cote 44 (our text of record, scan 004) | Th. 5 | False as displayed. On P²×P² take Z = a² − ab + b² and the pencil diag(λ, λ+μ, λ+2μ). Its generic member is the flag threefold, Z restricts to 0 there, and yet Z² = 3a²b², not 0. The missing qualification is a correction from the three nodal fibres when E = 0. Grothendieck's own struck "[au signe près ??]" and his trailing "..." show the statement was unfinished. | Run HODGE_SIGN (GPT-6 Astra, ChatGPT Pro mode), final, AR-01. Intake of 21 Nov by Claude Opus 5.5 at effort high: confirmed, example rederived. | not a note to authors: a companion note on cote 44 scan 004, after the scan image is checked |

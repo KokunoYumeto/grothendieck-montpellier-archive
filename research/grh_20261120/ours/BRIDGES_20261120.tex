@@ -1,0 +1,164 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}\usepackage[T1]{fontenc}\usepackage{amsmath,amssymb,amsthm}\usepackage[margin=2.3cm]{geometry}
+\newtheorem{theorem}{Theorem}\newtheorem{lemma}[theorem]{Lemma}\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}\newtheorem{remark}[theorem]{Remark}
+\title{Bridges from Alp\"oge's RH and GRH (20 Nov 2026) into algebraic geometry, Deligne's work and Grothendieck's archive}
+\author{Claude Opus 5.5 at effort max (sub-agent a84c887c\dots{} chain, resumed by the main session), 20 Nov 2026}
+\date{Tie-up version, written under a 50{,}000-token cap; INCOMPLETE in scope (see \S7)}
+\begin{document}\maketitle
+
+\section{The input and the status of the cited statements}
+Cited to L.~Alp\"oge, \emph{Remark} (https://alpo.ge/remark.pdf, 20 Nov 2026) and the Lean archive
+(https://alpo.ge/lean.tar.gz.part01--14), file \texttt{lean/src/Main.lean}, definitions in \texttt{lean/src/Statements.lean}:
+\begin{itemize}
+\item[A1] \texttt{riemannHypothesis : RiemannHypothesis} (Mathlib's \texttt{RiemannHypothesis}), proof term \texttt{rhOfAll}.
+\item[A2] \texttt{riemannZeta\_eq\_zero\_re : RiemannZetaZerosOnLine}: $\zeta(s)=0$, $s\neq-2(n+1)$, $s\neq1$ $\Rightarrow$ $\operatorname{Re}s=\tfrac12$.
+\item[A3] \texttt{LFunction\_ne\_zero\_of\_half\_lt\_re : DirichletLNonvanishingRightOfHalf}: for every $N\ge1$, every Dirichlet character $\chi$ mod $N$ (primitive or not), $\operatorname{Re}s>\tfrac12$ and ($\chi\neq1$ or $s\neq1$) $\Rightarrow L(\chi,s)\neq0$.
+\item[A4] \texttt{LFunction\_eq\_zero\_re : DirichletLZerosOnLine}: zeros of $L(\chi,s)$ with $0<\operatorname{Re}s<1$ have $\operatorname{Re}s=\tfrac12$.
+\item[A5] \texttt{LFunction\_eq\_zero\_re\_of\_isPrimitive}: the same for primitive $\chi$.
+\end{itemize}
+\textbf{What was checked here.} The two statement files were read in full; the four Props are exactly RH for $\zeta$ and GRH
+for all Dirichlet $L$-functions $L(\chi,s)$ of Mathlib (for imprimitive $\chi$ the extra Euler factors vanish only on
+$\operatorname{Re}s=0$, so A3--A5 are the usual GRH). The main session's text scan
+(\texttt{LEAN\_SCAN\_20261120.tsv}, 175{,}187 files) reports no \texttt{sorry}, \texttt{admit}, axiom declaration,
+\texttt{native\_decide}, \texttt{implemented\_by}/\texttt{extern}, \texttt{unsafe}, \texttt{opaque} or debug option, and 26
+\texttt{macro}/\texttt{elab}/\texttt{syntax} definitions in 22 files, which nobody has examined. Nothing was built (the rule
+for these files); no proof was read. Below, A1--A5 are \emph{carried as background}: every statement marked ``(by A$k$)''
+holds if and only if Alp\"oge's theorem does.
+
+\section{The questions found}
+\begin{tabular}{p{1cm}p{3.2cm}p{6cm}p{4.5cm}}
+Q01 & Serre 1965, Grothendieck's motivic programme & RH for $\zeta_X$, $X$ of finite type over $\mathbb Z$ (zeros and poles on the lines $\operatorname{Re}s=(w+1)/2$) & proved for abelian Artin--Tate $X$ (F1); open in general\\
+Q02 & Deligne (RH for motives over $\mathbb Q$) & zeros of $L(M,s)$, $M$ pure of weight $w$, on $\operatorname{Re}s=(w+1)/2$ & proved for Artin--Tate motives with abelian Artin part (F1, F2)\\
+Q03 & Grothendieck, cote 34 scan 64 (sheet 63, Rem.~1.17, struck) & ``il est plausible que l'on ait encore $\overline{[\pi_0,H]}$ ouvert dans $\pi'$. Cela semblerait devoir r\'esulter de l'hyp.\ de Riemann--Weil en dim.\ quelconque'' & hypothesis = Deligne's purity (a theorem); the deduction is not done here; Alp\"oge's statements do not bear on it\\
+Q04 & Grothendieck, cote 34 scan 74 (sheet 73, (2.5.5)) & $H^1(\bar X',\mathbb Z_\ell)^{\pi_0}=1$ (multiplicative notation for the trivial group; $=0$ additively; corrected 21 Nov 2026 after the intake of ZETA\_TWO, Claude Opus 5.5 at effort high), ``cons\'equence bien connue de l'hyp.\ de Riemann--Weil, prouv\'ee en dim.\ 1'' & settled by Weil (curves), as he says\\
+Q05 & Grothendieck 1969 & the standard conjectures & not settled (\S5)\\
+Q06 & Alp\"oge fn.~6, Lichtenbaum & vanishing of $K$-groups of $\mathbb Z$ & not settled here; gate: Vandiver\\
+Q07 & Koiran 1996 (GCT) & Nullstellensatz in AM unconditionally & not settled: needs GRH for Dedekind zetas of non-abelian fields\\
+Q08 & Miller 1976, Bach 1990 & deterministic Miller test, bound $2\log^2n$ & settled (by A3/A4)\\
+\end{tabular}
+
+\section{Part I: checked findings}
+\begin{definition}A scheme $X$ of finite type over $\mathbb Z$ has \emph{abelian Artin--Tate point counts} if there are
+integers $m_{i,\chi}$, finitely many nonzero, indexed by $i\in\mathbb Z_{\ge0}$ and primitive Dirichlet characters
+$\chi$ (with $\chi(p)=0$ for $p$ dividing the conductor), such that $\#X(\mathbb F_{p^r})=\sum_{i,\chi}m_{i,\chi}\chi(p)^rp^{ri}$
+for every prime $p$ and every $r\ge1$.\end{definition}
+Examples: $\mathbb A^n_{\mathbb Z}$, $\mathbb P^n_{\mathbb Z}$, $\mathbb G_m^n$, Grassmannians and flag schemes of split groups, split
+toric schemes, cellular schemes; $\operatorname{Spec}\mathcal O_K$ for $K$ abelian (F2); conics $x^2-dy^2=1$.
+
+\begin{theorem}[F1]\label{F1} If $X$ has abelian Artin--Tate point counts then
+$\zeta_X(s)=\prod_{i,\chi}L(s-i,\chi)^{m_{i,\chi}}$ as meromorphic functions on $\mathbb C$, and (by A1, A2, A5) every zero or
+pole $\rho$ of $\zeta_X$ either is an integer or satisfies $\operatorname{Re}\rho=i+\tfrac12$ for some $i$ with
+$m_{i,\chi}\neq0$ for some $\chi$. In weight language: $\operatorname{Re}\rho=(w+1)/2$ with $w=2i$ the weight of $\mathbb Q(-i)(\chi)$.
+The hypothesis is needed at all primes, including those dividing the conductors; an identity off a finite set $S$ of
+primes gives only the form $\zeta_X=R_{X,S}\prod L(V_i,s-i)$ of ZETA\_TWO ZT04 (corrected 21 Nov 2026 after the intake of
+ZETA\_TWO, Claude Opus 5.5 at effort high).\end{theorem}
+\begin{proof} For $\operatorname{Re}s>\dim X$ the Euler product $\zeta_X(s)=\prod_{x\in|X|}(1-N(x)^{-s})^{-1}$ converges
+absolutely (Serre 1965, Thm.~1; locator unverified) and $\log\zeta_X(s)=\sum_p\sum_{r\ge1}\#X(\mathbb F_{p^r})p^{-rs}/r$.
+Substituting the hypothesis, $\log\zeta_X(s)=\sum_{i,\chi}m_{i,\chi}\sum_p\sum_r\chi(p)^rp^{-r(s-i)}/r
+=\sum_{i,\chi}m_{i,\chi}\log L(s-i,\chi)$, all series absolutely convergent for $\operatorname{Re}s>\max\{i\}+1$. So the
+identity holds there, and on $\mathbb C$ by meromorphic continuation. For primitive $\chi\neq1$, $L(s,\chi)$ is entire;
+its zeros are the trivial zeros at the non-positive integers of the parity of $\chi$ and the zeros in $0<\operatorname{Re}s<1$,
+which lie on $\operatorname{Re}s=\tfrac12$ by A5. $\zeta(s)$ has its pole at $1$, trivial zeros at $-2,-4,\dots$ and the
+other zeros on $\operatorname{Re}s=\tfrac12$ by A1/A2. Shifting by $i$, every zero or pole of each factor is an integer or
+lies on $\operatorname{Re}s=i+\tfrac12$. Zeros and poles of a finite product lie among those of its factors (cancellation can
+only remove some).\end{proof}
+
+\begin{theorem}[F2]\label{F2} For $K$ an abelian number field, $\zeta_K(s)=\prod_{\chi}L(s,\chi)$ over the primitive characters
+$\chi$ attached to the characters of $G=\operatorname{Gal}(K/\mathbb Q)$, and the zeros of $\zeta_K$ in $0<\operatorname{Re}s<1$
+lie on $\operatorname{Re}s=\tfrac12$ (by A2, A5).\end{theorem}
+\begin{proof} We check the hypothesis of F1 for $X=\operatorname{Spec}\mathcal O_K$, with $m_{0,\chi}=1$. Let $p$ have
+inertia $I_p$, ramification index $e$, residue degree $f$, $g$ primes above $p$, so $efg=|G|$. A point of $X$ over
+$\mathbb F_{p^r}$ is a prime $P\mid p$ with $f\mid r$ together with an embedding of $\mathbb F_{p^f}$, so
+$\#X(\mathbb F_{p^r})=gf\,[f\mid r]=|G/I_p|\,[f\mid r]$. A character $\chi$ of $G$ has $\chi(p)\neq0$ (as a primitive
+Dirichlet character) exactly when it is trivial on $I_p$, and then $\chi(p)=\chi(\mathrm{Frob}_p)$ in $G/I_p$, a cyclic-by-
+inertia quotient in which $\mathrm{Frob}_p$ has order $f$. Hence $\sum_\chi\chi(p)^r=\sum_{\psi\in(G/I_p)^\vee}\psi(\mathrm{Frob}_p)^r
+=|G/I_p|\,[f\mid r]$ by orthogonality. F1 applies; the zeros of $\zeta_K$ in the strip are zeros of some $L(s,\chi)$ in the
+strip, on the line by A2/A5.\end{proof}
+
+\begin{theorem}[F3: the hexagon of the note]\label{F3} Let $\omega=e^{2\pi i/3}$, $\Lambda=\mathbb Z[\omega]$, $E_0=\mathbb C/\Lambda$
+(the curve ``$\mathbb C/\mathbb Z[\omega]$'' of the note's step 3, $j=0$) and $\mu_6=\langle\zeta\rangle$, $\zeta=e^{i\pi/3}$, acting by
+multiplication. The orbifold $E_0/\mu_6$ is $\mathbb P^1$ with three cone points of orders $2,3,6$; its orbifold fundamental
+group is $\Lambda\rtimes\mu_6$, the $(2,3,6)$ triangle group $\Delta(2,3,6)=\langle a,b\mid a^2=b^3=(ab)^6=1\rangle$; the
+quotient map $E_0\to\mathbb P^1$ is branched over exactly three points, so it is a Belyi map (a dessin in the sense of
+Grothendieck's \emph{Esquisse}); and $\Delta(2,3,6)$ is the quotient of $\mathrm{PSL}_2(\mathbb Z)\cong\Delta(2,3,\infty)$ by
+the normal closure of the sixth power of the parabolic element $ab$.\end{theorem}
+\begin{proof} The group of affine maps $z\mapsto\zeta^kz+\lambda$ ($\lambda\in\Lambda$) acts properly discontinuously on
+$\mathbb C$ with quotient $E_0/\mu_6$, so it is the orbifold fundamental group. Points of $E_0$ with nontrivial stabilizer:
+$0$ (stabilizer $\mu_6$); the three nonzero $2$-torsion points $\tfrac12,\tfrac\omega2,\tfrac{1+\omega}2$, fixed by $-1$
+and permuted transitively by $\omega$, giving one cone point of order $2$; the two nonzero points of
+$(1-\omega)^{-1}\Lambda/\Lambda\cong\Lambda/(1-\omega)\cong\mathbb F_3$, fixed by $\omega$ and exchanged by $-1$, giving one
+cone point of order $3$. Orbifold Euler characteristic $0/6=0=2-(1-\tfrac12)-(1-\tfrac13)-(1-\tfrac16)$, so the underlying
+surface has genus $0$. A Euclidean orbifold $S^2(2,3,6)$ has fundamental group $\Delta(2,3,6)$ with the stated presentation
+(standard; locator unverified). $\mathrm{PSL}_2(\mathbb Z)=\langle S,U\mid S^2=U^3=1\rangle$ with $SU$ parabolic; sending
+$S\mapsto a$, $U\mapsto b$ is onto with kernel the normal closure of $(SU)^6$.\end{proof}
+
+\begin{lemma}[F4: ``opposite signs meaning no cancellation of inverse roots'']\label{F4} Let $\alpha_1,\dots,\alpha_r\in\mathbb C^\times$
+be distinct and $c_1,\dots,c_r\in\mathbb C^\times$. If $S_n=\sum_jc_j\alpha_j^n$ is real and $\ge0$ for all $n\ge n_0$, then
+$\rho=\max_j|\alpha_j|$ is itself one of the $\alpha_j$.\end{lemma}
+\begin{proof} $f(t)=\sum_{n\ge n_0}S_nt^n=\sum_jc_j(\alpha_jt)^{n_0}/(1-\alpha_jt)$ is rational with poles exactly at the
+$1/\alpha_j$ (distinct $\alpha_j$, nonzero $c_j$: the partial-fraction decomposition is unique, nothing cancels). Its Taylor
+series has radius $1/\rho$ and nonnegative coefficients, so by Pringsheim's theorem $f$ is singular at $t=1/\rho$; hence
+$1/\rho=1/\alpha_j$ for some $j$.\end{proof}
+\begin{remark} This is the mechanism of Deligne's bound in \emph{La conjecture de Weil I}, \S3 (Rankin's squaring: for a real
+sheaf the $L$-function of an even tensor power has nonnegative coefficients; locator unverified), and of the note's step~5
+(``Bertini gives a definite sign from middle cohomology \dots{} opposite signs meaning no cancellation of inverse roots'').
+F4 is the purity-by-sign step stated exactly; the rest of the note's ``$qN=M^k+R$ sign-only proof of Weil and Deligne'' is
+not reconstructed here (the note is 4 pages; the Lean folder \texttt{Development/WeilBound}, 6{,}325 files, was not read).\end{remark}
+
+\section{Part II: cited theorems that A1--A5 make unconditional (no new proof; locators unverified unless stated)}
+RH (A1): von Koch 1901, $\pi(x)=\operatorname{li}(x)+O(\sqrt x\log x)$; Schoenfeld 1976 (Math.\ Comp.\ 30) explicit
+$|\pi(x)-\operatorname{li}(x)|<\frac{\sqrt x\log x}{8\pi}$, $x\ge2657$; Cram\'er 1920/1936, $p_{n+1}-p_n=O(\sqrt{p_n}\log p_n)$;
+Selberg 1943, primes in almost all intervals $(x,x+f(x)\log^2x)$, $f\to\infty$; Montgomery 1973, pair correlation
+$F(\alpha)=|\alpha|+o(1)$ for $|\alpha|<1$ and the consequence that at least $2/3$ of zeros are simple (the pair-correlation
+\emph{conjecture} for $|\alpha|\ge1$ stays open); Robin 1984 ($\sigma(n)<e^\gamma n\log\log n$, $n>5040$), Lagarias 2002,
+Li 1997 ($\lambda_n\ge0$), Nyman--Beurling/B\'aez-Duarte, Weil's positivity of the explicit-formula functional (Weil 1952;
+Bombieri 2000): each of these criteria is now a theorem. GRH for Dirichlet (A3--A5): Littlewood 1928, $L(1,\chi_d)\ll\log\log|d|$
+and $\gg1/\log\log|d|$, effective Siegel-type class-number bounds; Ankeny 1952 and Bach 1990 (Math.\ Comp.\ 55): every proper
+subgroup of $(\mathbb Z/n)^\times$ misses an element $<2\log^2n$, hence Miller's 1976 test is a correct deterministic test
+(Q08); Lagarias--Odlyzko 1977 effective Chebotarev for abelian extensions of $\mathbb Q$ ($\zeta_L$ is a product of Dirichlet
+$L$-functions, F2); Deshouillers--Effinger--te Riele--Zinoviev 1997 (ternary Goldbach; Helfgott 2013 unconditional anyway);
+Hughes--Rudnick and \"Ozl\"uk--Snyder one-level densities for Dirichlet families with extended support.
+\textbf{Needs more than A1--A5:} effective Chebotarev over non-abelian fields and Hooley's Artin primitive-root theorem
+(GRH for Dedekind zetas of Kummer fields $\mathbb Q(\zeta_n,a^{1/n})$); Weinberger's Euclidean rings (GRH for Dedekind zetas
+of the fields themselves); Koiran's Nullstellensatz in AM (Q07); Iwaniec--Luo--Sarnak (GRH for $\mathrm{GL}_2$); class-group
+algorithms over number fields. \textbf{Programmes:} Weil positivity, Li, Nyman--Beurling: now theorems; Hilbert--P\'olya,
+Connes and Connes--Consani, Deninger, $\mathbb F_1$ (Borger, footnote~5 of the note): their equivalences now hold, their own
+constructions (a canonical operator, a cohomology with positivity) remain open; de Branges: his positivity condition was shown
+to fail (Conrey--Li 2000), so RH being true does not make it hold; Katz--Sarnak: symmetry types are not implied by RH.
+
+\section{Part III: the archive and our register}
+Scripted search of the text of record (\texttt{scripts/archive\_rh\_search.py}): ``Riemann'' occurs only as ``Riemann--Weil''
+(34/64, 34/74) and in references (119/65: Deligne, \emph{La conjecture de Weil pour les surfaces K3}; 162-1/4, struck: ``sur
+conjecture de Weil''); 8 pages say ``nombres premiers'', 7 ``fonctions L'', 3 ``Dirichlet''. Every question there that names a
+Riemann hypothesis names the one over finite fields, a theorem since Deligne 1974/1980; none is settled by A1--A5, whose
+content is over $\mathbb Q$. From the stretches read in sweep 3 (\texttt{sweep3/SA13/readings/c33\_c36\_c39.md},
+\texttt{c32\_c35\_c37\_c40.md}): 33/118 (Künneth for $Rf_*$; settled by SGA $4\tfrac12$), 36/76 (the weight lemma: Weil's
+$q^{1/2}$ for abelian varieties over finite fields), 36/10--27 (Griffiths' theorem; level in characteristic $p$, Katz SGA~7 XXI
+1.4), 37/79 (local invariant cycle problem for $H^1$, Griffiths' conjecture: Deligne, Weil~II) use purity only.
+Register (\texttt{field\_experts/intake\_20261120/BRIDGE\_FLAGS.tsv}, 575 rows): 456 ``motives/Tate twists'', 64
+``purity/weights'', 53 ``Weil conjectures'', 2 ``RH/GRH''. The two RH/GRH rows do not depend on RH over $\mathbb Q$:
+S6\_SERIES\_GRIND \texttt{maps:src:F.2.36} (class and unit groups certified with GRH=false) and LM8\_PUSH A.69 (``DS/RH'':
+the finite-field bound). So no row of our runs changes status; F1 is the one new unconditional statement for our
+motivic lines (abelian Artin--Tate motives over $\mathbb Z$).
+
+\section{Part IV: the other bridges asked for}
+\textbf{GCT.} Kazhdan--Lusztig positivity comes from Deligne's purity of intersection cohomology (Kazhdan--Lusztig 1980),
+not from RH over $\mathbb Q$; the flip's Kronecker/plethysm positivity is untouched; Koiran's AM result needs GRH for Dedekind
+zetas of arbitrary number fields (Q07). \textbf{ETH.} No source for a disproof was found on disk (search of
+\texttt{reports\_20261120}, \texttt{field\_experts/intake\_20261120}, \texttt{USER\_INPUTS.md}: no hit); no bridge is
+stated. \textbf{Hexagons.} F3 identifies the note's $(2,3,6)$ trick with the orbifold $E_0/\mu_6$ of the hexagonal CM curve
+and with a quotient of $\mathrm{PSL}_2(\mathbb Z)=\Delta(2,3,\infty)$, the group behind the order-3 symmetry that Drinfeld's
+hexagon relation in $\widehat{GT}$ encodes; the link to the hexagons and pants of cotes 67--68 is not worked out here.
+
+\section{Part V: not checked; and what is left (ranked)}
+Nothing unchecked is asserted as a finding. Left, by rank: (1) Q03 (34/64): derive the openness of $\overline{[\pi_0,H]}$
+from purity, reading 34/53--64 for 1.1; (2) the note's steps 3--5 against \texttt{Development/WeilBound}: state the
+``$qN=M^k+R$'' identity exactly and whether it gives purity over $\mathbb F_q$ independently of Weil~I; (3) step 17 / footnote 6:
+locate a Lean statement on $H^1(\mathcal O_E[1/\ell],\mathbb Q_\ell/\mathbb Z_\ell(-e))$ or on $K_{4k}(\mathbb Z)$; (4) the GT
+hexagon relation against F3 and cotes 67--68; (5) exact locators for Part II.
+
+\section{Status}
+INCOMPLETE: the session was capped (the coordinator's 50{,}000-token tie-up, 20 Nov 2026). State reached: F1--F4 proved;
+Q01, Q02 partly and Q08 settled; Q04 settled earlier (Weil); Q03, Q05--Q07 open at the gates above.
+\end{document}
