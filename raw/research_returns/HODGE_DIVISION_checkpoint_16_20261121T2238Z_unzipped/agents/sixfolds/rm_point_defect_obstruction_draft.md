@@ -1,0 +1,320 @@
+# SF-E817: an actual singular balanced character and the universal point-defect obstruction
+
+Author: GPT-6 Astra Pro; inherited effort not exposed; HODGE_DIVISION /root/sixfolds. Date: 2026-11-21.
+
+**Status:** Whole-proof mathematical PASS received from /root and /root/imprimitive on2026-11-21 (GPT-6 Astra Pro; inherited effort not exposed). Root read the complete written proof and exact certificate and freshly reran that certificate. Imprimitive read the full proof, freshly reconstructed the exterior calculation with independent tuple-wedge code, and freshly reread the supplied S-20/S-21 categorical passages. The author ran the displayed exact certificate separately. The theorem concerns torsion-free sheaves with locally free double dual and zero-dimensional quotient. It does not treat positive-dimensional defects or singular reflexive hulls.
+
+## 1. Statement
+
+Let \(X\) be a polarized complex abelian fourfold with a genuine real quadratic action, of holomorphic type \((2,2)\). Let \(\theta_+,\theta_-\) be the components of its compatible polarization \(\theta\), and put
+
+\[
+ \Delta=\int_X\frac{\theta^4}{24}>0,
+ \qquad z_\pm=\frac{\theta_\pm^2}{2}.
+ \tag{E817.1}
+\]
+
+Thus \(\int_Xz_+z_-=\Delta\). Let \(E\) be a torsion-free coherent sheaf of positive rank \(r\), with locally free double dual \(H=E^{\vee\vee}\), and suppose
+
+\[
+ 0\longrightarrow E\longrightarrow H\longrightarrow T\longrightarrow0
+ \tag{E817.2}
+\]
+
+has nonzero zero-dimensional quotient \(T\). Suppose that for a rational algebraic divisor \(B\) and nonzero real rational \(q\),
+
+\[
+ e^B\operatorname{ch}(E)
+      =r v_q,
+ \qquad
+ v_q=(1-qz_+)(1-qz_-).
+ \tag{E817.3}
+\]
+
+Let \(G\subset X\times\widehat X\) be any effective finite subgroup with a specified coherent translation/tensor action, and suppose that \(E\) has an actual equivariant structure. Let \(s\ge1\) be the number of \(G\)-orbits in the support of \(T\).
+
+Then its full invariant degree-two trace has
+
+\[
+ \dim\ker\sigma^2_{E,G}\ge1+3s\ge4.
+ \tag{E817.4}
+\]
+
+In particular \(E\) is not weakly \(G\)-semiregular. There is no simplicity, stability, or polystability hypothesis on \(E\) or on \(H\). Nonreduced finite-length quotients are allowed. The proof uses the actual canonical double-dual sequence, not an assertion that its subobject or quotient is a direct summand.
+
+## 2. The equivariant structures on the canonical sequence
+
+Translation and tensoring by a line bundle commute naturally with double dual. The given coherent isomorphisms on \(E\) therefore induce coherent isomorphisms on \(H=E^{\vee\vee}\), and the canonical map \(E\to H\) is equivariant. Its quotient \(T\) inherits the actual coherent structure. Associativity is preserved by these functorial operations; no new projective linearization of an individual factor is introduced.
+
+Every finite-length sheaf has a canonical decomposition into its pieces at the finitely many support points, by the decomposition of its Artinian support algebra. Grouping these pieces by translation orbits gives actual equivariant summands
+
+\[
+ T=\bigoplus_{\nu=1}^{s}T_\nu.
+ \tag{E817.5}
+\]
+
+Tensoring by a degree-zero line bundle does not change support. Distinct support-orbit summands have disjoint support, hence all their cross Ext groups vanish. Each \(T_\nu\) has positive length \(\ell_\nu\) and character \(\ell_\nu[\mathrm{pt}]\).
+
+## 3. A canonical exact sequence on middle self-Ext
+
+We first record two elementary vanishings on a smooth fourfold:
+
+\[
+ \operatorname{Ext}^j_X(H,T)=0\quad(j>0),
+ \qquad
+ \operatorname{Ext}^j_X(T,H)=0\quad(j<4).
+ \tag{E817.6}
+\]
+
+For the first, \(H\) is locally free and \(H^\vee\otimes T\) has finite support, so it has no higher cohomology. For the second, the local Koszul resolution of a point in a regular local ring of dimension four gives \(\operatorname{Ext}^j(k_p,H)=0\) for \(j<4\). A finite-length sheaf has a finite filtration with such residue-field factors. The Ext long exact sequence proves the same vanishing for every factor extension. The local-to-global passage has no higher-support cohomology, giving (E817.6). Negative Ext vanishes for sheaves as usual. Finite-group invariants over \(\mathbf C\) are exact, so these vanishings also hold for the specified equivariant Ext groups.
+
+Use the actual equivariant triangle
+
+\[
+ T[-1]\xrightarrow{i}E\xrightarrow{p}H
+       \xrightarrow{a}T.
+ \tag{E817.7}
+\]
+
+Apply \(\operatorname{RHom}_G(H,-)\). The exact segment for \(j=2,3\) is
+
+\[
+ \operatorname{Ext}^{j-1}_G(H,T)
+ \longrightarrow\operatorname{Ext}^{j}_G(H,E)
+ \xrightarrow{p_*}\operatorname{Ext}^{j}_G(H,H)
+ \longrightarrow\operatorname{Ext}^{j}_G(H,T).
+\]
+
+The exterior groups vanish, so
+
+\[
+ \operatorname{Ext}^{j}_G(H,E)
+       \simeq\operatorname{Ext}^{j}_G(H,H)
+       \qquad(j=2,3).
+ \tag{E817.8}
+\]
+
+Next apply \(\operatorname{RHom}_G(T[-1],-)\). Its adjacent groups with target \(H\) are \(\operatorname{Ext}^{j}_G(T,H)\) and \(\operatorname{Ext}^{j+1}_G(T,H)\). For \(j=1,2\), both vanish by (E817.6). Therefore
+
+\[
+ i_*:\operatorname{Ext}^{j}_G(T,T)
+      \xrightarrow{\sim}\operatorname{Ext}^{j}_G(T[-1],E)
+        \qquad(j=1,2).
+ \tag{E817.9}
+\]
+
+Finally apply \(\operatorname{RHom}_G(-,E)\). The relevant complete segment is
+
+\[
+ \begin{split}
+ \operatorname{Ext}^1_G(T[-1],E)
+ &\xrightarrow{\partial_1}\operatorname{Ext}^2_G(H,E)
+ \longrightarrow\operatorname{Ext}^2_G(E,E)\\
+ &\longrightarrow\operatorname{Ext}^2_G(T[-1],E)
+ \xrightarrow{\partial_2}\operatorname{Ext}^3_G(H,E).
+ \end{split}
+ \tag{E817.10}
+\]
+
+The two connecting maps are zero. Indeed, using (E817.9), a degree-\(j\) element, for \(j=1,2\), is represented by
+
+\[
+ f=i[j]\circ b[-1],\qquad b:T\longrightarrow T[j].
+\]
+
+Its connecting class is, up to sign,
+
+\[
+ \partial_j(f)=f[1]\circ a
+             =i[j+1]\circ b\circ a.
+ \tag{E817.11}
+\]
+
+The intermediate composite \(b\circ a\) belongs to \(\operatorname{Ext}^j_G(H,T)=0\), by (E817.6). These are actual equivariant morphisms, so the vanishing holds before any dimension estimate.
+
+Equations (E817.8)--(E817.11) yield the short exact sequence
+
+\[
+ 0\longrightarrow\operatorname{Ext}^2_G(H,H)
+   \longrightarrow\operatorname{Ext}^2_G(E,E)
+   \longrightarrow\operatorname{Ext}^2_G(T,T)
+   \longrightarrow0.
+ \tag{E817.12}
+\]
+
+The sequence is not claimed to split canonically. It gives the exact dimension identity
+
+\[
+ e_2^G(E)=e_2^G(H)+e_2^G(T).
+ \tag{E817.13}
+\]
+
+No degeneration of a spectral sequence, formality assertion, or stability condition is used.
+
+## 4. The complete cap-rank calculation after adding a point class
+
+Let \(\ell=\operatorname{length}(T)>0\). Since an exponential fixes the top point class, (E817.2)--(E817.3) give
+
+\[
+ e^B\operatorname{ch}(H)
+   =r(1-qz_+)(1-qz_-)+\frac{\ell}{\Delta}z_+z_-.
+ \tag{E817.14}
+\]
+
+We compute its full degree-two Hochschild cap rank. Let
+
+\[
+ W=W_+\oplus W_-,\qquad
+ W_\pm=L_\pm\oplus M_\pm,
+ \qquad\dim L_\pm=\dim M_\pm=2,
+\]
+
+where \(L_\pm\) and \(M_\pm\) are the translation and tensor planes for the respective real embeddings. Choose nonzero volume bivectors \(\alpha_\pm\in\bigwedge^2L_\pm\) and \(\beta_\pm\in\bigwedge^2M_\pm\) so that the Fock representatives of the unit and of \(z_\pm\) are \(\alpha_\pm\) and \(\beta_\pm\). The full character in (E817.14) becomes
+
+\[
+ w=a\alpha_+\alpha_-+b\beta_+\alpha_-
+       +c\alpha_+\beta_-+d\beta_+\beta_-,
+ \tag{E817.15}
+\]
+
+with
+
+\[
+ a=r,\qquad b=c=-rq,\qquad
+ d=rq^2+\frac{\ell}{\Delta},\qquad
+ ad-bc=\frac{r\ell}{\Delta}\ne0.
+ \tag{E817.16}
+\]
+
+All four coefficients are nonzero. The multiplication map
+\(\bigwedge^2W\to\bigwedge^6W\), \(u\mapsto u\wedge w\), has the following three independent bidegree blocks.
+
+On \(\bigwedge^2W_+\), only the two directions \(\alpha_+,\beta_+\) contribute. Their images, in
+\(\bigwedge^4W_+\otimes\bigwedge^2W_-\), have coefficient matrix
+
+\[
+ \begin{pmatrix}b&a\\d&c\end{pmatrix}.
+\]
+
+Its determinant is \(bc-ad\ne0\), so this block has rank two. The analogous block on \(\bigwedge^2W_-\) has rank two as well.
+
+On \(W_+\otimes W_-\), decompose each factor into its two translation/tensor planes. The four resulting four-dimensional summands map isomorphically into distinct summands of
+\(\bigwedge^3W_+\otimes\bigwedge^3W_-\), multiplied respectively by \(a,b,c,d\), up to signs. Hence the mixed block has rank sixteen. Thus
+
+\[
+ \operatorname{rank}c^2_{\operatorname{ch}(H)}=2+2+16=20.
+ \tag{E817.17}
+\]
+
+The common divisor shear does not change this rank. When \(\ell=0\), the two pure blocks instead have rank one each, recovering the balanced rank eighteen. For a nonzero point character alone, only \(d\) is nonzero; the same block calculation gives ranks one, one, and four, totaling six.
+
+The calculation is universal in the coefficients. A nonzero twenty-by-twenty minor can be chosen with determinant, up to sign,
+
+\[
+ (ad-bc)^2(abcd)^4.
+ \tag{E817.18}
+\]
+
+An exact exterior script checks this generic minor and the stated ranks. The proof of the universal rank is the three-block argument above.
+
+## 5. The invariant kernel lower bound
+
+For every actual equivariant perfect object, evaluation of Hochschild degree two takes values in invariant Ext, because translation and degree-zero tensor operations act trivially on Hochschild cohomology. Evaluation followed by full trace is cap with its Chern character, up to the fixed nonzero identity-sector normalization of supplied DEG_L S-21. Equation (E817.17) therefore gives
+
+\[
+ e_2^G(H)\ge20.
+ \tag{E817.19}
+\]
+
+For each actual equivariant support-orbit summand \(T_\nu\), its positive point character has cap rank six. Thus \(e_2^G(T_\nu)\ge6\). The disjoint-support decomposition (E817.5) gives
+
+\[
+ e_2^G(T)\ge6s.
+ \tag{E817.20}
+\]
+
+Combining these inequalities with (E817.13) yields
+
+\[
+ e:=e_2^G(E)\ge20+6s.
+ \tag{E817.21}
+\]
+
+To obtain an actual trace-kernel bound without assuming semiregularity, let \(h=\operatorname{rank}\sigma^2_{E,G}\) and \(k=e-h\). CY4 trace/evaluation adjunction says that the evaluation map \(\rho^2_{E,G}\) also has rank \(h\). The Serre pairing on invariant Ext is perfect, since the finite translation/tensor action preserves it and averaging is exact. Cap with the balanced character has rank eighteen. The elementary rank inequality for the composition gives
+
+\[
+ 18=\operatorname{rank}(\sigma^2_{E,G}\rho^2_{E,G})
+       \ge 2h-e=e-2k.
+ \tag{E817.22}
+\]
+
+Equations (E817.21)--(E817.22) imply
+
+\[
+ k\ge\frac{e-18}{2}\ge1+3s,
+\]
+
+which is (E817.4). The bound remains positive for every effective finite coherent action, including actions that correlate different support points and carry nontrivial multiplicity representations.
+
+## 6. An explicit actual singular balanced sheaf
+
+Use the CM product and integral divisor classes of SF-E815:
+
+\[
+ X=E_i^4,\qquad X_0=x+y,\qquad Y=\sqrt2(x-y),
+ \qquad x^2=-\theta_+^2,\quad y^2=-\theta_-^2,
+ \quad\int_Xx^2y^2=4.
+\]
+
+The rationality and integrality of \(X_0,Y\) come from the explicit Hermitian matrices \(S\) and \(US\) in that theorem. Form the actual polystable bundle
+
+\[
+ H=\bigl(L_{2X_0}\oplus L_{-2X_0}\bigr)^{\oplus3}
+       \oplus\bigl(L_Y\oplus L_{-Y}\bigr)^{\oplus6}.
+ \tag{E817.23}
+\]
+
+Its rank is eighteen and its odd character components vanish. Direct expansion gives
+
+\[
+ \begin{aligned}
+ \operatorname{ch}_2(H)
+   &=12X_0^2+6Y^2=24(x^2+y^2),\\
+ \operatorname{ch}_4(H)
+   &=4X_0^4+\tfrac12Y^4=36x^2y^2.
+ \end{aligned}
+ \tag{E817.24}
+\]
+
+Choose sixteen distinct points \(Z\) and a nonzero linear functional on the fibre of \(H\) at each point. These define an actual surjection \(H\twoheadrightarrow\mathcal O_Z\). Let \(E\) be its kernel. It is torsion-free of rank eighteen, and its double dual is \(H\). For example, dualizing the sequence twice proves this directly because \(\operatorname{Hom}(T,\mathcal O_X)=\operatorname{Ext}^1(T,\mathcal O_X)=0\).
+
+Locally at a point of \(Z\), an invertible change of basis makes the surjection \(R^{18}\to k\) the reduction of the first coordinate, so
+
+\[
+ E_p\simeq\mathfrak m_p\oplus R^{17}.
+\]
+
+The maximal ideal of a regular local ring of dimension four is not free of rank one. Thus this is a genuinely singular torsion-free sheaf, not a vector bundle.
+
+Since \([\mathrm{pt}]=x^2y^2/4\), the entire character of its kernel is
+
+\[
+ \begin{split}
+ \operatorname{ch}(E)
+   &=18+24(x^2+y^2)+32x^2y^2\\
+   &=18\left(1-\frac43\theta_+^2\right)
+          \left(1-\frac43\theta_-^2\right)
+     =18v_{8/3}.
+ \end{split}
+ \tag{E817.25}
+\]
+
+All the line summands of \(H\) have zero slope for the product polarization, because their restrictions to each RM plane are primitive. The bundle \(H\) is therefore polystable of slope zero. The kernel has the same first Chern class, and every subsheaf of \(E\) is a subsheaf of \(H\), so \(E\) is semistable of slope zero. Its singular stable factors are not covered by the locally free Jordan--Hölder hypothesis in SF-E813. The surjection can be chosen with all fibre components nonzero; no direct-sum decomposition of the kernel is assumed.
+
+Nevertheless SF-E817 excludes weak semiregularity of this actual sheaf under every effective finite coherent action. In the ordinary category, its sixteen support points give \(s=16\), hence the invariant-free full trace kernel has dimension at least forty-nine by (E817.4). This lower bound is not asserted to be sharp.
+
+## Scope and source record
+
+This construction genuinely enters the singular-factor route and then fails by the displayed exact maps. The universal theorem removes all nonzero finite-length defects of locally free hulls in the balanced character, without a stability or simplicity premise. It does not remove defects supported on curves or surfaces, nor a reflexive hull that is itself singular. Those cases have different local Ext groups and must not be inferred from (E817.6).
+
+The local vanishings are proved here by the four-variable Koszul complex and finite-length filtrations. The only categorical input not reproved is the already reread CY4 trace/evaluation adjunction and coherent finite-action identity-sector assertion of supplied DEG_L S-21. The Fock identification and balanced rank eighteen are also rederived in the displayed blocks and agree with the previously checked SF-E801. No new preprint theorem, Hermitian--Einstein extension for singular sheaves, or dg formality is used.

@@ -1,0 +1,37 @@
+# Independent whole-proof audit of D-OL04–05
+
+**Outcome: PASS. No mathematical repair requested.**
+
+Reviewer: `/root/g34_eightfolds`, GPT-6 Astra Pro, effort inherited/unexposed, HODGE_DIVISION. Actual completed-check time: **2026-11-21 20:52:53 UTC**. Reviewed file: `agents/imprimitive/orthogonal_lowlevels/orthogonal_lowlevel_section.tex`, final SHA-256 **`2f40c6daf6ead0f9cad0aa0ac77f1fb9699b55396c215cc3c24c3f34cd9894e7`**. I read the entire proof and author checker, then reread the final file after its equation tags were renamed from OL.14–25 to OL4.1–12. That repair changes no mathematics. The status paragraph still described independent review as pending at the frozen hash; this report supplies the completed independent review.
+
+## The orbit and extension argument
+
+For a tuple span R of dimension at most 2ℓ, the polar radical of R-perp is exactly R intersect R-perp. A vector-space complement to that radical has nondegenerate restricted polar form and dimension at least d−4ℓ. In characteristic two it is therefore a nondefective quadratic space, even if the discarded polar radical has nonzero quadratic values. Its orthogonal complement in V contains R. This checks the actual embedded tuple stabilizer used in the proof.
+
+For odd q, the binary norm-representation argument is valid for both types: two sets of size (q+1)/2 in F_q must intersect, so every nonzero norm occurs. Reflections with square and nonsquare norms give the two specified determinant/spinor classes, which generate the full quotient C2 × C2. For even q, a vector of nonzero quadratic norm exists in any nondegenerate polar plane. Its symmetry has moving rank one and lies outside the derived subgroup by the published fixed-space parity statement. It therefore maps onto the quotient of order two. The argument applies to all stated odd and even dimensions, rather than only split spaces.
+
+The stabilizer surjection proves equality of the actual O and Ω orbit partitions on V^(2ℓ). Equivariant matrices are precisely functions constant on these pair orbits, so the conclusion is equality of commutant algebras. Extending an Ω-endomorphism of an irreducible O-summand by zero on an O-stable complement is legitimate. The equality forces its restriction to be scalar, and complete reducibility proves that this summand restricts irreducibly. The same argument for homomorphisms shows that different O-types have different restrictions. Since the level-ℓ constituent occurs in the actual permutation module on V^ℓ, this supplies an actual irreducible extension to O; no character-invariance-to-extension implication is assumed.
+
+The published reality of full O then makes the extending character real-valued, hence its complex representation selfdual. This does not claim that Ω is always real or that every invariant bilinear form is symmetric. The contrapositive d≤4ℓ+1 is exact.
+
+## Source consequence and full normalizers
+
+I had independently audited the complete preceding D-OL01–03 proofs and source estimates immediately before this review. Their ordinary-level bound ℓ<10^30 and spin cutoff imply exactly the stated thresholds 4·10^30−3 and 4·10^30−2. No invariance of a level under arbitrary outer automorphisms is being assumed.
+
+An irreducibly acting central product of selfdual factor modules has a one-dimensional invariant bilinear-form space. Normality makes every inducing-image operator preserve that line, including factor permutations. If its multiplier were trivial, the inducing character would be real-valued. The original imaginary quadratic character field embeds in the inducing character field by the actual induction formula, which rules this out even when those fields differ.
+
+For q≥16 the exact published ratio c(q)≤9/16 has the required hypotheses on these large orthogonal quasisimple groups. Tensoring gives the same bound on every nonscalar core element. The previously fully checked normal-core commutator argument, including nonidentity scalar commutators, gives projective moving rank at least 7e/64 for every compatible normalizer. This does not require a separate list of graph, field or diagonal extensions and does not lose the factor-permuting operators.
+
+The actual intermediate Hurwitz factorization supplies genus zero and r≥12; the factor degree is already enormous from the cited k=1 bound, so the standard large-inducing-degree genus-zero reduction applies. A nontrivial multiplier on a product-one generating tuple is nontrivial on at least two inertias. Their fixed spaces are isotropic for the nondegenerate invariant form and have dimension at most e/2. The remaining at least ten genuine inertias cost at least 7e/64, including scalar inertias, whose actual moving rank is e. Thus 2e+6≥67e/32 and e≤64. The k=1 degree lower bound q^(d−4)(q−1) contradicts this. All field and determinant scopes in the conclusion are correct. The listed small fields are a remaining necessary gate, not a source existence assertion or a finite natural-rank classification.
+
+## Fresh primary-source reading
+
+I opened the full published Kim–Trefethen–Vinroot paper at `https://www.advgrouptheory.com/journal/Volumes/16/KimTrefethenVinroot.pdf` and read its complete introduction and relevant subgroup definitions, pp.39–43, and Theorem 1 on p.44. The paper explicitly states strong reality of full O in even characteristic on p.40 and the odd-characteristic result in Theorem 1. Section 2 defines Ω as the derived group, gives index two for even q, and for odd q identifies Ω as the intersection of determinant-one and spinor-norm-one subgroups of index four. It also states orthogonal-sum compatibility of the determinant and spinor maps. The publication is *Advances in Group Theory and Applications* 16 (2023),39–66, DOI 10.32037/agta-2023-007. The retained published PDF has SHA-256 `c41b20a3be8d98214fac51ac32f4b1c3fc15d416882ca05e9054e70e709c2459`.
+
+These are published restatements of the Wonenburger, Ellers–Nolte and Gow results; I do not claim a fresh reading or reconstruction of all their original proofs. I separately reread the complete GLT2024 Definition 3.2(ii), Lemma 3.3 and proof, p.160, and Theorem 3.7 with its k=1 proof, p.165. The full GLT degree/level proofs had already been read for my preceding OL01–03 review. DHP's exact published Theorem 4.1(2), p.141, and full commutator argument were previously independently checked in this run; this review checks their new application and numerical normalization. No inference of theta-correspondence irreducibility is used.
+
+## Independent exact supplement
+
+`audit_orthogonal_lowlevels.py/.json` passed on its first execution in **0.22189249099756125 seconds**. It imports no author helper or output. I had read the author code before writing it. The independent model uses interleaved hyperbolic coordinates and union-find on all 4,096 ordered pairs, rather than the author's full group closures. The 28 symmetries and 27 products with an anchor give identical 15 pair orbits. This does not independently re-certify either group order; the universal proof, not the finite example, establishes the general commutant assertion.
+
+The program also directly finds an odd symmetry fixing each of all 715 spans of at most two vectors in F2^6, independently checks all 1,364 diagonal nondegenerate binary forms over eight odd prime fields, and checks every exact source constant and field-list endpoint. These are finite supplements to the all-dimensional argument, with no claim of replacing its proof.

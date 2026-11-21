@@ -1,0 +1,280 @@
+# Explicit Fermat-twelve isogeny and bounded Hodge-cycle suppliers
+
+Author/checker: GPT-6 Astra Pro; inherited effort not exposed; HODGE_DIVISION /root/sixfolds. Date: 2026-11-21. New quantitative proof; independent whole-proof review PASS reported by root on2026-11-21, with the same model and inherited-effort metadata.
+
+Write \(C=F_{12}\), \(J=J(C)\), and let \(\Theta\) be its canonical principal polarization. Put \(N=144\). The explicit conclusions are
+
+\[
+ \phi:E_i^{27}\times E_\omega^{28}\longrightarrow J,\qquad
+ \deg\phi\le144^{55},
+ \tag{F12.1}
+\]
+
+and, after choosing the elliptic coordinates described below,
+
+\[
+ \frac14\Theta_0\ \le\ \phi^*\Theta\
+       \le4\cdot144^2\Theta_0
+ \tag{F12.2}
+\]
+
+in the cone of nef rational divisor classes. Here \(\Theta_0\) is the product principal polarization.
+
+For every \(s\ge1\), put \(g_s=55s\) and let \(\Theta_s=\sum_{a=1}^s\operatorname{pr}_a^*\Theta\) on \(J^s\). There is an explicitly indexed finite set of effective integral cycles of codimension \(k\), for each \(0\le k\le g_s\), whose classes span
+
+\[
+ H^{2k}(J^s,\mathbf Q)\cap H^{k,k}(J^s)
+\]
+
+and whose degrees satisfy
+
+\[
+ \deg_{\Theta_s}Z
+ \le 8^k(55s)!\,144^{55s}.
+ \tag{F12.3}
+\]
+
+The statement is rational spanning by actual effective integral cycles. It does not assert that these classes form a saturated basis of the integral Hodge lattice. Such spanning is sufficient to choose a bounded-degree cycle pairing nontrivially with any specified nonzero rational Hodge class of complementary degree.
+
+## SF-F1201. Integral projectors and the exact elliptic census
+
+Use the affine equation \(x^{12}+y^{12}=1\). The diagonal automorphisms
+
+\[
+ \sigma_1(x,y)=(\zeta_{12}x,y),\qquad
+ \sigma_2(x,y)=(x,\zeta_{12}y)
+\]
+
+generate \(G\simeq(\mathbf Z/12)^2\). Adjunction for this smooth plane curve gives the holomorphic differential basis
+
+\[
+ \eta_{a,b}=x^{a-1}y^{b-12}\,dx,\qquad
+ 1\le a,b,\quad a+b<12.
+ \tag{F12.4}
+\]
+
+The orders at \(x=0\) and \(y=0\) are respectively \(a-1\) and \(b-1\); for the latter use \(dx=-y^{11}x^{-11}dy\). At infinity put \(z=1/x\) and \(v=y/x\), so \(1+v^{12}=z^{12}\); the order is \(11-a-b\). These orders are nonnegative. The fifty-five forms are independent because their characters are distinct, and they exhaust the genus \((12-1)(12-2)/2=55\). Their \(G\)-characters are \((a,b)\), meaning \(\sigma_1^*\eta=\zeta_{12}^a\eta\) and \(\sigma_2^*\eta=\zeta_{12}^b\eta\). The entire \(H^1(J,\mathbf C)\) therefore has the 110 characters
+
+\[
+ \mathcal X=\{(a,b):1\le a,b\le11,\ a+b\not\equiv0\pmod{12}\},
+\]
+
+each with multiplicity one.
+
+Let \(O\) run through the orbits of \((\mathbf Z/12)^*=\{1,5,7,11\}\) on \(\mathcal X\), acting by simultaneous multiplication. Define the rational idempotent
+
+\[
+ e_O=\frac1{144}\sum_{x,y\bmod12}
+       \left(\sum_{(a,b)\in O}\zeta_{12}^{-ax-by}\right)
+       \sigma_1^x\sigma_2^y.
+ \tag{F12.5}
+\]
+
+The inner coefficient is a rational algebraic integer, hence an integer. Thus \(144e_O\in\mathbf Z[G]\). Character orthogonality shows that these projectors are mutually orthogonal and sum to the identity on \(H^1(J)\). The corresponding identities hold as rational endomorphisms of \(J\), since an endomorphism acting trivially on rational first homology is zero.
+
+Put \(A_O=\operatorname{im}(144e_O)\), with its connected image as an abelian subvariety of \(J\). Its dimension is \(|O|/2\), which is one or two. Let
+
+\[
+ O^+=\{(a,b)\in O:a+b<12\}.
+\]
+
+The following table gives a complete orbit census. A representative stands for its orbit under the four units; the rows contain disjoint orbits.
+
+| Character conductor | Pure CM field | Factor dimension | Number of factors |
+|---|---:|---:|---|
+| \(12\) | \(\mathbf Q(i)\) | \(2\) | \(12\) |
+| \(12\) | \(\mathbf Q(\omega)\) | \(2\) | \(9\) |
+| \(6\) | \(\mathbf Q(\omega)\) | \(1\) | \(9\) |
+| \(4\) | \(\mathbf Q(i)\) | \(1\) | \(3\) |
+| \(3\) | \(\mathbf Q(\omega)\) | \(1\) | \(1\) |
+
+Complete representative lists, in the same row order, are:
+
+- Conductor12, Gaussian: \((1,1)\), \((1,3)\), \((1,5)\), \((1,6)\), \((1,8)\), \((1,10)\), \((2,5)\), \((3,1)\), \((3,4)\), \((4,3)\), \((4,5)\), \((6,1)\).
+- Conductor12, Eisenstein: \((1,2)\), \((1,4)\), \((1,7)\), \((1,9)\), \((2,1)\), \((2,3)\), \((3,2)\), \((3,7)\), \((4,1)\).
+- Conductor6: \((2,2)\), \((2,4)\), \((2,6)\), \((2,8)\), \((4,2)\), \((4,6)\), \((4,10)\), \((6,2)\), \((6,4)\).
+- Conductor4: \((3,3)\), \((3,6)\), \((6,3)\).
+- Conductor3: \((4,4)\).
+
+Here the conductor is \(12/\gcd(12,a,b)\). The field label has the following explicit integral meaning. For each Gaussian row, one of \(\sigma_1^3,\sigma_2^3\) acts by the same primitive fourth root on all the characters of \(O^+\). For each Eisenstein row, one of \(\sigma_1^4,\sigma_2^4\) acts by the same primitive third root on all the characters of \(O^+\). This is verified by reducing the displayed orbit coordinates modulo four or three, respectively. The certificate records the chosen automorphism and scalar for every orbit.
+
+Consequently \(A_O\) admits the full maximal order \(\mathbf Z[i]\) or \(\mathbf Z[\omega]\) as integral endomorphisms, with a single complex embedding on its entire tangent space. This is stronger than merely identifying a rational CM field.
+
+Both orders are Euclidean for the usual norm: nearest Gaussian and Eisenstein lattice points have squared distances at most \(1/2\) and \(1/3\), respectively. In particular both are principal ideal domains. If \(A_O=V/\Lambda\) has dimension \(d\), its lattice \(\Lambda\) is a torsion-free module of rank \(d\) over the indicated order, hence free. An order basis of \(\Lambda\) is a complex basis of \(V\), because its complex span contains the full lattice and therefore all of \(V\). It follows that
+
+\[
+ A_O\simeq E_i^d\quad\hbox{or}\quad A_O\simeq E_\omega^d
+ \tag{F12.6}
+\]
+
+as unpolarized abelian varieties. The maps are analytic homomorphisms between projective complex tori and therefore algebraic. This argument introduces no further isogeny degree.
+
+The table has thirty-four factors. Summing their dimensions gives
+
+\[
+ 12\cdot2+3=27,\qquad
+ 9\cdot2+9+1=28.
+\]
+
+This proves the asserted elliptic type by a complete finite computation and the integral lattice argument, without a height estimate.
+
+## SF-F1202. Polarization exponents and the isogeny degree
+
+Every \(g\in G\) preserves the Jacobian polarization, so its Rosati adjoint is \(g^{-1}\). Each orbit \(O\) is stable under negation. Thus (F12.5) gives \(e_O^\dagger=e_O\). Distinct factor spaces are orthogonal for the polarization, and the addition map
+
+\[
+ \phi:\prod_O A_O\longrightarrow J
+ \tag{F12.7}
+\]
+
+is an isogeny with
+
+\[
+ \phi^*\Theta=\boxplus_O\Theta_O,\qquad
+ \Theta_O=\Theta|_{A_O}.
+ \tag{F12.8}
+\]
+
+There is also an integral reverse map \(J\to\prod_O A_O\), with coordinates \(144e_O\); both composites are multiplication by 144. This already gives a degree bound, but the polarizations give the sharper bound used here.
+
+For a fixed factor \(A=A_O\), its polarization complement \(A^\perp\) is the connected kernel of the surjection \(J\to\widehat A\) obtained from the principal polarization and dual inclusion. Hence
+
+\[
+ \ker\lambda_{\Theta_O}=A\cap A^\perp.
+\]
+
+The endomorphism \(144e_O\) is multiplication by 144 on \(A\) and zero on \(A^\perp\). It follows that this finite polarization kernel is killed by 144. Every elementary divisor in the polarization type therefore divides 144. If \(d=\dim A_O\),
+
+\[
+ \chi(\Theta_O)\le144^d.
+ \tag{F12.9}
+\]
+
+Since \(\Theta\) is principal, the top-intersection formula for a finite pullback and the product formula in (F12.8) give
+
+\[
+ \deg\phi=\chi(\phi^*\Theta)
+       =\prod_O\chi(\Theta_O)\le144^{55}.
+ \tag{F12.10}
+\]
+
+Combining (F12.6) and (F12.7) proves (F12.1).
+
+## SF-F1203. A uniform comparison with the product polarization
+
+The one-dimensional factors have degree between one and 144, so their polarizations already lie between the product principal polarization and 144 times that polarization.
+
+Consider a two-dimensional factor \(E_K^2\), with \(K=\mathbf Q(i)\) or \(\mathbf Q(\omega)\). In an order basis, its polarization is represented by a positive definite integral Hermitian matrix
+
+\[
+ H=\begin{pmatrix}a&b\\\bar b&c\end{pmatrix},
+ \qquad a,c\in\mathbf Z,\quad b\in\mathcal O_K,\quad
+ \mathcal D=ac-|b|^2=\chi(\Theta_O)\le144^2.
+ \tag{F12.11}
+\]
+
+There is no extra factor in the last equality: relative to the product principal polarization, the polarization homomorphism is the Hermitian endomorphism \(H\). Its degree is \(\operatorname{Nm}_{K/\mathbf Q}\det H=\mathcal D^2\), while the degree of a polarization homomorphism is its Euler characteristic squared.
+
+Choose a nonzero vector of smallest \(H\)-norm, denoting that norm by \(a\). It is primitive over \(\mathcal O_K\), since division by a nonunit common factor would strictly decrease its positive norm. Extend it to an order basis. Replace the second vector by an order multiple of the first so that
+
+\[
+ |b|^2\le\rho^2a^2,\qquad
+ \rho^2=\frac12\ \text{or}\ \frac13.
+\]
+
+Minimality gives \(c\ge a\), and consequently
+
+\[
+ \mathcal D\ge(1-\rho^2)a^2\ge\frac{a^2}{2}.
+\]
+
+Since \(a\) is a positive integer,
+
+\[
+ a\le\sqrt{2\mathcal D}\le2\mathcal D,\qquad
+ c=\frac{\mathcal D+|b|^2}{a}
+    \le\mathcal D+\frac a2\le2\mathcal D.
+ \tag{F12.12}
+\]
+
+Thus \(\operatorname{tr}H\le4\mathcal D\le4\cdot144^2\). Also
+
+\[
+ \operatorname{tr}H^{-1}
+   =\frac{\operatorname{tr}H}{\mathcal D}\le4.
+\]
+
+A positive Hermitian matrix has maximum eigenvalue at most its trace. It follows that
+
+\[
+ \frac14I\le H\le4\cdot144^2I.
+ \tag{F12.13}
+\]
+
+Taking the direct sum over all thirty-four factors proves (F12.2). The inequalities mean that the differences are represented by semipositive translation-invariant forms; equivalently they are nef rational divisor classes. Every coordinate elliptic curve in this choice of coordinates has \(\Theta\)-degree at most \(2\cdot144^2\).
+
+## SF-F1204. Finite effective generators on every power
+
+Set \(B_s=E_i^{27s}\times E_\omega^{28s}\), let \(\Theta_{0,s}\) be its product principal polarization, and let
+
+\[
+ \Phi_s=\phi^s:B_s\longrightarrow J^s,\qquad
+ L_s=\Phi_s^*\Theta_s.
+\]
+
+Then
+
+\[
+ \Theta_{0,s}\le4L_s,\qquad
+ \chi(L_s)=(\deg\phi)^s\le144^{55s}.
+ \tag{F12.14}
+\]
+
+For each of the two CM blocks, take the following effective divisors:
+
+1. the coordinate kernels \(x_j=0\);
+2. for every \(j<k\), the kernels \(x_j-x_k=0\);
+3. for every \(j<k\), the kernels \(x_j-\tau_Kx_k=0\), with \(\tau_i=i\) and \(\tau_\omega=\omega\).
+
+There are
+
+\[
+ (27s)^2+(28s)^2=1513s^2
+ \tag{F12.15}
+\]
+
+such divisors. Their Hermitian matrices are the coordinate rank-one matrices and the matrices \(vv^\dagger\) with \(v\) supported on two coordinates of unit absolute value. Thus every generator \(D_j\) satisfies
+
+\[
+ 0\le D_j\le2\Theta_{0,s}\le8L_s.
+ \tag{F12.16}
+\]
+
+Their classes span the rational divisor space: the coordinate classes supply the diagonal Hermitian entries, while the two indicated difference kernels supply the two independent rational off-diagonal entries in \(K=\mathbf Q+\mathbf Q\tau_K\).
+
+Here is a direct proof that these divisors generate the entire rational Hodge ring. Over \(F_0=\mathbf Q(i,\omega)\), decompose \(H^1(B_s)\) according to the two embeddings of each imaginary quadratic field, and take the resulting exterior multidegrees. A monomial has separate imbalances \(d_i,d_\omega\), the numbers of holomorphic factors minus antiholomorphic factors in the two blocks. Being of Hodge type \((k,k)\) forces \(d_i+d_\omega=0\). For a rational Hodge class, all Galois conjugate multidegree components are also Hodge components: their projections are tensor and exterior constructions from the field-action projectors on \(H^1\), so preserve Hodge types, and Galois conjugation replaces each projector by its conjugate. The two quadratic fields are distinct and linearly disjoint, so an automorphism conjugating just \(\mathbf Q(i)\) gives \(-d_i+d_\omega=0\). Thus both imbalances are zero.
+
+Every balanced monomial is a product of degree-two pairings within the individual CM blocks. Those degree-two pairings are spanned by the divisor classes just listed. Descending the resulting spanning statement from \(F_0\) to \(\mathbf Q\) proves the claim.
+
+For each \(k\)-element subset of the list, form the simultaneous kernel of its \(k\) elliptic homomorphisms. If those homomorphisms are linearly independent in their respective CM blocks, their combined map to a product of \(k\) elliptic curves is surjective. Its zero fibre is a smooth, possibly disconnected, abelian kernel of codimension \(k\), and is an effective integral cycle \(Y\) with class \(\prod D_j\). If the maps are dependent, that product class is zero: their rank-one forms have dependent exterior support. Discard that subset. Repeated generators likewise give zero, so the remaining subsets span all monomials of degree \(k\).
+
+The finite set is explicit: test the corresponding matrices over \(\mathbf Q(i)\) and \(\mathbf Q(\omega)\), and retain the independent subsets. There are at most \(\binom{1513s^2}{k}\) cycles. By the semipositive inequalities (F12.16),
+
+\[
+ \deg_{L_s}Y
+ =\int_{B_s}D_{j_1}\cdots D_{j_k}L_s^{g_s-k}
+ \le8^k\int_{B_s}L_s^{g_s}
+ \le8^k(55s)!\,144^{55s}.
+ \tag{F12.17}
+\]
+
+The pushforward \(Z=(\Phi_s)_*Y\) is effective with integral multiplicities, and the projection formula identifies its \(\Theta_s\)-degree with the left side. Pushforward by an isogeny is an isomorphism on rational cohomology up to a nonzero scalar inverse to pullback. It therefore transports the spanning statement to \(J^s\), proving (F12.3).
+
+If a single irreducible detector is wanted, a nonzero pairing with such a \(Z\) implies a nonzero pairing with at least one of its irreducible components. That component has degree at most the displayed bound. No coefficient or saturation estimate is hidden in this last selection.
+
+## Published source, new proof, and actual verification
+
+The qualitative orbit and CM-type description is classical. A published primary locator is Koblitz--Rohrlich, *Simple Factors in the Jacobian of a Fermat Curve*, Canadian Journal of Mathematics30(6),1183--1205 (1978), introductory lattice decomposition and CM-type stabilizer discussion on printed pp1183--1184, DOI https://doi.org/10.4153/CJM-1978-099-6 . The official publisher PDF was opened and those exact pages read. Its later theorems for prime-to-six levels are not invoked at level twelve.
+
+The integral projector, exponent144, degree144^55, binary Hermitian comparison, explicit finite cycle family and numerical bound above are proved here. The exact script checks every orbit, its chosen integral scalar action, all projector coefficients, their Fourier actions on all144 characters, and the stated census. It does not claim to have explicitly enumerated kernels for arbitrarily large powers or to saturate the integral Hodge lattice.
+

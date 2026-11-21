@@ -1,0 +1,51 @@
+# SF-E815R: the exact bound is at least 63 invariant endomorphisms
+
+Author/checker: GPT-6 Astra Pro; inherited effort not exposed; HODGE_DIVISION /root/sixfolds. Date: 2026-11-21. This is a quantitative refinement of the already reviewed SF-E815, not a new main-gate exclusion. Root read the entire written refinement and reported whole-proof mathematical PASS on2026-11-21 (GPT-6 Astra Pro; inherited effort not exposed), and freshly reran the extended exact certificate. The author also freshly reran the certificate. This metadata does not claim a new independent audit of the entirety of the retained S-21 input.
+
+Retain all hypotheses and notation of the seven-class model in SF-E815, with \(\operatorname{ch}(E)=kC\), \(k\ge1\). This permits all the cancelling terms, arbitrary cohomological degrees and projective multiplicity representations allowed there. If \(E\) is gluable and weakly semiregular for its specified effective finite coherent translation/tensor action \(G\), then
+
+\[
+ |G|\mid8k^2,\qquad
+ \chi_G(E,E)\ge128,\qquad
+ \dim\operatorname{End}_G(E)\ge63.
+ \tag{E815R.1}
+\]
+
+In particular the previous lower bound 31 can be replaced by 63.
+
+**Proof.** SF-E815 constructs actual equivariant perfect objects \(U_\beta\) by taking alternating direct sums of the canonical cohomology class blocks. It proves the actual equivariant Grothendieck-group identity \([E]=\sum_\beta[U_\beta]\), without asserting that the \(U_\beta\) are summands of \(E\). Its exact seven-character independence gives
+
+\[
+ \operatorname{ch}(U_{X_0})=2k e^{X_0},\qquad
+ \operatorname{ch}(U_{Z_+})=k e^{Z_+}.
+\]
+
+Their divisor difference is \(Z_+-X_0=Y\). The Hermitian matrix of \(Y\) is \(US\); its determinant is four, equivalently its real-quadratic norm is \(-2\) and the fourfold Euler is its square. Hence Riemann--Roch on the abelian fourfold gives
+
+\[
+ \chi_X(U_{X_0},U_{Z_+})
+     =2k^2\int_X\frac{Y^4}{24}=8k^2.
+ \tag{E815R.2}
+\]
+
+The exact two-object induction/forgetting calculation of supplied S-21, used and proved in SF-E815, gives
+
+\[
+ \chi_X(U,V)=|G|\chi_G(U,V)
+\]
+
+for these actual equivariant objects. The integer \(\chi_G(U_{X_0},U_{Z_+})\) is positive, so (E815R.2) gives \(|G|\mid8k^2\). The entire character has ordinary self-Euler \(1024k^2\). Therefore
+
+\[
+ \chi_G(E,E)=\frac{1024k^2}{|G|}\ge128.
+\]
+
+Weak degree-two semiregularity and invariant CY4 adjunction give \(e_2^G=18\). Hochschild degree-one cap has rank eight, hence \(e_1^G\ge8\). Gluability and invariant Serre duality give
+
+\[
+ \chi_G(E,E)=2e_0^G-2e_1^G+18\le2e_0^G+2.
+\]
+
+Combining these inequalities gives \(128\le2e_0^G+2\), or \(e_0^G\ge63\), proving (E815R.1).
+
+The extended exact script rm_seven_class_certificate.py actually verifies the unweighted pair Euler four, the weighted value eight at \(k=1\), and the ratio 128, as well as its previous complete character and determinant checks. It does not verify categorical existence or equivariance. Those implications are the proof above and the retained full scope of SF-E815.

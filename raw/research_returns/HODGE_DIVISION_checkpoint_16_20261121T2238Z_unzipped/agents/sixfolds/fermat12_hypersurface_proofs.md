@@ -1,0 +1,269 @@
+# Quantitative Shioda--Katsura suppliers for all products of Fermat-twelve hypersurfaces
+
+Author/checker: GPT-6 Astra Pro; inherited effort not exposed; HODGE_DIVISION /root/sixfolds. Date: 2026-11-21. New full proof; root whole-proof independent audit PASS on2026-11-21, including an actual rerun of all423 finite degree cases. Reviewer: GPT-6 Astra Pro; inherited effort not exposed; HODGE_DIVISION /root. This extends the independently checked SF-F1201--SF-F1204.
+
+Write \(F^n=F_{12}^n\subset\mathbf P^{n+1}\), with \(\sum x_i^{12}=0\), and give every product its Segre hyperplane class, the sum of the hyperplane classes of its factors. A zero-dimensional Fermat factor is treated componentwise; it consists of twelve reduced points.
+
+For \(T\ge1\), define the following explicit integers:
+\[
+ \begin{aligned}
+ P_T&=12^T T!,\\
+ A_T&=2^{2T}P_T^2,\\
+ M_T&=2(2T+1)\,3^T A_T^{\,2T+2},\\
+ U_T&=440^T T!\,144^{55T},\\
+ \mathcal H_{12}(T)&=
+ U_T\prod_{j=2}^{T}M_j^{\,j-1}.
+ \end{aligned}
+ \tag{SKQ.1}
+\]
+Put \(\mathcal H_{12}(0)=1\); an empty product is one.
+
+**Theorem.** For every product \(X=\prod_\nu F^{d_\nu}\), with \(d_\nu\ge1\) and total dimension \(T=\sum d_\nu\), and every codimension, the rational Hodge classes of \(X\) are spanned by a finite set of effective integral algebraic cycles, each having Segre degree at most \(\mathcal H_{12}(T)\).
+
+This is a numerical bound for actual effective cycles, not a bound for formal Hodge tensors alone. The assertion concerns rational spanning. No saturation of the integral Hodge lattice is claimed.
+
+## SF-SKQ01. A bounded effective supplier on every product of curves
+
+Let \(C=F^1\), with plane hyperplane class \(h\), and let \(a:C\hookrightarrow J(C)\) be an Abel embedding. Under the Abel identification on \(H^1\), the canonical theta class is \(\sum_{j=1}^{55}\alpha_j\beta_j\) for a symplectic integral basis with \(\int_C\alpha_j\beta_j=1\). Its pullback therefore has degree55, while the plane hyperplane class has degree12:
+\[
+ a^*\Theta=55[\mathrm{pt}],\qquad h=12[\mathrm{pt}]
+ \quad\hbox{in }H^2(C,\mathbf Q).
+\]
+For \(a_T:C^T\to J(C)^T\), let \(H_C=\sum\operatorname{pr}_j^*h\). Then
+\[
+ a_T^*\Theta_T=\frac{55}{12}H_C,\qquad
+ \int_{C^T}H_C^T=T!\,12^T.
+ \tag{SKQ.2}
+\]
+
+The pullback \(a_T^*:H^*(J(C)^T,\mathbf Q)\to H^*(C^T,\mathbf Q)\) is surjective as a graded Hodge structure and admits a rational Hodge section. On a single factor, use the inverse isomorphism in degree one, the identity in degree zero, and the map \([\mathrm{pt}]\mapsto\Theta/55\) in degree two. Tensor these sections over all factors. Consequently every rational Hodge class of \(C^T\) has a rational Hodge lift to \(J(C)^T\).
+
+Use the effective cycle suppliers \(Z=(\Phi_T)_*Y\) of SF-F1204 in codimension \(k\le T\). The cycles \(Y\) are simultaneous kernels of elliptic homomorphisms on \(E_i^{27T}\times E_\omega^{28T}\). They are finite unions of abelian subvarieties translated by torsion points. Their finite-isogeny images \(Z\) have the same form, with positive integral multiplicities.
+
+A general translation of every component of \(Z\) meets \(a_T(C^T)\) properly or not at all. Here no general moving bound is needed. For an abelian subvariety \(A\) of codimension \(k\), compose \(a_T\) with the quotient \(J(C)^T\to J(C)^T/A\). A general fibre either is empty, when the map is not dominant, or has dimension \(T-k\), by generic smoothness. The same choice works for the finitely many components. Thus the pullback of a sufficiently general translate of \(Z\) is an effective integral cycle \(W\) of codimension \(k\), possibly zero, representing \(a_T^*[Z]\).
+
+There is also a degree bound substantially smaller than applying a general intersection estimate in the Jacobian. On the elliptic source of \(\Phi_T\), each generating divisor satisfies \(D_j\le8L_T\), as semipositive translation-invariant forms. Expanding one factor at a time gives
+\[
+ D_{j_1}\cdots D_{j_k}\le8^kL_T^k
+\]
+in the cone of strongly positive \((k,k)\)-forms. Pushforward by the finite isogeny preserves this inequality, and
+\[
+ (\Phi_T)_*L_T^k=(\deg\Phi_T)\Theta_T^k,\qquad
+ \deg\Phi_T\le144^{55T}.
+\]
+Pulling back to the curve product and integrating against the positive form \(H_C^{T-k}\) therefore yields
+\[
+ \begin{aligned}
+ \deg_{H_C}W
+ &\le8^k144^{55T}
+       \int_{C^T}(a_T^*\Theta_T)^kH_C^{T-k}\\
+ &=8^k55^k12^{T-k}T!\,144^{55T}\\
+ &\le440^T T!\,144^{55T}=U_T.
+ \end{aligned}
+ \tag{SKQ.3}
+\]
+Translations do not alter these cohomology classes. Since the original Jacobian classes span and \(a_T^*\) has a Hodge section, the resulting effective curve-product cycles span every rational Hodge class.
+
+The degree-zero case uses the whole curve product; the top-codimension case is allowed. Zero pullbacks are discarded. This proves the base of the induction in all codimensions simultaneously.
+
+## SF-SKQ02. The two explicit correspondences in one induction step
+
+Suppose
+\[
+ X=F^n\times R,\qquad n\ge2,\qquad \dim X=T,
+\]
+where \(R\) is a product of positive-dimensional Fermat hypersurfaces. Put
+\[
+ Z=F^{n-1}\times C\times R,\qquad
+ B=F^{n-2}\times F^0\times R.
+\]
+Here \(B\subset Z\) is cut out by the last homogeneous coordinates \(x_n=0\), \(y_2=0\), so it is smooth of codimension two, possibly disconnected.
+
+Fix \(\epsilon^{12}=-1\). The rational map on the first two factors is
+\[
+ ((x_0:\cdots:x_n),(y_0:y_1:y_2))
+ \longmapsto
+ (x_0y_2:\cdots:x_{n-1}y_2:
+       \epsilon x_ny_0:\epsilon x_ny_1).
+ \tag{SKQ.4}
+\]
+Its coordinates have bidegree \((1,1)\), its base ideal is the ideal of \(B\), and its generic degree is12. For the last assertion, on a target point where the sum of the first \(n\) twelfth powers is nonzero, normalizing \(y_2=1\) reconstructs \(x_n\) from a nonzero prescribed twelfth power, giving twelve distinct preimages.
+
+Let \(\pi:\widetilde Z=\operatorname{Bl}_B Z\to Z\). Locally the base ideal is generated by the two regular parameters \(x_n,y_2\); the blowup therefore resolves (SKQ.4), giving a morphism \(f:\widetilde Z\to X\), of generic degree12, and the identity on \(R\). This is the concrete Shioda--Katsura construction: Lemmas1.1--1.2, pp98--99, and Theorem1.7, pp101--102, of their published1979 paper.
+
+Write \(E\) for the exceptional divisor, \(j:E\hookrightarrow\widetilde Z\), and \(p:E\to B\). For a codimension-two smooth blowup, the rational Hodge decomposition is
+\[
+ H^m(\widetilde Z,\mathbf Q)
+ =
+ \pi^*H^m(Z,\mathbf Q)
+ \oplus j_*p^*H^{m-2}(B,\mathbf Q)(-1).
+ \tag{SKQ.5}
+\]
+The maps displayed here are the actual algebraic pullback and Gysin maps. The inverse components are \(\pi_*\) and \(-p_*j^*\): one uses \(j^*j_*\eta=c_1(\mathcal O_E(-1))\eta\) and the projective-line bundle formula. The blowup formula follows by excision and the cohomology of the exceptional projective bundle; the same geometric formula is the input of Shioda--Katsura Lemma2.1 and Proposition2.4, pp103--104. Over \(\mathbf C\) these algebraic maps respect the stated Hodge structures.
+
+For every rational Hodge class \(\alpha\) on \(X\),
+\[
+ 12\alpha=f_*f^*\alpha.
+\]
+Decompose \(f^*\alpha\) by (SKQ.5). Thus the entire Hodge space of \(X\) is spanned by the images of Hodge classes on \(Z\) and on the connected components \(B_\lambda\) under the correspondences
+\[
+ \Gamma_0=(\pi,f)_*[\widetilde Z]\subset Z\times X,\qquad
+ \Gamma_\lambda=(p,fj)_*[E|_{B_\lambda}]
+                  \subset B_\lambda\times X.
+ \tag{SKQ.6}
+\]
+The first acts by \(f_*\pi^*\); the second acts by \(f_*j_*p^*\), increasing codimension by one. This includes every exceptional and Tate contribution. No claim about a primitive summand is substituted for the full decomposition.
+
+## SF-SKQ03. Degrees of the main and exceptional correspondences
+
+Every product of positive-dimensional degree12 hypersurfaces of total dimension \(T\) has Segre degree at most
+\[
+ P_T=12^T T!.
+ \tag{SKQ.7}
+\]
+Indeed its exact degree is \(T!\prod_\nu12/d_\nu!\), and there are at most \(T\) factors. The same bound applies to \(X\) and \(Z\).
+
+Let \(H_Z,H_X\) be their Segre hyperplane classes. The resolved linear system gives
+\[
+ f^*H_X=\pi^*H_Z-E.
+\]
+Hence the hyperplane class from the product embedding \(Z\times X\), pulled back to \(\widetilde Z\), is
+\[
+ G=2\pi^*H_Z-E.
+\]
+Both \(G\) and \(2\pi^*H_Z\) are nef. Their difference is the effective divisor \(E\). Expanding their difference of \(T\)-th powers shows
+\[
+ \int_{\widetilde Z}G^T\le
+ 2^T\int_{\widetilde Z}(\pi^*H_Z)^T.
+\]
+Each term in the difference is an effective divisor intersected with nef classes, hence has nonnegative degree. Since \((\pi,f)\) has degree one onto its graph,
+\[
+ \deg\Gamma_0\le2^T\deg Z\le2^TP_T.
+ \tag{SKQ.8}
+\]
+
+For completeness the exceptional degree is controlled by its actual projective bundle, without choosing a resolution of an unspecified graph. On a connected component \(B_\lambda\), the \(F^0\) coordinate \(y\) is a fixed point. If \(n=2\), the other \(F^0\) coordinate is fixed as well. Write \(h\) for the remaining \(F^{n-2}\) hyperplane class, or zero when that factor is a point, and \(H_R\) for the hyperplane class of \(R\). Then
+\[
+ H_{B_\lambda}=h+H_R.
+\]
+The exceptional fibres map to the lines joining the point represented by \(x\) and the fixed point represented by \(y\). Thus their incidence variety is explicitly
+\[
+ E_\lambda=
+ \mathbf P_{\rm lines}\bigl(\mathcal O_{B_\lambda}(-h)
+                              \oplus\mathcal O_{B_\lambda}\bigr).
+\]
+Let \(\xi=c_1(\mathcal O_{E_\lambda}(1))\). The join map has hyperplane class \(\xi\); in particular \(\xi\) is nef. Including the identity map on \(R\), the pullback of the product hyperplane class from \(B_\lambda\times X\) is
+\[
+ \xi+h+2H_R\le\xi+2H_{B_\lambda}.
+\]
+The projective bundle relation and pushforward formulas are
+\[
+ \xi(\xi-h)=0,\qquad
+ p_*\xi^j=h^{j-1}\quad(j\ge1),\qquad p_*1=0.
+\]
+Therefore
+\[
+ \begin{aligned}
+ \deg\Gamma_\lambda
+ &\le\int_{E_\lambda}(\xi+2H_{B_\lambda})^{T-1}\\
+ &=\sum_{j=1}^{T-1}
+       \binom{T-1}{j}2^{T-1-j}
+       \int_{B_\lambda}h^{j-1}H_{B_\lambda}^{T-1-j}\\
+ &\le(3^{T-1}-2^{T-1})\deg B_\lambda\\
+ &\le3^TP_T.
+ \end{aligned}
+ \tag{SKQ.9}
+\]
+The third line uses \(0\le h\le H_{B_\lambda}\), with both classes nef. The component \(B_\lambda\) is a product of total dimension \(T-2\), with any zero-dimensional factors replaced by points, so its degree is at most \(P_{T-2}\le P_T\). The correspondence map has degree one onto its incidence image; even the weaker inequality for its pushforward would suffice.
+
+Thus every correspondence in (SKQ.6) has degree at most \(3^TP_T\) in the relevant product embedding.
+
+## SF-SKQ04. The quantitative correspondence-action bound
+
+The published intersection estimate used here is Truong, *Relative dynamical degrees of correspondences over a field of arbitrary characteristic*, Crelle758(2020),139--182, Lemma2.2 in the author version, p13. Its full proof uses Roberts' moving construction and bounds an intersection of effective cycles by a difference of two effective cycles, each of degree at most
+\[
+ C(V)\,\deg A\,\deg B.
+\]
+The proof gives \(C(V)=m\deg(V)^m\), for \(m=\dim V\). To avoid any convention about collecting positive and negative terms, use throughout the larger integer
+\[
+ C_{\rm safe}(V)=2(m+1)\deg(V)^{m+1}.
+ \tag{SKQ.10}
+\]
+The estimate extends from irreducible to effective cycles by bilinearity and summing positive multiplicities. Rational equivalence is enough here, and therefore the resulting equality also holds in rational cohomology.
+
+Let \(Y\) be either \(Z\) or a component \(B_\lambda\), and let \(\Gamma\) be the corresponding cycle in \(Y\times X\). The ambient product \(V=Y\times X\) is smooth and projective, has dimension at most \(2T\), and has degree at most
+\[
+ \deg V
+ =\binom{\dim Y+T}{\dim Y}\deg Y\deg X
+ \le2^{2T}P_T^2=A_T.
+\]
+For an effective input cycle \(W\subset Y\),
+\[
+ \deg(W\times X)\le2^{2T}P_T\deg W.
+\]
+Apply (SKQ.10) to \(\Gamma\cdot(W\times X)\). Since \(\deg\Gamma\le3^TP_T\), it can be represented as \(Q_+-Q_-\), with both effective and
+\[
+ \begin{aligned}
+ \deg Q_\pm
+ &\le
+ 2(2T+1)A_T^{2T+1}
+      (3^TP_T)(2^{2T}P_T\deg W)\\
+ &=2(2T+1)3^TA_T^{2T+2}\deg W\\
+ &=M_T\deg W.
+ \end{aligned}
+ \tag{SKQ.11}
+\]
+Push these cycles to \(X\). A component whose image has smaller dimension pushes to zero. On every other component the projection formula and the nef inequality \(p_X^*H_X\le H_V\) show that degree does not increase. Consequently
+\[
+ \Gamma_*[W]=[W_+]-[W_-],\qquad
+ W_\pm\ \text{effective integral},\qquad
+ \deg W_\pm\le M_T\deg W.
+ \tag{SKQ.12}
+\]
+In particular, if bounded-degree effective input classes span the source Hodge space, then effective outputs of degree at most \(M_T\) times that bound span the correspondence image. It is harmless that both signs are retained as separate generators.
+
+No proper-intersection assumption is imposed on the original input and correspondence. That is exactly what the cited moving lemma supplies, with the displayed numerical cost.
+
+## SF-SKQ05. Induction, an explicit recurrence, and the final bound
+
+For a product of total dimension \(T\), define its complexity
+\[
+ \mu=\sum_\nu(d_\nu-1)=T-\#\{\hbox{positive-dimensional factors}\}.
+\]
+Then \(0\le\mu\le T-1\). Complexity zero means \(C^T\), already handled in SF-SKQ01.
+
+Replacing one factor \(F^n\), \(n\ge2\), by \(F^{n-1}\times C\) preserves \(T\) and decreases \(\mu\) by one. Every exceptional component has total dimension \(T-2\). Thus (SKQ.6) and (SKQ.12) give the valid simultaneous recurrence
+\[
+ B(T,0)=U_T,\qquad
+ B(T,\mu)\le
+ M_T\max\{B(T,\mu-1),\,\mathcal H_{12}(T-2)\},
+ \tag{SKQ.13}
+\]
+with the point value \(\mathcal H_{12}(0)=1\). All codimensions are included at once. Terms whose codimension lies outside the source range vanish and can simply be omitted.
+
+Iterating at most \(T-1\) times yields
+\[
+ B(T,\mu)\le
+ M_T^{T-1}\max\{U_T,\mathcal H_{12}(T-2)\}.
+ \tag{SKQ.14}
+\]
+The explicit quantity in (SKQ.1) dominates this expression. Indeed \(U_T\) increases with \(T\), every \(M_j\ge1\), and
+\[
+ \frac{\mathcal H_{12}(T)}
+      {M_T^{T-1}\mathcal H_{12}(T-2)}
+ =
+ \frac{U_T}{U_{T-2}}\,M_{T-1}^{T-2}\ge1
+ \quad(T\ge3);
+\]
+the case \(T=2\) follows directly. This proves the theorem by induction on total dimension and then complexity.
+
+Only finitely many effective generators are introduced at each stage: the previous finite generating lists are passed through two correspondence types, with finitely many exceptional components, and each intersection is replaced by two effective cycles. The construction never invokes an uncontrolled resolution, an unbounded regularity estimate, or an unspecified isogeny degree. Every factor in (SKQ.1) has been accounted for.
+
+For a nonzero pairing functional on a Hodge space, at least one generator pairs nontrivially. One may then choose one irreducible component with nonzero pairing, still of degree at most \(\mathcal H_{12}(T)\). This is the intended use as a numerical supplier in the subsequent cyclic-cover and Brauer-correspondence transfer.
+
+## Published-source and verification record
+
+Shioda--Katsura is published in Tohoku Mathematical Journal31(1979),97--115, DOI10.2748/tmj/1178229881. The official J-STAGE PDF was opened; the rational map and blowup construction on pp98--102 and cohomological formulas on pp103--104 were inspected. The degree bounds, projective-bundle calculation and full-product recurrence above are new.
+
+Truong's paper is published in Crelle758(2020),139--182, DOI10.1515/crelle-2017-0052. Publication was checked at the publisher. The complete relevant quantitative proof was read in the author copy arXiv:1605.05049, Lemma2.2, p13. No unverified printed lemma-page locator is asserted. The larger safe constant (SKQ.10) is used, so the recurrence does not depend on a sharp collection-of-signs convention.
+

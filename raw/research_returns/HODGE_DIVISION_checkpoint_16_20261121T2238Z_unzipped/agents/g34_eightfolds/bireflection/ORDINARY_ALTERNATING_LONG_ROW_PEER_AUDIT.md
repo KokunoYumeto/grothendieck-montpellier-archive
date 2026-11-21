@@ -1,0 +1,15 @@
+# Independent whole-proof audit: HD-ALT-05a/b
+
+**PASS.** Reviewer `/root/g34_eightfolds`, GPT-6 Astra Pro, effort inherited/unexposed, HODGE_DIVISION, 2026-11-21 approximately 18:01–18:03 UTC.
+
+I read all of `research/ordinary_alternating_long_row_obstruction.tex`, SHA-256 `340aff36a1858f2933d511e1526c49789fe765140c25b70fc232828a09c5f619`. I checked every new mathematical step and wrote independent symbolic and finite arithmetic without importing the author's program.
+
+The standard-tableau ordering of the tail gives a valid box-by-box bound: the r-th added tail box has full-partition content between -r and r-2. Thus its square is at most r squared. Summing gives exactly the claimed bound, attained by the hook tail. The lower content-sum estimate is positive throughout the stated interval. The upper estimate follows from the row-minus-column binomial formula and is precisely the displayed expression.
+
+Substitution into the three-cycle formula gives the stated rational lower bound, with no relaxation of its sign. Both quadratic functions of k used in the proof are increasing on the entire claimed interval. The substitutions k=n/7 give the stated constants; the strict difference for the three-cycle bound is 11n-12. Retaining Cauchy's lower bound for the squared-content sum in the double-transposition formula produces exactly the displayed cubic. Its expansion about n=15 has four positive coefficients. This is a complete all-n proof, not a finite numerical inference.
+
+The full-normalizer estimate is invoked with its previously audited split-constituent and scalar scope. Here a row longer than three quarters of n already prevents self-conjugacy, so the restriction to the alternating group is irreducible. The structural transitivity, field containment, real form, nontrivial multiplier and actual Hurwitz-period factorization are exactly the hypotheses and arguments of the immediately preceding HD-ALT04 theorem, which I separately audited in full.
+
+The two half-degree inertia costs plus ten support costs give e/24 at most 6, hence e at most144. The same precise published GKT/Rasala consequence excludes all three exceptional low-degree shapes, since n-2 is greater than6n/7 for every n at least15. There is now no factor-of-two loss on alternating restriction, so each factor has degree at least250. The contradiction and the strict new witness(12,3) at n15 are valid. No new determinant, field-equality or extra self-duality hypothesis is needed.
+
+The independently written `audit_alternating_long_row.py` verifies all symbolic identities and all332 long-row tails for15<=n<=30, including247 in the newly excluded interval. It passed in0.174seconds; `audit_alternating_long_row.json` retains the exact proof hash and scope. The universal statement rests on the separately checked proof. Published classification inputs retain the primary-source status recorded in the earlier ALT audits; no fresh full classification proof is claimed. No TeX compilation was available or claimed.

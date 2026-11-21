@@ -1,0 +1,663 @@
+\section{A published-GRR proof of rank nine for the nonsplit Gaussian $E_8$ datum}
+\label{sec:e8-grr}
+
+\paragraph{Scope and provenance.}
+This section proves that a Hurwitz component for the Gaussian scalar
+$E_8$ branch datum has a dominant Weil-sixfold period map.  The proof
+uses an exact positive Hodge intersection, not a comparison of source
+and target dimensions.  It is independent of the separate analytic
+Riemann--Hilbert certificate.  The two exact numerical answers and the
+proposal to use a rooted tree recurrence were leads in the unrefereed
+rStation manuscript \cite{E8GRR:lead66}.  No theorem, character packet,
+or executable from that manuscript is an input here.  The character
+data are reconstructed from the CHEVIE author's table, the recurrence
+is proved below, and the implementation is new.
+
+An important source distinction is necessary.  Jarvis--Kimura's
+\emph{A representation-valued relative Riemann--Hurwitz theorem and
+the Hurwitz--Hodge bundle}, arXiv:0810.2488v3, supplies a useful
+comparison formula, but no journal publication of that manuscript
+has been verified.  It is not the published GRR premise of this proof.
+The premise is Tseng's published formula \cite[\S7.3, especially
+(7.3.6.1) and (7.3.7.2), pp.~60--64]{E8GRR:Tseng}.  Its normalization
+is explained explicitly below.  Positivity is the published theorem
+\cite[Lemma~6.17, with its proof and Lemma~6.15]{E8GRR:BBT}.
+The references to these lemma numbers use the 48-page author version,
+pp.~42--44.  No Severn, Markman, or 032 theorem is assumed.
+
+\subsection*{D-E8-GRR-01. The fixed local system on every counted component}
+
+Let $K=\mathbb Q(i)$.  In the simple-root basis let $H$ be the $E_8$
+Cartan matrix: its diagonal entries are two and its entries on the
+edges
+\[
+ (1,3),(3,4),(2,4),(4,5),(5,6),(6,7),(7,8)
+\]
+are minus one; other off-diagonal entries are zero.  Put
+$s_j=1-e_jH_{j,*}$, $W=\langle s_1,\ldots,s_8\rangle$, and
+$G=\langle W,iI\rangle\subset U(H,K)$.  Thus
+\[
+ |W|=696729600,\qquad |G|=1393459200,\qquad G=W\sqcup iW.
+\]
+Here $-I\in W$.  We use the natural representation $\rho$ on $K^8$.
+It is absolutely irreducible and its rational simple group-algebra
+factor is $M_8(K)$.
+
+Write $R$ for the reflection class, $C_2$ for $i$ times the Weyl class
+$2D_4(a_1)$, and $C_1$ for $i$ times the Weyl class $E_6$.  In the
+CHEVIE class order these are respectively real class66, imaginary
+class6, and imaginary class57.  The branch classes, with all markings
+ordered, are
+\[
+                 (C_1,C_2,R,R,R,R,R,R,R,R,R,R).                 \tag{E8.1}
+\]
+The complete class words and sizes used here are retained in
+\texttt{e8\_grr/character\_input.json}.  In particular, the word for
+the real class57 is $s_1s_4s_2s_3s_6s_5$.  The orders and spectral
+data required for (E8.1) are
+\[
+\begin{array}{c|r|r|l|r}
+\text{class}&\text{size}&\text{order}&\text{eigenvalue exponents in }[0,1)
+ &\text{age}\\\hline
+R&120&2&0^7,(1/2)&1/2\\
+C_2&15120&2&0^4,(1/2)^4&2\\
+C_1&4838400&12&1/6,1/4,1/4,1/3,7/12,2/3,5/6,11/12&4
+\end{array}                                                     \tag{E8.2}
+\]
+The exact matrix reconstruction described in D-E8-GRR-04 checks these
+data.  Class57 is carried to class58 by multiplication by $-I$.
+
+Let $\mathcal H$ be the stack of smooth principal $G$-covers of the
+punctured genus-zero base, completed at the twelve marked points
+with local classes (E8.1).  Disconnected total curves are allowed.
+Equivalently its fiber over an ordered configuration is the groupoid
+of product-one tuples in the specified classes, modulo simultaneous
+conjugation by $G$.  Its mass is therefore the number of such tuples
+divided by $|G|$.  Let $\overline{\mathcal H}$ be its proper
+admissible-cover, or balanced twisted-cover, compactification.  We
+use the normalization with this ordinary groupoid mass.  Its coarse
+moduli map to $\overline M_{0,12}$ is finite, and it has pure
+dimension nine.  It may have
+several components, and the argument below initially sums all of them.
+
+For a tuple in (E8.1), let $J\subset G$ be its generated subgroup.
+The first inertia has no eigenvalue one, so $V^J=0$.  The moving-rank
+sum is
+\[
+                 D=8+4+10=22.
+\]
+The parabolic-cohomology dimension is consequently $D-2\cdot8=6$
+over $K$.  Chevalley--Weil gives the two Hodge dimensions three:
+the age sum for $V$ is $4+2+10/2=11$, and the age sum for its dual
+is also $22-11=11$, so each dimension is $11-8=3$.
+These statements hold for every tuple, whether or not $J=G$.
+
+The signed Hermitian determinant formula D-DET-01 applies since
+$V^J=0$; it does not require that the image be all of $G$.
+For a reflection the local positive determinant quotient is one.
+For $C_2$ a column basis of $\operatorname{im}(1-g)$ has Gram
+determinant16 and $\det(1-g)=16$, again giving one.  For $C_1$ the
+moving space is all of $V$, with $\det H=1$ and $\det(1-g)=6$.
+Thus its quotient is $1/6$, whose Gaussian norm class is three.
+It follows that all the counted components have signed determinant
+class three and signature $(3,3)$.
+
+There is an actual abelian sixfold on each component after a finite
+level base change.  The rational $M_8(K)$-isotypic summand of the
+Jacobian of the total curve has the form $B^8$ up to isogeny; a
+primitive self-adjoint projector gives $B$.  One can use the
+rank-one projector $(1-s_j)/2$ inside this simple group-algebra
+factor.  It is self-adjoint for the positive $G$-invariant root form,
+and hence for the induced Rosati involution.  The center supplies
+the $K$-action on $B$, and the restriction of the Jacobian
+polarization is positive.  The cohomology of $B$ is the multiplicity
+space just computed, of rational dimension12.  For a disconnected
+curve its Jacobian means the product of the Jacobians of its connected
+components; all these assertions continue to hold.  Thus counting
+disconnected covers introduces no virtual abelian variety.
+
+\subsection*{D-E8-GRR-02. The degree-one Hodge class and its boundary normalization}
+
+For any finite-order element $g$ put
+\[
+ a(g)=\frac12\sum_{j=0}^{r-1}m_{g,j}\frac jr\left(1-\frac jr\right),
+ \qquad r=\operatorname{ord}(g),                               \tag{E8.3}
+\]
+where $m_{g,j}$ is the multiplicity of $e^{2\pi i j/r}$ in $\rho$.
+This is a class function, and $a(g^{-1})=a(g)$.  If
+$\mathcal F_\rho=\operatorname{Hom}_G(V_\rho,\pi_*\omega)$, write
+$\lambda_\rho=c_1(\det\mathcal F_\rho)$ on
+$\overline{\mathcal H}$.  The rank of this bundle is three.
+
+For a reduced boundary component $D_\alpha$, denote by $g_\alpha$
+its node holonomy and by $r_\alpha$ its order.  Classes $\psi_j$
+below are cotangent classes of the \emph{coarse base curve}.
+Then
+\[
+ \boxed{\lambda_\rho=\sum_{j=1}^{12}a(C_j)\psi_j
+          -\sum_\alpha a(g_\alpha)r_\alpha[D_\alpha].}          \tag{E8.4}
+\]
+When a boundary stratum has multiple branches, the sum is taken on
+its normalizations with the usual pushforwards.  Formula (E8.4)
+therefore has an intrinsic interpretation on the stack.
+
+\begin{proof}
+Apply Tseng's published formula (7.3.7.2) to $X=BG$ and the vector
+bundle associated to $V_\rho$.  Here $TBG=0$, so the virtual class is
+the actual fundamental class.  All positive-degree rational Chern
+characters of a vector bundle on $BG$ vanish.  Put
+\[
+ A_2(g)=\sum_jm_{g,j}B_2(j/r),\qquad
+ B_2(x)=x^2-x+\frac16.
+\]
+Thus $A_2(g)/2=8/12-a(g)$.  In degree one, the main term of Tseng's
+formula is $8\kappa_1/12$, and the marking term is
+$-\sum_j A_2(C_j)\psi_j/2$.  The node term in that formula is
+$r^2 A_2(g)/4$ times the pushforward from the node gerbe with a
+choice of branch.  The node gerbe has degree $1/r$ over the reduced
+boundary, and the choice of branch has degree two.  Its contribution
+is therefore
+\[
+                       \frac r2 A_2(g)[D].                    \tag{E8.5}
+\]
+This calculation includes the factor $r^2$ displayed in Tseng's
+formula; dropping that factor would give a different intersection
+problem.
+
+Tseng uses the stack with sections to the marking gerbes.  By his
+Remark2.4.2, p.~19, this is the fiber product of the marking gerbes
+over the stack without those sections.  Its degree is
+$\prod_jr_j^{-1}$.  The weighted class in \S2.5.1, p.~21, multiplies
+by $\prod_jr_j$, and hence gives exactly the ordinary-cover mass
+specified in D-E8-GRR-01.  Formula (E8.5) is unchanged on descending
+to that normalization.  This also checks that no marking factor is
+missing from the final answer.
+
+The associated orbibundle has
+$H^q(\mathcal C,V_\rho)=(H^q(C,\mathcal O_C)\otimes V_\rho)^G$.
+Its $H^0$ vanishes by $V^J=0$.  Serre duality identifies its $H^1$
+with $\mathcal F_\rho^*$, so the degree-one Chern character of its
+derived pushforward is precisely $\lambda_\rho$.  Combining the
+three terms just computed yields
+\[
+ \lambda_\rho=\frac8{12}
+  \left(\kappa_1-\sum_j\psi_j+\sum_\alpha r_\alpha[D_\alpha]\right)
+  +\sum_ja(C_j)\psi_j
+  -\sum_\alpha a(g_\alpha)r_\alpha[D_\alpha].                 \tag{E8.6}
+\]
+The expression in parentheses is zero.  For example, apply the same
+published GRR formula to the trivial representation: the derived
+pushforward on a genus-zero base is the trivial line, its first
+Chern class is zero, and $A_2=1/6$ gives exactly this relation.
+Equivalently it is the pullback of the genus-zero Mumford relation,
+since a node smoothing has the local form $t=s^{r_\alpha}$.
+This proves (E8.4) from the published formula.
+\end{proof}
+
+For later use, the normal class of a reduced boundary is
+\[
+ [D_\alpha]|_{D_\alpha}
+       =-\frac{\psi_++\psi_-}{r_\alpha}.                     \tag{E8.7}
+\]
+Indeed the coarse smoothing parameter is $t=s^{r_\alpha}$ and its
+normal line is the tensor product of the two coarse tangent lines.
+The normal line of $s=0$ is its $r_\alpha$-th root.  The local
+equation also proves that the ramification-weighted class
+$r_\alpha[D_\alpha]$ has the ordinary smooth-tuple mass over the
+corresponding base boundary: a reduced boundary stratum has that
+mass divided by $r_\alpha$.  At several nodes the factors multiply.
+These facts can also be checked against Jarvis--Kimura's
+Proposition3.3, equations(30)--(38), pp.~14--16, but that preprint is
+not required for the proof.
+
+\subsection*{D-E8-GRR-03. A complete rooted-tree recurrence}
+
+We prove the finite recurrence used for the ninth power of (E8.4).
+The argument applies to any finite group and any inversion-invariant
+weight $a$.  Let $\mathcal A=Z(\mathbb Q[G])$, with class basis
+$K_c=\sum_{g\in c}g$, ordinary central multiplication, and trace
+\[
+                  \tau(x)=\frac{[1]x}{|G|}.
+\]
+The trace pairing satisfies
+\[
+ \tau(K_cK_d)=\begin{cases}|c|/|G|,&d=c^{-1},\\0,&d\ne c^{-1}.
+ \end{cases}                                                   \tag{E8.8}
+\]
+It is the gluing pairing for covers.  To see this directly, choose
+trivializations of the torsor at one base point of each component
+of a nodal genus-zero tree.  Each vertex imposes that the product
+of its outgoing holonomies is one.  Identifying the two fibers at
+an edge matches inverse holonomies.  Changes of trivialization
+on the vertices can be eliminated along a spanning tree, leaving
+one simultaneous conjugation by $G$.  Thus gluing yields the mass
+of product-one tuples divided by $|G|$.  In the class basis the
+inverse pairing is $|G|/|c|$; contracting an edge cancels one
+vertex normalization and is exactly ordinary multiplication in
+$\mathcal A$.  This proves the assertion without a connectedness
+assumption on the torsor.
+
+Write $\mathcal W$ for the diagonal linear operator
+$\mathcal W(K_c)=a(c)K_c$.  Fix one marking as a root.  Let
+$\mathbf c=(c_1,\ldots,c_q)$ count the other marked leaves by their
+classes and put $k=\sum c_j$.  The following quantities are central
+vectors whose coefficients are exponential generating coefficients
+in the leaf counts, namely divided by $\prod_jc_j!$.
+
+The vector $T[\mathbf c,a]$ sums rooted stable subtrees with a bare
+root flag carrying an insertion $\psi_{\rm root}^{a}$; the root
+itself has no marking exponential and no attached edge.  Every
+other marking carries its exponential, and every internal edge
+carries the boundary contribution derived below.  The possible
+root exponent is $0\le a\le k-2$.
+
+For a child attached to a parent flag carrying exponent $b$, let
+$L[\mathbf c,b]$ include the additional factor $1/b!$ from the
+parent vertex's psi integral.  A single marked leaf of class $c$
+then has
+\[
+              L[\mathbf e_c,b]=\frac{a(c)^b}{(b!)^2}K_c.       \tag{E8.9}
+\]
+One factorial comes from its exponential and one from that psi
+integral.  For a child subtree with $k\ge2$ the rule is
+\[
+ L[\mathbf c,b]=-
+    \sum_{a=0}^{k-2}
+       \frac{\mathcal W^{a+b+1}T[\mathbf c,a]}
+            {(a+b+1)a!(b!)^2}.                               \tag{E8.10}
+\]
+Let $F_m[\mathbf c,b]$ be the coefficient of leaf count
+$\mathbf c$ and total parent exponent $b$ in $L^m/m!$, with
+multiplication in $\mathcal A$.  Then
+\[
+ T[\mathbf c,a]=
+       \sum_{m=a+2}^{k}\frac{(m-2)!}{a!}
+                    F_m[\mathbf c,m-2-a].                   \tag{E8.11}
+\]
+Finally, if the root marking has class $c_0$, the top intersection
+on the $(k-2)$-dimensional Hurwitz stack is
+\[
+ (k-2)!\prod_jc_j!\;
+ \tau\left(K_{c_0}\sum_{a=0}^{k-2}
+                     \frac{a(c_0)^a}{a!}T[\mathbf c,a]\right).
+                                                                  \tag{E8.12}
+\]
+
+\begin{proof}
+Expand $\exp(t\lambda)$ using (E8.4).  Distinct compatible boundary
+divisors give a stable tree; incompatible boundary divisors have
+empty intersection.  Consider an edge whose reduced divisor is
+$D$, whose inertia order is $r$, and whose weight is $a(c)$.
+If this divisor occurs $\ell\ge1$ times in the expansion, its
+coefficient, before the reduced-stratum mass is taken, is
+\[
+ \frac{(-t a(c)r)^\ell}{\ell!}
+       \left(-\frac{\psi_++\psi_-}{r}\right)^{\ell-1}
+ =-r\,\frac{t^\ell a(c)^\ell}{\ell!}
+                 (\psi_++\psi_-)^{\ell-1}.                   \tag{E8.13}
+\]
+The reduced-stratum mass has the compensating factor $1/r$ by
+(E8.7).  Orienting the edge toward the root chooses one of its
+two branches, so it also removes the two-to-one cut-edge convention
+in GRR.  The edge series in the central-algebra state sum is
+therefore exactly
+\[
+       -\frac{\exp(t a(c)(\psi_++\psi_-))-1}
+                   {\psi_++\psi_-}.                         \tag{E8.14}
+\]
+The coefficient of $\psi_+^a\psi_-^b$ is
+\[
+       -\frac{t^{a+b+1}a(c)^{a+b+1}}{(a+b+1)a!b!}.           \tag{E8.15}
+\]
+This proves (E8.10), including its sign and both endpoint
+factorials; the extra $1/b!$ is the parent-vertex factorial.
+Inversion of the child holonomy is immaterial because $a(c)$ is
+inversion invariant.
+
+For completeness, the genus-zero psi integral at a vertex of
+valence $m+1$ is
+\[
+ \int_{\overline M_{0,m+1}}\psi_0^a\prod_{j=1}^m\psi_j^{b_j}
+   =\frac{(m-2)!}{a!\prod_jb_j!},\qquad
+                  a+\sum_jb_j=m-2.                           \tag{E8.16}
+\]
+This follows by induction from the three-point integral one and
+the string equation.  In fact at least one exponent is zero;
+forget that marking and apply the string equation.  The sum of
+the resulting numerators is the sum of the remaining exponents,
+which is $m-2$, giving (E8.16).  The string equation itself follows
+from $\psi_j=f^*\psi_j+D_{j,\mathrm{forgotten}}$; the exceptional
+sections are disjoint and their normal classes are the negative
+cotangent classes.  Thus (E8.16) needs no assumption about the
+Hurwitz cover.
+
+A stable root vertex has $m\ge2$ children.  Its children already
+include their factors $1/b_j!$.  Applying (E8.16), and summing
+unordered children by the exponential construction $L^m/m!$,
+gives (E8.11).  Restoring the exponential of the actual root
+marking adds $a(c_0)^a/a!$, explaining the second root factorial
+in (E8.12).  Restoring the labels of same-class leaves multiplies
+by $\prod_jc_j!$.  Since we expanded an exponential, extracting
+the top power rather than its exponential coefficient multiplies
+by $(k-2)!$.  The last gluing normalization is the trace $\tau$.
+This proves (E8.12).
+
+There is no infinite series issue.  A term of $T[\mathbf c,a]$
+has Hodge degree $k-2-a$, and a term of $L[\mathbf c,b]$ has
+degree $k-1+b$.  For total dimension $d$, one can discard
+$b>d-k+1$.  Every child in (E8.11) has fewer leaves than its
+parent, so the recurrence is acyclic and terminates.  These
+observations also prove the truncations in the supplied program.
+\end{proof}
+
+\subsection*{D-E8-GRR-04. Exact evaluation from the published character table}
+
+For the classes in (E8.1), (E8.3) gives
+\[
+                     a(C_1)=\frac{17}{24},\quad
+                     a(C_2)=\frac12,\quad a(R)=\frac18.       \tag{E8.17}
+\]
+The finite character table used in the evaluation is the complete
+112-class table for $W(E_8)$ in the CHEVIE author's
+\texttt{weyle8.g}.  Its primary URL and immutable downloaded hash are
+\begin{quote}\small
+\url{https://raw.githubusercontent.com/jmichel7/gap3-jm/master/pkg/chevie/tbl/weyle8.g}\\
+SHA256 \texttt{7dff885669b7b86c45acb4b3b144ce673f}\allowbreak
+\texttt{b0440736bd81b221d963694048e254}.
+\end{quote}
+The published package and the author's manual are cited in
+\cite{E8GRR:Michel,E8GRR:CHEVIE}.  The complete class classification
+is also Carter's published Table11, pp.~52--54
+\cite{E8GRR:Carter}.  Completeness and the character status of the
+CHEVIE table are standard finite-group inputs; orthogonality alone
+is not being claimed as a proof that an arbitrary array consists
+of genuine characters.
+
+\texttt{build\_character\_input.py} specializes the published
+polynomial Hecke-character data at $v=q=1$.  Omitted alternate rows
+in that table are recovered by the documented sign twist, using
+$(-1)^{\ell(w)}$ on each class word.  The retained file contains
+the resulting integer character table, the degrees, the class
+sizes and words, the central-translation permutation, and both
+sets of Hodge weights.  It redistributes mathematical data, not
+the entire third-party library.
+
+\texttt{check\_character\_input.py} can recheck the retained
+input without fetching the external library.  It reconstructs
+all112 class matrices from the displayed Cartan matrix and words;
+checks their exact orders and orthogonality; factors every exact
+characteristic polynomial into cyclotomic polynomials; shifts
+all exponents by $1/4$ for the $iW$ coset; and recomputes all224
+weights by (E8.3).  It checks the trace of the natural character
+on every reconstructed matrix, the complete character
+orthogonality identity, the sum of class sizes and of squared
+degrees, and multiplication by the central negative identity.
+The natural character is row68.
+
+Only rational arithmetic in the $W$-class algebra is needed.
+Every subtree has at most one $C_2$ leaf and all its other leaves
+are real reflections.  Thus it belongs to either $\mathbb Q[W]$
+or $i\mathbb Q[W]$, and no multiplication inside a subtree
+multiplies two imaginary factors.  For $x=\sum_cx_cK_c$ in the
+$W$-class algebra its Fourier coordinates and their inverse are
+\[
+ \widehat x_r=\sum_cx_c\frac{|c|\chi_r(c)}{\chi_r(1)},\qquad
+ x_c=\frac1{|W|}\sum_r\chi_r(1)\chi_r(c)\widehat x_r.          \tag{E8.18}
+\]
+All these Weyl characters are real.  The program checks that
+these two matrices multiply to the identity, and multiplies
+central vectors coordinatewise in Fourier coordinates.  Applying
+$\mathcal W$ in (E8.10) is done in the class coordinates, using the
+weight for the real or imaginary coset as appropriate.
+
+At the final root multiplication there are exactly two imaginary
+factors.  If $z=-I$, then $(iw)(iv)=zwv$.  Therefore the final
+identity coefficient is the coefficient at the negative of the
+root Weyl class, multiplied by that class size.  For root class57
+this is class58.  The final normalization is $|G|=2|W|$, not
+$|W|$.  This explains the central-product reduction used by the
+program without treating the224-character table as an opaque
+input.
+
+Running \texttt{exact\_hodge\_volume.py} with ten reflections,
+one $C_2$ leaf and root $C_1$ evaluates (E8.9)--(E8.12) exactly.
+The result is
+\[
+ \boxed{\int_{\overline{\mathcal H}}\lambda_\rho^9
+                       =\frac{3009825}{64}>0.}                \tag{E8.19}
+\]
+Independently of the Hodge weights, the ordinary tuple mass is
+\[
+ \boxed{\tau(K_{C_1}K_{C_2}K_R^{10})=90296156160000.}          \tag{E8.20}
+\]
+The retained output records exact rational arithmetic, the checked
+transform identity, and the input hash.  The numerical values
+from the unrefereed lead are compared only after the calculation;
+they are not input to it.  The program also permits exchanging
+$C_1$ and $C_2$ as the root, giving a differently rooted evaluation
+of the same intersection.  The supplied verification record
+distinguishes this comparison from an independent recurrence.
+
+\subsection*{D-E8-GRR-05. Canonical extension and actual rank nine}
+
+At least one component of $\mathcal H$ has a Weil-sixfold period
+map of generic rank nine.  Consequently it is dominant onto the
+unitary moduli component determined by its rational polarized
+$K$-space, of signature $(3,3)$ and signed determinant three.
+
+\begin{proof}
+Let $\mathcal H_\beta$ be any irreducible component.  Pass to a
+finite level cover, take a projective resolution of its
+compactification, and resolve the boundary to obtain a smooth
+projective variety $S$ with a normal crossings divisor $D$ and
+a generically finite map to $\overline{\mathcal H}_\beta$.
+After a further finite cover if necessary, local monodromy is
+unipotent.  The admissible curve family is semistable; semistable
+resolution after the base change does not change its Hodge
+bundle.  Marking connected components of a disconnected family
+requires only a further finite cover.
+
+We check that the GRR extension used above pulls back to the
+canonical Hodge extension required by the positivity theorem.
+For a one-parameter semistable family of curves the extension of
+$F^1$ is $\pi_*\omega$.  This published identification is recalled
+in the proof of Theorem2.1 of \cite[p.~242]{E8GRR:CD}, with the
+canonical extension characterized by nilpotent residues.  Locally
+at a node $xy=t$, the relative logarithmic generator is
+$dx/x=-dy/y$, which is precisely the dualizing generator.  Thus
+semistable resolution and base change add no divisor to the
+determinant line.  Apply this one-parameter identification to a
+transverse disk at the generic point of every prime boundary
+divisor of $S$, including its exceptional divisors.  The Hodge
+bundles and canonical extensions are locally free; the
+identification over $S\setminus D$ therefore extends over $S$
+because it and its inverse have no codimension-one poles on the
+normal variety $S$.  This proves the equality of extensions,
+not just equality over the open family.  Constant rational
+group-algebra projectors commute with this identification.
+The direct-sum argument applies to disconnected curves as well.
+
+Let $\mathbb V_{\rm full}$ be the rational full isotypic
+variation for $\rho\oplus\overline\rho$.  It has rational rank96,
+and its $F^1$ has rank48.  The fixed representation factors have
+complex dimension eight, so its extended determinant line $L$
+has
+\[
+ c_1(L)=8(\lambda_\rho+\lambda_{\overline\rho})
+                         =16\lambda_\rho.                    \tag{E8.21}
+\]
+The last equality holds in rational first Chern classes on the
+compactification: the weights (E8.3), and hence (E8.4), are
+unchanged on dualizing the representation.  This is stronger
+than an equality of ranks or of open Chern forms.
+
+Apply Bakker--Brunebarbe--Tsimerman Lemma6.17 to
+$\mathbb V_{\rm full}$ on $S\setminus D$.  Its hypotheses hold:
+the variation is polarized and real, $S$ is smooth projective,
+the boundary has normal crossings, and its local monodromies
+are unipotent.  The lemma says that $L$ is nef, and that it is
+big exactly when the Hodge differential
+\[
+ T_{S\setminus D}\longrightarrow
+       \operatorname{Hom}(F^1,\mathbb V_{\rm full,\mathcal O}/F^1)
+                                                                  \tag{E8.22}
+\]
+is injective as a map of sheaves.  In weight one this is the
+period differential.  Sheaf injectivity is equivalent to
+injectivity at the generic point.  On a smooth projective
+ninefold a nef line bundle is big exactly when its ninth
+self-intersection is positive, as also used in the published
+proof of Lemma6.15.
+
+It follows that the contribution
+$\int_{\overline{\mathcal H}_\beta}\lambda_\rho^9$ of every
+component is nonnegative: its pullback is $16^{-9}c_1(L)^9$,
+and generically finite alterations multiply intersections by
+their positive degree.  Formula (E8.19) is the sum of these
+nonnegative contributions, so at least one is strictly
+positive.  On that component (E8.22) is generically injective.
+The full variation and its primitive abelian sixfold have the
+same period differential kernel, since the former is a fixed
+multiplicity of the latter.  The primitive period map therefore
+has rank nine.
+
+Finally, a polarized $K$-space of signature $(3,3)$ has a
+unitary period domain of complex dimension nine.  The
+algebraic family of sixfolds just constructed gives a map to
+its moduli space after level structure.  A rank-nine point
+gives an analytic open image, hence Zariski-dense image in
+that moduli component.  This proves dominance.  The source
+and target dimensions enter only at this final step, after
+the full period rank has been established.
+\end{proof}
+
+\subsection*{D-E8-GRR-06. The dominant component consists of connected covers}
+
+Using the Gaussian reflection-normal-closure reduction D-GAUSS-03
+proved earlier in this work, the dominant component obtained in
+D-E8-GRR-05 has full generated group $G$.  Thus its total curves
+are connected.  This conclusion does not claim that every component
+with branch datum (E8.1) is dominant or connected.
+
+\begin{proof}
+We first justify the generic endomorphism assertion needed here.
+On the full unitary period domain of signature $(3,3)$, the only
+rational endomorphisms which are Hodge for every point are the
+given scalars $K$.  Here is a direct verification.  Identify the
+real vector space with $\mathbb C^3\oplus\mathbb C^3$ and the
+Hermitian form with $\operatorname{diag}(I_3,-I_3)$.  One of its
+compatible complex structures is
+$J_0=\operatorname{diag}(iI_3,-iI_3)$.  Write a real endomorphism
+as a complex-linear matrix $A$ plus a complex-antilinear matrix
+$B$ followed by conjugation.  Commutation with $J_0$ forces
+$A$ to be block diagonal and $B$ to be block off-diagonal.
+The tangent directions to compatible complex structures are,
+up to a nonzero real factor,
+\[
+       \begin{pmatrix}0&-iZ\\ i\overline Z^{,t}&0\end{pmatrix},
+                   \qquad Z\in\operatorname{Mat}_3(\mathbb C).
+\]
+Commutation with all these directions implies
+$A_+Z=ZA_-$ for every $Z$, hence $A_+=A_-=aI_3$.
+For the off-diagonal blocks of $B$ it implies
+$B_{12}Z^t=ZB_{21}$ for every $Z$.  Taking $Z=I$ gives
+$B_{12}=B_{21}=B_0$; taking diagonal $Z$ makes $B_0$ diagonal;
+taking the off-diagonal matrix units then makes every diagonal
+entry zero.  Thus $B=0$.  The real commutant is the complex
+scalars, and its intersection with rational endomorphisms is
+exactly $K$.
+
+There are only countably many rational endomorphisms.  For each
+one outside $K$ its Hodge locus in the domain is a proper closed
+analytic subset by the calculation just made.  A nonempty open
+subset cannot be a countable union of such subsets.  The
+dominant period map in D-E8-GRR-05 therefore has a very general
+fiber $B$ with $\operatorname{End}^0(B)=K$.  In particular $B$
+is simple.  This argument uses the actual open period image and
+does not assume a generic Mumford--Tate theorem.
+
+Pass to a finite cover of the Hurwitz component to identify the
+generated subgroup $J\subset G$ up to a fixed conjugation, and
+decompose the coefficient representation $V|_J$ over $K$.
+The semisimple algebra
+\[
+ \operatorname{End}_{KJ}(V)=\prod_\alpha
+                         M_{m_\alpha}(D_\alpha)
+\]
+acts on its parabolic multiplicity Hodge structure $P$ (with
+the opposite-algebra convention if the multiplicity is written
+as a Hom).  Every summand projector is a Hodge projector.
+Since the full rational Hodge endomorphism algebra of $P$ is
+$K$, exactly one factor acts nontrivially.  A nonzero
+homomorphism from a simple algebra to a field is injective,
+so that factor must have $m_\alpha=1$ and $D_\alpha=K$.
+Consequently there is a unique active absolutely irreducible
+$K$-summand $\tau$ of $V|_J$, of dimension at most eight,
+occurring once, and
+\[
+       P=H^1_{\rm par}(\mathbb P^1\setminus\{p_j\},\tau).
+                                                                  \tag{E8.23}
+\]
+All the other summands have zero parabolic cohomology.
+The decomposition can be made orthogonal for the positive
+finite-group form.  Thus (E8.23) identifies the actual polarized
+variation, not merely its Hodge numbers.
+
+The character field of $\tau$ is $K$.  Indeed its matrices are
+over $K$, so the only possible proper character subfield is
+$\mathbb Q$.  If its character were rational, $\tau$ and its
+conjugate would be isomorphic over $K$: an intertwiner is
+obtained by solving the intertwining linear equations over
+$K$, and any nonzero intertwiner between these absolutely
+irreducible representations is invertible.  Composing this
+intertwiner with scalar conjugation gives an invertible
+$K$-antilinear, rational $J$-equivariant coefficient map.
+It induces an invertible rational Hodge endomorphism of (E8.23)
+which does not commute with $i$.  This contradicts
+$\operatorname{End}_{\rm Hdg}(P)=K$.  This argument also excludes
+a rational-character quaternionic representation; no implicit
+Schur-index-one assertion over $\mathbb Q$ is being made.
+
+Each of the ten reflection inertias in (E8.1) acts on $\tau$
+either trivially or as an involutive reflection, because its
+moving space on all of $V$ has dimension one.  At least one
+acts nontrivially.  Otherwise the local system in (E8.23)
+would have only two possible nontrivial monodromies, which
+are inverse to each other.  The first has no fixed vectors
+even on $\tau$, as it has none on $V$.  If $a=\dim_K\tau$,
+the moving-rank sum would then be $2a$, and the genus-zero
+parabolic dimension would be $2a-2a=0$, contrary to
+$\dim_KP=6$.
+
+The finite image of $J$ on $\tau$ is therefore absolutely
+irreducible, has character field $K$, and contains reflections.
+Its actual parabolic variation is the dominant nonsplit
+sixfold variation (E8.23).  D-GAUSS-03 applies, including its
+induced-representation cases.  It says that every irreducible
+component of its reflection normal closure which can remain
+in this situation is the natural $E_8$ representation.
+Such a component has dimension eight.  Since
+$\dim_K\tau\le8$, equality is forced, $\tau=V|_J$, and the
+reflection normal closure in $J$ contains a copy of $W(E_8)$
+in the natural representation.
+
+All reflections in $G$ belong to its real subgroup $W$.
+The reflection normal closure just found is consequently a
+subgroup of the original $W$.  Its order is the full order
+$696729600$ of $W(E_8)$, so it is $W$.  The tuple also
+contains its specified element of $iW$, hence $J=G$.
+The generated subgroup is constant up to conjugacy on a
+Hurwitz component.  Its principal cover is connected exactly
+when that subgroup is $G$.  This proves the assertion.
+\end{proof}
+
+\paragraph{Precise conclusion.}
+There exists a dominant family of connected $G$-covers whose
+actual primitive abelian factors have $K=\mathbb Q(i)$,
+signature $(3,3)$, and signed determinant class three.
+D-E8-GRR-01--05 establish dominance without a connectedness
+premise; D-E8-GRR-06 proves connectedness using the separately
+proved reflection-normal-closure barriers.  The positive total
+intersection does not identify a particular explicit Nielsen
+tuple as lying in the dominant component.  The construction of
+algebraic detecting cycles is a separate assertion.

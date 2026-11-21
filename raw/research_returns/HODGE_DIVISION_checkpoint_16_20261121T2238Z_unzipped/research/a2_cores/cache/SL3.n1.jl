@@ -1,0 +1,281 @@
+using ..GenericCharacterTables
+import ..GenericCharacterTables:
+  Parameters, Parameter, CharTable, GenericCyclo, GenericCycloFrac, nesum
+using ..GenericCharacterTables.Oscar
+S, E, q = generic_cyclotomic_ring()
+R = base_ring(S)
+a, b, m, n, _... = params(
+  S,
+  [
+    "a",
+    "b",
+    "m",
+    "n",
+    "a1",
+    "b1",
+    "m1",
+    "n1",
+    "a2",
+    "b2",
+    "m2",
+    "n2",
+    "a3",
+    "b3",
+    "m3",
+    "n3",
+    "at1",
+    "bt1",
+    "mt1",
+    "nt1",
+    "at2",
+    "bt2",
+    "mt2",
+    "nt2",
+  ],
+)
+
+order = q^3 * (q - 1)^2 * (q + 1) * (q^2 + q + 1)
+table = GenericCyclo[[
+  S(1),
+  S(1),
+  S(1),
+  S(1),
+  S(1),
+  S(1),
+  S(1),
+  S(1)] [
+  (q^2 + q) * S(1),
+  (q) * S(1),
+  S(0),
+  (q + 1) * S(1),
+  S(1),
+  (2) * S(1),
+  S(0),
+  -S(1)] [
+  (q^3) * S(1),
+  S(0),
+  S(0),
+  (q) * S(1),
+  S(0),
+  S(1),
+  -S(1),
+  S(1)] [
+  (q^2 + q + 1) * S(1),
+  (q + 1) * S(1),
+  S(1),
+  (q + 1) * S(1; exponent=(n * a) * 1//R((q - 1))) +
+  S(1; exponent=(-2 * n * a) * 1//R((q - 1))),
+  S(1; exponent=(n * a) * 1//R((q - 1))) + S(1; exponent=(-2 * n * a) * 1//R((q - 1))),
+  S(1; exponent=(n * a) * 1//R((q - 1))) + S(1; exponent=(n * b) * 1//R((q - 1))) +
+  S(1; exponent=(n * (-a - b)) * 1//R((q - 1))),
+  S(1; exponent=(n * a) * 1//R((q - 1))),
+  S(0)] [
+  (q * (q^2 + q + 1)) * S(1),
+  (q) * S(1),
+  S(0),
+  (q + 1) * S(1; exponent=(n * a) * 1//R((q - 1))) +
+  q * S(1; exponent=(-2 * n * a) * 1//R((q - 1))),
+  S(1; exponent=(n * a) * 1//R((q - 1))),
+  (
+    S(1; exponent=(n * a) * 1//R((q - 1))) + S(1; exponent=(n * b) * 1//R((q - 1))) +
+    S(1; exponent=(n * (-a - b)) * 1//R((q - 1)))
+  ),
+  -S(1; exponent=(n * a) * 1//R((q - 1))),
+  S(0)] [
+  ((q + 1) * (q^2 + q + 1)) * S(1),
+  (2 * q + 1) * S(1),
+  S(1),
+  (q + 1) * (
+    S(1; exponent=(n * a - 2 * m * a) * 1//R((q - 1))) +
+    S(1; exponent=(m * a - 2 * n * a) * 1//R((q - 1))) +
+    S(1; exponent=(n * a + m * a) * 1//R((q - 1)))
+  ),
+  (
+    S(1; exponent=(n * a - 2 * m * a) * 1//R((q - 1))) +
+    S(1; exponent=(m * a - 2 * n * a) * 1//R((q - 1))) +
+    S(1; exponent=(n * a + m * a) * 1//R((q - 1)))
+  ),
+  (
+    S(1; exponent=(m * a + n * b) * 1//R((q - 1))) +
+    S(1; exponent=(m * b + n * a) * 1//R((q - 1))) +
+    S(1; exponent=(m * (-a - b) + n * a) * 1//R((q - 1))) +
+    S(1; exponent=(m * a + n * (-a - b)) * 1//R((q - 1))) +
+    S(1; exponent=(m * (-a - b) + n * b) * 1//R((q - 1))) +
+    S(1; exponent=(m * b + n * (-a - b)) * 1//R((q - 1)))
+  ),
+  S(0),
+  S(0)] [
+  ((q - 1) * (q^2 + q + 1)) * S(1),
+  -S(1),
+  -S(1),
+  (q - 1) * S(1; exponent=(n * a) * 1//R((q - 1))),
+  -S(1; exponent=(n * a) * 1//R((q - 1))),
+  S(0),
+  -(
+    S(1; exponent=(-n * a) * 1//R((q^2 - 1))) +
+    S(1; exponent=(-n * a * q) * 1//R((q^2 - 1)))
+  ),
+  S(0)] [
+  ((q - 1)^2 * (q + 1)) * S(1),
+  (-(q - 1)) * S(1),
+  S(1),
+  S(0),
+  S(0),
+  S(0),
+  S(0),
+  (
+    S(1; exponent=(n * a) * 1//R((q^2 + q + 1))) +
+    S(1; exponent=(n * a * q) * 1//R((q^2 + q + 1))) +
+    S(1; exponent=(-n * a - n * a * q) * 1//R((q^2 + q + 1)))
+  )]]
+classinfo = Vector{Any}[
+  [[1, 0], ["A_2", [1, 1, 1]]],
+  [[1, 1], ["A_2", [2, 1]]],
+  [[1, 2], ["A_2", [3]]],
+  [[2, 0], ["A_1", [1, 1]]],
+  [[2, 1], ["A_1", [2]]],
+  [[3, 0], ["A_0", [1]]],
+  [[4, 0], ["A_0", [1]]],
+  [[5, 0], ["A_0", [1]]]]
+classlength =
+  R.([
+    1,
+    (q - 1) * (q + 1) * (q^2 + q + 1),
+    q * (q - 1)^2 * (q + 1) * (q^2 + q + 1),
+    q^2 * (q^2 + q + 1),
+    q^2 * (q - 1) * (q + 1) * (q^2 + q + 1),
+    q^3 * (q + 1) * (q^2 + q + 1),
+    q^3 * (q - 1) * (q^2 + q + 1),
+    q^3 * (q - 1)^2 * (q + 1)])
+charinfo = Vector{Any}[
+  [[1, 0], ["A_2", [3]]],
+  [[1, 1], ["A_2", [2, 1]]],
+  [[1, 2], ["A_2", [1, 1, 1]]],
+  [[2, 0], ["A_1", [1, 1]]],
+  [[2, 1], ["A_1", [2]]],
+  [[3, 0], ["A_0", [1]]],
+  [[4, 0], ["A_0", [1]]],
+  [[5, 0], ["A_0", [1]]]]
+chardegree =
+  R.([
+    1,
+    q^2 + q,
+    q^3,
+    q^2 + q + 1,
+    q * (q^2 + q + 1),
+    (q + 1) * (q^2 + q + 1),
+    (q - 1) * (q^2 + q + 1),
+    (q - 1)^2 * (q + 1),
+  ])
+
+classsums = [
+  identity,
+  identity,
+  identity,
+  function (tt::Union{GenericCyclo,GenericCycloFrac})
+    nesum(tt, a, 1, q - 2)
+  end,
+  function (tt::Union{GenericCyclo,GenericCycloFrac})
+    nesum(tt, a, 1, q - 2)
+  end,
+  function (tt::Union{GenericCyclo,GenericCycloFrac})
+    ss5 = nesum(tt, a, 0, q - 2)
+    ss6 = nesum(ss5, b, 0, q - 2)
+    tt1 = evaluate(tt, [b], [a])
+    ss7 = nesum(tt1, a, 0, q - 2)
+    tt2 = evaluate(tt1, [a], [0])
+    1//6 * ss6 - 1//2 * ss7 + 1//3 * tt2
+  end,
+  function (tt::Union{GenericCyclo,GenericCycloFrac})
+    ss7 = nesum(tt, a, 0, q^2 - 2)
+    tt1 = evaluate(tt, [a], [(q + 1) * a])
+    ss8 = nesum(tt1, a, 0, q - 2)
+    1//2 * ss7 - 1//2 * ss8
+  end,
+  function (tt::Union{GenericCyclo,GenericCycloFrac})
+    ss8 = nesum(tt, a, 1, q^2 + q)
+    1//3 * ss8
+  end,
+]
+
+charsums = [
+  identity,
+  identity,
+  identity,
+  function (tt::Union{GenericCyclo,GenericCycloFrac})
+    nesum(tt, n, 1, q - 2)
+  end,
+  function (tt::Union{GenericCyclo,GenericCycloFrac})
+    nesum(tt, n, 1, q - 2)
+  end,
+  function (tt::Union{GenericCyclo,GenericCycloFrac})
+    ss5 = nesum(tt, n, 1, q - 2)
+    ss6 = nesum(ss5, m, 1, q - 2)
+    tt1 = evaluate(tt, [m], [n])
+    ss7 = nesum(tt1, n, 1, q - 2)
+    1//6 * ss6 - 1//6 * ss7
+  end,
+  function (tt::Union{GenericCyclo,GenericCycloFrac})
+    ss7 = nesum(tt, n, 0, q^2 - 2)
+    tt1 = evaluate(tt, [n], [(q + 1) * n])
+    ss8 = nesum(tt1, n, 0, q - 2)
+    1//2 * ss7 - 1//2 * ss8
+  end,
+  function (tt::Union{GenericCyclo,GenericCycloFrac})
+    ss8 = nesum(tt, n, 1, q^2 + q)
+    1//3 * ss8
+  end,
+]
+
+classparams = [
+  Parameters(Parameter[]),
+  Parameters(Parameter[]),
+  Parameters(Parameter[]),
+  Parameters([Parameter(a, q - 1)], [((a) * 1//(q - 1))]),
+  Parameters([Parameter(a, q - 1)], [((a) * 1//(q - 1))]),
+  Parameters([Parameter(a, q - 1), Parameter(b, q - 1)], [((a - b) * 1//(q - 1)), ((a + 2*b) * 1//(q - 1)), ((2*a + b) * 1//(q - 1))]),
+  Parameters([Parameter(a, q^2 - 1)], [((a) * 1//(q + 1))]),
+  Parameters([Parameter(a, q^2 + q + 1)], [((a) * 1//(q^2 + q + 1))]),
+]
+
+charparams = [
+  Parameters(Parameter[]),
+  Parameters(Parameter[]),
+  Parameters(Parameter[]),
+  Parameters([Parameter(n, q - 1)], [((n) * 1//(q - 1))]),
+  Parameters([Parameter(n, q - 1)], [((n) * 1//(q - 1))]),
+  Parameters([Parameter(n, q - 1), Parameter(m, q - 1)], [((n - m) * 1//(q - 1)), ((n) * 1//(q - 1)), ((m) * 1//(q - 1))]),
+  Parameters([Parameter(n, q^2 - 1)], [((n) * 1//(q + 1))]),
+  Parameters([Parameter(n, q^2 + q + 1)], [((n) * 1//(q^2 + q + 1))]),
+]
+
+classparamindex = var_index.([a, b])
+charparamindex = var_index.([m, n])
+
+information = raw"""The generic character table of $\mathrm{SL}_3(q)$,
+  $q$ not congruent to $1$ modulo $3$
+  (See `SL3.1` for the generic character table of $\mathrm{SL}_3(q)$,
+  $q$ congruent to $1$ modulo $3$.)
+
+- Note:
+  The three groups $\mathrm{SL}_3(q)$, $\mathrm{PGL}_3(q)$ and $\mathrm{PSL}_3(q)$ are
+  mutually isomorphic for these values of $q$.
+
+- The table was first computed in [SF73](@cite).
+
+- Correction to [SF73](@cite), Table 1b: for $\mathrm{SL}_3(q)$,
+  $\chi_{rt}^{(u)}(C_7^{(k)})$ is $-(\eta^{-uk} + \eta^{-ukq})$, not
+  $-(\eta^{uk} + \eta^{ukq})$; the same applies to Table 2. Character type 7 on class
+  type 7 has the correct value, as does the CHEVIE table `SL3.n1`. The CHEVIE tables
+  `PSL3.n1` and `PGL3.n1`, which here are this table, have the printed value.
+
+- Correction to the CHEVIE table: class type 6 also excludes $a + 2b \equiv 0$ and
+  $2a + b \equiv 0$ modulo $q - 1$, and character type 6 also excludes $n \equiv 0$ and
+  $m \equiv 0$. CHEVIE excludes only $a \equiv b$ and $n \equiv m$.
+
+- See also: [Ste51](@cite), [Gre55](@cite).
+"""
+
+TABLE = CharTable(order, permutedims(table), classinfo, classlength, charinfo, chardegree,
+  classsums, charsums, classparamindex, charparamindex, classparams, charparams, S,
+  information, splitext(basename(@__FILE__))[1])
