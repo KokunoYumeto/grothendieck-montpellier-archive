@@ -1,0 +1,15 @@
+# Independent full review of P-F42
+
+Reviewer: `/root/bridges`, GPT-6 Astra Pro, inherited/undisclosed effort.
+Outcome: **PASS**, no mathematical correction requested.
+
+I read the entire file `positivity_cubic_average_upper.tex` and reconstructed all six steps.
+
+1. The Weyl alternant extracts exactly the rectangular highest weight. The equation for total symmetric degree follows from column sums3, and the Weyl shift signs and bounds are correct.
+2. A single sufficiently small rational positive epsilon avoids every integer-translated rank-(n-1) column hyperplane. Every smaller-rank support can be extended to such a hyperplane. This ensures exactly n positive basic coordinates at every vertex. For large s a strictly positive solution exists using the pure-cube columns, and every basic coordinate has an eventual sign, so the feasible bases stabilize.
+3. Hadamard gives the stated determinant and cofactor bounds. Conditional on the basic direction coordinates, the nonbasic coordinates are independent uniform translates; the inverse-square-root expectation bound is uniform in the translation. Markov plus the union bound yields the simultaneous product bound. The determinant-sensitive bounds on w, lambda and v are valid.
+4. The tangent cone retains the lower bounds only on its nonbasic variables. Because every epsilon_i is between0 and1, its integer points have exactly nonbasic beta_i>=0, not a shifted integer lower bound. The quotient-lattice character filter therefore gives the displayed formula. Its character signs amount to reindexing chi by its inverse, so they are consistent. Multivariable convergence and then meromorphic specialization avoids an unjustified common univariate convergence region.
+5. The radius is small enough to control both zero-character factors and nontrivial d-th roots. Every removable factor is analytic on the closed disk. Cauchy yields precisely the displayed polynomial-coefficient norm, and dR<=1 absorbs d^(a-k), so an extra d^a is neither needed nor omitted. Every numerical constant, including288, checks.
+6. The stable cone formula is a finite root-of-unity polynomial expression for all sufficiently large s. Averaging entire eventual constituent polynomials retains exactly chi(c1)=1, with the factor1/d cancelling the number of characters. Taking the triangle inequality across Weyl shifts is legitimate even though it loses their cancellation. Global quasipolynomiality of the actual f_n identifies these eventual polynomials with the intrinsic constituents. The leading constant is log2(3)/6 and is strictly greater than1/24, as claimed.
+
+I freshly opened/read Barvinok's author-hosted text, Theorem2.5 printed p9 (ref turn214312971view1), including its definition of translated tangent cones and statement for rational polyhedra. The lower-dimensional ambient-lattice version used in the proof is within that statement. The Weyl formula is a known premise; its specific coefficient extraction is proved directly here. No additional computation or formal verification is claimed.
