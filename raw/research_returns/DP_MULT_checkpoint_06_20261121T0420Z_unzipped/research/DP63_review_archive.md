@@ -1,0 +1,19 @@
+# DP63 independent complete proof review
+
+Checker `/root/archive_binomial`, GPT-6 Astra Pro; effort not exposed. Original whole memo/fragment read04:12:47 UTC on2026-11-21. After the clarification and refinement below, both complete current files were captured and reread; review closed04:15:37. **PASS for corrected current versions**.
+
+Original memo hash `bef3302a1475af79f4daf0a9d03679359c98a4e6288b3accae9158079209e045`. I caught a definition-scope ambiguity: the ordinary beta-gap range could leave epsilon_(m-2) undefined, particularly whenm=2. The author explicitly defined epsilon_s=beta_s+H for all0<=s<m. Both corrected proofs were read. Root then refined product-basis language to a finite integral generating family, eliminating an unnecessary Kunneth identification; I read both complete final files again.
+
+Final memo SHA256 `e1faa3328cf83355d0504bb7328700b340d6db2e1fe07fdb6d76019442b8351d`; fragment SHA256 `e9531f2aea6ab91b19dbf1a700c5cc0c1816e9d898b285d39ec16b0f13fa8d45`. Snapshots, complete proof-block hash, exact source hashes and actual main inclusion counts are in `late_proof_snapshots/DP63_archive_review_metadata.json`.
+
+All HC fields check, including half-integral last u=-1/2, first v gap a+1, and the m=2/Q=1 cases. Positive rows never use the variable final beta/epsilon, so onlyA0 grows by a. ForQ>=2 onlyB0 varies with gapb; forQ=1 its residual is zero. The residual partitions and factorial product are fixed. Identical data across words give exactly all four Wts.Ok fields, without claiming the larger source datum.
+
+The determinant diagonal monomial has coefficient one, because any other choice introduces an off-diagonal variable. Its contraction gives exactly the product of row factorials. Integral algebraic coordinates have identity linear terms in additive parameters, so the degree-D monomial has precisely the desired lowest homogeneous part. Multiplication by kernels with constant one cannot change that part; the homogeneous filler operator ignores higher terms. The first two columns are disjoint, giving the exact factorial times DP58 value without requiring integral logarithms.
+
+The product J^(P+Q-1) has the stated distinct directions: copy0 suppliesX0,Y0, copies1..P-1 supply remainingX rows, copiesP..P+Q-2 supply remainingY rows. Q=1 leaves the latter range empty. Actual characters3,2 are not conjugate, and the text explicitly retains that distinction. Other copies lie on normalized axes, so the sharp kernel remains in copy0. Geometric dimension and column count remain fixed asr increases.
+
+Product translates give a finite integral generating family. Factor-by-factor jets of orderT generate every product monomial through total orderT, since each error has total order at leastT+1. The compatible integral frame correction U^(-kappa) preserves integral interpolation. Expanding the finitely many column sections and using multilinearity selects an allowed algebraic tuple with valuation at mostV. No equality or matching lower bound for every full-row tuple is needed or claimed. Interpolation coefficients can lie in the completion while the selected generating tuple remains algebraic.
+
+The least sufficient power29 isO(T), its squareO(T squared), and M^(-T) is an11-adic unit. SinceT=122*11^r+D andV=(11^r-1)/10+v11(F), the ratio tends to1/1220. This proves the stated failure of a larger uniform lower rate for the varying-HC, chosen-direction family.
+
+Direct numbered source reads: Params.lean1-75 and AbelianHostFieldConditions.lean420-465, verifying every HC/Ok clause. Complete DP58,DP59,DP61 dependencies had already been independently reviewed; targeted DP49 character and gauge passages were checked without claiming a whole DP49 read. The argument does not supply actual conjugate-embedding labels, DP65, fixed SizeData2 windows, old CMObj/Datum.dom, an iterated theta image, or a whole-chain cost improvement. No Lean execution is claimed.

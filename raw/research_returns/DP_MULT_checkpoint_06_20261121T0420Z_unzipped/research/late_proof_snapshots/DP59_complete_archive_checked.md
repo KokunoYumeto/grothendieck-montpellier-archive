@@ -1,0 +1,195 @@
+# DP59 — Integral span of the permitted theta translates and sharp witnesses
+
+Date: 2026-11-21 UTC. Author: `/root`, GPT-6 Astra Pro; reasoning effort not exposed. This is a new integral specialization of the classical theta-group representation theorem. It addresses the exact generic section relation `IsVtOver`, not the separate existence of the source's mixed-type moduli object or iterated theta image. No Lean execution is claimed.
+
+## 1. Statement
+
+Use the actual Jacobian and trace-one line of DP49 over
+\(R=W(\mathbf F_{11^3})\):
+\[
+ A=\operatorname{Jac}(y^2=x^7-1),\quad g=3,\quad
+ \delta=1+2(a+a^2+a^4),\quad \delta^2=-7,\quad
+ w_0=(1-\delta)/2,\quad
+ L=(1,w_0)^*\mathcal P_\lambda.
+\]
+The principal polarization is \(\lambda\), and \(\delta^\dagger=-\delta\).
+Choose a generator \(s\) of the rank-one module \(H^0(A,L)\) obtained from a section over \(\mathbf Q(\zeta_7)\), primitive at the chosen prime. Its existence is proved in §8. The local span conclusions would also hold after multiplying it by any unit of \(R\).
+Set
+\[
+ \alpha_0=1+2\delta=3-4w_0,\qquad
+ \alpha=\alpha_0^e,\qquad M=29^e,\qquad \kappa=M^2,
+ \qquad e\ge1.
+ \tag{TS1}
+\]
+Then \(\alpha\bar\alpha=M\), and the ideals \((\alpha)\) and \((\bar\alpha)\) are relatively prime. All these levels are odd and prime to 11. The ideal \(\mathfrak b=(\alpha)\) satisfies the source's arithmetic `Level` conditions involving \(M,\mathfrak b,w_0\).
+
+After a finite unramified extension \(R'/R\), all torsion points needed below and their symmetric theta lifts are defined. Let
+\[
+ H=A[\alpha^2](R'),\qquad D=A[M](R'),\qquad C=A[\alpha](R').
+ \tag{TS2}
+\]
+Write \(s_M=[M]^*s\) as a section of \(L^{M^2}\) using its canonical rigidified multiplication isomorphism. For every \(t'\in H\), let
+\[
+ s_{t'}=U_{t'}s_M,
+ \tag{TS3}
+\]
+where \(U_{t'}\) is the symmetric theta lift of order dividing \(M^2\).
+
+**DP59(a).** The integral span of these sections is exactly
+\[
+ W_M=[\alpha]^*H^0(A_{R'},L^M)
+       \ \subset H^0(A_{R'},L^{M^2}).
+ \tag{TS4}
+\]
+Its rank is \(M^g\), while the ambient module has rank \(M^{2g}\). Choosing one representative of each coset in \(H/C\) gives an \(R'\)-basis of \(W_M\), up to multiplying individual representatives by units. In particular the allowed half-torsion orbit does not span the entire ambient section module when \(M>1\).
+
+**DP59(b).** There are fixed integers \(r\ge1,b\ge0\) such that, whenever \(M\ge rn+b\), the module \(W_M\) surjects onto the integral jets of order \(n\) of \(L^{M^2}\) at zero. For each explicit ordinary or first-row two-column harmonic degree in DP58, some allowed translate, or some pair of allowed translates, has exactly the DP58 normalized valuation
+\[
+ V=\frac{11^q-1}{10}.
+ \tag{TS5}
+\]
+Here the ordinary degrees are \(n=(11^k+1)11^q\), with \(k=1\) or \(2\); the harmonic pair is \((a,b)=(11^q,121\cdot11^q)\), of total degree \(n=122\cdot11^q\). The differential operator is the one specified in DP58, and the factor \(M^{-n}\) is included.
+
+The level may be chosen among the powers of 29 with
+\[
+ M=O(n),\qquad \kappa=M^2=O(n^2).
+ \tag{TS6}
+\]
+The sections in (TS3), their torsion points and their theta lifts are algebraic over finite number-field extensions and integral at the chosen prime over 11. The completion of that extension at this prime is unramified.
+
+**DP59(c).** Each section (TS3) satisfies the generic source relation `IsVtOver` with \(N=M\), base section \(s\), allowed root \(t'\), point \(t=[M]t'\), and condition “annihilated by \(\mathfrak b^2\).” The canonical multiplication isomorphism satisfies `IsNormMul`. This does not construct a point of a source `Moduli Dw l` with the old prescribed `Datum.dom`/`HasType`, nor identify these sections with the nonzero iterated theta image. Those remain distinct interfaces.
+
+## 2. Exact known inputs and source interfaces
+
+The classical representation input is Mumford, *On the Equations Defining Abelian Varieties I*, Inventiones 1 (1966), §1: the basic cohomology facts (II), printed p.289; Theorem 1, pp.293–294, on the nondegenerate theta commutator; Proposition 3, pp.295–296, on the weight-one representation; and Theorem 2, p.297, that \(H^0(A,L)\) is irreducible for an ample line of separable type. These known results are cited, not asserted as new. The integral lattice, restricted-orbit and jet conclusions below are proved here. Primary copy: https://pazuki.perso.math.cnrs.fr/index_fichiers/Mumford66.pdf . The actual original pages289 and297 were visually read; the neighboring statement/proof text was read as well.
+
+The precise recovered definitions are:
+
+- `Formalism/LocalToGlobal/ProjectiveLattices/IsThRule.lean`: `IsVtOver`,32–42; `thExpr`,66–70; `ThValAt`,72–79.
+- `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/ExtensionDescent/ThetaPt.lean`: `SymLift`,44–51; `IsTwistPull`,76–84; `IsActOf`,86–87.
+- The same directory, `ThetaVV.lean`: `IsNormMul`,103–108.
+- `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/TwoWeightEqOneAddRoot.lean`: `Datum.dom`,41–51; `Level`,53–62; `SAB`,72–83.
+
+`SymLift` demands the specified point, the stated finite power equal to the identity, and compatibility with a symmetry of the line. `IsVtOver` permits roots killed by the specified ideal, not all points of \(A[M^2]\). That distinction is essential to (TS4).
+
+## 3. Symmetry, multiplication, and the split principal level
+
+The normalized Poincaré line is a biextension. Applying multiplication by \(M\) in both arguments gives the rigidified isomorphism
+\[
+ [M]^*L\simeq L^{M^2}.
+ \tag{TS7}
+\]
+Applying minus one in both arguments similarly gives \([-1]^*L\simeq L\). These isomorphisms preserve the rigidification at the identity, by the unit compatibility of the biextension. In particular the actual trace-one line is symmetric; no arbitrary principal-line symmetry assumption or unaccounted Picard-zero twist is used.
+
+For a CM endomorphism \(u\) commuting with \(w_0\), Poincaré functoriality and the definition of the Rosati adjoint give
+\[
+ (u,w_0u)^*\mathcal P_\lambda
+ \simeq (1,u^\dagger w_0u)^*\mathcal P_\lambda.
+\]
+Since \(\alpha^\dagger\alpha=M\), this gives, rigidified at zero,
+\[
+ [\alpha]^*L\simeq L^M,
+ \qquad [\bar\alpha]^*L\simeq L^M,
+ \qquad [\alpha]^*L^M\simeq L^{M^2}.
+ \tag{TS8}
+\]
+Composing these isomorphisms agrees with (TS7), again by biextension functoriality.
+
+The norm identity follows directly from \(\delta^2=-7\):
+\((1+2\delta)(1-2\delta)=29\).
+The ideals generated by \(\alpha_0\) and \(\bar\alpha_0\) are relatively prime: a common divisor would divide both their sum2 and their product29; alternatively
+\(1=15(\alpha_0+\bar\alpha_0)-\alpha_0\bar\alpha_0\).
+Their powers remain relatively prime. The generator \(\alpha_0=3-4w_0\) lies in \(\mathbf Z[w_0]\), so \((\alpha)\) is generated by elements of that subring. This proves exactly `fromK`; the norm and coprimality identities prove `prod` and `coprime`. Also \(M\ge29\) and \(M\) is odd; the auxiliary positive `A` of the `Level` record may be chosen1. No claim about the different `Datum` fields follows from these arithmetic checks.
+
+For completeness, the degree of \([\alpha]\) is \(M^g\). Over the complex numbers the integral homology lattice has rank one over the CM field \(\mathbf Q(\zeta_7)\) after tensoring with \(\mathbf Q\); multiplication by \(\alpha\) has rational determinant \(\operatorname{Norm}_{E/\mathbf Q}(\alpha)=M^3\). Its lattice index is the degree of the corresponding complex torus covering, so the degree is \(M^g\). These kernels at the chosen good prime are finite étale: they are direct factors, by the coprime-ideal identities, of torsion groups killed by powers of29. Their degrees therefore agree on both fibres.
+
+All the finite étale torsion becomes constant after a finite unramified extension of the complete DVR. The finite theta isomorphisms used below can be defined after further such extensions. Each fibre of the theta group over a rational torsion point is a multiplicative-group torsor over a local ring, hence is trivial because an invertible module over a local ring is free. Thus it has an integral lift. All scalar comparisons between integral lifts are units.
+
+## 4. Symmetric finite-order lifts
+
+Let \(N=M^2\), which is odd. Fix the normalized symmetry of \(L^N\), and let \(\iota\) be its induced automorphism of the theta group. It fixes central scalars and induces \(t\mapsto-t\) on the torsion quotient. An integral lift \(U\) over an \(N\)-torsion point has \(U^N\) central and \(\iota(U)U\) central. Write the latter scalar as \(c\in R'^\times\).
+
+After adjoining a square root of the unit \(c^{-1}\), replace \(U\) by \(aU\) with \(a^2c=1\). This extension is finite étale because 2 is a unit. The new lift satisfies \(\iota(U)=U^{-1}\). Its central power \(u=U^N\) therefore satisfies \(u=u^{-1}\), so \(u=1\) or \(-1\). If needed replace \(U\) by \(-U\); since \(N\) is odd, its \(N\)-th power becomes1 and the symmetry condition persists.
+
+These are exactly the power and symmetry identities in `SymLift`. Uniqueness follows too: two such lifts differ by a central unit \(a\) with \(a^2=a^N=1\), hence \(a=1\). For an isotropic subgroup of odd exponent, these lifts form a subgroup: its lifts commute, their product satisfies the same power and symmetry identities, and uniqueness identifies it with the lift of the sum. This argument also shows that replacing any chosen integral lifts by the symmetric ones only multiplies the translated sections by units.
+
+## 5. The exact restricted orbit and its integral basis
+
+Put \(N=M^2\). The theta commutator of \(L^N\) is a perfect alternating pairing on \(A[N]\). It is balanced for CM adjoints:
+\[
+ e_N(u x,y)=e_N(x,u^\dagger y).
+ \tag{TS9}
+\]
+This identity is Poincaré functoriality applied to the two restrictions defining the commutator; it uses the same adjoint identity as (TS8).
+
+The subgroup \(H=A[\alpha^2]\) is isotropic. Indeed, choose \(c,d\) with \(c\alpha^2+d\bar\alpha^2=1\). For \(x,y\in H\), write \(y=d\bar\alpha^2y\) and use (TS9) to get
+\(e_N(x,y)=e_N(\bar d\alpha^2x,y)=1\).
+Its order is \(M^{2g}\), half the total rank in the square-root sense, so it is maximal isotropic.
+
+The subgroup \(D=A[M]\) is also maximal isotropic. More concretely, \(L^N=[M]^*L\) has canonical descent data for the étale isogeny \([M]\); its deck transformations lift to commuting theta transformations fixing \(s_M\). They preserve symmetry, so they are the symmetric lifts just constructed. The orders of \(D\) and \(H\) are both \(M^{2g}\). The coprime-ideal identity gives
+\[
+ H\cap D=A[\alpha]=C,\qquad |C|=M^g,
+ \qquad |H/C|=M^g.
+ \tag{TS10}
+\]
+
+Every translated section in (TS3) is invariant under the canonical deck group \(C\) of \([\alpha]\). In fact \(C\subset D\) fixes \(s_M\), and \(C\subset H\) commutes with the lift of \(t'\). By faithfully flat descent, its invariant sections are precisely
+\([\alpha]^*H^0(A,L^M)\), using (TS8). The canonical deck lifts on \(C\) obtained from \([\alpha]^*L^M\) agree with the restrictions of the \([M]\)-deck lifts: the rigidified identifications (TS8) respect normalized symmetry, and both lifts have odd finite order and satisfy that symmetry, so the uniqueness in §4 applies. Thus the orbit span is contained in \(W_M\).
+
+We show that coset representatives give an integral basis, not only a basis after inverting11. First reduce to the residue field, extending it finitely if needed to contain all torsion and characters. The reduction of \(s\) is nonzero, and so is that of \(s_M\), since \([M]\) is faithfully flat. Here the base-change assertion follows directly from the classical vanishing in Mumford §1(II): \(H^1(A_k,L_k^j)=0\) for \(j>0\). Proper coherent cohomology makes \(H^1(A_R,L^j)\) finite. The exact sequence for multiplication by11 embeds its quotient modulo11 into the vanishing special-fibre group; Nakayama therefore gives \(H^1(A_R,L^j)=0\). The same exact sequence gives
+\[
+ H^0(A_R,L^j)/11\cong H^0(A_k,L_k^j).
+ \tag{TS11}
+\]
+The left module is finite and torsion-free, hence free. Its rank is \(j^g\), by the same classical cohomology formula for a principal line. In particular \(H^0(A_R,L)\) has a primitive generator as used in §1.
+
+The vector \(s_M\) has trivial character under the deck group \(D\). Its translate by \(t'\in H\) has character \(d\mapsto e_N(d,t')\), up to the harmless common inverse convention for the action. Two such characters agree precisely when the difference of their points lies in \(D^\perp\cap H=D\cap H=C\), because \(D\) is maximal isotropic. Therefore the \(M^g\) coset representatives give nonzero vectors in distinct character spaces. They are linearly independent over the residue field: a finite abelian group of order prime to11 has the mutually orthogonal character projectors obtained by averaging its characters, so distinct characters cannot cancel.
+
+The target \(W_M\), identified with \(H^0(A,L^M)\), is free of rank \(M^g\), and its reduction is the corresponding invariant space by (TS11) and the prime-to11 averaging projector. Thus the \(M^g\) columns just found form a basis modulo11. Their determinant in any integral basis is a unit. They form an \(R'\)-basis of \(W_M\). This proves (TS4), including its rank and its strict difference from the ambient space. It also proves that two representatives in the same coset differ only by an invertible scalar in the orbit, so no larger span is hidden in the unused points.
+
+## 6. Integral jets inside the smaller linear system
+
+Apply DP56(a) to the fixed ample line \(L\): for \(M\ge rn+b\), its global sections of power \(M\) realize every integral jet of order \(n\). These same fixed constants work after the flat extension \(R'/R\).
+
+The isogeny \([\alpha]\) is an isomorphism of the formal group at zero. Its differential is invertible over \(R'\), since its finite kernel has order prime to11; the integral formal inverse follows by recursive formal inversion with that unit linear matrix. The pullback isomorphism (TS8) identifies integral frames by an integral unit. Consequently pullback by \([\alpha]\) induces an isomorphism between the two finite jet modules at zero. Combining that isomorphism with the surjection for \(L^M\) proves the jet surjectivity of \(W_M\) asserted in (b).
+
+In particular choose \(F\in W_M\) whose algebraic prefactor in the frame of DP54 is \(U^{-M^2}\) through degree \(n\). Its normalized germ then agrees with the pure primitive kernel of exponent \(-M^2\) through that degree. DP58 applies because \(-M^2\) is a unit. The selected derivative of \(F\), or harmonic derivative of two copies of \(F\), has exactly (TS5).
+
+Choose the least \(e\ge1\) such that \(29^e\ge rn+b\). For \(rn+b>29\) this gives
+\(rn+b\le M<29(rn+b)\); the finitely many smaller degrees only change the constant. Hence (TS6) follows. This choice obeys all the arithmetic level conditions already verified in §3.
+
+## 7. An individual allowed translate attains the sharp valuation
+
+Write the interpolating section as its integral basis expansion
+\[
+ F=\sum_{t'\in H/C}c_{t'}s_{t'},\qquad c_{t'}\in R'.
+ \tag{TS12}
+\]
+For an ordinary derivative, evaluate (TS12). For a two-copy harmonic derivative, expand the product into the finite sum indexed by two cosets, with coefficients \(c_{t'}c_{u'}\). If every selected value of the individual translates or tuples had valuation strictly greater than \(V\), the sum would too. Thus at least one has valuation at most \(V\).
+
+The matching lower bound is important. At the critical weight \(w\), every normalized germ with integral algebraic prefactor has integral scaled coefficients, by the actual profile argument of DP46 and the full two-copy common-weight argument of DP51. The normalization factor \(M^{-n}\) is a unit. In the ordinary case the selected degree has digit sum two, so Legendre's formula gives the lower bound
+\[
+ cn-2s=V-s,\qquad s=1/10.
+ \tag{TS13}
+\]
+For the harmonic polynomial \(P_{a,b}\), each supported differential monomial has its factorial multiplied by its polynomial coefficient equal, up to sign, to the same \(a!b!\):
+\[
+ \binom ai\binom bi(a-i)!(b-i)!(i!)^2=a!b!.
+\]
+Since \(a\) and \(b\) are powers of11, the same lower bound (TS13) follows for every pair of integral prefactors. It is not necessary to bound the separate factorial digit losses of every monomial crudely.
+
+All these values lie in the fraction field of the unramified DVR \(R'\), whose normalized valuation group is \(\mathbf Z\). The number \(V=(11^q-1)/10\) is an integer and \(V-s>V-1\). Therefore (TS13) implies the integer lower bound \(v\ge V\). The tuple with \(v\le V\) consequently has \(v=V\). This proves the claimed individual translated-section witnesses, rather than merely a value of an arbitrary linear combination.
+
+The valuation-group point cannot be discarded if one allows arbitrary ramified changes of lattice. All extensions used for the torsion, unit theta isomorphisms and odd-order symmetric lifts above were finite unramified extensions at11.
+
+## 8. Exact generic source membership and arithmetic realization
+
+For \(t'\in A[\alpha^2]\), put \(t=[M]t'\). Then \(t\in A[\alpha]\), since \(M=\alpha\bar\alpha\), and \(t'\) is killed by \(\mathfrak b^2=(\alpha^2)\). Use the canonical multiplication isomorphism (TS7) for \(\alpha_0\) in `IsVtOver`, its pullback to the base for \(\alpha\) in that definition, \(s_1=s_M\), and the symmetric lift \(U_{t'}\). The equality \([M]t'=t\), the annihilation condition, the multiplication pullback and the theta action are exactly its remaining clauses. Rigidification of (TS7) is exactly `IsNormMul`. This verifies the generic section relation clause by clause.
+
+The curve, its CM endomorphisms and the line are defined over \(\mathbf Q(\zeta_7)\). A generator of its one-dimensional section space can be chosen over that number field and scaled to be primitive at the chosen prime: the finite free section lattice and flat base change of DP54 give this. The torsion points are algebraic. Their finite étale good models at11 give unramified completions. Integral isomorphisms in their theta-group fibres and their symmetric normalizations are defined over finite algebraic extensions; the unit roots used to normalize them are étale at11. One may choose an algebraic theta isomorphism primitive at the selected place, so these same integral lifts are realized algebraically. The witness tuples just proved therefore consist of global algebraic translated sections, not only complete-local formal sections.
+
+There is no assertion here that the selected tuple is the one fixed in advance by a global lifting argument. Nor does an allowed tuple instantiate the old source `Datum.dom` or its induced-quadratic `HasType`. The result closes a narrower question: the exact generic permitted translate family itself already contains sharp ordinary and first-row harmonic witnesses on this higher-height Jacobian, at polynomially bounded admissible arithmetic levels. A uniform improved local bound for all these allowed translates is therefore impossible at those rates. Particular selected sections, prescribed row-degree sequences, global theta-image identification and the full net lift-cost comparison remain separate.
+
+## 9. Review and provenance
+
+The complete proof and all source scopes are to be read and recorded separately before integration. Source recovery metadata is `DP59_translate_source_recovery.json`; it distinguishes eight directly recovered modules from source readings. The original Mumford PDF identity and exact locators are in `theta_translate_sources/source_identity.json`. No machine formalization, Lean execution or RH audit has occurred.
