@@ -90,6 +90,9 @@ for z in zips:
                 log(ID, "earlier zip", e.name, "REFUSED (bad member or unsafe path): left in place"); continue
         e.unlink()
     src = (drag if drag.exists() else done) / f"{ID}_scans.zip"
+    if not src.exists():  # 21 Nov 2026: folders sent from TO_SEND/MAX_GPT-6.2_Astra_Work/batch_*/.0SENT/ keep the scans there
+        src = next(iter(sorted(pathlib.Path("C:/Users/user/Documents/TO_SEND/MAX_GPT-6.2_Astra_Work").glob(
+            f"batch_*/.0SENT/*_{ID}/{ID}_scans.zip"))), src)
     sent = scan_numbers(zipfile.ZipFile(src).namelist()) if src.exists() else []
     missing = [s for s in sent if s not in pages]
     extra = [s for s in pages if s not in sent]
