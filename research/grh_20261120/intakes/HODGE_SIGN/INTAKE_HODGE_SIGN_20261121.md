@@ -389,6 +389,10 @@ sign: it is the degree of E^{n−1}, not the sign of an intersection form.
        over k(P¹), which is defined by intersection on the total space.
     2. In the case E = 0, compute the term at each nodal fibre. Test it on P²×P²: three nodes, total 3.
     3. Then a cubic fourfold pencil, where E ≠ 0.
+    - [State, 21 Nov 2026: steps 1 and 2 are done. Step 1 by JAC1964 H9-T2 (no correction when specialization is
+      injective at every singular fibre); step 2 on the quadric pencil by H9-C1 with H9-T1 (each node contributes 1;
+      the P²×P² local terms are not yet computed). Step 3 is the next test of H9-T2's hypothesis. (corrected 21 Nov 2026
+      after the intake of JAC1964, Claude Opus 5.5 at effort high)]
   - Th. 4 for abelian varieties stays on the sketch's route through 032 Cor. 8.4. SG-04 gives it for powers of CM elliptic
     curves without 032.
 - **38, HODGE_HECKE_DIVISION:**

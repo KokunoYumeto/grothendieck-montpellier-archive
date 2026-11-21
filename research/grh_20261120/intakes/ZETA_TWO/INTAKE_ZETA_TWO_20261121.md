@@ -99,6 +99,13 @@ constants). Refuted: 0. The transcription note: reclassified as an edit to our b
   the location of signed orders, never their sign), individual Colmez for non-abelian CM types, every exact special
   value (regulators, Bernoulli numbers, integral K-groups, Ext groups: SV01, SV02).
 - **No statement claims more than its input gives**, except the ZT06 clause noted in §1.
+- **DEG_L** (added 21 Nov 2026 after the intake of DEG_L, Claude Opus 5.5 at effort high): the L-values in the Rallis
+  degree formulas are at 3/2, in absolute convergence (DEG_L T6.11, with B1's unconditional bounds), or are U(2) standard
+  L-values at 1 (T6.12-T6.13); neither A nor M bears on the 032 degrees.
+- **Masullo's draft, located defects** (added 21 Nov 2026 after the intakes of GRH_NIGHT and TRACE_DET, Claude Opus 5.5
+  at effort high): gaps at §9.3.2 (pp. 425-426: MT-M01, MT-M02, MT-M05), §11.3 (p. 495, F-SM-19, repaired), §12.3-§12.4
+  (the intertwiner, ALPOGE_BRIDGES), (10.3.2.4) p. 454 off by one at odd s (MAS-BOUND), and Theorem 13.3.1.2 (p. 522)
+  blank. Every "conditional on M" above carries this note.
 
 ## 4. In the language of algebraic geometry and Grothendieck's frameworks
 

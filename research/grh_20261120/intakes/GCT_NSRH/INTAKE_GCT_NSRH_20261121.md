@@ -236,7 +236,10 @@ That is gate E of the paper with a named heart, in place of "a different categor
      conjectures C and A".
 
    So the run's "corrections" of the Fable locators (its section 13: "semisimplicity is scan 48, not 50"; "34 is a
-   reused back") are a numbering offset, not corrections. The Hodge sketch's locators, 3.2 (scan 49 and 50) and 5,
+   reused back") are a numbering offset, not corrections [read: folio numbering (folio = our scan − 1), since the run
+  cites the printed folios and our text of record numbers by PDF page (`\scanpage`), recording the folio as `\mspage`
+  (HECKE_DIV, `work\grothendieck_locators.md`, checked on the official cote 16 PDF). (corrected 21 Nov 2026 after the
+  intake of HECKE_DIV, Claude Opus 5.5 at effort high)]. The Hodge sketch's locators, 3.2 (scan 49 and 50) and 5,
    are right in our numbering. **Edit:** in the run's successor and in any use of its archive table, add 1 to every cote
    16 scan number, and ask the run to state its convention for every cote. I did not check the other cotes (90, 97, 133)
    for the same offset; they should be checked.

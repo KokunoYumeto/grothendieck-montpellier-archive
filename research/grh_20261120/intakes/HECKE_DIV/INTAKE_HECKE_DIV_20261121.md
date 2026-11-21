@@ -107,6 +107,10 @@ folder present.
     equidistribution limit A1.
 - **R24C** is elementary. As a correction to our sketch, it is the useful kind.
 - **P2b** gives integral seeds of small degree (80/80 on E⁴; 147456/175104 on E⁸), with raw transport growing as m^{2n}.
+  [DEG_L B19 (confirmed in the DEG_L intake): in a fixed simple CM isogeny class, a minimal-norm isogeny gives a Weil
+  witness of degree O(√J) and bounded-division complexity O(J), J = [Λ : Λ^−] ≤ N(f_A), in place of the raw m^{2n}
+  growth along CM sequences of fixed field. (corrected 21 Nov 2026 after the intake of DEG_L, Claude Opus 5.5 at effort
+  high)]
 - **P4** would be the main result (the main question, qualitatively), but it rests on Severn.
 
 **Against our results.**

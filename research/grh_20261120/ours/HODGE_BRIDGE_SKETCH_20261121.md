@@ -146,6 +146,11 @@ Masullo. Beilinson–Bloch at the central point stays open there.
   one seesaw pairing, at signature (2,1) and at definite signature. 032 gets its non-vanishing by moving the data at
   the compact places only, with the finite theta input and the quotient fixed (§1.3); the compact places are where
   Alpöge's groups live.
+  - [THETA3 checkpoint 01 (prompt 37): 032 §§4.5–4.7 state no Rallis/Bessel identity; the non-vanishing is Gaussian
+    concentration plus continuity, and 1.7 is unproved. Checkpoint 03: the analytic seesaw is realized (B17, a double
+    lift V → P → V), but its upper space has signature (3,1) at every real place, so the definite matching with
+    Alpöge's MainX remains (the run's G1). 1.7 is still not proved. (corrected 21 Nov 2026 after the intake of THETA3,
+    parts 1 and 2, Claude Opus 5.5 at effort high)]
 
 **Mechanism.** For a Hermitian space over a CM field and a family of Hecke characters, the theta correspondence
 gives: at definite signature, numbers (periods, central values); at signature (n,1), cohomology classes and special
@@ -217,7 +222,16 @@ N·t_s = [Z⁺] − [Z⁻] with Z⁺, Z⁻ effective of degree at most D.
   gives zero, and so does every cycle built from divisors and curves by intersection and Pontryagin product (they
   are Lefschetz classes), so Z has to be skew to the action of K. Schoen's surfaces in Prym varieties of cyclic
   covers are of this kind (from memory).
-- **2.5 Lemma (proved; arithmetic form).** Let X be smooth projective over a number field and t an absolute Hodge
+- [2.1–2.3 are proved with corrected hypotheses as HECKE_DIV R21–R23 (checked in its intake). 2.4: the
+  endomorphism-degree statement is false (R24C), and the signed-degree reading is false (R24A′); the correct invariant is
+  the effective or graph degree (R24A, R24B). R24E: subvarieties stable under the order have zero Weil projection; R24F:
+  divisor products do not vanish on CM elliptic powers (both checked). Equidistribution alone is insufficient (A1);
+  Colmez heights grow in a fixed-field orbit (A2). (corrected 21 Nov 2026 after the intakes of HECKE_DIV, parts 1 and 2,
+  Claude Opus 5.5 at effort high)]
+- **2.5 Lemma (proved; arithmetic form [read: proved with integral numerators: GHOSTS B02, B02a, B06; precedent
+  Brünjes–Serpé, arXiv 0901.4853, Thm 3.4. GHOSTS B03: an algebraic class has eventually constant local complexity; a
+  non-algebraic one has local complexity tending to ∞ cofinitely (corrected 21 Nov 2026 after the intake of GHOSTS,
+  Claude Opus 5.5 at effort high)]).** Let X be smooth projective over a number field and t an absolute Hodge
   class. Then N·t is algebraic over the algebraic closure if and only if for infinitely many primes v the reduction
   t_v is represented by a difference of effective cycles of degree at most D with the same N and D. *Proof.* The
   scheme of such pairs with class N·t is projective over an open part of the ring of integers (the class condition
@@ -232,6 +246,9 @@ N·t_s = [Z⁺] − [Z⁻] with Z⁺, Z⁻ effective of degree at most D.
   on an abelian variety is algebraic modulo every good prime, and it is algebraic if and only if the complexity of
   its representatives stays bounded along infinitely many primes.** A non-algebraic Hodge class would pass the test
   at every single prime and fail only through unbounded complexity. In the project's vocabulary it would be a ghost.
+  [GHOSTS B03 makes this exact. C02: Remark 8.5's transport goes through an auxiliary CM variety, possibly of dimension
+  n·dim A, not a CM point of the same special subvariety; read "a CM point x_p of the same special subvariety" below
+  accordingly. (corrected 21 Nov 2026 after the intake of GHOSTS, Claude Opus 5.5 at effort high)]
   The two forms are one: the representative modulo p comes from a CM point x_p of the same special subvariety and
   an isogeny with a denominator, so it is an instance of the division of 2.2 at x_p. Bounded division at the points
   x_p, with bounded denominators, gives the bound over primes.
@@ -249,34 +266,54 @@ the height says nothing along a dense set. What GRH gives here is the size of th
 integrals of squares of theta one-forms over the surface, that is Petersson norms of theta lifts, which the Rallis
 inner product formula turns into values of Hecke L-functions at the edge times a volume (mine, sketched). GRH pins
 such values between powers of log log of the conductor (**conditional (Masullo)** for Hecke characters; by Alpöge
-where the character is Dirichlet). That measures the growth; it does not remove it.
+where the character is Dirichlet). That measures the growth; it does not remove it. [GHOSTS R30: Dirichlet GRH only
+bounds a finite prime search, and is inessential for modulus 3. DEG_L T6.2: 032 Prop. 3.1's output class has degree 0
+for the product polarization, and T6.11 (Haan's Rallis formula, U(1) → U(3)) puts the Hecke values at s = 3/2, in absolute
+convergence, bounded with no GRH (B1). (corrected 21 Nov 2026 after the intakes of GHOSTS and DEG_L, Claude Opus 5.5 at
+effort high)]
 
 **Gate.** Bounded division on one Hecke orbit of each (S, t).
+[The arithmetic form of the gate is HECKE_DIV P6: uniform integral effective degree at infinitely many good primes ⟺
+algebraicity (checked; precedent Brünjes–Serpé). Fixed-reference transport in a CM isogeny class gives a Weil witness of
+degree O(√J) and bounded-division complexity O(J), J = [Λ : Λ^−] (DEG_L B19, checked). (corrected 21 Nov 2026 after the
+intakes of HECKE_DIV part 2 and DEG_L, Claude Opus 5.5 at effort high)]
 
 **First tests.**
 - T5. S the Weil family of abelian fourfolds for K = Q(ω), x₀ = E⁴ with E = C/Z[ω] (the curve of Alpöge's step 3),
   t a Weil class. Markman's theorem gives the bound a posteriori. Exhibit it: write the bounded representatives on
-  the fourfolds isogenous to E⁴ and name what divides.
+  the fourfolds isogenous to E⁴ and name what divides. [Bounded division on the principal Q(ω) Weil fourfold
+  component is proved with D₀ = 132,269,760 and C₄ = 531441·δ·D₀⁴·(1 + 4⌈√T⌉) (GHOSTS R10–R12, from Schoen 1988/1998,
+  checked). (corrected 21 Nov 2026 after the intake of GHOSTS, Claude Opus 5.5 at effort high)]
 - T6 (the sketch's test c, made exact). Compute the degree of the 032 cycle for one four-factor relation as a
-  function of the level, by the Rallis inner product formula.
-- T7. Is the 032 surface semiregular in ∏ B(vᵢ) (Bloch's map H¹(N) → H^{p+1}(Ω^{p−1}))?
+  function of the level, by the Rallis inner product formula. [Refuted as worded (DEG_L T6.2, T6.3); replaced by the
+  exact finite identities T6.11 (Hecke L at 3/2, with unconditional bounds B1) and T6.13 (standard U(2) L at 1); the
+  degree is not one L-value. (corrected 21 Nov 2026 after the intake of DEG_L, Claude Opus 5.5 at effort high)]
+- T7. Is the 032 surface semiregular in ∏ B(vᵢ) (Bloch's map H¹(N) → H^{p+1}(Ω^{p−1}))? [Universal semiregularity
+  is refuted at deep levels (DEG_L S-05, S-06, checked); semiregularity of a fixed smooth image stays open. (corrected
+  21 Nov 2026 after the intake of DEG_L, Claude Opus 5.5 at effort high)]
 - T8. First open cases of 2.2 after Markman: the Hecke orbit of E⁸ (n = 4), and E⁶ for discriminants other than
   −1. (As 032's introduction reports his theorem: Weil classes on abelian sixfolds of Weil type with polarization
   discriminant −1, and from it the Hodge conjecture for all abelian fourfolds.)
 - T9. For one abelian variety A over Q with a Weil class and the CM points x_p of Remark 8.5: how do the degree of
-  the 032 cycle at x_p and the denominator of the transport grow with p?
+  the 032 cycle at x_p and the denominator of the transport grow with p? [On E⁴ with t_*: the transport cost is
+  constant, (1,16,16), at every prime (GHOSTS C18, checked). (corrected 21 Nov 2026 after the intake of GHOSTS, Claude
+  Opus 5.5 at effort high)]
 
 ### Route 3. Positivity
 
 **Statements.**
 
-- **3.1 (read: 032 §1.3).** 032's non-vanishing is a positivity argument. Two decompositions of the same Hermitian
+- **3.1 (read: 032 §1.3; quantified in THETA3 Q1–Q8, checked in the THETA3 intake (corrected 21 Nov 2026 after the
+  intake of THETA3, Claude Opus 5.5 at effort high)).** 032's non-vanishing is a positivity argument. Two decompositions of the same Hermitian
   plane give two-forms η and η′; weak approximation makes them close at the compact places, so the pairing of η′
   with η stays close to the self-pairing of η, which is not zero. The self-pairing of a holomorphic two-form is
   positive (Hodge–Riemann on H^{2,0} of the surface). So in 032 a sign and a continuity argument produce the
   non-zero period, and the period produces the cycle. This is the one instance I know where "positivity run
   backwards" makes an exceptional Hodge class algebraic, and it answers point 3 of the sketch better than Λ does.
-- **3.2 (read: cote 16 scans 44–50, letter to Coates of 4.1.67; his lettering, C = "Λ algebraic").** "A + index
+- **3.2 (read: cote 16 scans 44–50, letter to Coates of 4.1.67 [read: cote 16 scans 044–047, the letter of 4.1.67, and
+  048–050, a second letter dated "6.1.1966" as written (HECKE_DIV; our `16_scan048.tex` reads `\margin{6.1.1966}`), so
+  scans 049 and 050 belong to the second letter (corrected 21 Nov 2026 after the intake of HECKE_DIV, Claude Opus 5.5 at
+  effort high)]; his lettering, C = "Λ algebraic").** "A + index
   implies B"; C(X) ⟺ C(Y) and A(X × X) in the critical degree H^{2n−2} → H^{2n+2} (scan 45); "C(X) together with
   the index relation I(X × X) implies that the ring of correspondance classes for X is semi-simple" (scan 49); "the
   deduction of the Weil conjectures from the conjectures C and A" (scan 50); Λ_Y = φ^*Λ_X²φ_*, so C(X) implies C(Y)
@@ -309,13 +346,19 @@ where the character is Dirichlet). That measures the growth; it does not remove 
   function fields gives the Hodge standard conjecture in the middle degree) stands, and Milne's theorem now verifies
   its conclusion for abelian varieties. Th. 5 as displayed is false: HODGE_SIGN AR-01, P²×P² with Z = a² − ab + b², a
   pencil with E = 0. H9(a) is refuted. The correction lives on the nodal fibres (corrected 21 Nov 2026 after the intake
-  of HODGE_SIGN, Claude Opus 5.5 at effort high).
+  of HODGE_SIGN, Claude Opus 5.5 at effort high). [Th. 4 on the primitive part is proved for abelian varieties in every
+  characteristic, JAC1964 JAC-T4.3 (intake-checked; conditional on 032 Cor. 8.4 through Milne's report). H9(a) is
+  refuted also by JAC1964 H9-C1 (a quadric pencil, every m ≥ 2), with the local correction H9-T1 (one Schur term per
+  singular fibre whose specialization map is not injective) and no correction under H9-T2. (corrected 21 Nov 2026 after
+  the intake of JAC1964, Claude Opus 5.5 at effort high)]
 - **3.5 (from memory; the arithmetic sibling).** Over a number field the height pairing of Beilinson and Bloch on
   cycles algebraically equivalent to zero is the Néron–Tate pairing on higher Picard varieties (Künnemann; H. Saito's
   varieties are Grothendieck's P^i), so its sign there is Th. 4. For cycles only homologically trivial the sign is
   the arithmetic Hodge index conjecture (Gillet–Soulé). GRH implies that a central derivative is ≥ 0 when the
   central value vanishes, so wherever a formula of Gross–Zagier type equals a height to a central derivative, GRH
   gives the sign Th. 5 predicts. For CM forms the L-functions are Hecke L-functions: **conditional (Masullo)**.
+  [Open (JAC1964 Q35-full); Alpöge's steps 5 and 13 cannot supply the sign (Q35-GRH). (corrected 21 Nov 2026 after the
+  intake of JAC1964, Claude Opus 5.5 at effort high)]
 - **3.6 Correction of my suggestion 4 of 20 November.** I wrote that Alpöge's sign-only proof of Weil is the
   Hodge-index route of cote 16. Footnote 3 of the note, reread: the definite sign it takes from middle cohomology
   is the concentration of the new cohomology of a hypersurface section in one degree (it names Bertini), which
@@ -374,6 +417,9 @@ Opus 5.5 at effort high).
 
 ### Route 5. The CM test bed: what becomes unconditional in our own files
 
+- [032 Remark 8.5 (2.6): HECKE_DIV P6 makes exact what Remark 8.5 lacks, a uniform integral degree at infinitely many
+  places (checked). (corrected 21 Nov 2026 after the intake of HECKE_DIV part 2, Claude Opus 5.5 at effort high)]
+
 - **Motives.** For CM abelian varieties Grothendieck's motives (algebraic cycles) and Deligne's (absolute Hodge
   cycles) now agree; over finite fields the motives of abelian varieties satisfy B (Lieberman), the Hodge standard
   conjecture, D and Tate (032, Cor. 8.3 and 8.4, read).
@@ -431,7 +477,7 @@ Opus 5.5 at effort high).
 |---|---|---|
 | cote 16 scans 14–18 | no 7: Φ₀ = Z[L₀, Λ₀] on ΛM₀, "(sur Z !)"; "anneau de correspondances Lefschetzien" | 3.3, Route 4; H8; R1 of the war game |
 | cote 16 scan 40 | Λ_Y = φ^*Λ_X²φ_*; the evanescent part E^{n−1}. Companion note: Grothendieck's hyperplane induction (cote 16, 034–040) carries a proof of the Riemann hypothesis over finite fields that bypasses his route of 049–050 (C, A, I); the "definite sign" of step 5 is the class of E^{n−1}(Y) = Ker φ_*, with sign (−1)^{n−1} (HODGE_SIGN SG-08–SG-10) (corrected 21 Nov 2026 after the intake of HODGE_SIGN, Claude Opus 5.5 at effort high) | 3.2, 3.6 |
-| cote 16 scans 44–50 | letter to Coates, 4.1.67: index conjecture, A, A′, A″, C; semisimplicity; Weil from C and A. Numbering note: these are our transcription's scan numbers (049: C(X)/semisimplicity; 050: Weil from C and A); GCT_NSRH's cote 16 numbers are one less, so its "semisimplicity is scan 48, not 50" and "34 is a reused back" are an offset, not corrections; add 1 to every GCT_NSRH cote 16 scan number (corrected 21 Nov 2026 after the intake of GCT_NSRH, Claude Opus 5.5 at effort high). HODGE_SIGN cites cote 16 by our numbering (checked) (corrected 21 Nov 2026 after the intake of HODGE_SIGN, Claude Opus 5.5 at effort high) | section 1, 3.2 |
+| cote 16 scans 44–50 | letter to Coates, 4.1.67: index conjecture, A, A′, A″, C; semisimplicity; Weil from C and A. Numbering note: these are our transcription's scan numbers (049: C(X)/semisimplicity; 050: Weil from C and A); GCT_NSRH's cote 16 numbers are one less, so its "semisimplicity is scan 48, not 50" and "34 is a reused back" are an offset, not corrections; add 1 to every GCT_NSRH cote 16 scan number (corrected 21 Nov 2026 after the intake of GCT_NSRH, Claude Opus 5.5 at effort high). HODGE_SIGN cites cote 16 by our numbering (checked) (corrected 21 Nov 2026 after the intake of HODGE_SIGN, Claude Opus 5.5 at effort high). [The "offset" is folio numbering (folio = our scan − 1): GCT_NSRH and THETA3 cite printed folios, HODGE_SIGN and HECKE_DIV our PDF-page scans. Two letters, not one: 044–047 the letter of 4.1.67; 048–050 a second letter dated "6.1.1966" as written. (corrected 21 Nov 2026 after the intakes of HECKE_DIV and THETA3, Claude Opus 5.5 at effort high)] | section 1, 3.2 |
 | cote 44 scans 2, 4, 6 | Th. 1–7: P^i(X), duality, Th. 4 "Hodge", Th. 5 "Néron", Th. 6 "Lefschetz", Th. 7 "Matsusaka" | 3.4, 3.5; H9 |
 | cote 44 scans 8–9 | letter to Serre, 12.8.1964: Hodge positivity reduced to a polarization | 3.4 |
 | cote 47 scans 3, 5–9 | the Fourier transform on abelian schemes (not reread today) | 3.3, Route 4; H7 |

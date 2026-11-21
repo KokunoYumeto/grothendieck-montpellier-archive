@@ -52,7 +52,7 @@ Hecke L-functions of every number field (conditional); **E** = OpenAI's fixed-wi
 | CX-N10 | BGL special-field factoring keeps its parameters s(p^k) | M | confirmed as a transfer. |
 | CX-N11 | RH for ζ_Q and ζ_E, E = Q(ζ_{2n}, p^{1/n}), gives q = O(n⁴ log²(np)), q ≡ 1 (2n), gcd((q−1)/ord_q p, n) = 1 | M | **confirmed in full**: Eisenstein at primes above p, the class of σ (σ(α) = ζ_n α) is stable under conjugation (τστ⁻¹ = σ^u), Frobenius σ^u gives p^{(q−1)/n} = ζ_n^u of order n, the discriminant bound O(n² log(np)) and Bach-Sorenson Thm 5.1. |
 | CX-N12 | Biasse-Erukulangara: Las Vegas class group of imaginary quadratic fields in L(d)^{3/√8+o(1)} under M | M | statement level. |
-| CX-N13 | specified r \| p−1: an r-th nonresidue in any supplied F_{p^m}, poly(m log p), under A_D; r = 2, m even unconditional (BIMS17 Cor 1.3) | A_D | **confirmed in full**. r ∤ m: the constant a works (ζ^m ≠ 1). r \| m, r odd: a nonzero u with u^Q = ζu exists (ζ lies in the order-S image of v ↦ v^{Q−1}), and S = 1+Q+…+Q^{r−1} ≡ r (mod r²) for odd r, so u^{(p^m−1)/r} = ζ. r = 2, m even: iterated square roots from −1. |
+| CX-N13 | specified r \| p−1: an r-th nonresidue in any supplied F_{p^m}, poly(m log p), under A_D; r = 2, m even unconditional (BIMS17 Cor 1.3) | A_D | **confirmed in full**. r ∤ m: the constant a works (ζ^m ≠ 1). r \| m, r odd: a nonzero u with u^Q = ζu exists (ζ lies in the order-S image of v ↦ v^{Q−1}), and S = 1+Q+…+Q^{r−1} ≡ r (mod r²) for odd r, so u^{(p^m−1)/r} = ζ. r = 2, m even: iterated square roots from −1. [For r = 2 cite also GRH_NIGHT CX-ALG-018, an independent complete proof without GRH (confirmed); GRH_NIGHT CX-ALG-016 shows one BIMS17 formula needs a nonzero test, which this odd-r proof does not use. (corrected 21 Nov 2026 after the intake of GRH_NIGHT, Claude Opus 5.5 at effort high)] |
 | CX-N14 | split algebra F_p^d with automorphism τ of order h, prime r \| h: a zero divisor in poly(d, log p) if (i) p ≤ d, (ii) r \| p−1 (A_D), or (iii) v_r(p^s−1) = 1 (unconditional); counterexample p = 17, r = 3 to dropping (iii) from that proof | A_D in (ii) | (i) and (ii) **confirmed in full** (in (ii): τ(z^r) = z^r, a τ-invariant r-th root y by Gao Lemma 2.6, ∏(z − ζ^j y) = 0 with no factor zero). (iii) **rests on IKRS Prop 4.6 and Lemma 4.2**, carried as background. The moved-component ideal J is right. The **counterexample is confirmed by hand**: ord₃17 = 2, v₃(288) = 2, τ(x) = ζx, x³ = (ζ,ζ,ζ), Frobenius acts as −1 = ω₂(2) mod 9, so ⟨x, ζ⟩ = ⟨x⟩ is cyclic. |
 | CX-N15 | under M: complete deterministic factorization over F_q in (d^{log d} log q)^{O(1)}; the analytic input is exactly RH for ζ_Q and ζ_{Q(ζ_{2ν}, p^{1/ν})}, ν = sr or a prime ℓ \| r−1, ν ≤ d² | M | **confirmed modulo the cited algorithms** (AL86 Algorithm A; BGL Thm 2; IKRS Main Theorem, Prop 4.6, Lemma 4.2). I checked line by line the new steps: the r-th nonresidue c = u^r in B = F_Q from u^Q = ζu in F_{Q^r}; η₀ = c^{w₀} of order R = r^e; p ≡ ω(p mod r) mod R (p mod R lies in the prime-to-r torsion, on which reduction mod r is injective); the interpolation P(ζ^a) = η₀^{ω(a)} has P^{(p)} = P, so P ∈ F_p[T]; ρ_b(η) = η^{ω(b)}; noncyclicity of ⟨x, η⟩ since η of maximal order R is τ-fixed; Berlekamp subalgebra B_f ≅ F_p^t; the branch p ≤ d; the node count 2d−1. No gap found in the new parts. |
 
@@ -138,6 +138,11 @@ refutations in QUESTIONS Q05, Q09, Q10, Q17, Q20, Q27, Q29, Q36, Q39) are all co
   ZETA_TWO, Claude Opus 5.5 at effort high)
 - **Masullo's locators.** The run cites M by its introduction (§1.2, §1.2.3, PDF pp. 12-16) because 13.3.1.2 is empty.
   This is correct, and it should be the locator in our ledgers too.
+- **Masullo's draft, located defects** (added 21 Nov 2026 after the intake of GRH_NIGHT, Claude Opus 5.5 at effort high):
+  every "conditional on M" goes with the note that the draft has located gaps at §9.3.2 (Lemmas 9.3.2.4 and 9.3.2.5,
+  Theorem 9.3.2.6, pp. 425-426: GRH_NIGHT MT-M01, MT-M05, MT-M02, checked on the PDF), at §11.3 (p. 495, F-SM-19,
+  repaired) and at §12.3-§12.4 (the intertwiner, ALPOGE_BRIDGES), that (10.3.2.4) on p. 454 is off by one at odd s
+  (TRACE_DET MAS-BOUND), and that Theorem 13.3.1.2 (p. 522) is blank.
 
 ## 4. Integration: where each checked finding goes, and the attacks it opens
 
@@ -228,6 +233,12 @@ successors. Prompt 36 (CUE/GCT, built 21 Nov) is still in `1_Archive_research_by
    - The obstacle is exactly the construction of the maximal coefficient Teichmüller unit η ∈ D_r of order r^e, with
      ρ_b(η) = η^{ω(b)}, when r ∤ p(p−1) and r² | p^s − 1. CX-N15 constructs it from F_{p^{sr}}, and that field needs the
      Kummer auxiliary prime.
+   - [Narrowed: a supplied F_{p^r} gives η unconditionally, and conversely (GRH_NIGHT CX-ALG-023, confirmed; classical
+     equivalence, Lenstra 1991 Thms 5.1-5.2); under A_D, RH for ζ_{Q(p^{1/r})} is equivalent to RH for
+     ζ_{Q(ζ_r, p^{1/r})} by the AGL₁(F_r) identity, and gives an explicit F_{p^r} (CX-ALG-024, confirmed). So the gate
+     is RH for ζ_{Q(p^{1/r})}, one degree-r non-Galois field per encountered prime r ≤ d; the exact list of such r
+     (r ∤ (p−1)m, higher valuation) is CX-ALG-025, at statement level. That RH is RH for one order-r Kummer Hecke
+     character over Q(ζ_r). (corrected 21 Nov 2026 after the intake of GRH_NIGHT, Claude Opus 5.5 at effort high)]
    - Attack 1: any deterministic A_D-only construction of an r-th nonresidue in F_{p^s} for s = ord_r(p) > 1 closes it,
      by Step 1 of CX-N15 read backwards.
    - Attack 2: least-prime bounds in the Kummer field that are polynomial in n log p and need only RH for ζ of its
