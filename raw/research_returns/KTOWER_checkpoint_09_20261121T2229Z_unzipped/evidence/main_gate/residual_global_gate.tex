@@ -1,0 +1,186 @@
+\subsection{KT-JOINT-RECHECK: the carried global-congruence reduction}
+\label{sec:kt-global-residual}
+
+The supplied checkpoint already proves K17-S17-JOINT,
+K17-S17-GROUP-RING, and the joint operator test in
+\texttt{evidence/work/hecke\_uniform/joint\_trace\_section.tex}.
+The source audit below independently rechecks that carried
+argument and makes its semisimplification consequence explicit;
+it is not counted as a new arithmetic theorem. The argument
+uses the lower-level model theorem underlying
+\texttt{OneCharU\_s}, not merely its final quantified statement.
+All archive inputs have the source-standing convention and the
+pinned commit of KT-ONECHAR-CLOSED. No new Lean kernel build is
+claimed. Write AV/ for the archive directory
+\texttt{src/Development/AutomorphicArithmetic/AutomorphicVarieties/},
+U3/ for AV/\texttt{UnitaryThreeGroups/}, and DTC/ for
+AV/\texttt{ModularityArgument/ThresholdArguments/DenseThresholdCases/}.
+
+Fix data $(\Omega,K,\ell,c,N,e,\psi,\iota)$ satisfying the
+archive's \texttt{GD}, with unramified coefficient ring
+$\mathcal O=c.O$; in particular $e(\mathcal O)=1$.
+This includes the rational specialization $\mathcal O=\mathbf Z_\ell$.
+Let $\mathscr A$ be the union of the two \emph{actual} admissible
+classes in DTC/\texttt{NumberU3US.lean}:49--59:
+\[
+ \operatorname{Adm3U\_s}(\iota,e,N,\rho)
+ \quad\hbox{or}\quad
+ \operatorname{Adm2A}(\iota,e,N|\operatorname{disc}K|,\rho).
+                                                               \tag{GR.1}
+\]
+Put $\Psi=\operatorname{Chr.Psi}(\ell,e,\operatorname{dirG}\psi)$
+and write
+\[
+ \overline T=\overline\Psi|_{G_K}\oplus1
+                    \oplus\overline\Psi^{-1}|_{G_K}.
+                                                               \tag{GR.2}
+\]
+Residual representations are over $\overline{\mathbf F}_\ell$.
+An integral model means matrices over the valuation ring of
+$\overline{\mathbf Q}_\ell$ with inverse matrices also integral.
+
+\begin{theorem}[K17-S17-JOINT, rechecked unramified specialization]
+Under the nine closed archive inputs recorded in
+KT-ONECHAR-CLOSED, if no $\rho\in\mathscr A$ has residual
+semisimplification isomorphic to $\overline T$, then
+\[
+                   \operatorname{Vlen}(\Omega,c,e,\psi)=0.
+                                                               \tag{GR.3}
+\]
+Equivalently, nonzero strict Selmer length forces one actual
+admissible source representation with the global residual
+semisimplification (GR.2). In fact the construction supplies
+an integral model whose reduction is already the displayed
+diagonal representation.
+\end{theorem}
+
+\begin{proof}
+Use precisely the construction in
+DTC/\texttt{FOneCharU.lean}:31--38: the closed inputs supply
+$D,g_1,U,S,M$, where $S.R$ is the deformation ring and $M$
+its graded model. They also supply finiteness of its
+weight-zero subalgebra and the point hypothesis used in
+\texttt{model\_upper}; the identical applications are written
+at lines 55--57 of that file. These data are obtained before
+using either the chosen Galois element or its trace hypothesis.
+
+For a local point $f:S.R\to\overline{\mathbf Q}_\ell$ define
+$\rho_f=D.\operatorname{rhoK}(\operatorname{push}f\,S.r)$.
+Theorem \texttt{isPt\_push}, U3/\texttt{IsPtOf.lean}:124--166,
+shows that the pushed representation has integral matrix
+entries and, for every $g\in G_{\mathbf Q}$ and every pair of
+indices $a,b$, satisfies
+\[
+ \left| (\operatorname{push}f\,S.r)(g)_{ab}
+              -r_0(\eta,\Psi)(g)_{ab}\right|_\ell<1.
+                                                               \tag{GR.4}
+\]
+Its entire proof of this clause is at lines 136--145:
+$S.r.\operatorname{red}$ makes the difference lie in the
+maximal ideal of $S.R$, and the defining local-point property
+maps that ideal into elements of norm strictly less than one.
+The integrality clause follows from \texttt{ipo\_le\_one},
+lines 95--112. Applying it to $g^{-1}$ also gives integral
+inverse matrices. These are the exact \texttt{int} and
+\texttt{red} clauses of \texttt{Dat.IsPt},
+U3/\texttt{RhoKApply.lean}:76--83.
+
+On restricting to $G_K=\ker\eta$, the definition of
+$D.\operatorname{rhoK}$ and its application lemma
+(U3/\texttt{RhoKApply.lean}:70--74) identify these matrices
+with those of $\rho_f$. Reduction of (GR.4) is therefore
+exactly (GR.2). For every \texttt{TwoPt} point, the
+\texttt{hadm} argument in DTC/\texttt{FOneCharU.lean}:47--54
+places $\rho_f$ in (GR.1). Here \texttt{TwoPt} includes
+\texttt{IsLocPt} by definition,
+U3/\texttt{ConjStable.lean}:94--95.
+Consequently the hypothesis of the theorem implies that
+there are no \texttt{TwoPt} points at all.
+
+Apply \texttt{model\_upper} with the identity Galois element.
+Its sign condition is $\eta(1)=1$. Its remaining trace
+condition says that the trace difference is nonzero at
+every \texttt{TwoPt}; this is now vacuous. The theorem
+(U3/\texttt{ModelUpper.lean}:104--112) yields finite model
+length and a finite set $T$ satisfying
+\[
+ \operatorname{CoversPt}(T),\qquad
+ \operatorname{nrm}(M.\operatorname{len})
+       \leq2\sum_{f\in T}v_\ell(\operatorname{trDiff}(1,f)).
+                                                               \tag{GR.5}
+\]
+By the first clause of \texttt{CoversPt}, every member of
+$T$ is a \texttt{TwoPt}; see U3/\texttt{ConjStable.lean}:97--99.
+Thus $T=\varnothing$ and the right side of (GR.5) is zero.
+The normalized length is nonnegative; it is the finite
+length divided by $e(\mathcal O)=1$, by
+AV/\texttt{CharacterLevelBounds/ShaFamMono.lean}:71--83.
+Hence $M.\operatorname{len}=0$. Finally
+\texttt{vlen\_le}, U3/\texttt{VlenLe.lean}:52--67,
+gives $\operatorname{Vlen}\leq M.\operatorname{len}=0$.
+\end{proof}
+
+\paragraph{Scope and use.}
+The theorem supplies a necessary global congruence, not an
+equivalence between a congruence and nonzero Selmer length.
+The example KT-TWOFIELD-661 has genuine congruences while
+the rational component vanishes. No ambient counting
+formula alone rules out (GR.2). The reduction removes the
+need to find a single Galois element separating every
+ambient source, and it does not assume that the finite set
+$X$ in \texttt{OneCharU\_s} is independent of that element.
+It also keeps the \texttt{GD} and admissibility hypotheses:
+it is not an assertion for arbitrary representations or
+for an auxiliary field outside the established coverage.
+
+\begin{proposition}[Horizontal form of the carried joint operator test]
+Let $k$ be a field, $M$ a finite-dimensional $k$-space of
+dimension $d$, and $A_1,\ldots,A_s$ commuting endomorphisms.
+For specified scalars $t_1,\ldots,t_s\in k$, put
+\[
+ B=[\,A_1-t_1I\mid\cdots\mid A_s-t_sI\,].
+                                                               \tag{GR.6}
+\]
+Then $B$ has row rank $d$ if and only if there is no
+joint eigencharacter of the algebra $k[A_1,\ldots,A_s]$
+on $M\otimes_k\overline k$ taking every $A_j$ to $t_j$.
+Equivalently, the ideal generated by the $A_j-t_jI$ is
+the unit ideal in that algebra.
+\end{proposition}
+
+\begin{proof}
+Let $A=k[A_1,\ldots,A_s]\subseteq\operatorname{End}_k(M)$
+and $I=(A_j-t_jI)_j$. The column space of $B$ is $IM$,
+so full row rank is equivalent to $IM=M$.
+The finite $A$-module $M$ is faithful by the definition of
+$A$, and its support is therefore all of $\operatorname{Spec}A$.
+For completeness, if $M_{\mathfrak m}=0$ at a maximal ideal,
+finite generation supplies an element outside $\mathfrak m$
+annihilating $M$, contradicting faithfulness. If $I$ were
+proper, choose $\mathfrak m\supset I$. Nakayama applied to
+the nonzero finite module $M_{\mathfrak m}$ gives
+$IM_{\mathfrak m}\ne M_{\mathfrak m}$, a contradiction.
+Thus $IM=M$ implies $I=A$; the converse is immediate.
+
+If $I$ is proper, a maximal quotient of the finite
+commutative algebra $A/I$ is a finite field extension of
+$k$ and embeds in $\overline k$. This yields the required
+character. Its localized module is nonzero by the same
+faithfulness argument, so it occurs as a composition
+factor of $M\otimes\overline k$ and, equivalently, as a
+joint eigencharacter. Conversely such a character kills
+$I$ and prevents $I=A$.
+\end{proof}
+
+In an established integral Hecke model covering all the
+sources in (GR.1), apply this proposition to reductions
+of commuting trace operators and the residual Eisenstein
+traces. Full row rank for a finite collection of operators
+rules out the global congruence (GR.2), even if every
+individual determinant $\det(A_j-t_jI)$ vanishes.
+Combining that certificate for every required source
+branch with K17-S17-JOINT proves the desired vanishing.
+The coverage and normalization remain explicit hypotheses;
+a deficient block for finitely many primes does not by
+itself establish a global congruence at all primes.
+
