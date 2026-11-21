@@ -1,0 +1,363 @@
+                      Electronic Colloquium on Computational Complexity, Report No. 323 (2026)
+
+
+
+
+                                                  NL = UL
+                                          William M. Hoza
+                                   Department of Computer Science
+                                      The University of Chicago
+                                     williamhoza@uchicago.edu
+
+
+                                                    Abstract
+          We present an explicit weight assignment generator that uses a seed of length O(log(wn)) to
+      assign a polynomially-bounded integer weight to each vertex of any simple width-w length-n
+      layered digraph. For each such digraph, there is at least one seed such that the weight function
+      is min-isolating, i.e., the minimum-weight path from s to t is unique for every s, t such that t is
+      reachable from s. The generator is computable using O(log(wn)) bits of space. Thanks to work
+      by Reinhardt and Allender (SICOMP 2000), it immediately follows that NL = UL, i.e., every
+      nondeterministic log-space Turing machine can be simulated by an unambiguous log-space Turing
+      machine. The construction and analysis of the min-isolating weight function are remarkably
+      simple.
+
+
+1     Introduction
+We say that a nondeterministic Turing machine is unambiguous if, for every input, the number
+of accepting computation paths is either zero or one. Let UL be the set of languages that can be
+decided by unambiguous log-space Turing machines. Trivially, UL ⊆ NL. It has been commonly
+conjectured that the two complexity classes are equal. In this paper, we unconditionally prove that
+the conjecture is correct.
+
+Theorem 1.1. NL = UL.
+
+1.1   Summary of prior work
+Let us attempt to briefly summarize the large body of prior work on the NL vs. UL problem. The
+class UL was introduced by Buntrock, Jenner, Lange, and Rossmanith [BJLR91] and Àlvarez and
+Jenner [AJ93]. Arguably, the first indication that we should expect
+                                                              ⨁︁ something like NL = UL to hold
+came from the work of Gál and Wigderson, who proved NL ⊆        L/poly [Wig94; GW96]. Reinhardt
+and Allender improved the containment to NL ⊆ UL/poly⨁︁using a beautiful inductive counting
+argument [RA00]. (The class UL is trivially contained in       L.) Almost all subsequent work on
+the NL vs. UL problem, including the present paper, builds on the techniques in Reinhardt and
+Allender’s seminal paper [RA00].
+    Allender, Reinhardt, and Zhou subsequently proved NL = UL assuming plausible circuit lower
+bounds [ARZ99]; Li, Pyne, and Tell proved it under a milder hardness assumption [LPT24].
+Unconditionally, Van Melkebeek and Prakriya proved that every language in NL can be decided
+by an unambiguous Turing machine using O(log3/2 n) bits of space and polynomial time [vMP19];
+Kallampally and Tewari independently achieved space O(log2 n) and polynomial time [KT16]. The
+proof of Theorem 1.1 uses some of the ideas from Van Melkebeek and Prakriya’s work [vMP19].
+
+
+                                                         1
+                                                                                                       ISSN 1433-8092
+    Many prior works have designed unambiguous log-space algorithms for specific, important
+problems in NL, such as reachability in planar digraphs [ADR05; ABCDR09; BTV09; KV10; PTV12;
+TV12; DKTV12; AGGT16; GST19; DKMTVZ20; DGJMST21;    ⨁︁           CGT26].
+    Finally, Applebaum very recently proved NL ⊆       L [App26], using techniques from Chatterjee,
+Ghosh, Gurjar, Raj, and Thierauf’s recent breakthrough on the bipartite perfect matching problem
+[CGGRT26]. More generally, Applebaum showed NL ⊆ Modp L for every prime p [App26]. The
+class UL is trivially contained in Modp L, so Theorem 1.1 is an improvement of Applebaum’s result
+[App26].
+
+1.2       Proof method: Min-isolating weight functions
+The proof of Theorem 1.1 uses the notion of a min-isolating weight function.
+
+Definition 1.2 (Min-isolating weight function). Let G = (V, E) be a digraph and let ρ : V → N.1
+We consider the weight of a path with respect to ρ to be the sum of the weights of the internal
+vertices of the path. We say that ρ is min-isolating for G if, for every pair of vertices u, v ∈ V such
+that v is reachable from u, there is a unique path from u to v with minimum weight with respect to
+ρ.
+
+   The generic Isolation Lemma of Mulmuley, Vazirani, and Vazirani [MVV87] implies that a
+random polynomially-bounded weight function is min-isolating for G with high probability. The
+key contribution of this paper is a derandomized isolation lemma for the specific case of isolating
+minimum-weight paths in layered digraphs.
+
+Theorem 1.3 (An explicit min-isolating weight assignment generator for layered digraphs). For
+every w, n ∈ N, there exists an explicit “weight assignment generator”
+
+                                       ρ : {0, 1}ℓ × ([w] × {0, 1, . . . , n}) → N
+
+with the following properties.
+
+       • For every simple width-w length-n layered digraph G,2 there exists a seed x ∈ {0, 1}ℓ such that
+         the weight function ρx (v) := ρ(x, v) is min-isolating for G.
+
+       • The seed length is ℓ = O(log(wn)), the output ρ(x, v) can be computed using O(log(wn)) bits
+         of space given x and v, and the weights have magnitude ρ(x, v) ≤ poly(wn).
+
+    The notion of a “weight assignment generator” was introduced√by Van Melkebeek and Prakriya,
+who gave a construction
+                     √     that uses a seed of length O(log(wn) · log n) and produces weights of
+magnitude 2O(log(wn)· log n) [vMP19]. The notion is also implicit in earlier work, such as Reinhardt
+and Allender’s proof that NL ⊆ UL/poly. The proof of Theorem 1.3 is remarkably simple.
+    Given Theorem 1.3 and Reinhardt and Allender’s results [RA00], the conclusion NL = UL is
+straightforward:
+
+       • It is an exercise to show that reachability in layered digraphs is NL-complete.
+   1
+     One can more generally consider weights on the edges of the graph, but vertex weights are sufficient for our
+purposes.
+   2
+     I.e., the vertex set is [w] × {0, 1, . . . , n}, and every edge has the form ((a, i − 1), (b, i)) for some a, b ∈ [w] and
+i ∈ [n].
+
+
+
+
+                                                              2
+    • Reinhardt and Allender designed unambiguous algorithms to check whether a given weight
+      function ρ : V → N is min-isolating for a given digraph G = (V, E), as well as to decide
+      reachability in G under the assumption that ρ is min-isolating [RA00]. Their algorithms use
+      O(log |V | + log(M + 1)) bits of space, where M = maxv ρ(v). Furthermore, their algorithms
+      are “UL ∩ coUL” algorithms, i.e., there is a single computation path that outputs the correct
+      answer (yes or no), and all other computation paths output ⊥.
+
+    • Therefore, to decide reachability in layered digraphs, we can try all seeds x ∈ {0, 1}ℓ . For each
+      seed, we use Reinhardt and Allender’s algorithm to check whether ρx is min-isolating for G
+      [RA00]. If it is, we use ρx and Reinhardt and Allender’s other algorithm to decide reachability
+      in G [RA00].
+    The remainder of this paper consists of the proof of Theorem 1.3.
+
+
+2     Min-isolating weights for layered digraphs
+2.1    Construction
+Let C : [w] → {0, 1}ℓ be an explicit error correcting code with minimum distance d. Eventually, we
+will choose a large enough d = Θ(log(wn)). We can achieve such a minimum distance while also
+ensuring that ℓ = O(log(wn)) and that C(a) can be computed using O(log(wn)) bits of space. For
+example, we could use Justesen codes [Jus72].
+    Let V be the vertex set, V = [w] × {0, 1, . . . , n}. For convenience, extend the error correcting
+code C to the larger domain V by the rule C((a, i)) = C(a). For each seed x ∈ {0, 1}ℓ , we define a
+weight function ρx : V → N by the following formula. If a vertex v is in layer i ∈ [n], then
+                                               ℓ
+                                              ∑︂
+                                   ρx (v) =         6ν2 (i)+ℓ−j · C(v)j · xj ,                          (1)
+                                              j=1
+
+where ν2 (i) is the 2-adic valuation of i, i.e., ν2 (i) := max{r : 2r divides i}. (There is nothing special
+about the number 6; any large enough constant would work in its place.) If v is in layer zero, then
+ρx (v) = 0. Clearly, this generator can be computed in space O(log(wn)), and it outputs integer
+weights that are at most poly(nw).
+    The factor of 6ν2 (i) in Eq. (1) is reminiscent of Van Melkebeek and Prakriya’s constructions
+[vMP19], which also use larger magnitude weights in layers where ν2 (i) is large.
+
+2.2    Analysis
+We require the following elementary fact about the 2-adic valuation function.
+Lemma 2.1. Let I be a finite, nonempty, interval subset of Z>0 . Let M = maxi∈I ν2 (i). Then for
+every ∆ ≥ 0, there are at most 2∆ values i ∈ I such that ν2 (i) = M − ∆. In particular, there is a
+unique i∗ ∈ I such that ν2 (i∗ ) = M .
+Proof. For ∆ = 0, uniqueness holds because between any two integers i, i′ with ν2 (i) = ν2 (i′ ), there
+exists i′′ with ν2 (i′′ ) > ν2 (i). We prove the ∆ > 0 case by induction on M . The base case M = 0 is
+trivial. For the inductive step, let IL be the set of elements of I less than i∗ , and let IR be the set
+of elements of I greater than i∗ . By the uniqueness of i∗ , every i ∈ IL ∪ IR satisfies ν2 (i) ≤ M − 1.
+Therefore, by induction, the number of i ∈ IL such that ν2 (i) = M − ∆ is at most 2∆−1 , and the
+number of i ∈ IR such that ν2 (i) = M − ∆ is also at most 2∆−1 .
+
+                                                        3
+    Now let G be a simple width-w length-n layered digraph, and let s and t be vertices, say in
+layers i and i′ respectively, where i′ ≥ i + 2. Let i∗ be the unique layer in {i + 1, i + 2, . . . , i′ − 1}
+that maximizes ν2 (i∗ ). Let U s→t be the set of vertices u in layer i∗ such that u is reachable from s
+and t is reachable from u.
+    The analysis is based on the same basic principle as Van Melkebeek and Prakriya’s analysis
+[vMP19], which is that a minimum-weight path from s to t consists of a minimum-weight path from
+s to u, followed by a minimum-weight path from u to t, for an optimal choice u ∈ U s→t . Motivated
+by this principle, for each u ∈ U s→t and each seed x, let Ds→u→t (x) be the minimum weight of a
+path that goes from s to t via u with respect to the weight function ρx . We would like to avoid the
+situation that Ds→u→t (x) = Ds→v→t (x) for two distinct u, v ∈ U s→t . To argue that this bad event
+is unlikely, we use the discrete partial derivative operator.
+
+Definition 2.2 (Discrete partial derivative). Let f : {0, 1}ℓ → R and let j ∈ [ℓ]. We define
+
+                                     ∂j f (x) = f (xj←1 ) − f (xj←0 ),
+
+where xj←b is the string obtained from x by replacing its j-th bit with b.
+
+   Let Bj = 6ν2 (i∗ )+ℓ−j for each j ∈ [ℓ]. We will show that ∂j Ds→u→t (x) ≈ Bj · C(u)j . Specifically:
+
+Lemma 2.3 (Derivatives of Ds→u→t ). For every j ∈ [ℓ], u ∈ U s→t , and x ∈ {0, 1}ℓ , we have
+
+                           ∂j Ds→u→t (x) ∈ [Bj · C(u)j , Bj · (C(u)j + 1/2)].
+
+Proof. First let P be a fixed path from s to t that visits u. When we flip xj from 0 to 1, how much
+does ρx (P ) increase?
+
+   • The weight ρx (u) increases by precisely Bj · C(u)j .
+
+   • By
+     ∑︁∞Lemma  2.1, the sum of the weights of the other internal vertices of P increases by at most
+            ∆    −∆ · B = B /2.
+       ∆=1 2 · 6       j    j
+
+Thus, if we let fP (x) = ρx (P ), then ∂j fP (x) ∈ [Bj · C(u)j , Bj · (C(u)j + 1/2)].
+   Now let P0 and P1 be minimum-weight paths from s to t visiting u with respect to the weight
+functions ρxj←0 and ρxj←1 , respectively. The two paths P0 and P1 are not necessarily equal.
+Nevertheless, we can reason as follows. On the one hand, we have
+                                      (︂                         )︂ (︂                      )︂
+          ρxj←1 (P1 ) − ρxj←0 (P0 ) = ρxj←1 (P1 ) − ρxj←1 (P0 ) + ρxj←1 (P0 ) − ρxj←0 (P0 )
+                                      (︂                          )︂ (︂         )︂
+                                    = something non-positive + ∂j fP0 (x)
+                                    ≤ Bj · (C(u)j + 1/2).
+
+On the other hand, we have
+                                      (︂                        )︂ (︂                        )︂
+           ρxj←1 (P1 ) − ρxj←0 (P0 ) = ρxj←1 (P1 ) − ρxj←0 (P1 ) + ρxj←0 (P1 ) − ρxj←0 (P0 )
+                                      (︂         )︂ (︂                         )︂
+                                     = ∂j fP1 (x) + something non-negative
+                                    ≥ Bj · C(u)j .
+
+The lemma follows.
+
+
+                                                     4
+   Now we are ready to show that the weight function ρx is min-isolating for most seeds x. Recall
+that d is the minimum distance of the code C.
+Theorem 2.4. Sample a seed x ∈ {0, 1}ℓ uniformly at random. Then
+
+                           Pr[ρx is not min-isolating for G] ≤ 2−d · w4 · n2 .
+                            x
+
+Proof. Fix vertices s, t and distinct u, v ∈ U s→t . Let Es,t,u,v be the set of “bad” seeds, i.e., seeds x
+such that
+                                      Ds→u→t (x) = Ds→v→t (x).
+Let x ∈ Es,t,u,v , and let y be a distinct seed that agrees with x in every coordinate j such
+that C(u)j = C(v)j . Imagine transforming x into y by flipping one bit at a time, starting
+from the first coordinate j∗ in which they differ and moving to the right. Initially, we have
+Ds→u→t (x) = Ds→v→t (x). By Lemma 2.3, the first flip changes one of Ds→u→t (x), Ds→v→t (x) by
+at least Bj∗ in absolute value, namely the one with C(·)j∗ = 1, while it changes the other by at
+most Bj∗ /2. Furthermore, by Lemma 2.3, each subsequent flip, say in position j, changes each value
+by at most (3/2) · Bj , and both changes have the same sign. Therefore,
+                                                ℓ                                      ∞
+                                                                     (︄                        )︄
+                                              ∑︂                                      ∑︂
+   |Ds→u→t (y) − Ds→v→t (y)| ≥ (1/2) · Bj∗ −       (3/2) · Bj > Bj∗ · (1/2) − (3/2) ·     6−∆
+                                                  j=j∗ +1                                      ∆=1
+                                                                      = Bj∗ · ((1/2) − (3/2) · (1/5))
+                                                                      > 0.
+
+This shows that y ∈/ Es,t,u,v . Thus, we have shown that every two distinct x, y ∈ Es,t,u,v must
+disagree in some coordinate where C(u) and C(v) agree, hence
+
+                                  |Es,t,u,v | ≤ 2|{j:C(u)j =C(v)j }| ≤ 2ℓ−d .
+
+                                                                     choices for s and t is n2 · w2 . After
+                                                                                           (︁ )︁
+Now we do a union bound over all s, t, u, v. The number(︁ of
+fixing s and t, the number of choices for(︁u,)︁v (︁is )︁at most w2 . So overall, the probability that any
+                                                                  )︁
+
+bad event Es,t,u,v occurs is at most 2−d · n2 · w2 · w2 < 2−d · n2 · w4 .
+    Now assume that none of the bad events Es,t,u,v occurs. Under this assumption, we will show
+that ρx is min-isolating for G. Fix any s and t such that t is reachable from s. We prove that the
+minimum-weight path from s to t is unique by induction on the length k of paths from s to t. The
+base cases k ∈ {0, 1} are trivial. If k ≥ 2, then the assumption implies that every minimum-weight
+path from s to t passes through the same u ∈ U s→t . By induction, the minimum-weight path
+from s to u is unique, and the minimum-weight path from u to t is unique. Consequently, the
+minimum-weight path from s to t is unique.
+
+   Theorem 1.3 immediately follows by choosing a large enough d = O(log(wn)).
+
+AI Disclosure
+I used GPT-6.2 Astra to discover the proof and help with preparing this paper. I acknowledge that
+I am responsible for all claims in the paper.
+
+Acknowledgments
+I thank Dieter van Melkebeek for helpful comments on a draft of this paper. I thank OpenAI for
+giving me complimentary access to ChatGPT Pro.
+
+                                                      5
+References
+[ABCDR09]    Eric Allender, David A. Mix Barrington, Tanmoy Chakraborty, Samir Datta, and
+             Sambuddha Roy. “Planar and grid graph reachability problems”. In: Theory Comput.
+             Syst. 45.4 (2009), pp. 675–723. doi: 10.1007/s00224-009-9172-z.
+[ADR05]      Eric Allender, Samir Datta, and Sambuddha Roy. “The Directed Planar Reachability
+             Problem”. In: Proceedings of Foundations of Software Technology and Theoretical
+             Computer Science (FSTTCS). 2005, pp. 238–249. doi: 10.1007/11590156_19.
+[AGGT16]     Rahul Arora, Ashu Gupta, Rohit Gurjar, and Raghunath Tewari. “Derandomizing
+             Isolation Lemma for K3,3 -free and K5 -free Bipartite Graphs”. In: Proceedings of
+             the 33rd Symposium on Theoretical Aspects of Computer Science (STACS). 2016,
+             10:1–10:15. doi: 10.4230/LIPIcs.STACS.2016.10.
+[AJ93]       Carme Àlvarez and Birgit Jenner. “A very hard log-space counting class”. In:
+             Theoretical Computer Science 107.1 (1993), pp. 3–30. issn: 0304-3975. doi: https:
+             //doi.org/10.1016/0304-3975(93)90252-O.
+[App26]      Benny Applebaum. From Nondeterministic to Modular Branching Programs, Uni-
+             formly and in Logspace. ECCC preprint TR26-131. 2026. url: https://eccc.
+             weizmann.ac.il/report/2026/131/.
+[ARZ99]      Eric Allender, Klaus Reinhardt, and Shiyu Zhou. “Isolation, Matching, and Counting
+             Uniform and Nonuniform Upper Bounds”. In: Journal of Computer and System
+             Sciences 59.2 (1999), pp. 164–181. doi: 10.1006/jcss.1999.1646.
+[BJLR91]     Gerhard Buntrock, Birgit Jenner, Klaus-Jörn Lange, and Peter Rossmanith. “Unam-
+             biguity and fewness for logarithmic space”. In: Proceedings of the 8th International
+             Conference on Fundamentals of Computation Theory (FCT). Ed. by L. Budach.
+             1991, pp. 168–179. isbn: 978-3-540-38391-8.
+[BTV09]      Chris Bourke, Raghunath Tewari, and N. V. Vinodchandran. “Directed Planar
+             Reachability Is in Unambiguous Log-Space”. In: ACM Trans. Comput. Theory 1.1
+             (Feb. 2009). doi: 10.1145/1490270.1490274.
+[CGGRT26]    Abhranil Chatterjee, Sumanta Ghosh, Rohit Gurjar, Roshan Raj, and Thomas
+             Thierauf. Bipartite Matching is in NC. ECCC preprint TR26-100. 2026. url:
+             https://eccc.weizmann.ac.il/report/2026/100/.
+[CGT26]      Neelabjo Shubhashis Choudhury, Chetan Gupta, and Raghunath Tewari. “Reach-
+             ability in Graphs with Polynomially Many Surface Non-separating Cycles is in
+             UL”. In: Proceedings of the International Workshop on Combinatorial Algorithms
+             (IWOCA). 2026, pp. 190–203. doi: 10.1007/978-3-032-27732-9_14.
+[DGJMST21]   Samir Datta, Chetan Gupta, Rahul Jain, Anish Mukherjee, Vimal Raj Sharma,
+             and Raghunath Tewari. “Reachability and Matching in Single Crossing Minor Free
+             Graphs”. In: Proceedings of the 41st IARCS Annual Conference on Foundations of
+             Software Technology and Theoretical Computer Science (FSTTCS). 2021, 16:1–16:16.
+             doi: 10.4230/LIPIcs.FSTTCS.2021.16.
+[DKMTVZ20]   Samir Datta, Pankaj Kumar, Anish Mukherjee, Anuj Tawari, Nils Vortmeier, and
+             Thomas Zeume. “Dynamic Complexity of Reachability: How Many Changes Can
+             We Handle?” In: Proceedings of the 47th International Colloquium on Automata,
+             Languages, and Programming (ICALP). 2020, 122:1–122:19. doi: 10.4230/LIPIcs.
+             ICALP.2020.122.
+
+                                              6
+[DKTV12]   Samir Datta, Raghav Kulkarni, Raghunath Tewari, and N. V. Vinodchandran.
+           “Space complexity of perfect matching in bounded genus bipartite graphs”. In: J.
+           Comput. System Sci. 78.3 (2012), pp. 765–779. doi: 10.1016/j.jcss.2011.11.002.
+[GST19]    Chetan Gupta, Vimal Raj Sharma, and Raghunath Tewari. “Reachability in O(log n)
+           Genus Graphs is in Unambiguous Logspace”. In: Proceedings of the 36th Inter-
+           national Symposium on Theoretical Aspects of Computer Science (STACS). 2019,
+           34:1–34:13. doi: 10.4230/LIPIcs.STACS.2019.34.
+[GW96]     Anna Gál and Avi Wigderson. “Boolean complexity classes vs. their arithmetic
+           analogs”. In: Random Structures & Algorithms 9.1-2 (1996), pp. 99–111. doi:
+           10.1002/(SICI)1098-2418(199608/09)9:1/2<99::AID-RSA7>3.0.CO;2-6.
+[Jus72]    Jø rn Justesen. “A class of constructive asymptotically good algebraic codes”. In:
+           IEEE Trans. Inform. Theory IT-18 (1972), pp. 652–656. issn: 0018-9448,1557-9654.
+           doi: 10.1109/tit.1972.1054893.
+[KT16]     Vivek Anand T Kallampally and Raghunath Tewari. “Trading Determinism for
+           Time in Space Bounded Computations”. In: Proceedings of the 41st International
+           Symposium on Mathematical Foundations of Computer Science (MFCS). 2016,
+           10:1–10:13. doi: 10.4230/LIPIcs.MFCS.2016.10.
+[KV10]     Jan Kynčl and Tomáš Vyskočil. “Logspace Reduction of Directed Reachability for
+           Bounded Genus Graphs to the Planar Case”. In: ACM Trans. Comput. Theory 1.3
+           (Mar. 2010). issn: 1942-3454. doi: 10.1145/1714450.1714451.
+[LPT24]    Jiatu Li, Edward Pyne, and Roei Tell. “Distinguishing, Predicting, and Certifying:
+           On the Long Reach of Partial Notions of Pseudorandomness”. In: Proceedings of
+           the 65th Annual Symposium on Foundations of Computer Science (FOCS). 2024,
+           pp. 1–13. doi: 10.1109/FOCS61266.2024.00095.
+[MVV87]    Ketan Mulmuley, Umesh V. Vazirani, and Vijay V. Vazirani. “Matching is as easy
+           as matrix inversion”. In: Combinatorica 7.1 (1987), pp. 105–113. doi: 10.1007/
+           BF02579206.
+[PTV12]    A. Pavan, Raghunath Tewari, and N. V. Vinodchandran. “On the power of un-
+           ambiguity in log-space”. In: Comput. Complexity 21.4 (2012), pp. 643–670. issn:
+           1016-3328,1420-8954. doi: 10.1007/s00037-012-0047-3.
+[RA00]     Klaus Reinhardt and Eric Allender. “Making Nondeterminism Unambiguous”.
+           In: SIAM Journal on Computing 29.4 (2000), pp. 1118–1131. doi: 10 . 1137 /
+           S0097539798339041.
+[TV12]     Raghunath Tewari and N. V. Vinodchandran. “Green’s theorem and isolation
+           in planar graphs”. In: Information and Computation 215 (2012), pp. 1–7. doi:
+           10.1016/j.ic.2012.03.002.
+[vMP19]    Dieter van Melkebeek and Gautam Prakriya. “Derandomizing Isolation in Space-
+           Bounded Settings”. In: SIAM Journal on Computing 48.3 (2019), pp. 979–1021.
+           doi: 10.1137/17M1130538.
+[Wig94]    A. Wigderson. “NL/poly ⊆ ⊕L/poly”. In: Proceedings of IEEE 9th Annual Confer-
+           ence on Structure in Complexity Theory. 1994, pp. 59–62. doi: 10.1109/SCT.1994.
+           315817.
+
+
+
+                                                                  ECCC                          ISSN 1433-8092
+                                           7
+                                                                  https://eccc.weizmann.ac.il
+

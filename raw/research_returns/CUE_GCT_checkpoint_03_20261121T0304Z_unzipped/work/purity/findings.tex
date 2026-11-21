@@ -1,0 +1,542 @@
+% Purity/zero-status contribution, run CUE_GCT-20261121-purity.
+% New proved deductions, not claims of priority over the literature.
+\section{Purity, evaluation maps, and the precise derandomization gate}
+
+\subsection{P-01: a quantitative Gram criterion}
+\paragraph{Statement P-01.}
+Let $\Omega$ be a finite probability space, let $\phi_1,\ldots,\phi_s:\Omega\to\mathbb C$, and suppose
+\[
+ \mathbb E|\phi_j|^2\ge a>0,\qquad
+ |\mathbb E\phi_i\overline{\phi_j}|\le b\quad(i\ne j).
+\]
+Then every $c\in\mathbb C^s$ satisfies
+\[
+ \mathbb E\left|\sum_jc_j\phi_j\right|^2
+ \ge \{a-(s-1)b\}\sum_j|c_j|^2.
+\]
+Consequently $a>(s-1)b$ implies that the coefficient-to-evaluation map $\mathbb C^s\to\mathbb C^\Omega$ is injective and that every nonzero combination is nonzero at a sampled point.
+\paragraph{Proof.}
+Expand the square. The diagonal sum is at least $a\sum_j|c_j|^2$, and the absolute value of the off-diagonal sum is at most $b\sum_{i\ne j}|c_i||c_j|$. Cauchy--Schwarz gives $(\sum_j|c_j|)^2\le s\sum_j|c_j|^2$, so the off-diagonal sum is at most $b(s-1)\sum_j|c_j|^2$. This proves the inequality. If a nonzero combination vanished at every sampled point, the left side would vanish while the right side would be positive, a contradiction. $\square$
+
+For multilinear $f=\sum_{S\in\mathcal S}c_Sx_S$ on the sign cube and an $\varepsilon$-biased distribution (meaning $|\mathbb E x_T|\le\varepsilon$ for nonempty $T$), take $\phi_S=x_S$. Then $a=1$, $b=\varepsilon$, because $x_Sx_T=x_{S\triangle T}$. Thus $\varepsilon(|\mathcal S|-1)<1$ is a sufficient hitting criterion. The sharper coefficient-dependent criterion is
+\[
+ \mathbb E|f|^2\ge (1+\varepsilon)\|c\|_2^2-\varepsilon\|c\|_1^2>0.
+\]
+This criterion depends on coefficient energy or sparsity; ROABP width alone is not such a bound.
+
+\subsection{P-02: an explicit purity-based hitting set in the sparse regime}
+\paragraph{Statement P-02.}
+For positive integers $n,s$, choose an odd prime $p>16n^2s^2$. Let $\chi$ be the quadratic character of $\mathbb F_p$, and put $b_i(t)=\chi(t+i)$ when $t+i\ne0$, and $b_i(t)=1$ otherwise, for $1\le i\le n$. The multiset
+\[
+ H_{n,s}=\{(b_1(t),\ldots,b_n(t)):t\in\mathbb F_p\}\subset\{\pm1\}^n
+\]
+is a hitting set for every nonzero $s$-sparse multilinear polynomial over any field of characteristic zero. Taking the first such prime gives cardinality $O(n^2s^2)$ and an elementary deterministic construction in time polynomial in $n,s$.
+\paragraph{Proof.}
+The quadratic-character construction and its bias bound are AGHP, \S4, Theorem~1, Construction~2, and Proposition~2 (P-B01). For completeness, the short form required here is as follows. For nonempty $T\subseteq[n]$, the squarefree polynomial $\prod_{i\in T}(t+i)$ has $|T|$ distinct roots since $p>n$. Weil's character-sum bound gives a sum of absolute value at most $(|T|-1)\sqrt p$. Replacing each zero character value by $1$ changes at most $|T|$ terms by at most $1$. Therefore
+\[
+ \left|\frac1p\sum_t\prod_{i\in T}b_i(t)\right|
+ \le \varepsilon:=\frac{n-1}{\sqrt p}+\frac np.
+\]
+Our choice gives $\varepsilon(s-1)<1$, so P-01 proves the assertion over $\mathbb C$. For any set of at most $s$ monomials the evaluation matrix has integer entries; injectivity over $\mathbb C$ implies an integer maximal minor is nonzero, hence it remains nonzero over every characteristic-zero field. Bertrand's theorem supplies a prime less than twice the chosen threshold (enlarging an endpoint by one if necessary). Trial division and Euler's criterion already yield polynomial time in the numerical parameters $n,s$; no GRH is needed. $\square$
+
+The word ``sparse'' is essential. This applies to sparse ROABPs, but an $n$-variate width-one ROABP can have $2^n$ nonzero coefficients.
+
+\subsection{P-03: two small-width counterexamples and the attempted repair}
+\paragraph{Statement P-03(a).}
+Over a field of characteristic different from $2$, a subset $H\subseteq\{\pm1\}^n$ hits all multilinear width-one ROABPs if and only if $H=\{\pm1\}^n$.
+\paragraph{Proof.}
+If $a\notin H$, the nonzero polynomial
+\[
+ f_a(x)=\prod_{i=1}^n(1+a_ix_i)
+\]
+is a width-one ROABP. For $x\in\{\pm1\}^n$ it is nonzero exactly when $x=a$, where its value is $2^n$. Thus $H$ misses it. Conversely the sign-cube evaluation matrix for multilinear monomials is the tensor product of $\begin{pmatrix}1&1\\1&-1\end{pmatrix}$ and is invertible when $2$ is invertible. Hence the full cube hits all nonzero multilinear polynomials. $\square$
+
+\paragraph{Statement P-03(b).}
+Allowing a common affine transformation $x_i=u+vb_i(t)$ of every sign point does not repair the construction for general ROABPs. The polynomial
+\[
+ V(x_1,x_2,x_3)=(x_2-x_1)(x_3-x_1)(x_3-x_2)
+\]
+is a nonzero width-three ROABP of individual degree two and vanishes at all such points, even when $u,v$ range over the entire coefficient field.
+\paragraph{Proof.}
+Among three coordinates taking values in $\{u-v,u+v\}$, two coincide. Thus one factor vanishes. Nonzeroness follows from its displayed factorization in a polynomial ring over a field. The explicit ROABP is
+\[
+ [1\quad x_1\quad x_1^2]
+ \begin{pmatrix}
+ x_2&x_2^2&0\\-1&0&x_2^2\\0&-1&-x_2
+ \end{pmatrix}
+ \begin{bmatrix}x_3^2\\-x_3\\1\end{bmatrix}=V.
+\]
+Expansion verifies this identity in $\mathbb Z[x_1,x_2,x_3]$, so it holds in every characteristic. $\square$
+
+These are refutations of particular proposed transfers, not refutations of polynomial-size ROABP hitting sets over a larger field or of weight generators with richer output alphabets.
+
+\subsection{P-04: curve sampling after a surviving restriction}
+\paragraph{Statement P-04.}
+Let $C/\mathbb F_q$ be a smooth projective geometrically connected curve of genus $g$, let $r_i\in\mathbb F_q(C)$, and choose effective divisors $D_i$ containing their polar divisors. For multidegrees $d_i$, put $D=\sum_i d_iD_i$ and let $B$ be the union of supports of the $D_i$. If
+\[
+ q+1-2g\sqrt q-\#B(\mathbb F_q)>\deg D,
+\]
+then evaluations at $C(\mathbb F_q)\setminus B$ hit every polynomial $f$ of individual degrees at most $d_i$ whose pullback $f(r_1,\ldots,r_n)$ is nonzero in $\mathbb F_q(C)$.
+\paragraph{Proof.}
+Every monomial in the pullback has poles bounded by $D$, and the same is true of their sum. If the pullback is a nonzero constant it never vanishes. Otherwise its principal divisor has degree zero, so the degree of its zero divisor equals that of its pole divisor and is at most $\deg D$. In particular it vanishes at at most $\deg D$ rational points outside $B$. Weil's bound (P-B02) supplies at least $q+1-2g\sqrt q-\#B(\mathbb F_q)$ available rational points, which is larger. $\square$
+
+This separates the two requirements: purity supplies enough rational points; it does not prove that the restriction to $C$ is nonzero. An explicit algorithm also needs an explicit model of $C$ and an algorithm for enumerating its rational points with the stated complexity. For $C=\mathbb P^1$ this enumeration is immediate, and the assertion reduces to univariate root counting.
+
+\subsection{P-05: a low-width annihilator for a union of curves}
+\paragraph{Statement P-05.}
+Let $C_j/k$ ($1\le j\le M$) be smooth projective geometrically connected curves and let $r_{1j},r_{2j}\in k(C_j)$ have poles bounded by a common effective divisor $D_j$ of degree $\delta_j\ge1$. There is a nonzero polynomial $P\in k[X,Y]$, of degree at most $2\sum_j\delta_j$ in each variable, with
+\[
+ P(r_{1j},r_{2j})=0\quad\text{for every }j.
+\]
+Moreover $P$ has a two-variable ROABP of width at most $2\sum_j\delta_j+1$. Thus a union of such curve images does not hit that entire width/degree class.
+\paragraph{Proof.}
+For each $j$, put $b_j=2\delta_j$. The $(b_j+1)^2$ monomials $r_{1j}^a r_{2j}^b$ ($0\le a,b\le b_j$) lie in $L(2b_jD_j)$. The elementary divisor-space bound $\dim_k L(E)\le\deg E+1$ for effective $E$ gives
+\[
+ \dim L(2b_jD_j)\le2b_j\delta_j+1=4\delta_j^2+1<(2\delta_j+1)^2.
+\]
+For clarity, this divisor-space bound follows after scalar extension to an algebraic closure: imposing vanishing at any $\deg E+1$ distinct points away from $E$ is injective, since a nonzero section cannot have more zeros than poles. Base extension preserves dimension. Hence there is a nontrivial $k$-linear relation, defining a nonzero formal polynomial $P_j(X,Y)$ of bidegree at most $(b_j,b_j)$ that vanishes on $C_j$. Set $P=\prod_jP_j$. The polynomial ring is a domain, so $P\ne0$; its individual degrees are at most $B_0:=\sum_jb_j$. Finally write $P(X,Y)=\sum_{a=0}^{B_0}X^a Q_a(Y)$ and represent it by the row $[1,X,\ldots,X^{B_0}]$ times the column $(Q_0(Y),\ldots,Q_{B_0}(Y))^{\mathsf T}$. This is an ROABP of width $B_0+1$. $\square$
+
+The quantitative conclusion is a lower bound on a specific curve-based construction. It does not exclude a family whose total pole degree is much larger than the target ROABP width or degree.
+
+\subsection{P-06: what general Frobenius orthogonality proves}
+\paragraph{Statement P-06.}
+Let $U/\mathbb F_q$ be a smooth geometrically connected affine curve. Let $\mathcal F_1,\ldots,\mathcal F_s$ be geometrically irreducible lisse $\overline{\mathbb Q}_\ell$-sheaves, pure of weight zero for a fixed complex embedding, pairwise geometrically nonisomorphic. Set $t_i(x)=\operatorname{tr}(\operatorname{Frob}_x\mid\mathcal F_i)$, and
+\[
+ B=\max_{i,j}\dim H_c^1(U_{\overline{\mathbb F}_q},\mathcal F_i\otimes\mathcal F_j^\vee).
+\]
+If $q>s^2B^2$, the functions $t_1,\ldots,t_s$ on $U(\mathbb F_q)$ are linearly independent. More precisely, with $Q=\#U(\mathbb F_q)$,
+\[
+ \frac1Q\sum_x\left|\sum_i c_it_i(x)\right|^2
+ \ge\frac{q-sB\sqrt q}{Q}\sum_i|c_i|^2.
+\]
+\paragraph{Proof.}
+Purity of weight zero identifies the complex conjugate of a Frobenius trace with the trace of the dual representation. For $\mathcal G_{ij}=\mathcal F_i\otimes\mathcal F_j^\vee$, the trace formula gives
+\[
+ \sum_{x\in U(\mathbb F_q)}t_i(x)\overline{t_j(x)}
+ =\sum_{a=0}^2(-1)^a\operatorname{tr}(\operatorname{Frob}_q\mid H_c^a(U_{\bar{\mathbb F}_q},\mathcal G_{ij})).
+\]
+Here $H_c^0=0$. By duality and geometric irreducibility, $H_c^2$ is zero for $i\ne j$ and is $\overline{\mathbb Q}_\ell(-1)$ for $i=j$: in the latter case its invariant scalar endomorphisms are fixed by arithmetic Frobenius. Thus the $H_c^2$ contribution is $q\delta_{ij}$. Deligne's weight theorem bounds the absolute values of the $H_c^1$ eigenvalues by $\sqrt q$, so the error in every Gram entry is at most $B\sqrt q$. If $E$ is the error matrix, $|c^*Ec|\le B\sqrt q(\sum|c_i|)^2\le sB\sqrt q\sum|c_i|^2$. Dividing by $Q$ gives the result; the displayed strict inequality also implies $Q>0$. $\square$
+
+For an explicit conductor budget, let $\overline U$ have genus $g$ and let $b=\#(\overline U\setminus U)(\overline{\mathbb F}_q)$ count geometric boundary points. Write $r_i=\operatorname{rank}\mathcal F_i$ and $\sigma_{ij}=\sum_{x\in\overline U\setminus U}\operatorname{Swan}_x(\mathcal F_i\otimes\mathcal F_j^\vee)$. Then the Grothendieck--Ogg--Shafarevich formula gives the exact expression
+\[
+ \dim H_c^1(U_{\bar{\mathbb F}_q},\mathcal G_{ij})
+ =\delta_{ij}+r_ir_j(2g-2+b)+\sigma_{ij}.
+\]
+Indeed $\chi_c(U,\mathcal G_{ij})=r_ir_j(2-2g-b)-\sigma_{ij}$, while the proof above gives $h_c^0=0$ and $h_c^2=\delta_{ij}$. This proves the displayed expression without discarding the conductor term. The Euler--Poincar\'e source is SGA~5, Expos\'e~X, Theorem~7.1 and Corollary~7.12, formula~(7.13), with the $\ell$-adic form also written in Katz--Sarnak, proof of Lemma~10.1.12, p.~296 (P-B14). In particular, if all tensor sheaves are tame and $r_i\le R$, then $B\le1+R^2\max(0,2g-2+b)$ is a sufficient bound. A claimed polynomial-size trace sampler must bound these geometric quantities polynomially as well as $s$.
+
+The trace formula and weights are cited as P-B03; the passage from cohomological estimates to the explicit Gram inequality is the deduction here. The condition uses the dimensions of the relevant cohomology groups. Saying only ``equidistribution'' without controlling these quantities does not supply the claimed complexity. Tensor products used to model many monomials can increase both their number $s$ and $B$.
+
+\subsection{Geometric dictionary for P-01--P-06}
+For a monomial set $\mathcal S$, the coefficient space is the affine scheme $\operatorname{Spec}\mathbb Z[c_S:S\in\mathcal S]$. Evaluation on a finite set is a linear morphism of free modules. Injectivity over characteristic zero in P-01/P-02 is witnessed by a nonzero integral maximal minor, so it holds after base change to $\mathbb Z[1/\Delta]$ for some nonzero minor $\Delta$, but need not hold in every positive characteristic. P-03(a) is the idempotent/Lagrange basis of the finite etale sign-cube algebra over $\mathbb Z[1/2]$. P-03(b) is the alternating exterior product of three sections of the rank-three bundle generated by $1,X,X^2$; its vanishing is rank at most two.
+
+In P-04 the map $k[x_1,\ldots,x_n]\to k(C)$ is pullback along a rational morphism to affine space, and the degree budget is a divisor controlling the corresponding section of $\mathcal O_C(D)$. P-05 concerns the nontrivial kernel of that pullback, detected by dimension of global sections. In P-06 the functions are images under the trace-of-Frobenius map on the Grothendieck group of constructible $\ell$-adic complexes. Tensor product becomes pointwise multiplication, duality becomes complex conjugation for weight zero, and compactly supported pushforward to $\operatorname{Spec}\mathbb F_q$ gives the trace sum. Purity bounds the nonconstant part of this pushforward. These assertions do not posit an unconstructed motive for an arbitrary ROABP. Exact trace/weight locators are SGA $4\frac12$, Rapport sur la formule des traces, Theorem~3.2; Deligne, Weil II, Theorem~3.3.1 and \S3.3.10; and Katz--Sarnak, \S\S9.0.13--9.0.16. The general equidistribution statement is Katz--Sarnak, Theorem~9.2.6 (compare Weil II, Theorem~3.5.3). Further SGA/EGA locators are supplied in the global dictionary.
+
+\subsection{P-07: the next construction---bounded-support isolating weights}
+\paragraph{Statement P-07.}
+Let $S\subseteq\{0,\ldots,d\}^n$ have at most $s$ elements. Fix a prime
+\[
+ p>\max\{2,d,n\tbinom{s}{2}\}.
+\]
+For each $t\in\mathbb F_p$, let
+\[
+ w_i(t)=1+\operatorname{rep}_p(t^i)\in\{1,\ldots,p\},\qquad 1\le i\le n.
+\]
+Some member of this explicit $p$-element family assigns pairwise different integer weights $w(t)\cdot\alpha$ to the elements of $S$. In particular it isolates their minimum. Over any field containing $ndp+1$ distinct scalars, the substitutions $x_i=z^{w_i(t)}$ followed by evaluation at these scalars form a hitting set of size at most $p(ndp+1)$ for all $s$-sparse polynomials of individual degree at most $d$.
+\paragraph{Proof.}
+For distinct $\alpha,\beta\in S$, equality of their integer weights implies
+\[
+ 0=\sum_i(\alpha_i-\beta_i)(1+t^i)\quad\text{in }\mathbb F_p.
+\]
+This polynomial in $t$ is nonzero: at least one nonconstant coefficient $\alpha_i-\beta_i$ is nonzero modulo $p$, because its absolute value is at most $d<p$. Its degree is at most $n$, so it has at most $n$ roots. The union of all pair-collision sets has size at most $n\binom{s}{2}<p$. Choosing $t$ outside that union proves the weight assertion. Under that substitution, every nonzero coefficient remains on a distinct power of $z$, so the resulting univariate polynomial is nonzero, of degree at most $ndp$. It cannot vanish at all $ndp+1$ distinct scalar values. The union of all evaluation points therefore hits every polynomial in the stated class. $\square$
+
+This gives a polynomial-size family for bounded sparsity and allows arbitrary coefficients and cancellation; it does not require purity, because elementary root counting is already stronger for the polynomial collision predicates involved. Its geometric form is a family of one-parameter subgroups of $\mathbb G_m^n$, and the successful member lies in the interior of a normal cone exposing a unique vertex of the support's Newton polytope. For general width-$w$ ROABPs the support size can be exponential even at $w=1$, so substituting $s=\operatorname{poly}(w,n,d)$ here is unjustified. The remaining transfer must exploit coefficient-space structure, as in basis isolation, rather than enumerate support pairs.
+
+\subsection{P-08: a precise conditional arithmetic encoding reduction}
+\paragraph{Statement P-08 (conditional reduction).}
+Let $\mathcal C_N$ be a polynomial class. Suppose the following data can be constructed in time polynomial in $N$: a common finite Galois extension $E_N/\mathbb Q$, its nonzero discriminant, and a map $p\mapsto h_N(p)$ from unramified rational primes to evaluation points. Suppose $[E_N:\mathbb Q]$ and $\log|\Delta_{E_N}|$ are polynomially bounded, that $h_N(p)$ is computable in polynomial time in $N+\log p$, and that for every nonzero $f\in\mathcal C_N$ some conjugacy class $C_f\subseteq\operatorname{Gal}(E_N/\mathbb Q)$ has
+\[
+ \operatorname{Frob}_p\in C_f\quad\Longrightarrow\quad f(h_N(p))\ne0
+\]
+for every unramified $p$. Under GRH for $\zeta_{E_N}$ these data yield a polynomial-size, polynomial-time hitting set for $\mathcal C_N$.
+\paragraph{Proof.}
+Lagarias--Odlyzko, Corollary~1.2 (P-B04), gives an unramified prime in every conjugacy class with
+\[
+ p\le c\,\log^2|\Delta_{E_N}|\,\log^4\log|\Delta_{E_N}|
+\]
+for an effective absolute constant, with the trivial extension treated separately. Increasing the bound to cover the finitely many small discriminants gives a polynomial bound $B(N)$. Enumerate all primes up to this bound by trial division, discard primes dividing the supplied discriminant, and evaluate $h_N$ on the rest. The set has polynomial size and is polynomial-time constructible; it contains a point from $C_f$ for every nonzero $f$, proving the claim. $\square$
+
+If $E_N/\mathbb Q$ is abelian, factorization into Dirichlet $L$-functions makes this GRH assumption a consequence of the stipulated Alp\"oge theorem. For arbitrary $E_N$, it follows conditionally from Masullo's asserted Hecke GRH, by using the trivial Hecke character of $E_N$. The extension and evaluation map must be common to the polynomial class: an extension depending on the hidden polynomial would not construct a black-box hitting set. No construction satisfying these hypotheses for general ROABPs is supplied by the stated RH/GRH theorems or by the finite-field purity argument. The exact remaining gate is the explicit common encoding with polynomial discriminant, together with the Frobenius-to-nonvanishing implication. Deterministic quadratic nonresidues and modular square roots are the consequences assigned to Prompt~28 and are not rederived here.
+
+\subsection{P-09: approximate positive cubature already costs the full tensor dimension}
+\paragraph{Statement P-09 (adapted trace argument).}
+Let $n\ge1$, $\delta\ge0$, $D=(\delta+1)^n$, and let $\xi_1,\ldots,\xi_M\in\mathbb C^n$ have positive real weights $w_j$. Suppose that constants $0<a\le b$ satisfy
+\[
+ a\|\operatorname{coeff} f\|_2^2
+ \le \sum_{j=1}^M w_j|f(\xi_j)|^2
+ \le b\|\operatorname{coeff} f\|_2^2
+ \tag{P09.1}
+\]
+for every width-one product $f(x)=\prod_{i=1}^n p_i(x_i)$ with $\deg p_i\le\delta$. Then
+\[
+ M\ge \frac{a}{b}D.
+ \tag{P09.2}
+\]
+In particular a relative error $0\le\varepsilon<1$ forces
+$M\ge D(1-\varepsilon)/(1+\varepsilon)$. Nonnegative weights are allowed after zero weights are removed.
+\paragraph{Proof.}
+Put $v(z)=(1,z,\ldots,z^\delta)$ and
+$e_j=\bigotimes_{i=1}^n v(\xi_{j,i})\in\mathbb C^D$.
+Coefficient vectors are paired bilinearly with $e_j$ for evaluation.
+Since $e_j\ne0$ and is decomposable, the vector
+$c^{(j)}=\overline{e_j}/\|e_j\|_2$ is the coefficient vector of a width-one product, of coefficient norm one. Its value at $\xi_j$ is $\|e_j\|_2$. All summands in (P09.1) are nonnegative, so the upper bound applied to this product gives
+\[
+ w_j\|e_j\|_2^2\le b.
+\]
+Apply the lower bound to each of the $D$ monomials $x^\alpha$, $\alpha\in\{0,\ldots,\delta\}^n$, each itself a normalized width-one product, and sum. This gives
+\[
+ aD\le\sum_\alpha\sum_j w_j|\xi_j^\alpha|^2
+ =\sum_j w_j\|e_j\|_2^2\le Mb,
+\]
+which proves the result. Equivalently, averaging over independently chosen Haar unit vectors in the $n$ coefficient factors gives covariance $I_D/D$ and the same trace bound. The finite basis sum avoids any integration assumption. $\square$
+
+The proof also applies to arbitrary decomposable measurement vectors, not only polynomial evaluations. It is related to the rank-one measurement obstruction for ordinary $\ell_2$ restricted isometry: Cai and Zhang (2015, Lemma~2.1, p.~109; P-B15) prove an ambient-dimension obstruction for their Gaussian matrix model and use a different $\ell_1$ measurement condition instead. The weighted tensor statement above is proved here directly; no priority claim is made. Any proposed purity sampler that uniformly approximates coefficient energy for all bounded-width ROABPs includes width one and therefore meets this barrier. The barrier concerns the quantitative two-sided energy requirement; it does not exclude hitting sets.
+
+\subsection{P-10: positivity alone, tensor-train kernels, and exact width-one sampling}
+\paragraph{Statement P-10.}
+Let $n,w\ge1$, $\delta\ge0$, and let $\mathcal T_w\subseteq\mathbb C^{(\delta+1)^n}$ be the cone of coefficient tensors whose consecutive prefix/suffix flattenings all have rank at most $w$, for a fixed variable order. Let $A_Hc=(f_c(\xi_j))_{j=1}^M$ and let all sampling weights be positive. The following are equivalent:
+\[
+\begin{gathered}
+ H\text{ hits every nonzero tensor in }\mathcal T_w;\\
+ \ker A_H\cap\mathcal T_w=\{0\};\qquad
+ \inf_{c\in\mathcal T_w,\,\|c\|_2=1}
+       \sum_jw_j|f_c(\xi_j)|^2>0.
+\end{gathered}
+ \tag{P10.1}
+\]
+The cone is exactly the coefficient class of width-at-most-$w$ ROABPs in that order. If $a$ and $b$ are the minimum and maximum sampled energies on its unit sphere, every such hitting set satisfies
+\[
+ \frac ba\ge\frac{(\delta+1)^n}{M}.
+ \tag{P10.2}
+\]
+If $q_w=\dim\mathcal T_w$, every complex hitting set has at least $q_w$ points, and a nonempty Zariski-open set of $q_w$-tuples of evaluation points consists of hitting sets. Moreover
+\[
+ q_w\le n(\delta+1)w^2.
+ \tag{P10.3}
+\]
+These last assertions establish existence, with integer choices possible, but do not provide an efficient deterministic construction or a coordinate-height bound.
+The same equivalences, energy bound, and exact generic cardinality $q_w$ hold for unknown variable order: replace $\mathcal T_w$ by the union of its images under all variable permutations.
+
+For width one there is an exact explicit answer over every field containing at least $n\delta+1$ elements: $n\delta+1$ distinct diagonal points $(t,\ldots,t)$ hit all nonzero products, and no set with at most $n\delta$ arbitrary evaluation points does so.
+\paragraph{Proof.}
+Flattening rank bounds are the vanishing of homogeneous minors, so $\mathcal T_w$ is closed. Rank factorization gives the standard tensor-train description. One way to see the converse explicitly is to let $U_i$ be the column space of the $i$th flattening. Then
+$U_i\subseteq U_{i-1}\otimes\mathbb C^{\delta+1}$: contractions in the remaining factors produce the columns, and the preceding left support contains each such contraction. Choosing bases in these spaces writes their inclusions as cores of sizes at most $w\times(\delta+1)\times w$, with one-dimensional boundary cores. Their contraction is the original coefficient tensor. Conversely every core contraction factors each prefix flattening through its bond space, giving the rank bound. This is the exact rank-factorization result of Oseledets (2011, Theorem~2.1, pp.~2298--2299; P-B17), restated for polynomial coefficients. Zero-padding the cores gives a surjective polynomial parameterization with at most $n(\delta+1)w^2$ parameters, proving (P10.3).
+
+The first two conditions in (P10.1) are identical by definition. With positive weights, a sampled energy vanishes exactly when all evaluations vanish. The intersection of the closed cone with the unit sphere is compact. Thus absence of a zero of the continuous energy function there is equivalent to a strictly positive minimum. Its maximum is finite as well. Since $\mathcal T_w$ contains all product tensors, P-09 gives (P10.2).
+
+For the generic assertion let $X=\mathbb P(\mathcal T_w)$, of dimension $q_w-1$. Imposing $M<q_w$ homogeneous linear equations on its affine cone leaves dimension at least $q_w-M\ge1$, by the principal ideal dimension bound; over $\mathbb C$ the common zero set therefore contains a nonzero tensor. This proves the lower bound. Evaluation hyperplanes have no common base point on $X$, because a nonzero polynomial is nonzero at some point of $\mathbb C^n$. At each step choose an evaluation hyperplane containing no irreducible component of the remaining projective intersection. Such a choice exists: for each of finitely many components, choose one nonzero coefficient point on it; its polynomial excludes a proper hypersurface of possible evaluation points. Intersecting with the chosen hyperplane lowers every positive component's dimension by one and removes all zero-dimensional components. After $q_w$ steps the intersection is empty. Finally the incidence subset
+\[
+ \{([c],\xi_1,\ldots,\xi_{q_w}):
+      [c]\in X,\ f_c(\xi_j)=0\text{ for all }j\}
+ \subseteq X\times(\mathbb A^n)^{q_w}
+\]
+is closed and its projection is closed because $X$ is projective. The choices just made show that this projected bad set is proper. Its complement is the asserted nonempty open set. Integer tuples are Zariski dense in affine complex space, so some integer choice lies in that open set. The argument does not bound how far one must search.
+
+For unknown order, the union $\bigcup_{\pi\in S_n}\pi\mathcal T_w$ is a finite union of closed cones of the same dimension $q_w$. It is therefore closed of dimension $q_w$, contains all product tensors, and has no common evaluation base point after projectivization. The compactness, dimension, and incidence arguments just given apply to this union unchanged. Although there are $n!$ possible orders, the existential number of generic evaluations remains $q_w$; no effective way to select them has been supplied.
+
+For the explicit width-one upper bound, the restriction
+$f(t,\ldots,t)=\prod_i p_i(t)$ is nonzero and has degree at most $n\delta$, hence cannot vanish at all $n\delta+1$ distinct scalars. For the lower bound, partition any collection of $M\le n\delta$ sample indices into $n$ sets $J_i$, each of size at most $\delta$, and set
+\[
+ f(x)=\prod_{i=1}^n\prod_{j\in J_i}(x_i-\xi_{j,i}).
+\]
+This is a nonzero product of monic univariate factors, has individual degree at most $\delta$, and vanishes at every listed point. Empty factors equal one. $\square$
+
+The width-one construction and dimension threshold agree with Parthasarathy's maximal completely entangled subspaces (2004, Propositions~1.3--1.4 and Theorem~1.5; P-B16). The kernel of the diagonal evaluation map is such a subspace of dimension $D-n\delta-1$. In this terminology ``completely entangled'' means precisely that the kernel contains no nonzero decomposable tensor; it is not a physical assumption on the polynomials. For larger tensor-train ranks, (P10.1) is the precise weaker gate. Proving positivity directly could avoid the exponential constant-distortion requirement, but generic existence and compactness do not construct that gate efficiently.
+
+\subsection{P-11: an explicit number-field point is already an unconditional hitting-set encoding}
+\paragraph{Statement P-11.}
+Let $\mathcal C\subseteq\mathbb Q[x_1,\ldots,x_n]$ have individual degree at most $\delta$. Suppose a common algebraic number $\theta$, polynomials $A_i(T)\in\mathbb Z[T]$ of degree at most $a$, and an integer $b\ne0$ are supplied such that
+\[
+ f\ne0,\ f\in\mathcal C\quad\Longrightarrow\quad
+ f\bigl(A_1(\theta)/b,\ldots,A_n(\theta)/b\bigr)\ne0.
+ \tag{P11.1}
+\]
+Put $d=n\delta$. The completely explicit integer set
+\[
+ H=\{(uA_1(t),\ldots,uA_n(t)):
+        0\le u\le d,\ 0\le t\le da\}
+ \tag{P11.2}
+\]
+hits $\mathcal C$ and has size at most $(d+1)(da+1)$. If $b=1$, the single grid $t=0,\ldots,da$ with $u=1$ suffices. These conclusions need no GRH, no discriminant bound, no coefficient-height bound on $f$, and no algorithm for arithmetic in $\mathbb Q(\theta)$.
+
+Conversely suppose an explicitly given integer hitting set $H_1,\ldots,H_M$, $M\ge1$, hits a class $\mathcal C\subseteq\mathbb Q[x]$ of total degree at most $d$. Polynomial-time interpolation and a prime $\ell>d(M-1)+1$ construct data as in (P11.1) with $\theta$ a primitive $\ell$th root of unity. The degree, coordinate degrees, coefficient bit lengths, and logarithmic discriminant are polynomial in $d,M$ and the bit lengths of the given points, choosing $\ell=O(d(M-1)+2)$. Thus the two explicit encodings are polynomially interconvertible over $\mathbb Q$.
+\paragraph{Proof.}
+For nonzero $f\in\mathcal C$, define
+\[
+ G_f(U,T)=f(UA_1(T),\ldots,UA_n(T)).
+\]
+It is nonzero, since its evaluation at $(U,T)=(1/b,\theta)$ is nonzero by hypothesis. Its separate degrees are at most $d$ in $U$ and $da$ in $T$. If it vanished on the entire rectangular grid in (P11.2), then, for each fixed $t$, univariate interpolation at the $d+1$ values of $u$ would force all its $U$-coefficients to vanish at $t$. Interpolation at the $da+1$ values of $t$ would then make every coefficient polynomial zero, a contradiction. When $b=1$, $G_f(1,T)$ is itself nonzero at $\theta$ and has degree at most $da$, proving the smaller bound. If $|\operatorname{coeff} A_i|\le2^K$, the coordinates in (P11.2) have bit length at most
+\[
+ K+\left\lceil\log_2(d+1)\right\rceil
+  +\left\lceil\log_2(a+1)\right\rceil
+  +a\left\lceil\log_2\max(1,da)\right\rceil+2,
+\]
+so polynomial input sizes give polynomial bit complexity as well as polynomial cardinality.
+
+For the reverse direction interpolate rational polynomials $a_i(T)$ of degree at most $M-1$ with $a_i(j)=H_{j+1,i}$ for $0\le j<M$. A common denominator $b=(M-1)!$ clears their coefficients, because each Lagrange denominator is $(-1)^{M-1-j}j!(M-1-j)!$, which divides $b$. Hence $A_i=ba_i$ are integral and have polynomial coefficient bit lengths; explicitly, if the coordinates of $H$ have absolute values at most $2^K$, the Lagrange product expansion gives coefficient bit length $O(K+M\log(M+1))$. For nonzero $f\in\mathcal C$, the polynomial $f(a_1(T),\ldots,a_n(T))$ is nonzero because it is nonzero at at least one interpolation node. Its degree is at most $d(M-1)$. Choose a prime $\ell>d(M-1)+1$, and let $\theta=\zeta_\ell$. Its minimal polynomial over $\mathbb Q$ is $\Phi_\ell(T)=1+T+\cdots+T^{\ell-1}$: irreducibility follows from Eisenstein applied after $T\mapsto T+1$. Its degree exceeds $d(M-1)$, so it cannot divide the nonzero rational polynomial above. This proves (P11.1). Bertrand's bound and trial division choose $\ell$ of the stated size. The polynomial discriminant has absolute value $\ell^{\ell-2}$: differentiate $(T^\ell-1)/(T-1)$ at its roots and use $\prod_{a=1}^{\ell-1}(1-\zeta_\ell^a)=\Phi_\ell(1)=\ell$ in the product of the derivatives. The field discriminant divides this order discriminant. On every conjugate of $\theta$, $|a_i(\theta)|$ is bounded by the sum of the absolute values of its coefficients. Thus all claimed representation and height bounds are polynomial. $\square$
+
+In particular, if a primitive-element presentation of a degree-$e$ number field is given with coordinate polynomials of degree below $e$, the remaining arithmetic gate is exactly the nonvanishing condition (P11.1), and P-11 uses $a\le e-1$. The argument does not assert that primitive-element coordinates of small degree and polynomial bit size can be obtained from an arbitrary implicit field description. It also does not extend the reverse direction to unrestricted complex coefficients: minimal-polynomial divisibility is a statement over $\mathbb Q$.
+
+There are concrete restricted encodings. For width-one products over $\mathbb Q$, take $\theta=\zeta_\ell$ with $\ell-1>\delta$ and every coordinate equal to $\theta$; no nonzero factor of degree at most $\delta$ vanishes there. This fails already for the width-two polynomial $x_1-x_2$ when $n\ge2$. P-07 provides an explicit integer hitting set of polynomial size and polynomial coordinate bit length for bounded sparsity, so the reverse construction gives a polynomial-degree cyclotomic encoding for that larger restricted class as well. These constructions do not give a new route to general ROABP PIT: they show exactly why supplying a common effective nonvanishing encoding has already supplied essentially the missing hitting set. The strictly prime-dependent encoding in P-08 need not have the explicit polynomial coordinate representation assumed here and is not covered by this simplification.
+
+\subsection{P-12: an explicit width-three algebraic point and trace-coordinate span map}
+\paragraph{Statement P-12.}
+Let $n,D\ge1$.  Let $\mathcal C_{3,n,D}$ consist of the rational-coefficient polynomials of total degree at most $D$ having a width-at-most-three ROABP in some variable order.  The order is not given.  Put
+\[
+ B=nD+1,\qquad N=B^{21},\qquad b=(n-1)!,\qquad
+ a=(n-1)B^{20}+B^{19}.
+\]
+For the nodes $0,\ldots,n-1$, let $\lambda_i$ be the Lagrange polynomial for node $i-1$, and define the explicit integer polynomials
+\[
+ A_i(T)=bT+
+    \sum_{j=1}^{10}T^{B^{2j-1}}\,
+       b\lambda_i\bigl(T^{B^{2j}}\bigr),
+       \qquad 1\le i\le n.
+ \tag{P12.1}
+\]
+Let $\theta$ be any root of $T^N-2$ and set $\alpha_i=A_i(\theta)$.  Then
+\[
+ 0\ne f\in\mathcal C_{3,n,D}\quad\Longrightarrow\quad
+ f(\alpha_1,\ldots,\alpha_n)\ne0.
+ \tag{P12.2}
+\]
+The common number field $E=\mathbb Q(\theta)$ has degree $N$, and
+\[
+ \log|\Delta_E|\le N\log N+(N-1)\log2.
+ \tag{P12.3}
+\]
+Every $A_i$ has degree at most $a$, at most $10n+1$ nonzero terms, and integer coefficients of bit length $O(n\log(n+1))$.  These data are constructible in time polynomial in $n,D$; the polynomial exponents are deliberately not optimized.
+
+There is also an explicit one-parameter zero bound, valid over every characteristic-zero coefficient field:
+\[
+ f\ne0\quad\Longrightarrow\quad
+ 0\ne f(A_1(T),\ldots,A_n(T)),\qquad
+ \deg f(A(T))\le Da<N.
+ \tag{P12.4}
+\]
+Consequently the integer points $A(t)$ for $0\le t\le Da$ form a hitting set of size at most $Da+1$, with polynomial coordinate bit lengths.  This is a concrete construction for width three, including arbitrarily many rank-two cuts.
+
+For a constant-boundary row product
+\[
+ R(x)=uA^{\rm mat}_1(x_{\sigma(1)})\cdots
+          A^{\rm mat}_n(x_{\sigma(n)})\in\mathbb Q[x]^{1\times3}
+\]
+whose entries have total degree at most $D$, let $V\subseteq\mathbb Q^3$ be its coefficient-row span.  Write
+\[
+ R(\alpha)=\sum_{k=0}^{N-1}\theta^k r_k.
+\]
+Then the explicit arithmetic evaluation preserves that span in the following exact sense:
+\[
+ V=\operatorname{span}_{\mathbb Q}\{r_k:0\le k<N\}
+  =\operatorname{span}_{\mathbb Q}
+       \{\operatorname{Tr}_{E/\mathbb Q}(\beta_k R(\alpha)):0\le k<N\},
+ \tag{P12.5}
+\]
+where
+\[
+ \beta_0=1/N,\qquad \beta_k=\theta^{N-k}/(2N)\quad(1\le k<N).
+\]
+The trace is applied entrywise.  The assertion concerns rational coefficient spans after expansion in the field basis, not the span of a single row over $E$.
+
+\paragraph{Proof.}
+The complete width-three rank-preservation proof in I-21 supplies the generator
+\[
+ G_i(t,\mathbf z,\mathbf y)=t+\sum_{j=1}^{10}z_j\lambda_i(y_j)
+\]
+for every variable order.  This is the specialized construction independently derived and checked from Liu's unrefereed rank-profile mechanism (2026, \S3.1, Theorem~3.2/Lemma~3.3 and \S3.2, Lemmas~3.4/3.6; P-B18).  I-21, rather than an assumption about the entire preprint, is the mathematical input here.
+
+For a nonzero $f$, first put $f_b(x)=f(bx_1,\ldots,bx_n)$.  The nonzero scalar $b$ preserves nonvanishing, degree, and the width-three representation.  Hence $f_b(G)$ is a nonzero polynomial in its twenty-one parameters.  Its degree in $t$ and in each amplitude $z_j$ is at most $D$, and its degree in each selector $y_j$ is at most $(n-1)D$.  All these individual degrees are strictly below $B$.
+
+Order the parameters as $t,z_1,y_1,\ldots,z_{10},y_{10}$ and substitute $T^{B^k}$ for the parameter in position $k$, starting with position zero.  Distinct parameter monomials have distinct resulting exponents, by uniqueness of base-$B$ expansion.  The substitution is therefore injective on the bounded-degree coefficient space.  Its value on $f_b(G)$ is precisely $f(A_1(T),\ldots,A_n(T))$, proving nonvanishing in (P12.4).  The same argument works over any characteristic-zero coefficient field.
+
+Formula (P12.1) gives degree at most $a$ for every coordinate, so the composition has degree at most $Da$.  Explicitly,
+\[
+ Da=B^{20}\bigl((n-1)D+D/B\bigr)
+      <B^{20}(nD)<B^{21}=N.
+\]
+The polynomial $T^N-2$ is Eisenstein at two and is consequently the minimal polynomial of $\theta$ over $\mathbb Q$.  A nonzero rational polynomial of degree below $N$ cannot vanish at $\theta$, proving (P12.2).
+
+The Lagrange denominator at node $i-1$ is
+$(-1)^{n-i}(i-1)!(n-i)!$, which divides $(n-1)!$.  Thus $b\lambda_i$ is integral.  Expansion of its linear factors bounds every coefficient by $(n!)^2$, a sufficient uniform bound including $n=1$; there are at most $n$ coefficients.  Distinct summands in (P12.1) have disjoint exponent patterns, except for zero coefficients, and give at most $10n+1$ terms.  This proves the stated degree, sparsity, and coefficient-size estimates.  Evaluation at the integers through $Da$ has coordinate bit length
+\[
+ O\bigl(n\log(n+1)+\log(10n+1)+a\log(Da+2)\bigr),
+\]
+which is polynomial in $n,D$.  The integer hitting claim follows from the univariate zero bound.
+
+The order $\mathbb Z[\theta]$ has discriminant of absolute value
+$N^N2^{N-1}$, obtained by multiplying the derivative values
+$N\theta_j^{N-1}$ over the $N$ roots of $T^N-2$.  The field discriminant divides the order discriminant by the square of the order index.  This proves (P12.3).  No discriminant estimate is needed for the nonvanishing proof itself.
+
+For the row-span assertion, the coefficients $r_k$ belong to $V$, because substitution and reduction in a rational basis take rational linear combinations of the original coefficient rows.  In fact the degree bound below $N$ means that no reduction is needed.  If their span were a proper subspace of $V$, there would be a rational column $v$ annihilating every $r_k$ but not every coefficient row of $R$.  The scalar polynomial $Rv$ would then be a nonzero member of $\mathcal C_{3,n,D}$ with $(Rv)(\alpha)=0$, contradicting (P12.2).  This proves the first equality in (P12.5).
+
+Finally $\operatorname{Tr}_{E/\mathbb Q}(\theta^j)=0$ when $j$ is not divisible by $N$, while the traces of $1$ and $\theta^N$ are $N$ and $2N$.  For $0\le j,k<N$ this gives
+$\operatorname{Tr}(\beta_k\theta^j)=\delta_{kj}$ directly.  Thus the displayed $\beta_k$ are the trace-dual basis, and the traces in (P12.5) equal the coefficient rows $r_k$.  $\square$
+
+The arithmetic trace here is the ordinary number-field trace.  This construction supplies the previously missing effective algebraic point for the width-three class through rank preservation.  It does not infer that point from Frobenius equidistribution or provide a bound polynomial in a variable width.  Evaluating a black box at $\alpha$ requires access over $E$; the integer curve points in (P12.4) give an alternative using rational or integer queries.  Quantitative positive coefficient-energy equivalence remains subject to P-09.
+
+\subsection{P-13: a general arithmetic encoding of a centered interpolation generator}
+\paragraph{Statement P-13.}
+Let $n,D,K\geq1$. Let $\mathcal C$ be a class of rational
+polynomials in $n$ variables of total degree at most $D$, closed
+under a common nonzero rational scaling of all variables.
+Use the Lagrange polynomials $\lambda_i$ for the integer nodes
+$0,\ldots,n-1$. Assume the following centered generator hits
+every nonzero member of $\mathcal C$:
+\[
+ G_i^{(K)}(t,\mathbf z,\mathbf y)
+       =t+\sum_{j=1}^Kz_j\lambda_i(y_j).
+ \tag{P13.1}
+\]
+Put
+\[
+ B=nD+1,\quad N_K=B^{2K+1},\quad b=(n-1)!,\quad
+ a_K=(n-1)B^{2K}+B^{2K-1},
+\]
+and define the explicit integer polynomials
+\[
+ A_i^{(K)}(T)=bT+\sum_{j=1}^{K}
+       T^{B^{2j-1}}\,b\lambda_i\bigl(T^{B^{2j}}\bigr).
+ \tag{P13.2}
+\]
+If $\theta_K$ is a root of $T^{N_K}-2$ and
+$\alpha_i^{(K)}=A_i^{(K)}(\theta_K)$, then
+\[
+ 0\ne f\in\mathcal C
+       \quad\Longrightarrow\quad f(\alpha^{(K)})\ne0.
+ \tag{P13.3}
+\]
+The common field has degree $N_K$, and
+\[
+ \log|\Delta_{\mathbb Q(\theta_K)}|
+       \leq N_K\log N_K+(N_K-1)\log2.
+ \tag{P13.4}
+\]
+Every coordinate in (P13.2) has degree at most $a_K$, at most
+$Kn+1$ terms, and integer coefficients of bit length
+$O(n\log(n+1))$. There is also a nonzero one-parameter
+restriction with an explicit degree bound:
+\[
+ 0\ne f\in\mathcal C
+   \quad\Longrightarrow\quad
+ 0\ne f(A^{(K)}(T)),\qquad
+ \deg f(A^{(K)}(T))\leq Da_K<N_K.
+ \tag{P13.5}
+\]
+Thus $A^{(K)}(t)$ for $0\leq t\leq Da_K$ is an explicit
+integer hitting set of size $Da_K+1$. Its coordinate bit lengths
+are at most
+\[
+ O\bigl(n\log(n+1)+\log(Kn+1)+a_K\log(Da_K+2)\bigr).
+ \tag{P13.6}
+\]
+For fixed $K$ all these numerical budgets are polynomial in
+$n,D$. The sparse coordinate formulas themselves have only
+$Kn+1$ terms per coordinate and exponent bit length
+$O(K\log(nD+1))$; this does not make arithmetic in the degree
+$N_K$ field polynomial in a variable $K$.
+
+More generally, let $R(x)\in\mathbb Q[x]^{1\times w}$ have
+entries of degree at most $D$, and suppose every nonzero scalar
+contraction $R(x)v$, for $v\in\mathbb Q^w$, belongs to
+$\mathcal C$. If $V$ is its rational coefficient-row span and
+\[
+ R(\alpha^{(K)})=\sum_{j=0}^{N_K-1}\theta_K^j r_j,
+\]
+then
+\[
+ V=\operatorname{span}_{\mathbb Q}\{r_j:0\leq j<N_K\}
+  =\operatorname{span}_{\mathbb Q}
+    \{\operatorname{Tr}(\beta_jR(\alpha^{(K)})):0\leq j<N_K\},
+ \tag{P13.7}
+\]
+where the trace is entrywise and
+\[
+ \beta_0=1/N_K,\qquad
+ \beta_j=\theta_K^{N_K-j}/(2N_K)\quad(1\leq j<N_K).
+\]
+
+\paragraph{Proof.}
+For $f\ne0$, the polynomial $f_b(x)=f(bx)$ is a nonzero member
+of $\mathcal C$. By the hypothesis, $f_b(G^{(K)})$ is nonzero.
+Its individual degrees are at most $D$ in $t$ and each $z_j$,
+and at most $(n-1)D$ in each $y_j$, all strictly below $B$.
+Send the $2K+1$ parameters, in the order
+$t,z_1,y_1,\ldots,z_K,y_K$, to
+$T,T^B,\ldots,T^{B^{2K}}$. Unique base-$B$ expansion makes
+the exponents of distinct parameter monomials distinct.
+The resulting nonzero polynomial is $f(A^{(K)}(T))$.
+Moreover
+\[
+ Da_K=B^{2K}\bigl((n-1)D+D/B\bigr)
+       <B^{2K}(nD)<B^{2K+1}=N_K.
+\]
+This includes $n=1$. Eisenstein's criterion at two shows that
+$T^{N_K}-2$ is the minimal polynomial of $\theta_K$ over
+$\mathbb Q$, proving (P13.3). The one-parameter nonvanishing
+argument also holds over any characteristic-zero coefficient
+field for which the same class-closure and generator hypotheses
+hold. The algebraic-point assertion (P13.3) is specifically over
+$\mathbb Q$.
+
+The denominator of $\lambda_i$ is
+$(-1)^{n-i}(i-1)!(n-i)!$, which divides $b$. Hence every
+$b\lambda_i$ is integral. Its coefficients have absolute values
+at most $(n!)^2$, and it has at most $n$ terms. The exponent
+patterns in (P13.2) are distinct by the same base-$B$ argument,
+giving the sparsity and coefficient-size bounds. The degree
+bound and ordinary integer evaluation prove (P13.6). The
+polynomial discriminant has absolute value
+$N_K^{N_K}2^{N_K-1}$, and the field discriminant divides it by
+the square of the order index; this proves (P13.4).
+
+Every expanded row coefficient $r_j$ is a rational combination
+of the original coefficient rows. In fact (P13.5) means no
+reduction modulo the minimal polynomial is needed. If their
+span were smaller than $V$, a rational annihilator column
+would produce a nonzero scalar contraction in $\mathcal C$
+vanishing at $\alpha^{(K)}$, contrary to (P13.3).
+Finally $\operatorname{Tr}(\theta_K^s)$ vanishes when $s$ is not
+divisible by $N_K$, while the traces of $1$ and $\theta_K^{N_K}$
+are $N_K$ and $2N_K$. Consequently
+$\operatorname{Tr}(\beta_j\theta_K^h)=\delta_{jh}$ for
+$0\leq j,h<N_K$. This proves (P13.7). $\square$
+
+\paragraph{Two proved specializations.}
+I-30 supplies the hypothesis for all rational width-at-most-three
+ROABPs in one hidden variable order with $K=6$. Therefore
+\[
+ N_6=(nD+1)^{13},\qquad
+ a_6=(n-1)(nD+1)^{12}+(nD+1)^{11}
+\]
+give a common algebraic point, an integer hitting curve, and exact
+coefficient-row-span recovery for that class. This improves the
+earlier valid twenty-one-parameter construction in P-12.
+
+For the promised width-$w$ class in I-29, whose internal interval
+ranks belong to $\{r,w\}$, put $c=w-r$. Its proved pair budget
+$K=2rc+w-1$ gives
+\[
+ N_K=(nD+1)^{4r(w-r)+2w-1}.
+\]
+Common variable scaling preserves these interval ranks, and
+changing the constant scalar output column does not alter the
+internal word. Thus both the scalar and coefficient-span
+hypotheses above hold. This supplies an actual arithmetic
+encoding for unboundedly many rank resets under that precise
+promise. Its field degree and evaluated hitting-set size are
+$(nD+1)^{O(w^2)}$, not polynomial in a growing width.
+
+These traces are ordinary number-field traces. No RH,
+equidistribution of Frobenius, or equivalence with positive coefficient
+energy enters the proof. Neither the parameter count nor
+the resulting field degree is asserted to be optimal.
+
