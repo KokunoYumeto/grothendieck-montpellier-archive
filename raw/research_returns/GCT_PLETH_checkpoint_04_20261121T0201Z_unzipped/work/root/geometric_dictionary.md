@@ -1,0 +1,213 @@
+# Separate algebraic-geometric restatements
+
+## The common exact transport
+
+Let \(E\) be a locally free sheaf of rank \(r\). Its frame torsor \(\operatorname{Isom}(\mathcal O^r,E)\) transports every equivariant polynomial map between the specified \(GL_r\)-modules to a natural map between associated locally free sheaves. The representation ring is the exact Grothendieck ring of the category of finite locally free representations; the class of an exterior power is the corresponding lambda operation. These are the constructions of SGA 3, Exposé I, Section 4.5 and Propositions 4.7.2--4.7.3, and SGA 6, Exposé VI, Theorem 3.3. The conjugation \(S^{\mathrm{int}}_\lambda=L_{\lambda'}\) used in A-012 fixes the integral Schur convention explicitly.
+
+The evaluation homomorphism from the free special lambda ring sends \(e_i\) to \([\Lambda^iE]\). In rank \(r\), it factors through \(e_{r+1},e_{r+2},\ldots=0\); determinant inversion gives the Laurent representation ring of \(GL_r\). The precise universal locators are SGA 6 V Proposition 4.2, Definition 4.4, Proposition 4.8, and Corollary 4.9. Composition of the resulting operations is the Schur-functor composition proved by the actual functorial maps in the preceding parts.
+
+Characteristic-zero averaging uses the idempotent \(|H|^{-1}\sum_{h\in H}h\). Its integral model is over \(\mathbb Z[1/|H|]\), a scheme over \(\mathbb Z\). Each additional rational presentation has finitely many coefficients and a finite Gröbner basis; invert the product of their denominators and leading coefficients. The resulting monic relations, module maps, and flat Gröbner family define the exact same generic-fiber construction over that localization. This construction specifies its base rather than silently extending an averaging argument across primes dividing its denominator.
+
+## Dictionary for every theta and positive-formula finding
+
+| Finding | Algebraic-geometric restatement and the map carrying the proof | Exact framework |
+|---|---|---|
+| T-001 | The complexification of the compact pair gives the polynomial algebra on \(E\otimes F\). Its two commuting group-scheme actions yield the Cauchy summands; the stated determinant square root records the oscillator pullback before its explicit removal. | SGA 3 I 4.5, 4.7.2; SGA 6 VI 3.3. |
+| T-002 | Extract the \((n^m)\)-graded summand of the diagonal-torus comodule and apply the constant \(S_m\) idempotent. This associated summand is exactly the multiplicity module of \(S_\lambda E\). | SGA 3 I 4.7.3; SGA 6 V 4.2. |
+| T-003 | Pull back the \(GL(S_\nu E)\) representation along its specified Schur-functor representation morphism; the wreath-group Hom is the equivalent tensor idempotent summand. | SGA 3 I 4.7.2; SGA 6 VI 3.3. |
+| T-004 | Interlacing patterns index the torus-graded Schur sheaf before the finite quotient; its Hilbert function is the stated weight multiplicity. | SGA 3 I 4.7.3. |
+| T-005 | Tensoring by \(\det^t F\) shifts the torus grading and restricts to \(\operatorname{sgn}^t\) on the permutation subgroup. This line-bundle isomorphism transports the precise projector. | SGA 3 I 4.5, 4.7.2; SGA 6 V 4.8--4.9. |
+| T-006 | The rank-two weight line is \(\det^j F\) times a balanced symmetric monomial; its swap scalar computes the invariant direct summand. | SGA 3 I 4.7.3; SGA 6 VI 3.3. |
+| T-007 | The even-row decomposition becomes the indicated equality of associated Schur-sheaf classes after the frame-torsor pullback. | SGA 6 VI 3.3. |
+| T-008 | Products of highest-weight sections in the stated integral-domain coordinate algebras give nonzero sections of the sum weight. This is the actual multiplication map proving support addition. | EGA I 9.5.1--9.5.3; SGA 3 I 4.7.2. |
+| T-009 | The specified stretching Hilbert function has the recorded period-six values; Ehrhart reciprocity contradicts the proposed homogeneous-polytope Hilbert function. It leaves the proved cellwise presentations intact. | EGA I 9.5.3; the exact Hilbert grading is specified in T-009. |
+| T-010 | The stable equality is an identity of Schur coefficients in the completed lambda ring; its transpose is the characteristic of the explicitly graded symmetric/exterior algebra \(\mathcal M_k\). | SGA 6 V 4.2, VI 3.3. |
+| T-011 | The integer arrays index Littlewood--Richardson multiplicity bases. Applying the associated-bundle construction identifies the same counts in each tensor product of Schur sheaves. | SGA 6 VI 3.3. |
+| T-012 | The width-five tensor factors, their finite exterior-cube table, and their glued LR arrays give the Hilbert components of \(\mathcal M_5\). | SGA 3 I 4.7.3; SGA 6 V 4.2. |
+| T-013 | The independently certified 156-character table and the displayed tensor-factor maps give the identical statement for \(\mathcal M_6\). | SGA 3 I 4.7.3; SGA 6 VI 3.3. |
+| T-014 | The specified products of highest-weight sections of the symmetric factors and degree-zero/one sections of the exterior factors give the claimed nonzero Schur-sheaf summand. | SGA 6 VI 3.3. |
+| T-015 | The historical endpoint check concerns the same graded Chow pullback as G-003; its parameter range is now contained in the cited Sra bound. | EGA I 9.5.2; M-001 source audit. |
+| T-016 | The cubic metric is a morphism of associated bundles; division of its adjugate by the square of the discriminant is regular by the proved divisor valuation. | EGA I 9.5.1--9.5.3; SGA 3 I 4.7.2. |
+| T-017 | Matrix coefficients identify the specified homogeneous-bundle sections on \(GL_7/(G_2\times\mu_3)\) with stabilizer invariants. The harmonic and Pieri proof computes their rank. | SGA 3 I 4.7.2. |
+| T-018 | Inclusion into the discriminant localization identifies extension with a nonnegative divisor valuation. The three polynomial highest sections generate the computed sector; their degrees are the polytope equations. | EGA I 9.5.3; SGA 3 I 4.7.3. |
+| T-019 | Differentiation of the degree-seven section is the stated equivariant bundle map. Multiplication with the metric, cometric, determinant and remaining factors gives the associated stable Schur components. | SGA 3 I 4.7.2; SGA 6 VI 3.3. |
+| T-020 | The filtration by order along the boundary divisor is the explicit regular-extension subspace of the homogeneous-bundle section space. | EGA I 9.5.1--9.5.3. |
+
+## Dictionary for the root constructions
+
+| Finding | Algebraic-geometric statement and proof transport | Exact framework |
+|---|---|---|
+| G-001 | The exact Pieri multiplication sequence restricts on its all-ones weight to the augmentation kernel of the permutation module; determinant tensoring gives the sign twist. Its constant \(A_5\) restriction proves the stated monomial-basis obstruction. | SGA 3 I 4.7.2--4.7.3. |
+| G-002 | The matrices are maps of free modules obtained from the two constant-group correspondences. Their determinantal ideals describe their rank strata; the Cauchy--Binet sum computes the same rank over the real generic fiber. | Stacks Project 07Z6, Lemmas 15.8.2 and 15.8.4; 05P8, Lemma 31.9.6. No unverified EGA Fitting locator is supplied. |
+| G-003 | The divided-power coordinate pullback defines the integral scheme image and its torsion-free, graded-free coordinate algebra. Its rational grading is the canonical-map image. Hilbert and Quot schemes represent the stated flat projective families. | EGA I Prop.9.5.1, Cor.9.5.2, Def.9.5.3, Prop.9.5.4; FGA Exp.221 Thms.3.1--3.2, after Prop.3.8. |
+| G-004 | The two rational Artin correspondences on a degree-two finite etale scheme have Frobenius eigenvalues \(1,-1\). The actual projector ranks are one and zero. | Weil II Defs.1.2.1--1.2.2, Variants 1.2.3--1.2.4, stability 1.2.5(i). |
+| G-005 | The tree marks and polytope coordinates are identical; the rank-two determinant line and frame-torsor map transport the known branching count to Schur-sheaf operations. | SGA 6 VI 3.3; SGA 3 I 4.7.3. |
+| G-006 | Binary factorization makes the Chow morphism dominant; its degreewise coordinate pullback is the specified canonical isomorphism. Natural Schur-functor decomposition carries every retained multiplicity map to any larger frame rank. | EGA I 9.5.2; SGA 6 VI 3.3. |
+| G-007 | Restriction to the constant \(S_3\) subgroup gives three trace values on the balanced torus summand. The three character idempotents give the displayed ranks in the representation Grothendieck ring. | SGA 3 I 4.7.2--4.7.3; SGA 6 V 4.2. |
+| G-008 | Exact quartic character certificates produce invariant sections; multiplication in their domain and the conjugation involution yield the displayed repeated-part Schur coefficients. | SGA 6 V 4.2, VI 3.3. |
+| G-009 | The successive affine flag, torus, and finite-group quotients have the explicitly presented invariant ring. A flat monomial degeneration preserves its Hilbert function; disjoint standard-monomial cells yield the bounded lattice sets. | SGA 3 I 4.7.2--4.7.3; EGA I 9.5.2--9.5.3. |
+| G-010 | Adjoining the symmetric algebra of the dual wreath representation gives its covariant module in auxiliary degree one. Graph elimination produces its exact graded presentation. | SGA 3 I 4.7.2; SGA 6 VI 3.3; EGA I 9.5.2. |
+| G-011 | The two finite-group correspondences act linearly over their common invariant ring; their image is a finite coherent module. The syzygy/elimination presentation and module degeneration compute each actual image rank. | EGA I 9.5.2; SGA 3 I 4.7.2. |
+| G-012 | The explicit flag quotient has two monic quadratic equations. Its four-element free module over the polynomial subring is the exact geometric source of the four polytopes. | SGA 3 I 4.7.3; EGA I 9.5.3. |
+
+## Dictionary for rectangular findings
+
+R-001 is the determinant line in the balanced Schur sheaf; its \(S_a\) restriction is the sign character to the stated power. R-002 identifies the contraction of the two normalized tensor projectors with the signed Latin-square count and with the Haar period, with all factorials retained. The finite scheme used in R-006 has one component per Latin square and the indicated sign function; its pushforward trace gives that same integer. These are constant finite-group schemes and their associated locally free sheaves, in SGA 3 I 4.7.2--4.7.3 and SGA 6 VI 3.3.
+
+R-003 restricts the specified wreath permutation representation and computes its exterior powers; the explicit comparison with the rectangular Kronecker summand is via those two functor multiplicities. R-004's indicator variables give a bijection between the cited rectangular-hook basis and a zero-one polytope. R-005 is the natural inner-degree multiplication map of sheaves, with its nonzero determinant pairing and highest-weight dimension. The coordinate-image transfer uses EGA I 9.5.2 and the exact BIP morphism cited in its proof.
+
+R-007 transports the two prime-adjacent integer congruences through the exact scalar and Haar identities of R-002, yielding the stated valuations in \(\mathbb Z_{(p)}\). R-008 works over that local base for its normalized tensors, then applies the rational central Schur projector to produce an actual preimage. R-009 uses the graded algebra morphism induced by the Chow multiplication map; its product equality persists under the frame-torsor transport. R-010 is an explicit differential-operator map on the polynomial coordinate sheaf, with its written kernel vectors. These are the same maps of SGA 3 representations and EGA I scheme images, rather than dimension comparisons used in place of maps.
+
+## Dictionary for every archive finding
+
+| Finding and archive locus | Exact transported statement | Locator |
+|---|---|---|
+| A-001, 133/019 | The Burnside ring marks, rank map, and signed permutation linearization compute the displayed discrepancy; exterior/symmetric operations remain the exact-K0 operations. | SGA 6 V 2.1, 2.2.1, VI 3.3. |
+| A-002, 133/006 | The rank augmentation on strict quadratic spaces in characteristic two makes the proposed exterior-square rank impossible. | Archive definition; SGA 6 V 2.1 fixes the pre-lambda identities tested. |
+| A-003, 133/006 | The displayed quotient from split orthogonal group completion to the metabolic Grothendieck--Witt ring kills the computed nonzero Adams defect. The forgetful maps specify both K0 targets. | Zibrowius 2015 Def.1.2 and main theorem; SGA 6 V 2.4.1 for the identity tested. |
+| A-004, 133/008 | The written bilinear isometry identifies \(q\perp(-q)\) with a hyperbolic bundle after inverting two. The characteristic-two group-scheme representation gives the precise failure of the proposed relation. | SGA 3 I 4.7.2; archive 133/008. |
+| A-005, 133/008 | The natural tensor/hyperbolic isometry proves the ideal statement; the computed exterior-square image proves failure of descent through the indicated Witt quotient. | SGA 6 V 2.1; archive quotient map. |
+| A-006, 133/009 | The cited injective etale-cohomology pullback to a splitting space transports the root formulas. The real Kummer class is the explicit obstruction to the struck-out descent. | Zibrowius gamma paper Prop.3.3; SGA 6 V 3.2--3.4, 3.10. |
+| A-007, 133/028 | The tensor-power operation and Young induction product give the exact virtual equality; the rank-two Adams example computes the failure of an effective-summand reading. | SGA 6 V 4.2 and VI 3.3; integral completion A-012. |
+| A-008, 43/037 | The series involution \(f(t)\mapsto f(-t)^{-1}\) transports the Witt conventions, with the stated Frobenius/Verschiebung identities and ghost maps. | Archive 43/037; SGA 6 V 3.2--3.4 for the related lambda-series substitution. |
+| A-009, 2/017 | Restriction is pullback of representations, induction is the explicit coset tensor construction, and the written map proves projection. The coinvariant example computes loss of local freeness for an arbitrary group map. | SGA 3 I 4.7.2; SGA 6 VI 3.3. |
+| A-010, 133 and SGA 6 | The free-lambda evaluation, rank-r quotient and determinant localization are the actual universal homomorphisms; the gamma substitution computes the rank-kernel filtration. | SGA 6 V 4.2, 4.4, 4.8--4.9; V 3.2--3.4, 3.10; VI 3.3. |
+| A-011, 89/018 | The exterior pairing is a morphism of rank-two locally free sheaves; the displayed reconstruction is equivalent to the zero-sum relation under its explicitly proved nondegeneracy. | SGA 3 I 4.5; archive 89/018. |
+| A-012, 133/028 | The integral Cauchy filtration is equivariant and compatible with base change. Three exact torus weight extractions give the tensor identity in the declared exact equivariant K0 on every commutatively ringed topos. | ABW II.2.16 and III.1.4; SGA 3 I 4.7.3; SGA 6 VI 3.3. |
+
+The motivic and Lefschetz expressions on the remaining archive fragments require their own definitions before a scheme or realization map can be written. They are recorded in the unresolved part; the proved Artin example G-004 supplies an actual motive and projector in its stated scope.
+
+## Additional explicit dictionaries for the small presentations and the uniform end-row family
+
+| Finding | Restatement in schemes, comodules, or Schur operations, with the proof-carrying map | Framework locator |
+|---|---|---|
+| T-021 | Pullback of the coefficients of a product of four binary linear forms sends the quartic coefficient \(x_i\) to \(\binom4i^{-1}\sum_{|I|=i}\prod_{j\in I}b_j\prod_{j\notin I}a_j\). The resulting highest-weight coordinate algebra is the stated kernel of the locally nilpotent derivation, presented by \(T^2+4H^3-f^2HI+f^3J=0\). The localization and modulo-\(f\) injection in the proof establish the actual scheme-coordinate isomorphism. | EGA I 9.5.1–9.5.3; SGA 3 I 4.7.2. |
+| T-022 | The monic equation gives a free module with basis \(1,T\) over \(\mathbf Q[f,H,I,J]\). Its two degree equations are exactly the two polytope systems, so the Schur coefficient is the corresponding graded rank. | SGA 3 I 4.7.3; SGA 6 VI 3.3. |
+| T-023 | The specified weighted initial monomials define a subalgebra degeneration with the proved semigroup basis; the cusp equation is its initial relation. The exact basis correspondence proves flatness over the degeneration parameter and preserves each multigraded rank. | EGA I 9.5.3; the Rees construction and monomial independence are proved in T-023. |
+| T-024 | The flag-face map is the affine incidence morphism with coordinates \(x_i,y_i,z\), relation \(\sum x_iy_i=0\), and determinant-one torus quotient \(\mathbf Q[u,v,z,t_i]/(\sum t_i,uv-\prod t_i)\). Literal row permutations give the recorded signed action. The dense incidence chart proves the kernel, rather than inferring an algebra from equal dimensions. | SGA 3 I 4.7.2–4.7.3; EGA I 9.5.2–9.5.3. |
+| T-025 | The alternating-group quotient is a quadratic discriminant algebra with basis \(1,D\). Taking the remaining involution's eigenspaces selects the written parity of the standard monomials. Their weight equations reduce bijectively to \(\sum_{i=2}^m ic_i=R\), giving the indicated Schur-sheaf multiplicity and its exact support. | SGA 3 I 4.7.3; SGA 6 V 4.2 and VI 3.3. |
+| T-026 | The weighted discriminant relation gives a monic quadratic Rees family, free with basis \(1,D\). The explicit rational rescaling turns the special fiber into the displayed binomial semigroup algebra. Taking the diagonal order-two invariants preserves the written parity basis and flatness over the localized integral base. | EGA I 9.5.3; SGA 3 I 4.7.2. |
+| T-027 | Multiplication by \(u^{(n-\beta)_+}v^{(\beta-n)_+}z^\gamma\) identifies the balanced comodule with \(\operatorname{sgn}^{\beta}\otimes\operatorname{Sym}^{S}\mathfrak h_m\), where \(\mathfrak h_m\) is the quotient of the permutation bundle by its constant line. Taking the \([\mu]\)-covariant summand and computing its cycle traces gives the tableau generating function. | SGA 3 I 4.7.2–4.7.3; SGA 6 VI 3.3. |
+| T-028 | The assignment matrix, descent variables, and partition variables have a proved one-to-one correspondence with the tableaux and partitions in that character formula. Hence the same covariant module has rank equal to the one explicitly described lattice count. The minimum and next graded terms yield the exact support criterion. | SGA 3 I 4.7.3; SGA 6 V 4.2. |
+| T-029 | Each partial-flag face is an affine graded subalgebra. Inverting its invariant product of selected minors produces an explicit Laurent-polynomial algebra over its torus quotient. Its dimension, and the restriction of a finite homogeneous normalization to every face, force the negative integer \(c_{\{1,2,m-1\}}=2-m\). Thus the specified finite polynomial-subalgebra morphism cannot exist for the full highest-weight grading. | EGA I 9.5.3 for the affine algebra correspondence; SGA 3 I 4.7.3 for torus comodules; all dimension and face arguments are proved in T-029. |
+| T-030 | The \(\omega_2\) face is the Plücker quadric. Its torus quotient is the trace-free matching plane with a determinant coordinate; the quotient homomorphism \(S_4\to S_3\) and the displayed alternating-form intertwiner identify every outer character. Its invariant affine scheme has equation \(27W^2+Z(D^2+4e^3)=0\). | SGA 3 I 4.7.2–4.7.3; SGA 6 VI 3.3; EGA I 9.5.3. |
+| T-031 | Complementary-column exterior multiplication gives the perfect pairing into \(\det^H\); it transports the finite permutation projector with the exact sign twist. Multiplication by \(\prod_{i<j}[ij]\) gives the binary exterior-to-symmetric sheaf isomorphism, including determinant power \(\binom m2\). These two morphisms carry the proper-face formulas to the quartic presentation. | SGA 3 I 4.5 and 4.7.2; SGA 6 VI 3.3. |
+
+## Additional dictionaries for canonical images and rectangular comparisons
+
+**G-013.** The affine diagram \(j\Pi_a=\Pi_b\iota\) is defined by multiplication of forms and appending fixed basis forms. Its coordinate pullback is precisely \(h_{b,a}\operatorname{Sym}^b(j^*)=\iota^*h_{b,b}\). Block determinant evaluation takes the normalized square section to \(I_{a,b}\). Multiplication in the image coordinate ring then realizes every printed seed expression. The Apéry paths specify the exponents of actual preimage sections. The rational denominators specify a localization of \(\mathbf Z\) for each section. This is the scheme-image construction of EGA I 9.5.1–9.5.4 and the associated-representation construction of SGA 3 I 4.7.2; its Schur coefficient lies in the representation \(K_0\) of SGA 6 VI 3.3.
+
+**G-014.** On the principal open where the pure-power Chow coefficient is invertible, the ordered-factor coordinates give the multisymmetric chart. The polynomial identity \(\mu_a(C_\beta)=uE_\beta\) and the degree-tracked homogenization prove equality of the image and normalization on each component with \(an-\lambda_1\le n\). This is a precise graded coordinate-ring statement; applying the Schur coefficient functional gives the canonical-map rank. The adjoint tensor projections give the stated isomorphism on the common first-row range. The relevant affine and representation locators are EGA I 9.5.2–9.5.3, SGA 3 I 4.7.2–4.7.3, and SGA 6 VI 3.3.
+
+**R-011, R-012, and R-015.** Each common-polarization operator is a natural morphism of polynomial representation bundles. Its integer highest-weight presentation is specified by flag-minor Reynolds vectors. A nonzero minor of its evaluated image matrix modulo the displayed prime is a nonzero integral minor and therefore proves the asserted generic-fiber injectivity. The certificate lists every source multiplicity, so the argument covers the entire source functor. In the language of determinantal ideals, these computations exhibit the required nonzero minors of each finite multiplicity map; the exact general locators are Stacks 07Z6, Lemmas 15.8.2 and 15.8.4, and 05P8, Lemma 31.9.6. The bundle transport is SGA 3 I 4.7.2.
+
+**R-013.** The morphism \(\nu_{L,b}:(\ell,q)\mapsto\ell^Lq\) is an integral affine-scheme morphism. Its degree-\(r\) coordinate pullback equals \(\binom bL^{-r}T_{r,L,b}\) over \(\mathbf Q\), with the scalar proved on pure products. The kernel is the degree-\(r\) ideal of the scheme image by EGA I 9.5.2. Multiplication in the ambient polynomial domain transports the certified vanishing to every lower degree. The cited Kadish–Landsberg Theorem 1.7 and its section 3 proof provide the known geometric map; the stated finite boundary kernels and scalar convention are evaluated here.
+
+**R-014.** Padding and determinant realization give the actual inclusion \(\Gamma_n^M\hookrightarrow\mathrm{Det}_M\), hence the equivariant surjection of coordinate rings. The cited highest-weight padding injection and the stable rectangular-Kronecker identification transport this through the finite chain written in R-014. The end-row lattice count then gives an explicit effective lower bound in the representation Grothendieck group. The geometric framework is EGA I 9.5.2 and SGA 3 I 4.7.2, with the exact Ikenmeyer–Panova locators Proposition 2.6(b), Lemma 2.7, Proposition 2.8, and Theorem 2.1.
+
+## Additional dictionaries for the recovered archive statements
+
+| Finding and archive locus | Geometric or exact-K0 restatement and the actual comparison | Exact locator |
+|---|---|---|
+| A-013, 133/024–029 and supplied study | Injection powers and kernel partitions give explicit isomorphisms of finite-set-valued functors; composition and finite limits are computed by the written maps. The two-copy constant functor evaluated at a singleton disproves the single-power summand assertion. Applying the constant finite-scheme functor preserves the specified maps and products. | Archive 133/024–029; SGA 3 I 4.5 for the associated constant actions. |
+| A-014, 4/007 | The two chain maps between the de Rham complex and \(\mathcal O\) have Frobenius composites. Passing to the Fitting-stable images gives their stated inverse. On a finite free Witt-vector lattice, Hensel separation of unit roots computes the stable reduction. The crystalline freeness and algebraicity inputs explicitly admitted in the original pages remain the exact application gates. | Original cote4, PDF pp3–7, §§8.3–8.5; Weil II 1.2.1–1.2.5 gives the weight terminology, not those missing crystalline inputs. |
+| A-015, 133/006 | The integral universal iterate polynomial is evaluated on the concrete modular orthogonal representation. Its nonzero defect in the split group completion maps to zero under the specified metabolic quotient. | SGA 6 V 2.4.1, 2.4.2; archive category and quotient in A-003. |
+| A-016, 16/038 | On the explicitly defined graded primitive-string modules, restriction and pushforward act by truncation and shift. The corrected projector identities hold on every displayed basis vector. For \(\mathbf P^1\) and a point, the actual cohomological maps refute the source's final projected equality. No algebraic-motivic realization of an unstated lowering operator is inferred. | Original cote16 PDF pp33–38; SGA 5 III 3.1–3.3 for the correspondence-to-cohomology construction. |
+| A-017, 79/051 | Exterior multiplication of a rank-two \(\mathbf Z/n\)-module descends through the sign quotient. The identity \(\Lambda^2(a\,\mathrm{id})=a^2\mathrm{id}\) transports edge and face types. The wedge tests and the \(n=4\) calculation prove the stated recovery maps. These finite sets and maps may be represented as constant finite schemes; the reconstruction from one unlabeled complex remains separately recorded. | Original cote79 PDF pp47–51, (114)–(127); SGA 3 I 4.5 and 4.7.2. |
+| A-018, 43/037 | A morphism from \(\operatorname{Spec}\mathbf Z[a_1,a_2,\ldots]\) depends on finitely many coordinates of each target function. Pullback along products of the universal line series sends \(a_i\) to the elementary symmetric polynomial \(e_i\); its proved injectivity forces equality of the two affine group-scheme morphisms. | Archive 43/037; EGA I 9.5.3 for the affine coordinate dictionary; SGA 6 V 4.2 for the universal symmetric-operation algebra. |
+| A-019, 133/008 | The hyperbolic summand has a nonsingular polar form in every characteristic. The cited field cancellation isometry removes that actual summand and identifies the remaining form with the hyperbolic form of the dimension difference. | Elman–Karpenko–Merkurjev §8, Lemma 8.2 and Theorems 8.3–8.4, pp47–48; archive 133/008. |
+| A-020, 133/028–029 study | The composition-factor homomorphism identifies exact \(G_0\) over \(\mathbf F_p\) with the free group on the absolutely simple modules. The decomposition matrix relates the Specht reductions to the simple labels; its rank at degree \(p\) is the proved modular obstruction to a polynomial induction ring on all \(\rho_i\). | James Theorem 11.5, p40; Corollaries 12.2–12.3, pp42–43; SGA 6 VI 3.3 for exact representation K0. |
+| A-021, 133/028–029 study | Rationalization of finite locally free representations over a characteristic-zero DVR induces an isomorphism of exact representation groups, proved through the torsion boundary and commensurable lattices. It commutes with the actual tensor and induction functors, yielding the stated polynomial graded ring. | James 8.4, 8.6–8.11, 11.5, 12.2–12.3; SGA 3 I 4.7.2; SGA 6 VI 3.3. |
+| A-022, 133/009 and study | The nonisotropic-line pullback is injective on mod2 étale cohomology. Its actual symmetric-line summand and Kummer connecting map give \(w_2(H(L))=\bar c_1(L)\). The iterated splitting and Whitney product yield the displayed general hyperbolic formula in the proved scheme scope. | EKV Lemma 5.3 and Proposition 5.5, pp181–184; Zibrowius gamma paper Proposition 3.3, pp19–20; SGA 6 V §3 for the gamma-filtration comparison. |
+| A-023, 133/028–029 study | Over the explicit local scheme \(\operatorname{Spec}(\mathbf Z_{(2)}[\varepsilon]/(2\varepsilon,\varepsilon^2))\), the rank-one constant-\(C_2\) comodule has character \(1+\varepsilon\). The determinant functor on exact sequences detects its class outside the subgroup generated by the two degree-two \(\rho\)-monomials. Rational base change kills \(\varepsilon\), so the exhibited class difference also lies in the kernel of rationalization. | SGA 3 I 4.7.2 for constant-group comodules; SGA 6 VI 3.3 for the exact representation group; the complete ring and determinant calculation is A-023. |
+
+## Étale and correspondence locators used in the transport
+
+For A-009, SGA 4, Exposé IV, **4.5.1** gives the restriction and induction morphisms of classifying topoi induced by a group homomorphism; **4.5.2** records the profinite version. The explicit coset tensor map in A-009 is the corresponding locally free representation calculation. These passages were opened and read, rather than inferred from the title of the exposé.
+
+For G-004 and the realized cohomological examples of A-016, SGA 5, Exposé III, **3.1**, equations **(3.1.1)–(3.1.3)**, defines a cohomological correspondence; **3.2(b)(i)–(ii)** gives the diagonal and Frobenius-graph examples; **3.3**, equation **(3.3.3)**, gives its action on cohomology. The Artin projectors of G-004 are \((1\pm F)/2\) after passing to rational \(\ell\)-adic coefficients. Their finite étale realization and weight-zero eigenvalues are explicit. The projectors' ranks follow from the action on that two-dimensional space; no mod2 projector with denominator two is asserted.
+
+## Exact dictionaries for the general chart, chamber sheaves, and truncation
+
+**T-032.** The balanced diagonal-torus comodule algebra is localized at the explicit invariant section \(u=\prod x_i\). Its coordinate homomorphism sends each flag minor to \(u\mathbf1\wedge\bar w_2\wedge\cdots\), and the prescribed centered-matrix construction proves the inverse on the principal open. The extension subspace is the ideal-divisibility condition \(u^k\mid F(v(X))\) in the original affine coordinate ring. This is an explicit isomorphism of affine schemes with constant symmetric-group action (EGA I 9.5.3; SGA 3 I 4.7.2–4.7.3). Its Schur-coefficient functor is the corresponding exact representation-group functional in SGA 6 VI 3.3.
+
+**T-033–T-034.** The homomorphism \(S_4\to SO(W)\), with \(W=\mathfrak h_4\otimes\operatorname{sgn}\), is specified by the invariant form and determinant-one row-permutation action. Restriction of the Schur comodule, the harmonic quotient by that form, and the explicit five character projectors give the finite polynomial counts. The complementary-column pairing transports the upper chamber with its computed determinant character. These are restriction and direct-summand morphisms of the SGA 3 I 4.7.2 representation category; their graded classes and exterior determinant operations are those of SGA 6 VI 3.3. The Elliott character calculation is proved in full in T-033, including the required intertwining action.
+
+**T-035–T-036.** The affine incidence presentation yields the flag scheme \(\mathcal F\subset\mathbf P(W)\times\mathbf P(W)\) and its projective-line-bundle morphism \(\pi\). The exact coordinate equations identify each original divisor valuation with the order in the pulled-back ideal of one of four specified points. Thus the balanced comodule is the global-section representation of \(\pi^*\mathcal I_Z^k\otimes\mathcal O(c,b)\), with the printed determinant character. The two-quadric ideal resolution and the tautological quotient sequence calculate those sections, including the nonzero first-cohomology summand in T-036. The group-equivariant splitting is obtained by averaging an actual linear projection. These affine, ideal-sheaf, and locally free sheaf maps provide the full geometric restatement; the associated representation and K0 maps are SGA 3 I 4.7.2 and SGA 6 VI 3.3.
+
+**R-016.** The normalized pullback of R-013 identifies each of the three computed kernels with the degree component of the ideal sheaf of the padded-form scheme image. Every source summand is listed; the selected nonzero minors prove the ranks and the displayed determinant polynomial supplies the entire missing irreducible summand. The scheme-image interpretation is EGA I 9.5.2, with the same determinantal-ideal maps already specified for R-015.
+
+**R-017–R-018.** Separate homogenization and first-coordinate restriction are inverse maps between the indicated degree-bounded polynomial spaces. Coefficient extraction becomes the explicitly diagonal truncation operator with weights \(\prod_i\binom{b-d_i}{L}\). The flag-minor generators bound each block degree by the second row. Inverting those actual nonzero weights proves injectivity on the specified entire Schur-isotypic components, and applying each finite-group projector preserves it. Via R-013 this is the vanishing of precisely the indicated graded ideal components of the padded-form scheme image. These are equivariant coordinate-sheaf maps under EGA I 9.5.2–9.5.3 and SGA 3 I 4.7.2–4.7.3; their exact Schur operations lie in SGA 6 VI 3.3.
+
+## Five-point modules and the complete four-point formula
+
+**T-037.** The exact four-point incidence quotient is free over the polynomial algebra of its two quadratic generators through the averaged multiplication section. The two-quadric power resolution and tautological quotient sequence identify ordinary powers with the required flag sections in the proved degree range; the boundary correction is the displayed connecting cohomology module. The explicit complementary pairing and sign twist transport the resulting positive modules to every balanced Schur weight. These are ideal-sheaf, associated-bundle and exact-representation maps in EGA I 9.5.1–9.5.3, SGA 3 I 4.7.2–4.7.3 and SGA 6 VI 3.3.
+
+**G-015–G-016.** The general balanced chart identifies extension across each original coordinate divisor with the ordinary power of a smooth flag fiber's ideal. Its leading normal ratios are independent over the fiber function field, including every higher Plücker frame. The point-ideal generators and canonical affine evaluation maps identify the saturated projective-frame scheme and its actual permutation quotient. The schemes and coordinate maps are the EGA I 9.5.1–9.5.3 constructions; the linearized flag line bundle is transported by the SGA 3 associated-bundle map, and its Schur class is the SGA 6 VI 3.3 operation. The exact Schur/section locator used is Magyar, Proposition1 pp5–6 and Proposition4(a)–(c) p10.
+
+**T-038, A-028–A-029.** The five-point ideal has the written equivariant alternating resolution. Its actual quadratic image is the displayed cubic hypersurface, with the precise six-letter intertwiner. The Cox comparison sends exceptional sections and each Plücker bracket by (Cox.1), and identifies every Picard-graded section by the normal-order calculation. The ordinary Rees map is the specified inclusion into that Cox ring. Applied Kustin–Polini–Ulrich formula6.1.4 and Lemma6.3/Corollary6.4 give the linear-power complexes after every local hypothesis is checked. Saturation and cohomology follow from those complexes. These are concrete graded scheme and coherent-sheaf morphisms under EGA I 9.5.1–9.5.3; the flat-family Hilbert/Quot interpretation is FGA Exposé221 Theorems3.1–3.2. No new generic-position assertion is used.
+
+**G-017.** The polynomial matrix (Q.9) presents the actual quotient-bundle section module. Its determinant, adjugate and generic evaluation prove an injection; the established ideal-power cohomology proves surjectivity degree by degree. Four explicit invariant parameters are regular by the determinant argument, and averaging a graded section gives the actual free multiplication isomorphism (Q.21). The corresponding coefficient is the constant-group covariant summand of the geometric module, carried by G-015 and T-003. The exact K0 operation is SGA6 VI3.3, and all determinant dualities are specified exterior pairings of locally free sheaves.
+
+**G-018.** The dual tautological inclusion and linear multiplication identify the exterior quotient module with the concrete kernel (W.6). Stabilizer-invariant affine charts give the entire fat-point jet action, including its line-bundle trivialization. The finite Newton count is the exact rational character identity of that kernel. The EGA coherent sheaf, SGA3 comodule and SGA6 exterior-operation maps are precisely those just specified.
+
+**G-019 and T-039.** The symmetric quotient sequence (SQ.4) is locally split before tensoring the ideal. Its global cohomology gives the exact representation-K0 formula, including the one nonzero connecting term at point order1. Relative exterior pairings give the determinant character in (SQ.3). Its fixed bivariate positive formula therefore computes Schur-operation multiplicities of actual ideal-twisted flag sections. The transport uses SGA3 I4.7.2–4.7.3 and SGA6 V4.2,4.4,4.8–4.9,VI3.3, with the projective-family interpretation of FGA221 Theorems3.1–3.2.
+
+**T-040.** The degree-one Rees component has the explicit B-matrix resolution. The tautological inclusion into its tensor product with E gives the displayed quotient, whose full free resolution is verified by the rank-three reduction modulo the cubic. This supplies the actual module behind the positive residue formula. Its four-parameter obstruction is proved by the exact multiplication-sequence Hilbert series, which would have a negative finite quotient coefficient. The ordinary-power, saturation and quotient maps specify the geometric comparison.
+
+**T-041.** The hook Schur functor is the kernel of the split symmetric multiplication map. The explicit two-step tautological hook resolution and its top-Cech identity prove all needed cohomology groups. Multiplication by the five quadrics is the actual section isomorphism (5H.12). These kernel, exterior-complement and symmetric operations are the locally free Schur operations transported in SGA6 VI3.3.
+
+## Further actual canonical-image dictionaries
+
+**R-019–R-020.** Complementary column pairings identify the entire first-row source band with a multilinear symmetric-group component. The explicit cofactor highest vector and nonzero coefficient prove the actual polarization rank. Through the padded-form scheme-image map R-013, this removes precisely those graded ideal components. The transport is the EGA I9.5.2 scheme-image coordinate map and the SGA3/SGA6 associated Schur-sheaf map.
+
+**R-021.** The block specialization and multiplication in the graded Chow coordinate algebra carry prime-adjacent square determinant preimages to every stated rectangular and row-extended preimage. Nagura's exact prime interval determines the nonnegative exponents. Thus the nonzero coordinate section is in the actual canonical image; its determinant and highest-weight lines are the specified Schur operations in SGA6 VI3.3.
+
+**R-022–R-024.** Normalized last-slot polarization sends the Chow image annihilator into the exact common-polarization kernel or into the lower-degree annihilator via (P.11). Slot transvections prove the rectangular prolongation equality, and the actual determinant preimage removes that summand. The two Pieri inclusions then prove the stated whole-isotypic vanishing of the graded ideal, including every multiplicity. These are maps of coordinate modules of the scheme image in EGA I9.5.2, transported to associated Schur sheaves by SGA3 I4.7.2 and SGA6 VI3.3. The degreewise minors give their rank strata as in the G-002 determinantal dictionary.
+
+## All nonnegative five-point twists and the next canonical components
+
+**G-020, T-042–T-043.** The locally split symmetric or hook quotient
+complex, tensored with the specified ordinary ideal power, computes
+its actual direct-image representation including every low-degree
+cohomology term. The exact fat-point evaluation identifies each class
+trace. The residue constants are therefore Schur-operation coefficients
+of the displayed sheaf classes, and the subset-chain bijections convert
+them into positive lattice counts. Their map locators are SGA 3 I
+4.7.2–4.7.3, SGA 6 V 4.2,4.4,4.8–4.9 and VI 3.3; the underlying
+coordinate and ideal morphisms are EGA I 9.5.1–9.5.3. Relative exterior
+pairings specify every determinant character. The FGA Exposé221,
+Theorems3.1–3.2 interpretation uses the same finite graded modules in
+families, with the denominators of the characteristic-zero projectors
+retained.
+
+**G-021.** The signed tensor differential (S.1) and the rational Young
+idempotent define an actual complex of locally free sheaves. The
+specified rational intertwiners identify its terms with the three Schur
+bundles in (TR.5), and the averaged local contraction proves exactness
+after ideal tensor. Its derived direct image is concentrated in degree
+zero in the proved range. Thus (TR.8) is its class in the exact
+representation group of SGA 6 VI 3.3, transported by the frame torsor
+of SGA 3 I 4.5,4.7.2. The exact Schur-section dictionary is Magyar,
+Propositions1 and4, with the relative dual pairing in (TR.3). The
+finite coefficientwise inequalities and polytope bijections calculate
+this same class; they introduce no unstated realization functor.
+The multiplication by \(u^e\) and perfect exterior pairing (TR.19)
+carry the result to both outside regions. These are concrete maps of
+the EGA I 9.5.3 coordinate representations. In the archive language,
+they evaluate the Schur compositions and tensor operations of cote133,
+scans024–029, through the universal operation map of A-010 and A-012.
+
+**R-025–R-026.** The determinant and signed cofactor formulas are
+integral highest sections in the ordered-factor coordinate ring. Their
+specified column averages descend to symmetric sections. The exterior
+complement pairing computes the entire one-dimensional Schur
+multiplicity space. Normalized slot splitting and coefficient
+polarization send the actual scheme-image annihilator into the lower
+common kernel. The nonzero factorial coefficients, including the exact
+apolar differential pairing in BS.28–31, exclude the unique indicated
+component from that annihilator. Hence these are computed ranks of the
+graded coordinate-image morphism in EGA I 9.5.2, and positive Schur
+summands in its SGA 6 VI 3.3 representation class. Scalar extension in
+the endpoint uses the injective field map to the displayed splitting
+field and is explicitly reflected in its integral polynomial identity.
