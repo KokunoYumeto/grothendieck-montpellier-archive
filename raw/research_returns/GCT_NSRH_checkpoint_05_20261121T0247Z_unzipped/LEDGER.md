@@ -1,0 +1,194 @@
+# Dated research ledger
+
+## 2026-11-21 00:03 CET — initialization
+
+| ID | Question | State | Current gate |
+|---|---|---|---|
+| Q1 | Exact nonstandard RH and positivity in GCT IV/VI/VII/VIII | OPEN | Locate all stated hypotheses; distinguish a program from a formulated conjecture. |
+| Q2 | KL geometric dictionary | OPEN | Identify each geometric structure and the missing nonstandard replacement. |
+| Q3 | Abstract sign-only transfer | OPEN, primary | Derive a finite-spectrum theorem from all-extension bounds and spectral signs; determine which hypotheses are available for nonstandard objects. |
+| Q4 | Rectangular/multiplicity positivity | OPEN | Compare exact IP/BIP theorems and actual positivity target; do not infer PH1 from numerical nonnegativity. |
+| Q5 | Theta-lift transfer | OPEN | Seek a precise operation or functor identifying periods with target multiplicity spaces. |
+| Q6 | Grothendieck translation and locators | OPEN | Verify SGA/EGA/FGA/Weil-II locators and any archive cote/scan; never invent. |
+
+No scheduled three-hour progress review has occurred. Parallel source audits are running.
+
+## 2026-11-21 00:40 CET — substantive gate changes before the first checkpoint
+
+This is an interim ledger update, not the scheduled three-hour progress review.
+
+| Main question | Change from initialization | Strongest checked gate now |
+|---|---|---|
+| Q1 exact statement | Source-audit row completed: no specified finite-field NSRH appears in the supplied versions; precise signed/normalized/general positivity targets reconstructed. | A sufficient target must supply its objects, Frobenius, grading, coefficient identification and operations. A01 records the source conclusion. |
+| Q2 KL dictionary | Completed the ingredient-by-ingredient dictionary; isolated local even/Tate stalks and effective-simple multiplicities from generic purity. | An effective basis-preserving realization and operation compatibility; relative Lefschetz is an additional condition for unimodality. |
+| Q3 sign-only transfer | F01–F04 proved and independently checked. F17 strictly weakens the geometric gate: finite extensions may depend on path length, and a separate dual system may replace self-duality. | Trace identities with opposite parity, controlled sublinear boundary overhead, pointwise bounds and duality. No need for Frobenius semisimplicity. |
+| Q3 ambient route | F09 gives an actual rank-one obstruction to the fixed ambient KL-positive inclusion. F16 constructs a different positive model and proves its action mismatch. | A different heart/character map or signed normalization must restore the designated GCT action. |
+| Q3 orbit route | Integral orbit models constructed; ordinary IC purity applies. F15 proves that underlying pure cohomology loses polarization and equivariant coherent information. | A coherent-to-constructible comparison with the required degree, linearization and multiplicity data. |
+| Q4 required cases | Exact IP/BIP ranges checked; occurrence no-go distinguished from remaining multiplicity inequalities. | No new strict closure-multiplicity inequality or general PH1 rule yet. |
+| Q5 theta route | F12/F13 prove exactly what positive projectors and 0/1 exact functor chains give. A new difference-constraint obstruction is in fresh review. | Identify the actual functor, endpoints, weight lattice/congruences and basis. Determinants alone restate rank. |
+| Q6 Grothendieck language | All F01–F17 translated, original selected leaves verified for cotes16,90,97,133. Several Fable locators corrected. | Cote1 scan/folio ambiguity under active selected-range inspection; no Xi identity imported. |
+
+### Approaches still being actively attacked
+
+1. **Ordinary geometric Satake plus Schur projectors.** This may realize the classical plethysm and Kronecker multiplicity spaces by actual pure perverse summands, making the residual issue the symmetric-group action and specified nonstandard basis. The precise finite-field purity proof and source locators are being checked; no theorem is yet asserted from it in the paper.
+2. **Actual rank-three specialization.** The generic nonstandard Hecke algebra has rank ten while its diagonal symmetric-group image has rank six at v=1. An explicit dual-number block model is being proved and freshly reviewed, with care to distinguish the specialized algebra from its ambient image.
+3. **Theta lattice data.** A homogeneous integral difference-array model forces ordinary support saturation; the smallest rectangular ray has parity. The exact VI terminology is being checked to avoid confusing residuewise saturation index with ordinary ray support.
+
+### Corrections and verification
+
+The initial duality scalar was too general for all-conjugate purity; F03 now uses the rational integer-weight Tate scalar q^(a+d). F04 explicitly requires the error bound in every embedding. F06 and F16 keep the Tate grading step explicit. F12 and its integral translation now specify finite dimension and the relevant integral Specht lattices. Every F01–F17 proof has been read in full by the source/proof reviewers; exact snapshots and scopes are retained in their reports and CHECK_EVENTS.tsv. Supplementary numerical path checks are not labeled formal proofs.
+
+No scheduled three-hour review has occurred; no no-movement count has been incremented. The first 45-minute checkpoint is due at approximately 00:45 CET, and no checkpoint has yet been saved.
+
+## 2026-11-21 00:44 CET — two constructive reductions, checked in reports
+
+- **Classical purity realization gate reduced.** The Satake Schur-summand route has a verified ordinary pure-perverse realization for classical plethysm and Kronecker multiplicity spaces. It uses a primitive Young idempotent and the F_q-defined parity-corrected symmetry. Its prescribed multiplicity weights follow from the canonical Frobenius-stable isotypic summands. The remaining target is the nonstandard basis/action and effective projector image, not existence of every ordinary geometric multiplicity object. Final theorem text is being prepared in `RESEARCH_SATAKE_DRAFT.md`.
+- **Actual rank-three geometry gate reduced.** `agent_rank3_specialization.md` proves the actual algebra is locally R²×M2(C), with C a finite-flat double cover whose branches collide to second order at v=1. Two agents have checked the complete algebra proof. The specialized map loses the four-dimensional square-zero radical, while the algebra itself remains flat of rank ten. This is an explicit coherent model and a more specific specialization gate. It does not yet supply the original GCT tensor module or VIII basis.
+- **Archival source gate reduced.** Selective extraction of cote1 succeeded. Both archival-scan and handwritten-folio interpretations have been inspected. Folios79–80 (archive77–78) support the generic Fredholm determinant/trace framework; no Xi identification or RH-equivalent positive operator was verified. The full eight-leaf audit is being incorporated.
+
+These are interim changes, not the scheduled three-hour review. The original main sign criterion remains the main reduction; the new geometry is being tested for its exact compatibility with that criterion and the required positivity target.
+
+## 2026-11-21 00:45 CET — scheduled checkpoint 01
+
+Created at 2026-11-20 23:45:10 UTC and saved successfully. Filename `GCT_NSRH_checkpoint_01.zip`; SHA256 `9915a1b866eaabe7a227f8749386997f4aa39fceed97ba3cd76904de78b913c9`; 41 members, 738626 bytes. Contains all current deliverables and work documentation, with original inputs externally referenced and no earlier checkpoint nested. No earlier checkpoint was overwritten. Next checkpoint due approximately01:30 CET. This packaging event is not mathematical movement.
+
+
+## Signed traces and actual geometric action — interim gate update
+
+Recorded 2026-11-21 01:06 CET. This is not a scheduled progress review.
+
+- **Q3 strictly reduced:** F24 replaces the input common-parity hypothesis by real signed visible Euler coefficients at even path lengths. The complete proof was independently reconstructed. An overstrong extension variant was refuted and repaired with powered-top-spectrum visibility; the failed proposal remains in the check log.
+- **Q3 actual action gate reduced:** F21 identifies the actual 64-dimensional right tensor lattice over a finite localization with the coherent center model; explicit regular matrices are independently checked and saved as an exact symbolic certificate. This closes the earlier missing-right-action issue for this example.
+- **Q3 deformation comparison narrowed:** F22 proves constant nearby/vanishing-cycle data do not distinguish any positive collision order. F25 computes the coherent Ext invariant that does distinguish it, and the precise 128-dimensional commutant base-change defect. These facts delimit a specific realization, not all possible enriched realizations.
+- **Classical coefficient realization strengthened:** F20 now has a motivic Tate refinement. Its Schur multiplicity coefficient motive is a direct sum of a single Tate twist, so natural Frobenius is scalar. The remaining projector-rank/basis/operation gate is explicit.
+- **Positive-rule gate narrowed:** F23 gives a signed-orbit/Young-stabilizer sufficient rule and a pure Tate GL2 example where no signed basis exists. The actual rectangular Young-orbit test is now under proof.
+- **Archive row completed:** Eight cote1 leaves were inspected under both scan and folio conventions; generic Fredholm formulas are verified as visible content, while the claimed Xi identification is not verified.
+
+Active main approaches: normalized word traces and finite Frobenius recurrence (F26 proposal); actual derived lifts and character cones (F27 proposal); rectangular projector structure (F28 proposal); the actual nonstandard Temperley–Lieb branching tower. The first scheduled review remains due at approximately03:00 CET. No no-movement review has occurred or been counted.
+
+## 2026-11-21 01:30 CET — second checkpoint state
+
+F01–F28 are now integrated in the paper. F26 closes the proposed finite Weil trace dictionary by a rational-dilation recurrence obstruction for the actual normalized word trace. F27 provides a qualified actual-action repair in a different, mixed Tate character cone while proving the fixed ambient parity obstruction. F28 excludes Young-stabilizer scalar-monomial models for every nontrivial rectangular tensor square. Reports F29–F32 are saved; F29/F30/F32 have independent full-report reviews, and final paper integration is continuing. F31 is awaiting the root full-proof check.
+
+The countable-spectrum F32 report extends the signed upper-bound criterion and proves that a bounded reciprocal dual spectrum forces finiteness; this strictly narrows the completion alternative. Current main work continues on the actual tower specialization and compressed positive witnesses in the two-row rectangular family. This is an interim checkpoint, not the scheduled three-hour review. No no-movement review has occurred.
+
+Checkpoint QA: two rendered contact sheets covering all 50 pages inspected; no clipped content or blank accidental pages observed. The latest PDF compiled successfully. This visual/layout check is not a mathematical proof check.
+
+Checkpoint02 saved successfully at 2026-11-21 00:30:03 UTC /01:30:03 CET. SHA256 5568f9abd7bd2aac2a2d57c36f3b0ec58bf25cdaec5ab0ffaf7d87242e40bdfe; 89 members; 1160168 bytes. No previous checkpoint overwritten or nested. Next due02:15 CET.
+
+## 2026-11-21T00:58:41.528311+00:00: normalized realizations and effective targets
+
+Not a scheduled progress review. No no-movement counter is advanced.
+
+- Closed the scalar stack-realization row (F35) with actual all-extension mass, complete cohomology and explicit unbounded dual. The main remaining gate now demands actual operators and a bounded visible dual, rather than an unspecified source for the scalar sequence.
+- Closed the coherent Frobenius test (F36): center/algebra pullback is nonunit with exact torsion, while parameter-base and normalized action-compatible models are unit. The remaining arithmetic comparison is explicitly distinct.
+- Closed object-level tensor inversion in the usual derived Weil category negatively (F38), and the direct smooth-proper collision-category test negatively (F39). A smooth corner-resolution repair is actively being tried; these scoped failures are not treated as a universal impossibility.
+- Corrected the old PH1 status using the known Kahle–Michałek theorem. The attached homogeneous assertion is refuted, including an equal-rectangle case. F34 separately refutes the compact dimension and fully binary #P targets. Later inhomogeneous formulations are left distinct.
+- Closed the listed-row marked-tree witness-encoding row positively (F37). F29–F32 are fully integrated; the tower mixing repair and primitive Tate object are retained.
+- F34's actual polynomial highest-weight ray algebra is proved and freshly checked; its final fragment is being prepared.
+
+The first scheduled three-hour review is still due at02:00UTC/03:00Europe-Berlin. Checkpoint03 is due at01:15UTC/02:15Europe-Berlin. Packaging and these prose updates are not counted as mathematical movement.
+
+## 2026-11-21T01:09:07.358803+00:00: smooth corner repair and finite extraction
+
+Not a scheduled review. The F39 direct obstruction is now followed by the checked F40 smooth proper repair, with exact actual corner and tensor-module action. This closes the previously open smooth-categorical-retention row and reduces its remaining gate to relative deformation and designated morphism/weight/basis comparison. F41 closes finite-window extraction under the literal normalized trace condition, while constructing a chosen effective fixed-q action. F42's entire report has a root proof check and narrows the denominator-clearing approach to word-dependent coefficient objects or different comparison laws. The actual joint positive left/right action and a relative Auslander order are in progress.
+
+The first scheduled review has not occurred; the no-movement counter remains unstarted.
+
+## 2026-11-21 01:13UTC: checkpoint03 mathematical snapshot
+
+Not a scheduled review. The paper now integrates F01–F42 and their separate Grothendieck dictionaries. Its84-page PDF passed two-pass compilation and complete rendered layout inspection. F43 full report has a root whole-proof PASS; independent final review and fragment integration are pending. F44 relative smooth-order proof is being written; its proposed Frobenius tradeoff remains marked active until the full proof is read. Checkpoint03 will be created only when its01:15UTC deadline arrives.
+
+## 2026-11-21T01:15:21.915678+00:00: scheduled checkpoint03 saved
+
+Created the complete immutable GCT_NSRH_checkpoint_03.zip at its45-minute deadline, with140 members and no nested ZIPs. SHA256 411bcb1e53dee60e9ff5ce3e9c794ed4590ca6ebf500088dbd69fdc398ad4789. Persistent file identity libfile_362d7f4bf5e8819195032470ec645305. All returned file attributes were applied and verified. This packaging is not mathematical movement. The checkpoint contains the84-page paper through F42; reportsF43/F44 document the active extensions. The later precise-source audit has flagged EGAI§9.5 usages outside scheme-theoretic images and the perfect-complex attribution to SGA6V for correction in the next state.
+
+### 2026-11-21 01:27 UTC — additional explicit comparison test
+
+Root completed F47, a proposed full proof excluding finite multifusion K0 realization of the full collision algebra and showing that a positive adjoint realization of the actual generators must kill its four-dimensional radical. The regular center trace form has determinant Δ², with optimal collision valuation four. The actual rank64 tensor action nevertheless has a regular positive Gram form because its special fiber kills that radical. Independent full review requested. This is not yet recorded as a checked finding or scheduled progress review.
+
+### 2026-11-21 01:37 UTC — locator correction and new checked comparisons
+
+F43, F44 and F47 are now integrated after complete proof readings and independent reviews. Corrected the mistaken affine-equivalence use of EGA I9.5 and perfect-diagonal use of SGA6 V§§2–3; the latter remains only for lambda/gamma. Stacks01IB/0657 supplies freshly read exact definitions; SGA6 I4.7 is corroborated by primary Thomason and Berthelot. Original EGA affine-section scan remains access-qualified. This citation correction changes no mathematical result and is not counted as gate movement. CP03 is unchanged.
+
+### 2026-11-21T01:47:57.577387+00:00 — exact pure and projective realizations integrated
+
+F45 supplies all-extension projective word motives and hard Lefschetz, with a proved stronger-summand obstruction. F46 supplies exact pure Weil End/Hom objects, both actual actions and coherent projective-line objects retaining both crossed Ext directions, with explicit extension-law and integrality boundaries. F43/F44/F47 and these two findings have complete proof readings; the final generated-text qualifications and framework citations are being matched. Corrected the unnecessary total-reality condition to a sufficient condition. Original EGA and SGA6 I locators are now inspected. These are interim gate updates, not the scheduled review; that review remains due02:00UTC.
+
+## 2026-11-21T02:00:01.369247+00:00 — first scheduled three-hour progress review
+
+Movement: yes. Consecutive no-movement reviews:0. The full row-by-row review is PROGRESS_REVIEW_01.md, with the exact question snapshot QUESTIONS_at_review_01.tsv. Mathematical changes counted are the signed/countable sign criterion, resolved normalized trace comparison, actual joint-action/relative-smooth/pure-coefficient realizations, projective word motives and the precisely scoped effective-rule results. Packaging, proof-record updates and citation corrections are not counted. Research continues; next scheduled review03:00UTC.
+
+| Q1 | SOURCE_AUDIT_COMPLETE; MATHEMATICAL_TARGET_UNFORMULATED | The supplied versions give a program, not specified finite-field objects/Frobenius/weights. A sufficient replacement specification is in Part IV. |
+| Q1-PH | SOURCE_AUDIT_COMPLETE; ATTACHED_HOMOGENEOUS_PH1_REFUTED | The attached VI v4 homogeneous Ehrhart PH1 is already false by a prior theorem, including an equal-rectangle example. F34 separately refutes its compact dimension bound. Later inhomogeneous formulations are distinct. |
+| Q2 | DICTIONARY_COMPLETE; REALIZATION_OPEN | Classical KL dictionary is complete. Actual rank-three coherent/pure Weil objects and projective word motives supply several realization roles; local effective simple objects, multiplication/comultiplication, prescribed global lattices and their comparison with VIII remain distinct requirements. |
+| Q3 | PROVED_CONDITIONAL_CRITERION | Finite and admissible-countable signed even-power upper criteria are proved. Opposite path-output signs, pointwise/error bounds, visibility under chosen extensions, and an independently bounded visible dual remain. |
+| Q3-GCT | OPEN | Exact rank-three pure Weil End/Hom objects, both commuting actions, coherent collision extensions, a relative smooth order and projective word motives now exist. The designated arithmetic quantum grading, opposite path-output sign with dual bound, and VIII basis/operation comparison remain. The literal normalized all-extension trace dictionary is refuted. |
+| Q3-ABBREV | REFUTED_IN_SPECIFIED_FORMS | Constant trace, adjacent-degree cancellation, lower-weight eigenvalue, odd subsequence, Fourier non-PSD, and pure Jordan-block examples. |
+| Q3-AMBIENT | REFUTED_FOR_FIXED_INCLUSION | In rank one A∩C_plus=R_plus·1, although A has rank two. |
+| Q3-PIVOT | PROVED_SUFFICIENT_CONDITION; GENERAL_APPLICATION_OPEN | Exclusive positive monomial pivots suffice; disjoint positive supports and local crystal disjointness do not. |
+| Q3-ORBIT | MODELS_PROVED; AUTOMATIC_COMPARISON_REFUTED | Coherent polarized/linearized sections require a separate comparison; underlying pure cohomology does not determine them. |
+| Q3-ALT | ORIGINAL_ACTION_MISMATCH_PROVED; SEPARATE_ACTION_REPAIR_PROVED | F16 positive algebra map changes the original action. F27 restores that action in a localized four-character mixed Tate model; purity and designated basis remain extra. |
+| Q4 | RESTRICTED_PURE_OBJECTS_AND_WITNESSES_PROVED; GENERAL_COMPARISON_OPEN | Equal-rectangle two-row coefficients have primitive Tate objects and compressed positive witnesses with listed-row input. Old homogeneous PH1 is false; general designated canonical positivity and strict closure-multiplicity inequalities remain open. |
+| Q4-OCC | REFUTED_AS_AN_INFERENCE | Support containment does not imply coefficientwise inequality; q>K remains a valid obstruction. |
+| Q5 | CONDITIONAL_PATH_RULE_PROVED; IDENTIFICATION_OPEN | An exact theta/GCT functor and endpoint identification remain absent. Integral interlacing and Young-orbit shortcuts are excluded in their stated scopes; actual tower specialization can be repaired by explicit mixing, but whole-algebra projectors do not lift. |
+| Q5-SAT | PROVED_OBSTRUCTION_WITH_EXACT_SCOPE | Homogeneous integral difference constraints force ordinary support saturation. The rectangular parity ray refutes that model; rational half-point models and VI residuewise strict saturation remain possible. |
+| Q6 | DICTIONARY_INTEGRATED_FOR_CURRENT_PAPER; FINAL_SCOPE_REVIEW_PENDING | Every integrated paper finding F01–F47 has a separate PartIII translation. Original EGA I1.3.7–1.3.8/1.4.1 and SGA6 I4.7–4.8 now verified; SGA6V remains background with a precise secondary primary locator check. Final scope matching continues with new mathematics. |
+| Q6-LAMBDA | REFUTED_AS_AUTOMATIC_IMPLICATION | λ²(z−1)=1−z is not effective; arbitrary effective bases can have negative products. |
+| Q6-FROB | REFUTED_FOR_PTH_POWER_SHORTCUT | The pth-power map on M2(Fp) is not additive. |
+| Q6-ARCHIVE | SELECTED_SOURCE_AUDIT_COMPLETE | Cote1 eight selected leaves inspected under both numbering conventions. Generic Fredholm formulas are present; no Xi identity or RH-equivalent positive operator verified. Other cote corrections retained. |
+| QNEW-SATAKE | PROVED_CLASSICAL_PURE_TATE_REALIZATION | Actual primitive Schur projector images have Tate coefficient motives with scalar Frobenius q^h. Rank labels and compatibility with designated nonstandard operations remain; signed permutation action can fail already in GL2 d3. |
+| QNEW-H3 | PROVED_ACTUAL_BOTH_ACTIONS_AND_MULTIPLE_EXACT_REALIZATIONS | Actual rank10 algebra/rank64 module, both actions, bar and positive basis, relative smooth corner, pure End/Hom realization, coherent projective-line geometry and crossed Ext are proved. Their designated arithmetic, path-sign and canonical-globalization comparison remains. |
+| Q3-SIGNED | PROVED_WITH_VISIBLE_SPECTRUM_AND_EVEN_LENGTHS | Largest-radius signed products have a surviving positive coefficient at even k. Hidden Euler roots remain invisible. Arbitrary finite extensions require retained top-radius visibility. |
+| Q3-COLLISION | REFUTED_FOR_SPECIFIED_CONSTANT_COEFFICIENT_FAMILY | All Cm have equivalent ordinary étale data and the same constant nearby/vanishing cycles, while conductor length and crossed coherent Ext record m. |
+| Q5-PROJECTOR | PROVED_SUFFICIENT_RULE; GENERAL_EXISTENCE_REFUTED_FOR_SIGNED_BASIS_ANSATZ | Specified signed orbits with Young stabilizers yield Pieri chains; polynomial encodings are separate. The standard S3 multiplicity has no signed basis. |
+| Q3-NORMALIZATION | REFUTED_FOR_SPECIFIED_FINITE_TRACE_DICTIONARY | No fixed finite Weil trace can equal 24+16/D(q^n)^2 for every n. F35 realizes this scalar sequence by an explicit finite-type stack with unbounded compact cohomology. |
+| Q3-DERIVED | PROVED_FIXED_CONE_OBSTRUCTION_AND_QUALIFIED_REPAIR | Actual derived lifts retain mixed ambient parity; localized character-point model restores actual equal-sign actions using a mixed Tate object. |
+| Q4-RECT-YOUNG | REFUTED_FOR_EVERY_RECTANGLE_WITH_BOTH_SIDES_AT_LEAST_TWO | An isolated internal hook excludes all Young-stabilizer orbit decompositions. The 2×2 edge case is checked separately. Known height-two invariant monomials yield an exact rational-point formula. |
+| Q4-SPHERICITY | PROVED_FOR_SPECIFIED_OPEN_ORBIT_METHOD; PAPER_INTEGRATED | Dimension and generic matrix-pencil stabilizers exclude the specified open-orbit route for n>=3 and output flag length>=2. |
+| Q5-TOWER | PROVED_DIAGONAL_OBSTRUCTION_AND_EXPLICIT_MIXING_REPAIR | On the actual regular lattice diagonal normalization cannot put path lines into the classical constituents. Two regular 2×2 mixing blocks do repair underlying basis specialization. Classical whole-algebra projectors do not lift because the generic commutant is scalar. |
+| Q4-PRIMITIVE | PROVED_WITH_FULL_INDEPENDENT_CHECKS; PAPER_INTEGRATED | Explicit rational primitive Grassmannian projector has rank p_r−p_(r−1) and actual pure Tate image. Its Schubert matrix can have negative entries; it does not identify a designated basis. |
+| Q3-COMPLETION | PROVED_UPPER_CRITERION_AND_RECIPROCAL_FINITENESS; PAPER_INTEGRATED | Signed even-power upper criterion extends to absolutely convergent locally finite bounded spectra. A bounded reciprocal support forces the visible spectrum finite; actual normalized trace completion fails this duality. |
+| Q4-PH1-COMPACT | REFUTED_WITH_EXPLICIT_POSITIVE_FAMILY | c_k(N) counts 2x2+…+kxk=N, and every fixed bounded dilation polytope has dimension≥k−2 on O(log k)-bit input. Fully compact binary plethysm is also not #P by output length. |
+| Q3-STACK | PROVED_WITH_EXACT_COHOMOLOGY_AND_DUALITY | X=24 points disjoint union16 copies of A6×Gm8×(BGL2)^4 has the required mass. Compact cohomology is unbounded and mixed; the actual ordinary dual has unbounded spectrum. |
+| Q3-COHERENT-FROB | OBSTRUCTION_AND_ACTION_PRESERVING_REPAIRS_PROVED | Center/algebra pullback adds torsion length80(p−1) on the actual tensor module; derived pullback has nonzero Tor in every positive degree. Unit structures exist on the parameter base and normalization; finite pushforward loses the unit through that torsion. |
+| Q4-KOH-COMPRESS | PROVED_BIJECTIVE_COMPRESSION_AND_VERIFIER | At most k surviving nodes plus binary repeat counts; witness size O(k² log(k+1)+k log(nk+1)). Listed-row input is essential. |
+| Q3-TENSOR-INVERSE | REFUTED_IN_USUAL_DERIVED_WEIL_REALIZATION | P1×Z has Euler trace1 but unbounded nonzero cohomology. Invertible Weil complexes are one-dimensional shifts, so none has trace q^n+2+q^(-n). |
+| Q3-NCWEIL | DIRECT_OBSTRUCTION_AND_SMOOTH_CORNER_REPAIR_PROVED | Direct collision category is nonsmooth. The relative rank22 smooth proper order recovers actual rank10 corner and rank64 lattice as End/Hom, with four unit TP eigenvalues on finite-field fibers. Corner is nonadmissible; the chosen algebra-unit Frobenius cannot also give the required base-unit lift. No designated TP/coefficient comparison established. |
+| Q4-HOOK-GEOMETRY | PROVED_KNOWN_SOURCE_APPLICATION_WITH_EXACT_WEIGHT_LIMIT | The coefficient equals dim H^k(SL_min(n,d)); actual Tate summands are explicit. H15(SL8) has weights16 and18, so this realization is mixed. |
+| Q3-SMOOTH-CORNER | PROVED_EXPLICIT_CORNER_AND_PERFECT_MODULE_LIFT | Special and relative smooth proper corner constructions and perfect module lifts are complete. Relative lift rank96 recovers the actual rank64 family and oriented collision Ext; positive-dimensional base, arithmetic and basis comparisons are separately specified. |
+| Q3-FINITE-WINDOW | FINITE_TRACE_PRESERVATION_REFUTED; FIXED_Q_TRANSPORT_PROVED | Every bounded weight window is finite and cannot preserve h_n. A chosen64-subspace of Q_l(6)^85 after twisting supports the exact fixed-q action; it is transported, not restricted from an existing stack action. |
+| Q3-ALL-WORDS | PROVED_AND_FULLY_CHECKED; PAPER_INTEGRATED | Tr(P1^k)=40(q^n+2+q^-n)^k has2k+1 genuine poles. No common finite Frobenius spectrum supports unbounded k, even with scalar/sign/Tate shifts. Fixed-q tensor actions and word-dependent coefficient objects exist. |
+| Q3-POSITIVE-ACTION | PROVED_AND_FULLY_CHECKED; PAPER_INTEGRATED | Actual ordinary left/right generators, full commutant matrix units and actual tensor bar share a positive basis over Z[v±,1/(2(D−1))]. Exact graded word kernels exist. Summand closure introduces operators outside the colliding actual order. |
+| Q3-RELATIVE-SMOOTH | PROVED_AND_FULLY_CHECKED; PAPER_INTEGRATED | Rank5 relative smooth Γ and rank96 perfect lift recover the entire actual rank64 lattice and rank10 corner. Oriented Ext has64 copies R/Δ, retaining collision order. Unit larger-algebra Frobenius has a proved nonunit base determinant; fixed-vertex tradeoff exhaustive. |
+| Q3-WORD-PROJECTIVE | PROVED; STRONGER_SUMMAND_KERNEL_MODEL_REFUTED | Explicit products of P1 with rational swap projector realize all extension traces, with pure centered complexes and hard Lefschetz. Retaining the actual ND−2 commutant projector in a positive SL2-representation kernel model is impossible. No concatenation-compatible action on those word motives is supplied. |
+| Q3-PURE-EXACT | PROVED_FOR_SPECIFIED_COEFFICIENT_REALIZATION; EXTRA_ARITHMETIC_COMPARISONS_REFUTED | Cayley linear Frobenius gives End(H)=actual A and Hom(H,K)=actual M under all base changes, with both left/right actions. Perfect coherent objects on P1 retain both crossed Ext directions. Chosen Frobenius fails extension-wise retuning and a constant-coefficient smooth-projective integrality test. |
+| Q3-POSITIVE-ADJOINT | REFUTED_WITH_EXACT_SCOPE; REGULAR_TENSOR_POSITIVITY_RETAINED | Finite multifusion K0 cannot equal the nonsemisimple full A1. Every positive Hermitian representation with both actual generators self-adjoint kills its four-dimensional radical. Any regular positive center form has determinant valuation at least4, attained by trace. Actual rank64 tensor action admits a regular positive form because its collision fiber already kills the radical. |
+
+## 2026-11-21T02:01:05.600335+00:00 — scheduled checkpoint04 saved
+
+GCT_NSRH_checkpoint_04.zip was created at2026-11-21T02:00:01.818723+00:00 after scheduled review01. It has170 members,1898443 bytes, and SHA2565fd390b4196d294e66ddc79ae9d2a496c3564393ff113a3502697280afe262dd. Persistent file identitylibfile_2bc287045b6c8191973ba2b4fa8e3194; all returned file attributes were applied and checksum verified. The package includes the103-page paper throughF47 and active F48/F49 reports, all current deliverables and review records, with no earlier ZIP nested. Previous checkpoints remain unchanged. Next checkpoint05 due02:45UTC. Packaging is not mathematical movement.
+
+### 2026-11-21T02:08:09.853788+00:00 — tensor/arithmetic and global-form comparisons integrated
+
+F48 gives a faithful exact pure tensor realization of the actual all-degree fixed-parameter family, while proving full point-Weil recovery impossible already in degrees1–2. Rational spectral retuning forces monomial eigenvalues; one pure weight conflicts with the actual generic semisimple nonsimple centralizer, and even mixed weights cannot retain its full collision center in a regular rational family. F49 supplies an actual1/h projector that intrinsically fails the original global lattice and VIII dual global form, despite bar and both explicit boundary regularities. These are scoped proved comparisons, not refutations of VIII or IV Example19.2. Complete reports and generated proofs have whole-proof checks. Paper now includesF01–F49; PDF rebuild will follow F50 integration.
+
+### 2026-11-21T02:16:28.916122+00:00 — exact opposite-sign geometry proved and integrated
+
+F50 supplies an explicit normalized quadratic Artin–Schreier realization of every effective finite coefficient trace, with actual middle-degree concentration and effective negative path spectrum at an unbounded good even set. Its fully faithful perverse Hom realization retains the actual F46 operators. The surviving pointwise/dual conditions are proved equivalent to the target coefficient weights for this construction; the mixed F45 word total has exact dual gap4L. The normalized affine-padding route requires error overhead at leastkd/2. These results close the specified path-sign and perverse-realization rows, leaving an independently bounded varying coefficient system and the exact canonical/arithmetic comparison. The checked paper now integratesF01–F50. F51 algebraic extension and F52 contact analysis remain active reports.
+
+### 2026-11-21T02:23:57.551945+00:00 — algebraic trace comparison integrated
+
+F51 extends the single-weight full-centralizer obstruction to arbitrary algebraic coefficient fields and needs only ordinary all-extension trace compatibility. Its integral multiweight extension forces a Laurent trace and, under full spectral comparison, excludes the actual regular collision center. The full supplement and final proof/dictionary passed root and fresh independent reviews. F52 additionally excludes the whole relative order under unrestricted algebraic spectral sizes by its second-order contact; its complete report is checked and its final fragment is being prepared. The paper now integrates F01–F51; the compiled PDF will be rebuilt after the remaining current fragments.
+
+### 2026-11-21T02:31:42.409165+00:00 — relative arithmetic obstruction and coherent tensor geometry integrated
+
+F52 proves that arbitrary algebraic full spectral retuning cannot retain the entire actual relative centralizer order: distinct eigencharacters have first-order contact on a finite cover, whereas the actual center imposes order two. Its explicit first-order model retains the actual tensor action only through a proper suborder. F53 supplies a genuine twisted additive convolution making the Gaussian realization symmetric monoidal on its image and carrying all existing actual fixed-parameter tensor maps and relations through all degrees. The original path sign is unchanged; the exact weight estimate and designated simple/global basis remain open. Both complete reports and final proofs/dictionaries passed root and fresh independent checks. TeX now integrates F01–F53. F54 trace-only classification, mixed-weight escape and marked central-insertion tests are active.
+
+### 2026-11-21T02:41:14.760981+00:00 — identity, marked and two-word trace frontier integrated
+
+F54 classifies genuine algebraic power-trace roots by a positive Laurent group-algebra/derivation argument. One common spectral radius already forces a scalar base spectrum under ordinary trace retuning, without an integral-weight hypothesis. A rational mixed-radius model nonetheless preserves both H/K identity traces and the whole actual relative algebra/module. A specified central insertion refutes the pure or integrally mixed marked-trace comparison on the actual rank64 action without full-centralizer recovery. The pair P1/P1² refutes a fixed composition-preserving trace law without any weight or algebraicity assumption. These are explicit additional arithmetic axioms, not assertions attributed to the GCT papers. The graded coefficient-object alternative remains. Complete reports and all three generated proof/dictionary parts have root whole-proof checks and fresh independent report checks. TeX integrates F01–F54.
+
+## 2026-11-21T02:47:57.229125+00:00 — checkpoint05 snapshot preparation
+
+The checked main paper F01–F54 compiled twice to143pages; all-page contact inspection and selected readable-page inspection PASS. The scheduled02:45UTC checkpoint is being captured after context recovery; its actual creation timestamp is in the package manifest. No packaging movement is counted. New both-actions supplement remains pending root review/integration; fractional mixed right-only and coherent coefficient-object approaches remain active.
