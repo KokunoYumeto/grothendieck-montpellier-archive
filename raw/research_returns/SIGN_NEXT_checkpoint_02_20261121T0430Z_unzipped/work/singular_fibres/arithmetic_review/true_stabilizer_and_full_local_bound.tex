@@ -1,0 +1,179 @@
+% Source-level normalization and conditional local formula.
+% GPT-6 Astra Pro; reasoning effort not exposed. 2026-11-21.
+\subsection{SF-Q6-04: the actual stabilizer denominator and a full local expression}
+
+\paragraph{Statement SF-Q6-04(a).}
+Let $E$ be the host CM field and let $R$ be the rank datum used by
+the genuine column construction.  For the denominator
+\texttt{GlobalTheory.Mem.Col2.DGam E R} used in that construction,
+every prime divisor satisfies
+\[
+ p\le [E:\mathbf Q]N_m+1.
+\]
+For $R=R_0$, this bound is $p\le641$.  In particular its
+$863$-adic valuation is zero.
+
+\begin{proof}
+The source \texttt{PredMemGamRanks.lean} defines
+\texttt{gamRanks R} as
+\[
+ \{N_j:1\le j\le m\}\cup
+ \{\operatorname{rank}X',\operatorname{rank}Y_{m-1},n_V\}.
+\]
+Every rank in this set is at most $N_m$; the complete elementary
+proof is also supplied as \texttt{le\_N\_of\_mem\_gamRanks} in
+\texttt{DGamDvdOfMinkMult.lean}.
+For each such rank $n$, \texttt{autOrd E n} is the set of orders
+of the finite unitary automorphism groups of unimodular lattices
+in $E^n$.  The source proves that the resulting set of orders is
+finite and defines \texttt{DGam} to be their least common multiple.
+It proves its positivity; the zero alternative in its definition
+does not occur for the positive host involution.
+
+Suppose a prime $p$ divides one of these finite group orders.
+Cauchy's theorem gives an element $g$ of order $p$ in
+$\mathrm{GL}_n(E)$.  Restriction of scalars realizes $g$ faithfully
+on a rational vector space of dimension $[E:\mathbf Q]n$.
+Its minimal polynomial divides $T^p-1$.  As $g\ne1$ and
+$\mathbf Q$ has characteristic zero, the cyclotomic factor
+$\Phi_p(T)$ divides that minimal polynomial.  Consequently
+\[
+ p-1=\deg\Phi_p\le [E:\mathbf Q]n\le[E:\mathbf Q]N_m.
+\]
+Every prime divisor of a finite least common multiple divides
+one of its entries, which proves the assertion.  For $R_0$,
+$[E:\mathbf Q]=2f=16$, $N_m=40$ and $16\cdot40+1=641$.
+
+This is the actual denominator in the column chain:
+\texttt{chainAt} sets \texttt{DG := DGam X.E R}.
+The proof of \texttt{ColIn.Ok.chIn\_ok} uses this same denominator,
+including the free initial stabilizer and all subsequent decorated
+lattice stabilizers.  Thus the conclusion does not replace an
+arbitrary denominator by a smaller one without justification.
+\end{proof}
+
+\paragraph{Statement SF-Q6-04(b): full expression at an inert prime.}
+Let $D$ have the fixed ranks $(k,m,t,f)=(8,2,15,8)$ and let
+$L:\texttt{SizeData}_2(D)$.  Fix a word $u$ and a coefficient
+place $w$ above a rational prime $p>641$.  Assume the following
+\emph{ties to the actual data}:
+\begin{enumerate}
+\item $p$ is neither a type prime $g_i$ nor the level prime $T_u$;
+      \texttt{IsResidueClassZero D p}, $h_P(D,p)=0$, and
+      $p\le X''$.
+\item $L.F$ has the defining values \texttt{Fval}, $L.E$ has the
+      defining values \texttt{Eval}, and the actual
+      \texttt{ParametersFill} equality for the gain holds at $w$.
+\item The chain denominator is the \texttt{DGam} of part (a),
+      and the error constant is $c_{\mathrm{dig}}=3$.
+\item At every CM embedding,
+      $e_1=M+18$ and $e_2=M+54$.
+\end{enumerate}
+Then the full source expression, including the error term, is
+\[
+ \boxed{\quad
+ \operatorname{sg}(u,w)
+   =\frac{96M+3456}{p^2-1}
+       -76800\log_p(a).
+ \quad}
+\]
+
+\begin{proof}
+The defining first branch of \texttt{gainP} is zero when
+\texttt{IsResidueClassZero} and $h_P=0$ hold.  Hence
+$\mathrm{gainD}_j=0$, whether or not $p$ lies in the drop set.
+If $w$ is outside the support, the support axiom already gives
+the same conclusion.  In the stated branch of \texttt{Fval},
+\[
+ F_j=\frac{(k-1)\sum_\tau e_{j,\tau}}{p^2-1}.
+\]
+The defining branch of \texttt{Eval} is
+\[
+ E_j=v_p(D_\Gamma)
+       +c_{\mathrm{dig}}fN_m^2\log_p(a)
+       +\frac{\sum_\tau e_{j,\tau}}{p^2-1}.
+\]
+Its stabilizer term is zero by (a).  There are $f=8$ CM
+embeddings, so
+$\sum_{j,\tau}e_{j,\tau}=8(2M+72)=16M+576$.
+Subtracting the two errors from the two forced terms gives
+\[
+ (k-2)\frac{16M+576}{p^2-1}
+       -2\cdot3\cdot8\cdot40^2\log_p(a),
+\]
+which is the asserted expression.
+\end{proof}
+
+\paragraph{A strictly positive numerical specialization of this expression.}
+Set
+\[
+ p=863,\qquad x=10^{1000},\qquad
+ \varepsilon=\frac1{100},\qquad J=1000,\qquad
+ M=\lceil\exp(10^{10})\rceil.
+\]
+Writing $B=10^{10}$, the source scale gives
+$b=\exp(B)$ and $a=10^{1000}\exp(B)$.
+Since $M\ge B^2/2$, $\log 863>1$ and $\log10<3$, the displayed
+full expression is strictly greater than
+\[
+ \frac{48B^2}{744768}-76800(B+3000)>0.
+\]
+The last assertion is an exact rational inequality, independently
+checked by the accompanying script.  This uses the full
+$F-E$ formula and the actual vanishing stabilizer term; it is not
+a conclusion from positivity of $F$ alone.
+
+\paragraph{Remaining realization condition.}
+Part (b) is a conditional identity, and the final paragraph proves
+positivity of its concrete right hand side.  It is not yet a
+certificate that the complete actual global row, twist, integral
+lattice and period-valuation data realizing all four ties have
+been assembled.  In particular, the source's abstract
+\texttt{RowsRestModel} completion of actual columns must not be
+substituted for the actual Poincare map required by a
+\texttt{RealPack}.
+
+The starting full host $H_0$ has $(q,d)=(571,599)$,
+$TT=\varnothing$, $T_2=\{0\}$, $L_w=50$ and split bound $2$.
+It must first be relevelled: the complete proof of
+\texttt{exists\_relevel\_primes\_one\_mod} preserves its raw host
+field and these combinatorial fields while imposing the stronger
+\texttt{Pre.level\_cond}.  Choosing its bound above $863$ makes
+the new type primes and distinguished level primes exceed $863$.
+The concrete scale has
+$\lfloor x^{\varepsilon/(5J)}\rfloor
+ =\lfloor10^{1/500}\rfloor=1\le2$,
+so its split-bound condition does not require changing the raw host.
+The remaining construction must be checked independently of the
+\texttt{RankVal} route excluded by SF-Q6-03.
+
+\paragraph{Exact source locators and checks.}
+Paths are relative to \texttt{lean/src/}.
+\begin{itemize}
+\item \texttt{Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/
+PredMemGamRanks.lean}: definitions \texttt{autO}, \texttt{autOrd},
+\texttt{gamRanks}, \texttt{gamOrd}, \texttt{DGam} and proofs
+\texttt{autO\_finite} through \texttt{DGam\_pos} (lines 322--389);
+\texttt{chainAt} (lines 955--966).
+\item \texttt{Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/
+DGamDvdOfMinkMult.lean}: \texttt{le\_N\_of\_mem\_gamRanks}
+(lines 13--27); \texttt{TrueColumnChainsSatisfyConditions.lean}:
+\texttt{ColIn.Ok.chIn\_ok} (lines 55--75).
+\item \texttt{Formalism/LocalToGlobal/Columns/
+DecorationStabilizerTrivialUnipotent.lean}:
+\texttt{primeOrder\_le}, \texttt{prime\_le\_of\_dvd\_card}
+(lines 345--389), the same restriction-of-scalars/Cauchy argument.
+\item \texttt{Formalism/LocalRingCardinality/DataForced.lean}:
+\texttt{FInert}, \texttt{FvalP} (lines 112--135);
+\texttt{DataErr.lean}: \texttt{EatC} (lines 121--123),
+\texttt{Eval} (lines 159--170); \texttt{DataParams$_2$.lean}:
+\texttt{gainD}, \texttt{sg} (lines 212--216).
+\item \texttt{Formalism/SharpRestriction/GrowthBounds/
+IsResidueClassZero.lean}: \texttt{gainP} (line 355),
+\texttt{ParametersFill} (lines 401--411).
+\item \texttt{Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/
+ExistsHostCongruencePrimes.lean}:
+\texttt{exists\_relevel\_primes\_one\_mod} (lines 16--102).
+\end{itemize}
+The full cited stabilizer proofs and the complete defining local
+branches were read and reconstructed.  No Lean compilation is claimed.

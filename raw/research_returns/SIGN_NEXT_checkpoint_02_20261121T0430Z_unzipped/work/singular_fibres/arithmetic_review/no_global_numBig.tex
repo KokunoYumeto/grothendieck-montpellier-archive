@@ -1,0 +1,66 @@
+% Source-level specialization check by /root/singular_fibres.
+% GPT-6 Astra Pro; effort not exposed. 2026-11-21.
+\subsection{SF-Q6-01: the numerical \texttt{numBig} record is not a global record}
+
+The numerical witness \texttt{numFactsBig} must not be promoted to a
+specialization of an actual step-10 global \texttt{D7} datum.
+This limitation is provable from the source definitions, independently
+of whether a constructor happens to have been found.
+
+\paragraph{Statement SF-Q6-01.}
+There are no global datum $D:\texttt{D7}$, size datum
+$L:\texttt{SizeData}_{2}(D)$, and nonnegative integers $\Delta,h_0$ for which
+\texttt{ofRecord D L Delta h0} has the rank and host fields of
+\texttt{numBig}. The same assertion holds for \texttt{numEx}.
+
+\begin{proof}
+\texttt{NumbersLink.lean}, definition \texttt{numBig}, copies
+\texttt{numEx.R} and \texttt{numEx.H}.  In
+\texttt{NumbersLemmas.lean}, definitions \texttt{hostEx} and
+\texttt{numEx}, and the immediately following named equalities
+\texttt{hostEx\_q}, \texttt{hostEx\_d}, these fields are
+\[
+ (k,m,t,r,f)=(8,2,15,9,8),\qquad(q,d)=(11,7).
+\]
+An actual global $D$ has a field
+\texttt{D.host : Host D.R}.  The field \texttt{Host.qd\_big} in
+\texttt{Formalism/LocalRingCardinality/DataHost.lean} requires
+\[
+ 4tr+1<q,\qquad 4tr+1<d.
+\]
+For these ranks this reads $541<11$ and $541<7$, a contradiction.
+The definition \texttt{ofRecord} copies the global rank and host,
+so neither a choice of its size datum nor changes to $\Delta,h_0$
+can remove the contradiction.  The valid numerical inequalities in
+\texttt{numFactsBig} remain valid on their declared numerical domain.
+\end{proof}
+
+\paragraph{Constructive consequence and scope.}
+A global test with these ranks must replace the host.  The archive
+already supplies one permissible full host:
+\texttt{Formalism/LocalRingCardinality/SpanPowerMembership/
+ExampleLayerExistsGenerators.lean}, definition \texttt{Examples$_2$.H0},
+has $(q,d)=(571,599)$ and includes the required \texttt{qd\_big}
+proof. This supplies the full host, not a nonzero composed theta period.
+The subsequent Hecke-character, theta, integral-lattice, gain and error
+data must still be constructed and tied to that host.
+
+\paragraph{Exact source locators.}
+All paths below are relative to the supplied Lean archive's
+\texttt{lean/src/} root:
+\begin{itemize}
+\item \texttt{Formalism/LocalRingCardinality/DataHost.lean},
+      \texttt{Host}, especially \texttt{qd\_big};
+\item \texttt{Formalism/LocalRingCardinality/SpanPowerMembership/
+      ExampleRanksRankComplement.lean}, \texttt{Examples$_2$.R0},
+      \texttt{exampleRanks\_r};
+\item \texttt{Formalism/LocalToGlobal/Divisibility/NumbersLemmas.lean},
+      \texttt{hostHypEx}, \texttt{hostEx}, \texttt{hostEx\_q},
+      \texttt{hostEx\_d}, \texttt{numEx}, \texttt{ofRecord};
+\item \texttt{Formalism/LocalToGlobal/Divisibility/NumbersLink.lean},
+      \texttt{numBig}, \texttt{numFactsBig}, \texttt{recBig};
+\item \texttt{Formalism/LocalRingCardinality/SpanPowerMembership/
+      ExampleLayerExistsGenerators.lean}, \texttt{H0}.
+\end{itemize}
+This is a human proof by inspection of the displayed definitions;
+no Lean build is claimed.

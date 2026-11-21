@@ -1,0 +1,65 @@
+% Source-level scope lemma by /root/singular_fibres.
+% GPT-6 Astra Pro; reasoning effort not exposed. 2026-11-21.
+\subsection{SF-Q6-03: the asymptotic size constructor does not specialize to the fixed two-step ranks}
+
+\paragraph{Statement SF-Q6-03.}
+For the rank data
+\[
+  (k,m,t,r,f)=(8,2,15,9,8),
+\]
+there is no scale $s$ satisfying \texttt{GlobalTheory.EX.RankVal s R}.
+More generally, any rank data with $m=2$ satisfying
+\texttt{RankVal s R} must have $s.x<81$.
+
+\begin{proof}
+The last clause of \texttt{RankVal}, defined in
+\texttt{Development/AbelianVarietyTheory/Definitions/GlobalTwisting/
+PairRowIffQdRows.lean}, is the equality of nonnegative integers
+\[
+ r+t=8fr+4+\texttt{TOv}(s)\,\texttt{nWv}(R,s).
+\]
+For the displayed ranks the left side is $24$ and the right side is
+at least $8\cdot8\cdot9+4=580$, a contradiction.
+
+For the second assertion, \texttt{RankVal} also requires
+\[
+ \sqrt{x\delta_1}\le m,\qquad
+ \delta_1=x^{-\varepsilon/8},\qquad
+ x>1,\quad 0<\varepsilon<1/52.
+\]
+Since $1-\varepsilon/8>1/2$, one has
+$x\delta_1=x^{1-\varepsilon/8}\ge\sqrt{x}$.
+Consequently $m\ge x^{1/4}$.  If $x\ge81$ this gives $m\ge3$,
+contrary to $m=2$.  The archive proves precisely this general
+implication in
+\texttt{Proofs/IwasawaDecomposition/EventuallyNodeGapGeRankPow.lean},
+\texttt{NodeGap.le\_m}: $M^4\le x\Rightarrow M\le m$.
+\end{proof}
+
+\paragraph{Scope for a global specialization.}
+The actual constructor
+\texttt{Proofs/GlobalInterpolation/ExistsExplicitParameters.lean},
+\texttt{exists\_sizeData\_explicit}, assumes \texttt{RankVal};
+the assembled results in
+\texttt{Proofs/IwasawaDecomposition/SizeParametersNonempty.lean}
+reach it through \texttt{Ctx.ok.rank}.  These theorems therefore
+cannot fill the missing size datum for the fixed ranks of SF-Q6-02.
+An eventual-in-$x$ theorem with this rank window cannot retain
+$m=2$ along an unbounded scale family either.
+
+Neither conclusion asserts that the abstract \texttt{SizeData$_2$}
+or \texttt{DivInputs} types forbid every $m=2$ specialization.
+Those types do not contain \texttt{RankVal} as a universal axiom.
+A direct construction with different weights and independently
+verified bounds would be a different route.
+
+\paragraph{Exact locators and checks.}
+The defining rank equality is in
+\texttt{PairRowIffQdRows.lean}, lines 17--32;
+\texttt{ChOK.rank} is in
+\texttt{Definitions/GlobalTwisting/SetUnipotentTranslate.lean},
+lines 36--39; and \texttt{NodeGap.le\_m} is in
+\texttt{EventuallyNodeGapGeRankPow.lean}, lines 20--35.
+The author read these complete definition/proof passages and the
+full \texttt{exists\_sizeData\_explicit} constructor.  These are
+human source-level proofs; no Lean compilation is claimed.

@@ -1,0 +1,536 @@
+% IF-08 and IF-09: actual coefficient kernels and actual m=2 columns.
+% Included by contribution.tex. Full author proof reading recorded separately.
+\subsection{IF-08: the actual finite theta jet has an exterior-tensor realization}
+The finite coefficient map in the source is more general than a single
+raising operator. It can nevertheless be realized explicitly and
+integrally in exterior tensors, with exactly the same Smith indices.
+Here the relevant source declarations are
+\texttt{LocalToGlobal/KernelLattices/ThDistC.lean},
+\texttt{subD,jetLin,jetMap,jetOp,JetInVV,derivAt0,jetC}
+(lines 23--61), and
+\texttt{LocalRingCardinality/DataKerI.lean},
+\texttt{KM.Gxz,KM.applyAt0,KerEnt.kform} (lines 27--35 and 115--121).
+The former is the coefficient map itself; the latter describes its
+matrix entries tested against the dual product-minor lattice.
+
+Fix a partition $\lambda$, with column heights $h_1,\ldots,h_q$,
+and integers $a,b\geq\ell(\lambda)$. Put
+\[
+ A_\lambda(r)=\bigotimes_{c=1}^q\Lambda^{h_c}\mathbb Z^r,
+ \qquad T_\lambda(r)\subset A_\lambda(r)
+ \quad (r=a,b),
+\]
+where $T_\lambda(r)$ is the divided-root cyclic lattice of IF-04.
+Write $\pi_r:A_\lambda(r)\longrightarrow\mathbb Z[X]$ for
+multiplication of the corresponding initial-column minors. Use polynomial
+matrices with $r$ rows and the common $\ell(\lambda)$ columns. This
+makes rectangular substitution meaningful also when $b<a$; the
+source \texttt{subD} sends unused source columns $s\geq b$ to zero,
+and no such column occurs in these minors. Its cyclic
+restriction is the isomorphism
+$\Phi_r:T_\lambda(r)\xrightarrow\sim\Delta_\lambda(r)$ of IF-04.
+The full tensor image is $\nabla_\lambda(r)$, by the supplied
+\texttt{GradedWeylDivisibility/FinalC.lean}, theorem
+\texttt{standardMonomialSpan}, whose exact statement is
+\texttt{StatementA.lean}, \texttt{StandardMonomialSpan}, lines 221--226.
+We use that supplied integral straightening result as background.
+
+Let $Z=(z_{ui})$ be a $b$ by $a$ matrix of independent variables and set
+\[
+ A_\lambda(Z)=\bigotimes_c\Lambda^{h_c}Z
+       =\sum_\beta Z^\beta A_\beta,
+ \qquad A_\beta\in\operatorname{Hom}_{\mathbb Z}
+       (A_\lambda(a),A_\lambda(b)).
+\]
+For a characteristic-zero coefficient field $K$ and a prescribed moment
+function $J:\mathbb N^{ba}\to K$, define the concrete finite matrix
+\[
+ B_J=\sum_{|\beta|=|\lambda|}J(\beta)A_\beta.       \tag{IF-08a}
+\]
+Only finitely many entries of $J$ are used. If
+$\Theta(Z)=\sum_\beta\theta_\beta Z^\beta$, the source convention is
+\[
+ J_\Theta(\beta)=\beta!\,\theta_\beta,
+ \qquad \beta!=\prod_{u,i}\beta_{ui}!,              \tag{IF-08b}
+\]
+including the explicitly prescribed powers of the discriminant-period
+generators in \texttt{jetC}. Thus $J$ consists of ordinary derivatives
+at zero; it is not an unspecified divided-power normalization.
+
+\paragraph{Statement IF-08.}
+The lattices $T_\lambda(r)$ are saturated in $A_\lambda(r)$, and
+\[
+ \Phi_r:T_\lambda(r)\simeq\Delta_\lambda(r),\qquad
+ \Phi_r:T_\lambda(r)^\#\simeq\nabla_\lambda(r)       \tag{IF-08c}
+\]
+are isometries for the tensor-exterior pairing on the left and the
+normalized Fock pairing on the right. The matrix $B_J$ preserves the
+rational cyclic spaces. If its moments lie in a subring $R\subset K$,
+it carries $T_\lambda(a)\otimes R$ into $T_\lambda(b)\otimes R$.
+On those spaces the actual polynomial substitution followed by moment
+contraction satisfies
+\[
+ \Phi_b B_J=\operatorname{jet}_J\Phi_a.             \tag{IF-08d}
+\]
+This equation is an equality of explicit coefficient matrices. With
+source and target lattices as displayed, it preserves every
+Smith invariant over $\mathbb Z$ and every elementary-divisor exponent
+over a discrete valuation ring. The transpose identity gives the same
+statement for the normalized dual lattices.
+
+For a determinant insertion of order $n\geq0$, multiplication by
+$\det(X)^n$ is represented on the exterior side by insertion of $n$
+copies of the oriented top wedge of $\mathbb Z^a$. Thus the complete
+\texttt{jetMap J n}, including its determinant factor, is intertwined
+by the same construction. Its rational retraction \texttt{retrVV}
+has no effect under the supplied \texttt{JetInVV} hypothesis.
+
+\begin{proof}
+We first make the scalar normalization and saturation explicit. Let
+\[
+ c_\lambda=\langle p_\lambda,p_\lambda\rangle_{\rm Fock}
+   =\sum_\alpha ([X^\alpha]p_\lambda)^2\alpha!>0.
+                                                               \tag{IF-08e}
+\]
+This explicit finite sum is an integer independent of the ambient rank $r\geq\ell(\lambda)$.
+IF-04 proves $\pi_r^*\pi_r=c_\lambda$ on $T_\lambda(r)_\mathbb Q$,
+where the adjoint uses the unnormalized factorial Fock form and the
+orthonormal exterior tensor form. The rational image of $\pi_r$ is
+already the image of its cyclic subspace, by
+\texttt{GradedWeylDivisibility/FinalB.lean}, theorem
+\texttt{weylEqNablaQ} (the supplied \texttt{WeylEqNablaQ} statement).
+Hence $T_\lambda(r)_\mathbb Q=(\ker\pi_r)^\perp$. On the whole tensor
+space we therefore have
+\[
+ \pi_r^*\pi_r=c_\lambda P_r,\qquad
+ P_r=\frac1{c_\lambda}\pi_r^*\pi_r,                 \tag{IF-08f}
+\]
+where $P_r$ is the orthogonal projection onto the cyclic rational
+space. These formulas display, rather than discard, the scalar.
+
+Suppose $t\in T_\lambda(r)_\mathbb Q\cap A_\lambda(r)$.
+For every $v\in A_\lambda(r)$, (IF-08f) gives
+\[
+ \frac{\langle\pi_rt,\pi_rv\rangle_{\rm Fock}}{c_\lambda}
+       =\langle t,v\rangle\in\mathbb Z.
+\]
+The full image $\pi_r(A_\lambda(r))$ is $\nabla_\lambda(r)$.
+The supplied normalized duality theorem
+\texttt{LocalToGlobal/Columns/CoefficientsModP.lean},
+\texttt{weylEqDualNabla} (line 31),
+therefore implies $\pi_rt\in\Delta_\lambda(r)$; IF-04 gives
+$t\in T_\lambda(r)$. This proves saturation. The other normalized
+duality, \texttt{nabla\_eq\_dual\_weyl\_holds} in
+\texttt{Columns/CoefficientsModP/WeTransposeWordTransposeWord.lean}
+(line 74), and the isometry of IF-04 yield
+(IF-08c). Equivalently $P_r(A_\lambda(r))=T_\lambda(r)^\#$;
+this also follows by extending an integral linear functional on the
+primitive sublattice $T_\lambda(r)$ to the free ambient lattice.
+The projection can have denominators, exactly those already present
+in this specified dual lattice.
+
+The exterior matrix $A_\lambda(Z)$ has entries
+$\prod_c\det Z[I_c,J_c]$. Multiplication of minors gives
+\[
+ \pi_b A_\lambda(Z)=\rho_Z\pi_a,                  \tag{IF-08g}
+\]
+where $\rho_Z$ substitutes $X_{is}\mapsto\sum_u Z_{ui}X_{us}$.
+For completeness, expand a determinant of these sums by multilinearity
+in its rows. Terms with a repeated index vanish by alternation; grouping
+all permutations of each increasing index set gives the determinant
+$\det Z[I,J]$ times the corresponding minor of $X$. Multiplying these
+identities over the columns gives (IF-08g), including all signs.
+
+For a rational specialization of $Z$, (IF-08g) sends $\ker\pi_a$
+into $\ker\pi_b$. Its transpose version sends $\ker\pi_b$ into
+$\ker\pi_a$, since $A_\lambda(Z)^t=A_\lambda(Z^t)$.
+Taking orthogonal complements shows
+$A_\lambda(Z)T_\lambda(a)_\mathbb Q\subset
+T_\lambda(b)_\mathbb Q$. This holds for every rational matrix $Z$.
+Every coefficient $A_\beta$ consequently has the same containment:
+apply any linear functional vanishing on the latter space and use
+that a polynomial vanishing at all rational tuples is zero.
+The coefficients $A_\beta$ are integer matrices; the saturation just
+proved implies $A_\beta T_\lambda(a)\subset T_\lambda(b)$.
+This proves the claimed integrality for arbitrary $R$ and $J$.
+
+Apply the moment functional $Z^\beta\mapsto J(\beta)$ to (IF-08g).
+It gives (IF-08d). For $J=J_\Theta$, direct differentiation of a
+monomial proves (IF-08b); this is exactly the factorial in
+\texttt{KM.applyAt0}. The test-minor version is
+\[
+ \operatorname{applyAt0}(\Theta,G_I(XZ))
+   =\sum_J \Bigl(\sum_\beta\beta!\theta_\beta
+                [Z^\beta]\prod_c\det Z[J_c,I_c]\Bigr)G_J(X),
+                                                               \tag{IF-08h}
+\]
+with the direction of $Z$ transposed to match the source's test
+convention. This is the same matrix, paired with the dual lattice.
+Under (IF-08c), normalized Fock testing is ordinary tensor-exterior
+testing. The $c_\lambda$ in (IF-08f) has canceled because the Fock
+form is divided by that same $c_\lambda$; replacing normalized Fock
+by unnormalized Fock would retain that factor.
+
+Finally insert $n$ full-height columns in $A_\lambda(a)$. Their top
+wedges have norm one and transform by $\det^n$, while every row root
+annihilates them. Their cyclic sublattice is therefore exactly the
+cyclic lattice of the shape $\lambda+n(1^a)$, and their minor product
+is $\det(X)^n$. Thus determinant insertion also has no unspecified
+scalar. In integral bases, (IF-08d) and its determinant variant are
+conjugations by unimodular source and target matrices. Their images,
+cokernels, saturated images and local lengths are correspondingly
+isomorphic. This proves the assertions about Smith invariants,
+including for rectangular maps and rank-deficient images, where the
+finite index means the index in the saturation of the image.
+\end{proof}
+
+\paragraph{Assembly of the actual finite kernel.}
+This is not merely a highest-weight-root comparison. For every
+supplied theta jet $J_{j,c',c}$, (IF-08a) specifies its exterior-tensor
+matrix. The complete block matrix retains the source's actual scalar
+factors:
+\[
+ \widehat K_j(c',c)=\frac{\rho_j(c)\rho'_j(c')}{|\Gamma_{j,c}|}
+        B_{J_{j,c',c}}\,D_{n_j}.                  \tag{IF-08i}
+\]
+Here $D_{n_j}$ inserts the determinant factors, and the target
+one-dimensional determinant character is retained as a separate
+rank-one lattice. The scalar entries and the jets include precisely
+the period generators and frame changes specified in the source.
+Formula (IF-08i) is the tensor version of
+\texttt{SharpRestriction/GlobalSchurBounds/GL3Theta.lean},
+\texttt{liftTie,lift\_formula} (lines 575--596), and
+\texttt{LocalRingCardinality/DataKernels.lean},
+\texttt{wt,sharp,divDe,Kmap,K} (lines 52--68).
+
+The coefficient isomorphisms commute with the relevant group actions;
+hence they transport invariant submodules, local lattice tests and
+finite direct sums over lattice classes. For an actual supplied
+finite global matrix they give an isomorphic kernel matrix, with all
+its stabilizer denominators still displayed. The test condition
+\texttt{KerEnt.lat\_S} is pairing integrality against
+\texttt{KM.nablaX}; its exterior version is integrality against
+$T_\lambda^\#$, not against a second copy of $T_\lambda$.
+When the source's local integrality assumptions hold, the transported
+matrix has exactly the same integral elementary divisors. No new
+integrality assumption is silently supplied here.
+
+The precise global integral lattice is also identifiable in the source.
+\texttt{Columns/Record.lean}, \texttt{stepH} (lines 1286--1287),
+uses \texttt{intDel}; \texttt{Columns/CoefCol.lean},
+\texttt{roundPk} (lines 59--64), uses \texttt{Del=delAtr} and
+\texttt{Nab=nabAtr}. Thus the integral global column forms use the
+Weyl lattice; the dual Weyl lattice supplies its testing lattice.
+In \texttt{Divisibility/CoefMod.lean},
+\texttt{transLat,delP,delK} (lines 196--211), the lattice is explicitly
+the intersection of the inverse images of standard local lattices
+under \texttt{actP} applied to $B^{-1}$ for local frames $B$.
+Since \texttt{actP} is determinant twist times the transposed
+polynomial row action (lines 69--76), its exterior action is
+\[
+ R_\lambda(B)=\prod_\tau\det(B_\tau)^{s_\tau}
+       \bigotimes_{\tau,c}\Lambda^{h_{\tau,c}}B_\tau.
+                                                               \tag{IF-08j}
+\]
+The round realization uses the source's inverse-transpose convention
+\texttt{rhoVr}; its \texttt{delAtr} is formed from the dual frame
+lattice (\texttt{CoefMod.lean}, lines 320--330). Applying exactly that
+same convention to (IF-08j) transports the global intersection and
+all its localizations; no free global basis of a nonprincipal
+coefficient ideal is presumed.
+
+In the following formula $B_{j,c}$ means the frame of the coefficient
+lattice used by \texttt{transLat}. For an actual round column whose
+geometric frame is $C_{j,c}$, this means $B_{j,c}=C_{j,c}^{-t}$,
+with the dual-frame convention just specified; one must not insert
+$C_{j,c}$ directly into $R_j(B_{j,c})$. For chosen local bases at a
+prime $w$, the transported block matrix is therefore the explicit matrix
+\[
+ R_{j+1}(B_{j+1,c'})^{-1}
+ \frac{\rho_j(c)\rho'_j(c')}{|\Gamma_{j,c}|}
+ \Bigl(\sum_{\beta}J_{j,c',c}(\beta)A_{\beta}\Bigr)
+ D_{n_j} R_j(B_{j,c}).                              \tag{IF-08k}
+\]
+One sums these blocks over the actual finite class representatives,
+then restricts to the invariant and level submodules defining forms.
+This is the double-coset sum \texttt{kerOpM}; its scalar analogue is
+\texttt{thetaLiftAMF} in \texttt{ThetaLiftIndependence/Statement.lean},
+lines 80--84. In a local field the scalar valuation in (IF-08k) is
+\[
+ v_w(\rho_j(c))+v_w(\rho'_j(c'))-v_w(|\Gamma_{j,c}|),
+\]
+and a jet additionally contributes the recorded period-generator
+valuation $\sum_\tau |\beta_\tau|v_w(c_{D,\tau})$ to its ordinary
+Taylor derivative valuation. They have not been dropped or replaced
+by root factorials. For a resulting local matrix $M$ of rank $r$,
+put $s_0=0$ and
+\[
+ s_k=\min_{|I|=|J|=k}v_w(\det M_{I,J}),\qquad 1\leq k\leq r.
+\]
+Its elementary-divisor exponents are $s_k-s_{k-1}$; its image index
+in the saturated image, when $M$ is integral, has length $s_r$.
+These statements follow directly from the Smith normal form over a
+DVR, and the formulas are unchanged by (IF-08c). This gives an exact
+finite algorithm for the actual global transport, including every
+local denominator. A terminal period functional is transported by
+the same dual isomorphism, so its value on the transported chain is
+identical, not merely bounded by the original value.
+
+The result does not identify (IF-08i) with a single $L$, $L^{(r)}$,
+or a polynomial in one Lefschetz pair. The actual moments,
+class numbers, characters and stabilizers remain part of the matrix.
+It constructs the requested finite-kernel intertwiner and proves
+index transport; equality with a separately defined Lefschetz order
+index would still require an additional operator identity. IF-03 and
+IF-05 show why discarding the operator and lattice distinctions gives
+false numerical equalities.
+
+\subsection{IF-09: the actual two-step column chain and a fixed kernel test}
+The polynomial coefficient weights of the definite column chain must
+be distinguished from the auxiliary $a^+$ row weights in IF-05.
+For the actual \texttt{numEx} datum and its all-false word, define
+\[
+ u=(113/2,47/2,39/2,31/2,23/2,15/2,7/2,-1/2),\qquad
+ \lambda_0=(53,21,18,15,12,9,6,3).
+\]
+The unshifted weights from \texttt{MemberForms.lam\_eq} are
+\[
+ \lambda_1^N=(\lambda_0,-88^{[16]}),\qquad
+ \lambda_2^N=(\lambda_0,-88^{[16]},-90^{[16]}).
+\]
+The actual \texttt{colVal} uses \texttt{Wts.lamTrue}, which subtracts
+$8j$ from every entry at stage $j$. Thus the determinant exponents of
+its three polynomial realizations are
+\[
+ (s_0,s_1,s_2)=(3,-96,-106),
+\]
+and their polynomial partitions are
+\[
+\begin{split}
+ \alpha_0&=(50,18,15,12,9,6,3,0),\\
+ \alpha_1&=(141,109,106,103,100,97,94,91,0^{[16]}),\\
+ \alpha_2&=(143,111,108,105,102,99,96,93,2^{[16]},0^{[16]}).
+\end{split}                                                     \tag{IF-09a}
+\]
+Here $x^{[r]}$ means $r$ repeated entries. These formulas follow by
+substitution in \texttt{DataCoeff.hcToWeightQ},
+\texttt{Params.wG}, \texttt{MemberForms.lam\_eq}, and
+\texttt{Columns/AbelianHostFieldConditions.lean},
+\texttt{Wts.lamN, Wts.lamTrue} (lines 462--465).
+\texttt{Columns/CoefCol.lean}, \texttt{colVal} (lines 89--91), and
+\texttt{Divisibility/ColPins.lean}, \texttt{lamOfCol} (lines 21--26),
+pin this distinction to the actual column map.
+
+The kernel diagrams, before appending target zeros, are
+\[
+ \nu_1=(141,109,106,103,100,97,94,91),\qquad
+ \nu_2=(143,111,108,105,102,99,96,93,2^{[16]}).       \tag{IF-09b}
+\]
+They are exactly the output of \texttt{NumDatum.nu} and
+\texttt{DV.nuRow}; they are also
+$\alpha_0+91(1^8)$ and $\alpha_1+2(1^{24})$.
+The source has
+$\mathrm{sSharp}=(88,98)$ and $\mathrm{sDiv}=(96,106)$.
+The identities
+$s_i+\mathrm{sSharp}_i=n_i$ and
+$s_{i+1}=-\mathrm{sDiv}_i$ give
+\[
+ (n_0,n_1)=(91,2).                                  \tag{IF-09c}
+\]
+They are precisely \texttt{KerEntTied.WtTie} in
+\texttt{KernelLattices/JetFieldLeKR.lean}, lines 108--111.
+Consequently the actual finite coefficient chain of IF-08 is
+\[
+ T_{\alpha_0}(8)\xrightarrow{D_{91}}
+ T_{\nu_1}(8)\xrightarrow{B_{J_1}}
+ T_{\alpha_1}(24)\xrightarrow{D_2}
+ T_{\nu_2}(24)\xrightarrow{B_{J_2}}
+ T_{\alpha_2}(40),                                  \tag{IF-09d}
+\]
+The two determinant degree increments are $8\cdot91=728$ and
+$24\cdot2=48$. Thus two lifts do not represent $L^2$.
+The chain retains the determinant characters $s_i$ and the scalar block
+factors (IF-08i). This specifies the whole finite polynomial kernel,
+not just a simple-root summand.
+
+The actual column simple-root gaps include $32,3,91,2$ (zero gaps are
+trivial). Their top-to-second-descendant invariants are
+\[
+\begin{array}{c|c|c|c}
+ d&F^2\text{ on Weyl}&F^2\text{ on normalized dual}
+       &F^{(2)}\text{ on normalized dual}\\\hline
+ 2&2&2&1\\
+ 3&2&6&3\\
+ 32&2&992&496=2^4\cdot31\\
+ 91&2&8190&4095=3^2\cdot5\cdot7\cdot13
+\end{array}.                                                   \tag{IF-09e}
+\]
+On the Weyl lattice every displayed $F^{(2)}$ invariant is one, by
+IF-04. Thus the dual-lattice obstruction is present in the actual
+column coefficients themselves. The auxiliary row gap $90$ in IF-05
+is a separate, correctly labeled test.
+
+The source's \texttt{numEx} is a numerical datum, not a full
+\texttt{NumFacts} witness. The repaired \texttt{numBig} is given in
+\texttt{NumbersLink.lean}, \texttt{numBig} (line 803) and
+\texttt{numFactsBig} (line 1260). It retains the row parameters and
+changes $u_7$ from $-1/2$ to $-7/2$ at one specified real place, besides
+changing the size parameters. At that place $s_0=0$, $n_0=88$;
+the last entries $91,93$ in (IF-09b) become $88,90$ respectively.
+The other entries and the second determinant insertion $n_1=2$
+are unchanged. The additional column gaps are $6,88$, with
+$\binom62=15$ and $\binom{88}2=3828=2^2\cdot3\cdot11\cdot29$.
+The normalized dual obstruction therefore persists for this valid
+numerical-facts instance. It does not depend on treating
+\texttt{numEx} as a nonexistent full global witness.
+
+There is also a precise host obstruction to regarding
+\texttt{numBig} itself as a full global \texttt{D7} record.
+\texttt{NumbersLink.numBig} retains \texttt{numEx.H};
+\texttt{NumbersLemmas.hostEx\_q,hostEx\_d} give $q=11,d=7$.
+But \texttt{DataHost.lean}, \texttt{Host.qd\_big} (line 52), requires
+$4tr+1<q,d$. Here $t=15,r=9$, so $4tr+1=541$, contradicting both
+inequalities. Thus its \texttt{NumFacts} theorem certifies numerical
+conditions only; it cannot instantiate that full global host with
+these primes. The polynomial representations and kernel tests above
+are nevertheless fully specified and valid on their stated coefficient
+lattices.
+
+\paragraph{An exact nonzero kernel test.}
+For the rectangular coordinate inclusion $A:\mathbb Z^a\hookrightarrow
+\mathbb Z^b$, define
+\[
+ \Theta_A(Z)=\exp\bigl(\sum_{u,i}A_{ui}z_{ui}\bigr),\qquad
+ [Z^\beta]\Theta_A=A^\beta/\beta!.
+\]
+This is the precise series \texttt{ThE} in
+\texttt{SpanPowerMembership/NZRowV.lean}, lines 77--79.
+Its factorial cancellation is the supplied theorem
+\texttt{fac\_ThE}, lines 89--97; its kernel evaluation is
+\texttt{eval\_applyAt0,eval\_Gxz}, lines 99--146.
+For this specified series $J(\beta)=A^\beta$, so
+$B_J=A_\lambda(A)$ by (IF-08a). Each map in (IF-09d) is then an
+inclusion with saturated image. Indeed it carries its ambient tensor
+basis injectively into the larger ambient tensor basis; saturation of
+the cyclic lattices was proved in IF-08. The determinant insertion
+has the same property, since it tensors with a primitive norm-one
+vector. Their composite is primitive for the same ambient basis
+reason. Its nonzero Smith factors are all one.
+
+Taking the highest vector at the beginning and the normalized dual
+highest functional at the end gives period exactly $1$ after both
+arrows. This assertion is fully fixed-data: the kernels, lattices,
+vectors, determinant insertions and functional have been specified.
+On the highest diagonal monomial the derivative factor is
+$\prod_i\nu_{j,i}!$ and the coefficient of $\Theta_A$ is its inverse,
+so the unit value is an explicit factorial cancellation, not an
+assumption that the two normalizations agree.
+
+\paragraph{A compatible common Lefschetz action on this fixed family.}
+There is nevertheless a positive integral intertwining result for the
+same specified kernel chain. Fix one simple root inside the first eight
+rows, for example rows $2,3$. Every determinant insertion and coordinate
+inclusion in (IF-09d) commutes with both of its root operators $E_i,F_i$:
+$E_i$ and $F_i$ kill a full determinant vector, and the coordinate
+inclusion is the identity on those two rows. These identities hold on
+the entire cyclic coefficient lattice, not just the highest root string.
+
+For each coefficient lattice apply the particle-hole embedding of IF-04
+into $V_{N_j}$, with $N_j=(r_j-1)q_j$ and $q_j$ its number of columns.
+Let $N=\max_jN_j$, and pad the embedding with a singleton $e$ in each
+of the $N-N_j$ extra symplectic pairs. Singleton padding is an integral
+isometry with primitive image and is annihilated by both the raising
+and lowering on each extra pair. It therefore intertwines the same
+$L,D$ on $V_N$. Primitivity of $T_\lambda$ in its column ambient lattice
+(IF-08), followed by the coordinate-basis particle-hole embedding and
+padding, makes each image a primitive $L,D$-stable sublattice of $V_N$.
+Thus the fixed \texttt{ThE} arrows are specified integral isometric maps
+between those sublattices, commuting with one common Lefschetz action,
+and their nonzero Smith factors remain one. For (IF-09d), one may take
+$N=39\cdot143=5577$ at each embedding factor. Tensoring the eight
+factors gives the diagonal root action on $V_{8N}=V_{44616}$, with
+the same integral and primitivity statements.
+
+The exterior degree of a vector of simple-root weight $h$ is
+$N_j-h$ before padding and $N-h$ after padding. Consequently these
+intertwining maps have degree zero. They are not applications of $L$;
+that stronger assertion is excluded below. No integral equivariant
+extension of the arrows to all of $V_N$ is asserted. Nor is algebraicity
+of these particular particle-hole image sublattices asserted; IF-10
+provides a separate geometric coefficient realization with its stated
+character normalization.
+
+For an arbitrary moment block $B$ between the same standard coefficient
+lattices, the exact additional common-root conditions are the finite
+matrix equations
+\[
+ E_i' B=B E_i,\qquad F_i' B=B F_i.                 \tag{IF-09f}
+\]
+They suffice for all divided powers, by equality in characteristic zero
+and their integral preservation. For the actual global form spaces one
+must also check that the proposed root action preserves their invariant
+and level submodules and their local lattices. These are explicit
+operator/lattice conditions after (IF-08k), and are not consequences of
+mere theta-kernel rationality. No such common-root invariance is assumed
+for the unspecified global moments.
+
+\paragraph{A fixed-normalization obstruction to two ordinary Lefschetz arrows.}
+This particular two-step kernel chain cannot be intertwined with two
+successive applications of the same fixed ordinary $L$ on one full
+integral symplectic exterior lattice by integral embeddings whose
+final target image is saturated. Indeed its highest vector is
+sent to a primitive highest vector. A saturated integral embedding
+preserves primitivity. But $L^2=2L^{(2)}$ on every such exterior
+lattice, so the image of $L^2$ is contained in $2V_n$ and contains no
+primitive vector. This is a contradiction. Even without saturation,
+an isometric integral embedding for the fixed normalized pairings is
+impossible: the resulting highest vector has squared norm one, whereas
+a nonzero vector in $2V_n$ has squared norm at least four. The full
+exterior monomial basis is orthonormal, so both assertions follow
+immediately by inspecting its integer coefficients. This proves a
+fixed-data failure of the ordinary-$L^2$ normalization, rather than a
+failure caused by leaving the test vector unspecified. The same argument
+also excludes two positive divided powers of that same fixed $L$:
+for $a,b>0$,
+\[
+ L^{(a)}L^{(b)}=\binom{a+b}{a}L^{(a+b)},
+\]
+and the integer $\binom{a+b}{a}>1$ divides every coordinate of the
+composite image. Thus a primitive or norm-one composite cannot occur.
+This leaves tensor-functor realizations such as IF-09d, or operators
+belonging to different specified Lefschetz pairs, outside the
+obstruction.
+
+These kernels are a concrete algebraic test family for the exact
+source operator formula; the source also builds \texttt{KerEnt}
+instances with \texttt{ThE} in \texttt{NZRowW.lean},
+\texttt{levelRecordTwistEntries}, and \texttt{NZRowZ.lean},
+\texttt{fin\_ent}. We do not assert that this exponential test family
+is the globally automorphic theta function in Alp\"oge's construction,
+or that it satisfies all the additional global theta hypotheses.
+For that actual global function, (IF-08i) is still an explicit
+intertwining formula in its actual finite jets; computing its Smith
+numbers requires those finite jet values and class data. An
+existential theta construction or a lower bound does not determine
+those numbers. The finite-kernel realization has therefore been
+constructed, while the distinct claim that every actual global index
+equals one universal Lefschetz order index has not been proved.
+
+\paragraph{Schemes, $\lambda$-operations, and realizations.}
+Every $A_\lambda(Z)$ above is a polynomial matrix over
+$\operatorname{Spec}\mathbb Z$, assembled from the exterior-power
+operations $\Lambda^{h_c}$ and tensor products. Its class in $K_0$
+is the corresponding product of $\lambda^{h_c}$ classes. The
+saturated cyclic lattice and its explicit dual retain information
+which $K_0$ alone forgets: a finite-index inclusion has the same
+rational character and can have different integral cokernel.
+Base change to $\mathbb Z_\ell$ preserves the displayed integral
+intertwiners and carries a Smith factor $d$ to local length
+$v_\ell(d)$. Tensoring with $\mathbb Q_\ell$ forgets that length.
+When these spaces are realized in the cohomology of an abelian
+variety, their tensor and exterior operations are motivic tensor
+operations. The formal coefficient identification alone supplies no
+new algebraic correspondence representing the theta moment matrix
+or the Hodge sign operator. Such an assertion would require the
+separate algebraicity comparison under discussion in Q6g and the
+main question.

@@ -1,0 +1,151 @@
+% Source-level arithmetic constructor review by /root/singular_fibres.
+% GPT-6 Astra Pro; reasoning effort not exposed. 2026-11-21.
+\subsection{SF-Q6-02: an actual rational theta-jet construction, and its size obstruction}
+
+The archive does contain an inhabited, genuine two-step theta-jet
+construction.  This is stronger than a numerical \texttt{NumDatum} or
+an arbitrarily assigned one-dimensional kernel.  Its displayed
+small-weight construction does not, however, supply a
+\texttt{SizeData$_2$} datum, and therefore cannot be used as a closed
+\texttt{DivInputs} specialization.
+
+\paragraph{Exact constructive statement and normalization.}
+In
+\texttt{Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/
+ExistsHypJetsAll.lean}, \texttt{JetsInhab.exists\_colIn\_jets}
+constructs
+\[
+ \exists B,\ X:\texttt{PreX}(B),\ I:\texttt{ColIn}(B,X),\qquad
+ \texttt{HasLetters}(B)\ \wedge\ I.\texttt{Ok}\ \wedge\ I.\texttt{JetsIn}.
+\]
+The proof invokes the actual Hecke-character and column constructors,
+adjoins a finite set of algebraic coefficients to the coefficient field,
+and invokes \texttt{JetEx.exists\_jetsIn}.  The latter replaces the
+ambient normalization by the chosen \texttt{amb0}, and resets the
+relevant index exponents to $A=B=m$; it preserves the Hecke frame,
+the excluded prime set, and the range of twisting characters.  It
+does not assert preservation of every initial index or ambient datum.
+
+The resulting rationality is exactly the degree-restricted statement
+in \texttt{JetsInIffStepField.lean}: for each used step $i<m$, each
+admitted lattice/coset datum, and each multi-index $\alpha$ with
+the prescribed multidegree $\nu_W$,
+\[
+ \chi_F(N,N')^{-1}\,
+ \biggl(\prod_{\tau,r,s}c_D(\tau)^{\alpha_{\tau rs}}\biggr)
+ \partial^\alpha\operatorname{thInd}(0)
+ \ \in\ B.\texttt{embLL}.\texttt{fieldRange}.
+\]
+Here \texttt{jetC} is the ordinary iterated derivative defined in
+\texttt{Formalism/LocalToGlobal/KernelLattices/ThDistC.lean},
+\texttt{derivAt0} and \texttt{jetC}, with no division by
+$\alpha!$.  This proves rationality in the finite homogeneous
+degrees used by the kernel, rather than the stronger all-degree
+predicate \texttt{Amb.JetsRat}.  It consequently supplies real
+coefficient data for a finite homogeneous realization that explicitly
+retains this derivative normalization.
+
+\paragraph{The parameters of the displayed construction.}
+Tracing the proof through \texttt{exists\_pre\_sized} and
+\texttt{exists\_pre\_two\_words} gives the following refinement
+of its selected witness:
+\[
+ (k,m,t,f)=(8,2,15,8),\qquad N_i=8+16i,
+\]
+and, at every $\tau$,
+\[
+ \begin{split}
+ v&=(24,20,16,12,8,4,0),\\
+ u&=(49,45,37,29,21,13,5,-1)/2,\\
+ b&=(1,37),\qquad e=(19,55).
+ \end{split}
+\]
+Indeed \texttt{exists\_pre\_two\_words} selects
+\texttt{Formalism.MainNotions.Inhab.Rt 0}, takes
+$\Delta=1$, $h_h=t+3=18$, $u_F=24$, $u_L=-1$ and $b_1=1$,
+and uses the word with all Boolean letters true.  The prescribed
+Harish--Chandra construction gives $b_j=1+36j$, $e_j=b_j+18$,
+$u_0=24+1/2$, $u_7=-1+1/2$, and
+$u_{\ell+1}=v_\ell-1/2-1$.
+The subsequent \texttt{exists\_pre\_sized} restricts to this base
+word (\texttt{Word := Unit}); it changes $d_u^*$ and $D^*$ so
+that its $T$ window holds.  It does not change these weights or
+the nonempty set \texttt{host.TT}, originally chosen to be $\{0\}$.
+Thus the word ``sized'' in this constructor is not the full
+\texttt{SizeData$_2$} assertion.
+
+This is a statement about the witnesses obtained by the displayed
+construction, or equivalently about the refinement of that proof
+retaining its parameter equalities.  The unrefined existential
+theorem does not say that every possible witness has these parameters.
+
+\paragraph{Statement SF-Q6-02.}
+Let $D$ be a global datum with $k=8$ and
+$\texttt{host.TT}\ne\varnothing$.  Suppose the last
+Harish--Chandra coordinate at every top embedding is $u_7=-1/2$.
+Then there is no $L:\texttt{SizeData$_2}(D)$.
+In particular, the selected small-weight witnesses just displayed,
+and records retaining their host and Harish--Chandra data, do not
+provide such an $L$.
+
+\begin{proof}
+Choose $t\in\texttt{host.TT}$ and its corresponding top embedding
+$\tau$ (using the equivalence \texttt{D.eTau} and
+\texttt{tau1P}).  The \texttt{top\_u} field of
+\texttt{SizeData$_2$} gives
+\[
+ -\frac12=-b_T(t)-\frac{k-1}{2}
+             =-b_T(t)-\frac72,
+ \qquad\text{hence}\qquad b_T(t)=-3.
+\]
+On the other hand \texttt{bT\_ge} gives
+$b_T(t)\ge b'>0$.  The positivity is immediate from
+$x>1$, $b=\exp(x^\varepsilon)>0$,
+$a=xb>0$ and
+$b'=a/\exp(x^{\varepsilon/3})>0$.
+This is a contradiction.
+\end{proof}
+
+\paragraph{What remains available.}
+The rational two-step coefficient construction is useful in its own
+right.  The general theorem
+\texttt{exists\_preCh\_of\_prescribed} also permits other
+Harish--Chandra weights; the obstruction above concerns the specific
+small-weight specialization, not all $m=2$ global data.  A full
+arithmetic specialization must choose weights satisfying every
+\texttt{SizeData$_2$} condition, assemble the gain and error data,
+retain the stabilizer contribution, and establish the relevant
+composed period or positive full bound.
+
+\paragraph{Exact source locators.}
+Paths are relative to the supplied archive's \texttt{lean/src/} root.
+\begin{itemize}
+\item \texttt{Formalism/SharpRestriction/InertJacobiLevels/HostFam.lean},
+      \texttt{Rt} (lines 14--30).
+\item \texttt{Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/
+      ExistsNatBoundPre.lean}, \texttt{exists\_pre\_two\_words}.
+\item The same directory,
+      \texttt{ExistsHarishChandraWeights.lean},
+      \texttt{exists\_preCh\_of\_prescribed}, and
+      \texttt{HarishChandraParameterFormula.lean}.
+\item \texttt{Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/
+      ExistsHypJetsAll.lean}, \texttt{exists\_pre\_sized} (lines 19--71)
+      and \texttt{exists\_colIn\_jets} (lines 73--115).
+\item \texttt{Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/
+      JetsInIffStepField.lean}, \texttt{jetNum}, \texttt{JetsIn},
+      \texttt{jetsIn\_iff} and \texttt{JetsIn.isAlgebraic}.
+\item \texttt{Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/
+      DegreeEqTotDeg.lean}, \texttt{finAlg\_step},
+      \texttt{exists\_replace}, \texttt{exists\_jetsIn};
+      \texttt{ExistsColInJetsIn.lean}, \texttt{exists\_bound\_jetsIn}.
+\item \texttt{Formalism/LocalToGlobal/KernelLattices/ThDistC.lean},
+      \texttt{derivAt0} and \texttt{jetC} (lines 56--61).
+\item \texttt{Formalism/LocalRingCardinality/DataParams$_2$.lean},
+      \texttt{Scale}, \texttt{SizeData$_2$.bT\_ge}, and
+      \texttt{SizeData$_2$.top\_u} (lines 10--101).
+\end{itemize}
+The author read the complete proofs of the displayed constructors,
+the degree-restricted jet-field bridge and its finite-generator
+construction.  Their deeper imported results have not all been
+independently audited in this follow-up.  No Lean compilation or
+formal kernel check is claimed.

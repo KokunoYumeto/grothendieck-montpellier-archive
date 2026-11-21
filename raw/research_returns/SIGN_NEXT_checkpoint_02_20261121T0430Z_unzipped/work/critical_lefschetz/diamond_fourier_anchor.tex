@@ -1,0 +1,318 @@
+% SF-Q6-06. Exact diamond calculation and genuine refined-level period.
+\subsection{Diamond characters and the bottom period}
+\label{sec:diamond-fourier-anchor}
+
+Fix a word $u$ in an actual geometric column datum.  Put
+$A_v=\mathbf F_v^{\times}$, $m_v=|A_v|=T-1$, and
+$A=\prod_v A_v$.  On the actual column space $M_0$, diamond operators
+at distinct places commute: in the decorated description they rescale
+different decoration functionals, and in the adelic description their
+lifts are supported at distinct places.  This commutation is part of
+the geometric specialization used below; it is not a field of the
+bare abstract record \texttt{ColumnsAtT}.  Write
+\[
+ \rho(a)=\prod_v\rho_T(v,a_v),\qquad
+ N_v=\sum_{a\in A_v}\rho_T(v,a),\qquad
+ M_{\rm ram}=\bigcap_v\ker(N_v|_{M_0}).
+\]
+
+\begin{proposition}[SF-Q6-06(a): the exact finite Fourier test]
+\label{prop:diamond-fourier-test}
+Over $\mathbf C$, define
+\[
+ E=\prod_v\left(1-\frac{N_v}{m_v}\right),\qquad
+ e_\chi=\frac1{|A|}\sum_{a\in A}\chi(a)^{-1}\rho(a)
+ \quad(\chi\in\widehat A).
+\]
+Then $E$ is the projection onto $M_{\rm ram}$ and
+\[
+ E=\sum_{\substack{\chi\in\widehat A\\
+                  \chi|_{A_v}\ne1\ \text{for every }v}}e_\chi.
+\]
+For any linear map $P:M_0\to W$, including the genuine
+Poincar\'e map after the column dictionary, the following are
+equivalent:
+\[
+ P|_{M_{\rm ram}}\ne0,
+ \qquad PE\ne0,
+ \qquad Pe_\chi\ne0\text{ for some such }\chi.
+\]
+For a scalar functional $\ell$ and characters $\eta_v\in\widehat A_v$, if
+$\ell\rho_T(v,a)=\eta_v(a)\ell$ for every $v,a$, then
+\[
+ \ell E=
+ \begin{cases}
+ \ell,&\eta_v\ne1\text{ for every }v,\\
+ 0,&\eta_v=1\text{ for some }v.
+ \end{cases}
+\]
+Thus a trivial character at even one place is an actual vanishing
+obstruction, provided this eigenfunctional identity has been proved.
+\end{proposition}
+\begin{proof}
+The group law gives $N_v^2=m_vN_v$.  The averages $N_v/m_v$ are
+commuting projections onto the corresponding fixed spaces.  Therefore
+$E$ is idempotent, $N_vE=0$ for every $v$, and $E$ is the identity
+on the intersection of the norm kernels.  Simultaneous decomposition
+of this finite abelian group representation into character spaces
+gives the asserted sum: $N_v$ acts on the $\chi$-space by $m_v$
+if $\chi|_{A_v}=1$, and by zero otherwise.  The equivalences follow
+by composing with this direct-sum decomposition.  The same character
+sum applied to $\ell N_v$ proves the final formula.
+\end{proof}
+
+This test has a denominator-free lattice version.  If the diamonds
+preserve a full lattice, then
+\[
+ Q=\prod_v(m_v-N_v)=\left(\prod_v m_v\right)E
+\]
+preserves it and has image in its norm kernels.  Consequently a
+nonzero value of $PQ$ on a lattice vector supplies an integral
+nonzero input, although its value need not be a unit.  One can also
+test the scalar functional on the explicitly finite sum
+\begin{equation}
+ \ell(E x)=\sum_{a\in A}
+ \left(\prod_v\left({\bf1}_{a_v=1}-\frac1{m_v}\right)\right)
+ \ell(\rho(a)x).
+ \label{eq:diamond-finite-test}
+\end{equation}
+
+\paragraph{The genuine map is vector-valued.}
+In \texttt{PoincareInHH.lean}, lines 144--210,
+$P_u:\mathrm{Cu}\to\mathrm{HH}$ is a linear map into an automorphic
+Hilbert space.  It is not a scalar period functional.  The scalar
+period is obtained after pairing with a row.  In particular the
+eigenfunctional hypothesis in the last part of the proposition
+cannot be imposed on $P_u$ merely because the row has a level character.
+
+\begin{proposition}[SF-Q6-06(b): the actual diamond translation]
+\label{prop:diamond-period-translation}
+Let $\delta\in H(\mathbf A_f)$ be a diamond lift of $a\in A_v$
+in the source's column dictionary.  Use right translation
+$R_x f(g)=f(gx)$, and let $\iota:H\hookrightarrow G$ be the bottom
+Bessel embedding.  For the ordinary bottom period with a fixed
+row translate $b$,
+\[
+ \ell_{b,f}(\phi)=B(\phi,R_bf),
+\]
+one has the exact identity
+\begin{equation}
+ \ell_{b,f}(\rho_T(v,a)\phi)
+   =B(\phi,R_{\iota(\delta)^{-1}b}f).
+ \label{eq:diamond-exact-translation}
+\end{equation}
+If $f$ has right level $(J,\chi)$, with the convention
+$f(gk)=\chi(k)f(g)$ for $k\in J$, and
+$\kappa=b^{-1}\iota(\delta)b\in J$, then and only using this
+additional membership condition the right side simplifies to
+$\chi(\kappa)^{-1}\ell_{b,f}(\phi)$.
+
+For a nonidentity diamond, its transported lift is outside the
+inherited column level $K_u$.  Equivalently, in the analytic
+coordinates of \texttt{ColDict.LevelMatch},
+\[
+ x_u^{-1}\delta_Hx_u\notin K_2.
+\]
+Thus the host character $\chi_2$ on $K_2$ supplies no scalar
+eigenvalue for this lift by level invariance alone.
+\end{proposition}
+\begin{proof}
+The exact dictionary is
+\texttt{FormsTied.rhoT\_eq} and \texttt{ColDict.ColDictDia}:
+$\rho_T(v,a)$ corresponds to $R_\delta$ on the column form.
+The supplied theorem \texttt{Core.Mi.per\_rTrans} proves
+\[
+ B(R_\delta\phi,R_{\iota(\delta)}g)=B(\phi,g)
+\]
+for the actual automorphic Bessel period.  Apply it with
+$g=R_{\iota(\delta)^{-1}b}f$; the product order follows from
+$R_xR_y=R_{xy}$.  This proves
+\eqref{eq:diamond-exact-translation}.  If the stated $\kappa$
+belongs to $J$, then
+$R_{\iota(\delta)^{-1}b}f=R_bR_{\kappa^{-1}}f
+=\chi(\kappa)^{-1}R_bf$, giving the scalar formula.  In the
+source the fixed $J$ and $\chi$ are precisely \texttt{PairForm.rJ}
+and \texttt{PairForm.rChi}, and $b$ is the actual bottom translate;
+neither is removed from this calculation.
+
+For the last claim, let $S$ be the source's \texttt{StepLevel}.
+Its local column group at $v$ is
+\[
+ U_v=\operatorname{Stab}(L_v)\cap\operatorname{Stab}(f_T),
+ \qquad f_T\ne0.
+\]
+The \texttt{IsDia} condition says
+$k f_T(\delta x)=f_T(x)$, where the integer $k$ maps to $a$ in
+$\mathbf F_v$.  If $\delta\in U_v$, it also gives
+$f_T(\delta x)=f_T(x)$.  Transport the additive target of $f_T$
+to $\mathbf F_v$ by the supplied additive isomorphism
+\texttt{FormsTied.fMe}.  Choose $x$ with nonzero image.
+Then $(a-1)f_T(x)=0$ in a field, so $a=1$, a contradiction.
+Finally \texttt{ColDict.LevelMatch} identifies this column group
+with $H(\mathbf A_f)\cap x_uK_2x_u^{-1}$.  This proves the claimed
+nonmembership.
+\end{proof}
+
+\paragraph{What the exact formula tests.}
+For several places choose the product lift $\delta_a$.
+Substituting \eqref{eq:diamond-exact-translation} into
+\eqref{eq:diamond-finite-test} tests the actual values
+\[
+ B(\phi,R_{\iota(\delta_a)^{-1}b}f).
+\]
+These are a finite orbit of translated row periods, not a host
+character evaluated on points known to belong to its domain.
+Global rational cosets can collide even when a lift is outside
+$K_u$; the preceding local nonmembership assertion does not
+exclude such collisions.
+
+\begin{proposition}[SF-Q6-06(c): a genuine period after level refinement]
+\label{prop:refined-level-ram-period}
+Let $H\subset G$ be a pair of reductive groups over a number field
+$F$ whose archimedean groups are compact.  Let
+$K_0\subset G(\mathbf A_f)$ be compact open,
+$U=H(\mathbf A_f)\cap K_0$, and assume
+$H(F)\cap U=\{1\}$.
+Let a finite abelian group $A=\prod_vA_v$, with $|A_v|>1$, act
+on the column space by lifts $\delta_a\in H(\mathbf A_f)$,
+normalizing $U$ and its finite level character.  Assume the orbit
+of the identity class in
+$H(F)\backslash H(\mathbf A_f)/U$ is free.
+Let $V_H,V_G$ be the actual finite-dimensional archimedean coefficient
+representations, with a nonzero $H(F_\infty)$-invariant bilinear
+pairing $\beta:V_H\times V_G\to\mathbf C$.
+
+Then there is a compact open $K'\subset K_0$ and an actual algebraic
+modular row form $f$ of coefficient type $V_G$ and level $K'$,
+and a column $\phi\in M_{\rm ram}$ of the prescribed $U$ level,
+whose ordinary definite period is nonzero.  The construction retains
+the given diamond norm kernels; it does not replace them by an
+arbitrary chosen subspace.
+\end{proposition}
+\begin{proof}
+Choose $v\in V_H$, $w\in V_G$ with $\beta(v,w)\ne0$.
+Let $T_0$ be the column supported on the identity class
+$H(F)U$, with value $v$ at the identity and the prescribed right
+$U$ character.  This is well-defined because $H(F)\cap U=\{1\}$.
+The support of $R_{\delta_a}T_0$ is
+$H(F)U\delta_a^{-1}$.
+
+Put $\Gamma=G(F)\subset G(\mathbf A_f)$ and
+$S=\bigcup_{a\ne1}U\delta_a^{-1}$.
+The set $S$ is compact.  Freeness of the global class orbit gives
+$S\cap H(F)=\varnothing$.  Since $H$ is defined over $F$,
+$H(\mathbf A_f)\cap G(F)=H(F)$, so $S\cap\Gamma=\varnothing$.
+The arithmetic group $\Gamma$ meets every compact subset of
+$G(\mathbf A_f)$ in a finite set: the corresponding subset of
+$G(F_\infty)\times G(\mathbf A_f)$ is compact, and the diagonal
+$G(F)$ is discrete and closed.
+
+Consequently one can choose a compact open $K'\subset K_0$ so that
+\[
+ \Gamma\cap SK'=\varnothing,
+ \qquad \Gamma\cap UK'=\{1\},
+ \qquad \Gamma\cap K'=\{1\}.
+\]
+Indeed $SK_0$ and $UK_0=K_0$ meet $\Gamma$ in finite sets;
+each unwanted rational point is outside respectively $S$ or $U$,
+which are compact closed sets.  A sufficiently small identity
+neighborhood separates all of these finitely many points, and it
+contains a compact open subgroup.  Shrink $K'$ further so that
+the column character is trivial on
+$U'=H(\mathbf A_f)\cap K'$.  This is possible because its kernel
+is open in $H(\mathbf A_f)$ and the topology on that subgroup is
+the subspace topology.  If a compatible finite row character on
+$K_0$ has already been prescribed, $K'$ can also be placed in its
+kernel.
+
+Define the row form $f$ to be supported on $\Gamma K'$, with value
+$w$ at the identity and the usual coefficient covariance under
+$G(F)$.  This is an actual algebraic modular form: the two
+descriptions of any point in its support are unique modulo
+$\Gamma\cap K'=\{1\}$, and it is locally constant in the finite
+variable.  On the identity column support $U$, it is supported
+exactly on $U'$.  The invariant pairing there is the constant
+$\beta(v,w)$.  Thus, for the fixed positive Haar normalization,
+\[
+ B(T_0,f)=\operatorname{vol}(U')\,\beta(v,w)\ne0.
+\]
+For every $a\ne1$, the support separation
+$\Gamma\cap U\delta_a^{-1}K'=\varnothing$ gives
+$B(R_{\delta_a}T_0,f)=0$.
+Apply the genuine ram projection $E$ from part (a).  Its identity
+coefficient is $\prod_v(1-|A_v|^{-1})$, which is positive, so
+\[
+ B(ET_0,f)=
+ \left(\prod_v(1-|A_v|^{-1})\right)
+ \operatorname{vol}(U')\,\beta(v,w)\ne0.
+\]
+The column $ET_0$ belongs to every required norm kernel.
+\end{proof}
+
+\paragraph{Source freeness and stabilizers.}
+The actual geometric freeness hypothesis has a supplied theorem:
+\texttt{SiegelMassRatios/DiamondFree.diaFreeCols\_holds}, under
+the source's field and prime validity hypotheses and
+$2fk<g_0-1$, proves freeness on the global decorated class set.
+For $k=f=8$ this numerical hypothesis is $128<g_0-1$.
+This is stronger than the local nonmembership in part (b).
+If a scalar permutation orbit is instead $A/S$, its occurring
+characters are exactly $S^\perp$.  A sufficient condition for the
+ram projection of its identity point to be nonzero is
+\[
+ \sum_v\frac{|S\cap A_v|}{|A_v|}<1;
+ \qquad\text{in particular }\quad
+ \sum_v\frac{|S|}{|A_v|}<1\ \text{suffices}.
+\]
+To check this, among the $|A|/|S|$ characters trivial on $S$, the
+proportion also trivial on $A_v$ is
+$|S\cap A_v|/|A_v|$.  The union bound leaves a character nontrivial
+on every factor.  This scalar-permutation statement must not be
+applied without adjustment to a coefficient fibre carrying a
+nontrivial stabilizer representation.
+
+\paragraph{The prescribed-level boundary.}
+Part (c) is a genuine geometric nonzero-period construction at a
+refined level for a definite ambient group.  The actual Hida ambient
+at $m=2$ has signature $(k,1)$, not $(k+1,0)$: the source theorem
+\texttt{InHHDef.card\_epsS\_false} gives $r_S+1=1$ negative
+direction.  Its bottom stabilizer has compact archimedean group,
+but the ambient group does not.  Thus the finite-support proof in
+part (c) does not directly apply to that ambient group even before
+the level condition is considered.  An actual nonzero Poincar\'e
+series would additionally require an analytic separation or
+nonvanishing argument for the prescribed archimedean type.
+
+There is also a separate prescribed-level condition.  The exact
+source definition is
+\[
+ K_2=K_{\rm lattice}\cap
+ K_{2,\mathrm{cong}}(g_0g_1,e_0,z_0,\mathrm{bw}).
+\]
+\texttt{HidaSetting.L\_eq}, \texttt{g\_eq}, and
+\texttt{e\_eq} fix the lattice, modulus, and characteristic
+projector; they do not contain a freely variable auxiliary compact
+open subgroup.  A smaller $K'$ need not be another allowable $K_2$,
+and averaging the constructed row back to the original level can
+annihilate its ramified period.  One must therefore either realize
+the refined level by an actual admissible datum and its theta-chain
+comparison, or evaluate the finite test
+\eqref{eq:diamond-finite-test} in the existing row space.  Neither
+the nonzero column projection nor complex surjectivity of a separate
+theta map supplies that last identification by itself.
+
+\paragraph{Exact source locators.}
+The norm kernels are
+\texttt{Formalism/LocalRingCardinality/DataKernels.lean},
+lines 146--150.  The local level and diamond formulas are
+\texttt{HermitianForms/IsLocBasis.lean}, lines 84--100 and 137--144;
+the dictionary is \texttt{HermitianForms/FormsTied.lean},
+lines 133--141, and
+\texttt{SiegelLatticeTheory/FlagStabilizerTensors/ColDict.lean},
+lines 143--157 and 190--196.  The proved period covariance is
+\texttt{Proofs/DecoratedLatticeProofs/BesselPeriodRightTranslationInvariant.lean},
+\texttt{Core.Mi.per\_rTrans}.  The fixed row and translate occur in
+\texttt{Definitions/LatticeFrames/PairForm.lean}, lines 41--47 and
+75--78.  The prescribed $K_2$ and projector occur in
+\texttt{SiegelLatticeTheory/HaarTransversals/HidaSetting.lean},
+lines 128--141, 189, 199, 258--259, and 350--362.
