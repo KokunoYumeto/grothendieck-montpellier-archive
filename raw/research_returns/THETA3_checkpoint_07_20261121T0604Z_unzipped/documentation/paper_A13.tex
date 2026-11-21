@@ -1,0 +1,781 @@
+\subsection{THETA3-A13: the actual finite arrays, their spans, and tame globalization}
+\label{A13}
+
+This section gives restrictions and positive constructions for the
+\emph{prescribed} column arrays.  It does not replace a prescribed
+\texttt{xiAt} by an arbitrary Schwartz function.  The finite-field and
+idele arguments below are new proofs.  Literal archive definitions and
+the named archive existence theorem are source statements; no Lean
+build or transitive dependency certification is asserted.
+
+\paragraph{The defining objects and the coefficient field.}
+All paths in this paragraph are relative to the pinned source root.
+The literal global definition is
+\texttt{Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/}
+\texttt{XiAtPenultimateEqXiCpl1.lean}, lines 146--162.
+It uses \texttt{XiEntry} when $i+2<m$, \texttt{XiCpl1}
+when $i+2=m$, and \texttt{xiLast} when $i+1=m$.
+The last is the displayed \texttt{xiOver}; all three carry
+the same \texttt{phiT} factor.
+The notation \texttt{TC} is an abbreviation for \texttt{ColIn},
+in \texttt{LatAtLattice.lean}, line 40, in that same directory.
+The latter structure is in
+\texttt{TrueColumnChoicesHeckeCharReferenceEqOne.lean},
+lines 165--245: it has a finite injective family of tuples,
+the reference tuple $1$, the specified reference characters,
+local constants, local double-coset indices and their tying laws.
+Thus a \texttt{TC} is more than a list of local characters.
+
+The local definitions are in
+\texttt{Formalism/LocalToGlobal/Columns/FiniteSumNonzeroLargeDepth.lean}:
+\texttt{phiT}, lines 646--648;
+\texttt{PhiQ}, lines 711--714;
+\texttt{PhiG}/\texttt{PhiGS}, lines 780--805;
+\texttt{om}, lines 553--556;
+\texttt{xx1}/\texttt{E1}, lines 568--579;
+\texttt{PhiAt}/\texttt{XiAt}, lines 927--948;
+\texttt{XiEntry}/\texttt{XiCpl1}, lines 1116--1138.
+The last local factor is \texttt{locTop}, lines 391--393 of
+\texttt{Development/AbelianVarietyTheory/Definitions/GlobalTwisting/}
+\texttt{IntegralGLSuccEmbeddingMemParahoricTimesPrincipa.lean}.
+
+Write $K$ for the coefficient field, to distinguish it from the
+imaginary quadratic subfield of the CM host.  The literal
+\texttt{Fields.K} is a number field
+(\texttt{AbelianHostFieldConditions.lean}, lines 19--44).
+For the actual base it is $B.\mathrm{LL}$
+(\texttt{BaseDataEmbeddingConj.lean}, lines 13--20).
+There is an additional, concrete restriction on a fixed $K$.
+In the actual canonical case \texttt{IsTw}, the proof
+\texttt{root\_of\_ok} in \texttt{IsTwIffCanonEq.lean}
+shows that every new twisting prime of residue cardinality $q$
+requires a primitive $q^{2m}$th root of unity in $K$;
+\texttt{sqrt\_of\_ok} requires a square root of $q$.
+The proof uses the stipulated local additive character at depth
+$2m$, its tying to the global character, and the fact that the
+reference $\xi_0$ is a unit at this prime.  A fixed number field
+therefore admits only finitely many such rational primes.
+A12's choice $t=1$ removes a large power from its isolating
+congruence, but not this separate canonical-depth requirement.
+
+\paragraph{Two unconditional restrictions on the actual arrays.}
+For a valid field and prime datum, put $f=[F:\Q]$.
+The source has
+\[
+        |v_T(u)|=f>0,\qquad |v_G(j)|=f>0.
+        \tag{A13a}
+\]
+These are \texttt{Primes.Ok.vT\_card} and
+\texttt{vG\_card}, lines 216 and 231 of
+\texttt{AbelianHostFieldConditions.lean}; positivity follows
+from \texttt{Fields.Ok.card\_Tau} and $[F:\Q]>0$.
+Every valid decoration has a nonzero residue functional at
+each $T$-prime, by \texttt{Deco.Ok.f\_ne}, line 88 of
+\texttt{StdLatUnimodular.lean}.
+Consequently
+\[
+                         \mathrm{xiAt}(0)=0.
+                         \tag{A13b}
+\]
+Indeed, \texttt{phiT} requires $f'_P\circ x=f_P$ on the
+localized source lattice.  At $x=0$ its left side is zero:
+$f'_P(0)=0$ follows from the displayed scalar-linearity
+condition with scalar zero.  Its right side is nonzero on
+some lattice vector.  Thus $\mathrm{phiT}(0)=0$ at any one
+$T$-prime.  All branches of the global array contain this
+factor, or are identically zero.
+
+There is also the stronger rank restriction
+\[
+ \mathrm{xiAt}_i(x)\ne0
+           \quad\Longrightarrow\quad
+             \operatorname{rank}_E(x)=N(i),
+       \qquad N(i)=k+i(t+1),\quad 0\leq i<m.
+ \tag{A13c}
+\]
+Here the target dimension is $N(i+1)$.
+To prove this directly, choose any one $G$-prime using
+(A13a).  Set $c_i=m-1-i$ and $r=k+m-1$.
+In \texttt{PhiG} and \texttt{PhiGS} at step $i$,
+the nonzero reciprocal determinant factor is the determinant
+of a square block of size
+\[
+               r+it=N(i)+c_i.
+\]
+Its reduction is a unit whenever the local function is nonzero.
+The coordinate operation \texttt{entB} is an invertible row
+and column permutation followed by nonzero diagonal scalings;
+the displayed piecewise insertion \texttt{fIdx} has inverse
+\texttt{fPos}.  Hence the underlying enlarged matrix has full
+column rank $N(i)+c_i$.  The matrices in \texttt{om} are
+invertible and do not change this conclusion.
+
+For $i+2<m$, each summand of \texttt{E1} has matrix
+\texttt{xx1}(x,t).  Its first $N(i)$ columns are the columns
+of $x$ with zero auxiliary rows, and only $c_i$ columns
+remain.  Thus
+\[
+       \operatorname{rank}(\mathrm{xx1}(x,t))
+                     \leq\operatorname{rank}(x)+c_i.
+\]
+If $x$ is not injective, every summand is zero, so is
+\texttt{XiAt}, and so is the global product.
+For $i+2=m$, one has $c_i=1$ and
+\texttt{joinCol}(x,y) has rank at most
+$\operatorname{rank}(x)+1$, giving the same conclusion.
+For $i+1=m$, one has $c_i=0$; the last local factor is
+\texttt{PhiTop} applied to a row projection of an invertible
+coordinate change of $x$.  Its required unit minor has size
+$N(i)$, and a row projection cannot increase rank.
+This proves (A13c) in all three cases.  In particular, the
+actual array span is a proper subspace of all finite arrays;
+this statement does not imply that its first-derivative image
+is a proper subspace.
+
+\paragraph{The exact incidence span at a $T$-prime.}
+Let $\kappa$ have $q$ elements, let
+$M=\operatorname{Mat}_{b\times a}(\kappa)$, and fix a nontrivial
+additive character $\psi$ of $\kappa$.
+For nonzero row vectors $v\in(\kappa^b)^*$ and
+$u\in(\kappa^a)^*$, put
+\[
+                    I_{v,u}(X)=1_{\{vX=u\}}.
+                    \tag{A13d}
+\]
+Their complex span is exactly
+\[
+ \{F:M\to\C:\ F(0)=0,
+       \ \widehat F(A)=0\text{ whenever }\operatorname{rank}(A)>1\}.
+ \tag{A13e}
+\]
+The Fourier pairing is $\psi(\operatorname{Tr}(A^tX))$;
+using its inverse only reverses signs and leaves the assertion
+unchanged.  Its dimension is
+\[
+                 \frac{(q^a-1)(q^b-1)}{q-1}.
+                 \tag{A13f}
+\]
+
+Here is a full proof.  For a fixed projective row $[v]$,
+the functions $F(vX)$ with $F(0)=0$ form a space of
+dimension $q^a-1$, spanned by its nonzero-fibre indicators.
+Their Fourier support is contained in the frequency block
+$\{v^tt:t\in\kappa^a\}$: summing an additive character over
+the kernel of $X\mapsto vX$ gives zero unless the frequency
+annihilates that kernel.  Distinct projective rows have disjoint
+nonzero frequency blocks, and these blocks partition all
+nonzero rank-one matrices.  The sum of these spaces is direct.
+Indeed, in a zero sum each summand has all nonzero Fourier
+coefficients zero, so is constant; its value at zero makes
+that constant zero.  There are $(q^b-1)/(q-1)$ projective
+rows.  The entire Fourier-rank-at-most-one space has one more
+dimension, its zero frequency included; evaluation at zero
+is a nonzero functional on it.  The direct sum just constructed
+has the dimension of its kernel, proving (A13e)--(A13f).
+
+This is a literal local description of \texttt{phiT}, not
+merely an analogy.  Keep both lattices standard and their
+$G$-frames and $Q$-frames fixed.  Reduction at $P$ identifies
+the source and target residue modules with $\kappa^a$ and
+$\kappa^b$.  Every chosen nonzero $u,v$ gives a valid
+decoration: define its functional by that residue-linear
+map on the localized lattice and by zero off it.  Additivity,
+scalar-linearity and the off-lattice condition are immediate;
+nonvanishing on the global standard lattice follows from
+surjectivity of $\OO_E\to\kappa$.  The same construction
+works independently at every $T$-prime.  The matrix-integrality
+part of \texttt{phiT} is kept as well.  Thus, on integral
+residue matrices, the tensor product of the spaces (A13e)
+is precisely the span of the local \texttt{phiT} factors
+obtained by varying these raw decorations.  The corresponding
+global-array span is the image of this space under multiplication
+by the other fixed local factors, followed by the stated class
+equivariance.  Equality with an unmultiplied space is asserted
+only on a CRT slice where those other factors have fixed nonzero
+values.
+Passing to the chosen class representatives still uses the
+archive's equivariance maps; no new list of representatives
+or new full \texttt{TC} is being silently declared.
+
+These restricted incidence functions can isolate a finite
+window even though they cannot isolate every residue matrix.
+Let $\mathcal W\subset M$ be finite, with $X_0\in\mathcal W$
+nonzero.  If $q>|\mathcal W|$, there is $v\ne0$ such that
+\[
+ vX_0\ne0,\qquad
+ I_{v,vX_0}(X)=0\quad(X\in\mathcal W,\ X\ne X_0).
+ \tag{A13g}
+\]
+Each forbidden equation $vX_0=0$ or $v(X-X_0)=0$
+is a proper linear subspace of the row space, of cardinality
+at most $q^{b-1}$.  At most $|\mathcal W|$ such subspaces
+are forbidden.  Their union has cardinality less than $q^b$.
+Choosing a row outside it proves the assertion and also
+ensures that the source decoration $u=vX_0$ is nonzero.
+For a finite set of rational lattice matrices, the same test
+applies whenever their reductions are defined, distinct from
+$X_0$, and $X_0$ has nonzero reduction.  These are exact
+finite divisibility tests.  If several $T$-primes are present,
+one can impose (A13g) at one of them and merely preserve
+$X_0$ at the others, provided its reduction there is nonzero.
+
+\paragraph{What tame determinant characters and matrix translates span.}
+There is an equally explicit answer for the first-step
+\texttt{PhiQ} seed.  Before its Jacquet-type finite summation,
+its source dimension is $r=k+m-1$.  After the displayed row
+permutation, its reduction on
+$\operatorname{Mat}_{b\times r}(\kappa)$ is
+\[
+ F_\chi(X)=
+ \begin{cases}
+   \chi(\det X_0),&X=\binom{X_0}{0},\quad X_0\in\mathrm{GL}_r(\kappa),\\
+   0,&\text{otherwise}.
+ \end{cases}
+ \tag{A13h}
+\]
+Here $\chi$ is a multiplicative character of $\kappa^\times$.
+Let $p(X)$ be the wedge of the $r$ columns.  The span of
+all left and right general-linear translates of (A13h),
+as $\chi$ ranges over all multiplicative characters, is
+exactly the pullback under $p$ of all functions on the
+nonzero decomposable $r$-vectors; these functions are extended
+by zero on matrices of rank less than $r$.
+
+Indeed $\mathrm{SL}_r(\kappa)$ acts transitively on the
+bases of an $r$-plane with any specified exterior product.
+Every function (A13h), and every translate of it, is invariant
+under this right action.  Conversely, a left translate can
+place the image plane at any specified $r$-plane $W$.
+Choose a nonzero $w\in\bigwedge^rW$.  On that plane its
+functions are exactly $\chi(d)$ for $p(X)=dw$.
+Character orthogonality gives
+\[
+ 1_{\{d=d_0\}}
+       =\frac1{q-1}\sum_{\chi}\chi(dd_0^{-1}).
+ \tag{A13i}
+\]
+This proves the span claim.  If the trivial character is
+excluded, the exact span consists of the functions whose
+sum over the $q-1$ nonzero multiples of each $w$ is zero.
+In particular
+\[
+ 1_{\{d=d_0\}}-1_{\{d=d_1\}}
+   =\frac1{q-1}\sum_{\chi\ne1}
+           (\chi(d_0)^{-1}-\chi(d_1)^{-1})\chi(d)
+ \tag{A13j}
+\]
+has coefficient absolute sum at most $2$.
+Thus a second residue can cancel the trivial component
+exactly, but the result is a delta on an \emph{oriented
+image plane}, not on an individual full-rank matrix.
+
+The source's first local \texttt{XiAt} retains a corresponding
+restriction even after the finite summation.  For a rational integral matrix
+$A\in\mathrm{GL}_k(E)\cap\mathrm{GL}_k(\OO_{E,P})$, its defining formulas give
+\[
+       \Xi_{0,P}(xA)=\chi(\operatorname{red}_P(\det A))\Xi_{0,P}(x).
+       \tag{A13k}
+\]
+For clarity this identity is in the displayed local coordinates;
+the locally constant identity extends to the completed local
+matrix group, and integral changes of source frame preserve its
+$\mathrm{SL}_k(\OO_{E,P})$-invariance.
+At step zero, \texttt{ChIdx.Ok.zero\_h} sets the source
+translate to $1$.  The enlarged source has precisely $r$
+columns.  Right multiplication by
+$\operatorname{diag}(A,1_{m-1})$ preserves the integrality
+and the zero lower block of (A13h) and multiplies its unit
+minor by $\det A$.  Also
+\[
+ \mathrm{xx1}(xA,t)=\mathrm{xx1}(x,t)
+                    \operatorname{diag}(A,1_{m-1}),
+\]
+while its auxiliary character \texttt{chArg} is unchanged.
+Every summand and its normalization therefore obey (A13k).
+When $m=2$, the first step is \texttt{PsiAt} instead;
+the identical calculation uses
+$\mathrm{joinCol}(xA,y)=\mathrm{joinCol}(x,y)
+\operatorname{diag}(A,1)$.
+This proves (A13k), including right special-linear invariance,
+without assuming that arbitrary local translates are admitted
+by the actual finite index set.  The exact seed span (A13i)
+does not by itself prove surjectivity after those index and
+Jacquet constraints.
+
+\paragraph{Exact tame anticyclotomic globalization.}
+Assume $E/F$ is CM quadratic and unramified at every finite
+place.  Let $\mathcal S$ be a finite set of split finite
+places of $F$, with a selected prime $P_v$ of $E$ above each
+$v$.  Write $\bar P_v$ for its conjugate and $\kappa_v$
+for the common residue field.  Let
+\[
+ R_{\mathcal S}=\prod_{v\in\mathcal S}\kappa_v^\times,
+ \quad
+ U(\mathfrak m)=
+ \prod_{P\nmid\mathfrak m}\OO_{E,P}^\times
+ \prod_{P\mid\mathfrak m}(1+P\OO_{E,P}),
+ \quad
+ \mathfrak m=\prod_{v\in\mathcal S}P_v\bar P_v.
+\]
+The finite group relevant here is
+\[
+ C_{\mathcal S}=
+ \A_{E,f}^\times/(E^\times\A_{F,f}^\times U(\mathfrak m)).
+ \tag{A13l}
+\]
+It is a quotient of the usual finite ray class group.
+For this standard background see Milne,
+\emph{Class Field Theory}, v4.03 (2020), Theorem V.1.7,
+printed pp.~150--151, and Proposition V.4.6,
+printed p.~173; both statements and their complete displayed
+proofs were read for this comparison.
+
+At a split place use the ratio convention
+$(a,b)\mapsto\bar a\bar b^{-1}\in\kappa_v^\times$,
+where bars on $a,b$ in this sentence mean residue reduction.
+Local unit representatives give a well-defined homomorphism
+$R_{\mathcal S}\to C_{\mathcal S}$.  Its kernel is exactly
+\[
+ \Delta_{\mathcal S}\mu(E)
+    =\{(\zeta\bmod P_v)_v:\zeta\in\mu(E)\}.
+ \tag{A13m}
+\]
+Here is a proof that includes the possible global-unit issue.
+If a local-unit idele represents zero in (A13l), write it
+as $a f w$ with $a\in E^\times$, $f\in\A_{F,f}^\times$,
+$w\in U(\mathfrak m)$.  The valuations of $a$ at conjugate
+primes are equal, so $a/\bar a$ is a global unit.  Every
+complex conjugate of this unit has absolute value one.
+It is therefore a root of unity: the powers are algebraic
+integers of bounded degree whose conjugates all have
+absolute value one; their monic minimal-polynomial
+coefficients belong to fixed finite sets of integers,
+so the set of powers is finite.  Taking the local ratios
+in the chosen order gives precisely its image in (A13m).
+
+Conversely, for every $\zeta\in\mu(E)$ one can choose
+$a\in E^\times$ with $a/\bar a=\zeta$.
+For $\zeta\ne-1$ take $a=1+\zeta$; for $\zeta=-1$
+take any nonzero purely imaginary element of $E$.
+Its valuations at conjugate primes agree.  Since every
+finite ramification index in $E/F$ is one, choose an
+$F$-idele $f$ with valuation $-v_P(a)$ at the underlying
+place.  Then $af$ is an $E$-unit idele at every finite
+place.  Let $u$ equal $af$ at the places in $\mathcal S$
+and $1$ elsewhere.  The quotient $u/(af)$ lies in
+$U(\mathfrak m)$, and the ratio of the two components
+of $u$ at $v$ reduces to $\zeta\bmod P_v$.
+Thus its class is zero, proving (A13m).  The ramification
+index condition is used exactly in the choice of $f$;
+no principal-ideal or class-number-one assumption was used.
+
+It follows that prescribed characters
+$\lambda_v:\kappa_v^\times\to\C^\times$ occur as the tame
+inertia restrictions of a finite-order character trivial
+on $E^\times\A_{F,f}^\times$ if and only if
+\[
+              \prod_{v\in\mathcal S}
+                   \lambda_v(\zeta\bmod P_v)=1
+                         \quad(\zeta\in\mu(E)).
+ \tag{A13n}
+\]
+Necessity follows from (A13m).  For sufficiency, the
+product character descends to the image of $R_{\mathcal S}$
+in $C_{\mathcal S}$.  Every character of a subgroup of
+a finite abelian group extends to the group.  One elementary
+proof adjoins one group element at a time: if $x$ has order
+$d$ modulo the old subgroup, choose a $d$th root of the
+specified value on $x^d$, and set the new character on
+$hx^j$ equal to the old value on $h$ times that root to
+the power $j$.  This is well-defined and enlarges the
+domain.  Iteration terminates.  The final character has
+values in roots of unity of order dividing
+$|C_{\mathcal S}|$.  Its pullback to finite ideles has
+the requested restrictions, is trivial on all wild inertia,
+and is unramified outside $\mathcal S$.
+The class group influences the choices and possible orders
+of the extension, not an additional condition on (A13n).
+
+This gives an actual \texttt{Tup} once all places in
+$\mathcal S$ are split degree-one places outside the
+forbidden set: compare \texttt{GoodPl}, \texttt{finChar}
+and \texttt{tupGrp}, lines 64--115 of
+\texttt{Formalism/LocalToGlobal/Divisibility/Tuples.lean}.
+The exact residue character at $(a,b)$ is
+$\lambda_v(\bar a\bar b^{-1})$; changing the selected
+prime inverts this convention.
+
+\paragraph{One auxiliary prime removes the root-of-unity condition.}
+Prescribe any finite collection of local characters at the
+main places.  Choose one additional allowed split degree-one
+place $v_*$ whose residue characteristic does not divide
+$|\mu(E)|$.  Reduction injects $\mu(E)$ into
+$\kappa_{v_*}^\times$: roots of unity of order prime to
+the residue characteristic cannot lie nontrivially in
+$1+P_{v_*}$, as follows either by the binomial expansion
+of $\zeta^n=1$ with $n$ a unit or by uniqueness of simple
+Hensel lifts.  The inverse of the main product in (A13n)
+is a character of that embedded subgroup.  Extend it to
+$\kappa_{v_*}^\times$ by the same finite-group argument.
+Then (A13n) holds and the prescribed main characters
+globalize without alteration.  One auxiliary prime works
+for the entire finite collection, with a possibly different
+auxiliary character for each member.
+
+For a finite forbidden set such primes are available by
+Chebotarev, choosing rational primes split completely in
+a Galois closure of $E$ and excluding the finite list.
+The exact background locator is Milne, \emph{Algebraic Number
+Theory}, v3.08 (2020), Theorem 8.31 and Corollary 8.32,
+printed p.~147; these give the positive density of the
+identity Frobenius class and hence infinitude.
+For a \emph{fixed} actual \texttt{TC}, however, its set
+$I.S$ is literally an arbitrary set of rational integers;
+\texttt{ColIn.Ok} only requires it to contain the specified
+$T$-primes, the two $G$-primes, and the primes dividing
+the host conductor.  Thus the assertion for that fixed
+datum requires an exhibited spare allowed place; it does
+not follow solely from the type of \texttt{TC}.
+
+The auxiliary prime changes its local \texttt{PhiQ}/\texttt{XiAt}
+factor.  Its value and support are part of the new input.
+In particular, the exact character identity (A13j)
+at a main prime is not a global-array identity until
+these auxiliary factors are included.  There are only
+$|\mu(E)|$ possible restrictions to cancel, so one can
+choose at most that many auxiliary residue characters
+for this purpose.  This is a finite, explicit local cost,
+not a proof that the auxiliary kernel equals $1$.
+
+\paragraph{Coefficient enlargement and the remaining finite comparison.}
+For the finite character family, a single number field
+$K'$ can contain its values, all required
+$\zeta_{q^{2m}}$, and all required $\sqrt q$.
+Take the compositum of the old normal coefficient field
+with the corresponding finite cyclotomic and quadratic
+extensions, in the chosen complex embedding.  Complex
+conjugation restricts to the old involution.  The
+\texttt{Fields.Ok} conditions transport: the $E/F$ data
+are unchanged; every embedding of $E$ into the new field
+already has image in the old normal field, so the list
+of embeddings and the defining equalizer $K_q\subset E$
+are unchanged; total complexity and normality persist.
+This is a statement about the coefficient package, not
+an alteration of the rigid full CM host field or its
+Galois frame.
+
+In fact the entire literal \texttt{Base} survives this
+coefficient enlargement.  Its complete definition is
+\texttt{Development/AbelianVarietyTheory/Definitions/Foundations/}
+\texttt{RootOfUnityEightQMemCoeffGaloisSubfield.lean},
+lines 261--304.  Keep \texttt{Pre} unchanged.  Embed the
+old $\mathrm{LL}$ in the chosen normal field $K'$ and
+use the images of the \emph{old} intermediate fields
+$\mathrm{LL}_0$ and $K_s$ as the new intermediate fields.
+They are isomorphic to their originals, rather than
+being replaced by their composita with $K'$.
+The old $\mathrm{LL}_0$ is still Galois over $\Q$;
+the inclusions $E\subset K_s\subset\mathrm{LL}_0$
+and every stipulated root of unity transport unchanged.
+An isomorphism of number fields identifies their rings
+of integers, ideals and principal ideals.  It therefore
+transports each generator in \texttt{capit} and
+\texttt{kPsi}, with exactly the same principal-ideal
+equalities.  Every complex embedding of the image of
+$K_s$ is uniquely the old embedding composed with this
+isomorphism's inverse, so the norm equalities quantified
+over \emph{all} embeddings in \texttt{kPsi} also persist.
+The roots required merely in $\mathrm{LL}$ remain in
+$K'$.  Conjugation on the chosen normal subfield of
+$\C$ gives the required involution, compatible with
+the old one and the prescribed complex embedding.
+These are all the additional clauses of \texttt{Base}.
+In particular the CM host, its Galois frame, the ranks,
+the $T$-primes and their fixed windows, and the old
+integral coefficient ring $\OO_{K_s}$ are unchanged.
+
+The canonical local indices are supplied by
+\texttt{twIdx\_ok\_closed}, lines 87--102 of
+\texttt{Formalism/LocalToGlobal/Columns/}
+\texttt{UnfoldingNonvanishingDoubleCosetHolds.lean}.
+Its hypotheses explicitly include the existing field,
+prime, reference-character and Weil tying conditions,
+the new good-prime and unit conditions, and the roots
+and square roots just listed.  Its displayed proof was
+read; it invokes the archive's nonvanishing and finite-index
+theorems.  We do not replace those invocations by a claim
+of a fresh independent proof.
+
+\paragraph{Complete realization of a prescribed finite character family.}
+Here the source provides a stronger positive conclusion
+than merely the existence of the local indices.  Fix the
+original \texttt{Pre}, an oriented \texttt{PreX}, the
+reference frame $f$, a prime-selection map \texttt{sel}
+and a valid ambient theta datum $J$.  Retain the displayed
+diagonal-space and $\mathrm{duStar}$ identities of that
+geometric input.  Let $S$ contain its $T$-primes,
+the two $G$-primes and all primes dividing the host
+conductor.  Suppose that the finite family $\Xi$ contains
+$1,\delta,\delta'$ and that every $\xi\in\Xi$ is a
+finite-order character trivial on $\A_F^\times$, tame
+at every finite place, and ramified only at split,
+absolutely unramified degree-one places outside $S$.
+These are precisely the clauses of \texttt{Chr.IsTwist}
+in
+\texttt{Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/}
+\texttt{IsRationalUnitaryDeterminantMapRationalUnitaryTo.lean},
+lines 111--114.  Thus the characters constructed above
+satisfy them whenever the main and auxiliary places
+have been selected as stipulated.
+
+Assume the original coefficient field contains the
+normalized reference-character values required by
+$\mu_{0,j}.\mathrm{ValuesIn}(0)$ and
+$\eta.\mathrm{ValuesIn}(1/2)$, and the square roots
+of the two fixed $G$-primes.  These are explicit reference
+conditions, satisfied by the original fully tied
+column construction.  Enlarge only $\mathrm{LL}$ as
+above to contain the values of all $\xi\in\Xi$ and
+$\sqrt q,\zeta_{q^{2m}}$ for the finite set of their
+ramified residue cardinalities.  This is finite: if
+the character orders divide $M$ and $\mathcal Q$ is
+that set of residue cardinalities, one possible
+compositum has the coarse relative degree bound
+\[
+ [K':K]\ \leq\ \varphi(M)
+                   \prod_{q\in\mathcal Q}2\varphi(q^{2m}).
+ \tag{A13o}
+\]
+All factors on the right bound the degrees of the
+explicit cyclotomic or quadratic extensions being
+adjoined.  Intersections can only decrease this bound.
+For the characters extended from a single
+$C_{\mathcal S}$ above one may use $M=|C_{\mathcal S}|$,
+also including the orders of the fixed reference
+characters if necessary.
+
+There then exists an actual finite \texttt{TC} on this
+same geometric \texttt{Pre}, with exactly the character
+set $\Xi$, the prescribed \texttt{sel} and the same
+ambient datum $J$, satisfying \texttt{Ok},
+\texttt{Laws} and \texttt{Law0}.  It may be chosen
+canonical in the sense \texttt{IsTw}.  If the original
+\texttt{Pre} has \texttt{StagesInhab.HasLetters}, its
+\texttt{Later} data exist as well.
+
+\textbf{Proof and exact source scope.}
+The full constructor is \texttt{InEx.exists\_colIn},
+lines 195--289 of
+\texttt{Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/}
+\texttt{ExistsColumnInputAssembled.lean}.
+Its condition \texttt{Holds}, lines 126--128, is exactly
+the value-field, square-root and depth-$2m$ root-of-unity
+condition just arranged.  Its proof first constructs
+the reference finite characters, reads each member of
+$\Xi$ as a tuple, applies the local-index existence
+theorem to each member, and uses $\Xi$ itself as its
+finite injective index set.  It returns \texttt{Ok},
+the asserted equalities of character range, $S$,
+\texttt{sel} and $J$, and the exact constants
+$M=A=B=m$, $D_Q=2m$.
+In particular its \texttt{Deep} condition holds.
+The complete proof of \texttt{canon\_ok} and
+\texttt{canon\_isTw} in \texttt{IsTwIffCanonEq.lean}
+then replaces only its constants and indices by their
+canonical versions.  The ambient theta datum,
+characters and selected primes are preserved.
+
+For this actual valid input, the statements needed next
+are proved theorems, not additional Prop declarations.
+In
+\texttt{Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/}
+\texttt{ExistsOkPins.lean},
+\texttt{TrueColsTest.laws}, lines 86--103, proves
+$I.\mathrm{Ok}\Rightarrow I.\mathrm{Laws}$;
+\texttt{law0}, lines 152--159, proves
+$I.\mathrm{Ok}\Rightarrow I.\mathrm{Law0}(l)$ for
+every $l:I.\mathrm{Laws}$; and \texttt{later},
+lines 194--204, constructs all five later stages
+from $l$ and \texttt{HasLetters}.
+The first assembles the chain, level, period and lattice
+theorems.  The second pulls functions back through the
+step-zero class bijection, whose representatives have
+the same underlying lattice, and hence preserves the
+integral lattices as well as their complex embeddings.
+The third constructs the finite-dimensional row model
+and its divisor, level, local and jet stages.
+All three complete displayed proofs were read.
+\texttt{HasLetters} depends only on the unchanged
+\texttt{Pre}; in the archive's contextual construction
+\texttt{JetEx.hasLetters\_of\_over}, lines 16--26 of
+\texttt{ExistsColInJetsIn.lean}, supplies it from
+the existing \texttt{Ctx.Over} hypothesis.
+This proves the composite realization statement using
+the named source theorems.\hfill$\square$
+
+The stronger specialized \texttt{ColW} carries another
+restriction.  Its literal definition, lines 23--36 of
+\texttt{PositionOfIntro.lean}, fixes its character range
+to $T.\mathrm{set}(f)$ for one \texttt{TwDat}.
+The latter definition, lines 79--97 of
+\texttt{CmQuadraticFormEqAlternatingForm.lean}, requires
+the auxiliary character indexed by a coefficient prime
+$p$ to have $p$-power order, with its \texttt{IsPsi},
+conjugation and avoidance conditions.  Its range consists
+of $1,\delta,\delta'$ and the specified products of
+one of $\delta,\delta'$ with these auxiliary characters.
+An arbitrary globally admissible finite family is not
+automatically of this special form.
+For this specialized witness the forbidden-prime set is,
+however, finite.  The host's \texttt{levelPrimes} is
+literally a finite set (\texttt{Formalism/LocalRingCardinality/}
+\texttt{DataHost.lean}, line 69), and the complete proof
+\texttt{finite\_offSet}, lines 208--216 of
+\texttt{CmQuadraticFormEqAlternatingForm.lean}, places
+all excluded primes in a finite divisor set together
+with those level primes and one distinguished prime.
+The \texttt{ColW.S\_eq} clause therefore proves that
+its $S$ is finite.  Hence an auxiliary completely split
+prime outside it, the main support, and the divisors of
+$|\mu(E)|$ is available by the cited Chebotarev theorem.
+The unresolved specialized-family condition is its
+\texttt{TwDat} shape, not the existence of a spare prime.
+
+There is also a separate positive arithmetic-jet source
+theorem: \texttt{exists\_bound\_jetsIn}, lines 34--40
+of \texttt{ExistsColInJetsIn.lean}, gives a finite list
+of algebraic coefficient generators after which a valid
+$I'$ with \texttt{JetsIn} exists and has the same
+reference frame, forbidden set and character range.
+Its conclusion does not retain the ambient datum $J$.
+The following refinement retains $J$ by allowing that
+finite generator list to depend on it.
+
+\paragraph{A fixed-ambient-datum arithmetic-jet refinement.}
+Under the preceding realization hypotheses and
+\texttt{HasLetters}, after a further finite coefficient
+extension the complete canonical \texttt{TC} can be
+chosen with the \emph{same} $J$ and with
+\texttt{JetsIn}.  One may simultaneously require the
+same field to contain all normalized jets of any
+prescribed finite list of total degrees, including
+degree one, on the admitted lattices and torsion
+arguments of these finitely many steps.  This is
+an arithmetic-field assertion; it asserts neither
+nonzero jets nor surjectivity of their span.
+
+Here is the full refinement argument.  The crucial
+source theorem is \texttt{JetEx.finAlg\_step},
+lines 193--226 of
+\texttt{Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/}
+\texttt{DegreeEqTotDeg.lean}.  It applies to \emph{any}
+valid ambient datum $J$ in an $I.\mathrm{Ok}$ input,
+and to every total degree $n$.  It states that the
+corresponding normalized jet set is contained in a
+number field.  Its proof invokes the normalized-vacuum
+algebraicity and finite-jet-set theorems, with the
+displayed self-duality, parity, bad-prime and ambient
+normalization hypotheses.  This source result is used
+with those hypotheses, not inferred from arbitrary
+analytic theta normalization.
+
+Let $\mathcal B$ be the finite set of primes of $E$
+above the fixed $T$- and $G$-primes and the ramification
+of the finitely many characters in $\Xi$.
+For a word $u$, a step $i<m$, and subsets
+$S_0,R_0\subset\mathcal B$, put
+\[
+ M(u,R_0)=T(u)
+             \left(\prod_{Q\in R_0}\mathrm NQ\right)^{2(m+1)}.
+ \tag{A13p}
+\]
+The exponent is precise: the canonical
+\texttt{twCst} has $A=B=m+1$, $M=m$,
+as displayed in \texttt{Formalism/LocalToGlobal/Columns/}
+\texttt{ChainTw.lean}, lines 217--226.
+For each such finite index and each selected degree,
+form the source's normalized \texttt{jetSet} using
+$J$, $S_0$, modulus (A13p), and the fixed ideal
+character $\chi$.  These sets are independent of the
+coefficient field: \texttt{hostAmb} and
+\texttt{jetSet\_amb}, lines 43--66 of
+\texttt{DegreeEqTotDeg.lean}, prove this exactly.
+
+Keep the members of this finite list which are
+contained in a number field, and take their union.
+It is contained in the compositum of finitely many
+number fields.  Adjoin a finite set of algebraic
+generators for that compositum to the character
+coefficient field, using the same \texttt{Base}
+enlargement construction.  This finite-choice argument
+is the explicit mathematical content of the source's
+\texttt{FinAlg} union step; it does not require a
+decision procedure for testing the members of the list.
+
+Now construct and canonicalize the actual input in
+this enlarged field, retaining $J$.  For every one of
+its words and steps, its actual sets
+$\mathrm{Sb}(a,u)$ and $\mathrm{rowSG}(a)$ are subsets
+of $\mathcal B$.  The complete proofs of
+\texttt{Sb\_subset} and \texttt{rowSG\_subset},
+lines 126--156 of the same file, establish precisely
+this containment from $I.\mathrm{Ok}$ and the character
+range.  Its actual modulus is (A13p), by the definitions
+of \texttt{cAof}, \texttt{cBof} and \texttt{twCst}.
+Apply \texttt{finAlg\_step} to this actual valid input.
+Its jet set is consequently one of the retained sets
+in the finite union, and all its values lie in the
+chosen field.  Taking, for each $u,i$, the total degree
+of the required embedding multidegree
+$\nu\mathrm{Deg}(u,i,\tau)$ proves
+\texttt{JetsIn}; the identity between these total
+degrees is proved in \texttt{degree\_eq\_totDeg},
+lines 75--84.  Adding any finitely many other degrees
+to the initial list proves the additional assertion.
+The universal laws and later-stage constructors apply
+again without a change of \texttt{Pre}.\hfill$\square$
+
+This proof improves the wrapper's preservation statement,
+but only for a datum already satisfying the literal
+\texttt{AmbIn.Ok}.  The ambient structure and that validity definition fix its
+discriminant-normalized vacuum and differential generators;
+it is not a statement that an arbitrary 032 normalization
+is such a datum.  The comparison with a particular 032
+section must still retain the actual section, tangent
+and period factors, as in A8 and A12.  Nor does (A13o)
+bound the degree of this further arithmetic-jet field:
+the latter is supplied by the stated finite algebraic
+generation theorem and its finite compositum.
+
+Finally, (A13g) is an actual \emph{array}-window selector.
+The precise source passage from this array to a holomorphic
+theta section is \texttt{reads\_datum\_eq\_thC}, in
+\texttt{Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/}
+\texttt{DatumReadingSplitPlacesEqClassicalTheta.lean}.
+Its complete proof expresses the output as a finite
+Fourier sum of Heisenberg translates of the chosen vacuum;
+the half-pairing phases, semicharacters, and lattice
+representatives all occur in that sum.  Thus a finite
+window in the raw $E$-matrix array is not automatically
+the same window in the rational Schr\"odinger Gaussian
+series of A12.  For any given full datum, use that explicit
+finite transform and then the derivative matrix: apply it
+to the incidence basis (A13d), or to the oriented-plane
+character combinations (A13i)--(A13j), and compute its rank
+and a nonzero minor with all common section and tangent
+periods removed as in A12.  This is a smaller, exactly
+specified finite comparison.  The new results above close
+the global tame-character compatibility condition and
+give literal array selectors and invariant subspaces;
+they do not assert the unproved surjectivity of this
+final transformed derivative matrix.
+
+In the requested Grothendieck framework this last distinction
+is essential: the finite theta-module comparison belongs
+to the period and correspondence comparison discussed in
+\emph{cote44}, scans 7--8.  It is not an algebraic Lefschetz
+inverse or a cohomological projector of the kind discussed
+in \emph{cote16}, scans 43--46.  A later inverse matrix is
+algebraic only after its stated period factors have been
+removed, and an actual correspondence still requires the
+cohomological identification.

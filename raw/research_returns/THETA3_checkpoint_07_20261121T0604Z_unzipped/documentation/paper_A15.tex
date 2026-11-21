@@ -1,0 +1,616 @@
+\subsection{THETA3-A15. The literal finite transform, its derivative matrix, and rank-one sampling}
+\label{A15}
+
+We first compute the actual finite transform for the whole allowed
+array.  We then prove a positive first-derivative theorem for its
+single-incidence Fourier model.  The final paragraph specifies the
+additional tensor-product test required when several $T$-primes occur.
+
+\paragraph{The exact operator and first derivative.}
+Use the actual data of
+\texttt{Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/}
+\texttt{DatumReadingSplitPlacesEqClassicalTheta.lean},
+\texttt{reads\_datum\_eq\_thC}.  In particular the source has a valid
+\texttt{StdPair}, the stipulated half idempotent, self-dual lattices,
+vacuum and \texttt{IsThetaAt} identity, and the required support and
+periodicity of the actual array $\Xi$.  Set
+\[
+ H=\mathrm{HV}(\mathrm{sc}),\quad
+ \alpha=\mathrm{alV}(d,\mathrm{sc}),\quad
+ F=\mathrm{xiN}(f_0).
+\]
+Here $H$ is linear in its first argument and conjugate-linear in its
+second.  The exact definition, including its sign, is
+\texttt{Formalism/LocalToGlobal/TorsionIntegrality/QuadraticSemicharacters/}
+\texttt{IsSemiChar.lean}, lines 9--24:
+\[
+ U_xF(z)=F(z+x)
+       \exp\bigl(-\pi H(z,x)-\tfrac\pi2H(x,x)\bigr).
+ \tag{A15a}
+\]
+Write $S_X,S_A,S_B$ for the three finite representative sets in the
+source proof, and put
+\[
+ b(y,s)=\exp(-2\pi i\,\operatorname{Im}H(s,y)),
+ \qquad
+ K_\Xi(x,y)=\frac1{|S_A|}\sum_{s\in S_A}
+          \Phi(s-x)b(y,s)^{-1},
+ \tag{A15b}
+\]
+where $\Phi=\mathrm{onV}(\Xi)$.  Then the literal conclusion of that
+proof is
+\[
+ \Theta_\Xi(z)=
+  \sum_{x\in S_X,\ y\in S_B}
+      \alpha(x)\alpha(y)K_\Xi(x,y)U_xU_yF(z).
+ \tag{A15c}
+\]
+The definitions are
+\texttt{Formalism/LocalToGlobal/KernelLattices/XiIndCClass.lean},
+\texttt{brk}, \texttt{hatS}, \texttt{xiL}, lines 18--28,
+and \texttt{thC}, line 239.  The actual \texttt{thC} uses volume
+$1$.  If instead one uses the separately defined \texttt{xiC},
+its displayed positive volume contributes the additional factor
+$\sqrt{\mathrm{vol}}$; it is not absorbed in (A15c).
+
+For a tangent vector $u$, direct differentiation of (A15a) gives
+\[
+ \begin{split}
+ d(U_xU_yF)_0(u)
+  ={}&\exp\bigl(-\pi H(x,y)
+              -\tfrac\pi2H(x,x)-\tfrac\pi2H(y,y)\bigr)\,V_u(x+y),\\
+ V_u(w)={}&dF_w(u)-\pi H(u,w)F(w).
+ \end{split}
+ \tag{A15d}
+\]
+Indeed $H(z,x)+H(z,y)=H(z,x+y)$, and the constant term in
+the two exponential factors is precisely the exponent displayed.
+This proves (A15d) without a convention-dependent appeal to a
+Heisenberg commutation rule.  Equivalently,
+$U_xU_y=\exp(-\pi i\operatorname{Im}H(x,y))U_{x+y}$.
+
+Fix tangent vectors $u_1,\ldots,u_g$.  The complete first-derivative
+matrix for any finite list of actual arrays $\Xi_j$ is therefore
+\[
+ J_{rj}=\frac1{|S_A|}
+  \sum_{x,y,s}\alpha(x)\alpha(y)b(y,s)^{-1}
+       \Phi_j(s-x)
+       e^{-\pi H(x,y)-\pi H(x,x)/2-\pi H(y,y)/2}
+       V_{u_r}(x+y).
+ \tag{A15e}
+\]
+Every index and scalar in this formula comes from the stated finite
+transform.  In particular $\Xi_j(0)=0$ does not set $F(0)$ or the
+translated vacuum values to zero.  A prescribed full-rank support
+condition or right-$\mathrm{SL}$ covariance is retained inside
+$\Phi_j$ throughout this formula.
+
+There is a useful rigorous error certificate for (A15e).  Suppose
+computed values of $F(w)$ and $dF_w(u_r)$ have respective error bounds
+$\epsilon_0(w)$ and $\epsilon_r(w)$.  Since the semicharacters and
+commutator factors have modulus one, the resulting error in $J_{rj}$
+is at most
+\[
+ \frac1{|S_A|}\sum_{x,y,s}|\Phi_j(s-x)|
+ e^{-\pi H(x+y,x+y)/2}
+ \bigl(\epsilon_r(x+y)+\pi|H(u_r,x+y)|\epsilon_0(x+y)\bigr).
+ \tag{A15f}
+\]
+The real part of the exponent in (A15e) is
+$-\pi H(x+y,x+y)/2$, which proves this estimate.  The theta and
+derivative tail bounds of Q2 and A12 can supply the errors here.
+Thus a numerical nonzero-minor certificate need not omit any of the
+finite half-pairing phases.
+
+\paragraph{The exact restricted Fourier rank test.}
+Fix all non-$T$ data, including an actually permitted primary tuple
+from A14 and its allowed local indices.  At a $T$-prime $v$, let
+$M_v=\operatorname{Mat}_{b\times a}(\kappa_v)$ in the source's residue
+frames.  Integrality is included in the remaining factor, so on the
+finite window in (A15e) the actual array has the form
+\[
+ C_j(t)\prod_{v\in\mathcal T}I_{v_v,u_v}(\operatorname{red}_v t).
+ \tag{A15g}
+\]
+Here $C_j$ is the \emph{actual} product of other factors, including
+the indicated finite auxiliary sums.  It is not replaced by a
+constant.  Collecting all terms with a fixed tuple of reductions
+defines a completely explicit weighted kernel
+$\mathcal K_{rj}$ on $\prod_v M_v$, so that (A15e) becomes
+\[
+ J_{r,(j,I)}=\sum_{X\in\prod_v M_v}
+                    \mathcal K_{rj}(X)\prod_v I_v(X_v).
+ \tag{A15h}
+\]
+The collection operation simply sums the coefficient of
+$C_j(t)$ in (A15e) over all triples $(x,y,s)$ with $t=s-x$ and
+the specified reductions.  Terms off the required integral domain
+are zero.  Its definition therefore involves only the literal
+finite window, not an infinite summation or a changed support.
+
+Choose nontrivial additive residue characters.  For a matrix $A$
+put $e_A(X)=\psi(\operatorname{Tr}(A^tX))$.  A13 implies that the
+single-prime incidence space is also exactly
+\[
+ \operatorname{span}\{e_A-1:\operatorname{rank}A=1\}.
+ \tag{A15i}
+\]
+For completeness, if $A=v^tt$, then
+\[
+ e_A(X)-1
+       =\sum_{u\ne0}\bigl(\psi(\textstyle\sum_j u_jt_j)-1\bigr)I_{v,u}(X).
+ \tag{A15j}
+\]
+The value at $vX=0$ is zero, so the missing $u=0$ term causes no
+error.  Conversely the Fourier support of each incidence function
+lies in $\{v^tt:t\in\kappa^a\}$ and its value at zero is zero,
+as proved in A13.  Fourier independence then proves (A15i).
+The coefficient sum in (A15j) is at most $2(q^a-1)$.
+
+Use the positive-sign finite transform
+\[
+ \widehat{\mathcal K}_{rj}(A_1,\ldots,A_f)
+   =\sum_X\mathcal K_{rj}(X)\prod_v e_{A_v}(X_v).
+\]
+For a derivative covector $\ell$, put
+$\mathcal K_{\ell j}=\sum_r\ell_r\mathcal K_{rj}$.
+The actual incidence derivative matrix has full row rank if and
+only if there is no nonzero $\ell$ for which
+\[
+ \sum_{S\subset\{1,\ldots,f\}}(-1)^{f-|S|}
+       \widehat{\mathcal K}_{\ell j}(A^S)=0
+ \quad\text{for all }j\text{ and all rank-one }A_v.
+ \tag{A15k}
+\]
+Here $A^S_v=A_v$ for $v\in S$ and $A^S_v=0$ otherwise.
+Indeed the left side is exactly the pairing in (A15h) with
+$\prod_v(e_{A_v}-1)$, and these products span the tensor incidence
+space.  This proves both directions of the criterion.  In the
+single-prime case it says that
+$\widehat{\mathcal K}_{\ell j}$ is constant on all matrices of rank
+at most one.  For several primes it is the full mixed difference
+(A15k), rather than the separate one-variable condition.
+Equivalently, on this rank-one grid the transform is the alternating
+sum of its proper coordinate faces.  The number of local basis
+columns before multiplying the other factors is
+\[
+       \prod_{v\in\mathcal T}
+       \frac{(q_v^a-1)(q_v^b-1)}{q_v-1}.
+ \tag{A15l}
+\]
+
+When varying the primary twisting characters, the index $j$ runs
+only over the quotient-character family actually constructed in
+A14.  In particular the finite auxiliary sum in a \texttt{XiEntry}
+is not silently replaced by one determinant character.  When passing
+from raw decorated lattices to the archive's chosen class
+representatives, include its stated equivariance scalar and its row
+change of coordinates in (A15e).  The criterion then tests the
+resulting actual matrix.  No enlarged list of class representatives
+is assumed.
+
+\paragraph{Normalization and a finite algebraic certificate.}
+The literal differential convention is especially simple at degree
+one.  In
+\texttt{Formalism/LocalToGlobal/KernelLattices/ThDistC.lean},
+lines 54--62, \texttt{jetC} is the undivided derivative multiplied by
+$c_D(\tau)$ in each differentiated coordinate.  For
+$r=(\tau,i,j)$ use
+$u_r=c_D(\tau)\,\mathrm{coordX}(r)$ in (A15e).
+Then the result is exactly its degree-one \texttt{jetC}; there is
+no factorial.  A different rational Schr\"odinger chart requires
+the actual row Jacobian retained in A12.
+
+For fixed source and target lattices, divide the entries by the
+common factor $\chi_F(N,N')$ specified in A13.  The fixed-$J$
+arithmetic-jet construction there, with degree one included, puts
+all entries for the finite actual family in one number field after
+a further \texttt{Enl}.  This invokes the literal normalized-jet
+theorem at its stated \texttt{AmbIn.Ok} hypotheses; it does not
+deduce algebraicity of unnormalized analytic derivatives.
+Changing one theta section into a linear combination still uses
+its section comparison factor once.  A determinant of independent
+first-derivative columns uses the corresponding product of factors,
+as in A12.
+
+Thus a nonzero minor of this \emph{normalized} matrix gives an
+algebraic inverse on its image.  If a computed square submatrix
+$J_0$ has least singular value at least $s>0$, then a target
+derivative vector $w$ can be obtained with coefficient sum at most
+$\sqrt g\,\|w\|/s$.  This follows from
+$\|J_0^{-1}w\|_1\leq\sqrt g\|J_0^{-1}w\|_2$.
+For an approximate matrix replace $s$ by
+$\sigma_{\min}(J_{0,\mathrm{approx}})-\|\mathrm{error}\|$, provided
+this is positive; (A15f) bounds the error.
+These are concrete finite certificates.  An algebraic inverse of
+this derivative matrix is still not, without a cohomological
+identification, an algebraic correspondence on the ball variety.
+
+\paragraph{Faithfulness and modulation in the precise finite block.}
+There is a useful positive nonvanishing criterion before any derivative
+is taken.  Suppose that $\Lambda,A,B$ are commensurable full lattices,
+that all three are self-dual for $\operatorname{Im}H$, and that
+$\alpha$ is a semicharacter on each.  Retain the actual
+\texttt{GoodLat} conditions: in particular
+\[
+ \Lambda=(\Lambda\cap A)+(\Lambda\cap B),\qquad
+ a\in A,\ b\in B,\ a+b\in\Lambda\ \Longrightarrow\ a\in\Lambda.
+ \tag{A15u}
+\]
+These are the first two lattice conditions in
+\texttt{Formalism/LocalToGlobal/PairingIndexBounds/ModelLatticeMoves/}
+\texttt{GoodLat.lean}, lines 25--29; its last two conditions assert
+the corresponding nondegeneracy of the cross pairing.
+Let $F_0\ne0$ satisfy $\alpha(\lambda)U_\lambda F_0=F_0$.
+Then (A15c) is injective on the finite space of functions
+\[
+                 \Phi:A/(A\cap B)\longrightarrow\C.
+ \tag{A15v}
+\]
+In this statement $S_X$ represents $A/(\Lambda\cap A)$,
+$S_A$ represents $(\Lambda\cap A)/(A\cap B)$, and $S_B$
+represents $B/(\Lambda\cap B)$, precisely as in the source.
+The inclusion $A\cap B\subset\Lambda$ follows from (A15u): an
+element of $A\cap B$ pairs integrally with both summands of
+$\Lambda$, hence belongs to its self-dual lattice.
+
+Here is a full proof of injectivity.  For every $\lambda\in\Lambda$,
+the nonzero entire function $U_xU_yF_0$ is an eigenvector of
+$\alpha(\lambda)U_\lambda$, with character
+\[
+             e^{-2\pi i\operatorname{Im}H(\lambda,x+y)}.
+\]
+These characters are distinct as $(x,y)$ runs over $S_X\times S_B$.
+Equality would imply $x+y-x'-y'\in\Lambda$ by self-duality;
+(A15u) then gives $x-x'\in\Lambda$, forcing $x=x'$ and $y=y'$
+by the representative conditions.  Eigenvectors with distinct
+characters of an abelian group are linearly independent.  For
+example, given a finite relation and a chosen character, successive
+operators of the form $\rho(\lambda)-\chi(\lambda)$ eliminate
+each of the other characters while leaving that chosen term
+nonzero.  Thus $\Theta_\Phi=0$ forces $K_\Phi(x,y)=0$ for every
+pair.
+
+The pairing $b(y,s)$ between
+$(\Lambda\cap A)/(A\cap B)$ and $B/(\Lambda\cap B)$ is perfect.
+Its right kernel is exactly $\Lambda\cap B$ by the last
+\texttt{GoodLat} condition.  Its left kernel is $A\cap B$, since
+an element of $\Lambda\cap A$ pairing integrally with all of $B$
+belongs to $B$ by self-duality.  Both groups are finite, so
+nondegeneracy on both sides makes their orders equal and gives a
+perfect finite-character pairing.  Finite Fourier inversion in
+(A15b) now gives $\Phi(s-x)=0$ for every $s,x$.
+These elements represent all of $A/(A\cap B)$: choose $x$
+representing $-t$ modulo $\Lambda\cap A$, then $s$ representing
+$t+x$ modulo $A\cap B$.  This proves (A15v).
+
+There is also an exact operator identity on this whole block,
+including an already present array of other local factors:
+\[
+       \Theta_{\,b(y,\cdot)\Phi}
+                =\alpha(y)U_y\Theta_\Phi,
+                  \qquad y\in B.
+ \tag{A15w}
+\]
+To verify it without dropping a phase, multiplication of $\Phi(s-x)$
+by $b(y,s-x)$ changes $K_\Phi(x,z)$ to
+$b(y,-x)K_\Phi(x,z-y)$.
+The coefficient $K_\Phi(x,z)$ is periodic in
+$z\in B$ modulo $\Lambda\cap B$, because $s\in\Lambda\cap A$.
+On $B$ the operators $W_y=\alpha(y)U_y$ form a representation:
+the semicharacter identity and
+$U_xU_y=e^{-\pi i\operatorname{Im}H(x,y)}U_{x+y}$ give
+$W_xW_y=W_{x+y}$, since $\operatorname{Im}H(B,B)\subset\Z$.
+Also $W_\lambda F_0=F_0$ for $\lambda\in\Lambda\cap B$.
+Reindexing $z-y$ in $S_B$ therefore moves $W_y$ to the left of
+$W_zF_0$.  Commuting it past $U_x$ contributes $b(y,x)$,
+which cancels $b(y,-x)$.  This gives exactly (A15w).
+It is the statement called \texttt{XiModulate} in
+\texttt{XiIndCClass.lean}, lines 98--102; the argument here proves
+the finite identity directly, rather than treating that
+\texttt{Prop} declaration as a proof.
+
+Consequently, for any collection $y_1,\ldots,y_f\in B$,
+\[
+ \Theta_{\,\Phi\prod_i(b(y_i,\cdot)-1)}
+      =(W_{y_f}-1)\cdots(W_{y_1}-1)\Theta_\Phi.
+ \tag{A15x}
+\]
+This proves the ordered character-operator prerequisite in C37
+whenever the literal input has been placed in this finite block.
+The representatives need not be bounded; C37 retains the lattice
+characters introduced by reducing them modulo the baseline period
+lattice.  The positive-sign finite character $e_A$ in (A15i) may
+label $-y$ rather than $y$ under the source's negative-sign
+$b(y,t)=\exp(-2\pi i\operatorname{Im}H(t,y))$.
+Use that actual perfect-pairing label.  Negation preserves the
+rank-one sample and does not change any spanning assertion.
+
+In particular a nonzero remaining array gives a nonzero baseline
+\emph{when its membership in (A15v) and these self-duality and
+vacuum hypotheses have been checked}.  This is more specific than
+an assertion about an arbitrary theta summation map.  To use one
+fixed baseline while a new split prime varies, the added local
+factor must be the unramified integral vacuum at that prime.
+In the finite Fourier formula its integral support sets the new
+$x$-index to zero, and its constant value on the new $S_A$ makes
+the new Fourier index zero.  Thus this factor acts as the identity.
+Equivalently, the orthogonal prime components of the finite
+Heisenberg group factor by the Chinese remainder theorem, and
+the new factor is its vacuum vector.  This statement keeps the
+remaining lattices, section normalization and local factors fixed;
+it does not assert that an arbitrary changing archive datum has a
+fixed baseline.  For fixed lattices, the new sufficiently large
+primes avoid their finite nonstandard set, so the added local
+factor of the volume is one.  Any pre-existing positive volume
+scalar and every later class-representative or row-frame factor
+remain explicit, as in (A15e) and the normalization paragraph.
+
+\paragraph{The fixed covering lattice and the new primary samples.}
+The baseline in the preceding paragraph need not be a section on
+the original principally polarized torus.  Let $M$ be its original
+$\OO_E$-period module, with complex image $\Lambda$, and choose a
+positive integer $N_0$ such that
+\[
+ \Lambda_0=N_0\Lambda\subset A_{\rm old}\cap B_{\rm old}.
+ \tag{A15y}
+\]
+Such an integer exists because the old lattices are commensurable.
+For $\lambda\in\Lambda_0$, the character $b(\lambda,t)$ is one
+on $A_{\rm old}$, by self-duality of $A_{\rm old}$.
+Equation (A15w) therefore proves
+$\alpha(\lambda)U_\lambda F_{\rm base}=F_{\rm base}$.
+Thus the actual fixed positive theta line for C37 is its line on
+$V/\Lambda_0$.  No descent of $F_{\rm base}$ to $V/\Lambda$
+is being assumed.
+
+Here is the precise new-prime compatibility for the half-lattices
+used above.  Exclude primes dividing $N_0$, the old levels, the
+different, and the finitely many nonstandard lattice indices.
+At a new split rational prime $q$, the source definitions
+\texttt{halfAO}, \texttt{halfBO} in
+\texttt{XiIndCClass.lean}, lines 181--191, give the local pairs
+$q^{-1}M,qM$ at each selected prime $\mathfrak p$ and the
+opposite pair at $\overline{\mathfrak p}$.
+The baseline has the integral vacuum at these places.
+The $\overline{\mathfrak p}$-primary torsion group
+\[
+ \overline{\mathfrak p}^{-1}(N_0M)/(N_0M)
+\]
+on $V/\Lambda_0$ maps isomorphically to the corresponding
+primary group on $V/\Lambda$.
+Indeed, the kernel of $V/\Lambda_0\to V/\Lambda$ has order
+prime to $q$, so multiplication by $q$ is invertible on it.
+This proves injectivity on $q$-torsion, and a lift of a
+$q$-torsion point can be adjusted by this kernel to become
+$q$-torsion.  The map is $\OO_E$-linear, so it preserves the
+individual prime components.
+
+One can use these very primary points in (A15w).
+Represent a point by $y\in\overline{\mathfrak p}^{-1}(N_0M)$.
+By the Chinese remainder theorem for the finite module
+$N_0M/qN_0M$, add an element of $N_0M$ so that $y$ belongs
+to $qM$ at $\mathfrak p$ and at every other prime above $q$
+except $\overline{\mathfrak p}$.  At the old primes its
+component remains in $N_0M\subset A_{\rm old}\cap B_{\rm old}$.
+The resulting representative belongs to $B_{\rm new}$.
+On the baseline's integral new-prime support its character
+$b(y,t)$ is precisely the residue trace character at
+$\mathfrak p$, with the negative sign and scalar different
+factor already recorded in (A15p); all other prime components
+are trivial.  Perfect local trace duality proves this assertion
+coordinate by coordinate.  With the stipulated source and target
+frames the labels are matrices, and replacing $M$ by $N_0M$
+only multiplies their local labels by a nonzero scalar.  Thus the
+rank-one labels remain rank one.  The same construction applies
+independently to every selected prime above $q$.
+
+Consequently the torsion samples needed by C37 are samples on
+the fixed torus $V/\Lambda_0$, with its fixed baseline section.
+Their trace-dual Fourier test is (A15p), now for the dual of
+$\Lambda_0$; a fixed nonzero dual element reduces nontrivially
+away from finitely many primes.  The representatives in C37 may
+be unbounded, but their changes of lift are elements of
+$\Lambda_0$, as required there.  A change merely by an element
+of the larger lattice $\Lambda$ is not declared harmless.
+This argument proves compatibility under the stated literal
+half-lattice, integral-vacuum and tensor-frame hypotheses; it
+does not replace those hypotheses for an unrelated finite
+transform.
+
+\paragraph{A positive theorem for one incidence factor.}
+Here is a nonvanishing result for the restricted rank-one frequencies
+themselves.  Let $V/\Lambda$ be a complex torus with a positive theta
+line, Hermitian form $H$, and semicharacter $\alpha$.  Let $F\ne0$
+be one of its holomorphic theta sections in the entire-function
+frame used in (A15a).  Set
+\[
+       v(y)=d_z[U_yF](0)\in V^*,\qquad a_0=v(0).
+ \tag{A15m}
+\]
+Although $v$ depends on a unitary frame, its norm and the norm of
+each constant covector pairing are well defined on the torus.
+More precisely, $\alpha(\lambda)U_\lambda F=F$ implies
+\[
+ U_{y+\lambda}F
+    =\alpha(\lambda)^{-1}
+       e^{\pi i\operatorname{Im}H(y,\lambda)}U_yF.
+ \tag{A15n}
+\]
+The same scalar multiplies every component of $v$, so those
+components are continuous sections of the same nontrivial theta
+line in a unitary frame.
+
+This parameter-space statement does not make every $U_y$ an
+automorphism of the original theta line on $V/\Lambda$.
+For a point with $Ny\in\Lambda$, $U_yF$ and $F$ have the same
+automorphy law on $N\Lambda$, so they are sections together on
+$V/N\Lambda$ of the pullback of the original theta line under
+the identity-linear covering
+$\pi_N:V/N\Lambda\longrightarrow V/\Lambda$.
+Indeed the extra multiplier on $N\lambda$ is
+$e^{2\pi i\operatorname{Im}H(y,N\lambda)}=1$.
+In this covering's $z$ coordinate the derivative of $\pi_N$ is
+the identity, and (A15m) is its literal derivative.  If the cover
+is instead identified with the original torus by $z=Nw$, its
+line is $[N]^*L$ and its first derivative is multiplied by $N$.
+Only the explicitly normalized factor $N^{-1}$ cancels that
+change of coordinate.  The fixed positive line in (A15o) is
+the parameter line of $v(y)$; the output columns for growing
+torsion levels live on these stated pullback lines.
+
+For any fixed Hermitian norm on $V^*$, put
+\[
+ \delta_F=\min_{\|\ell\|=1}
+     \int_{V/\Lambda}
+       \bigl(|\ell v(y)|-|\ell a_0|\bigr)^2\,dy,
+ \tag{A15o}
+\]
+where Haar measure is a probability measure.  Then
+$\delta_F>0$.  To prove this, if the integrand has zero integral
+it vanishes everywhere by continuity.  If its constant norm is
+positive, the corresponding nowhere-zero section trivializes the
+theta line topologically, contradicting its nonzero positive
+first Chern class.  This contradiction can be read directly from
+curvature: a global unit frame would make its curvature exact,
+whereas its positive curvature has a positive integral against
+the $(g-1)$st power of a K\"ahler form.  If the constant is zero,
+the directional form of (A15d) gives, for the nonzero direction
+$u$ corresponding to $\ell$,
+\[
+             dF_y(u)=\pi H(u,y)F(y)\quad\hbox{for all }y.
+\]
+Apply the antiholomorphic derivative in direction $u$.  Holomorphy
+of $F$ gives $0=\pi H(u,u)F(y)$, which contradicts $F\ne0$ and
+positive definiteness.  Thus the integral in (A15o) is positive
+for every unit $\ell$.  It is continuous in $\ell$, and the unit
+sphere is compact, proving the positive minimum.
+
+Suppose the finite torsion groups at a sequence of allowed CM split
+primes are labelled, in tensor-compatible residue frames, by
+$\operatorname{Mat}_{b\times a}(\kappa)$, with $q=|\kappa|\to\infty$.
+Write $y_A$ for the point labelled by $A$.  The compatibility required
+here is the actual trace-pairing compatibility: for every torus
+character $\gamma$ there is a residue matrix $X_\gamma$ with
+\[
+        \gamma(y_A)=\psi(\operatorname{Tr}(A^tX_\gamma)),
+ \tag{A15p}
+\]
+and every fixed nonzero $\gamma$ has $X_\gamma\ne0$ at all but
+finitely many of the primes.  This is the usual CM lattice
+construction: the rational trace dual is an $E$-lattice, and a
+nonzero element of it has nonzero reduction away from finitely many
+primes.  At good split primes the trace pairing is perfect.
+Left and right changes of the stipulated source and target frames,
+and the scalar different factor, preserve rank one.  An arbitrary
+unrecorded linear relabelling of matrix coordinates is not allowed
+in (A15p).
+
+The probability measure on the $y_A$ with $\operatorname{rank}A=1$
+converges to Haar measure.  Indeed every such matrix is $uv^t$ with
+$u,v\ne0$, in exactly $q-1$ ways.  If $r=\operatorname{rank}X$, direct
+summation gives
+\[
+ \frac{\sum_{u\ne0,\ v\ne0}\psi(u^tXv)}
+            {(q^b-1)(q^a-1)}
+  =\frac{q^{a+b-r}-q^a-q^b+1}{(q^b-1)(q^a-1)}.
+ \tag{A15q}
+\]
+For fixed $u$ the inner sum is $q^a-1$ if $X^tu=0$ and $-1$
+otherwise; there are $q^{b-r}-1$ nonzero $u$ of the first kind.
+This proves the formula.  For $r\ge1$ its absolute value is at
+most $1/(q-1)$: the largest positive numerator occurs at $r=1$,
+and the negative magnitude is at most
+$\min(q^a,q^b)-1$, both bounded by the indicated denominator
+divided by $q-1$.  Equations (A15p)--(A15q) give convergence on
+each torus character, hence on trigonometric polynomials, and then
+on continuous functions by uniform approximation.
+
+For \emph{any} choices of phases $|\eta_A|=1$, the columns
+\[
+                 \eta_Av(y_A)-a_0,
+                 \qquad \operatorname{rank}A=1,
+ \tag{A15r}
+\]
+span $V^*$ for every sufficiently large such prime.  More precisely,
+if $R_q=(q^a-1)(q^b-1)/(q-1)$ is their number, their matrix $J_q$
+satisfies
+\[
+             J_qJ_q^*\ \ge\ R_q\delta_F/2\;\mathrm{Id}.
+ \tag{A15s}
+\]
+The triangle inequality gives
+$|\eta_A\ell v(y_A)-\ell a_0|
+ \ge\bigl||\ell v(y_A)|-|\ell a_0|\bigr|$.
+Equidistribution is uniform on the compact family of continuous
+functions in (A15o): use a finite uniform approximation net in
+$\ell$ and then the proved convergence for that finite net.
+Their discrete integrals are therefore at least $\delta_F/2$,
+uniformly in unit $\ell$ and in every phase.  This proves (A15s).
+The minimum-norm right inverse gives coefficient sum at most
+$\sqrt{2/\delta_F}\,\|w\|$ for a desired derivative vector $w$.
+To express each difference by the literal incidence indicators,
+multiply this bound by at most $2(q^a-1)$ using (A15j).
+
+There is also a finite quantitative threshold.  Choose coordinates
+on the real torus of dimension $d=2g$, and let $P_M$ be the product
+Fej\'er kernel of frequency range $[-M,M]^d$.  Choose a uniform
+bound $B\ge\sup_y\|v(y)\|$ and a bound $L$ for its covariant first
+derivative.  The functions in (A15o) have bound $4B^2$ and
+Lipschitz constant at most $4BL$.  Put
+$\epsilon_M=\int\operatorname{dist}(t,0)P_M(t)\,dt$.
+After excluding the finitely many primes where one of the nonzero
+frequencies in this range reduces to zero, (A15q) shows that the
+discrete average in (A15o) is at least
+\[
+ \delta_F-4BL\epsilon_M
+       -\frac{4B^2((2M+1)^d-1)}{q-1}.
+ \tag{A15t}
+\]
+Convolution by $P_M$ preserves the Haar average, approximates every
+function in the family within $4BL\epsilon_M$, and has the
+indicated finite Fourier support; each Fourier coefficient has
+absolute value at most $4B^2$.  This proves (A15t), including its
+constants.  Taking the last two terms at most $\delta_F/4$ each
+is an explicit sufficient test for (A15s).  The constants concern
+this fixed theta section; they do not bound an arbitrary varying
+section or an unnormalized ball period.
+
+\paragraph{Application to several factors.}
+In the single-incidence Fourier model the exact finite transform
+sends $e_A$ to a unit scalar times $U_{y_A}F$, and sends $1$ to
+$F$.  Thus (A15r) is exactly its first-derivative column.  The
+theorem proves that low Fourier rank alone is not an obstruction
+to first-derivative spanning, while retaining every unit phase.
+For the literal full \texttt{xiAt}, however, all the $T$-factors,
+the other local factors, and the allowed primary tuple list remain
+those in (A15g).  Several incidence factors give the alternating
+sum (A15k).  C37 proves a simultaneous theorem for these ordered
+differences, at one growing rational prime, even with unbounded
+half-lattice representatives.  The exact identity (A15x) supplies
+its operator comparison in the stated finite block.  The
+injectivity proof supplies a nonzero baseline from a nonzero
+array in that block, and the unramified-factor argument explains
+when this is one fixed baseline as the new prime grows.
+Together these results give full first-derivative rank whenever
+those finite-block, fixed-data, and tensor-compatible residue
+conditions are met for the sequence of actual inputs.
+
+For a particular archive family one must still verify these
+conditions for its selected non-$T$ local functions and permitted
+prime choices; they are not consequences merely of a nonzero raw
+array or a numerical signature match.  The exact finite
+nonzero-minor test, normalized arithmetic field, and error bounds
+remain (A15e)--(A15l) and (A15f).  In particular the literal
+$v_T(u)$ has several places over the same rational $T(u)$;
+C37 addresses that simultaneous situation without assuming
+independent successive prime choices.  All these comparisons
+retain the actual allowed array space of A13--A14.
+
+In the requested Grothendieck framework these are comparisons of
+finite theta values and their normalized derivatives, as in
+\emph{cote44}, scans 7--8.  Turning their inverse into a map of
+homological motives requires the separate cohomological
+identification; it is not supplied by finite-dimensionality or by
+the algebraic Lefschetz inverses discussed in \emph{cote16},
+scans 43--46.

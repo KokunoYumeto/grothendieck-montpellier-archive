@@ -1,0 +1,11 @@
+# THETA3-B21 independent whole-proof review
+
+**PASS.** Reviewer: GPT-6 Astra Pro, independent sub-run `/root/theta_032`, 2026-11-21; inherited effort label not exposed.
+
+I read the entire saved B21. I also read KNRR arXiv:2004.08315v2 section4.3, equation7, Definition4.3 and Remark4.4, printed23-24, and LRZ arXiv:0802.4017 section2.1 equation1, Proposition2.2.1 and Proposition2.4.4 with its complete coordinate proof, printed3-6. The geometric scaling convention gives the asserted orientation c_i² ~ det(Omega_i)/(2*pi*i)^g. The finite Fourier identity is exact: the inner sum forces m=a modulo n, producing factor n^g and the right theta characteristic. With n=N², this is exactly the B19 theta basis, and n is even and at least4.
+
+The residual scalar expression cancels every displayed level, tangent, kappa and oscillator factor correctly. Universal powers of 2*pi*i cancel between equal-dimensional pairs. The balanced tangent-period assertion follows from scalar descent and the accepted CM Hodge input, with the expanded correspondence proof now given in A10. At a rational negative line the relevant positive Lagrangian, graph frame and constant determinant maps are Qbar-defined in Betti coordinates. Compatible algebraic square roots therefore make the kappa ratio algebraic after the fixed universal normalization. This calculation introduces no algebraic de Rham differential frame and consequently no inverse determinant period.
+
+The ordinary top Hodge determinant is the wedge of the holomorphic CM eigenlines. Its full scalar-conjugate type is the autocorrelation A_d, and the actual oscillator torus gives M_d=2A_d+A_flip(d). I independently computed every entry in the C6 example. The selected determinant tensor types fail to balance even though the original signs do. This blocks the proposed proof by applying CMHC to a Hodge isomorphism between those exact lines; it does not prove that any numerical period ratio is transcendental. The stronger equality of M-type sums is a valid sufficient condition for the correspondence argument.
+
+The initial draft had omitted closing display delimiters; the author corrected them and I re-read the corrected opening displays. This was a typesetting correction, not a mathematical gap. The proof and source-scope events are recorded in the main theta check ledger.
