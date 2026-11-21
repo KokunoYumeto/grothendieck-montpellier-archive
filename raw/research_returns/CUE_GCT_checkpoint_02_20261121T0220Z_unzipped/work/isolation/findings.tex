@@ -1,0 +1,2557 @@
+% CUE_GCT isolation track. Run CUE-GCT-20261121-I.
+% Model: GPT-6 Astra Pro; configured effort is not exposed to this agent.
+% Bibliographic keys required: Hoza2026, AGKS2014, ForbesShpilka2013, MulmuleyGCTV, AllenderOgihara1996.
+
+\section{Isolation: the exact transfer, the quotient, and the surviving gate}
+\label{sec:isolation-track}
+
+We use a field $F$, $n$ variables, individual degree at most $\delta$, and
+an ROABP expression
+\[
+ f(\mathbf x)=u^{\mathsf T}A_1(x_{\pi(1)})\cdots A_n(x_{\pi(n)})v.
+\]
+The order $\pi$ may be unknown.  A polynomial-size hitting set here means
+one set depending only on $(n,w,\delta,F)$, not on the matrices or their
+coefficients, which hits every nonzero member of the class.  Arithmetic
+complexity and bit complexity are distinguished throughout.
+
+\paragraph{Background I-B01.}
+The stipulated new graph theorem is Hoza (2026), Theorem 1.3, pp.~2--3;
+its quantitative version is Theorem 2.4, p.~5.  For every simple layered
+digraph of width $W$ and length $N$, some seed in a family of size
+$(WN)^{O(1)}$ gives a minimum-weight path unique for every reachable pair.
+The weights are nonnegative integers bounded by $B=(WN)^{O(1)}$ and are
+computable in logarithmic space.  A path weight sums its internal vertex
+weights.  With a binary code $C$ of length $\ell$ and distance $d$, the
+formula is
+\[
+ \rho_x(a,i)=6^{\nu_2(i)}\sum_{j=1}^{\ell}6^{\ell-j}C(a)_j x_j
+ \quad(i>0),\qquad \rho_x(a,0)=0,
+\tag{I.1}\label{eq:I-hoza}
+\]
+and the probability of a bad uniform seed is at most
+$2^{-d}W^4N^2$.  The graph is fixed before the seed is chosen.
+We use this result as supplied; the present work does not claim an
+independent verification of its complete theorem.
+
+\paragraph{Background I-B02.}
+Agrawal, Gurjar, Korwar, and Saxena (2014), \S3, Definition~5, call
+$\omega\in\mathbb Z_{\geq0}^{n}$ basis isolating for
+$D=\sum_a v_a\mathbf x^a$ if there is a coefficient basis indexed by $B$
+whose monomial weights are distinct, and each $v_a$ with $a\notin B$
+belongs to the span of basis coefficients of strictly smaller weight.
+Their Lemma~6 preserves every nonzero scalar projection under
+$x_i=t^{\omega_i}$; Lemma~8 and Theorem~1 give their quasipolynomial
+construction, including unknown variable order.  Those known results
+are cited, not claimed as findings here.
+
+\subsection{I-01. A genuine polynomial transfer for vertex-variable path polynomials}
+\label{I-01}
+
+\paragraph{Statement.}
+Let $G$ range over simple layered digraphs with fixed vertex slots,
+width $W$, length $N\ge1$, fixed source $s$ and target $t$, and arbitrary
+scalar edge labels $c_e\in F$.  Give every internal vertex slot its own
+variable $z_v$, and form
+\[
+ P_G(\mathbf z)=\sum_{p:s\leadsto t}\left(\prod_{e\in p}c_e\right)
+                        \prod_{v\in\operatorname{int}(p)}z_v.
+\]
+There is a uniform hitting set of cardinality at most
+\[
+ 2^{\ell}\bigl((N-1)B+1\bigr)=(WN)^{O(1)}
+\tag{I.2}
+\]
+over any field containing $(N-1)B+1$ distinct elements.  Its points have
+coordinates $z_v=a^{\rho_x(v)}$, where $x$ runs over Hoza's seeds and
+$a$ runs over a fixed set of $(N-1)B+1$ field elements.  The same conclusion
+holds for independent edge variables after subdividing edges; the new
+width is at most $W^2$ and the new length is $2N$.
+
+\paragraph{Proof.}
+Delete zero-labelled edges.  In a simple layered digraph two different
+$s$--$t$ paths have different sequences of internal vertices and hence
+different vertex monomials, except in the length-one case, where there
+is at most one edge.  Thus $P_G\ne0$ exactly when some path survives.
+Choose a min-isolating seed for the surviving graph using I-B01.  In
+$P_G(t^{\rho_x(v)})$, the coefficient of the least path weight is the
+product of labels on its unique minimum path, and is nonzero in the
+field.  The degree is at most $(N-1)B$.  A nonzero polynomial of that
+degree has at most $(N-1)B$ roots.  This proves (I.2), uniformly in the
+edge labels.  For edge variables, insert one distinct intermediate
+vertex on each edge and give it that edge's variable; give the original
+internal vertices auxiliary independent variables as well.  The same
+argument provides a hitting set for the expanded vertex-variable
+polynomial.  To obtain points only on edge variables, assign to an edge
+the product of its intermediate-vertex value and the value of its head
+when the head is an internal original vertex.  Each original path then
+receives exactly the product of all its expanded internal-vertex values.
+This combines exponents additively, leaves a polynomial degree bound,
+and proves the edge-variable statement. \hfill$\square$
+
+\paragraph{Scope.}
+This is an exact consequence of the new graph theorem.  It does not
+identify several vertex or edge variables with the same ROABP variable.
+That identification is the substantive next step, treated below.
+Over a smaller finite field, the argument gives an extension-field
+hitting set after constructing a sufficiently large extension; it is
+not a statement that the same number of base-field points exists.
+
+\subsection{I-02. The quotient obstruction is already present in a two-path diamond}
+\label{I-02}
+
+\paragraph{Statement.}
+Let the monomial map $q:F[z_1,\ldots,z_s]\longrightarrow
+F[x_1,\ldots,x_n]$ send $z_j$ to $\mathbf x^{a_j}$, and let $A$ be
+the matrix with columns $a_j$.  A diagonal one-parameter action
+$z_j\mapsto t^{r_j}z_j$ is induced by a diagonal action
+$x_i\mapsto t^{\omega_i}x_i$ precisely when
+$r=A^{\mathsf T}\omega$.  If the $a_j$ generate a proper sublattice,
+requiring $r$ to annihilate $\ker(A:\mathbb Z^s\to\mathbb Z^n)$
+only guarantees a character on the image lattice; an integral
+extension to all $\mathbb Z^n$ is an additional lattice condition.
+Consequently path isolation does not, in general, descend through $q$.
+
+\paragraph{Proof and counterexample.}
+Equivariance on each generator reads
+$t^{r_j}\mathbf x^{a_j}=t^{\langle\omega,a_j\rangle}\mathbf x^{a_j}$,
+which is equivalent to the displayed matrix equation.  The kernel
+description follows from the factorization property of homomorphisms
+of free abelian groups, with the stated extension qualification.
+
+For the counterexample take the simple diamond
+$s\to u\to t$ and $s\to v\to t$.  Label the two paths so that their
+vertex-variable polynomial is $z_u-z_v$.  The map $q(z_u)=q(z_v)=x$
+gives the zero polynomial.  Every min-isolating weight on this diamond
+has $r_u\ne r_v$, so that its weighted polynomial
+$t^{r_u}-t^{r_v}$ is nonzero.  Such a weight does not descend, because
+$z_u-z_v\in\ker q$ is not homogeneous for it.  This remains a valid
+counterexample in characteristic two, where the two distinct powers
+still have nonzero coefficients.  Alternatively give both paths label
+$1$ in characteristic zero: the original polynomial is $2x\ne0$,
+but every weight induced from $x\mapsto t^{\omega}$ ties its two paths.
+Thus compatible minimum-path isolation is not even necessary for
+nonzero scalar output, while arbitrary path isolation is not sufficient
+to certify nonzero output after the quotient. \hfill$\square$
+
+\paragraph{What is refuted.}
+The refuted assertion is the direct identification of a Hoza seed with
+an ROABP variable-weight assignment.  Neither polynomial ROABP hitting
+sets nor their possible derivation by a different construction is
+refuted by this example.
+
+\subsection{I-03. Three exact characterizations of basis isolation}
+\label{I-03}
+
+\paragraph{Statement.}
+Let $S\subset\mathbb Z_{\geq0}^n$ index distinct monomials and let
+$V=\operatorname{span}_F\{v_a:a\in S\}$ have dimension $r$ over an arbitrary field.
+For $\omega\in\mathbb Z^n$ set $w_a=\langle\omega,a\rangle$.
+For integer weights we use the same order-theoretic definition as
+I-B02, allowing negative variable weights; the hitting-set
+applications below use nonnegative weights.
+The following are equivalent.
+\begin{enumerate}
+\item $\omega$ is a basis-isolating weight assignment in the sense of
+this extended definition.
+\item Every nonzero linear functional $\lambda\in V^*$ makes
+$\sum_a\lambda(v_a)\mathbf x^a$ have a unique monomial of minimum weight.
+\item At each weight level $c$, at most one coefficient $v_a$ with
+$w_a=c$ survives modulo
+$V_{<c}=\operatorname{span}\{v_b:w_b<c\}$.
+\end{enumerate}
+For a fixed coefficient basis $B$, write uniquely
+$v_a=\sum_{b\in B}\lambda_{ab}v_b$.  It is the basis isolated by
+$\omega$ exactly when
+\[
+ \langle\omega,a-b\rangle>0
+ \quad(a\notin B,\ \lambda_{ab}\ne0),
+ \qquad
+ \langle\omega,b-b'\rangle\ne0\quad(b\ne b'\in B).
+\tag{I.3}\label{eq:I-cone}
+\]
+The first inequalities alone characterize $B$ as the unique
+minimum-total-weight coefficient basis.
+
+\paragraph{Proof.}
+Assume (1), with isolated basis $B$.  For a nonzero $\lambda$, take
+the least-weight basis member $b$ on which $\lambda$ is nonzero.
+It is unique.  Every nonbasis coefficient of no greater weight lies
+in the span of smaller basis coefficients and is annihilated by
+$\lambda$.  This proves (2), including its stronger unique-monomial
+assertion.
+
+If (3) fails, choose two nonzero coefficient classes at a level $c$.
+There is a functional on $V/V_{<c}$ nonzero on both: for independent
+classes assign value $1$ to both and extend a basis; for dependent
+nonzero classes use any functional nonzero on one of them.  Pull it
+back to $V$.  It vanishes below $c$ and is nonzero on two monomials
+at $c$, contradicting (2).  This argument works also over finite
+fields.  Thus (2) implies (3).
+
+Under (3), choose the unique surviving monomial at every level where
+the coefficient span grows.  These coefficients form a basis, one
+per growth level.  All remaining coefficients at a level already
+belong to the span of smaller levels.  Iterating through the finitely
+many levels proves (1).  Unique coordinates in a fixed basis prove
+the equivalence with (I.3).
+
+If $B$ is the unique minimum-total-weight basis and
+$\lambda_{ab}\ne0$, then $B-b+a$ is also a basis.  Its total weight
+is strictly larger, so $w_a>w_b$.  Conversely, suppose these strict
+inequalities hold.  Expand any other basis $C$ in the basis $B$.
+Its change-of-basis determinant is nonzero, so at least one
+permutation in its determinant expansion is nonzero.  Every common
+member of $B\cap C$ is forced to match itself; every member
+$a\in C\setminus B$ matches some $b\in B\setminus C$ with
+$\lambda_{ab}\ne0$.  Summing the strict inequalities over this
+matching gives $\sum_{a\in C}w_a>\sum_{b\in B}w_b$.
+Thus $B$ is the unique minimum-total-weight basis. \hfill$\square$
+
+\paragraph{Geometric consequence.}
+For a fixed ordering of the weights within $B$, (I.3) is an open
+rational polyhedral cone in the cocharacter space $\mathbb R^n$.
+The union of these cones is precisely the set of BIWAs.  Equivalently,
+the one-parameter subgroup simultaneously gives a monomial initial
+form for every nonzero scalar projection of $D$.  Isolating one path
+or one preselected scalar output has weaker quantifiers.
+
+\subsection{I-04. Projected matroid vertices and polynomial random weights}
+\label{I-04}
+
+\paragraph{Statement.}
+Let $\mathcal B$ be the coefficient bases of the data in I-03, and put
+\[
+ \beta(B)=\sum_{a\in B}a,\qquad
+ Q=\operatorname{conv}\{\beta(B):B\in\mathcal B\}\subset\mathbb R^n.
+\]
+Every vertex of $Q$ is the image of exactly one indexed basis.
+Assume $S\subseteq\{0,\ldots,\delta\}^{n}$, $r\ge1$, $\delta\ge1$.
+Choose independently
+$a_i\in\{1,\ldots,M_1\}$ and $b_i\in\{1,\ldots,M_2\}$.
+With $L=n\delta M_2+1$, the weights
+\[
+ \omega_i=L a_i+b_i
+\tag{I.4}
+\]
+are basis isolating with probability at least
+\[
+ 1-\frac{nr\delta}{M_1}-\frac{\binom r2}{M_2}.
+\tag{I.5}
+\]
+For example $M_1=4nr\delta$ and $M_2=4\max(1,r^2)$ give a positive
+constant success probability and polynomially bounded weights.  This
+is a randomized existence statement, not an explicit small family.
+
+\paragraph{Proof of the vertex assertion.}
+Suppose two distinct bases $B,C$ have the same image $\beta$.
+Take $e\in B\setminus C$.  Let $\ell$ be the coordinate functional
+of $v_e$ in the basis $B$, and expand $v_e=\sum_{f\in C}c_fv_f$.
+Because $1=\ell(v_e)=\sum c_f\ell(v_f)$, some
+$f\in C\setminus B$ has both $c_f\ne0$ and $\ell(v_f)\ne0$.
+Hence $B-e+f$ and $C-f+e$ are both bases.  Their images are
+$\beta+(f-e)$ and $\beta-(f-e)$, which are distinct because the
+ground-set exponents are distinct.  Their midpoint is $\beta$,
+so $\beta$ is not a vertex.  Every vertex has at least one preimage
+from the finite defining set, proving the claim.
+
+\paragraph{Proof of the probability bound.}
+First consider any finite set $T\subseteq\{0,\ldots,D\}^{n}$ and
+uniform independent weights $a_i\in[M_1]$.  Fix all weights except
+$a_i$.  The least weight as a function of a real parameter $t=a_i$
+is the lower envelope of at most $D+1$ affine functions, one for
+each possible $i$-th coordinate.  Its slopes are among
+$0,\ldots,D$, and there are at most $D$ breakpoints at which
+different slopes minimize.  If two different points of $T$ minimize,
+they differ in some coordinate $i$, and that coordinate weight is
+one of these breakpoints.  Conditioning on the other coordinates
+and applying a union bound gives probability at most $nD/M_1$.
+Apply this with $T=\{\beta(B)\}$ and $D=r\delta$.
+With probability at least $1-nr\delta/M_1$, there is a unique
+minimizing point of $Q$.  It is a vertex and, by the preceding
+argument, has a unique basis preimage $B$.
+
+Conditional on the first weights and this $B$, two different
+monomials in $B$ have equal $b$-weight with probability at most
+$1/M_2$: condition on every $b_i$ but one whose exponent difference
+is nonzero.  There is at most one possible value of that remaining
+integer weight.  A union bound over pairs costs
+$\binom r2/M_2$.  By I-03, the unique first-weight minimum basis
+satisfies $a\cdot m>a\cdot b$ whenever the $b$-coordinate of
+$v_m$ is nonzero and $m\notin B$.  Each difference is an integer
+at least one.  The perturbation changes it by at most
+$n\delta M_2$, so multiplication by $L=n\delta M_2+1$ preserves
+strict positivity.  It also preserves inequalities between basis
+members with unequal first weights, and separates any remaining
+ties by the second weights.  Equation (I.3) proves (I.5).
+All randomness and weights in this proof are integers; no assumption
+on the characteristic of the coefficient field enters the argument.
+\hfill$\square$
+
+\paragraph{The remaining derandomization problem.}
+The desired generator must hit these cones for coefficient matroids
+arising from products of univariate matrices, with a family and
+maximum weights both polynomial in $(n,w,\delta)$.  Hoza's theorem
+hits path-polytope cones in independent vertex coordinates.  I-02
+shows why those cocharacter spaces cannot be silently identified.
+I-04 narrows the required object to normal cones of a specified
+projected representable-matroid polytope, with the finite
+within-basis tie hyperplanes removed.
+
+\subsection{I-05. Positive Gram determinants certify bases, not compressed rank}
+\label{I-05}
+
+\paragraph{Statement.}
+For complex coefficient vectors, choose coordinates $V=\mathbb C^r$
+and form
+\[
+ G_D(\mathbf z)=\det\left(\sum_{a\in S}v_av_a^*\mathbf z^a\right).
+\]
+Then
+\[
+ G_D(\mathbf z)=\sum_{B\in\mathcal B}
+                  |\det C_B|^2\mathbf z^{\beta(B)},
+\qquad \operatorname{Newt}(G_D)=Q,
+\tag{I.6}
+\]
+where $C$ has columns $v_a$.  At a vertex of $Q$, the coefficient
+is the squared volume of its unique basis from I-04.  Nevertheless,
+positivity of $G_D(t^\omega)$ does not imply that the coefficient
+span of $D(t^\omega)$ retains its dimension.
+
+\paragraph{Proof.}
+Apply the Cauchy--Binet identity to
+$C\operatorname{diag}(\mathbf z^a)C^*$.
+Every nonzero summand is strictly positive in its coefficient, so
+there are no cancellations between bases with the same exponent
+sum; their convex hull is exactly the Newton polytope.  I-04
+identifies its vertex coefficients.  For the negative assertion,
+take $D(x,y)=e_1x+e_2y$ and $\omega=(1,1)$.  Its Gram determinant
+is $xy$ and specializes to $t^2$, whereas
+$D(t,t)=t(e_1+e_2)$ has coefficient span of dimension one instead
+of two.  The unique coefficient basis has two equal member weights;
+this is exactly the extra condition in I-03. \hfill$\square$
+
+\paragraph{Field and geometric qualification.}
+The conjugate transpose and positivity in (I.6) are statements on
+a complex vector space with a Hermitian structure.  They are not
+positivity statements in an arbitrary characteristic.  The
+determinantal/Cauchy--Binet identity itself has an integral
+two-matrix form with independent dual variables.  Specializing the
+second matrix to a conjugate transpose is a real, not a complex
+algebraic, operation.  This qualification is essential in translating
+the formula into a scheme over $\mathbb Z$.
+
+\subsection{I-06. Exact black-box implementation of nonlinear exponent weights can be exponential}
+\label{I-06}
+
+\paragraph{Statement.}
+Let $K$ be any field, let $t$ be transcendental over it, and define
+a linear functional on polynomials of individual degree at most $2d$
+by
+\[
+ \mathcal L(\mathbf x^\alpha)=\prod_{i=1}^n h_i(\alpha_i),
+ \qquad h_i(e)\in K(t).
+\]
+Put $H_i=(h_i(a+b))_{0\le a,b\le d}$.
+If one exact universal implementation is
+\[
+ \mathcal L(f)=\sum_{j=1}^M c_j f(\xi_j),
+\tag{I.7}
+\]
+where the points and coefficients are fixed independently of $f$
+over any extension of $K(t)$, then
+\[
+ M\ \ge\ \prod_{i=1}^n\operatorname{rank}(H_i).
+\tag{I.8}
+\]
+In particular $\mathcal L(\mathbf x^\alpha)=
+t^{\sum_i\alpha_i^2}$ requires $M\ge(d+1)^n$.
+For degree two, the nonlinear exponent filters supplied by every
+Hoza seed that separates three exponent symbols also have the
+lower bound $M\ge2^n$.
+
+\paragraph{Proof.}
+Index a moment matrix by
+$\alpha,\beta\in\{0,\ldots,d\}^n$ and set
+$H_{\alpha\beta}=\mathcal L(\mathbf x^{\alpha+\beta})$.
+It is the tensor product $\bigotimes_iH_i$, with rank the product
+of the ranks.  Each evaluation in (I.7) contributes the rank-one
+matrix $c_j(\xi_j^\alpha)_\alpha(\xi_j^\beta)_\beta^{\mathsf T}$,
+so its rank is at most $M$.  Extension of scalars does not change
+the rank, proving (I.8).
+
+For $h_i(e)=t^{e^2}$, factor the $(a,b)$ entry as
+$t^{a^2}t^{b^2}(t^{2a})^b$.  The remaining matrix is Vandermonde
+on the distinct elements $1,t^2,\ldots,t^{2d}$ and has full rank,
+in every characteristic.
+
+For the Hoza assertion take three distinct binary codewords
+$C(0),C(1),C(2)$ and put
+$h_x(e)=\sum_j6^{\ell-j}C(e)_j x_j$ as integers.
+If $h_x(0)+h_x(2)=2h_x(1)$, then
+\[
+ \sum_j6^{\ell-j}x_j\bigl(C(0)_j+C(2)_j-2C(1)_j\bigr)=0.
+\]
+The digits lie between $-2$ and $2$.  The first nonzero digit
+dominates the absolute sum of all later digits, since
+$2\sum_{k=0}^{q-1}6^k<6^q$.  Thus every digit vanishes, which for
+binary digits says the three selected code bits agree in every
+selected coordinate.  Hence all three values $h_x(e)$ coincide.
+Conversely constant values give that equality.  Any seed isolating
+the three-arm graph is nonconstant on its three internal vertices,
+so the equality fails.  At layer $i$, the scalar multiplier
+$6^{\nu_2(i)}$ in (I.1) preserves this failure.  Consequently the
+$2\times2$ Hankel determinant of the exponent filter
+\[
+ e\longmapsto t^{6^{\nu_2(i)}h_x(e)}
+\]
+is the difference of two distinct monomials, and has nonzero
+determinant over $K(t)$.  Equation (I.8) now gives $2^n$.
+\hfill$\square$
+
+\paragraph{Scope of the lower bound.}
+This rules out the proposed exact linear interpolation implementation
+of independently reweighted monomial letters by a polynomial number
+of evaluations of the original black box.  It is not a lower bound
+on general ROABP PIT, adaptive reconstruction, or approximate
+integration.  Even requiring (I.7) only for width-one ROABPs implies
+the same identities on every monomial and hence the same lower
+bound by linearity; width-one PIT itself remains elementary.
+
+\subsection{I-07. Haar averaging repairs invariance by discarding state isolation}
+\label{I-07}
+
+\paragraph{Statement.}
+For a fixed complex $m\times m$ matrix $D$, the function
+$A\mapsto\operatorname{tr}(DA)$ is invariant under simultaneous
+conjugation if and only if $D$ is scalar.  Moreover
+\[
+ \int_{U(m)}UDU^*\,dU=\frac{\operatorname{tr}D}{m}I.
+\tag{I.9}
+\]
+Thus independently averaging fixed diagonal state-weight insertions
+in a trace word replaces each insertion by a scalar and recovers
+a scalar multiple of the original trace word.  If the same unitary
+is used for two insertions, the exact formula for $m\ge2$ is
+\[
+ \int\operatorname{tr}(A UDU^* B UEU^*)\,dU
+ =\alpha\operatorname{tr}(AB)+\beta\operatorname{tr}A\operatorname{tr}B,
+\tag{I.10}
+\]
+where
+\[
+ \alpha=\frac{m\operatorname{tr}D\operatorname{tr}E-
+                    \operatorname{tr}(DE)}{m(m^2-1)},\qquad
+ \beta=\frac{m\operatorname{tr}(DE)-
+                    \operatorname{tr}D\operatorname{tr}E}{m(m^2-1)}.
+\]
+Even positive semidefinite $D,E$ need not make these coefficients
+nonnegative: for orthogonal rank-one projections,
+$\beta=-1/[m(m^2-1)]$.
+
+\paragraph{Proof.}
+Conjugation invariance for every $A$ gives
+$\operatorname{tr}((g^{-1}Dg-D)A)=0$ for all $A$.  The trace pairing
+is nondegenerate, so $D$ commutes with every invertible matrix and
+is scalar.  The reverse direction is immediate.  Haar invariance
+makes the left side of (I.9) commute with every unitary; the
+commutant is scalar, and its trace determines the scalar.  Repeated
+integration gives the independent-insertion claim.
+
+For completeness, in (I.10) define
+$T=\int(UDU^*)\otimes(UEU^*)\,dU$.  The commutant of
+$U\otimes U$ is spanned by the identity $I$ and tensor flip $S$.
+Here is an elementary verification: commutation with diagonal unitaries
+forces matrix entries to preserve the unordered pair of tensor indices;
+permutation unitaries make the two-dimensional off-diagonal blocks
+$\left(\begin{smallmatrix}b&c\\c&b\end{smallmatrix}\right)$ and
+the diagonal blocks a common scalar $a$.  A rotation mixing two basis
+vectors forces $a=b+c$.  The resulting operator is $bI+cS$.
+Thus $T=\alpha I+\beta S$.  Its trace and its trace after multiplication
+by $S$ are respectively
+\[
+ m^2\alpha+m\beta=\operatorname{tr}D\operatorname{tr}E,
+ \qquad m\alpha+m^2\beta=\operatorname{tr}(DE).
+\]
+Solving gives the stated values.  Finally
+$\operatorname{tr}(A X B Y)=
+\operatorname{tr}((A\otimes B)(X\otimes Y)S)$;
+contracting $T$ gives (I.10).  For orthogonal rank-one projections,
+$\operatorname{tr}D=\operatorname{tr}E=1$ and
+$\operatorname{tr}(DE)=0$, proving the sign assertion.
+\hfill$\square$
+
+\paragraph{Meaning for the proposed transfer.}
+Hoza's internal-state weights enter matrix products as fixed
+diagonal insertions.  Their lack of conjugation invariance cannot
+be repaired by independent Haar averaging while preserving the
+state information.  Correlated averaging changes the trace word
+into a combination of different trace invariants and can reintroduce
+negative coefficients.  Neither averaging is the missing
+basis-isolation construction.
+
+\subsection{I-08. The exact matrix-invariant consequence, conditional on the remaining gate}
+\label{I-08}
+
+\paragraph{Statement.}
+Suppose one has an explicit hitting set $\mathcal H\subset F^{m^2}$
+of polynomial size, constructible in polynomial arithmetic time,
+for ROABPs of depth $m^2$, width at most $2m^2$, and individual
+degree less than $r$.  Let $F$ have characteristic zero and put
+\[
+ M(x)=\sum_{j=0}^{r-1}M_jx^j,\qquad
+ T_{\ell,\alpha}(\mathbf M)=
+ \operatorname{tr}\bigl(M(\alpha_1)\cdots M(\alpha_\ell)\bigr),
+ \quad1\le\ell\le m^2,quad\alpha\in\mathcal H.
+\tag{I.11}
+\]
+These at most $m^2|\mathcal H|$ invariants are an explicit
+polynomial-size separating family for simultaneous conjugation.
+Over algebraically closed $F$, the invariant ring is finite over
+the subring they generate.  This is precisely the specialization
+of Forbes and Shpilka (2013), Construction~3.7, Theorem~3.8 and
+Corollary~3.10, to a polynomial hitting set.  It supplies the
+matrix-invariant instance of explicit Noether normalization in
+the sense of that paper.  It does not by itself extract an
+algebraically independent system of parameters of cardinality
+equal to the quotient dimension.
+
+\paragraph{Derivation and exact source dependence.}
+The coefficient of $x_1^{a_1}\cdots x_\ell^{a_\ell}$ in
+$\operatorname{tr}(M(x_1)\cdots M(x_\ell))$ is the trace word
+$\operatorname{tr}(M_{a_1}\cdots M_{a_\ell})$.  The latter words,
+for $\ell\le m^2$, generate the characteristic-zero invariant ring
+as recorded in Forbes--Shpilka Theorem~1.3 and Corollary~3.6.
+For two tuples $A,B$, the difference of their trace-generating
+polynomials is an ROABP of width at most $2m^2$, by their Lemma~3.2.
+The hitting-set assumption therefore detects exactly whether
+some trace generator separates $A$ and $B$.  Their Theorem~3.9
+(the stated specialization of Derksen--Kemper Theorem~2.3.12)
+then gives integrality, and finite generation upgrades this to
+a finite morphism.  The only new hypothesis in this specialization
+is the polynomial hitting-set gate; it has not been proved here.
+\hfill$\square$
+
+\paragraph{Consequences that do not follow.}
+This does not prove general arithmetic PIT, arbitrary explicit
+Noether normalization, permanent circuit lower bounds, or
+$P\ne NP$.  Forbes--Shpilka already prove deterministic NC
+orbit-closure intersection in Theorem~1.15 using white-box PIT.
+Their discussion after Theorems~1.13--1.15 explicitly separates
+the matrix-invariant case from the stronger general explicit-variety
+problem.  In the supplied revised GCT~V source, the general-PIT
+equivalence is Theorem~5.14, and the matrix-specific ROABP replacement
+is \S7.5, Lemma~7.9.  The earlier GCT~V theorem numbering cited by
+Forbes--Shpilka must not be transferred to the revised source.  No new polynomial hitting set
+may be inserted into (I.11) until its own gate is closed.
+
+\subsection{I-09. An exact positive transfer-matrix certificate remains white box}
+\label{I-09}
+
+\paragraph{Statement.}
+For a complex ROABP in known matrix-product form
+\[
+ f(\mathbf x)=u^{\mathsf T}\prod_{i=1}^n
+                  \left(\sum_{a=0}^{\delta}A_{i,a}x_i^a\right)v
+             =\sum_{\alpha}c_{\alpha}\mathbf x^{\alpha},
+\]
+its coefficient squared-norm generating polynomial is
+\[
+ \sum_{\alpha}|c_\alpha|^2\mathbf z^\alpha
+ = (u\otimes\bar u)^{\mathsf T}
+     \prod_{i=1}^n\left(\sum_{a=0}^{\delta}
+                    A_{i,a}\otimes\overline{A_{i,a}}\,z_i^a\right)
+                     (v\otimes\bar v).
+\tag{I.12}
+\]
+In particular $f=0$ if and only if the right side at
+$\mathbf z=\mathbf1$ is zero.  Its matrices have width $w^2$.
+The equality also gives the usual torus identity
+\[
+ \int_{[0,2\pi]^n}|f(e^{i\theta_1},\ldots,e^{i\theta_n})|^2
+                \prod_i\frac{d\theta_i}{2\pi}
+       =\sum_\alpha|c_\alpha|^2.
+\tag{I.13}
+\]
+
+\paragraph{Proof.}
+The coefficient $c_\alpha$ is
+$u^{\mathsf T}A_{1,\alpha_1}\cdots A_{n,\alpha_n}v$.
+Multiplicativity of tensor products identifies its squared
+absolute value with the product of the corresponding tensor
+matrices and boundary vectors.  Summing independently over each
+$\alpha_i$ gives (I.12).  The sum is a finite sum of nonnegative
+real numbers, and it is zero exactly when every coefficient is
+zero.  In (I.13), expansion of the square and integration of
+$e^{i\langle\alpha-\beta,\theta\rangle}$ kills exactly the terms
+$\alpha\ne\beta$. \hfill$\square$
+
+\paragraph{Why this does not close the black-box gate.}
+The transfer matrices use the individual coefficient matrices
+$A_{i,a}$, which a black box does not supply.  The torus integral
+is another exact expression, but the product quadrature that is
+exact for all such degree bounds uses $(\delta+1)^n$ nodes.
+No lower bound on all specialized ROABP quadratures is asserted.
+I-06 proves a lower bound for the different, explicitly specified
+nonlinear exponent filter.  Positivity in (I.12) closes the
+white-box zero-testing question only; it does not supply the
+missing uniform polynomial set of original evaluations.
+
+\subsection{I-10. Schemes, cocharacters, flags, and flat limits}
+\label{I-10}
+
+\paragraph{Statement and dictionary.}
+Let $R$ be a domain carrying the relevant coefficients, and let
+$T=\mathbb G_{m,R}^{n}$.  The integer weight vector $\omega$
+is the cocharacter
+$\lambda_\omega:\mathbb G_{m,R}\to T$,
+$t\mapsto(t^{\omega_1},\ldots,t^{\omega_n})$.
+For nonzero $f=\sum_a c_a\mathbf x^a$ and
+$\mu=\min_{c_a\ne0}\langle\omega,a\rangle$, define
+\[
+ \widetilde f(t,\mathbf x)=
+ \sum_a c_a t^{\langle\omega,a\rangle-\mu}\mathbf x^a.
+\tag{I.14}
+\]
+This is a polynomial over $R[t]$, its special fiber is the
+weight-initial form, and its generic fiber is the original
+polynomial under a torus change of coordinates.  A unique
+minimizing exponent gives a monomial special fiber.  Over a field,
+the hypersurface family defined by (I.14) is flat over the
+$t$-line.  For a homogeneous ideal, the corresponding weight
+homogenization is the usual flat Rees/initial-ideal degeneration;
+this is stronger than merely selecting a least monomial of one
+polynomial and must not be conflated with it.
+
+For a vector polynomial, I-03 identifies a complete coefficient
+flag whose successive quotients have one supported weight
+monomial.  With an explicit coefficient matrix, nonvanishing
+maximal minors define a matroid stratum of the appropriate
+Grassmannian.  The exponents of its Pl\"ucker coordinates under
+$\lambda_\omega$ are the sums $\beta(B)$.  Its torus orbit has
+weight polytope $Q$; I-04 says a vertex with nonzero Pl\"ucker
+coordinate corresponds to a unique indexed coefficient basis.
+The BIWA cones refine its normal fan by the individual
+within-basis weight comparisons in (I.3).
+
+\paragraph{Proof of the flatness assertion and the dictionary.}
+Formula (I.14) has no negative power of $t$ and is not divisible
+by $t$.  Over a field $F$, for every irreducible polynomial
+$p(t)$ the image of $\widetilde f$ modulo $p(t)$ is nonzero:
+for $p=t$ use its nonzero initial form; otherwise $t$ is invertible
+in $F[t]/(p)$ and its monomial coefficients remain nonzero.
+Thus no nonzero $p(t)$ divides $\widetilde f$ in the UFD
+$F[t,\mathbf x]$.  If $p(t)g\in(\widetilde f)$, primality of
+the irreducible factors of $\widetilde f$ implies
+$g\in(\widetilde f)$.  Hence the quotient by
+$(\widetilde f)$ is torsion-free over the PID $F[t]$, and
+therefore flat.  The generic-fiber statement follows by
+inverting $t$ in (I.14).  Exterior products of coefficient
+columns are precisely Pl\"ucker coordinates, and their weights
+add, giving $\beta(B)$.  Equation (I.3) then identifies the
+normal-cone refinement.  This proves each part of the stated
+dictionary directly. \hfill$\square$
+
+\paragraph{Integral qualification.}
+The torus and monomial maps are defined over $\mathbb Z$.
+A specified coefficient matroid and its rank flag persist on an
+open localization where the finitely many designated nonzero
+minors remain nonzero; they need not persist in every residue
+characteristic.  Over a general base $R$, flatness of a
+hypersurface quotient also needs the relevant coefficient and
+fiber hypotheses.  The field proof above is not a claim of
+automatic flatness over arbitrary $R$.  The Grothendieck locator
+table in the main paper should be used for the exact SGA/FGA/EGA
+placement of these notions, rather than inventing a theorem
+number for these elementary derived statements.
+
+\subsection{I-11. Exterior and subspace-state repairs do not yet produce a graph generator}
+\label{I-11}
+
+\paragraph{Checked finite assertions.}
+For coefficient ambient dimension $k$, the standard coordinate
+space $\bigwedge^rF^k$ has dimension $\binom kr$.  Over
+$\mathbb F_q$, there are at least $q^{r(k-r)}$ distinct
+$r$-dimensional subspaces of $F_q^k$: the graphs of the
+$q^{r(k-r)}$ linear maps $F_q^r\to F_q^{k-r}$ are all distinct.
+Thus a literal graph with one state for each such subspace is
+not polynomial in $k$ when $r$ grows with $k$.
+
+Exterior coordinates also retain cancellation.  For two equal
+vectors $v_1=v_2=e_1+e_2$, the determinant is
+$1\cdot1-1\cdot1=0$, although its expansion has two nonzero
+permutation terms.  Making one term uniquely minimum by
+path-dependent weights changes the determinant rather than
+certifying its nonvanishing.  Tensoring $r$ independently chosen
+word trajectories gives a standard realization with $w^{O(r)}$
+states; for fixed $r$ this removes that particular size cost,
+but the cancellation and weight-descent problems remain.
+
+\paragraph{Proof and scope.}
+The exterior dimension follows from the basis wedges indexed
+by $r$-element subsets of a fixed $k$-element basis.  The graph
+of a linear map is an $r$-dimensional subspace, and projection
+onto the first summand recovers the map, proving distinctness.
+The determinant example is immediate.  The tensor product
+construction records one of $w$ state positions for each of
+the $r$ trajectories, so has $w^r$ positions before additional
+boundary coordinates; determinant signs are imposed at the
+boundary and do not disappear.  These are size and correctness
+facts about the specified constructions, not lower bounds on
+all possible reductions.  A scalar output can itself have
+coefficient-space dimension one, so constant coefficient rank
+alone cannot make the general ROABP hitting-set task disappear.
+\hfill$\square$
+
+\subsection{I-12. Resolving coefficient support is an arithmetic counting gate}
+\label{I-12}
+
+\paragraph{Background I-B05.}
+Allender and Ogihara (1996), \S2, p.~4, define the accepting-minus-rejecting
+gap model; \S5, Definition~2, p.~11, defines $C_{=}L$ by the vanishing
+of a $\operatorname{GapL}$ function.  Their Theorem~1, p.~2, identifies
+$\operatorname{GapL}$ with logarithmic-space reductions to integer
+determinant, and Theorem~14, p.~12, gives the corresponding singularity
+completeness result.  The following ROABP formulation is proved directly.
+
+\paragraph{Statement.}
+Restrict to explicitly given layered ROABPs over $\mathbb Z$
+(equivalently over $\mathbb Q$) with coefficients in
+$\{0,1,-1\}$ and polynomially bounded width and length.  The input
+lists the coefficient entries and the queried exponent vector;
+univariate edge labels may be given densely or as canonical sparse
+lists with binary exponents.  Deciding
+whether a specified monomial coefficient is nonzero is complete,
+under deterministic logarithmic-space reductions, for the class
+\[
+ \operatorname{coC}_{=}L
+   =\{\{x:g(x)\ne0\}:g\in\operatorname{GapL}\}.
+\]
+Here $\operatorname{GapL}$ is defined by the difference of the
+numbers of accepting and rejecting paths of polynomial-time
+nondeterministic logarithmic-space machines.  Hardness already
+holds for ROABPs whose polynomial is one monomial times a scalar.
+Therefore a logarithmic-space uniform polynomial-size reduction
+which represents exactly nonzero coefficient support by ordinary
+directed reachability would imply
+$\operatorname{coC}_{=}L\subseteq NL$.
+
+\paragraph{Proof.}
+For membership, guess a state path in the layered ROABP.  At layer
+$i$ choose the term of the prescribed exponent from its univariate
+edge label.  A zero term contributes nothing; otherwise track the
+parity of the negative signs.  The difference between positive and
+negative paths is exactly the specified monomial coefficient.
+State indices, a layer counter, and a sign bit require logarithmic
+space.  Neutral or invalid branches can be arranged to contribute
+one accepting and one rejecting path, hence zero gap.
+
+For hardness, start with a polynomial-time nondeterministic
+logarithmic-space machine computing a gap $g(x)$.  Its time-unrolled
+configuration graph has polynomial width and length and is
+constructible from $x$ in logarithmic space.  Pad halted computations
+by deterministic transitions, retaining their accepting or rejecting
+tag, so every path has the same length.  Mark the final edge
+of accepting paths by $1$ and of rejecting paths by $-1$;
+all preceding edges have label $1$.  Separate parallel transitions
+by an intermediate layer if necessary.  Multiply every edge label
+in layer $i$ by a fresh variable $x_i$.  Every source-to-target path
+then has the same variable monomial $\prod_i x_i$, with its
+accepting or rejecting sign, so the output is
+$g(x)\prod_i x_i$.  This is a known-order multilinear ROABP with
+coefficients $0,1,-1$.  Its unique possible monomial coefficient
+is nonzero exactly when $g(x)\ne0$.  Finally, composition with the
+postulated graph reduction puts every such language in $NL$.
+\hfill$\square$
+
+\paragraph{Relation to the other gates.}
+This is a precise complexity formulation of the operation which
+would have to cancel equal-monomial paths before graph isolation.
+It is not a separation of complexity classes.  Nor does it rule
+out a different polynomial-time algebraic construction: the
+explicit ROABP supplies its matrices, and white-box polynomial
+identity testing is already possible.  In scheme language the
+coefficient is a regular function of the edge coefficients;
+testing its vanishing uses the kernel of a coefficient map, not
+merely whether its parameterizing path set is empty.  The diamond
+in I-02 is the smallest instance of this distinction.
+
+\subsection{I-13. Exact universal energy cubature needs the full coefficient dimension}
+\label{I-13}
+
+\paragraph{Statement.}
+Let $n\ge1$, $\delta\ge0$, and $D=(\delta+1)^n$.  Fix points
+$\xi_1,\ldots,\xi_Q\in\mathbb C^n$ and a complex $Q\times Q$ matrix $C$,
+independent of the polynomial.  Suppose that every width-one product
+\[
+ f(\mathbf x)=\prod_{i=1}^n\left(\sum_{a=0}^{\delta}z_{i,a}x_i^a\right),
+ \qquad z_{i,a}\in\mathbb C,
+\]
+satisfies the exact identity
+\[
+ \sum_{\alpha\in\{0,\ldots,\delta\}^n}|[\mathbf x^\alpha]f|^2
+  =\sum_{j,k=1}^Q C_{jk}\,\overline{f(\xi_j)}f(\xi_k).
+\tag{I.13}\label{eq:I-cubature}
+\]
+Then $Q\ge D$.  In particular, signed cubature
+$\sum_j c_j|f(\xi_j)|^2$ requires at least $D$ nodes.  More generally,
+a formula with $M$ fixed paired terms
+$\sum_{j=1}^M c_j\overline{f(\xi_j)}f(\eta_j)$ requires $M\ge D$.
+The bound is attained for the diagonal formula by the Cartesian product
+of the $(\delta+1)$st roots of unity in each coordinate, all with weight
+$1/D$.
+
+\paragraph{Proof.}
+Index coordinates by $\alpha\in\{0,\ldots,\delta\}^n$ and put
+$a_\alpha=\prod_i z_{i,\alpha_i}$.  Let the evaluation matrix be
+$E_{j\alpha}=\xi_j^\alpha$.  The asserted identity is
+\[
+ a^*(I_D-E^*CE)a=0
+\quad\text{for every decomposable coefficient vector }
+a=\bigotimes_i(z_{i,0},\ldots,z_{i,\delta}).
+\]
+Expanding gives a polynomial identity in the variables
+$z_{i,a}$ and their conjugates.  Its monomials
+\[
+ \prod_i\overline{z_{i,\alpha_i}}z_{i,\beta_i},
+ \qquad (\alpha,\beta)\in\{0,\ldots,\delta\}^{2n},
+\]
+are linearly independent as functions of the complex variables.
+Indeed, writing each $z=u+iv$ identifies the polynomial ring in
+formal $z,\bar z$ with the polynomial ring in $u,v$ by an invertible
+complex linear change of variables; a polynomial vanishing on every
+real tuple $(u,v)$ has every coefficient zero.  Distinct pairs
+$(\alpha,\beta)$ give distinct displayed monomials.  Consequently
+$I_D=E^*CE$, so
+$D=\operatorname{rank}(I_D)\le\operatorname{rank}(E)\le Q$.
+For paired terms the same coefficient comparison represents $I_D$
+as a sum of $M$ rank-at-most-one matrices, proving $M\ge D$.
+
+Finally, averaging $\xi^\alpha\overline{\xi^\beta}$ over the stated
+root-of-unity grid gives $1$ when $\alpha=\beta$ and $0$ otherwise:
+in each coordinate the difference lies between $-\delta$ and
+$\delta$, whose only multiple of $\delta+1$ is zero.  Expanding
+$|f|^2$ therefore proves the matching formula, for every polynomial
+of the stated individual degree, including the width-one class.
+\hfill$\square$
+
+\paragraph{Scope and consequence for I-09.}
+Torus orthogonality identifies the left side of (I.13) with
+$\int_{(S^1)^n}|f(z)|^2\,dz$.  Thus the positive white-box energy
+computation in I-09 cannot be replaced by a polynomial number of
+fixed black-box samples through any exact quadratic formula of the
+displayed kind, even for width one and fixed $\delta\ge1$ as $n$ grows.
+This is a lower bound for universal exact cubature, not for hitting
+sets: for width one the substitution $x_i=t$ gives the nonzero
+univariate product $\prod_i f_i(t)$ of degree at most $n\delta$.
+Evaluation at $n\delta+1$ distinct scalars already gives a polynomial
+hitting set for that class.  The rank argument makes no claim about
+adaptive procedures or other nonlinear uses of evaluations.
+
+\subsection{I-14. Joint compression is a Grassmannian transversality condition}
+\label{I-14}
+
+\paragraph{Statement.}
+Write $D=\sum_{a\in S}v_a\mathbf x^a$, choose coordinates on
+$V=\operatorname{span}\{v_a\}$, and let $C=(v_a)_{a\in S}$ be the
+resulting full-row-rank $r\times s$ matrix, where $s=|S|$.
+For a finite family $\mathcal W$ of integer weights, form a matrix
+$P_{\mathcal W}$ with rows indexed by $S$ and columns indexed by
+the pairs $(\omega,c)$ that occur as a monomial weight.  Substitutions
+are interpreted as Laurent polynomials if necessary.  Set
+\[
+ (P_{\mathcal W})_{a,(\omega,c)}
+   =\begin{cases}1&\langle\omega,a\rangle=c,\\0&\text{otherwise.}\end{cases}
+\]
+The following conditions are equivalent:
+\begin{enumerate}
+\item the coefficients of all the substitutions
+$D(t^{\omega_1},\ldots,t^{\omega_n})$, taken jointly, span $V$;
+\item $\operatorname{rank}(CP_{\mathcal W})=r$;
+\item $\operatorname{im}(C^{\mathsf T})\cap
+\ker(P_{\mathcal W}^{\mathsf T})=\{0\}$;
+\item for every nonzero $\lambda\in V^*$, at least one substituted
+scalar polynomial $\lambda(D(t^\omega))$ is nonzero.
+\end{enumerate}
+Equivalently, for some $r$-element set $T$ of columns of $P_{\mathcal W}$,
+\[
+ \sum_{\substack{B\subseteq S\\|B|=r}}
+   \det(C_B)\det((P_{\mathcal W})_{B,T})\ne0.
+\tag{I.14}\label{eq:I-joint-Plucker}
+\]
+Thus the failure locus on $\operatorname{Gr}(r,F^s)$ is the
+intersection with the linear equations obtained by setting every
+expression in (I.14) to zero.  These depend on Pl\"ucker coordinates,
+including their values, rather than only on the coefficient matroid.
+
+\paragraph{Proof.}
+The $(\omega,c)$ column of $CP_{\mathcal W}$ is exactly
+$\sum_{\langle\omega,a\rangle=c}v_a$, the coefficient at that
+weight after substitution.  This proves (1)$\Leftrightarrow$(2).
+Since $C^{\mathsf T}:F^r\to F^s$ is injective, the transpose of
+$CP_{\mathcal W}$ is injective exactly when the intersection in
+(3) is zero.  A proper subspace of $V$ has a nonzero annihilating
+linear functional, proving (1)$\Leftrightarrow$(4).  Finally,
+Cauchy--Binet applied to each $r$-column submatrix of
+$CP_{\mathcal W}$ gives (I.14).  These are linear forms in the
+Pl\"ucker coordinates $\det(C_B)$, proving the geometric description.
+
+Joint preservation can hold even though no individual member is
+basis isolating.  Take
+\[
+ D=e_1(x_1-x_2)+e_2(x_2-x_3),\qquad
+ \mathcal W=\{(0,0,1),(1,0,0)\}.
+\]
+The two substituted vector polynomials are respectively
+$(1-t)e_2$ and $(t-1)e_1$.  Each has coefficient rank one and so
+fails I-03, but their coefficients jointly span the original
+two-dimensional space.  To see why the matroid alone is insufficient,
+over a field of characteristic different from two compare coefficient
+rows $(1,1)$ and $(1,-1)$ on the support $\{x_1,x_2\}$ under weight
+$(1,1)$.  They have the same rank-one coefficient matroid, while
+their compressed rows are respectively $2$ and $0$.
+\hfill$\square$
+
+\paragraph{A sufficient black-box gate.}
+If $S\subseteq\{0,\ldots,\delta\}^n$, all weights are nonnegative
+and at most $B$, and joint preservation holds, evaluating the
+$|\mathcal W|$ curves at $n\delta B+1$ distinct field elements
+hits every nonzero scalar projection of $D$.  Indeed, condition
+(4) supplies a nonzero univariate polynomial of degree at most
+$n\delta B$.  This exact sufficient condition is weaker than
+requiring one BIWA.  It does not remove cancellation from the
+linear Pl\"ucker expressions in (I.14).
+
+\subsection{I-15. Bounded affine decodings of the seed masks have width-two obstructions}
+\label{I-15}
+
+\paragraph{Statement.}
+Suppose a proposed family of variable weights has the form
+\[
+ \omega(s)=b+Ts,\qquad
+ b\in\mathbb Z^n,\quad T\in\mathbb Z^{n\times k},
+\]
+where every entry of $b$ and $T$ has absolute value at most $M$.
+The seed set can be any subset of $\mathbb Z^k$.  If
+\[
+ 2^n>(2nM+1)^{k+1},
+\tag{I.15}\label{eq:I-affine-mask-count}
+\]
+there are distinct $\alpha,\beta\in\{0,1\}^n$ such that the
+nonzero multilinear binomial $\mathbf x^\alpha-\mathbf x^\beta$
+vanishes identically on every curve $\mathbf x=t^{\omega(s)}$.
+This binomial has a width-two ROABP in every variable order.
+In particular the whole family fails even the joint condition I-14.
+
+\paragraph{Proof.}
+Map the $2^n$ Boolean exponent vectors $\alpha$ to
+\[
+ \left(b^{\mathsf T}\alpha,T^{\mathsf T}\alpha\right)\in
+ \{-nM,\ldots,nM\}^{k+1}.
+\]
+By (I.15), two distinct vectors have the same image.  Then
+$\langle\omega(s),\alpha-\beta\rangle=0$ for every seed $s$,
+so the two substituted powers of $t$ coincide.  This is a Laurent
+identity if negative weights are allowed, and a polynomial identity
+when the weights are nonnegative.  Distinct monomials have nonzero
+coefficients in their difference over any field, including
+characteristic two.  The diagonal matrix product with factors
+$\operatorname{diag}(x_i^{\alpha_i},x_i^{\beta_i})$ and boundaries
+$(1,-1)$ and $(1,1)^{\mathsf T}$ computes the binomial.  Reordering
+the commuting diagonal factors gives every variable order.
+\hfill$\square$
+
+\paragraph{A necessary dimension for any bounded weight family.}
+More generally, let $\mathcal W\subseteq\mathbb Z^n$ have all
+coordinates of absolute value at most $B\ge1$, and let
+$k=\dim_{\mathbb Q}\operatorname{span}_{\mathbb Q}\mathcal W$.
+If $\mathcal W$ hits every multilinear binomial by monomial curves,
+then necessarily
+\[
+ k\ge\frac{n}{\log_2(2nB+1)}.
+\]
+Indeed, select $k$ members of $\mathcal W$ forming a rational basis
+and apply the same pigeonhole argument to their integer dot products
+with Boolean exponent vectors.  Equality on this basis implies
+equality on every member of $\mathcal W$, independently of how
+the seed was decoded.  Thus polynomially bounded output weights
+computed as polynomials of any fixed degree $h$ in
+$\ell=O(\log n)$ Boolean seed bits also fail for sufficiently large
+$n$: their span has dimension at most
+$\sum_{j=0}^h\binom{\ell}{j}=O((\log n)^h)$, below the necessary
+bound.  The dimension estimate follows by grouping the coefficient
+vectors of the multilinear seed monomials; on Boolean seeds powers
+of a bit reduce to that bit.
+
+\paragraph{Application to the actual mask formula.}
+Every weight in Hoza's formula (I.1) is an integer linear form in
+the common $\ell$ seed bits.  Hence assigning those forms to
+variables, or taking any fixed linear averaging or decoding with
+polynomially bounded integer coefficients, gives $\omega(s)=b+Ts$
+with $k=\ell$ and polynomially bounded entries.  A rational average
+with a common polynomially bounded denominator has the same property
+after clearing that denominator.  Since $\ell=O(\log(WN))$, if
+$W,N$ and the resulting entry bound are polynomial in the number
+$n$ of variables, condition (I.15) holds for all sufficiently large
+$n$.  This rules out this specified seed-to-variable decoding,
+even if all its members are used jointly.
+
+For the most direct alphabet decoding the counterexample is explicit
+without counting.  Let
+$H_s(a)=\sum_j6^{\ell-j}C(a)_js_j$.  Matching letters $0,1$ by
+an affine exponent map at layer $i$ gives
+\[
+ \omega_i(s)=6^{\nu_2(i)}\bigl(H_s(1)-H_s(0)\bigr).
+\]
+Layers $1$ and $3$ receive the same weight, so $x_1-x_3$ vanishes
+for every seed.  This uses the actual layer dependence in (I.1)
+and holds for every choice of its code.  There is no contradiction
+with minimum-path isolation: the graph weights themselves need not
+descend to these variable weights.  The argument does not rule out
+nonlinear decoders whose outputs span sufficiently many independent
+directions, or unbounded integer weights.
+
+\subsection{I-16. The finite-field row-state lift and its uniform evaluation limit}
+\label{I-16}
+
+\paragraph{Statement.}
+Over $F=\mathbb F_q$, an explicitly given width-$w$ ROABP
+\[
+ f=u^{\mathsf T}\prod_{i=1}^n
+       \left(\sum_{a=0}^{\delta}A_{i,a}x_i^a\right)v
+\]
+has an exact deterministic coefficient-support automaton with
+at most $q^w$ states per layer.  A state is a row vector
+$r\in F^{1\times w}$; its letter-$a$ transition at layer $i$ is
+$r\mapsto rA_{i,a}$.  The initial state is $u^{\mathsf T}$, and
+a final state is accepting exactly when $rv\ne0$.
+Nevertheless, if $0\le\delta<q$, every base-field hitting set
+$H\subseteq F^n$ for all width-one individual-degree-$\delta$
+polynomials satisfies
+\[
+ |H|\ \ge\ \left(\frac{q}{q-\delta}\right)^n.
+\tag{I.16}\label{eq:I-small-field-lower}
+\]
+For $\delta=q-1$ all $q^n$ points are necessary and sufficient.
+Thus polynomial state-space size alone cannot produce a polynomial
+uniform base-field hitting set, even when $w=1$ and $q$ is fixed.
+
+\paragraph{Proof.}
+On the word $(a_1,\ldots,a_n)$, the automaton's final scalar is
+$u^{\mathsf T}A_{1,a_1}\cdots A_{n,a_n}v$, precisely the monomial
+coefficient.  Matrix multiplication has already performed all path
+cancellation before the state is tested.  To obtain a simple layered
+graph, subdivide each transition with an intermediate vertex labelled
+by its current row and its letter; append a common sink after all
+accepting states.  The width is at most $(\delta+1)q^w$ and the
+length is $2n+1$.  It is constructible from the coefficient matrices
+in time polynomial in this displayed size and the field-operation
+cost.  Hoza applies to this coefficient-dependent graph, with the
+corresponding polynomial-in-$q^w$ seed family; its path weights
+still depend on the row states.
+
+For the lower bound, choose independently a $\delta$-element subset
+$R_i\subseteq F$ for each coordinate and consider
+\[
+ f_{R_1,\ldots,R_n}(\mathbf x)
+     =\prod_{i=1}^n\prod_{a\in R_i}(x_i-a).
+\]
+These are $\binom{q}{\delta}^{n}$ distinct nonzero width-one polynomials.
+A fixed point $\xi\in F^n$ hits exactly
+$\binom{q-1}{\delta}^n$ of them, since each $R_i$ must avoid
+$\xi_i$.  Covering all these polynomials therefore requires
+\[
+ |H|\binom{q-1}{\delta}^n\ge\binom{q}{\delta}^{n},
+\]
+which is (I.16).  The full grid $F^n$ hits every polynomial of
+individual degree less than $q$: induction on the number of variables,
+using the univariate root bound, shows that a polynomial vanishing
+on that grid must be zero.  This also gives the matching upper bound
+when $\delta=q-1$.  For $\delta\ge q$, even that grid cannot be a
+hitting set for all formally nonzero polynomials, because
+$x_1^q-x_1$ vanishes on it. \hfill$\square$
+
+\paragraph{Precise scope.}
+The lower bound concerns evaluations in the coefficient field.
+It does not apply to extension-field evaluations, which can behave
+very differently for a fixed base-field coefficient class.
+The row-state lift is useful as an exact finite arithmetic simulation
+and avoids the erroneous unweighted support graph of I-02.
+It does not construct the graph from an evaluation oracle or make
+its state-dependent path weights into variable cocharacters.
+
+\subsection{I-17. A concrete uniform hitting set for invertible factors}
+\label{I-17}
+
+\paragraph{Background and statement.}
+Invertible-factor ROABP hitting sets are already a result of
+Agrawal et al. (2014), Theorem~3, pp.~5 and~19, and their
+Lemma~27, p.~22, gives matrix coefficient concentration from
+invertible constant terms.  The following is a self-contained
+row-space specialization with constant boundary vectors; no
+historical-priority claim is made.
+
+Let $n,w\ge1$ and $\delta\ge1$.  Suppose
+\[
+ f=u^{\mathsf T}A_1(x_{\pi(1)})\cdots A_n(x_{\pi(n)})v
+\]
+has square $w\times w$ factors of individual degree at most
+$\delta$, each with nonzero determinant polynomial.
+Choose sets $S,B\subseteq F$ with
+$|S|=nw\delta+1$, $|B|=\delta+1$, and $0\in B$.
+Then the following single set, independent of the factors and order,
+hits every nonzero such $f$:
+\[
+ \mathcal H=\{a\mathbf1+b: a\in S,\ b\in B^n,
+                         |\operatorname{supp}(b)|\le w-1\}.
+\tag{I.17}\label{eq:I-invertible-hit}
+\]
+Its cardinality is at most
+\[
+ (nw\delta+1)\sum_{j=0}^{\min(w-1,n)}\binom nj\delta^j.
+\]
+It is polynomial in $n,\delta$ for every fixed $w$, works in arbitrary
+characteristic with the stated field-size condition, and requires
+no knowledge of $\pi$.
+
+\paragraph{Proof.}
+The nonzero polynomial $\prod_i\det A_i(t)$ has degree at most
+$nw\delta$, so some $a\in S$ makes every $A_i(a)$ invertible.
+Reindex the variables in their true order for this proof only.
+Set $P_0=I$, $P_i=A_1(a)\cdots A_i(a)$, and
+\[
+ M_i(y)=P_{i-1}A_i(a+y)P_i^{-1}.
+\]
+Then $M_i(0)=I$ and telescoping gives
+\[
+ f(a\mathbf1+\mathbf y)
+    =u^{\mathsf T}M_1(y_1)\cdots M_n(y_n)P_nv.
+\]
+For nonzero $f$ we have $u\ne0$.  Let $R_i\subseteq F^{1\times w}$
+be the span of the coefficient rows of
+$u^{\mathsf T}M_1(y_1)\cdots M_i(y_i)$, and put $d_i=\dim R_i$.
+Because the next constant term is $I$, these spaces are nested and
+$d_0=1$, $d_i\le w$.
+
+We claim that $R_i$ has a basis consisting of actual coefficient
+rows whose monomials have support at most $d_i-1$.  This is true for
+$i=0$.  Inductively retain a basis for $R_{i-1}$.  If the dimension
+does not grow, that basis suffices.  Otherwise extend it using rows
+$rM_{i,a}$, where $r$ is a retained coefficient row and $a>0$.
+These rows span all new coefficients, and each is itself a coefficient
+row with support at most $d_{i-1}$.  Since $d_i>d_{i-1}$, every
+retained or added basis row has support at most $d_i-1$.
+This proves the claim.
+
+At $i=n$, at least one coefficient row has nonzero product with
+$P_nv$.  Therefore some basis coefficient of support at most $w-1$
+also has nonzero product.  Restricting the shifted scalar polynomial
+to those variables, with the others zero, gives a nonzero polynomial
+of individual degree at most $\delta$.  The grid $B$ on those
+variables hits it by repeated univariate root counting.  This point
+lies in (I.17).  The set (I.17) is invariant under coordinate
+permutations, so its construction never needed the true order.
+Counting supports proves its size bound. \hfill$\square$
+
+The support bound is sharp for the normalized row-space argument:
+for $w\ge2$ and $n=w-1$, factors $I+x_iE_{i,i+1}$ and boundaries $e_1,e_w$
+compute $x_1\cdots x_{w-1}$.  For $w=1$, the theorem is the familiar
+diagonal univariate test.  Generically singular factors require a
+different argument, as the following explicit family shows.
+
+\subsection{I-18. Regularization must preserve a unit Pl\"ucker coordinate}
+\label{I-18}
+
+\paragraph{Statement and counterexample.}
+Let $m\ge2$, $n=2m$, and
+\[
+ f(\mathbf x)=\prod_{j=1}^m(x_{2j}-x_{2j-1}).
+\]
+This is a nonzero multilinear width-two ROABP in the displayed
+variable order.  It vanishes at every point $a\mathbf1+b$ with
+$|\operatorname{supp}(b)|<m$, for every scalar $a$.
+Consequently the sampling restriction in I-17 cannot extend to
+all width-two ROABPs by regularizing their matrices and specializing
+the regularization parameter to zero.
+
+More precisely, let $R=F[[\varepsilon]]$, $K=F((\varepsilon))$,
+$C(\varepsilon)\in R^{r\times s}$ have
+$\operatorname{rank}C(0)=r$, and let $P\in R^{s\times h}$ be any
+integral compression.  Then
+\[
+ \operatorname{rank}_K(CP)=r
+ \quad\Longleftrightarrow\quad
+ \text{some $r$-minor of $CP$ has finite valuation},
+\]
+whereas
+\[
+ \operatorname{rank}_F(C(0)P(0))=r
+ \quad\Longleftrightarrow\quad
+ \text{some $r$-minor of $CP$ has valuation zero}.
+\tag{I.18}\label{eq:I-unit-Plucker}
+\]
+The latter is equivalent to $\operatorname{im}_R(CP)=R^r$.
+Generic span equality alone is insufficient.
+
+\paragraph{Proof.}
+Use the two singular matrix factors
+\[
+ L(x)=\begin{pmatrix}-x&1\\0&0\end{pmatrix},\qquad
+ R(y)=\begin{pmatrix}1&0\\y&0\end{pmatrix}.
+\]
+Their product has $(1,1)$ entry $y-x$ and all other entries zero.
+Taking the ordered product of these pairs with boundaries $e_1,e_1$
+computes $f$.  At $a\mathbf1+b$ each pair difference is
+$b_{2j}-b_{2j-1}$.  If fewer than $m$ coordinates of $b$ are
+nonzero, one of the $m$ disjoint pairs has both entries zero,
+so the product vanishes.
+
+Replace every matrix factor by that factor plus $\varepsilon I$.
+All regularized factors are generically invertible over $K$,
+because their determinant is monic in $\varepsilon$.
+Call the resulting scalar polynomial $f_\varepsilon$.
+At the zero point a regularized pair is
+\[
+ (L(0)+\varepsilon I)(R(0)+\varepsilon I)
+  =\begin{pmatrix}\varepsilon(1+\varepsilon)&\varepsilon\\
+                   0&\varepsilon^2\end{pmatrix},
+\]
+so $f_\varepsilon(0)=\varepsilon^m(1+\varepsilon)^m\ne0$ in $K$.
+Yet every common-shift sample of perturbation support less than $m$
+has zero specialization at $\varepsilon=0$.
+
+For the matrix assertion, a minor is nonzero over $K$ exactly when
+it has finite valuation, and its reduction is nonzero over $F$
+exactly when its valuation is zero.  This proves the two rank
+criteria.  A unit $r$-minor gives $r$ columns invertible over $R$,
+so their span is $R^r$.  Conversely, if the columns span $R^r$,
+their reductions span $F^r$, which supplies a unit minor.
+\hfill$\square$
+
+\paragraph{The resulting special-fiber gate.}
+In the scalar example the module generated by all coefficients of
+$f_\varepsilon$ is $R$, since some coefficient of $f_0=f$ is nonzero.
+For any finite collection of the displayed fixed $F$-valued samples
+that contains the zero point, their values generate a nonzero ideal $N\subseteq
+\varepsilon R$.  Hence $K N=K$ and its saturation
+$(KN)\cap R$ is $R$, although all original sampled values are zero.
+Saturating by dividing by a power of $\varepsilon$ thus does not
+supply a nonzero evaluation of the original black box.
+For vector coefficients the correct next target is a compression
+with a unit Pl\"ucker coordinate, as in (I.18), or an equivalent
+proof of coefficient-span preservation on the special fiber.
+This refines the generic Grassmannian condition in I-14; it is not
+established merely by flatness of a surrounding Rees family.
+
+\paragraph{Background I-B06: the successful width-two repair.}
+The width-two examples in I-15 and I-18 are failures of those
+specified samplers.  Polynomial hitting sets for arbitrary
+unknown-order univariate width-two ROABPs are already provided by
+Agrawal et al. (2014), \S5.3, Theorem~34, p.~26, with the usual
+field-size or extension convention required by the evaluation sets.
+Their Lemma~32, p.~25, factors a nonzero singular $2\times2$ matrix
+as a rank-one outer product after multiplying by one nonzero entry.
+Applied at every singular factor, this writes a nonzero polynomial
+multiple of the ROABP output as a product of invertible-factor
+ROABP outputs.  The scalar factors may share the variables at the
+cuts; product closure does not require disjointness.
+
+Lemma~33, p.~26, supplies that product closure: interpolate a curve
+through a common $h$-point hitting set for the factors.  Each nonzero
+factor remains nonzero on the curve, so their product remains
+nonzero.  If there are $m$ factors, each of total degree at most $D$,
+the curve can have coordinate degree $h-1$, giving degree at most
+$mD(h-1)$ and requiring that degree plus one parameter values.
+The paper states the harmlessly looser $mDh+1$ bound.  For the
+univariate-factor specialization of Theorem~34, the factor sparsity
+is at most $\delta+1$ and maximum monomial support is one, so the
+stated bound is polynomial.  These are cited positive results,
+not new claims established by the present counterexamples.
+
+\subsection{I-19. Higher-rank cuts and what block compression actually preserves}
+\label{I-19}
+
+\paragraph{Statement.}
+Let $A(x)\in F[x]^{w\times w}$ have rank $1\le r<w$ over $F(x)$
+and entry degrees at most $\delta$.  Choose $r$ rows $I$ and
+$r$ columns $J$ with $M=A_{I,J}$ and $\Delta=\det M\ne0$.
+Then
+\[
+ \Delta A=UV,\qquad
+ U=A_{*,J},\quad V=\operatorname{adj}(M)A_{I,*},
+\tag{I.19}\label{eq:I-rank-cut}
+\]
+where $U$ is $w\times r$, $V$ is $r\times w$,
+$\deg U\le\delta$, $\deg V\le r\delta$, and
+$\deg\Delta\le r\delta$.
+
+Apply (I.19) to the singular factors at positions
+$i_1<\cdots<i_m$ of an ROABP.  Write $X$ for their variables,
+$Y_j$ for the disjoint intervening variable blocks, and $B_j$
+for the product of the original matrices within block $Y_j$.
+With $K=F(X)$, multiplication gives the exact identity
+\[
+ \left(\prod_{j=1}^m\Delta_j\right)f
+ =u^{\mathsf T}B_0U_1
+    \left(\prod_{j=1}^{m-1}V_jB_jU_{j+1}\right)V_mB_mv.
+\tag{I.20}\label{eq:I-outer-cut}
+\]
+Over $K$, this is a matrix product of width at most
+$\max_j r_j$ over disjoint blocks $Y_j$, with the corresponding
+rectangular boundary factors.  Over $F$, neighboring displayed
+factors generally share a cut variable; that dependence has not
+been removed.
+
+If polynomial substitutions into independent parameter sets preserve
+the coefficient span of every block factor over $K$, then they
+preserve the coefficient span of the full product, including scalar
+nonvanishing.  This assertion requires independent parameter sets
+for the different blocks.
+
+\paragraph{Proof.}
+The columns indexed by $J$ are a basis of the column space over
+$F(x)$.  Expressing every column in that basis and restricting to
+rows $I$ identifies its coordinate vector as $M^{-1}$ times its
+row restriction.  Thus $A=A_{*,J}M^{-1}A_{I,*}$, and clearing
+$\Delta$ proves (I.19) with the displayed degree bounds.
+Substituting these factorizations into the ordered matrix product
+and grouping the intervening factors proves (I.20).  Treating $X$
+as elements of the coefficient field leaves exactly the disjoint
+blocks $Y_j$; the dimensions in the product are the cut ranks.
+
+For the span assertion, write each block factor as a sum of its
+coefficient matrices times monomials in that block.  Since the
+blocks are disjoint, the coefficients of the full product are
+exactly the ordered products of one coefficient matrix from each
+block, with the stated boundary contractions.  Replacing any
+coefficient family by another with the same linear span leaves
+the span of all these ordered products unchanged, by repeated
+multilinearity.  Independent parameter sets preserve this coefficient
+description after substitution, proving the claim.
+\hfill$\square$
+
+\paragraph{A valid local compression and the remaining coupling.}
+For a fixed block, a hitting set for every nonzero scalar linear
+combination of its matrix entries preserves its entire coefficient
+span: otherwise a nonzero functional would annihilate all sampled
+values but not the coefficient span.  A Lagrange curve through
+these sample points also preserves that span.  Its coefficient
+span contains all the sampled values and is contained in the
+original coefficient span, so both inclusions are equalities.
+Thus local compression is a concrete valid construction.
+
+Two steps still require proof for a uniform black-box application:
+the substitutions must accommodate the hidden block partition, and
+the resulting nonzero rational dependence on $X$ must be hit after
+returning from $K$ to the original field.  A simple example shows
+why the latter cannot be silently dropped.  The rank-one matrices
+\[
+ A(x)=\begin{pmatrix}1&x\\x&x^2\end{pmatrix},\qquad
+ A(y)=\begin{pmatrix}1&y\\y&y^2\end{pmatrix}
+\]
+with boundaries $e_1,e_1$ give $1+xy$.  After both variables are
+put in $K=F(x,y)$, there are no remaining block variables to sample;
+all nonvanishing information lies in the coefficient field.
+
+For rank one, the positive product-closure result I-B06 tolerates
+the shared cut variables.  For higher rank, (I.20) is a sum over
+outer-state paths and retains cancellation.  Hoza isolation of
+those paths supplies no proof of the joint-span condition I-14
+for the original variables.  The supplied AGKS construction remains
+a valid quasipolynomial completion of the general coefficient-span
+task; the rank-cut construction above has not replaced its
+coefficient and partition dependence by a polynomial procedure.
+
+\paragraph{I-G02: a smaller structural sufficient gate.}
+\label{I-G02}
+For fixed width $w$, it would suffice to construct a uniform polynomial
+hitting set for the expressions (I.20), with outer width at most
+$w-1$, unknown block partition, and the shared cut variables kept
+as genuine variables.  Their individual degrees are at most
+$w\delta$: a cut variable occurs in $U_j$ and $V_j$, with combined
+degree at most $(r_j+1)\delta$, and every other variable retains
+degree at most $\delta$.  A hitting set for this class hits the
+original nonzero $f$, because the multiplier $\prod_j\Delta_j$
+is nonzero.  The case with no cuts is I-17, while outer width one
+is covered by I-B06.  The first outer rank not handled by this
+particular scalar-product repair is rank two.  This was the precise
+sufficient gate reached by the rank-cut method.  The width-three
+subcase is subsequently resolved by the different rank-preservation
+construction I-21 below; no polynomial-in-width generator for
+the general coupled class is asserted.  For variable
+$w$, the exponent depending on $w$ in I-17 is an additional barrier
+to the desired polynomial bound.
+
+\subsection{I-20. Bounded total corank admits a uniform extension of I-17}
+\label{I-20}
+
+\paragraph{Statement.}
+For the constant-boundary ROABP in I-17, allow singular factors and
+assume only that their total generic corank is at most an integer
+$\kappa\ge0$:
+\[
+ \sum_{i=1}^n\bigl(w-\operatorname{rank}_{F(x_i)}A_i(x_i)\bigr)
+ \le\kappa.
+\]
+Choose $S,G,B\subseteq F$ of sizes respectively
+$nw\delta+1$, $w\delta+1$, and $\delta+1$, with $0\in B$.
+For every subset $T\subseteq[n]$ of size at most $\kappa$, assign
+the coordinates in $T$ arbitrary values in $G$.  Assign all other
+coordinates the values $a+b_i$, where $a\in S$, $b_i\in B$, and
+at most $w-1+\kappa$ of these $b_i$ are nonzero.  The union
+$\mathcal H_\kappa$ of all such points hits every nonzero polynomial
+with the stated representation.  Its size is at most
+\[
+ (nw\delta+1)
+ \left(\sum_{c=0}^{\min(n,\kappa)}\binom nc(w\delta+1)^c\right)
+ \left(\sum_{j=0}^{\min(n,w-1+\kappa)}\binom nj\delta^j\right),
+\tag{I.21}\label{eq:I-corank-hit}
+\]
+which is $(nw(\delta+1))^{O(w+\kappa)}$.
+The construction is independent of the variable order and of the
+locations of singular factors.  It is polynomial for fixed
+$w+\kappa$.
+
+\paragraph{Proof.}
+For a nonzero output every factor has positive generic rank.
+Let $T$ be the true set of singular-factor variables; then
+$|T|\le\kappa$.  For each such factor choose a nonzero maximal
+minor $\Delta_i(x_i)$ of degree at most
+$r_i\delta\le(w-1)\delta$.  Regard $f$ as a polynomial in the
+remaining variables and choose any nonzero coefficient $g(X_T)$.
+The nonzero polynomial
+$g(X_T)\prod_{i\in T}\Delta_i(x_i)$ has individual degree at most
+$w\delta$.  The grid $G^T$ therefore contains an assignment
+$\gamma$ where it is nonzero.  At that assignment the remaining
+polynomial is nonzero and each specialized singular factor has
+exactly its generic rank $r_i$.
+
+For the other factors, one common $a\in S$ makes all constant
+terms $A_i(a)$ invertible, as in I-17.  Gauge these constant terms
+to $I$ by products of invertible matrices, omitting the singular
+constant factors from those products.  Concretely, set $P_0=I$,
+let $P_i=P_{i-1}A_i(a)$ at a nonsingular layer and
+$P_i=P_{i-1}$ at a specialized singular layer, and replace every
+factor by $P_{i-1}A_iP_i^{-1}$.  Telescoping adjusts only the final
+boundary.  Nonsingular layers now have constant term $I$;
+singular layers are constant matrices of rank $r_i$.
+
+Follow the coefficient row spans in this normalized product.
+At a nonsingular layer the dimension can only grow.  At a constant
+rank-$r_i$ layer it can only decrease, by at most $w-r_i$, because
+the kernel of right multiplication has that dimension in the full
+row space.  These spans are all nonzero, since the final polynomial
+is nonzero.  Starting at dimension one and ending at dimension at
+most $w$, the sum $U$ of all dimension increases is consequently
+at most
+\[
+ U\le w-1+\sum_{i\in T}(w-r_i)\le w-1+\kappa.
+\]
+The greedy argument of I-17 now selects actual coefficient rows
+whose support is at most the cumulative number of dimension
+increases.  At a constant cut retain a basis of the images of the
+old basis; this introduces no new support.  At a layer where the
+span grows, every new candidate is an old basis row times one
+nonconstant coefficient, so its support grows by at most one,
+while the cumulative dimension increase grows by at least one.
+This proves the claimed support bound inductively.
+
+Some selected final row has nonzero scalar boundary contraction.
+The grid $B$ on its support supplies a nonzero value of the
+remaining shifted polynomial.  Together with the chosen cut
+values $\gamma$, this is a point of $\mathcal H_\kappa$.
+Enumerating all subsets and grid values gives (I.21).  The family
+is invariant under coordinate permutations, proving the claimed
+unknown-order uniformity. \hfill$\square$
+
+The restriction is explicit: arbitrary ROABPs can have total
+generic corank growing with $n$.  I-20 does not bound that parameter
+or supply a polynomial procedure when it grows.  It shows that
+rank cuts can be absorbed uniformly when the total dimension loss
+is bounded; the remaining problem is to compress unboundedly many
+such losses without discarding the original coefficient relations.
+
+\subsection{I-B07. Literature scope and the source of the new rank-preservation attempt}
+\label{I-B07}
+
+The distinction between a representation in one hidden order and a
+width bound in every order is essential.  Gurjar, Korwar, and Saxena
+(2017), Theorem~3.6 and Corollary~3.7, give the polynomial
+constant-width result with the order known; their Theorem~4.9 treats
+the separate every-order class.  Guo and Gurjar (2020), Theorem~1,
+give an improved quasipolynomial bound for one unknown order,
+whereas their Theorem~3 concerns every-order representations.
+Hu, van Melkebeek, and Morgan (2024), Theorem~1.9, give a width
+bound with an additional low-degree-monomial promise; that promise
+cannot be omitted from the statement.  Shpilka (2026), ECCC
+TR26-314, Theorem~1.1 and Remark~1.3, gives a polynomial bound for
+multilinear every-order ROABPs and their border.  It does not
+assert the same bound for one hidden order.
+
+Two 2026 preprints encountered in the current search make claims
+about one unknown order.  Singh and Singh, arXiv:2602.13449v1, is
+not used as an accepted theorem here: the subsequent source audit
+I-22 gives explicit counterexamples to two foundational reductions.  Liu, Hexagon 2611.00634v1, supplies the rank-profile
+mechanism specialized and proved in full as I-21 below.  Its
+unrefereed status and disclosed AI provenance are retained in the
+source ledger.  The accepted mathematical assertion in this report
+is the explicitly proved specialization I-21, not an endorsement
+of either preprint as a whole.
+
+\subsection{I-21. A checked width-three specialization of the rank-preservation construction}
+\label{I-21}
+
+\paragraph{Source and status.}
+The mechanism below is a specialization of Liu (2026),
+\emph{Black-box identity testing for affine orbits of read-once
+oblivious algebraic branching programs}, Hexagon
+\texttt{2611.00634v1}, Section~3.1, Theorem~3.2 and Lemma~3.3,
+and Section~3.2, Lemmas~3.4 and~3.6, printed pp.~5--7.
+This is an unrefereed preprint dated November 19, 2026; its host
+discloses primarily AI-generated text and no human-understood parts.
+Its identifier is a Hexagon identifier, not an arXiv identifier.
+We give a complete proof of the narrower original-coordinate,
+width-three statement.  The affine-orbit assertions, the general-width
+bounds, and the other sections of that manuscript are not being
+certified here.  No historical priority is claimed.
+
+\paragraph{Statement.}
+Let $F$ be any field, let $n,D\ge1$, and let $f\in F[x_1,\ldots,x_n]$
+have total degree at most $D$.  Suppose that for some permutation
+$\sigma$ it has a constant-boundary representation
+\[
+ f=uA_1(x_{\sigma(1)})\cdots A_n(x_{\sigma(n)})v,
+ \qquad A_i\in F[x_{\sigma(i)}]^{3\times3}.
+\]
+Smaller widths and rectangular layers are included by zero padding.
+Let $E/F$ be a working field with at least
+\[
+ M=\max\{n,D+1,(n-1)D+1\}
+\]
+distinct available elements.  Choose distinct $a_1,\ldots,a_n\in E$,
+and let $\lambda_i(Y)$ be their degree-$(n-1)$ Lagrange polynomials.
+Define the twenty-one-parameter map
+\[
+ \mathcal G_i(t,\mathbf y,\mathbf z)
+   =t+\sum_{j=1}^{10}z_j\lambda_i(y_j),
+ \qquad 1\le i\le n.
+ \tag{I.22}\label{eq:I-width3-generator}
+\]
+Then $f\ne0$ implies $f(\mathcal G)\ne0$ as a polynomial over $E$.
+No variable order is an input to the map.
+
+Put $R=(n-1)D+1$.  Take any sets $T,Y\subset E$ with
+$|T|=D+1$ and $|Y|=R$.  For distinct
+$\theta_0,\ldots,\theta_D\in E$, put
+\[
+ \Sigma_{10,D}=
+ \{(\theta_{b_1},\ldots,\theta_{b_{10}}):
+       b_j\ge0,\ \sum_j b_j\le D\}.
+\]
+The evaluations of $\mathcal G$ on
+$T\times Y^{10}\times\Sigma_{10,D}$ form a hitting set of size at most
+\[
+ (D+1)\bigl((n-1)D+1\bigr)^{10}\binom{D+10}{10}.
+ \tag{I.23}\label{eq:I-width3-size}
+\]
+This is polynomial in $n,D$ and is valid in every characteristic.
+The field convention is explicit: if $E\ne F$, the black box must
+allow evaluation over $E$.  No base-field query simulation is being
+assumed.  In particular this does not contradict the finite-field
+obstruction in I-16.
+
+\paragraph{1. The coefficient-space lemma needed at width three.}
+For a field $L$, work in
+\[
+ \mathcal R=L[Y_1,\ldots,Y_m]/(Y_1^{e_1+1},\ldots,Y_m^{e_m+1}),
+ \qquad e_i\ge0,
+\]
+and suppose $B_i$ depends only on $Y_i$.  A matrix has \emph{unit rank}
+$r$ if its constant matrix has rank $r$ and all its $(r+1)$-minors
+vanish in $\mathcal R$.  Unit rank zero means that the matrix is zero.
+For any constant row $b$, if every interval of the word
+$B_1\cdots B_m$ has unit rank in $\{0,2,3\}$, then
+\[
+ \operatorname{Coeff}(bB_1\cdots B_m)
+   =\operatorname{span}_L
+       \{[Y^\alpha](bB_1\cdots B_m):
+                         |\operatorname{supp}\alpha|\le4\}.
+ \tag{I.24}\label{eq:I-profile23}
+\]
+If every interval has unit rank three, the corresponding bound is two.
+Here $\operatorname{Coeff}$ means the span of coefficient rows.
+
+We prove this assertion, including the stable-projection step.
+An interval of unit rank zero makes the whole product zero.  Otherwise
+the full constant product has rank two or three.  In rank three all
+constant factors are invertible.  Cut-dependent constant changes of
+basis make them identities.  The coefficient row spaces of the
+successive prefixes are then nested.  Starting with one row, they can
+grow at most twice.  At a growth layer one new nonconstant local
+coefficient increases support by at most one; at a stable layer
+constant propagation preserves a spanning set.  This proves the
+bound two, with actual coefficient rows, as in I-17.
+
+In rank two write the constant matrices as $C_i$.  Choose a
+two-dimensional row space $U_0$ on which right multiplication by
+$C_1\cdots C_m$ is injective, and set $U_i=U_0C_1\cdots C_i$.
+Choose a one-dimensional complement $V_m$ of $U_m$.  At cut $i$ take
+\[
+ V_i=\{z:zC_{i+1}\cdots C_m\in V_m\}.
+\]
+The suffix has rank at least two and maps $U_i$ isomorphically onto
+$U_m$.  Thus $V_i$ has dimension one, complements $U_i$, and
+$V_{i-1}C_i\subseteq V_i$.  Transport bases of the $U_i$ along the
+constants and choose bases of the $V_i$.  The resulting constant
+matrices are
+\[
+ C_i=\operatorname{diag}(I_2,q_i),\qquad q_i\in L.
+ \tag{I.25}
+\]
+These basis changes preserve supports and all interval unit ranks.
+
+Let $\pi$ denote projection of a row onto its first two coordinates.
+For a starting constant row space $S_0$, propagate
+$S_i=\operatorname{Coeff}(S_{i-1}B_i)$.  Since
+$\pi(sC_i)=\pi(s)$, the spaces $\pi S_i$ are nested.
+Consider first a segment on which they are all the same space $T$.
+Choose basis lifts of $T$ in $S_0$, with initial cost zero, and a basis
+of the kernel of $\pi|_{S_0}$, with initial cost one.  Define the cost
+of an obtained coefficient row as its initial cost plus the number
+of nonconstant local coefficients used.  We claim that cost at most
+one spans the final space on this stable segment.
+
+If every $q_i$ on the segment is nonzero, the constants are invertible.
+All the spaces lie in $\pi^{-1}(T)$, of dimension $\dim T+1$.
+If the initial kernel is present, the initial space is already this
+entire ambient space and constant propagation suffices.  Otherwise
+there is room for at most one dimension increase.  Before that
+increase the propagated constant lifts span; at the increase one
+nonconstant coefficient suffices; afterwards constant propagation
+again spans.  The claimed cost bound follows.
+
+If some $q_i=0$, let $c$ be the last such position, put
+$P=B_c\cdots B_m$, and let $B$ be the matrix of the initial lifts
+propagated through the constants before $c$.  The suffix $P$ has
+unit rank two and constant matrix $\operatorname{diag}(I_2,0)$.
+Write its upper blocks as $[U\ V]$.  The constant part of $U$ is
+$I_2$, so $U$ is invertible in $\mathcal R$.  The vanishing
+three-by-three determinant, or its Schur complement, shows that
+every row $(x,y)$ in the row module of $P$ satisfies
+$y=xU^{-1}V$.
+
+Let $H=\pi B$, whose rows form a basis of $T$.  If $T=0$, this row
+graph forces every propagated row through $P$ to be zero.  Otherwise
+write
+\[
+ \pi(BP)=QH,\qquad \pi(sP)=\eta H\quad(s\in S_{c-1}).
+\]
+Such expressions exist because all coefficient projections stay in
+$T$, and $Q(0)=I$.  Therefore $Q$ is invertible.  The row graph gives
+\[
+ sP=\eta Q^{-1}BP.
+ \tag{I.26}
+\]
+Coefficients of a polynomial matrix times $BP$ are linear
+combinations of coefficient rows of $BP$, also in the truncated
+ring.  Conversely the rows of $B$ belong to $S_{c-1}$.  It follows
+that the final coefficient space is exactly
+$\operatorname{Coeff}(BP)$.
+Restart just after $c$ from $\operatorname{Coeff}(BB_c)$.
+Constant lifts have cost zero and a kernel basis has cost at most
+one, since only one variable position was used.  The remaining
+constants are invertible; the preceding case therefore proves the
+same cost bound.  This completes the stable-segment claim.
+
+For the original single starting row $b$, first suppose $\pi b\ne0$.
+The active projected space starts in dimension one and has at most
+one strict growth.  The first stable segment costs at most one,
+the growth factor at most one more, and the final stable segment
+at most one more: support at most three suffices.  If $\pi b=0$,
+the first stable segment has zero projected space.  The
+stable-segment claim, with the sole initial row assigned cost one,
+says that this segment is spanned by coefficients with no
+nonconstant positions, or is zero.  There can subsequently be at
+most two projection-growth factors.  Each costs at most one, and
+each following stable segment at most one.  Support at most four
+therefore suffices.  At every restart, lifts and kernel vectors
+are linear combinations of the coefficient rows already retained;
+the span filtration by support is preserved.  This proves (I.24).
+
+The bound four in (I.24) is sharp.  With $P=\operatorname{diag}(1,1,0)$,
+take
+\[
+ B_1=P+Y_1E_{31},\quad B_2=I+Y_2E_{13},\quad
+ B_3=P+Y_3E_{32},\quad B_4=I+Y_4E_{23},\quad b=e_3^T.
+\]
+Every interval containing $B_1$ or $B_3$ has generic and constant
+rank two, and the other intervals are invertible.  The output row is
+\[
+ Y_1e_1^T+Y_1Y_2Y_3e_2^T+Y_1Y_2Y_3Y_4e_3^T.
+\]
+Its third coefficient direction requires support four.
+
+\paragraph{2. Lowest homogeneous components.}
+Suppose every interval of a polynomial matrix word has the same
+generic rank as at zero, with these ranks in $\{2,3\}$.  For constant
+endpoints $b,c$, every monomial in the lowest nonzero homogeneous
+component of $bB_1\cdots B_mc$ has support at most four.  If all
+interval ranks are three, the bound is two.
+
+Indeed, choose such a monomial $Y^\alpha$ and reduce modulo
+$Y_i^{\alpha_i+1}$ for every $i$.  Only monomials dividing
+$Y^\alpha$ survive.  Lowest-degree minimality makes the surviving
+scalar polynomial exactly its nonzero $Y^\alpha$ term.  All the
+intervals retain their unit ranks: the pivot constant minor remains
+invertible and the higher minors were already zero polynomially.
+Apply (I.24), or its invertible version.  If the support of $\alpha$
+were too large, the final boundary $c$ would annihilate every
+spanning coefficient row and hence also the surviving one, a
+contradiction.
+
+\paragraph{3. A finite collection of local rank tests.}
+Augment the original matrix word by the constant factors $e_1u$
+and $ve_1^T$.  Its full product has only one possibly nonzero entry,
+namely $f$ in position $(1,1)$.  All intervals have a well-defined
+generic rank over the rational function field.  Translation of
+each distinct variable by any center in an overfield preserves
+these generic ranks.
+
+Fix $r=1$ or $r=2$, and suppose all intervals of generic rank
+greater than $r$ are already preserved at the current center.
+For any target interval $[l,h]$ of rank $r$, let $[l,i_0]$ be its
+first prefix of rank $r$ and require this prefix to be preserved.
+For each $i_0\le i<h$, choose the shortest rank-$r$ suffix $[j,i]$
+of $[l,i]$, and require $[j,i+1]$ to be preserved.  Each such test
+has generic rank $r$.  Its interior $[j+1,i]$, and the prefix
+$[l,i_0-1]$ of the first test, are empty or have generic rank
+greater than $r$ by minimality.  Thus a test has one such chunk
+and at most one factor at each end.
+
+These tests suffice.  Once $[l,i]$ is preserved, its specialized
+row space is contained in that of $[j,i]$.  Both have dimension
+$r$: the first has rank $r$, and the second cannot exceed its
+generic rank $r$.  Their row spaces are equal.  Multiplying by
+the next specialized factor and using the tested rank of
+$[j,i+1]$ proves preservation of $[l,i+1]$.  This proves the
+assertion by induction, for all target intervals.  Select one
+nonzero $r$-minor of each test; no efficient selection or knowledge
+of the hidden word is needed in the black-box construction.
+
+For $r=2$, each selected minor is an entry of the word of second
+compound matrices, by Cauchy--Binet.  These compounds have size
+three.  The interior chunk and every one of its subintervals have
+rank three, and so do their constants.  In a lowest-degree
+monomial of the selected minor, extract the prescribed powers at
+the at most two end factors.  The remaining scalar chunk
+contraction is still in its lowest degree.  Part~2 gives support
+at most two inside the chunk.  The whole monomial consequently
+has support at most four.
+
+For $r=1$ the compounds are the original matrices.  The chunk and
+its subintervals have ranks in $\{2,3\}$, already preserved at
+the center.  The same argument gives support at most four
+inside the chunk and at most six in the whole selected entry.
+Empty chunks and constant end factors only reduce these bounds.
+
+\paragraph{4. Simultaneous preservation with four then six pairs.}
+For $k\ge1$ write
+\[
+ \operatorname{SV}_{k,i}(\mathbf y,\mathbf z)
+      =\sum_{j=1}^kz_j\lambda_i(y_j).
+\]
+Over any coefficient overfield of $E$, this map detects any
+nonzero polynomial having a nonzero monomial of support at most
+$k$: set the selectors to the Lagrange nodes of that support,
+and the unused amplitudes to zero.  The resulting restriction
+to that coordinate subspace retains the chosen coefficient.
+In particular it detects a nonzero homogeneous polynomial all
+of whose monomials have support at most $k$.
+
+Start at the common center $(t,\ldots,t)$ over $E(t)$.
+An interval of generic rank three consists entirely of invertible
+univariate factors.  Its determinant at the center is a product
+of nonzero univariate determinant polynomials evaluated at the
+transcendental $t$, and is therefore nonzero.  Thus all rank-three
+intervals are preserved simultaneously.
+
+Add an $\operatorname{SV}_4$ perturbation with fresh independent
+selectors and amplitudes.  For every chosen rank-two test minor,
+its expansion about the current center is a nonzero polynomial
+whose lowest homogeneous component $H$ has support at most four
+in each monomial, by part~3.  Hence $H(\operatorname{SV}_4)\ne0$.
+The map is homogeneous of degree one in its amplitudes.  The
+lowest amplitude degree in the full substituted minor is
+therefore exactly the degree of $H$, and its component is
+$H(\operatorname{SV}_4)$; higher homogeneous terms cannot cancel
+it.  Each selected test minor is consequently nonzero in the
+same rational function field of the new parameters.  This is
+simultaneous preservation, not a separate numeric choice for
+each test: finitely many nonzero polynomials have nonzero product
+in the parameter polynomial ring.  Earlier preserved minors
+remain nonzero because setting the new amplitudes to zero
+recovers their previous values.  The local-test induction now
+preserves every interval of ranks two and three.
+
+Over that enlarged rational function field, add an independent
+$\operatorname{SV}_6$ perturbation.  The rank-one test components
+have support at most six by part~3, so the same argument preserves
+all these tests and all earlier ranks.  The augmented full word
+has generic rank one whenever $f\ne0$.  Its specialized rank is
+therefore one, which says precisely that the resulting scalar is
+nonzero.  The two perturbations use disjoint parameter pairs;
+their sum is $\operatorname{SV}_{10}$.  This proves (I.22).
+All uses of the variable order occurred only in this existential
+proof about the hidden representation.  The actual map is the
+same for every order.
+
+For comparison with the failed repair I-18, the polynomial
+$\prod_{j=1}^m(x_{2j}-x_{2j-1})$ already survives one interpolation
+pair: its pullback is
+$z^m\prod_j(\lambda_{2j}(y)-\lambda_{2j-1}(y))$, which is nonzero
+because the distinct Lagrange basis polynomials have nonzero
+differences.  Interpolation directions are generally dense;
+the construction therefore does not require a sparse perturbation
+point to witness every nonzero polynomial.
+
+\paragraph{5. Finite sampling and complexity.}
+Since $f$ has total degree at most $D$, its pullback under (I.22)
+has degree at most $D$ in $t$, at most $(n-1)D$ in each selector
+$y_j$, and total degree at most $D$ in all ten amplitudes together.
+Repeated univariate interpolation therefore leaves a nonzero
+amplitude polynomial at some point of $T\times Y^{10}$.
+
+The set $\Sigma_{10,D}$ detects every nonzero amplitude polynomial
+of total degree at most $D$, over any characteristic.  To see this,
+use the Newton basis
+\[
+ N_{\mathbf b}(\mathbf z)
+  =\prod_{j=1}^{10}\prod_{h=0}^{b_j-1}(z_j-\theta_h),
+ \qquad \sum_jb_j\le D.
+\]
+Its leading monomials are exactly those of total degree at most
+$D$.  Evaluation at the node indexed by $\mathbf c$ vanishes
+unless $c_j\ge b_j$ for every $j$.  Ordered by total degree,
+the evaluation matrix is triangular with nonzero diagonal.
+It is invertible, proving the claimed detection and (I.23).
+Given the field nodes, computing the Lagrange polynomials and
+enumerating the displayed family uses polynomially many field
+operations in $n,D$, since its ten-pair parameter count is fixed.
+Over a finite field, one may use an explicitly represented
+extension large enough to supply the stated nodes.  Over
+$\mathbb Q$ the nodes can be chosen as integers of polynomial
+magnitude, giving rational coordinates of polynomial bit length.
+\hfill$\square$
+
+\paragraph{What this closes, and what it leaves open.}
+This supplies a concrete positive answer for the width-three,
+one-hidden-order case of I-G02, including arbitrarily many
+rank-two cuts.  The rank-cut expression in I-19 equals
+$f\prod_j\Delta_j$; the extra univariate factors can be absorbed
+into the width-three layers, so the same theorem also hits those
+particular coupled expressions with their increased degree bound.
+The construction uses rank preservation directly and does not
+derive a BIWA or a Hoza cocharacter decoder.
+The general polynomial-in-$w$ gate I-G01 remains open in this
+report.  In particular, I-08 requires widths growing with the
+matrix dimension; this fixed-width result does not provide that
+polynomial Noether-normalization conclusion.
+
+
+\subsection{I-22. Two explicit failures of the active-simple-block reduction}
+\label{I-22}
+
+\paragraph{Audited claim and scope.}
+Singh and Singh (2026), arXiv:2602.13449v1, Theorem~7.4
+(printed p.~38), claims the unknown-order bound
+$n(wd)^{O(w^2)}$.  Its foundational reductions are false as stated:
+the equivalence after Definition~2.1 (p.~4), repeated in
+Section~3.1 (p.~6), and the active-block conclusions in
+Lemma~3.1 (pp.~6--7), Remark~3.1.4 (p.~9), and Lemma~3.2
+(p.~10).  The following counterexamples work over $\mathbb C$,
+inside the source's characteristic-zero hypothesis.  They
+invalidate those proof steps; they do not disprove the headline
+existence of a hitting set with the claimed bound.
+
+\paragraph{Full word algebra loses the prescribed ordered output.}
+Let $N=E_{12}$ and $M=E_{21}$, and take the width-two factors
+\[
+ A_1(x_1)=M+x_1N,\qquad A_2(x_2)=M+x_2N.
+\]
+Since $N^2=M^2=0$, $NM=E_{11}$, and $MN=E_{22}$,
+\[
+ A_1(x_1)A_2(x_2)=x_1E_{11}+x_2E_{22}.
+\]
+The specified ROABP output $e_1^TA_1A_2e_2$ is identically zero.
+Nevertheless the algebra generated by the coefficient matrices
+is the full $\operatorname{Mat}_2(\mathbb C)$, and
+$e_1^TNe_2=1$.  Thus vanishing on the actual ordered products
+of one local coefficient per layer does not imply vanishing on
+all words in the generated algebra.
+
+This example also separates a nonzero simple-block image of the
+matrix product from a nonzero prescribed scalar output.  The
+algebra is already simple, so its identity representation is a
+simple-block projection and the displayed matrix product survives
+it, although the scalar output is zero.  After distinct nonzero
+specializations of $x_1,x_2$, the two specialized factors still
+generate the full matrix algebra: their difference gives a
+nonzero multiple of $N$, and then either factor gives $M$.
+Hence moving to a generic multiplicative specialization does not
+repair this example.
+
+\paragraph{A nonzero output can live entirely in the radical.}
+Take four width-two factors
+\[
+ A_1=x_1E_{11},\quad A_2=I+x_2N,\quad
+ A_3=I+x_3N,\quad A_4=x_4E_{22}.
+\]
+Direct multiplication gives
+\[
+ W=A_1A_2A_3A_4=x_1x_4(x_2+x_3)N,\qquad
+ f=e_1^TWe_2=x_1x_4(x_2+x_3)\ne0.
+ \tag{I.27}
+\]
+The coefficient algebra is the algebra $\mathcal T_2$ of upper
+triangular two-by-two matrices.  Its Jacobson radical is
+$J=\mathbb C N$, with $J^2=0$, and its semisimple quotient is
+$\mathbb C\oplus\mathbb C$, given by the two diagonal entries.
+For completeness, $\mathbb C N$ is a square-zero ideal, hence
+lies in the radical; the quotient is a product of fields and
+has zero radical, proving equality.  Every homomorphism onto
+a simple quotient therefore kills $W$.  No active simple block
+of the kind required by the source exists for this nonzero
+computation.
+
+All four variables occur, the product length is $4\ge w=2$,
+and the example is not a width-one scalar product in disguise:
+the coefficient matrix of $x_2+x_3$, with rows and columns
+indexed by exponents $0,1$, is
+$\left(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\right)$,
+of rank two.  The same obstruction persists after any nonzero
+character values for which $x_2+x_3\ne0$; the specialized
+algebra remains $\mathcal T_2$ and the product remains a
+nonzero radical element.  Constant identity factors can be
+inserted to make the product arbitrarily long.
+
+Nilpotency $J^w=0$ controls products containing $w$ radical
+factors.  It does not imply that a long product of arbitrary
+algebra elements vanishes whenever the final product belongs
+to $J$.  Equation~(I.27) gives precisely this distinction.
+These two counterexamples are enough to withhold the cited
+Theorem~7.4 from the accepted background of this report.
+They leave the independently proved I-21 unaffected.
+\hfill$\square$
+
+
+\subsection{I-23. A binary-code cost for preserving decomposable exterior states}
+\label{I-23}
+
+\paragraph{The specified next construction.}
+One proposed repair is to keep the state of an exterior-power lift
+on its Grassmann cone by requiring each Hoza seed to act diagonally
+on the Pl\"ucker coordinates in a decomposability-preserving way.
+We analyze exactly this requirement.  The statements concern
+formal algebraic one-parameter actions over a field, not just
+their values on the finitely many elements of a finite field.
+
+Fix $2\le r\le w-2$, index Pl\"ucker coordinates by the
+$r$-subsets $I\subseteq[w]$, and let $\rho_I\in\mathbb Z$.
+The diagonal action $p_I\mapsto t^{\rho_I}p_I$ preserves all
+decomposable $r$-vectors if and only if
+\[
+ \rho_I=c+\sum_{i\in I}a_i
+ \quad\hbox{for some }c,a_1,\ldots,a_w\in\mathbb Z.
+ \tag{I.28}\label{eq:I-plucker-additive}
+\]
+Consequently, if a binary code
+$C:\binom{[w]}r\to\{0,1\}^{\ell}$ has minimum distance $d$
+and every seed of the Hoza weighting
+\[
+ \rho_s(I)=\sum_{j=1}^{\ell}6^{\ell-j}C(I)_js_j,
+ \qquad s\in\{0,1\}^{\ell},
+\]
+preserves decomposability, then
+\[
+ \ell\ge\frac{wd}{2}.
+ \tag{I.29}\label{eq:I-plucker-code-cost}
+\]
+The additional layer multiplier $6^{\nu_2(i)}$ in I-B01
+does not change this conclusion.
+
+\paragraph{Proof of the cocharacter classification.}
+Let $K$ have size $r-2$, and let $a,b,c,d$ be four different
+indices outside $K$.  The Pl\"ucker relation on those indices
+forces
+\[
+ \rho_{Kab}+\rho_{Kcd}
+ =\rho_{Kac}+\rho_{Kbd}
+ =\rho_{Kad}+\rho_{Kbc}.
+\]
+Here subscripts denote sets, with the usual orientation signs
+in the coordinate relation.  To verify the force of this
+condition directly, restrict to planes containing the fixed
+coordinate $(r-2)$-plane on $K$.  In the remaining two rows,
+use four columns $(e_1,e_2,e_1,e_2)$, then
+$(e_1,e_1,e_2,e_2)$.  The relation has exactly two nonzero
+terms in each case.  After the diagonal action their two powers
+of the indeterminate $t$ must agree.  This gives the displayed
+equalities, in every characteristic.
+
+For distinct $i,j$, consider
+$\rho_{S\cup\{i\}}-\rho_{S\cup\{j\}}$ with
+$|S|=r-1$ and $S\cap\{i,j\}=\varnothing$.
+The four-index equality shows that this difference is unchanged
+when one element of $S$ is exchanged.  The graph of such subsets
+under single exchanges is connected, so the difference is a
+constant $d_{ij}$ independent of $S$.  A common $S$ disjoint
+from three specified indices exists because $r\le w-2$;
+it gives $d_{ij}+d_{jk}=d_{ik}$.  Take $a_1=0$ and
+$a_i=d_{i1}$.  Then
+$\rho_I-\sum_{i\in I}a_i$ is unchanged by every single exchange
+of an $r$-subset.  All $r$-subsets are connected by such
+exchanges, so this is one integer $c$.  This proves necessity
+of (I.28).  Conversely (I.28) is the exterior action induced by
+$\operatorname{diag}(t^{a_1},\ldots,t^{a_w})$, followed by
+one common scalar, and plainly preserves decomposable vectors.
+
+\paragraph{Binary-valued additive functions are individual membership bits.}
+Suppose $b(I)\in\{0,1\}$ has the form (I.28).
+Every exchange difference $a_i-a_j$ lies in $\{-1,0,1\}$.
+If $b$ is nonconstant, the $a_i$ therefore have exactly two
+levels differing by one.  Let $S$ index the higher level.
+Apart from an additive constant, $b(I)=|I\cap S|$.
+If both $|S|$ and $w-|S|$ are at least two, then among
+$r$-subsets this intersection count ranges from
+$\max(0,r-(w-|S|))$ to $\min(r,|S|)$, a range of length
+at least two when $2\le r\le w-2$.  That contradicts binary
+values.  Hence $|S|=1$ or $w-|S|=1$.
+The binary values then force $b(I)$ to be either membership
+of one element or its complement.  Constant bits are the only
+remaining possibilities.
+
+Apply this classification to the seed $s=e_j$.  The positive
+integer factor $6^{\ell-j}$ does not affect the required
+exchange equalities, so each code bit is a constant or a single
+membership/complement test.  Let $m_i$ count the nonconstant
+bits testing element $i$.  Bases differing only by exchange of
+$i$ and $j$ have Hamming distance $m_i+m_j$.  Such bases exist
+for every pair.  Thus $m_i+m_j\ge d$ for every $i\ne j$.
+Summing over all pairs gives
+\[
+ (w-1)\sum_i m_i\ge\binom w2d,
+ \qquad \ell\ge\sum_i m_i\ge wd/2.
+\]
+This proves (I.29). \hfill$\square$
+
+\paragraph{Consequence for this repair.}
+On the $W=\binom wr$ exterior states, using the stated Hoza
+error bound $2^{-d}W^4N^2\le1/2$ requires
+$d\ge\lceil\log_2(2W^4N^2)\rceil$.
+The all-seeds decomposability requirement then forces
+$\ell=\Omega(w\log(WN))$ and at least
+$(2W^4N^2)^{w/2}$ seeds.  Already $r=2$ gives
+$W=\Theta(w^2)$, so this loses the polynomial family size
+without invoking an exponentially large exterior dimension.
+
+The restriction is essential: this is not a lower bound for
+all generators or all nonlinear decodings of Hoza seeds.
+It does not rule out a separately proved successful subset
+of coherent seeds from another code, or a construction that
+leaves the Grassmann cone at intermediate stages and restores
+the required coefficient information afterwards.  Nor would
+mere Pl\"ucker compatibility by itself resolve the distinct
+variable-quotient condition in I-02.
+
+
+\subsection{I-24. Exponential support is possible inside the preserved-rank test class}
+\label{I-24}
+
+\paragraph{Statement.}
+For every $w\ge3$, there is a word of $w\times w$ univariate
+linear matrices on
+\[
+ h_w=3\cdot2^{w-2}-2
+ \tag{I.30}\label{eq:I-reset-support}
+\]
+distinct variables with the following properties.  Every
+nonempty interval has the same generic rank as its constant
+matrix, and that rank is at least two.  Nevertheless one scalar
+contraction of the full word is exactly the product of all
+$h_w$ variables.  Its lowest homogeneous component therefore
+has support $h_w$.  With constant rank-one factors appended
+at both ends it is an actual final rank-one test of the
+rank-descent construction used in I-21.
+
+Thus a polynomial-in-$w$ bound on the support of every such
+lowest component is false, even for $r=1$, where every nonzero
+exterior state is automatically decomposable.  This is a
+counterexample to that particular compression proposal;
+it is not a hitting-set size lower bound, since a monomial is
+easily hit by a point with all coordinates nonzero.
+
+\paragraph{Construction.}
+Let $P_r=\operatorname{diag}(I_r,0_{w-r})$ for $2\le r<w$.
+For $a\le r$ define a two-position gadget, on fresh variables,
+\[
+ Q_{r,a}(s,t)=(P_r+sE_{w,a})(P_r+tE_{a,w}).
+\]
+Each of its factors has constant and generic rank exactly $r$:
+its leading $r\times r$ block is $I_r$, and the extra row or
+column is a multiple of a row or column already present.
+All the constant matrices $P_r$ are nested projections.
+Consequently any interval of the eventual word has constant
+product $P_{\min r_i}$ and generic rank at most the minimum
+rank of its factors.  The nonzero constant minor gives the
+reverse inequality.  Every interval therefore has generic
+rank exactly its constant rank $\min r_i\ge2$.
+The same assertion is a unit-rank statement after any separate
+truncations of the variables.
+
+Define words $H_k$, using fresh variable copies on every
+occurrence, by
+\[
+ H_w=\text{empty word},\qquad
+ H_k=H_{k+1}\,Q_{k,k}\,H_{k+1}
+       \quad(3\le k<w).
+\]
+The final word is
+\[
+ \mathcal W_w=H_3\,Q_{2,1}\,H_3\,Q_{2,2}\,H_3,
+\]
+with all five displayed blocks using disjoint fresh variables.
+If $L_k$ is the number of positions in $H_k$, then
+$L_w=0$ and $L_k=2L_{k+1}+2$, whence
+$L_k=2(2^{w-k}-1)$.  Thus $\mathcal W_w$ has
+$3L_3+4=h_w$ positions.
+
+\paragraph{Proof of the scalar identity.}
+If an input row $q$ has $q_a=0$, then the two-position gadget
+acts by
+\[
+ qQ_{r,a}(s,t)
+   =\sum_{j\le r}q_je_j^T+q_ws\,e_a^T+q_wst\,e_w^T.
+ \tag{I.31}
+\]
+In particular it erases coordinates strictly between $r$ and
+$w$, leaves the earlier coordinates unchanged, and transfers
+the last coordinate through both fresh variables.
+
+Inductively, suppose an input row has coordinates
+$k,\ldots,w-1$ zero and last coordinate $c$; its earlier
+coordinates may be arbitrary.  The word $H_k$ leaves those
+earlier coordinates unchanged and makes its last coordinate
+$c$ times the product of every variable in $H_k$.
+This is immediate for $H_w$.  For $H_k$, the first
+$H_{k+1}$ leaves coordinate $k$ zero.  Formula~(I.31) for
+$Q_{k,k}$ multiplies the last coordinate by its two variables
+and resets coordinates $k+1,\ldots,w-1$ to zero.  The second
+$H_{k+1}$ therefore applies under the same induction
+hypothesis.  This proves the claim.
+
+Start the full word at $e_w^T$.  After the first $H_3$,
+coordinates one and two remain zero.  The gadget $Q_{2,1}$
+uses the zero first coordinate and resets all coordinates
+$3,\ldots,w-1$.  The second $H_3$ preserves coordinate two
+as zero, so $Q_{2,2}$ again satisfies (I.31) and resets the
+higher coordinates.  The final $H_3$ completes the induction.
+Therefore
+\[
+ e_w^T\mathcal W_we_w=\prod_{i=1}^{h_w}Y_i.
+\]
+This argument is valid over every field; there are no signed
+cancellations or characteristic restrictions.
+
+\paragraph{Membership in the rank-test class.}
+Append $L=e_1e_w^T$ on the left and $R=e_we_1^T$ on the
+right.  The full product is the displayed nonzero monomial
+times $e_1e_1^T$, so it has generic rank one.  Every prefix
+beginning with $L$ is nonzero, since the last row of each
+partial gadget has a surviving coordinate; consequently these
+prefixes have rank one.  Every interval lying wholly inside
+$\mathcal W_w$ has rank at least two, as already proved.
+For the prefix ending just before $R$, the shortest rank-one
+suffix therefore starts at $L$.  Appending $R$ gives exactly
+the full word as the last test in part~3 of I-21.
+Its interior chunk satisfies every higher-rank preservation
+hypothesis at the zero center.  The exponential support cannot
+be attributed to failure to preserve one of those interval
+ranks. \hfill$\square$
+
+At $w=3$ this yields support four; at $w=4$ it yields support
+ten; at $w=5$ it yields support twenty-two.  The construction
+shows why a small intrinsic state-variety dimension alone does
+not bound how many variable positions are needed after many
+singular resets.  A useful Hoza repair would have to exploit
+more than low support or decomposability: it must handle the
+original-variable coefficients and their cancellations while
+allowing such long supports.
+
+
+\subsection{I-25. Intrinsic Grassmannian compression succeeds for invertible chunks}
+\label{I-25}
+
+The nested-image method is suggested by Liu (2026), Section~3.3,
+printed pp.~7--8.  The following restricted refinement uses
+the projective Grassmannian of one decomposable exterior row
+as its ambient variety and is proved directly.
+
+\paragraph{Statement.}
+Let $A_i(Y_i)$ be $w\times w$ matrices over a field $L$, in
+distinct variables, with every $A_i(0)$ invertible.  Fix a
+nonzero decomposable row $p\in\bigwedge^r L^w$ and a linear
+functional $\ell$ on $\bigwedge^rL^w$, where $1\le r<w$.
+If
+\[
+ q(\mathbf Y)=\ell\bigl(p(\textstyle\bigwedge^r A_1(Y_1))
+                  \cdots(\textstyle\bigwedge^r A_m(Y_m))\bigr)
+ \ne0,
+\]
+then there is a set $S\subseteq[m]$ with
+$|S|\le r(w-r)$ for which setting $Y_i=0$ outside $S$
+keeps $q$ nonzero.  In particular $q$ has a nonzero monomial
+of support at most $r(w-r)$, and $\operatorname{SV}_{r(w-r)}$
+detects it.
+
+For an $r$-minor test with an invertible-constant interior
+chunk and at most one factor on either end, the whole minor
+therefore has some nonzero monomial of support at most
+$r(w-r)+2$.  This replaces the arbitrary compound-space bound
+$\binom wr-1+2$ for this restricted class.  It bounds the
+existence of a low-support monomial, not every monomial in the
+lowest homogeneous component.
+
+\paragraph{Proof.}
+Use cut-dependent invertible constant changes of basis to make
+every $A_i(0)=I$.  These changes arise from $\operatorname{GL}_w$
+and hence preserve decomposability after taking exterior powers;
+they adjust only the fixed endpoints.  Extend scalars to an
+algebraic closure.  This does not change whether a polynomial
+or its coordinate restriction is zero.
+
+Restrict each parameter to the nonempty open set where its
+factor is invertible.  Let $Z_i$ be the Zariski closure in
+$\operatorname{Gr}(r,w)$ of the projective prefix states
+\[
+ [p(\textstyle\bigwedge^r A_1(Y_1))\cdots
+        (\textstyle\bigwedge^r A_i(Y_i))].
+\]
+Each $Z_i$ is irreducible, as the closure of the image of an
+irreducible product of open affine lines.  The value $Y_i=0$
+is allowed and acts as the identity, so
+$Z_{i-1}\subseteq Z_i$.  The starting variety $Z_0$ is one
+point.  The Grassmannian has dimension $r(w-r)$: its dense
+matrix chart consists of row spaces of $[I_r\ X]$ with
+$X\in L^{r\times(w-r)}$.
+Thus at most $r(w-r)$ of these inclusions are strict.
+
+Whenever $Z_i=Z_{i-1}$, replace $A_i(Y_i)$ by $I$.
+This preserves the closure of the prefix image and hence the
+closure of every later image.  To justify the latter assertion,
+on invertible factor values the exterior action is a regular
+map on the projective Grassmannian; the closure of the image
+under the next factor of a dense prefix set is the same as
+the closure obtained from the whole prefix variety.  This
+persists on composing successive factors.  Inductively one
+may therefore remove every non-growth position while retaining
+the final projective image closure.  At most $r(w-r)$ positions
+remain.
+
+The scalar $q$ vanishes identically exactly when that final
+projective image lies in the hyperplane cut out by $\ell$.
+It suffices to test this on the invertible-value open set,
+since a polynomial vanishing there vanishes identically.
+Preserving the image closure therefore preserves nonvanishing
+of $q$.  A nonzero restriction to the retained coordinates
+contains a monomial supported there, proving the first claim.
+
+For the endpoint version, adjoin the at most two endpoint
+variables to the coefficient field.  A selected row of an
+$r$th compound endpoint is the wedge of $r$ rows of the
+original endpoint matrix, hence is decomposable; it is nonzero
+if the selected full minor is nonzero.  The right endpoint
+supplies a linear functional.  The preceding argument applies
+to the interior chunk over this rational function field.
+The resulting restricted minor is still a polynomial in the
+original variables and is nonzero there.  Restoring the at
+most two endpoint positions gives the asserted support bound.
+\hfill$\square$
+
+\paragraph{Exact limitation.}
+This construction exploits the exterior geometry instead of
+treating $\bigwedge^r L^w$ as an arbitrary vector space of
+dimension $\binom wr$.  It is an existence-and-enumeration
+compression: the retained positions depend on the matrices,
+and enumerating them or using the stated SV map still has an
+exponent depending on $w$.  The proof also requires invertible
+constant interior factors.  I-24 shows that replacing this
+condition merely by preservation of all interval ranks at
+least two cannot yield a polynomial-in-$w$ support bound.
+The next useful rank-descent construction must accommodate
+those singular resets and the original-variable cancellation
+relations simultaneously; intrinsic dimension alone does
+not supply that extension.
+
+
+\subsection{Open gate I-G01 and the order of further work}
+\label{I-G01}
+
+The surviving main gate is an explicit polynomial family of
+nonnegative integer cocharacters of polynomial magnitude which, for every
+width-$w$ matrix product with disjoint univariate factors,
+enters at least one cone (I.3), or satisfies the exact weaker joint
+coefficient-span condition I-14 for the family.  If this is
+proved, I-B02 or I-14 gives polynomial hitting sets, and I-08 gives the
+precisely delimited matrix-invariant conclusion.  No finding
+above claims that this gate is closed.
+
+The constructions already attempted and resolved as stated are:
+direct state weights (I-02); monomial-alphabet lifting followed
+by exact evaluation interpolation (I-06); positive Gram basis
+enumeration (I-05); independent and correlated Haar repair
+(I-07); exterior/permutation expansion and literal subspace
+configuration graphs (I-11); and positive coefficient-norm
+transfer matrices (I-09), exact universal energy cubature (I-13),
+and the arithmetic support test (I-12).  The further repairs now
+resolved are joint span preservation (I-14), bounded affine mask
+decoding (I-15), exact finite-field row states (I-16), the restricted
+invertible-factor sampler (I-17), and epsilon regularization with
+its necessary special-fiber condition (I-18).  Rank cuts give the exact
+block reduction and coupled gate I-19/I-G02, and bounded total corank
+has the explicit positive sampler I-20.  The subsequent I-21
+rank-preservation construction resolves the original-coordinate
+width-three case with one hidden order, in all characteristics
+under its explicit working-field convention.  The positive result from
+direct graph isolation is I-01.  The specified next constructions have now been tested further:
+I-23 proves the code-length cost of making every Hoza seed preserve
+decomposable exterior states; I-24 gives exponential support even
+inside preserved-rank test chunks; I-25 supplies the valid intrinsic
+Grassmannian compression for invertible chunks.  None is a general
+PIT lower bound.  A next construction may use dense interpolation
+directions to bypass low-support bounds, but must prove nonvanishing
+for the actual rank-test coefficients and retain polynomial dependence
+on variable width as well as on the number of variables.
+
+
+\subsection{I-26. Genuine annihilators of the centered dense interpolation map}
+\label{I-26}
+
+\paragraph{Relation to prior work.}
+Studying the vanishing ideal of the SV generator has an established
+determinantal approach.  Hu, van Melkebeek, and Morgan (2024),
+Theorem~1.3 (printed p.~6) and Corollary~1.5 (printed p.~7), give explicit
+multilinear degree-$(k+1)$ annihilators of $\operatorname{SV}_k$
+on $2k+1$ variables, settling the degree question discussed by
+Fournier and Korwar (2018, WACT slides~13--19).
+Their Theorems~1.9--1.10 retain a low-degree-monomial hypothesis
+in the ROABP hitting/lower-bound assertion.  The construction
+below follows this determinantal perspective, explicitly adds
+invariance under the common translation, and proves an
+invertible-factor ROABP representation.  No priority is claimed
+for a vanishing-ideal construction in this setting.
+
+\paragraph{Statement.}
+Let $k\ge1$, let $n\ge3k+2$, and let a field $F$ contain
+distinct Lagrange nodes $a_1,\ldots,a_n$.  For those nodes there
+is an explicitly constructible nonzero homogeneous multilinear
+polynomial $P\in F[X_1,\ldots,X_n]$ of degree $k+1$ such that
+\[
+ P\bigl(t\mathbf1+\operatorname{SV}_k(\mathbf y,\mathbf z)\bigr)=0.
+ \tag{I.32}\label{eq:I-centered-sv-zero}
+\]
+It has a constant-boundary ROABP representation in every order
+of width at most
+\[
+ W_k=\sum_{j=0}^{k+1}\binom{k+1}{j}^{\!2}
+       =\binom{2k+2}{k+1},
+ \tag{I.33}\label{eq:I-centered-sv-width}
+\]
+with commuting factors $I+X_iN_i$, where $N_i^2=0$.
+Every interval of this representation is invertible, and its
+constant matrix is the identity.  Thus, after constant
+rank-one endpoints are added, $P$ is a genuine final rank-one
+test whose interior satisfies all higher-rank preservation
+requirements at zero.
+
+In particular a centered $\operatorname{SV}_{k(w)}$ generator
+valid for all widths at most $w$ and all $n$, over fields or
+extensions supplying the required distinct nodes, must have
+$W_{k(w)}>w$.  Equivalently, for each proposed $k$ the
+counterexample requires an admissible $n\ge3k+2$.
+Since $W_k\le4^{k+1}$, this implies
+$k(w)=\Omega(\log w)$.  It does not rule out a logarithmic
+number of pairs, and is not a lower bound for other generators.
+All the general assertions hold in every characteristic under
+the stated distinct-node hypothesis.
+
+\paragraph{A determinant that removes the common center.}
+Set $m=k+1$ and let
+\[
+ U_{i\ell}=a_\ell^i,\qquad 0\le i\le k,\quad1\le\ell\le n.
+\]
+In the $2k+2$ dimensional vector space of polynomials of degree
+at most $2k+1$, impose the $k+1$ linear conditions
+\[
+ \sum_{\ell=1}^n a_\ell^i q(a_\ell)=0,
+       \qquad0\le i\le k.
+\]
+Their common kernel has dimension at least $k+1$.
+Choose linearly independent polynomials
+$q_1,\ldots,q_m$ in that kernel by Gaussian elimination, and
+put $V_{j\ell}=q_j(a_\ell)$.  Then $UV^T=0$.
+Evaluation on the $n$ distinct nodes is injective on polynomials
+of degree at most $2k+1$, since $n>2k+1$; hence $V$ has row
+rank $m$.
+
+Define
+\[
+ B(\mathbf X)=U\operatorname{diag}(X_1,\ldots,X_n)V^T,
+ \qquad P(\mathbf X)=\det B(\mathbf X).
+ \tag{I.34}
+\]
+Every maximal minor $U_S$ is a nonzero Vandermonde determinant.
+At least one maximal minor $V_S$ is nonzero because $V$ has
+full row rank.  Cauchy--Binet gives
+\[
+ P(\mathbf X)=\sum_{|S|=m}\det(U_S)\det(V_S)
+                                  \prod_{\ell\in S}X_\ell.
+\]
+The nonzero minor of $V$ therefore supplies a nonzero coefficient.
+This proves nonvanishing, homogeneity, and multilinearity in
+every characteristic.
+
+Because $UV^T=0$, one has $B(\mathbf X+t\mathbf1)=B(\mathbf X)$.
+For every $i,j$, the polynomial $Y^i q_j(Y)$ has degree at most
+$3k+1\le n-1$.  Exact Lagrange reproduction consequently gives
+\[
+ \sum_{\ell=1}^n a_\ell^i q_j(a_\ell)\lambda_\ell(Y)
+    =Y^i q_j(Y).
+\]
+It follows that
+\[
+ B(\operatorname{SV}_k)
+   =\sum_{s=1}^k z_s
+       (1,y_s,\ldots,y_s^k)^T
+       (q_1(y_s),\ldots,q_m(y_s)).
+\]
+This matrix is a sum of $k$ rank-one matrices but has size
+$m=k+1$, so its determinant is identically zero.  The common
+translation has no effect on $B$, proving (I.32).
+
+\paragraph{An invertible, any-order ROABP of the stated width.}
+For a generic $m\times m$ matrix $Z$, form the column vector
+$\mathcal M(Z)$ of all square minors, including the empty
+minor $1$.  There are $W_k$ such minors by the elementary
+Vandermonde sum in (I.33).  They are linearly independent as
+polynomials: distinct row/column index sets have distinct
+row and column multidegrees, and each individual determinant
+is nonzero.
+
+For fixed vectors $u,v$ and an indeterminate $s$, expansion
+of a minor under a rank-one update gives
+\[
+ \det(Z_{I,J}+s u_Iv_J^T)
+ =\det Z_{I,J}
+  +s\sum_{a\in I,\ b\in J}
+        (-1)^{\operatorname{pos}_I(a)+\operatorname{pos}_J(b)}
+        u_av_b\det Z_{I\setminus\{a\},J\setminus\{b\}}.
+\]
+Terms using two update columns vanish, since those columns are
+proportional.  Thus there is a constant matrix $N(u,v)$ such that
+\[
+ \mathcal M(Z+suv^T)=(I+sN(u,v))\mathcal M(Z).
+\]
+Translation twice in the same direction and linear independence
+of the minor polynomials imply $N(u,v)^2=0$ by comparing the
+coefficient of two independent translation parameters.  Two
+different rank-one translations commute, so their representing
+matrices commute as well.  These arguments compare polynomial
+identities and do not divide by factorials.
+
+Let $u_\ell$ and $v_\ell$ be the $\ell$th columns of $U$ and
+$V$, and set $N_\ell=N(u_\ell,v_\ell)$.  Starting at $Z=0$
+and translating in these $n$ rank-one directions gives
+\[
+ \mathcal M(B(\mathbf X))
+     =\prod_{\ell=1}^n(I+X_\ell N_\ell)\,\mathcal M(0).
+\]
+The coordinate of the full determinant is $P$.  The factors
+commute and satisfy
+$(I+X_\ell N_\ell)^{-1}=I-X_\ell N_\ell$.
+This gives the advertised width-$W_k$ ROABP in any variable
+order, with invertible factors and identity constants.
+The starting row and final column may be taken as the
+full-determinant selector and the empty-minor selector.
+Adding their rank-one endpoint matrices produces an actual
+rank-one test exactly as in I-21.  Every interior interval
+has generic and constant rank $W_k$, so no missing rank
+preservation hypothesis accounts for this annihilation.
+\hfill$\square$
+
+\paragraph{A width-four, one-pair example.}
+Over $\mathbb Q$, use $n=5$ and nodes $0,1,2,3,4$.
+The polynomials
+\[
+ q_1(Y)=Y^2-4Y+2,\qquad
+ q_2(Y)=Y^3-\tfrac{77}{5}Y+\tfrac{54}{5}
+\]
+satisfy both kernel conditions.  Expanding (I.34) gives
+$\det B=\frac65 Q$, where
+\[
+\begin{split}
+ Q={}&3X_1X_2-4X_1X_3-15X_1X_4+16X_1X_5
+       +4X_2X_3+8X_2X_4-15X_2X_5\\
+    &+4X_3X_4-4X_3X_5+3X_4X_5.
+\end{split}
+\tag{I.35}
+\]
+Thus $Q(t\mathbf1+\operatorname{SV}_1)=0$ and $Q\ne0$.
+For a smaller representation than the general width-six bound,
+take row vectors and column vectors
+\[
+\begin{array}{c|ccccc}
+i&1&2&3&4&5\\ \hline
+a_i&(1,0)&(0,1)&(-28/97,-4/97)&(3/16,0)&(0,0)\\
+b_i&(0,0)^T&(3,0)^T&(-4,4)^T&(-15,8)^T&(16,-15)^T.
+\end{array}
+\]
+In blocks of sizes $1,2,1$, put
+\[
+ N_i=\begin{pmatrix}0&a_i&0\\0&0_{2\times2}&b_i\\0&0&0\end{pmatrix}.
+\]
+All triple products of these $N_i$ vanish, and
+$e_1^TN_iN_je_4=a_i b_j$.
+Consequently
+\[
+ e_1^T\prod_{i=1}^5(I_4+X_iN_i)e_4
+      =\sum_{i<j}(a_ib_j)X_iX_j=Q.
+\]
+The factors are upper triangular with diagonal entries one,
+so every interior interval remains invertible at every point.
+This refutes the one-pair proposal already at width four;
+it does not assert that width four is the smallest possible
+width of a centered one-pair annihilator of arbitrary degree.
+
+\paragraph{A concrete repair for this family, and its scope.}
+The same counterexamples are detected by a different simple
+map.  Since every $U_S$ is nonzero, the support of $P$ is
+exactly the set of bases of the column matroid of $V$.
+Pairwise distinct element weights have a unique minimum-weight
+matroid basis, by the greedy exchange property.  Hence
+\[
+ P(T,T^2,\ldots,T^n)\ne0,
+\]
+with degree at most $n(k+1)$.
+This is an instance of the basis argument in I-03 and gives a
+polynomial scalar sampling grid for this particular family:
+choose $n(k+1)+1$ distinct scalar values, in an extension if
+the ground field is too small.  This additional grid-size
+condition is separate from the $n$ distinct Lagrange nodes.
+It demonstrates that the dense-SV counterexample is a precise
+test of that map, not a general obstruction to cocharacter
+sampling.  The open dense-map question is whether a
+logarithmic or polynomial number of pairs suffices for the
+full rank-test class, or whether a different structured family
+can handle its cancellations with polynomial dependence on
+width.  Neither assertion is proved by this example.
