@@ -1,0 +1,314 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools}
+\usepackage[a4paper,margin=27mm]{geometry}
+\usepackage{booktabs,longtable,array,enumitem,microtype,xurl}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{THETA3: three signatures}\fancyhead[R]{21 November 2026}\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\newcommand{\Q}{\mathbb Q}\newcommand{\C}{\mathbb C}\newcommand{\Z}{\mathbb Z}\newcommand{\R}{\mathbb R}\newcommand{\A}{\mathbb A}\newcommand{\OO}{\mathcal O}
+\newcommand{\Hdg}{\operatorname{Hdg}}\newcommand{\CH}{\operatorname{CH}}\newcommand{\Hom}{\operatorname{Hom}}\newcommand{\Tr}{\operatorname{Tr}}\newcommand{\SU}{\operatorname{SU}}\newcommand{\U}{\operatorname{U}}
+\newcommand{\im}{\operatorname{im}}\newcommand{\vol}{\operatorname{vol}}\newcommand{\Res}{\operatorname{Res}}\newcommand{\Nm}{\operatorname{N}}\newcommand{\cl}{\operatorname{cl}}\newcommand{\Span}{\operatorname{span}}
+\newcommand{\framework}[1]{\par\smallskip\noindent\textit{Framework and scope.} #1\par}
+\newtheorem{theorem}{Theorem}[section]\newtheorem{proposition}[theorem]{Proposition}\newtheorem{lemma}[theorem]{Lemma}\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}\newtheorem{remark}[theorem]{Remark}
+\title{THETA3\\Theta kernels, definite periods and integral models\\\large Exact comparisons and quantitative certificates}
+\author{Run THETA3-20261121\\GPT-6 Astra Pro, with independent agent proof checks}
+\date{21 November 2026}
+\begin{document}\maketitle
+\begin{abstract}
+We compare the supplied CM Hodge construction with the theta and period mechanisms in Alp\"oge's archive. The comparison keeps the Hermitian spaces, splitting characters, coefficient types, Haar measures and integral structures explicit. A zero-orbit identity yields a quantitative finite search for nonzero mixed theta periods. A totally definite rank-two subgroup inside the original ball group yields a restriction seesaw and finite-dimensional recovery of the ball pairing, with a positive correction operator. Local calculations identify a canonical Bessel value, the limitations of signature replacement, and the extra information needed to transfer determinant bounds. A noncongruence cover produces a non-CM/CM mixed period, while a projector-and-rank condition isolates the remaining Hodge extraction problem. In the integral setting we calculate both negative derived intersections and a positive rank-one sector, and derive the height-two formal derivative slope occurring in Alp\"oge's step~2. Every new statement is separated from cited background and from unresolved identifications. No claim depending on Masullo is used.
+\end{abstract}
+\noindent\textbf{Working status.} This is the evolving research paper for the requested run. Checked mathematical statements below have the scope stated in their hypotheses; an unchecked global identification is never used as a theorem. The final status and current gates are recorded in \texttt{QUESTIONS.tsv} and \texttt{LEDGER.md}.
+
+\tableofcontents\clearpage
+\part{Scope, sources and the geometric dictionary}
+\section{What is being compared}
+The requested sketch is a map of proposed connections, not a collection of background theorems. In particular, sketch~1.7 does not specify the test vectors, splittings, inner forms or normalizing constants of its ``one seesaw pairing.'' We therefore distinguish exact identities, exact nonvanishing implications, and a still-uninstantiated identification with the character-independent iterated functional in Alp\"oge's step~12. This is a mathematical distinction: a local Bessel integral, a global period on a definite Shimura set, and a cup-product integral on a surface have different domains.
+
+Throughout, $E/F$ is a CM extension with $F$ totally real. A skew-Hermitian multiplicity space is denoted $W$; writing $W=\delta P$ for a Hermitian space $P$ requires a fixed $\delta\in E^\times$ with $\bar\delta=-\delta$. The associated symplectic form is the trace of the tensor-product form. A change of $\delta$, an additive character, a Weil splitting or a determinant-line trivialization can change a numerical period. These choices are not suppressed.
+
+In the surface construction, $V$ is Hermitian of dimension~3, with signature $(2,1)$ at one real place $\mu$ and $(3,0)$ at the others. There is at least one definite place. Thus $V$ is anisotropic over $F$: an isotropic rational vector would remain isotropic at a definite real place. A sufficiently small level gives a compact projective ball surface. We distinguish $\SU(V)$, used in the original geometric construction, from $\U(V)$, used for adelic theta identities. Passing between their appropriate components and finite covers retains determinant characters and component measures.
+
+\subsection{Background accepted and what was checked}
+The supplied 032 theorem for CM abelian varieties, the supplied human proof of van Hoften--Sempliner, and the stated Alp\"oge RH and Dirichlet GRH theorems are carried as cited background, as requested. This run does not purport to referee those global theorems. It reads and checks the particular hypotheses and formulas used. No Masullo claim enters any deduction.
+
+The supplied ZIP contains two Lean entry files and a source map, not the full tree. Named modules were subsequently obtained from a public mirror at commit
+\texttt{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}.
+The mirror's \texttt{Main.lean} and \texttt{Statements.lean} match the supplied files byte for byte. This does not authenticate every mirror module against the original multi-part archive. No Lean compilation was performed. A Lean \texttt{def ... : Prop} is a definition of a proposition; it is not itself a proof of that proposition. Source readings and elementary consequences of those definitions are recorded accordingly.
+
+A mathematical finding here means a deduction formulated and proved for this comparison; it does not mean a claim of research priority. Standard consequences included to prevent an incorrect inference are marked as such. The independent checks are whole-proof readings or reconstructions, not independent formal certifications. The model was GPT-6 Astra Pro; no numerical reasoning-effort setting was exposed. Actual check events, including background uses, appear in the TSV register.
+
+\subsection{Realizations and correspondences}
+A nonzero mixed period is a nonzero functional on a Betti realization. It produces an algebraic cycle only after an algebraic morphism or correspondence has been constructed and an extraction criterion has been verified. In the 032 setting rational maps from CM Hodge structures into $H^1(X,\Q)$ come from maps to abelian varieties after multiplying by an integer. Pushing forward $[X]$ then gives the surface cycle. An analytic inverse, an evaluation of a differential at a CM point, or a positive height is not by itself such an algebraic correspondence.
+
+We use motives modulo homological equivalence when discussing projectors whose idempotence is proved on cohomology. We do not silently assert idempotence in the Chow ring. A homologically trivial cycle is numerically trivial, although it can carry nonzero Abel--Jacobi or height data. These distinctions are essential in comparing the ordinary and arithmetic theta correspondences.
+
+\subsection{Grothendieck anchors}
+The archival anchors in this paper locate the framework of a finding, rather than claim that its theta formula appears in Grothendieck's text. The original scans of cote~44, scans~7--8, were read: the letter of 12 August 1964 discusses the intermediate Jacobians $J^i$, their duality and the correspondence pairing used to reduce positivity to a polarization question. Cote~16, scans~43--46, the letter to Coates dated 4 January 1967, discusses the standard conjectures, equality of dimensions of complementary algebraic classes, and algebraic inverses associated with hyperplane sections. In particular the date and the first dimension statement are on scan~43, not scan~44. The published \emph{Standard conjectures on algebraic cycles}, pp.~196--198, supplies the complementary realization/polarization language. Later sections give verified SGA/EGA locators for specialization, cycle classes and spreading out.
+
+No separate ``text of record'' transcription of these archival pages was supplied. Consequently a typographical problem in extracted modern-paper text is not entered as a correction to Grothendieck's page. The transcription register records only actual comparisons for which both readings exist.
+
+\part{Checked findings}
+\section{Explicit quantitative certificates}
+\label{sec:quantitative}
+The estimates in this section have completely named normalizations and inputs. They do not claim a scalar-invariant positive lower bound, or a uniform degree bound for the final algebraic cycles. The latter would require arithmetic bounds for the rational source maps and extraction coefficients.
+
+\subsection{THETA3-Q1: fixed-input perturbation of the geometric period}\label{Q1}
+Fix the compact surface $X$, the total finite theta input and the determinant-line trivializations of 032 Proposition~4.6. On smooth $(2,0)$-forms use the Hermitian pairing
+\[
+ (\xi,\eta)=\int_X\xi\wedge\overline\eta,
+ \qquad \|\xi\|^2=(\xi,\xi).
+\]
+For a nonzero $\xi$ put $A=\|\xi\|^2$. If
+$\|\xi'-\xi\|\leq\eta\|\xi\|$, $0\leq\eta<1$, then
+\begin{equation}\label{eq:perturb}
+ \left|\int_X\xi\wedge\overline{\xi'}\right|
+ \geq (1-\eta)A.
+\end{equation}
+If $\xi'=\Xi(t)$, $\xi=\Xi(t_0)$, on a convex coordinate neighborhood with $\|D\Xi\|\leq L$, it suffices that
+$\|t-t_0\|\leq\eta\sqrt A/L$. For $L=0$ the assertion is immediate. A certified lower bound $A\geq A_0>0$ can replace $A$ in this sufficient radius.
+
+On a finite etale cover $p:Y\to X$ of degree $d$, suppose
+\[
+ p^*\xi=\sum_r a_r\alpha_r\wedge\beta_r,
+ \qquad p^*\xi'=\sum_s b_s\gamma_s\wedge\delta_s.
+\]
+Set $S=(\sum_r|a_r|)(\sum_s|b_s|)$. At least one of the resulting four-form periods has absolute value at least
+$d(1-\eta)A/S$.
+\begin{proof}
+Cauchy--Schwarz gives
+$|(\xi,\xi'-\xi)|\leq\|\xi\|\|\xi'-\xi\|\leq\eta A$.
+The reverse triangle inequality proves \eqref{eq:perturb}. Integrating $D\Xi$ on the segment from $t_0$ to $t$ proves the sufficient radius. The pairing of $(2,0)$-forms remains positive along a smooth intermediate path; holomorphy is needed at the endpoints for the cohomological interpretation. Pullback by a degree-$d$ cover multiplies integration by $d$. Expand the two finite sums and apply the triangle inequality. Both forms are nonzero because $\eta<1$, so $S>0$.
+\end{proof}
+\framework{This quantifies the continuity step of 032 Corollary~4.7 on a fixed Betti realization. The cycle is still the image of a surface under the rational Hodge-source maps. The relevant polarization/correspondence framework is cote~44, scans~7--8; it does not assert that this analytic constant is a degree of a cycle.}
+
+\subsection{THETA3-Q2: a certified Gaussian isolation bound}\label{Q2}
+Let $\Lambda\subset\R^d$ be a lattice with minimum nonzero norm at least $\rho>0$. Assume $\operatorname{Im}Z\geq\lambda I$, $\lambda>0$, for the period matrix in the first theta tensor. Fix $0\ne x_0\in\Lambda$ and an integer $k\geq2\|x_0\|/\rho$. The contribution of $x_0+k\Lambda$ differs from its $x_0$ term by a vector of norm at most
+\begin{equation}\label{eq:gaussian-tail}
+ E(k)=2\sqrt{\frac{\pi}{e\lambda}}
+ \sum_{j\geq1}(2j+3)^d e^{-b j^2},
+ \qquad b=\frac{\pi\lambda k^2\rho^2}{8}.
+\end{equation}
+For $f_j=(2j+3)^d e^{-bj^2}$ and
+\[
+ q_J=\left(\frac{2J+5}{2J+3}\right)^d e^{-b(2J+1)}<1,
+\]
+the tail beginning at $J$ is at most $f_J/(1-q_J)$.
+If projected leading gradients $u_0,v_0$ satisfy
+$\|u_0\wedge v_0\|=\Delta>0$, and the two projected errors are at most $e_1,e_2$, then
+\begin{equation}\label{eq:wedge-error}
+ \|u\wedge v-u_0\wedge v_0\|
+ \leq e_1\|v_0\|+e_2\|u_0\|+e_1e_2.
+\end{equation}
+An upper bound strictly smaller than $\Delta$ certifies nonvanishing.
+\begin{proof}
+For $m\ne0$ in $\Lambda$, $\|x_0+km\|\geq k\|m\|/2$.
+The first theta tensor summand has norm at most $2\pi r e^{-\pi\lambda r^2}$, where $r=\|x_0+km\|$. The inequality
+$r e^{-\pi\lambda r^2/2}\leq1/\sqrt{\pi e\lambda}$ bounds this by
+$2\sqrt{\pi/(e\lambda)}e^{-\pi\lambda k^2\|m\|^2/8}$.
+Balls of radius $\rho/2$ around lattice points are disjoint. Points with
+$j\rho\leq\|m\|<(j+1)\rho$ number at most $(2j+3)^d$, by comparing the volume of these balls with the ball of radius $(j+3/2)\rho$. Summing proves \eqref{eq:gaussian-tail}. The successive ratios $f_{j+1}/f_j$ decrease with $j$, which gives the geometric tail bound. A projection multiplies the error by its operator norm. Expanding
+$(u_0+(u-u_0))\wedge(v_0+(v-v_0))$ gives \eqref{eq:wedge-error}.
+\end{proof}
+\paragraph{Numerical certificate in a specified Gaussian model.}
+For $d=6$, $\rho^2=2$, $\lambda=1$, $k=6$, and orthogonal projected leading terms of amplitude $c=2\pi e^{-2\pi}$, the interval-arithmetic computation supplied with the package gives
+\[
+ c>0.01173348,\qquad E(6)<1.765593\cdot10^{-8},
+ \qquad c^2-2cE(6)-E(6)^2>\frac{137}{10^6}.
+\]
+The six-dimensional lattice can be taken as the Minkowski image of
+$\OO_{\Q(\sqrt5)}^3$: for one coordinate its squared norm is
+$2a^2+2ab+3b^2$, with minimum~2. The computation certifies the displayed Gaussian estimate. Identification with a particular global theta convention still requires its symplectic coordinates, projection and determinant-line normalization; the numerical value is not asserted to be an unnormalized global period.
+
+\framework{This is a quantitative form of 032 Proposition~4.5, at the level of sections of the cotangent bundle. It certifies a nonzero realization before the algebraic surface correspondence is extracted; cote~44, scans~7--8, locates that later correspondence/polarization step.}
+
+\subsection{THETA3-Q3: rational compact data with a denominator}\label{Q3}
+Choose a $\Q$-basis of $E$ and coordinates on a two-dimensional $E$-space $W$. Its diagonal real embedding has dimension $D=2[E:\Q]$. Let $B$ be the invertible real embedding matrix. For any archimedean target vector $u$ and $N\geq1$, rounding $NB^{-1}u$ coordinatewise to $a\in\Z^D$ gives $w=Ba/N\in W(E)$ with
+\begin{equation}\label{eq:round}
+ \|w-u\|\leq\frac{\|B\|\sqrt D}{2N}.
+\end{equation}
+At a place let the Hermitian matrix be $H$, with $\|H\|=h$, $\|u\|\leq U$, and $|u^*Hu|\geq\eta>0$. If $\epsilon=\|w-u\|\leq1$ and
+$h(2U+1)\epsilon\leq\eta/2$, the signs of $w^*Hw$ and $u^*Hu$ agree. Their Hermitian line projectors satisfy
+\begin{equation}\label{eq:projector}
+ \left\|\frac{w(w^*H)}{w^*Hw}-\frac{u(u^*H)}{u^*Hu}\right\|
+ \leq \frac{2h(2U+1)}{\eta}
+       \left(1+\frac{hU^2}{\eta}\right)\epsilon.
+\end{equation}
+\begin{proof}
+Each rounded coordinate has error at most $1/2$, proving \eqref{eq:round}. Both the denominator difference and the numerator difference in \eqref{eq:projector} are bounded by
+$h(2U\epsilon+\epsilon^2)$. Hence $|w^*Hw|\geq\eta/2$. Writing the difference of the fractions as the numerator difference divided by $w^*Hw$, plus
+$u(u^*H)(u^*Hu-w^*Hw)/((w^*Hw)(u^*Hu))$, and using
+$\|u(u^*H)\|\leq hU^2$, proves the formula. Apply it at every real place. The complementary projector is $1-P$, so it has the same error bound.
+\end{proof}
+\framework{This makes the weak-approximation endpoint in 032 Corollary~4.7 explicit relative to a field basis and prescribed analytic neighborhood. It changes multiplicity subspaces, not the signature of $V$. The resulting rational datum can be spread over a finite type base; it is not a bound for its final cycle degree.}
+
+\subsection{THETA3-Q4 and Q5: zero-orbit selection and extraction}\label{Q4}\label{Q5}
+These are the quantitative versions of A2 and A3. Let the anisotropic theta integral in A1 use probability measures, with
+$\Phi=\Phi_\infty\otimes\Phi_f$, $\Phi_f(0)=1$, and
+$a=\Phi_\infty(0)\ne0$. For every $0<\epsilon<1$ there is
+$h_f\in N(\A_f)$ such that
+\begin{equation}\label{eq:finite-selection}
+ |I_{\Phi_\infty}(\omega_f(h_f)\Phi_f)|\geq(1-\epsilon)|a|,
+ \qquad\|\omega_f(h_f)\Phi_f\|_2=\|\Phi_f\|_2.
+\end{equation}
+Suppose inverse doubling gives the finite tensor expansion
+$\sum_a c_a\bigotimes_{i=1}^4\phi_{i,a}$ and the $i$th torus expansion has at most $N_{i,a}$ permitted characters. Then an individual integrated fourfold period has absolute value at least the total absolute period divided by
+\begin{equation}\label{eq:loss}
+ S=\sum_a |c_a|\prod_{i=1}^4N_{i,a}.
+\end{equation}
+Zero character coefficients may be retained; exact zero testing is unnecessary.
+\begin{proof}
+By A1 the continuous function $T_\Phi$ has mean $a$ on the compact quotient $[N]$. Its maximum absolute value is at least $|a|$. At a maximizing representative $(n_\infty,n_f)$ choose rational elements $\gamma_j\in N(F)$ with $\gamma_{j,\infty}\to n_\infty$. Automorphy gives
+$T_\Phi(\gamma_{j,\infty},n_f)=T_\Phi(1,\gamma_{j,f}^{-1}n_f)$.
+Continuity proves the inequality for some $j$. The finite Weil action is unitary. Expand the finite products and apply
+$|\sum_a c_a\sum_{\mathbf j}P_{a,\mathbf j}|
+\leq S\max_{a,\mathbf j}|P_{a,\mathbf j}|$.
+The relevant finite torus quotient bounds the permitted character counts by its order. For actual geometric integrals the explicit measure conversion in van Hoften--Sempliner \S4.2.8 must be included, together with connected-component coefficients. More generally, if the exact extracted identity is $I=\sum_\lambda b_\lambda J_\lambda$, use $S=\sum_\lambda|b_\lambda|$.
+\end{proof}
+\framework{The doubled oscillator pairing is a realization-level construction. Finite rational Hodge-source extraction and pushforward of the surface supply the cycle. These are different operations, and the displayed coefficient loss records their interaction.}
+
+\subsection{THETA3-Q6: the local positive determinant}\label{Q6}
+On $\C^2$ use $d\gamma(z)=\pi^{-2}e^{-\|z\|^2}dz$. Put
+$\ell_u(z)=\sum_i u_i z_i$ and
+$P_{u,v}(z,w)=\ell_u(z)\ell_v(w)-\ell_v(z)\ell_u(w)$.
+Then
+\begin{equation}\label{eq:fock-det}
+ \|P_{u,v}\|^2_{L^2(d\gamma\otimes d\gamma)}
+ =2\det\begin{pmatrix}\|u\|^2&\langle u,v\rangle\\
+ \langle v,u\rangle&\|v\|^2\end{pmatrix}.
+\end{equation}
+For orthonormal $u,v$, $P_{u,v}/\sqrt2$ has norm~1. Under a unitary Bargmann transform and the compatible doubling intertwiner,
+$\delta(f\otimes\bar f)(0)=\|f\|^2$, so this normalized local doubled value is~1.
+\begin{proof}
+The covariance identity $\int z_i\bar z_j\,d\gamma=\delta_{ij}$ shows that the two diagonal terms of $|P|^2$ each integrate to $\|u\|^2\|v\|^2$, and the two cross terms each integrate to $|\langle u,v\rangle|^2$ with negative sign. This proves \eqref{eq:fock-det}. The remaining assertions follow from the specified unitary transforms and the doubling identity.
+\end{proof}
+The determinant polynomial is the shape of the $q=1,p=2$ Fock wedge cocycle in the published Bergeron--Millson--M\oe glin, Proposition~5.17 and Proposition~5.19(1), pp.~48--49. The value~1 here is a chosen convention, not an assertion about a paper's unmodified numerical constants. With the raw convention retain
+$a_0=\Phi_{\infty,\mathrm{split}}(0)\ne0$ from van Hoften--Sempliner Lemma~4.2.9. Its matrix-coefficient continuity and rational isometry approximation give
+$|a|\geq(1-\eta)|a_0|$, and Q4--Q5 give
+$(1-\epsilon)(1-\eta)|a_0|/S$.
+\framework{This is local Hermitian positivity in the automorphic realization. It is compatible with the polarization language of cote~44, scans~7--8, but is not itself an algebraic intersection form or the global Alp\"oge determinant.}
+
+\subsection{THETA3-Q7: a finite search with a certified grid size}\label{Q7}
+View the additive Siegel unipotent $N$ over $\Q$, of dimension $d$. Let $K_N\subset N(\A_f)$ be a compact open additive subgroup fixing $\Phi_f$. Set
+$\Lambda=N(\Q)\cap K_N$ and
+$F(b)=T_\Phi(n(b),1_f)$. Let $B$ have as columns a $\Z$-basis of $\Lambda$. If $F$ is $L$-Lipschitz on $N(\R)/\Lambda$, then among the $N_0^d$ rational grid elements
+\[
+ \gamma=\sum_{i=1}^d\frac{j_i}{N_0}\lambda_i,
+ \qquad 0\leq j_i<N_0,
+\]
+one has
+\begin{equation}\label{eq:grid}
+ |T_\Phi(1,n_f(-\gamma))|
+ \geq |a|-\frac{L\|B\|\sqrt d}{2N_0}.
+\end{equation}
+Thus $N_0\geq\max(1,\lceil L\|B\|\sqrt d/(2\epsilon|a|)\rceil)$ suffices for the Q4 bound. The finite Schwartz norm is unchanged; any compact subgroup of $\U(V)(\A_f)$ fixing the total doubled input still fixes its translate.
+\begin{proof}
+Additive strong approximation gives $N(\Q)+K_N=N(\A_f)$ and identifies
+$N(\Q)\backslash N(\A)/K_N$ with the compact real torus $N(\R)/\Lambda$. Its probability mean is $a$ by A1. Choose a maximum point of $|F|$ and round its coordinates modulo $\Z^d$ to the nearest grid point. The torus distance is at most $\|B\|\sqrt d/(2N_0)$. The Lipschitz estimate and reverse triangle inequality prove the bound for $F(\gamma)$. Rational automorphy gives $F(\gamma)=T_\Phi(1,n_f(-\gamma))$. Unitarity proves the norm assertion, and commuting dual-pair actions prove the compact-level assertion. Extracting separate four-factor tensors can still require a smaller common level.
+\end{proof}
+Here is an explicit sufficient value of $L$. On a chosen compact fundamental set for the anisotropic quotient suppose all rational supports lie in a lattice $L_0\subset\R^D$ of minimum at least $\rho$, the integrand vanishes outside $L_0$, and
+\[
+ |\omega(g)\Phi(x)|\leq C(1+\|x\|)^m e^{-\lambda\|x\|^2}
+\]
+uniformly, with known $C,\lambda>0$ and $m\geq0$. Write the unipotent phase as $e^{2\pi i\langle b,Q(x)\rangle}$, with
+$\|Q(x)\|\leq c_Q\|x\|^2$. One may take
+\begin{equation}\label{eq:L-bound}
+ L=2\pi c_Q C\sum_{j\geq1}(2j+3)^D((j+1)\rho)^2
+       (1+(j+1)\rho)^m e^{-\lambda j^2\rho^2}.
+\end{equation}
+Indeed termwise differentiation in a unit $b$-direction introduces at most $2\pi c_Q\|x\|^2$; probability integration cannot enlarge the resulting uniform bound. The shell packing argument of Q2 gives \eqref{eq:L-bound}. The differentiated series converges uniformly. Its terms have polynomial growth times a Gaussian, and their successive ratios eventually decrease below~1, giving an explicit geometric tail certificate. Compactness guarantees the existence of an envelope, but a numerical application must supply its constants or a fundamental set; no effective reduction-theory bound is being silently invoked.
+
+With the Q6 convention $a_0=1$, choose the rational isometry so $|a|\geq1/2$. Taking
+$N_0\geq\max(1,\lceil2L\|B\|\sqrt d\rceil)$ gives $|I|\geq1/4$. For an exact finite extraction $I=\sum_\lambda b_\lambda J_\lambda$, some geometric mixed period therefore satisfies
+\begin{equation}\label{eq:quarter}
+ |J_\lambda|\geq\frac1{4\sum_\lambda|b_\lambda|}.
+\end{equation}
+\framework{This gives a finite search in the adelic realization with a named denominator. It preserves the total doubled level, but does not bound the complexity of every subsequent rational Hodge map. The distinction between a realization and an algebraic correspondence is the one in cote~16, scans~43--45.}
+
+\subsection{THETA3-Q8: a pointwise lower bound for the surface norm}\label{Q8}
+Let an injective holomorphic chart in $X$ contain the Euclidean ball $B_R\subset\C^2$, and write
+$\xi=f(z)\,dz_1\wedge dz_2$. Suppose $|f(0)|\geq b>0$ and the real differential of $f$ has norm at most $M$ on $B_R$. For $0<r<R$ and $Mr\leq b/2$,
+\begin{equation}\label{eq:local-norm}
+ \int_X\xi\wedge\bar\xi\geq\frac{\pi^2}{2}b^2r^4.
+\end{equation}
+\begin{proof}
+Integrating the differential along a segment gives $|f(z)|\geq b/2$ on $B_r$. In the complex orientation,
+$dz_1\wedge dz_2\wedge d\bar z_1\wedge d\bar z_2=4\,d\vol_{\R^4}$.
+Since $\vol(B_r)=\pi^2r^4/2$, integration over $B_r$ gives the bound. The integrand is nonnegative on the rest of $X$. If $M=0$, any $r<R$ works.
+\end{proof}
+\framework{Together with Q2 and bounds for differentiated theta series, this turns a certified nonzero coefficient into the $A_0$ needed by Q1. The injective chart is required data. This is a Hodge norm estimate, not an integral intersection multiplicity.}
+
+\subsection{THETA3-Q9: denominators in finite Hecke extraction}\label{Q9}
+Let $\Lambda=H^1(X,\Z)/\mathrm{torsion}$, and let $T_j$ be commuting integral Hodge endomorphisms induced by rational algebraic correspondences. Suppose monic $f_j,g_j\in\Z[t]$ are coprime over $\Q$ and
+$f_j(T_j)g_j(T_j)=0$. Set $R_j=\Res(f_j,g_j)\ne0$. An integral Bezout identity
+$u_jf_j+v_jg_j=R_j$ gives
+\[
+ e_j=\frac{v_j(T_j)g_j(T_j)}{R_j},\qquad e=\prod_j e_j.
+\]
+Then $e$ is a rational Hodge projector induced by a rational algebraic correspondence, with
+$e\Lambda\subset R^{-1}\Lambda$, $R=\prod_j|R_j|$. Its image is the intersection of the $f_j$-primary factors.
+
+Let $K$ have degree $n$ over $\Q$. For $i=1,\ldots,4$, take such a projector $e_i$ with denominator $R_i$ and $u_i\in\Lambda\otimes K$ satisfying
+$d_i u_i\in\Lambda\otimes\OO_K$. Put
+\[
+ P=\int_X e_1u_1\cup e_2u_2\cup e_3u_3\cup e_4u_4,
+ \qquad D=\prod_{i=1}^4R_i d_i.
+\]
+Then $DP\in\OO_K$. If $P\ne0$ and
+$|\sigma(P)|\leq M_\sigma>0$ for every $\sigma\ne\sigma_0$, then
+\begin{equation}\label{eq:norm-bound}
+ |\sigma_0(P)|\geq D^{-n}\prod_{\sigma\ne\sigma_0}M_\sigma^{-1}.
+\end{equation}
+\begin{proof}
+The adjugate of the Sylvester matrix gives the integral Bezout identity. The Chinese remainder theorem gives $e_j=1$ on $\ker f_j(T_j)$ and $e_j=0$ on $\ker g_j(T_j)$; equivalently $e_j^2-e_j$ is divisible by $f_jg_j$ as a rational polynomial. Commutativity gives the product projector and its image. Integral polynomial numerators give the denominators. Polynomial operations preserve Hodge endomorphisms and are realized by addition and composition of algebraic correspondences.
+
+Cup product evaluated on the integral fundamental class is a $\Z$-valued multilinear form on $\Lambda$. Multiplication of its four arguments by $R_i d_i$ therefore gives $DP\in\OO_K$. The nonzero algebraic integer $DP$ has nonzero integral norm, whose absolute value is at least~1. Consequently
+$\prod_\sigma|\sigma(P)|\geq D^{-n}$. Divide by the other bounds to get \eqref{eq:norm-bound}.
+\end{proof}
+In the CM application, the cited Hecke/Frobenius and weak-admissibility arguments of 032 first identify the relevant eigenspaces as pure CM Hodge sources. Their eigenvectors can be chosen over a number field in the Betti realization. Harmonic representatives have the same cup product. Arbitrarily rescaled analytic theta forms need not be those algebraic Betti vectors; their comparison scalars must be retained. The matrices $T_j$, resultants, eigenvectors and conjugate bounds are required data. The supplied papers do not give universal numerical values for them.
+\framework{This is a projector in the homological realization, not an assertion of an idempotent modulo rational equivalence. It implements the algebraic-correspondence requirement of cote~16, scans~44--45, with an explicit denominator. B7 supplies a positive Gram-matrix variant when total positivity under all embeddings is established.}
+
+\subsection{THETA3-C12: four non-CM factors and a period of 500}\label{C12}
+Use Schoen's surface $Y$ and curves from pp.~133--134 of the cited paper. The two projections to the Fermat quintic $C_5$ are
+$(y_{01}:y_{03}:y_{13})$ and $(y_{02}:y_{03}:y_{23})$.
+Let $C_0$ be its degree-five quotient, with equation $y^2=1-x^5$, and let $C\to C_0$ be Schoen's etale double cover, obtained from the elliptic curve
+\[
+ F:\quad s^2=1+x+x^2+x^3+x^4.
+\]
+The source proves $j(F)=2048$ and that $F$ is non-CM. There is a degree-two map $C\to F$.
+
+There is a connected etale degree-four cover $X\to Y$ and a generically finite map $(a_1,a_2):X\to F^2$ of degree~500. If
+$\int_F i\alpha\wedge\bar\alpha=1$, then
+\begin{equation}\label{eq:500}
+ \int_X(a_1^*\alpha\wedge a_2^*\alpha)
+ \wedge\overline{(a_1^*\alpha\wedge a_2^*\alpha)}=500.
+\end{equation}
+All four degree-one sources are non-CM. The map
+$(a_1,a_2,a_1,a_2):X\to F^4$ pushes its fundamental cycle to
+$500[\Delta_{13}\cap\Delta_{24}]$, a product of diagonal divisor classes.
+\begin{proof}
+On $y_{03}=1$ write $u=y_{13}$ and $v=y_{23}$. The function field of $C_5^2$ has equations
+$y_{01}^5=1-u^5$, $y_{02}^5=1-v^5$. Adjoining $y_{12}$ with
+$y_{12}^5=u^5-v^5$ gives the function field of $Y$. The radicand has valuation~1 at the generic point of the diagonal of $C_5^2$, since $u^5-v^5=(u-v)$ times a unit there. It is not a fifth power, so the Kummer extension has degree~5. Resolution leaves function fields unchanged. Hence the product of the two curve maps gives a morphism $Y\to C_0^2$ of generic degree $5\cdot5\cdot5=125$.
+
+The connected Galois etale cover $C^2\to C_0^2$ has degree~4 and group $(\Z/2)^2$. Its function field is linearly disjoint from the degree-125 extension, since the intersection degree divides both~4 and~125. Therefore
+$X=Y\times_{C_0^2}C^2$ is connected and etale of degree~4 over $Y$. It is smooth projective and remains an arithmetic ball quotient. Its generic degree over $C^2$ is~125, and the two degree-two maps to $F$ give generic degree $125\cdot2\cdot2=500$ over $F^2$.
+
+For $\eta=\mathrm{pr}_1^*\alpha\wedge\mathrm{pr}_2^*\alpha$ the Koszul sign gives
+$\int_{F^2}\eta\wedge\bar\eta=-(-i)^2=1$.
+Pushforward of the fundamental class under a proper generically finite morphism multiplies it by its degree, proving \eqref{eq:500}. Postcomposing with $(p,q)\mapsto(p,q,p,q)$ proves the cycle formula. The image is the transverse intersection of the two diagonal divisors.
+\end{proof}
+\framework{This realizes a four-factor non-CM period by an algebraic surface correspondence, in the sense of cote~44, scans~7--8. Its class is already generated by divisors. The new forms arise on a noncongruence cover, rather than from the original adelic character lifts. Thus neither a new exceptional Hodge-class case nor an extension of the original congruence theta packet is asserted.}
+
+\part{Unresolved identifications and current gates}
+\section{Working status at the first checkpoint}
+The complete working proofs for A1--A3, B0--B13 and C01--C11 are preserved in the documentation directory. Their polished LaTeX integration is in progress. A4--A5 are undergoing final source and proof checks. This draft contains the complete quantitative proofs Q1--Q9 and the new C12 construction; it is not the final paper.
+
+The actual step12 archive source has now been found in
+\texttt{Development/AbelianVarietyTheory/Definitions/LatticeFrames/ValLastX.lean},
+with its theorem witness in \texttt{SeesawTransportRelationsOfFamilyLaws.lean}.
+Its common-family laws and the concrete tower's signature requirements are being matched to032. The full requested identification is not assumed in any quantitative or geometric proof above.
+\end{document}
