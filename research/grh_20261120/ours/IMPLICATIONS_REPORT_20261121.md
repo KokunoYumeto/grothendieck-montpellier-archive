@@ -240,7 +240,7 @@ named here), and the kind of check is given.
   - K17-K12-TWO-RANKS: K_12(Z) = 0 reduces to H_4(GL_9(Z); St ⊗ Z[1/13!]) = 0 and H_3(GL_10(Z); St ⊗ Z[1/13!]) = 0.
     *Superseded by the three-rank form, with an unverified gap in DEKM's enumeration; see §9.5.*
 - **Open:**
-  - no new K_{4k}(Z) is proved zero;
+  - no new K_{4k}(Z) is proved zero (*superseded: K17's final reports K_{4k}(Z) = 0 for k ≤ 12; see §10.1, H18*);
   - the kernel question at a prime where Vandiver fails;
   - Soulé 2003 has not been compared.
 - **What it makes possible:**
@@ -318,6 +318,7 @@ named here), and the kind of check is given.
   - §3.3's SH(a), PH2 and PH3 fail as stated (P-F14, P-F15, statement level).
   - What remains is PH2 and SH for irreducible-inner families. On the cubic family the gate is
     limsup n⁻⁴ log₂ U_n < 1/24, against the proved log₂3/6 (P-F34, P-F42), a factor of about 6.3 in the exponent.
+    *Superseded: PH2 and SH(a) fail for plethysm (P-F56, P-F57); see §10.1, H02.*
 - **Positive formulas (GCT_PLETH):**
   - stable-range positive formulas for tails of width ≤ 6 (T-012, T-013, confirmed on Sarkar's Theorem D);
   - outer degree 4 (T-037) and most of 5 (G-021), by computation only.
@@ -464,7 +465,8 @@ Each entry gives the suggestion, what has been done on it since, and what is ope
        points.
    - *Its link to ghosts:* an element with unequal bits passes each local test and fails the product formula.
    - *Done:* none of the 20-21 Nov intakes tests it. The DELTA23 run is the one aimed at it, and its newest checkpoint is
-     not taken in. What the intakes do give around it:
+     not taken in. (*Changed: the register's H17 now records Δ vanishing on GT̂ from the main session's DELTA23 intake;
+     see §10.1.*) What the intakes do give around it:
      - checked certificates for the cyclotomic coordinate of every finite level of GT̂₀ (AN_GRH T01, with coefficient 3,
        and T02-T07 for the 53 identified moduli; ALPOGE_BRIDGES AQ-FINITE);
      - the bridges run's F3, the (2,3,6) orbifold E₀/μ₆ of the hexagonal CM curve as the exact object of the note's hexagon
@@ -855,3 +857,342 @@ H05, H07, H08, H10-H14 are unchanged. H14's claimed range grows with R-22 (unrea
 - 1 transcription row (cote 16, scan 050).
 - 2 open: an LM6 intake; the GCT row-gate ledger.
 - The rest: for the successors, already in the register, or in the runs' own returns.
+
+## 10. Round 5 (21 Nov, ~12:15-13:20 UTC): the overnight runs' final returns
+
+**Framing.**
+- The overnight runs ended between 04:20 and 08:21 UTC. By the user's three-hour rule, each newest return is that run's
+  final.
+- The exception is HODGE_DIVISION (prompt 46), which began at 10:38 UTC and is still going. Its intake reads checkpoint 01.
+
+**Sources.** In `field_experts\intake_20261121\intakes\`, all by Claude Opus 5.5 at effort high, the main session's
+addendum to HODGE_DIVISION by Claude Opus 5.5 at effort max:
+- HODGE_DIVISION;
+- THETA3 part 4, SIGN_NEXT part 2, AN_GRH part 3, GRH_NIGHT part 3;
+- ALPOGE_BRIDGES part 4, K17 part 4, DP_MULT part 4, DEG_L part 2, BR_PENCIL part 2;
+- GCT_KRON part 3, CUE_GCT part 4, ALPOGE_GCT part 4, GCT_PLETH part 4;
+- JAC1964 part 2, GCT_NSRH part 4.
+
+The register numbers are those of `field_experts\HEXAGON_CANDIDATES.md`, "Round 5 of the intake".
+
+### 10.1 What each ended run settled, and what it left open
+
+**K17 (prompt 31, final cp08).**
+- *Settled:*
+  - step 17 is the Lean Selmer theorem, and its stronger intermediate form `OneCharU_s` is a computable unit criterion;
+  - **K_{4k}(Z) = 0 for 1 ≤ k ≤ 12** (K17-K12-VANISH, K16-K20-K24, K28-K36, K32-VANISH, K40-K44-K48). This comes from
+    `OneCharU_s` (an intermediate Lean theorem of Alpöge's archive, not one of its endpoint theorems, not RH) and finite
+    Hecke computations on compact U(3) over Q(√−3) and Q(√−7) and on classical forms of level 3 and 7;
+  - the kernel question at 2 and at every Greenberg prime, so below 2^31;
+  - integral odd generation at 2 and at regular primes, failing at every irregular Greenberg prime;
+  - cote 149, scans 79-85, recognition with the marking (H16).
+- *Checks:*
+  - the intake read the K_12 proof and recomputed the GL_2 half of its certificate (exact match);
+  - every numerator prime of B_2, …, B_32 is below 2^31;
+  - the U(3) half and the two coverage theorems are carried, not checked.
+- *Open:* K_52, K_56, K_60; the remaining plus characters (Q3-IRREG); the Soulé 2003 comparison (asked twice, never made);
+  the three DEKM endpoint groups.
+
+**ALPOGE_GCT (prompt 23, final cp09).**
+- *Settled* (checked in parts 1-4): **every index hypothesis of GCT VI fails for plethysm.**
+  - Thm 1.6.1(d) as printed fails (P-F12, PL-Q22).
+  - PH1 in homogeneous form fails (Kahle-Michałek; repaired by shifted polytopes, P-F1).
+  - PH3's canonical (P-F19) and existence (P-F31) clauses fail.
+  - **PH2 and SH(a) fail, with indices above 2^{cn} for every c < 1/4 (P-F56, P-F57).** Both were confirmed in full; the
+    residue formula matches Salmon's n = 4 value, phase included, and the remainder ratio is below 1/4 from n = 8.
+  - PH3 ⇒ PH2 stays true, with a false premise.
+  - PH3's canonical clause for Kronecker coefficients (P-F60) is at statement level.
+- *Open:*
+  - SH(b), the density clause;
+  - PH2, SH(a) and numerical PH3 for Kronecker coefficients;
+  - the nonstandard quantum-group positivity;
+  - the comparison with Alpöge's theta operations;
+  - any actual obstruction. The run makes no complexity claim.
+
+**BR_PENCIL (prompt 44, final cp02).**
+- *Settled:*
+  - **BR(det_4), BR(per_4) ≥ 43 over C** (μ_7 = 14, R-08, R-10);
+  - 42 over every field (R-05);
+  - the exact minima μ_2-μ_9 at n = 4, and BR ≥ C(n,2)² + 7 for n ≥ 4 (R-11);
+  - the b = 3 cubic route cannot beat 43.
+- *Checks:* independent computation covers all but 25 border-apolarity cases, which rest on the run's certificates
+  (verifiers rerun, passing).
+- *Open:* 44 (μ_10 ≥ 18: 35 determinant Borel ideals; per μ_10 ∈ {17, 18}); 43 in positive characteristic; the exact
+  cubic seeds.
+
+**GRH_NIGHT (final).**
+- *Settled:*
+  - a catalogue of 362 consequences of A and M with inputs and locators;
+  - factoring polynomial under PF26 + M, or PF26 + A + RH for Q(p^{1/r}) at bad primes (§9.4);
+  - cote 34 Remark 1.17 in corrected forms;
+  - **MT-S506 (confirmed given the induction table):** for every S₅/Q, every pole of an irreducible Artin L-function in the
+    strip is on the line, by A alone;
+  - MT-ART01: odd two-dimensional Artin under M + Khare-Wintenberger;
+  - K₈(Z) = 0 located in its 2019 theorem (AG-K8);
+  - inverse Lefschetz correspondences with least denominators on elliptic products (statement level).
+- *Masullo:* a full defect table (§10.3). Most of the infrastructure is repaired by other means.
+- *Open:*
+  - **Q-MAS-GEOMETRIC-NARROW,** Masullo's decisive geometric trace identity on narrow strips (the same gate as
+    ALPOGE_BRIDGES R-MAS-KERNEL);
+  - GL₂ GRH in weight ≥ 2;
+  - general Artin holomorphy (MT-ART02; the S₅ central-order gate β − b − n ≥ 1);
+  - full GUE.
+
+**ALPOGE_BRIDGES (prompt 22, final).**
+- *Settled:*
+  - **cote 136:** strict (b) false over every ring; (a) proved for every ring with finitely many non-unit primes, and over
+    any ring (a) ⇔ connectedness of the category (statement level); terminality in the same scope;
+  - cote 134-8: F-SM-32, with F-SM44 reducing the gate to surjectivity in degrees ≥ 2;
+  - cote 123: every question answered. The rank part is Richardson 1987, Lemma 5.1 (CC-RK04, confirmed), so H08 is not a
+    post;
+  - cote 14 closed for separated finite-type parameters (BR-14-SEP);
+  - cote 15: forward cross-cycles for low-degree classes, conditional on the 2026 preprints;
+  - Thakur 2020, Prop 2.9 refuted (BR-15-CLASSBOUND, arithmetic half checked).
+- *Open:* cote 136 over Z; cote 134-8 degrees ≥ 2; cote 15's general forward-cycle gate (= full Tate); R-MAS-KERNEL.
+
+**AN_GRH (prompt 30, final).**
+- *Settled:*
+  - A1 without GRH (A05, unchanged; literature anchor Faltings, Bourbaki exp. 840, §3 Thm 3);
+  - **A46 (confirmed):** one pointed odd cyclic cover with P_n(L)[p^∞] = 0 separates points, in every genus and
+    characteristic;
+  - A33 (steps 1-2 checked): characteristic 2, genus 2 reduces to ordinary Jacobians with Rosati-fixed O₅ multiplication.
+- *Open:* a universal supply theorem for such covers; the row audit (390 + 209 missing items). Route 2 is no gate on any of
+  Grothendieck's statements.
+
+**DP_MULT (prompt 34, final).**
+- *Settled:*
+  - the bound for every height, optimal (DP1-DP4, DP34, DP43);
+  - step 2's exponent is the height-two case (DP6);
+  - every local mechanism for a shorter step 8 through higher height fails (DP42 confirmed; DP50, DP51, DP64 statement
+    level);
+  - cote 54 and 47 readings: the author's slips, autograph checked by the run.
+- *Open:* Q3e, the global net lift count.
+
+**DEG_L (prompt 41, final).**
+- *Settled:*
+  - T6 refuted and replaced by the exact Rallis sums;
+  - the √J law for every maximal-order-source transport (T6.25, statement level), with source degree growing at least like
+    J^{1/4} to escape it (B22a);
+  - T7 universal refuted;
+  - candidate semiregular objects excluded (S-19-S-41).
+- *Open:* Q-BOUNDS, Q-T7-FIXED, Q-DIV, Q-T7-REPLACEMENT.
+
+**JAC1964 (prompt 40, final).**
+- *Settled:* the seven theorems of cote 44 (table in the intake).
+  - H9-T17 (confirmed, recomputed): after finite covers the corrected Th. 5 holds only on the Albanese-primitive domain, and
+    an E⁴ class has height −12d³. The H04 write-up must say so.
+  - JAC-P01 (confirmed) clears H11's test 4.
+- *Open:* QH9-axis in characteristic p (reduced to finite fields, H9-T8b); special covers; the arithmetic Fermat sign
+  (Q35-full: ker AJ₅ = 0 over Q).
+
+**THETA3 (prompt 37, final cp07).**
+- *Settled:* the sketch's 1.7 is still not proved. The analytic seesaw and an exact finite transform are proved, and the
+  arithmetic MainX matching is open.
+- *New:* **C32 (statement level)**, an explicit Schoen-type integral cycle C_A on the Jacobians of y² = z·∏(z² − a_j²) with
+  nonzero Weil class and ∫cl(C_A)² = 73728. It includes C25's simple non-CM Q(i) fourfold, and it bypasses the theta
+  machine.
+
+**SIGN_NEXT (final).**
+- *Settled:* SN-15, order indices in every rank by an integral reduction (n = 5, 6 computed, statement level).
+- *Open:* Q6g's global instance.
+
+**GCT_KRON (prompt 26, final cp07).**
+- *Settled:* A-034 (confirmed in full): every stretch of the A-030 family gives a strict gap for per_n against det_n with no
+  padding (H13).
+- *Method limits:* Hessian algebras do not transfer to padding (A-035, A-036).
+- *Open:* QMMAIN (the evaluation-tensor ranks, F010).
+
+**CUE_GCT (prompt 36, final cp08).**
+- *Settled:* four-row multiplicity gaps exist, for m ≥ 17, exactly when n² ≤ 2m² − m + 1 (R-27 with R-14, G-20).
+  - R-13 was recomputed for m = 4 to 10.
+  - The dimension method is capped at √2.
+- *Open:* explicit gaps; beyond √2; ROABP hitting sets.
+
+**GCT_PLETH (prompt 25, final).**
+- *Settled:*
+  - a complete positive formula for every outer-degree-five plethysm coefficient (G-036 with T-037, 539/539 by
+    computation; H20);
+  - polynomial-size formulas for stable hooks with varying outer degree (G-037-G-040, 790/790; H21);
+  - the cote 133 audit, including A-013 on Grothendieck's own page.
+- *Open:* Q-EFFICIENT for arbitrary shapes; Q-MAP; width seven.
+
+**GCT_NSRH (prompt 24, final).**
+- *Settled:*
+  - the sign-only mechanism is a theorem in conditional form, and the path sign is free (F50);
+  - no single finite Weil object carries the nonstandard traces;
+  - strict effectivity fails from rank four (F57, F58, F67);
+  - **positive word bases exist only at rank three.**
+- *Open:* the stalk gate (an independent pointwise weight bound); IV Conjecture 19.1 at rank ≥ 4 in its signed form.
+
+**HODGE_DIVISION (prompt 46, running; checkpoint 01).**
+- *Checked:* HD-G01, G02, G03, G04a, G04, G06, WQ.
+- *What it means for Q(i):* bounded division on Q(i) Weil fourfolds now rests on published inputs (Schoen 1988 and van
+  Geemen 1996, Th. 5.3(3), pp. 629-630, checked by the main session against the GDZ scan). The bounds are:
+  - D_Pr = 914,248,581,120 on the even component, reproduced independently;
+  - D_all = 3,656,994,324,480 on both components (HD-G06).
+- *Theorem W* is sharpened to δ_W² (HD-WQ).
+- *Q(ω) eightfolds (D-G34, statement level):* bounded division from published inputs (H19).
+- *n ≥ 5:* the natural imprimitive sources do not dominate (D-IM).
+- *Integrated:* our attack's four corrections are made (§2.5, Theorem W, the odd component, S-b).
+
+**Δ (Fable's suggestion 1).**
+- The register's H17, from the main session's DELTA23 intake, records **Δ vanishing on GT̂**: EXIT_TOWER E.49 with
+  GT_TOWER_CHECK A.3/A.7 and A.5, with DELTA23's cubic descent as a second route.
+- Checks: 19 of 22 findings were confirmed in that intake. Claude Fable 5.2 at effort max refereed the two key inputs on
+  18 Nov, but not E.49's final step.
+- Gate: an independent check of that step, or a proof of e₃ = 0 on GT̂.
+- This answers, in our record, the question §5 item 1 left open. Fable's proposed reading, Δ = χ₁₂ ∘ u as a product
+  formula, is not what the intakes test.
+
+### 10.2 The four flagged items
+
+1. **H18: K_{4k}(Z) = 0 for 1 ≤ k ≤ 12.** K_4 and K_8 were known; K_12 to K_48 are new.
+   - Checks so far: the K_12 proof read; the GL_2 half recomputed; the Bernoulli numerator bound confirmed.
+   - Gates:
+     - an independent check of the U(3) half (the 157899 value at the split prime 7, weight (6,0,−6), level one over
+       Q(√−3), by a second method) and of the two coverage theorems;
+     - the standing of `OneCharU_s` in Alpöge's archive (formalized, not an endpoint theorem);
+     - a literature search;
+     - the Soulé 2003 comparison.
+   - Strong interest; several gates.
+2. **H02, now headed by P-F57: PH2 and SH(a) fail for plethysm, with exponential indices.**
+   - With P-F19 and P-F31, all three index hypotheses of GCT VI fail.
+   - Gates: a literature search; a standalone write-up of the chain P-F23, P-F30 (with P-F27), P-F24, P-F26, P-F28, P-F31,
+     P-F56, P-F57; the user's read. An explicit moderate-n witness (n ≈ 80-120) would make it concrete.
+   - Note E1 to Mulmuley needs a second paragraph for P-F56/P-F57 before it goes (on the user's yes).
+3. **H03 at 43 over C** (BR_PENCIL final).
+   - Gates: the 25 border-apolarity cases checked independently (the intake's unique-extension test does not reach them);
+     the write-up; the user's read.
+   - 42 is the all-field statement.
+4. **H19: bounded division for split Q(ω) Weil eightfolds from published inputs** (HODGE_DIVISION D-G34-01-07).
+   - It would remove Severn's unrefereed premises.
+   - Gates: the run's final; a full intake read of D-G34-02-06; a rerun of `g34_reconstruct.py`; a literature search.
+   - Test 5 is strong: a new case of the Hodge conjecture from published inputs, if it holds.
+
+**Other register changes** (no edit by me):
+- H20 and H21 (GCT_PLETH, confirmed by computation, proof checks owed);
+- H13: A-034;
+- H14: R-27;
+- H12: Q(i) on published inputs;
+- H07 stable;
+- H08 not a post;
+- H09 test 3 met;
+- H11 test 4 strengthened;
+- H16 test 3 met.
+
+### 10.3 The errata, each held until it has had a full check
+
+- **DEKM, arXiv:1910.11598v1.**
+  - The gap is real in v1, checked against the paper by the K17 intake. §1.2.1 and Prop. 1.5 use projective dimension,
+    while Tables 3-4, Prop. 4.4 and Remark 3.2 index cells by perfection rank, one more.
+  - So the endpoint cases of Theorem 4.5 (N = 8, k = 12; N = 9, 10, k = 11) and the Table 5 entries H_5(GL_8; St_8),
+    H_3(GL_9; St_9), H_2(GL_10; St_10) have no enumeration behind them. Corollary 5.1 has the same problem at k = 11.
+  - It is a gap in support, not a refutation. K_8(Z) = 0 (Theorem 6.4) is not affected, and neither is K17's K_12, which no
+    longer uses the Voronoi route.
+  - **Held:** first the published version (JIMJ 2026) and the authors' data repository
+    (github.com/elbazvip/Voronoi-complexes-dat).
+- **Masullo, the draft.** One defect table across our runs, as GRH_NIGHT part 3 §3 has it, with the locator, the defect and
+  who found it:
+  - Lemma 9.3.2.4, p. 425: a false general zero-count lemma (MT-M01);
+  - Lemma 9.3.2.5, pp. 425-426: the ideal is not closed (MT-M05);
+  - Thm 9.3.2.6, p. 426: an inclusion in the wrong direction (MT-M02);
+  - Thm 11.1.2.1(2), p. 480: cutoff strictness fails (MT-M34);
+  - (11.3.2.2), p. 495: identically zero, so (12.2.1.2), p. 505, fails too (F-SM-19; MT-M36, independently);
+  - §12.3-§12.4, Thm 12.4.1.1, pp. 514-519: the unchanged-kernel replacement fails, with the open intertwiner (F-SM-21/22);
+  - (10.3.2.4), p. 454: off by one (MAS-BOUND);
+  - Thm 13.3.1.2, p. 522: blank.
+  - Every literal defect has a repair. His central geometric trace identity is the open point. Nothing found refutes M.
+  - **Held:** one combined drafted note to the author after a full check of each entry, sent only on the user's word. A
+    standing shared file for this list is still to be set up by the main session.
+- **Thakur 2020, arXiv:2001.00210v1, Def 2.3 and Prop 2.9, p. 6** (ALPOGE_BRIDGES BR-15-CLASSBOUND).
+  - The counterexample is a geometrically simple threefold over F_{2^9} with Frobenius polynomial (T² − 24T + 512)³,
+    K = Q(√−23), h_K = 3, with no geometrically isogenous model over F₈.
+  - The intake checked the arithmetic half only. **Held:** check the rest first.
+  - The run also notes an erratum in an arXiv source's §5.9 (the E₈(a₁) line, V₁₇ for V₂₉), unchecked.
+
+### 10.4 The successor prompts, in clusters
+
+There is one prompt per cluster, because we are sparing with Pro slots. Each carries its intakes' prompt-update lists, with
+the settled findings attached as data ("cite, do not re-derive"), the check events, and the model written as "GPT-6 Astra
+(ChatGPT Pro mode)".
+
+1. **The Galois action on the tower, K-groups and cote 149** (K17 part 4 §6; AN_GRH part 3 §6; K17's F149 rows;
+   GRH_NIGHT's AG-C149).
+   - K_52, K_56, K_60 and a mechanism uniform in k (dimension formulas for compact U(3) of weight (e,0,−e) and for
+     S_{2e+1}(Γ₀(3), χ₋₃)).
+   - The U(3) value by a second method.
+   - The Soulé 2003 comparison.
+   - Q3-IRREG.
+   - Cote 149 after scan 36: section surjectivity for the prime-to-p quotient, point separation in higher dimension, and a
+     full read of F149-MARKED-RECOGNITION against the tangential-section literature.
+   - Route 2 as a geometric question (A33 + A46).
+2. **Masullo's draft and the Artin gates** (GRH_NIGHT part 3 §6; ALPOGE_BRIDGES part 4 §6 item 5).
+   - Q-MAS-GEOMETRIC-NARROW = R-MAS-KERNEL for F = Q and the trivial character first.
+   - The S₅ gate β − b − n ≥ 1 in Calegari's family.
+   - A check of PF26 (Thm 1.2, Prop 10.1, its exact analytic premise).
+   - The input column split into A, M, outside preprints, none.
+3. **Alpöge's machine** (DP_MULT part 4 §5; THETA3 part 4 §6 item 1; GRH_NIGHT part 3 §6 item 3; ALPOGE_GCT and GCT_PLETH
+   Q-ALPOGE).
+   - The net lift count on Jac(y² = x⁷ − 1) with DP44, DP52, DP54-DP65.
+   - Sketch 1.7 in the totally definite case (A7, MainX).
+   - Alpöge's method over CM fields for the one order-r Kummer Hecke character over Q(ζ_r) behind CX-ALG-024.
+   - The comparison of T-052's charged oscillator with the ball-quotient theta lifts.
+4. **The archive's algebra: cotes 136, 134-8, 15 and 123** (ALPOGE_BRIDGES part 4 §6 items 1-4).
+   - Cote 136 over Z: connectedness ⇔ (a), and terminality, with the uniformity-in-P obstruction and the homotopy reading
+     of « 'égalise' ».
+   - Cote 134-8: the higher-surjectivity gate.
+   - Cote 15: the first forward cross-cycle beyond CC-XC16-23, with each preprint input tagged.
+   - Cote 123: a literature search and one companion write-up.
+5. **Hodge division** (HODGE_DIVISION §6, as prompt 46's next round when its final is in; DEG_L part 2 §6; THETA3 part 4
+   §6 item 2; SIGN_NEXT part 2 §6).
+   - D-G34-02-06 written with every step and its outputs.
+   - HD-WQ everywhere.
+   - The GHOSTS paper attached.
+   - One surviving semiregular object (S-30-S-36), or proof that the class is empty.
+   - deg_θ C_A for C32, then c_t by HD-WQ.
+   - Q6g's global m = 2 datum.
+   - SN-15's n = 5, 6 factors rerun.
+6. **Cote 44 positivity** (JAC1964 part 2 §6; SIGN_NEXT part 2 §6 item 4).
+   - QH9-axis in characteristic p.
+   - Special covers.
+   - The Fermat arithmetic sign through ker AJ₅ = 0 (Bloch-Kato at the Fermat motive).
+   - SN-C04's corrected criterion tested on a variety with known B but unknown I.
+7. **GCT positivity** (ALPOGE_GCT part 4 §6; GCT_PLETH part 4 §6; GCT_NSRH part 4 §6).
+   - PH2, SH(a) and numerical PH3 for triple-rectangular Kronecker coefficients.
+   - SH(b) for plethysm.
+   - An explicit moderate-n witness for P-F57 and the standalone write-up.
+   - Q-EFFICIENT for two- and three-row tails.
+   - Outer degree six.
+   - Q-MAP for r = 3, 4.
+   - The Ȟ₄ C⊗C-cone basis search.
+   - The stalk gate for the rank-three algebra.
+8. **GCT obstructions and border rank** (GCT_KRON part 3 §6; CUE_GCT part 4 §6; BR_PENCIL part 2 §6).
+   - Explicit obstructions in the certified range, at (8, 9) and (17, 23), with A-034's ray algebra and KRON's exclusions.
+   - Covariants outside the Hessian algebra.
+   - Multiplicity comparisons beyond √2.
+   - 44 (μ_10 ≥ 18).
+   - 43 in every characteristic by unit minors.
+   - Rerunnable certificates for the 25 prolongation cases and for R-13, R-24, R-25 and R-27.
+   - F-016's proof.
+   - LMR p. 476 recomputed.
+
+**Not Pro work:**
+- the DEKM published-version check;
+- the van Geemen-type locator checks;
+- the shared Masullo file;
+- the literature searches the Hexagon gates name;
+- the second-pass transcription rows (cote 16 scan 050; cote 149 scan 36; cotes 47 and 54; cote 1; cote 133).
+
+**Integration of round 5:** 33 rows in the log.
+- 12 applied:
+  - the four attack corrections;
+  - QUESTIONS Q02 and Q06;
+  - F-SM-19 = MT-M36;
+  - the ZETA_TWO Masullo note;
+  - the 14 Nov anabelian intake (A46);
+  - the GCT_GINEQ intake (43);
+  - the Hodge sketch 1.7;
+  - SA19 Th. 5 (H9-T17).
+- 10 pending, at statement level or outside the four attack edits allowed.
+- 5 open: no target file, or held errata.
+- The rest: for the successors, in the register, or in the runs' own returns.

@@ -158,7 +158,7 @@ not premises in Q3.
    That is the main deliverable.
 4. Cite van Geemen 1996 Th. 5.3(3) as the source of Q(i) dominance, with the attack's §5 proof as a second route.
 
-## Addendum by the main session (Claude Opus 5.5 at effort max), 21 Nov 2026 ~13:15 UTC: the van Geemen locator checked
+## Addendum by the main session (Claude Opus 5.5 at effort max), 21 Nov 2026 ~12:10 UTC (clock read): the van Geemen locator checked
 
 The locator for HD-G02 is now checked against the paper itself. It was carried above from the run's source log.
 - **Source:** the GDZ scan, saved in
