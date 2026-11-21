@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+"""Assemble the current complete manuscript and normalized audit registers."""
+from pathlib import Path
+from datetime import datetime, timezone
+import csv
+import json
+import subprocess
+
+BASE = Path(__file__).resolve().parent.parent
+WORK = BASE / 'work'
+OUT = BASE / 'deliverables'
+OUT.mkdir(exist_ok=True)
+
+
+def read_rows(path):
+    with path.open(newline='') as handle:
+        return list(csv.DictReader(handle, delimiter='\t'))
+
+
+def write_rows(path, names, rows):
+    with path.open('w', newline='') as handle:
+        writer = csv.DictWriter(handle, names, delimiter='\t', lineterminator='\n')
+        writer.writeheader(); writer.writerows(rows)
+
+
+def main():
+    now = datetime.now(timezone.utc).isoformat()
+    date = now[:10]
+    preamble = r'''\documentclass[11pt,a4paper]{article}
+\usepackage[margin=25mm]{geometry}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont[Scale=0.84]{DejaVu Sans Mono}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array,enumitem,xcolor,graphicx}
+\usepackage{microtype}
+\usepackage[unicode,breaklinks=true,colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage{xurl}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}\newtheorem{definition}{Definition}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Proj}{Proj}
+\DeclareMathOperator{\diag}{diag}
+\setcounter{tocdepth}{2}
+\setlength{\emergencystretch}{3em}
+\setlength{\parskip}{0.3em}
+\title{CUE, GCT, and Isolation\\Exact bridges, restricted multiplicity formulas,\\and the remaining derandomization gates}
+\author{Research run CUE\_GCT\_20261121\_R1\\GPT-6 Astra Pro; model-assisted proof review and exact computation}
+\date{21 November 2026\\Working manuscript; live status in the accompanying ledger}
+\begin{document}
+\maketitle
+\begin{abstract}
+We derive exact character, Haar-integral, covariance-rank, and quotient formulas linking finite CUE moments to the multiplicities used in geometric complexity theory. Explicit restrictions and determinantal representations locate low-row exclusion ranges. A reduced determinantal-quartic divisor and certified permanent projections yield a complete four-row shifted-plethysm difference in a fixed case. Graph isolation is transferred in its valid independent-variable setting and then tested against monomial descent, coefficient cancellation, joint compression, and specialization. Purity gives quantified sparse and trace-space constructions; exact or uniformly conditioned energy reconstruction has explicit size barriers. The stated RH and Dirichlet GRH inputs are accepted as requested, and every further analytic dependency is separately identified. General polynomial ROABP hitting sets and the asymptotic determinant-versus-padded-permanent problem remain unresolved. The separate Grothendieck part transports every finding to its precise scheme, representation-ring, filtration, or sheaf framework.
+\end{abstract}
+\tableofcontents\clearpage
+\part{Inputs, conventions, and scope}
+'''
+    parts = [preamble, (WORK/'root/intro.tex').read_text(), '\n\\part{Checked findings and checked conditional reductions}\n']
+    for rel in ['rectangular/findings.tex', 'root/findings.tex', 'isolation/findings.tex', 'purity/findings.tex', 'purity/zero_status.tex']:
+        parts += [f'\n% BEGIN SOURCE work/{rel}\n', (WORK/rel).read_text(), f'\n% END SOURCE work/{rel}\n']
+    parts += ['\n\\part{The Grothendieck restatement}\n', (WORK/'root/grothendieck.tex').read_text(),
+              '\n\\part{Unchecked targets and unresolved gates}\n', (WORK/'root/open_gates.tex').read_text(),
+              '\n\\appendix\n\\part{References, exact locators, and audit scope}\n']
+    for name in ['rectangular', 'isolation', 'purity', 'root']:
+        source = WORK / name / 'sources.md'
+        if source.exists():
+            text = subprocess.run(['pandoc', '-f', 'gfm', '-t', 'latex', str(source)], check=True,
+                                  capture_output=True, text=True).stdout
+            parts.append(text)
+    parts.append('\n\\end{document}\n')
+    (OUT/'CUE_GCT.tex').write_text(''.join(parts))
+
+    questions = []
+    for name in ['rectangular', 'isolation', 'purity', 'root']:
+        path = WORK/name/'questions.tsv'
+        if not path.exists(): continue
+        for row in read_rows(path):
+            identifier = row.get('id') or row.get('statement_id')
+            source = row.get('source_locator') or row.get('source_and_locator') or row.get('source') or row.get('evidence') or row.get('question_group') or ''
+            state = row.get('state') or row.get('status') or ''
+            answer = row.get('finding_or_gate') or row.get('answer') or row.get('finding_ids') or row.get('current_gate') or ''
+            remaining = row.get('remaining_gate', '')
+            questions.append({'id': identifier, 'source_and_locator': source, 'question': row.get('question', ''),
+                              'state': state, 'finding_or_current_gate': answer + (' Remaining: '+remaining if remaining else '')})
+    write_rows(OUT/'QUESTIONS.tsv', ['id','source_and_locator','question','state','finding_or_current_gate'], questions)
+
+    events = []; seen = set()
+    for path in sorted(WORK.rglob('*.tsv')):
+        if 'check_events' not in path.name and not path.name.endswith('_events.tsv'): continue
+        for row in read_rows(path):
+            if not row.get('statement_id'): continue
+            who = row.get('who') or row.get('who_model_effort_run') or ''
+            record = {'statement_id': row['statement_id'], 'date': row.get('date',''), 'who_model_effort_run': who,
+                      'type': row.get('type',''), 'outcome': row.get('outcome',''), 'event_source': str(path.relative_to(BASE))}
+            key = tuple(record.values())[:-1]
+            if key not in seen: events.append(record); seen.add(key)
+    write_rows(OUT/'CHECK_EVENTS.tsv', ['statement_id','date','who_model_effort_run','type','outcome','event_source'], events)
+    (OUT/'BUILD_STATUS.json').write_text(json.dumps({'assembled_utc': now, 'question_rows': len(questions),
+                         'check_events': len(events), 'status': 'working; unrestricted main questions unresolved'}, indent=2)+'\n')
+    print(json.dumps({'assembled_utc':now,'question_rows':len(questions),'check_events':len(events),'tex':str(OUT/'CUE_GCT.tex')}))
+
+
+if __name__ == '__main__': main()
