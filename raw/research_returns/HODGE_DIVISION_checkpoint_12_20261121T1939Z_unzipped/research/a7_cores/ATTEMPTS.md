@@ -1,0 +1,7 @@
+# A7 calculation and residual alternating leads
+
+The first inventory call mistakenly requested ExtensionInfoCharacterTable on the extension table A7.2. GAP reported no applicable method, despite process exit0. This failure was detected from the actual output; the inventory was corrected to query the simple A7 table, and the succeeding export and all assertions completed. Optional-package startup warnings do not constitute a successful mathematical check; the exact completed assertions and outputs do.
+
+Before this finite endpoint, the root searched for general alternating genus estimates. Guralnick--Shareshian, Memoirs AMS189(886), DOI10.1090/memo/0886, was found only through abstracts and subsequent citations; the original full theorem was not read or used. An MSRI original-source URL timed out. A negative character-ratio project advertised as in preparation was not treated as a theorem. A possible permutation-genus-to-Specht deduction failed: large aggregate genus does not itself bound every irreducible multiplicity. None of these searches is counted as movement.
+
+The successful finite proof treats exactly transitive A7-cover cores in the nonsplit source gate. It does not claim to exclude arbitrary nontransitive mixed representation labels. Original ATLAS data are cited mathematical inputs; the new claims are complete exact inequalities and their actual period-budget consequence.

@@ -1,0 +1,374 @@
+\section{Exclusion of every $G_2$ and triality normal core}
+\label{sec:g2-triality-cores}
+
+\paragraph{Status and input boundary.}
+This new author derivation has passed an independent whole-proof and
+source audit by \texttt{/root/g34\_eightfolds}.  That reviewer also
+reconstructed every original generic entry and every small-cover spectrum
+with separate exact arithmetic implementations; both passed.  The
+root reviewer has separately passed the complete mathematical and code
+review and rerun every certificate; its remaining source read is
+recorded separately.  The complete published
+character tables, their official generic-table implementation, and the
+published list of exceptional Schur multipliers are mathematical inputs.
+The new bounds below are proved from those inputs by rational polynomial
+inequalities and exact cyclic Fourier calculations.  In particular, the
+assertions for unbounded field size do not extrapolate a finite scan.
+The source log distinguishes original papers actually retrieved from
+published inputs accessed through their official mathematical tables.
+
+As before, for a finite-order operator on an $a$-dimensional complex space,
+write
+\[
+ \nu(T)=a-\max_{\lambda}\dim\ker(T-\lambda).
+\]
+Multiplication by a scalar does not change $\nu$.  A genuine nonidentity
+scalar inertia has ordinary moving rank $a$.
+
+\subsection*{D-G2T-01. Uniform bounds from the complete generic tables}
+
+\begin{lemma}[D-G2T-01: all-field character bounds]
+\label{D-G2T-01}
+Let $S$ be $G_2(q)$ with $q\ge5$, or ${}^3D_4(q)$ with $q\ge3$.
+For every nontrivial ordinary irreducible character $\chi$ of $S$ and
+every $s\ne1$,
+\[
+                  |\chi(s)|\le\tfrac14\chi(1).             \tag{G2T.1}
+\]
+Moreover $\chi(1)\ge124$ in the first family and
+$\chi(1)\ge219$ in the second.
+\end{lemma}
+
+\begin{proof}
+The complete ordinary $G_2$ tables are the published inputs of
+Enomoto--Yamada in characteristic two, Enomoto in characteristic three,
+and Chang--Ree in the other characteristics
+\cite{G2T:EY,G2T:Enomoto,G2T:ChangRee}.
+For triality we use Deriziotis--Michler's complete table
+\cite[\S4, Theorem~4.3 and Tables~3.6, 4.4]{G2T:DM}.
+The official GenericCharacterTables implementation, descended from
+CHEVIE, records these exact sources and supplies all the mathematical
+entries \cite{G2T:GCT,G2T:CHEVIE}.
+We freeze its source at commit
+\texttt{87231738271ed548f62e7f1c98ff2bbfc1ed30d3}.
+
+The following inventory is exhaustive.  The integer in the fourth
+column is the number of character types and also the number of
+class types; a type may contain several parameterized characters
+or classes.  The last column is a proved lower bound for every
+nontrivial character degree throughout the stated real range.
+\[
+\begin{array}{c|l|r|r|r}
+\text{table}&\text{field condition}&q_0&\text{types}&\text{degree bound}\\\hline
+\texttt{G2.01}&q\text{ even},\ q\equiv1\ (3)&5&27&126\\
+\texttt{G2.02}&q\text{ even},\ q\equiv2\ (3)&5&27&124\\
+\texttt{G2.101}&q=3^f,\ q\equiv1\ (4)&5&28&280\\
+\texttt{G2.103}&q=3^f,\ q\equiv3\ (4)&5&28&280\\
+\texttt{G2.111}&q\text{ odd},\ q\equiv1\ (3),\ q\equiv1\ (4)&5&31&126\\
+\texttt{G2.113}&q\text{ odd},\ q\equiv1\ (3),\ q\equiv3\ (4)&5&31&126\\
+\texttt{G2.121}&q\text{ odd},\ q\equiv2\ (3),\ q\equiv1\ (4)&5&31&124\\
+\texttt{G2.123}&q\text{ odd},\ q\equiv2\ (3),\ q\equiv3\ (4)&5&31&124\\
+\texttt{3D4.0}&q\text{ even}&3&29&219\\
+\texttt{3D4.11}&q\text{ odd},\ q\equiv1\ (4)&3&33&219\\
+\texttt{3D4.13}&q\text{ odd},\ q\equiv3\ (4)&3&33&219
+\end{array}                                                    \tag{G2T.2}
+\]
+For each type, all admissible values of every class and character
+parameter are retained in the published interpretation.  Our estimates
+are independent of their values, as follows.
+
+Every table entry is a finite expression
+\[
+                z(q)=\sum_\alpha p_\alpha(q)u_\alpha,
+                \qquad p_\alpha(q)\in\mathbf Q[q],
+                \qquad |u_\alpha|=1.                       \tag{G2T.3}
+\]
+Here each $u_\alpha$ is a product of the roots of unity occurring
+in that entry.  Equal formal products may be collected, while
+relations between different products need not be used.  The
+original generic cyclotomics have exponents that are rational
+expressions in the real integral parameters, so each phase
+indeed has absolute value one for every admissible specialization.
+
+Put $x=q-q_0\ge0$ and expand exactly
+\[
+ p_\alpha(q_0+x)=\sum_k c_{\alpha k}x^k,
+ \qquad d(q_0+x)=\sum_k d_kx^k,
+\]
+where $d$ is the degree polynomial of the row.  The triangle inequality
+gives the uniform bound
+\[
+                 |z(q)|\le
+                 \sum_k\left(\sum_\alpha|c_{\alpha k}|\right)x^k.
+                                                               \tag{G2T.4}
+\]
+Thus it suffices to check, for every nontrivial row and every
+nonidentity column,
+\[
+                  d_k-4\sum_\alpha|c_{\alpha k}|\ge0
+                         \quad\hbox{for every }k.           \tag{G2T.5}
+\]
+Every one of these rational inequalities is nonnegative in all
+eleven tables.  Also every $d_k$ is nonnegative, and $d_0$ is at
+least the number recorded in (G2T.2).  This proves the claimed
+uniform degree bounds as well as (G2T.1).
+
+Here are the complete finite verification details.
+\texttt{build\_generic\_input.py} reads the eleven frozen source
+files, checks their separately recorded SHA-256 hashes, and
+extracts only the original character entries, declared degrees,
+and declared class lengths.  It does not execute downloaded
+Julia code.  The resulting offline mathematical input
+\texttt{generic\_character\_entries.json} has $415124$ bytes and
+SHA-256
+\texttt{66ad9b13d457d141d424084336787b3bb1f9d53818475b806f7a6cc24eb3664b}.
+
+\texttt{parse\_generic\_bounds.py} accepts only integer constants,
+the indeterminate $q$, rational constant division, addition,
+multiplication, nonnegative integer powers, and formal unit phases.
+It checks that the trivial row consists of ones, that every first
+column entry equals the separately declared degree, and that the
+first class length is one while all other class lengths are
+strictly greater than one throughout the relevant range.  The
+last assertions follow from nonnegative translated coefficients
+and a positive constant term after subtracting one.
+It then constructs and checks (G2T.5) for all $318$ nontrivial
+row types and all $9242$ nontrivial-row, nonidentity-column
+entries.  All checks pass.
+
+The complete rational coefficient lists, excluding run-specific timing
+data, are retained in
+\texttt{generic\_polynomial\_bounds.json}; their SHA-256 is
+\texttt{568425a2cf62e62dbe24709a3372d9bd182946e0a53ae74e7fed45ba640dcd13}.
+A second, short program, \texttt{check\_generic\_polynomials.py},
+uses only Python's exact rational arithmetic to recheck every
+shifted coefficient inequality and every minimum degree from
+these lists.  It also passes.  This second program validates
+the polynomial certificate; the first program separately
+verifies its correspondence with the retained original table
+expressions.  Neither is offered as a new proof of the published
+character-table classification itself.
+\end{proof}
+
+\subsection*{D-G2T-02. Exceptional covers and all outer normalizers}
+
+\begin{lemma}[D-G2T-02: normalizer bounds]
+\label{D-G2T-02}
+Let $N$ be a finite quasisimple group acting faithfully and
+irreducibly in degree $a$, whose simple quotient is $G_2(q)$,
+$q\ge3$, or ${}^3D_4(q)$, $q\ge2$.
+Every nonscalar finite-order element of its complex linear
+normalizer satisfies
+\[
+                         \nu(T)\ge3a/16.                  \tag{G2T.6}
+\]
+Every such $a$ is at least twelve.  If the simple quotient is
+$G_2(3)$, $G_2(4)$, or ${}^3D_4(2)$, the stronger bound
+$\nu(T)\ge a/4$ holds and the respective minimum degrees are
+$14,12,26$.  In the other cases the degree bounds in
+D-G2T-01 apply.
+\end{lemma}
+
+\begin{proof}
+The generic simply connected groups of these two types have
+trivial center.  The only exceptional multipliers in these
+families are those of $G_2(3)$ and $G_2(4)$; the complete
+published exceptional list is \cite[Chapter~5, Table~1,
+numbered p.~35]{BI:HHM}.  In particular there is no omitted
+triality central cover.  For the three small simple groups,
+the universal covers and their full cyclic outer extensions
+are the following complete official CTblLib inputs:
+\[
+\begin{array}{c|r|r|r|r|c}
+\text{table}&\text{classes}&\text{selected rows}&
+ \text{nonscalar spectra}&\min a&\min\nu/a\\\hline
+\texttt{3.G2(3)}&45&44&1848&14&3/7\\
+\texttt{3.G2(3).2}&39&20&740&14&3/7\\
+\texttt{2.G2(4)}&55&54&2862&12&1/3\\
+\texttt{2.G2(4).2}&65&48&3024&12&1/3\\
+\texttt{3D4(2)}&35&34&1156&26&4/13\\
+\texttt{3D4(2).3}&49&39&1872&26&4/13
+\end{array}                                                    \tag{G2T.7}
+\]
+The extension metadata record respectively multiplier and outer
+orders $(3,2),(2,2),(1,3)$, in the sense of CTblLib
+\S3.7-3 \cite{SPOR:CTblLib}.  Every source string records
+the ATLAS; the group identities and complete tables are
+published mathematical inputs.
+
+The GAP exporter retains every character, class size, element
+order, prime power map, source string, and actual core-to-extension
+class fusion.  It verifies full character-row orthogonality.
+The standalone verifier selects every nonlinear core character
+and every extension character whose restriction equals a
+nonlinear irreducible core character, by exact equality of
+all its character values.  It checks fusion orders, trivial
+identity kernel, normal-class size unions, and compatibility
+with all retained prime power maps.
+
+For an element $s$ of order $o$, every eigenvalue multiplicity is
+computed by the exact Fourier formula
+\[
+       m_b=\frac1o\sum_{j=0}^{o-1}\chi(s^j)\zeta_o^{-bj},
+                      \quad 0\le b<o.                    \tag{G2T.8}
+\]
+Prime power maps compute every power class.  Cyclotomic
+polynomials and integer coefficient lists perform all arithmetic;
+every $m_b$ is checked to be a nonnegative integer and their
+sum is checked to equal $a$.  Scalar classes are recognized
+by $|\chi(s)|^2=a^2$, which is equivalent to scalar action for
+a finite-order unitary operator.  The full computation comprises
+$239$ selected rows and $11502$ nonscalar spectra, with precisely
+the minima in (G2T.7).  It passes, and every ratio is at least
+one quarter.
+
+The input \texttt{g2\_triality\_small\_inputs.json} has SHA-256
+\texttt{e4a8aefbf5a4a32a5b31b217143ccae03db8b9f3753cc2e91a6169d0364b6a7c}.
+The author programs are \texttt{export\_g2\_triality\_small.g}
+and \texttt{check\_g2\_triality\_small.py}.  The latter reuses
+the fully reviewed exact cyclotomic Fourier helper from D-SPOR.
+
+We explain why these six fixed tables cover arbitrary compatible
+small-group normalizers, including scalar changes in a power
+relation.  Lift the representation to the universal perfect cover
+$U$.  Every automorphism of its simple quotient has a unique
+lift to $U$.  An inner normalizer is scalar times a represented
+element of $U$.  For an outer normalizer, choose a matching
+generating coset in the recorded extension $A=U.r$,
+where $r=2$ or $3$.  After an inner adjustment, its action on
+$U$ agrees with that of an element $t\in A$.  Write $t^r=u_0$.
+Schur's lemma gives $T^r=c\rho(u_0)$ for a nonzero scalar $c$.
+After multiplying $T$ by an $r$th root of $c^{-1}$, its
+conjugation and power relations give a representation of this
+fixed $A$ extending $\rho$.  It is irreducible because its
+restriction to $U$ is irreducible.  Thus its row is among the
+tested rows.  Nonfaithful central kernels cause no loss: all
+nonlinear rows of the universal cover were retained.  This proves
+the small-group quarter bound with no presumption that every
+outer automorphism preserves every central kernel.
+
+For all other field sizes, D-G2T-01 gives the character ratio
+$1/4$ on the centerless core.  The complex commutator argument
+of D-BI-18 gives (G2T.6) for every normalizer, not merely for
+inner elements.  Explicitly, if $T$ is nonscalar, there is
+$u\in N$ with $[T,u]\ne1$, by irreducibility.  The rank
+inequality
+\[
+                \operatorname{rank}([T,u]-1)\le2\nu(T)
+\]
+holds after subtracting a largest-eigenspace scalar from $T$.
+If $[T,u]$ is nonscalar, its unitary trace and (G2T.1) imply
+\[
+ a-2\operatorname{rank}([T,u]-1)
+       \le\operatorname{Re}\chi([T,u])\le a/4,
+\]
+so $\nu(T)\ge3a/16$.  A nonidentity scalar commutator instead
+has full moving rank $a$, giving the stronger $\nu(T)\ge a/2$.
+The smallest degrees are those already certified in (G2T.2)
+and (G2T.7), proving every assertion.
+\end{proof}
+
+\subsection*{D-G2T-03. The whole finite-cover source exclusion}
+
+\begin{theorem}[D-G2T-03: $G_2$ and triality core exclusion]
+\label{D-G2T-03}
+Let an inducing block of a finite-cover Weil sixfold source have
+finite image $J\subset\operatorname{GL}(V)$.  Suppose $J$ has
+an irreducibly acting normal central product of quasisimple
+groups whose simple quotients belong to
+\[
+                G_2(q)\ (q\ge3),\qquad
+                {}^3D_4(q)\ (q\ge2).
+\]
+Then the actual period rank of the source is at most eight.
+
+Mixed factor types, arbitrary scalar phases, compatible outer
+automorphisms, and factor permutations are allowed.  No
+primitivity, tensor-indecomposability, essential-self-duality,
+equality of inducing and original fields, or nonsplit-polarization
+hypothesis is required.
+\end{theorem}
+
+\begin{proof}
+Write the normal central product as $N=N_1\cdots N_t$.
+Its irreducible representation has the form
+$V=V_1\otimes\cdots\otimes V_t$, with faithful irreducible
+factor representations of dimensions $a_i\ge12$.
+Set $e=\dim V=\prod_i a_i$.  The simple direct factors of
+$N/Z(N)$ are intrinsic.  Each $N_i$ is the derived subgroup
+of the inverse image of its simple factor, so $J$ permutes
+the $N_i$.  Their generated full matrix algebras
+$\operatorname{End}(V_i)\otimes1$ are consequently permuted
+as well.  Every normalizing operator therefore consists of
+factor intertwiners and a permutation of the appropriate
+isomorphic factor spaces.
+
+If the operator preserves all factors and is nonscalar,
+one factor intertwiner is nonscalar.  Fixing all other
+eigenvalues shows that the largest eigenspace fraction of
+the tensor operator is no larger than the largest such
+fraction in that factor.  Formula (G2T.6) therefore gives
+$\nu(g)\ge3e/16$.
+
+For a nontrivial permutation cycle of length $l\ge2$ on
+factors of equal dimension $a$, tensor changes of basis
+put its action in the form of cyclic word rotation with
+a single diagonal twist.  The product twist is diagonalizable:
+the finite order of the whole operator implies finite order
+up to scalar for its powers on each tensor cycle.
+Each orbit of the resulting basis words contributes at most
+one vector to a specified eigenspace.  There are $a$ constant
+words, and every other orbit has size at least two.  Hence
+the largest eigenspace dimension is at most
+\[
+                    a+(a^l-a)/2\le3a^l/4.
+\]
+Tensoring with the other cycles preserves this bound, so
+$\nu(g)\ge e/4\ge3e/16$.  This is the weighted cyclic-word
+argument of D-SPOR-03 and does not assume that the twists
+have distinct eigenvalues.  Nonidentity scalar inertia has
+ordinary moving rank $e$.  Thus every genuine inertia has
+ordinary moving rank at least $3e/16$.
+
+Suppose the actual period rank were nine.  Apply the proved
+intermediate-cover factorization D-BI-01 to this inducing
+block.  It remains valid when the inducing character field
+is larger than the original quadratic field: the first
+complex Hodge filtration factors through that intermediate
+cover, and the conjugate filtration is its Hermitian
+annihilator.  If the intermediate base has genus $h$ and
+$R$ genuine branch points, the multiplicity-six Euler formula is
+\[
+                      D=6+2e(1-h),\qquad R\le D.           \tag{G2T.9}
+\]
+For $h\ge2$, its right side is negative because $e\ge12$.
+For $h=1$, the actual period map factors through a finite
+Hurwitz cover of dimension at most six.  Consequently rank
+nine requires $h=0$ and $R\ge12$, and then $D=2e+6$.
+The inertia estimate proves the necessary inequality
+\[
+              12\left\lceil\frac{3e}{16}\right\rceil
+                   \le2e+6,
+                   \qquad e\le24.                        \tag{G2T.10}
+\]
+This is an obstruction obtained from factorization of the
+actual variation, not a sufficiency inference from a source
+dimension count.
+
+If $t\ge2$, then $e\ge12^2=144$, contradicting (G2T.10).
+For a single factor outside the three small cases,
+D-G2T-01 gives $e\ge124$ or $e\ge219$, also impossible.
+For a single factor in those cases, the quarter bound of
+D-G2T-02 gives $3e\le2e+6$, hence $e\le6$, contrary to
+the respective minima $14,12,26$.  Every case is excluded.
+Since the target Weil period domain has dimension nine,
+the actual period rank is at most eight.
+\end{proof}
+
+\paragraph{Boundary of the result.}
+The nonsimple group $G_2(2)$ is not included.  Its derived
+simple group is $U_3(3)$, as recorded in
+\cite[Chapter~5, numbered p.~35]{BI:HHM}, and belongs to a
+separate unitary-group gate.  No assertion about the other
+classical or exceptional families is inferred from this
+calculation.

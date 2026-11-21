@@ -1,0 +1,261 @@
+# Imprimitive sources: exact reduction and rank obstruction
+
+Run: HODGE_DIVISION, agent `/root/imprimitive`.
+Date: 2026-11-21. Model: GPT-6 Astra Pro (session identity); effort: inherited, not externally exposed.
+The new proofs D-IM-01--08 have independent whole-proof checks, with the exact scope of each event recorded in `CHECK_EVENTS.tsv`. The finite certificates, including the nine rank-one Nielsen tuples of D-IM-08, were also independently reconstructed.
+
+## Conventions and scope
+
+Let d be 3, 4, or 6, e a positive divisor of d, and m>=3. Put K=Q(zeta_d).
+We use G(d,e,m) for the group of m by m monomial matrices whose nonzero entries lie in mu_d and whose product belongs to mu_{d/e}. Thus the sum of the entry exponents is 0 modulo e. Let rho be its natural K-representation.
+
+All claims below concern this natural representation and one multiplicity abelian factor of its rational conjugate pair. They do not concern every irreducible representation of the abstract finite group. A different representation must be checked separately.
+
+The field and group are fixed on each Hurwitz family. A countable union of different group constructions is not asserted to have a single finite-type parameter space.
+
+Published convention references: Lehrer--Taylor, *Unitary Reflection Groups* (Cambridge, 2009), Chapter 2, sections 1--3, pp.23--27, especially Proposition 2.10 as corrected in the authors' errata dated 5 February 2025; Lewis--Wang, *The Hurwitz action in complex reflection groups*, Combinatorial Theory 2(1) (2022), section 2.1. The needed induced-representation identification is proved below in the precise form used here.
+
+## D-IM-01. Every natural imprimitive factor is a cyclic Prym factor
+
+**Statement.** Suppose C is a smooth connected projective complex curve with faithful G=G(d,e,m) action. Let H be the stabilizer of the first coordinate line, let chi:H->mu_d be its action on that line, and put L=ker(chi). Then chi is onto and H/L is cyclic of order d. For
+
+    Y=C/L,  X=C/H,
+
+the morphism Y->X is a connected cyclic d-cover. The abelian factor B associated with one copy of the rational conjugate pair of rho is K-isogenous to the primitive cyclotomic factor P of J(Y). Its Hodge structure is exactly the pair of chi and chi-bar eigenspaces of H^1(Y).
+
+If B is chosen as the image of the self-adjoint rational primitive idempotent described below, it is the image of P under pullback J(Y)->J(C). If theta_C and theta_Y are the canonical principal polarizations, the resulting isogeny u:P->B satisfies
+
+    u^*(theta_C|_B)=|L| theta_Y|_P.
+
+The isogeny kernel is killed by |L|, hence has order at most |L|^(4n) when dim P=2n. In particular the degree and polarization scaling are constant-bounded in a fixed Hurwitz family.
+
+**Proof.** The coordinate-line stabilizer H has index m. It contains diag(zeta_d,zeta_d^(-1),1,...,1), so chi is surjective even when e=d. The map
+
+    Ind_H^G chi -> K^m,  g tensor v |-> v g e_1
+
+is well defined: replacing g by gh multiplies the image by chi(h), as required in the tensor definition of induction. It is surjective, since permutation matrices carry e_1 to every e_j. Its source and target both have dimension m, so it is an isomorphism.
+
+The natural representation is absolutely irreducible. Indeed the diagonal normal subgroup has distinct coordinate characters when m>=3 and d>=3. (For coordinates i!=j, change the i-th diagonal entry by zeta_d and a third entry by zeta_d^(-1), leaving the j-th entry unchanged.) An invariant subspace is consequently a sum of coordinate lines, and transitivity of the permutation matrices makes that sum either zero or the whole space. The representation is not isomorphic to its conjugate: diagonal elements with exponent triples (1,1,d-2), padded by zeros, have nonreal trace for d=3,4,6. Thus rho and rho-bar are the two distinct complex constituents of a rational irreducible block Mat_m(K).
+
+For any K[G]-module V, Frobenius reciprocity in this explicit induced model identifies Hom_G(rho,V) with its chi-eigenspace for H. Apply this to the Hodge structure H^1(C,K). Pullback for p:C->Y identifies H^1(Y,K) with H^1(C,K)^L. To see this directly, the graph correspondences satisfy p_* p^*=|L| and p^*p_*=sum_{l in L} l^* on H^1. The latter average is the invariant projector. The identifications preserve Hodge types and the K-action. Therefore
+
+    Hom_G(rho,H^1(C,K)) = H^1(Y,K)_chi,
+
+and likewise for the conjugate character. This proves the asserted equality of multiplicity Hodge structures.
+
+For an algebraic realization, use
+
+    f=(1/|H|) sum_{h in H} (chi(h)^(-1)+chi-bar(h)^(-1)) h in Q[G].
+
+The coefficients are rational because K is quadratic. This is the sum of the two H-character projectors. Frobenius reciprocity and Ind_H^G chi=rho show that it vanishes on all other G-irreducibles and has rank one on each of rho and rho-bar. It is thus a rational primitive idempotent of the Mat_m(K) block. It is self-adjoint for the group-invariant polarization: h^dagger=h^(-1), and the sum of the conjugate characters is inversion invariant. Its image in J(C), understood as the image of any integral multiple of f, is precisely p^*P. Hence the equality of Hodge structures is induced by an algebraic isogeny, not just an abstract pointwise identification. Any other fixed primitive-idempotent realization is isogenous by fixed rational group-algebra matrix units.
+
+For Jacobian pullback, the polarization adjoint of p^* is the norm p_*, and p_*p^*=[|L|]. Therefore (p^*)^*theta_C=|L|theta_Y; restriction gives the displayed equality. The kernel of p^* is annihilated by |L| by the same norm identity. On P[|L|], its order is at most |L|^(2 dim P). All correspondences and group denominators are fixed in the family. This completes the proof.
+
+## D-IM-02. Exact Chevalley--Weil criterion in colored-cycle notation
+
+**Statement.** Let (g_1,...,g_r) be nonidentity elements of G(d,e,m) which generate G and have product one. They define connected G-covers of P^1. For each permutation cycle c of g_b, write ell_c for its length and a_c in {0,...,d-1} for the exponent of the product of its matrix entries. Define
+
+    A=sum_(b,c)(ell_c-1),
+    R=# {(b,c): a_c != 0},
+    S=sum_(b,c:a_c!=0) a_c/d.
+
+The natural multiplicity abelian variety is Weil type of dimension 2n and signature (n,n) if and only if
+
+    A+R=2m+2n,   S=R/2.
+
+The intermediate curve X of D-IM-01 has genus h=1-m+A/2. The cyclic cover Y->X is branched at precisely R points, with local character exponents the nonzero a_c. Equivalently the signature criterion is
+
+    R=2(n-h+1),  sum a_c=dR/2.
+
+**Proof.** A colored permutation cycle has characteristic polynomial t^ell-zeta_d^a. Its eigenvalue angles in [0,1) are (a/d+k)/ell for k=0,...,ell-1. Their sum is (ell-1)/2+a/d. The number of its eigenvalues different from one is ell-1 if a=0, and ell otherwise. Hence, writing age(g) for the sum of angles,
+
+    sum_b age(g_b)=A/2+S,
+    sum_b age(g_b^(-1))=A/2+R-S.
+
+Chevalley--Weil for the nontrivial irreducible rho over a genus-zero base gives multiplicities
+
+    -m+A/2+S,  -m+A/2+R-S
+
+in the two conjugate holomorphic multiplicity spaces, in an order depending only on the convention for monodromy versus pullback. Equality of both to n is exactly the two conditions stated. This is the formula already supplied in HODGE_DIVISION_ATTACK, Proposition O' and Corollary O''; it is used, not reproved.
+
+The degree-m map X=C/H->P^1 has local permutation monodromy g_b's permutation. Riemann--Hurwitz therefore gives 2h-2=-2m+A. Over a branch value, each permutation cycle gives one point of X. Going ell times around that point applies g_b^ell to the chosen coordinate line, with scalar zeta_d^a. Thus Y->X ramifies at that point exactly when a!=0, with the stated local exponent. Substitution of the Riemann--Hurwitz formula proves the equivalent form.
+
+This is an exact criterion for any actual generating product-one tuple. It does not replace the product-one and generation tests or classify braid orbits of all such tuples.
+
+## D-IM-03. The imprimitive route cannot dominate for n>=4
+
+**Statement.** On every fixed Hurwitz component as above with Weil signature (n,n),
+
+    rank(d period map) <= dim(image) <= min(r-3, h+2n-1) <= 3n.
+
+Here rank means the rank at any smooth point where the relevant moduli maps are defined; the generic rank equals image dimension in characteristic zero. If e<d, the last bound improves to 3n-1. Consequently no such natural-representation family dominates an n^2-dimensional Weil family for n>=4. For n=5 the bounds are 15 when e=d and 14 when e<d, both below 25.
+
+**Proof.** D-IM-01 gives a family-level rational polarized-Hodge identification with a cyclic Prym factor. Forgetting the degree-m map X->P^1 therefore factors the period map, up to a fixed isogeny correspondence, through the moduli of the cyclic cover Y->X. The local system and polarization identification is fixed; a discrete choice of finite kernel adds no tangent directions. By D-IM-02 that cyclic cover has base genus h and R=2(n-h+1) branch points. With fixed local exponents, there are finitely many cyclic covers over a fixed pointed X: their root data differ by d-torsion in J(X). Their moduli dimension is consequently 3h-3+R=h+2n-1. For h=0 or1 the same formula holds because R=2n+2 or2n respectively, so the pointed curves are stable. For h>=2 it is the ordinary stable pointed-curve formula; when R=0 it gives 3h-3. Also R>=0 forces h<=n+1. This proves the bound and proves it at the differential level through factorization, without inferring rank from source dimension.
+
+If e<d and R=0, every colored cycle of every g_b has color zero. Each g_b then has total entry product one, hence belongs to G(d,d,m), a proper subgroup of G(d,e,m). This contradicts generation. Thus R>0; since R=2(n-h+1) it is even, so R>=2 and h<=n. The bound becomes 3n-1. The asserted non-dominance follows from n^2>3n for n>=4.
+
+The rank inequality in the first display should be read with dim(image) as the generic rank; at special points rank cannot exceed that generic rank. No exact rank for each arbitrary Nielsen class is asserted.
+
+## D-IM-04. Large reflection Hurwitz spaces really exist
+
+**Statement.** For all m>=3 and n>=1, there are product-one generating reflection tuples in G(d,d,m) of length 2m+2n whose natural factor has signature(n,n); their source has dimension 2m+2n-3 but their period image has dimension at most3n. If e<d, analogous tuples of length2m+2n exist with exactly two diagonal reflections and intermediate base genus n; their image has dimension at most3n-1.
+
+**Proof.** Let s_i exchange coordinates i and i+1 with no phases, for i=1,...,m-1. Let t exchange coordinates1,2 with opposite phases zeta_d,zeta_d^(-1). Every s_i and t is an involutive reflection. The s_i generate S_m; s_1 t gives a diagonal matrix with opposite primitive phases in coordinates1,2. Its conjugates by S_m generate all diagonal matrices whose entry product is one. Hence s_1,...,s_(m-1),t generate G(d,d,m).
+
+List each of these m generators twice consecutively, and append n additional pairs (s_1,s_1). The resulting tuple has product one, generates the group, and has length2m+2n. Every local eigenvalue list is (1,...,1,-1), so the two ages are both1/2 and Chevalley--Weil gives both multiplicities n. Riemann existence produces a nonempty Hurwitz family of source dimension r-3. Every permutation branch point is a transposition and every cycle color is zero, so the intermediate cyclic cover is etale and h=n+1.
+
+For e<d, adjoin the diagonal reflection u=diag(zeta_d^e,1,...,1), which generates the quotient G(d,e,m)/G(d,d,m). Start with the 2m tuple above, add (u,u^(-1)), then n-1 further pairs(s_1,s_1). The product is one and the generated group is G(d,e,m). The two diagonal eigenangles sum to one; all others contribute1/2. The multiplicities again equal n. The only nonzero cycle colors are e and d-e, giving R=2 and h=n. This proves the statement.
+
+At n=5,m=9 these tuples give 25-dimensional Hurwitz sources, with image at most15 or14. They are concrete counterexamples to treating the parameter count r-3>=n^2 as a sufficient dominance test.
+
+## D-IM-03G. General monomial obstruction
+
+**Statement.** The bound3n also holds for an arbitrary nonreal irreducible complex representation rho=Ind_H^G chi induced from a linear character, whenever its multiplicity factor is a Weil 2n-fold with holomorphic multiplicities(n,n). The order of chi need not be3,4,6. Thus any dominant curve-cover source for n>=4 must use a nonmonomial irreducible representation. This is a statement about representations, not about whether the abstract group has some monomial realization.
+
+**Proof.** Put L=ker chi and let d be the order of chi. Frobenius reciprocity identifies the rho and rho-bar multiplicity Hodge structures with the chi and chi-bar eigenspaces of the cyclic d-cover C/L->C/H. The character of H/L is faithful by construction. Adding the two cyclic Chevalley--Weil formulas therefore gives2n=2(h-1)+R, where h=g(C/H) and R is the number of branch points of that cyclic cover. Every deformation preserving this cyclic cover preserves the two multiplicity Hodge filtrations; any flat rational structure on the multiplicity factor coming from the fixed G-action is unchanged. Hence the local period differential factors through deformations of the cyclic cover and has rank<=3h-3+R<=3n, exactly as in D-IM-03. This argument uses only the eigenspace variation; when phi(d)>2, it does not assert that the entire primitive cyclotomic abelian factor of J(C/L) has dimension2n.
+
+## D-IM-05. A certified genus-six cyclic Prym differential of rank15
+
+**Statement.** For each d=3,4,6 there exists a smooth etale cyclic d-cover of a genus-six curve whose primitive cyclotomic Prym period map has differential of rank15. Thus the dimension bound3n is attained by the cyclic Prym family when n=5. `nodal_rank.py` and `nodal_rank_certificate.json` are exact finite-field minor certificates; the proof interpreting them is given next.
+
+**Proof.** Identify pairs (a_j,b_j)=(2j-1,2j), j=1,...,6, on P^1 to form an irreducible stable nodal curve X_0 of arithmetic genus6. Let eta restrict trivially to the normalization and have gluing zeta=zeta_d at every node. It has exact orderd. Choose residue conventions so that a section of omega_(X_0) tensor eta pulls back to
+
+    sum_j r_j(1/(x-a_j)-zeta/(x-b_j)) dx,
+
+with sum_j(1-zeta)r_j=0. Conversely every such differential descends. Thus the five sections F_j-F_6, j=1,...,5, form a basis, where F_j is the displayed j-th elementary differential. Replacing zeta by zeta^(-1) gives a basis for the inverse twist.
+
+Put D(x)=product_j(x-a_j)(x-b_j). After multiplying the differentials by D/dx, their numerators are the integral Z[zeta] polynomials
+
+    p_j(zeta)=D/(x-a_j)-zeta D/(x-b_j)-D/(x-a_6)+zeta D/(x-b_6).
+
+They have degree<=10. The25 products p_i(zeta)p_j(zeta^(-1)) represent the multiplication map into H^0(X_0,omega_(X_0)^2) as polynomials of degree<=20 over the common denominator D^2. Their leading polar coefficients match at each glued pair, so they belong to that target. The target has dimension15 by Riemann--Roch and H^1(omega^2)=0; the two source spaces have dimension5 because eta is nontrivial of degreezero and H^1(omega tensor eta)=H^0(eta^(-1))^*=0.
+
+The certificate reduces these integral coefficients modulo1009 under zeta_3->374, zeta_4->469, zeta_6->375. These elements have exact orders3,4,6. In every case the same15 columns (zero-based indices0,1,2,3,4,5,6,7,8,9,10,12,13,18,24) and rows0,...,14 have nonzero determinant. The residues are841,614,849 respectively. Hence these minors are nonzero already overQ(zeta_d); the multiplication rank is at least15, and the target dimension makes it exactly15. This is an exact lower-rank certificate in characteristiczero, not a floating point numerical approximation.
+
+It remains to pass to a smooth curve, rather than compute the differential on a singular moduli boundary. The torsion line bundle gives an etale mu_d-cover of X_0: take d copies of its normalization and glue above each node by the cyclic sheet shift specified by zeta. This cover is connected because the shift is primitive. Smooth each node of X_0 by local plumbing uv=t, and smooth all of its d preimages with the same parameter. The sheet permutations respect the plumbing. This produces a smooth connected etale cyclic d-cover over nearby nonzero parameters. Equivalently the etale torsor lifts over a deformation because [d] is etale on the relative smooth Picard space in characteristiczero. The source spaces H^0(omega tensor eta^(+/-1)) and target H^0(omega^2) have constant dimensions5,5,15 near the special fiber, by the vanishings just recorded and cohomology and base change. Multiplication is therefore a morphism of vector bundles whose rank15 locus is open. A nearby smooth fiber has multiplication rank15.
+
+For smooth etale cyclic covers, the codifferential of the primitive period map is precisely H^0(omega tensor eta) tensor H^0(omega tensor eta^(-1))->H^0(omega^2), the primitive character-pair component of Lange--Ortega, *Prym varieties of cyclic coverings*, Geom. Dedicata150(2011)391--403, Proposition4.1. Thus the smooth period differential has rank15, proving the statement.
+
+**Scope.** The finite-field matrix verification and the independent whole-proof check of the descent conventions and smoothing/base-change argument are complete; see the recorded events. Exact image dimensions for arbitrary fixed monodromy tuples are not consequences of this one witness.
+
+## D-IM-06. A certified two-branch-point genus-five differential of rank14
+
+**Statement.** For d=3,4,6 and each proper divisor e of d, the cyclic-cover moduli space of connected d-covers of genus-five curves with two ordered branch points and character exponents(e,d-e) has a point where the primitive period differential has rank14. Its dimension is14 and its primitive factor has Weil signature(5,5).
+
+**Proof.** Let X_0 be the rational nodal curve obtained by identifying
+
+    a_j=(2j)(2j+1)^d,  b_j=2j,  j=1,...,5,
+
+and mark0 and infinity. These twelve points on the normalization are distinct. Let eta have normalization O(infinity) and gluing multiplier
+
+    q_j=zeta_d/(2j+1)^e
+
+from the fiber at a_j to the fiber at b_j, in the affine trivialization. Since q_j^d=(b_j/a_j)^e, multiplication by x^(-e) on the normalization descends to an isomorphism
+
+    eta^d = O_(X_0)(e[0]+(d-e)[infinity]).
+
+Indeed the ratio of the image trivializations at b_j and a_j is q_j^d (a_j/b_j)^e=1. The normalized cyclic covering is w^d=x^e. Its e irreducible components are indexed by w^(d/e)/x in mu_e. The gluing sends this label to zeta_d^(d/e) times itself, so the whole nodal cover is connected. (If e=1 its normalization already is connected.)
+
+Write B=[0]+[infinity] and M=eta^(-1)(B). The normalization of M can be identified with O(infinity) using the frame x^(-1)eta^(-1). Its gluing multipliers are
+
+    q'_j=(b_j/a_j)/q_j.
+
+Sections of omega tensor eta are exactly the span of
+
+    F_j=(1/(x-a_j)-q_j/(x-b_j)) dx, j=1,...,5,
+
+in the normalization trivialization; an allowed simple pole at infinity removes the total-residue constraint present in D-IM-05. Sections of omega tensor M similarly have basis F'_j with q'_j. Their products, in the natural frame of omega^2(B), are F_i F'_j/x. At the two branches of every node the quadratic leading coefficients agree, because q_j q'_j=b_j/a_j. Thus these are descended sections of omega^2(B).
+
+Both eigenspace dimensions are5 by Riemann--Roch (eta and M have degree1); the target dimension is14. With D(x)=product_j(x-a_j)(x-b_j), the product numerators are
+
+    (D/(x-a_i)-q_i D/(x-b_i))
+       (D/(x-a_j)-q'_j D/(x-b_j)),
+
+over the common denominator xD^2. They have degree<=18. `additional_rank_certificates.py` computes their coefficient matrix over the residue field F_1009, at the same roots of unity as D-IM-05. None of the node coordinates or denominators vanishes or collides modulo1009. A14 by14 minor is nonzero in each case:
+
+| (d,e) | determinant modulo1009 |
+|---|---:|
+| (3,1) |133|
+| (4,1) |303|
+| (4,2) |106|
+| (6,1) |960|
+| (6,2) |487|
+| (6,3) |420|
+
+The exact rows, columns and matrices are in `additional_rank_certificates.json`. The rational denominators are units modulo1009, so nonzero reduction implies nonzero characteristic-zero determinant. These determinants were also recomputed by independent integer determinant arithmetic on the recorded finite-field matrices. Therefore the special multiplication map has rank14.
+
+Equivariant plumbing at the nodes, away from0 and infinity, smooths this connected cyclic cover while preserving its two local branch types. Cohomology and base change applies to the two source bundles and the target: their H^1 groups vanish because the dual bundles have negative degree. Thus rank14 persists on a nearby smooth cover.
+
+For completeness, the period-map formula in this two-exponent form follows from the same cup-product argument as Lange--Ortega Proposition4.1, but does not require their special uniform-branch-exponent convention. The tangent space to the fixed local-monodromy cyclic-cover moduli is H^1(X,T_X(-B)), since the root choice is finite etale over pointed curves. Its action on each holomorphic eigenspace is the Kodaira--Spencer cup product. Serre duality identifies its dual with multiplication of the two eigendifferentials followed by trace to X. The faithful conjugate characters at either branch point have complementary nonzero angles; in a local coordinate x=t^(d/e) their product descends to a quadratic differential with at most a simple pole. Thus the target is H^0(X,omega_X^2(B)), and under the eigensheaf identifications it is exactly
+
+    H^0(omega tensor eta) tensor H^0(omega tensor eta^(-1)(B))
+        -> H^0(omega^2(B)),
+
+up to a fixed nonzero trace scalar. This is the map computed. The smooth primitive period differential therefore has rank14.
+
+## D-IM-07. Exact maximal image dimensions for n=5
+
+**Statement.** Fix d=3,4,6 and m>=9. Among the natural-representation Hurwitz families in G(d,e,m) with Weil signature(5,5), the maximal image dimension is exactly15 if e=d and exactly14 if e<d. In particular the D-IM-04 doubled-reflection families attain these values; their generic period differential has the exact corresponding rank. This does not assert that every possible Nielsen class has maximal rank.
+
+**Proof, step1: connected cyclic-cover moduli.** Connected etale cyclic d-covers of genus h curves form an irreducible moduli space: their monodromy characters are the primitive vectors of H^1(X,Z/d), on which the mapping class group acts transitively. One way to verify the finite-modulus version is to lift a primitive residue vector to a primitive integer vector, extend it to a symplectic basis, and use the integral symplectic action. Primitive lifting follows by changing one coordinate by multiples of d to avoid the finitely many prime divisors of the gcd of the remaining coordinates; if all remaining coordinates vanish, change one of them to d first. The integral symplectic action on primitive vectors is transitive. The mapping class group surjects onto Sp_(2h)(Z) (Farb--Margalit, *A Primer on Mapping Class Groups*, Theorem6.4; Proposition6.2 and the change-of-coordinates principle give the primitive-vector form).
+
+For two ordered branch points with prescribed monodromies e,-e modulo d, write a character of the punctured surface group as its2h handle values v in (Z/d)^(2h) and those two puncture values. It defines a connected cover precisely when v modulo e is primitive, because gcd(d,e,v_1,...,v_(2h))=gcd(e,v_1,...,v_(2h)). Point-pushing the first branch point around a handle loop changes the corresponding dual handle value by e and leaves puncture values unchanged: on punctured homology it adds the puncture loop times the relevant algebraic intersection number. Independent handle loops therefore add arbitrary elements of e(Z/d)^(2h). Modulo e, the symplectic action is transitive on primitive vectors by the preceding argument. Given two connected-cover characters, first match their reductions modulo e by a mapping class, then use point-pushes to match the lifts modulo d. Thus the action is transitive on the entire set of connected-cover characters. This proves connectedness, hence irreducibility, of the corresponding smooth finite cover of the moduli stack of pointed curves. The point-pushes used here are those of Farb--Margalit, Theorem4.6 and Fact4.7; the homology action just described also follows by multiplying the two Dehn twists in Fact4.7. When e=1, the point-push translations alone are transitive.
+
+**Step2: forgetting the map to P^1 is locally onto.** Take any smooth cover represented by a D-IM-04 tuple and form its tower Y->X->P^1. The map f:X->P^1 is simply branched, of degree m. If e=d, X has genus6 and Y->X is etale. If e<d, X has genus5 and Y->X has two branch points p,q of exponents e,d-e; these are unramified points of f and their images are distinct from all critical values. All these are open conditions.
+
+Given a first-order deformation of the cyclic cover Y->X, equivalently of X (and p,q in the ramified case) with its discrete root data, the obstruction to extending f lies in H^1(X,f^*T_(P^1)). This vanishes because deg f^*T_(P^1)=2m>2h-2. More explicitly, lift f on affine patches using the smoothness of P^1. Differences of local lifts form a Cech1-cocycle in f^*T_(P^1); vanishing of H^1 allows the lifts to be corrected and glued. The same argument works over successive small extensions. Therefore the local space of such maps is smooth over the deformation space of the cyclic cover, and the forgetful map has surjective differential. The simple branch conditions remain open, and the finite monodromy tuple of the Galois closure is locally constant in this open set; hence we remain in the original full-G Hurwitz component.
+
+It follows that each doubled-reflection Hurwitz component maps onto an open set of the relevant irreducible cyclic-cover moduli. In the etale genus6 case, D-IM-05 gives generic period rank15. In the ramified genus5 case, D-IM-06 gives generic period rank14. Surjectivity of the forgetful differential implies the same generic rank on these Hurwitz components. The global upper bounds in D-IM-03 show that these are the exact maximal image dimensions.
+
+**A note on the domain degree assumption.** Here m>=9 is more than needed for the forgetful deformation argument: m>h-1 suffices. No Brill--Noether existence theorem is required because D-IM-04 already supplied a nonempty family and hence an initial degree-m map f.
+
+## D-IM-08. Explicit Nielsen classes with exact image dimension one
+
+**Statement.** For every d=3,4,6 and every divisor e of d, G(d,e,12) has a four-branch generating product-one tuple whose natural multiplicity factor has Weil signature (5,5). Every Hurwitz component containing the specified tuple has period image of dimension exactly one. Thus the maximal dimensions 15 and 14 in D-IM-07 are not the ranks of all Nielsen classes.
+
+**Explicit matrices.** Write zeta=zeta_d and use the convention that a colored permutation (pi,c) sends e_j to zeta^(c_j)e_(pi(j)). Let a have permutation (1 2 ... 12). If e=d, all its colors vanish; let b have permutation (1 2 ... 7), with colors +1 at domain coordinate 1, -1 at domain coordinate 7, and zero elsewhere. If e<d, give a the single color e at domain coordinate 12; let b have permutation (1 2 ... 6), with colors +1 at coordinate 1, -1 at coordinate 2, and zero elsewhere. Take
+
+    (g_1,g_2,g_3,g_4)=(a,a^(-1),b,b^(-1)).
+
+Every matrix belongs to G(d,e,12), every entry of the tuple is nonidentity, and its product is one.
+
+**Generation.** First consider the uncolored permutations a_0=(1 ... 12) and b_0=(1 ... k), where k=7 or 6. The permutation b_0^(-1)a_0b_0a_0^(-1) is the three-cycle (1 k k+1). Its a_0-conjugates have supports containing every adjacent pair on the twelve-cycle. These three-cycles generate A_12. Here is an elementary justification that avoids a permutation-group classification: three-cycles whose support hypergraph is connected generate the alternating group on that support. Start with one three-cycle, hence A_3. If a further support meets the accumulated support in two vertices, its conjugates by the existing alternating group add the new vertex and generate the larger alternating group. If it meets in one vertex and adds x,y, conjugate its old vertex to a second old vertex; the product of one cycle with the inverse of the other gives a three-cycle with two old vertices and x. Apply the preceding step twice. Connectedness permits this induction until all vertices have been added. Since a_0 is odd, a_0,b_0 generate S_12.
+
+Let H be the subgroup generated by the colored a,b. Its permutation projection is therefore S_12. Put c=a^(-1)b. Direct monomial multiplication gives, in the two cases respectively,
+
+    e=d: c^6=diag(zeta^6,1,1,1,1,1,zeta^(-1),...,zeta^(-1)),
+    e<d: c^7=diag(zeta^7,zeta^(-7),1,1,1,zeta^(-e),...,zeta^(-e)).
+
+The last repetitions have lengths six and seven, respectively. Conjugating a diagonal matrix by a monomial matrix depends only on its permutation. In the first case, commute c^6 with any lift in H of the transposition (2 7). The result has primitive opposite colors at coordinates 2 and 7. In the second, commute c^7 with a lift of (1 3); the result has opposite colors 7 and -7 at coordinates 1 and 3. Since 7 is invertible modulo d, its power supplies a primitive opposite-color diagonal. Conjugating by the permutation projection gives all such diagonals. Consequently H contains the entire diagonal subgroup D_0 of total color zero.
+
+If e=d, this proves H=G(d,d,12). If e<d, the quotient G(d,e,12)/D_0 is the direct product of the total-color group mu_(d/e) with S_12. The images of a,b are (zeta^e,a_0) and (1,b_0), and both permutations are odd. The commutator subgroup of their image contains {1} times A_12: it maps onto A_12 and lies in that subgroup, where permutation projection is injective. Modulo it, (zeta^e,-1) and (1,-1) generate mu_(d/e) times {+1,-1}. Thus the image is the full quotient and H=G(d,e,12). This completes the generation proof for every listed divisor, without an enumeration of the enormous full groups.
+
+**Signature and cyclic tower.** A colored cycle contributes one fixed vector precisely when its total color is zero. Therefore
+
+    (dim Fix(a),dim Fix(b))=(1,6) if e=d, and (0,7) if e<d,
+    n=-12+codim Fix(a)+codim Fix(b)=5.
+
+The inverse pairs make the two Chevalley--Weil multiplicities equal: age(g)+age(g^(-1))=codim Fix(g). The cyclic tower of D-IM-01 has h=6,R=0 in the first case and h=5,R=2 in the second, in agreement with D-IM-02. Riemann existence and the generation proof give the claimed nonempty Hurwitz curves, finite over M_(0,4).
+
+**Exact period rank.** Degenerate the four-punctured sphere along the partition separating (a,a^(-1)) from (b,b^(-1)). The monodromy at the separating node is one. The admissible G-cover has components indexed by G/<a> on one side and G/<b> on the other, and nodes indexed by G. Every component is rational: its map to the corresponding base component is a cyclic cover with just the two inverse branch points. The dual graph is connected because a,b generate G. Its cellular chain sequence is
+
+    0 -> H_1(Gamma,Q) -> Q[G]
+      -> Q[G/<a>] direct_sum Q[G/<b>] -> Q -> 0.
+
+For the nontrivial natural representation, Frobenius reciprocity gives the multiplicity in graph homology as 12-dim Fix(a)-dim Fix(b)=5. A smoothing is obtained by plumbing all nodes over the base node with a common parameter. To see the monodromy rank directly, let delta_f be the oriented core circle in the annulus smoothing the edge f. The vertex-incidence relations are exactly the relations among these circles: each punctured rational component contributes the sum of its oriented boundary circles, and Mayer--Vietoris gives no others. Their span is therefore graph cohomology, of dimension equal to the first Betti number of the graph. The dual paths associated to graph loops show that the intersection pairing onto the dual of this span is surjective.
+
+Going once around the plumbing parameter applies one positive Dehn twist at every annulus. A transverse path gains its oriented core circle, so the logarithm is the sum of the transvections x -> (x,delta_f)delta_f. Its square is zero because the core circles are pairwise disjoint. Its image is their entire span: after choosing a real basis of that span, the associated map from its dual is the sum of the positive rank-one matrices delta_f delta_f^t, which is positive definite because the delta_f span. Finite return powers only replace these coefficients by positive integers. The construction is G-equivariant, so taking natural multiplicity spaces preserves surjectivity onto the corresponding graph-cohomology factor. The logarithm on that factor has rank five, and in particular is nonzero. This proves the needed weight-one degeneration statement here without assuming a separate rank theorem for the Prym map.
+
+A constant polarized period map cannot have such monodromy. A polarization isometry preserving a fixed weight-one Hodge filtration is unitary for its positive Hodge metric; a unitary unipotent operator is the identity. The nonzero logarithm contradicts constancy. Hence the period map of the Hurwitz curve is nonconstant. Its image has dimension one and its generic differential has rank one, as asserted.
+
+The certificate `nielsen_rank_one.py` checks all nine (d,e) cases by exact colored-permutation arithmetic: membership, product one, the two diagonal powers, the conjugate three-cycle supports, fixed-space and age counts, intermediate genera, cyclic branch counts, and graph multiplicity. The generation and period interpretations are the full proofs just given; the script does not pretend to enumerate each full G(d,e,12).
+
+## Remaining gate and programme implications
+
+Target4's dominance question for the specified natural G(d,e,m) sources is answered negatively for every n>=5, not merely n=5. D-IM-07 gives exact maximal image dimensions 15 and 14 for n=5 and explicit families achieving them; D-IM-08 gives exact rank-one Nielsen classes for every d,e at m=12. A complete rank classification of arbitrary Nielsen classes and arbitrary m is not asserted. The remaining Q4c gate is narrower: for a specified Nielsen class, compute the rank of the cyclic-Prym multiplication map after restricting its dual to the image of the forgetful deformation map. This is a finite algebraic rank problem once an explicit family and its deformation constraints are given. Fixed higher ramification can impose constraints on those deformations, so the simple-branch submersion proof of D-IM-07 does not apply automatically. The strongest next dominant curve-source gate remains a nonmonomial irreducible representation, or induction from a representation of dimension greater than one, with an actual period-rank computation. Higher-dimensional perfect complexes are a separate possible source.
+
+One must not conclude that no curve source can dominate for n>=5. Corollary O'' permits nonreflection generators when m exceeds its lower bound. The Shephard--Todd classification of groups generated entirely by reflections then no longer exhausts the allowed groups. Even at all-reflection tuples, the present theorem only treats the natural imprimitive representation.
+
+In the project's frame, D-IM-03 says that this geometric attempt cannot supply the dominating effective-cycle family of Lemma Dom. It therefore supplies no new bound on delta_W or c_t. It does not challenge their equivalence or conditionA (cote16, scan050, SIGN_NEXT SN-C03/C04). The rational group-algebra projector in D-IM-01 is an algebraic correspondence and an idempotent of the h^1 motive; this is distinct from producing a codimension-n detecting cycle. Positivity/conditionI (cote16 scan049, cote44 Theorem4) cannot remove this image-dimension obstruction.
+
+The same quotient-pullback/trace identities make sense for h^1 motives and for l-adic sheaves after inverting |G| and spreading the fixed cover construction over a finitely generated Z-algebra. No assertion about new weights or L-values is needed. In K-theory or lambda-ring language the induced representation is an actual equality [rho]=Ind[chi], and applying Hom_G to the h^1 realization realizes that equality; it does not identify exterior determinant classes with effective algebraic cycles. Failure of these source constructions is not a ghost or a counterexample to Hodge; a ghost conclusion would require the independent conditional hypotheses already specified in GHOSTS B03.

@@ -1,0 +1,356 @@
+\section{Exclusion of all rank-one Lie cores}
+\label{sec:a1-core}
+
+The small-field part of this section uses complete published ATLAS
+character tables.  The finite spectral statements have been checked
+both by GAP and by a separate exact Ramanujan-trace implementation.
+The outer-automorphism coverage requires a further argument at
+$q=9,25$: a universal-cover extension missing from the table list
+is not silently assumed to exist.
+
+\subsection*{D-BI-21a. The complete small-field spectral input}
+
+Let
+\[
+ \mathcal Q_0=\{4,5,7,8,9,11,13,16,17,19,23,25,27\}.
+\]
+The duplicate simple groups at $q=4,5$ are represented once.
+For each simple group $\operatorname{PSL}_2(q)$, the following
+table specifies its universal cover and all cyclic outer subgroups.
+The notation after a semicolon indicates that a proper central
+quotient is used for that outer subgroup, subject to D-BI-21b below.
+All identifiers are exact CTblLib names.
+\[
+\begin{array}{c|l|l}
+q&U&\text{cyclic outer extension tables}\\\hline
+4,5&2.A5&2.A5.2\\
+7&2.L3(2)&2.L3(2).2\\
+8&L2(8)&L2(8).3\\
+9&6.A6&6.A6.2\_1,\ 6.A6.2\_2;\quad3.A6.2\_3\\
+11&2.L2(11)&2.L2(11).2\\
+13&2.L2(13)&2.L2(13).2\\
+16&L2(16)&L2(16).2,\ L2(16).4\\
+17&2.L2(17)&2.L2(17).2\\
+19&2.L2(19)&2.L2(19).2\\
+23&2.L2(23)&2.L2(23).2\\
+25&2.L2(25)&2.L2(25).2\_1,\ 2.L2(25).2\_2;
+                    \quad L2(25).2\_3\\
+27&2.L2(27)&2.L2(27).2,\ 2.L2(27).3,\ 2.L2(27).6
+\end{array}                                                   \tag{BI.78}
+\]
+The two additional quotient-core tables $3.A6$ and $L2(25)$
+are retained too.  Thus the full finite input has fourteen core
+tables and nineteen extension tables, thirty-three in total.
+Each extension is supplied with its actual stored class fusion
+from the core named in the certificate.
+
+\begin{lemma}[D-BI-21a: the finite spectral bounds]
+\label{D-BI-21a}
+In every nonlinear irreducible representation of a core table in
+(BI.78), and in every irreducible representation of an extension
+table whose restriction to its specified core is nonlinear and
+irreducible, every nonscalar element satisfies
+\[
+                              \nu(g)\ge a/5,                 \tag{BI.79}
+\]
+where $a$ is the representation degree.  The stronger bound
+$\nu(g)\ge a/4$ fails only for the following four entries:
+\[
+\begin{array}{c|r|r|r|r|r}
+\text{table}&\text{row}&\text{class}&a&\operatorname{ord}(g)&\nu(g)\\\hline
+6.A6.2\_1&3&20&5&2&1\\
+6.A6.2\_1&4&20&5&2&1\\
+6.A6.2\_1&5&21&5&4&1\\
+6.A6.2\_1&6&21&5&4&1
+\end{array}                                                   \tag{BI.80}
+\]
+The restrictions of these rows are, respectively, rows
+$2,2,3,3$ of $6.A6$.  Those two core characters have degree five
+and are trivial on the center.
+\end{lemma}
+
+\begin{proof}
+The identifications, characters and power maps are explicit
+published ATLAS inputs accessed through \cite{SPOR:CTblLib}.
+Every retained table's source string identifies that origin.
+The universal-cover and automorphism metadata are interpreted as
+in the library's \S3.7-3, with the small multiplier and isomorphism
+exceptions also listed in \cite[Chapter~5, Tables~1--2,
+numbered pp.~35--36]{BI:HHM}.  No group identification is inferred
+from character orthogonality alone.
+
+For every selected character row $\chi$ and every class of an
+element $g$ of order $m$, compute every eigenvalue multiplicity by
+\[
+ m_k=\frac1m\sum_{j=0}^{m-1}\chi(g^j)\zeta_m^{-kj}.
+                                                               \tag{BI.81}
+\]
+All arithmetic is exact in a cyclotomic field.  The criterion
+$|\chi(g)|^2=\chi(1)^2$ discards exactly the scalar classes.
+An extension row is selected precisely when its restriction along
+the actual core fusion has character norm one and degree greater
+than one.  Hence no representation with an irreducible core
+restriction is dropped by a degree cutoff or a reality condition.
+
+The executed file \texttt{a1/export\_and\_scan.g} checks all
+$654$ selected rows and $18\,922$ nonscalar entries.  It verifies
+the integrality, nonnegativity and degree sum of every spectrum,
+and produces exactly (BI.80) and no failure of (BI.79).  The full
+input also includes every unselected character row, all class
+sizes, group orders, power maps, source strings and subgroup
+fusions.  Its SHA-256 is
+\texttt{5ed905449e1f6f64f3eb18b27a213fc5c72e0731dbd591670166e8763ad7fc88}.
+
+The separate program \texttt{check\_a1\_spectra.py} imports no GAP
+calculation or selected-row list.  It selects the rows using exact
+restriction norms and reconstructs all $18\,922$ spectra using
+Ramanujan sums.  Explicitly, the normalized field trace of
+$\zeta_m^j$ is $c_m(j)/\varphi(m)$, where
+\[
+                 c_m(j)=\sum_{d\mid\gcd(m,j)}d\mu(m/d).
+\]
+Since (BI.81) is a rational integer, its normalized field trace
+equals itself.  This computes it independently by integer sums,
+after the prime power maps and cyclotomic Galois action have
+reconstructed the character values on all powers.  That program
+finds the same four exceptions and verifies the stated core
+restrictions and central kernels.  It also checks the complete
+table-name inventory and all nineteen core fusions: orders,
+identity kernels, full normal-class unions and compatibility
+with every retained prime power map.  These complete finite checks
+prove the lemma from the published input.  They do not reprove
+the character tables or the classification of the named groups.
+\end{proof}
+
+\subsection*{D-BI-21b. The missing mixed outer extensions}
+
+\begin{lemma}[D-BI-21b: a central obstruction]
+\label{D-BI-21b}
+Let $q=p^2$ with $p$ odd, and let $\alpha$ be the product of a
+nontrivial diagonal outer automorphism and the field automorphism
+of $\operatorname{SL}_2(q)$.  No irreducible complex representation
+on which $-I$ acts as $-1$ is invariant under $\alpha$.
+At $q=9$, the same assertion holds on the universal cover $6.A6$
+for every representation nontrivial on its central involution.
+\end{lemma}
+
+\begin{proof}
+Choose a generator $\zeta$ of $\mathbf F_q^*$ and take
+\[
+ \alpha(x)=D x^{(p)}D^{-1},\quad
+ D=\operatorname{diag}(\zeta,1),\quad
+ u=\operatorname{diag}(\zeta^{(p+1)/2},\zeta^{-(p+1)/2}).
+\]
+Direct matrix multiplication gives
+\[
+                     \alpha^2=\operatorname{inn}(u),
+                     \qquad \alpha(u)=-u.                  \tag{BI.82}
+\]
+For the second equality, each diagonal exponent changes by
+$\pm(p-1)(p+1)/2=\pm(q-1)/2$, whose power of $\zeta$ is $-1$.
+These are the explicit diagonal and field automorphisms described
+in \cite[\S3, pp.~5--7]{BI:WhiteSL2}.
+
+Suppose an invertible intertwiner $T$ implements $\alpha$ in an
+irreducible representation $\rho$.  The first equality in
+(BI.82) and Schur's lemma imply $T^2=c\rho(u)$ for a nonzero
+scalar $c$.  Since $T$ commutes with its own square, it must
+commute with $\rho(u)$.  The second equality instead makes it
+send $\rho(u)$ to $-\rho(u)$ when $\rho(-I)=-1$.
+This contradiction proves the assertion for $\operatorname{SL}_2(q)$.
+
+For $q=9$ let $U=6.A6$, let $U\to2.A6=\operatorname{SL}_2(9)$
+be the canonical central quotient, and lift $\alpha$ uniquely
+to $U$.  The uniqueness of this lift follows from the universal
+property of the perfect central cover; two lifts with the same
+action on $A_6$ differ by a homomorphism from the perfect group
+$U$ to its center, and therefore coincide.  Choose any lift
+$u'\in U$ of $u$.  Uniqueness gives
+$\alpha^2=\operatorname{inn}(u')$ on $U$.
+The element $z=\alpha(u')u'^{-1}$ is central, and its image in
+$2.A6$ is $-I$.  Since $Z(U)$ is cyclic of order six, $z^3$ is
+its central involution.  If that involution acts as $-1$, then
+$\rho(z)\ne1$.  But an intertwiner would again satisfy
+$T^2=c\rho(u')$ and commute with $\rho(u')$, while conjugating
+it to $\rho(z)\rho(u')$.  This is impossible.
+\end{proof}
+
+\subsection*{D-BI-21c. Coverage of every linear normalizer}
+
+\begin{lemma}[D-BI-21c: small-field normalizers]
+\label{D-BI-21c}
+Let $N$ be a finite quasisimple group with simple quotient
+$\operatorname{PSL}_2(q)$ for $q\in\mathcal Q_0$, acting faithfully
+and irreducibly on a space of dimension $a$.  Every nonscalar
+element of its linear normalizer, with arbitrary scalar phase,
+satisfies $\nu\ge a/5$.  It satisfies $\nu\ge a/4$ unless
+the representation factors through $A_6$ and has degree five.
+\end{lemma}
+
+\begin{proof}
+Lift the representation to the universal cover $U$.  The
+normalizer modulo scalars embeds in $\operatorname{Aut}(S)$,
+where $S=N/Z(N)$: a central automorphism of a perfect group is
+trivial, and the linear centralizer is scalar.  The complete
+outer group is generated by diagonal and field automorphisms,
+with structure $C_{\gcd(2,q-1)}\times C_f$ for $q=p^f$;
+see \cite[\S2, pp.~2--3; \S3, p.~6]{BI:WhiteSL2}.
+For $A_5$ we use the equivalent $q=5$ model.  Thus (BI.78)
+includes every cyclic subgroup generated by any possible outer
+element, not only the largest outer group.  In particular both
+orders two and four occur at $q=16$, all three subgroups of order
+two occur at $q=9,25$, and orders two, three and six occur at $q=27$.
+
+We spell out why a fixed cyclic extension table controls any
+actual normalizing matrix.  Let $A$ be such a table group,
+$A/U$ cyclic of order $l$, and choose $t\in A$ whose coset
+generates it.  Write $\beta=\operatorname{inn}(t)|_U$ and
+$u_0=t^l\in U$.  A normalizing matrix $g$, after an inner
+adjustment and replacing $t$ by a suitable generating power,
+induces the same automorphism of $S$ as $t$.  Unique lifting to
+the universal perfect cover then gives
+\[
+                  g\rho(u)g^{-1}=\rho(\beta(u)).
+\]
+In particular the represented kernel is preserved.  Schur's
+lemma makes $g^l\rho(u_0)^{-1}$ a nonzero scalar.  Rescale $g$
+by an $l$th root to arrange $g^l=\rho(u_0)$.  The conjugation
+and power relations now define an irreducible representation
+of the actual fixed group $A$, extending $\rho$.  The original
+matrix is, up to scalar and the inner adjustment, an element
+of that represented extension.  Its spectrum is covered by
+D-BI-21a.  This reasoning does not assume that $A/U$ splits,
+nor that every core character is invariant under every outer
+automorphism.
+
+There are two exceptions to using the universal-cover extension
+literally.  At $q=25$, the ATLAS subscripts $2_1,2_2,2_3$ denote
+the diagonal, field, and mixed diagonal-field classes, respectively.
+At $q=9$ the order of the first two is reversed: $2_1$ is the
+field extension $S_6$, $2_2$ is the diagonal extension
+$\operatorname{PGL}_2(9)$, and $2_3$ is the remaining mixed
+extension.  The construction labels and exact subgroup fusions
+are retained in the source inventory.  The missing usual cover
+extensions are precisely these mixed cases.
+
+D-BI-21b shows that an invariant core representation in either
+mixed case must kill its central involution.  Hence it factors
+through $L2(25)$ at $q=25$, and through $3.A6$ at $q=9$.
+The actual extensions $L2(25).2_3$ and $3.A6.2_3$ and their
+core fusions are present in (BI.78), so the preceding cyclic
+argument applies to them.  No inference from an unavailable
+universal-cover extension is made.  The resulting representations
+are exactly among the rows tested in D-BI-21a.
+
+Finally scalar multiplication does not change $\nu$, and a
+normalizer element with inner outer action is scalar times an
+element of $N$.  This proves the universal fifth bound and the
+stated sole possible quarter-bound exception.
+\end{proof}
+
+\subsection*{D-BI-21. The rank-one core is impossible}
+
+\begin{theorem}[D-BI-21: full $A_1$-core exclusion]
+\label{D-BI-21}
+Let a finite-cover Weil sixfold source of exact imaginary
+quadratic character field have nonsplit actual polarization and
+period rank nine.  Let an inducing block have degree $e\ge5$
+and finite image $J$ that is primitive and tensor indecomposable
+in the factorwise convention of D-BI-19.  Then the simple factors
+of its forced normal core cannot be $\operatorname{PSL}_2(q)$
+for any prime power $q$ for which this group is simple.
+
+The statement includes the exceptional identifications $A_5$ and
+$A_6$, the exceptional universal cover $6.A6$, arbitrary larger
+inducing character fields, compatible outer automorphisms and
+permutations of tensor factors.  For the small fields
+$q\in\mathcal Q_0$, total degree $e\ge6$ is excluded even
+without the nonsplit-polarization hypothesis.
+\end{theorem}
+
+\begin{proof}
+D-BI-19 supplies a normal irreducibly acting central product of
+quasisimple factors, permuted transitively by $J$.  Its factor
+representations are faithful and irreducible, and their degrees
+are equal, say $a$, so $e=a^t$.
+
+If $q\ge29$, the published projective minimum-degree bound
+$a\ge(q-1)/\gcd(2,q-1)$ in
+\cite[Table~1, author p.~14]{BI:Hoffman} gives $e\ge14$.
+The simple quotient is then nonalternating, so D-BI-20 applies
+and excludes this case.  The remaining simple $A_1$ groups have
+exactly the parameters in $\mathcal Q_0$.
+
+For these parameters, every factorwise nonscalar normalizer
+element satisfies $\nu\ge e/5$, by D-BI-21c and the tensor
+eigenspace bound.  Every element permuting factors nontrivially
+satisfies the stronger $\nu\ge e/4$, by the weighted cyclic-word
+proof of D-SPOR-03; that proof does not depend on the factor
+being sporadic.  Thus every nonscalar element of $J$ satisfies
+the fifth bound.  Genuine scalar inertias have full moving rank.
+
+The actual intermediate Hurwitz factorization gives genus zero,
+at least twelve genuine branch points and total moving rank
+$2e+6$, as proved in D-BI-18.  Consequently
+\[
+          12\lceil e/5\rceil\le2e+6,
+          \qquad e\le15.                                  \tag{BI.83}
+\]
+This is a necessary constraint on the actual period map.
+If no factor has the exceptional degree-five $A_6$ representation,
+the identical argument uses the quarter bound and gives
+\[
+                         12\lceil e/4\rceil\le2e+6.
+                                                               \tag{BI.84}
+\]
+For $e=5,6$ the left side is $24$; for $e\ge7$ it is at
+least $3e>2e+6$.  Thus (BI.84) is impossible for every $e\ge5$.
+
+If there is an exceptional factor, transitivity makes the common
+factor degree $a=5$.  With at least two factors one has
+$e=5^t\ge25$, contradicting (BI.83).  The only remaining
+possibility is a single factor of degree five with simple quotient
+$A_6$.  This proves already the assertion for all $e\ge6$,
+without using a determinant condition.
+
+We finish the degree-five case.  The two core rows in (BI.80)
+are exactly the two degree-five ordinary characters of $A_6$.
+One is the deleted natural permutation representation on six
+letters: the natural action is doubly transitive, so its deleted
+character is irreducible.  The two characters are interchanged
+by the diagonal outer automorphism of
+$A_6=\operatorname{PSL}_2(9)$; this is also the half-degree pair
+in \cite[Lemma~4.4, p.~9]{BI:WhiteSL2}.  Precomposing by that
+automorphism leaves the matrix image of $A_6$ unchanged up to
+equivalence.  Thus either core image is the deleted natural
+$A_6$ image in dimension five.
+
+Its linear normalizer is contained in $\mathbf C^*S_6$ in that
+deleted representation.  Indeed the normalizer modulo scalars
+injects into $\operatorname{Aut}(A_6)$ and must stabilize the
+chosen degree-five character.  Its outer stabilizer has order two:
+the field outer automorphism fixes the half-degree characters,
+whereas the diagonal and mixed automorphisms exchange them
+\cite[Lemmas~4.4 and~4.6, pp.~9--10]{BI:WhiteSL2}.
+The natural $S_6$ supplies that stabilizer.  Schur's lemma then
+makes every remaining difference scalar.  Since $J$ contains
+the core, it lies in the exact subgroup range
+\[
+                          A_6\subset J\subset\mathbf C^*S_6.
+\]
+The previously proved D-BI-08 applies to this deleted-standard
+inducing representation, with its larger-field allowance and
+actual-polarization conclusion.  It excludes a dominant nonsplit
+source.  This disposes of the final case and proves the theorem.
+\end{proof}
+
+\paragraph{Scope of the computation.}
+The input contains all thirty-three tables in (BI.78), not just
+the four exceptional entries.  All representations tested have
+irreducible core restriction; incompatible outer automorphisms
+are not assumed to act.  The finite computation is only the
+spectral input to the complete geometric, field and normalizer
+proof.  No signature or branch-parameter equality is used to
+infer dominance.  Groups with higher Lie rank and ordinary
+alternating groups outside the indicated $A_5,A_6$ identifications
+remain separate cases.

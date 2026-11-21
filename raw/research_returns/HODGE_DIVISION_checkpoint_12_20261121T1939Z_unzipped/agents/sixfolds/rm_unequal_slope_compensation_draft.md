@@ -1,0 +1,288 @@
+# Unequal-slope surface compensation: actual objects and a precise remaining gate
+
+Author: GPT-6 Astra Pro; inherited effort not exposed; HODGE_DIVISION
+/root/sixfolds. Date: 2026-11-21.
+
+**Status:** new explicit construction and local calculation, not yet independently
+whole-reviewed. Both attached exact certificates have actually passed. This is
+not a semiregular seed or a claimed reduction of Q5i by itself. The complete
+character is realized by a split hull, to which the direct-sum obstruction applies
+in the ordinary category. Global Hochschild vanishing and an appropriate finite
+action have not been established.
+
+## 1. A unit extension outside the equal-degree theorem
+
+Let \(X=E_i^4\), with the principal product polarization \(\theta\), and set
+\(D=3\theta\). Choose a smooth integral complete intersection
+\(S=D_0\cap D_1\), with both \(D_j\in|D|\). Existence uses precisely the
+very-ampleness and Bertini inputs already located and read for SF-E822. Write
+\(i:S\hookrightarrow X\) and \(L=\det N_{S/X}=\mathcal O_S(2D)\).
+
+Take \(Q=\mathcal O_S\) and \(T=L^{-1}=\mathcal O_S(-2D)\). The sheaf of
+local extension classes is
+
+\[
+ \mathcal E xt^1_X(I_S,i_*T)
+ =i_*\bigl(T\otimes\det N_{S/X}\bigr)=i_*\mathcal O_S.
+ \tag{US.1}
+\]
+
+The Koszul resolution of \(I_S\), after applying sheaf Hom into \(i_*T\),
+has zero differential. Consequently its degree-one term gives an actual direct
+summand \(H^0(S,\mathcal O_S)\) of the global Ext group. The unit section
+therefore defines an actual coherent extension
+
+\[
+ 0\longrightarrow i_*\mathcal O_S(-2D)
+   \longrightarrow M_0\longrightarrow I_S\longrightarrow0.
+ \tag{US.2}
+\]
+
+Its torsion is the displayed left term, because the quotient \(I_S\) is
+torsion-free. The two-element Koszul resolution gives
+\(\mathcal H om(i_*T,\mathcal O_X)=\mathcal E xt^1(i_*T,\mathcal O_X)=0\).
+Dualizing (US.2) therefore gives \(M_0^\vee=I_S^\vee=\mathcal O_X\);
+its double dual is \(\mathcal O_X\), and the canonical hull-map image
+is \(I_S\), so its cokernel is \(i_*\mathcal O_S\). Thus the ranks of the
+torsion and defect on \(S\) agree, but their degrees differ by
+\(2\int_S D\theta>0\). The equal-degree argument of SF-E822 does not apply.
+
+More explicitly, with local equations \(f,g\) for \(S\), the unit extension
+has the free resolution of SF-E822 with extension matrix \(1\):
+
+\[
+ d_1=\begin{pmatrix}-g&0&0\\f&0&0\\-1&f&g\end{pmatrix},
+ \qquad d_2=\begin{pmatrix}0\\-g\\f\end{pmatrix}.
+ \tag{US.3}
+\]
+
+Eliminating the unit entry gives the actual global locally free resolution
+
+\[
+ 0\longrightarrow\mathcal O_X(-4D)
+ \xrightarrow{(-g,f)^t}\mathcal O_X(-3D)^{\oplus2}
+ \xrightarrow{\left(\begin{smallmatrix}-fg&-g^2\\f^2&fg\end{smallmatrix}\right)}
+ \mathcal O_X(-D)^{\oplus2}\longrightarrow M_0\longrightarrow0.
+ \tag{US.4}
+\]
+
+The entries have the asserted twists, and this is obtained by an elementary
+split cancellation from the exact resolution (US.3), not merely a complex whose
+Euler character is correct. Its entire character on a fourfold is
+
+\[
+ \operatorname{ch}(M_0)=2e^{-D}-2e^{-3D}+e^{-4D}
+       =1-2D^3+4D^4.
+ \tag{US.5}
+\]
+
+The finite expansion follows directly: the degree-one and degree-two moments
+vanish, the degree-three moment is \(-12\), and the degree-four moment is
+\(96\), before division by the corresponding factorials.
+
+## 2. Exact local homotopies for every invariant bivector
+
+Let \(\pi\) be any constant bivector in formal logarithmic coordinates on the
+abelian variety. Put \(P=\pi(df,dg)\), and use the first-order star product
+\(a*b=ab+\varepsilon\pi(da,db)/2\), with \(\varepsilon^2=0\). As in
+SF-E822, take right modules with column maps; replacing \(\pi\) by
+\(-\pi\) translates to the left-module convention.
+
+For (US.3), direct multiplication gives
+
+\[
+ d_1*d_2=\varepsilon(0,0,-P)^t.
+\]
+
+Define the following explicit correction matrices:
+
+\[
+ h_2=(-P,0,0)^t,
+ \qquad
+ h_1=\begin{pmatrix}0&P&0\\0&0&P\\0&0&0\end{pmatrix}.
+ \tag{US.6}
+\]
+
+Then
+
+\[
+ d_1h_2+h_1d_2=(gP,-fP,P)^t+(-Pg,Pf,0)^t=(0,0,P)^t.
+ \tag{US.7}
+\]
+
+It follows that \((d_1+\varepsilon h_1)*(d_2+\varepsilon h_2)=0\).
+The corrected finite free complex reduces to the exact resolution of \(M_0\).
+The elementary lifting criterion gives zero negative homology and a flat
+cokernel over the dual numbers: reduce a cycle modulo \(\varepsilon\), lift
+the boundary, and repeat on its remaining \(\varepsilon\)-multiple; the
+same argument proves that the cokernel's \(\varepsilon\)-annihilator is its
+\(\varepsilon\)-image. This constructs an actual first-order local module
+deformation. Tensoring with a locally trivial vector bundle gives the identical
+calculation in every rank.
+
+In particular both RM bivectors \(\pi_+\) and \(\pi_-\) have zero local
+characteristic obstruction on this unit model. The previous local obstruction
+is genuinely absent, not just inconclusive. No globalization is implied:
+changes of line-bundle frame change the off-surface derivatives of \(f,g\),
+and the displayed local homotopies have not been glued to a global Hochschild
+nullhomotopy.
+
+The exact script `rm_unequal_slope_local_homotopy.py` checks the complete
+first-order calculation with arbitrary functions \(f,g\) in four variables
+and all six independent constant bivector coefficients. It also checks the
+minimal complex square and the entire character expansion. Its actual output
+is `rm_unequal_slope_local_homotopy_output.json`.
+
+## 3. The required compensating hull character
+
+Use the integral symmetric matrices
+
+\[
+ U=\operatorname{diag}\!\left(
+ \begin{pmatrix}1&1\\1&-1\end{pmatrix},
+ \begin{pmatrix}1&1\\1&-1\end{pmatrix}\right),
+ \qquad S=\operatorname{diag}(1,1,-1,-1).
+\]
+
+They commute, \(U^2=2I\), and each of
+\(I,U,S,US\) defines an integral divisor on the product CM fourfold.
+Write its classes as \(\theta,\theta_U,\theta_S,\theta_{US}\).
+Let \(\omega_1,\ldots,\omega_4\) be the joint eigenline forms, ordered so
+that \(\theta_+=\omega_1+\omega_2\) and
+\(\theta_-=\omega_3+\omega_4\). Each \(\omega_j^2=0\).
+
+For \(\beta=a\theta+b\theta_U+c\theta_S+d\theta_{US}\), the four
+eigenvalues are
+
+\[
+ \begin{split}
+ \lambda_1&=a+b\sqrt2+c+d\sqrt2,&
+ \lambda_2&=a+b\sqrt2-c-d\sqrt2,\\
+ \lambda_3&=a-b\sqrt2+c-d\sqrt2,&
+ \lambda_4&=a-b\sqrt2-c+d\sqrt2.
+ \end{split}
+ \tag{US.8}
+\]
+
+In the sixteen-dimensional algebra generated by these four line forms,
+\(e^\beta=\prod_j(1+\lambda_j\omega_j)\). The balanced character is
+
+\[
+ v_q=\left(1-\frac q2\theta_+^2\right)
+      \left(1-\frac q2\theta_-^2\right).
+ \tag{US.9}
+\]
+
+Set \(q=1/2\). Because all products of degree greater than four vanish,
+(US.5) is invertible with inverse \(1+2D^3-4D^4\). Thus a hull of rank
+\(r\) must satisfy
+
+\[
+ \frac{\operatorname{ch}(H)}r
+       =v_{1/2}+2D^3-4D^4.
+ \tag{US.10}
+\]
+
+This equation is for the entire character, not only its degree-two or top
+component. Any actual bundle with (US.10) gives an actual coherent perfect,
+hence ordinarily gluable, sheaf \(H\otimes M_0\) with character
+\(r v_{1/2}\).
+
+## 4. An explicit actual split hull
+
+Choose a line bundle \(L_\beta\) for every integral divisor class in the
+following table. Form the direct sum with the listed positive multiplicities.
+
+| \((a,b,c,d)\) | Multiplicity |
+|---|---:|
+| \((-16,0,0,0)\) | 23104075775 |
+| \((-8,-6,-8,6)\) | 38474612484 |
+| \((-8,-6,8,-6)\) | 38474612484 |
+| \((0,-11,0,0)\) | 30281171392 |
+| \((-8,6,-8,-6)\) | 38474612484 |
+| \((0,0,-16,0)\) | 33081896705 |
+| \((0,0,0,-11)\) | 30550999744 |
+| \((8,-6,-8,-6)\) | 28751863668 |
+| \((-8,6,8,6)\) | 38474612484 |
+| \((0,0,0,11)\) | 30550999744 |
+| \((0,0,16,0)\) | 33081896705 |
+| \((8,-6,8,6)\) | 28751863668 |
+| \((0,11,0,0)\) | 30281171392 |
+| \((8,6,-8,6)\) | 28751863668 |
+| \((8,6,8,-6)\) | 28751863668 |
+| \((16,0,0,0)\) | 42549573407 |
+
+Their sum is
+
+\[
+ r=522387689472.
+ \tag{US.11}
+\]
+
+Here is a finite exact way to verify all of (US.10). Index the basis by the
+subsets of \(\{1,2,3,4\}\), in binary-mask order from 0 to 15. For a row
+\((a,b,c,d)\), its exponential has coefficient
+\(\prod_{j\in A}\lambda_j\) on the subset \(A\). After multiplying by
+the listed multiplicities, adding and dividing by (US.11), the resulting
+sixteen coefficients are
+
+\[
+ (1,0,0,-\tfrac12,0,0,0,324,0,0,0,324,-\tfrac12,324,324,
+       -\tfrac{31103}{4}).
+ \tag{US.12}
+\]
+
+They are exactly (US.10), since \(D=3\sum_j\omega_j\): the degree-three
+coefficient is \(2\cdot3^3\cdot3!=324\), and the top correction is
+\(-4\cdot3^4\cdot4!=-7776\). The balanced top term contributes \(1/4\).
+The coefficients of \(\operatorname{ch}(M_0)\) are respectively rank 1,
+degree-three coefficients \(-324\), and top coefficient \(7776\).
+Multiplication therefore leaves only rank 1, coefficients \(-1/2\) on
+subsets \(\{1,2\},\{3,4\}\), and top coefficient \(1/4\), as required.
+
+The script `rm_unequal_slope_compensation.py` verifies these equalities in
+\(\mathbf Q(\sqrt2)\), checks positivity and integrality of every
+multiplicity, and multiplies the entire resulting character by (US.5).
+Its actual output is `rm_unequal_slope_compensation_output.json`. The failed
+scales 4 and 8, at which some interpolation weights were negative, are retained
+there; the first tested successful scale was 16.
+
+The method is finite interpolation, not a numerical fit. For completeness,
+take the sixteen vertices \((R\epsilon_1,\ldots,R\epsilon_4)\), invert
+the linear transformation (US.8), and round its coefficients to integers.
+After normalizing rows of degree \(j\) by \(R^{-j}\), the character
+matrix tends to the invertible Boolean-cube evaluation matrix. The normalized
+target tends to the vector with empty-subset entry one and all other entries
+zero. Its weights consequently tend to
+\(1/16\), so they are strictly positive for sufficiently large \(R\).
+Uniqueness and rationality of the original divisor characters make the weights
+rational; the explicit table verifies this directly at scale 16. Clearing
+their denominators produces actual positive integral sums of line bundles.
+This argument asserts realizability in this specified divisor subalgebra only.
+
+## 5. What remains missing
+
+The sheaf constructed with this hull is
+
+\[
+ H_{\mathrm{split}}\otimes M_0
+   =\bigoplus_\beta (L_\beta\otimes M_0)^{\oplus n_\beta}.
+\]
+
+Its distinct nonzero summand characters are not proportional to the whole
+balanced character: their degree-one components already distinguish them.
+The ordinary direct-sum argument of SF-E802 therefore excludes ordinary full
+semiregularity. The same argument excludes a finite action whenever the
+displayed decomposition is an actual decomposition in that equivariant
+category. No finite action that avoids this issue has been constructed; no
+claim about arbitrary noncanonical equivariant splittings is being substituted
+for a proof.
+
+The local calculation does not cure this global problem. A potentially useful
+next object would require an actual nonsplit hull, or different global extension
+data, with (US.10), followed by a computation of the complete Hochschild
+evaluation and full semiregularity map. A signed K-theory identity, positivity
+of interpolation weights, or the two local nullhomotopies alone does not
+establish any of those properties. In particular this note is retained as an
+actual construction and test case, not counted as a solution or a narrowing of
+the remaining Q5i gate.
