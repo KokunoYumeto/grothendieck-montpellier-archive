@@ -1,0 +1,179 @@
+# S-38: the residual tensor algebra and its reduced rank
+
+Status: checked. Author, root, and semireg each completed a whole-proof read; all mathematical reviews passed. Date 2026-11-21. Author /root/lvalue_bounds, GPT-6 Astra Pro; effort not exposed. The center-cover and Heisenberg structure are standard; the point here is the exact rank and polarization conversion for the balanced real-multiplication character. No invariance of full semiregularity under an unspecified Morita equivalence is used.
+
+## Statement
+
+Let $X$ be a complex abelian variety and let $T\subset\widehat X$ be a finite subgroup. Fix a coherent action by the tensor functors
+\[
+ \Phi_t(-)=P_t\otimes(-),\qquad t\in T,
+\]
+where $P_t$ represents the indicated point of $\widehat X$. A choice of the coherent multiplication maps makes
+\[
+ \mathscr A=\bigoplus_{t\in T}P_t
+ \tag{S38.1}
+\]
+an associative strongly graded algebra; replacing every $P_t$ by its inverse or passing to the opposite algebra only changes the conventions, not the conclusions. Let $b:T\times T\to\mathbf C^*$ be its scalar commutator, let $R=\operatorname{rad}(b)$, and put
+\[
+ r=|R|,\qquad d=\sqrt{|T|/r}.
+ \tag{S38.2}
+\]
+
+**(a) Center and reduced rank.** The integer $d$ is positive. The center is $\bigoplus_{t\in R}P_t$, its spectrum is a connected finite étale cover
+\[
+ p:B\longrightarrow X,\qquad\deg p=r,
+ \tag{S38.3}
+\]
+and, after choosing an origin above zero, $B$ is an abelian variety and $p$ is an isogeny. Viewed over its center, $\mathscr A$ is an Azumaya algebra $\mathscr A_B$ of degree $d$ on $B$. A further finite étale isogeny trivializes $\mathscr A_B$ as a matrix algebra.
+
+Suppose a perfect object $\mathcal E$ on $X$ of positive virtual rank $N$ has a coherent $T$-equivariant lift. Then
+\[
+ m:=\frac{N}{rd}\in\mathbf Z_{>0},\qquad
+ |T|r=(rd)^2\mid N^2.
+ \tag{S38.4}
+\]
+If $\beta=[\mathscr A_B]\in\operatorname{Br}(B)$, then
+\[
+ m\beta=0,\qquad d\beta=0,
+ \qquad\operatorname{ind}(\beta_{\mathbf C(B)})\mid m.
+ \tag{S38.5}
+\]
+In particular, $m=1$, or more generally $\gcd(m,d)=1$, forces $\beta=0$. Here the index is the usual index over the function field; no assertion that a minimal generic splitting rank is realized by a global bundle is needed.
+
+**(b) Exact character conversion when the Brauer class splits.** If $\beta=0$, choose a vector bundle $S$ of rank $d$ with $\mathscr A_B\simeq\mathcal End(S)$. Then
+\[
+ \operatorname{ch}(S)=d\exp\!\left(\frac{c_1(S)}d\right).
+ \tag{S38.6}
+\]
+There is an ordinary perfect object $F$ of virtual rank $m$ on $B$ such that
+\[
+ p^*\operatorname{ch}(\mathcal E)
+       =rd\exp\!\left(\frac{c_1(S)}d\right)\operatorname{ch}(F).
+ \tag{S38.7}
+\]
+For the numerical conclusion it is enough to construct $F$ from the alternating sum of the equivariant cohomology sheaves. Thus (S38.7) does not require an unproved comparison of equivariant derived categories.
+
+**(c) Balanced real multiplication.** Suppose now that $X$ is a polarized abelian fourfold with a Rosati-invariant rational real-quadratic action $\mathbf Q(\sqrt{\Delta_0})$, of type $(2,2)$, where $\Delta_0>1$ is squarefree. Use the notation of S-30,
+\[
+ D=\int_X\frac{\theta^4}{24},\qquad
+ C=\frac{\theta_1^2+\theta_2^2}{2},\qquad
+ v_q=1-qC+q^2\frac{\theta^4}{24},\qquad q>0.
+\]
+Assume
+\[
+ e^{-c_1(\mathcal E)/N}\operatorname{ch}(\mathcal E)=Nv_q.
+ \tag{S38.8}
+\]
+If $\beta=0$, the ordinary object $F$ in (b), with the integral polarization $\theta_B=p^*\theta$, satisfies
+\[
+ e^{-c_1(F)/m}\operatorname{ch}(F)=m\,p^*v_q,
+ \qquad D_B=rD.
+ \tag{S38.9}
+\]
+
+If the original $T$-equivariant lift is simple, gluable and fully semiregular, the already checked S-22 numerical identity gives
+\[
+ k=\frac{4DN^2q^2}{|T|}\in\{2,4\}.
+ \tag{S38.10}
+\]
+Then, whenever $\beta=0$,
+\[
+ \boxed{\Delta_0\mid m,\qquad k=2\Longrightarrow 2\mid m.}
+ \tag{S38.11}
+\]
+In particular **reduced rank $m=1$ is impossible for every coherent pure-tensor action**, including nondegenerate commutator actions. This conclusion applies to positive virtual rank, not merely to vector bundles. It does not assume that the ordinary $F$ is semiregular.
+
+## Proof
+
+### 1. The center cover
+
+The coherence maps identify $P_t\otimes P_u$ with $P_{t+u}$ and are associative. Comparing the maps for $(t,u)$ and $(u,t)$ gives a scalar $b(t,u)$ because an automorphism of a line bundle on the connected projective variety $X$ is scalar. Associativity shows that $b$ is an alternating bicharacter. The standard finite Heisenberg representation theorem identifies every central-character block of the twisted group algebra with a matrix algebra of size $d=\sqrt{|T|/r}$; see Polishchuk, Section 1.1, printed pp.4–5, with its reduction by the radical in Lemma 1.2.1, printed pp.6–7. These are imported background statements, not a new representation-theoretic claim.
+
+The grading also identifies the center directly. A component in $P_t$ commutes with every $P_u$ exactly when $b(t,u)=1$ for every $u$. Since the graded components are independent, sums do not introduce further central terms. Hence
+\[
+ Z(\mathscr A)=\bigoplus_{t\in R}P_t.
+ \tag{S38.12}
+\]
+
+Let $M$ be an exponent of $T$. Pullback by $[M]:X\to X$ trivializes every $P_t$. The resulting multiplication maps are constant, because they are holomorphic functions on a connected projective variety. Thus $[M]^*\mathscr A$ is a constant twisted group algebra and its center is the constant algebra $\mathbf C^r$. It follows by finite étale descent that $\operatorname{Spec}_X Z(\mathscr A)$ is a finite étale cover of degree $r$, and that the corresponding algebra over this cover is étale locally $\operatorname{Mat}_d$.
+
+The cover is connected. For a nontrivial $P\in\operatorname{Pic}^0(X)$ one has $H^0(X,P)=0$: a nonzero section would give a numerically trivial effective divisor, whose intersection with a power of an ample class is positive unless the divisor is empty; the latter case trivializes $P$. Therefore
+\[
+ H^0(B,\mathcal O_B)=H^0(X,Z(\mathscr A))=\mathbf C.
+\]
+Since $B$ is proper and reduced, this proves connectedness. Analytically, a connected finite étale cover of $X=V/\Lambda$ is $V/\Lambda'$ for a finite-index subgroup $\Lambda'\subset\Lambda$. Choosing an origin makes it a complex torus and the cover a group homomorphism; pullback of a polarization makes it an abelian variety. A connected component of the pullback of $B$ along $[M]$ gives an isogeny $f:Y\to B$ on which $\mathscr A_B$ is a constant matrix algebra. This proves (a)'s geometric assertions.
+
+### 2. Virtual rank and Brauer divisibility
+
+Tensoring by a line bundle is exact for the usual coherent-sheaf $t$-structure. Thus every cohomology sheaf $\mathcal H^i(\mathcal E)$ inherits its coherent tensor equivariance, equivalently a left $\mathscr A$-module structure. Passing to the center identifies it with a coherent $\mathscr A_B$-module $M_i$ on $B$, whose pushforward is $\mathcal H^i(\mathcal E)$. Étale locally $\mathscr A_B=\operatorname{Mat}_d$, and a module is a column module of rank $d$ tensored with an ordinary coherent sheaf. Its generic rank is therefore $d$ times an integer. Since $B$ is connected, these ranks are well defined, and
+\[
+ N=r\sum_i(-1)^i\operatorname{rk}(M_i)
+   =rd\sum_i(-1)^i m_i.
+\]
+This gives $m=\sum_i(-1)^im_i=N/(rd)>0$ and (S38.4).
+
+On the gerbe of local splittings of $\mathscr A_B$, local Morita transforms of the $M_i$ are twisted coherent sheaves of ranks $m_i$, with the opposite Brauer sign if the alternative left/right convention is used. This gerbe is smooth over the regular variety $B$, so these sheaves are perfect. Their alternating class has virtual rank $m$. The determinant of that perfect class is an invertible $m$-fold twisted sheaf: a scalar $z$ acts on it by $z^m$, directly from the alternating determinant formula. Lieblich, Lemma 3.1.1.8 and Theorem A.3, therefore give $m\beta=0$. The same determinant argument applied to the tautological local splitting bundle of rank $d$ gives $d\beta=0$; see also Stacks, Lemma 59.62.2.
+
+At the generic point, the rank of every twisted coherent sheaf is divisible by the central division-algebra index, by the standard module classification, recorded in Lieblich, Proposition 3.1.2.1(ii). That index consequently divides the alternating rank $m$. If $\gcd(m,d)=1$, the two annihilation equations for $\beta$ force $\beta=0$. This proves all of (S38.5). Notice that no global vector bundle of rank equal to the generic index was asserted.
+
+### 3. Splitting bundles have exponential character
+
+Assume $\beta=0$. The gerbe of splittings then has a global section, which is a vector bundle $S$ of rank $d$ with $\mathcal End(S)\simeq\mathscr A_B$. Let $f:Y\to B$ be the isogeny from Step 1. It gives
+\[
+ \mathcal End(f^*S)\simeq\operatorname{Mat}_d(\mathcal O_Y)
+                      =\mathcal End(\mathcal O_Y^{\oplus d}).
+\]
+By Stacks, Lemma 59.62.1, there is a line bundle $Q$ on $Y$ such that $f^*S\simeq Q^{\oplus d}$. Consequently
+\[
+ f^*\operatorname{ch}(S)=d e^{c_1(Q)},\qquad
+ f^*c_1(S)=d c_1(Q).
+\]
+Pullback by a finite isogeny is injective in rational cohomology, since $f_*f^*=(\deg f)\operatorname{id}$. This proves the full identity (S38.6), including its odd Chern-character components. It uses no classification of semihomogeneous bundles.
+
+Ordinary Morita equivalence now writes $M_i=S\otimes F_i$ for coherent sheaves $F_i$ on $B$. Since $B$ is smooth, each $F_i$ is perfect. Let $F$ be the direct sum of the $F_i$ placed in the cohomological degrees $i$; its virtual rank is $m$. Additivity of the Chern character and Riemann–Roch for the finite étale map $p$, whose source and target have trivial tangent bundles, give
+\[
+ \operatorname{ch}(\mathcal E)
+    =p_*\bigl(\operatorname{ch}(S)\operatorname{ch}(F)\bigr).
+\]
+For an isogeny, $p^*p_*$ on rational cohomology is the sum of translations by the kernel, and each translation acts trivially; thus $p^*p_*=r\operatorname{id}$. Inserting (S38.6) proves (S38.7). This cohomology-sheaf construction is sufficient even if no comparison functor for equivariant derived categories has been chosen.
+
+### 4. Normalization and the arithmetic obstruction
+
+Taking the degree-two component in (S38.7), and using $N=rdm$, gives
+\[
+ \frac{p^*c_1(\mathcal E)}N
+      =\frac{c_1(S)}d+\frac{c_1(F)}m.
+ \tag{S38.13}
+\]
+Multiplying (S38.7) by the exponential of the negative of (S38.13), and applying (S38.8), proves (S38.9). The rational real-multiplication action transports through the isogeny, is Rosati-invariant for $p^*\theta$, and has the same two eigenspace dimensions. The polarization $p^*\theta$ is integral and its volume is $D_B=rD$.
+
+When the original equivariant numerical identity (S38.10) holds, its expression in the reduced variables is exactly
+\[
+ k=\frac{4DN^2q^2}{|T|}
+   =4D\frac{r^2d^2m^2q^2}{rd^2}
+   =4D_Bm^2q^2.
+ \tag{S38.14}
+\]
+Apply the integral Chern-class conclusion S30.3 to the ordinary perfect object $F$ in (S38.9). It yields
+\[
+ m^4D_Bq^2=\frac{m^2k}{4}\in\Delta_0\mathbf Z_{>0}.
+ \tag{S38.15}
+\]
+If $k=4$, squarefreeness gives $\Delta_0\mid m$. If $k=2$, integrality first forces $m$ even, and the same divisibility gives $\Delta_0\mid m$. These prove (S38.11). In particular $m=1$ first forces $\beta=0$ by Step 2 and then contradicts (S38.15), since $\Delta_0>1$. No property of the full semiregularity map on $F$ has entered the argument. QED.
+
+## Scope and the remaining mixed-action question
+
+Parts (a) and (b) apply to the pure tensor subgroup of any finite translation–tensor action. Part (c)'s numerical conversion as stated assumes the whole group is $T$. If a larger group has a nontrivial translation quotient, its order remains in the equivariant Euler denominator. A further quotient construction would be needed before applying the final reduced-rank conclusion to that larger group.
+
+Thus the rank-four, order-sixteen nondegenerate pure-tensor proposal has $r=1$, $d=4$ and $m=1$ and is excluded. This is stronger than merely observing that its elementary local second-Chern congruence can be satisfied. A nontrivial residual Brauer class requires $m\ge2$ and period dividing $\gcd(m,d)$; even a split residual class requires the reduced rank to satisfy (S38.11). These are necessary conditions, not constructions of surviving objects.
+
+## Primary sources and actual reading scope
+
+- Alexander Polishchuk, *Lagrangian-invariant sheaves and functors for abelian varieties*, arXiv:1109.0527v2, Section 1.1, printed pp.4–5 (finite Heisenberg groups and Schrödinger dimension), and Lemma 1.2.1, printed pp.6–7 (radical reduction). Primary: <https://arxiv.org/pdf/1109.0527>. The entire Section 1.1 displayed discussion and Lemma 1.2.1 proof were read; earlier cited representation-theoretic foundations are imported.
+- Max Lieblich, *Twisted sheaves and the period-index problem*, arXiv:math/0511244v4, Lemma 3.1.1.8, printed p.7, with its full proof; Proposition 3.1.2.1(ii), printed pp.8–9, with its complete displayed proof sketch; Appendix A, Theorem A.3, printed pp.28–29, and the following alternating-resolution description. Primary: <https://arxiv.org/pdf/math/0511244>. The determinant theorem itself is imported with its explicit Knudsen–Mumford attribution; no proof absent from the source is claimed to have been read.
+- The Stacks Project, Section 59.62, Lemmas 59.62.1 and 59.62.2, tag 0A2J. Primary: <https://stacks.math.columbia.edu/tag/0A2J>. Both full displayed proofs were read. They give, respectively, the line-bundle ambiguity of a splitting bundle and annihilation by Azumaya degree.
+- S-22 and S-30 are the independently checked numerical semiregularity and integral four-form inputs. Riemann–Roch is imported with the previously read Stacks 42.66/tag 02UO; only its finite étale, trivial-Todd specialization is used.
+
+## Author check
+
+Author read the entire saved proof after saving it. Center connectedness, matrix degree, virtual-rank and twisted determinant conventions, finite-isogeny exponential character, Chern-character pushforward and all reduced numerical factors were checked and pass. Independent whole-proof reviews requested. No general mixed-action quotient or proof-assistant verification is claimed.

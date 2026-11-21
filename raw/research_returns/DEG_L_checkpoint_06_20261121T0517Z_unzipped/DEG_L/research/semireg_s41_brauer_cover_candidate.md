@@ -1,0 +1,156 @@
+# Candidate S-41: reduced-rank divisibility without a split Brauer hypothesis
+
+Status: isolated candidate awaiting independent whole-proof review. Date 2026-11-21. Author /root/lvalue_bounds, GPT-6 Astra Pro; effort not exposed. This combines the explicit center-cover reduction of S-38 with a multiplication isogeny that kills the residual Brauer class. The arithmetic conclusion does not rely on transferring semiregularity through a Morita equivalence.
+
+## Statement
+
+Let $(X,\theta)$ be a polarized complex abelian fourfold with a Rosati-invariant rational action of $\mathbf Q(\sqrt{\Delta_0})$, of type $(2,2)$, where $\Delta_0>1$ is squarefree. Put
+\[
+ D=\int_X\frac{\theta^4}{24},\qquad
+ C=\frac{\theta_1^2+\theta_2^2}{2},\qquad
+ v_q=1-qC+q^2\frac{\theta^4}{24},\qquad q\in\mathbf Q_{>0}.
+\]
+Let $G\subset X\times\widehat X$ be a finite effective subgroup with a specified coherent translation–tensor action. Suppose a perfect object $\mathcal E$ of positive virtual rank $N$ has a coherent equivariant lift and
+\[
+ e^{-c_1(\mathcal E)/N}\operatorname{ch}(\mathcal E)=Nv_q.
+ \tag{S41.1}
+\]
+Assume the numerical identity
+\[
+ k=\frac{4DN^2q^2}{|G|}\in\{2,4\}.
+ \tag{S41.2}
+\]
+In particular this numerical hypothesis holds for a simple, gluable, fully semiregular lift by S-22.
+
+Let $T=\ker(G\to X)$ be the pure tensor subgroup. Let $R$ be the radical of its scalar commutator, and define
+\[
+ r=|R|,\qquad d=\sqrt{|T|/r},\qquad
+ m=\frac{N}{rd}.
+ \tag{S41.3}
+\]
+Then $d,m$ are positive integers by S-38, and
+\[
+ \boxed{\Delta_0\mid m,\qquad k=2\Longrightarrow2\mid m.}
+ \tag{S41.4}
+\]
+Equivalently,
+\[
+ rd\Delta_0\mid N,\qquad
+ k=2\Longrightarrow rd\operatorname{lcm}(2,\Delta_0)\mid N.
+ \tag{S41.5}
+\]
+No split assumption on the residual Azumaya algebra, no principal-polarization assumption, and no integral maximal-order or minimal-Néron–Severi assumption is made. This is a necessary condition, not an existence statement for the remaining ranks.
+
+## Proof
+
+### 1. The center cover and its coherent translation quotient
+
+S-38(a) gives a connected isogeny $p:B\to X$ of degree $r$, an Azumaya algebra $\mathscr A_B$ of degree $d$, and its class $\beta\in\operatorname{Br}(B)$. The alternating class of the equivariant cohomology sheaves gives a coherent $\mathscr A_B$-module class $M$ of ordinary virtual rank $dm$, with
+\[
+ p^*\operatorname{ch}(\mathcal E)=r\operatorname{ch}(M),
+ \qquad m\beta=0.
+ \tag{S41.6}
+\]
+Here and below a module class can be represented by the direct sum of its finitely many coherent constituents in their original cohomological degrees. These constituents are locally perfect for the Azumaya algebra on the smooth variety $B$.
+
+Put $H=G/T$. The construction in Steps 1–2 of the S-38 mixed addendum does not use $\beta=0$: it gives a coherent $H$-action on $\mathscr A_B$-modules, covering a faithful translation action
+\[
+ \sigma_h=t_{b_h}:B\longrightarrow B,
+ \qquad h\longmapsto b_h\text{ injective}.
+ \tag{S41.7}
+\]
+For clarity, this action comes from coset representatives $s(h)\in G$ acting on $T$-equivariant coherent sheaves. The difference $s(h)+s(k)-s(h+k)\in T$ is removed by that sheaf's prescribed tensor-equivariance map. On the center the tensor subgroup acts trivially, and the resulting cover automorphism lies above translation by $a_{s(h)}$. It is a translation because its difference from the identity takes values in one finite fiber of $p$. The coset action is coherent by the original action pentagon and tensor-equivariance identities, as written explicitly in (S38.18)–(S38.20).
+
+Each such functor on $\mathscr A_B$-modules is algebraic over $\sigma_h$. Its underlying coherent-sheaf operation is
+\[
+ M_0\longmapsto L_h\otimes\sigma_h^*M_0,
+ \qquad L_h=p^*P_{s(h)}\in\operatorname{Pic}^0(B),
+ \tag{S41.8}
+\]
+with the module structure transported by the commutation isomorphism for $s(h)$ and $T$. Equivalently it is given by an invertible algebra bimodule over the graph of $\sigma_h$. The composition isomorphisms are isomorphisms of those bimodules, obtained from line-bundle multiplication and multiplication in the graded algebra. This explicit algebraic description is what will be pulled back in Step 3; no base change of an unspecified categorical functor is invoked.
+
+### 2. A multiplication isogeny kills the Brauer class
+
+Let $a=\operatorname{per}(\beta)$, with $a=1$ when $\beta=0$. By (S41.6), $a\mid m$. The multiplication map
+\[
+ u=[a]:B'=B\longrightarrow B
+ \tag{S41.9}
+\]
+has degree $a^8$ and satisfies $u^*\beta=0$.
+
+The Brauer assertion is the standard identity $[a]^*\beta=a^2\beta$ for an abelian variety over an algebraically closed field of characteristic zero. An exact primary locator is Orr–Skorobogatov–Valloni–Zarhin, *Invariant Brauer group of an abelian variety*, arXiv:2007.05473v3, Section 3, printed p.6, immediately after Remark 3.3. In the present complex case it also follows directly from the étale Kummer sequence: $\beta\in\operatorname{Br}(B)[a]$ lifts to $H^2(B,\mu_a)$; finite-coefficient comparison identifies this with $H^2(B(\mathbf C),\mathbf Z/a)$; multiplication by $a$ is multiplication by $a$ on first cohomology and hence by $a^2$ on its exterior square. Its pullback on this group is zero. The Brauer class therefore vanishes after pullback. The comparison and Kummer facts are imported with the exact locators below, not reproved here.
+
+The pulled-back algebra $\mathscr A'=u^*\mathscr A_B$ has a splitting bundle $S'$ of rank $d$. It is still trivialized as a matrix algebra by a further finite isogeny: base change an isogeny trivializing $\mathscr A_B$ and take a connected component, which is again an isogeny. The splitting-bundle argument of S-38 therefore proves
+\[
+ \operatorname{ch}(S')=d\exp\!\left(\frac{c_1(S')}d\right).
+ \tag{S41.10}
+\]
+
+### 3. Lifting the subgroup of order coprime to the reduced rank
+
+Let $H_0\subset H$ be the product of its primary subgroups for primes not dividing $m$, and put $H_m=H/H_0$. Because $a\mid m$, the order and exponent of $H_0$ are coprime to $a$. Choose an integer $c$ with
+\[
+ ac\equiv1\pmod{\operatorname{exp}(H_0)}.
+\]
+The translations in (S41.7) lift to a genuine faithful action on $B'$ by
+\[
+ \widetilde\sigma_h=t_{c b_h},\qquad h\in H_0,
+ \qquad u\circ\widetilde\sigma_h=\sigma_h\circ u.
+ \tag{S41.11}
+\]
+Indeed $a c b_h=b_h$, and multiplication by $c$ is an automorphism of the finite subgroup of translation points. This selects a group of lifts without adjoining any extra torsion translations.
+
+Pull back the line bundles, algebra isomorphisms and coherent bimodule multiplication in (S41.8) through the commuting squares (S41.11). They give a coherent $H_0$-action on $\mathscr A'$-modules. All the coherence identities are equalities of algebraic morphisms of line bundles or bimodules, so remain equalities after the flat pullback $u$. On underlying coherent sheaves the functor is
+\[
+ M'_0\longmapsto u^*L_h\otimes\widetilde\sigma_h^*M'_0.
+ \tag{S41.12}
+\]
+The pullbacks of the original equivariant module constituents inherit this action by pulling their equivariance maps. Thus no existence of an equivariant splitting bundle is required.
+
+Apply ordinary Morita equivalence using $S'$ to this coherent $H_0$-action. As in S-38, the resulting functors on coherent sheaves on $B'$ are
+\[
+ F_0\longmapsto Q'_h\otimes\widetilde\sigma_h^*F_0
+ \tag{S41.13}
+\]
+for line bundles $Q'_h$. They belong to $\operatorname{Pic}^0(B')$: the transform of the module $S'$ in (S41.12) has the same Chern character as $S'$, because $u^*L_h$ has zero Chern class and $\widetilde\sigma_h$ is a translation. Its Morita description is $S'\otimes Q'_h$, so $d c_1(Q'_h)=0$ rationally, hence integrally because the cohomology of $B'$ is torsion-free. The classes in (S41.13) define a finite effective translation–tensor subgroup, since their translation projection (S41.11) is faithful.
+
+The Morita transforms of the pulled-back module constituents, taken in their original cohomological degrees, now form an actual ordinary perfect $H_0$-equivariant object $F'$ of virtual rank $m$. Apply (S41.6), (S41.10), and the degree-two normalization calculation of S-38. With the integral polarization
+\[
+ \theta'=u^*p^*\theta,\qquad
+ D'=\int_{B'}\frac{(\theta')^4}{24}=a^8rD,
+\]
+one obtains
+\[
+ e^{-c_1(F')/m}\operatorname{ch}(F')=m\,u^*p^*v_q.
+ \tag{S41.14}
+\]
+The rational real multiplication transports through both isogenies, retaining the Rosati and signature hypotheses.
+
+### 4. Integral descent and divisibility
+
+The order of $H_0$ is coprime to $m$. Apply the descent assertion of S-35 to the actual equivariant object $F'$ and the entire subgroup $H_0$. It does not require that $F'$ be simple, gluable or semiregular. Its ordinary descended character and S-30 give
+\[
+ \frac{m^4D'q^2}{|H_0|}\in\Delta_0\mathbf Z_{>0}.
+ \tag{S41.15}
+\]
+Since $|G|=|H|rd^2$ and $N=rdm$, the original numerical identity (S41.2) gives
+\[
+ \frac{m^4D'q^2}{|H_0|}
+  =\frac{a^8rD m^4q^2}{|H_0|}
+  =\frac{a^8m^2 k |H_m|}{4}.
+ \tag{S41.16}
+\]
+Every prime dividing $a$ or $|H_m|$ divides $m$. If an odd prime dividing $\Delta_0$ did not divide $m$, the final expression would be a unit at that prime, contradicting (S41.15). If $m$ is odd, $a$ and $|H_m|$ are odd. For $k=2$ the expression is a half-integer, contradicting integrality. For $k=4$ it is odd, contradicting divisibility by $\Delta_0$ when $2\mid\Delta_0$. Squarefreeness now proves (S41.4), and (S41.5) follows from $N=rdm$. QED.
+
+## Primary sources and exact scope
+
+- Orr, Skorobogatov, Valloni and Zarhin, *Invariant Brauer group of an abelian variety*, arXiv:2007.05473v3, Section 3, paragraph immediately after Remark 3.3, printed p.6: multiplication by an integer acts by its square on the prime-to-characteristic Brauer group. Primary: <https://arxiv.org/pdf/2007.05473>. The full paragraph stating the formula and referring to Kummer theory was read. Its cited Berkovich, Section 2, is imported rather than independently audited; the short complex-torus verification is supplied above.
+- The Stacks Project, Lemma 59.28.1, tag 03PK, gives the étale Kummer sequence. Primary: <https://stacks.math.columbia.edu/tag/03PK>. Its entire displayed proof and the following long exact sequence were read.
+- J.S. Milne, *Lectures on Étale Cohomology*, version 2.21, Theorem 21.1, printed p.130, gives the finite-coefficient comparison theorem used in the short verification above. Primary: <https://www.jmilne.org/math/CourseNotes/LEC.pdf>. The exact statement was read and the theorem is imported; no claim is made to have independently checked the complete comparison proof.
+- The center algebra, virtual determinant, split-bundle character, and coherent quotient construction are the explicit S-38 proofs, with their separate primary-source ledger. The final ordinary descent and integral Chern-class inputs are S-35 and S-30.
+
+The new numerical conclusion applies to all coherent mixed actions satisfying (S41.2). It does not exclude every larger reduced rank; it forces the real-quadratic radicand to divide the rank left after removing the tensor representation size. It makes no claim that a surviving numerical candidate can be represented by a vector bundle or by a semiregular perfect object.
+
+## Author check
+
+Author read the entire saved proof. Checked the reduced module character, quotient action before splitting, period dividing reduced rank, multiplication pullback, faithful coprime translation lifts, base change of explicit algebra bimodule coherence, Morita Pic0 factors, normalized character and volume, ordinary coprime descent, and every prime/parity conclusion. Pass; independent whole-proof reviews requested.

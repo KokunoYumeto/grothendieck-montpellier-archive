@@ -1,0 +1,193 @@
+# Candidate S-35: prime-to-rank descent and the all-group rank restriction
+
+Status: isolated candidate awaiting independent whole-proof review. Date 2026-11-21. Author /root/lvalue_bounds, GPT-6 Astra Pro; effort not exposed. The partial-descent idea and its combination with S-30 are this agent's derivation; /root and /root/semireg_t7 independently stress-checked the determinant and scalar-coherence steps. No general twisted-quotient equivalence is asserted here.
+
+## Statement
+
+Let $(X,\theta)$ be a polarized complex abelian fourfold with a Rosati-invariant rational action of the real quadratic field $F=\mathbf Q(\sqrt{\Delta_0})$, where $\Delta_0>1$ is squarefree, of type $(2,2)$. Put
+\[
+ D=\int_X\frac{\theta^4}{24},\qquad
+ C=\frac{\theta_1^2+\theta_2^2}{2},\qquad
+ \nu=\frac{\theta^4}{24},\qquad
+ v_q=1-qC+q^2\nu.
+ \tag{S35.1}
+\]
+Let $G\subset X\times\widehat X$ be a finite effective subgroup with a specified coherent action
+\[
+ \Phi_g(K)=t_{a_g}^*K\otimes P_g,
+\]
+and let a perfect object $\mathcal E$ of positive virtual rank $N$ have a coherent equivariant lift. Assume that for some positive rational $q$ and rational degree-two class $B$,
+\[
+ e^B\operatorname{ch}(\mathcal E)=Nv_q.
+ \tag{S35.2}
+\]
+Let $H\subseteq G$ be any subgroup whose order is coprime to $N$.
+
+**Descent assertion.** The projection $H\to X$ is injective. There is an integer $j$ such that
+\[
+ \mathcal E\otimes\det(\mathcal E)^{-j}
+           \simeq\pi^*\mathcal F
+ \tag{S35.3}
+\]
+for an ordinary perfect object $\mathcal F$ of rank $N$ on the abelian quotient $\pi:X\to Y=X/H$. In particular, the scalar coherence obstruction on this subgroup can be removed; there is no residual Brauer twist on the asserted quotient object.
+
+The character and integral-lattice consequence is
+\[
+ t_H:=\frac{N^4Dq^2}{|H|}\in\mathbf Z_{>0},
+ \qquad \Delta_0\mid t_H.
+ \tag{S35.4}
+\]
+This does not require $\mathcal F$ to be simple or semiregular.
+
+Suppose in addition that the given lift of $\mathcal E$ is simple, gluable and fully semiregular in the sense used in S-22. Then
+\[
+ k:=\frac{4DN^2q^2}{|G|}\in\{2,4\}.
+\]
+The necessary rank conditions are
+\[
+ \boxed{\Delta_0\mid N,\qquad k=2\Longrightarrow 2\mid N.}
+ \tag{S35.5}
+\]
+They hold for **every** effective finite coherent translation–tensor action. No integral maximal-order action, principal polarization or minimal Néron–Severi hypothesis is needed. Consequently rank one is impossible, and the rank restrictions previously obtained in S-30 for the nonequivariant case remain necessary for all such finite actions.
+
+## Proof
+
+### 1. Determinants and injectivity of the translation projection
+
+Write $L=\det(\mathcal E)$ and $\ell=c_1(L)$. The degree-two part of (S35.2) forces $B=-\ell/N$. For every $g\in G$, the determinant of the equivariance isomorphism $\Phi_g(\mathcal E)\simeq\mathcal E$ gives
+\[
+ t_{a_g}^*L\otimes P_g^{\otimes N}\simeq L.
+ \tag{S35.6}
+\]
+This determinant formula uses the virtual rank and is valid for arbitrary perfect objects. The determinant of a scalar automorphism $z\operatorname{id}_{\mathcal E}$ is $z^N$.
+
+If $g\in H$ has $a_g=0$, (S35.6) gives $P_g^{\otimes N}\simeq\mathcal O_X$. The point $P_g\in\widehat X$ also has order dividing $|H|$, which is coprime to $N$. Thus $P_g=0$ in $\widehat X$. Effectivity of the subgroup of $X\times\widehat X$ then gives $g=1$. Hence $H$ is identified with a finite translation subgroup of $X$; it acts freely, and $Y=X/H$ is an abelian variety.
+
+Let $m$ be the exponent of $H$. Since $\gcd(N,m)=1$, choose $j\in\mathbf Z$ such that
+\[
+ Nj\equiv1\pmod{m^2},\qquad M:=1-Nj\in m^2\mathbf Z.
+ \tag{S35.7}
+\]
+For the trivial group, take $m=1$; all statements below remain valid.
+
+### 2. Removing the line-bundle factors
+
+Conjugate the given action by tensoring with $L^{-j}$ and put $\mathcal E'=\mathcal E\otimes L^{-j}$. The conjugated functor attached to $g\in H$ is translation by $a_g$ followed by tensoring with
+\[
+ R_g=P_g\otimes(t_{a_g}^*L\otimes L^{-1})^{\otimes j}.
+\]
+By (S35.6),
+\[
+ R_g\simeq P_g^{\otimes(1-Nj)}=P_g^{\otimes M}
+                  \simeq\mathcal O_X,
+ \tag{S35.8}
+\]
+because the order of $P_g$ divides $m$ and $m\mid M$. Choose trivializations of these line bundles. The functors are now the usual translations, but their multiplication isomorphisms may differ from the canonical ones by scalars. Their discrepancy is a two-cocycle
+\[
+ \alpha\in Z^2(H,\mathbf C^*)
+ \tag{S35.9}
+\]
+with trivial coefficient action. The original coherence gives the cocycle identity. Changing the chosen trivializations changes $\alpha$ by a coboundary. This is the usual $H^2$ ambiguity of coherent actions with fixed underlying functors; natural degree-zero automorphisms of a translation Fourier–Mukai kernel are scalars on the connected projective variety $X$.
+
+The equivariance maps of $\mathcal E'$ become an $\alpha$-projective translation linearization. We now show that the cohomology class of $\alpha$ is zero.
+
+### 3. The determinant kills the residual scalar coherence
+
+First, every line bundle $L^{m^2}$ lies in the image of
+\[
+ [m]^*:\operatorname{Pic}(X)\longrightarrow\operatorname{Pic}(X).
+ \tag{S35.10}
+\]
+Indeed, $[m]^*L$ and $L^{m^2}$ have the same first Chern class, since $[m]^*$ acts as multiplication by $m^2$ on $H^2(X,\mathbf Z)$. Their ratio belongs to $\operatorname{Pic}^0(X)$. Pullback $[m]^*$ is surjective on $\operatorname{Pic}^0(X)$, being the dual isogeny to $[m]$. Thus one can adjust $L$ by a degree-zero line bundle to obtain a line bundle $Q$ with $[m]^*Q\simeq L^{m^2}$. This argument does not assert $[m]^*L\simeq L^{m^2}$ for a nonsymmetric $L$.
+
+Because $M$ is divisible by $m^2$, the line bundle
+\[
+ \det(\mathcal E')=L^{\otimes M}
+\]
+is also pulled back by $[m]$. The translation subgroup $H$ is contained in $X[m]$, so $[m]$ factors through $X/H$. Consequently this determinant line bundle has an honest $H$-linearization.
+
+On the other hand, taking the determinant of the $\alpha$-projective maps on $\mathcal E'$ gives a projective linearization of the same line bundle with scalar cocycle $\alpha^N$. Compare it with an honest linearization. Their ratios are global line-bundle automorphisms, hence scalars, so the comparison says
+\[
+ N[\alpha]=0\quad\text{in }H^2(H,\mathbf C^*).
+ \tag{S35.11}
+\]
+The standard restriction–corestriction identity says that this positive-degree cohomology group is killed by $|H|$. Since $\gcd(N,|H|)=1$, equation (S35.11) forces $[\alpha]=0$. Choosing a coboundary trivialization converts the action and the equivariance maps into an ordinary coherent translation action and an honest $H$-linearization of $\mathcal E'$.
+
+For the precise scalar convention, if $\alpha(g,h)\alpha(gh,k)=\alpha(h,k)\alpha(g,hk)$, then $b(g)=\prod_{h\in H}\alpha(g,h)$ satisfies
+$\alpha(g,h)^{|H|}=b(g)b(h)b(gh)^{-1}$. This is the degree-two instance of the cited annihilation identity; it also directly checks the use of the trivial coefficient action here.
+
+### 4. Ordinary descent and its normalized character
+
+Let $\pi:X\to Y=X/H$ be the quotient isogeny. Finite étale descent gives a perfect object $\mathcal F$ with $\pi^*\mathcal F\simeq\mathcal E'$. One can realize it concretely as
+\[
+ \mathcal F=(\pi_*\mathcal E')^H.
+ \tag{S35.12}
+\]
+The pushforward along a finite étale map preserves perfectness, and the averaging idempotent splits a perfect direct summand. Finite flat base change gives
+$\pi^*\pi_*\mathcal E'\simeq\bigoplus_{h\in H}t_h^*\mathcal E'$; the honest linearization identifies the invariant summand with $\mathcal E'$, proving the assertion. In particular $\operatorname{rk}\mathcal F=N$.
+
+There is a rational ample class $\theta_Y$ with $\pi^*\theta_Y=\theta$. It can be obtained by dividing the norm polarization by $|H|$. The rational real multiplication descends by the isogeny and remains Rosati-invariant of type $(2,2)$. Let $C_Y,\nu_Y$ be its corresponding classes. Then
+\[
+ \pi^*C_Y=C,\quad \pi^*\nu_Y=\nu,\quad
+ \int_Y\nu_Y=\frac D{|H|}.
+ \tag{S35.13}
+\]
+The first Chern class of $\mathcal E'$ is $M\ell$. Twisting by a line bundle leaves the determinant-normalized character unchanged, so
+\[
+ e^{-c_1(\mathcal E')/N}\operatorname{ch}(\mathcal E')=Nv_q.
+\]
+Since $\pi^*$ is injective on rational cohomology, the descended object satisfies
+\[
+ e^{-c_1(\mathcal F)/N}\operatorname{ch}(\mathcal F)
+       =N(1-qC_Y+q^2\nu_Y).
+ \tag{S35.14}
+\]
+No semiregularity assertion about this partial quotient object is needed.
+
+Choose a positive integer $c$ such that $\theta'_Y=c\theta_Y$ is an integral polarization. Put $q'=q/c^2$. Then $C'_Y=c^2C_Y$, $\nu'_Y=c^4\nu_Y$, so the right side of (S35.14) is exactly $Nv_{q'}$ for the integral polarization $\theta'_Y$. Its volume is $D'_Y=c^4D/|H|$.
+
+For every positive-rank perfect object with this normalized character, the second-Chern identity used in S-30 gives the integral class
+\[
+ N^2q'C'_Y
+     =N c_2(\mathcal F)
+        -(N-1)\frac{c_1(\mathcal F)^2}{2}.
+\]
+The term $c_1(\mathcal F)^2/2$ is integral on a torus. Applying the integral four-form obstruction S-30 to this class yields
+\[
+ N^4D'_Y(q')^2\in\mathbf Z_{>0},
+ \qquad \Delta_0\mid N^4D'_Y(q')^2.
+\]
+The rescaling cancels exactly:
+\[
+ N^4D'_Y(q')^2=\frac{N^4Dq^2}{|H|}=t_H.
+\]
+This proves (S35.4).
+
+### 5. Removing all primes not dividing the rank
+
+The finite group $G\subset X\times\widehat X$ is abelian. Let $H$ be the product of its primary subgroups at primes not dividing $N$, and write
+\[
+ G_N=G/H.
+\]
+Every prime divisor of $|G_N|$ divides $N$, while $\gcd(|H|,N)=1$, so the preceding argument applies. The semiregular numerical identity of S-22 converts (S35.4) to
+\[
+ t_H=\frac{N^2 k |G_N|}{4}\in\Delta_0\mathbf Z_{>0}.
+ \tag{S35.15}
+\]
+If an odd prime $p\mid\Delta_0$ did not divide $N$, then it would divide none of $N,k,|G_N|,4$; equation (S35.15) would be a $p$-adic unit, contradicting its divisibility by $\Delta_0$.
+
+Suppose $N$ is odd. Then $|G_N|$ is odd. If $k=2$, the right side of (S35.15) is a half-integer, contradicting integrality. If $k=4$ and $2\mid\Delta_0$, it is an odd integer, contradicting divisibility by $\Delta_0$. Every prime factor of the squarefree integer $\Delta_0$ therefore divides $N$, and the $k=2$ case always requires even $N$. This is (S35.5). QED.
+
+## Exact remaining scope
+
+The argument removes the part of the finite action whose order is coprime to the rank. The remaining action is supported at primes dividing $N$; its pure tensor kernel can be nontrivial, and a Brauer-twisted quotient may remain. We have not identified that residual category with an ordinary abelian variety, and the rank conditions are necessary rather than a construction of surviving objects.
+
+The proof needs no preservation of full semiregularity under passage to the subgroup $H$. It uses the original full group's numerical value $k$ and the actual integral Chern classes of the ordinarily descended object. It also does not require the rational real multiplication to preserve an integral lattice on the quotient: S-30's Smith-normal-form obstruction already has that scope.
+
+## Primary locators
+
+- Determinants of perfect objects and compatibility with pullback: Knudsen–Mumford, *The projectivity of the moduli space of stable curves I*, Theorem2 p42 and extended determinant definition pp40–42, imported in the independently checked S-17/S-34 determinant argument. The scalar weight $N$ follows directly from the alternating determinant definition.
+- Multiplication pullback and its degree-zero correction: Milne, *Abelian Varieties*, Corollary5.4 pp22–23 (complete displayed proof), Theorem7.2 p33, and Theorem9.1 p41 with the preceding description of the dual map as pullback on $\operatorname{Pic}^0$. <https://www.jmilne.org/math/CourseNotes/AV.pdf>. Theorem9.1's proof is externally referenced there and is imported; the required surjectivity statement was read.
+- Scalar coherence of fixed categorical functors: Beckmann–Oberdieck, *On equivariant derived categories*, arXiv:2006.13626v2, §2.1 p3 and Theorem2.1(a) pp4–6. <https://arxiv.org/pdf/2006.13626>. Only the $H^2$ ambiguity is used here; the cocycle and determinant comparison are explicit above.
+- Annihilation of positive-degree group cohomology: Milne, *Class Field Theory*, ChapterII, Proposition1.30 and Corollary1.31, printedp70 (PDF page index78), including both complete short proofs. <https://www.jmilne.org/math/CourseNotes/CFT.pdf>.
+- The integral four-form obstruction and the full semiregular numerical input are precisely S-30 and S-22, with their separate proof checks. Their hypotheses are retained explicitly above.
