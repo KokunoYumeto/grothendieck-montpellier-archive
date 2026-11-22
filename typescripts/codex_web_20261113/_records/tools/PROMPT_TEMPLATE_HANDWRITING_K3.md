@@ -462,6 +462,23 @@ transcribing it is not a check of it. Write "none" under the header if there is 
   end. Do not write files out in this chat instead: the work reaches us only through checkpoint ZIPs and
   `{ID}_out.zip`.
 
+## Page files: what they hold
+
+These rules hold wherever another section of this prompt says less.
+
+- **`out/pages/` holds finished pages only.** Keep a page in work in `out/drafts/`. Move it into `out/pages/` when you
+  write its line `scan NNN done <current UTC time>` in the progress log, never before. A page file without that line is taken as
+  not done (an earlier run left an undecided page there, and it was counted as finished).
+- **His writing is text, wherever it stands on the sheet.** Lists, columns, notes beside one another and struck
+  blocks are set as text, as a table or as margin notes, in reading order. A TikZ picture holds a drawing's
+  lines and that drawing's own labels, nothing else. A drawing is drawn stroke by stroke, never traced from
+  the pixels.
+- **Page files carry no records.** Readers' candidates, crop coordinates, reasons and provenance go to the
+  logs, not into TeX comments. The only comments in a page file are those this prompt names.
+- **A printed administrative list of other people on a reused sheet** (names, personal numbers) is not his
+  text: do not copy it, whatever a witness has. Transcribe his own writing on that sheet in full, and record
+  the scan in the notes as `reused sheet: personal list`.
+
 ## What to deliver (all in `out/`, zipped as `{ID}_out.zip` and offered as a download at the end)
 
 1. `pages/{ID}_{COTE}_scanNNN.tex`, one file per scan page, and `{ID}_transcription.tex`, the assembled fragment
