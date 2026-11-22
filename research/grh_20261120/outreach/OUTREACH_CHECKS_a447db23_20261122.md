@@ -73,8 +73,9 @@ grothendieck-montpellier-archive.
   - k = F̄_2. E_0 = F_0 is y^2 + xy = x^3 + 1, which has Δ = 1 and is ordinary. P = (0, 1) has order 2.
   - X_0 = (E_0 × F_0)/⟨(−1, t_P)⟩, Jacobian through the image of {0} × F_0.
   - A/k[ε] is the deformation of E_0 × F_0 with Serre-Tate matrix q = [[1, 1+ε], [1, 1]].
-  - diag(−1, 1) lifts, because (1+ε)^{−1} = 1+ε. t_P lifts uniquely, since P is étale. The lift σ is a free
-    involution.
+  - diag(−1, 1) lifts, because (1+ε)^{−1} = 1+ε. t_P lifts, though not uniquely, since μ_2(k[ε]) is nontrivial (corrected 22 Nov 2026: this
+    said "uniquely, since P is étale"). As q(e_F, ·) = 1, take the lift of P with trivial formal coordinate: it
+    has order 2 and is fixed by diag(−1, 1), so the lift σ is a free involution.
   - Twice the product polarization lifts, because (1+ε)^2 = 1. So X = A/⟨σ⟩ is a smooth projective deformation of X_0.
 - **Check (Katz, Serre-Tate local moduli, Thm 2.1(3), (4)).**
   - A lift of f_0 = (0, φ^∨): Y_0^∨ → A_0^∨ would need q_{A^∨}(e_F^∨, e_E) = q_B(x, 0) = 1.
@@ -231,3 +232,37 @@ grothendieck-montpellier-archive.
     is a cusp of Y.
   - It holds for f finite (or with cusps counted as points). The run claims nothing against RNS Theorem A or the Isom
     theorems.
+
+## Corrections after reading the definitions (22 Nov 2026)
+
+By Claude Opus 5.5 at effort max, the session that sent the notes, reading each paper itself at the user's request. These
+entries take precedence over the sections above where they differ.
+
+- **Bhowmik-Pathak, sent note 01 (read: Section 2's definitions, Theorem 1.11 and its proof).** The example at τ = i stands. The
+  repair suggested in the note was incomplete: the statement allows k = 0, and then f = g = j, f̃ = E_2E_4/E_6, τ = 2i
+  fails although the E_2-part survives. With k ≠ 0, every f_r finite at τ and some f_r(τ) ≠ 0 for r ≥ 1, the statement
+  holds: j(τ) is algebraic over Q̄(g(τ)), Δ(τ) over Q̄(j(τ), f(τ)), hence E_4(τ), E_6(τ) and then E_2(τ) over
+  Q̄(f(τ), g(τ), f̃(τ)), and Nesterenko applies.
+- **Soulé, sent note 02 (read: 1.1, 3.1, Lemma 9 with its proof, Theorems 1 and 2).** Stands, with Γ = GL_N(A) and r = [F : Q].
+  The proof's dichotomy fails when the cyclotomic polynomial splits partly over F. The excluded primes of Theorem 2
+  change with those of Theorem 1, as it is deduced from it. The note named only Theorem 1.
+- **Nagpal-Snowden, section 1 (read: uHom, Theorem 7.1(a), both paragraphs of its proof).** Stands.
+- **Partsch, section 4 (read: the setting of Section 6, Proposition 6.6 and its proof).** The example stands; the clause on
+  lifting t_P is corrected in section 4. Katz's theorem is used as stated in section 4 and was not reread.
+- **Asvin G., section 2 (read: Lemmas 11, 12 and 15 and the definition of M_n).** Stands; the map meant is the pullback f^*.
+- **Buss, Grigoriev, Impagliazzo, Pitassi, section 5 (read: reducibility, Lemmas 1 and 2, the proof of Corollary 21).** Stands.
+- **Caradot-Lin, section 7 (read: the axioms of a PD dg ring, Proposition 3.10 and its proof in v4).** Stands; the example satisfies
+  all eight axioms and the authors' condition on boundaries.
+- **Hoshi-Tsujimura, section 12 (the preprint read in full).** Stands, with "geometric" as glossed in Theorem A(iii), so ∞ is
+  included.
+  - Remark 2.5.1 with n_1 = n_2 is itself a counterexample: for (p^n, p^n) the tangential section at ∞ with u = 1/a and
+    u = p^{-n} has image (p^n, −p^n), and −1 is p-divisible.
+  - The gap is Proposition 1.4(ii), (3) implies (2) or (4). It needs (5): every x_i/x_j is p-divisible.
+  - Theorem A(iii) then holds with the added hypothesis that x_1/x_2 is not a root of unity of order prime to p.
+    Theorem A(i) and (ii) are unaffected. Hoshi's own list of papers still gives the paper as a preprint.
+- **Mochizuki-Tsujimura, section 13 (read: Theorems A and F, the notations, Proposition 3.5(iii) with its proof, in RIMS-1974
+  and in the author's version of 30 March 2024, where they read the same).** Stands.
+  - Proposition 3.5(iii) has the same defect as Theorem F(ii), and is where it enters: the proof passes to the smooth
+    compactifications of coverings, after which cusps and points are not told apart.
+  - The example needs only the uniqueness that the proposition asserts: a point y inducing s_Y would have f(y) = 2.
+  - A sufficient extra hypothesis, given that proof, is that f is finite.
