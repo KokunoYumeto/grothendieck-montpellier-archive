@@ -1,0 +1,1 @@
+This script is copied without modification from ALPOGE_BRIDGES checkpoint09, research/consequences_criteria_noncyclic_check.py. It is an inherited exact-arithmetic certificate, not new code. The observed execution output is in ../cote15_honda_computation.txt. The new proof checks the mathematical assertions that a finite calculation cannot establish.
