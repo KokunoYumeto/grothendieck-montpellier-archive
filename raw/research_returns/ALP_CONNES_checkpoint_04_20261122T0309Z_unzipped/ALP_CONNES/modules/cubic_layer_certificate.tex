@@ -1,0 +1,303 @@
+\section{A finite first-layer certificate and a uniform fixed cubic bound}
+\label{sec:cubic-layer-certificate}
+
+Let $E_1=\mathbb Q(\mu_9,\sqrt[3]{269})$.  The exhaustive
+class-group certification attempted for this degree-eighteen field
+was stopped: its unconditional prime-search bound was
+$9173231824586$.  Its preliminary class-group and logarithmic-class
+outputs are not used as certified answers.  Instead, the following
+finite certificate uses proposed algebraic objects from that
+calculation and checks their required properties directly.
+The verification scripts and complete outputs are retained in
+\texttt{evidence/cubic\_logarithmic/}.
+
+\begin{theorem}[AC-K15: a certified first-layer upper bound]
+\label{AC-K15}
+The actual degree-zero logarithmic class group satisfies
+\[
+       \#\widetilde{\operatorname{Cl}}_3(E_1)\leq3^6.    \tag{KC.1}
+\]
+Together with AC-K13 and AC-K16--AC-K17, this proves that the
+split unramified Iwasawa module $X'$ of the fixed field $E$ is
+finite.  Consequently there is a fixed finite integer
+\[
+ C_E=1+\operatorname{length}_{\mathcal O}X'
+\]
+such that, for every $e\geq1$ and every integer $t\geq2$,
+\[
+ 3\leq m_e\leq C_E,\qquad
+ \sum_{1\leq e<t}m_e\leq C_E(t-1).                   \tag{KC.2}
+\]
+The sharper equality $m_e=4$ for $3\mid e$ remains valid.
+All assertions are unconditional.  The proof certifies the
+upper bound (KC.1), rather than asserting exact first-layer
+class invariants from an uncertified class-group routine.
+No numerical value for $C_E$ is claimed.
+\end{theorem}
+\begin{proof}
+\proofstep{1. Four explicit unramified cubic characters.}
+The field used in the computation is the exact compositum of
+$Y^3-269$ and $Y^6+Y^3+1$.  The compositum output retains its
+embeddings; its chosen primitive element is
+$\zeta_9-\sqrt[3]{269}$.  The degree-eighteen polynomial and
+embeddings are in \texttt{certify\_layer1.out}, and the polynomial
+is repeated in \path{layer1_unramified_certificate.out}.
+The test \texttt{nfcertify(b)} returned the empty vector,
+certifying the maximal order used in subsequent ideal operations.
+This is a maximal-order check, not a class-group certification.
+
+The file \texttt{layer1\_classfields.bin} retains a number-field
+structure, a provisional ray-class structure, and four explicit
+polynomials
+\[
+                         X^3-a_i\quad(1\leq i\leq4).
+\]
+Their algebraic coefficients $a_i\in E_1$ are printed completely
+in \path{layer1_unramified_certificate.out}.
+The routine proposing these polynomials is not used as a proof
+of their class-field interpretation.  Each polynomial was
+independently factored over the actual number field: the exact
+factorization returned one factor of degree three.
+For each, \texttt{rnfdisc(b,polynomial)[1]} returned the unit
+ideal.  Thus each defines a degree-three extension unramified
+at every finite prime.  The base field is totally imaginary,
+so there are no additional real-place conditions.
+The polynomials are pure cubics and $\mu_3\subset E_1$;
+therefore each extension is cyclic.  This last argument is
+specific to $X^3-a_i$, not to an arbitrary irreducible cubic.
+They consequently define four genuine unramified Artin
+characters on the ideal class group, with values in
+$\mu_3\simeq\mathbb F_3$.
+
+\proofstep{2. A certified upper bound for the ordinary three-class group.}
+Let $g_1,g_2,g_3,g_4$ be the four explicit ideal matrices retained
+in the field data, and let $\mathfrak q$ be the first prime
+above seven in the retained prime decomposition.  Its norm is
+$343$.  Cubic residue symbols of the $a_i$, evaluated at the
+prime factors of $g_1,g_2,g_3,\mathfrak q$, give the matrix
+\[
+ \begin{pmatrix}
+ 0&2&0&0\\
+ 0&0&2&0\\
+ 2&0&0&0\\
+ 0&0&0&2
+ \end{pmatrix},\qquad \det=1\quad\hbox{in }\mathbb F_3.
+                                                               \tag{KC.3}
+\]
+All these test primes avoid the radicals' zero divisors.
+Explicitly, at a prime $\mathfrak l$ of norm $N\mathfrak l$,
+the script compares
+$a_i^{(N\mathfrak l-1)/3}\bmod\mathfrak l$
+with $1,\zeta_3,\zeta_3^2$; for an ideal product it sums
+these exponents with the ideal-factorization multiplicities.
+This is the Frobenius action on a cube root of $a_i$.
+The root $\zeta_3$ is the sixth power of the displayed
+order-eighteen root of unity.  Thus the computation is a
+finite-field calculation of the actual Artin characters.
+
+The same script supplies algebraic elements, in compact
+factored form, and verifies by exact ideal arithmetic
+\[
+ \mathfrak q=(b)g_1^{21}g_4^2,
+ \qquad
+ g_1^{63}=(b_1),\quad g_2^{21}=(b_2),\quad
+             g_3^3=(b_3),\quad g_4^3=(b_4).            \tag{KC.4}
+\]
+Every equality in (KC.4) returned verification value one.
+Their complete elements and ideal matrices are in
+\path{layer1_generation_certificate.out}; the reproducible
+script has the same basename and suffix \texttt{.gp}.
+These are direct ideal equalities, not assertions that the
+provisional class-group generators form a basis.
+
+Put $A_1=\operatorname{Cl}(E_1)_{(3)}$.
+AC-K16 gives $\dim_{\mathbb F_3}A_1/\lambda A_1=2$.
+Since $3$ is a unit times $\lambda^2$, the filtration by
+$\lambda$ shows $\dim_{\mathbb F_3}A_1/3A_1\leq4$.
+The rank-four pairing (KC.3) forces the classes of the four
+tested ideals to span this quotient.  By the first relation
+in (KC.4), they belong to the subgroup generated by the
+$g_i$.  Nakayama's lemma for the finite three-group therefore
+shows that the three-primary projections of the $g_i$
+generate all of $A_1$.  The remaining relations in (KC.4)
+now give the unconditional bound
+\[
+                       \#A_1\leq3^{2+1+1+1}=3^5.     \tag{KC.5}
+\]
+No claim that its order is exactly $3^5$ is needed.
+
+\proofstep{3. Removing the classes at three saves a factor of three.}
+Let $S$ be the three primes of $E_1$ over three.
+For the radicals $a_1,a_2,a_4$, the exact test
+\texttt{nfislocalpower(b,pr,a,3)} returned zero at every
+$\mathfrak p\in S$; the third radical returned one.
+The complete $4\times3$ result is
+\[
+ \begin{pmatrix}0&0&0\\0&0&0\\1&1&1\\0&0&0\end{pmatrix}.
+                                                               \tag{KC.6}
+\]
+This tests local cubeness, independently of any class-group
+or unit-group completeness assumption.  The implementation
+in PARI/GP~2.19.1, \texttt{src/basemath/bnflog.c}, function
+\texttt{nfislocalpower\_i}, strips the local valuation and
+uses the finite principal-unit group.  Here the local
+ramification index is six and its test level is
+$6\cdot3/(3-1)+1=10$.  The public command semantics are
+recorded in the same release's manual under
+\texttt{nfislocalpower}.  Thus zero in (KC.6) is a certified
+local noncube test, not a floating-point approximation.
+
+Choose the first extension and any prime in $S$.
+It is unramified by Step~1 and nonsplit by (KC.6), so its
+Frobenius has order three.  The corresponding prime class
+has a nontrivial image in an unramified character, and its
+three-primary projection has order at least three.
+It follows from (KC.5) that the actual localized class group
+satisfies
+\[
+ \#\operatorname{Cl}(\mathcal O_{E_1}[1/3])_{(3)}
+                         \leq3^4.                    \tag{KC.7}
+\]
+
+\proofstep{4. Two actual units bound the logarithmic kernel.}
+Each completion of $E_1$ at three is $\mathbb Q_3(\mu_9)$.
+Its logarithmic ramification and residue indices are
+$(\widetilde e,\widetilde f)=(2,3)$, also independently
+returned for all three primes by \texttt{bnflogef}.
+Choose logarithmic degree $d=3\log_3(4)$ at each of these
+three places.  This is the normalization allowed by
+Belabas--Jaulent, Corollary~3.5 and Remark~3.6, author's
+pp.~8--9.  For a genuine $S$-unit $u$, put
+\[
+  \ell_i(u)=-\frac{\log_3 N_{(E_1)_{\mathfrak p_i}/\mathbb Q_3}(u)}
+                         {3\log_3(4)}\in\mathbb Z_3.
+\]
+The product formula gives $\sum_i\ell_i(u)=0$ exactly.
+
+The script \path{layer1_logkernel_certificate.gp} retains
+eleven explicit proposed $S$-units.  It verifies, by exact
+ideal factorization, that every prime in every one's divisor
+lies above three.  This only proves they are actual $S$-units;
+it does not assume they are a full basis.  For units numbered
+five and ten, the first two rows of their logarithmic
+valuation matrix are
+\[
+       \begin{pmatrix}39&51\\21&30\end{pmatrix}
+                  \pmod{81}.                         \tag{KC.8}
+\]
+Its determinant is $18\pmod{81}$, and hence has three-adic
+valuation exactly two.  The script computes the local norms
+as resultants with the three degree-six factors of the field
+polynomial over $\mathbb Q_3$.  It starts with factor precision
+sixty; the reported matrix precision is at least fifty,
+and the determinant precision is fifty-one.  These are
+absolute three-adic precision bounds.  In particular the
+four digits required for the displayed reduction modulo
+$81$ are available with a large margin.  Independent
+replays at precisions forty and seventy give determinant
+valuation two again.  Permuting the local factors can
+change the displayed minor by a sign; it does not change
+its valuation or the lattice index.
+
+The lattice of degree-zero divisors supported in $S$ is
+\[
+ D_S^0=\{(z_1,z_2,z_3)\in\mathbb Z_3^3:
+                                z_1+z_2+z_3=0\}.
+\]
+Its first two coordinates identify it with $\mathbb Z_3^2$.
+By (KC.8), the logarithmic divisors of just these two actual
+$S$-units span a sublattice of index nine in $D_S^0$.
+Quotienting by all principal logarithmic divisors can only
+reduce this order.  Therefore the degree-zero subgroup of
+logarithmic classes generated at three has order at most
+nine.
+
+\proofstep{5. The logarithmic-class upper bound.}
+The logarithmic divisor-class presentation has the exact
+sequence
+\[
+ 0\longrightarrow\widetilde{\operatorname{Cl}}_3(E_1)(3)
+ \longrightarrow\widetilde{\operatorname{Cl}}_3^{\rm all}(E_1)
+ \longrightarrow\operatorname{Cl}(\mathcal O_{E_1}[1/3])_{(3)}
+ \longrightarrow0,                                    \tag{KC.9}
+\]
+where the middle group here includes the degree direction
+and the left group is generated by the primes over three.
+The source is Belabas--Jaulent, beginning of \S3, author's
+p.~6, with the $S$-unit relation presentation in \S3.3,
+p.~10.  Upon restriction to degree zero, surjectivity at
+right need not persist; the image is a subgroup of the
+last group.  Its order is at most $3^4$ by (KC.7), while
+the kernel has order at most $3^2$ by Step~4.
+Thus the degree-zero middle group is finite and has order
+at most $3^6$, proving (KC.1).  This argument explains why
+neither a saturated unit basis nor a full certified class
+presentation is needed: all extra true relations only
+make the group smaller.
+
+\proofstep{6. All positive free ranks are excluded.}
+Use $T=X'_{\rm tors}$, $X'/T\simeq\mathcal O^r$ and $G$
+from AC-K16, and put $P(z)=\det(zI-G)$.
+Suppose $r>0$.  AC-K17 proves
+\[
+ P\in\mathbb Z_3[z],\quad
+ P(z)\equiv(z-1)^r\pmod3,\quad v_\lambda P(1)=2,
+ \quad T\simeq\mathbb F_3[B]/B^k,
+                                                               \tag{KC.10}
+\]
+where $B=\gamma-1$, $k\geq1$, and $r+k\in\{6,7\}$.
+For clarity, the torsion assertion follows by applying
+Nakayama to $T/(3,B)T\simeq\mathbb F_3$, choosing a
+complex-conjugation eigenvector as its generator, and using
+$c\sigma c=\sigma^{-1}$.  Conjugation is scalar on the
+resulting cyclic $\mathbb Z_3[[B]]$-module, which forces
+$\sigma=1$ and hence $\lambda T=0$.
+
+The weight-zero descent over $E_1$ is
+\[
+                X'/(\gamma^3-1)X'
+                       =\widetilde{\operatorname{Cl}}_3(E_1).
+\]
+It is finite by (KC.1).  Thus $G^3-I$ has nonzero determinant,
+and the snake-lemma length formula used in (KI.7) gives
+\[
+ \operatorname{length}_{\mathcal O}
+                  \widetilde{\operatorname{Cl}}_3(E_1)
+   =\min(k,3)+v_\lambda\det(G^3-I).                  \tag{KC.11}
+\]
+Indeed $\gamma^3-1=B^3$ on $T$, since $T$ has characteristic
+three.  If $r=1$, (KC.10) gives $k\geq5$, while
+$G=(g)$ with $g\in1+3\mathbb Z_3$ and $v_3(g-1)=1$.
+Lifting the exponent gives $v_\lambda(g^3-1)=4$.
+The right side of (KC.11) is therefore $3+4=7$.
+
+If $r\geq2$, write $P(z)=(z-1)^r+3Q(z)$ with
+$Q\in\mathbb Z_3[z]$.  Both $P(\omega)$ and
+$P(\omega^2)$ belong to $3\mathcal O$, because
+$\omega-1$ and $\omega^2-1$ have $\lambda$-valuation one
+and $r\geq2$.  The factorization
+\[
+ \det(G^3-I)=\pm P(1)P(\omega)P(\omega^2)
+\]
+therefore has $\lambda$-valuation at least six.
+The torsion contribution $\min(k,3)$ is at least one,
+so (KC.11) again has length at least seven.
+Both cases contradict (KC.1).  Consequently $r=0$.
+Finite generation in AC-K16 now makes $X'$ finite.
+
+Finally $W_e(E)$ is a quotient of this fixed finite module
+by the twisted endomorphism $4^e\gamma-1$.
+Its $\mathcal O$-length is at most that of $X'$.
+Equations (KL.1)--(KL.2) prove (KC.2), and AC-K14 supplies
+the equality on multiples of three.
+\end{proof}
+
+\paragraph{Scope of the fixed-field result.}
+The coefficient-prime-three contribution for this one cubic
+character now has a uniform linear budget in the number of
+weights.  This is stronger than mere weight-by-weight
+finiteness.  It does not yet estimate other coefficient
+primes, the varying CM hosts in \texttt{SupplyChi}, or the
+full sum required in H04.4.  The constant $C_E$ and the two
+remaining classes of individual weights modulo three have
+not been explicitly evaluated.

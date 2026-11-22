@@ -1,0 +1,155 @@
+\subsection{QC-009: exact determinant and padded samples with second tensor equal to the identity}
+
+\paragraph{Statement QC-009.}
+The standard-library generator
+\texttt{generate\_orthonormal\_samples.py} supplies two reproducible
+sets of centered nonic tensor values modulo $101$, all with normalized
+second tensor $I_3$ and with every tensor entry of orders $2$ through
+$9$ retained:
+\[
+\begin{array}{c|r|r|r}
+\text{source locus}&\text{points}&\text{coordinates per point}&
+ \text{consistency checks}\\\hline
+D_{9,4}&2420&216&7260\\
+V=\{\ell q_8\}&2410&216&7230
+\end{array}
+\tag{QC-009.1}
+\]
+The determinant values come from explicit integer matrix pencils.
+The padded values have explicit integer polynomial lifts with an
+exact linear factor. The identity condition on the second tensor
+is asserted modulo $101$; no claim that an integer congruence
+normalizes a general real or rational quadratic form is needed.
+These data support the next restriction comparison and do not
+by themselves assert its rank.
+
+\begin{proof}
+For the determinant samples begin with the same traceless integer
+matrices and generator as QC-007. If
+$M(v)=v_1A_1+v_2A_2+v_3A_3$, the quadratic coefficient of
+$\det(I_9+M)$ is
+\[
+ \sum_{a<b}(M_{aa}M_{bb}-M_{ab}M_{ba})
+ =\frac{(\operatorname{tr}M)^2-\operatorname{tr}(M^2)}2
+ =-\frac12\operatorname{tr}(M^2).
+\]
+Since the normalized second tensor is the ordinary quadratic
+coefficient divided by $\binom92=36$, its symmetric matrix is
+\[
+ Q_{ij}=-\frac{\operatorname{tr}(A_iA_j)}{72}\pmod {101}.
+ \tag{QC-009.2}
+\]
+The generator discards a pencil unless $Q$ is nonsingular and
+$\det Q$ is a square modulo $101$.
+
+The following finite algorithm constructs a change of basis $h$
+with $h^{\mathsf T}Qh=I_3$. Apply ordinary congruence
+Gram--Schmidt to the three coordinate vectors, choosing a vector
+of nonzero norm at each step. If the remaining basis vectors
+all have zero norms, some two have nonzero mutual pairing,
+because the remaining quadratic space is nondegenerate; their
+sum has nonzero norm as $2\ne0$ in the field. Orthogonal
+subtraction then gives an invertible basis with diagonal Gram
+matrix $\operatorname{diag}(d_1,d_2,d_3)$.
+
+Because its determinant is a square, there are either zero or
+two nonsquare $d_i$. Scale each square-norm vector by the
+inverse of a square root. If $a,b$ are the two nonsquare
+diagonal entries, find $x,y$ with
+\[
+ ax^2+by^2=1.
+\]
+Such a pair exists: each of the two sets
+$\{ax^2:x\in\mathbb F_{101}\}$ and
+$\{1-by^2:y\in\mathbb F_{101}\}$ has $51$ elements,
+so they intersect. The code simply enumerates $y$ and consults
+a table of all squares. Choose $r$ with $r^2=ab$, which is
+possible since $a,b$ are both nonsquares. The two coefficient
+vectors
+\[
+ (x,y),\qquad r^{-1}(-by,ax)
+\]
+are orthonormal for $\operatorname{diag}(a,b)$: their mutual
+pairing is zero and both norms are one. This finishes the
+construction of $h$. The code verifies every entry of
+$h^{\mathsf T}Qh=I_3$ and verifies $\det h\ne0$.
+
+Replace the pencil matrices by
+\[
+ A'_j=\sum_{i=1}^3h_{ij}A_i\pmod {101}.
+ \tag{QC-009.3}
+\]
+For an explicit integer lift, reduce their entries modulo
+$101$ and replace the last diagonal entry by minus the sum
+of the first eight diagonal entries. This keeps the same
+residue matrix and makes each trace zero over $\mathbb Z$.
+The resulting polynomial
+$\det(x_0I_9+\sum_jx_jA'_j)$ is a genuine determinant,
+and its normalized second tensor is $I_3$ modulo $101$.
+Exact Newton interpolation as in QC-007 computes all higher
+entries. Every second-tensor entry is asserted once more
+from the reconstructed coefficients, independently of
+(QC-009.2). Three additional direct determinant values are
+checked for every accepted point.
+
+For the padded samples use ordinary ternary coefficient forms
+$B_j$ in the expansion
+\[
+ F=x_0^9+\sum_{j=2}^9x_0^{9-j}B_j(x_1,x_2,x_3).
+\]
+Choose an integer linear form $l$, set
+$B_2=36(x_1^2+x_2^2+x_3^2)$, choose arbitrary integer
+$B_3,\ldots,B_8$ by the stated generator, and define
+\[
+ B_9=l^9+\sum_{j=2}^8(-1)^j l^{9-j}B_j.
+ \tag{QC-009.4}
+\]
+Then $F(-l,x_1,x_2,x_3)=0$ identically over $\mathbb Z$.
+An explicit quotient is obtained by $q_0=1$,
+$q_1=-l$, and $q_j=B_j-lq_{j-1}$ for $2\leq j\leq8$:
+\[
+ F=(x_0+l)\sum_{j=0}^8q_jx_0^{8-j}.
+ \tag{QC-009.5}
+\]
+Indeed (QC-009.4) is exactly $B_9=lq_8$. Thus this is an
+integer point of the linear-factor variety, not just a
+finite-field solution to sampled incidence equations. Its
+normalized second tensor is $I_3$ already over $\mathbb Q$.
+The code computes residues of (QC-009.4), normalizes all
+tensor entries, and checks both zero remainder and the
+quotient identity at three points per sample. The exact
+integer lift is defined by (QC-009.4); reducing its expanded
+coefficients during the modular calculation does not change
+any of its recorded values.
+
+The two files use the same ascending coordinate order
+$(j,a,b,j-a-b)$ as QC-007, now for $2\leq j\leq9$.
+The initial seed is $20261122$ in both cases. The first data
+file records $2506$ rejected Gram matrices before obtaining
+its $2420$ accepted points. All $7260$ direct determinant
+checks and all $7230$ padded consistency checks passed.
+The runtimes were respectively $35.062$ and $3.937$ seconds.
+The files are
+\texttt{orthonormal\_determinant\_2420.json} and
+\texttt{orthonormal\_padded\_2410.json}, with adjacent
+manifests recording source and file hashes. Their normalized
+tensor-byte SHA-256 digests are respectively
+\begin{quote}\ttfamily\small
+f30ffaec897ba3ddca20d9a7944477027f01f49da97fe0d5df307d81f0c24d82,\\
+9634a294285e7b6d333c0507bd4ffe6da9c588424daf0971d171e3e3cff103ab.
+\end{quote}
+The first source pencil or padded source forms, all accepted
+generator states, and all consistency values are retained.
+Every point is reproducible from the script and seed.
+\end{proof}
+
+\paragraph{Use of the modular slice.}
+A polynomial defined by a universal bracket construction may
+be simplified at $C_2=I_3$ before evaluation. At these sample
+points the simplification gives exactly its original value
+modulo $101$. A nonzero minor obtained this way still lifts
+to a nonzero minor of the original polynomials on their
+integer source points, because all normalization denominators
+are units modulo $101$. This argument does not require the
+chosen integer lifts of the determinant matrices to have
+$C_2=I_3$ in characteristic zero.

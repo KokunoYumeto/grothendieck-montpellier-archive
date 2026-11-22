@@ -1,0 +1,205 @@
+\subsection{QC-008: exact evaluation and scalar-rank certificates for three tail families}
+
+\paragraph{Statement QC-008.}
+The following matrices of explicitly constructed centered highest-weight
+polynomials on genuine nine-by-nine determinants have full row rank.
+All entries and all rank calculations use exact arithmetic modulo $101$.
+\[
+\begin{array}{c|r|r|r|r}
+\text{tail weight}&\text{functions}&\text{sample points}&
+ \text{rank}&\text{selected minor}\\\hline
+(8,8,8)&804&830&804&70\\
+(9,6,6)&1250&2060&1250&88\\
+(9,7,4)&2030&2060&2030&9
+\end{array}
+\tag{QC-008.1}
+\]
+The first matrix was recomputed entry by entry independently of its
+accelerated builder. The other two matrices were produced directly by
+the standard-library evaluator. All three minors were then computed
+with ordinary scalar Gaussian elimination, independently of the packed
+arithmetic used for polynomial evaluation.
+
+Combined with the complete highest-weight basis certificates and the
+stabilization proofs S-005 and OBS-005, this proves
+\[
+ K_9(9d-24,8,8,8)=a_{(9d-24,8,8,8)},
+\]
+\[
+ K_9(9d-21,9,6,6)=a_{(9d-21,9,6,6)},\qquad
+ K_9(9d-20,9,7,4)=a_{(9d-20,9,7,4)}
+\tag{QC-008.2}
+\]
+for every $d$ for which the displayed tuple is a partition.
+In the first family the padded multiplicity also equals the ambient
+multiplicity by S-005; in the other two, the universal inequality
+$q\leq a=K_9$ suffices to exclude a multiplicity gap. No padded
+multiplicity equality is inferred there.
+
+\begin{proof}
+The source samples are those of QC-007. The first matrix uses all
+$830$ points with jets through order eight. The other matrices use
+the extension to $2060$ points and jets through order nine, generated
+by exactly the same coefficient interpolation and normalization.
+All $6180$ additional direct determinant consistency evaluations passed.
+The source forms have $F_0=1$ and $F_1=0$, so evaluating a centered
+invariant or highest-weight polynomial is exactly the evaluation of
+its denominator-cleared ambient representative at these points.
+
+The integral coefficient arrays for the first basis use the color-orbit
+encoding described in QC-007. For an orbit coefficient $q_O$, its
+evaluation is $q_O$ times the sum of the six globally permuted
+representative monomials, counted with repetition. This is equivalent
+to giving every distinct orbit member coefficient $6q_O/|O|$.
+The coefficient arrays for the other two bases already contain the
+full monomials and need no orbit restoration. Their multidegrees,
+highest-weight identities, and complete ranks as coefficient
+polynomials are checked separately in the basis certificates.
+
+Here is the arithmetic justification for evaluating every sample at
+once in a standard-library implementation. Let $N$ be the number
+of samples and encode a vector $a_i\in\{0,\ldots,100\}$ by
+\[
+ A=\sum_{i=0}^{N-1}a_i2^{32i}.
+\]
+For the values $b_i$ of a fixed tensor coordinate, prepare seven masks
+\[
+ M_k=\sum_{i:\,\text{bit}_k(b_i)=1}127\,2^{32i},
+ \qquad k=0,\ldots,6.
+\]
+Then
+\[
+ Z=\sum_{k=0}^{6}(A\mathbin{\&}M_k)2^k
+       =\sum_i a_ib_i2^{32i}.
+ \tag{QC-008.3}
+\]
+Each lane is smaller than $101^2<2^{14}$, so there is no carry
+between lanes. Products of monomials are obtained by repeating this
+operation and reducing each lane after every multiplication. Caching
+prefix products changes no arithmetic.
+
+To verify the simultaneous reduction, put $r=\lfloor2^{14}/101\rfloor=162$.
+For $0\leq z<101^2$, the number
+$\lfloor zr/2^{14}\rfloor$ is either $\lfloor z/101\rfloor$ or
+one less. The residual is nonnegative and below $202$, and subtracting
+$101$ once if it is at least $101$ gives the correct residue. The
+implementation performs this using a seven-bit mask for the quotient
+and the bit of $z-101q+155$ at position eight for the final correction.
+The intermediate product $zr$ occupies fewer than $21$ bits. Thus
+$32$-bit lanes isolate the operations, and no subtraction borrows from
+another lane. In addition to this proof, every one of the $10201$
+possible inputs to the reduction and every one of the $10201$
+pointwise products in $\mathbb F_{101}^2$ was checked exhaustively.
+
+For a final linear combination, coefficients are reduced to
+$0,\ldots,100$ first. An ordinary monomial evaluation is at most $100$
+per lane, and a six-color orbit sum is at most $600$. The scripts
+assert before each row that
+\[
+ 100^2\,\#\text{monomials}<2^{32}
+ \quad\text{or respectively}\quad
+ 6\cdot100^2\,\#\text{orbit monomials}<2^{32}.
+ \tag{QC-008.4}
+\]
+Consequently the unreduced polynomial sums also have no inter-lane
+carry. Unpacking and ordinary integer reduction modulo $101$ at the
+end gives their exact values.
+
+The program \texttt{verify\_centered\_evaluations.py} independently
+reads the integral coefficient files, restores the color orbits, and
+recomputed all $804\cdot830=667320$ entries of the first matrix.
+Every entry agreed with the independently built matrix. The complete
+check took $164.586$ seconds in this environment. The program
+\texttt{evaluate\_full\_tail\_basis.py} uses the same proved arithmetic
+for full monomials and writes all $1250\cdot2060$ and
+$2030\cdot2060$ entries of the other two matrices directly. Profile
+blocks are cached with both coefficient-file and sample-file hashes.
+Neither program imports NumPy, SciPy, or a symbolic algebra system.
+
+Finally \texttt{check\_centered\_rank.py} uses only ordinary scalar
+Gaussian elimination on the stored bytes. For the first matrix it
+returns rank $804$ and minor $70$ in $11.612$ seconds. For the second,
+the first $1280$ columns already have rank $1250$ and minor $88$
+($39.035$ seconds). For the third, all $2060$ columns give rank $2030$
+and minor $9$ ($162.359$ seconds). The selected column indices are
+recorded in the result files.
+
+The matrix-byte SHA-256 digests, in function-major and then sample-major
+order, are respectively
+\begin{quote}\ttfamily\small
+71b43abba722f968438ea9a4c77ad7f899f5a1dd6b8666962bdceabc8fd50d2d,\\
+1af48de765acb9aac9b95a7e13d807589825028dbc32d563422a7714c295c4a2,\\
+c7a31973e8a2c16b15323510cd8ebab81efe9682023a7f0bdfeaa071275955ce.
+\end{quote}
+These nonzero minors prove that every function in each complete
+highest-weight basis survives restriction to the determinant variety
+and that the restrictions are linearly independent. The samples have
+integer source pencils; the tensor normalizations only have factorial
+denominators prime to $101$. Thus a nonzero modular minor proves a
+nonzero characteristic-zero minor. No modular semisimplicity assumption
+is made. The all-degree consequences in (QC-008.2) now follow from the
+actual-space stabilization and multiplication-by-$F_0$ argument of
+S-005 and OBS-005.
+\end{proof}
+
+\paragraph{Scope.}
+These are three families with fixed tails as $d$ varies; they are not
+families obtained by multiplying every part of one partition by an
+arbitrary stretch. For example, the calculation excludes
+$(114,9,6,6)$ in degree $15$, but does not by itself decide a label
+with a larger tail. In the octic-polar hypersurface terminology of
+S-005 it also forces the generator's tail parameter $c_G$ to be at
+least nine.
+
+\paragraph{Signed nine-bracket extension of the evaluation checker.}
+The program \texttt{verify\_centered\_evaluations\_c9.py} applies the same
+exact arithmetic to the nine-bracket basis specialized at $C_2=I$.
+It first verifies every quadratic tensor entry of every sample.
+The quadratic vertices are then omitted from the monomial encoding;
+the remaining tensor orders are three through nine.  Since nine is
+odd, the restored global-color orbit is
+\[
+ q_O\sum_{\pi\in S_3}\operatorname{sgn}(\pi)\,
+                    \pi\cdot\text{monomial}(O).
+\]
+Orbits with an odd stabilizer vanish and are absent from the archives.
+Even stabilizers retain their required multiplicities.  The verifier
+asserts this by collecting identical permuted monomials with signs
+and requiring the sum of absolute signed multiplicities to be six.
+
+For packed evaluation let $U_+$ and $U_-$ be the sums for the three
+even and three odd permutations.  Every lane of either sum lies
+between zero and $300$.  Hence
+\[
+               U_+ +303\sum_i2^{32i}-U_-
+\]
+has every lane between $3$ and $603$, has no inter-lane borrow,
+and has the desired residue modulo $101$.  The already proved
+reducer applies because $603<101^2$.  Reduce this signed orbit
+before the final linear combination.  Consequently the ordinary
+bound $100^2\#\text{orbit monomials}<2^{32}$ suffices for each row.
+Each completed profile is checked against every saved sample entry
+and cached with the SHA-256 digests of its coefficient archive,
+sample file, and expected-value block.  Atomic certificate replacement
+and hash matching allow an expanding basis to be verified without
+treating a changed input as an already checked block.
+This describes a checker and its correctness; a full nine-bracket
+rank conclusion requires its separate completed result and scalar
+rank certificate.
+
+\paragraph{Completed nine-bracket arithmetic result.}
+The final signed-orbit matrix has $2386$ rows and $2420$ columns.
+The standard-library checker independently recomputed all
+$5\,774\,120$ entries, with no discrepancies.  A separate scalar
+Gaussian elimination, using no packed elimination arithmetic, found
+rank $2386$ and determinant $14$ modulo $101$ on the first $2386$
+columns.  Both computations bind the matrix to SHA-256
+\begin{quote}\ttfamily\small
+d781202425cd3e9bba02d996afa76de3b1bda036564bab797f3ac7135d439b50.
+\end{quote}
+The reports are \texttt{c9\_evaluation\_verification.json} and
+\texttt{c9\_evaluation\_scalar\_rank.json} in this branch's result
+directory.  The scalar computation took $383.717$ seconds.
+The basis reconstruction and its completeness are separate checks
+owned by the support branch; these arithmetic results provide the
+evaluation and rank parts of that branch's fixed-tail theorem.

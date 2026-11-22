@@ -1,0 +1,855 @@
+% New border-rank findings. Include in the checked-results part only after root review.
+\section{Arithmetic replacement of the seventh-minimum certificates}
+
+\subsection*{BR-001: an independent finite checker for all 25 prolongation cases}
+Let the six pairs of $\{0,1,2,3\}$ be in lexicographic order, and number the
+rectangles $q=(I,J)$ by $6\operatorname{index}(I)+\operatorname{index}(J)$.
+For a rectangle subset $S$, set $A=k^S$ and let $B=C$ have the used variables
+$x_{rc}$ as basis.  Its residual inclusion tensor is
+\[
+ T_S^\epsilon=\sum_{q=((r,s),(c,d))\in S}a_q\otimes
+ (x_{rc}\otimes x_{sd}+x_{sd}\otimes x_{rc}
+ +\epsilon x_{rd}\otimes x_{sc}+\epsilon x_{sc}\otimes x_{rd}),
+ \qquad \epsilon\in\{-1,1\}.
+\]
+Here $\epsilon=-1$ is the determinant and $\epsilon=1$ the permanent.
+In characteristic zero, the following 25 cases have border rank at least 14.  The listed determinant
+cases are also taken with their transposes.
+\[
+\begin{array}{c|c|l}
+\text{inherited locator}&\epsilon&S\\\hline
+\text{P-09 A}&-1&0,1,3,6,7,9,12\\
+\text{P-09 B}&-1&0,1,3,6,7,12,13\\
+\text{P-12 C}&-1&0,1,2,3,6,7,8\\
+\text{P-12 D}&-1&0,1,2,3,4,6,12\\
+\text{P-14 E}&-1&0,1,2,3,6,7,9\\
+\text{P-14 F}&-1&0,1,2,3,6,7,18\\
+\text{P-15 det}&-1&0,1,3,6,7,9,18\\\hline
+\text{P-13 1}&1&0,1,2,3,4,6,12\\
+\text{P-13 2}&1&0,1,2,3,6,7,8\\
+\text{P-13 3}&1&0,1,2,6,7,8,18\\
+\text{P-13 4}&1&0,1,2,6,7,18,20\\
+\text{P-13 5}&1&0,1,3,6,7,9,14\\
+\text{P-16 1}&1&0,1,2,3,6,7,9\\
+\text{P-16 2}&1&0,1,2,3,6,7,18\\
+\text{P-16 3}&1&0,1,3,6,7,15,21\\
+\text{P-15 per A}&1&0,1,3,6,7,9,18\\
+\text{P-15 per B}&1&0,1,3,6,7,18,21\\
+\text{P-19}&1&0,1,2,6,7,18,19
+\end{array}
+\]
+The characteristic-zero values were claims of BR\_PENCIL.  The new part here
+is their independent reconstruction by standard-library programs and their
+arithmetic extension, used in BR-002 below.
+
+\paragraph{Proof and complete algorithm.}
+We state the characteristic-independent form of the necessary condition,
+since the inherited findings stated it only in characteristic zero.
+Write $U=T(C^*)\subset A\otimes B$.  If $\underline R(T)\le r$, there is
+an $r$-plane $E\supset U$ such that
+\[
+ \dim\ker\Psi_A(E)\ge r,\qquad \dim\ker\Psi_B(E)\ge r,
+\]
+where $\Psi_A:E\otimes A\to B\otimes\Lambda^2A$ and
+$\Psi_B:E\otimes B\to A\otimes\Lambda^2B$ are wedge maps.
+For spans of $r$ independent pure $AB$ tensors, the corresponding symmetric
+prolongation tensors give $r$ independent kernel vectors; contraction by a
+linear form nonzero on all factors proves independence.  The source bundles
+have constant rank on the Grassmannian, so these kernel-dimension conditions
+are closed.  The condition $U\subset E$ is closed and the Grassmannian is
+proper.  Projection therefore passes this necessary condition to all border
+limits.  The open condition that the $r$ pure $AB$ tensors are independent
+is dense in the $r$-summand parameter space.  This proves the assertion over
+any algebraically closed field.  This is the all-field form of BR\_PENCIL
+P-09's first reduction and Conner--Huang--Landsberg, Proposition 2.1.
+
+The split torus gives $x_{rc}$ weight $R_r+C_c$ and $a_q$ weight
+$-\sum_{r\in I}R_r-\sum_{c\in J}C_c$.  A separating cocharacter limit in the
+proper incidence permits $E$ to be torus invariant.  The image $U$ is the
+direct sum of its $\dim B$ distinct weight lines, each with coefficients
+$\pm1$.  In each such weight, omit the last nonzero coordinate of its image
+vector.  The remaining coordinate vectors, together with $U$, are a basis
+of $A\otimes B$ over $\mathbb Z$.  This specifies all quotient coordinates
+without an arithmetic exceptional prime.
+
+For each orientation and target weight, the programs form the wedge-map
+columns explicitly and eliminate the image of $U$.  If $V_w$ is a quotient
+weight block and $x\in V_w$, the projected column indexed by a factor basis
+vector $f_i$ is a linear map $C_{w,i}x$ of target weight $w+\operatorname{wt}(f_i)$.
+These target weights are distinct for fixed $w$.  Thus adjoining a line
+$kx$ increases rank by precisely the number of its nonzero projected columns.
+All the $C_{w,i}$ are recomputed, rather than read from the inherited data.
+
+The finite enumeration is as follows.
+\begin{enumerate}
+\item Enumerate the support of the quotient $E/U$, respecting the capacity
+of every weight block.  For quotient dimension one or two, the supports
+are single blocks of sufficient capacity or pairs of distinct blocks.
+For quotient dimension four, enumerate every support of at most four blocks
+whose capacities sum to at least four.
+\item Saturate each selected block by its whole quotient weight space.
+If the kernel of either wedge map on this larger space has dimension
+less than $r$, the support is impossible: the kernel for $E$ injects into it.
+\item For a quotient line, enumerate every possible simultaneous zero
+pattern of the $C_{w,i}$.  Start with no equations, repeatedly adjoin the
+row space of one $C_{w,i}$, and keep intersections with a nonzero kernel.
+Canonical exact row reduction removes repetitions.  An intersection $K$
+represents the stratum obtained by removing the kernels of the remaining
+maps that do not vanish identically on $K$.  It is nonempty over the infinite
+algebraic closure: a finite union of proper linear subspaces cannot cover
+$K$.  Conversely, every vector's exact zero pattern occurs in this enumeration.
+\item For lines in distinct weights, the number of distinct active target
+weights is a joint rank lower bound.  Another valid bound sums the individual
+increments and subtracts the total possible overlap of target weights.
+For a fixed line, quotient by its actual image before testing the other line.
+\item For the support-nine cases the only surviving multiplicity patterns
+are $(1,1,1,1)$ and $(2,1,1)$.  In the first pattern, quotient by the images
+of every fixed line.  One or two parameter lines remain.  Repeat the exact
+arrangement enumeration in this quotient and retain a refined stratum only
+if every formerly required nonzero map remains nonzero somewhere on it.
+For a plane in a three-dimensional block, parameterize it as $\ker n$.
+A column map of rank one restricts to rank zero exactly when $n$ spans its
+row space; a map of rank two restricts to rank one exactly when $n$ annihilates
+its one-dimensional kernel; ranks zero and three restrict to ranks zero and
+two.  These are linear conditions on $n$, so the same complete arrangement
+algorithm applies.  Sum, over target weights, the largest contributed rank.
+\end{enumerate}
+These operations exhaust all subspaces, including the parameter families.
+No generic sample stands in for a projective weight space.
+
+For the first 20 cases, \texttt{check\_twodim\_extensions.py} gives:
+\[
+\begin{array}{c|r|r|r|r}
+&\text{supports}&\text{saturated}&\text{line tests}&\text{conditional}\\\hline
+ P09A&1095&1042&53&0\\
+ P09B&50&47&3&0\\
+ P12C&52&50&2&0\\
+ P12D&60&58&2&0\\
+ P14E&1189&1185&4&0\\
+ P14F&1143&1076&66&1\\
+ P13.1&60&58&2&0\\
+ P13.2&52&49&3&0\\
+ P13.3&50&45&5&0\\
+ P13.4&50&46&4&0\\
+ P13.5&56&56&0&0\\
+ P16.1&1189&1176&13&0\\
+ P16.2&1143&1075&67&1\\
+ P16.3&1190&1173&17&0
+\end{array}
+\]
+The six determinant representatives account for twelve cases by transposition.
+The two support-nine permanent types and determinant type are handled by
+\texttt{check\_support9.py}; the determinant transpose is the fourth case.
+Their total supports are respectively $46119,51985,46119$, with no survivors.
+The exact counts, including all parameter strata, are in the output JSON files.
+
+For the remaining P-19 case, the first two steps leave eight supports.
+Exact joint refinement gives eight fixed extensions, each of dimension 13.
+The higher condition is
+\[
+ \dim\mathcal P_{22}(E)\ge r,
+ \quad
+ \mathcal P_{22}(E)=
+ (A\otimes E\otimes B)\cap
+ ((A^{\otimes2})^{\mathfrak S_2}\otimes(B^{\otimes2})^{\mathfrak S_2}).
+\]
+It is again a fixed-ambient kernel condition and therefore closed.  Its
+necessity follows from the $r$ independent tensors $u_i^{\otimes2}\otimes
+v_i^{\otimes2}$ for a span of pure tensors, with the same proper-incidence
+argument.  Using invariant tensors, including diagonal entries, is essential
+in characteristic two; no division by two occurs.
+The program \texttt{check\_higher\_prolongation.py} first computes the kernel
+of the $385\times143$ $B$-wedge map: rank 130 and kernel dimension 13.
+It embeds this kernel in $A\otimes B^{\otimes2}$, verifies symmetry by exact
+coefficient equality, and forms the next $A$-wedge map.  That map has domain
+dimension 91 and rank 79.  Thus $\dim\mathcal P_{22}(E)=12$ in all eight cases,
+a contradiction.  These computations reconstruct the matrices from $S$;
+they import no old certificates.  This completes the independent proof.
+
+\subsection*{BR-002: forty-three in every characteristic}
+For the integral divided-power tensors fixed in BR\_PENCIL FL-01 and every
+algebraically closed field $k$,
+\[
+ \mu_7^{\det}=\mu_7^{\mathrm{per}}=14,
+ \qquad
+ \underline R_k(S_{\det,4})\ge43,
+ \qquad
+ \underline R_k(S_{\mathrm{per},4})\ge43.
+\]
+The assertion includes characteristics two and three.
+
+\paragraph{Proof.}
+Use the field-independent coordinate degeneration BR\_PENCIL P-01 and
+its determinant compression P-07.  These are integral root-subgroup
+specializations, so P-07 remains valid in characteristic two.  There are
+25 determinant Borel seven-plane ideals.  For the permanent, the 1517
+low-support coordinate orbits under row and column permutations and
+transposition cover exactly 1543608 subsets; support at least 14 gives
+a unit flattening minor.  These finite cover assertions, carried from
+BR\_PENCIL R-08/R-10, are also independently rerun by
+\texttt{check\_cover.py}, which exhausts all $\binom{36}{7}=8347680$ subsets.
+
+For every remaining non-prolongation case, form the entire Koszul map,
+rather than the inherited chosen minor.  If its exterior factor has dimension
+$t$ and degree $p$, a pure tensor has map rank $\binom{t-1}{p}$ in every
+characteristic: choose its nonzero factor as a basis vector and inspect the
+basis wedges.  Rank is subadditive and its upper-bound locus is closed.
+Consequently map rank $\rho$ gives border rank at least
+$\lceil\rho/\binom{t-1}{p}\rceil$.
+The independent checker \texttt{check\_koszul.py} forms all columns directly
+from $T_S^\epsilon$, separates exact torus-character blocks, and computes
+all block ranks over $\mathbb Q$.  All 11 determinant support/Koszul cases
+and 1506 permanent Koszul cases give at least 14.
+
+Here is the arithmetic justification, beyond a computation at one large prime.
+Every rational elimination records the numerator and denominator of every
+nonunit pivot.  Direct nonzero scalar tests in the arrangement-compatibility
+step also record their numerators and denominators.  The primes that occur
+divide six.  Every row operation and every inverse used by the proof is
+therefore defined over $\mathbb Z[1/6]$; every exact zero identity holds there.
+All rank computations, linear intersections, and their quotient maps commute
+with specialization to characteristics other than two and three.  A nonzero
+branch test also remains nonzero there.  Intersections that become identical
+can only duplicate already enumerated strata, not create omitted ones.
+This proves the full calculation uniformly away from two and three.
+
+The exceptional computations are small and separate.
+\begin{itemize}
+\item In characteristic three, all eleven determinant support/Koszul cases
+again give at least 14.  The two-dimensional-extension tests have no prime
+three in their pivots.  The support-nine determinant arrangement is rerun
+over $\mathbb F_3$ and has no survivors.  The permanent Koszul calculation
+has only prime two in its pivots; its support-nine cases are also rerun over
+$\mathbb F_3$ with no survivors.
+\item In characteristic two, determinant and permanent tensors coincide.
+The determinant compression reduces to the same 25 Borel ideals.
+All eleven support/Koszul cases still give at least 14 (the two support-factor
+ranks become 6457, still greater than $13\cdot495=6435$).
+Five of the six ordinary determinant prolongation representatives pass the
+same exhaustive computation over $\mathbb F_2$.  The P-09 A representative
+has eight survivors of the first-stage test; their joint arrangements give
+eight fixed extensions.  The higher checker gives $\mathcal P_{22}$ dimension
+12 for each, exactly as above.  Its transpose follows by swapping rows and
+columns.  The support-nine determinant tensor equals the permanent A tensor,
+whose full enumeration over $\mathbb F_2$ has no survivors.
+\end{itemize}
+Thus every required seventh residual tensor has border rank at least 14
+in every characteristic.  The integral anchored-shape curve BR\_PENCIL P-06
+supplies the matching upper bound.  Finally the flattening image of the
+fourfold tensor has dimension 36, with unit coefficient generators, and
+BR\_PENCIL R-01 gives $36-7+14=43$.
+
+\paragraph{What is and is not claimed about unit minors.}
+This proof supplies arithmetic replacements for the rank certificates;
+it does not assert that all 9038 originally selected determinants are units.
+In fact a literal replacement retaining every full block rank is impossible,
+as BR-003 shows.  Rank losses in small characteristics are harmless when the
+remaining total rank still exceeds the required pure-tensor threshold.
+
+\subsection*{BR-003: a genuine nonunit block in the original certificate architecture}
+For the determinant subset $S=\{0,1,2,3,6,7,12\}$, take the $B$-Koszul map
+of exterior degree four.  In the weight
+$(2,0,0,1;1,0,0,2)$, the complete nonzero block, in the ordered bases specified
+by \texttt{even\_minor\_block.json}, is
+\[
+ M=\begin{pmatrix}
+ 1&0&1&0\\1&0&0&1\\0&1&0&0\\0&0&1&1
+ \end{pmatrix}.
+\]
+It has determinant 2 and rank 3 in characteristic two.  In particular
+there is no unit four-minor in that block, nor any four-minor nonzero in
+characteristic two.  The original characteristic-zero full block rank cannot
+be preserved by merely changing a selected minor in this block.
+The complete support-factor rank nevertheless drops only from 6501 to 6457,
+which still proves the same border-rank lower bound 14.
+The proof is the displayed determinant computation and the independent full
+block reconstruction; its first three independent rows certify rank three
+modulo two.
+
+\subsection*{Algebraic-geometric dictionary for BR-001--BR-003}
+All factors are finite free modules over $\mathbb Z$.  Wedge maps are morphisms
+between their exterior-power bundles, and their rank conditions define
+closed determinantal loci.  Candidate extension spaces form closed incidences
+in relative Grassmannians.  Projectivity supplies proper projection and
+cocharacter specialization.  The arithmetic result proves emptiness in each
+algebraically closed fiber: first over $\operatorname{Spec}\mathbb Z[1/6]$
+by invertible elimination, then separately over the fibers at two and three.
+It does not infer emptiness of special fibers from emptiness of the generic
+fiber.  Invariant symmetric tensor squares in the higher test are free
+integral modules, so the proof also specifies the characteristic-two model.
+
+The inherited exact foundational locators are EGA II, Definition 5.4.1,
+Proposition 5.4.2, and Theorem 5.5.3(i) (properness and projective morphisms);
+FGA, Bourbaki expos\'e 221, Theorems 3.1--3.2 (Quot/Hilbert parameter spaces);
+SGA 3, Expos\'e I, Sections 4.5--4.6 including Definition 4.6.1 (module and
+linear group functors); and SGA 6, Expos\'e V, Definition 2.1, Examples 2.2(b),
+and Lemma 2.2.1 (exterior operations on $K_0$).  These are framework locators
+carried from BR\_PENCIL's checked dictionary, not fresh facsimile inspections
+and not attributions of the modern numerical bounds to Grothendieck.
+No unpublished archive cote/scan for these findings has been established.
+No purity, weight, $\ell$-adic, or motivic statement is used.
+
+\subsection*{BR-004: the determinant ten-plane gate reduces from 35 to 23}
+\textbf{Status: proved by the following argument and exact computations;
+root full proof/code review and independent rerun completed.  Characteristic zero only.}
+
+Let the six two-subsets of $\{0,1,2,3\}$ be ordered lexicographically,
+and index a rectangle by $6i+j$, with row-pair index $i$ and column-pair
+index $j$.  The partial order is componentwise order on the four entries
+of the two pairs.  Among the 59 lower order ideals of cardinality ten,
+the residual determinant tensor has border rank at least 18 for 36
+ideals.  Consequently the characteristic-zero determinant gate
+$\mu_{10}\ge18$ reduces to the 23 ideals represented, up to transpose,
+by the following twelve rows.  This does not prove $\mu_{10}\ge18$.
+\[
+\begin{array}{l|r|r|l}
+ S&m&\text{rigid full spaces}&\text{first parameter branches: depth/count}\\\hline
+0,1,2,3,4,5,6,7,8,9&12&1&4/1\\
+0,1,2,3,4,5,6,7,8,12&14&1&\text{none}\\
+0,1,2,3,4,5,6,7,8,18&12&1&4/1\\
+0,1,2,3,4,5,6,7,9,12&13&0&4/1\\
+0,1,2,3,4,5,6,7,9,18&11&0&4/3,\ 5/2\\
+0,1,2,3,4,6,7,8,9,10&12&0&4/2\\
+0,1,2,3,4,6,7,8,9,18&12&0&4/1\\
+0,1,2,3,4,6,7,8,18,19&12&0&4/1,\ 5/1\\
+0,1,2,3,6,7,8,9,18,19&12&0&3/1,\ 4/8\\
+0,1,2,3,6,7,8,18,19,20&12&0&4/1,\ 5/3\\
+0,1,2,3,6,7,9,12,18,19&13&0&3/1,\ 4/6\\
+0,1,2,3,6,7,9,18,19,21&11&0&2/2,\ 3/7,\ 4/22,\ 5/16
+\end{array}
+\]
+The penultimate row is self-transpose; the others have distinct transposes.
+Each of the 80 parameter branches in this table is a projective line at
+the first nonrigid flag step.  It is a base for the remaining invariant-flag
+incidence, not a claim that a full admissible seventeen-plane is already
+parametrized by that projective line.  Branches can overlap, and no
+irreducible-component count is asserted.  The full rational basis for every
+weight space, every preceding flag, and each two-dimensional kernel is
+recorded in \texttt{certificates/det10\_gate.json}.
+
+\paragraph{Proof: the stronger necessary condition.}
+Write $T\in A\otimes B\otimes C$, with $\dim A=10$,
+$B=C$ the $m$-dimensional used-variable space, and $U=T(C^*)$.
+Let $Y_r$ be the closure in $\operatorname{Gr}(r,A\otimes B)$ of
+the spaces spanned by $r$ independent rank-one matrices.  If
+$\underline R(T)\le r$, the proper incidence of pairs $(E,T)$ with
+$E\in Y_r$ and $T\in E\otimes C$ shows that some $E\in Y_r$
+contains $U$.  The incidence fiber is projective and is preserved by
+the upper triangular row and column groups.  A Borel fixed point therefore
+gives such an invariant $E$.
+
+For every $E\in Y_r$, the tautological tensor
+$\tau_E\in E^*\otimes A\otimes B$, representing the inclusion
+$E\hookrightarrow A\otimes B$, satisfies $\underline R(\tau_E)\le r$.
+Indeed, on a Grassmannian chart choose a regular frame for the tautological
+bundle.  At a span of $r$ rank-one matrices its inclusion tensor is a sum
+of $r$ pure tensors; rank equations are closed, so they persist in the
+limit in this local frame.  Changes of frame do not change border rank.
+This is also the full-extension principle in Conner--Huang--Landsberg,
+arXiv:2009.11391v1, proof of Proposition 2.4.
+
+Every subspace $D\subset E$ has a tautological tensor obtained by
+restricting the $E^*$ factor of $\tau_E$, hence
+$\underline R(\tau_D)\le r$.  For $X=A$ or $B$, the Koszul map
+\[
+ K_{X,p}(\tau_D):D\otimes\Lambda^pX
+       \longrightarrow Y\otimes\Lambda^{p+1}X,
+ \qquad \{X,Y\}=\{A,B\},
+\]
+has rank at most $r\binom{\dim X-1}{p}$, because a pure tensor
+has exactly that Koszul rank.  Thus a violation for a partial extension
+$D=U+F$ excludes every completion to $E$.  The familiar first wedge
+test is $p=1$; BR-004 also uses $p=2,3$.
+
+\paragraph{Exhaustive invariant-flag construction.}
+For each of the 59 ideals form the rational $H$-module
+$V=(A\otimes B)/U$, decomposed by torus characters.  Every invariant
+$(17-m)$-plane $E/U$ has an invariant complete flag, since $H$ is
+connected solvable in characteristic zero.  At a partial flag space $F$,
+all possible next invariant lines of weight $w$ lie in
+\[
+ \mathbb P\ker\left((V/F)_w\longrightarrow
+       \bigoplus_{\alpha}(V/F)_{w+\alpha}\right),
+\]
+where the six maps are the adjacent row and column root operators.
+The operators are computed from the exterior action on the minor labels
+and the ordinary variable action: $-R_\alpha^{\mathsf t}\otimes1+
+1\otimes N_\alpha$.  The checker also verifies invariance of $U$.
+There is no enumeration of mere coordinate subsets within a repeated
+weight space: its entire common kernel is computed over $\mathbb Q$.
+A zero kernel supplies no line; a one-dimensional kernel supplies its
+unique line over every characteristic-zero extension; a larger kernel
+is exported as a genuine projective family and left open.
+
+Every generated partial space is subjected to the preceding Koszul
+inequalities.  The first-wedge ranks are computed over $\mathbb Q$.
+For $p=2,3$ they are computed over the proven prime $1000003$ after
+inverting each explicitly checked rational denominator.  A nonzero
+minor modulo this prime is a nonzero rational minor.  Thus these
+computations are lower-rank certificates over characteristic zero,
+not numerical estimates and not claims about every characteristic.
+
+Induction on flag length proves completeness: any hypothetical invariant
+$E$ either passes through one of the exported parameter branches or
+passes through a rigid successor at every step.  In the latter case its
+partial tensors cannot fail a necessary rank inequality.  All such paths
+are therefore accounted for.  The higher-extension enumeration excludes
+32 ideals (17 transpose representatives) and leaves 27.  It independently
+recomputes all eighteen P-17 cases and also excludes twelve ideals that
+were absent from the former 24-case gate.
+
+\paragraph{The three projected-Koszul witnesses and the union count.}
+Three additional classical projected-Koszul witnesses, each with its
+transpose, are independently reconstructed using integral $5\times10$
+matrices $P:A\to k^5$.  For exterior degree two their ranks are
+\[
+\begin{array}{l|r|r}
+S&\rank K_{k^5,2}((P\otimes1\otimes1)T)&\text{pure cost}\\\hline
+0,1,2,3,4,5,6,7,18,19&104&6\\
+0,1,2,3,4,5,6,12,18,24&104&6\\
+0,1,2,3,4,6,7,9,18,19&106&6
+\end{array}
+\]
+All exceed $17\cdot6=102$.  The matrices, not inherited rank assertions,
+are the input in \texttt{det10\_projection\_inputs.json}; the checker
+recomputes their ranks.  The middle row and its transpose already belong
+to the 32 higher-extension exclusions.  The union therefore has
+$32+6-2=36$ distinct ideals, leaving exactly 23.  The full partition of
+all 59 ideals is asserted by the checker, which generates the poset ideals
+afresh.  The total twelve new exclusions relative to the previous 24-case
+gate are listed explicitly in the companion manifest.
+
+\paragraph{A particularly small surviving gate.}
+For $S=\{0,1,2,3,4,5,6,7,8,12\}$, the first-wedge tests alone leave
+five invariant seventeen-planes.  Four have $B$-Koszul degree-two ranks
+$1335,1335,1335,1336$, exceeding $17\binom{13}{2}=1326$.
+Only
+\[
+ E_*=U+\langle a_9\otimes x_{02},\ a_9\otimes x_{03},\
+                    a_9\otimes x_{10}\rangle
+\]
+remains, where $a_9$ is the dual label of rectangle 12 in the ordered list
+$S$.  Its degree-two $B$-Koszul rank is 1306 and is not an exclusion.
+The same statement holds for the $AC$ extension by symmetry.  The supplied
+complete-flag probe of this fixed $E_*$ leaves a flag passing the tested
+necessary inequalities; it supplies neither an upper bound nor a lower
+bound of eighteen.  Constructing a rank-seventeen degeneration of this
+extension would, by restriction, give an upper bound seventeen for this
+residual tensor; excluding its viability would eliminate this gate.
+
+\paragraph{Checker contract and exact residual incidence.}
+Run \texttt{python scripts/check\_det10\_gate.py} from the border work
+directory.  It uses only the Python standard library and the new local
+linear-algebra modules, imports no inherited project code, and reconstructs
+all signed tensors, root operators, quotients, flag kernels, and map ranks.
+The certificate includes every excluded partial flag and its rejecting map.
+
+For the coupled search, let
+$V=(C\otimes E_{AB})\cap(B\otimes E_{AC})$ and let $R\subset B\otimes C$
+be the span of all $A$-contractions of $V$.  A necessary condition is the
+existence of an invariant $G=E_{BC}\cap R$ with
+\[
+ T(A^*)\subset G\subset R,\quad \dim G\le17,\quad
+ \underline R(\tau_G)\le17,\quad
+ \dim(V\cap(A\otimes G))\ge17.
+\]
+The original exploratory search incorrectly restricted to $\dim G=17$.
+Enlarging a smaller $G$ inside $R$ need not preserve its rank inequalities,
+so that restriction is not used in any exclusion count.  The corrected
+\texttt{probe\_bc\_contractions.py} tests all dimensions from 10 through
+17 before extending, and explicitly leaves all parameter branches open.
+For $E_{AB}=E_{AC}=E_*$ it has no rigid survivor but 50 first projective
+branches; this remains an open coupled incidence.
+
+\paragraph{Geometric dictionary.}
+The proof uses proper incidence in a relative Grassmannian, its flag
+refinement, torus-character subbundles, and degeneracy loci of exterior
+bundle maps.  The foundational EGA/FGA/SGA locators above apply unchanged.
+It uses no purity theorem and no motivic specialization assertion.
+
+\subsection*{BR-005: exact pencils and projected extension maps leave one transpose pair}
+\textbf{Status: exact checker passes; root full proof/code review and independent rerun completed.
+Characteristic zero only.}
+Of the 59 determinant ten-plane Borel ideals, 57 have residual border
+rank at least eighteen.  The only remaining ideals are
+\[
+ S_\diamond=\{0,1,2,3,6,7,9,18,19,21\},\qquad
+ S_\diamond^{\mathsf t}=\{0,1,3,6,7,9,12,18,19,21\}.
+\]
+The gate $\mu_{10}\ge18$ is therefore reduced to this single transpose
+pair.  No upper bound seventeen for either tensor is asserted.
+
+\paragraph{Proof of the exact pencil refinement.}
+Use the complete flag cover of BR-004.  A first parameter branch has
+the form $D(t)=D_0+\langle X+tY\rangle$ for finite $t$, together
+with $D(\infty)=D_0+\langle Y\rangle$, where $X,Y$ have the same
+torus character.  For any of the relevant Koszul maps, first eliminate
+the columns supplied by $D_0$ over $\mathbb Q$.  The remaining map
+is a direct sum by torus weight of pencils $M_w(t)=A_w+tB_w$.
+In each block choose a square minor $d_w(t)$ that is nonzero as a
+polynomial, of order $r_w$.  If the fixed rank plus $\sum_w r_w$
+exceeds the pure-tensor threshold, a surviving parameter must be a root
+of some $d_w$, or the point at infinity.  This is an exact finite
+exception set; selecting a nonzero minor at an integer value is only
+a way of finding its row and column indices.  The determinant polynomial
+itself is then computed and factored over $\mathbb Q$.
+
+At a root of an irreducible factor $f(t)$ the rank is computed in the
+field $\mathbb Q[t]/(f)$, which gives the same rank at every conjugate
+root.  All factors encountered have degree at most two.  The complete
+set of distinct nonconstant factors is
+\[
+ t,\ t+1,\ t+\tfrac12,\ t+2,\ t-1,\ t-\tfrac13,
+ \ t-2,\ t-\tfrac23,\ t^2-t-1.
+\]
+Thus no real-only argument, random parameter sample, or numerical root
+approximation is being used.  Infinity is checked separately in every
+case.  Multiple Koszul tests are intersected by evaluating the remaining
+finite points in the next test.
+
+This process excludes 66 of BR-004's 80 first projective branches.
+Six branches reduce to explicit finite sets of rational points; eight
+remain open.  The latter all belong to $S_\diamond$.
+For example, the sole branch for
+$S=\{0,1,2,3,4,5,6,7,9,12\}$ has $B$-wedge rank at least 206
+at every finite parameter, above the allowed $17\cdot12=204$.
+At infinity its $B$ rank is 204, but its $A$-wedge rank is
+157, above $17\cdot9=153$.
+
+\paragraph{The rigid survivors and finite specializations.}
+All three rigid seventeen-planes left in BR-004, including $E_*$,
+are excluded by an integral projection of the $B$ factor onto $k^7$,
+followed by the degree-three Koszul map of their tautological tensors.
+Each projected map has rank 346 modulo $1000003$, whereas a border-rank
+seventeen tensor has rank at most
+$17\binom{6}{3}=340$.  The exact projection matrices are retained in
+\texttt{det10\_refined\_gate.json}; their ranks are recomputed by
+\texttt{extension\_projection.py}.  This use of a projection differs
+from applying a Koszul map only to the original residual tensor: it
+uses the stronger necessary condition on the limiting extension.
+
+The six finite branches are then continued by the same exhaustive
+invariant-line algorithm, now at their exact rational parameter values.
+Every further projective kernel is again subjected to the exact pencil
+procedure; none is silently replaced by sample points.  The two support-12
+representatives
+$\{0,1,2,3,6,7,8,9,18,19\}$ and
+$\{0,1,2,3,6,7,8,18,19,20\}$ are excluded at their first specialized
+step by the projected $B$-Koszul test.  The other four finite branches,
+all on $S_\diamond$, are excluded after at most two further flag steps.
+The saved trace includes every excluded flag and its rejecting rank.
+
+Combining the preceding cover with BR-004 proves that exactly 57 of
+the 59 ideals have been excluded.  The eight currently open branches
+of $S_\diamond$ are those with indices
+$0,1,2,3,5,9,12,13$ in its explicit BR-004 parameter manifest,
+at depths $2,2,3,3,3,4,4,4$, respectively.  They are bases of
+continuation incidences, not a list of viable border decompositions.
+
+\paragraph{Verification and dictionary.}
+Regenerate BR-004 first, then run
+\texttt{python scripts/check\_det10\_refinement.py}.
+The checker uses only the Python standard library and SymPy.  It
+reconstructs the 80 pencil maps and exact exceptional fibers, the
+three projected-rank witnesses, and all six finite continuations.
+Its final assertions are 66 excluded/6 finite/8 open first branches,
+three ranks equal to 346, six excluded finite continuations, and a
+57/2 partition of the 59 ideals.  The recorded run passed in 32.43
+seconds.  The argument is the same proper Grassmannian/flag incidence
+as BR-004, with determinantal loci pulled back to projective lines.
+The exceptional-point analysis is algebraic over $\mathbb Q$; it
+does not specialize from characteristic zero to infer a positive-
+characteristic theorem.  No purity or motivic assertion is used.
+
+\subsection*{BR-006: the determinant ten-plane lower gate closes, giving forty-four}
+\textbf{Status: proved.  The restarted consolidated exact checker returned
+PASS in 710.2006 seconds: six family nodes, four quadratic-field restarts,
+empty pending queue, and no unhandled branch.  The root reviewed the whole
+saved proof and every new or adapted source module, with no fault found,
+and accepted the completed certificate.  An earlier run was interrupted
+by an execution-environment outage and is not counted as a PASS.}
+
+Over every algebraically closed field of characteristic zero,
+\[
+ \mu_{10}(U^{\mathrm{det}}_{4,2})\ge18,
+ \qquad
+ \underline R_{\mathrm{CP}}(\operatorname{Det}_4)\ge44.
+\]
+The latter is the polynomial coefficient tensor in $(k^{16})^{\otimes4}$.
+Its symmetric border rank is consequently also at least 44.
+This finding gives a lower bound for $\mu_{10}$, not an exact value:
+no matching upper bound eighteen is established here.  The currently
+proved upper bound is nineteen by BR-007 below.  No permanent ten-plane conclusion follows
+from the determinant calculation.
+
+\paragraph{Reduction to three projective families.}
+BR-005 leaves only $S_\diamond$ and its transpose.  Retain the explicit
+flag-cover indices in its certificate.  On each of its eight open first
+projective lines, project the used-variable factor to $k^7$ by the
+integral matrix in the checker and apply the degree-three Koszul map.
+For indices $2,3,9,12,13$ the generic rank is 343, above
+$17\binom63=340$.  Exact determinant-polynomial factorization leaves
+only $t=-1$ for indices $2,3,9,13$, and only $t=1$ for index 12;
+infinity is excluded.  Full rational invariant-flag continuation at
+these points excludes every branch.  The remaining first projective
+families are indices 0 and 1 at flag depth two, and index 5 at depth three.
+
+\paragraph{A specialization-safe continuation lemma.}
+Let an invariant partial flag depend rationally on a parameter $t$.
+All its common-root kernels and rank tests may be computed over
+$K=\mathbb Q(t)$.  Record every nonconstant numerator and denominator
+of every nonzero Gaussian pivot.  Also record the denominators of
+rational-function coefficients introduced in the next steps and the
+nonzero leading coefficients of any determinant-polynomial factorization.
+There is then an explicitly known nonzero polynomial $D(t)$ such that,
+at every finite $t_0$ with $D(t_0)\ne0$, all the row reductions, kernels,
+and nonzero rank minors specialize validly.
+
+To justify this directly, each Gaussian operation is addition,
+multiplication, or division by a recorded pivot.  Outside its zero and
+pole set it is an invertible elementary operation and preserves its
+echelon pivot pattern.  The formulas for a kernel basis use the same
+operations.  Therefore ranks and dimensions used to enumerate successor
+lines do not change on the specified open set.  Coefficients of every
+surviving rational-function vector are defined there.  No assertion is
+made about the removed fibers; they are recomputed separately below.
+
+If a common kernel over $K$ is two-dimensional, the next choice is
+$\mathbb P^1_K$.  Introduce a second parameter $u$ and apply BR-005's
+exact pencil-minor procedure over $K[u]$.  In every continuation used
+here, an excluding map either removes the whole pencil or leaves
+finitely many sections $u=u_i(t)$, together with a possible infinity
+section.  All exceptional factors that need continuation split into
+linear factors over $K$; an unsplit higher-degree factor would be
+reported open.  The roots $u_i(t)$ and their pole sets are retained.
+In particular, a two-parameter choice is never replaced by finitely
+many sample points.  Factorization is an identity in $K[u]$ and the
+recorded leading-coefficient and denominator conditions make its
+specialization valid outside $D(t)=0$.
+
+All resulting sections are inserted as exact invariant flag successors.
+An inadmissible section is excluded by a genuine Koszul rank inequality;
+all others are continued.  At a zero of $D$, restart the entire original
+projective family at that parameter, instead of specializing a possibly
+singular generic echelon basis.  The point at infinity is likewise
+restarted separately.  This proves the completeness of the procedure.
+
+\paragraph{Exact arithmetic of the projected maps.}
+The projected map can lose its torus grading.  Its fixed rational columns
+are first put in exact row-reduced form by SymPy's rational
+\texttt{DomainMatrix}.  If its pivot coordinates are $P$ and the
+remaining coordinates are $Q$, the quotient map is explicitly
+\[
+ v\longmapsto v_Q-v_P R_{P,Q},
+\]
+where $R$ is that row-reduced matrix.  All subsequent
+$\mathbb Q(t)$ arithmetic occurs in this quotient.  The variable
+columns and the next pencil are therefore computed exactly, not via
+numerical elimination or an assumed generic rank.  SymPy's optional
+integer/rational backend only accelerates these exact operations.
+
+\paragraph{The finite family tree.}
+The complete calculation has six one-parameter family nodes.  Three
+are the first families 0, 1, and 5.  Two further families appear at
+depths three and four in exceptional rational fibers of family 0,
+and one appears at depth three in an exceptional rational fiber of
+family 1.  Denote these children by $0a,0b,1a$, respectively.
+They are specified by full preceding flags and kernel bases in the
+consolidated certificate.  The following table gives the exact
+exceptional polynomials; infinity is added in every row.
+\[
+\begin{array}{c|r|l|l}
+\text{family}&\text{initial depth}&\text{linear exceptional factors}
+    &\text{irreducible quadratic factor}\\\hline
+0&2&t,\ t+1,\ t+\frac12,\ t+\frac13,\ t-1,\ t-2&t^2+4t-1\\
+1&2&t,\ t+1,\ t+\frac12,\ t+\frac13,\ t+3,\ t-1,\ t-2&t^2+\frac13\\
+5&3&t,\ t+1,\ t+\frac12,\ t-1,\ t-2&\text{none}\\
+0a&3&t,\ t+1,\ t+\frac12,\ t+\frac13,\ t+3,\ t-1&t^2+\frac13\\
+0b&4&t,\ t+1,\ t-1&\text{none}\\
+1a&3&t,\ t+1,\ t+\frac12,\ t+\frac13,\ t-1,\ t-2&t^2+4t-1
+\end{array}
+\]
+The exact pivot choices can give a larger exceptional set in another
+valid run; the checker computes and covers the set it actually produces.
+It does not trust this table as an exhaustive input list.
+
+Over $\mathbb Q(t)$, each of these six nodes has no unhandled new
+parameter branch and no full surviving extension.  All linear-factor
+roots and infinity are recomputed over $\mathbb Q$.  Their finite
+flag trees also end without a full survivor.  The only additional
+projective branches they expose are precisely the three children
+already listed.  Every child has strictly greater flag depth than
+its parent, a condition the checker asserts.
+
+For each quadratic factor $f$, the entire original family is restarted
+over the exact number field $\mathbb Q[t]/(f)$, not at a floating-point
+root.  Both conjugate geometric roots have the same rank and kernel
+behavior under the corresponding field isomorphisms.  Each of the four
+such number-field computations ends without a surviving extension or
+an unhandled projective kernel.  This covers the nonreal roots of
+$t^2+\frac13$ as well as the real roots of $t^2+4t-1$.
+
+Consequently none of the three first families contains a viable
+seventeen-plane.  Together with the five earlier projected-pencil
+exclusions, the full incidence for $S_\diamond$ is empty.
+Transposition gives the same result for its partner.  BR-005 therefore
+extends from 57 excluded Borel ideals to all 59.  The Borel-fixed
+Grassmannian reduction for determinant quadratic spaces gives
+$\mu_{10}\ge18$.  Finally, the multidimensional border-substitution
+inequality with a 36-dimensional quadratic image yields
+\[
+ 36-10+18=44.
+\]
+The inclusion of the Veronese variety in the corresponding Segre
+variety gives the asserted symmetric-border-rank consequence.
+
+\paragraph{Consolidated checker and proof status.}
+After the BR-004 and BR-005 commands, run
+\texttt{python scripts/check\_det10\_last\_case.py}.
+It reconstructs the eight projected pencils, the generic family
+computations, every exceptional rational and number-field fiber,
+and the family tree exposed by those fibers.  It records a family
+as open whenever a kernel, algebraic factor, or full extension has
+not been excluded.  It asserts the strict depth increase of each
+new special-fiber family.  A final \texttt{PASS} is produced only
+when the queue is empty and no such unresolved branch remains.
+The main output is \texttt{certificates/det10\_last\_case.json}.
+The three checker commands form a complete independent reconstruction
+from signed minor formulas; they do not import inherited generators
+or reported ranks.
+
+This is again a proper Grassmannian/flag incidence with determinantal
+conditions.  Restricting it to the parameter curves and their open
+subsets gives the generic calculation; the removed closed fibers are
+handled by exact base change.  This explicitly avoids inferring
+emptiness of special fibers from emptiness of a generic fiber.
+The EGA/FGA/SGA dictionary above applies.  No purity theorem,
+$\ell$-adic weight assertion, or motivic principle is used.
+
+\subsection*{BR-007: an exact nineteen-term determinant ten-plane curve}
+\textbf{Status: proved; root complete proof and primary-source review,
+and independent exact BigInt coefficient verification, completed.}
+
+Over every algebraically closed field of characteristic zero,
+\[
+ \mu_{10}(U^{\mathrm{det}}_{4,2})\le19.
+\]
+The witness is the coordinate ten-plane
+$S_\diamond=\{0,1,2,3,6,7,9,18,19,21\}$ used above.
+Combining this upper construction with BR-006 gives
+$\mu_{10}\in\{18,19\}$.  Thus $j=10$ is the first index for which
+$\mu_j-j\ge8$, using the previously settled values through $j=9$.
+The exact tenth minimum remains unresolved.  A gap of nine at $j=10$
+would require excluding border rank eighteen for every one of the
+fifty-nine determinant Borel types, rather than only the last
+rank-seventeen survivor.
+
+\paragraph{A tangent insertion lemma.}
+Suppose a rank-$r$ curve contains a summand
+$a_i(t)\otimes b_i(t)\otimes c_i(t)$, with
+$b_i(t),c_i(t)\longrightarrow x$.  Introduce an independent first-factor
+vector $a_\ast$ and a new last-factor coordinate $v$.  Replace the summand
+by the following two pure terms:
+\[
+ (a_i(t)-t^{-1}a_\ast)\otimes b_i(t)\otimes c_i(t)
+ +t^{-1}a_\ast\otimes(b_i(t)+tv)\otimes(c_i(t)+tv).
+\]
+Their difference from the original summand is exactly
+\[
+ a_\ast\otimes\bigl(b_i(t)\otimes v+v\otimes c_i(t)
+                      +t v\otimes v\bigr).
+\]
+Thus one additional pure term adds
+$a_\ast\otimes(x\otimes v+v\otimes x)$ to the limit.
+Reversing the signs of the $a_\ast$ coefficients gives the negative
+insertion.  This is a Laurent-polynomial identity, not an infinitesimal
+approximation used without a limiting curve.
+
+\paragraph{The two limiting points.}
+Use the exact seventeen-term Waring curve for the $3\times3$ determinant
+displayed in Conner--Huang--Landsberg, \emph{Bad and good news for
+Strassen's laser method}, \S8, printed page 23 of the 6 May 2021 version.
+Among its displayed matrix vectors are
+\[
+ m_1(t)=-t^{-5}e_{00}-e_{11}+t^5e_{22},\qquad
+ m_{10}(t)=-t^{-4}e_{01}-t^{-1}e_{10}-t^5e_{22}.
+\]
+Transpose all matrix coordinates, which preserves the determinant tensor.
+In the first of these terms, multiply the second and third factors by
+$-t^5$ and the first factor by $t^{-10}$.  In the second, use
+$-t^4,-t^4,t^{-8}$.  These operations leave each pure summand unchanged.
+The resulting second and third factor vectors are
+\[
+ X(t)=e_{00}+t^5e_{11}-t^{10}e_{22}\longrightarrow e_{00},
+ \qquad
+ Y(t)=e_{10}+t^3e_{01}+t^9e_{22}\longrightarrow e_{10}.
+\]
+Apply the positive insertion at $X$ with $v=e_{13}$ and the negative
+insertion at $Y$ with $u=e_{03}$, using the same $a_\ast$.
+The resulting nineteen-term curve has limit
+\[
+ T_{\det_3}+a_\ast\otimes
+ (e_{00}\otimes e_{13}+e_{13}\otimes e_{00}
+       -e_{10}\otimes e_{03}-e_{03}\otimes e_{10}).
+\]
+The first nine contraction slices are the nine minors of the upper-left
+$3\times3$ block.  The new slice is the minor with row pair $01$ and
+column pair $03$.  These are exactly the ten minors in $S_\diamond$.
+
+\paragraph{Integral cofactor normalization.}
+The first-factor basis in a determinant tensor is indexed by the missing
+row and column of the cofactor.  Apply its sign and complement-pair
+reindexing to identify it with the ordered integral minor basis.
+For $S_\diamond$ in increasing order, the map from row-major
+$3\times3$ coordinates is
+\[
+ (9,+1),(8,-1),(7,+1),(6,-1),(5,+1),(4,-1),
+ (3,+1),(1,-1),(0,+1),
+\]
+where each pair is (target index, multiplier); $a_\ast$ has target index
+2 and remains independent.  If a convention identifies the polynomial
+with a symmetrized tensor carrying a common factorial denominator, include
+the corresponding nonzero scalar on these first nine coordinates.
+It is invertible in characteristic zero and does not alter the new slice.
+The literal coefficient check below shows that the displayed CHL curve
+already has integral ordered coefficients $\pm1$ before this reindexing.
+
+\paragraph{Complete exact coefficient verification.}
+The independent checker is
+\texttt{python scripts/check\_det10\_upper19.py}; it uses only the standard
+library and generates \texttt{certificates/det10\_upper19.json}.
+It reconstructs all seventeen published base points, checks all 729
+ordered coordinates of their tensor sum, builds the nineteen modified
+pure terms, and compares every nonpositive Laurent coefficient with the
+literal signed-minor tensor for $S_\diamond$.  It finds exactly 36
+nonzero constant coordinates for the base determinant and exactly 40
+for the ten-plane target; every negative coefficient is zero.
+All nineteen factor vectors, exponents and coefficients are saved.
+
+For exact arithmetic put $\zeta=e^{2\pi i/12}$, $h=\sqrt5$,
+$\phi=(1+h)/2$, and $\gamma=5^{-1/6}$.
+The two cube roots in the last two published vectors are
+$\gamma\phi$ and $\gamma(\phi-1)$, because
+$\phi^3=2+h$ and $(\phi-1)^3=h-2$.
+Their common scalar satisfies $\gamma^3=h/5$.
+After doubling those two vectors and multiplying the whole tensor by 40,
+the entire check takes place in the free rank-eight integer module
+\[
+ \mathbb Z[\zeta,h]/(\zeta^4-\zeta^2+1,\ h^2-5).
+\]
+No floating-point root or fitted coefficient is used.  The root agent
+independently reran the full construction with BigInt arithmetic at
+01:05:15 UTC on 22 November 2026; all coefficients and the cofactor map
+matched.  This is an upper degeneration, independent of the unfinished
+review of the lower-bound certificate.
+
+\paragraph{Scope of an unsuccessful eighteen-term search.}
+A separate finite-field experiment considered all 90 pairs of published
+points with distinct limiting supports, all insertion-order pairs from
+$\{1,\ldots,20\}^2$, and every omitted-point eighteen-plane limit of each
+nineteen-point curve.  This is 36,000 curves and 684,000 omission tests
+over $\mathbb F_{1000081}$.  None contained all nine old minor directions
+and a combination with both required new tangent components nonzero.
+The ratio of the two components was allowed to vary.  This is a negative
+result for that finite modular search, not a proof that no eighteen-term
+curve exists in characteristic zero.

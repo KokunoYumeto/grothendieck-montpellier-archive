@@ -1,0 +1,117 @@
+\subsection{OBS-004. Exact padded multiplicities from permanent coefficient projections}
+
+Let $J_n(b,c,e)$ and $N_n(b,c,e)$ have the meanings in OBS-001.
+The following statement concerns the coefficient projection itself,
+rather than only evaluations of a form at selected variable values.
+
+\paragraph{Statement.}
+For $0\le e\le c\le b\le17$, the projection of
+$P_{17,4}$ onto the coordinates $J_{17}(b,c,e)$ is dominant if and
+only if $N_{17}(b,c,e)\le1124$.
+Consequently, for $(m,n)=(17,23)$, every highest weight
+$\lambda\vdash23d$ satisfying
+\[
+ \lambda_2\le17,\qquad
+ N_{23}(\lambda_2,\lambda_3,\lambda_4)\le1124
+\]
+has $q_\lambda=a_\lambda$. This is an all-copy equality in every
+degree in which the displayed tuple is a partition.
+
+In particular the following degree-six labels have fully determined
+padded multiplicities:
+\[
+\begin{array}{c|r|r}
+\lambda&N_{23}(\lambda_2,\lambda_3,\lambda_4)&q_\lambda=a_\lambda\\\hline
+(89,17,16,16)&1122&1359\\
+(91,17,17,13)&1120&4719\\
+(94,17,15,12)&1066&9474\\
+(94,17,16,11)&1072&10464
+\end{array}
+\]
+The determinant multiplicities of these four labels have not been
+computed by this certificate; the first column gives candidates, not
+obstructions.
+
+\begin{proof}
+QC-01 establishes $\dim P_{17,4}=1124$ with the independently
+reconstructed finite certificate. This excludes a dominant projection
+to more than1124 coordinates. There are just two maximal nested
+profiles below that count:
+\[
+\begin{array}{c|r|r}
+(b,c,e)&N_{17}&\text{coefficient-Jacobian minor modulo }101\\\hline
+(17,16,16)&1122&22\\
+(17,17,13)&1120&61.
+\end{array}
+\]
+Indeed, every profile with $c\le16$ lies below the first. For $c=17$
+one has $b=17$, and direct substitution in the count formula shows that
+the count is at most1124 exactly when $e\le13$.
+
+Here is a reconstruction of the coefficient Jacobian, including the
+interpolation that distinguishes this certificate from an evaluation
+rank. Use the same integral pencil and prime as QC-01 at $m=17$:
+the linear congruential generator has initial state20278274 and update
+$s\mapsto1664525s+1013904223\pmod{2^{32}}$, extracting
+$\lfloor s/2^{16}\rfloor\pmod{101}$. Fill the four coefficients of
+each matrix entry in row order. The forward subset recurrence and its
+reverse differentiation give all $4\cdot17^2=1156$ partial derivatives
+of the permanent at each grid point
+\[
+ (17-t_1-t_2-t_3,t_1,t_2,t_3),\qquad
+ t_i\ge0,\quad t_1+t_2+t_3\le17.
+\]
+Each differential column is a homogeneous form $F$ of degree17.
+Put $g(t)=F(17-|t|,t)$. The finite Newton identity gives
+\[
+ g(t)=\sum_{|\beta|\le17}
+      \Delta^\beta g(0)\prod_{i=1}^{3}\binom{t_i}{\beta_i}.
+\]
+Successive forward differences along the three axes reconstruct these
+coefficients exactly. Expanding each binomial polynomial and then using
+\[
+ F(x)=\left(\frac{x_0+x_1+x_2+x_3}{17}\right)^{17}
+  g\left(\frac{17x_1}{x_0+x_1+x_2+x_3},
+         \frac{17x_2}{x_0+x_1+x_2+x_3},
+         \frac{17x_3}{x_0+x_1+x_2+x_3}\right)
+\]
+recovers its ordinary homogeneous coefficient vector. The expression is
+a polynomial after expansion. Every factorial and the integer17 are
+invertible modulo101. These operations are an exact linear change of
+basis, applied simultaneously to all1156 columns.
+
+The supplied checker performs precisely these differences, binomial
+expansions, rescaling and three translations of the homogenizing
+variable. Its two selected coefficient submatrices have the full row
+ranks and nonzero minors displayed above. The output records all row
+labels, all selected columns and the hashes of the reconstructed matrices.
+It also substitutes six original grid points back into the complete
+coefficient matrix and verifies every differential column at each point.
+Nonzero residues certify nonzero rational Jacobian minors and hence
+dominance in characteristic zero. Containment of nested coordinate sets
+then proves the assertion for every smaller profile.
+
+For the padded statement fix the linear factor to be $x_0$.
+Multiplication $Q\mapsto x_0^6Q$ identifies the coordinates indexed by
+$J_{17}(b,c,e)$ with those indexed by $J_{23}(b,c,e)$ whenever $b\le17$.
+Thus the chosen projection of this subset of the padded image is already
+dominant. By S-001, every element of the entire highest-weight
+multiplicity space is a polynomial in those coordinates. Restriction is
+therefore injective on that entire space, giving $q_\lambda=a_\lambda$.
+The four numerical ambient multiplicities are entries in the complete
+exact degree-six plethysm calculation of OBS-003; they use the same
+24-term Weyl extraction, not an inference from dimension alone.
+\end{proof}
+
+\paragraph{Reproducibility and geometric form.}
+Run \texttt{check\_permanent\_nested\_profiles.py}; it imports only the
+new permanent-differentiation module shipped in the packet, and reads no
+inherited matrices. The output is
+\texttt{results/per17\_nested\_profiles.json}.
+Geometrically, the dominant coefficient projections induce injections of
+their polynomial coordinate algebras into the padded coordinate ring.
+The stated Schur-isotypic kernels are zero. This is the SGA~3 weight and
+EGA~II homogeneous-ideal dictionary of OBS-001, with the permanent
+parameter morphism in place of the determinant one. The arithmetic
+certificate proves a characteristic-zero assertion and supplies no
+semisimplicity claim in characteristic101.

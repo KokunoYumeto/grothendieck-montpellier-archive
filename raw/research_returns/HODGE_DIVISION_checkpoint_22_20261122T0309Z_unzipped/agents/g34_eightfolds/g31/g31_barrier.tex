@@ -1,0 +1,206 @@
+\section{The Gaussian groups \(G_{29},G_{31}\): exact determinant obstruction}
+\label{sec:g31-barrier}
+
+The two natural rank-four Gaussian reflection representations do not
+supply a dominant nonsplit Weil-sixfold family. This conclusion is based
+on an exhaustive exact calculation from published matrices, followed by
+D-DET-01; it is not a conclusion from a numerical period experiment.
+
+\subsection*{D-G31-01. Published generators and exhaustive local determinants}
+
+Put \(K=\mathbb Q(i)\), and use the standard Hermitian form on \(K^4\).
+Davis \cite[Theorem 4.1, proof, p.~307]{G34:Davis} gives the four
+generators of \(G_{29}\):
+\[
+s_1=\frac12\begin{pmatrix}
+1&-1&-1&-1\\-1&1&-1&-1\\-1&-1&1&-1\\-1&-1&-1&1
+\end{pmatrix},\quad
+s_2=\begin{pmatrix}0&i&0&0\\-i&0&0&0\\0&0&1&0\\0&0&0&1\end{pmatrix},
+\]
+\[
+s_3=\begin{pmatrix}0&1&0&0\\1&0&0&0\\0&0&1&0\\0&0&0&1\end{pmatrix},\qquad
+s_4=\begin{pmatrix}1&0&0&0\\0&0&1&0\\0&1&0&0\\0&0&0&1\end{pmatrix}.
+\]
+His Theorem 4.16, p.~311, adds
+\(s_5=\operatorname{diag}(1,1,-1,1)\) to generate \(G_{31}\).
+All five are self-adjoint involutive reflections.
+
+For an element \(g\), let \(U_g=\operatorname{im}(1-g)\),
+\(k(g)=\dim_KU_g\), and choose a \(K\)-basis of \(U_g\). Define
+\[
+b(g)=\det(1-g|_{U_g}),\qquad
+q_+(g)=\frac{\det(h|_{U_g})}{|b(g)|}.
+\]
+Since all group determinants are \(\pm1\),
+\(\overline{b(g)}=(-1)^{k(g)}\det(g)^{-1}b(g)\), so \(b(g)\)
+is rational or purely imaginary rational. Hence \(q_+(g)\) is a
+positive rational number. Its class modulo Gaussian norms is independent
+of the chosen moving-space basis and of conjugation in the group.
+
+The complete exact enumeration gives:
+\[
+\begin{array}{c|r|r|r|r}
+&|G|&\text{conjugacy classes}&\text{reflections}&
+ \text{nonidentity involutions}\\\hline
+G_{29}&7680&37&40&231\\
+G_{31}&46080&59&60&511
+\end{array}
+\]
+For \(G_{29}\), every local \(q_+\) is a Gaussian norm. For
+\(G_{31}\), every class of moving rank at most three, and every
+involution class, has norm \(q_+\). The three exceptions are:
+\[
+\begin{array}{c|r|r|c|c|c|c}
+\text{certificate index}&\text{class size}&\text{order}&k(g)&b(g)&q_+(g)
+ &\operatorname{age}(g)-k(g)/2\\\hline
+41&960&12&4&3i&3&1/2\\
+43&960&12&4&-3i&3&-1/2\\
+46&960&6&4&3&3&0
+\end{array}
+\]
+The indices are those of our enumeration, not imported character-table
+labels. In the selected bases all three moving Gram determinants equal
+nine. Their nonzero eigenvalue exponents are respectively
+\((4,7,8,11)/12\), \((1,4,5,8)/12\), and \((1,2,4,5)/6\).
+
+Here is a transparent specification of the exhaustive certificate.
+\texttt{enumerate\_gaussian\_groups.cpp} stores twice each matrix as
+32 signed integers, the real and imaginary entries in row order. Every
+product divides its integer numerator by two, with exact divisibility
+checked. Breadth-first multiplication by the four or five displayed
+generators enumerates the entire generated group. All matrices satisfy
+\(g^*g=I\) exactly. Breadth-first conjugation by the same generators
+partitions it into complete conjugacy classes; the class sizes sum to
+the full enumerated order. Thus the class list is exhaustive.
+
+\texttt{check\_local\_discriminants.py} independently performs rational
+Gaussian elimination on each class representative. It takes independent
+columns of \(1-g\), computes the induced moving-space matrix, its Gram
+determinant, and \(b(g)\). It tests the Gaussian norm criterion by
+factoring the positive rational number \(q_+\): each prime congruent
+to three modulo four must have even valuation. Eigenvalue multiplicities
+are computed by the exact finite Fourier formula in
+\(\mathbb Q[\zeta_{\operatorname{lcm}(4,\operatorname{ord}g)}]\), reducing
+polynomials by the cyclotomic polynomial, not by floating-point roots.
+Every multiplicity is checked to be a nonnegative integer.
+
+The files \texttt{G29\_classes.json}, \texttt{G31\_classes.json}, and
+\texttt{G29\_local\_discriminants.json},
+\texttt{G31\_local\_discriminants.json} retain every representative,
+class size, order, local matrix determinant, Gram determinant, spectrum
+and norm test. Together with the short source code, these constitute
+the full finite computation certificate used here.
+
+\subsection*{D-G31-02. The universal nonsplit-source obstruction}
+
+Consider a genus-zero product-one generating tuple with balanced
+parabolic multiplicity space. D-DET-01 gives its signed determinant
+class as
+\[
+                  \left[\prod_j\frac{\det(h|_{U_{g_j}})}{b(g_j)}\right].
+\]
+The displayed representative is positive: it differs from the determinant
+of the anti-Hermitian parabolic cup matrix by a positive norm, and for
+a balanced Hermitian space that anti-Hermitian determinant is positive.
+Since each factor is real or purely imaginary, the positive representative
+equals the product of its absolute values. Therefore its norm class is
+\[
+                              \left[\prod_jq_+(g_j)\right].
+\]
+For \(G_{29}\) this is always a norm. Thus a balanced genus-zero
+\(G_{29}\) source is necessarily split.
+
+For \(G_{31}\), a nonsplit balanced source must contain an odd number
+of the three exceptional classes, in particular at least one inertia
+element of moving rank four. A sixfold has total moving rank
+\(D=2\cdot4+6=14\). If its branch count is \(r\), that rank-four
+entry and the other nonidentity entries give \(D\ge4+(r-1)\), hence
+\[
+                              r\le11.
+\]
+Its Hurwitz dimension and period-image dimension are consequently at most
+eight. This is a necessary-dimension obstruction, not a claim that the
+upper bound is attained by every such tuple.
+
+Allowing higher-genus bases does not restore dominance. For a base of
+genus \(\gamma\), the same sixfold condition is
+\(D=14-8\gamma\). At genus one there are at most six branch points
+and at most six parameters; at larger genus the dimension equation is
+impossible. Therefore neither natural representation gives a dominant
+nonsplit sixfold curve source, for arbitrary initial inertia orders,
+Nielsen class, ordering, or base genus.
+
+\subsection*{D-G31-03. An explicit nonsplit tuple and its rank-two boundary}
+
+The determinant obstruction is visible in a concrete connected family.
+Besides the five published generators define
+\[
+u=\frac12\begin{pmatrix}
+1&-i&-1&i\\i&1&i&1\\-1&-i&1&i\\-i&1&-i&1
+\end{pmatrix},\qquad
+c=\frac12\begin{pmatrix}
+0&1-i&-1-i&0\\-1+i&0&0&1+i\\
+1-i&0&0&1+i\\0&-1+i&-1-i&0
+\end{pmatrix}.
+\]
+Exact multiplication gives
+\[
+          c=(s_1s_4s_5s_3s_2u)^{-1},\qquad
+          c^6=1,\quad \det(1-c)=3.
+\]
+The matrix \(u\) is a reflection in the conjugacy orbit of \(s_5\).
+The eigenvalues of \(c\) have exponents \((1,2,4,5)/6\), so its
+age is two and its moving rank is four. The eleven-entry tuple
+\[
+       (s_1,s_1,s_2,s_2,s_1,s_4,s_5,s_3,s_2,u,c)
+\]
+has product one and generates \(G_{31}\), since its tail includes
+all five published generators. Riemann existence gives connected covers;
+their branch orders are \((2^{10},6)\) and their genus is
+\[
+           1+\frac{46080}{2}\left(-2+10\cdot\frac12+\frac56\right)
+                       =88321.
+\]
+Chevalley--Weil gives signature \((3,3)\): each reflection contributes
+age \(1/2\), and \(c\) and its inverse each contribute age two.
+The exact parabolic quotient has relation and coboundary ranks four,
+dimension six, and anti-Hermitian cup determinant \(3/8\). Hence its
+signed discriminant has Gaussian norm class three, which is nonsplit.
+The source has dimension eight; its exact period rank has not been
+computed and is not asserted to be eight.
+
+There is a useful degeneration of precisely the form sought for a
+nonsplit sixfold. Bubble off the first two equal pairs separately.
+The two new base nodes have trivial monodromy. The central normalization
+has branch tuple
+\((s_1,s_4,s_5,s_3,s_2,u,c)\), still generating the full group;
+its natural multiplicity space has dimension two, signature \((1,1)\),
+and exact cup determinant \(3/2\). It is an anisotropic Hermitian plane,
+since three is not a Gaussian norm. The bubble components are rational
+cyclic double covers.
+
+The dual graph has one central vertex, bubble vertices
+\(G/\langle s_1\rangle\) and \(G/\langle s_2\rangle\), and two
+copies of \(G\) as edge sets. Its natural-representation graph
+multiplicity is
+\[
+             2\dim V-\dim V^{s_1}-\dim V^{s_2}=8-3-3=2.
+\]
+The vanishing circles satisfy exactly the vertex-incidence relations;
+this follows by Mayer--Vietoris on the punctured normalization
+components. A positive smoothing applies a positive Dehn twist at
+each node. The sum of their rank-one transvection forms has image the
+full span of those circles, since its positive quadratic form is
+nondegenerate on that span. Taking the exact natural multiplicity
+functor gives a logarithm of rank two. The weight-one part of the
+normalization is the anisotropic plane just computed. Thus the
+degeneration has graph rank two and an anisotropic residual Weil surface,
+with no fictitious maximal isotropic rank-three limit.
+
+\texttt{find\_nonsplit\_tuple.py} reconstructs the reflection orbit,
+verifies the product, generation witness, exact spectrum and both
+parabolic Gram matrices, and writes \texttt{nonsplit\_tuple.json}.
+This establishes the source and its determinant, not algebraicity of
+its sixfold Weil classes: the higher-order inertia requires a new
+supplier/character-coverage argument, and the source is too small to
+dominate the nine-dimensional nonsplit moduli space.

@@ -1,0 +1,108 @@
+\subsection*{BR-009: a complete permanent ten-plane gate with 595 remaining orbits}
+\textbf{Status: proved.  Complete author independent standard-library computation
+PASS, with root whole-proof and full new-checker/source review completed.
+No fresh root rerun of all 225702 representatives is claimed.}
+
+Over an algebraically closed field of characteristic zero, the question
+$\mu_{10}(U^{\mathrm{per}}_{4,2})\ge18$ reduces to exactly $595$ explicit
+coordinate-subspace orbits under row permutations, column permutations,
+and transposition.  The complete ordered list is the $596$ records in
+\texttt{certificates/per10\_global\_gate.json}, with the record
+of mask $2015$, namely $\{0,1,2,3,4,6,7,8,9,10\}$, removed by BR-008.
+This is a finite necessary gate, not a proof of the desired minimum.
+An orbit left open need not have border rank seventeen.
+
+\paragraph{Why coordinate orbits suffice.}
+The row/column diagonal torus acts on the thirty-six permanent
+quadratics with thirty-six distinct characters: the character is the
+sum of the two selected row weights and the two selected column
+weights.  The locus in $\operatorname{Gr}(10,U)$ where the tautological
+inclusion tensor has border rank at most seventeen is closed and
+invariant.  This follows locally on Grassmannian frame charts from
+closedness of the affine secant cone; changes of the first-factor
+frame preserve border rank.  If the locus is nonempty, its projectivity
+and the torus fixed-point theorem give a fixed point.  Since every
+weight space of $U$ is one-dimensional, that point is the span of ten
+coordinate quadratics.  Thus it suffices to consider all
+$\binom{36}{10}=254186856$ ten-subsets.
+
+The group $(\mathfrak S_4\times\mathfrak S_4)\rtimes\mathbb Z/2$
+acts on these subsets by row and column permutation and transposition.
+Its order is $1152$, and every action is induced by invertible changes
+in the three tensor factors.  All tensors in one orbit have the same
+border rank.  Encode a subset $S$ by the integer
+$m(S)=\sum_{q\in S}2^q$, using the established lexicographic rectangle
+indexing.  Select the smallest integer in each orbit.
+
+\paragraph{An independent complete orbit certificate.}
+A short C++ generator enumerates subsets in colex order and marks a
+bitset indexed by the combinatorial-number-system rank.  It generated
+$225702$ candidate representatives in $15.8132$ seconds.  No conclusion
+below relies on trusting that generator.  The independent checker
+\texttt{check\_per10\_global\_gate.py}, using only Python's standard
+library and the already reviewed exact linear-algebra module, reads
+only the representative masks and asserted orbit sizes.  For every
+record it constructs all $1152$ group images from the four-point
+permutations, verifies that their minimum equals the stated
+representative, and verifies the exact number of distinct images.
+It also verifies that all representative masks are distinct and have
+exactly ten bits in the prescribed thirty-six positions.
+
+Two distinct minimal representatives cannot lie in the same orbit:
+otherwise the two orbits would have the same minimum.  Thus their
+orbits are disjoint.  The checker sums their independently recomputed
+sizes and obtains exactly $254186856$.  This proves exhaustive
+coverage, without any assumption about a random sample or about the
+C++ bitset implementation.
+
+\paragraph{Every numerical exclusion is recomputed.}
+For each representative the checker reconstructs the forty nonzero
+ordered coefficients of its literal permanent tensor.  It constructs
+Koszul maps along the ten-dimensional first factor in exterior degrees
+$1,2,3,4$, followed when necessary by exterior degrees $2,3,4$ along
+the used variable factor.  Every map is computed by its full torus
+weight blocks using exact elimination modulo the verified prime
+$1000003$.  A reported rank $\rho$ supplies a nonzero integral
+$\rho$-minor modulo that prime and therefore a nonzero minor over
+$\mathbb Q$.  A pure tensor contributes rank at most
+$\binom{d-1}{p}$ to a degree-$p$ Koszul map along a factor of dimension
+$d$.  Consequently
+\[
+ \rho>17\binom{d-1}{p}
+ \quad\Longrightarrow\quad \underline R(T_S)\ge18
+ \qquad\text{in characteristic zero}.
+\]
+The computation does not extrapolate this numerical exclusion to every
+positive characteristic.
+
+The completed run independently verified every orbit and every
+recorded rank witness.  The first successful witnesses were distributed
+as follows:
+\[
+\begin{array}{c|r}
+\text{map}&\text{excluded representatives}\\\hline
+ A,\ p=1&118672\\
+ A,\ p=2&91949\\
+ A,\ p=3&13429\\
+ A,\ p=4&737\\
+ B,\ p=2&22\\
+ B,\ p=3&108\\
+ B,\ p=4&189
+\end{array}
+\]
+Their sum is $225106$.  Exactly $596$ of the $225702$ representatives
+remain after these direct tests.  Their numbers by used-variable
+support size $11,12,13,14,15,16$ are respectively
+$9,45,33,273,231,5$.  Every remaining record includes its literal
+subset and all seven computed ranks.  Every excluded record retains
+its first successful map, rank, and pure-tensor cost in
+\texttt{per10\_global\_gate\_trace.jsonl}.
+The full standard-library run took $246.5666$ seconds with six worker
+processes.  Parallelism changes only the execution schedule, not the
+exact arithmetic or coverage argument.
+
+The P-20 representative has mask $2015$ and orbit size $144$.  It is
+one of the $596$ direct-test survivors, and BR-008 proves its border
+rank is eighteen.  Removing it therefore leaves exactly $595$
+explicit remaining orbits.  Further solvable-subgroup searches are
+separate refinements and are not silently included in this count.

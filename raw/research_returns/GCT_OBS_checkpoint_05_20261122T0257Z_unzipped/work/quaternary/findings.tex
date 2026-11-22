@@ -1,0 +1,689 @@
+\section{Independent reconstruction of the quaternary permanent certificates}
+\label{sec:quaternary-reconstruction}
+
+This section verifies inherited statements, rather than claiming priority
+for their conclusions. The source locators are CUE\_GCT R-13,
+R-24--R-27, in the corresponding numbered subsections of
+\texttt{deliverables/CUE\_GCT.tex}. The checks below reconstruct the
+matrices from their mathematical definitions. No archived matrix or
+original checker is read. In fact, the supplied archive contains the
+JSON specifications but not the referenced binary coefficient matrices
+or C++ builders. This omission does not obstruct reconstruction.
+
+\subsection{QC-01: the finite differential certificates}
+
+\paragraph{Verification statement QC-01.}
+For the polynomial map
+\[
+ \Phi_m:(\operatorname{Mat}_m\mathbb C)^4\longrightarrow
+       \operatorname{Sym}^m(\mathbb C^4)^*,\qquad
+ (A_0,A_1,A_2,A_3)\longmapsto
+       \operatorname{per}(x_0A_0+x_1A_1+x_2A_2+x_3A_3),
+\]
+the source's certificates at $m=11,\ldots,17$ reproduce exactly.
+Consequently
+\[
+ c_m=\binom{m+3}{3}\quad(11\leq m\leq16),\qquad c_{17}=1124.
+\]
+Here $c_m$ denotes the dimension of the image closure.
+
+\begin{proof}
+For each $m$, start at $s_0=20261121+1009m$ and set
+\[
+ s_{a+1}=1664525s_a+1013904223\pmod {2^{32}},\qquad
+ c_a=(s_{a+1}\mathbin{\mathrm{div}}2^{16})\bmod101.
+\]
+These are integer coefficients in $\{0,\ldots,100\}$.
+Set $L_{ij}(x)=\sum_{k=0}^3c_{4(mi+j)+k}x_k$ with zero-based
+indices. Order degree-$m$ nonnegative quadruples in decreasing
+lexicographic order. The evaluation of the differential has entries
+\[
+ E_{\alpha,4(mi+j)+k}=
+ \alpha_k\operatorname{per}(L(\alpha)_{\widehat i,\widehat j}).
+ \tag{QC-01.1}
+\]
+Evaluation is a linear map on the coefficient target and cannot
+increase rank.
+
+For completeness, the full arithmetic certificate has a short
+definition. If $A$ is a numerical $m\times m$ matrix, set
+\[
+ F(\varnothing)=1,\qquad
+ F(S)=\sum_{j\in S}A_{|S|-1,j}F(S\setminus\{j\}).
+ \tag{QC-01.2}
+\]
+The induction on $|S|$ identifies $F(S)$ with the permanent on
+the first $|S|$ rows and columns $S$. Reverse differentiation starts
+with $B([m])=1$ and otherwise zero. For decreasing subsets $S$ and
+each $j\in S$, it adds
+\[
+ B(S)A_{|S|-1,j}\ \text{to }B(S\setminus\{j\}),\qquad
+ B(S)F(S\setminus\{j\})\ \text{to }G_{|S|-1,j}.
+\]
+The chain rule gives $G_{ij}=\partial\operatorname{per}(A)/\partial
+A_{ij}$, exactly the complementary permanent in (QC-01.1).
+Thus these recurrences define every entry without trusting a stored
+array.
+
+The standard-library checker \texttt{check\_projection.py}
+reconstructed the full matrices and obtained
+\[
+\begin{array}{c|r|r|r}
+ m&\text{matrix rows}&\text{certified rank}&
+           \text{selected determinant modulo }101\\\hline
+11&364&364&42\\
+12&455&455&87\\
+13&560&560&25\\
+14&680&680&69\\
+15&816&816&73\\
+16&969&969&8\\
+17&1140&1124&88
+\end{array}
+\]
+For $m\leq16$, columns are selected greedily from left to right,
+with the first available nonzero pivot row. The determinant uses
+the original row order. For $m=17$, use the first $1124$ rows and
+omit exactly the columns
+\[
+ \{68i+67:1\leq i\leq15\}\ \cup\
+ \{1091+4j:0\leq j\leq16\}.
+\]
+The latter matrix is square. The checker gives complete selected
+column lists and SHA-256 digests of all rebuilt entries; these
+digests document the run and are not substitutes for reconstruction.
+
+The Gaussian elimination is exact. Its packed implementation is
+just scalar modular elimination with independent integer lanes.
+For $b=\lceil\log_2(p+1)\rceil$ and $0\leq z<p^2$, put
+\[
+ q=\left\lfloor {z\lfloor2^{2b}/p\rfloor\over2^{2b}}\right\rfloor.
+\]
+Then $q$ is $\lfloor z/p\rfloor$ or one less, because the difference
+before flooring is less than $p^2/2^{2b}<1$. One correction therefore
+reduces $z-pq$ modulo $p$. Intermediate products use fewer than $3b$
+bits; the implementation reserves at least $4b$ bits per lane.
+The fixed positive offset in subtraction prevents a borrow between
+lanes. Hence it computes precisely ordinary field elimination.
+An additional independent scalar implementation agreed on rectangular
+test matrices, and direct permutation sums checked the gradient
+recurrence at sizes through six. The main certificate is nevertheless
+the exact reconstructed matrix and its nonzero minor, not those tests.
+
+A nonzero residue is a nonzero integer minor and hence a nonzero
+minor over $\mathbb C$. The ranks in the table imply the lower
+bounds stated. For the upper bound at $17$, the row--column torus
+\[
+ H_m=\{(u,v)\in(\mathbb C^*)^{2m}:\prod_i u_i\prod_jv_j=1\}
+\]
+preserves the permanent of the pencil under $L_{ij}\mapsto u_iv_jL_{ij}$.
+Its generic stabilizer consists of $(u_i,v_j)=(t,t^{-1})$, because
+all entries are nonzero linear forms. The generic fiber has dimension
+at least $2m-2$, giving $c_m\leq4m^2-2m+2$.
+At $m=17$ this upper bound is $1124$; the other upper bounds are
+the target dimensions. This proves QC-01.
+\end{proof}
+
+\subsection{QC-02: the bordered induction and $c_{18}$}
+
+\paragraph{Verification statement QC-02.}
+The conditional induction of CUE\_GCT R-25 is valid. Its finite
+$m=17$ certificate also reproduces, so $c_{18}=1262$.
+
+\begin{proof}
+Let $A$ be an $m\times m$ matrix of ternary linear forms and let
+$u,v$ be vectors of ternary linear forms. Write
+\[
+ P=\operatorname{per}(A),\quad
+ Q=DP_A[uv^{\mathsf T}],\quad
+ R=\tfrac12D^2P_A[uv^{\mathsf T},uv^{\mathsf T}],
+\]
+and let $a_i,b_j,t_i,t'_j$ be respectively the derivatives of $Q,R$
+in the auxiliary scalar coordinates $u_i,v_j$, followed by substitution
+of the indicated linear forms. With $E^*=\langle x,y,z\rangle$, set
+\[
+ C_A(u,v)=E^*P+\sum_iE^*a_i+\sum_jE^*b_j+
+                   \langle t_i,t'_j\rangle
+       \subseteq\operatorname{Sym}^{m+1}E^*.
+ \tag{QC-02.1}
+\]
+There are $8m+3$ displayed columns. The identity
+$\sum_i u_i a_i=\sum_jv_jb_j$ is a nonzero constant-coefficient
+relation among the linear-multiple columns whenever $u$ or $v$
+is nonzero. Thus their span has dimension at most $8m+2$.
+
+Assume that equality holds for some ternary data. Add a fourth
+variable $\ell$. On the irreducible affine space of quaternary data,
+the ternary rank condition after $\ell=0$ is a nonempty open
+condition. The condition that the quaternary differential at $A$
+have rank $c_m$ is another nonempty open condition. They hold
+simultaneously somewhere. At such a point form
+\[
+ B_\varepsilon=\begin{pmatrix}A&\varepsilon u\\
+                  \varepsilon v^{\mathsf T}&\ell\end{pmatrix}.
+\]
+Every permutation uses either the bottom-right entry or both
+off-diagonal blocks, so exactly
+\[
+ \operatorname{per}(B_\varepsilon)=\ell P+\varepsilon^2Q.
+ \tag{QC-02.2}
+\]
+Bottom-right variations produce $\langle x,y,z,\ell\rangle P$.
+Off-diagonal variations, divided by $\varepsilon$, produce all
+linear multiples of $a_i,b_j$ for $\varepsilon\ne0$.
+For a constant vector $h$, vary the upper-right block by $\ell h$
+and the upper-left block by $-\varepsilon hv^{\mathsf T}$.
+The order-one terms cancel, and (QC-02.2) gives the exact derivative
+\[
+ -\varepsilon^3D^2P_A[hv^{\mathsf T},uv^{\mathsf T}]
+             =-\varepsilon^3\sum_i h_i t_i.
+\]
+Varying the lower-left block similarly produces the $t'_j$.
+All these variations still have linear-form entries and belong to
+the differential of the same pencil, not different deformations.
+
+Choose $8m+2$ such fixed columns whose restrictions to $\ell=0$
+are independent. Choose $c_m$ upper-left variations $U_i$ with
+$DP_A[U_i]$ independent. Their derivatives at $B_\varepsilon$ are
+$\ell DP_A[U_i]+\varepsilon^2D_AQ[U_i]$.
+At $\varepsilon=0$ the combined columns are independent: restriction
+to $\ell=0$ first removes the normal columns' coefficients, and
+multiplication by $\ell$ is injective on the remaining span.
+Their nonzero limiting minor is therefore nonzero for some
+$\varepsilon\ne0$. It follows that
+\[
+ c_{m+1}\geq c_m+8m+2.\tag{QC-02.3}
+\]
+
+For the finite antecedent at $m=17$, use $p=1021$, $s_0=20330804$,
+the same linear congruential recurrence as QC-01, and coefficients
+$c_a=(s_{a+1}\mathbin{\mathrm{div}}2^8)\bmod1021$.
+The first $3\cdot17^2$ coefficients define $A$ in row, column,
+variable order, followed by $3\cdot17$ coefficients each for $u,v$.
+Evaluate (QC-02.1) at the $190$ degree-$18$ nonnegative triples,
+in decreasing lexicographic order. The column order is
+\[
+ x_kP;\quad x_ka_i;\quad x_kb_j;\quad t_i;\quad t'_j,
+\]
+with index first and variable second. On the first $138$ rows,
+omit column $104$. The resulting determinant is $501\pmod{1021}$.
+
+The new checker \texttt{check\_border18.py} obtains all $26{,}410$
+entries directly. Apply (QC-01.2) to $A+tuv^{\mathsf T}$ modulo
+$t^2$ and reverse differentiate that truncated recurrence. If
+$G(t)=G_0+tG_1+O(t^2)$ is its matrix-entry gradient, the chain rule
+gives
+\[
+ a=G_0v,\qquad b=G_0^{\mathsf T}u,\qquad
+ t=G_1v,\qquad t'=G_1^{\mathsf T}u.
+\]
+For example $\partial_{u_i}P(A+tuv^{\mathsf T})=
+t\sum_jv_jG_{ij}(t)$, whose $t^2$ coefficient is $\partial_{u_i}R$.
+This proves that the checker reconstructs exactly the required
+columns. The nonzero minor gives dimension at least $138$, and
+the universal relation gives at most $138$. Applying (QC-02.3)
+and QC-01 yields $c_{18}\geq1124+138=1262$. The torus upper
+bound is $1262$, proving equality.
+\end{proof}
+
+\subsection{QC-03: finite cores imply the uniform endpoint rank}
+
+\paragraph{Verification statement QC-03.}
+For every $m\geq17$ there are ternary data with
+$\dim C_A(u,v)=8m+2$. Consequently
+\[
+ c_m=4m^2-2m+2\quad(m\geq17).
+ \tag{QC-03.1}
+\]
+Together with the settled sizes $m\leq10$ and QC-01, this verifies
+the dimension assertion of CUE\_GCT R-27 for every size. We give
+the insertion proof, because a list of finite ranks by itself
+does not establish a uniform assertion.
+
+\begin{proof}
+Put $L=m-1$, $h=yz$, and take the Jacobi pencil
+\[
+ A_{ii}=\alpha_i x,\quad A_{i,i+1}=y,\quad A_{i+1,i}=\delta_i z.
+\]
+For an interval let $P_{a,b}$ be its permanent, with
+$P_{a,a-1}=1$. A path matching either fixes its last vertex or
+pairs it with its predecessor, giving
+\[
+ P_{a,b}=\alpha_bxP_{a,b-1}+\delta_{b-1}hP_{a,b-2}.
+ \tag{QC-03.2}
+\]
+Set $D_i=\prod_{e=i}^{L-1}\delta_e$ and
+$E_i=\prod_{e=0}^{i-1}\delta_e$. Let $u,v$ have endpoint entries
+$(U_0,U_1)$ and $(V_0,V_1)$, respectively. Forced paths in
+complementary matchings give
+\begin{align*}
+ a_i&=V_0y^iP_{i+1,L}+V_1D_i z^{L-i}P_{0,i-1},\\
+ b_i&=U_0E_i z^iP_{i+1,L}+U_1y^{L-i}P_{0,i-1},\\
+ t_i&=2V_0V_1\bigl(U_0D_i z^{L-i}P_{1,i-1}
+                       +U_1y^iP_{i+1,L-1}\bigr),\\
+ t'_i&=2U_0U_1\bigl(V_0y^{L-i}P_{1,i-1}
+                       +V_1E_i z^iP_{i+1,L-1}\bigr).
+\end{align*}
+In the last two lines omit the first summand at $i=0$ and the
+second at $i=L$. Each path fixes all entries between the removed
+row and column; outside it the remaining matchings are interval
+matchings. For the second derivatives there are two assignments
+of the rank-one entries, which accounts for the factor two.
+This proves the formulas rather than assuming them from a numerical
+check.
+
+Let $C(\varepsilon)$ be the coefficient matrix of (QC-02.1) along
+\[
+ (U_0,U_1,V_0,V_1)=(x,y,x,z)+
+       \varepsilon(y+2z,3x+4z,5y+6z,7x+8y).
+ \tag{QC-03.3}
+\]
+Its entries are polynomials of degree at most three in $\varepsilon$.
+At zero the cyclic action $(x,y,z)\mapsto(x,\omega y,\omega^{-1}z)$,
+$\omega^m=1$, decomposes the columns by character. The columns
+$a_i,t_i$ have character $i$, and $b_i,t'_i$ have character $-i$.
+Characters $0,1,-1$ have nine columns each; every other character
+has eight.
+
+\paragraph{Ordinary characters: the finite core calculation.}
+For $2\leq r\leq m-2$, put $j=m-r$ and set $\alpha_i=1$ for
+this calculation. In character $r$ use the columns
+\[
+ xa_r,ya_{r-1},za_{r+1},xb_j,yb_{j+1},zb_{j-1},t_r,t'_j.
+\]
+They have the form $y^rp+z^jD_rq$. On the nonzero-edge locus,
+divide the second component by $D_r$ and set $K=E_j/D_r$.
+The resulting pairs are
+\[
+\begin{array}{c|c|c}
+ &p&q\\\hline
+1&x^2P_{r+1,L}&xP_{0,r-1}\\
+2&xP_{r,L}&\delta_{r-1}hP_{0,r-2}\\
+3&xhP_{r+2,L}&\delta_r^{-1}P_{0,r}\\
+4&xP_{0,j-1}&Kx^2P_{j+1,L}\\
+5&P_{0,j}&K\delta_jxhP_{j+2,L}\\
+6&hP_{0,j-2}&K\delta_{j-1}^{-1}xP_{j,L}\\
+7&2xhP_{r+1,L-1}&2x^2P_{1,r-1}\\
+8&2x^2P_{1,j-1}&2KxhP_{j+1,L-1}
+\end{array}\tag{QC-03.4}
+\]
+The scalar $K$ reduces to
+\[
+ K={\prod_{e=0}^{\min(r,j)-1}\delta_e\over
+             \prod_{e=\max(r,j)}^{m-2}\delta_e}.
+ \tag{QC-03.5}
+\]
+To specify the cores, initially set
+$\delta_i=7i^2+13i+36\pmod{101}$, replacing a zero by one.
+For $(r,j)=(6+\max(-g,0),6+\max(g,0))$, $-4\leq g\leq4$,
+set $\delta_2=\delta_{m-4}=0$ and take $K=14$; also set
+$\delta_{\min(r,j)+1}=0$ when $|g|=4$.
+For $r+j=17$ with $\min(r,j)=2,3,4,5$, set only
+$\delta_{\min(r,j)+1}=0$ and define $K$ by (QC-03.5).
+There are seventeen cores.
+
+The rows of (QC-03.4) are the coefficients of
+$x^{j+1-2k}h^k$, followed by those of $x^{r+1-2k}h^k$, in
+increasing $k$. The checker \texttt{check\_ordinary.py} explicitly
+enumerates nonadjacent edge sets of each interval and obtains
+the following $8\times8$ determinants in the ordered row lists:
+\[
+\begin{array}{r r|l|r}
+r&j&\text{ordered rows}&\det\pmod{101}\\\hline
+10&6&0,1,4,2,3,5,6,7&73\\
+9&6&0,1,4,2,3,5,6,7&58\\
+8&6&0,1,4,2,3,5,6,7&16\\
+7&6&0,1,4,2,3,5,6,7&8\\
+6&6&0,1,4,2,3,5,6,7&53\\
+6&7&0,1,5,3,2,6,7,8&51\\
+6&8&0,1,5,3,4,6,2,7&72\\
+6&9&0,1,6,3,4,7,2,8&20\\
+6&10&0,1,6,3,4,7,2,8&90\\
+2&15&0,1,9,3,4,10,6,7&51\\
+15&2&0,1,2,3,4,5,6,7&16\\
+3&14&0,1,8,3,4,9,6,7&88\\
+14&3&0,1,3,4,2,5,6,7&93\\
+4&13&0,1,8,3,4,9,6,7&23\\
+13&4&0,1,3,2,4,5,6,7&24\\
+5&12&0,1,7,3,4,8,6,2&83\\
+12&5&0,1,4,2,3,5,6,7&40
+\end{array}
+\]
+The last eight $K$ residues are, in pairs, $34,61,88,82$.
+All denominators in the selected matrices are nonzero modulo $101$.
+
+These normalized cut data are limits of nonzero-edge data.
+A zero edge in the middle interval absent from (QC-03.5) does not
+affect $K$. If outer zero edges occur in equal numbers on the two
+sides, replace them by $\tau$ times nonzero constants. Their
+powers of $\tau$ cancel in (QC-03.5); changing one left constant
+realizes any prescribed nonzero $K$. Hence every nonzero cut
+minor proves a nonzero rational minor on the nonzero-edge locus.
+
+There are two exact insertions. When $r,j\geq6$, insert a vertex
+with diagonal $x$ at each of the cuts $2,m-4$, replacing each cut
+edge by two zero edges. Every interval in either component of
+(QC-03.4) gains one isolated vertex, so $(p,q)$ becomes $(xp,xq)$
+and $(m,r,j)$ becomes $(m+2,r+1,j+1)$. The outer zero counts
+remain equal, so $K$ can remain fixed. When $j-r\geq4$, insert
+one vertex at the cut $r+1$. Every $p$ interval gains that vertex,
+and every $q$ interval avoids it; the map is $(p,q)\mapsto(xp,q)$,
+and $(m,r,j)\mapsto(m+1,r,j+1)$. The case $r-j\geq4$ is
+$(p,q)\mapsto(p,xq)$. These assertions follow by checking the
+endpoints of the eight intervals in each column of (QC-03.4),
+including the shifted intervals with $r+2$ or $j-2$.
+Multiplication by $x$ is injective, so the ranks are preserved.
+One step of every applicable insertion was also checked entry by
+entry by the independent program.
+
+For any $r,j\geq6$, choose the core with the same signed gap,
+truncated to $[-4,4]$. Paired insertions raise the smaller index
+to its target; if necessary central insertions then raise the
+larger index. If the smaller index is $2,3,4,5$ and $r+j\geq17$,
+the corresponding size-$17$ core and central insertions suffice.
+Thus every ordinary block has rank eight on a nonempty open
+subset of the actual Jacobi parameter space.
+
+\paragraph{The boundary certificate and its insertion.}
+Retain every row and every base-character column with character
+in $B_m=\{0,\pm1,\ldots,\pm5\}\pmod m$. Call the projected
+matrix $S(\varepsilon)$; it has $91$ columns. At size $17$ take
+\begin{align*}
+\alpha={}&(86,18,1,17,95,90,80,90,48,100,9,60,2,25,78,53,54),\\
+\delta={}&(34,1,37,24,47,1,59,41,0,92,38,56,75,6,44,14).
+\end{align*}
+Order the degree-$18$ monomials by decreasing $x$ exponent and
+then decreasing $y$ exponent. Order columns as $xP,yP,zP$,
+then $xa_i,ya_i,za_i$, then $xb_i,yb_i,zb_i$, then $t_i,t'_i$.
+Retain the indicated complete character blocks.
+
+The zero edge at $8$ is interpreted after row normalization:
+for negative extreme rows divide by $D=\prod\delta_i$ before
+taking the cut limit. Every term in such a retained row has the
+long lower path, and its residual interval avoids the cut. Thus
+the cut factor cancels. Computationally, set the cut to one in
+these rows and divide by the product of the other edges; in the
+other rows set the cut to zero. The other-edge product is one
+modulo $101$ for the displayed data. This is a rational limit of
+invertible row scalings, not the literal degenerate-pencil rank.
+
+Write $S=\sum_{i=0}^3\varepsilon^iS_i$ and form the lower
+triangular block matrices $T_s=(S_{i-j})_{0\leq i,j\leq s}$,
+with negative subscripts zero. Direct sparse-polynomial expansion
+in \texttt{check\_endpoint.py} yields
+\[
+\begin{array}{c|c|r|r}
+ &\text{size}&\text{rank}&\text{ordered-pivot minor}\pmod{101}\\\hline
+T_0&124\times91&84&99\\
+T_1&248\times182&172&74\\
+T_2&372\times273&262&45
+\end{array}\tag{QC-03.6}
+\]
+The pivot rule is: scan columns left to right, choose the first
+unused nonzero row, and eliminate below after normalization.
+The selected original row labels are ordered by pivot time.
+In this ordered convention the determinant is the product of
+the pre-normalization pivots. This specifies the minors fully.
+
+Insert an isolated vertex of diagonal $x$ at the central cut,
+replacing the zero edge by two zero edges. Repeat at the leftmost
+central cut. For retained first-derivative columns, the endpoint
+distance is at most six; for second-derivative columns it is at
+most five. In each formula above, a short path has a long residual
+interval, while a long path has a short residual interval.
+The original cut is between vertices eight and nine. Every long
+residual interval contains each inserted vertex; every short
+interval avoids it. Every long forced path crosses all central
+cuts; every short path avoids them.
+
+The retained integer-weight windows are precisely
+\[
+ [-5,5],\qquad[m-5,m+1],\qquad[-m-1,-m+5].
+\]
+A short-path term has absolute weight at most eight, and a long-path
+term at least $m-9$. For $m\geq17$ the central retained window
+therefore contains only short paths, and the extreme retained
+windows only long paths. In the three windows the insertion is
+respectively the injective monomial map
+\[
+ f\longmapsto xf,\qquad f\longmapsto yf,\qquad f\longmapsto zf.
+ \tag{QC-03.7}
+\]
+The negative long path gains new edge factors, all canceled by
+the normalization by $D$. Its residual interval avoids those
+edges. Thus (QC-03.7) holds for the entire polynomial matrix,
+including every coefficient of $\varepsilon$. New rows outside
+these images are zero. It preserves every $T_s$ rank.
+The checker separately verified the entire embedding at sizes
+$18,19,20,21$, including order three; the preceding argument, not
+those four tests, proves the assertion for all sizes.
+
+Replacing all central zeros by $\tau$ times nonzero constants
+realizes the normalized cut as a finite rational limit of actual
+nonzero-edge pencils. The nonzero limit minors in (QC-03.6)
+therefore define nonempty rank opens at every size.
+
+\paragraph{The seven base relations and first normal bound.}
+At the base endpoints $(x,y,x,z)$ there are seven independent
+relations. Five of them are
+\begin{align*}
+&xa_0+ya_L-xb_0-zb_L=0,\\
+K_{00}:={}&yb_1-\delta_0za_1+\alpha_0xa_0-\alpha_0xb_0=0,\\
+K_{01}:={}&t_0-t'_0=0,\\
+K_{10}:={}&\delta_0t_1-2xb_L+\alpha_0t'_L=0,\\
+K_{11}:={}&\alpha_L\delta_0
+       (\delta_1za_2-ya_0+\alpha_1xa_1)\\
+&\hspace{7mm}-\alpha_0\alpha_1
+       (\delta_{L-1}zb_{L-1}-yP+\alpha_Lxb_L)=0.
+\end{align*}
+The last two are the negative-character transforms of $K_{10},K_{11}$.
+Explicitly, transpose $A$, interchange $y,z$, and conjugate by
+$\operatorname{diag}(1/E_i)$. The pencil returns to Jacobi form
+and its endpoints become $(x,Dy,x,D^{-1}z)$.
+Next apply $(y,z)\mapsto(ty,t^{-1}z)$ and conjugate by
+$\operatorname{diag}(t^{-i})$, where $t^m=D^{-1}$.
+This restores the base endpoints and exchanges characters $r,-r$.
+It is invertible over $\mathbb C$ and takes arbitrary endpoint
+perturbations to arbitrary endpoint perturbations.
+
+The relations follow directly from (QC-03.2). For example the two
+parentheses in $K_{11}$ at the base are
+$2\alpha_0\alpha_1D_1x^2z^{m-1}$ and
+$2\alpha_LDx^2z^{m-1}$, respectively. Independence follows by
+characters: in character zero the Hessian support distinguishes
+$K_{01}$, and the index-one columns distinguish $K_{00}$ from
+scaling; in each of characters $\pm1$ the Hessian support
+distinguishes the first relation from the second, which has a
+nonzero $yP$ or $zP$ coefficient. Thus $\operatorname{rank}C_0
+\leq8m-4$ on the nonzero-parameter locus.
+
+The boundary minor has rank at least $84$, and every character
+outside $B_m$ has eight independent columns on a nonempty open
+by the ordinary-core argument. Intersect these finitely many opens.
+They lie in an irreducible parameter space, so the intersection
+is nonempty and
+\[
+ \operatorname{rank}C_0=84+8(m-11)=8m-4.
+ \tag{QC-03.8}
+\]
+Its kernel is exactly the seven relations just given, wholly in
+characters $0,\pm1$; the projected kernel is the same kernel.
+This also avoids any need to import the separate exceptional-
+character calculation from R-26.
+
+For arbitrary endpoint forms the same recurrences give
+\[
+ K_{11}=2\alpha_0\alpha_1\alpha_LD\,
+    xz^{L-1}(xV_1-zU_0)-\alpha_0\alpha_1(U_1-y)P.
+ \tag{QC-03.9}
+\]
+Its first derivative is in the base image. Here are explicit
+witnesses. For $r=2,3$, set $j=m-r$ and put
+\begin{align*}
+ R_A(r)&=ya_{r-1}-\alpha_rxa_r-\delta_rza_{r+1}
+        =-2\alpha_rD_r xz^{m-r}P_{0,r-1},\\
+ R_B(r)&=yb_{j+1}-\alpha_jxb_j-\delta_{j-1}zb_{j-1}
+        =-2\alpha_jE_j x^2z^jP_{j+1,L}.
+\end{align*}
+At $r=2$ they give $x^3z^{m-2}$ and $xyz^{m-1}$.
+At $r=3$ they give $x^2yz^{m-2}$ provided
+\[
+ \Delta=\alpha_0\alpha_1\alpha_2\delta_{L-1}
+       -\alpha_{L-1}\alpha_L(\alpha_2\delta_0+\alpha_0\delta_1)
+       \ne0.
+\]
+This is a nonempty open condition (all parameters one give $-1$).
+The identities
+\begin{align*}
+\delta_1za_2-ya_0+\alpha_1xa_1
+ &=2\alpha_0\alpha_1D_1x^2z^{m-1},\\
+\delta_0za_1-xP+\alpha_0xa_0&=2\alpha_0D xz^m
+\end{align*}
+give the other two possible monomials. Together with linear
+multiples of $P$, these are all the terms in the first derivative
+of (QC-03.9). The negative-character transform gives another
+independent kernel vector with zero first normal. Scaling does
+as well, because
+$U_0a_0+U_1a_L-V_0b_0-V_1b_L=0$ holds along the entire family.
+Therefore the first normal map
+\[
+ N_1:\ker C_0\longrightarrow\operatorname{coker}C_0,
+             \quad k\longmapsto[C_1k]
+\]
+has rank at most four on a nonempty open set.
+
+\paragraph{Second normals and the conclusion.}
+For any polynomial matrix $M=M_0+\varepsilon M_1+\cdots$, let
+$r_0=\operatorname{rank}M_0$ and $r_1=\operatorname{rank}N_1$.
+For $k_0\in\ker N_1$, choose $k_1$ with
+$M_0k_1=-M_1k_0$ and define
+$N_2(k_0)=[M_2k_0+M_1k_1]$ modulo the base image and first-normal
+image. This is independent of the choice, since the difference
+of two choices belongs to $\ker M_0$. Write $r_2=\operatorname{rank}N_2$.
+Successively eliminating a unit block of $M_0$ and an order-one
+block gives
+\[
+ \operatorname{rank}T_0=r_0,\quad
+ \operatorname{rank}T_1=2r_0+r_1,\quad
+ \operatorname{rank}T_2=3r_0+2r_1+r_2,
+\]
+and $\operatorname{rank}_{\mathbb C(\varepsilon)}M\geq r_0+r_1+r_2$.
+Equivalently, modulo $\varepsilon^{s+1}$ a pivot of orders
+$0,1,2$ contributes $s+1,s,s-1$ to the Toeplitz rank.
+
+These normal maps for the projected boundary matrix are the full
+normal maps. Indeed, replacing one endpoint monomial shifts its
+character by at most two. The base kernel has characters $0,\pm1$,
+so $C_1k_0$ has characters at most $\pm3$. Any correction can
+be projected onto those complete base blocks. The second residual
+$C_2k_0+C_1k_1$ then has characters at most $\pm5$.
+Outside blocks cannot alter either quotient. Retaining complete
+blocks is essential for this assertion.
+
+Intersect all ordinary-block, boundary-minor, and $\Delta$ opens
+at one actual pencil. For $S$ we have $r_0=84$, $r_1\leq4$,
+and (QC-03.6). Hence $172\leq168+r_1$ forces $r_1=4$, and
+$262\leq252+8+r_2$ gives $r_2\geq2$. Together with (QC-03.8),
+the full matrix has generic rank at least $(8m-4)+4+2=8m+2$.
+The universal scaling relation gives the reverse bound.
+A nonzero maximal minor is a nonzero polynomial in $\varepsilon$,
+so some actual value attains that rank. This proves the antecedent
+of (QC-02.3) for every $m\geq17$. Starting with $c_{17}=1124$,
+the increment $8m+2$ is exactly the increment of $4m^2-2m+2$.
+The torus upper bound proves (QC-03.1) by induction.
+\end{proof}
+
+\subsection{QC-04: the indicated derived-restriction degree}
+
+\paragraph{Verification statement QC-04.}
+Let $R=\mathbb C[X_{ij}]$, let $J_m$ be the ideal of submaximal
+subpermanents, and let $S$ be a general four-variable linear
+quotient of $R$. For $m\geq17$,
+\[
+ \operatorname{Tor}_1^R(R/J_m,S)_m=0.
+\]
+This is only the stated internal degree, not full Tor independence.
+
+\begin{proof}
+The full-variable input is Efremenko--Landsberg--Schenck--Weyman,
+\emph{On minimal free resolutions of sub-permanents and other ideals
+arising in complexity theory}, author version
+\texttt{ELSWmfr2-29.pdf}, Theorem 1.1, printed page 2.
+Putting $\kappa=m-1$ and their $j=2$ gives exactly $2m-2$
+linear first syzygies. They are the differences of row Laplace
+expansions and differences of column Laplace expansions.
+Their independence after a general restriction is elementary:
+a constant combination is the vector
+$((\alpha_i+\beta_j)L_{ij})_{i,j}$ with
+$\sum\alpha_i=\sum\beta_j=0$. When every $L_{ij}$ is nonzero,
+vanishing forces all $\alpha_i$ to be equal and all $\beta_j$
+their negatives; the two zero sums give zero coefficients.
+
+Tensoring a minimal free resolution with $S$ and taking degree
+$m$ gives the relevant complex
+\[
+ \mathbb C^{2m-2}\longrightarrow S_1^{m^2}
+                    \longrightarrow S_m.
+\]
+The first map is injective generically. The second is the
+permanent coefficient-map differential and has generic rank $c_m$
+in characteristic zero. Thus
+\[
+ \dim\operatorname{Tor}_1^R(R/J_m,S)_m
+       =4m^2-(2m-2)-c_m.
+\]
+QC-03 makes the right side zero. No assertion about other degrees
+or about every positive characteristic is implied.
+\end{proof}
+
+\subsection{Geometric dictionary and limits of the conclusion}
+
+The coefficient maps are morphisms of affine schemes defined by
+integer polynomials. Each displayed minor is a section of an
+exterior power of their tangent map. Its nonvanishing defines a
+principal open; the arithmetic calculations prove that the
+corresponding characteristic-zero open is nonempty. The torus
+argument is an assertion about the fibers of a group-scheme action.
+The endpoint argument works with maps of free modules over a
+power-series ring: its successive normal maps measure ranks after
+orders zero, one, and two. The insertion is a monomial injection
+of the relevant graded modules, not an extrapolation of dimensions.
+
+For QC-04 the coordinate complex of the derived intersection of
+$\operatorname{Spec}(R/J_m)$ with the general four-plane is
+$(R/J_m)\otimes_R^{\mathbf L}S$; QC-04 kills its first homology
+in one internal degree. Framework locators, carried from the
+supplied CUE\_GCT dictionary, are SGA 3, Expos\'e I,
+Propositions 4.7.2--4.7.3 (actions and gradings), SGA 6,
+Expos\'e III, Definition 1.5 and Notation 1.6 (Tor independence
+and derived tensor product), and EGA II, Proposition 2.5.2
+(graded modules and associated projective sheaves). The archive
+transcription at cote 133, scan 028, lines 6--17 supplies the
+tensor/symmetric-operation vocabulary; scan 019, lines 45--56
+distinguishes an equivariant class from its augmentation. These
+framework references are not claims that the cited texts contain
+the modern permanent-dimension theorem. No motive, purity, or
+$\ell$-adic assertion is needed for the present proofs.
+
+At $(m,n)=(17,23)$ the verified affine dimensions are $1127$ for
+the padded four-variable image and $1060$ for the determinant
+image. At $(8,9)$ the inherited $c_8=165$ similarly gives $168$
+and $164$. For the determinant dimension, a primary literature
+locator is Reichstein--Vistoli, \emph{On the dimension of the locus
+of determinantal hypersurfaces}, Canadian Mathematical Bulletin
+60 (2017), 613--630, Theorem 1.3; Leal--Lozano Huerta--Vite,
+\emph{The Noether--Lefschetz locus of surfaces in $\mathbb P^3$
+formed by determinantal surfaces}, arXiv:2303.09028v3,
+Corollary 3.1, gives the same projective dimension $2n^2+1$.
+The latter's Corollary 1 identifies the smooth determinantal
+loci with open parts of Noether--Lefschetz components.
+
+None of these dimension verifications computes a highest-weight
+equation or either complete isotypic multiplicity. In particular,
+they do not supply the explicit obstruction requested in item 1.
+The qualitative strict-direction argument of CUE\_GCT G-17/G-18
+was read separately: its quotient dimensions explain eventual
+growth, and its period argument removes a degree congruence.
+For $n>\sqrt2m$ it gives only eventual determinant dominance
+in each fixed four-row direction; it leaves finitely many early
+degrees undecided. The enormous effective bounds in those
+statements are not used or newly certified here.
