@@ -1,0 +1,17 @@
+# Whole-proof and source review of N-006 and N-012
+
+Reviewer: `/root`, GPT-6 Astra Pro, effort not exposed; GCT_POS. Date: 21 November 2026 UTC.
+
+## N-006: PASS for the literal fixed-q sheaf request
+
+Read the complete inherited GCT_NSRH finding_F46.tex and the complete N-006 section. F46 identifies the actual algebra and its actual64-dimensional tensor module, not just their dimensions: the cyclic rank-two Cayley operator generates the center, the separated scalar blocks have invertible differences, and the displayed normalized P1/P2 matrices act by the specified precomposition. Its earlier F19/F21 algebra and lattice identifications remain attributed inherited inputs. The Hom intertwiner space has identity Frobenius under the internal-Hom action. The End/Hom comparisons are distinct from the additional688-dimensional commutant, whose special fiber can jump.
+
+For each fixed prime power q>1, every complex conjugate of the stated eigenvalues has absolute value1. Choosing ℓ outside the finite set of nonunit places gives a continuous arithmetic representation, hence an actual lisse sheaf. At a degree-d point the Tate-twisted pullback to A1 has eigenvalues q^(−d)α^d and is pointwise pure of weight−2 independently of its cohomology. Compact cohomology of A1 cancels the Tate twist in degree2 and vanishes in other degrees. Applying this directly to the exact intertwiner module M preserves the actual P_i actions; applying it to H and K also retains their morphism-space interpretation. These checks resolve the literal fixed-parameter task. Equality with F44's semilinear coefficient-ring Frobenius or with quantum parameters retuned at every extension is an additional property and is not part of this conclusion.
+
+## N-012: PASS for the printed external minimum-degree prescription
+
+Read the complete new proof, GCT VIII's coefficient-ring definitions in §2.2, and all §§3.1–3.3 in the supplied main.tex, including equation(13), the degree partial order, and both minimum-degree conjectures. The variable-scaling conjecture ranges over every rational exponent and the displayed domain is the triple intersection, without an additional equation y=bar(y). The text states bar invariance as the intended outcome; it does not impose it as an eligibility condition for that external minimization. The separate internal discussion in §4 does impose bar invariance and is excluded from the refutation.
+
+Already on the one-dimensional algebra, y=q^(−n), a=−n lies in q^(−n)A0 and q^nA∞, has the prescribed residue, and lies in the Laurent form. Its rational-function degree is−n. Thus the stated global minimum does not exist. Even if one were to truncate the phrase 'pole order' to a nonnegative quantity, infinitely many admissible elements would have equal degree0, so the stated uniqueness would still need a repair; that alternative is not the degree convention used in the proof.
+
+For rank4, N-010 supplies the rational minimal GT line. Clearing its finitely many Q(D) denominators gives a nonzero bar-fixed element of the actual Laurent P-generated form. The displayed q^(−n) shifts satisfy both lattice conditions for every rational initial normalization, and their entire ambient degree tuple decreases on its fixed support. A minimal label exists for every finite order, so the partial-order convention cannot rescue the missing minimum. This is an obstruction to the printed prescription, not a proof that a corrected bar-fixed or internal canonical basis cannot exist. Such variants remain separate research tasks.

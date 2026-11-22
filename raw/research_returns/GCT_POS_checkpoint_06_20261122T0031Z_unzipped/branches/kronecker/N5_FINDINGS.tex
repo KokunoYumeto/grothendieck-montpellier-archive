@@ -1,0 +1,186 @@
+% Further findings for n=5; scope is deliberately explicit.
+\section{K-010: recursive spectral certificates and the first five-dimensional classification}
+
+For three multisets $W=(A,B,C)$ of $n$ residues modulo a power of two $M$,
+write $d(W)=\sum A+\sum B+\sum C\pmod M$.  An aggregate edge is a triple
+$(a,b,c)$ of distinct residue values, one from each multiset, with
+$a+b+c=0\pmod M$.  Its three margin targets are the multiplicities of the
+corresponding residue values.  We call $W$ \emph{torus feasible} when these
+aggregate edges admit nonnegative rational masses with those margins.
+By the argument in K-002, this is a necessary condition for the fixed
+space to contain a nonzero semistable tensor.  Repeated eigenvalues are
+included, and torus feasibility is not used as an unqualified substitute
+for semistability.
+
+\subsection*{The refinement lemma}
+Every torus-feasible triple modulo $2M$ reduces to a torus-feasible triple
+modulo $M$.  Indeed, sum its masses over the residue classes that merge
+under reduction; both the edge equation and each prescribed margin
+reduce to the required equations.  Conversely, all possible lifts of a
+fixed residue multiset are obtained as follows.  If a residue $a$ has
+multiplicity $m_a$, put $j$ of its copies at $a+M$ and the other $m_a-j$
+copies at $a$, independently for $0\le j\le m_a$.  Thus a factor has
+$\prod_a(m_a+1)$ possible refinements.
+
+We may quotient at each stage by coordinate permutations, factor
+permutations, scalar shifts whose three residues sum to zero, and odd
+units on all exponents, with the latter chosen to normalize the prescribed
+determinant exponent.  This quotient does not lose fine-level cases.
+Coordinate and factor permutations lift immediately.  An odd unit modulo
+$M$ has an odd lift modulo $2M$.  Scalar shifts with sum zero modulo $M$
+have lifts with sum zero modulo $2M$, by adding $M$ to one shift if
+necessary.  Applying these lifted operations to a fine-level triple gives
+a refinement of its normalized coarse representative.  The independent
+choices just described include every such refinement.
+
+For a target exponent $q$ modulo $M$, the canonical representative is the
+lexicographically least triple obtained by all odd units $u$ satisfying
+$u d(W)=q\pmod M$, all supported-edge shifts, and factor permutations.
+A supported-edge shift subtracts the three coordinates of an aggregate
+edge, making zero occur in every factor.  Every feasible support has an
+edge, so these shifts suffice.  If the target is primitive, the normalizing
+unit is unique.  If it is nonprimitive or zero, \emph{all} normalizing
+units are retained.  The base case modulo two lists all multisets
+containing zero and all unordered triples of these multisets.  These
+observations prove completeness of the recursion, without assumptions
+on eigenvalue multiplicities or on faithfulness of the determinant
+character.
+
+\subsection*{Exact certificates for primitive characters}
+The Python implementation \texttt{recursive\_spectra.py} applies this
+recursion to primitive targets.  Every rejected triple comes with a
+rational Farkas certificate: for its aggregate incidence matrix $A$ and
+margin vector $b$, the recorded vector $y$ satisfies
+\[
+                       A^t y\ge0,\qquad b^t y<0.
+\]
+Every accepted triple comes with a rational vector $x\ge0$ satisfying
+$Ax=b$.  The independent checker
+\texttt{verify\_recursive\_certificates.py} uses only Python integers and
+\texttt{Fraction}; it checks these equalities and inequalities directly
+and checks the resulting counts against the recorded classification.
+For $n=5$ the complete counts are
+\[
+\begin{array}{c|r|r|r|r}
+ M&\text{raw refinements}&\text{canonical candidates}&
+    \text{feasible}&\text{infeasible}\\\hline
+ 2&35&7&3&4\\
+ 4&4168&154&30&124\\
+ 8&210456&10447&375&10072\\
+ 16&8394752&243824&77&243747\\
+ 32&2514944&36878&0&36878
+\end{array}                                                    \tag{K-010a}
+\]
+All $291310$ rational certificates pass that independent checker.
+There are therefore exactly $77$ torus-feasible normalized spectral
+types of order-sixteen lifts with primitive determinant character,
+and no primitive-character lift of order $32$ or any larger power of
+two.  The assertion about larger powers follows by reduction to modulus
+$32$; it does not assume that all determinant characters have faithful
+lifts.  Combining this with K-009, whose five-dimensional two-primary
+lift cutoff is $64$, excludes determinant character order $64$.
+At this stage alone determinant order $32$ can still arise from an
+order-$64$ lift, and determinant order $16$ can still arise from
+order-$32$ or order-$64$ lifts.  The subsequent prescribed-character
+search addresses exactly those possibilities.
+
+The complete list of the $77$ types, their positive masses and their
+normalized spectra is in
+\texttt{recursive\_n5\_m16\_result.json}; the accompanying
+\texttt{N5\_SPECTRA\_TABLE.tex} prints all the spectra.  This is a
+finite-lift classification, not yet a count of distinct quotient curves.
+
+\subsection*{Polystability of all seventy-seven types}
+Seventy-six types have simple spectra in all three factors.  Each has
+exactly thirteen fixed tensor coordinates, a rank-thirteen incidence
+matrix, and a strictly positive, unique margin-one vector.  The exact
+Smith diagonals are $(1^{12},16)$.  These statements are checked by
+\texttt{analyze\_n5\_types.py} and recorded in
+\texttt{n5\_type\_analysis.json}.  With coefficients equal to the square
+roots of the positive masses, the three reduced matrices are identities.
+Off-diagonal entries vanish because distinct fixed support edges cannot
+agree in two coordinates when all three spectra are simple.  Thus the
+tensor is critical and its $SL_5^3$ orbit is closed.  The coefficient-one
+tensor lies in the same product-linear orbit: the incidence map has full
+column rank, so the complex diagonal torus acts transitively on the
+nonzero coefficients on this support.  Necessity of the unique positive
+mass vector also shows that every semistable tensor in this fixed space
+has all thirteen coefficients nonzero.  Consequently there is exactly
+one product-linear orbit of semistable tensors for each fixed spectral
+triple, before possible coincidences between different spectral triples.
+
+The remaining type, the first in the list, is
+\[
+ A=(0,0,1,6,13),\quad B=(0,2,3,7,13),\quad C=(0,3,8,12,13).
+                                                               \tag{K-010b}
+\]
+Its aggregate support, in lexicographic order, is
+\[
+\begin{gathered}
+ (0,0,0),(0,3,13),(0,13,3),(1,2,13),(1,3,12),(1,7,8),\\
+ (6,2,8),(6,7,3),(6,13,13),(13,0,3),(13,3,0),(13,7,12),
+\end{gathered}
+\]
+and its unique positive aggregate mass vector is
+\[
+ \frac1{16}(13,7,12,5,6,5,11,1,4,3,3,10).                    \tag{K-010c}
+\]
+The first three entries correspond to three vectors in the repeated
+two-dimensional eigenspace of the first factor.  Use the three columns
+of
+\[
+ F=\begin{pmatrix}
+ \sqrt3/2&-1/2&0\\[2pt]
+ 1/4&\sqrt3/4&-\sqrt3/2
+ \end{pmatrix}.                                               \tag{K-010d}
+\]
+Their squared norms are $13/16,7/16,12/16$, and $FF^*=I_2$.
+Give the other nine coordinates the positive square roots of their
+listed masses.  No two aggregate edges agree in two residue coordinates,
+and the three columns in (K-010d) occupy different second and third
+coordinates.  Hence all off-block reduced-matrix entries vanish, while
+the two-dimensional block is $FF^*$.  The three reduced matrices are
+identities, proving polystability of this type as well.
+
+For completeness, its semistable locus is also one orbit of the
+centralizer of the prescribed diagonal element.  A zero aggregate
+coordinate contradicts uniqueness and positivity of (K-010c).  If two
+of the first three vectors were collinear, put their common line on
+the first coordinate axis.  Their two aggregate masses would already
+sum to more than one: the three pairwise sums are $20/16,25/16,19/16$.
+No margin-one mass vector could then exist in that basis, contradicting
+torus semistability.  Thus all three projective lines are distinct.
+$PGL_2$ is transitive on ordered triples of distinct points of $\mathbb P^1$,
+so these three vectors can be put on $e_0,e_1,e_0+e_1$.  The resulting
+thirteen nonzero tensor coordinates have incidence rank thirteen;
+diagonal scaling makes all their coefficients one.  This gives the
+claimed orbit and also shows directly why repeated spectra cannot be
+discarded.
+
+For every one of these seventy-seven coefficient-one representatives,
+the infinitesimal $GL_5^3$ orbit map has rank $73$.  The calculation
+records a nonzero rank-$73$ minor modulo the prime $1009$.  Its rational
+rank is therefore at least $73$, and the two-dimensional scalar kernel
+makes it at most $73$.  Thus the connected full stabilizer is exactly
+the scalar kernel.  This proves finite effective stabilizers, but it
+does not prove that their finite determinant kernels are trivial.
+The moving-normal determinant products recorded in the same file are
+therefore explicitly labelled as products \emph{before a possible
+finite quotient}; they are not asserted to be local Hilbert residues.
+In particular no seventy-seven-term global residue sum is inferred
+from this calculation alone.
+
+\subsection*{Scheme-theoretic dictionary and remaining gate}
+The incidence columns define a morphism of split tori over $\mathbb Z$.
+Smith form $(1^{12},16)$ says that the finite part of its diagonal kernel
+is the diagonalizable group scheme $\mu_{16}$, after the scalar torus is
+separated.  Refinement from $M$ to $2M$ is a finite search on characters
+of diagonalizable group schemes; the mass equations express the
+Hilbert--Mumford convex-hull criterion over characteristic zero.
+The critical representatives identify closed complex geometric orbits.
+At this stage the further issue is the full finite group scheme
+stabilizer and its action on the Luna slice, followed by the
+multiple-component Koszul localization of P-F23g.  Infinitesimal
+freeness alone does not settle that finite-group question.
+K-012--K-013 resolve it for all seventy-seven types, K-011 supplies
+the higher-lift coverage, and K-014 computes the resulting global pole.

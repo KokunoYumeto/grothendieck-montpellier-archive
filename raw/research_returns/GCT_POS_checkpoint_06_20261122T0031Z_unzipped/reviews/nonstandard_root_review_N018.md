@@ -1,0 +1,17 @@
+# N-018: complete proof and independent certificate replay
+
+Reviewer `/root`; GPT-6 Astra Pro; effort not exposed; GCT_POS;21November2026,22:58 UTC.
+
+**PASS for the stated product-path repair.** Read the entire proof `bar_fixed_second_block_failure.tex`, its constructor `bar_fixed_theta_block.py` and the separate certificate-only verifier `verify_bar_fixed_theta.py`. The N-010/N-015 inputs and full N-017 GT-map/Hermite verification were already read and replayed.
+
+The selected Hermite rows have polynomial preimages in the original actual module. Conversely every original row divides by the full triangular module. As discarded pivots precede the desired block, vanishing of those coordinates forces their coefficients to vanish successively. This proves the actual unsaturated intersections even without separately proving that discarded output rows lie in the original module. The same argument verifies each down-set. No saturation is introduced.
+
+The five-row matrix in N-91 has the stated degrees. I reconstructed the zero-lower-coordinate kernel in N-93 and its primitive D(D-1) coefficient. Reducing p modulo that coefficient leaves exactly p=p0+p1 D, u=u0+u1 D, with constant w,x,y. The remaining equations p1=w+2y and u1=4w+4y give the displayed five-dimensional complement. Thus the finite cutoff B=1 reduces all degrees to the stated seven-dimensional space by the previously checked N-016 theorem.
+
+The first four computed minima are unique in the full bar-fixed domain by the even minimization and zero odd perturbation spaces. At the fifth stage I independently substituted U and U' into the coefficient constraints. In particular subtracting T0 from U leaves p1=-11/3, w=4/3 and y=-5/2, satisfying both equations; U' gives p1=1,w=-1/2,y=3/4. Both are admissible and normalized. The ambient polynomials at the common witness have degrees four and three. The independent rank verifier checks every strict predecessor and every possible comparator failure. The unique lexicographically least profile therefore fails the source comparator, so a global least profile cannot exist.
+
+The rational-normalization lemma is valid on the explicitly stated full half-integer scaling domain. Multiplication of a GT-line representative by h(v) shifts its valuation exponent, leaving an A0 unit. The lower lattice and its bar conjugate are unchanged. The current residue is multiplied by a nonzero rational leading coefficient, inducing a scalar bijection of the candidate fibers that preserves bar invariance, actual-order membership and ambient degrees. This does not change the fixed lines or the chosen partial orders, and does not claim invariance under arbitrary changes of those data.
+
+The separate verifier imports neither the constructor nor the incremental-equation algorithm. It replays the polynomial intersection certificates and checks degree feasibility by independent Flint matrix ranks. Root replay: PASS,1.8094 seconds. First four stages have no comparator-failure coordinates in either order. The fifth has26 failures for the factor-product order and9 for the length-stratum order, including the displayed shared witness. Receipt `branches/nonstandard/bar_fixed_theta_independent_certificate.json`.
+
+This refutes the complete rank-four construction for this particular product-path repair. It does not identify a successful canonical E(4), compute its nonexistent full table under this rule, or rule out every alternative repair.

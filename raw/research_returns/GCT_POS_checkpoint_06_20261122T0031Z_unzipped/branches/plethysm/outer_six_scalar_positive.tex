@@ -1,0 +1,421 @@
+\section{An explicit positive formula for the scalar six-point range}
+\label{sec:outer-six-scalar-positive}
+
+\paragraph{Scope and attribution.}
+Pak, Panova, and Swanson prove a positive marked-tree formula for
+all plethysm coefficients whose \emph{output} has at most two rows.
+We use their KOH/GOS identities, transpose one Gaussian factor,
+and compress its possibly long unary chains.  The result below
+is an explicit implementation and binary-size compilation of
+that known formula.  It is not a new discovery of positivity
+for two-row outputs.  Combined with PNEW-011 it evaluates every
+\emph{scalar} fat-point section space for the six projective-frame
+points.  It does not evaluate the general flag-bundle sections
+with arbitrary tail in item 5, nor the three-row outputs arising
+from stable two-row tails in item 4.
+
+\begin{theorem}[PNEW-012: the compiled scalar formula]
+For each $\mu\vdash6$, the retained file
+\path{certificates/outer_six_scalar_polytopes.json} specifies a
+fixed list of at most $45$ bounded rational polytopes
+$P_{\mu,t}(n,r)$, each in at most $11$ variables, such that
+\[
+ p_{\mu,(n)}^{(6n-r,r)}
+       =\sum_t\#\bigl(P_{\mu,t}(n,r)\cap\mathbb Z^{d_t}\bigr)
+ \quad(n\ge0,\ 0\le r\le3n).
+ \tag{PNEW-S1}
+\]
+All coefficient matrices are fixed integer matrices.  Every
+right-hand side is an integer affine function of $(n,r)$,
+and every real solution has every coordinate between $0$ and
+$3n$.  In particular the descriptions and the counting witnesses
+have size polynomial in the binary lengths of $n,r$.
+The script \path{scripts/outer_six_scalar.py} evaluates (PNEW-S1)
+and decides its support in polynomial bit complexity.
+
+For the six-point blow-up $X_6$, set $n=c-k$, $r=c$.
+If $c,k\ge0$, $c-k\ge0$, and $4c-6k\ge0$, then
+\[
+ \dim\operatorname{Hom}_{S_6}\!\left(
+ [\mu],H^0(X_6,\mathcal O(cH-k\sum E_i))\right)
+     =\sum_t\#\bigl(P_{\mu,t}(c-k,c)\cap\mathbb Z^{d_t}\bigr).
+ \tag{PNEW-S2}
+\]
+If either of the latter two inequalities fails, that section
+space is zero.  These assertions concern all nonnegative
+parameters, not a bounded numerical sample.
+\end{theorem}
+
+\subsection{The two classical identities used as inputs}
+Put $[a+1]_q=1+q+\cdots+q^a$ for $a\ge0$, and write
+$Q_j(\rho)=\sum_x\min(j,\rho_x)$,
+$m_j(\rho)=\#\{x:\rho_x=j\}$, and
+$b(\rho)=\sum_x(x-1)\rho_x$.  The KOH identity is
+\[
+ {a+b\brack b}_q
+ =\sum_{\rho\vdash b}q^{2b(\rho)}
+   \prod_{j:m_j(\rho)>0}
+   {j(a+2)-2Q_j(\rho)+m_j(\rho)\brack m_j(\rho)}_q.
+ \tag{PNEW-S3}
+\]
+A summand for which a child first parameter
+$j(a+2)-2Q_j(\rho)$ is negative is zero.
+
+For $\mu\vdash6$, let $l=\ell(\mu)$.  A GOS configuration is
+a sequence of partitions $\boldsymbol\nu=(\nu^0,\ldots,\nu^l)$
+with
+\[
+ \nu^0=(1^6),\quad |\nu^i|=\sum_{j>i}\mu_j,
+ \quad\nu^l=\varnothing,
+ \quad P_j^i=Q_j(\nu^{i+1})-2Q_j(\nu^i)+Q_j(\nu^{i-1})\ge0
+ \tag{PNEW-S4}
+\]
+for $1\le i<l$, $1\le j\le6$.
+Set $m_0=\ell(\nu^1)$, with $m_0=0$ if $l=1$, and
+\[
+ \tau=\sum_{i=1}^{l-1}\sum_{j=1}^{6}
+      (\nu^i)'_j\bigl((\nu^i)'_j-(\nu^{i+1})'_j\bigr).
+ \tag{PNEW-S5}
+\]
+The GOS identity, in a form with its last Gaussian transposed, is
+\[
+ s_\mu(1,q,\ldots,q^n)
+ =\sum_{\boldsymbol\nu:m_0\le n}
+    q^\tau {n-m_0+6\brack6}_q
+    \prod_{i=1}^{l-1}\prod_{j:m_j(\nu^i)>0}
+                  {P_j^i+m_j(\nu^i)\brack m_j(\nu^i)}_q.
+ \tag{PNEW-S6}
+\]
+Every summand is centered at degree $3n$.
+For precision, the two primary locators in Pak--Panova--Swanson,
+arXiv:2511.02312v3, are Theorem 3.1, printed p.~5, and
+Theorem 3.6, printed p.~7.  The original GOS formula has lower
+index $n-m_0$ in the first Gaussian; Gaussian symmetry gives
+the form above.  We do not claim a direct bijection between the
+original article's untransposed GOS trees and our transposed
+ones.  The same polynomial identity, followed by the stated
+KOH recursion, proves the version used here.
+
+All factors except ${n-m_0+6\brack6}_q$ in (PNEW-S6) have
+constant parameters.  The construction enumerates every
+configuration (PNEW-S4), and every ordinary KOH expansion of
+these constant factors, retaining distinct expansions as
+distinct tags even when their lists of leaf labels coincide.
+
+\subsection{Compressing the only transition that preserves the partition size}
+For a KOH node of type $(a,b)$, a choice $\rho\vdash b$ has
+children
+\[
+ \bigl(j(a+2)-2Q_j(\rho),\,m_j(\rho)\bigr)
+       \quad(j\text{ increasing},\ m_j(\rho)>0).
+ \tag{PNEW-S7}
+\]
+If $b=1$, the node is a leaf labeled $a$.
+If $b\ge2$, the choice $\rho=(1^b)$ has one child,
+of type $(a-2(b-1),b)$.  This is the only choice with a
+child of the same partition size $b$.
+Every other choice satisfies
+$\sum_jm_j(\rho)=\ell(\rho)\le b-1$.
+
+A \emph{skeleton} records only choices $\rho\ne(1^b)$.
+At each internal skeleton node introduce an integer variable
+$u_v\ge0$, the number of consecutive omitted all-ones choices
+immediately before its recorded choice.  If its input first
+parameter is $a_v$, require
+\[
+ \widetilde a_v=a_v-2(b_v-1)u_v\ge0,
+ \qquad
+ a_w=j(\widetilde a_v+2)-2Q_j(\rho_v)
+ \tag{PNEW-S8}
+\]
+for its child $w$ on edge $j$; require every leaf label to
+be nonnegative.  These inequalities also ensure every omitted
+intermediate all-ones step is valid.  An integer choice of
+the $u_v$ expands uniquely to a complete KOH tree, and every
+complete tree is obtained uniquely by maximal-run compression.
+Runs of length zero are included.
+
+The sum of the children's sizes decreases by at least one
+at every recorded internal node.  Telescoping over a skeleton
+of initial size $b$ gives
+\[
+ \#\{\text{internal nodes}\}+\#\{\text{leaves}\}\le b.
+ \tag{PNEW-S9}
+\]
+There are therefore only finitely many skeletons for each $b$,
+independent of the first parameter $a$.
+Writing $s_b$ for their number gives the exact finite recurrence
+\[
+ s_1=1,\qquad
+ s_b=\sum_{\substack{\rho\vdash b\\\rho\ne(1^b)}}
+                   \prod_{j:m_j(\rho)>0}s_{m_j(\rho)}.
+ \tag{PNEW-S10}
+\]
+It gives $s_1,\ldots,s_6=1,1,2,4,7,15$.
+The same recurrence with maxima in place of sums shows that
+size-six skeletons have at most three internal nodes and
+three leaves.  The script enumerates the recurrence literally,
+including every ordered child specified by its distinct size $j$.
+
+Apply this compression to the single varying factor in
+(PNEW-S6), with initial type $(n-m_0,6)$.  Each leaf label
+$a_i$ becomes an integer affine function of $n$ and the
+at most three run variables.  Append the fixed leaf labels
+from the constant factors in their fixed $(i,j)$ order,
+then the varying tree's leaves in depth-first order.
+
+\subsection{The exact polytope inequalities}
+For one fixed configuration, one fixed tuple of constant
+KOH trees, and one of the fifteen skeletons, let
+$a_1,\ldots,a_t$ denote the resulting leaf labels.
+Besides (PNEW-S8) and leaf nonnegativity, introduce mark
+variables $k_1,\ldots,k_t$ and impose
+\[
+ \begin{split}
+ &k_1=0,\qquad 0\le k_1\le k_2\le\cdots\le k_t,\\
+ &k_{i+1}-k_i\le a_{i+1},\qquad
+   k_{i+1}+k_i\le\sum_{j=1}^{i}a_j\quad(1\le i<t),\\
+ &2k_t=2r-6n+\sum_{i=1}^{t}a_i.
+ \end{split}
+ \tag{PNEW-S11}
+\]
+Together with $u_v\ge0$ these are the complete polytope
+conditions.  The factor two in the last equality enforces
+the required parity on integer points, without an implicit
+rounding convention.  Substitution of the affine labels gives
+integer matrices and affine right-hand sides as claimed.
+The JSON schema records every row as
+$\texttt{lhs}\cdot(u,k)\le\alpha n+\beta r+\gamma$, or
+as an equality, with $\texttt{rhs}=(\alpha,\beta,\gamma)$.
+
+Here is a direct proof of the positive marking count.
+For nonnegative integers $a,b$,
+\[
+ [a+1]_q[b+1]_q
+   =\sum_{j=0}^{\min(a,b)}q^j[a+b-2j+1]_q.
+ \tag{PNEW-S12}
+\]
+This follows by comparing the coefficients in the two
+products of finite geometric sums.  Iterating it, after
+the first $i$ factors a choice of accumulated shift $k_i$
+has remaining interval length
+$\sum_{j\le i}a_j-2k_i$.  Equation (PNEW-S12) permits the
+next shift precisely when the two inequalities in the
+second line of (PNEW-S11) hold.  Each choice occurs once.
+All the KOH terms and all GOS terms are centered at $3n$.
+Thus a final interval of length $L$ appears with initial
+degree $3n-L/2$.  Multiplying by $1-q$, its positive
+contribution is at that initial degree, while its negative
+contribution is at $3n+L/2+1>3n$.
+For $r\le3n$, the required positive contribution therefore
+has $L=6n-2r$, which is exactly the last equality in
+(PNEW-S11).
+
+Finally the two-variable Schur identity gives
+\[
+ p_{\mu,(n)}^{(6n-r,r)}
+           =[q^r](1-q)s_\mu(1,q,\ldots,q^n).
+ \tag{PNEW-S13}
+\]
+Indeed $s_\mu[\operatorname{Sym}^n\mathbb Q^2]$ has
+character $s_\mu(x^n,x^{n-1}y,\ldots,y^n)$; the
+two-variable Weyl formula, followed by $x=1,y=q$, makes
+the coefficient extraction (PNEW-S13) immediate.
+Equations (PNEW-S3)--(PNEW-S13) prove (PNEW-S1).
+
+\subsection{Zero parameters and boundedness over the reals}
+We retain zero leaf labels: $[0+1]_q=1$.  The inequalities
+force a zero new leaf to add zero to the accumulated mark;
+if it is the first leaf, the prescribed initial mark is
+already zero.  Thus unit factors introduce no extra count.
+A tree of type $(0,b)$ has a unique valid expansion, choosing
+$\rho=(b)$ and then the leaf zero.  To check uniqueness,
+observe the exact identity
+\[
+ \sum_j m_j(\rho)\bigl(j(a+2)-2Q_j(\rho)\bigr)
+                         =ab-4b(\rho).
+ \tag{PNEW-S14}
+\]
+At $a=0$, nonnegative child parameters force $b(\rho)=0$,
+and hence $\rho=(b)$.
+We always retain the varying factor as type $(n-m_0,6)$,
+including the case $n=m_0$.  This represents its value one
+by the unique zero leaf and avoids an undefined empty list
+of marks.  If $n<m_0$, the root inequality has no solution.
+For $n=0$, only $\mu=(6)$ has a configuration with $m_0=0$;
+the sole surviving point has $r=0$ and value one, as required.
+
+The identity (PNEW-S14) follows from
+\[
+ \sum_jj m_j(\rho)=b,
+ \qquad
+ \sum_j Q_j(\rho)m_j(\rho)=b+2b(\rho).
+\]
+It implies that each child's product of parameters is at
+most the parent's.  It remains valid for real first
+parameters and real run variables satisfying (PNEW-S8).
+Every run variable in the varying tree is consequently at
+most $a_v/(2(b_v-1))\le3n$.
+
+For the fixed GOS part, centeredness is the exact integer
+identity
+\[
+ 2\tau+\sum_{i,j}P_j^i m_j(\nu^i)=6m_0.
+ \tag{PNEW-S15}
+\]
+The quantity $\tau$ is nonnegative: with
+$\alpha_i=(\nu^i)'$ and $\alpha_l=0$,
+\[
+ \tau=\tfrac12\|\alpha_1\|^2+
+             \tfrac12\sum_{i=1}^{l-1}\|\alpha_i-\alpha_{i+1}\|^2.
+\]
+Using (PNEW-S14) on every tree, including the real runs,
+gives $\sum_i a_i\le6n$.
+The last equality of (PNEW-S11) therefore gives
+$k_t\le r\le3n$; monotonicity bounds all other marks.
+All real coordinates are thus in the compact box
+$[0,3n]^{d_t}$, proving boundedness of the rational polytopes,
+not merely finiteness of their integer-point sets.
+
+\subsection{The exact finite size of the compiled list}
+The first two numeric columns below enumerate (PNEW-S4)
+and the constant-factor KOH expansions.  Multiplication by
+$s_6=15$ gives the number of polytopes.  Different tags
+are retained even if two matrices agree, since they represent
+different summands of the positive identity.
+\begin{center}
+\begin{tabular}{c r r r r}
+\toprule
+$\mu$ & Configurations & Constant decorations & Polytopes & Maximum variables\\
+\midrule
+$(6)$             &1&1&15&6\\
+$(5,1)$           &1&1&15&7\\
+$(4,2)$           &2&3&45&7\\
+$(4,1,1)$         &1&2&30&8\\
+$(3,3)$           &3&3&45&8\\
+$(3,2,1)$         &2&2&30&9\\
+$(3,1,1,1)$       &1&2&30&10\\
+$(2,2,2)$         &3&3&45&9\\
+$(2,2,1,1)$       &2&3&45&10\\
+$(2,1,1,1,1)$     &1&1&15&10\\
+$(1,1,1,1,1,1)$   &1&1&15&11\\
+\bottomrule
+\end{tabular}
+\end{center}
+These small finite lists are obtained by exhaustive partition
+recursion, with no unknown multiplicities as inputs.
+The retained script regenerates every row and all $330$
+full integer matrix descriptions.
+At most three run variables and eight leaf marks occur.
+
+\subsection{Polynomial bit complexity and an exact evaluator}
+The fixed list and the coordinate bound prove the claimed
+polynomial-size counting description directly.  For efficient
+numerical evaluation, the script uses the same coefficient
+(PNEW-S13), evaluated by the hook-content identity
+\[
+ s_\mu(1,q,\ldots,q^n)
+    =q^{b(\mu)}
+       \frac{\prod_{(i,j)\in\mu}(1-q^{n+1+j-i})}
+            {\prod_{(i,j)\in\mu}(1-q^{h_{ij}})}.
+ \tag{PNEW-S16}
+\]
+If $\ell(\mu)>n+1$ the result is zero immediately.  Otherwise
+all numerator exponents are positive.  There are six numerator
+factors, so at most $64$ shifted reciprocal-denominator
+coefficients, or $128$ after multiplication by $1-q$, suffice.
+The denominator degree is at most $21$.  Indeed the sum of
+the six hook lengths is six plus the number of pairs of
+cells sharing a row or a column, at most $6+\binom62$.
+
+For completeness, the implemented coefficient extraction is
+the following elementary parity recurrence.  To find
+$[q^N]P(q)/Q(q)$ with $Q(0)=1$, form
+$P(q)Q(-q)$ and $Q(q)Q(-q)$, retain in the former the terms
+of parity $N\bmod2$, and retain in the latter its even
+terms.  Divide all retained exponents by two (after removing
+one from the former odd exponents).  This replaces the
+coefficient problem by one at $\lfloor N/2\rfloor$.
+It follows by separating the even and odd parts of the
+power series, so repeated application is exact.
+Negative requested exponents contribute zero.
+
+The degrees remain bounded by $21$ and there are
+$O(\log(N+1))$ iterations.  The denominator roots are roots
+of unity and squaring them preserves that property; with
+fixed degree, its coefficients remain bounded by a constant.
+The numerator coefficients grow by at most a fixed factor
+at each iteration, so their bit lengths are
+$O(\log(N+1))$.  Ordinary exact integer arithmetic therefore
+proves polynomial bit complexity.  Subset shifts and all
+endpoint arithmetic have bit length $O(\log(n+r+1))$.
+No sign assumption on intermediate hook-content sums is
+needed: positivity is independently proved by (PNEW-S1).
+Testing the resulting exact integer for zero decides support
+throughout this scalar/two-row range.
+
+Equation (PNEW-S2) now follows from PNEW-011, since
+$6(c-k)-c=5c-6k$ and $c\le3(c-k)$ is equivalent to
+$4c-6k\ge0$.  This completes the proof of PNEW-012.
+
+\subsection{Certificates and their exact scope}
+The following computations were executed with integers and
+rational numbers only.
+\begin{itemize}
+\item All $2,717$ coefficients with $\mu\vdash6$,
+$0\le n\le12$, $0\le r\le3n$ agree between positive
+compressed-tree/Clebsch--Gordan path counting and the
+independent hook-content parity recurrence.
+The complete vectors are in
+\path{certificates/outer_six_scalar_small.json}.
+\item For $0\le n\le3$, all $242$ two-row cases additionally
+agree with direct integer-point counting from the exported
+matrix inequalities.  This check does not use the
+Clebsch--Gordan count to evaluate those matrices.
+\item All $5,214$ coefficients for every $\mu\vdash6$ and
+every output partition of $6n$, $0\le n\le3$, were computed
+by power-sum plethysm followed by beta-set
+Murnaghan--Nakayama.  For every output of length at most six,
+the result agrees with literal monomial cycle characters
+and the $720$-term $GL_6$ Weyl alternant.  Longer outputs
+are zero by the row-Pieri length bound and also vanish in
+the first exact computation.  There are $44$ additional
+whole-representation dimension checks.
+The complete rows are in
+\path{certificates/outer_six_all_n_le_3.json}; the independent
+script is \path{scripts/outer_six_character_check.py}.
+\end{itemize}
+The full character table is a calibration dataset for
+future flag-section formulas.  Agreement of the scalar
+formula is claimed only on its two-row output subfamily;
+the other rows are not falsely reported as checks of a
+positive all-output formula.
+
+\paragraph{Why the two character computations are independent.}
+The first uses
+$p_d[h_n]=\sum_{\rho\vdash n}p_{d\rho}/z_\rho$,
+the outer $S_6$ character table, and rim-hook characters.
+The second constructs the actual weights of
+$\operatorname{Sym}^n\mathbb Q^6$, traces the eleven cycle
+types on their sixth tensor power, and takes the Weyl
+alternant.  The shared outer character table is separately
+checked by exact character orthogonality and the hook
+dimension formula.  The $44$ dimension checks compare
+$\sum_\lambda p_{\mu,(n)}^\lambda\dim S_\lambda\mathbb Q^6$
+with $\dim S_\mu(\mathbb Q^{\binom{n+5}{5}})$.
+
+\paragraph{References and source review.}
+Pak, I., Panova, G., \& Swanson, J. P. (2026).
+\emph{A combinatorial interpretation for certain plethysm
+and Kronecker coefficients} (arXiv:2511.02312v3).
+\url{https://arxiv.org/pdf/2511.02312v3}.
+The exact locators are Lemma 1.3 and its proof in \S2.1;
+Theorem 3.1 and Definition 3.2; Proposition 3.4;
+Definition 3.5 and Theorem 3.6; Proposition 3.9;
+Lemmas 4.1--4.2 with their whole proofs; and Theorem 5.2
+with its proof.  The entire required chain was read from
+the attached LaTeX source and checked against the primary
+version.  The classical KOH and GOS identities are cited
+inputs; the compression, all real boundedness assertions,
+the exact matrix construction, and the binary-complexity
+argument are proved above.

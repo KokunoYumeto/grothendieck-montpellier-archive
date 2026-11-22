@@ -1,0 +1,165 @@
+\subsection{N-015: a certified basis of the actual $\mathbb Q[D]$ order}
+\label{sec:nonstandard-polynomial-order}
+
+\paragraph{Exact result.}
+The actual polynomial word order
+$B_S=\mathbb Q[D]\langle P_1,P_2,P_3\rangle$ has a basis of
+114 elements over $S=\mathbb Q[D]$.  The accompanying certificate
+specifies every element in 300 ambient coordinates and supplies
+a straight-line expression for it in 148 actual $P$-words of
+length at most ten.  Exact multiplication by all three
+generators preserves the resulting module.  Thus the certificate
+describes the full unsaturated order, in every word degree.
+
+The 114 basis rows have distinct pivot coordinates.  Their
+monic pivot degrees have distribution
+\[
+\begin{array}{c|rrrrrrr}
+\text{degree}&0&1&2&3&4&5&6\\\hline
+\text{number of pivots}&4&36&39&18&12&2&3.
+\end{array}
+ \tag{N-60}
+\]
+Every coordinate polynomial of every final row has degree at
+most eight.  This gives an explicit integral basis over
+$\mathbb Q[D]$, not over $\mathbb Z[v,v^{-1}]$; the latter
+is excluded by N-009.  It also independently proves the
+generic dimension 114 and the $\mathbb Q(D)$-form property
+used as attributed inputs earlier in N-010.
+
+\paragraph{Ambient coordinates.}
+Let $C_w$ be the opposite KL basis of the ordinary rank-four
+Hecke algebra, with $C_s=T_s-v$.  Order permutations
+lexicographically in one-line notation, and index coordinates
+by the 300 unordered pairs $a\le b$ of the 24 permutations.
+Put $\epsilon_{a,b}=\ell(a)+\ell(b)\pmod2$.  The coordinate
+vector $f_{a,b}(D)$ denotes the coefficient of
+\[
+ \delta^{\epsilon_{a,b}}\begin{cases}
+ C_a\otimes C_a,&a=b,\\
+ C_a\otimes C_b+C_b\otimes C_a,&a<b.
+ \end{cases}
+ \tag{N-61}
+\]
+In particular an off-diagonal coordinate is the coefficient
+of either ordered tensor term, not twice that coefficient.
+The tensors in (N-61) are independent over $K=\mathbb Q(v)$.
+Every $P$-word is fixed by tensor flip, bar, and $\beta$ of
+N-013, so its coordinates are polynomials in $D$.  This last
+fact also follows directly from the exact generator matrices
+used below, with polynomial initial vector $1$.
+
+The first construction computes the right action of $C_s$
+on each opposite KL vector, then uses
+\[
+ P_s=2C_s\otimes C_s+
+       \delta(C_s\otimes1+1\otimes C_s)+D\,1.
+ \tag{N-62}
+\]
+The parity factors in (N-61) make every resulting entry an
+integer polynomial in $D$.  The script asserts that each
+power of $\delta$ left after this change of coordinates is
+nonnegative and even.  It constructs all 900 generator
+columns, rather than evaluating at a parameter.
+
+\paragraph{The polynomial module computation.}
+Starting with $1$, the construction tests products of accepted
+words by the three generators.  It inserts any vector outside
+the current polynomial row module using Euclidean elimination
+over the PID $S$.  At a shared pivot with coefficients $p,a$,
+write $g=sp+ta=\gcd(p,a)$ and replace the two rows $b,x$ by
+\[
+           sb+tx,\qquad (p/g)x-(a/g)b.
+ \tag{N-63}
+\]
+The transformation has determinant
+$s(p/g)+t(a/g)=1$, so it preserves the actual $S$-span.
+Normalizing a pivot divides only by a nonzero rational
+constant.  Subtracting polynomial multiples of a pivot row
+reduces entries above it.  No polynomial divisor is inverted.
+
+The process accepts 148 words and stops after their complete
+generator closure is contained in the row module.  There
+are 316 pivot insertions or gcd updates.  A search stopping
+at word length ten alone would not prove this assertion;
+the proof uses the exact closure verification after the
+last accepted word.
+
+Every row operation is stored as a node of a straight-line
+program, whose leaves are the accepted words and whose
+internal nodes are sums of two preceding nodes multiplied
+by specified polynomials in $S$.  Removing unused nodes
+leaves 34,026 nodes.  This avoids the very large expanded
+word coefficients produced by an initial, less compact
+certificate format.  All final rows were reconstructed
+exactly from these nodes.  Thus every final row is in the
+actual word order.
+
+\paragraph{Independent arithmetic replay and all-degree proof.}
+The separate script
+\nolinkurl{verify_polynomial_order_rank4.py} imports neither
+module-search script.  It reconstructs $C_w$ in the standard
+$T$ basis by the semilinear substitution
+$v\mapsto v^{-1}$, $T_i\mapsto-T_i$, which sends
+$C'_w$ to $(-1)^{\ell(w)}C_w$.  Triangular standard-basis
+elimination then gives the complete right action of each
+$T_s$.  It constructs the generator columns using instead
+\[
+ P_s=2T_s\otimes T_s-(v-v^{-1})(T_s\otimes1+1\otimes T_s)
+                         +(v^2+v^{-2})\,1.
+ \tag{N-64}
+\]
+Every Laurent polynomial is converted to the form in (N-61)
+by repeatedly subtracting its leading multiple of a power
+of $\delta$, checking all coefficients and its bar symmetry.
+This verifies the full polynomial operators through a
+different Hecke arithmetic path.
+
+From those operators the verifier reconstructs all 148
+accepted words and replays all 34,026 straight-line nodes.
+It verifies all final rows exactly, their distinct monic
+pivots, membership of $1$, membership of all listed words,
+and all 342 products of a final basis row by a generator.
+Membership uses ordinary triangular polynomial division:
+a nonzero remainder at a pivot rejects membership.  This
+does not test membership in a saturation or in the generic
+fraction-field span.
+
+Let $M$ be the $S$-span of the certified rows.  The
+straight-line expressions prove $M\subseteq B_S$.
+The conditions $1\in M$ and $MP_i\subseteq M$ imply by
+induction that every $P$-word lies in $M$, so $B_S\subseteq M$.
+Consequently
+\[
+                         M=B_S.
+ \tag{N-65}
+\]
+Distinct nonzero pivot coordinates imply linear independence
+over $S$, over $F=\mathbb Q(D)$, and over $K$.  Therefore
+the rows are an actual polynomial basis of $B_S$, and the
+generic $K$-span of every word has dimension exactly 114.
+Their $F$-span extends to that same generic algebra over $K$.
+This proves the dimension and form assertions without
+assuming either one as an upper bound.
+
+\paragraph{Certificates, scope, and checks.}
+The files
+\nolinkurl{polynomial_order_rank4_verified.json} and
+\nolinkurl{polynomial_order_rank4_rows.json.gz} contain the
+word list, all coordinates, the straight-line program and
+the exact summary.  The compressed certificate is 972,422
+bytes.  The search script
+\nolinkurl{polynomial_order_rank4_flint.py} requires
+\texttt{python-flint}; the first slower Euclidean prototype
+\nolinkurl{polynomial_order_rank4.py} is retained as search
+history.  The compact exact construction completed in
+about 28 seconds in this run; the independent arithmetic
+replay completed in about 14 seconds.  These elapsed times
+are observations, not complexity bounds.
+
+The independent arithmetic replay was authored within the
+same branch.  It is not labelled an independent whole-proof
+review by another agent.  The separate event ledger records
+such reviews when received.  No minimum-degree globalization,
+signed structure-constant table, or canonical normalization
+is inferred from the polynomial order computation itself.
