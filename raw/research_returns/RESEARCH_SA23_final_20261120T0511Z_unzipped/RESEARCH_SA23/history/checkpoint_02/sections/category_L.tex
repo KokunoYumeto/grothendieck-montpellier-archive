@@ -1,0 +1,446 @@
+\section{Formal categories and de Rham complexes (Part L)}\label{sec:categoryL}
+
+\subsection{The missing equation}
+We work over a commutative $\mathbf Q$-algebra $A$.  The constructions
+also make sense internally in a ringed topos of $\mathbf Q$-algebras,
+using sheaf modules and sheaf tensor products.  For formal objects we
+retain the system of nilpotent jets as an adic pro-algebra, as the
+``pro-anneau'' on scan 162-5/022 and the opened theorem below do.
+Passing to an ordinary inverse-limit sheaf, and recovering its prescribed
+jets as ordinary ideal quotients, is an additional effectivity assertion
+and is not implicit in this convention.  No finite-generation hypothesis
+is imposed on the module of one-forms unless we explicitly say so.
+
+\begin{proposition}[Proved: the corrected generators-and-relations statement]\label{cat:L1}
+Let $P$ be an $A$-module.  The data defining a degree-one graded derivation
+$d$ of $\Lambda_A^\bullet P$ are an additive derivation
+$d_0:A\to P$ and an additive map $d_1:P\to\Lambda_A^2P$ satisfying
+\[
+ d_1(a\omega)=d_0(a)\wedge\omega+a d_1(\omega).
+\]
+There is a unique such extension $d$.  It is a differential if and only if
+\[
+ d_1d_0=0\quad\hbox{and}\quad d_2d_1=0,
+ \qquad d_2=d|_{\Lambda_A^2P}.
+\]
+The first equation alone is insufficient, even for a free module of rank
+three over $\mathbf Q$.
+\end{proposition}
+\begin{proof}
+The displayed identity is exactly the compatibility with the relations
+$a\omega=(a)\cdot\omega$ in the tensor algebra over $A$.  The graded
+Leibniz rule also preserves the exterior relations: the derivative of
+$\omega\wedge\omega$ is
+$d_1\omega\wedge\omega-\omega\wedge d_1\omega=0$ because degrees
+$2$ and $1$ commute.  Additivity handles their polarizations.  Thus the
+rule descends from the free graded algebra, and it is unique because $A$
+and $P$ generate that algebra.  Applying the rule twice, the two middle
+terms cancel, giving
+$d^2(uv)=d^2(u)v+u d^2(v)$ for homogeneous $u,v$.
+Consequently $d^2$ vanishes everywhere exactly when it vanishes on $A$
+and on $P$, which are the two stated equations.
+
+For the counterexample take $A=\mathbf Q$,
+$P=\mathbf Qx\oplus\mathbf Qy\oplus\mathbf Qz$, $d_0=0$, and
+\[
+ dx=y\wedge z,\qquad dy=x\wedge y,\qquad dz=0.
+\]
+Then $d_1d_0=0$, whereas
+$d^2x=(x\wedge y)\wedge z=x\wedge y\wedge z\ne0$.
+The program \texttt{code/category\_counterexamples.py} checks the
+Leibniz identity on all $64$ ordered pairs of exterior basis elements,
+as well as this nonzero square, using exact rational arithmetic.
+\end{proof}
+
+We call $(P,d)$ satisfying both equations a \emph{Lie coalgebroid}.
+This terminology avoids dualizing a flat module that need not be reflexive.
+For example, over $A=\mathbf Q[x]$ the flat nonzero module $P=A[1/x]$
+has $\operatorname{Hom}_A(P,A)=0$: the image of $1$ under any such map
+belongs to $\bigcap_{n\geq0}x^nA=0$, and torsion-freeness then forces the
+entire map to vanish.  The complex $(\Lambda P,0)$ is nevertheless
+nonzero.  Thus passage to the ordinary module dual cannot prove the
+flat case of the theorem.
+
+\begin{proposition}[Proved: the finite-projective Lie-algebroid dictionary]\label{cat:L2}
+If $P$ is finite projective and $T=P^\vee$, the differentials of
+Proposition~\ref{cat:L1} correspond bijectively to $A$-Lie algebroid
+structures on $T$.  Explicitly the anchor
+$\theta:T\to\operatorname{Der}_{\mathbf Q}(A,A)$ and bracket are
+\begin{align*}
+ \theta(X)(a)&=\langle d_0a,X\rangle,\\
+ \langle\omega,[X,Y]\rangle
+ &=\theta(X)\langle\omega,Y\rangle
+   -\theta(Y)\langle\omega,X\rangle
+   -\langle d_1\omega,X\wedge Y\rangle.
+\end{align*}
+Here a Lie algebroid means a $\mathbf Q$-Lie bracket, an $A$-linear
+Lie-homomorphism anchor, and
+$[X,aY]=a[X,Y]+\theta(X)(a)Y$.
+\end{proposition}
+\begin{proof}
+The twisted linearity of $d_1$ makes the right side of the bracket
+formula $A$-linear in $\omega$: the extra terms involving $d_0a$ cancel.
+Finite projectivity identifies this functional with a unique element of
+$T$.  Substitution gives skew symmetry and the displayed Leibniz
+identity.  On a function the equation $d^2a=0$, evaluated at $X,Y$, is
+\[
+ [\theta(X),\theta(Y)](a)-\theta([X,Y])(a)=0.
+\]
+Thus the anchor preserves brackets.  Expanding $d^2\omega$ at $X,Y,Z$
+and using this anchor identity cancels the terms with two anchors and
+those with one anchor; the remaining expression is
+\[
+ \langle\omega,
+ [[X,Y],Z]+[[Y,Z],X]+[[Z,X],Y]\rangle.
+\]
+The perfect pairing between $P$ and $T$ therefore gives Jacobi.
+Conversely, from a Lie algebroid we define $d_0,d_1$ by the two formulas.
+They have the required scalar compatibility.  The same two computations,
+now in the reverse direction, give $d^2=0$ on $A$ and $P$; the perfect
+pairings with $\Lambda^2T$ and $\Lambda^3T$ detect these equations.
+Proposition~\ref{cat:L1} gives $d^2=0$ everywhere.  These constructions
+are inverse because their values on the algebra generators agree.
+\end{proof}
+
+\subsection{Adic formal categories: symmetry and the associated graded}
+An affine adic formal category with object algebra $A$ consists of a
+commutative complete separated algebra $B$, source and target maps
+$s,t:A\to B$, an identity map $e:B\to A$ with $es=et=1$, and a
+composition map
+\[
+ \Delta:B\longrightarrow B\widehat\otimes_{A,t,s} B
+\]
+satisfying the category identities.  Write $I=\ker e$ and require
+$B\simeq\varprojlim_n B/I^{n+1}$.  The tensor product has the total
+ideal filtration.  We write $P=I/I^2$; its two $A$-module structures
+agree.  This is the ordinary complete-ring formulation when the jet
+system is effective in that form.  In the general pro-algebra
+formulation, $B$ denotes its compatible system of augmented algebras
+$B_n$ with augmentation ideals $I_n$, $I_n^{n+1}=0$, and
+$B_m=B_n/I_n^{m+1}$ for $m\leq n$.  The notation $B/I^{n+1}$ means
+the prescribed jet $B_n$; composition and completed tensor products
+are defined at every total-order jet.  The same category identities
+hold there.  In particular $P=\ker(B_1\to A)$ and all assertions about
+associated graded modules are assertions about finite jets.  This
+formulation includes arbitrary flat $P$ and sheaves of such pro-algebras.
+
+\begin{lemma}[Proved: flat conormal implies the symmetric graded algebra]\label{cat:L3}
+For an adic formal category over $\mathbf Q$ with $P$ flat over $A$,
+the canonical surjection
+\[
+ \operatorname{Sym}_A^nP\longrightarrow I^n/I^{n+1}
+\]
+is an isomorphism for every $n\geq0$.  Each $B/I^{n+1}$ is flat over
+$A$ for both $s$ and $t$.
+\end{lemma}
+\begin{proof}
+We prove injectivity inductively.  Degrees zero and one are immediate.
+Suppose the result has been proved below $n$, with $n\geq2$.  Reduce
+composition to
+\[
+ R=(B/I^2)\otimes_{A,t,s}(B/I^n).
+\]
+Let $I_1,I_2$ be the ideals coming from the first and second factors,
+and put $J=I_1+I_2$.  Then $I_1^2=0$, $I_2^n=0$, so
+$J^{n+1}=0$ and $J^n=I_1I_2^{n-1}$.
+The augmentation of the first factor splits as a right $A$-module map.
+Its kernel is $P$, and flatness of $P$ makes
+$P\otimes_A(I^{n-1}/I^n)\to P\otimes_A(B/I^n)$ injective.
+Consequently multiplication identifies
+\[
+ J^n=P\otimes_A(I^{n-1}/I^n)
+     =P\otimes_A\operatorname{Sym}_A^{n-1}P.
+\]
+The unit identities for composition say that the linear term of
+$\Delta(x)$, for $x\in I$, is $x\otimes1+1\otimes x$ modulo $J^2$.
+It follows that the composite on products of $n$ elements of $P$ is
+\[
+ \partial_n:\operatorname{Sym}_A^nP\longrightarrow
+       P\otimes_A\operatorname{Sym}_A^{n-1}P,
+ \qquad
+ \prod_{i=1}^n w_i\longmapsto
+       \sum_{i=1}^n w_i\otimes\prod_{j\ne i}w_j.
+\]
+Indeed, terms with two factors from $I_1$ or $n$ factors from $I_2$
+vanish, and all quadratic corrections have total degree at least $n+1$.
+If an element maps to zero in $I^n/I^{n+1}$, its composition image is
+zero in $J^n$, hence it lies in $\ker\partial_n$.
+Multiplication after $\partial_n$ is $n$ times the identity.
+Since $n$ is invertible, this kernel is zero.
+This proves the asserted isomorphisms.
+
+Every symmetric power of a flat module over a $\mathbf Q$-algebra is
+flat: it is the image of the averaging idempotent on the flat tensor
+power.  The exact sequences with successive quotients
+$I^j/I^{j+1}=\operatorname{Sym}_A^jP$ therefore show by induction that
+all the finite quotients of $B$ are flat.  Source and target give the
+same structure on each successive quotient, so the argument applies
+to both maps.
+\end{proof}
+
+\begin{lemma}[Proved: the inverse exists]\label{cat:L4}
+Every formal category in Lemma~\ref{cat:L3} is a formal groupoid.
+Its inversion is uniquely determined by composition and identity.
+\end{lemma}
+\begin{proof}
+Consider the shear map sending a composable pair of arrows $(g,h)$ to
+$(g,hg)$, a pair with common source.  The two formal schemes have
+complete total-ideal filtrations.  The flatness conclusions of
+Lemma~\ref{cat:L3} identify their associated graded algebras with
+$\operatorname{Sym}_A(P\oplus P)$: for finite quotients, tensor the
+successive short exact filtration sequences, which remain exact
+because their quotients are flat, and then take the inverse limit.
+On degree one the shear has the matrix
+$\left(\begin{smallmatrix}1&0\\1&1\end{smallmatrix}\right)$,
+up to the choice of order of the two factors.  It is invertible.
+Since the associated graded algebra is symmetric, the shear is an
+isomorphism on the whole associated graded.  A map between complete
+separated filtered rings with this property is an isomorphism: induction
+on the filtration length, using the successive short exact sequences,
+proves it on every quotient, and inverse limits give its inverse.
+
+Apply the inverse shear to $(g,1_{s(g)})$.  It produces functorially an
+arrow $h$ with $hg=1_{s(g)}$.  Apply the same construction to $h$ to
+get $k$ with $kh=1_{s(h)}$.  Associativity gives
+$k=k(hg)=(kh)g=g$, so $gh=1_{s(h)}$ as well.
+The resulting two-sided inverse is unique.  Functoriality of the shear
+construction makes it a morphism of formal schemes, proving the claim.
+\end{proof}
+
+\begin{theorem}[Known, with the exact hypotheses derived here: corrected Quillen theorem]\label{cat:L5}
+Over a ringed topos of $\mathbf Q$-algebras, the functor taking an adic
+formal category in the preceding pro-algebra sense, with flat $I/I^2$,
+to its invariant de Rham complex is
+an equivalence with the category of pairs
+\[
+ (P,d),\qquad P\text{ flat},\quad
+ d:\Lambda_A^qP\longrightarrow\Lambda_A^{q+1}P,
+ \quad d^2=0,
+\]
+where $d$ is a degree-one derivation.  Morphisms on both sides are
+morphisms over the fixed object algebra $A$; the construction is also
+functorial for compatible changes of $A$.  The inverse integrates the
+Lie coalgebroid.  Finite projectivity is unnecessary.
+\end{theorem}
+\begin{proof}[Derivation from the opened theorem]
+Beilinson--Drinfeld, \emph{Chiral Algebras},
+\S1.4.14(ii) and \S1.4.15, Proposition
+\cite{catBeilinsonDrinfeld2004}, identify Lie coalgebroids with the
+stated differential graded algebras and prove their equivalence with
+formal groupoids having flat conormal and symmetric associated graded.
+Lemmas~\ref{cat:L3} and~\ref{cat:L4} verify exactly these extra
+properties for the formal categories at issue.  Conversely their
+integrated groupoids give the compatible augmentation-ideal jet system
+and have conormal $P$, so they belong to our category.  Their construction uses
+tensor products, flat resolutions and completion, and is given in a
+unital tensor category; it therefore applies internally to modules in
+the ringed topos and is functorial in the object algebra.  The invariant
+forms restricted to the identity are $\Lambda_A^\bullet P$, so their
+functor is the de Rham functor in the statement.  This proves the
+claimed form without replacing flatness by finite projectivity.
+All identifications of jets in the source are made at finite order;
+we do not replace this pro-algebra theorem by an unproved assertion
+that ordinary inverse limits of sheaves preserve its quotients.
+\end{proof}
+
+The missing equation in Proposition~\ref{cat:L1} is essential to this
+theorem.  A degree-one derivation of nonzero square is not a Lie
+coalgebroid and cannot be the invariant de Rham complex of a formal
+category.
+
+\subsection{Coefficients and the crystalline starting theorem}
+For a Lie coalgebroid $(P,d)$, a connection on an $A$-module $M$ is an
+additive map $\nabla:M\to P\otimes_A M$ satisfying
+$\nabla(am)=d_0a\otimes m+a\nabla m$.  Its extension is
+\[
+ d_M(\omega\otimes m)=d\omega\otimes m+
+          (-1)^q\omega\wedge\nabla m,
+ \qquad\omega\in\Lambda_A^qP.
+\]
+It is integrable when $d_M^2=0$, equivalently when this square vanishes
+on $M$.  The sign is forced by the graded module rule.
+For a formal groupoid $G$, a stratification is a unital isomorphism
+between the two completed pullbacks of $M$ to $G$ satisfying the cocycle
+identity on composable pairs.
+
+\begin{theorem}[Proved: coefficients, with no finiteness condition on the module]\label{cat:L6}
+For the corresponding flat formal groupoid and Lie coalgebroid of
+Theorem~\ref{cat:L5}, differentiation gives an equivalence between
+stratifications on arbitrary $A$-modules and integrable $P$-connections.
+It preserves tensor products and its underlying functor on $A$-modules
+is the identity.
+\end{theorem}
+\begin{proof}
+We give the square-zero argument, which also explains why $M$ need
+not be flat.  Set $A_M=A\oplus M$, with $M^2=0$, and
+$P_M=A_M\otimes_A P$; this module is flat over $A_M$.
+An integrable connection defines a differential on
+$\Lambda_{A_M}P_M=A_M\otimes_A\Lambda_AP$ by extending $d$ and
+setting $d(m)=\nabla m$.  The connection identity is exactly the
+compatibility with the scalar relations, and its zero curvature is
+exactly the additional square-zero equation on $M$.
+Thus it is a flat Lie coalgebroid over $A_M$.  The inclusion and
+projection between $A$ and $A_M$ are compatible coalgebroid maps.
+
+Integrate this coalgebroid by Theorem~\ref{cat:L5}; write its arrow
+algebra as $B_M$.  The maps just described give a retraction
+$B\to B_M\to B$.  The source map induces
+\[
+ B\widehat\otimes_{A,s}A_M\longrightarrow B_M.
+\]
+This is an isomorphism: on associated graded it is the canonical
+isomorphism
+$A_M\otimes_A\operatorname{Sym}_AP
+ =\operatorname{Sym}_{A_M}P_M$.
+Here base change on the associated graded is justified even though
+$M$ is not flat, because the finite quotients $B/I^n$ are flat by
+Lemma~\ref{cat:L3}; tensoring each successive filtration sequence
+therefore remains exact.  Complete filtered comparison then applies.
+The kernel of $B_M\to B$ is consequently
+$B\widehat\otimes_{A,s}M$, a square-zero ideal.
+Restricting the target map $A_M\to B_M$ to $M$ gives the coaction
+\[
+ M\longrightarrow B\widehat\otimes_{A,s}M.
+\]
+Its counit and coassociativity are exactly identity and composition
+for the integrated groupoid.  Inversion makes the corresponding map
+of the two pullbacks an isomorphism, hence a stratification.
+Its first-order term is $\nabla$ by the integration equivalence.
+
+Conversely a stratification lets $G$ act on
+$\operatorname{Spec}(A\oplus M)$ and forms its action groupoid.
+Its arrow algebra, as an algebra for the source map, is
+$B\widehat\otimes_A(A\oplus M)$, and its conormal is
+$(A\oplus M)\otimes_AP$.  Differentiation produces precisely the
+square-zero coalgebroid above and hence an integrable connection.
+The two operations are inverse by Theorem~\ref{cat:L5}'s full
+faithfulness.  An $A$-linear map $M\to N$ is a map of square-zero
+algebras over and under $A$; it is compatible with the coalgebroid
+structures exactly when it is horizontal.  The same argument proves
+full faithfulness on coefficient morphisms.  Finally, differentiating
+a tensor product gives the Leibniz sum of the two connections.  Full
+faithfulness identifies its integrated stratification with the tensor
+product stratification, proving tensor compatibility.
+\end{proof}
+
+\begin{proposition}[Proved: the finite-order and derived formal Poincare lemma]\label{cat:L7}
+Filter the relative de Rham complex of the source map by total order,
+where an augmentation-ideal factor and a one-form both have order one.
+Let $K_n$ be its quotient by total order greater than $n$.
+The augmentation $K_n\to A$ is a quasi-isomorphism for every $n$.
+The same statement holds for the linearized complex of any stratified
+coefficient module, with augmentation to that module.
+Consequently
+\[
+ R\!\varprojlim_n K_n\simeq A
+\]
+in the derived category of sheaves, and likewise with coefficients.
+For modules over a ring the ordinary inverse-limit complex also
+computes this derived limit.  For arbitrary sheaves that last assertion
+requires a derived-limit-acyclicity hypothesis on the degreewise
+towers and is not asserted without it.
+\end{proposition}
+\begin{proof}
+Translation in the groupoid identifies relative one-forms with the
+completed pullback of $P$: restriction to the identity and translation
+back are inverse by the groupoid identities.  On total order $N$,
+Lemma~\ref{cat:L3} therefore identifies the graded complex with
+\[
+ \left(\operatorname{Sym}_A^{N-q}P\otimes_A\Lambda_A^qP\right)_{0\leq q\leq N},
+ \qquad d(u)=du,\quad d(du)=0.
+\]
+Let $\iota$ be the degree-minus-one derivation on
+$\operatorname{Sym}_AP\otimes_A\Lambda_AP$ that sends $du$ to $u$
+and kills polynomial generators.  The graded commutator satisfies
+$d\iota+\iota d=N$ on total order $N$: both sides are derivations
+and agree on the generators.  For $N>0$, division by $N$ gives a
+canonical contracting homotopy, defined without a basis or any choice.
+Order zero is $A$ in degree zero.
+The complex $K_n$ has a finite filtration by these graded pieces.
+The long exact sequences of cohomology for its successive short exact
+sequences prove $K_n\to A$ a quasi-isomorphism by finite induction.
+This argument is valid inside the topos and makes no infinite sequence
+of local choices.
+
+A stratification identifies the two pulled-back coefficient modules.
+Use that identification to trivialize the coefficient connection along
+the source.  The graded homotopy above tensored with $M$ remains a
+contracting homotopy; no flatness of $M$ is needed.  The same finite
+filtration argument proves the coefficient statement.
+The augmentations are compatible with the transition maps.
+Applying the derived inverse-limit functor to this levelwise
+quasi-isomorphism gives the claimed isomorphism with the derived limit
+of the constant system $A$, which is $A$.
+For ordinary modules, the degreewise transition maps are surjective.
+A countable surjective tower of modules has no higher derived limits:
+the standard difference map $\prod M_n\to\prod M_n$ is surjective
+by recursively lifting its coordinates, and its kernel is $\lim M_n$.
+Thus the ordinary complex computes the derived limit in that case.
+This recursive argument is not valid for arbitrary sheaf epimorphisms;
+we have expressly avoided using it there.
+\end{proof}
+
+\begin{proposition}[Proved: the precise connection with the crystalline starting theorem]\label{cat:L8}
+For a flat formal groupoid, let its formal descent site mean the site
+of the nilpotent jets of its simplicial nerve, with all simplicial
+and jet-transition maps as morphisms, and coverings induced by the
+chosen topology on the base.
+A crystal on this site means a module cartesian for these transition
+maps.  Such crystals are exactly stratified modules and hence, by
+Theorem~\ref{cat:L6}, modules with integrable coalgebroid connection.
+The finite-order resolution and its derived completion are those of
+Proposition~\ref{cat:L7}.
+
+More concretely, if $X\to S$ is a smooth morphism of
+$\mathbf Q$-schemes and the groupoid is the formal completion of
+$X\times_SX$ along its diagonal, this equivalence is the usual
+crystalline starting equivalence: crystals of $\mathcal O$-modules
+on the nilpotent infinitesimal site of $X/S$ are equivalent to
+$\mathcal O_X$-modules with integrable $S$-connection.
+In characteristic zero the nilpotent divided-power crystalline site
+has the same objects, because divided powers are uniquely
+$x^{[n]}=x^n/n!$.
+\end{proposition}
+\begin{proof}
+A cartesian module on the nerve restricts in degree zero to an
+$A$-module $M$.  The two maps from degree one to degree zero identify
+its degree-one value with the two pullbacks of $M$; their comparison
+is a stratification at each jet order.  The degree-two cartesian
+compatibility is its cocycle identity, and the degeneracy is its
+unit identity.  Conversely these identities identify the value at
+every degree and every jet with the appropriate pullback of $M$;
+associativity gives all higher compatibilities.  These two
+constructions are mutually inverse on objects and on morphisms.
+Theorem~\ref{cat:L6} proves the first equivalence, and
+Proposition~\ref{cat:L7} supplies its formal Poincare resolution in
+the stated pro/derived sense.
+
+For the assertion about the usual infinitesimal site, an object is a
+nilpotent closed immersion $U\hookrightarrow T$ over $S$, with $U$
+open in $X$; coverings are open coverings of $T$.
+Smoothness gives locally a lift $f:T\to X$ of $U\to X$.
+The pullback $f^*M$ is independent of that lift in the required
+canonical sense: two lifts $f,g$ agree on $U$, so the pair $(f,g)$
+factors through a finite jet of the diagonal formal groupoid, and
+its pullback of the stratification gives
+$f^*M\simeq g^*M$.  For three lifts the cocycle identity gives the
+compatibility of these identifications.  They therefore glue over
+open covers of $T$, are independent of the local lifts and are
+compatible with all morphisms of infinitesimal thickenings.  We obtain
+a crystal.  In the reverse direction evaluate a crystal on $X$ and
+on the diagonal jets; its cartesian isomorphisms give the
+stratification.  Local lifting shows these operations are inverse,
+because every value on $(U,T)$ is recovered as $f^*M$.
+The same argument applies to module morphisms and tensor products.
+
+For completeness the divided-power assertion uses the identity
+$n!\gamma_n(x)=x^n$, forced by the divided-power axioms.  Since $n!$
+is invertible, it forces the displayed formula; that formula satisfies
+all axioms and is finite on nilpotent elements.  Hence adding divided
+powers supplies no extra datum here.
+The margin on 162-5/031 is thus justified by an actual formal descent
+site and, for smooth schemes, by the ordinary crystalline site.  The
+arbitrary-flat integration theorem itself uses coalgebroids as in
+Theorem~\ref{cat:L5}; no unjustified ordinary inverse-limit exactness
+in an arbitrary topos is needed.
+\end{proof}

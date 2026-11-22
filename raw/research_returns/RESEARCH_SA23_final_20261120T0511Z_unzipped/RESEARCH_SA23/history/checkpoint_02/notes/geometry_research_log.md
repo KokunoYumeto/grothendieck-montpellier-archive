@@ -1,0 +1,172 @@
+# Geometry research record: E, F, H, K
+
+Research by GPT-6 Astra Pro (OpenAI), inherited effort, agent geometry_analysis,
+2026-11-20. This is a record of source inspection, proof work, computations,
+and remaining gates. It does not claim priority. The authoritative current
+statements are in sections/geometry_E.tex, geometry_F.tex, geometry_H.tex,
+and geometry_K.tex. Result, bibliography, correction, and check-event
+fragments are adjacent to this file. Root maintains the combined progress ledger.
+
+## Current state, 01:41 UTC
+
+The mathematical tasks E, F under its explicitly stated locality and
+finiteness hypotheses, H.1, the corrected H.2, and the precise interpretations
+of all K(a)--(j) are supplied with proofs or derivations from opened sources.
+K(a) and K(e) are programme headings, not silently enlarged universal claims.
+F's original fixed-order essential-image problem is distinguished from the
+finite-order theorem under formal locality, finite presentation, and a
+quasi-compact base. Dimension zero and jet order zero are included.
+
+The last substantive source gate has now closed by a separate primary
+source: Grothendieck's Bourbaki expose91, section4(c), printed p383,
+explicitly gives the Hilbert trace-class determinant product and extends
+coefficient identities(10), whose first coefficient is the trace identity.
+The final page384 bears the date June1957. These pages and p378 were
+rendered and visually checked. We distinguish this textual date from the
+March1954 lecture date. This settles the substantive pre1959 occurrence
+without asserting a date for the crossed-out cote1 sheets. The precise
+memoir first-printing text has not been collated, and Lidskii's original
+endnote remains unread; neither is needed for the newly established
+independent June1957-dated occurrence. No priority claim is made.
+
+## Primary source inspections and their exact uses
+
+| Part | Source and inspected location | Use and limit |
+|---|---|---|
+| E | Demazure, Resultant, discriminant (2012), Lemma 11 and Definition 4 pp.361--362, Proposition 11(c,e), Proposition 12 p.365 | Integral division by d^a before specialization, coefficient degree, determinant character, arbitrary-characteristic smoothness criterion. |
+| F | Original 23/040--041 transcription; Palais--Terng (1977), original text through two OCR mirrors, Definition 0.1, Proposition 0.2, Main Theorem 0.3, Propositions 0.5--0.6, section 4.3 | Original asks fixed-n essential image. Smooth finite-dimensional comparison does not establish an unstated algebraic automatic-formal-locality theorem. Root independently opened the same locators. Publisher scan not opened. |
+| H | Grothendieck, La theorie de Fredholm (1956), II section 4, Theorem 3 Corollary 2 and Theorem 4, pp.359--361 | Fredholm zeros and algebraic multiplicities; not used circularly as Lidskii's trace identity. |
+| H | McMullen, Advanced Complex Analysis (2025), Theorem 3.16 p.89 | Hadamard factorization in the elementary genus-zero argument. |
+| H | Hochs--Kaad--Schemaitat, arXiv:1608.07395, section 6 Lemmas 6.7--6.9, section 7 Definition 7.4 and Propositions 7.6--7.7 | Invertible semifinite determinant comparison only. The noninvertible extension here is proved in full. |
+| H history | Grothendieck memoir, inspected fourth printing 1966, Chapter II section 1 no.4, printed II-13, PDF page214 | Visually checked Hilbert context, p <= 1, genus zero, trace coefficient, eigenvalue-zero correspondence and multiplicities. Copyright and printing checked on PDFpage3. |
+| H history | Weyl (1949), PNAS35(7), pp.408--411 | All four primary page images read. Majorization and infinite-dimensional extension present; no Fredholm genus-zero conclusion. |
+| H history | Grothendieck, Erratum (1956), AIF6 pp.117--120, specifically end p.118 and start p.119 | Author explains removal of planned Hilbert eigenvalue material from the Fredholm paper, leaving inadequate references in memoir II section1. Does not identify the genus-zero assertion. |
+| H history | Grothendieck, Resume (1952), AIF4, Chapter II no.6 Theorem8 and Corollary2 pp.107--108 | General 2/3 trace theorem, explicitly distinguished from Hilbert p <= 1. |
+| H history | Original Bourbaki expose91, section4(c) p383 formula24; coefficient identities10 p378; final date p384 | Explicit Hilbert trace-class genus-zero product and trace identity as first coefficient; text dated June1957. March1954 lecture date distinguished. Primary PDF and three page images retained. |
+| K(b) | Stacks tags0D01,0D04,0D2C | Hilbert algebraic space, Picard stack, and Picard space with their stated properness/flatness/finiteness/cohomological hypotheses. |
+| K(b) | Original SGA7I, Expose VIII3.2, printed pp.254--255, internal VIII37--38, PDF259--260 | Arbitrary-base Ext1(A,Gm) represented by the dual abelian scheme; general case explicitly attributed to Raynaud. Same paragraph derives biduality from Cartier duality on n-torsion. Both pages visually checked. |
+| K(b) | Original Orsay1967--68 seminar, VI2.15, IX2.1, X, XI3.5 | Projective representability, smoothness and conditional formulations distinguished. XI3.5 alone is not claimed as all-base representability. SGA7I now supplies the exact all-base theorem. |
+| K(b) | Damien Robert, Theory of abelian varieties, draft2023, Theorems2.3.2 and2.3.7 pp.12,15 | Modern comparison and precise Picard formulation; original source gate closed by SGA7I, not by attributing a primary proof to these notes. |
+| K(c,d) | Stacks tags06PL and06PH | Algebraicity of BG iff flat and locally finitely presented; free flat group quotient. Root independently opened06PL and checked [H/G / H] = BG without assuming G flat. |
+| K(e) | Murre, Bourbaki294, lecture May1965, printed1966, section3(C), p.258 | Abelian scheme over a normal variety is projective. Exact original statement re-opened for the tangent/polarization contradiction. |
+| K(f) | Hall--Rydh (2019), Theorem1.2 p.1634 | Algebraicity of the indicated Hom-stack/Bun under the actual proper-flat-finite-presentation and affine-group hypotheses. |
+| K(g) | Stacks tag0BND, Theorem58.6.2 | Finite etale covers and continuous finite fundamental-group sets; torsor equivariance supplies homomorphisms modulo conjugacy. |
+| K(i) | Oort (1971), coefficient category section2.1 p.269, Theorem2.2.1 p.273 and proof through p.280; Theorem2.4.1 p.286 | Marked unpolarized formal deformation ring with g^2 parameters; polarized comparison separately. |
+| K(j) | Orsay seminar, VII Theorem3.1, VII6--8 (PDF91--93) | Theorem of cube for proper flat group schemes and the relative square statement with its indispensable base factor. |
+
+Primary links and opened/not-opened descriptions are in geometry_references.bib.
+The SGA7I source is an image-only scan; pdftotext gives form-feed pages,
+so relevant pages were rendered and visually checked instead of treating
+the newer web transcription as authoritative.
+
+## Manuscript and study corrections
+
+The line-level ledger geometry_corrections.tsv identifies every attached
+file and line used for corrections. Major corrections are the discriminant
+normalization in characteristics dividing the degree; the actual fixed-n
+scope and missing effective descent in F; the infinite-trace rearrangement
+counterexample and failure of trace-norm continuity in H; the product,
+rotation, angle range and third ray in the genus-zero argument; the polar
+conjugation; and precise meanings of freeness, formal smoothness, and the
+base factor in K. Doubtful readings are treated as alternative mathematical
+claims, not asserted new readings of unavailable original handwriting.
+
+## Computation and retrieval programs
+
+Every source file and its output is retained. Timings below are those
+printed by the programs, not invented wall-clock reconstructions.
+
+| Program | Scope | Retained output and measured time |
+|---|---|---|
+| geometry_discriminant.py | Exact ternary quadratic discriminant; characteristic2 Jacobian Groebner check; Fermat cubic scaling/resultant | logs/geometry_discriminant.txt; 0.035732s. Fermat partial resultant531441 lambda^12, normalized19683 lambda^12. |
+| geometry_finite_checks.py | Eight-element nonflat Hopf algebra over F2[e]/e^2; all512 associativity triples, all64 coproduct multiplicativity pairs; coassociativity, counits, antipode on all8 elements by independent polynomial substitution; formal-jet examples n1--8, elliptic twists, P1 boundary, alpha_p monomials, square degree | logs/geometry_finite_checks.txt; revised substantive run0.035687s. Earlier duplicate closed-form coassociativity test was replaced, and that correction is recorded in check events. |
+| geometry_determinant_checks.py | Exact rank-one inverse products and scalar products; diffuse determinant sequence; compact non-trace-class partial products | logs/geometry_determinant_checks.txt; 0.00008642s. |
+| geometry_fetch_primary.py | Download four public primary Weyl page images | logs/geometry_fetch_primary.txt; individual requests about6.8--7.1s. |
+| geometry_fetch_previews.py | Legitimate public preview attempts; Raynaud Specialisation PDF | logs/geometry_fetch_previews.txt; GoogleBooks429 responses retained; Raynaud download6.85MB,133.46s. No access-control bypass. |
+| geometry_fetch_as127.py | Full public Astérisque127 for Deligne's Gabber lemma | logs/geometry_fetch_as127.txt;19.68MB,6.57s. |
+| geometry_extract_primary.py | Public PDF retrieval if absent, selected-page Poppler rendering and Tesseract OCR for visual inspection | logs/geometry_extract_primary.txt records1956Erratum p119,8.249s,365925bytes. Additional SGA7I page logs named by page. OCR is a finding aid, not the proof of a reading. |
+| geometry_fetch_sga7.py | Original SLMath SGA7I scan and attempted text extraction | logs/geometry_fetch_sga7.txt;37362787bytes,7.901s. Relevant rendered pages259--260 retained. Sampling pages250,253,257,314,317,318 also retained honestly. |
+| geometry_fetch_mathnet.py | Public journal archive attempt | First run failed because bs4 unavailable; revised standard-library run returnedHTTP403. Both outputs retained. No workaround to an access restriction. |
+
+## Search record and unsuccessful approaches
+
+Raw retrieval responses are saved as geometry_web_geo_*.json. They preserve
+source URLs, search-reference identifiers, excerpts returned and errors.
+The records are not evidence of having read a source whose retrieval failed.
+Earlier read-only shell inspection commands merely viewed files; substantive
+programs are preserved in code/ with their output in logs/.
+
+### Dual abelian schemes: gate now closed
+
+The original all-base theorem was sought through Raynaud LNM119,
+Faltings--Chai I1.9, Orsay, Raynaud Specialisation IHES38, Deligne's Gabber
+lemma in Astérisque127, Conrad's notes, and modern author notes.
+Faltings--Chai public preview did not expose I1.9. Raynaud LNM119 XI
+preview exposed definitions, not the needed theorem; XI1.4 is about
+normal-base projectivity, not arbitrary-base dual representability.
+Raynaud Specialisation3.3.1 has normal/dimension-one restrictions.
+Deligne's lemma treats normal projectivity and special Jacobian or blowup
+situations; it is not used to assert the missing theorem. OrsayXI3.5 is
+conditional. Some preview routes returned403/429 or incomplete previews,
+and no restriction was bypassed. The original SGA7I VIII3.2 scan finally
+provided the exact theorem over an arbitrary scheme S and its biduality
+argument; this closes the required source gate.
+
+### Lidskii historical chronology: gate closed at01:41UTC
+
+The memoir scan's first pages were checked to distinguish copyright1955
+from its actual fourth-printing1966 identity. The1952 summary and1956
+erratum were opened and checked for the precise Hilbert assertion. Neither
+one directly quotes it. Weyl's four pages were opened to avoid inheriting
+the memoir's inadequate reference as proof of genus zero.
+
+Didier Robert's historical article, original French Gazette141 (July2014),
+and English EMSNewsletter105 (September2017), p.29, report that Lidskii
+added a note saying he learned of Grothendieck's memoir while his paper
+was in press, including the genus-zero claim. This is a retrieval lead,
+not substituted for an opened1959 primary source. The exact target is
+Lidskii, Doklady125(3)(1959), pp.485--487, final note, or its1965 English
+translation, AMS Translations series2 volume47 pp.43--46, DOI
+10.1090/trans2/047/04. A final-note quotation could certify the content
+before1959 while still not dating the crossed-out archive sheets.
+
+Searches used title variants in English and Russian, the original volume,
+the translation volume/title/DOI, phrases 'added in proof', 'in press',
+'postscript', Grothendieck and genus zero, and public library/archive
+catalogues. AMS chapter/volume pages and proposed public PDF paths were
+not retrievable. The GoogleBooks volume record and contents were opened,
+but pp.43--46 were not exposed by the accessible preview. MathNet's
+public archive lists1957--1958 and1960 onward, omitting1959; references
+to the paper do not supply its original text. Public archive fetch403
+was recorded. The Levitin author bibliography and historical memorial
+were investigated as possible alternate leads. At01:39UTC the original
+endnote remains unread. Secondary claims do not close this gate.
+
+The next approach was the original Bourbaki accounts. Expose69 (December1952
+lecture, final text June1957) treats nuclear spaces but does not supply this
+particular Hilbert formula. Expose91 (March1954 lecture) DOES: section4(c)
+p383 explicitly displays det(1+zu)=product(1+z lambda_i), with eigenvalues
+absolutely summable and counted with algebraic multiplicities, and says
+coefficient identities(10) remain valid. Formula(10) on p378 gives the trace
+identity at order1. The final p384 explicitly bears [Juin1957]. This
+independent author-dated source resolves the substantive pre-Lidskii
+occurrence, without requiring the missing1959 endnote. It asserts the
+genus-zero result rather than printing the manuscript's three-sector
+argument. No date for the crossed-out manuscript sheets is inferred.
+The public original PDF was retrieved and pages378,383,384 rendered with
+geometry_extract_primary.py; dedicated logs geometry_Bourbaki91_p*.txt
+retain the timings and output. All three images were visually read.
+Zentralblatt contemporary review links returned403; no access restriction
+was bypassed. Those failed attempts remain in the raw source records.
+
+## Independent checking
+
+Root independently checked the full H determinant argument, including
+zero propagation and two noninvertible factors, and the genus-zero
+rotation argument. Its requested correction to trace concavity in infinite
+trace was applied: both C and D are regularized as (C+delta1)/(1+delta),
+so no hidden scalar times tau(1) occurs. Root also checked F fixed order
+and the formally local finite-order theorem, K(c)'s exact Stacks criterion
+and quotient-stack argument, and K(e)'s tangent/polarization contradiction.
+These are separate events with root attribution, not represented as
+independent calculations by the geometry agent.
