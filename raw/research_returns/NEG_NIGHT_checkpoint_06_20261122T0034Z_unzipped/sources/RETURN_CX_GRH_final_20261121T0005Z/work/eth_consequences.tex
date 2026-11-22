@@ -1,0 +1,466 @@
+\section{What the supplied refutation of ETH changes}
+\label{sec:eth}
+
+\subsection{The precise quantitative premise}
+
+OpenAI's supplied Theorem~1.1, with source label
+\texttt{thm:main}, is stronger than its abstract formulation
+\cite[Theorem~1.1]{OpenAIETH}.
+For each fixed integer \(k\geq2\), it counts the satisfying assignments of a
+\(k\)-CNF with \(n\geq20\) declared variables and \(m\) input clauses in
+\[
+ (n+m)^{O_k(1)}
+ 2^{O_k(n\log\log n/\sqrt{\log n})}
+\]
+bit operations and \((n+m)^{O_k(1)}\) bits of space.
+For each fixed \(D>0\), if \(m\leq Dn\), the running time improves to
+\[
+ (n+m)^{O_{k,D}(1)}2^{O_{k,D}(n/\sqrt{\log n})}.
+\]
+These are theorem premises under the convention requested in this task.
+No Lean replay or independent verification of the complete counting
+algorithm is claimed here.
+
+The constants, polynomial exponents, and thresholds may depend on the
+\emph{fixed} width \(k\). The statement gives no bound uniform in
+\(k=k(n)\). For fixed \(k\), duplicate clauses can be removed and
+tautologies discarded without changing the count; the number of distinct
+non-tautological clauses is at most
+\(\sum_{j=0}^{k}2^j\binom nj=n^{O_k(1)}\).
+Reading a repetitively encoded input still incurs its polynomial
+input-length cost. In this section, \emph{subexponential} means
+\(2^{o(n)}\) in the parameter explicitly named; it does not mean the
+sometimes-used class
+\(\bigcap_{\epsilon>0}\operatorname{DTIME}(2^{n^\epsilon})\).
+
+\subsection{CX-E01: which exponential-time hypotheses are refuted}
+\label{finding:CX-E01}
+
+\paragraph{Finding.}
+The supplied theorem refutes ETH, \(\#\mathrm{ETH}\), fixed-width SETH,
+the analogous counting SETH, their bounded-error randomized versions,
+Gap-ETH, and NSETH. Existing conditional lower-bound theorems remain
+valid implications, but their refuted premises no longer establish
+hardness. Neither side of \(\mathrm P\) versus \(\mathrm{NP}\) is
+established by these deductions.
+
+\paragraph{Proof.}
+For fixed \(k\), choose a constant \(C_k\) bounding the exponential
+coefficient in the theorem and put
+\[
+ h_k(n)=C_k n\log\log n/\sqrt{\log n}.
+\]
+Since \(h_k(n)/n\longrightarrow0\), the exact counter runs in
+\(2^{o(n)}(n+m)^{O_k(1)}\). Its answer is positive exactly when the
+formula is satisfiable and zero exactly when it is unsatisfiable.
+With \(k=3\), this contradicts the positive exponential rate required
+by ETH and by \(\#\mathrm{ETH}\).
+
+SETH asserts that for every \(\epsilon>0\) some fixed \(k\) has no
+algorithm of time
+\(2^{(1-\epsilon)n}(n+m)^{O(1)}\).
+Fix \(\epsilon=1/2\). For \emph{each} fixed \(k\),
+\(h_k(n)\leq n/2\) for all sufficiently large \(n\).
+Finitely many smaller values are absorbed into a \(k\)-dependent
+constant. Thus every fixed width admits the required algorithm with
+the same exponential coefficient \(1/2\). The negation of SETH does
+not require its polynomial factor or threshold to be independent of
+\(k\). The same proof applies to its counting analogue.
+
+A deterministic algorithm is a randomized algorithm with error zero,
+so the corresponding bounded-error hypotheses are also contradicted.
+On the Gap-ETH promise, return YES precisely when the exact count is
+positive. This distinguishes a satisfiable 3-CNF from one in which every
+assignment violates a specified positive fraction of clauses. With
+the usual \(m=O(n)\) promise, the fixed-density bound is directly
+\(2^{o(n)}\operatorname{poly}(n)\). No approximation algorithm is
+needed. Finally the zero-count test is a deterministic, hence also
+nondeterministic, subexponential algorithm for fixed-width CNF
+unsatisfiability. It contradicts NSETH.
+The corresponding hypothesis formulations and their direct use of the
+counter also appear in the supplied preprint
+\cite[\S1.1.1--\S1.1.3]{OpenAIETH}.
+
+For the logical scope, the formulas \(H\Rightarrow B\) and \(\neg H\)
+entail neither \(B\) nor \(\neg B\): assigning either truth value to
+\(B\) satisfies both formulas. Thus deleting the premise of a
+conditional lower bound is not a construction of a faster algorithm
+for its target. This observation is not an independence theorem for
+any particular complexity conjecture.
+The displayed running-time benchmark is superpolynomial, since
+\[
+ \frac{n\log\log n/\sqrt{\log n}}{\log n}\longrightarrow\infty.
+\]
+It is therefore not a polynomial-time bound for SAT. An upper bound
+also supplies no superpolynomial lower bound for SAT. These deductions
+establish neither \(\mathrm P=\mathrm{NP}\) nor
+\(\mathrm P\ne\mathrm{NP}\).
+\hfill\(\square\)
+
+\paragraph{Sparsification and its overhead.}
+The full fixed-width statement already applies without a sparsification
+step. If a separate procedure produces at most \(2^{\epsilon n}\)
+fixed-width formulas on at most \(n\) variables, each with at most
+\(D_\epsilon n\) clauses, in
+\(2^{\epsilon n}\operatorname{poly}_{k,\epsilon}(n+m)\) time,
+pad each formula to \(n\) declared variables by forcing each new
+variable to zero. This preserves its count and gives density at most
+\(D_\epsilon+1\).
+The fixed-density counter then gives the combined bound
+\[
+ \operatorname{poly}_{k,\epsilon}(n+m)
+ 2^{\epsilon n+O_{k,D_\epsilon}(n/\sqrt{\log n})}.
+\]
+This follows by multiplying the per-instance cost by the number of
+instances and charging their construction.
+For decision, a disjunction-equivalent list suffices.
+For counting by addition, the represented satisfying-assignment sets
+must partition the original set, or a separately proved counting
+reconstruction must be provided: overlapping lists cannot simply
+have their counts summed.
+For each fixed \(\epsilon\) the displayed exponent is
+\(\epsilon n+o(n)\).
+Substituting \(\epsilon=\epsilon(n)\) additionally requires control of
+the constants and of the reduction's uniformity.
+None of these extra premises is needed for the direct use of
+Theorem~1.1 above.
+
+\paragraph{Limits of the refutation.}
+The theorem does not give a
+\(2^{(1-\delta)n}\operatorname{poly}(n,m)\) algorithm for
+\emph{unrestricted-width} CNF-SAT, because its width may grow with \(n\).
+Nor does the refutation of SETH logically refute OVC, the 3SUM or APSP
+conjectures, or \(\mathrm{FPT}\ne\mathrm{W[1]}\).
+An implication from SETH to a weaker conjecture has the wrong direction
+for that inference. Unconditional lower bounds, NP-hardness
+reductions, and results based on independent assumptions retain their
+previous status.
+
+\subsection{CX-E02: a parameter-preserving transfer criterion}
+\label{finding:CX-E02}
+
+\paragraph{Finding.}
+Suppose a problem on inputs of length \(L\), with parameter \(u\),
+has a polynomial-time reduction to fixed-width \(k\)-CNF with
+\(N\leq au+b\) variables and \(N+M\leq L^{O(1)}\) variables and clauses
+in the standard explicit encoding, where
+\(a,b,k\) are fixed constants. Then it is decidable in
+\[
+ L^{O(1)}
+ 2^{O(u\log\log u/\sqrt{\log u})}
+\]
+time and polynomial space.
+A parsimonious reduction gives the same bound for its witness count.
+If the formula additionally has \(M=O(N)\) clauses, the
+\(\log\log u\) factor is absent. Polynomially many such calls and
+polynomial-time answer processing preserve these bounds.
+
+\paragraph{Proof.}
+Construct the formula and run the supplied counter or its positivity
+test. For \(N\leq au+b\), after changing constants to cover finitely
+many small values,
+\[
+ N\log\log N/\sqrt{\log N}
+ =O(u\log\log u/\sqrt{\log u}).
+\]
+A polynomial-time reduction produces at most polynomially many bits,
+so the prefactor is \(L^{O(1)}\).
+Parsimoniousness identifies the two counts exactly.
+The fixed-density part of Theorem~1.1 gives the stated improvement
+when \(M=O(N)\).
+Polynomially many calls change only the polynomial factor; their
+workspaces can be reused.
+\hfill\(\square\)
+
+A reduction with \(N=\Theta(u^c)\), \(c>1\), instead gives a benchmark
+exponent of order \(u^c\log\log u/\sqrt{\log u}\), which is not \(o(u)\).
+Ordinary polynomial-time completeness therefore does not suffice to
+transfer subexponential time in the original parameter.
+Similarly, a \(2^{o(v)}\) graph algorithm is not a bound
+\(f(k)v^{O(1)}\) in solution size \(k\), and a formula with \(O(v)\)
+variables does not provide a \(2^{o(t)}\operatorname{poly}(v)\)
+algorithm in treewidth \(t\).
+
+For a claimed polynomial-exponent improvement, such as a
+subquadratic algorithm in \(L\), the actual reduction cost,
+solver prefactor, number of calls, and answer-processing cost must
+each be bounded within that target time.
+The notation \(L^{O(1)}\) alone cannot certify this.
+For fixed-parameter tractability in a parameter \(t\), a sufficient
+separate reduction would have fixed clause width,
+\(N\leq g(t)\), and \(M\leq h(t)L^C\), and run in
+\(h(t)L^C\) time, for computable \(g,h\) and a constant \(C\).
+Substitution into Theorem~1.1 then gives
+\(F(t)L^{O(1)}\) for a computable \(F\): every factor involving
+the bounded variable count is absorbed into \(F(t)\).
+The theorem does not itself construct such a reduction.
+
+The supplied Corollary~1.3 already gives exact subexponential counting
+of independent sets and fixed-\(q\) graph colorings in the vertex
+parameter, and of perfect matchings in \(v+e\)
+\cite[Corollary~1.3]{OpenAIETH}.
+Bounded-set-size Set Splitting has a direct encoding with one bit per
+universe element and, for each set, an all-positive and an all-negative
+clause. These are actual algorithmic transfers.
+Deleting a SETH premise alone supplies no subquadratic algorithm for
+Edit Distance, LCS, or arbitrary Orthogonal Vectors.
+
+\paragraph{A further explicit parameter check: counting cliques.}
+For a graph with \(v\) vertices, the number of \(k\)-cliques can be
+computed in
+\(\operatorname{poly}(v+e)
+ 2^{O(v\log\log v/\sqrt{\log v})}\),
+uniformly for \(0\leq k\leq v\).
+Use a selection bit for every vertex, and for each nonedge
+\(\{a,b\}\) impose \(\neg x_a\vee\neg x_b\).
+Add a Boolean circuit requiring exactly \(k\) selected vertices.
+A balanced tree of binary additions computes the population count
+with \(O(v)\) gates: level \(j\) has \(O(v/2^j)\) additions on
+\(O(j)\) bits, and
+\(\sum_{j\geq1}vj/2^j=O(v)\).
+Comparison with \(k\) adds \(O(\log v)\) gates.
+The gate encoding in CX-E03 gives \(O(v)\) variables and \(O(v^2)\)
+clauses, with a unique extension for each clique.
+Theorem~1.1 proves the bound. This does not assert fixed-parameter
+tractability in \(k\).
+\hfill\(\square\)
+
+\subsection{CX-E03: the Circuit-SAT saving and its exact parameter}
+\label{finding:CX-E03}
+
+\paragraph{Finding.}
+An arbitrary Boolean circuit with \(n\) inputs, \(s\) noninput gates
+of fan-in at most two, and unrestricted fan-out has a deterministic
+satisfiability and exact accepting-input-count algorithm of time
+\[
+ (n+s)^{O(1)}
+ 2^{O((n+s)/\sqrt{\log(n+s)})}
+\]
+and polynomial space.
+For \(s=O(n)\) this is \(2^{o(n)}\).
+This bound does not meet the all-polynomial-size Circuit-SAT premise
+of Williams's Theorem~1.1 \cite[Theorem~1.1]{Williams2013}.
+
+\paragraph{Proof.}
+Introduce one variable for each input and each gate.
+A two-input gate has eight assignments to its inputs and output,
+exactly four inconsistent with its truth function.
+Forbid each inconsistent assignment by a clause of width at most
+three; constants and unary gates need no more clauses.
+Add a unit clause setting the final output to one.
+The resulting formula has \(N=n+s\) variables and
+\(M\leq4s+1\leq5N\) clauses.
+Every input assignment extends to exactly one assignment to the gate
+variables, by evaluation in topological order.
+Thus this reduction preserves the number of accepting inputs.
+Apply the fixed-density part of Theorem~1.1 with \(k=3,D=5\).
+\hfill\(\square\)
+
+Precisely, Williams's Theorem~1.1 assumes a superpolynomial function
+\(q(n)\) such that Circuit-SAT on \(n\) inputs and \(n^a\) gates
+has a deterministic or co-nondeterministic algorithm of time
+\[
+ \frac{2^n\operatorname{poly}(n^a)}{q(n)}
+ \qquad\text{for every fixed }a.
+\]
+Its conclusion is \(\mathrm{NEXP}\not\subseteq\mathrm{P/poly}\).
+For \(a>1\), substituting \(s=n^a\) into the proved benchmark gives an
+exponent of order \(n^a/\sqrt{\log n}>n\).
+Consequently this reduction does not supply that premise.
+This is a diagnosis of the particular attempted inference, not an
+impossibility theorem for other approaches to stronger lower bounds.
+
+\subsection{CX-E04: the quantitative Boolean circuit lower bound}
+\label{finding:CX-E04}
+
+\paragraph{Finding.}
+Under the task's theorem convention there exist a language
+\(L\in\mathrm E^{\mathrm{NP}}\) and \(c>0\) such that
+\[
+ C_L(n)>c\,n\sqrt{\log n}
+ \quad\text{for infinitely many }n,
+\]
+where \(C_L\) counts arbitrary fan-in-two Boolean gates.
+In particular,
+\(\mathrm E^{\mathrm{NP}}\not\subseteq\mathrm{SIZE}(O(n))\).
+The quantitative statement is already
+\cite[Corollary~1.4]{OpenAIETH}; it is not attributed as a new
+circuit lower-bound discovery to this run.
+The qualitative implication is
+\cite[Theorem~6.1]{Williams2013}.
+The finding here is the exact transfer and its scope.
+
+\paragraph{Proof of the transfer.}
+The decision algorithm required by the supplied Corollary~1.4 is
+obtained from the fixed-density part of Theorem~1.1 by testing the
+count for positivity.
+Its premise is therefore satisfied, independently of both GRH
+sources. Apply that corollary.
+Since \(\sqrt{\log n}\longrightarrow\infty\), its language cannot
+have a circuit family of eventual size \(O(n)\).
+\hfill\(\square\)
+
+\paragraph{Check of the cited implication proof.}
+The complete proof in the supplied
+\nolinkurl{quantitative-circuits.tex}, inserted in Appendix~C.1, was
+read and its quantitative parameters checked.
+It uses the unary nondeterministic time hierarchy in
+\cite[Theorem~2.1]{Williams2013} and the local reduction
+\cite[Theorem~1]{JMV2013}.
+The latter gives a clause decoder with
+\(q=n+O(\log n)\) index bits and \(O(n)\) output bits, each depending
+on only constantly many index bits.
+Enumerating inputs of bounded Hamming weight recovers supports and
+truth tables, hence an \(O(n)\)-gate decoder in polynomial time.
+The bits of the first accepting assignment, indexed by padded
+\(dn\)-bit variable names, form a language in
+\(\mathrm E^{\mathrm{NP}}\).
+A hypothetical witness circuit of size
+\[
+ s_n=\left\lfloor\eta n
+          \left\lfloor\sqrt{\log_2 n}\right\rfloor\right\rfloor
+\]
+is guessed. Three copies together with the decoder test whether a
+clause is violated.
+The gate encoding produces
+\[
+ U_n=(3\eta+o(1))n\sqrt{\log_2 n}
+\]
+variables and at most \(5U_n\) clauses.
+For a solver bound \(V^b2^{AV/\sqrt{\log_2 V}}\), its cost is
+\(2^{(3A\eta+o(1))n}\).
+Choosing \(\eta<1/(12A)\) leaves enough margin, including polynomial
+overhead, to contradict the chosen
+\(\mathrm{NTIME}(2^n)\setminus\mathrm{NTIME}(2^{n/2})\)
+language.
+No gap was found in this implication proof.
+This is not a claimed reproof of the counter, the hierarchy theorem,
+or the local-reduction theorem.
+
+The result is a bound in \(\mathrm E^{\mathrm{NP}}\), not in NP;
+it concerns nearly linear Boolean circuits, not all polynomial-size
+circuits or arithmetic circuits for the permanent.
+The displayed existential constant \(c\) and infinitely-often
+quantifier should not be strengthened to
+\(\mathrm E^{\mathrm{NP}}\not\subseteq
+  \mathrm{SIZE}(O(n\sqrt{\log n}))\).
+
+\subsection{CX-E05: a quantitative sparse permanent algorithm}
+\label{finding:CX-E05}
+
+\paragraph{Finding.}
+For \(A\in\{0,1\}^{r\times r}\) with \(e\) nonzero entries, its
+integer permanent can be computed in
+\[
+ \operatorname{poly}(r+e)
+ 2^{O((r+e)/\sqrt{\log(r+e)})}
+\]
+time and polynomial space.
+When \(e=O(r)\), the bound is
+\(\operatorname{poly}(r)2^{O(r/\sqrt{\log r})}\).
+This makes quantitative the matching consequence of the supplied
+Corollary~1.3 by using its sharper fixed-density Theorem~1.1.
+
+\paragraph{Proof.}
+Interpret \(A\) as a bipartite graph with \(2r\) vertices and \(e\)
+edges, with one selection bit for each edge.
+At a vertex of degree \(d\), maintain bits \(a_i,b_i\) saying that
+among the first \(i\) incident edges, respectively, at least one and
+at least two have been selected. Initialize \(a_0=b_0=0\), and set
+\[
+ a_i=a_{i-1}\vee x_i,\qquad
+ b_i=b_{i-1}\vee(a_{i-1}\wedge x_i).
+\]
+Induction on \(i\) proves these meanings.
+Exactly one incident edge is selected if and only if
+\(a_d\wedge\neg b_d=1\).
+This requires \(O(d+1)\) gates.
+Summing degrees, and conjoining the tests, gives \(O(r+e)\) gates;
+an isolated vertex may instead be rejected immediately.
+
+Apply the parsimonious encoding of CX-E03.
+It has \(N=O(r+e)\) variables and \(M=O(N)\) clauses.
+Every perfect matching gives one satisfying assignment with uniquely
+determined gate bits, and every satisfying assignment selects a
+perfect matching.
+The number of these matchings is
+\[
+ \operatorname{per}(A)=
+ \sum_{\sigma\in S_r}\prod_{i=1}^r A_{i,\sigma(i)}.
+\]
+The fixed-density bound proves the assertion.
+\hfill\(\square\)
+
+For dense matrices this encoding has \(\Theta(r^2)\) variables; its
+bound does not give \(2^{o(r)}\) time in matrix dimension.
+Nor does it construct an arithmetic circuit for the formal
+polynomial \(\operatorname{per}_r(X)\).
+The algorithm evaluates an integer count at a supplied 0--1 matrix.
+
+\subsection{CX-E06: VP, VNP, and the surviving GCT gates}
+\label{finding:CX-E06}
+
+\paragraph{Finding and exact logical scope.}
+Neither \(\mathrm{VP}=\mathrm{VNP}\) nor
+\(\mathrm{VP}\ne\mathrm{VNP}\), and neither a polynomial arithmetic
+circuit nor a superpolynomial arithmetic lower bound for the
+permanent, is established by CX-E01--CX-E05.
+The deductions do not discharge the border-hardness or black-box
+identity-testing assumptions in GCT V Theorems~1.7, 2.4, 5.11,
+and~5.14. This is a statement about the premises of these particular
+implications, not a formal independence theorem.
+
+\paragraph{Dictionary and proof.}
+Over a fixed field, VP consists of polynomial-degree families with
+polynomial-size arithmetic circuits. VNP permits Boolean-cube sums
+of such polynomial families.
+For characteristic other than two, the permanent is VNP-complete
+under polynomial projections
+\cite[Theorem~2, p.254]{Valiant1979}.
+The determinant is complete for VBP, the weakly skew or branching
+program subclass; it is not thereby complete for all of VP.
+The corresponding orbit-closure formulation uses the border of
+that model
+\cite[Definitions~2.9, 2.25; Theorems~2.20, 2.29, 7.3]{Burgisser2024}.
+
+The supplied counter accepts a finite bit-string description of a
+fixed-width CNF and returns an integer.
+Its conclusion does not construct, from an arithmetic verifier
+\(g_n(X,Y)\), an arithmetic circuit for the symbolic polynomial
+\[
+ \sum_{Y\in\{0,1\}^{p(n)}}g_n(X,Y).
+\]
+CX-E05 also evaluates only a numerical specialization.
+The lower bound in CX-E04 has a language in
+\(\mathrm E^{\mathrm{NP}}\) as its target and Boolean gates as its
+model. It has neither the family nor the model required for an
+arithmetic permanent lower bound.
+Thus these deductions do not furnish the premises of the cited
+algebraic implications.
+
+There is a separate quantitative obstruction to a tempting inference.
+GCT V Theorem~1.7, source label \texttt{tintronnldetnew}, assumes
+that for some fixed \(\epsilon>0\) the permanent cannot be approximated
+infinitesimally by affine-linear symbolic determinants of size
+at most \(2^{r^\epsilon}\).
+Even if a new argument provided an upper bound
+\(2^{O(r/\sqrt{\log r})}\) in that same determinant or border model,
+it would not refute
+\(2^{r^\epsilon}\) hardness for \(0<\epsilon<1\), because
+\[
+ \frac{r/\sqrt{\log r}}{r^\epsilon}
+ =\frac{r^{1-\epsilon}}{\sqrt{\log r}}\longrightarrow\infty.
+\]
+No such symbolic conversion has been established here in the first
+place.
+The remaining gate is a substantive arithmetic conversion or
+obstruction construction, not an erased GRH assumption.
+\hfill\(\square\)
+
+The GCT assumptions just mentioned are exactly located in the supplied
+source as \texttt{tintronnldetnew}, \texttt{trussell2},
+\texttt{tnnlexpfull}, and \texttt{tequisdit}, respectively.
+Improving the complexity of finding a normalization system is also
+distinct from proving the orbit-closure noncontainment required by a
+permanent lower bound.
+

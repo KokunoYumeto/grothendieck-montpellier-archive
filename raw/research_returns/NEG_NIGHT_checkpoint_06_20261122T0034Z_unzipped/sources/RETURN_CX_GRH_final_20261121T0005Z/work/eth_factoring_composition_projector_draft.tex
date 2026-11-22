@@ -1,0 +1,267 @@
+\subsection{CX-N15: a complete accessible composition for general factorization}
+\label{finding:CX-N15}
+
+\paragraph{Finding and source interface.}
+Assume \(\mathsf H\), the all-number-field Hecke claim.
+Given an explicit finite field \(\mathbb F_q\), \(q=p^m\), and
+\(0\ne f\in\mathbb F_q[X]\) of degree \(d\geq2\), there is a
+deterministic algorithm that returns its complete factorization in
+\[
+ \bigl(d^{\log d}\log q\bigr)^{O(1)}
+\]
+bit operations.
+The composition below uses Adleman--Lenstra Algorithm~A and
+Theorem~1, with its auxiliary-prime step supplied by CX-N11;
+Bach--von zur Gathen--Lenstra Theorem~2; and the IKRS Main Theorem,
+together with the explicitly proved coefficient-unit step of
+CX-N14
+\cite{CXNAdlemanLenstra86,CXNBGL01,CXNIKRS08}.
+It does not require the unretrieved internal reduction of
+Evdokimov's 1994 paper, or a general finite-field factorization
+oracle.
+This gives an independent proof of the broad transfer in CX-N09;
+it does not change that theorem's degree dependence.
+
+\paragraph{Step 1: construct a maximal coefficient unit.}
+Consider the unresolved prime-order branch of CX-N14, with
+\(p>d_0\geq r\), where \(d_0\) is the dimension of its split
+algebra and \(r\) is prime. Put
+\[
+ s=\operatorname{ord}_r(p),\qquad Q=p^s,
+ \qquad e=v_r(Q-1),\qquad R=r^e.
+\]
+The quantities \(s\leq r-1\), \(e\), and \(R\) are computable
+in polynomial time in \(r,\log p\); no factorization of the
+complementary part of \(Q-1\) is used.
+Adleman--Lenstra Algorithm~A, with CX-N11, constructs an explicit
+field
+\(U=\mathbb F_{p^{sr}}\) in polynomial time in \(r,\log p\).
+Indeed \(sr\leq r(r-1)\) and \(p\nmid sr\), because both
+\(r\) and \(s\) are smaller than \(p\).
+Compute the subfield
+\[
+ B=\ker\bigl(U\longrightarrow U,\ u\longmapsto u^Q-u\bigr)
+   \cong\mathbb F_Q
+\]
+by \(\mathbb F_p\)-linear algebra, and compute its multiplication
+table and inclusion in \(U\).
+This is exactly the explicit-data convention of BGL, adopted
+from Lenstra: basis structure constants suffice, and Frobenius
+kernels provide explicit subfields
+\cite[p.~329 and \S2, p.~332]{CXNLenstra91}.
+
+BGL Theorem~2, p.~7, constructs a primitive \(r\)-th root
+\(\zeta\in B\), given additionally an irreducible polynomial
+over \(\mathbb F_p\) of degree \(\ell\) for each prime
+\(\ell\mid r-1\) with \(\ell\nmid s\).
+All these primes are smaller than \(p\) and at most \(r-1\).
+Trial division factors \(r-1\) in polynomial time in \(r\),
+and Adleman--Lenstra with CX-N11 constructs every required
+auxiliary polynomial in polynomial time in \(r,\log p\).
+Thus all BGL inputs are supplied, and its output and running-time
+conditions apply.
+
+Find a nonzero solution of
+\[
+ u^Q=\zeta u\qquad (u\in U)
+\]
+by \(\mathbb F_p\)-linear algebra.
+Such a solution exists: the image of the power map
+\(U^\times\to U^\times\), \(v\mapsto v^{Q-1}\), is the
+cyclic subgroup of order
+\[
+ S=\frac{Q^r-1}{Q-1}=1+Q+\cdots+Q^{r-1}.
+\]
+Since \(Q\equiv1\pmod r\), the integer \(S\) is divisible
+by \(r\); hence this subgroup contains \(\zeta\).
+Let \(c=u^r\). Then
+\[
+ c^Q=(\zeta u)^r=c,
+ \qquad c^{(Q-1)/r}=u^{Q-1}=\zeta\ne1.
+\]
+Thus \(c\in B\) is an \(r\)-th nonresidue.
+Because \(B^\times\) is cyclic of order \(Q-1=R w_0\),
+\(r\nmid w_0\), the element
+\[
+ \eta_0=c^{w_0}\in B^\times
+\]
+has exact order \(R\).
+To verify the last assertion, write \(c=g^a\) for an abstract
+generator \(g\) of \(B^\times\).
+The nonresidue test says \(r\nmid a\), so
+\(\operatorname{ord}(g^{a w_0})=R\).
+This argument uses a generator only to prove the order; none is
+an algorithmic input.
+
+\paragraph{Step 2: place the unit in the cyclotomic coefficient algebra.}
+Let
+\[
+ D_r=\mathbb F_p[T]/(\Phi_r(T)),\qquad
+ \rho_b(T)=T^b\quad\bigl(b\in G=(\mathbb Z/r\mathbb Z)^\times\bigr).
+\]
+Enumerate the powers \(\zeta^a\), \(a\in G\), and their
+Frobenius orbits under \(a\mapsto pa\pmod r\).
+Every orbit \(O\) has size \(s\), and
+\[
+ g_O(T)=\prod_{a\in O}(T-\zeta^a)
+\]
+has coefficients in \(\mathbb F_p\) and is irreducible of
+degree \(s\).
+These statements follow because \(O\) is precisely the
+Frobenius orbit of any one of its roots.
+Computing the products gives the full factorization
+\(\Phi_r=\prod_Og_O\) explicitly; no polynomial-factorization
+oracle has been used.
+
+Let \(O_0\) be the orbit containing \(1\).
+The evaluation map
+\(\mathbb F_p[T]/(g_{O_0})\to B\), \(T\mapsto\zeta\), is
+an isomorphism: \(\zeta\) has degree \(s\) and generates \(B\).
+Its inverse is computed by expressing \(\eta_0\) on the basis
+\(1,\zeta,\ldots,\zeta^{s-1}\).
+The Chinese remainder theorem, implemented with polynomial
+Euclidean algorithms, now constructs \(w\in D_r^\times\)
+whose value on this factor is \(\eta_0\) and whose value on
+all other factors is \(1\).
+In particular \(w^R=1\).
+
+\paragraph{Step 3: a projector with a proved order bound.}
+For \(b\in G\), put
+\[
+ \omega(b)=b^{r^{e-1}}\bmod R,
+ \qquad \kappa=(r-1)^{-1}\bmod R,
+ \qquad \nu_b=\kappa\,\omega(b)^{-1}\bmod R.
+\]
+Here \(\omega\) is the multiplicative Teichm\"uller lift of
+\(G\): it reduces to \(b\) modulo \(r\), and its values have
+order dividing \(r-1\).
+Define, using exponents reduced modulo \(R\),
+\[
+ \eta=\prod_{b\in G}\rho_b(w)^{\nu_b}\in D_r^\times.
+\]
+All factors have \(r\)-power order dividing \(R\), and the
+product is computable in polynomial time.
+For \(a\in G\), reindexing by \(b'=ab\) gives
+\[
+ \rho_a(\eta)
+ =\prod_{b'\in G}\rho_{b'}(w)^{{\kappa}\omega(a)\omega(b')^{-1}}
+ =\eta^{\omega(a)}.
+\]
+Consequently \(\eta\) lies in the coefficient Teichm\"uller
+subgroup required by CX-N14.
+
+It remains to prove that projection has not decreased its order.
+Evaluate at \(T=\zeta\), the factor indexed by \(O_0\).
+Only the terms \(b\in\langle p\rangle\leq G\) contribute
+nonidentity values. Write them as \(b=p^j\pmod r\),
+\(0\leq j<s\). Since \(w\) has coefficients in
+\(\mathbb F_p\),
+\[
+ \rho_{p^j}(w)(\zeta)=w(\zeta^{p^j})=\eta_0^{p^j}.
+\]
+The congruence \(p^s\equiv1\pmod R\), together with
+\(s\mid r-1\), implies that \(p\bmod R\) is the
+Teichm\"uller lift of \(p\bmod r\). Indeed reduction modulo
+\(r\) is injective on the prime-to-\(r\) torsion subgroup of
+\((\mathbb Z/R\mathbb Z)^\times\), and \(p\) has order
+\(s\) in that subgroup.
+Hence \(\omega(p^j)=p^j\pmod R\), and the evaluation is
+\[
+ \eta(\zeta)=\eta_0^{\kappa s}.
+\]
+Both \(s\) and \(r-1\) are coprime to \(r\), so
+\(\kappa s\) is coprime to \(r\).
+This component has order \(R\), proving
+\(\operatorname{ord}(\eta)=R\).
+The required additional input of CX-N14 is therefore constructed
+under \(\mathsf H\), in \(\operatorname{poly}(d_0,\log p)\)
+time. Together with the other cases of CX-N14, this splits any
+nontrivial split prime-field algebra for which a nonidentity
+automorphism is supplied.
+
+\paragraph{Step 4: from a general polynomial to a split algebra.}
+Polynomial gcds and derivatives give squarefree preprocessing.
+If a positive-degree polynomial has zero derivative, it is a
+\(p\)-th power: take the coefficient \(p\)-th roots using the
+inverse Frobenius \(a\mapsto a^{p^{m-1}}\), divide the exponents
+by \(p\), and retain the multiplicity \(p\).
+Otherwise a nontrivial gcd with the derivative yields smaller
+factors to process recursively.
+These operations have polynomial bit complexity.
+It therefore suffices to factor a monic squarefree polynomial
+\(f\) of degree at most \(d\).
+
+Compute the multiplication table of
+\(A=\mathbb F_q[X]/(f)\), viewed as an
+\(\mathbb F_p\)-algebra of dimension \(m\deg f\), and then
+compute
+\[
+ B_f=\ker\bigl(A\longrightarrow A,\ a\longmapsto a^p-a\bigr).
+\]
+The map is \(\mathbb F_p\)-linear, so its kernel and the kernel's
+multiplication table are obtained by linear algebra.
+Abstractly, if \(f=\prod_{i=1}^t f_i\) is its distinct
+irreducible factorization, then
+\[
+ A\cong\prod_{i=1}^t\mathbb F_{q^{\deg f_i}},
+ \qquad B_f\cong\mathbb F_p^t.
+\]
+This proves the split promise without knowing the factors.
+The primitive idempotents of \(B_f\) and \(A\) coincide.
+If \(\dim_{\mathbb F_p}B_f=1\), the polynomial is irreducible.
+
+Otherwise apply the IKRS Main Theorem, p.~3, to the explicit
+\(t\)-dimensional algebra \(B_f\).
+It deterministically gives a decomposition into ideals, each
+with an automorphism whose order equals that ideal's dimension,
+in time \(\operatorname{poly}(t^{\log t},\log p)\).
+If the decomposition has more than one summand, the identity of
+any proper nonzero summand is a nonzero zero divisor of \(B_f\);
+that identity is found by linear algebra in the supplied ideal.
+If there is only one summand, its automorphism has order
+\(t>1\), and the preceding steps with CX-N14 produce a nonzero
+zero divisor of \(B_f\) in polynomial additional time.
+Thus in either case we obtain a nonzero zero divisor \(b\in A\),
+and \(\gcd(f,b)\), using its polynomial representative, is a
+proper nonconstant factor.
+Equivalently, a primitive idempotent \(e_i\) identifies the
+component factor as \(\gcd(f,1-e_i)\).
+Recurse until all factors are irreducible, and reinsert the
+recorded multiplicities.
+
+\paragraph{Running time and exact analytic scope.}
+There are at most \(2d-1\) nodes in the nontrivial factorization
+tree, and every split algebra has dimension at most \(d\).
+Linear algebra in the original quotient has size polynomial in
+\(d,m,\log p\), hence in \(d,\log q\).
+At each node the coefficient construction has polynomial cost;
+the IKRS call has cost
+\(d^{O(\log d)}(\log q)^{O(1)}\).
+Multiplying by the number of nodes preserves the displayed
+\((d^{\log d}\log q)^{O(1)}\) bound.
+
+The analytic assumptions enter the constructed fields and
+auxiliary irreducible polynomials through Adleman--Lenstra's
+auxiliary-prime step only. CX-N11 supplies that step from its
+explicit Dedekind-zeta hypotheses, all implied by \(\mathsf H\).
+For this composition the required degrees are \(sr\) and the
+specified primes \(\ell\mid r-1\); they are bounded by \(d^2\)
+and are coprime to \(p\) in the branch where they are used.
+BGL's root-of-unity algorithm with those inputs, the
+Frobenius/eigenvector calculations, CRT, the projector, and IKRS
+are unconditional algebraic steps.
+The construction therefore supplies the formerly isolated
+coefficient-unit gate under \(\mathsf H\) without circularly
+calling general factorization or assuming a polynomial bound
+for its varying degree.
+\hfill\(\square\)
+
+\paragraph{Finite-\'etale restatement.}
+For squarefree \(f\), \(\operatorname{Spec}A\) is a finite
+\'etale scheme over \(\mathbb F_p\).
+Its Frobenius-fixed function algebra \(B_f\) is the constant
+finite \'etale algebra indexing its connected components.
+Idempotents found in \(B_f\) pull back to the corresponding
+open-and-closed decomposition of \(\operatorname{Spec}A\).
+The proof constructs these component projectors with the stated
+quasipolynomial dependence on the input polynomial degree.

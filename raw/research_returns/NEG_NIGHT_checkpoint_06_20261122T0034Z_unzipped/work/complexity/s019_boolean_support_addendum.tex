@@ -1,0 +1,135 @@
+\paragraph{A polynomial monotone Boolean circuit for the same support.}
+The formal-polynomial lower bound above persists alongside a much smaller
+Boolean support circuit.  For each unary or binary factor tuple, let its
+weight be an input bit recording whether that tuple is allowed.  Write
+$a=(a_{v,b},a_{e,b,c})$ for all these bits.  Then
+\[
+ \operatorname{Supp}_G(a)=
+ \bigvee_{x\in\{0,1\}^V}
+       \left(\bigwedge_v a_{v,x_v}\ \wedge\!
+                         \bigwedge_{e=uv}a_{e,x_u,x_v}\right)
+\]
+has a binary monotone Boolean circuit with $O(n^3+|E_G|)$ gates,
+constructible in that time from $G$.  In particular, on the bounded-degree
+expander family it has size $O(n^3)$, although every monotone arithmetic
+circuit for the full formal counting polynomial needs $2^{\kappa n}$
+gates.  No use of E is needed for this Boolean upper bound.
+
+Here is the full construction and proof.  First use input bits
+$f_{v,b},f_{e,b,c}$ recording that a tuple is forbidden.  A forbidden
+unary tuple $(v,b)$ supplies the clause $x_v\ne b$.  A forbidden edge
+tuple $(e=uv,b,c)$ supplies the clause
+\[
+                       (x_u\ne b)\vee(x_v\ne c).
+\]
+Thus consistency of the allowed tuples is exactly satisfiability of
+this two-CNF.  It is useful that the set of possible clauses is fixed
+by $G$: the input bits indicate which clauses are present.
+
+Make an implication graph whose $2n$ vertices are literals
+$L_{v,b}$ meaning $x_v=b$, with complement
+$\overline{L_{v,b}}=L_{v,1-b}$.  A unary forbidden bit supplies
+the edge $L_{v,b}\to L_{v,1-b}$.  A binary forbidden bit supplies
+the two edges
+\[
+ L_{u,b}\longrightarrow L_{v,1-c},\qquad
+ L_{v,c}\longrightarrow L_{u,1-b}.
+\]
+Each adjacency bit is the disjunction of the forbidden-tuple bits
+that supply that edge.  The total number of such occurrences is
+$2n+8|E_G|$, so all adjacency bits require $O(n+|E_G|)$ binary
+OR gates, allowing constants for absent edges.  Every edge
+$L\to M$ has its contrapositive edge
+$\overline M\to\overline L$.
+
+Enumerate the $2n$ literals as $1,\ldots,2n$.  Compute reachability
+using the following Boolean circuits:
+\[
+ R^{(0)}_{ij}=A_{ij}\vee[i=j],\qquad
+ R^{(k)}_{ij}=R^{(k-1)}_{ij}\vee
+             \bigl(R^{(k-1)}_{ik}\wedge R^{(k-1)}_{kj}\bigr)
+                     \quad(1\le k\le2n).
+\]
+Induction on $k$ shows that $R^{(k)}_{ij}$ records whether there is
+a directed path from $i$ to $j$ whose internal vertices are among
+$1,\ldots,k$.  The induction uses a simple path when there is a
+path, so that a visit to $k$ splits it into the two required parts.
+Consequently $R^{(2n)}$ is the reachability relation.  This circuit
+uses $O(n^3)$ binary AND and OR gates.  Its inputs and operations
+are all monotone in the forbidden-tuple bits.
+
+The two-CNF is unsatisfiable precisely when
+\[
+ U_G(f)=\bigvee_{v\in V}
+ \left(R^{(2n)}_{L_{v,0},L_{v,1}}\wedge
+       R^{(2n)}_{L_{v,1},L_{v,0}}\right)=1.
+\]
+This is exactly the ordinary two-CNF strong-component criterion of
+Aspvall--Plass--Tarjan, Theorem~1, printed p.~122, cited precisely
+below.  We import that classical theorem rather than reprove it.
+
+The entire circuit for $U_G$ uses only AND, OR, constants and the
+forbidden inputs.  Form its Boolean dual by interchanging AND with
+OR, interchanging constants zero with one, and replacing each
+forbidden input label by the corresponding allowed input label.
+Induction gate by gate, using De Morgan's laws, shows that the
+dual circuit computes
+\[
+                            1-U_G(1-a)=\operatorname{Supp}_G(a).
+\]
+This is an actual monotone circuit on the allowed bits; no negation
+gates are introduced at its inputs or internally.  Dualization
+preserves the number of gates.  This proves the claimed bound.
+
+The classical source for the implication graph and its exact
+strong-component criterion is Aspvall--Plass--Tarjan,
+\emph{A linear-time algorithm for testing the truth of certain
+quantified Boolean formulas}, \emph{Information Processing Letters}
+8 (1979), 121--123: the graph is defined on printed p.~121, and
+Theorem~1 with its complete proof is on printed p.~122.
+The primary article is available at
+\url{https://mathweb.ucsd.edu/~sbuss/CourseWeb/Math268_2007WS/2SAT.pdf}.
+Only the ordinary existential two-CNF theorem is used here; the
+quantified extension in its Theorem~2 is not used.  The cubic circuit
+construction and monotone dualization are explicit above, so no
+circuit bound is being imported from the article's
+linear-time random-access-machine algorithm.
+
+\paragraph{Geometric form of the support contrast.}
+For each fixed allowed-tuple bit string $a$, let
+\[
+ B_n=\mathbb Z[x_v:v\in V]/(x_v^2-x_v:v\in V)
+                   \simeq\prod_{x\in\{0,1\}^V}\mathbb Z.
+\]
+For a vertex or edge factor $f$, let $p_{f,a}\in B_n$ be its
+Boolean interpolation polynomial, taking value $a_{f,x|I_f}$
+on section $x$.  Explicitly the unary interpolation is
+$a_{v,0}(1-x_v)+a_{v,1}x_v$, and the binary interpolation is
+the corresponding sum of four degree-two Boolean indicator
+monomials multiplied by their allowed bits.  Each $p_{f,a}$
+is an idempotent.  Put $e_a=\prod_f p_{f,a}$ and
+\[
+                 Y_a=\operatorname{Spec}(B_n/(1-e_a)).
+\]
+This is the finite etale scheme over $\mathbb Z$ consisting of
+exactly the allowed assignment sections.  Equivalently one may
+use all equations $p_{f,a}=1$ together with the Boolean equations:
+for idempotents the ideals $(1-e_a)$ and $(1-p_{f,a}:f)$ agree.
+One inclusion follows by expanding $1-\prod_f p_{f,a}$ as a
+telescoping sum; the other follows from
+$(1-p_{f,a})e_a=0$.
+
+For every field $K$, the scheme $Y_a\times\operatorname{Spec}K$
+is nonempty if and only if $\operatorname{Supp}_G(a)=1$.
+Thus the nonemptiness of this explicitly given finite etale
+subscheme is computable by the displayed $O(n^3)$ monotone
+Boolean circuit in its allowed-tuple parameters.  Its rank is
+$P_G(a)$ as an ordinary nonnegative integer, while the full
+torus character before specialization is the exponentially
+costly positive arithmetic object described above.  The map
+from positive formal polynomials to Boolean support is a
+semiring map with idempotent addition.  It is not an evaluation
+of invertible torus characters at zero in the representation
+ring, and it does not retain multiplicities.  This distinction
+is exactly why the arithmetic lower bound and the Boolean
+upper bound coexist.

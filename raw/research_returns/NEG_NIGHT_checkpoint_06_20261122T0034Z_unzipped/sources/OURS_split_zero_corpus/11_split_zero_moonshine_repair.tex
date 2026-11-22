@@ -1,0 +1,826 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{array}
+\usepackage{longtable}
+
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{convention}[theorem]{Convention}
+\newtheorem{inputthm}[theorem]{External Theorem}
+
+\newcommand{\ZZ}{\mathbb Z}
+\newcommand{\NN}{\mathbb N}
+\newcommand{\QQ}{\mathbb Q}
+\newcommand{\CC}{\mathbb C}
+\newcommand{\BB}{\mathbb B}
+\newcommand{\Rep}{\operatorname{Rep}}
+\newcommand{\Irr}{\operatorname{Irr}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\ch}{\operatorname{ch}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Span}{\operatorname{Span}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\tauu}{\tau}
+\newcommand{\Gr}{\operatorname{Gr}}
+\newcommand{\ev}{\operatorname{ev}}
+
+\title{Split-Zero Support Repair for Moonshine Proofs\\
+Monstrous and Umbral Coefficient Bookkeeping, Character Inversion, and Principal-Part Separation}
+\author{Prepared for the split-structure project}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note applies the split-zero repair protocol to moonshine arguments.  The purpose is not to replace the established analytic input in monstrous or umbral moonshine, but to retype the coefficient and support layer so that the following distinctions are not collapsed: an absent graded coordinate, a supported zero-dimensional graded piece, a virtual polar boundary term, and a positive representation-valued module coefficient.  The repair is expressed in the split-zero semiring
+\[
+G(R)=R\sqcup\{\tau\},
+\]
+where \(\tau\) is the semiring zero and \(0_R\in R\) is the supported arithmetic zero.  We prove a support-complete character-inversion theorem, apply it to the Monster module and to the umbral modules attached to Niemeier root systems, and isolate the exact point at which the proof of existence of umbral modules reduces to nonnegative integral multiplicities.  The repaired formulation keeps the principal part of the mock modular form separate from the positive module sheet, and records all forced vanishing coefficients as supported zeros rather than missing terms.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope}
+
+\begin{convention}[Moonshine input versus split-zero repair]
+The established moonshine results are treated here as external input.  The new content of this note is the coefficient-level split-zero lift and the proof that it is conservative over the ordinary moonshine proof after applying the ring reflection.  Thus an external theorem is never reproved unless it is a purely formal consequence of character orthogonality or split-zero algebra.
+\end{convention}
+
+The repair is needed because moonshine proofs routinely move among four different kinds of zero-like data:
+\[
+\boxed{\text{absent coordinate}},\qquad
+\boxed{\text{zero coefficient}},\qquad
+\boxed{\text{zero-dimensional representation}},\qquad
+\boxed{\text{cancellation in a virtual character}}.
+\]
+The ordinary coefficient ring collapses all of these to \(0\).  The split-zero bookkeeping keeps the first object as \(\tau\), and the remaining three as supported values in an ordinary ring or semiring.
+
+\section{The coefficient rings and their split-zero lifts}
+
+Let \(\Gamma\) be a finite group.  Let
+\[
+R_\ZZ(\Gamma):=K_0(\Rep_\CC(\Gamma))
+\]
+be the integral complex representation ring, and let
+\[
+R_\ZZ^+(\Gamma)\subset R_\ZZ(\Gamma)
+\]
+be the positive cone consisting of isomorphism classes of genuine finite-dimensional \(\Gamma\)-modules.
+
+\begin{definition}[Split-zero representation coefficient semiring]
+Define
+\[
+S_\Gamma:=G(R_\ZZ(\Gamma))=R_\ZZ(\Gamma)\sqcup\{\tau\}.
+\]
+The element \(\tau\) is the unsupported zero.  The element
+\[
+0_\Gamma:=0_{R_\ZZ(\Gamma)}\in R_\ZZ(\Gamma)
+\]
+is the supported zero representation class.
+The operations are
+\[
+a\oplus b=a+b,
+\qquad
+\tau\oplus a=a\oplus\tau=a,
+\qquad
+\tau\oplus\tau=\tau,
+\]
+and
+\[
+ab=ab,
+\qquad
+\tau a=a\tau=\tau.
+\]
+\end{definition}
+
+\begin{definition}[Reflection and support]
+Define
+\[
+p_\Gamma:S_\Gamma\to R_\ZZ(\Gamma),
+\qquad
+p_\Gamma(\tau)=0_\Gamma,
+\qquad
+p_\Gamma(V)=V,
+\]
+and
+\[
+\chi_\Gamma:S_\Gamma\to\BB,
+\qquad
+\chi_\Gamma(\tau)=0,
+\qquad
+\chi_\Gamma(V)=1\quad(V\in R_\ZZ(\Gamma)).
+\]
+\end{definition}
+
+\begin{lemma}[The two zero fibers]
+One has
+\[
+p_\Gamma^{-1}(0_\Gamma)=\{\tau,0_\Gamma\},
+\qquad
+\chi_\Gamma^{-1}(0)=\{\tau\}.
+\]
+\end{lemma}
+
+\begin{proof}
+This is immediate from the definitions.  Both \(\tau\) and \(0_\Gamma\) reflect to \(0_\Gamma\), but \(\chi_\Gamma\) separates them because every element of the supported sheet \(R_\ZZ(\Gamma)\), including \(0_\Gamma\), has support value \(1\).
+\end{proof}
+
+\begin{definition}[Split-zero character evaluation]
+For \(g\in\Gamma\), let
+\[
+\ev_g:R_\ZZ(\Gamma)\to\CC
+\]
+be the ordinary character evaluation.  Its split-zero lift is
+\[
+\widehat{\ev}_g:S_\Gamma\to G(\CC)
+\]
+with
+\[
+\widehat{\ev}_g(\tau)=\tau,
+\qquad
+\widehat{\ev}_g(V)=\tr(g\mid V).
+\]
+\end{definition}
+
+\begin{lemma}[Evaluation is support-preserving]
+For all \(x\in S_\Gamma\),
+\[
+\chi_\CC(\widehat{\ev}_g(x))=\chi_\Gamma(x).
+\]
+Moreover,
+\[
+p_\CC(\widehat{\ev}_g(x))=\ev_g(p_\Gamma(x)).
+\]
+\end{lemma}
+
+\begin{proof}
+If \(x=\tau\), both statements reduce to the defining equalities
+\[
+\widehat{\ev}_g(\tau)=\tau,
+\qquad
+p_\Gamma(\tau)=0_\Gamma.
+\]
+If \(x\in R_\ZZ(\Gamma)\), then \(\widehat{\ev}_g(x)\in\CC\), hence it is supported in \(G(\CC)\), and its ring reflection is the ordinary trace value.  This proves both formulas.
+\end{proof}
+
+\section{Supported formal series}
+
+Let \(E\) be a countable exponent set, typically a subset of \(\QQ\), and let \(B\subset E\) be the intended coordinate support.
+
+\begin{definition}[Supported coefficient series]
+A split-zero \(\Gamma\)-coefficient series with exponent set \(E\) and coordinate support \(B\) is a function
+\[
+\widehat A:E\to S_\Gamma
+\]
+such that
+\[
+\widehat A(\nu)=\tau\quad(\nu\notin B),
+\qquad
+\widehat A(\nu)\in R_\ZZ(\Gamma)\quad(\nu\in B).
+\]
+We write it formally as
+\[
+\widehat A(q)=\sum_{\nu\in E}^{\oplus}\widehat A(\nu)q^\nu.
+\]
+The ordinary collapsed series is
+\[
+p_\Gamma\widehat A(q):=\sum_{\nu\in E}p_\Gamma(\widehat A(\nu))q^\nu.
+\]
+\end{definition}
+
+\begin{remark}
+The symbol \(\sum^\oplus\) is purely a reminder that the coefficients live in the split-zero semiring.  It is not a claim of analytic convergence.
+\end{remark}
+
+\begin{definition}[Three support predicates]
+For a coefficient \(\widehat A(\nu)\), define:
+\[
+\nu\text{ is absent}\quad\Longleftrightarrow\quad \widehat A(\nu)=\tau,
+\]
+\[
+\nu\text{ is supported}\quad\Longleftrightarrow\quad \widehat A(\nu)\in R_\ZZ(\Gamma),
+\]
+\[
+\nu\text{ is value-nonzero}\quad\Longleftrightarrow\quad p_\Gamma\widehat A(\nu)\ne0_\Gamma.
+\]
+\end{definition}
+
+\begin{proposition}[Supported zero is not absence]
+If \(\widehat A(\nu)=0_\Gamma\), then \(\nu\) is supported but value-zero.  In particular,
+\[
+\widehat A(\nu)=0_\Gamma
+\quad\not\Longleftrightarrow\quad
+\widehat A(\nu)=\tau.
+\]
+\end{proposition}
+
+\begin{proof}
+This is the two-zero-fiber lemma applied coefficientwise.
+\end{proof}
+
+\section{Character inversion with support}
+
+The main formal step in the proof of umbral module existence is the passage from class-function coefficients to irreducible multiplicities.  The split-zero repair forces this step to be written with its coordinate support.
+
+Let \(\Irr(\Gamma)\) denote the irreducible complex characters of \(\Gamma\).  For \(\chi\in\Irr(\Gamma)\), write \(V_\chi\) for a chosen irreducible representation affording \(\chi\), and
+\[
+\chi^\vee(g):=\chi(g^{-1})=\overline{\chi(g)}.
+\]
+
+\begin{definition}[Character Fourier coefficients]
+Let \(a_\nu:\Gamma\to\CC\) be a class function.  Its \(\chi\)-multiplicity coefficient is
+\[
+\mathsf m_\chi(a_\nu):=\frac1{|\Gamma|}\sum_{g\in\Gamma}a_\nu(g)\chi(g^{-1}).
+\]
+\end{definition}
+
+\begin{theorem}[Support-complete character inversion]
+Let \(B\subset E\).  Suppose that for each \(\nu\in B\) we are given a class function
+\[
+a_\nu:\Gamma\to\CC.
+\]
+Then the following are equivalent.
+
+\begin{enumerate}[label=(\roman*)]
+\item There exists a finite-dimensional genuine \(\Gamma\)-module \(K_\nu\) for each \(\nu\in B\) such that
+\[
+a_\nu(g)=\tr(g\mid K_\nu)
+\qquad(g\in\Gamma).
+\]
+\item For every \(\nu\in B\) and every \(\chi\in\Irr(\Gamma)\),
+\[
+\mathsf m_\chi(a_\nu)\in\ZZ_{\ge0}.
+\]
+\end{enumerate}
+
+When these conditions hold, the unique isomorphism class of such a module is
+\[
+K_\nu\cong\bigoplus_{\chi\in\Irr(\Gamma)}V_\chi^{\oplus\mathsf m_\chi(a_\nu)}.
+\]
+The corresponding split-zero coefficient lift is
+\[
+\widehat K(\nu)=
+\begin{cases}
+\tau,&\nu\notin B,\\
+\displaystyle\bigoplus_{\chi\in\Irr(\Gamma)}V_\chi^{\oplus\mathsf m_\chi(a_\nu)},&\nu\in B.
+\end{cases}
+\]
+\end{theorem}
+
+\begin{proof}
+Assume (i).  Write
+\[
+K_\nu\cong\bigoplus_{\psi\in\Irr(\Gamma)}V_\psi^{\oplus m_\psi(\nu)}
+\]
+with \(m_\psi(\nu)\in\ZZ_{\ge0}\).  Then
+\[
+a_\nu(g)=\sum_{\psi\in\Irr(\Gamma)}m_\psi(\nu)\psi(g).
+\]
+Using the character orthogonality relation
+\[
+\frac1{|\Gamma|}\sum_{g\in\Gamma}\psi(g)\chi(g^{-1})=\delta_{\psi,\chi},
+\]
+we get
+\[
+\mathsf m_\chi(a_\nu)=m_\chi(\nu)\in\ZZ_{\ge0}.
+\]
+Thus (ii) holds.
+
+Conversely, assume (ii).  Define
+\[
+K_\nu:=\bigoplus_{\chi\in\Irr(\Gamma)}V_\chi^{\oplus\mathsf m_\chi(a_\nu)}.
+\]
+This is a genuine finite-dimensional \(\Gamma\)-module.  Its character is
+\[
+\sum_{\chi\in\Irr(\Gamma)}\mathsf m_\chi(a_\nu)\chi.
+\]
+The irreducible characters form an orthonormal basis for the space of complex class functions on \(\Gamma\), so this character is exactly \(a_\nu\).  This proves (i).
+
+The split-zero lift is obtained by placing \(\tau\) outside the support set and the constructed representation inside the support set.  Uniqueness follows from uniqueness of irreducible multiplicities.
+\end{proof}
+
+\begin{remark}[The dual character is mandatory]
+The inversion coefficient must use \(\chi(g^{-1})\), equivalently \(\overline{\chi(g)}\).  If one writes \(\chi(g)\) instead, the result is the multiplicity of \(\chi^\vee\).  This distinction is invisible for real-valued character tables but is not uniform in moonshine, where complex-valued irreducible characters occur.
+\end{remark}
+
+\begin{corollary}[Supported zero multiplicity]
+For \(\nu\in B\), the following are equivalent:
+\[
+K_\nu=0,
+\qquad
+\mathsf m_\chi(a_\nu)=0\quad\forall\chi,
+\qquad
+\widehat K(\nu)=0_\Gamma.
+\]
+These conditions do not imply \(\widehat K(\nu)=\tau\).
+\end{corollary}
+
+\begin{proof}
+The first two equivalences follow from the direct-sum decomposition in the theorem.  The final non-implication is the distinction between supported zero and unsupported zero.
+\end{proof}
+
+\section{Monstrous moonshine: the shifted vacuum and the zero coefficient}
+
+\begin{inputthm}[Monstrous moonshine, structural input]
+There is a graded Monster module whose McKay-Thompson series are the normalized genus-zero functions predicted by Conway and Norton.  In the shifted convention one writes
+\[
+T_g(q)=\sum_{n=-1}^{\infty}\tr(g\mid V_n^\natural)q^n,
+\]
+with
+\[
+T_1(q)=J(q)=q^{-1}+0+196884q+21493760q^2+\cdots.
+\]
+\end{inputthm}
+
+\begin{definition}[Split-zero Monster coefficient support]
+Let
+\[
+E_M:=\{-1,0,1,2,\ldots\},
+\qquad
+B_M:=E_M.
+\]
+Define the split-zero Monster coefficient series by
+\[
+\widehat V^\natural(n):=[V_n^\natural]\in S_{\mathbb M}
+\qquad(n\in B_M),
+\]
+and \(\widehat V^\natural(n)=\tau\) for any exponent outside \(B_M\) if one embeds \(E_M\) in a larger exponent set.
+\end{definition}
+
+\begin{proposition}[The coefficient at \(q^0\) is supported zero]
+In the shifted Monster series,
+\[
+\widehat V^\natural(0)=0_{\mathbb M},
+\]
+not \(\tau\).
+\end{proposition}
+
+\begin{proof}
+The exponent \(0\) is part of the specified shifted grading set \(B_M\).  The coefficient of \(q^0\) in \(J(q)\) is zero, and the corresponding graded piece is the zero-dimensional supported piece.  Hence its split-zero coefficient is \(0_{\mathbb M}\).  It is not \(\tau\), because \(\tau\) would mean that exponent \(0\) is not a coordinate of the graded object.
+\end{proof}
+
+\begin{corollary}[Conservative collapse]
+Applying the ring reflection gives the ordinary McKay-Thompson coefficient series:
+\[
+p_{\mathbb M}\widehat V^\natural(q)=\sum_{n=-1}^{\infty}[V_n^\natural]q^n.
+\]
+Taking traces gives
+\[
+p_\CC\widehat{\ev}_g\widehat V^\natural(q)=T_g(q).
+\]
+\end{corollary}
+
+\begin{proof}
+Both formulas follow coefficientwise from the definitions of \(p\) and \(\widehat{\ev}_g\).
+\end{proof}
+
+\begin{remark}[Why this matters]
+The assertion that the shifted \(q^0\)-piece is zero is a structural assertion.  In the vertex-operator-algebra normalization it corresponds to the absence of weight-one currents.  Deleting the coordinate is a different assertion.  Ordinary character-valued series cannot see the difference; the split-zero lift can.
+\end{remark}
+
+\section{Umbral moonshine input}
+
+\begin{inputthm}[Umbral data]
+For each Niemeier root system \(X\), let \(N^X\) be the corresponding Niemeier lattice, \(W^X\) the Weyl group generated by roots, and
+\[
+G^X:=\Aut(N^X)/W^X.
+\]
+Let \(m=m^X\) be the common Coxeter number of the irreducible components of \(X\).  Umbral moonshine attaches to \(X\) a finite index set \(I^X\subset\ZZ/2m\ZZ\) and vector-valued mock modular forms
+\[
+H_g^X=(H_{g,r}^X)_{r\in I^X}
+\]
+for \(g\in G^X\).  The umbral module conjecture asserts the existence of a bi-graded infinite-dimensional \(G^X\)-module
+\[
+\check K^X=\bigoplus_{r\in I^X}\bigoplus_{\substack{D\in\ZZ,\ D\le0,\\D\equiv r^2\ (4m)}}\check K^X_{r,-D/4m}
+\]
+such that
+\[
+H^X_{g,r}(q)=-2q^{-1/4m}\delta_{r,1}
++\sum_{\substack{D\in\ZZ,\ D\le0,\\D\equiv r^2\ (4m)}}
+\tr(g\mid\check K^X_{r,-D/4m})q^{-D/4m}.
+\]
+Duncan, Griffin, and Ono prove that these umbral modules exist.
+\end{inputthm}
+
+\begin{remark}
+The split-zero repair below uses only the formal shape of this theorem and the character-inversion reduction.  It does not depend on the detailed Rademacher-sum construction of the \(H^X_{g,r}\).
+\end{remark}
+
+\section{The umbral exponent lattice}
+
+Fix \(X\).  Put \(\Gamma:=G^X\), \(m:=m^X\), and \(I:=I^X\).
+
+\begin{definition}[Analytic coordinates]
+For \(r\in I\), set
+\[
+E_r:=\left\{n-\frac{r^2}{4m}:n\in\ZZ_{\ge0}\right\}.
+\]
+Let
+\[
+E^X:=\{(r,n):r\in I,\\ n\in\ZZ_{\ge0}\}.
+\]
+The exponent attached to \((r,n)\) is
+\[
+\nu(r,n):=n-\frac{r^2}{4m}.
+\]
+The discriminant attached to \((r,n)\) is
+\[
+D(r,n):=r^2-4mn.
+\]
+\end{definition}
+
+\begin{definition}[Three umbral support layers]
+Define the analytic coordinate layer
+\[
+A^X:=E^X.
+\]
+Define the positive module layer
+\[
+M^X:=\{(r,n)\in E^X:D(r,n)\le0\}.
+\]
+Define the polar layer
+\[
+P^X:=\{(1,0)\}
+\]
+whenever \(1\in I\), as in the standard umbral convention.
+\end{definition}
+
+\begin{lemma}[Disjointness of positive and polar layers]
+One has
+\[
+P^X\cap M^X=\varnothing.
+\]
+\end{lemma}
+
+\begin{proof}
+For \((1,0)\),
+\[
+D(1,0)=1^2-4m\cdot0=1>0.
+\]
+Thus \((1,0)\notin M^X\).
+\end{proof}
+
+\begin{definition}[Principal-zero layer]
+The principal-zero layer is
+\[
+Z^X_{\mathrm{pr}}:=A^X\setminus(M^X\cup P^X).
+\]
+These are analytic principal coordinates whose coefficients are forced to vanish by minimality of the principal part.
+\end{definition}
+
+\begin{proposition}[Principal-zero coefficients are supported zeros]
+For \((r,n)\in Z^X_{\mathrm{pr}}\), the split-zero coefficient of the analytic umbral form is \(0_\Gamma\), not \(\tau\).
+\end{proposition}
+
+\begin{proof}
+The coordinate \((r,n)\) lies in the analytic coordinate layer \(A^X\), so it is part of the component expansion.  Since it lies outside both the polar layer and the positive module layer, minimality of the principal part forces the coefficient to be zero.  Therefore the coefficient is the supported zero \(0_\Gamma\).  It is not \(\tau\), since \(\tau\) would mean that \((r,n)\) is not an analytic coordinate.
+\end{proof}
+
+\section{Umbral character inversion in split-zero form}
+
+Let
+\[
+H_{g,r}^X(q)=\sum_{n\ge0}a^X_{g,r}(n)q^{n-r^2/(4m)}
+\]
+where the polar coefficient is included in the analytic coefficient notation.  Thus
+\[
+a^X_{g,1}(0)=-2,
+\]
+and all \((r,n)\in Z^X_{\mathrm{pr}}\) have coefficient zero.
+
+\begin{definition}[Multiplicity series]
+For \(\chi\in\Irr(\Gamma)\), define
+\[
+H^X_{\chi,r}(q):=\frac1{|\Gamma|}\sum_{g\in\Gamma}\chi(g^{-1})H^X_{g,r}(q).
+\]
+Equivalently,
+\[
+H^X_{\chi,r}(q)=\sum_{n\ge0}m^X_{\chi,r}(n)q^{n-r^2/(4m)}
+\]
+with
+\[
+m^X_{\chi,r}(n)=\frac1{|\Gamma|}\sum_{g\in\Gamma}a^X_{g,r}(n)\chi(g^{-1}).
+\]
+\end{definition}
+
+\begin{proposition}[Polar multiplicities]
+At the polar coordinate \((1,0)\), one has
+\[
+m^X_{\chi,1}(0)=
+\begin{cases}
+-2,&\chi=\one_\Gamma,\\
+0,&\chi\ne\one_\Gamma.
+\end{cases}
+\]
+\end{proposition}
+
+\begin{proof}
+The polar coefficient is the constant class function
+\[
+g\mapsto -2.
+\]
+Since this is \(-2\one_\Gamma\), character orthogonality gives
+\[
+\frac1{|\Gamma|}\sum_{g\in\Gamma}(-2)\chi(g^{-1})=-2\langle\one_\Gamma,\chi\rangle.
+\]
+This is \(-2\) for the trivial character and \(0\) otherwise.
+\end{proof}
+
+\begin{corollary}[The polar term is not a module coefficient]
+The coefficient at \((1,0)\) cannot be an element of the positive cone \(R_\ZZ^+(\Gamma)\).  It is a virtual boundary coefficient
+\[
+-2[\one_\Gamma]\in R_\ZZ(\Gamma).
+\]
+\end{corollary}
+
+\begin{proof}
+The positive cone is generated by irreducible representations with nonnegative integer coefficients.  The coefficient \(-2[\one_\Gamma]\) has negative multiplicity in the trivial representation, hence is not in \(R_\ZZ^+(\Gamma)\).
+\end{proof}
+
+\begin{theorem}[Split-zero umbral existence criterion]
+Fix \(X\).  The following are equivalent.
+
+\begin{enumerate}[label=(\roman*)]
+\item There exists a genuine bi-graded \(\Gamma\)-module
+\[
+\check K^X=\bigoplus_{(r,n)\in M^X}\check K^X_{r,n-r^2/(4m)}
+\]
+whose trace functions satisfy the umbral McKay-Thompson formula with polar term \(-2q^{-1/4m}\delta_{r,1}\).
+
+\item For every \((r,n)\in M^X\) and every \(\chi\in\Irr(\Gamma)\),
+\[
+m^X_{\chi,r}(n)\in\ZZ_{\ge0},
+\]
+and for every \((r,n)\in Z^X_{\mathrm{pr}}\),
+\[
+m^X_{\chi,r}(n)=0\qquad\forall\chi\in\Irr(\Gamma),
+\]
+while the polar coordinate has
+\[
+m^X_{\one,1}(0)=-2,
+\qquad
+m^X_{\chi,1}(0)=0\quad(\chi\ne\one).
+\]
+\end{enumerate}
+
+When these conditions hold,
+\[
+\check K^X_{r,n-r^2/(4m)}
+\cong
+\bigoplus_{\chi\in\Irr(\Gamma)}V_\chi^{\oplus m^X_{\chi,r}(n)}
+\qquad((r,n)\in M^X).
+\]
+\end{theorem}
+
+\begin{proof}
+Assume (i).  For \((r,n)\in M^X\), the coefficient class function
+\[
+g\mapsto\tr(g\mid\check K^X_{r,n-r^2/(4m)})
+\]
+is the character of a genuine representation.  The support-complete character inversion theorem gives nonnegative integer multiplicities and the displayed decomposition.  For \((r,n)\in Z^X_{\mathrm{pr}}\), the minimal principal part condition gives the zero class function, and hence all irreducible multiplicities vanish.  The polar multiplicities were computed in the preceding proposition.  Thus (ii) holds.
+
+Conversely, assume (ii).  For each \((r,n)\in M^X\), define
+\[
+\check K^X_{r,n-r^2/(4m)}:=\bigoplus_{\chi\in\Irr(\Gamma)}V_\chi^{\oplus m^X_{\chi,r}(n)}.
+\]
+These are genuine modules because the multiplicities are nonnegative integers.  Their characters recover the coefficients on \(M^X\) by character inversion.  On \(Z^X_{\mathrm{pr}}\), the coefficient is supported zero.  At \((1,0)\), the coefficient is the prescribed virtual boundary \(-2\one_\Gamma\).  Combining these three disjoint layers gives precisely the stated McKay-Thompson formula.
+\end{proof}
+
+\begin{definition}[The repaired umbral split-zero coefficient]
+Define
+\[
+\widehat H^X_r(r',n):=
+\begin{cases}
+\tau,&r'\ne r,\\
+-2[\one_\Gamma],&(r',n)=(1,0),\\
+0_\Gamma,&(r',n)\in Z^X_{\mathrm{pr}},\\
+[\check K^X_{r,n-r^2/(4m)}],&(r',n)\in M^X.
+\end{cases}
+\]
+Equivalently, for a fixed component \(r\), all coordinates outside that component are unsupported, all forced principal vanishings are supported zeros, the polar term is virtual, and the non-polar non-principal coefficients are positive representation classes.
+\end{definition}
+
+\begin{corollary}[Ordinary umbral moonshine is the reflected shadow]
+Applying \(p_\Gamma\), then evaluating at \(g\in\Gamma\), recovers the ordinary component \(H^X_{g,r}\).
+\end{corollary}
+
+\begin{proof}
+On the polar coordinate \((1,0)\), evaluation of \(-2[\one_\Gamma]\) gives \(-2\).  On the principal-zero layer, evaluation of \(0_\Gamma\) gives \(0\).  On the module layer, evaluation gives the trace on the corresponding graded piece.  Unsupported coordinates reflect to zero and therefore do not appear in the ordinary series.  This is exactly the umbral McKay-Thompson expansion.
+\end{proof}
+
+\section{Rademacher sums and principal-part support}
+
+The analytic construction of the umbral forms is often expressed in terms of Rademacher sums.  The split-zero repair is orthogonal to the convergence and modular-transformation proofs; it affects the boundary data fed into those proofs.
+
+\begin{definition}[Split-zero principal part]
+A split-zero principal part for a vector-valued mock modular form is a coefficient function
+\[
+\widehat P:E_{<0}\to S_\Gamma
+\]
+on negative exponents, with \(\widehat P(\nu)=\tau\) for components that do not belong to the vector system and \(\widehat P(\nu)\in R_\ZZ(\Gamma)\) for supported principal coordinates.
+\end{definition}
+
+\begin{proposition}[Minimal principal part in umbral moonshine]
+For the umbral component \(H^X_{g,r}\), the split-zero principal part is
+\[
+\widehat P^X_{r}(r',n)=
+\begin{cases}
+\tau,&r'\ne r,\\
+-2[\one_\Gamma],&(r',n)=(1,0),\\
+0_\Gamma,&(r',n)\in Z^X_{\mathrm{pr}}.
+\end{cases}
+\]
+\end{proposition}
+
+\begin{proof}
+The umbral principal part has a single nonzero polar term, namely \(-2q^{-1/4m}\) in the \(r=1\) component.  All other negative exponent coordinates inside a supported component are forced zero by minimality.  Coordinates outside the component are absent.  Translating these three cases into \(S_\Gamma\) gives the formula.
+\end{proof}
+
+\begin{theorem}[Principal-part repair principle]
+No proof using Rademacher sums or harmonic Maass forms may replace the split-zero principal part \(\widehat P\) by its reflected ordinary principal part \(p_\Gamma\widehat P\) before checking component support.  Such a replacement loses the distinction between:
+\[
+\tau
+\quad\text{and}\quad
+0_\Gamma.
+\]
+\end{theorem}
+
+\begin{proof}
+The reflected principal part sends both \(\tau\) and \(0_\Gamma\) to \(0_\Gamma\).  Therefore it cannot determine whether a zero coefficient is a forced zero in a supported component or an absent coordinate.  Component support is part of the vector-valued modular datum, so collapsing before support checking changes the type of the object being constructed.
+\end{proof}
+
+\section{Support diagrams for finite truncations}
+
+The split-zero semimodule classification says that a free split-zero semimodule has a Boolean support skeleton.  Moonshine coefficients naturally live in finite truncations of such free objects.
+
+\begin{definition}[Finite truncation]
+Let \(F\subset E^X\) be finite.  The free coefficient object over \(F\) is
+\[
+\mathcal C_F:=S_\Gamma^F.
+\]
+An element of \(\mathcal C_F\) is a finite list of split-zero coefficients indexed by \(F\).
+\end{definition}
+
+\begin{proposition}[Boolean support skeleton]
+The support skeleton of \(\mathcal C_F\) is the Boolean lattice
+\[
+\mathcal P(F).
+\]
+For \(c=(c_\nu)_{\nu\in F}\), its support is
+\[
+\supp(c)=\{\nu\in F:c_\nu\ne\tau\}.
+\]
+\end{proposition}
+
+\begin{proof}
+This is the finite free case of the split-zero semimodule classification.  Coordinatewise multiplication by the supported zero \(0_\Gamma\) sends a supported coordinate to the supported zero coefficient and sends an unsupported coordinate to \(\tau\).  Therefore the support is exactly the subset of coordinates whose entries lie in the supported sheet \(R_\ZZ(\Gamma)\).  Addition joins supports coordinatewise, giving the Boolean lattice.
+\end{proof}
+
+\begin{corollary}[Zero multiplicity does not remove a grade]
+Let \(\nu\in F\).  Replacing a coefficient \(c_\nu\in R_\ZZ(\Gamma)\) by \(0_\Gamma\) leaves \(\nu\in\supp(c)\).  Replacing it by \(\tau\) removes \(\nu\) from \(\supp(c)\).
+\end{corollary}
+
+\begin{proof}
+This is immediate from the definition of support.
+\end{proof}
+
+\section{Repair checklist for moonshine arguments}
+
+\begin{theorem}[Moonshine zero repair]
+Every coefficient-level moonshine statement containing the phrase ``the coefficient is zero'' must be refined into one of the following statements:
+\begin{enumerate}[label=(\roman*)]
+\item the component or exponent is absent, so the split coefficient is \(\tau\);
+\item the component and exponent are present, but the coefficient is \(0_\Gamma\);
+\item the coefficient vanishes as a complex trace after evaluation at a specific group element;
+\item the coefficient vanishes in the virtual representation ring by cancellation.
+\end{enumerate}
+These four alternatives are not equivalent.
+\end{theorem}
+
+\begin{proof}
+Cases (i) and (ii) are distinguished by the support character \(\chi_\Gamma\).  Cases (ii), (iii), and (iv) are distinguished by the character map and by evaluation at individual group elements.  A virtual class may have zero trace at one group element without being zero in \(R_\ZZ(\Gamma)\).  A virtual class may also be zero after cancellation while being represented by a formal difference of genuine modules.  Hence the alternatives are pairwise non-equivalent in general.
+\end{proof}
+
+\begin{theorem}[Moonshine positivity repair]
+A positivity claim in a moonshine module proof must be made on the positive module layer only.  In the umbral case this is the layer
+\[
+M^X=\{(r,n):D(r,n)=r^2-4m n\le0\}.
+\]
+It must not be imposed on the polar layer.
+\end{theorem}
+
+\begin{proof}
+The polar coefficient is \(-2[\one_\Gamma]\), which is not in the positive cone.  Therefore imposing positivity on the polar layer would contradict the known principal part.  On the module layer, positivity is exactly the assertion that the character-inversion coefficients are nonnegative integers, which is equivalent to the existence of genuine graded pieces.
+\end{proof}
+
+\begin{theorem}[Character inversion repair]
+For any finite moonshine group \(\Gamma\), multiplicities are computed by
+\[
+m_\chi(\nu)=\frac1{|\Gamma|}\sum_{g\in\Gamma}a_\nu(g)\chi(g^{-1}).
+\]
+If the formula is written with \(\chi(g)\), then it computes the multiplicity of \(\chi^\vee\), not necessarily that of \(\chi\).
+\end{theorem}
+
+\begin{proof}
+This is exactly the standard orthogonality relation
+\[
+\frac1{|\Gamma|}\sum_{g\in\Gamma}\psi(g)\chi(g^{-1})=\delta_{\psi,\chi}.
+\]
+Replacing \(\chi(g^{-1})\) by \(\chi(g)\) pairs \(\psi\) with \(\chi^\vee\), because \(\chi(g)=\chi^\vee(g^{-1})\).
+\end{proof}
+
+\begin{theorem}[Conservative theorem]
+The split-zero moonshine repair is conservative over the ordinary proof.  That is, after applying the reflection maps
+\[
+p_\Gamma:S_\Gamma\to R_\ZZ(\Gamma),
+\qquad
+p_\CC:G(\CC)\to\CC,
+\]
+all repaired coefficient identities become the usual character-valued moonshine identities.
+\end{theorem}
+
+\begin{proof}
+Every repaired identity is defined coefficientwise in \(S_\Gamma\).  On supported coefficients, \(p_\Gamma\) is the identity.  On unsupported coordinates, \(p_\Gamma(\tau)=0_\Gamma\), which is exactly the ordinary convention that absent terms contribute zero to a formal series.  Evaluation at group elements commutes with reflection by the evaluation lemma.  Hence each repaired identity reflects to the ordinary identity.
+\end{proof}
+
+\section{Conclusion}
+
+The split-zero repair does not change the established moonshine theorems.  It changes the type of the coefficient bookkeeping so that the proofs no longer identify absence with zero-dimensionality or virtual cancellation.
+
+For monstrous moonshine, the coefficient of \(q^0\) in the shifted normalized Hauptmodul is a supported zero, not an absent grade.
+
+For umbral moonshine, the polar term \(-2q^{-1/4m}\delta_{r,1}\) is a virtual principal-part boundary term, not a positive module coefficient.  The positive module layer is obtained only after removing the polar layer and restricting to discriminants \(D\le0\).  The existence proof then reduces exactly to the nonnegative-integrality of the irreducible multiplicity coefficients obtained by character inversion.
+
+The repaired proof spine is therefore the following typed chain:
+\[
+\begin{array}{c}
+\boxed{\text{Niemeier support data}}\\[0.35em]
+\Downarrow\\[0.35em]
+\boxed{\text{vector-valued mock modular forms with split principal part}}\\[0.35em]
+\Downarrow\\[0.35em]
+\boxed{\text{dual-character Fourier inversion}}\\[0.35em]
+\Downarrow\\[0.35em]
+\boxed{\text{nonnegative integral multiplicities}}\\[0.35em]
+\Downarrow\\[0.35em]
+\boxed{\text{genuine graded module}}.
+\end{array}
+\]
+Applying the ring reflection collapses this back to the ordinary moonshine proof, while the support character records which zero coefficients were structurally present.
+
+\begin{thebibliography}{99}
+
+\bibitem{Borcherds1992}
+R. Borcherds,
+\emph{Monstrous moonshine and monstrous Lie superalgebras},
+Invent. Math. 109 (1992), 405--444.
+
+\bibitem{CDH2014}
+M. C. N. Cheng, J. F. R. Duncan, and J. A. Harvey,
+\emph{Umbral moonshine and the Niemeier lattices},
+Research in the Mathematical Sciences 1 (2014), no. 3.
+
+\bibitem{DGO2015}
+J. F. R. Duncan, M. J. Griffin, and K. Ono,
+\emph{Proof of the umbral moonshine conjecture},
+Research in the Mathematical Sciences 2 (2015), no. 26.
+
+\bibitem{ConwayNorton1979}
+J. H. Conway and S. P. Norton,
+\emph{Monstrous moonshine},
+Bull. London Math. Soc. 11 (1979), 308--339.
+
+\bibitem{ConwaySloane}
+J. H. Conway and N. J. A. Sloane,
+\emph{Sphere Packings, Lattices and Groups},
+third edition, Springer, 1999.
+
+\bibitem{ChengDuncanRademacher}
+M. C. N. Cheng and J. F. R. Duncan,
+\emph{Rademacher sums and Rademacher series},
+arXiv:1210.3066.
+
+\bibitem{FLM}
+I. Frenkel, J. Lepowsky, and A. Meurman,
+\emph{Vertex Operator Algebras and the Monster},
+Academic Press, 1988.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,174 @@
+\section{NN-S013: zero avoidance, inversion, and necessary cancellation in generators}
+
+\paragraph{Statement.}
+Use the circuit models of NN-S012, and give multi-output circuits a
+polynomial number of output bits. The following refinements hold.
+\begin{enumerate}
+\item Every map given by a circuit over $G(\mathbb F_2)$ that avoids
+      supported zeros at every primitive gate can be inverted in
+      deterministic polynomial time on its image, given the circuit.
+      The algorithm also decides whether a proposed output has a preimage.
+\item Ordinary one-way functions exist if and only if there are one-way
+      functions with uniform polynomial-size circuits over
+      $G(\mathbb F_4)$ avoiding supported zeros at every primitive gate.
+      They also exist if and only if there are such functions over
+      $G(\mathbb F_2)$ avoiding supported zeros only at the outputs.
+      These equivalences retain the usual uniform or nonuniform
+      adversary convention on both sides.
+\item Let a polynomial-size circuit over $G(R)$, for a fixed finite
+      nonzero ring $R$, have $n$ Boolean inputs and at least $n+1$ Boolean amplitude
+      outputs. If its amplitude map is a pseudorandom generator secure
+      against nonuniform polynomial-size distinguishers, then among
+      its first $n+1$ outputs some output takes the supported zero on
+      at least $\Omega(2^n/n^2)$ Boolean inputs, for all sufficiently
+      large $n$. The selected output may depend on $n$.
+\end{enumerate}
+The third conclusion concerns the final gates themselves, not merely
+some unspecified internal cancellation. There is also an unconditional
+quantitative inequality, proved below, for every such map whether or
+not it is pseudorandom. None of the assertions uses A or M.
+
+The imported classical results are Goldreich--Izsak,
+\emph{Monotone Circuits: One-Way Functions versus Pseudorandom
+Generators}, Theory of Computing 8 (2012), 231--238:
+Theorem 1.1, printed p.~232, and its proof in Section 3;
+Theorem 1.2, printed p.~232, with the one-coordinate/two-coordinate
+distinguishers constructed in Section 4.2, pp.~236--237.
+Their Theorem 3.1 and proof, p.~234, provide the precise published
+slice-circuit result attributed there to Berkowitz's 1982 unpublished
+manuscript. No unlocated theorem number in that manuscript is assumed.
+
+\paragraph{Proof of efficient inversion.}
+The effective deletion in NN-S012 turns the promised circuit into
+multiplication gates, constants and input variables. Associate to each
+nonzero gate the subset of variables in its conjunction; associate a
+separate zero marker to a gate that is identically $\tau$.
+Multiplication takes unions unless one factor has the zero marker.
+The constant one corresponds to the empty subset. These sets are
+computed with polynomially many bit-set operations.
+
+For a proposed output $y$, first reject if it assigns one to a constant
+zero output or zero to a constant one output. Let $A$ be the union of
+all conjunction subsets belonging to outputs where $y_i=1$. Set
+$x_j=1$ for $j\in A$ and $x_j=0$ otherwise. Every proposed preimage
+must have all bits in $A$ set to one, so this is the smallest possible
+preimage in the coordinatewise order. It satisfies every output that
+is required to be one. If a remaining nonconstant output is required
+to be zero, with conjunction subset $S_i$, then it vanishes at this
+$x$ exactly when $S_i\not\subseteq A$. If instead $S_i\subseteq A$,
+every possible preimage would make that output one, so no preimage
+exists. Testing these inclusions therefore either returns a correct
+preimage or proves emptiness. The entire computation is polynomial
+in the circuit and input/output sizes. For a uniform family the
+circuit is itself polynomial-time constructible; for nonuniform
+families it can be supplied as polynomial advice. Thus this family
+cannot furnish one-wayness in the corresponding convention.
+
+\paragraph{Proof of the one-way-function equivalences.}
+By Goldreich--Izsak Theorem 1.1, existence of one-way functions implies
+existence of such functions computed by uniform polynomial-size
+monotone Boolean circuits. Replace their AND and OR gates by the
+explicit every-gate zero-free $G(\mathbb F_4)$ gadgets of NN-S012.
+This changes neither their Boolean input/output map nor their
+inversion problem and only multiplies circuit size by a constant.
+Alternatively use the output-only $G(\mathbb F_2)$ gadgets of that
+finding. Their internal supported zeros are allowed in this second
+model. Both conversions are uniform. Conversely, any alleged
+one-way map in either finite-ring model is an ordinary efficiently
+computable Boolean map by NN-S012's finite lookup-table simulation.
+The same adversary and input distribution give ordinary one-wayness.
+This proves both equivalences. The conclusion is conditional only
+on existence of ordinary one-way functions; it does not assert that
+they exist or that E preserves any stronger exponential security.
+
+\paragraph{Proof of the necessary output-cancellation bound.}
+Retain the first $n+1$ outputs. Let $F(x)\in\{0,1\}^{n+1}$ be their
+amplitude vector and $S(x)\in\{0,1\}^{n+1}$ their support vector.
+The latter is a monotone map, regardless of any internal cancellations.
+For each output $i$ put
+\[
+ B_i=\{x:C_i(x)=e\}.
+\]
+Since the amplitude outputs are Boolean, the only possible split
+values are $\tau,e,1$. Hence $F_i(x)\ne S_i(x)$ if and only if
+$x\in B_i$.
+
+Goldreich--Izsak's quantitative Theorem 1.2 and its explicit proof
+give an absolute $c>0$, for every sufficiently large $n$, a set
+$J\subseteq\{1,\ldots,n+1\}$ of size one or two, and a monotone
+Boolean test $D$ depending only on those coordinates, such that
+\[
+ |\mathbb E D(S(U_n))-\mathbb E D(U_{n+1})|\ge c/n^2.
+\]
+The test is either a coordinate or the AND of two coordinates.
+Couple $F(U_n)$ and $S(U_n)$ using the same input. Their $D$-values
+agree outside $\bigcup_{i\in J}B_i$. The triangle inequality gives
+the unconditional estimate
+\[
+ |\mathbb E D(F(U_n))-\mathbb E D(U_{n+1})|
+ \ge \frac{c}{n^2}
+       -\Pr\left[U_n\in\bigcup_{i\in J}B_i\right].       \tag{S013.1}
+\]
+For a pseudorandom generator the left side is negligible, since the
+chosen tests form a family of constant-size nonuniform circuits.
+Consequently the probability on the right is at least
+$c/n^2-\operatorname{negl}(n)$. The union bound and $|J|\le2$
+give, for at least one selected output,
+\[
+ \Pr[C_i(U_n)=e]\ge c/(2n^2)-\operatorname{negl}(n).
+\]
+Multiplication by $2^n$ proves the stated cardinality bound.
+Truncating a longer pseudorandom output to its first $n+1$ bits
+preserves security, so the argument applies to every positive stretch.
+The quantitative statement is deliberately made with nonuniform
+security; (S013.1) itself has no security or uniformity hypothesis.
+
+\paragraph{Slice elimination and the complexity gate.}
+Goldreich--Izsak Theorem 3.1 gives a polynomial-time construction of
+a monotone circuit for a slice function from any Boolean circuit for
+it. Combining that theorem with NN-S012 yields polynomial-cost
+elimination of supported zeros at the output over $G(\mathbb F_2)$,
+and at every primitive gate over $G(\mathbb F_4)$. It does not give
+every-gate elimination over $G(\mathbb F_2)$: even the one-slice
+extension of two-variable OR is OR itself and violates the conjunction
+classification. Thus the slice theorem, the one-way-function theorem,
+and the pseudorandom-generator obstruction have a consistent precise
+translation, but use different notions of zero avoidance.
+
+E supplies the sparse preimage-counting algorithms of NN-C002 and
+NN-C011, and the instance-dependent isolating construction NN-C019.
+Those theorems retain their sparsity and witness-size parameters.
+The polynomial monotone circuits furnished by the classical one-way
+theorem need not have linearly many bounded-arity factors in their
+original input dimension, and a subexponential bound would in any
+case not be polynomial inversion. No conclusion that E destroys
+one-way functions is drawn. The cancellation lower bound (S013.1)
+is a distributional necessary condition for pseudorandomness, not a
+general Boolean or algebraic circuit-size lower bound.
+
+\paragraph{Geometric formulation and exact dictionary.}
+On the split Boolean finite scheme $X$ of NN-S012, an output fibre
+is a clopen union of Boolean points. The inversion proof computes
+emptiness and a smallest point of fibres of maps whose coordinate
+pullbacks are conjunction monomials. A Boolean amplitude map has
+a corresponding morphism between the split Boolean schemes, while
+the support map retains an additional clopen tag at each coordinate.
+The locus $B_i$ is the clopen intersection where that tag is present
+and the amplitude section is zero. Uniform input measure is the
+normalized counting measure on the $2^n$ rational points. Thus
+(S013.1) is equivalently a lower bound on the rank of the finite
+coordinate algebra of one such $B_i$, divided by $2^n$.
+
+Finite-free trace and its base change are exactly EGA IV$_4$,
+18.2.1--18.2.2, original printed p.~111; the finite-fibre sheaf trace
+is SGA 4, XVII, 6.2.3. Every such finite rational-point scheme has
+Frobenius acting as the identity on its degree-zero cohomology.
+That purity does not construct its potentially exponentially large
+point-indexed basis from the circuit. The missing effectiveness is
+the same distinction as NN-C006. The finite extension from
+$\mathbb F_2$ to $\mathbb F_4$ changes the available zero-free circuit
+presentations; it leaves the underlying Boolean finite set and its
+counting distribution unchanged. Neither the trace identity nor
+the sign-fixed skeleton supplies a polynomial inverter for the
+monotone maps allowed over $\mathbb F_4$.
+\hfill$\square$

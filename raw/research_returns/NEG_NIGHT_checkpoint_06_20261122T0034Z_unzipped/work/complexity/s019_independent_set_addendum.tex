@@ -1,0 +1,221 @@
+\paragraph{A strengthening with fixed edge constraints and linear Boolean support.}
+Let $G=(V,E_G)$ belong to the bounded-degree expander family above,
+and put $n=|V|$.  Increase the fixed degree bound to $d\ge3$
+if necessary.  Retain only the two unary weights at each vertex:
+\[
+ J_G(z)=\sum_{I\subseteq V\,\text{independent}}
+            \prod_{v\in I}z_{v,1}\prod_{v\notin I}z_{v,0}
+                  \in\mathbb Z[z_{v,b}:v\in V, b\in\{0,1\}].
+\]
+This polynomial is homogeneous of degree $n$, and every monomial
+contains exactly one variable from each vertex block
+$\{z_{v,0},z_{v,1}\}$.  There is a constant $\gamma>0$, depending
+only on the fixed expansion and degree bounds, such that every
+binary positive arithmetic circuit over $\mathbb R_{\ge0}$ for
+$J_G$ has at least $2^{\gamma n-2}$ internal gates for all
+sufficiently large $n$.  Nevertheless NN-C034 supplies an integral
+constant-free circuit of size and deterministic bit construction time
+\[
+ \operatorname{poly}_d(n)
+ 2^{O_d(n(\log\log n)^2/\sqrt{\log n})}=2^{o(n)},
+\]
+with polynomial formal degree.  The parameter is the original
+number of vertices.  The exponential positive lower bound therefore
+persists after every binary edge factor of the preceding universal
+polynomial has been fixed to the independent-set constraint.
+This assertion requires its own lower-bound argument; it does not
+follow merely by specializing a polynomial with a lower bound.
+
+For the same polynomial, Boolean evaluation of the coefficients and
+monomials gives the allowed-weight support function
+\[
+ \operatorname{Supp}^{\rm ind}_G(a)
+   =\bigvee_{I\,\text{independent}}
+           \left(\bigwedge_{v\in I}a_{v,1}\wedge
+                 \bigwedge_{v\notin I}a_{v,0}\right).
+\]
+It has the explicit monotone formula
+\begin{equation}\label{eq:S019-independent-support}
+ \operatorname{Supp}^{\rm ind}_G(a)=
+       \bigwedge_{v\in V}(a_{v,0}\vee a_{v,1})
+       \ \wedge\!
+       \bigwedge_{uv\in E_G}(a_{u,0}\vee a_{v,0}).
+\end{equation}
+In particular it uses at most $2(n+|E_G|)-1$ binary AND and OR
+gates.  This upper bound is unconditional and is linear on the
+bounded-degree family.  It concerns availability of unary choices,
+not the full formal polynomial or its integer evaluation.
+
+\paragraph{The classical lower bound being imported.}
+Bova--Capelli--Mengel--Slivovsky, \emph{A Strongly Exponential
+Separation of DNNFs from CNF Formulas}, arXiv:1411.1995v3
+(19 February 2015), define DNNFs and wire size in Section~2,
+printed pp.~2--3, and define the graph CNF
+\[
+                  F_G(x)=\bigwedge_{uv\in E_G}(x_u\vee x_v)
+\]
+in equation~(2), printed p.~5.  Their Theorem~4, printed p.~10,
+states that, for a $(c,d)$ vertex expander,
+\[
+ \operatorname{DNNF}(F_G)\ge
+      2^{g(c,d)\operatorname{size}(F_G)-1},
+ \qquad
+ g(c,d)=\frac{c\log_2(1+2^{-d})}{6d^3}>0.
+\]
+Here size counts wires, and the graph CNF has $3|E_G|$ wires.
+We import this theorem; its expander lower-bound proof is not
+being presented as a new deduction.  The primary manuscript is
+\url{https://arxiv.org/pdf/1411.1995v3}.
+
+To relate the hypotheses, the preceding edge-boundary inequality
+and maximum degree $d$ give
+$|N(S)\setminus S|\ge(h/d)|S|$ for $|S|\le n/2$.
+The graph is connected.  A graph of maximum degree at most two
+cannot satisfy this fixed positive edge expansion for unbounded
+$n$: a connected such graph is a path or cycle, and a consecutive
+set of $\lfloor n/2\rfloor$ vertices has at most two boundary edges.
+Thus its actual maximum degree $d'$ lies between $3$ and $d$ for
+all sufficiently large instances.  Apply the imported theorem
+with $c=h/d$ and $d'$.  Since
+$g(h/d,d')\ge g(h/d,d)$ and
+$3|E_G|\ge3(n-1)\ge n$ for $n\ge2$, we may take
+\[
+                 \gamma=\frac{h\log_2(1+2^{-d})}{6d^4}.
+\]
+The finite excluded range has no effect on the asymptotic statement.
+
+\paragraph{The positive-arithmetic-to-DNNF transfer.}
+Let a positive arithmetic circuit with $s$ internal binary gates
+compute $J_G$ as a formal polynomial.  Delete zero polynomials
+and gates not contributing to the output; this is a semantic
+simplification used for a lower-bound proof, and no algorithmic
+identity test is required.  For each remaining gate $g$, choose
+a path to the output and one nonzero monomial from every sibling
+at a multiplication on that path.  Their product is a fixed
+context monomial $c$.  Positivity ensures that $pc$ is an output
+monomial for every monomial $p$ at $g$.  This statement is valid
+for a DAG: if another occurrence of a shared gate is in a sibling,
+the ordinary distributive expansion permits its monomial to be
+chosen independently in that occurrence.
+
+Every output monomial has block multidegree $(1,\ldots,1)$.
+Consequently every monomial at $g$ has the same block multidegree,
+with entries zero or one.  Denote its block set by $A_g$.
+At a productive multiplication gate the two input block sets
+are disjoint, and their union is $A_g$.  At an addition gate
+the two nonzero input block sets equal $A_g$.
+Since coefficients are nonnegative and zero gates have been
+removed, the vertex variables appearing anywhere below a gate
+are exactly the union of the blocks in its monomials; no
+syntactic input can disappear by cancellation.
+
+Replace addition and multiplication by OR and AND, respectively,
+each positive constant by true, and the two input rails by
+\[
+                         z_{v,1}\mapsto x_v,
+                 \qquad z_{v,0}\mapsto\neg x_v.
+\]
+The disjoint block sets just proved show that every AND gate
+has variable-disjoint input subcircuits.  The resulting circuit
+is therefore a DNNF, with at most $2s$ wires.  On a Boolean
+assignment $x$, a monomial of $J_G$ survives this substitution
+exactly when its selected vertex set is $\{v:x_v=1\}$.
+Thus the DNNF computes the independent-set predicate
+$\bigwedge_{uv}(\neg x_u\vee\neg x_v)$.
+Interchanging $x_v$ and $\neg x_v$ at all leaves produces a
+DNNF for $F_G$ with the same number of wires; decomposability
+is unchanged.  The imported theorem now gives
+\[
+                       2s\ge2^{\gamma n-1},
+             \qquad s\ge2^{\gamma n-2},
+\]
+as asserted.  Arbitrary nonnegative real constants do not
+weaken this argument: only zero versus positivity and formal
+monomial support were used.
+
+\paragraph{The integral and Boolean upper bounds.}
+There are $n$ Boolean variables, one unary factor
+\[
+                (1-x_v)z_{v,0}+x_vz_{v,1}
+\]
+for each vertex, and one fixed binary factor $1-x_ux_v$ for
+each edge.  Their partition polynomial is exactly $J_G$.
+There are at most $(1+d/2)n$ factors of arity at most two,
+so NN-C034 applies at the original parameter $n$.  Its formal
+integral identity remains valid after this fixed specialization;
+no verification variables or growing-scope factors are introduced.
+The integral exponent is $o(n)$, whereas the positive lower
+exponent is linear, giving an exponential ratio for large $n$.
+
+For equation~\eqref{eq:S019-independent-support}, necessity of
+each unary clause follows because every selected assignment
+must use an allowed value at that vertex.  If both endpoints
+of an edge have their zero values forbidden, both are forced
+to one, so its edge clause is necessary too.  Conversely,
+suppose all displayed clauses hold.  Choose
+$I=\{v:a_{v,0}=0\}$.  The unary clauses ensure that one is
+allowed on $I$; zero is allowed everywhere outside $I$ by
+definition.  Every edge clause forbids both endpoints from
+lying in $I$, so $I$ is independent.  This gives a permissible
+monomial and proves the formula.  Its $n+|E_G|$ binary OR
+gates and $n+|E_G|-1$ conjunction gates establish the size bound.
+This short formula proof concerns the new allowed-weight
+interface, not the imported graph-CNF DNNF lower bound.
+
+\paragraph{Geometric and representation statement.}
+The integral scheme
+\[
+ Y_G=\operatorname{Spec}
+ \mathbb Z[x_v:v\in V]/
+           (x_v^2-x_v, x_ux_v:uv\in E_G)
+\]
+is the disjoint union of one copy of $\operatorname{Spec}\mathbb Z$
+for every independent set.  Put $B=\mathbb Z[z_{v,b}]$.
+On the finite locally free $B$-algebra
+$B\otimes_{\mathbb Z}\Gamma(Y_G,\mathcal O)$, multiplication
+by $\prod_v((1-x_v)z_{v,0}+x_vz_{v,1})$ has trace $J_G(z)$.
+This follows directly from its values in the orthogonal
+Boolean-idempotent basis.  The trace and arbitrary base-change
+interface is EGA~IV4, 18.2.1--18.2.2, printed p.~111, including
+equation~18.2.1.2.  The foregoing circuit bound is a uniform
+bound for this regular trace function in the compact graph
+presentation; it does not assume that the full idempotent
+basis is part of the input.
+
+Equivalently, let $T=(\mathbb G_m)^{2n}$ over $\mathbb Z$,
+with the specified rail characters.  The actual free
+$T$-module
+\[
+ \mathcal W_G=
+ \bigoplus_{I\,\text{independent}}
+       \left(\bigotimes_{v\in I}L_{v,1}\right)
+          \otimes
+       \left(\bigotimes_{v\notin I}L_{v,0}\right)
+\]
+has character $J_G$.  In the model with these one-dimensional
+generators, direct sums, tensor products, nonnegative integer
+multiplicities and shared subexpressions, constructing its
+class requires $2^{\Omega(n)}$ positive arithmetic gates.
+The integral representation Grothendieck ring admits a
+$2^{o(n)}$ expression for that same effective class using
+virtual differences, by E and NN-C034.  The classical
+dictionary is SGA~3, Expos\'e~I, 4.7.2--4.7.3, for torus
+gradings, and SGA~6, Expos\'e~IV, (1.5.2) and Definition~2.2,
+for the sum, tensor product and Grothendieck-ring operations.
+No arbitrary representation functor, entire finite pushforward,
+or coefficient-extraction oracle is counted as a unit-cost gate.
+
+For Boolean unary availability data $a$, discard from $Y_G$
+the independent-set sections using a forbidden rail.
+This is an open-and-closed integral subscheme, whose nonemptiness
+is exactly equation~\eqref{eq:S019-independent-support}.
+The linear monotone formula thus decides whether an effective
+summand is available, while the full character has the proved
+exponential positive arithmetic complexity.  Here Boolean
+evaluation is the support map on the positive polynomial
+semiring; setting a character weight to zero is not asserted
+to define a homomorphism of the torus representation ring.
+The result distinguishes these explicit arithmetic, Boolean
+and representation models.  It gives neither a polynomial
+integral circuit nor a lower bound for unrestricted Boolean
+circuits, and uses neither A nor M.

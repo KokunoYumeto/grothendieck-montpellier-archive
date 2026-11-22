@@ -1,0 +1,176 @@
+\section{NN-A001: exact arithmetic label and a certified correction}
+\label{sec:NN-A001}
+
+\paragraph{Inputs.}
+A supplies RH.  The analytic inputs are the Riemann--von Mangoldt identity
+$N(t)=\theta(t)/\pi+1+S(t)$ with midpoint convention at a zero, and the
+Hurwitz derivative identity DLMF 25.11.17.  The supplied consult
+\path{OURS_CONSULT_ad855737_ZETA_LABELS.md}, Q1, Proposition 1, already
+displays the correction term in its proof, but omits it from its claimed
+equivalence.  We retain that proof's term and independently certify a
+counterexample to the simplified assertion.
+
+\begin{theorem}[NN-A001]
+Let $\rho_n=1/2+i\gamma_n$ be a simple positive-ordinate zero, indexed with
+multiplicity among all positive-ordinate zeros, and set
+\[
+ Z(t)=e^{i\theta(t)}\zeta(1/2+it),\quad
+ \phi_n=\arg\zeta(3/2+i\gamma_n),\quad
+ W_n=S(\gamma_n)-\phi_n/\pi.
+\]
+Choose the argument on the absolutely convergent Euler-product branch.
+For the deformation $\zeta(s,1+t)$ put
+$v_n=\rho_n\zeta(\rho_n+1)/\zeta'(\rho_n)$ and
+$\delta_n=\arctan(1/(2\gamma_n))$.  Then
+\[
+ \operatorname{Re}v_n=
+ \frac{|\zeta(\rho_n+1)|}{|Z'(\gamma_n)|}
+ \left(\gamma_n\sin\pi W_n+\frac12\cos\pi W_n\right).       \tag{A001.1}
+\]
+Thus the exact right-mover criterion is
+$\sin(\pi W_n+\delta_n)>0$, equivalently
+$W_n+\delta_n/\pi\bmod2\in(0,1)$.  Tangency is exactly equality to an
+integer modulo one after this correction.  The uncorrected criterion in
+the prompt is false: the indexed zero $n=1169$ is a certified right-mover
+although $W_{1169}<0$ and $\sin(\pi W_{1169})<0$.
+\end{theorem}
+
+\begin{proof}
+Implicit differentiation using DLMF 25.11.17 gives the stated $v_n$.
+Differentiating $Z(t)$ at a zero gives
+$\zeta'(\rho_n)=-i e^{-i\theta(\gamma_n)}Z'(\gamma_n)$.
+Since $Z(0)<0$, the sign of $Z'$ at this simple zero is
+$(-1)^{n+1}$; preceding zeros of even multiplicity change neither this
+sign nor the parity of the total zero count.  The midpoint convention
+gives $\theta(\gamma_n)/\pi=n-3/2-S(\gamma_n)$.  Hence
+\[
+ \cos(\theta+\phi)=(-1)^n\sin\pi W_n,\qquad
+ \sin(\theta+\phi)=(-1)^n\cos\pi W_n.
+\]
+Taking the real part of
+$i\rho_n e^{i\theta}\zeta(\rho_n+1)/Z'(\gamma_n)$ proves (A001.1).
+The positive factor $\sqrt{\gamma_n^2+1/4}$ converts its last parenthesis
+to $\sqrt{\gamma_n^2+1/4}\sin(\pi W_n+\delta_n)$.
+
+The included program \path{check_label_1169.py} calls the indexed
+FLINT/Arb zero isolator and evaluates the derivative through a complex
+ball power series, at 60 decimal digits.  It certifies
+\[
+ \gamma_{1169}=1613.0788554510274235\ldots,\quad
+ W_{1169}=-0.0000606299724187599509\ldots,
+\]
+\[
+ \delta_{1169}/\pi=0.0000986653178528222938\ldots,
+ \qquad \operatorname{Re}v_{1169}=0.025925651967163814\ldots>0.
+\]
+The saved ball intervals in \path{label_certificate.json} exclude zero
+for both sine signs and for the velocity's real part.  The program asserts
+the relevant inequalities using ball comparisons, rather than midpoint
+rounding.  This supplies the counterexample claimed in the theorem.
+\end{proof}
+
+\paragraph{Interpretation and geometry.}
+The formula is a real normal component of a tangent vector to a moving
+analytic Cartier divisor.  Its sign is a Boolean-valued statistic where
+the normal component is nonzero; it is not a homomorphism of the compact
+circle into a two-element group.  Indeed $\operatorname{sgn}\sin\pi x$ is
+a discontinuous square wave, and even as a set map is not multiplicative
+under addition: two small positive $x,y$ give $+,+,+$, while suitable
+$x,y$ give $+,+,-$.  In particular the consult's description as a sign
+character of a quotient circle is not a representation-theoretic identity.
+The weight-zero Boolean skeleton in the split-zero construction contains
+no value of $\zeta'(\rho)$ or of this normal vector.  This corrected label
+therefore supplies no SAT, parity, or multiplicity-positivity algorithm.
+
+\section{NN-A002: the exact statistical gate and why a CLT does not close it}
+\label{sec:NN-A002}
+
+\begin{theorem}[NN-A002]
+A central limit theorem for $S(\gamma_n)$ after division by a standard
+deviation tending to infinity, even together with boundedness of
+$\phi_n$, does not imply that $W_n\bmod2$ equidistributes, nor that half
+the labels in NN-A001 are positive.
+
+A sufficient arithmetic gate for the half-proportion, on the chosen
+simple-zero subsequence, is the following pair of assertions.  For every
+odd integer $k$, the empirical means of $e^{i\pi kW_n}$ tend to zero;
+and
+\[
+ \lim_{\epsilon\downarrow0}\limsup_{T\to\infty}
+ \frac{\#\{n:\gamma_n\leq T,\ n\text{ simple},\
+                 \operatorname{dist}(W_n,\mathbb Z)<\epsilon\}}
+      {\#\{n:\gamma_n\leq T,\ n\text{ simple}\}}=0.       \tag{A002.1}
+\]
+All nonzero Fourier modes tending to zero is the stronger usual Weyl
+equidistribution gate.  The required odd modes have the exact form
+\[
+ e^{i\pi kW_n}=e^{-3\pi i k/2}(-1)^n
+          e^{-ik\theta(\gamma_n)}e^{-ik\phi_n}\qquad(k\text{ odd}).
+                                                               \tag{A002.2}
+\]
+\end{theorem}
+
+\begin{proof}
+Let $G$ be standard normal, let $\sigma_j\to\infty$, and set
+$X_j=2\lfloor\sigma_jG/2\rfloor+1/4$.
+Then $|X_j-\sigma_jG|\leq7/4$, so $X_j/\sigma_j$ converges almost surely
+and in every fixed $L^p$ to $G$.  In particular the normalized central
+limit law and all its fixed normalized moment consequences hold.
+Nevertheless $X_j\bmod2=1/4$ identically, so every square-wave label is
+positive.  Equivalently, an exactly Gaussian variable $\sigma_jG$ can
+be altered by a uniformly bounded, correlated correction to have this
+completely nonuniform residue class.  This proves the failure of the
+implication invoked in the supplied consult, Q2, Proposition 4.
+
+For the sufficient gate, approximate the square wave
+$f(x)=\operatorname{sgn}\sin\pi x$ by its Fejer trigonometric means.
+It has only odd Fourier modes, because $f(x+1)=-f(x)$, and zero constant
+term.  On any closed set a positive distance from $\mathbb Z$, these
+means converge uniformly to $f$, and they are bounded in absolute value
+by one.  For fixed truncation the empirical mean tends to zero by the
+odd-mode hypothesis.  Equation (A002.1) controls the omitted boundary
+neighborhood; then let the truncation tend to infinity and that
+neighborhood shrink.  Thus the empirical mean of $f(W_n)$ tends to zero.
+Since $\delta_n\to0$, (A002.1) also shows that replacing $f(W_n)$ by
+$f(W_n+\delta_n/\pi)$ changes an asymptotically negligible proportion.
+This proves the half-proportion for the exact labels.  Finally substitute
+$W_n=n-3/2-\theta(\gamma_n)/\pi-\phi_n/\pi$ to get (A002.2).
+\end{proof}
+
+\paragraph{A primary CLT locator and its frequency range.}
+The previously missing source can be made precise: Korolev,
+\emph{On the Gram's Law in the Theory of Riemann Zeta Function},
+arXiv:1011.3997, Theorem~14, printed pp.33--34, gives a Gaussian
+law for $S(\gamma_n\pm0)/\sigma_N$, where
+$\sigma_N=\sqrt{L/2}/\pi$ and $L=\log\log N$, on the stated
+index blocks. Its proof invokes Theorem~10, pp.21--22. There the
+characteristic-function argument is truncated at normalized frequency
+$\lambda\asymp\sqrt{\log L}$. In the original $S$ coordinate
+this reaches only $\lambda/\sigma_N
+=O(\sqrt{\log L/L})\to0$, not the fixed nonzero frequencies
+$\pi k$ required by NN-A002. The theorem also does not insert the
+correlated exterior phase. Thus the concrete classical CLT, and not
+merely an abstract CLT, leaves the identified fixed-frequency gate open.
+
+\paragraph{Located progress beyond the invalid CLT route.}
+Arias de Reyna, \emph{On the distribution (mod 1) of the normalized zeros
+of the Riemann zeta-function}, arXiv:1403.7126, Theorem 3.1 and Corollary
+3.2, prove cancellation of
+$N(T)^{-1}\sum_{0<\gamma\leq T}e^{2i\kappa\theta(\gamma)}$ for
+$0<\kappa<6/5$ once A identifies the ordinates with the real arguments
+in that theorem.  The theorem itself is formulated without RH using
+complex ordinates.  Its statement does not supply the alternating index
+factor and exterior phase in (A002.2), does not select the simple-zero
+subsequence, and does not establish all the required modes.  These are
+specific additional gates.  The weighted first moment of velocities is
+also insufficient: cancellation of a sum of real velocities controls
+their sizes with signs, whereas the question here counts signs without
+those weights.
+
+\paragraph{Dictionary and complexity impact.}
+The Fourier gate is a statement about characters $e^{i\pi kx}$ of a
+compact real torus and a discontinuous observable on it.  The sample
+points are analytic divisor points; no finite-type scheme or Frobenius
+action on these phase values has been constructed.  This statement
+neither establishes a nonstandard Weil purity theorem nor changes the
+complexity of support, parity, or satisfiability.

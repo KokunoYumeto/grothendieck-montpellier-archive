@@ -1,0 +1,349 @@
+\subsection*{NT-E17--E18. A quadratic-Dirichlet input for CM recognition}
+
+Write $A_{\rm quad}$ for RH for $\zeta_{\mathbf Q}$ and
+for every primitive quadratic Dirichlet $L$-function.
+This is a subfamily of the user-designated input $A_D$.
+No Hecke function over a number field of degree greater
+than one needs to be assumed separately below.
+For a nonzero integer polynomial $H$, put
+\[
+ h=\deg H,\qquad
+ \mathcal H=\max\{1,\log\max_i|H_i|\}.
+\]
+The height is padded by one to include polynomials
+whose nonzero coefficients are units.
+
+\paragraph{Exact classical inputs and scope.}
+We use Cremona--Sutherland,
+\emph{Computing the endomorphism ring of an elliptic
+curve over a number field}, Contemporary Mathematics~796
+(2024), 75--102, in author version
+arXiv:2301.11169v4 (15 December 2023).
+All page numbers in this subsection refer to that
+author version.
+
+Its Proposition~19, pp.~9--10, proves under GRH that
+every imaginary quadratic order discriminant $D<0$
+of class number $h$ satisfies
+\[
+ |D|\le
+ \left(\frac{12e^{2\gamma}}{\pi}\right)^2
+ h^2\bigl(\log\log(h+1)+4\bigr)^4.
+ \tag{E17.1}
+\]
+The analytic input in this proof is
+Languasco--Trudgian, \emph{Uniform effective estimates
+for $|L(1,\chi)|$}, Corollary~1, author p.~2,
+applied to the primitive quadratic character of the
+fundamental discriminant.
+The remaining reduction from maximal to arbitrary
+orders uses the class-number formula (2.1) and an
+unconditional Euler-totient estimate.
+Thus $A_{\rm quad}$ supplies the analytic hypothesis
+of (E17.1). The cited small-discriminant
+tabulations and numerical range checks in that
+published proposition are retained as classical
+inputs; they were not rerun here.
+
+Let $\Phi_\ell(X,Y)\in\mathbf Z[X,Y]$ be the classical
+modular polynomial for cyclic $\ell$-isogenies.
+For monic irreducible $H\in\mathbf Z[X]$ and a root $j$,
+define
+\[
+ m_\ell(j)=
+ \operatorname{ord}_H
+    \operatorname{Res}_Y\bigl(H(Y),\Phi_\ell(X,Y)\bigr).
+ \tag{E17.2}
+\]
+Cremona--Sutherland equation (2.2), p.~8, gives
+this equality with the number of conjugates joined
+to $j$ by a cyclic $\ell$-isogeny, with multiplicity.
+Their Corollary~14, p.~8, gives $m_\ell(j)=2$
+for a CM $j$ of order discriminant $D$ whenever
+$\ell\nmid D$ splits in $\mathbf Q(\sqrt D)$.
+Their Proposition~16, p.~9, gives
+$m_\ell(j)\le1$ for every prime $\ell$ if $j$ is not CM.
+These are classical algebraic statements, independent
+of GRH. Their supplied derivations are read here;
+the upstream theory of isogeny volcanoes and
+$K$-curves remains cited.
+
+The published Algorithm~1 has conditional correctness
+in Theorem~24, p.~14, and deterministic complexity
+in Theorem~27 and its full proof, p.~14.
+For that particular algorithm the published time
+and space bounds are respectively
+$(h^2\mathcal H)^{1+o(1)}$ and
+$(h\mathcal H)^{1+o(1)}$.
+For our modified test we assert the weaker
+polynomial bound, with its exact-arithmetic
+verification supplied below.
+We use the deterministic polynomial-time computation
+of $\Phi_\ell$ explicitly cited in the proof
+of Theorem~27.
+A direct primary locator is
+Blake--Csirik--Rubinstein--Seroussi,
+\emph{On the Computation of Modular Polynomials
+for Elliptic Curves}, \S2, pp.~4--7:
+the exact power-series and CRT algorithm is
+given there, with the bit-complexity discussion
+and coefficient bound (9) on p.~7.
+The modified test below examines all the bounded
+degrees, so it does not require the source's
+least-ordinary-prime selection or its finite list
+of abelian discriminants.
+
+\paragraph{NT-E17: a bounded algebraic CM certificate under $A_D$.}
+Let $H\in\mathbf Z[X]$ be monic and irreducible,
+of degree $h\ge1$, and set
+\[
+ b_h=\operatorname{bitlength}(h+1),\qquad
+                     P_h=(72b_h+264)^2.
+ \tag{E17.3}
+\]
+Under $A_{\rm quad}$, $H$ is a Hilbert class
+polynomial for an imaginary quadratic order if
+and only if there is a prime $5\le\ell\le P_h$ with
+\[
+ H(X)^2\ \bigm|\ 
+       \operatorname{Res}_Y\bigl(H(Y),\Phi_\ell(X,Y)\bigr)
+                           \quad\hbox{in }\mathbf Z[X].
+ \tag{E17.4}
+\]
+Scanning these primes and performing the exact
+divisibility tests is deterministic and takes
+polynomial time in $h\mathcal H$.
+A positive answer, accompanied by $\ell$ and
+the exact divisibility identity, is valid
+unconditionally. The universal correctness of
+a negative answer uses $A_{\rm quad}$.
+Irreducibility is part of the stated input promise.
+
+\begin{proof}
+If (E17.4) holds, (E17.2) gives $m_\ell(j)\ge2$.
+The cited non-CM bound therefore forces $j$ to be CM.
+Its monic irreducible polynomial is then exactly
+the Hilbert class polynomial of its endomorphism
+order. This implication is unconditional.
+
+For the converse suppose $H=H_D$.
+First we replace (E17.1) by an elementary bound
+whose constants can be used without computing
+$\gamma$, $\pi$, or logarithms in the algorithm.
+For $h\ge1$,
+\[
+ \log\log(h+1)+4
+ \le\log(h+1)+4
+ \le h+4\le3(h+1).
+\]
+Using $\gamma<1$, $e<3$, and $\pi>3$ in (E17.1),
+we obtain
+\[
+ |D|<1296\cdot81\,h^2(h+1)^4
+       <2^{17}(h+1)^6.
+ \tag{E17.5}
+\]
+This bound includes $D=-3,-4$ and nonmaximal orders
+because (E17.1) does.
+
+Set $m=\operatorname{rad}(6|D|)$ and
+\[
+ K=\mathbf Q(\sqrt D),\qquad
+ T=K(\sqrt m).
+\]
+The integer $m$ is positive, even, and squarefree.
+The field $\mathbf Q(\sqrt m)$ is real quadratic
+and $K$ is imaginary quadratic, so $T/\mathbf Q$
+is biquadratic of degree four.
+It is unramified outside the primes dividing $m$.
+Every prime dividing $m$ ramifies already in
+$\mathbf Q(\sqrt m)$, since its discriminant is $4m$.
+Consequently every unramified prime of $T$ is
+prime to $6D$.
+
+The full Euler factorization of $\zeta_T$ is
+$\zeta_{\mathbf Q}$ times the three quadratic
+Dirichlet functions of its quadratic subfields.
+Thus $A_{\rm quad}$ supplies RH for $\zeta_T$
+and $\zeta_{\mathbf Q}$.
+Apply NT-C03 to the identity class of
+$\operatorname{Gal}(T/\mathbf Q)$.
+There is a prime $\ell$ splitting completely in $T$,
+with $\ell\nmid6D$ and
+\[
+                 \ell\le(4\log|\operatorname{disc}T|+15)^2.
+\]
+The Galois different bound proved in NT-E16,
+with absolute degree four, gives
+\[
+ \log|\operatorname{disc}T|
+       \le3\log m+4\log4
+       \le3\log(6|D|)+4\log4.
+ \tag{E17.6}
+\]
+It follows that
+\[
+ \begin{aligned}
+ 4\log|\operatorname{disc}T|+15
+   &\le12\log|D|+12\log6+16\log4+15\\
+   &<12\log|D|+60\\
+   &<72\log(h+1)+204\log2+60\\
+   &<72b_h+264.
+ \end{aligned}
+ \tag{E17.7}
+\]
+For the second line one can use
+$\log6<9/5$ and $\log4<7/5$, which give the
+stronger numerical sum $59$.
+Both inequalities follow by summing the exponential
+series through degree six:
+the resulting positive margins over $6$ and $4$
+are respectively $42629/1250000$ and
+$592609/11250000$.
+The last line uses $h+1<2^{b_h}$ and $\log2<1$.
+We have proved $5\le\ell\le P_h$, $\ell\nmid D$,
+and splitting in $K$.
+The cited CM formula gives $m_\ell(j)=2$,
+and hence (E17.4).
+
+Finally $P_h=O(\log^2(h+2))$, so both the number
+and the sizes of the tested primes are polynomial
+in the input length.
+The cited deterministic construction of
+$\Phi_\ell$ takes polynomial time in $\ell$,
+and its output has polynomial bit size.
+Here is an elementary polynomial bound for
+the rest of the exact computation.
+The Sylvester matrix defining the resultant
+has size $N=h+\ell+1$, and its entries are
+integer polynomials in $X$ of degree at most
+$\ell+1$ with polynomially bounded coefficient
+bit lengths.
+Its determinant has degree at most
+$d=N(\ell+1)$.
+Evaluate at $X=0,\ldots,d$.
+Each resulting integer matrix has entries of
+polynomial bit length, and its determinant can
+be computed by exact rational elimination
+in polynomial time.
+The determinant-size bound
+$N!(\max|a_{ij}|)^N$ bounds all these outputs.
+Rational interpolation at the $d+1$ distinct
+integers recovers the resultant in polynomial
+time; the factorial denominators of the
+Lagrange basis have polynomial bit length.
+Finally division by the monic polynomial $H^2$
+uses polynomially many exact integer operations.
+At each division step the coefficient bit bound
+increases by at most the coefficient bound for
+$H^2$ plus a logarithm of its degree, so it
+remains polynomial throughout.
+The remainder vanishes exactly when (E17.4)
+holds. This proves the stated complexity
+and both directions of the test.
+\end{proof}
+
+The only analytic characters in this proof are the
+quadratic character used in (E17.1), the three
+quadratic characters of the displayed biquadratic
+field, and the trivial character.
+In particular $M$, ring-class Hecke RH, general
+Artin holomorphy, and elliptic $\mathrm{GL}_2$ RH
+are not additional inputs.
+This is a new formulation and input reduction,
+with no claim of literature priority.
+
+\paragraph{NT-E18: translation to an elliptic curve over a varying number field.}
+Suppose a number field
+$F=\mathbf Q[t]/(f(t))$ is given by a monic
+irreducible $f\in\mathbf Q[t]$, and a nonsingular
+Weierstrass equation for $E/F$ is given with
+its coefficients represented in the power basis.
+The defining polynomial is supplied as a dense
+coefficient list, and field elements as dense
+power-basis vectors. All rational coefficients
+are encoded in binary, so $n=\deg f$ is at most
+the total input length;
+the assertion that $f$ defines a field is the
+input promise.
+Under $A_{\rm quad}$, geometric CM of $E$
+can be decided deterministically in polynomial
+time in this total input length.
+No maximal order, conductor, integer factorization,
+or endomorphism basis is required.
+
+\begin{proof}
+Compute $\Delta\ne0$ and $j=c_4^3/\Delta$ using
+exact arithmetic in $F$.
+Multiplication is reduction modulo $f$;
+inversion is rational linear algebra.
+These operations have polynomial bit complexity.
+Let $n=\deg f$. Compute the coordinate vectors
+of $1,j,\ldots,j^n$ and find the first dependence.
+It gives the monic minimal polynomial
+$H_j\in\mathbf Q[X]$, of degree $h\le n$.
+
+For clarity the coefficient-size assertion does
+not assume a precomputed integral basis.
+The multiplication matrix of $j$ has rational
+entries of polynomial bit length in the input.
+After a common denominator is cleared, its first
+$n$ powers have polynomial bit length: multiplying
+integer matrices increases the logarithmic
+entry bound by at most the previous bound plus
+the fixed matrix-entry bound and $\log n$.
+Cramer's determinant bounds for the first
+linear dependence therefore give coefficients
+of $H_j$ of polynomial bit length.
+Exact elimination consequently takes polynomial
+time as well.
+
+If $H_j$ has a nonintegral coefficient, then $j$
+is not an algebraic integer and cannot be a
+CM $j$-invariant; return non-CM.
+Otherwise $H_j$ is a monic irreducible integer
+polynomial. Apply NT-E17 to it.
+The degree and padded logarithmic height of
+$H_j$ are polynomially bounded in the original
+input length, so the complete computation is
+polynomial. The characterization of CM
+$j$-invariants as the roots of the Hilbert class
+polynomials proves correctness.
+\end{proof}
+
+This recognizes whether
+$\operatorname{End}_{\overline F}(E)$ is $\mathbf Z$
+or an imaginary quadratic order.
+It does not output the order discriminant or
+explicit endomorphisms.
+Cremona--Sutherland Algorithm~2 does output
+the discriminant, and its correctness and
+termination are Theorem~30, p.~15.
+Its near-quasilinear expected running time is
+Theorem~35, p.~17, whose hypotheses include
+the separate prime-distribution heuristic (H)
+and the computational heuristics in its
+reference [45, \S7.1], as well as GRH.
+Neither $A_D$ nor $M$ by itself removes those
+extra hypotheses.
+Likewise Enge's floating-point class-polynomial
+complexity, Corollary~1.3 of arXiv:cs/0601104v2,
+pp.~2--3, explicitly retains a rounding-error
+heuristic; it is not used in either proof above.
+These distinctions concern the cited algorithms,
+not an assertion that unconditional CM recognition
+is impossible.
+
+Geometrically (E17.4) detects the quadratic
+endomorphism algebra of $H^1(E)$ through the
+cyclic-isogeny correspondences on the moduli
+line of elliptic curves. The conditional
+existence of a bounded correspondence degree
+comes from a finite biquadratic Frobenius cover
+of an arithmetic open, in the finite-etale
+dictionary of SGA~1, Expose~V, \S7.
+The result distinguishes CM torus monodromy
+from the non-CM case without proving a
+rank-two automorphic GRH.
+Work/run: \texttt{cm\_recognition\_dirichlet.tex},
+\texttt{GRH\_NIGHT/number\_theory}.

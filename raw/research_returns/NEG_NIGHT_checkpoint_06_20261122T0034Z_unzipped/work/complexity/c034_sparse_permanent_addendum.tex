@@ -1,0 +1,96 @@
+\paragraph{A sparse permanent application in the matrix-order parameter.}
+Fix $a\ge1$ and $r\ge2$.  Let $\Omega\subseteq[r]\times[r]$ be a prescribed
+matrix support with at most $(\lceil\log_2 r\rceil)^a$ entries in
+each row, and give the allowed entries independent variables
+$a_{ij}$.  The matrix has zero elsewhere.  Its permanent polynomial
+has a deterministically constructible integral constant-free circuit
+of size and bit construction time
+\[
+ \operatorname{poly}(r)\,
+       2^{O_a(r(\log\log r)^2/\sqrt{\log r})},
+\]
+with formal degree $O(r)$.  No column-degree restriction is imposed.
+The same claim allows a fixed multiplicative constant in the
+row-support bound, by increasing the fixed scope exponent and
+handling bounded sizes directly.  The parameter is the matrix
+order $r$, rather than the number of allowed matrix entries.
+
+Import Ryser's classical inclusion--exclusion identity in the
+exact form reproduced in Servedio--Wan, \emph{Computing sparse
+permanents faster}, author manuscript dated June~18, 2005,
+Section~2, printed p.~3, first display:
+\[
+ \operatorname{per}(A)=(-1)^r\sum_{S\subseteq[r]}(-1)^{|S|}
+                          \prod_{i=1}^r\sum_{j\in S}a_{ij}.
+\]
+The primary manuscript is
+\url{https://www.cs.columbia.edu/~atw12/papers/perm.pdf}.
+It states the identity for real or complex matrices.  Both sides
+are polynomials with integer coefficients in independent matrix
+entries, so agreement for all complex entries is an identity in
+$\mathbb Z[a_{ij}]$ and hence after every ring base change.
+This uses that a polynomial vanishing on all complex tuples is
+the zero polynomial; it does not reprove the classical formula.
+
+For the characteristic vector $x$ of $S$ one has
+$(-1)^{|S|}=\prod_{j=1}^r(1-2x_j)$.  Consequently
+\[
+ \operatorname{per}(A)=(-1)^r
+ \sum_{x\in\{0,1\}^r}
+       \left(\prod_{j=1}^r(1-2x_j)\right)
+       \left(\prod_{i=1}^r\sum_{j:(i,j)\in\Omega}a_{ij}x_j\right).
+\]
+This is a sum-product on exactly $r$ Boolean variables with $2r$
+linear factors.  Its independent-incidence degree is at most
+$2r$, each row factor has polylogarithmic scope, and the unary
+sign factors have scope one.  The list description has polynomial
+size.  A zero row gives the zero permanent immediately, and the
+empty matrix has permanent one.  Apply the growing-scope theorem
+of NN-C034 to the nontrivial cases, specializing the unary factor
+coefficients to $1,-2$.  These are fixed integer constants, with
+$-2=(-1)+(-1)$ available in the constant-free syntax.  Its integral
+descent proves the full permanent identity; it does not merely
+compute its values modulo a prime.  The factor-block formal degree
+is at most $2r$, and the outer sign can be implemented by subtraction
+from zero.  This proves the claimed circuit and construction bounds.
+
+An allowed column may occur in every row.  The total-incidence
+branching already proved in NN-C034 removes at most
+$r/\sqrt{\log r}$ such high-incidence variables before applying
+the layout, so unbounded column degree introduces no extra witness
+parameter.  In particular, the conclusion covers supports with
+$r\operatorname{polylog} r$ allowed entries at the original matrix
+order.  It makes no claim for an arbitrary dense support: its
+row scopes can have size $r$, outside the hypothesis.
+
+\paragraph{Permanent trace and character form.}
+Fix a support $\Omega\subseteq[r]\times[r]$ with at most
+$(\lceil\log_2r\rceil)^a$ entries per row for fixed $a$.
+Let $B=\mathbb Z[a_{ij}:(i,j)\in\Omega]$ and
+$\mathscr A=B[x_1,\ldots,x_r]/(x_j^2-x_j)$.  Define
+\[
+ u=(-1)^r\prod_j(1-2x_j)
+                 \prod_i\sum_{j:(i,j)\in\Omega}a_{ij}x_j.
+\]
+The finite locally free multiplication trace
+$\operatorname{Tr}_{\mathscr A/B}(u)$ is the permanent polynomial
+by the displayed Ryser identity and the Boolean-idempotent basis.
+This regular function has a deterministically constructible integral
+constant-free circuit of size
+$\operatorname{poly}(r)2^{O_a(r(\log\log r)^2/\sqrt{\log r})}$
+and formal degree $O(r)$, over $B$ and after every base change.
+It is a signed multiplication trace,
+not the rank of $\mathscr A$.
+
+Equivalently, for the split torus with characters indexed by
+$\Omega$, the module with one basis vector of character
+$\prod_i a_{i,\sigma(i)}$ for every allowed perfect matching
+$\sigma$ is an actual effective representation with character
+$\operatorname{per}(A)$.  The circuit computes this character
+using addition, multiplication and virtual differences in its representation ring;
+it does not claim a comparably small positive expression or a
+GCT orbit-closure multiplicity theorem.  The trace and base-change
+interface is EGA IV4, 18.2.1--18.2.2, printed p.~111; the
+split-torus character and Grothendieck-ring interfaces are the
+ones precisely cited in NN-S019.  This is a polynomial-size-input,
+subexponential-circuit upper bound, not a VP versus VNP equality.

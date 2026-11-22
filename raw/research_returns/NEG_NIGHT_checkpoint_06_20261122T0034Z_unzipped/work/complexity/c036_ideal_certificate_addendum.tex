@@ -1,0 +1,128 @@
+\paragraph{Ordinary integral ideal certificates without a density bound.}
+Let $F=C_1\wedge\cdots\wedge C_m$ be an unsatisfiable fixed-width
+$k$-CNF on $n$ declared variables.  Use the standard clause encoding:
+delete repeated literals, discard tautological clauses, and let
+$v_j(x)$ be the product of the distinct falsifying literal factors
+of $C_j$.  Empty clauses have $v_j=1$ and give an immediate
+certificate.  Then one can deterministically construct integral
+constant-free circuits for polynomials $h_j$ such that
+\[
+                 \sum_{j=1}^m v_j(x)h_j(x)=1
+                              \quad\hbox{in }\mathbb Z[x_1,\ldots,x_n],
+\]
+without adding Boolean equations or verifier variables.  Their
+total size and bit construction time are
+\[
+ (n+m)^{O_k(1)}
+  2^{O_k(n(\log\log n)^{1+1/k}/(\log n)^{1/(2k)})}.
+\]
+If $S_j$ is the scope of $C_j$, the multipliers may be chosen
+with $\deg h_j\le n-|S_j|$, so each product $v_jh_j$ has actual
+degree at most $n$.  The circuit formal degree is polynomial
+in $n$; it is not identified with the sharper actual degree.
+
+The ideal identity is the classical first-violated-clause
+certificate of Grochow--Pitassi, \emph{Circuit Complexity, Proof
+Complexity, and Polynomial Identity Testing: The Ideal Proof
+System}, author JACM manuscript, Lemma~4.2 and equations
+(4)--(6), printed draft pp.~1:26--1:28; the primary file is
+\url{https://www.cs.toronto.edu/~toni/Papers/jacm-gp.pdf}.
+Its Definition~1.1 is on printed draft p.~1:4.  These are
+the author manuscript's page markers, not an asserted match
+with the final journal pagination.  The new consequence is
+the constructive original-$n$ circuit bound for all clause
+densities, obtained by the following exact factorization of
+those classical multipliers.
+
+Suppose there is no empty clause.  For each $j$, let
+$b^{(j)}\in\{0,1\}^{S_j}$ be the unique assignment falsifying
+$C_j$.  Restrict the prefix $C_1\wedge\cdots\wedge C_{j-1}$
+by these fixed bits, keeping all the remaining $n_j=n-|S_j|$
+declared variables.  Call the resulting width-at-most-$k$
+CNF $R_j$.  Simplified false or empty prefixes are handled
+by the same direct cases as in the main theorem.  Apply
+NN-C036 to its full two-rail polynomial
+\[
+ H_j(z)=\sum_{a\models R_j}\prod_{i\notin S_j}z_{i,a_i},
+\]
+and specialize $z_{i,0}=1-x_i$, $z_{i,1}=x_i$.  The output is
+\[
+ h_j(x_{[n]\setminus S_j})=
+ \sum_{a\models R_j}\prod_{i\notin S_j}
+                       x_i^{a_i}(1-x_i)^{1-a_i}.
+\]
+Thus $h_j$ is exactly the coefficient of the $j$th placeholder
+in the cited first-violation certificate: fixing the falsifying
+tuple leaves precisely the assignments satisfying all earlier
+clauses.  Multiplication by $v_j$ restores the missing factors
+on $S_j$.  In the notation
+$\delta_b(x)=\prod_i x_i^{b_i}(1-x_i)^{1-b_i}$, this identifies
+$v_jh_j$ with the sum of $\delta_b$ over the first-violation
+class of clause $j$.  Equations (4)--(6) of the cited classical
+proof therefore give the displayed ordinary integral identity.
+No identity merely modulo $x_i^2-x_i$ is substituted for it.
+
+For $n>2k$, each nontrivial call uses $n-k\le n_j\le n$,
+so $n_j=\Theta(n)$ and its exponent is bounded by the same
+displayed expression in $n$.  There are at most $m$ calls,
+and forming all restricted prefixes has polynomial cost
+in $n+m$.  The fixed small range of $n$ is handled by direct
+expansion.  Each coefficient substitution is a constant-free
+linear expression, hence preserves the polynomial formal-degree
+bound.  This proves the total circuit and construction bounds.
+The displayed expression for $h_j$ proves its actual degree
+bound without expanding it.  A uniform algorithm may first
+use E Theorem~1.1 to decide satisfiability, reporting that
+case or constructing the certificate when the answer is
+negative; E's decision cost is absorbed by this weaker exponent.
+
+With placeholders $u_1,\ldots,u_m$, the circuit
+\[
+                    C(x,u)=\sum_j u_jh_j(x)
+\]
+is a Hilbert-like IPS certificate: $C(x,0)=0$ and
+$C(x,v(x))=1$.  It has actual degree at most $n+1$,
+polynomial formal degree, and the same circuit-size bound.
+The certificate works over every commutative ring by base
+change from its integral identity.  These superpolynomial
+size bounds do not make the system polynomially bounded,
+give polynomial-time deterministic PIT verification, or
+imply a corresponding small monomial-PC derivation.
+
+\paragraph{Geometric statement and coordinate maps.}
+For an unsatisfiable normalized width-$k$ CNF with clause
+polynomials $v_1,\ldots,v_m$, the closed subscheme
+$V(v_1,\ldots,v_m)\subseteq\mathbb A^n_{\mathbb Z}$ is empty,
+and its unit ideal has the displayed explicit integral
+circuit certificate of size
+$(n+m)^{O_k(1)}2^{O_k(n(\log\log n)^{1+1/k}/(\log n)^{1/(2k)})}$.
+No Boolean equations occur in that ideal.  The multipliers
+have degree at most $n-|S_j|$ and integral constant-free
+circuits of polynomial formal degree.
+
+For the affine hypersurface
+\[
+ X_F=\{t^2-t=\sum_{j=1}^m y_jv_j(x)\}
+                          \subseteq\mathbb A^{n+m+1}_{\mathbb Z},
+\]
+the same certificate gives the explicit isomorphism
+$X_F\simeq\mathbb A^{n+m}_{\mathbb Z}$ by the unit-ideal
+coordinate formulas already proved in NN-C029:
+\[
+ z_j=y_j+h_j(x)(2t-t^2),\qquad
+ t=\sum_jv_j(x)z_j,\qquad
+ y_j=z_j+h_j(x)(t^2-2t).
+\]
+The first formula is the map from $X_F$ to coordinates
+$(x,z)$, and the last two define its inverse.  The equality
+$\sum_jv_jh_j=1$ makes $\sum_jv_jz_j=t$ on $X_F$ and
+$\sum_jv_jy_j=t^2-t$ on the inverse image; substitution
+then gives both identity composites.  These calculations
+use no division and hold over every base ring.  The forward
+map has degree at most $n+2$ and the inverse has degree at
+most $n+2k+2$, since $\deg(\sum_jv_jz_j)\le k+1$.
+Sharing the common sum and multiplier circuits gives both
+maps the same mildly subexponential original-$n$ circuit
+bound and polynomial formal degree.  This is an effective
+integral trivialization for the stated empty clause systems,
+not a general recognition theorem for affine space.

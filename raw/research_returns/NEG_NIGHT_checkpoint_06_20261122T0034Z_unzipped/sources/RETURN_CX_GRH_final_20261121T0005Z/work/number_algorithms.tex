@@ -1,0 +1,605 @@
+\section{Number-theoretic algorithms: exact analytic gates}
+\label{sec:number-algorithms}
+
+Write \(\mathsf D\) for RH for all rational Dirichlet \(L\)-functions,
+including \(\zeta_{\mathbb Q}\), and \(\mathsf H\) for the asserted RH for
+Hecke \(L\)-functions over every number field. All character applications audited here are finite-order ones. The stipulated
+Alp\"oge theorem discharges \(\mathsf D\). Every consequence of
+\(\mathsf H\) below remains \emph{conditional on the all-number-field
+claim of the Masullo draft}. A statement that a published proof's gate is
+not discharged by \(\mathsf D\) is a scope audit, not a theorem of logical
+nonimplication and not an exclusion of a different algorithm.
+
+Finite fields are explicitly represented, for example as
+\(\mathbb F_{p^m}=\mathbb F_p[T]/(g)\), with \(g\) supplied and irreducible.
+A multiplicative primitive root generates \(\mathbb F_{p^m}^{\times}\);
+a primitive element of the extension need only generate the field.
+Integer factorizations supplied as input are stated explicitly.
+
+\subsection{CX-N01: Miller testing with Bach's cutoff}
+\label{cx-n01}
+
+Handle bounded small integers and even inputs directly. For an odd
+integer \(N\), write \(N-1=2^s u\), \(u\) odd, and test all
+\[
+ 2\leq a\leq\min\{N-1,\lceil2(\log N)^2\rceil\}.
+\]
+Reject on a nontrivial gcd, or unless \(a^u\equiv1\pmod N\) or
+\(a^{2^ju}\equiv-1\pmod N\) for some \(0\leq j<s\).
+Under \(\mathsf D\), this is a deterministic polynomial-time primality test.
+
+\paragraph{Exact source gate.}
+Bach explicitly restricts \S6, pp.~369--373, to ordinary Dirichlet
+characters; Theorem~2, p.~372, gives the subgroup bound with constant \(2\),
+and p.~373 states the Miller/Solovay--Strassen witness consequence
+\cite{CXNBach90}. Schoof's complete Theorem~2.2 proof, pp.~105--106,
+explicitly states the smaller sufficient hypothesis of RH for
+\emph{quadratic} Dirichlet characters \cite{CXNSchoof08}.
+
+\paragraph{Full transfer proof.}
+Those quadratic characters belong to \(\mathsf D\), so the cited criterion
+gives a rejecting small base for every composite input. Every prime passes
+all its nonzero bases. Increasing the strict source cutoff to the ceiling
+cannot cause false acceptance, and bounded small inputs handle endpoint
+conventions. There are \(O(b^2)\) bases for \(b=\lceil\log_2N\rceil\), each
+requiring \(O(b)\) modular multiplications. The bit cost is
+\(O(b^3M(b))\), where \(M(b)\) is multiplication cost; schoolbook arithmetic
+gives \(O(b^5)\). Only the power of two in \(N-1\) is extracted.
+This establishes this particular implementation; \(\mathrm{PRIMES}\)
+was already in deterministic \(\mathrm P\) by AKS \cite[Theorem~4.1 p.~785 and Theorem~5.1 p.~789]{CXNAKS04}. \(\square\)
+
+The entire Schoof proof was read for the hypothesis audit. Its squarefree
+case uses quadratic characters modulo prime divisors and their products;
+the repeated-prime case uses a smooth-number estimate and finite-group
+counting. Miller's original locators are Theorem~2, p.~301, and the
+Appendix, pp.~315--316 \cite{CXNMiller76}.
+
+\subsection{CX-N02: a specified prime-field power nonresidue}
+\label{cx-n02}
+
+Given prime \(p\) and a specified prime \(r\mid p-1\), \(\mathsf D\) yields
+an \(r\)-th power nonresidue in deterministic time polynomial in
+\(\log p\), without factoring the rest of \(p-1\).
+
+\paragraph{Proof.}
+The subgroup \(G=(\mathbb F_p^\times)^r\) is proper.
+If \(p\leq2(\log p)^2\), enumerate all nonzero residues.
+Otherwise Bach's Theorem~2 supplies an integer outside \(G\) below that
+cutoff, which is then below \(p\). In either case test candidates by
+\(a^{(p-1)/r}\ne1\). Writing \(a=g^v\) in the cyclic group shows that this
+is equivalent to \(r\nmid v\), exactly the desired condition.
+The search has \(O((\log p)^2)\) candidates, with polynomial bit cost per
+test. The analytic character with kernel \(G\) need not be computed.
+\(\square\)
+
+Bach's Theorem~2 quantifies over all positive integers below its bound.
+Theorem~3, also p.~372, quantifies only over integers coprime to the modulus
+and has constant \(3\). The preceding argument handles the possible zero
+residue and does not conflate these statements. A fallback nonspecific
+constant follows from Shoup's ordinary-character Proposition~9,
+author-preprint p.~10 \cite{CXNShoup92}.
+
+\subsection{CX-N03: certified primitive roots with factored order}
+\label{cx-n03}
+
+Given \(p\) and the complete prime factorization
+\(p-1=\prod_{i=1}^t r_i^{e_i}\), a multiplicative generator of
+\(\mathbb F_p^\times\) can be constructed in deterministic polynomial time
+on \(\mathsf D\).
+
+\paragraph{Proof.}
+Use CX-N02 to find \(a_i\) with \(a_i^{(p-1)/r_i}\ne1\), and set
+\[
+              b_i=a_i^{(p-1)/r_i^{e_i}},\qquad b=\prod_i b_i .
+\]
+If \(a_i=g^{v_i}\), then \(r_i\nmid v_i\), so \(b_i\) has exact order
+\(r_i^{e_i}\). In an abelian group, elements of pairwise coprime orders
+have product of that product order: projection to every primary component
+shows that any annihilating exponent is divisible by every component
+order. Thus \(b\) has order \(p-1\). Since \(t\leq\log_2(p-1)\), the cost
+is polynomial. The supplied factorization also certifies any candidate
+through the tests \(b^{(p-1)/r_i}\ne1\). \(\square\)
+
+No deterministic polynomial-time integer-factorization theorem is
+provided here. A short guaranteed candidate list and efficient
+identification of a generator are different outputs.
+
+\subsection{CX-N04: Shoup's least primitive root bound}
+\label{cx-n04}
+
+For odd prime \(p\), Shoup's Theorem~3 gives the least positive primitive root modulo \(p\) as
+\[
+ O\!\left(t^4(\log t+1)^4(\log p)^2\right),\qquad t=\omega(p-1).
+\]
+The exact author-preprint locators are Theorem~3, p.~4; its proof in
+\S6, p.~13; and Proposition~9, p.~10 \cite{CXNShoup92}.
+All analytic characters used here are rational Dirichlet characters
+modulo \(p\).
+
+\paragraph{Proof of transfer and output.}
+Apply \(\mathsf D\) to the finite family of character powers in the proof.
+The remaining finite sieve is unconditional, so the bound and its
+effective constants remain valid. The product of \(t\) different primes
+is at least \(t!\); hence \(t(\log t+1)=O(\log p)\). The displayed bound is
+therefore \(O((\log p)^6)\). Enumeration gives a polynomial-size list
+containing a primitive root. Supplied factorization of \(p-1\) makes
+recognition polynomial by CX-N03. The small bound alone does not provide
+that factorization or a replacement recognition algorithm. \(\square\)
+
+\subsection{CX-N05: Shoup's quadratic-extension candidate construction}
+\label{cx-n05}
+
+For odd prime \(p\), Shoup's different Theorem~2 constructs a candidate set for a primitive
+root of \(\mathbb F_{p^2}\): author-preprint p.~3, proof \S5, pp.~12--13,
+and Proposition~13 with the ray-class definitions in \S4, pp.~10--12
+\cite{CXNShoup92}. Choose a prime \(\delta\equiv1\pmod4\) for which
+\(-\delta\) is a quadratic nonresidue modulo \(p\), and set
+\[
+ K=\mathbb Q(\sqrt{-\delta}),\quad
+ \mathcal O_K=\mathbb Z[\sqrt{-\delta}],\quad
+ \mathfrak m=p\mathcal O_K .
+\]
+Proposition~10 uses rational characters to give
+\(\delta=O((\log p)^2)\). Inertness identifies
+\(\mathcal O_K/\mathfrak m\) with \(\mathbb F_{p^2}\).
+The later character sums concern finite-order characters of
+\(I_{\mathfrak m}/P_{\mathfrak m}^{+}\). Positivity is vacuous because
+\(K\) is imaginary. These are Hecke characters over \(K\), together with
+the trivial factor \(\zeta_K\). RH for the ray class field zeta
+\(\zeta_{H_{K,\mathfrak m}}\) is sufficient.
+
+\paragraph{Full transfer.}
+Conditional \(\mathsf H\) covers every required character, so the
+published character-sum and sieve estimates remain valid. The enumeration
+is polynomial in \(\log p\), using the stated bounds on \(\delta\) and
+the class number. Reduction gives the candidate set. An unconditional
+deterministic field-isomorphism algorithm transfers it to a supplied
+model \cite[Theorem~(1.2), p.~330]{CXNLenstra91}. With the factorization of \(p^2-1\), order tests identify a
+generator; with only a specified prime \(r\mid p^2-1\), a power test
+identifies an \(r\)-nonresidue in the list. \(\square\)
+
+Here \(\mathsf D\) gives the initial prime selection and \(\zeta_K\),
+because \(K/\mathbb Q\) is quadratic, but does not by this argument
+supply the ray-class factors. The ray class field need not be abelian
+over \(\mathbb Q\). This concerns the stated \emph{primitive-root candidate}
+proof. It is not a necessity claim for each weaker task:
+CX-N13 gives a smaller-hypothesis replacement for every specified
+prime \(r\mid p-1\) in all explicitly given \(\mathbb F_{p^m}\),
+including quadratic nonresidues.
+
+\subsection{CX-N11: an explicit auxiliary Kummer field}
+\label{cx-n11}
+
+Let \(p\) be prime, \(n>1\), and \(p\nmid n\). Set
+\[
+              F=\mathbb Q(\zeta_{2n}),\qquad E=F(p^{1/n}).
+\]
+RH for \(\zeta_E\) and \(\zeta_{\mathbb Q}\) suffices for a prime
+\[
+ q=O(n^4\log^2(np)),\quad q\equiv1\pmod{2n},\quad
+ \gcd\!\left((q-1)/\operatorname{ord}_q(p),n\right)=1.             \tag{N11.1}
+\]
+A search for it has polynomial cost in \(n,\log p\).
+This supplies Buchmann--Shoup's Fact~2.1, p.~1314, and the closely
+related Adleman--Lenstra Proposition~3, p.~351
+\cite{CXNBuchmannShoup96,CXNAdlemanLenstra86}.
+
+\paragraph{Exact analytic input.}
+Bach--Sorenson's Theorem~5.1, p.~1729, gives an unramified rational prime
+with any prescribed Frobenius conjugacy class in \(E/\mathbb Q\),
+\(E\ne\mathbb Q\), satisfying
+\[
+              q\leq(4\log|\Delta_E|+2.5[E:\mathbb Q]+5)^2.      \tag{N11.2}
+\]
+Their convention in \S2, p.~1720 after (2.10), assumes RH for
+\(\zeta_E\) and \(\zeta_{\mathbb Q}\) \cite{CXNBachSorenson96}.
+There is no assumption of general Artin holomorphy.
+
+\paragraph{Full proof of the field, conjugacy, and power conditions.}
+The prime \(p\) is unramified in \(F\).
+For odd \(n\), \(F=\mathbb Q(\zeta_n)\), which includes the case \(p=2\).
+For even \(n\), \(p\) is odd and coprime to \(2n\).
+Thus \(v_{\mathfrak P}(p)=1\) at every \(\mathfrak P\mid p\).
+The polynomial \(X^n-p\) is Eisenstein over the discrete valuation ring
+\(\mathcal O_{F,\mathfrak P}\), hence irreducible over \(F\).
+Writing \(\alpha=p^{1/n}\), we obtain \([E:F]=n\).
+The field \(E/\mathbb Q\) is Galois, since it contains all
+\(\zeta_n^j\alpha\) and the \(2n\)-th roots of unity.
+
+There is an \(F\)-automorphism \(\sigma(\alpha)=\zeta_n\alpha\) of order
+\(n\). If \(\tau(\zeta_n)=\zeta_n^u\), then
+\(\tau\sigma\tau^{-1}=\sigma^u\), as checked on \(F,\alpha\);
+indeed \(\tau(\alpha)=\zeta_n^b\alpha\) for some \(b\).
+The exponent \(u\) is a unit modulo \(n\). Thus each member of the
+conjugacy class of \(\sigma\) fixes \(F\) and generates
+\(\operatorname{Gal}(E/F)\).
+
+Apply (N11.2) to this class. The resulting \(q\) splits in \(F\).
+For even \(n\), whose cyclotomic conductor is \(2n\), this gives
+\(q\equiv1\pmod{2n}\).
+For odd \(n>1\), splitting gives \(q\equiv1\pmod n\), and \(q\ne2\)
+since \(2\not\equiv1\pmod n\). As \(q\) is odd, it is again
+\(1\pmod{2n}\). Also \(q\nmid pn\): the prime \(p\) ramifies in \(E/F\)
+by the Eisenstein construction, and primes dividing \(n\) ramify in \(F\).
+
+Choose a prime \(\mathfrak Q\mid q\) whose Frobenius is \(\sigma^u\).
+In its residue field,
+\(\alpha^q=\zeta_n^u\alpha\), so
+\[
+                    p^{(q-1)/n}=\alpha^{q-1}=\zeta_n^u .
+\]
+The reduction of \(\zeta_n\) has order \(n\), because \(q\nmid n\).
+For every prime \(r\mid n\), therefore,
+\[
+                     p^{(q-1)/r}=(\zeta_n^u)^{n/r}\ne1.
+\]
+Writing \(p=g^a\) in \(\mathbb F_q^\times\), this says \(r\nmid a\).
+Since \(\operatorname{ord}_q(p)=(q-1)/\gcd(a,q-1)\), it proves the gcd
+condition in (N11.1).
+
+Finally \(|\Delta_F|\leq(2n)^{[F:\mathbb Q]}\), and the relative
+discriminant divides the polynomial discriminant ideal
+\((n^np^{n-1})\). The discriminant tower formula gives
+\[
+ \begin{split}
+ \log|\Delta_E|
+ &\leq n[F:\mathbb Q]\log(2n)
+       +[F:\mathbb Q](n\log n+(n-1)\log p)\\
+ &=O(n^2\log(np)),\qquad [E:\mathbb Q]\leq2n^2.
+ \end{split}
+\]
+Equation (N11.2) gives (N11.1), with effective constants.
+Enumeration up to this bound is polynomial in \(n,\log p\);
+primality and order testing, even using trial division of the
+polynomially bounded \(q-1\), retain that cost. \(\square\)
+
+The unique degree-\(n\) field \(K\subset\mathbb Q(\zeta_q)\) is real
+because \(n\mid(q-1)/2\). The image of \(p\) in the cyclic quotient
+\(\operatorname{Gal}(K/\mathbb Q)\) has order \(n\) by (N11.1);
+hence \(p\) is inert and \(\mathcal O_K/p\mathcal O_K\cong\mathbb F_{p^n}\).
+Adleman--Lenstra's Theorem~1, p.~350, Algorithm~A, pp.~350--351,
+and Lemma~6, p.~352, use this mechanism to construct a field model.
+That task is different from factoring an arbitrary input polynomial.
+
+The extension \(E/F\) is cyclic. Equivalently, its finite family of
+Hecke characters over \(F\) supplies \(\zeta_E\). Although \(\mathsf D\)
+covers \(\zeta_F\), the additional Kummer characters are not thereby
+rational Dirichlet characters. Conditional \(\mathsf H\) covers them.
+
+\subsection{CX-N06: Buchmann--Shoup generating sets}
+\label{cx-n06}
+
+Buchmann--Shoup construct a model of \(\mathbb F_{p^n}\) and a set
+generating its multiplicative group in deterministic time
+\[
+                              (n\log p)^{O(n)}.                \tag{N06.1}
+\]
+The main statement is on pp.~1311--1312; p.~1314 explicitly defines
+ERH as RH for Dedekind zeta functions of all number fields
+\cite{CXNBuchmannShoup96}.
+For \(p\nmid n\), their auxiliary field \(K\) is the real cyclic field of
+CX-N11. Fact~4.3, p.~1319, invokes Bach's Theorem~4 for the ray class
+group modulo \(p\mathcal O_K\). A concrete sufficient package is
+\[
+                   \zeta_{\mathbb Q},\quad\zeta_E,\quad
+                   \zeta_{H_{K,p\mathcal O_K}} .
+\]
+The ray modulus has no added infinite places, as in the paper.
+
+\paragraph{Full transfer.}
+Conditional \(\mathsf H\) supplies these zeta hypotheses. CX-N11
+discharges prime selection; CX-N07 discharges ray-class generation.
+The remaining lattice and finite-field operations preserve (N06.1).
+For \(n=1\) and \(p>2\), Bach's Theorem~3 gives a group-generating set of size \(O((\log p)^2)\); \(p=2,n=1\) is trivial. If \(p\mid n\), then \(p\leq n\); enumerating irreducible-polynomial candidates and then all field elements costs \(p^{O(n)}\leq n^{O(n)}\), still within the stated bound. If \(S\) generates \(\mathbb F_{p^n}^\times\), then
+for any specified prime \(r\mid p^n-1\), some member lies outside the
+proper subgroup of \(r\)-th powers. Scanning with the exponent test
+finds it. With complete factorization of \(p^n-1\), isolate primary
+orders and multiply as in CX-N03. A generating set need not contain
+one primitive root. \(\square\)
+
+CX-N13 supplies a stronger nonresidue consequence for primes \(r\mid p-1\)
+when the field model is already supplied.
+For fixed \(n\), the time is polynomial in \(\log p\); for variable
+\(n\), the displayed bound is not polynomial in the usual input
+parameters. Discharging GRH does not change that degree dependence.
+
+\subsection{CX-N07: class-group generators and their exact class field}
+\label{cx-n07}
+
+Bach's class-group bound is
+\[
+        \operatorname{Cl}(\mathcal O_K)=
+        \langle[\mathfrak p]:N\mathfrak p\leq
+                             12(\log|\Delta_K|)^2\rangle .     \tag{N07.1}
+\]
+The original locators are Theorem~4, p.~375, and the corollary on p.~376
+\cite{CXNBach90}. Its analytic family comprises \(\zeta_K\) and the
+nontrivial ideal-class-character \(L_K(s,\chi)\), which are unramified
+finite-order Hecke \(L\)-functions over \(K\).
+
+\paragraph{Proof from the precise character theorem.}
+If those prime classes generate a proper subgroup \(G\), take a
+nontrivial character of the quotient
+\(\operatorname{Cl}(\mathcal O_K)/G\). Its conductor is \(1\).
+The first bound in Bach's Theorem~4 gives a prime with
+\[
+ \chi(\mathfrak p)\ne1,\qquad
+ N\mathfrak p\leq3\log^2(|\Delta_K|^2)=12(\log|\Delta_K|)^2,
+\]
+contradicting triviality on \(G\). The omitted degree-one case has
+trivial class group. \(\square\)
+
+\paragraph{Full class-field transfer.}
+For the Hilbert class field \(H_K\), reciprocity gives
+\[
+ \operatorname{Gal}(H_K/K)\cong\operatorname{Cl}(\mathcal O_K),
+ \qquad
+ \zeta_{H_K}(s)=
+  \prod_{\chi\in\operatorname{Cl}(\mathcal O_K)^\wedge}L_K(s,\chi).
+                                                                    \tag{N07.2}
+\]
+The trivial factor is \(\zeta_K\); the other factors are entire.
+None has a pole in \(0<\Re s<1\). Thus an off-line zero of any factor
+would be an off-line zero of the product. RH for \(\zeta_{H_K}\)
+suffices for all these factors. Conditional \(\mathsf H\) supplies it,
+and hence (N07.1).
+
+For a ray modulus \(\mathfrak m\), the same argument uses the ray
+class field \(H_{K,\mathfrak m}\). Extra Euler factors from imprimitive
+characters have zeros only on \(\Re s=0\), so do not affect the argument.
+\(\square\)
+
+Belabas--Diaz y Diaz--Friedman's refined computed bound assumes RH
+only for the nontrivial class-character factors: author-preprint
+Theorem~1.1 p.~3; Theorem~2.1 p.~5; proof pp.~4--6
+\cite{CXNBDF08}. Their introduction distinguishes this from Bach's use
+of both these factors and \(\zeta_K\). Neither gate should simply be
+replaced by RH for \(\zeta_K\).
+
+Even if \(K/\mathbb Q\) is abelian, so that \(\mathsf D\) covers
+\(\zeta_K\), \(H_K/\mathbb Q\) need not be abelian. The additional
+class-character gate remains in this proof. The bound gives generators,
+not their relations. Algorithmic enumeration must also specify the
+maximal order and its arithmetic, or account for computing them;
+a defining polynomial is not silently the same input.
+
+\subsection{CX-N08: verification of class groups and units}
+\label{cx-n08}
+
+Let \(S\) contain all archimedean places and a finite factor base.
+Write \(K_S\) for the \emph{group of \(S\)-units} and \(H\subset K_S\)
+for the subgroup generated by sampled \(S\)-units. For the valuation map
+\[
+ \phi:H\longrightarrow\mathbb Z^{S_{\rm fin}},\qquad
+ x\longmapsto(\operatorname{ord}_{\mathfrak p}x)_{\mathfrak p},
+\]
+the tentative units and class group are \(\ker\phi\) and
+\(\operatorname{coker}\phi\). In particular, \(K_S\) is not a relation
+lattice. The exact source is Lenstra \S5, equation (5.7), author-preprint
+p.~25 \cite{CXNLenstra92}.
+
+\paragraph{Full verification proof.}
+Assume the factor-base classes generate, \(H\) contains all roots of
+unity, and the tentative groups have the required finite-index and rank
+properties. The exact sequence
+\[
+ 0\longrightarrow\ker\phi\longrightarrow\mathcal O_K^\times
+ \longrightarrow K_S/H\longrightarrow\operatorname{coker}\phi
+ \longrightarrow\operatorname{Cl}(\mathcal O_K)\longrightarrow0
+\]
+implies
+\[
+                              h'R'=hR[K_S:H],                 \tag{N08.1}
+\]
+where primes denote tentative class number and regulator.
+The unit index is \(R'/R\), and the finite class-group index is
+\(h'/h\); the exact sequence multiplies them to \([K_S:H]\).
+If certified bounds give \(a/2<hR<a\) and the computed product also
+satisfies \(a/2<h'R'<a\), then
+\[
+                         1\leq[K_S:H]=(h'R')/(hR)<2.
+\]
+The index is an integer, hence \(1\), proving completeness of both
+units and class group. \(\square\)
+
+Conditional \(\mathsf H\) supplies the factor-base bound. Where the
+chosen analytic estimator assumes RH for \(\zeta_K\), it supplies
+that premise also. The index test itself is algebraic and also works
+with independently certified generators and analytic bounds.
+It gives no rate for collecting sufficient relations. Any additional
+smoothness heuristic or search-complexity assumption in a chosen
+algorithm remains separate.
+
+\subsection{CX-N12: a rigorously conditional randomized class-group algorithm}
+\label{cx-n12}
+
+Biasse--Erukulangara's modified Hafner--McCurley algorithm supplies a
+concrete computation theorem \cite{CXNBiasseErukulangara}. We transfer
+the input explicitly required by its algorithm boxes: a negative
+\emph{fundamental} discriminant \(-d\), giving the full group structure
+of \(\operatorname{Cl}(\mathcal O_{\mathbb Q(\sqrt{-d})})\).
+The Main Theorem and Conjecture~1 are on author-preprint p.~4,
+Algorithm~4 on p.~15, and Corollary~1 on p.~16.
+Conjecture~1 explicitly concerns Hecke \(L\)-functions over number fields.
+
+Conditional on \(\mathsf H\), the algorithm has Las Vegas expected
+bit complexity
+\[
+ \exp\!\left(\left(\frac3{\sqrt8}+o(1)\right)
+                    \sqrt{\log d\,\log\log d}\right).           \tag{N12.1}
+\]
+It remains randomized. The displayed bound is superpolynomial and
+subexponential in the bit length \(\log d\).
+
+\paragraph{The visible number-field family.}
+The expansion step, Proposition~1, author-preprint p.~8, uses
+Jao--Miller--Venkatesan's Theorem~1.1 and Corollary~1.3
+\cite[arXiv version, pp.~3--4; proof pp.~9--10]{CXNJMV09}.
+For modulus \(1\) in imaginary quadratic \(K\), their characters are
+exactly those of \(\operatorname{Cl}(\mathcal O_K)\), and their proof
+explicitly estimates the corresponding Hecke \(L\)-functions.
+Thus RH for \(\zeta_{H_K}\) supplies this step and class generation
+by CX-N07. The rational quadratic character of \(K\) controls the
+separate quadratic splitting and class-number estimates.
+The fact that \(K/\mathbb Q\) is quadratic does not itself eliminate
+the class-character gate.
+
+For completeness, the split-prime factor base in the algorithm can be
+obtained from the same family. Regard each class character as an
+imprimitive character modulo \(d\mathcal O_K\), extended by zero at
+primes dividing \(d\). The second bound of Bach's Theorem~4 gives
+\(\chi(\mathfrak p)\notin\{0,1\}\) with
+\[
+ N\mathfrak p\leq12\log^2(d^2N(d\mathcal O_K))
+              =192(\log d)^2.
+\]
+Such a prime is unramified; it cannot be an inert prime ideal, since
+an inert prime ideal is the principal ideal \((p)\) and has class
+character value \(1\). It therefore lies over a split rational prime.
+Separating a proper generated subgroup by a character proves that
+these split-prime classes generate. Choosing only one of the two
+primes above each split rational prime preserves generation, because
+the two classes are inverses. Only finite Euler factors have
+been added, so no additional number-field character family is needed.
+
+\paragraph{Full transfer, certification, and expected time.}
+Conditional \(\mathsf H\) supplies the precise hypothesis explicitly
+declared in Conjecture~1. Hence the paper's conditional factor-base,
+relation-probability, and class-number estimates apply with the
+published parameters.
+
+Let \(\Lambda\subset\mathbb Z^n\) be the full relation lattice for the
+factor base, and \(\Lambda'\subset\Lambda\) the collected full-rank
+lattice. Every collected vector is a true relation. Since the factor
+base generates,
+\[
+       h'=\det\Lambda'=h[\Lambda:\Lambda'],\qquad
+       h=|\operatorname{Cl}(\mathcal O_K)|.
+\]
+Algorithm~4, steps 15--20, computes a certified \(h^*\) with
+\(h^*\leq h<2h^*\), obtains \(h'\) from the Smith normal form, and
+declares \textsc{Failure} if \(h'\geq2h^*\).
+An accepted output satisfies \(1\leq h'/h<2h^*/h\leq2\);
+the integer index is therefore \(1\). Every accepted group is correct
+under the analytic estimates, and unsuccessful branches are declared
+failures. The Smith-form procedure is itself Las Vegas.
+
+Put \(L(d)=\exp(\sqrt{\log d\,\log\log d})\).
+Corollary~1 supplies a time-bounded run of cost
+\(L(d)^{3/\sqrt8+o(1)}\) with success probability at least
+\(1-1/d^{1+o(1)}\). Independent restarts on failure have a geometric
+number of trials, with expectation at most \(2\) for sufficiently
+large \(d\); the bounded smaller inputs can be handled directly.
+This gives (N12.1) with its randomness retained. The corollary balances
+\[
+             \min_{z>0}\max\{3z,z+1/(4z)\}=3/\sqrt8,
+             \qquad z=1/\sqrt8.
+\]
+The expectation deduction is justified by detectable failures and
+correctness of accepted outputs, not by high success probability alone.
+\(\square\)
+
+\subsection{CX-N09: general finite-field factorization}
+\label{cx-n09}
+
+Evdokimov's published theorem gives deterministic factorization of a
+degree-\(d\) polynomial over an explicit field \(\mathbb F_q\) in
+\[
+                            (d^{\log d}\log q)^{O(1)}            \tag{N09.1}
+\]
+under the relevant GRH. The primary statement and radical-oracle
+description are in the abstract on p.~209 \cite{CXNEvdokimov94}.
+The degree dependence is quasipolynomial. For fixed \(d\), the bound
+is polynomial in \(\log q\); it is not a general polynomial bound
+in \(d,\log q\). Unconditional randomized polynomial-time factorization
+already predates this result \cite[introduction, author pp.~1--2]{CXNGao01}.
+
+\paragraph{A sufficient broad radical gate.}
+Evdokimov's earlier Theorem~I.3, pp.~109--110, gives deterministic
+\(k\)-th root extraction in an explicitly given \(\mathbb F_{p^m}\)
+in time polynomial in \(k,m,\log p\) \cite{CXNEvdokimov89}.
+Its proof uses field construction and isomorphisms from
+Theorems~I.1 and I.2, pp.~107--109. The analytic convention on p.~105
+explicitly allows \emph{Dirichlet characters of abelian number fields}.
+These are finite-order Hecke characters over those fields.
+For example, case III of Theorem~I.1, p.~108, uses the quadratic
+residue character modulo \(p\) over \(K=\mathbb Q(i)\), identifying
+its ideal character using the fact that \(\mathbb Z[i]\) is a PID.
+The hypothesis is not automatically the rational Dirichlet assertion.
+
+Every character allowed by that oracle theorem belongs to
+\(\mathsf H\). Conditional on \(\mathsf H\), the radical oracle has
+the required polynomial bound. Substituting it into the published
+radical-oracle reduction gives (N09.1), with its degree dependence
+unchanged. This uses no assumption of arbitrary Artin holomorphy.
+It is a transfer of the cited algorithmic theorem, not an independent
+reproof of the complete Evdokimov algebraic algorithm.
+CX-N15 supplies an independent composition of the same bound from
+accessible primary algorithm statements, with explicit Kummer-zeta
+hypotheses and without that original internal reduction.
+
+\paragraph{Why a smaller-hypothesis transfer needs its own audit.}
+Gao proves that radicals in an elementary algebra
+\(\mathbb F_q^N\) require only \(r\)-nonresidues in the base
+\(\mathbb F_q\), for primes \(r\mid\gcd(k,q-1)\):
+\S2.4, author-preprint pp.~7--9, Lemma~2.6 \cite{CXNGao01}.
+His introduction, pp.~1--2, records the unconditional reduction to
+completely split prime-field polynomials.
+These facts make a rational-character route a legitimate question;
+they do not alone audit subsequent automorphism splitting.
+Gao's Lemma~3.6, author-preprint p.~16, invokes the latter from
+R\'onyai's work.
+
+The broad \(\mathsf H\)-transfer is therefore established here, while
+a \(\mathsf D\)-only transfer of the entire general theorem is not
+asserted. The separately proved CX-N14 handles several specified
+automorphism-order cases, including prime-order powers whose order divides
+\(p-1\), using at most rational characters. The unrestricted step
+remains a stated gate in this audit.
+
+\subsection{CX-N10: special factorization families preserve their parameters}
+\label{cx-n10}
+
+Bach--von zur Gathen--Lenstra's Theorem~1, p.~6, is a precise
+special-field theorem \cite{CXNBGL01}. Let \(S(p^k)\) be the prime
+divisors of the integer \(\Phi_k(p)\), \(s(p^k)\) its largest prime
+divisor, and \(R(p^k)\) the primes dividing \(\ell-1\) for some
+\(\ell\in S(p^k)\). For an explicit \(\mathbb F_{p^n}\) and \(f\),
+the theorem assumes a degree-\(r\) irreducible polynomial over
+\(\mathbb F_p\) for each \(r\in R(p^k)\) not dividing \(n\), and has time
+\[
+                     (s(p^k)+\deg f+n\log p)^{O(1)}.            \tag{N10.1}
+\]
+
+\paragraph{Transfer.}
+Adleman--Lenstra constructs the extra irreducible-polynomial inputs
+when its auxiliary-prime hypothesis is supplied.
+For each required prime \(r\ne p\), CX-N11 supplies the concrete
+field \(\mathbb Q(\zeta_{2r},p^{1/r})\); characteristic-\(p\)
+extensions use the separate algebraic construction.
+Conditional \(\mathsf H\) covers these hypotheses and removes the
+extra input gates while retaining (N10.1).
+The same paper's Theorem~2, p.~7, constructs a primitive
+\(\ell\)-th root of unity from specified irreducible-polynomial inputs;
+Theorem~3, p.~7, constructs the relevant nonresidues from roots of
+unity. These intermediate tasks have explicit inputs and parameters.
+They do not give a polynomial bound for arbitrary polynomial
+factorization. \(\square\)
+
+For Fermat or Mersenne characteristics, \(k=1\) or \(k=2\) makes
+\(\Phi_k(p)\) a power of \(2\), leaving \(R(p^k)\) empty.
+The corollary on p.~6 is then unconditional, rather than newly
+unconditional by either GRH claim.
+
+R\'onyai's other results also have structural parameters.
+The primary abstract of \cite{CXNRonyai92} gives time polynomial in
+the input degree, coefficient size, \(\log p\), and the rational
+splitting-field degree; the latter may be exponential in the usual
+input length. Gao's introduction, p.~2, records R\'onyai's 1988
+algorithm for finding a nontrivial factor of a degree-\(d\) completely
+split polynomial, with cost polynomial in \(d^r,\log p\), for a
+prime divisor \(r\mid d\). It is polynomial for bounded \(r\), not
+uniformly when \(r\) grows. These are sourced parameter distinctions.
+The full original proofs and precise theorem numbers of these two
+R\'onyai statements were not independently retrieved; no stronger
+rational-Dirichlet transfer is inferred from the acronym GRH.

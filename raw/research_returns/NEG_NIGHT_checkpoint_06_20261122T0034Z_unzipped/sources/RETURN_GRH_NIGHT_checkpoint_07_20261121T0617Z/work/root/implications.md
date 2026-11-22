@@ -1,0 +1,318 @@
+# What the two inputs change
+
+This is a living account of the catalogue, not a claim that every consequence of an open-ended mathematical hypothesis has been exhausted. The exact statements and hypotheses are in `CONSEQUENCES.tsv`; the proofs and classical locators are in `GRH_NIGHT.tex`. Every identifier below refers to that record. A check of a classical theorem's statement is distinguished in `CHECK_EVENTS.tsv` from reading its entire proof.
+
+## 1. The dependency map
+
+**A_D** denotes the RH and Dirichlet-GRH theorem designated by the task, with the statements in `ALPOGE_Main.lean` and `ALPOGE_Statements.lean`. It is used as a cited theorem. The imported Lean development was not rebuilt here. **M_H** denotes the universal unitary-Hecke GRH claim of Masullo §1.2, conditional throughout. Its rank-one scope includes number fields other than Q and infinite-order unitary characters.
+
+M_H contains A_D at the level of endpoint zero-location statements. Consequently the conjunction of the two endpoints has no larger L-function domain than M_H. The genuine additional results come from combining these endpoints with independent theorems, exact geometric factorizations, or new arguments about the proposed methods. An endpoint theorem also does not certify every auxiliary lemma in a proposed proof.
+
+Three distinctions organize the record. A divisor-support theorem locates both zeros and poles; holomorphy additionally requires nonnegative local orders. A generic-fibre motivic factorization must be supplemented by the actual exceptional Euler factors before it describes a scheme over Z. An analytic zero statement does not determine integral torsion, extension classes, or algebraic correspondences.
+
+## 2. Primes, fields and finite arithmetic geometry
+
+NT-P01–P12 turn the adopted Dirichlet input into explicit estimates for primes and prime powers, primes in progressions, the least prime in a reduced class, subgroup witnesses and primitive roots. The constants come from the precise classical versions cited in the catalogue. The corrected v3 of Lamzouri–Li–Soundararajan is used. The least primitive root for a fixed prime and Artin's conjecture for a fixed integer at varying primes remain different statements with different field hypotheses.
+
+The explicit progression estimates NT-P11/P12 are obtained from cyclotomic Chebotarev. A small model issue matters: if q is 2 modulo 4, the prime 2 is unramified in Q(ζ_q) but is omitted from reduced progressions modulo q. The formula retains an extra log x term for prime powers and an extra 1 for primes. This is an instance of the exceptional-fibre bookkeeping in ZETA_TWO ZT04, not a new analytic error term.
+
+Under M_H, NT-C01–C04 give effective Chebotarev and prime-ideal intervals for arbitrary number fields. These concern closed points of Spec O_K and Frobenius in finite étale covers. Their exact input is RH for the named Dedekind zeta functions; the whole universal assertion is more than a given application needs. A_D suffices for the relevant abelian extensions over Q.
+
+NT-F01–F04 transfer the class-by-class estimates to arbitrary class functions and finite étale point counts. The main term for a permutation character is the number of geometric orbits, so the error depends on the number of generic components rather than automatically on the full cover degree. Boundary primes have their own explicit contribution. This strengthens the finite-Galois and closed-point rows in RETURN_ZETA_TWO IAQ039/IAQ040–071 and the SA07 D.3.2, E.2/E.3 programme, with the Galois-category interpretation in SGA 1, Exposé V, §7.
+
+AG-FROB and CX-GEO-004/008 make finite recognition effective. For actual Artin–Tate objects split by a specified Galois extension L/Q, equality of the Euler polynomials up to the Bach–Sorenson bound identifies every weight component. A finite set of Frobenius classes also certifies that an image is the whole finite Galois group, and at most floor(log_2 |G|) selected representatives generate it. The auxiliary quadratic extension in CX-GEO-004 permits prescribed excluded primes with an explicit discriminant cost. These close the finite-recognition formulation of ALPOGE_BRIDGES AQ-FINITE and sharpen ORDER item 30. They do not present an arbitrary entire profinite fundamental group by bounded data.
+
+Recognition of a representation does not reconstruct the multiplication of a finite scheme. AG-COVER gives actual biquadratic Q-schemes with identical Artin realizations and Euler factors but different component degrees. CX-GEO-005 gives a transitive finite-G-set example using the natural and dual seven-point actions of GL_3(F_2). Thus the distinction is present both for disconnected and transitive finite covers. In the archive this belongs beside cote 98 scans 11–12 and the finite-G-set language, rather than being obscured by a claim that all Frobenius data reconstruct every geometric structure.
+
+## 3. Class groups, primitive-root densities and cancellation
+
+The class-number and regulator bounds in NT-H01–H04 are consequences of the Dirichlet or Hecke functions actually identified by the class-number formula. Bach's class-group generator theorem needs class-group Hecke characters over K. An abelian K/Q does not by itself reduce those characters to Dirichlet characters over Q. CX-ALG-011/012 separates a bounded factor base from the remaining work of finding a complete relation lattice.
+
+NT-A01 and its extensions use the fields in Hooley's or Lenstra's theorems. These generally go beyond A_D. Under M_H the necessary Dedekind-zeta hypotheses are supplied and the corresponding Artin primitive-root densities become conditional only on M_H among the named unproved inputs. The entanglement and positivity conditions in the precise classical statements are retained. The Euclidean conclusion in the catalogue likewise retains the number of inverted places and the relevant principal-ideal assumption.
+
+NT-L02/L03 supply fixed-function Lindelöf and reciprocal bounds. NT-L09/L10 give full Perron proofs of square-root-plus-epsilon cancellation for twisted Möbius sums and fixed residue or ray classes, including the ideal coefficient majorant and the truncation error. Their constants are not advertised as uniform in a varying modulus, number field or infinity type. These are trace-cancellation consequences on arithmetic covers; they do not produce missing algebraic cycles or a geometric cohomology theory over Spec Z.
+
+NT-H05/H06 locate the growing-field form of Brauer–Siegel and the GRH basic inequality in Tsfasman–Vlăduţ, Theorems 7.2 and 3.1. NT-H07 converts that inequality into a root-discriminant budget for prescribed completely split rational primes. NT-H08 applies it to the arithmetic fundamental group: an everywhere-finitely-unramified tower with those split primes must terminate below the stated threshold. With no splitting conditions, the constants are 8πe^γ (about 44.763232), or 8πe^{γ+π/2} (about 215.332516) when all fields remain totally real. These are strict finiteness criteria, not equality-case assertions. For the cote 149 and GT programme they provide a concrete restriction on an arithmetic π1 quotient, without reconstructing that group.
+
+## 4. Zero statistics: the part actually supplied
+
+NT-Z11/12 add a precise central-nonvanishing conclusion: under A_D, at least 15/16 of the primitive quadratic family chi_(8d), with nonzero odd squarefree d of both signs, have nonzero central value, in the ordinary lower-density sense as well as the stated smooth weighted sense. The full proof approximates an endpoint test by admissible Schwartz functions, uses even central multiplicity, and separately removes the weight. It does not relabel this family as all fundamental discriminants.
+
+The catalogue records Montgomery's restricted pair-correlation result, the specified family/support theorems for low-lying zeros, the conditional moment bounds, and the appropriate Lindelöf consequences. The support restriction, normalization and averaging family are part of each theorem. Full GUE, simplicity of every zero and universal central nonvanishing are not substituted for those statements. In particular the Iwaniec–Luo–Sarnak result cited there has a separate GL_2-RH hypothesis for the non-CM family; A_D supplies only its Dirichlet part.
+
+Two exact classical equivalents are also useful: NT-Z08 combines A_D with Rodgers–Tao's lower bound to give the classical de Bruijn–Newman constant equal to zero; NT-Z09 gives Lagarias's precise divisor-sum inequality. Neither is a new proof of the adopted endpoint.
+
+NT-R01–R04 split prime-race conclusions by their exact input. A_D alone gives the Rubinstein–Sarnak limiting law for continuous tests and positive lower logarithmic density for each direction of the races modulo 3 and 4. Exact ordering densities, the cited symmetry classification and the fixed-number-of-competitors large-modulus limit retain the independent Grand Simplicity Hypothesis. Frobenius density estimates and a continuous limiting law do not silently remove a possible boundary atom.
+
+NT-Z13–Z16 give quantitative bounds on multiplicities, gaps and the smallest absolute ordinate, with the gamma-parameter premise checked rather than assuming it for every unitary character. For fixed finite-order Hecke characters, the gap constant is π/log log T and the multiplicity constant is one half of the degree; neither asserts simplicity. NT-P13–P16 retain explicit versus asymptotic quantifiers for the additional prime-gap, residue/nonresidue and progression constants. NT-L11/L12 record the precise quadratic-family moment input and the resulting fixed-moment large-value tail bounds.
+
+## 5. Arithmetic schemes, Artin–Tate objects and CM objects
+
+AG-AT, AG-DED and AG-LOCAL retain the exact results ZETA_TWO ZT01–ZT05. An all-prime point-count identity determines the Euler product. Tate twists move the global divisor lines; signed virtual contributions permit poles. Omitting a prime introduces a separate local factor: the example Spec Z[1/p] already has extra zeros on an unshifted imaginary lattice. A geometric model is therefore part of the arithmetic statement.
+
+AG-CM applies M_H to the identified potentially CM absolute-Hodge category in ZETA_TWO CM01. The original Anderson reference has been recovered: *Cyclotomy and an extension of the Taniyama group*, Compositio 57 (1986), §5.3, Theorem 6 in §5.6, Corollary 5.7.2 and Remark 5.7.3. These locate the signed Hecke factorization and common weight. They do not make absolute-Hodge projectors algebraic. The additional classical recognition and tractible critical-period results in that same source have their own hypotheses, recorded separately in the geometry section.
+
+AG-LAMBDA explains exactly which tensor, dual, exterior, symmetric-power and direct-summand constructions remain in the covered categories. The SGA 6, Exposé V, §§2 and 7 lambda-ring framework is compatible with these operations. A construction leaves the domain when its factors no longer have the asserted Artin or Hecke description. Positive weight is not itself the obstruction: ZETA_TWO's weight-zero non-CM example remains non-CM, while potentially CM objects of positive weight are covered.
+
+For general schemes the reduction in ZETA_TWO ZT06 remains useful: isolate finitely many smooth-projective geometric factors and the actual exceptional fibres. M_H removes identified potentially CM factors. The residual non-CM factors still require their own analytic continuation, functional equation and RH. ZT07's elliptic example shows this gate explicitly rather than hiding it in a formal quotient.
+
+## 6. The path quadric: a complete geometric computation
+
+MT-Q01 gives the exact unweighted path-quadric count over every finite field, including characteristic two. If Q_k = Σ x_i x_(i+1), d = ceil(k/2), then
+
+    #V(Q_k)(F_q) = q^(k−1) + (q−1)q^(d−1),
+    [V(Q_k)] = L^(k−1) + L^d − L^(d−1) in K_0(Var_Z).
+
+The proof uses an integral full-rank bipartite matrix and a vector-bundle stratification; there is no characteristic-dependent diagonalization. MT-Q02 supplies the exact local and global zeta functions, with the numerator and denominator signs preserved. A_D then locates the nontrivial global divisor on the three indicated shifted lines. This builds on Alpöge steps 3 and 5, Fable EXPLAINED §3 and ZETA_TWO ZT01. It is an exact result for this family, not an extrapolation of a weighted finite-character identity to arbitrary varieties.
+
+## 7. Cote 1 and the analytic trace programme
+
+The relevant archival companions are cote 1 scans 79–80 and 111–112 as reconstructed in SA23 geo-H-lidskii/geo-H-genus, and ALPOGE_BRIDGES BR-TR-01/02. AG-DET extends the squared-variable positive trace-class determinant to the specified entire selfdual order-at-most-one completions in the Hecke/CM domain. Central multiplicity is removed explicitly. AG-MOMENT supplies monotone bounds recovering the first positive zero and its multiplicity; AG-HANKEL supplies positivity of all finite shifted moment matrices.
+
+These are spectral realizations built from an already located divisor. The remaining arithmetic trace gate is a prime-defined or cohomologically constructed operator with the required trace identity. The diagonal operator from the zeros does not solve that inverse problem. The meromorphic signed-Hankel refinement in the geometry section makes this especially precise: under its stated hypotheses, positivity of all the finite shifted moment matrices is the extra condition that excludes noncentral poles. Zero location does not establish those inequalities.
+
+## 7A. Cote 34: the previously open commutator question closes in a corrected form
+
+The official cote 34 PDF was recovered and read directly. Theorem 1.1 is at PDF page 53/footer 52; its proof is in §§2–3, PDF pages 70–78. It concerns a normal geometrically connected scheme locally of finite type over a field finitely generated over its prime field, an open arithmetic fundamental subgroup, and a prime l different from the characteristic. Its maximal abelian geometric pro-l quotient is finitely generated and has finite arithmetic coinvariants.
+
+The crossed-out Remark 1.17 at PDF page 64/footer 63 places the commutator closure in an impossible ambient group whenever the arithmetic quotient is infinite. AG-C34-TYPE gives the literal counterexample G_m/F_q. AG-C34-REPAIR proves the intrinsic correction: for any stable geometric pro-l quotient H and extension P, the closed subgroup generated by [P,H] is open in H. The quotient is exactly (H^ab)_(pi_0), a quotient of the finite group in Theorem 1.1. Solvability and an l-adic Lie hypothesis are unnecessary for this corrected statement.
+
+AG-C34-INDEX adds the torsion-sensitive determinant bound. For a smooth proper geometrically connected curve over F_q, the quotient is the l-primary rational-point group of its Jacobian, so its index is exactly l^(v_l #J(F_q)). Theorem 1.1's proof uses curve compactification, a cyclotomic boundary, spreading out, and the classical finite-field curve theorem. Neither A_D nor M_H is required. This changes the inherited BRIDGES Q03 gate into a proved corrected statement and an explicit refutation of its literal ambient-group wording; section-dependent interpretations remain separately identified. The original (2.5.5), PDF page 74/footer 73, was also checked, confirming Q04's classical finite-field input.
+
+AG-C34-SECTION settles a second interpretation when a continuous arithmetic section is actually supplied. For a pro-l quotient of finite closed derived length, the subgroup generated by its action commutators is open in the geometric group. The proof applies the coinvariant theorem on every relevant finite cover and then terminates the derived series. It does not infer a section from purity. AG-C34-NONSOLV shows exactly why finite generation or compact l-adic analyticity alone cannot replace the termination premise: the first principal congruence subgroup of SL_2(Z_l), with trivial arithmetic action, is infinite and every open subgroup has finite abelianization. This is an abstract group counterexample, not an asserted arithmetic realization.
+
+## 8. Cotes 16 and 44: correspondences, signs and heights
+
+Cote 16 scans 14–18, no. 7, and the Coates-letter material at scans 44–50 concern integral correspondences, Lefschetz operators and index positivity. The Hodge sketch's scan offset relative to the GCT_NSRH intake is retained. The remaining gate is the stated rank/cycle comparison on X×X together with denominator control. A_D and M_H do not supply that construction in the arguments in these materials.
+
+Cote 44 Theorems 4–5 at scans 2, 4 and 6, and the Serre letter at scans 8–9, sit beside the central-sign question in the Hodge sketch §3.5. AG-SIGN proves the correct analytic implication: a real holomorphic function, positively normalized to the right and nonvanishing there, has positive first nonzero central Taylor coefficient. Multiplicity parity follows from its selfdual functional equation. AG-SIGN-NORM gives the exact counterexample if normalization is omitted.
+
+AG-HEIGHT then requires a separately established identity H(Z)=C F′(c), C>0. It gives nonnegativity in that precise setting; strict positivity also needs a simple central zero. Neither a general cycle-height formula nor simplicity follows from GRH. AG-CRITICAL additionally separates off-centre critical values, where classical Hecke boundary nonvanishing often already suffices, from central values where the zero theorem allows vanishing.
+
+## 9. Cote 149, integral inertia and mixed extensions
+
+The original cote 149 PDF was read at PDF pages 80–85, repository footers 79–84. Equations (13)–(17) discuss the inertia-normalizer extension and its H²/Kummer class; (18)–(19) identify the line bundle as the normal bundle; (20)–(22) describe the H¹/completed-unit ambiguity. ORDER item 31 supplies the comparison with LM6 A.44–A.45 and bridge B3. These sheets themselves do not assert an irregular-prime or K_8(Z) theorem.
+
+AG-KUMMER proves exact inverse-limit Kummer sequences and, for finitely generated Picard group, the criterion that a line bundle has zero compatible integral l-adic Chern class exactly when its class has order prime to l. Identifying this inverse-limit cohomology with a chosen continuous-cohomology theory retains its own lim¹ condition.
+
+AG-KUMMER-2 makes the rational/integral distinction explicit. On Spec O_(Q(sqrt(−35)))[1/2], the ideal (3,(1+sqrt(−35))/2) has order two in the Picard group. Its compatible integral 2-adic Chern class is nonzero and becomes zero over Q_2. The zero section of its total line bundle has that normal bundle. This refutes the shortcut from rational vanishing to integral splitting; it does not identify an uncomputed group-extension comparison in LM6.
+
+AG-EXT retains BR-MIX-01 and ZETA_TWO SV01–SV02: the nonsplit Kummer extension of 2 and the split Tate object have the same good Euler factors. Deligne–Goncharov's exact rational Ext and free graded Lie-algebra statements are separately located. Their rationality does not compute integral torsion or an entire profinite kernel. Alpöge step 17 is therefore kept distinct from what its endpoint declarations actually export.
+
+AG-C149-COMP now supplies the exact missing comparison under explicit characteristic-zero and étale π2=0 hypotheses: the punctured line-bundle fundamental extension has class equal to the arithmetic integral first Chern class. Borne–Emsalem–Stix Propositions 3.1, 3.4 and 4.4 are the primary locators. AG-C149-LIFT separates its global splitting from splitting after a given arithmetic section. A torsion line bundle has zero obstruction on every such section because the field's continuous H² with Z_l(1) coefficients is a torsion-free Tate module. AG-C149-ELLIPTIC makes this literal: on y²=x³−x over Q, O((0,0)−O) gives a nonsplit integral 2-adic extension of order two, zero rational class, and lifts of every Galois section. Reduction at3 proves the needed nondivisibility. This closes a specific comparison and refutes a global-from-all-section-pullbacks inference; it does not identify an arbitrary inertia normalizer with that normal-bundle group.
+
+AG-LM6-REG/IRREG/NORM recover the exact regular-prime kernel-field theorem and its integral generator premises. Sharifi's theorem uses freeness of the relevant pro-p Galois group, not isolated Soulé surjectivity. With the stated additional Greenberg conjecture, his irregular-prime theorem obstructs the proposed canonical generator maps. The explicit filtered identity κ_m=(p^{m−1}−1)(m−1)!λ_m puts κ_5(F^5G) inside3Z_3 even at regular p=3. This corrects the domain and normalization in Fable EXPLAINED §5/LM6 A.44–A.45; it does not refute the full kernel-field equality at irregular primes.
+
+## 10. Finite and profinite anabelian/GT questions
+
+In SA22 run 1, A6-node-character is a finite quadratic character times the cyclotomic character. A_D gives effective detection of the finite sign; M_H allows arbitrary finite nonabelian splitting fields in the corresponding Frobenius tests. The finite-image recognition and generation results are meaningful improvements for the corresponding finite quotients.
+
+They do not reverse SA22 run 2's recorded refutation of inertia maximality: finite-index inertia subgroups have the same weight. The profinite Ihara/GT kernel remains distinct from a cyclotomic quotient and from rational graded freeness. The supplied external 2026 freeness premise in CC-GT03 is not silently attributed to A_D or M_H. Its full profinite companion R-GTHAT remains separately recorded.
+
+## 11. Complexity and the smaller gates now available
+
+CX-ALG-001/002 keep the historical distinction between Miller's conditional algorithm and the unconditional theorem PRIMES in P. A_D supplies deterministic small nonresidues, square-root extraction and the specifically stated finite-field constructions. It does not by itself produce an arbitrary integer factorization algorithm.
+
+Two refinements make the factoring discussion concrete. CX-ALG-014 refutes the immediate Miller-witness-to-three-gcd shortcut with N=35 and a=2. CX-ALG-015 proves deterministic polynomial-time factorization under A_D when a positive multiple of lcm_(p|N)(p−1) is supplied, with runtime polynomial in both input lengths. Producing that multiple for an arbitrary integer is not part of the promise.
+
+CX-ALG-016 finds a zero fixed-generator resolvent in the literal BIMS17 auxiliary formula, checked against the original page. CX-ALG-017 repairs it by searching a power basis for a nonzero Frobenius eigenprojection. CX-ALG-018 gives a full unconditional even-degree quadratic-nonresidue construction. Thus the nonvanishing defect does not discard the intended finite-field conclusion.
+
+Koiran's HN-in-AM theorem requires number-field zeta inputs, supplied by M_H. The field and input-size bookkeeping is explicit in CX-HN-001/002. A universal replacement by abelian witness fields is refuted by x³−2; the bounded abelian-witness promise remains a valid A_D specialization. CX-GEO-001–003 extend the method to Boolean constructible feasibility, radical membership and reduced-set inclusion/equality. The latter are not claims about scheme-theoretic ideal equality.
+
+CX-GEO-006 handles orbit membership for explicitly given actions. CX-GEO-007 supplies an unconditional PSPACE route for the stated polynomial GL/SL orbit parameterizations, without first constructing orbit-closure equations. CX-GEO-009 isolates a smaller conditional-AM promise: a Laurent degeneration with polynomially bounded pole/precision and syntactic degree. Its coefficient-system reduction charges these bounds in unary. General exponential precision does not satisfy this promise.
+
+CX-ALG-019–022 add exact computational consequences for class groups and ordinary elliptic isogeny graphs. The small-prime random-walk theorem keeps its Hecke-GRH hypothesis for the whole class group. CX-ALG-021 proves that the genus quotient of an imaginary quadratic class group needs only A_D: its characters split into rational Dirichlet factors. Prime ideals of prime norm at most (8 log|D_K|+15)^2 generate that quotient, by testing degree-four subfields separately. This avoids paying for the full genus-field degree and does not assert an algorithm for the unknown relation lattice of the entire class group.
+
+CX-ALG-023–026 shrink CX_GRH CX-U02 and ORDER28 further. An explicit degree-r finite field is equivalent to the maximal coefficient unit needed by the semiregular-automorphism algorithm. Thus the supplied F_(p^m) already settles r|m. For the remaining primes, an exact affine-group permutation-character identity transfers RH from Q(p^(1/r)) to the Kummer splitting field under A_D. The resulting analytic family contains only the pure prime-degree fields actually needed, with r≤d, r∤(p−1)m and higher r-adic valuation; it replaces the older sufficient degree-sr and auxiliary-prime family. Full Gaussian-period, Teichmüller, IKRS, idempotent and runtime interfaces are written. The same reduction gives polynomial-time explicit degree-n extensions with n charged to the output size. No necessity claim is made for the remaining RH assumptions.
+
+The remaining GCT gates are uniform explicit constructions, hitting sets, actual quotient-rank inequalities and the independent hardness hypotheses in their cited theorems. Pure geometry and nonnegative Hilbert data do not replace those inputs. The previous counting theorem E and its ETH consequences remain a separate premise, not a consequence of the two L-function hypotheses.
+
+## 12. The proofs against each other; GL_2 and Artin holomorphy
+
+MT-M01 and MT-M02 are counterexamples to two auxiliary statements in the original Masullo PDF, pages 425 and 426, not merely to the model transcription. An exponential-Schwartz function can have Mellin transform exp(s²)sin(s²), with order-T many zeros in a unit-height window. A nonzero continuous Mellin evaluation also forces its kernel projector to remain a proper projector, so the displayed family of kernel projections cannot tend to the identity in the asserted generality.
+
+The next routes were taken rather than leaving those faults as terminal objections. MT-M03 proves the exact strong limit: the projector onto the common kernel, with complementary projectors tending to the span of the Riesz vectors. NT-Z10/MT-M04 prove the needed O(log(|T|+3)) local zero count for every fixed unitary Hecke character, using polynomial vertical growth and a nonzero Euler-product centre in Jensen's formula. This repairs the arithmetic-divisor count unconditionally. It does not certify the later arbitrary-Schwartz ideal, Schauder-basis, nuclearity or geometric-kernel assertions.
+
+MT-M05 locates another independent failure in Lemma9.3.2.5: the actual convolution ideal need not contain every function with the specified vanishing Mellin jets. A pair of Gaussian derivatives gives a counterexample with just one simple zero. MT-M06 proves the exact closed-ideal replacement for every polynomial Gaussian divisor; the quotient is finite-dimensional with the expected jet coordinates. MT-M07/M08 extend the repair to an infinite lattice divisor, identifying the quotient with smooth periodic functions, proving its absolute Mellin basis, and calculating its nuclear/trace-class Poisson formula and positive convolution squares.
+
+MT-M09 then rules out a further tempting inference: even simple imaginary-axis zeros with an O(1) local count need not yield a point-evaluation Schauder basis on the closed quotient. Its explicit clustered divisor forces biorthogonal basis vectors to grow faster than the Gaussian test coefficients decay. This does not assert that Hecke zeros have that pattern. It identifies the additional arithmetic work: quantitative stable interpolation, or a proved divided-difference block construction, on the separated quotient. The corrected zero count alone cannot supply the basis or trace estimates.
+
+The nonmonomial GL_2 advance is MT-ART01. Conditional on M_H, all odd irreducible two-dimensional finite-image complex Artin representations over Q satisfy GRH, including projective A_5 image. Khare–Wintenberger Corollary 10.2(ii) supplies the already established weight-one modularity and holomorphy; signed Brauer factorization supplies the divisor location. General non-CM positive-weight GL_2 forms are not rank-one Hecke functions over a number field and remain a different gate.
+
+For general Artin functions, MT-ART02 gives an exact finite-dimensional positivity criterion at each divisor point: the local Heilbronn matrix must be positive semidefinite. Stark's multiplicity-at-most-one theorem narrows possible poles, under M_H, to multiple critical zeros. MT-ART04 proves that even all tests from induced one-dimensional characters do not force the needed positivity: an explicit virtual A_5 character passes those tests and has a negative constituent. The supplied exact finite computation verifies the group character calculation; it is not an example of actual Artin L-function orders.
+
+MT-ART05/06 sharpen the A_5 multiplicity obstruction. Every induced-linear test is equivalent to seven explicit integer inequalities. A possible pole in the four-dimensional factor requires a zeta zero of order at least 3 and a simultaneous base-field zero; the three-dimensional factors require order at least 4. At the centre, Dedekind functional-equation parity raises these bounds to 6 and 8. The extremal virtual characters prove that the abstract inequalities alone cannot improve the bounds; they are not claimed to occur as arithmetic divisors.
+
+MT-ART07 then closes a substantial specialization using already established automorphy: every non-real A_5 extension over Q has entire nontrivial Artin factors. Under M_H, its whole Artin tensor category satisfies GRH after invariant zeta summands are identified. This makes the earlier local positivity gate relevant only to the remaining scopes, rather than treating known non-real cases as open. MT-ART08 proves the exact finite-exception comparison lemma: an entire Euler product matching a finite-image Artin function outside finitely many places transfers entireness using the Artin functional equation. A density-one match alone does not meet its hypothesis.
+
+MT-S501–503 give the next S_5 branch. Calegari's specified complex-conjugation and Frobenius-at-5 conditions already establish dimension-4 and dimension-6 holomorphy. For the other factors, M_H reduces his real-interval Dedekind nonvanishing assumption to the single value ζ_H(1/2)≠0. This is a strictly smaller gate, with H explicitly defined. Separately, the splitting field of x^5−x^3−x^2+x+1 is an unconditional classical holomorphy example, so M_H gives GRH for every nontrivial irreducible factor there; its different local-at-5 behavior is retained.
+
+MT-H01–H03 cover an analytic branch beyond algebraic CM characters. The explicit infinite-order unitary character on Q(√5), with spectral parameter kπ/log((1+√5)/2), cannot be made algebraic by finite-order and norm twists. Nevertheless M_H directly gives GRH for its level-5 dihedral Maass form. Full local calculations, including the ramified prime 5, supply the stated tensor and symmetric-power factorizations, their nontrivial zeros, and their exact zeta poles. The even middle summand is trivial for this normalization; it is not a universal convention for all dihedral families.
+
+MT-L01/L02 give another exact gate. For the damped Euler products of a nontrivial finite-image Artin representation, one single irrational damping parameter has single-valued meromorphic continuation to Re(s)>1/2 exactly when the original function is holomorphic and zero-free there. The proof uses a normally convergent higher-power correction and the integrality of divisor orders. Rational damping only imposes a divisibility condition. The trivial zeta factor is kept separate. This supplies a sharper continuation formulation; it does not prove the missing continuation or the critical-line positivity.
+
+## 13. Continuing the research
+
+The authoritative current gates are the individual rows of `QUESTIONS.tsv`, mirrored with dated movement in `LEDGER.md`. New archive readings, proof repairs and narrower promises update those rows rather than erasing their provenance. Full GUE, general Artin holomorphy, non-CM GL_2 RH, arbitrary integral inertia splitting and general derandomization remain problems unless the displayed extra inputs are supplied. The record makes no logical-independence claim about them.
+
+## Formal height and the theta derivative gate
+
+AG-FG-EXP/DER prove the formal-group coefficient and derivative bounds directly for every one-dimensional finite-height formal group over an unramified mixed-characteristic DVR. They replace the unproved general Lubin–Tate normal-form passage in Fable Section 2 with the exact bound v(D^a f(0)) ≥ max(0, v(a!) − floor((a−1)/(p^h−1))). The height-2 slope is p/(p²−1), with an explicit digit-sum error. AG-FG-PPOWER identifies the restricted derivation as Dbar^p = abar_p Dbar. AG-FG-PRODUCT gives additive bounds for an actual integral product of formal factors. The remaining theta gate AG-FG-THETA is the specific section's integrality, local trivialization and invariant-operator/period comparison; an isogeny decomposition over the fraction field does not supply the integral product hypothesis. This closes the formal-height mechanism in the supplied Fable route without asserting its whole theta or automorphic extension. The inherited archive map is cote54 scans5–7, cotes4–9,136–137, cote16 scan14 and cote47 scan9; those extra sheets were not freshly image-checked in this run.
+
+## Quantitative tests for the arithmetic point-jet basis
+
+MT-M10 proves that an ordinary Schauder basis whose coordinate functionals are the prescribed Mellin zero jets already forces a uniform polynomial lower bound on every finite multiplicity-weighted cluster-distance product. It is stronger than an O(log T) local count. MT-M11 combines this necessity with the fixed Hecke estimates in NT-Z10: under A_D or M_H as appropriate, the same basis would force a polynomial lower bound on the first nonzero Taylor coefficient at every sufficiently high zero. Neither bound is being inferred from GRH alone. These are explicit additional tests for the surviving arithmetic version of Masullo9.3.2.5, after the actual-ideal and projector errors have been corrected. They concern the topology needed before the cote1/SA23 trace construction, and positivity of a formal zero sum does not prove them.
+
+## Orbit closure intersection without unary Laurent precision
+
+CX-GEO-010/011 close the explicit-representation orbit-closure-intersection decision gate conditionally on M_H. Full binary torus weights and polynomial action circuits yield a polynomial-size HN system for a one-parameter limit; a Cramer bound preserves all weight signs without an exponent supplied in unary. The unique closed orbit in each reductive orbit closure gives an existential shared-limit certificate. Closed-target membership and nullcone membership follow, with disjointness in coAM. Arbitrary target membership, containment, invariant construction, and conversion of succinct exponentially large GCT representations remain separate. The placement is CX_GRH CX-K02/CX-K05, GCT V Theorem9.8 p68, ORDER28 and the cited SGA3 action/torus interfaces.
+
+## Arbitrary unitary infinity type in the zero bounds
+
+NT-Z17 removes the finite-order infinity-type restriction from the fixed-function multiplicity, covering-radius and gap deductions by pairing L(s+iT,eta) with its conjugate-dual shifted factor. The conductor and doubled central order cancel exactly in CCM2015 Theorems5/7. Its varying-conductor statement keeps the degree normalization and universal error constants. Pure norm characters are treated by translation, avoiding shifted poles outside the theorem's allowed locations. NT-Z18 gives at least one-half, up to O(1/log q), central nonvanishing in the full nonprincipal prime-conductor Dirichlet family under A_D; it is a different family from the quadratic 15/16 result.
+
+## The canonical arithmetic quotient: an exact simple-zero reduction
+
+MT-M12 turns the canonical completed-Hecke interpolation problem into an equivalence. Under GRH and simple nontrivial zeros, the closed convolution quotient has its prescribed Mellin point-evaluation Schauder basis exactly when reciprocal derivatives at the zeros grow at most polynomially. Under that condition the ideal is the full zero kernel and the quotient is a rapid sequence space; an absolute basis follows. The proof supplies the previously missing minimum-modulus and spectral-synthesis steps. MT-M13 then gives an explicit nuclear convolution representation and positive Hilbert trace for the weighted adjoint square. Simplicity and the derivative condition remain additional hypotheses. The Hilbert model is constructed from the zero coordinates and does not independently establish GRH or identify every quotient in the draft. This strictly reduces the simple-zero canonical version of Q-MAS-INFINITE-BASIS.
+
+## Arthur and integral Lefschetz comparison
+
+AG-ARTHUR-ARCH locates Arthur1989 Prop9.1 exactly at the complex local packet/cohomology comparison after the Shimura representation r_mu; its global formula(9.1) invokes Conj8.1. AG-ARTHUR-PARAM separates the Arthur and Deligne SL2 factors and computes their different Euler factors. AG-ARTHUR-MIN exhibits the exact exterior-square change from one standard length4 block to lengths5 and1. AG-LEFSCH-LATTICE shows that equal rational strings and all graded Frobenius polynomials still allow different integral cokernels. AG-LEFSCH-SPLIT gives the precise binomial cokernel under integral isotypic/weight splitting and divided-power stability. Thus the Hodge sketch Route1.4/Route4 and cote16 scans14–18 require an actual integral theta-to-cohomology comparison with those properties, or an explicit computation of their failure; A_D and M_H do not construct that map.
+
+## Multiple zeros and the precise positivity obstruction
+
+MT-M14 extends the canonical quotient equivalence to uniformly bounded zero multiplicities. Its sole remaining leading-coefficient condition is a uniform inverse-polynomial lower bound; full Hermite interpolation, exact spectral synthesis, an absolute jet basis and nuclear convolution follow. The fixed multiplicity bound is used explicitly in the reciprocal Taylor recursion and derivative estimates. MT-M15 then separates two notions of positivity: the adjoint-square trace is nonnegative, while a faithful Hilbert realization of all adjoint-square operators is impossible when any zero is multiple. The finite local algebra C[z]/z^m with z#=−z gives the exact obstruction. A semisimple model with repeated scalar coordinates keeps the spectral trace but removes the higher jets. This is an additional constraint on any Alpöge-to-Masullo positivity transfer, not an accusation that the draft states the stronger operator claim.
+
+## Ray classes, average conductors and convergent prime products
+
+NT-C06 cancels the ray class degree in the Chebotarev error by the conductor–discriminant formula, leaving the average rank-one conductor and the base-field degree, with exact corrections for unramified primes inside the modulus. NT-C07 gives explicit degree-one representatives of every ordinary or narrow ideal class. NT-C08 gives classwise Mertens constants and normalized Euler products with explicit tail bounds, so finite prime enumeration produces certified intervals for their constants. All use precisely the indicated ray-class-field Dedekind RH; A_D suffices when that field is abelian over Q, and M_H supplies the general case conditionally.
+
+## Cote149: an actual cusp normalizer and full arithmetic lifts
+
+AG-C149-NORMAL constructs a hyperbolic (0,n+2) family from a torsion line bundle L with L^n trivial and identifies its zero-cusp inertia normalizer with pi1(L×). The proof retains the proper base, arithmetic fiber product and crossed-cocycle stabilizer, and handles the full finite-index profinite inertia. AG-C149-FULLLIFT shows that every arithmetic section lifts through this full normalizer by a compatible Kummer cocycle. For the explicit elliptic 2-torsion line bundle, AG-C149-CUSP yields an actual four-punctured-line family with a globally nonsplit order2 normalizer class, zero rational image, and every arithmetic section liftable. This closes the previously posited normalizer comparison for the specified family at cote149 PDF80–82, equations13–21. It does not identify arbitrary-family normalizers or solve LM6 A.45.
+
+## The full canonical arithmetic quotient: one quantitative gate
+
+MT-M16/M17 remove the simple-zero and bounded-multiplicity restrictions of the earlier canonical construction. For every fixed unitary Hecke function under its GRH, the prescribed full normalized-jet Schauder basis is equivalent to one inverse-polynomial lower bound on its first nonzero finite-L Taylor coefficients, and also to the corresponding weighted product bound for neighboring zeros. When that condition holds, the ideal is the full jet kernel, the basis is absolute, and convolution is nuclear with its multiplicity-weighted Hilbert trace. A local O(logT) count controls every growing jet block once that condition is supplied. No simplicity or uniform multiplicity assumption remains. The one arithmetic bound and the map identifying the particular adelic draft quotient are still gates. Faithful operator positivity remains obstructed by any multiple-zero nilpotent block, even though adjoint-square traces are nonnegative.
+
+## The integral index gate is weaker than the full Smith-group gate
+
+AG-LEFSCH-INDEX proves the binomial total-index formula without integral weight or isotypic splitting: integrality of the normalized raising map and the Weyl lattice identification suffice. AG-LEFSCH-DEFECT gives the exact finite gluing sequence and confines possible Smith ambiguity to primes dividing at least two binomial factors. The explicit C8 versus C2⊕C4 example shows why the product inverse denominator can be sharp. Thus the theta-to-cohomology comparison for H8(iv), the Hodge sketch and cote16 needs fewer hypotheses to recover an index than to recover the entire cokernel. The actual integral theta lattice and its operators still require identification.
+
+## Polynomial factoring with an explicitly additional algebraic theorem
+
+CX-ALG-027/028 transfer the recent PF26 manuscript's specified algebraic splitter to deterministic polynomial factoring over supplied finite fields. PF26 remains an additional cited input, separate from A_D and M_H. M_H conditionally supplies the auxiliary Dedekind RH; A_D plus the residual pure prime-degree family suffices, with the supplied-extension and valuation-one branches reducing that finite family. The full recent source proof has been read without a gap found by the complexity agent, with independent geometric and norm-solver sections read by other agents. These are proof-reading events, not formal certification or an implemented factorer. The earlier quasipolynomial rows remain valid without PF26. CX-GEO-014 shows that width-one supplied-circuit Laurent feasibility still encodes HN. CX-GEO-015 verifies why standard padded permanent targets fail the closed-target promise and why affine GL orbit-closure intersection is trivial for positive-degree homogeneous forms; those interfaces do not settle arbitrary GCT containment.
+
+## A concrete mean-square route to the arithmetic basis
+
+NT-L15 proves for every fixed primitive unitary Hecke character that a finite weak-Mertens mean-square limsup implies GRH, simplicity, and square summability of 1/(rho L′(rho)), with the limsup itself as the bound. The proof uses a finite Abel-weighted Bessel argument and does not assume a Fourier expansion or an exact limiting distribution. NT-Z19 then supplies the canonical absolute point basis and positive diagonal Hilbert trace without separately assuming A_D or M_H. The mean-square hypothesis is explicit additional arithmetic input; neither cited GRH endpoint is claimed to imply it.
+
+## Actual integral elliptic functions and Hecke special values
+
+AG-THETA-REG/TORS close the integrality gate for two concrete families at good unramified primes: x−b²x∘[b], and translations of x by nonzero prime-to-p torsion. The general formal-height derivative bound therefore yields explicit divisibility of normalized Bernoulli–Hurwitz and torsion Eisenstein values, including stronger inert-CM cases when the Euler factor is a unit. AG-THETA-HECKE identifies a class-number-one family with w_K(m−1)!Omega^(−m)L(m,psi_m), fixing the differential and period normalization. These are actual algebraic functions and values, proved without A_D or M_H; the general theta section and lift/operator comparison remain separate. They directly refine Alpöge step2 and the attached Fable formal-height bridge.
+
+## Grouped zeros close the canonical synthesis and nuclearity gates
+
+MT-M18 constructs stable finite spectral blocks under the unconditional analytic properties of each fixed Hecke function. The closed ideal is exactly the full zero-jet kernel. Its quotient has an adapted absolute Schauder basis, and MT-M19 gives unconditional nuclear convolution and a trace-class Hilbert realization with the correct multiplicities. Thus no zero-separation or derivative hypothesis is needed for these block and trace assertions. MT-M16 remains the exact gate specifically for prescribed individual normalized-jet coordinates. The trace is nonnegative on every h*h# exactly when the fixed-function GRH holds; this is a precise Weil-positivity formulation, not an independent proof of its positivity.
+
+MT-M20 proves that simple zeros already give a weaker continuous, injective, dense point-evaluation Hilbert completion, even if the Frechet point-coordinate basis condition is unknown. A faithful positive Hilbert completion of the full jet algebra exists exactly under GRH plus simplicity. Off-line pairs and nilpotent multiple-zero blocks are explicit distinct obstructions. Semisimple repeated scalar models retain multiplicity-weighted traces while discarding the latter algebra structure.
+
+## A specified arithmetic comparison map is now proved
+
+MT-M21 identifies the canonical completed-zeta quotient over Q with Meyer's Poisson/zeta-summation quotient H_minus/ZH_cap, including its topology and convolution action. The comparison uses the exact image criterion in Meyer2005 Theorem4.1 and a complete selected-contour division proof. It does not infer equality merely from equal spectra. Meyer's classical construction and its source theorem are distinguished from this explicit crosswalk; arbitrary Masullo or étale-cohomology identifications remain separately scoped.
+
+## CM class and ray-conductor gates
+
+AG-THETA-CLASS removes class-number-one by an exact unit-weighted sum over normalized prime-to-p CM isogenies; no class-number denominator occurs. AG-THETA-RAY removes the conductor-one restriction for every proper conductor prime to p, replacing origin coefficients by actual finite étale torsion derivatives. Its exact algebraic period normalization yields the full formal-height bound without the inert weight-congruence exception. The good unramified model and integral differential remain explicit hypotheses.
+
+## Class-group torsion with the field's own RH
+
+NT-H12 supplies the classical Ellenberg–Venkatesh torsion exponent using only RH for zeta_K: degree-one unramified prime ideals suffice for the exact algebraic lemma, avoiding a normal-closure or Hilbert-class-field input. NT-H13 translates the bound into counts of ordinary unramified cyclic covers and Kummer torsors, with real-place, unit, root-of-unity, localization and nonconnected-torsor distinctions retained.
+
+## Every fixed Hecke sector has an actual adelic comparison
+
+MT-M22 extends the Q comparison to every fixed primitive unitary Hecke character. It matches Meyer’s inverse Euler-factor convention explicitly, proves exact equality of his summation image and the full zero-jet ideal, and transports the quotient topology and bornology by a continuous block section. Thus MT-M18/M19 act on this independently defined adelic quotient, not merely on an abstract equal-spectrum space. No GRH is used for the comparison; A_D/M_H supply trace positivity in their respective scopes. Identification with a particular Masullo map or an étale-cohomology construction remains separate.
+
+## Multiple zeros give an actual arithmetic obstruction
+
+NT-L16 quantifies the mean-square growth forced by a multiple pole of an inverse Hecke function. NT-L17 supplies concrete Kummer fields whose Dedekind zeta functions have infinitely many multiple zeros unconditionally. The universal weak-Mertens strengthening is therefore false. By MT-M20 their faithful full-jet quotients cannot carry positive Hilbert adjoint-square actions, even when M_H supplies positive traces. This is an arithmetic example, not only a possible abstract nilpotent block.
+
+## CM normalization and ramified conductor refinement
+
+AG-CM-INTEGRAL-MODEL constructs a full-CM good elliptic scheme over an extension of degree at most48h_K/w_K unramified away from3, with a differential integral at any finite prescribed set of inert p>=5. AG-CM-MODEL-DEGREE makes that degree bound explicit from A_D. Thus the model-existence gate in the class and ray formulas is closed. AG-FG-POLE and AG-THETA-PCOND treat ramified conductor points with an explicit normalized denominator and pole-loss estimate. AG-THETA-NONINT proves that the canonical reduced theta itself need not be formally integral at an inert prime; the exact E:y²=4x³−4x coefficient1411/2016 has7-adic valuation−1. These statements distinguish the integral elliptic functions already controlled from an unproved blanket theta-integrality transfer.
+
+## Relative Artin orders and every nonabelian Galois top field
+
+MT-ART09 removes the base-field zero contribution from the solvable Artin holomorphy gate using Wong’s exact classical theorem: under M_H only sufficiently high-order critical zeros of ζ_L/ζ_K remain. MT-M23 uses the unconditional HKMS multiple-zero theorem for every nonabelian Galois top field to rule out universal weak Mertens and faithful positive full-jet Hilbert actions. The obstruction is compatible with GRH and positive traces, and does not affect the unconditional adapted basis of MT-M18.
+
+## The actual draft quotient and its Hilbert kernel
+
+MT-M24 closes the particular Masullo smooth-map comparison: the theta image is the exact closed Meyer intersection and the quotient agrees with the full Hecke jet model in its literal topology. MT-M25 then proves the actual weighted line completion discards all off-line zeros and all jets failing2k<s−1. The source endpoint cutoff is corrected with an arithmetic witness. Thus full smooth synthesis, a chosen Hilbert completion, and faithful positive operators have now been separated by actual maps and kernels.
+
+## Integral module class and a central zero
+
+MT-ART10 supplies a precise classical bridge from the locally free integer-ring class of a tame Q8-extension to the functional-equation sign. Martinet’s totally real5,41 example forces a central zero of order≥2. This exhibits integral information erased by rationalizing the Galois module and shows that central nonvanishing is additional to GRH. It does not settle the special S5 central-value gate.
+
+## Trace class on the draft’s actual strip Hilbert quotient
+
+MT-M26 proves the exact closed kernel and trace-class convolution on the literal fixed-character Hilbert quotient of Masullo(10.4.1.3). A strip containing[0,1] in its interior suffices unconditionally; M_H narrows it to every positive-width strip centered at1/2. The smooth full-jet quotient has proper dense image, so its stronger topology is not confused with this norm. The remaining all-character passage is explicitly a uniform-estimate question, while scalar trace positivity remains equivalent to GRH on a wide strip.
+
+## Full adelic trace on the specified wide-strip quotient
+
+MT-M27 closes the all-character trace-class gate for the actual Masullo Hilbert quotient whenever its strip contains [0,1] in its interior. The proof gives an explicit bounded map from Meyer’s ambient pair to that Hilbert quotient and proves the uniform absolute spectral tails. It includes infinitely many archimedean characters at each finite level. The corrected smooth quotient has its exact all-jet kernel and proper dense image. Full narrow-strip trace class under M_H remains the smaller completion gate; positivity of the centered trace is still equivalent to the relevant GRH.
+
+## General tame integral classes and the centre
+
+MT-ART11 extends the Q8 example to every finite tame Galois extension: the Z[G] stable integer-ring class is a function of meromorphic central Artin parities. A nonzero class forces an even Dedekind central zero without Artin holomorphy, by a complete cyclic-restriction argument. MT-ART12 uses the hermitian trace form to extract each symplectic parity individually. The exact square-root conductor and Qbar scalar-extension normalizations were checked on the original source images. These are concrete integral K0 and trace-form comparisons for the cote16/cote1 programme; they do not supply coefficientwise Artin positivity or a regulator formula.
+
+## Every positive strip and quantitative multiplicities
+
+MT-M28 closes the remaining full-adelic positive-width trace-class gate conditionally on M_H. It retains every zero jet and proves actual operator identities, not only a convergent formal zero sum. Its uniform estimates cancel completed gamma factors before bounding them. Zero width retains exactly the MT-M25 cutoff, and faithful positive full-jet realizations remain obstructed.
+
+MT-NB01–04 add quantitative approximation to the inherited Nyman–Beurling bridge. The general Hecke lower constant is Σm²/|ρ|². An integral tame stable-class obstruction forces a central contribution≥16 and an excess≥8 over the ordinary-multiplicity sum, while HKMS makes this excess strictly positive for every nonabelian Galois top field. The sharp Riemann rate still requires the explicit derivative-moment input; a polynomial reciprocal-derivative bound with unspecified exponent is insufficient for the stated BCF route.
+
+## Graded arithmetic determinant comparison
+
+MT-M29 identifies the AG-DET operator with the positive-frequency inverse square of the norm generator on the canonical associated graded of the actual arithmetic quotient’s locally finite part. Every zero order is retained as a graded dimension; nilpotent extensions are removed. The ordinary trace-GNS space instead has one dimension per distinct zero, with multiplicity only as a measure weight. The remaining source route is precisely the zero-independent narrow-strip geometric trace identity, or an independent positive cohomological/GGP construction.
+
+## Restricted tests and the exact S5 relative factor
+
+MT-M30 removes the norm-one restriction from the arithmetic quotient comparison unconditionally: every class has a representative vanishing on norm-one ideles, and compact such tests detect every missing spectral contribution. This does not establish the draft’s geometric trace identity; it identifies that equality as the remaining exact zero-location gate. No positivity or support preservation is asserted for the projection.
+
+MT-S504 replaces the S5 condition ζ_H(1/2)≠0 by the weaker relative-order inequality ord ζ_H≤ord ζ_F+ord Lη. Thus central zeros from the two other factors no longer count against this route. Under M the inequality gives all Artin automorphy and then becomes equality; a remaining positive even rank-five order is an unresolved sufficient-condition gate, not a counterexample to automorphy.
+
+MT-S505 closes the real-axis Artin pole gate for the specified S5 family under M_H alone: a negative relative central order would trigger MT-S504 and contradict itself. The central relative divisor is effective and even. This leaves only nonreal critical-line poles in the unresolved positive-central-order branch; no central nonvanishing or full automorphy is inferred in that branch.
+
+## The local Euler Hilbert quotient
+
+MT-M31 refutes the actual closed-range assertion of Masullo11.2.0.1(2) even over Q and replaces it by an exact closure theorem, preserving precisely the continuous Mellin jets. This correction reaches the local orbital construction used by11.3.2.1 and hence12.5.1.1. The p-primary multiplicity bound and sufficient even Sobolev degree are unconditional; the source’s explicitly Schanuel-dependent sharper coincidence statement belongs to another branch. The remaining geometric comparison is not supplied by correcting the quotient.
+
+MT-M32 proves that the local trace itself survives the closure correction: a fixed primary Euler quotient has an explicit positive finite matrix-weight circle model, a Riesz basis and the exact local Poisson sum with every permitted multiplicity. It identifies the character/reflection/unit-Haar factors. The remaining step is comparison with the source’s localized geometric kernel and uniform global shell passage, not existence of a fixed-primary trace.
+
+## Local quotients and finite radial cutoffs
+
+MT-M33 proves that a separated centered strip inverts every finite local Euler operator. The corrected zero-line circle module therefore cannot enter that strip as a nonzero bounded invariant subquotient with the required centered action. MT-M34 then checks the actual alternative used in the draft: finite positive and two-sided cutoffs erase the one-prime quotient condition completely. Its counterexample satisfies every hypothesis of11.1.2.1(2), checked against original PDF428/480/482. The escaping correction has an explicit diverging norm, identifying why strong convergence alone fails.
+
+For cote1scans79–80/111–112, the repaired local Poisson trace remains available, but the draft’s passage from that quotient to a geometric global trace needs a replacement cutoff-limit argument. These results refute specific intermediate claims; the Hecke-GRH statement remains the designated conditional hypothesis for catalogue deductions.
+
+MT-M35 extends the cutoff diagnosis to every finite Euler product, without commensurability of logarithms: endpoint propagation makes the closed cutoff image full. In the actual rational theta model, exhausting all primes before cutoff leaves zero, while taking each finite cutoff closure first leaves the full cutoff space. The source’s part(3) Schwartz image agrees with the latter and is not an additional counterexample. For cote1scans79–80/111–112 the unresolved comparison must respect this distinction between closures and limiting operators.
+
+## A normalized trace lift does not fix local orbital allocation
+
+MT-M36 checks the original measure convention in495/505/508/549/560 and proves the literal section average is zero. The corrected compact-open projection has exact finite-level Fourier kernel, strong convergence and trace-norm compatibility for trace-class operators. A genuine Q* indentation also exists, but its p and p^{-1} orbital weights vary with an explicit parameter while the total remains1. Thus the cote1scans79–80/111–112 geometric trace route still needs a canonical local allocation, not normalization alone. This is a targeted intermediate refutation and repair; M_H is retained only as the stated conditional endpoint.
+
+## Compatible normalization kills the external shells
+
+MT-M37 proves that the nonnegative indentation supplied by the simultaneous normalizations in original12.2.2.4 must vanish off G0. For the actual rational idele filtration every external-prime shell then vanishes before any trace limit. Thus this construction cannot replace the literal zero section-average in11.3.2.2 while retaining its asserted nonzero local orbital values. The original zero-tail conclusion is not refuted. A varying-level lift remains a distinct route; its exact external mass is1-sum A_c^2, with explicit defect and L1 bounds that any claimed limiting repair can be checked against. The cote1scans79-80/111-112 comparison gate now excludes the single-compatible-lift route.
+
+## The S5 pole gate now has exact support and order thresholds
+
+MT-S506 uses only A_D for critical-line pole location in every S5/Q extension, via explicit induced characters and all-prime Artin identities. MT-S507 adds the known rank-four holomorphy in the Calegari family and exhausts all43 induced-linear Hecke tests. A remaining rank-five pole requires explicit common zeros and relative Dedekind order at least4 times its order; when the corresponding rank-four value is nonzero, the penalty rises to6. The total Dedekind penalties are5 and8. Relative order at most3 therefore closes the pointwise holomorphy gate. M_H viaMT-S505 removes the real-axis case in this family. Exact formal witnesses delimit what these positivity tests can prove; they are not arithmetic counterexamples.
+
+MT-M37 additionally proves the canonical trace-diagonal contraction from trace-class operators to L1. In a fixed Hilbert realization, trace-norm convergence plus an indentation defect tending to zero forces every selected external contribution to vanish. This closes that precise varying-level repair route when its proposed diagonal is the canonical trace diagonal; it does not identify an arbitrary geometric kernel with that diagonal.
+
+## A single Hecke function and the automorphic central excess
+
+MT-S508 reduces the analytic input for the specified Calegari comparison to the real zeros of one quadratic Hecke L-function over a degree-six field. It retains the known GL5 numerator order n: beta>=b+n, and equality is equivalent to exact transfer of both rank-five factors. The remaining central excess is beta-b-n, replacing the earlier sufficient test beta<=b. A_D+this single real-zero input also replaces universal M in the real-axis holomorphy consequence. Full zero-location conclusions for the remaining factors remain separate.
+
+The expanded MT-S508 uses positivity of the exceptional Euler quotient to show that the single real-zero hypothesis already forces absolute convergence for every realpart>1/2 and real-axis holomorphy without A_D. Full GRH_B transfers to the known GL5 comparison numerator before exact transfer has closed. The central excess also equals the automorphic-twist order minus ord(zeta_F); if positive, it forces an exact(k/4)log(1/epsilon) singularity of the exceptional-prime harmonic sum. These conditions narrow the residual comparison route without asserting the missing central nonvanishing.

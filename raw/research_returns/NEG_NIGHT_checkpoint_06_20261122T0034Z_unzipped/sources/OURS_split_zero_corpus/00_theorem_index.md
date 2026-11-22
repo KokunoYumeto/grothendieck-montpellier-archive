@@ -1,0 +1,92 @@
+# Theorem index for both uploaded files
+
+- globalization_note.pdf: 22 theorem-like results extracted
+- ChatGPT-Error correction and review (12).md: 60 theorem-like results extracted
+
+## globalization_note.pdf
+
+- Proposition 1.2. The structure (S, ⊕, ·, τ, 1) is a commutative unital semiring.
+- Proposition 1.3. The map
+- Proposition 1.4. There is no unital semiring homomorphism B → S.
+- Proposition 1.5. Let {±1} act on S by multiplication. Then
+- Theorem 2.2. Every ideal I ⊆ S is either {τ } or In for a unique integer n ≥ 0. Equivalently,
+- Corollary 2.3. The prime ideals of S are exactly
+- Corollary 2.4. The Krull dimension of S is
+- Proposition 3.1. The group of units of S is
+- Theorem 3.2. The element 0 ∈ Z ⊂ S is prime in the divisibility sense but not irreducible.
+- Theorem 3.4. Every congruence on S is either ρn or ρ′n for a unique n ≥ 0. Moreover:
+- Corollary 3.5. Let
+- Theorem 4.1. Let M ⊆ Z be a multiplicative subset with 0 ∈
+- Theorem 4.2. If one localizes at the full multiplicative subset Z ⊂ S, then
+- Corollary 4.3. Let O be the structure sheaf of Spec(S). Then
+- Theorem 5.2. The prime ideals of the commutative monoid M = (Z, ×) are exactly the sets
+- Corollary 5.3. The prime ideals of MS are exactly
+- Corollary 5.4. The topological spaces Spec(S) and Spec(MS ) are not homeomorphic.
+- Theorem 5.5. Let Z0 [MS ] be the contracted monoid algebra of MS , i.e.
+- Theorem 6.2. The ideals of S(OK ) are exactly
+- Theorem 6.4. There is a canonical isomorphism of commutative monoids
+- Theorem 6.5. The ideal zeta function of S(OK ) is the Dedekind zeta function of K:
+- Corollary 6.6. Under the action of OK
+
+## ChatGPT-Error correction and review (12).md
+
+- Proposition A.1. The claim that “ $\tau$  is not a multiplicative absorber globally” is false.
+- Proposition A.2. The claim that  $\operatorname{Spec}(S)$  has “two distinct generic points” is false if interpreted as generic points of the whole space.
+- Proposition A.3. The residue objects
+- Proposition A.4. The claim that the classical spectrum embeds as an “open and dense” subspace is false.
+- Proposition A.5. The statements about a “place at  $\mathbf F_1$ ”, a “boundary extension”
+- Proposition A.6. The prior thread’s generalization of the factorization failure from  $\mathbf Z$  to arbitrary rings was overstated; the clean theorem requires an integral domain hypothesis.
+- Proposition A.7. The only canonical zeta function proved in the note is the ideal zeta
+- Proposition B.2. Both  $p_R$  and  $\chi_R$  are unital semiring homomorphisms.
+- Proposition B.3. The map
+- Proposition B.4. For every commutative ring  $A$ , composition with  $p_R$  induces a bijection
+- Proposition B.5. For nonzero commutative rings  $R,R'$ , restriction induces a bijection
+- Corollary B.6.  $G(R)\cong G(R')$  as semirings if and only if  $R\cong R'$  as rings.
+- Proposition B.7. There is no unital semiring homomorphism
+- Proposition B.8. There is no unital semiring homomorphism
+- Theorem B.9. The ideals of  $G(R)$  are exactly
+- Theorem B.10. The prime ideals of  $G(R)$  are exactly
+- Corollary B.11. The map
+- Proposition B.12.  $P_\tau$  is the generic point of  $\operatorname{Spec}(G(R))$ , and
+- Corollary B.13.  $\operatorname{Spec}(G(R))$  is irreducible, and every nonempty open subset contains  $P_\tau$ .
+- Proposition B.14. The subset
+- Theorem B.15. If  $R\neq 0$ , then
+- Theorem B.17. Every congruence on  $G(R)$  is either  $\rho_J$  or  $\rho'_J$  for a unique ideal  $J\triangleleft R$ .
+- Corollary B.18. The congruence lattice of  $G(R)$  is a doubled copy of the ideal lattice of  $R$ : for ideals  $J,K\triangleleft R$ ,
+- Theorem B.19. Let  $M\subseteq R$  be a multiplicative subset with  $0\notin M$ . Then
+- Theorem B.20. Localizing at the full multiplicative subset  $R\subset G(R)$  yields
+- Corollary B.21. For a prime  $\mathfrak p\in\operatorname{Spec}(R)$ ,
+- Theorem B.22. For nonzero commutative rings  $A,B$ ,
+- Theorem B.23. Let  $R$  be an integral domain.
+- ### Proposition 1.1
+- ### Proposition 2.1
+- ### Theorem 3.1
+- ### Corollary 3.2
+- ### Theorem 4.1
+- ### Corollary 4.2
+- ### Corollary 4.3
+- ### Theorem 5.1
+- ### Corollary 5.2
+- ### Corollary 5.3
+- ### Theorem 6.1
+- ### Theorem 7.1
+- ### Corollary 7.2
+- ### Proposition 7.3
+- ### Proposition 7.4
+- ### Proposition 7.5
+- ### Theorem 8.1
+- ### Theorem 8.2
+- ### Corollary 8.3
+- ### Proposition 8.4
+- ### Theorem 9.1
+- ### Theorem 10.1
+- ### Theorem 11.1
+- ### Proposition 11.2
+- ### Proposition 12.1
+- ### Proposition 12.2
+- ### Proposition 12.3
+- ### Proposition 13.1
+- ### Theorem 13.2
+- ### Proposition 14.1
+- ### Corollary 15.1
+- ### Theorem 16.1

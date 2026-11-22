@@ -1,0 +1,191 @@
+\paragraph{P-F67: logarithmic overhead suffices for a narrow density obstruction.}
+The broad product argument in P-F63 leaves an exact representation-theoretic
+question: can a single ordinary plethysm triple, or a single Kronecker
+triple, be padded to a strict-saturation exception at sufficiently small
+cost?  Constant additional cost is not necessary.  We give a criterion
+allowing logarithmic additional raw partition length and polynomially
+many preimages.  No map satisfying the criterion in either narrow
+population is asserted here.
+
+For a positive integer $a$, let $\ell(a)=1+\lfloor\log_2a\rfloor$;
+for a partition, sum $\ell$ over its positive parts and omit zero parts.
+For an ordered partition triple $x$, let $L(x)$ be the sum over its
+three partitions.  This is the raw partition input convention in
+GCT VI, Section~1.1, printed p.~9.  In particular no ambient rank,
+description tree or multiplicity encoding of repeated equal parts is
+substituted for that convention.  The narrow ordinary clause is
+Hypothesis~1.6.5(b), printed p.~25, and uses length exactly $N$;
+the at-most-$N$ clause in Hypothesis~3.3.2(b) is a different source
+population, as discussed in P-F48:
+\url{https://arxiv.org/pdf/0704.0229}.
+
+Let $\mathcal D$ be either the ordered triples with nonzero ordinary
+plethysm coefficient or the ordered triples with nonzero Kronecker
+coefficient.  Let $\mathcal E\subseteq\mathcal D$ consist of the
+triples with nonzero literal strict saturation index.  Write
+\[
+ A(N)=|\{x\in\mathcal D:L(x)\le N\}|,\qquad
+ E(N)=|\{x\in\mathcal E:L(x)\le N\}|.
+ \tag{P-F67a}
+\]
+Suppose there are fixed constants $\kappa>0$, $d\ge0$ and an integer
+$C\ge0$ such that, for every sufficiently large integer $N$, there
+is a map
+\[
+ \Phi_N:\{x\in\mathcal D:L(x)\le N\}
+       \longrightarrow
+       \{y\in\mathcal E:L(y)\le F(N)\},
+ \quad F(N)=N+\lceil\kappa\log(N+2)\rceil+C,
+ \tag{P-F67b}
+\]
+whose fibers have size at most $(N+2)^d$.  Here and below $\log$
+without a subscript is the natural logarithm.  The maps need not be
+the same for different $N$, and no algorithmic complexity is assumed.
+Then the exceptional proportion fails to decrease faster than every
+inverse polynomial, both in the cumulative population (P-F67a) and
+in the source's exact-length population.  Thus an injective map with
+$O(\log N)$ overhead is sufficient, and the conclusion remains valid
+with polynomially bounded fibers.
+
+\emph{1. A self-delimiting serialization of raw partition triples.}
+For a positive part $a$ of binary length $\ell$, encode it as
+\[
+             1\,0^{\ell-1}\,\operatorname{bin}(a).
+ \tag{P-F67c}
+\]
+Terminate each partition by a single zero.  The first bit determines
+whether the partition ends or another part follows.  In the latter
+case, the number of subsequent zeros before the first one determines
+$\ell-1$; that first one and the next $\ell-1$ bits recover the
+ordinary binary expansion of $a$.  Consequently decoding is unique.
+Concatenating the three partition blocks gives a prefix-free code:
+after the third terminator a complete triple has ended, so a complete
+triple code cannot be a proper prefix of another one.  Empty partitions
+cause no problem; their block is just the terminator.
+
+The code for a part has length $2\ell$, exactly, so the triple code
+has length $2L(x)+3$.  Padding all codes with $L(x)\le N$ by zeros
+to length $2N+3$ preserves injectivity by prefix-freeness.  Therefore
+the number of all ordered partition triples of raw length at most
+$N$, and in particular the number in $\mathcal D$, satisfies
+\[
+                         A(N)\le 2^{2N+3}.
+ \tag{P-F67d}
+\]
+No choice of delimiters is being charged back to the source's raw
+length: (P-F67c) is an auxiliary injection used solely to bound the
+number of source inputs.
+
+\emph{2. Iterating the logarithmic padding.}
+The fiber hypothesis gives the exact counting inequality
+\[
+                    E(F(N))\ge\frac{A(N)}{(N+2)^d}.
+ \tag{P-F67e}
+\]
+Assume for a contradiction that $E(m)/A(m)\le m^{-u}$ eventually
+for every fixed $u>0$.  Choose one fixed
+\[
+                         u>d+2\kappa\log 2.
+ \tag{P-F67f}
+\]
+Take $N_0$ so large that the padding maps and this one density
+bound apply at every subsequent cutoff, that $A(N_0)>0$, and
+that $F(N)\ge N+2$ for $N\ge N_0$.  Equations (P-F67e)--(P-F67f)
+then give
+\[
+ A(F(N))\ge\frac{F(N)^u}{(N+2)^d}A(N)
+             \ge (N+2)^{u-d}A(N).
+ \tag{P-F67g}
+\]
+Define $N_{i+1}=F(N_i)$.  Summing the logarithm of (P-F67g) yields
+\[
+ \log A(N_k)\ge\log A(N_0)
+                  +(u-d)\sum_{i=0}^{k-1}\log(N_i+2).
+ \tag{P-F67h}
+\]
+On the other hand the definition of $F$ gives
+\[
+ N_k-N_0=\kappa\sum_{i=0}^{k-1}\log(N_i+2)+O(k),
+ \tag{P-F67i}
+\]
+where the absolute error is bounded by $(C+1)k$.
+Because $N_i$ increases to infinity, its successive increments
+increase without bound in the following sufficient sense: for any
+fixed $B$, every sufficiently late increment is at least $B$.
+Hence $N_k/k\to\infty$ and $k/N_k\to0$.
+Dividing (P-F67i) by $N_k$ therefore proves
+\[
+ \frac{1}{N_k}\sum_{i=0}^{k-1}\log(N_i+2)
+                         \longrightarrow\frac1\kappa.
+ \tag{P-F67j}
+\]
+It follows from (P-F67h) that
+$\liminf_k\log A(N_k)/N_k\ge(u-d)/\kappa>2\log2$,
+contrary to (P-F67d).  In particular, for any fixed $u$ satisfying
+(P-F67f), the cumulative proportion exceeds $N^{-u}$ at arbitrarily
+large cutoffs.  It is not necessary to choose a new density exponent
+at each step of the iteration.
+
+\emph{3. Exact-length shells cannot evade the contradiction.}
+Write $a_j=|\{x\in\mathcal D:L(x)=j\}|$ and
+$e_j=|\{x\in\mathcal E:L(x)=j\}|$.  If $a_j=0$, then $e_j=0$;
+the assertion about that shell is read as the inequality
+$e_j\le j^{-v}a_j$.  Both populations under consideration have an
+elementary exponential lower bound for $A(N)$.  For ordinary
+plethysm, all triples
+\[
+                         ((1),(a),(a))
+\]
+have coefficient one.  For $h=\lfloor(N-1)/2\rfloor\ge1$, the
+$2^{h-1}$ integers of binary length $h$ give distinct inputs of
+length $1+2h\le N$.  For Kronecker coefficients, all triples
+$((a),(a),(a))$ have coefficient one, since the one-row Specht
+module is the trivial representation.  Choosing
+$h=\lfloor N/3\rfloor$ gives $2^{h-1}$ distinct inputs.  Thus in
+either case, for all sufficiently large $N$,
+\[
+                           A(N)\ge 2^{N/3-2}.
+ \tag{P-F67k}
+\]
+
+If the exact-length exceptional proportions decreased faster than
+every inverse polynomial, fix $v>0$ and use the shell bound with
+exponent $2v$ at every $j\ge\lceil\sqrt N\rceil$, for sufficiently
+large $N$.  Splitting the cumulative sum at this point and using
+(P-F67d), (P-F67k) gives
+\[
+ \begin{split}
+ \frac{E(N)}{A(N)}
+ &\le\frac{A(\lfloor\sqrt N\rfloor)}{A(N)}+N^{-v}\\
+ &\le 2^{2\sqrt N-N/3+5}+N^{-v}.
+ \end{split}
+ \tag{P-F67l}
+\]
+The harmless possible overlap when $\sqrt N$ is an integer only
+enlarges the upper bound.  The first term is smaller than every
+inverse polynomial.  Taking $v$ larger than any desired exponent
+would make the cumulative proportions decrease faster than every
+inverse polynomial as well, contradicting Step~2.  This proves the
+exact-length assertion. \hfill$\square$
+
+The fractions here use the nonzero-coefficient population, namely
+the conditional reading of the narrow density wording specified in
+P-F48.  The same counting criterion works for a different chosen
+population only if the maps (P-F67b) cover that population and its
+count has the lower bound needed in Step~3; a map covering only
+nonzero inputs does not by itself refute an unconditional density
+statement with all triples in its denominator.
+
+An exact product identity of stretching functions would be one way
+to verify that the image lies in $\mathcal E$: the fixed factor of
+P-F63 has a nonzero constituent vanishing at one, and multiplication
+by an input function with every constituent nonzero retains that
+failure of strict saturation.  But a direct-product subgroup input
+is not an ordinary partition triple.  One must still construct a
+map within the chosen narrow family, prove its complete stretching
+identity or otherwise prove its strict-index property, and verify
+the raw length and fiber bounds in (P-F67b).  Semigroup inequalities,
+a single-value coefficient identity, and padding with linear or
+polynomial additional raw length do not establish this logarithmic
+criterion.  This proposition reduces that remaining gate; it does
+not settle narrow SH(b).

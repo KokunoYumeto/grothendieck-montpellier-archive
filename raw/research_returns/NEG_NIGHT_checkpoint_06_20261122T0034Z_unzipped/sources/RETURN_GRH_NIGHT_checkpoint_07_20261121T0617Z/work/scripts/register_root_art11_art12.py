@@ -1,0 +1,46 @@
+from pathlib import Path
+from datetime import datetime, timezone
+import csv, json
+
+base = Path(__file__).resolve().parents[2]
+root = base / 'work/root'
+now = datetime.now(timezone.utc).isoformat()
+rows = json.loads((root / 'rows.json').read_text())
+assert not any(r['id'] in ['MT-ART11', 'MT-ART12'] for r in rows)
+with (root / 'section.tex').open('a') as f:
+    f.write('\n' + (root / 'tame_integral_central_parity.tex').read_text())
+rows.extend([
+    dict(id='MT-ART11', statement='For every finite tame Galois N/K, the stable Z[G]-class [O_N]−[O_K[G]] is the classical root-number class evaluated on the parities of meromorphic central Artin orders, and has order dividing2. A nonzero stable class forces ord_.5 ζ_N≥2 without Artin holomorphy. With central Artin holomorphy the order is at least the sum of dimensions of negative-root symplectic irreducibles.', input='neither; Taylor1981 Theorem1, Cassou-Noguès–Taylor1983 CorollaryA, classical Artin functional equations/formalism and abelian Hecke holomorphy; coefficientwise central positivity only for the degree-weighted refinement', status='classical stable-class theorem with exact locators; full new parity, cyclic-restriction nonvanishing and lower-bound deductions proved here', where_the_proof_is='GRH_NIGHT.tex MT-ART11; work/root/tame_integral_central_parity.tex; Taylor1981 Theorem1p41 and odd-degree Corollarypp41–42; CNT1983 CorollaryA p10', where_it_lives='Integral K0 of finite Galois covers; AG-LAMBDA/AG-LEFSCH-LATTICE/DEFECT; inherited cote16scans14–18no7; Q-ARTIN-POS and central nonvanishing gate'),
+    dict(id='MT-ART12', statement='The hermitian integer-ring trace class of a finite tame Galois extension canonically determines every symplectic meromorphic central-order parity. Its second invariant is sqrt(N conductor) times the infinite root number. This uses the actual trace form and the source’s Qbar scalar extension, with no inversion of the ordinary stable-class root-number map.', input='neither; Cassou-Noguès–Taylor1983 main theorem and CorollaryB, plus the fully proved functional-equation parity calculation MT-ART11', status='classical hermitian root-number theorem with exact locator; complete central-parity and equal-class consequences proved here', where_the_proof_is='GRH_NIGHT.tex MT-ART12; work/root/tame_integral_central_parity.tex; CNT1983 (2.9)p8,(3.6)–(3.9)p9,Theoremp10,CorollaryB/proofp11; originalpp5,9,10 images checked', where_it_lives='Hermitian refinement of integral K0; cote1 trace and cote16 lattice programme; central Artin positivity remains distinct from parity')
+])
+(root / 'rows.json').write_text(json.dumps(rows, ensure_ascii=False, indent=2) + '\n')
+sources = json.loads((root / 'sources.json').read_text())
+sources.extend([
+    dict(id='TAYLOR81', title='Martin J. Taylor, On Fröhlich’s conjecture for rings of integers of tame extensions, Invent.Math.63(1981),41–79, DOI10.1007/BF01389193', locator='Theorem1 and Corollary p41; complete odd-degree/cancellation proof p42; definition of the root-number class in §2', url='https://gdz.sub.uni-goettingen.de/id/PPN356556735_0063', inspection='Retrieved public GDZ IIIF manifest and original scanned pages41–42 (volume scan47–48); visually read full theorem and corollary, its entire short proof and introduction. The long proof of Theorem1 was not reread; CNT1983 main proof and exact upstream references were read separately.', web_refs=['turn145298059view0']),
+    dict(id='CNT83', title='Philippe Cassou-Noguès and Martin J. Taylor, Constante de l’équation fonctionnelle de la fonction L d’Artin d’une représentation symplectique et modérée, Ann.Inst.Fourier33(2)(1983),1–17, DOI10.5802/aif.913', locator='§1 hermitian K0/discriminant pp3–5; (2.2)–(2.10) and Proposition2.6 pp6–8; (3.6)–(3.9)p9; main Theorem/CorollaryA p10, CorollaryB and complete main proofp11; local comparison §4pp12–17', url='https://www.numdam.org/item/10.5802/aif.913.pdf', inspection='Root read the complete retrieved mathematical text, including Proposition2.6 and the entire main proofp11 and local comparison. Originalpp5,9,10 rendered and visually checked for Qbar scalar extension, square-root conductor factor and the group-ring involution in the standard trace form. Upstream Gauss-sum/determinant theorems remain classical cited inputs, not independently reproduced.', web_refs=['turn748388299view0','turn140491211view0'])
+])
+(root / 'sources.json').write_text(json.dumps(sources, ensure_ascii=False, indent=2) + '\n')
+
+def event(path, sid, kind, outcome):
+    with path.open('a', newline='') as f:
+        csv.writer(f, delimiter='\t').writerow([sid, now, '/root', 'GPT-6 Astra Pro', 'not exposed', 'GRH_NIGHT_20261121', kind, outcome])
+
+event(root / 'events.tsv', 'MT-ART11', 'targeted proof check', 'Read entire new formulation and all deductions after writing. Checked meromorphic Laurent parity including negative orders, finite nonzero archimedean factors, exact Z[G] relative stable-class normalization, cyclic-subgroup abelian factorization with all orders nonnegative, restriction of the Heilbronn character by induction/Frobenius reciprocity, vanishing on every group element, even Dedekind central order, and conditional degree-weighted inequality. No use of false integral induction solely from cyclic characters. Classical Taylor theorem retained as cited input.')
+event(root / 'events.tsv', 'MT-ART12', 'targeted proof check', 'Read entire statement and proof after writing. Checked literal right-module trace form, bar on first standard-form variable, square root of conductor, Qbar rather than Q hermitian scalar extension, extraction of each central parity, and equal-class deduction. No injectivity of t or Artin holomorphy assumed. Classical CNT theorem cited by exact locator.')
+event(base / 'work/checks/source_events.tsv', 'TAYLOR81', 'used and rechecked in this run', 'Original GDZ images of printedpp41–42 visually read: full Theorem1 statement, odd-degree corollary and complete cancellation proof. No fresh complete reading of the long Theorem1 proof claimed.')
+event(base / 'work/checks/source_events.tsv', 'CNT83', 'used and rechecked in this run', 'Read all retrieved mathematical textpp1–17, including full Proposition2.6 proof and complete main proofp11. Independently rendered and viewedpp5,9,10 to verify algebraic closure in the hermitian reduced group, sqrt(N conductor), and bar on m in the baseline form. Upstream Fröhlich/Taylor Gauss-sum results are located classical dependencies.')
+
+path = root / 'questions.tsv'
+with path.open(newline='') as f:
+    reader = csv.DictReader(f, delimiter='\t'); fields = reader.fieldnames; questions = list(reader)
+questions.extend([
+    dict(id='Q-TAME-INTEGRAL-CENTRE', source_and_locator='MT-ART10; Taylor1981 Theorem1p41; CNT1983 CorollaryA p10; cote16scans14–18no7', question='Does the quaternionic integral-class/central-zero link extend to every tame Galois extension without assuming Artin holomorphy?', state='proved MT-ART11: stable class is the root-number image of central parities; nonzero class forces an even central Dedekind zero. The degree-weighted lower bound requires central Artin positivity, and all classes are over Z[G].'),
+    dict(id='Q-HERMITIAN-CENTRAL-PARITY', source_and_locator='CNT1983 Theoremp10/CorollaryBp11; cote1trace/cote16integral programme', question='Which integral refinement recovers individual central root signs instead of only their ordinary stable-class image?', state='proved by the located classical CNT theorem and full deduction MT-ART12: the hermitian trace class has canonical sign extraction giving every symplectic meromorphic central parity, with exact sqrt-conductor normalization. Positivity and leading coefficients remain separate.')
+])
+with path.open('w', newline='') as f:
+    writer = csv.DictWriter(f, fieldnames=fields, delimiter='\t'); writer.writeheader(); writer.writerows(questions)
+with (root / 'implications.md').open('a') as f:
+    f.write('\n## General tame integral classes and the centre\n\nMT-ART11 extends the Q8 example to every finite tame Galois extension: the Z[G] stable integer-ring class is a function of meromorphic central Artin parities. A nonzero class forces an even Dedekind central zero without Artin holomorphy, by a complete cyclic-restriction argument. MT-ART12 uses the hermitian trace form to extract each symplectic parity individually. The exact square-root conductor and Qbar scalar-extension normalizations were checked on the original source images. These are concrete integral K0 and trace-form comparisons for the cote16/cote1 programme; they do not supply coefficientwise Artin positivity or a regulator formula.\n')
+with (root / 'ledger_history.md').open('a') as f:
+    f.write(f'\n### {now} — tame integral and hermitian parity comparisons\n\nMT-ART11/12 have complete root proof readings and exact primary theorem locators. The general tame stable-class-to-central-zero deduction is unconditional and retains the Z[G] restriction-of-scalars scope. The hermitian refinement recovers each symplectic sign without inverting the forgetful class map. Classical Taylor/Cassou-Noguès results retain their original credit.\n')
+print(json.dumps(dict(date=now, root_rows=len(rows), added=['MT-ART11','MT-ART12'])))

@@ -1,0 +1,59 @@
+# Finite-field factoring and general nonresidue premise audit
+
+**Audit date:** 2026-11-20 UTC. **Checker:** /root/koiran_gct. **Model:** GPT-6 Astra Pro. **Effort:** inherited; not exposed.
+
+## Prioritized conclusion
+
+The general finite-field radical oracle has a verified sufficient route under the all-number-field Hecke premise H_M (via Dedekind RH). The primary Bach–Shallit source in the Adleman–Lenstra/BGL citation chain explicitly assumes RH for an auxiliary **top-field Dedekind zeta function**. Thus the final rational-character argument in BIMS17 §6.2 cannot, by itself, be substituted for every analytic assumption used in its general-extension/cyclotomic construction. This is a conclusion about the verified source chain, not a proof that H_A cannot imply the full result through another method.
+
+A stronger positive result is fully proved in CX-N13: for every specified prime r dividing p−1 and every supplied model of Fp^m, an r-th nonresidue is constructible in deterministic poly(m logp) time under H_A. The even-degree quadratic case is already unconditional. This removes any broader Hecke gate from that particular consequence, while leaving the r not dividing p−1 regime unclosed by the audited Dirichlet-only route.
+
+## Exact newly recovered primary analytic premise
+
+**Bach–Shallit (1989),** *Factoring with cyclotomic polynomials*, Mathematics of Computation **52**(185), 201–219, DOI 10.1090/S0025-5718-1989-0947467-1. Original FOCS1985 version: 443–450, DOI10.1109/SFCS.1985.24. The author publication list explicitly identifies the 1989 paper as the full version of the 1985 paper.
+
+Primary URL:
+https://www.ams.org/journals/mcom/1989-52-185/S0025-5718-1989-0947467-1/S0025-5718-1989-0947467-1.pdf
+
+Author publication crosswalk:
+https://cs.uwaterloo.ca/~shallit/papers.html
+
+**Verified locators:** §7 conclusion, pp212–213, explains why the splitting of X^k−p requires passing to an extension over which the equation is abelian; §8, **Lemma13, printed pp213–214**, states the degree-one prime-ideal existence theorem for an abelian extension L′/L and explicitly assumes RH for the **Dedekind zeta function of L′** for the O(log²|disc L′|) norm bound. Its proof cites Lagarias–Odlyzko Cor1.2 and the residue-degree-one observation of Lagarias–Montgomery–Odlyzko. **Lemma14 and Theorem3, p214**, bound the discriminant and use this analytic result to obtain a small auxiliary rational prime. Theorem3 has bound O(k^6 log²(pqk)) for simultaneous inertness/splitting used in their integer-factorization algorithm; it is not the exact one-prime AL86 bound.
+
+**Access/reliability:** initial direct PDF requests and subsequent screenshots returned403. Search indexing nevertheless supplied the primary full-text transcription. The actual lemma statement and its two-line proof were read directly, together with the surrounding §7–§8 reduction. The OCR of the radical-field definitions is visibly corrupt, so this audit does **not** claim to have visually verified those exact formulas. The explicit Dedekind-zeta premise in Lemma13 is unambiguous. The independently proved Kummer refinement in CX-N11 supplies its own precise auxiliary field and discriminant proof; no need to reconstruct a corrupt source formula.
+
+Cached web refs available in this run: turn779188627view0 (full text), turn478567448view0 (Lemma13 neighborhood), turn478567448view1 (Theorem3 and proof); screenshots failed as turn215326154view0/1. Bibliographic crosswalk: turn478567448view2. Parent must open its own ref before web-citing.
+
+## AL86/BGL/BIMS chain, with every remaining input exposed
+
+1. **Adleman–Lenstra1986**, *Finding irreducible polynomials over finite fields*, STOC18 pp350–355: Theorem1p350; AlgorithmA Step2pp350–351; **Proposition3p351**. Proposition3 asks for a prime q≡1modn with p inert in the degree-n subfield of Q(ζ_q), bounded by c n^4 log²(np), under ERH. The text says it uses a variant of **Bach–Shallit FOCS1985 Theorem2**. Primary local full PDF/text already present as work/number_sources/adlemanlenstra1986.*; URL https://pub.math.leidenuniv.nl/~lenstrahw/PUBLICATIONS/1986a/art.pdf . This is a citation to the earlier conference theorem, not to Theorem2 of the substantially renumbered 1989 full version. The newly retrieved 1989 Lemma13 identifies the actual analytic family used in that full method. AL86 Proposition3 is additionally established under H_M by the independent CX-N11 proof.
+
+2. **Bach–von zur Gathen–Lenstra2001**, *Factoring polynomials over special finite fields*, FFA7 pp5–28, **Theorem2p7**: constructs a primitive r-th root in supplied Fp^h, h=ord_r(p), from specified auxiliary irreducible polynomials g_ell of degree ell over Fp for primes ell|(r−1) not dividing h. Those g_ell are additional data. The preceding general conditional discussion invokes AL86 to construct irreducibles. Source https://pub.math.leidenuniv.nl/~lenstrahw/PUBLICATIONS/2001a/art.pdf . This is an algebraic reduction with an explicit extra construction input, not a proof that prime-field nonresidues alone provide the data under the narrower premise.
+
+3. **BIMS17**, *Irreducibility and deterministic r-th root finding over finite fields*, ISSAC2017, DOI10.1145/3087604.3087620. Author8-pagePDF https://www.cse.iitk.ac.in/users/nitin/papers/irred-and-rth-root.pdf . **Theorem5.2/Cor5.3p6** display BGL's auxiliary irreducible input. **§5.4, Theorem5.6 and Corollary5.7, pp6–7** discuss general finite-field nonresidues: Cor5.7's proof invokes BGL Theorem2 and AL86 to obtain the root of unity. **Conjecture6.3p7** expressly concerns characters Fp*→C*, and **Theorem6.7p8** proves a least-nonresidue bound in the prime field. The final paragraphp8 says this derandomizes irreducible construction and other problems, citing AL86 and BGL. The direct proof in §6.2 only supplies the prime-field character bound. A theorem or reduction that eliminates the separate auxiliary-field analytic requirement for all general-extension cases was not supplied by those cited passages or found in this audit. This records the unclosed link without calling the general full-GRH theorem false.
+
+4. When r|p−1, that unclosed link is avoidable: CX-N13 gives the direct construction using only a prime-field nonresidue and Fp-linear Frobenius computation. When r does not divide p−1, prime-field r-nonresidues do not exist, since raising to the r-th power permutes Fp*. If r|p^m−1, the minimal cyclotomic degree ord_r(p)>1 divides m. The audited BGL route introduces auxiliary irreducibles here. This algebraic observation explains precisely why the established r|p−1 transfer cannot simply be repeated.
+
+## Original Evdokimov/Huang/Rónyai retrieval status
+
+- **Evdokimov1994**: verified primary abstract, LNCS877 pp209–219, DOI10.1007/3-540-58691-1_58. The abstract says the GRH use is polynomial-time root extraction in finite fields. The full original proof was **not recovered**, so do not invent a main-theorem number or assert that its detailed radical calls were independently audited. Original Bonn preprint is Report8593-CS(1993); 85111-CS is an unrelated graph paper. Springer chapter PDF404 and observed Bonn report locations404. Source https://link.springer.com/chapter/10.1007/3-540-58691-1_58 .
+- **Rónyai1992**: verified primary abstract, *Galois groups and factoring polynomials over finite fields*, SIAM J.Discrete Math5(3),345–365, DOI10.1137/0405026. Original journal proof not recovered; direct PDF/pdfplus403. Earlier FOCS1989 version pp99–104 DOI10.1109/SFCS.1989.63462. The abstract's integer-polynomial/splitting-field parameterized theorem must not be mistaken for a verified radical-oracle implementation. Source https://epubs.siam.org/doi/10.1137/0405026 .
+- **Huang1985 correct bibliography:** *Riemann Hypothesis and Finding Roots over Finite Fields*, STOC17,121–130, DOI10.1145/22145.22159. This is the reference in BIMS17 and Shoup/Buchmann–Shoup; it is **not** Math.Comp44(170),437–447. IBM's official page links the correct DOI but has inconsistent1984 conference-date metadata, so use the DOI/published STOC coordinates. Direct ACM PDF403 and historical ACM article path inaccessible. Original full proof not recovered.
+- **Huang1991 correct sequel:** *Generalized Riemann hypothesis and factoring polynomials over finite fields*, J.Algorithms12(3),464–481, DOI10.1016/0196-6774(91)90014-P. A distinct following paper is *Factorization of polynomials over finite fields and decomposition of primes in algebraic number fields*, J.Algorithms12(3),482–489, DOI10.1016/0196-6774(91)90015-Q. Primary publisher metadata/abstracts verified; not full proofs.
+- **Evdokimov1989 original** was recovered by root/number agent: p105 defines characters of abelian NUMBER FIELDS K/Q, hence Hecke rather than merely rational Dirichlet. TheoremI.1pp107–108 constructs fields; CaseII invokes Huang in Fp[ζ_l], and CaseIII uses a Gaussian character; I.2pp108–109 gives isomorphisms; I.3pp109–110 supplies radicals. Those exact source readings are credited to the named other agents, not represented as this agent's independent full read. Original URL https://www.mathnet.ru/links/7289bc115bc5c1abab637e4662e0632c/znsl4535.pdf ; cachedrefs turn180655110view0 / turn946349860view0.
+- **Gao and IKRS:** the other agents read Gao §2.4/Lemma2.6pp7–9 and Lemma3.6p16, and IKRS TR08-099 §4.1–4.2/Lemma4.5/Prop4.6pp16–17. Their record distinguishes elementary split-algebra radicals over Fq from the general cyclotomic algebra A[ζ_r]. The limited r|p−1 automorphism transfer is separately proved in CX-N14 / work/number_automorphism_gate.tex.
+
+## Proof/check event classification
+
+- Bach–Shallit Lemma13/Thm3: **primary premise read and checked in this run**, not a new proof of the established theorem; only relevant §7–§8, not the entire article, read.
+- AL86 Proposition3 and BGL/BIMS dependency inputs: **source-chain audit**, with exact locators; original AL86 relevant algorithm/proof paragraphs read.
+- H_M sufficiency via Kummer Chebotarev: **independent proof elsewhere (CX-N11)**, not newly claimed here.
+- H_A result for all r|p−1: **full independent algebraic transfer proof and self-read**, final fragment koiran_quadratic_transfer.tex; number_algorithms independently read the full prior eigenspace version and requested the cyclic-group simplification, which preserves the proof.
+- General H_A result for arbitrary r|p^m−1: **not established by this audit**. This is neither a negation of the implication nor an assertion that no alternative reduction exists.
+
+
+## Additional primary cross-check: Shoup's original 1989 thesis
+
+Downloaded https://research.cs.wisc.edu/techreports/1989/TR865.pdf to work/koiran_shoup1989.pdf. It is scanned; OCR and selected rendered pages are in work/koiran_shoup_ocr/. Printed pages31–38 (PDF36–43) were read, along with the contents and abstract. **§3.2 Theorem3.1p34** explicitly requires, for each prime r|n with r≠p, a supplied splitting field of X^r−1 over Fp and an r-nonresidue in it. The discussion identifies the field degree as ord_r(p). The preceding related-work paragraphpp33–34 describes Evdokimov's ERH route as obtaining nonresidues in extension fields, using Huang and another cited analytic result. This is a primary algorithmic reduction and confirms that an arbitrary prime-field nonresidue is not the displayed input.
+
+Printed pp36–37 give an earlier unconditional construction of quadratic nonresidues in Fp(i) when p≡3mod4 by repeated square-root extraction. Thus the elementary quadratic specialization is known before BIMS17; the final paper appropriately cites established results and presents only the stipulated-premise transfer as its contribution. The exact displayed square-root formula in the OCR is damaged, so it was not used to validate an implementation; the independent quadratic proof notes remain the verification of our explicit construction. No full-thesis proof read is claimed.

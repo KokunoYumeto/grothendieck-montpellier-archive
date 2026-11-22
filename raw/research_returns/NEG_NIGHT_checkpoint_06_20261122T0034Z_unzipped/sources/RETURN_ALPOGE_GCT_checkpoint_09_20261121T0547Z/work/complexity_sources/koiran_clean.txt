@@ -1,0 +1,805 @@
+               DIMACS Technical Report 96-27
+                       July 1996
+
+
+
+
+    Hilbert's Nullstellensatz is in the Polynomial
+                       Hierarchy
+                                 by
+                             Pascal Koiran1
+          LIP, Ecole Normale Superieure de Lyon { CNRS
+               46 allee d'Italie, 69364 Lyon Cedex 07
+                                  France
+                 email: koiran@lip.ens-lyon.fr
+
+
+
+
+DIMACS is a partnership of Rutgers University, Princeton University,
+AT&T Research, Bellcore, and Bell Laboratories.
+DIMACS is an NSF Science and Technology Center, funded under contract
+STC{91{19999; and also receives support from the New Jersey Commission
+on Science and Technology.
+                                     Abstract
+          We show that if the Generalized Riemann Hypothesis is true, the
+      problem of deciding whether a system of polynomial equations in sev-
+      eral complex variables has a solution is in the second level of the poly-
+      nomial hierarchy. In fact, this problem is in AM, the \Arthur-Merlin"
+      class (recall that NP  AM  RP  2). The best previous bound
+                                         NP
+
+      was PSPACE.
+          An earlier version of this paper was distributed as NeuroCOLT
+      Technical Report 96-44. The present paper includes in particular a
+      new lower bound for unsatis able systems, and remarks on the Arthur-
+      Merlin class.
+
+
+
+
+  1
+    A part of this work was done when the author was visiting DIMACS at Rutgers
+University.
+
+                                         1
+1 Introduction
+In its weak form, Hilbert's Nullstellensatz states that a system
+                            f1(x) = 0; : : :; fs(x) = 0                           (1)
+of polynomial equations in n unknowns has no solution overP          C if and only
+if there are polynomials g1; : : :; gs 2 C [X1 ; : : :; Xn] such that si=1 fi gi = 1.
+For this reason, the problem of deciding whether (1) is satis able has also
+been called Hilbert's Nullstellensatz (HN in the sequel). This problem (and
+similar problems over the reals) has generated a lot of interest due to its im-
+portance in algebraic geometry and its potential applications. For instance,
+it is the basic step in algorithms for the decision and quanti er elimina-
+tion problems in the rst-order theory of C . This opens up applications in,
+e.g., geometric theorem proving and robot motion planning [6]. Note also
+that if the fi 's can have arbitrary complex coecients, HN is the canonical
+NP-complete problem in the Blum-Shub-Smale model of computation [4].
+    In this paper we consider systems of equations with integral coecients
+only, i.e., we assume that f1 ; : : :; fs 2 Z[X1; : : :; Xn]. Our model of com-
+putation is the Turing machine model. It is a folklore result that HN is
+NP-hard (there is a simple reduction from the satis ability of boolean for-
+mulas in conjunctive normal form to HN). In terms of general complexity
+classes, the best upper bound previously known was PSPACE. Here we show
+that HN is in the second level of the polynomial hierarchy (in 2). In fact,
+we show that HN is in RP , where RP is the class of problems solved by
+                              NP
+
+
+polynomial-time probabilistic Turing machines with one-sided error (i.e., the
+algorithm always gives a correct answer for a positive instance of the prob-
+lem, and for negative instances the probability of answering incorrectly is
+bounded by some constant  < 1). This is a stronger result since RP  2 . NP
+
+
+Some background on these complexity classes can be found in, e.g., [3]. The
+above-mentioned algorithm uses randomization and non-determinism in this
+order only. This means that an even stronger statement is true: Hilbert's
+Nullstellensatz is in AM, the \Arthur-Merlin" class [2] (by de nition of AM).
+This result is almost as good as possible since AM is considered to be \just
+above" NP (see for instance the sequence of inclusions in the abstract). Note
+also that from the point of view of non-uniform complexity, the problem of
+characterizing the diculty of HN is completely settled since HN is NP-hard
+on the one hand, and on the other hand HN 2 AM  NP=poly.
+    Previous algorithms were based on a direct application of e ective Null-
+stellensatze: if one knows an upper bound on the degree of the gi's then
+                                         2
+the satis ability of (1) is equivalent to the satis ability of a certain linear
+system (of exponential size). Our algorithm is fundamentally di erent. The
+Nullstellensatz is used only indirectly, to give a correctness proof. The basic
+idea is to study the satis ability of (1) in Z=pZ. If the system is satis -
+able modulo p for \many" primes p then it is satis able in C ; otherwise it
+is not satis able. This is established in section 4. We need a certain re-
+sult on the roots of univariate polynomials which is established in section 5.
+Its proof requires the Generalized Riemman Hypothesis (GRH). Assuming
+these properties, we show in section 2 that HN is in 2 . This requires some
+complexity-theoretic techniques (approximation of #P functions).
+    Of course now the tantalizing question is whether HN 2 NP. (to the
+author's knowledge, this is an open problem even for sparse univariate poly-
+nomials.) The modular techniques used in this paper suggest a natural ap-
+proach to this question. Unfortunately, as shown in section 6 this approach
+cannot establish that HN 2 NP, even for sparse univariate polynomials. In
+that section we also give some evidence that HN really is unlikely to be
+in NP.
+1.1 Notations
+Let S be a system of the form (1), where the fi 's have degree di  d and co-
+ecients of size at most L. (the size of an integer a is log jaj;1 by convention
+                                                                        P
+the size of 0 is 0.) By de nition, the total degree of S is  = 2 + si=1 di .
+The size of this system is the bit size of a representation of S in a suitable
+binary encoding scheme. In this paper we use a sparse representation. This
+means that we do not charge for monomials with a coecient equal to 0.
+Sometimes the opposite choice is made (see e.g. [9, 11]). With that dense
+representation, the decision algorithms mentioned above are downsized from
+PSPACE to LOGSPACE. For univariate systems, there is an equally impor-
+tant representational issue, namely, whether exponents are coded in unary
+or binary. If binary (or sparse) encoding is used then polynomials can have
+exponential degree in the system's size (for instance, it takes about n bits to
+code the monomial x2 ). This is not an important issue for us because one
+                           n
+
+
+
+can always represent polynomials of exponential degree by introducing inter-
+mediate variables and using \repeated squaring". In fact, one could assume
+that the fi 's are of degree di  2 and have all their coecients in f 2; : : :; 2g
+without loss of generality (i.e., the general case of HN is polynomial-time
+  1
+      Throughout the paper log stands for log2 .
+
+
+                                             3
+many-one reducible to this special case).
+    As usual we denote by  (x) the number of primes in f2; : : :; xg. Let
+RS be the set of prime numbers such that S is satis able in Fp = Z=pZ.
+S (x) denotes the cardinality of the set RS (x) = RS \ f1; 2; : : :; xg. Given
+a polynomial f 2 Z[X ], we use the abbreviations Rf , Rf (x) and f (x) for
+Rff =0g, Rff =0g(x) and ff =0g(x).
+
+2 Position in the Polynomial Hierarchy
+Theorem 1 is the crucial fact which makes it possible to locate HN in the
+polynomial hierarchy.
+Theorem 1 There exist constants c1; c2; c3 2 N such that if A =
+dc n s(dlog se + L) and x0  Lc 2(n log ) the following two properties hold:
+  1                             2
+                                           c3
+
+
+
+
+     If (1) is not satis able in C then S (x0)  A:
+     If (1) is satis able in C then S (x0)  B = 8A(log A + 3):
+Proof. In Theorem 5 we show that if S is not satis able then there are at
+most dc n s(log s + L) primes p such that S is satis able in Fp . Hence the
+        1
+
+bound s (x0)  A holds for every x0 .
+    In Theorem 8, we show that there are absolute constants c4; c5; c6 such
+that                                   1=2 log x
+                S (x)  (x)L:2c(n4nx
+                                    log )
+                                      c5
+                                                 L:2(n log ) x1=2
+                                                         c6
+
+
+
+
+if S is satis able. The result follows from the prime number theorem:  (x) 
+x= ln x. 2
+The rationale for the setting of B in this theorem will become clear in the
+proof of Theorem 2. It is already clear that HN is in P# : in order
+                                                                P
+                                                                    NP
+
+
+to decide whether S is satis able we just have to compute S (x0) (note
+that Theorem 1 provides a bound on the size of x0 which is polynomial in
+the system's size). If S (x0)  A then S is not satis able, otherwise it is
+satis able. This counting problem can be solved in #P with the help of an
+oracle in NP. This oracle decides, given an integer p, whether p is prime
+and S is satis able modulo p. The rst task is feasible since the set of prime
+numbers is known to be in NP [17], and for the second one we just have to
+guess a solution.
+
+                                      4
+    In fact, we do not need exact counting since there is a large gap between
+A and B. Stockmeyer [21] has shown that approximate counting can be
+performed in the polynomial hierarchy (in 3 ), and this result relativizes to
+an arbitrary oracle. Hence HN is in the polynomial hierarchy. By taking a
+closer look at Stockmeyer's argument, one can prove the following result.
+Theorem 2 Hilbert's Nullstellensatz is in AM (and therefore in 2).
+Proof. As mentioned before, the second part of the claim follows from AM 
+2 . However, for the clarity of exposition, we will show rst that HN 2 2 .
+    Stockmeyer's result is based on a lemma of Sipser [20] on universal hash-
+ing: there exists a 2 predicate Hash(E; m) which has the following property.
+If a set E  f0; 1gk has at most 2m 2 elements then Hash(E; m) is true; but
+if jE j  m2m , Hash(E; m) is false. The 2 predicate :Hash(E; m), which
+expresses that E is not hashable into f0; 1gm, has the form:
+                           8f1 : : :fm C (f1; : : :; fm)                    (2)
+where C (f1; : : :; fm ) is the predicate:
+                                       ^m
+                 9x; x1; : : :; xm 2 E [fi(x) = fi(xi) ^ x6=xi]:
+                                     i=1
+Here fi : f0; 1gk ! f0; 1gm is a hash function, i.e., a function of the form
+fi (x) = Ai x where Ai is a binary matrix and arithmetic is performed modulo
+2 (actually the exact form of fi does not really matter for our purposes).
+     We are going to apply this result to E = RS (x0 ) (given x0, one can
+easily code the elements of RS (x0) by binary strings of equal length k). The
+membership of x; x1; : : :; xm in E can be expressed by 1 predicates. When
+these predicates are substituted in (2) the blocks of existential quanti ers
+can be merged, and we still have a 2 predicate. This predicate will be
+of polynomial size by Theorem 1. The satisfaction of :Hash(E; m) will be
+equivalent to the satis ability of S if A  2m 2  m2m  B . Let m be the
+unique integer such that A  2m 2 < 2A: since m < log A +3, the condition
+m2m  B is satis ed with the choice of B made in Theorem 1.
+     To see that HN is in AM, consider a variation of this 2 algorithm where
+the matrices A1 ; : : :; Am are randomly chosen. It follows from the analysis
+above that this randomized algorithm always gives a correct answer for
+satis able systems. On the other hand, Sipser's lemma [20] states that, if
+jE j  2m 2 and A1; : : :; Am are chosen at random, the probability of collision
+                                        5
+is at most 1/2 (\collision" meaning that C (f1 ; : : :; fm) is true). Hence this
+randomized algorithm fails with probability at most 1/2 for unsatis able
+systems. Since randomization and non-determinism are used in this order
+only, this is in fact an AM algorithm. 2
+At rst glance one might think that a slightly stronger statement than just
+HN 2 AM holds since our algorithm has one-sided error (it always gives
+the correct answer for satis able systems), and the de nition of AM allows
+for two-sided error. However, it turns out that the one-sided and two-sided
+versions of AM are identical ([23], Theorem 2).
+    One can ask whether there is a similar algorithm which always gives
+the correct answer for unsatis able systems, i.e., in the terminology of [10],
+whether HN has a perfectly sound Arthur-Martin proof system (in the same
+terminology, the algorithm of Theorem 2 is a perfectly complete Arthur-
+Martin proof system). This is possible if and only if HN 2 NP since perfectly
+sound Arthur-Martin proof systems exist only for languages in NP [10].
+    Another question is whether HN 2 coAM. This is quite unlikely since by
+the NP-hardness of HN, coNP would then be included in AM. It is known [5,
+2] that coNP  AM implies the collapse of the polynomial hierarchy to its
+second level (2 = 2 = AM).
+    There is a more direct proof that HN 2 AM. The corresponding algo-
+rithm does not use hash functions, and is based instead on the fact that for
+a satis able system S and any integer x, RS \ [x; x + L[ must be non-empty
+if L is large enough. (In Theorem 2, we have used intervals starting at x = 2
+only.) More precisely, given a system S , let (xn )n2N be a sequence of integers
+which grows fast enough to insure that if S is satis able, RS \ [xn ; xn+1 [= 6 ;
+for any n 2 N. It can be shown using Theorem 9 that xn needs to grow only
+polynomially. The algorithm picks an integer k < 2A at random (where A
+is the constant of Theorem 1), and accepts if RS \ [xk ; xk+1 [=   6 ; (this con-
+dition can be checked non-deterministically). By de nition of the sequence
+(xn )n2N this algorithm never fails if S is satis able. If S is not satis able,
+jRS j  A by Theorem 1. Hence the probability of failure is at most 1/2.
+
+3 The Complexity of Primitive Elements
+This section is of a technical nature. We establish some bounds on the
+complexity of primitive elements for use in section 4.
+   The following result is an e ective version of the Pprimitive element the-
+orem. Recall that the norm of a polynomial P = dk=0 ak X k 2 Z[X ] is
+                                       6
+          P
+N (P ) = ( dk=0 a2k )1=2.
+Theorem 3 Let 1 and 2 be roots of two squarefree polynomials P1; P2 2
+Z[X ] of degree d1 and d2, and maximum norm N . Let d = maxfd1; d2g.
+There exists a squarefree polynomial R 2 Z[X ] of degree at most n1 n2 and a
+root of R (called a primitive element) such that i = Qi ( )=ai (i = 1; 2)
+where Qi 2 Z[X ] and ai 2 Z, jaij  c:N 2d. Here c is a universal constant,
+deg(Qi ) < n1 n2 and N (R)  c:N 2d.
+In fact R depends only on P1 and P2 . See [7, 15] for proofs of this re-
+sult. We need a generalization to several polynomials. This is tedious but
+straightforward.
+Lemma 1 Let 1; : : :; n be roots of n squarefree polynomials P1; : : :; Pn 2
+Z[X ] of degree 2  di  d, and norm N (Pi)  N . There exists a squarefree
+polynomial Rn 2 Z[X ] of degree at most dn and a root n of Rn such that
+                                    ] and ain 2 Z, jain j = N d . Here c0
+  i = Qin ( n)=ain , where Qin 2 Z[XP
+                                                                                2)
+                                                                             O (n
+
+
+
+is a universal constant, deg(Qin ) < ni=2 di and
+                            N (Rn)  c0:N 2     n       1   :d (n n   1)=2
+                                                                                     (3)
+Proof. By induction. Let Rn 1 2 Z[X ] be a polynomial of degree at most
+dn 1 such that 1 ; : : :; n 1 can be represented as i = Qi;n 1 ( n 1 )=ai;n 1
+where Rn 1 ( n 1 ) = 0, Qi;n 1 2 Z[X ] and ai;n 1 2 Z. In order to obtain
+  n , we can apply Theorem 3 to n 1 and n : there exists Rn 2 Z[X ] and
+a root n of Rn such that each element 2 f n 1 ; n g can be expressed as
+   = Q( n )=a where a 2 Z and Q 2 Z[X ]. Each i (i = 1; : : :; n 1) can
+now be expressed as
+                          i = Qi;n 1 (Q( n )=a)=ai;n 1:                   (4)
+Let Nn 1  N be (an upper bound on) the norm of Rn 1 and Nn the
+norm of Rn . By Theorem 3, Nn  c:Nn2d 1 . Equation (3) follows from this
+                                                    n       1
+
+
+inductive relation.                            P
+      By induction hypothesis, deg(Qi;n 1 ) < ni=21 di . SinceP deg(Q) < dn ,
+using (4) one can write i = Qin ( n )=ain with deg(Qin ) < ni=2 di and
+                         ain = adeg(Q ai;n 1 :i;n   1)
+
+
+
+The bound on jain j in the Lemma's statement follows from this inductive
+relation and the bound jaj  c:Nn2d 1 (Theorem 2). 2
+                                      n   1
+
+
+
+
+                                          7
+The degree of Qin can be reduced to at most dn 1 by computing
+rem(Qin ; Rn) (this will slightly increase ain ). One can give somewhat better
+bounds if instead of treating the list of i 's iteratively, the primitive element
+is computed by \divide-and-conquer" (i.e., if the rst and second half of the
+list are processed separately, and the 2 primitive elements are put together
+at the end).
+Theorem 4 Let x1; : : :; xn be n algebraic numbers which are roots of poly-
+nomials Ai 2 Z[X ] of degree at most d with coecients of size at most L.
+There exists a primitive element r for x1 ; : : :; xn which is a root of an ir-
+reducible polynomial B 2 Z[X ] of degree at most dn . The coecients of
+B are of size at most L:dn . Moreover, each xi can be represented as
+                              O (1)
+
+
+
+xi = Qi (r)=ai where Qi 2 Z[X ] and log jaij = L:dn . O (1)
+
+
+
+
+Proof. The primitive element can be obtained in three steps:
+    1. Let A0i be the derivative of Ai . Make the Ai 's squarefree by computing
+       Pi = Ai = gcd(Ai ; A0i):
+    2. Apply Lemma 1 to P1 ; : : :; Pn ; this gives ai , Qi , and a polynomial
+       R 2 Z[X ].
+    3. The primitive element r is a root of R. So B is an irreducible factor
+       of R.
+The stated bounds follow from Lemma 3. Indeed, steps 1 and 3 are very
+cheap compared to step 2. This follows from the bound on polynomial
+factors in [16]. 2
+
+4 Solutions modulo p
+One can take care easily of unsatis able systems with the e ective Hilbert
+Nullstellensatz. The case of satis able systems is more involved, and requires
+the Generalized Riemman Hypothesis.
+4.1 Unsatis able Systems
+Since the fi 's have integer coecients, if (1) has no solution in C then by
+Hilbert's Nullstellensatz there exist a 2 Z, a6=0 and polynomials g1 ; : : :; gs 2
+Z[X1; : : :; Xn ] such that
+                            a = g1 f1 +    + g s fs :                       (5)
+                                        8
+A bound on the size of a can be easily obtained if one has an a-priori
+bound on the degrees Di of the gi's. It is shown in [12] that one can take
+Di = maxf3; dgn. This leads to a sO(1)dO(n )L bound on the size a. This
+                                                                  2
+
+
+bound was improved to dO(n) s(log s + L) in [13]. Theorem 5 follows easily
+(one could also use the simpler dO(n ) bound).  2
+
+
+
+Theorem 5 If (1) has no solution in C then RS is nite and jRS j 
+dO(n)s(log s + L).
+Recall that RS is the set of prime numbers p such that (1) has a solution
+in Z=pZ.
+Proof. If (1) has no solution in C then (5) holds in C and thus also in Z=pZ.
+This implies that (1) has no solution in Z=pZ if a mod p=    6 0. The result
+follows since a cannot have more than log a prime factors. 2
+4.2 Satis able Systems
+The rst step toward the analysis of satis able systems will be to show (in
+Theorem 7) that these systems have algebraic solutions which have \short"
+descriptions. For this we need the following theorem. It follows from the
+quanti er elimination results in [8].
+Theorem 6 Let  a prenex formula in the rst-order theory of C . Let r be
+the number of quanti er blocks, n the total number of variables, and  ()
+the total degree of , de ned as:
+                                      Xs
+                           () = 2 + deg Fi
+                                                        i=1
+where F1 ; : : :; Fs are the polynomials occurring in .  is equivalent to a
+quanti er-free formula in which all polynomials have degree at most
+                                2n   O (r )
+                                              (log ()) (1) :O
+
+
+
+
+The number of polynomials occurring in is O( ()n ).                          O (r )
+
+
+
+   Moreover, when the constants in  are integers of bit-size at most L, the
+constants in are integers of bit size at most L:2n (log ()) .       O (r )            O (1)
+
+
+
+
+Theorem 7 There are absolute constants c1 and c2 such that if (1) has a
+solution over C then there exists a solution x = (x1 ; : : :; xn ) such that each
+xi is a root of a polynomial of degree at most 2(n log ) with coecients of
+                                                                           c1
+
+
+
+bit size at most L:2(n log ) .
+                           c2
+
+
+
+
+                                                    9
+We shall rst prove this result in a special case.
+Lemma 2 Theorem 7 holds for systems that have a nite number of solu-
+tions.
+Proof. Let S be the solution set of (1) and Si  C the projection of S on the
+i-th coordinate axis. By Theorem 6, Si can be de ned by a quanti er-free   0
+formula in which polynomials Pi1 ; : : :; 0Pim of degree at most 2(n log ) and
+                                                       i
+                                                                         c
+                                                                             1
+
+
+coecients of size at most L:2(n log ) appear (moreover, mi =  n ; c01
+                                           c
+                                               2                        O (1)
+
+
+
+and c02 are absolute constants). If S is nite then each Si is nite. Hence
+each element of Si is a root of some Pij . The result follows since by de nition
+the components of any solution x 2 S must be in S1 ; : : :; Sn . 2
+Proof of Theorem 7. By induction on n; the constants will satisfy c1 = c01
+and c2  c02 . If (1) has nitely many solutions the result holds by Lemma 2.
+     Assume now that (1) has in nitely many solutions. Then at least one
+Si must be in nite. This implies that C nSi is nite, and that its elements
+are chosen among the roots of mi =  n polynomials of degree at most
+                                                    O (1)
+
+
+
+2(n log ) . Hence jC nSi j  2(n log ) for some absolute constant c3. This
+         c1                           c3
+
+
+
+guarantees the existence of an integer 2 Si such that 0   2(n log ) .             c3
+
+
+
+Since is of polynomial size, this integer can be substituted to xi in (1)
+without blowing up the system's size too much. More precisely, we obtain a
+new satis able system in n 1 variables where the polynomials are of degree
+at most d and have coecients of size at most L + d log  L + d(n log  )c .          3
+
+By induction hypothesis this system has a solution whose components are
+roots of polynomials of degree at most 2((n 1) log ) . They have coecients
+                                                            c1
+
+
+
+of size bounded by
+                        B = [L + d(n log )c ]2((n 1) log ) :
+                                                   3
+                                                                  c2
+
+
+
+
+For the induction hypothesis to hold in dimension n, we need to have B 
+L:2(n log ) . Assuming without loss of generality that L and d(n log )c are
+              c2
+                                                                                 3
+
+both larger than 2, we have:
+                        B  L:2((n 1) log ) +log[d(n log ) ]:
+                                               c2                c3
+
+
+
+
+Recalling that d   , it suces to have:
+             (n log  )c ((n 1) log  )c  log  + c3 log(n log  ):
+                     2                         2
+
+
+
+It is not hard to see that this constraint is satis ed if the absolute constant
+c2 is large enough. 2
+                                      10
+Lemma 3 Let x = (x1; : : :; xn) be a vector of algebraic numbers solution
+of (1). Let r be a primitive element for x1; : : :; xn : there exist polynomials
+Q1; : : :; Qn 2 Z[x] and a 2 N such that xi = Qi(r)=a. Let R 2 Z[X ] be
+an irreducible polynomial such that R(r) = 0. If R has a root in Fp and
+a mod p6=0, (1) is satis able in Fp .
+Proof. For i 2 f1; : : :; sg, let
+                    gi (X ) = ad fi (Q1(X )=a; : : :; Qn(X )=a)
+                               i
+                                                                               (6)
+Note that gi 2 Z[X ]. These polynomials must be multiple of R since R is
+irreducible and gi(r) = 0. Hence there are polynomials A1 ; : : :; As 2 Z[X ]
+such that
+                              gi(X ) = R(X )Ai(X ):                            (7)
+If a mod p6=0, (6) and (7) must also hold in Fp . This implies that if x0 is a
+root of R in Fp , (Q1(x0 )=a; : : :; Qn (x0)=a) is a solution of (1) in Fp . 2
+Theorem 8 There are absolute constants c4; c5; c6 such that if (1) is satis-
+ able,
+                                     1=2
+                S (x)  (x) c(n6 nx   log x L:2(n log ) x1=2:
+                                                           c5
+
+
+                             L:2 log )c4
+
+
+
+
+Proof. We just need explicit estimates on a and the Qi 's in order to ap-
+ply Lemma 3. The algebraic numbers x1; : : :; xn are roots of polynomials
+P1; : : :; Pn whose degree and coecient size can be bounded by Theorem 7.
+The complexity of the primitive element r can then be estimated by Theo-
+rem 4. The number of primes p in R (x) can be estimated by Corollary 1
+(here we use the fact that the bit size of the discriminant of a polynomial
+is polynomially bounded in its degree and the bit size of its coecients).
+>From this estimate one has to subtract the prime factors of a; there are at
+most log a such primes. 2
+
+5 Roots of univariate polynomials
+Let f 2 Z[X ] be an irreducible polynomial of degree n; let  be the dis-
+criminant of f . For a prime p,
+             W (p) = jfk; 0  k  p 1; f (k)  0 (mod p)gj
+                                                    P
+denotes the number of roots of f in Fp . Let S (x) = 0px (1 W (p)) where 0
+denotes summation on those primes p which do not divide . The following
+bound is due to Adleman and Odlyzko ([1], proof of Lemma 3); see also [22].
+                                       11
+Theorem 9 jS (x)j = O(x1=2 log(xn)):
+This result relies on GRH through an e ective version of the Chebotarev
+density theorem [14] (in fact, only the e ective prime ideal theorem is used).
+A bound on f (x) follows easily.
+Corollary 1 There exists an absolute constant c such that:
+                 f (x)  n1 [(x) log  c:x1=2 log(xn )]:
+Proof. By Theorem 9,
+                     X0           X
+                         W (p)  0 1 c:x1=2 log(xn )                      (8)
+                        px             px
+
+P0 some universal constant c. Since  has at most log  prime factors,
+for
+   px 1   (x) log . Let rf (p) = 1 if f has a root in Fp , and rf (p) = 0
+otherwise. Since f is irreducible in Z[X ] this polynomial cannot be identi-
+cally 0 inPFp ; hence WP(p)  nr(p). The result now follows from (8) since
+f (x) = px rf (p)  px W (p)=n. 2
+Remark 1 Corollary 1 provides a lower bound of 1=n on the density of Rf
+in the set of prime numbers. In fact, by the Chebotarev density theorem,
+the exact value of the density is jC j=jGj, where G is the Galois group of f
+and C is the set of permutations g 2 G which have at least one xed point.
+It can be shown that jC j = 1 when jGj = n.2 Hence the 1=n lower bound
+cannot be improved in the worst case. However, \generic" polynomials with
+large coecients have the full symmetric group as Galois group. In this
+case, jC j=jGj  1=2 (and jC j=jGj ' 1 1=e ' 0:63 for polynomials of high
+degree which have Sn as Galois group).
+Theorem 8 provides a lower bound on the density of RS which can be ex-
+ponentially small in the size of a satis able system. The following example
+shows that in some cases the density of RS can really be exponentially small
+(however, by Remark 1 one can expect its density to be at least 1/2 for most
+satis able systems).
+   2
+    For any transitive subgroup G of the symmetric group (and in particular for the
+Galois group of an irreducible polynomial) and any i 2 f1; : : : ; ng, there are exactly jGj=n
+permutations g 2 G such that g(i) = i. Hence only the identity can have xed points
+when jGj = n.
+
+                                              12
+Example 1 Let Sp be the system
+                                p
+                                  x =1
+                                  y (x 1) = 1
+where p is a prime number. The density of RS is 1=(p 1).
+                                                 p
+
+
+The p 1 solutions of Sp over C are of the form (x; 1=(x 1)) where x is a
+p-th root of unityPdi erent from 1. One can write X p 1 = (X 1)Cp(X )
+where Cp(X ) = pk=01 X k is the cyclotomic polynomial of order p. Given
+a prime q , Sp is satis able in Fq if and only if Cp has a root di erent from
+1 in Fq . There is a single value of q (q = p) for which Cp(1) = 0 in Fq .
+It is well-known that Cp is irreducible over Z, and that its Galois group is
+(isomorphic to) Z=(p 1)Z. Hence by Remark 1, the density of RS is indeed
+1=(p 1).
+                                                                    p
+
+
+
+
+    This density is exponentially small in the size of Sp, which is O(log p).
+Recall also that, as pointed out in section 1.1, Sp can be replaced by an
+equivalent system Sp0 of size O(log p) where all polynomials have degree 2.
+Since RS 0 = RS , the density of RS 0 is again exponentially small in the
+                 p
+
+system's size.
+         p                             p
+
+
+
+
+6 Is the Nullstellensatz NP-complete ?
+In Theorem 5 we have given an upper bound on the size of jRS j which may
+be exponential in the size jS j of an unsatis able system. Improvements of
+this bound would be interested. In particular, a polynomial upper bound
+(say, jS jc) would imply under GRH that HN 2 NP. (a certi cate for a
+satis able system would simply consist of a list p1; : : :; pjS j +1 of distinct
+                                                                c
+
+
+primes of polynomial size such that S is satis able modulo pi, together with
+a list of corresponding solutions; the existence of such primes follows from
+Theorem 8.) Unfortunately, there is no such polynomial upper bound. We
+shall see in Theorem 10 that jRS j can be exponential in jS j. First, we need
+the following result, which is due to Noam Elkies (personal communication).
+Lemma 4 Let n be the product of the rst n prime numbers: for n  2,
+n 1 has at least 2n distinct prime factors.
+  n
+
+
+
+
+Proof. The factorization of the polynomial xN 1 (N  2) over the integers
+is:                                     Y
+                              xN 1 =         d (x)                           (9)
+                                        djN
+
+                                      13
+where                                Y
+                     d (x) =                  (x e2ik=d )             (10)
+                               1kd;gcd(k;d)=1
+is the cyclotomic polynomial of order d. These two propeties of cyclotomic
+polynomials will be useful.
+    1. If a prime number p does not divide N then the polynomials d in (9)
+       have pairwise distinct roots in Fp . Indeed, if d and d0 had a common
+       root r in Fp , the derivative of xN 1 would vanish at r. However the
+       derivative (NxN 1) has no roots in Fp since N mod p=   6 0.
+    2. d (x)  2 for any integer x  3. Indeed, each factor (x e2ik=d )
+       in (10) has modulus larger than 1. Hence j d (x)j > 1, and in fact
+         d (x)  2 since d has integer coecients.
+Let p be a prime factor of d (N ), where djN . Since p is a fortiori a prime
+factor of N N 1, p does not divide N (N and N N 1 are relatively prime).
+Hence by property 1, p is not a factor of any other d0 (N ) where d0jN .
+Setting N = n gives the desired result since in this case there are 2n
+factors in (9). (Each factor d (N ) gives at least one distinct prime factor
+since d (N )  2 by property 2.) 2
+The motivation for this lemma came from a conjecture of Shub and
+Smale [19] on the length of computations for k!. The \naive" method for
+computing k! requires (k log k) operations (additions and multiplications;
+subtractions are also allowed). Elkies has pointed out that a version of the
+elliptic curve factoring method suggests that there should exist computa-
+tions of length growing slower than any power of k, indeed no faster than
+exp[log(k)1=2+]:
+Theorem 10 For n  1, let Sn be the system:
+                               
+                                 x 1=0
+                                     n
+
+
+                                 x n = 0
+where n is the product of the rst n prime numbers. This system is unsat-
+is able over C , and jRS j  2n .
+                       n
+
+
+
+
+Proof. Sn is obviously unsatis able over C . The prime factors of n are in
+RS , and by Lemma 4 there are at least 2n of them. 2
+  n
+
+
+
+
+                                         14
+By the prime number theorem, the n-th prime is O(n log n). Hence the bit
+size of n is also O(n log n). Therefore jRS j is exponential in jSn j.
+    This result shows that a particular method fails to establish that HN 2
+                                             n
+
+
+
+
+NP. In the rest of this section we would like to give some evidence that HN
+is unlikely to be in NP (or at least that proving that HN 2 NP may be quite
+dicult). The argument is based on the observation that HN is at least as
+hard as ACVP, the Arithmetic Circuit Value Problem. An instance of this
+problem is a pair (C; x) where x 2 f0; 1gn and C is a circuit with n inputs
+made of addition, subtraction, multiplication, and sign gates (a sign gates
+returns 1 for a non-zero input, and 0 otherwise). An instance is positive if C
+outputs a non-zero value on input x. This problem occurs in the simulation
+of Random Access Machines on Turing machines [18]. It is well-known that
+ACVP is in BPP; however, this problem is not known to be in NP. It is
+not hard to see that ACVP is polynomial-time many-one reducible to HN.
+Hence HN 2 NP would imply ACVP 2 NP.
+
+7 Final Remarks
+Some of the techniques in this paper might be useful in practice. For in-
+stance, one can try and solve (1) modulo several randomly drawn primes.
+If there are \many" positive answers, then one can conclude that (1) is sat-
+is able over C with high probability. Precise bounds on the proportion of
+positive answers that should be obtained can be worked out using only the
+e ective Nullstellensatz (see section 4.1). By Remark 1, one can expect that
+trying a \small" number of random primes will be enough to establish that
+a satis able system is indeed satis able (with high probability), if the de n-
+ing polynomial R for the primitive element has the full symmetric group as
+Galois group (in this case, (1) is solvable modulo p for at least one half of all
+primes p). For other satis able systems, one may have to try an exponential
+number of primes. Another related shortcoming is that one cannot establish
+(at least if we try only a polynomial number of primes) that a system is not
+satis able, even in a probabilistic sense. The reason is again that the density
+of \good" primes for a satis able system may be exponentially small (see
+section 5). It would be interesting to have a rigorous average-case analysis
+of this method.
+
+
+
+
+                                       15
+Acknowledgments
+I would like to thank Andrew Odlyzko and Marc Perret for their help with the
+Chebotarev density theorem. Thanks also to Mike Shub and Noam Elkies for
+useful discussions on the number of prime factors. Stockmeyer's paper was pointed
+out by Stephane Boucheron. Marcos Kiwi suggested several improvements in the
+presentation of this paper.
+
+References
+ [1] L. M. Adleman and A. M. Odlyzko. Irreducibility testing and factorization of
+     polynomials. Mathematics of Computation, 41(164):699{709, 1983.
+ [2] L. Babai and S. Moran. Arthur-Merlin games: A randomized proof system, and
+     a hierarchy of complexity classes. Journal of Computer and System Sciences,
+     36:254{276, 1988.
+ [3] J.L. Balcazar, J. Diaz, and J. Gabarro. Structural Complexity I. EATCS
+     Monographs on Theoretical Computer Science. Springer-Verlag, 1988.
+ [4] L. Blum, M. Shub, and S. Smale. On a theory of computation and complexity
+     over the real numbers: NP-completeness, recursive functions and universal
+     machines. Bulletin of the American Mathematical Society, 21(1):1{46, July
+     1989.
+ [5] R. Boppana, J. Hastad, and S. Zachos. Does co-NP have short interactive
+     proofs? Information Processing Letters, 25:127{132, 1987.
+ [6] J. Canny. The Complexity of Robot Motion Planning. MIT Press, Cambridge,
+     Massachusetts, 1988.
+ [7] J. Canny. Some algebraic and geometric computations in PSPACE. In Proc.
+     20th ACM Symposium on Theory of Computing, pages 460{467, 1988.
+ [8] N. Fichtas, A. Galligo, and J. Morgenstern. Precise sequential and parallel
+     complexity bounds for quanti er elimination over algebraically closed elds.
+     Journal of Pure and Applied Algebra, 67:1{14, 1990.
+ [9] M. Giusti and J. Heintz. La determination des points isoles et la dimension
+     d'une variete algebrique peut se faire en temps polynomial. In Computational
+     Algebraic Geometry and Commutative Algebra (Cortona, 1991), pages 216{
+     256. Sympos. Math. XXXIV, Cambridge University Press, 1993.
+[10] O. Goldreich, Y. Mansour, and M. Sipser. Interactive proof systems: Provers
+     that never fail and random selection. In Proc. 28th IEEE Symposium on
+     Foundations of Computer Science, pages 449{461, 1987.
+
+
+
+                                        16
+[11] J. Heintz and J. Morgenstern. On the intrinsic complexity of elimination
+     theory. Journal of Complexity, 9:471{498, 1993. preprint: Technical Report
+     93-17, Laboratoire I3S, Universite de Nice { Sophia Antipolis.
+[12] J. Kollar. Sharp e ective Nullstellensatz. Journal of the AMS, 1:963{975,
+     1988.
+[13] T. Krick and L. M. Pardo. Une approche informatique pour l'approximation
+     diophantienne (A computational approach to diophantine approximation).
+     Compte-Rendus de l'Academie des Sciences, Serie I, 318(5):407{412, 1994.
+[14] J. C. Lagarias and A. M. Odlyzko. E ective versions of the Chebotarev den-
+     sity theorem. In A. Frolich, editor, Algebraic Number Fields, pages 409{464.
+     Academic Press, 1977.
+[15] R. Loos. Computing in algebraic extensions. In Buchberger, Collins, and
+     Loos, editors, Computer Algebra, Symbolic and Algebraic Computation, pages
+     173{187. Springer-Verlag, 1982.
+[16] M. Mignotte. Some useful bounds. In Buchberger, Collins, Loos, and Albrecht,
+     editors, Computer Algebra { Symbolic and Algebraic Computation, pages 259{
+     263. Springer-Verlag, 1982.
+[17] V. Pratt. Every prime has a succint certi cate. SIAM Journal on Computing,
+     4(3):214{220, 1975.
+[18] A. Schonhage. On the power of random access machines. In Proc. 6th ICALP,
+     volume 71 of Lecture Notes in Computer Science. Springer-Verlag, 1979.
+[19] M. Shub and S. Smale. On the intractability of Hilbert's Nullstellensatz and
+     an algebraic version of \P=NP". To appear in Duke Journal of Mathematics.
+[20] M. Sipser. A complexity theoretic approach to randomness. In Proc. 15th
+     ACM Symposium on Theory of Computing, pages 330{335, 1983.
+[21] Larry Stockmeyer. On approximation algorithms for #P. SIAM Journal on
+     Computing, 14(4):849{861, 1985.
+[22] P. J. Weinberger. Finding the number of factors of a polynomial. Journal of
+     Algorithms, 5:180{186, 1984.
+[23] S. Zachos. Probabilistic quanti ers, adversaries, and complexity classes: an
+     overview. In Proc. 1st Structure in Complexity Theory Conference, volume 223
+     of Lecture Notes in Computer Science. Springer-Verlag, 1986.
+
+
+
+
+                                       17
+

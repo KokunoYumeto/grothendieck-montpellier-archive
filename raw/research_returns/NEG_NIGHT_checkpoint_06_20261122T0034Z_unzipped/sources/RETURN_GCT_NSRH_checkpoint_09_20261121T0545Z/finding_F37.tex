@@ -1,0 +1,157 @@
+% Required bibliography keys: PPS (arXiv:2511.02312v3) and KM.
+\subsection{Short witnesses for the actual marked rectangular tree rule}
+Pak--Panova--Swanson \cite[Theorem~4.5, p.~10]{PPS} give a positive
+marked-KOH-tree rule for
+\[
+ g((nk-r,r),(n^k),(n^k)),\qquad
+ n,k\ge1,\quad 0\le r\le nk/2.
+\]
+Their rule is a known result. The following encoding deduction makes
+its witness size explicit when the rectangular partitions are supplied
+as lists of $k$ binary-encoded parts.
+
+\begin{finding}[\fid{F37}: a bijective compression of marked KOH witnesses]\label{f:kohcompression}
+Every source marked KOH tree has a unique compressed encoding of length
+\[
+ O\!\left(k^2\log(k+1)+k\log(nk+1)\right)
+\]
+with a polynomial-time verifier that does not expand long unary chains.
+The compression preserves the source objects bijectively.
+Consequently the equal-rectangle, two-row-output Kronecker counting
+problem is in $\#P$ under the explicit-row, binary-part input convention.
+No bound polynomial in $\log k+\log n+\log(r+1)$ is asserted for a
+rectangle specified only by two binary integers, and no Ehrhart PH1
+conclusion follows.
+\end{finding}
+\begin{proof}
+We first state the source rules needed for the encoding
+\cite[Definition~3.2, p.~6; Definition~4.4, p.~10]{PPS}.
+A node has a label $(\mu,a,b)$ with $a\ge0$, $b\ge1$, $\mu\vdash b$.
+Leaves have $b=1$, $\mu=(1)$. A nonleaf has one child for every
+distinct part $j$ of $\mu$, in increasing $j$ order, with type
+\[
+ a_j=(a+2)j-2Q_j(\mu),\qquad b_j=m_j(\mu),\qquad
+ Q_j(\mu)=\sum_s\min(j,\mu_s).
+\]
+All child $a_j$ must be nonnegative. The root type is $(n,k)$.
+For depth-first leaf labels $a_1,\ldots,a_t$, put
+$\sigma=nk-\sum_i a_i$. The leaf marks satisfy
+\[
+ 0=u_1\le\cdots\le u_t=r-\sigma/2,\qquad
+ u_{i+1}-u_i\le
+ \min\left(\sum_{j\le i}a_j-2u_i,\ a_{i+1}\right).
+\]
+
+Call a nonleaf a repeat node when $\mu=(1^b)$, $b\ge2$.
+It has exactly one child, with type
+\[
+ (a,b)\longmapsto(a-2(b-1),b).
+\]
+Every other nonleaf obeys
+\[
+ \sum_j b_j=\ell(\mu)\le b-1.
+\]
+Contract each maximal consecutive run of repeat nodes, storing its
+length $h$ in binary before the next surviving node. The entire run
+is the update
+\[
+ (a,b)\longmapsto(a-2h(b-1),b).
+\]
+Its endpoint being nonnegative guarantees every intermediate
+$a$-value is nonnegative. Retain the surviving partition labels,
+ordered children and all leaf marks. A leaf has incoming repeat
+count zero, because repeats preserve $b\ge2$.
+
+This compression is bijective. Starting from the root type, a
+compressed record first performs the displayed run update, then
+requires its surviving partition to be different from $(1^b)$
+unless it is a leaf. Its ordered child types are determined by the
+source formula. Expanding a count $h$ inserts exactly $h$ nodes
+labeled $(1^b)$ with the uniquely determined successive $a$-values.
+The surviving node is nonrepeat, so the inserted run is maximal.
+Compression and expansion are inverse operations. Unary contraction
+does not change depth-first leaf order, any leaf label, or any mark;
+all marking inequalities are therefore preserved.
+
+Let the compressed tree have $H$ internal vertices and $t$ leaves.
+The $b$-labels on each contracted edge are unchanged. Summing the
+positive losses at internal vertices telescopes:
+\[
+ H\le
+ \sum_{v\ {\rm internal}}
+       \left(b_v-\sum_{w\ {\rm child\ of}\ v}b_w\right)
+ =k-t.
+\]
+Thus there are at most $k$ surviving vertices. Every surviving
+partition has at most $k$ parts, each at most $k$, accounting for
+$O(k^2\log(k+1))$ bits.
+
+To bound all numerical labels, set
+$\beta(\mu)=\sum_s(s-1)\mu_s$. Decreasing row lengths give
+\[
+ \sum_jm_j(\mu)Q_j(\mu)
+ =\sum_{r,s}\min(\mu_r,\mu_s)
+ =b+2\beta(\mu).
+\]
+Hence
+\[
+ \sum_j a_jb_j=ab-4\beta(\mu)\le ab.
+\]
+In a valid tree all these terms are nonnegative, so every vertex
+satisfies $0\le ab\le nk$. Each $a$-label is at most $nk$, and
+every contracted repeat count is at most $a/(2(b-1))\le nk$.
+The same identity gives $\sigma\ge0$. Every mark lies between
+zero and $r\le nk/2$. At most $k$ repeat counts and $k$ marks
+therefore take $O(k\log(nk+1))$ bits. Tree punctuation and
+partition-length fields fit in the stated bound as well.
+
+Use one canonical preorder serialization, with canonical integer
+fields, decreasing partition parts, and the fixed child and leaf
+orders. The verifier checks the number of surviving nodes, the
+partition conditions, the root and recursive child types, the
+binary run update, zero incoming repeat counts at leaves, and
+then all leaf marking inequalities.
+It can reject any derived type violating $0\le ab\le nk$;
+the preceding identity proves that no valid source object is lost.
+All work uses polynomially many operations on integers of the
+stated bitlengths, and no run is expanded.
+
+If the explicit-row input has length $L$, then $L\ge k$ and it
+includes the binary lengths of $n$ and $r$. The witness bound and
+the verification time are polynomial in $L$. Canonical serialization,
+with required zero padding to a fixed polynomial length if desired,
+gives exactly one accepting string for every compressed object.
+The bijection and the cited PPS counting theorem identify the
+number of accepting strings with the Kronecker coefficient.
+\end{proof}
+
+\paragraph{A literal tree can be exponentially long.}
+Take $n=2s$, $k=2$, $r=2s$. At $b=2$ the only source partitions
+are $(1,1)$ and $(2)$. After $j$ repeats of $(1,1)$, choosing $(2)$
+ends in one leaf labeled $4s-4j$, so $\sigma=4j$.
+Its sole mark is zero, forcing $0=r-\sigma/2=2s-2j$.
+Thus the unique marked tree has $s$ repeat vertices, one final
+$(2)$-vertex and one leaf. It has $s+2$ vertices on an input of
+$O(\log s)$ bits. Its compressed encoding has two vertices and
+one binary repeat count $s$. This is why local checks alone would
+not have justified the binary witness bound.
+
+\paragraph{Encoding and polyhedral limits.}
+The related plethysm inputs $(n)$ and $(k)$ can both have one part,
+so a bound polynomial in the numerical $k$ is not automatically
+polynomial in their compact input length. Finding~\fid{F34} gives
+an explicit output-length obstruction to that stronger assertion.
+The present rectangular input instead lists $k$ rows.
+
+Nor does a short witness rule imply one ordinary dilation polytope.
+Here the tree shape and its partition labels are discrete choices,
+and the local relations include fixed offsets. Indeed the known
+Kahle--Micha{\l}ek counterexample
+\cite[Theorem~5 and Remark~6, p.~4; rectangular identification, p.~6]{KM}
+already supplies an equal-rectangle, two-row-output ray that is
+not an ordinary Ehrhart function. The positive marked-tree rule
+and the verified compression still apply to it.
+This finding settles a restricted effective-label gate; it supplies
+no designated nonstandard canonical basis, theta functor,
+structure-constant positivity, or orbit-closure obstruction.
+

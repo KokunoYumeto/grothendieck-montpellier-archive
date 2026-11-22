@@ -1,0 +1,1295 @@
+mathematics of computation
+volume 55,number 191
+july    1990,pages 355-380
+
+
+
+
+                   EXPLICIT BOUNDS FOR PRIMALITY TESTING
+                           AND RELATED PROBLEMS
+
+                                             ERIC BACH
+
+
+            Abstract.     Many number-theoretic algorithms rely on a result of Ankeny, which
+            states that if the Extended Riemann Hypothesis (ERH) is true, any nontriv-
+            ial multiplicative subgroup of the integers modulo m omits a number that is
+            0(log m). This has been generalized by Lagañas. Montgomery, and Odlyzko
+            to give a similar bound for the least prime ideal that does not split completely
+            in an abelian extension of number fields. This paper gives a different proof of
+            this theorem, in which explicit constants are supplied. The bounds imply that
+            if the ERH holds, a composite number m has a witness for its compositeness
+            (in the sense of Miller or Solovay-Strassen) that is at most 2 log m .
+
+
+                                         1. Introduction
+   Many number-theoretic algorithms rely on the ability to quickly find a number
+outside a nontrivial subgroup of the multiplicative integers modulo m . In this
+context, one often appeals to a theorem of Ankeny [4]:
+             Let G be a proper subgroup of the multiplicative group of in-
+             tegers modulo m . Then, assuming the Extended Riemann Hy-
+             pothesis (ERH), the least positive integer outside G is 0(log m).
+   A generalization of this, due to Lagarias, Montgomery, and Odlyzko [24],
+replaces the rational numbers by any algebraic number field and states a similar
+bound for the least prime ideal outside a nontrivial subgroup of a "generalized
+class group":
+             Let K be an algebraic number field whose discriminant has
+             absolute value A, and let £ be a nontrivial finite abelian ex-
+             tension of K , of conductor ,. Then, assuming the ERH, the
+             least prime ideal of K that does not split completely in the
+             extension E/K has norm that is 0(log"(A A/f)).
+  The purpose of this paper is to supply explicit constants in the above theo-
+rems. In the author's dissertation [5], an explicit constant of "2" for Ankeny's
+   Received March 8, 1988.
+   1980 Mathematics Subject Classification (1985 Revision). Primary 11Y11; Secondary 11A15,
+ 11M26, 11N25, 11R29, 11R44.
+   Key words and phrases. Primality, Extended Riemann Hypothesis.
+       This research was sponsored by the National Science Foundation, via grants DCR-8504485 and
+DCR-8552596.
+                                                                       ©1990 American Mathematical Society
+                                                                         0025-5718/90 $1.00+ $.25 per page
+
+                                                  355
+356                                 ERIC BACH
+
+
+theorem was proved. No constant for the second theorem has heretofore been
+published; we show below that "3" suffices. In addition, we show that both
+theorems hold with a coefficient of 1 + o( 1), and tabulate bounds that are close
+to the asymptotic value. Finally, we give bounds which are useful in situa-
+tions where one wishes the small primes to satisfy other conditions; these extra
+requirements are explained in the two paragraphs below.
+    The first extra requirement arises because bounds on prime ideals are often
+used to derive bounds on ordinary prime numbers with specified properties.
+The idea is to choose E/K in such a way that a degree-1 prime ideal p of K
+that does not split completely in the extension lies above a prime number p
+with the desired property. A bound on the norm of p immediately implies a
+bound on p (see [6] for an example of this technique).
+    The second extra requirement is that the prime ideal should be unramified
+in E/K ; in the case of Ankeny's theorem, this means that one seeks a number
+outside G and prime to m . Often this requirement is unnecessarily stringent;
+for instance, in testing m for primality, one would be happy to find a nontrivial
+divisor of it. Nevertheless, completeness demands that this case be treated; this
+fills in a lacuna in [5] in which no bound was given for the least unit outside a
+nontrivial subgroup of a multiplicative group of integers.
+    Before proceeding with the analysis, it will be useful to discuss the role of
+ERH-based results in the design and analysis of algorithms. The ERH encapsu-
+lates certain intuitions about the observed behavior of number-theoretic func-
+tions, and this fact alone gives it value as a heuristic principle. Though it has
+never been proved, it has been subjected to intense computational scrutiny, and
+no counterexample has ever been found [7, 13, 14, 23, 28, 33, 41, 42, 47], A
+result based on this hypothesis can therefore be thought of as progress toward
+the ultimate goal of an unconditional result.
+    Among such algorithmic results that employ the ERH one may cite polyno-
+mial-time primality tests [30, 45], efficient algorithms for factoring polynomials
+over finite fields [2, 20, 38], methods for integer factoring [27, 39, 40], and an
+"almost" polynomial-time primality test [3, 11],
+    Lifting a term from the argot of computation theory, most of these algo-
+rithms are of "Las Vegas" type: any answer produced by them is correct, and
+the correctness does not depend on the ERH. However, the polynomial-time
+primality tests referred to above are different: they search for "witnesses" to a
+number's compositeness up to the bound given by Ankeny's theorem, and de-
+clare the number prime if none are found. To implement such algorithms, or
+even to compare them to other methods, explicit constants are essential.
+    Even assuming the ERH, it is an open question if the estimates given here
+are of the right order of magnitude. From the available numerical evidence,
+the least quadratic nonresidue modulo p appears to grow no more quickly than
+a small constant times log p [26], The scant evidence on prime testing [35]
+suggests a bound of perhaps 0(log n) for the least witness to the compositeness
+of n . Graham and Ringrose [ 18] have shown that the least quadratic nonresidue
+                     EXPLICIT BOUNDS FOR PRIMALITYTESTING                     357
+
+
+modulo a prime p is infinitely often Q(logp log log log/?), and Montgomery
+[31] gave a bound of f2(log/?loglog/?) assuming the ERH. However, in our
+present ignorance about the vertical distribution of the roots of zeta and L
+functions, choosing among these growth rates seems impossible, even with the
+ERH.
+   The remainder of the paper is organized as follows. Motivation for the proof
+is given in §2, and then §3 is devoted to summarizing the definitions and results
+from algebraic number theory that will be needed later. The asymptotic result
+(Theorem 1) is proved in §4, assuming some messy details that are proved in
+§5. Because relatively more is known about the zeta functions involved, explicit
+constants for the rational case are presented in §6 (Theorems 2 and 3), with §7
+treating the case of degree 2 and higher (Theorem 4).
+
+                                2. Motivation
+   This section is intended as a guide to the more technical arguments that
+follow; details will be glossed over or even skipped altogether. For the moment
+we discuss the rational case only, following [5],
+   The proofs in this paper derive ultimately from a proof of the prime number
+theorem. Perhaps the most natural variant of this theorem says that about one
+in log n numbers near n is prime; this gives a heuristic for estimating sums
+over primes:
+                              E/uo~£ f(n)
+                                     log«
+Let A(n) equal log p if n is a power of a prime p , and 0 otherwise. Then the
+above result says that whenever A appears in a sum, it should be disregarded;
+for example
+                                                           x
+                 sM=£('-><»>~E(>~)
+   How might one try to prove such an assertion? The basic idea in analytic
+number theory is to use transforms to decompose such sums into a main term
+(e.g., x/2 ) and other terms that grow less rapidly. In the above case, it can be
+shown that
+                    , > -2Í [2+¡oc sí_1_
+                 g(X) - 2ni J2_loc X \s(s+l)
+where C denotes the Riemann zeta function.
+  One can therefore think of the transform
+
+                             G(S)= H7TTJT(S)
+as another representation of the original function g . Just as in the analysis of
+physical systems, the behavior of g is governed by the location of the poles
+of C7.
+358                                     ERIC BACH
+
+
+  Formally at least, one can evaluate the inverse transform by residues and find
+
+
+                            *<*)
+                                   x
+                              =t-Ey p(p +          -"
+                                      +y
+where the sum is over zeros of the zeta function with 0 < Re p < 1 and " • • ■"
+indicates terms of smaller order that are of no concern here.
+   The pole of Ç at 5 = 1 contributes the main term, and the Riemann hypoth-
+esis implies good estimates on the second term. More precisely, if each root p
+is of the form 1/2 + ico, then the latter sum has the form
+                                          sßeia>loiX
+
+                                       Çp(p+i)
+                                           '
+and each oscillatory term in this sum grows much less rapidly than the main
+term x/2. It would follow from the Riemann hypothesis and the estimate
+£|/>f2 < °° that
+                            E(l-j)A(»)            = f + 0(>r<x).
+                            «<.v
+   Montgomery [31] used this idea to give a proof of Ankeny's theorem. Let x
+be a character on Z/(m)*, and suppose that#(«) =1 for all n < x . Then
+
+                     E{*-x)A(n)           = ¿:(l-^A(n)x(n),
+                     n<x                    n<x
+
+and one can also consider the right-hand side as a transform:
+
+           Til--)          Mn)x(n) = fi     [2+,00xs { —^                  ■^(*) j ds.
+           ^V        x'                27iiJ2_ioo            \s(s+\)        Ly'j
+Here L denotes a function similar to the zeta function but lacking a pole or
+zero at 1. The expression is thus "all error term":
+
+                    E(,-i)A(.)z(.)-ES^TJ
+                    n<x                                 p   r^r        '
+                                                                           +--
+      If L satisfies the Riemann hypothesis, then combining the above results gives
+                                       1
+                              U^T.p P(P+K +
+
+   One now needs to estimate the sum over the roots of L ; at this point we
+only offer an explanation, not an argument. In some sense, the roots of L have
+a "density" proportional to log m, and since the corresponding sum for £ is
+finite, one might expect that the above sum is 0(log m). This is indeed true, and
+so for some A > 0 , </x < 2A log m + ■■■ which implies that x < 4A (log m)
+asymptotically.
+   The basic trick in getting good numerical estimates is to derive a version of
+the above inequality with a parameter in it. (This idea appears in [ 16, p. 19-13].)
+                      EXPLICIT BOUNDSFOR PRIMALITYTESTING                      359
+
+                                                      2
+This is done by replacing the rational function 1/(5 + s) in the transform by
+(s+a) , and using a formula due to Stark [44] to explicitly calculate 2~II^+fll
+Finding the best value of a involves a tradeoff; small a's give a good asymptotic
+constant (which is good for large m ), but large a's make the error terms small
+(which is good for small m ). To get the best results, a has to be chosen
+appropriately for the m of interest.
+   This section has discussed the rational case only, but the same ideas apply
+to the general case. Here sums over primes are replaced by sums over prime
+ideals, but the entire apparatus of zeta and L functions can be generalized,
+including Stark's formula. However, since less is known about these functions,
+the resulting bounds are correspondingly less sharp.
+                        3. Notation   and background
+   This section summarizes the notation and facts assumed in the remainder of
+the paper. The viewpoint is quite general, but the concepts easily specialize to
+the rational case (see the remarks at the end of the section). References for this
+material include [8, 17, 19, 25],
+   In this paper Z, Q, E, and C denote the integers, rational numbers, real
+numbers, and complex numbers, respectively. An inequality such as x < y for
+complex numbers indicates that the corresponding relation holds between real
+parts.
+   Throughout, K will denote an algebraic number field of degree n, with
+r, embeddings into 1 and 2r2 into C (thus n = rx +2r2). Let A denote
+the absolute value of K's discriminant; Minkowski's theorem (see [25, p. 121])
+states that n = 0(log A).
+   Let O denote the ring of integers of K. If 21 is an ideal of O, then A/21
+denotes the size of the quotient ring 0/21. (In this paper, ideals are assumed
+to be nonzero, so that N21 < oo .) An ideal of O can be uniquely decomposed
+into a product of prime ideals, and two ideals 21 and <8 are called relatively
+prime — this is written (21, 2$) = 1 — if the prime factors of 21 are distinct
+from the prime factors of 23. If p is a prime ideal, then for some (ordinary)
+prime number p , Np = p ; the exponent / is called the degree of p .
+   A character * is a function on the ideals of O that arises in the following
+fashion. Let K c E be a finite field extension with an abelian Galois group.
+For a prime ideal p unramified in this extension, let
+
+                           (wk)£G*{E'k> = g
+denote the Artin symbol of p. Let <f>be a homomorphism from G into the
+complex roots of unity. This induces a function on prime ideals given by
+
+                                *<»=*(ä7i)
+when p is unramified, and 0 otherwise; x is then extended by multiplicativity
+to be a function on all ideals.
+360                                      ERIC BACH
+
+
+   If E1 is a proper subfield of E, then a character x defined using E' might
+agree with x whenever x í 0 • X is then said to be induced by / ■ If no such
+subfield exists, x is called primitive. A character that takes only the values 0,
+1 is called principal.
+   A number t e K is said to be totally positive if it is positive in all real
+embeddings (for example, 1 is totally positive). For any character x > there is
+an ideal f of O such that x((t)) = I for all totally positive / congruent to
+1 modulo f. In this case x is said to be defined modulo f ; the ideal of least
+norm with respect to which x is defined is called its conductor. For primitive
+characters with conductor f, let
+
+(3.1)                                  Ax=à-Nl.
+   Each character has an associated parameter ß that measures its dependence
+on signs. It is defined using the following fact: there exist numbers a; e {0, 1},
+1 < i < rx, such that for any t = 1 (mod f), x((t)) = ri(sign/,)a' . Then ß
+denotes the number of l's occurring in the list a,,..., 1
+                                                                arrt and a denotes
+rx - ß ; note that 0 < a , ß < n .
+   Let y/ denote the logarithmic derivative of the gamma function.     y/ satisfies
+the recurrence relation
+(3.2)                             y/(z) = ip(z+l)-l/z
+as well as the duplication formula
+(3.3)                  yv(z/2) + ip((z + l)/2) = 2(y/(z) - log2).
+Over the range (0, oo), the function y/ has derivatives of all orders that al-
+ternate in sign. Thus, y/ is increasing, y/' decreasing, and so on. For future
+reference,   differentiating   (3.2) gives
+
+(3.4)                           y/'(z) = y/'(z+l)    + l/z2.
+   The Hecke L-function associated with a character x is
+
+(3-5)                              ^/) =Ef.     21
+A special case is when x is the trivial character (always 1); this gives the
+Dedekind Ç,junction of K :
+                                                     1
+(3.6)                                C(s)= E
+    Hecke L-functions are analytic in the whole plane, with the exception of
+a simple pole at 5 = 1 (which occurs if and only if x is principal). The
+functions associated with primitive characters satisfy a functional equation due
+to Hecke [19, p. 35] which implies that they have infinitely many zeros in the
+strip 0 < Re(5) < 1 ( p will denote such a zero), as well as zeros at certain
+nonnegative integers. The Extended Riemann Hypothesis asserts that all Hecke
+L-functions are zero-free in the half-plane Re(s) > 1/2.
+                                  EXPLICITBOUNDSFOR PRIMALITYTESTING                                  361
+
+
+   The logarithmic derivatives of these functions will be used later, and we
+summarize some of their properties below. First, for Re(s) > 1, there are
+absolutely convergent representations
+
+0 7)                                          Zts)ss-ym
+[X)                                           C[)         ^    Ntf
+and
+(3 81                                     L'(s\-       \-AWx(*)
+(3-8)                                     ¿()~V            A/2c '
+where A(2l) = log A/p if 21 is a power of a prime ideal p and 0 otherwise. For
+any s, if
+ii o\                        f\     A+r2         fS\    , r2    [S+l\           «log 71
+(3.9)                   Wr(s)= -L^y,             (-) + ^        [—)           - -y-
+and
+nim                     ,,        r2 + a      (S\r2      + ß        Is + l\         nlogn
+(3-10)           n(s) = ^-w                   (5) + ^rv             [—)        - -y-.
+then
+
+(3.11)           ^)=i              + c(-I_             + i)-^„gA-i-Fl7-i-t(s)
+and (for primitive nonprincipal characters x )
+
+(3.12)             ^{s) = Bx + ^(^                       + ^y\logAx-WL(s)
+
+[22, p. 433]. The precise values of the constants B and B                               axe unimportant:
+if the sum is taken in symmetric order, then B + X] p~ = 0, and similarly for
+B . Several later arguments will rely on the convergence of J2\p\   '>f°r tne
+Riemann zeta function the sum is known:
+(3.13)                        Y* —7 = y+ 2 -log(4rc) = 0.04619... .
+
+(Here and elsewhere, y is Euler's constant, approximately 0.57721... .)
+   For future reference, information about the poles of the logarithmic deriva-
+tives is summarized below; here, L is associated with a primitive, nonprincipal
+character, and roots p in the critical strip are to be counted with appropriate
+multiplicities.
+
+
+         Place                       Residue of v         Residue of ¡j-       Residue of y - 4-
+         1                            -10-1
+         /»(ofC)                      1                   0                     1
+         p{ofL)                      0                    1                    -1
+         0                           r, + r2 - 1          r2 + n               ß - 1
+         -1,-3,-5,...                r2                   r2 + ß               -ß
+         -2,-4,-6,...                r, + r-,             r-, + n              ß
+362                                        ERIC BACH
+
+   One may also interpret characters as discrete characters of the idele class
+group of K ; as this group is constructed arithmetically from K , one may thus
+avoid reference to the extension E . The definition of this group is complicated
+and will not be given here (but see [8, p. 204 ff]). In special cases, however,
+characters may be defined using simpler groups associated with K ; as these
+cases are important in the construction of algorithms, we review them below.
+   (1) If K = Q, then A = rx = 1 and r2 = 0. A character x on 1/(m)*
+induces a character in the sense of this paper, by taking its value on (t), t > 0,
+to be x(t) ■In this case, the conductor of x is a divisor of m , Ç is the Riemann
+zeta function, and L is the Dirichlet L-function associated with x ■ Also, ß
+is the parity of # ; it is 0 if x(~l) = 1 and 1 if ^(-1) = -1.        See [12] for
+more discussion of this case.
+   (2) If K's ring of integers does not have unique factorization, then it has a
+nontrivial class group. This is a finite abelian group, and a character on this
+group induces a character in the sense of this section, for which f = 1 . The
+parameter /Ts possible values are controlled by the possible signs of units in
+K. The case of quadratic fields is especially important. If K = Q(\/d) for a
+squarefree integer d, then A is at most 4\d\. For imaginary quadratic fields
+(d < 0), r, = 0 and r2 = 1 , so that ß = 0. For real quadratic fields (d > 0),
+rx = 2 and r2 = 0, and ß = 0 unless the fundamental unit of K has negative
+norm, in which case 0 < ß < 2. See [9] for more discussion of quadratic
+fields.
+
+                              4. AN ASYMPTOTIC BOUND
+
+      In this section we prove an asymptotic bound for the least character non-
+residue, assuming some details from §5. The first four lemmas prove an explicit
+formula on which all the theorems of this paper are based.
+
+Lemma 4.1. For 0 < a < 1 and v > 0,
+
+                     2+'°°    /        .      f v a-logv   (v> 1),
+                                       ds =
+               Ini J2        s + a)2          10           (0<v<l).
+
+Proof. This is a residue calculation, and can be modeled on the proof of The-
+orem B in [21, p. 31]. D
+
+Lemma 4.2. For 0 < a < 1 , and any character x (possibly the principal one),
+
+
+
+
+Proof. Expand l!/L by (3.8), then interchange summation and integration
+(this is justified because the integral is absolutely convergent). Then apply
+Lemma 4.1. D
+                      EXPLICIT BOUNDS FOR PRIMALITY TESTING                       363
+
+
+Lemma 4.3. Let x be a character and let S be any set of ideals such that
+X(W)= 1 for all ideals 21 outside S with A/2l<x. Then,if 0 < a < 1,
+
+                       -i [2+i°° xs         (C__!¿
+                                                                (s)ds
+                       lut J2. IOC (s + a)2\C      L
+
+                               EAW-,MW^(i).
+                                      Vx ]
+                               aes
+Proof. Subtract two instances of Lemma 4.2.                 D
+
+Lemma 4.4. Let x be a nonprincipal primitive character, and let S be a set of
+ideals such that ^(21) = 1 for all ideals 21 outside S with A/21< x. Then, if
+0<a<l,
+
+                                       p
+             -7       = T±-7                 +I() + I
+             (a+\)2      Vp     (P + a)                 "
+
+                         +    EaMi-aÍtÍMa)'
+                             N<&<x
+                                       Vx I
+                              aes
+
+where in the first sum a '+ ' sign is taken for each root of Ç(s) and a '- ' sign for
+each root of L(s, x) <and
+
+
+
+
+                         4 Ç-Î M-»- '
+                               l.-ß±             ,-1,t
+                                           +^2(a-k)2xk'
+
+Proof. Formally, this results from evaluating the integral in Lemma 4.3 by
+residues, using the table at the end of §3. It can be justified similarly to the
+proof of Theorem 28 in [21], using estimates for L'/L given in (5.6), (6.2) and
+(6.3) of [22]. a
+
+   The equality in Lemma 4.4 implies that x cannot be too large, as its left-hand
+side is proportional to x, whereas its right-hand side is 0(y/x) if the ERH is
+true. To derive actual bounds on x , it is necessary to estimate the terms on the
+right-hand side. Section 5, assuming the ERH, provides the following bounds,
+in which the implied constants in " 0" terms can depend on a, but not on n
+364                                           ERIC BACH
+
+
+or x-
+
+      W E ;-â
+          \p + a\
+                  $ ^rvrt10^
+                    la+ l
+                                                W + Mv(a +1) - iog(2>o)
+                                                                     + o(i)],
+
+      (2) I =0(n) + 0(logx)^—1-~2
+                                            \P + a\
+      (3) l_ = 0(n),
+      (4)     J2 A(a)[l-/(2l)](^2l/x)alog(x/^2l) = 0(logx-logArf),
+            N<a<x
+            (a,f)^i
+      (5)    J2 A(P H1- X(p)](Np"/x)alog(x/Npk)< 4n(^ + 0(x")).
+            Nfk<x
+            degp>l
+
+(These are proved in Lemmas 5.6, 5.4, 5.1, 5.7, and 5.8, respectively.)
+Theorem 1 (ERH). For i = 1,2, ... let Kj be a number field whose discrimi-
+nant has absolute value A;, with a nonprincipal character x¡ defined modulo , ..
+Let p( be a prime ideal of minimal norm such that yf,-(p(-)
+                                                         ^ 0, 1 and degp; = 1.
+Assume that A(./yf(.—>oo as i —►  oo. Then
+
+                                 Npi<(l+o(l))log2(A2N,i).
+Proof. Let e > 0. We will show that as AN, —►
+                                            oo (dropping the subscripts),
+
+                               A/p<(l+e)log2(A2A/f)(l+o(l)).
+Choose a in the range 0 < a < 1 such that
+
+                       (1+a)4 <1+£           and      y(q+l)-log(2,Q
+                      (2íz+1)2                              2a+1
+(this is possible because \p(l) =—y =-Q.51121...   ). Consider the set of ideals
+2t for which either /(2l) e {0, 1} or 21 has a prime ideal factor of residue
+degree greater than 1. This set is multiplicatively closed, so any least-norm
+ideal p outside the set will be prime. Let x = Np, S = {p : deg p > 1 or
+(p, f) ^ 1}, and apply Lemma 4.4, using the primitive character induced by
+X. This character is defined modulo some divisor of f whose norm does not
+exceed TVf.By (2)-(5) above and ERH,
+                         x
+                                < (v^ + 0(log x)) ( £ —{—2 + 4n)
+                      (a+l)2                      \^\p + a\¿   j
+                                      + 0(n) + 0(log x log A/f)+ 0(nx'/4)
+By ( 1) and the second requirement on a,
+
+                       E —^I           + 4n Í örTATT^0^2^ + °(^-
+                        „\p    + a\            2a+i
+                          EXPLICIT BOUNDS FOR PRIMALITYTESTING                      365
+
+
+Also, n = O(logA) (by Minkowski's theorem), so that
+
+                          < ^-r(log(A2/Vf)         + 0(l))(Vx + 0(x1/4)).
+                (a+\)2       2a + 1
+Divide by y/x to get
+
+                    < ^-^log(A2Nl)(l           + 0(l/log(A27Vf)))(l +0(x"1/4)).
+       (a+l)2         2a +1
+           2    2
+If x < log (A A/f), there is nothing to prove, otherwise
+
+                          v^<^^]-log(A2A/f)(l+o(l)),
+
+which gives the desired bound.         D
+   Before giving the detailed proofs of (l)-(5) above, we should mention some
+analytic issues connected with the above theorem. First, the full ERH is not
+necessary for the bound to be polynomial in log(AArf). It would suffice that the
+relevant functions be zero-free in a strip Re(^) > 1 - e for some e > 0, but
+even such a "weak Riemann hypothesis" is not known. Second, the presence of
+a so-called "Siegel zero" p of L with 1/2 < p < 1 would improve the ultimate
+bound.
+                                5. Detailed       estimates
+   This section fills in the missing details in the proof of Theorem 1. The results
+will be used later, and so are done in explicit form.
+Lemma 5.1. Let I_ be defined as in Lemma 4.4. Then
+
+                               /_<-P-T-j    = 0(n).
+                                   (a - 2)V
+Proof. It will suffice to show that for k, x > 1 and 0 < a < 1 ,
+                             1      >         l
+                           xk(a-k)2        xk+\a     - (k + l))2■'
+which can be seen by noting that a is closer to k than to k + 1 . D
+Lemma 5.2. Let x be a primitive character. Then the following representations
+are valid for all s (taking in the sums a '+ ' sign for a root of Ç and a ' - 'for
+a root of L(s, x) in the critical strip):
+
+         ÍC         L'\       ^,(          1           1 \      1      1
+           C        L)          „     \s - P)      (2 - p) J    s    s-l
+                                                                               '3
+                                                                y/(\) + y/ ,
+366                                                    ERIC BACH
+
+
+and
+
+                                                                            ß_ ; fS                     5+1
+  T-r)w =S>;(j-/>r
+                J + AA+
+                    ^ (i-ira                                                4 ¥ (ï)         - •
+
+Proo/. To get the first equation, express (Ç1/Q(s) - (C'/C)(2) using (3.11) and
+(L1/L)(s) - (L1/L)(2) using (3.12), subtract the results and rearrange terms. To
+get the second, differentiate; the formal computation can be justified knowing
+that J2\P\~2 < °°- D
+Lemma 5.3. Let x > 1 and 0 < a < 1. Then
+
+                        logx                                                                 logx
+                               >0        and                                           +                      >0.
+  a2         a2xa       axa                        (a-1)2          (fl-l)V-1           ' xfl-'(l
+
+Proof. The function f(t) = x' is convex, so
+
+                                   1 ff(0)-f(-a)
+                                                                 /(-«))        >0.
+
+Multiply this by I/a and rearrange to get the first inequality.                                        The second
+inequality is proved similarly by considering f(0) and fi(l - a).                                      D
+
+Lemma 5.4 (ERH). Let IQ be defined as in Lemma 4.4. Then for 0 < a < 1
+and x > 1,
+
+                         ß - 1Ï          log x Ea -,4-^4-2              5          1               1
+  /0 < max <j0, —y-                }4
+                                               i p \P + a\
+                                                                               4
+                                                                                   X   E />+ a| + 1
+Proof. First assume that ß = 0. Then, taking s = -a in Lemma 5.2 and using
+the definition in Lemma 4.4 yields
+
+                    1     log X           1            logx
+      'o=-                 ax           a2xa
+                                                   4
+                                                        X
+                                                               Z+±+ 1 +(i-£\mS
+                                                                        Í
+               1                    1
+             + —
+                X       E' (a + iy
+where
+
+               E =E± -a- p                             2- p) '        E' =E^(p + a)
+If the ERH holds, then
+                               1               1                     24a
+         ENE [p + a) 2-p                                <
+                                                            E \(p + a)(p-2)\ < E P24a+ a\:
+and the result follows in this case by estimating                           Yl' m a similar fashion and
+using (3.7) and (3.8) to show (C'/C - L'/L)(2) < 0.
+                                 EXPLICIT BOUNDS FOR PRIMALITY TESTING                              367
+
+
+   Now assume that ß > 1 . Using Lemmas 4.4 and 5.2 and using (3.2) and
+(3.4) to rewrite y/((l - a)/2) and y/'((l - a)/2) produces
+
+                 1     log X
+ h=                                E+i
+                                   ¿-^ a + -LT
+                                           a+l
+
+                                                                                 V(l) + V [ j
+
+                                                                                          (2) +
+
+         4
+             X
+
+             if _J_
+             X       (a-l?
+Only the middle two terms must be estimated (the first occurs in the lemma,
+and the last is negative by Lemma 5.3). To estimate the second term, apply
+(3.2) twice to y/(-a/2) and use the monotonicity of y/ to see that y/(-a/2) -
+ip((3 - a)12) -^(1)4- y(3/2) is nonnegative. Then replace ß by 1 and cancel
+the pole at a = 0 to get an upper bound for this term of
+  logx                                                     3-fl
+    x        E+ÎTÎ-Ï                   "(•-!)          w                    V{l) + V\ 2        +2
+
+The function l/(a 4 1) - \{yt(\ - a/2) - ip{{3- a)/2) - tp(l) + ^(3/2)} is
+convex when 0 < a < 1 , so it is maximized at the endpoints and therefore is
+at most 1. To estimate the third term, apply (3.4) to yi'(-a/2) and then use
+the monotonicity of y/'. D
+Lemma 5.5. Let a > 0, a                     a + 1 and p = 1/2 + ico. Then
+                                     1           1/1                    1
+                                                                  4
+                                 \p + a\2
+                                 2a+l \o                              a-p
+Proof. This is an algebraic identity. D
+Lemma 5.6 (ERH). If x is primitive, then
+         1                   1         AAy            1    1
+E p + a\¿             2a +1
+                                   log^f.2« + 2         4 -
+                                                    a+ 1 a
+                                                       a+ 1                      a+2
+                                      4 (n + a)\p             4 (n - a)y/
+
+                                                                      X,
+                                                                  4 2^(l4a)4
+                                                                                          L'
+                                                                                   2Re^(l+u)
+
+                         1
+                 <           log(A/l1,)4 2«(^(a4                                   [lä + }J+-l
+                      2a + 1
+where the sum is over the roots of C and L (with multiplicities)
+368                                                   ERIC BACH
+
+
+Proof. Let o > 0; substitute s = o in (3.11) and (3.12) and add the results to
+their conjugates to get Stark's formula
+
+
+ E( — +-
+ ¿—' \ rs — n              n —
+
+
+
+          = \og(AAx) + 2^4                  ^—)       + 2(ipr(o) 4 y,L(o)) + 2^(o) + 2Re±-(o)
+
+[44].  Use (3.9) and (3.10) to express yir + y/L; then substitute a = a 4 1
+in the above formula and use Lemma 5.5 to get the first equality. The upper
+bound uses the duplication formula (3.3), monotonicity of y/, and the estimate
+(C/Q( l+a) + Re(L'/L)( 1 + a) < 0 (a consequence of (3.8)). □
+   The above estimate and results derived from it are the most critical ones in the
+paper. In particular, any sharper estimate than (C/Ç)(l+a)+Re(L'/L)(l+a)          <
+0 is useful; this can be provided in the rational case, as explained in the next
+section.
+Lemma 5.7. Let co(f) denote the number of distinct prime ideals dividing ,. For
+0<a<            1,
+
+       E Mm - *(•»(£)' .o6(£) <_î^-o)                                         <-^™,
+      (a,i)^i
+where e = 2.718281...                    is the base of the natural logarithm.
+Proof. When 1 < / < oo, the function t~a log t is maximized when log t =
+1¡a, so it is bounded above by 1¡ea . Therefore, the sum is at most
+
+                     2     v-^    ./on        2 \^i       Ki      ]°%x   ^21ogx>-^
+                 Ta £ AW= -E^P                                 ToJTvp
+                                                                    ^-T^Ç1'
+                         (a,n^i
+this proves the first inequality.                 The second is true because every prime ideal
+has norm at least 2. D
+Lemma 5.8 (RH). We have
+
+            E            A(P*)[1-X(PA)](^)                log[^]<4n(v^4              0(x1/4)),
+
+           degp>l
+
+where the constant implied by the " O " symbol is absolute.
+Proof. Since 0 < a < 1 , the sum is at most
+
+
+                                          \£A,'i,l08te)
+                                             Vp <v
+                                            deg p>l
+                                EXPLICIT BOUNDS FOR PRIMALITY TESTING               369
+
+
+Consider the contribution to the above sum from the prime ideals lying above
+a fixed rational prime p , and for some fixed value of k . This is
+
+
+
+                 deg p>l                                deg p>l
+
+
+                                                    <2 E          fploSP loS
+                                                        deg p>l
+
+
+                                                    < 2nA(p ) log
+
+(here /    denotes the residue degree of p ). Hence, the whole sum is at most
+                                                                               yx
+                2« V] A(m)log(—y ) = 4n V] A(m)log
+                           r-            \m     J               ,-              m
+                      m<y/x                               m<y/x
+
+Since the Riemann zeta function has no pole at 0, we can take a = 0 in Lemma
+4.2, integrate by residues and get the explicit formula
+
+                           y~] A(m)log         L)=t + T^ + 0(i).
+The result follows from (3.13). D
+Lemma 5.9. We have
+
+
+           Npk<x                           ^        '       \        v /    m<y/x
+          deg p > 1
+Proof. Similar to that of Lemma 5.8. D
+
+                      6. Explicit      bounds for the rational             case
+   This section gives explicit versions of Theorem 1 when K is the field of
+rational numbers. This is worth treating separately because much more is known
+about the Riemann zeta function than for zeta functions of general number
+fields, and the results are correspondingly sharper. The case where K has
+degree greater than 1 is left to §7.
+   By the Kronecker-Weber theorem, any abelian extension of Q is contained
+in a cyclotomic extension whose Galois group is isomorphic to a multiplicative
+group of integers. One may also identify characters (in the sense of this paper)
+with ordinary Dirichlet characters, which are essentially homomorphisms from
+such groups into the complex roots of unity.
+   Therefore, this section deals with Dirichlet characters exclusively. In this
+section, .rv=Q,so    n = A = 1, r{ = 1, and r1 = 0. ^ is a nonprincipal
+character on 7L(m)*, m > 2 , whose parity is ß (0 if ^(-1) =1,1 otherwise).
+370                                     ERIC BACH
+
+
+Thus, a = I - ß. C and L denote the Riemann zeta function and Dirichlet
+L-function of x >respectively; they are defined by (3.7) and (3.8), where sums
+over ideals are replaced by sums over positive integers.
+   The general plan of this section is the following. The explicit estimates of §5
+combined with the proof of Theorem 1 produce inequalities (Lemmas 6.1 and
+6.2) that the least "good" positive integer n must satisfy. These inequalities
+lead to simple bounds (Theorems 2 and 3) that can be verified by hand, as
+well as more complicated machine-generated bounds that are tabulated in the
+appendix.
+Lemma 6.1. Let x be a nonprincipal character on Z/(m)* with x(n) = 1 for
+all positive n < x. Then, if 0 < a < 1,
+                 y/x           1
+               (a+l)         2a+1
+where
+          , _ (a 4 2) log x 4 1              , _ | log x 4- 1 _                   ß
+        {)~~        x"+l'2          '     S[X)~           x^2             (a-2)2x5'2,
+
+and
+         t(x) = - log 7T4 yy(a + 2 + l) + (2a + l)(y + 2- \og(4n))
+
+
+                 +2f(l+„)
+                   ^
+                        +4E^.
+                          n>x n
+Proof. Take S = 0 in Lemma 4.4, and use Lemmas 5.1 and 5.4 to estimate
+/_ and I0 (note that ß < 1) ; this produces
+
+                  ^      , < =-Vt(1 4 r(x))Y-l—j                        + s(x).
+                (a+l)2       2a+ly                "^\p          + a\2
+By Lemma 5.6,
+                                    , m     „(I        1
+        E^p + a\2        2a + I
+                                    log — 4 2 ( - 4
+                                        7T    v a  ' a 4 1
+                                                       'a+l\             (a + ß+l
+
+                                              C'                       L'
+                                           + 2^-(l+a)            + 2ReT(l+a)
+                                                   s                       E
+
+Put 5 = 1 4 a in (3.11), and use Lemma 5.5 and (3.12) to get
+
+               2^(1 4 a) 4 ip (^-)  - log Ti4 2 (- +
+                              \ 2 )             \a   a+l
+                   <(2a+l)T             —!—I < (2a + l)(y + 2 - log(4;r))
+                      EXPLICIT BOUNDS FOR PRIMALITYTESTING                          371
+
+
+(note that the roots of Ç axe symmetric about the real axis). Since x(n) = 1
+for all n < x , (3.7) and (3.8) with s = I + a imply
+
+
+                      x(i+«)4(i+*)+2£^-                     «>.v
+
+Combining the last three inequalities shows that the sum over the roots of Ç
+and L is at most log m + t(x), and the result follows. D
+Lemma 6.2. Let x be a nonprincipal character on Z/(m)* with x(n) £ {0, 1}
+for all positive n < x. Then, if 0 < a < 1,
+           [x         1
+                 < ^-r(l        +r(x))[log       m + t \x)] + s(x) + u(x)co(m),
+        (a+l)2     2a 4 1
+where s(x) and r(x) are defined as in Lemma 6.1 and
+
+  t\x) = -\ogn + y,(^±±)+(2a+l)(y                            + 2-\og47i) + 2j2^,
+                       ^              '                                     n>x n
+                                     , y     2l0gX
+                                   U(X)=     -f=r.
+                                        eay/x
+Proof. This is like the proof of Lemma 6.1, with the following exceptions. In
+Lemma 4.4, S = {n: gcd(m, n) ± 1}, the first inequality of Lemma 5.7 is used
+to estimate the new term which results, and l!/L is estimated with
+                                                     A(n)
+                            !<.+«)<
+                            L     E-         n>x n
+                                                      \+a
+                                                                   D
+
+
+   To use these inequalities, it is helpful to have estimates for the prime number
+functions appearing therein.
+Lemma 6.3. Let p(x) = 5Z„<VA(«), and choose A, B > 0 so that p(t) < At
+(for all positive t ), and p(x) > x - By/x . Then
+
+                     EA(«)</              (o+_l)_
+                    fki nUa -\
+                    «>.y                     a                 yß)     X"
+
+                   roo -(1+a)
+Proof. The sum is /~   ;      dp(t) ; apply Stieltjes integration by parts.         D
+
+  For x < 108, (3.35) and (4.5) of [37] give the explicit values A = 1.03883,
+5 = 2.05282.
+Lemma 6.4 (RH). Let co(m) denote the number of distinct prime factors of m.
+Thenfor m > 210,
+                   oj(m) < co(m) = li(log m) + QA2yJ\ogm,
+where li(x) is the Cauchy principal value of /0Xdt/ log /. Moreover, for such
+m , 7o(m)/(\og m) is a decreasing function.
+372                                ERIC BACH
+
+
+Proof. The first assertion is due to Robin [36], under the assumption of the
+Riemann hypothesis. To prove the second, note that there is a number x,
+between 3 and 4, for which li(x)/x = 1/logx.         For x > x, li(x)/x is a
+decreasing function of x . This easily implies the second assertion, o
+Theorem 2 (ERH). Let G be a nontrivial subgroup of Z/(m)* such that n e G
+for all positive n < x. Then x < 2(log m) .
+Proof. Without loss of generality, G is maximal. There is then a nonprincipal
+character x with G c kernel(x), and it will suffice to assume that x(n) = I
+for all n < x .
+   First assume m > 1000, and take a = 1/2 in Lemma 6.1. By Lemma 6.3,
+0 < log m + t(x) < log m (appropriate values for y/ and Ç'/Ç can be found in
+[1,46]). Thus,
+                                 2s(x)                        2s(x)
+      \/x < ö log m 1 4 r(x) +         < - log m 1 + r(x) +
+                                 log m                      log 1000
+But the right side is less than \/2\og m , which proves the bound.
+   Now let m < 1000. If m < 3 , there are no nontrivial subgroups of Z/(m)*,
+so there is nothing to prove. If m > 3 is a prime, m has a primitive root less
+than 1.7(log m) [48]. Finally, if m is composite, it must have a divisor that
+is at most y/m, and yfm < 2(log m)~ for 6 < m < 1000, by a convexity
+argument.    D
+
+Theorem 3 (ERH). Let G be a nontrivial subgroup of Z/(m)* such that n e G
+for all positive n < x relatively prime to m . Then x < 3(log m) .
+Proof. We will show this holds for m > m0 = 10 ; the other values of m can
+be checked by computation. By Lemmas 6.2 and 6.4,
+       ^fx~       1^              a>K)                            1 4 r(x)
+                                           log m + s(x) + t (x)
+      (a+ 1 7*    2a + 1          log wn                           2a + 1
+
+Let a = 0.6 ; for x > 3 log m0, the second term on the right-hand side is
+negative and can be ignored. The first term gives a bound for y/x that is
+proportional to log m, and direct substitution shows that the coefficient is less
+than V^.    D
+   To verify Theorem 3 for all m < 106, the author wrote a program to find,
+for each such m, a set of small primes that generates Z/(m)*. Since m is
+relatively small, the task can be done by the following procedure. Factor m
+and compute 4>(m), then express Z/(m)* as a direct product of its p-Sylow
+subgroups for all p\4>(m). For each such p , use the characters of order p to
+find a generating set for the subgroup; then take the union of these generating
+sets.
+   Two consequences of Theorems 2 and 3 are notable. First, if the ERH is
+true, then a composite number m has a witness for its compositeness          (in the
+                          EXPLICITBOUNDSFOR PRIMALITYTESTING                               373
+
+
+sense of [30 or 43]) that is at most 2 log m . Second, if the ERH is true, then
+                                                   2
+   (m) is generated by the numbers less than 3 log m that are relatively prime
+to m .
+   The process used to prove Theorems 2 and 3 can be automated.             We
+will illustrate using Lemma 6.1, which implies bounds of the form x <
+(C, log m + C2)2, valid for all m > m0 , in the following way. First, the result
+of Lemma 6.1 is equivalent to
+
+                       (a+l)2
+             y/X <                  1 +r(x))[log m + t(x)] + (a+ 1) s(x).
+                        2a + 1
+For the moment assume that m and a axe fixed. Then any value of x greater
+than exp((a + l/2)~ ) that makes the above inequality false is an upper bound
+on the least number outside G (this holds because for any x > x, either
+log m + t(x') < 0 — in which case x is too large — or the right-hand side of
+the inequality is a decreasing function of x ). The minimal such value x0 can
+be found by binary search.
+    For any given value of m0 , choose a value of a that makes x0 small. (The
+resulting function x0(a) seems to be convex, and a bisection-style minimization
+procedure works well in practice.) Once values of a and x0 have been found,
+set
+                                                                 l+r(x0)               '
+      C,               (l+r(x0)),         C2 = (a+i;     t(x0)             -+s{xQ)
+           2a+1                                             °' 2a+1
+
+Then, whenever m > m0, it must be true that x < (Cx log m + C2) . For,
+assume this is not the case (otherwise the job is done). Then by the definition
+of x , log m + t(x) > 0, so
+
+   v^ < {2a+\         (1 + r(x))tloS m + ^       + (a+ l)2s(x)
+
+                t(l     + r(x0))[log m + t(x0)] + (a+ \)2s(x0) < C, log m + C2.
+           2a + 1
+                                                                                * ,2
+Similarly, Lemma 6.2 gives bounds of the form x < (C. log m + C2 ) , where
+
+                                          1 +r(xQ)        ,<y(m0)
+                       C = (a+i;          ———f-
+                                           2a + 1
+                                                  + u(xA--y-
+                                                       "log m0
+
+and
+                       c; = (a + i; t X 1 + r(xo)L +, s{xQ)
+                                                       / x'
+                                              °' 2a+1
+  The author wrote programs to implement the above ideas, y/ and li were
+computed via published approximations [29, 10], and £ and £ were computed
+by Euler-Maclaurin summation [15]. The results are summarized in Tables 1
+and 2 of the appendix.
+374                                          ERIC BACH
+
+
+   These computations, and the computations used to verify Theorem 3 for
+small m, showed that in Theorem 2, one can replace "2" by 2/ log 3 =
+1.657071... , which is the best possible constant. Possibly this is also true
+of Theorem 3, but no attempt has been made to verify such a claim.
+
+                    7. Explicit       bounds for the algebraic        case
+  The purpose of this section is to provide explicit versions of Theorem 1 for
+number fields besides the rationals. The computations are similar to those of
+§6.
+   In this section, K denotes a number field of degree n > 2 and absolute
+discriminant A (so A > 1 ). Let x be a nonprincipal character on the ideals
+of K that is defined modulo f. We will first prove an'explicit degree bound in
+the spirit of [32],
+Lemma 7.1. Let 0(a) = log(27i) - yi(a + 1). Then, for any a > 0,
+
+                                 1           (A2A/f) /     1     l_
+                         n<
+                               0(a)                      a+l     a
+Proof. Consider the primitive character induced by x > and use the nonnega-
+tivity of the expression in Lemma 5.6. □
+
+  To get a concise analog to Lemmas 6.1 and 6.2, we introduce the following
+"options":
+      1. The sign parameter ß is nonzero.
+      2. f / 1 , and the prime ideal p should be relatively prime to f.
+      3. The prime ideal p should have residue degree 1.
+  With each choice of the above options associate an index set / c {1, 2, 3},
+and define the exceptional set S, accordingly. For instance, 7 = 5 = 0 if
+ß = 0 and a bound is needed for the smallest p with x(p) / 1 •
+Lemma 7.2. Let I be a set of options (in the above sense) and assume that
+X(2l)= l for all ideals with A/2l< x such that 21£ S,. Then, if 0 < a < 1 ,
+
+                  2 < 5T-t(       1 + r(x))[log(A'tff)  t(x)] + 50(x)
+                                                 2Vf) + /(x)]   s0(x) + '^s,(x),
+        (a+l)         ¿a+i                                                     iei
+where r(x) is defined as in Lemma 6.1, and
+
+                   t(x) = 2n(y/(a + 1) - log(27t)) + 2 (^             + i
+                         5
+                             log x + 1                   ß-l            ß
+                S°{X)-       xa+l'2      '     ',(X)"a2v^      + (a-2)2x5/2'
+
+           S2ix) = e^i^]ogNU                         ^{x) = 7Tß        £      A(m)
+                                                                      m<y/x
+                         EXPLICIT BOUNDS FOR PRIMALITYTESTING                           375
+
+
+Proof. Combine Lemmas 4.4, 5.1, 5.4, 5.6, 5.7, and 5.9 as in the proof of
+Theorem 1. D
+   To get estimates valid for a wide range of fields and characters, it seems
+reasonable to "normalize" the sfs to be in terms of log(A A/f). First, Lemma
+7.1 gives positive constants A and B such that
+
+                               ß <n<A        log(A2A/f)+ B
+
+(taking a = 1 provides A = 0.36, B = 1.07). Evidently, log A/f< log(A2A/f).
+Finally, the prime number theorem implies that there is a positive constant C
+for which
+                                      J2 Mm)<Cy/x.
+                                     m<\/x
+
+(Rosser and Schoenfeld [37] give C = 1.03883.) Combining the results cited
+in this paragraph gives estimates that are summarized in the following table.
+
+
+
+                   Bounds of the form s((x) < er(x) log(A A/f) + t(
+
+   i        Case               rj;                    t(                    Remarks
+
+   0    always                 0                   %£i
+
+   1     ß>0            -Ä=
+                        a%/f + ,(a—2)
+                                   ¿ x in
+                                        '     Jt±
+                                              a yfx + ,(a-2)5 x „i
+                                                                '    ¿ = 0.36, £=1.07
+   2 (P,ß= i              sfcv*^                       o
+   3   degp=l                 ^                      ^                     C= 1.03883
+
+
+  Analogs to Theorems 2 and 3 are given in the following theorem.
+
+Theorem 4 (ERH). Let K be a number field of degree greater than 1, and let
+A be the absolute value of the discriminant of K. Let x be a nonprincipal
+character of the ideals of K that is defined modulo f. Then:
+
+            X(p) í 1 occursfor Np < 3 log (A A/f),
+            X(p) t¿0, 1 occursfor Np < 121og (A A/f),
+                                                                       7    7
+            X(p) ^0,1     a/io7deg(p) = 1 occurs for Np < 181og"(A"A/f).
+Proof. It is first necessary to find an absolute lower bound on A"A/f. Lemma
+7.1 (with a = 1 ), together with the data on quadratic fields in [9], shows that
+A2A/f> 27 , attained when K = QKv/^I) and A/f= 3 ( A/f^ 1, 2 because this
+field has class number 1, and no prime ideal of norm 2). Now take a = 1 in
+376                                    ERIC BACH
+
+
+Lemma 7.2 and rewrite the results, using the above estimates for s¡(x). Since
+n>2,     t(x)/3 + 2~I,=oT/(x) is (barely!) negative for x > 3log 27. Therefore,
+x , the norm of the least appropriate prime ideal, satisfies
+
+
+
+                   Vx<4
+                             1 + r(x)
+                                  3
+                                              +E*,<
+                                                 x log(A-TVf),
+                                                iei
+
+and the results follow from checking that each coefficient is less than the square
+root of the stated bound. D
+
+   It is interesting to compare these bounds with those given by Oesterlé [34],
+which estimate prime ideals p with a particular value of x(p) ■ Here, Theorem
+4 only estimates p for which x(p) is nontrivial in some sense. However, the
+two bounds are similar when x has degree 2; in the present notation, Oesterlé
+gives 70 log (A A/f) as a bound for a p of least norm with x(p) 7^0, 1 , whereas
+                                          2    2
+Theorem 4 gives a bound of 12 log (A A/f).
+   Theorem 4 implies also that the class group of a field of discriminant A
+is generated by the prime ideals of norm at most 12 log A. In the quadratic
+case, this may be improved by working directly with Lemma 7.2 (take n = 2,
+a = 0.7, and use Minkowski's bound [25, p. 119] for small values of A), to
+show that the prime ideals of norm less than 6 log" A generate the class group.
+   As explained in the previous section, one can find a good value of a, compute
+the least x0 for which a bound holds, and use this to get explicit estimates of
+                        2             2
+the form x < (C¡ log(A TVf)+ C2) . The relevant formulas are
+
+
+                                              1 + r(x)
+                      C, =(a+r
+                                              2a + 1     E*i    X
+
+
+
+and
+
+                                      . ,(1 +r(x))        v-^       '
+                   C2 = (a+l]         Í(X) 2Ï+1          +£T'W
+
+
+Computed bounds based on these formulas are presented in Table 3 of the
+appendix.
+
+
+                                Acknowledgments
+   I would like to again thank Andrew Odlyzko, who suggested that I use Stark's
+formula in my dissertation. The idea of using two constants in the tables was
+                            EXPLICITBOUNDSFOR PRIMALITYTESTING                                 377
+
+
+suggested by a referee. I also thank the referees and other readers of the paper
+for many helpful comments.
+
+
+
+                                               Appendix
+   This appendix contains tabulated boin-ds that give improvements to Theo-
+rems 2, 3 and 4. Besides providing values of the constants C, and C2, the
+tables show x0 (rounded down) and the value of a at which this was attained.
+
+
+
+
+                                                Table     1
+           ERH =>the least x            Z/(m) - G is < (C, log m + C2) for
+           m > mQ.
+
+               -1 6 G                                          -1 £ G
+                                      C,                                        C,         a
+  10'         31            1.415    -4.123       0.621       39        1.374   -3.192     0.617
+  IO4         57            1.336    -4.729       0.521       6»;       1.307   -3.719     0.523
+  10s         92            1.284    -5.168       0.461       108       1.263   -4.109     0.467
+  106         137           1.248    -5.500       0.422       158       1.232   -4.422     0.426
+  10*         259           1.200    -5.994       0.371       289       1.190   -4.889     0.375
+  1010        423           1.170    -6.364       0.338       463       1.163   -5.243     0.342
+  I015        1020          1.128    -7.011       0.289       1086      1.124   -5.865     0.293
+  I020        1887          1.105    -7.453       0.262       1980      1.103   -6.304     0.264
+  1050        12778         1.059    -8.847       0.193       13035     1.058   -7.662     0.195
+  10'01       52564         1.038    -9.846       0.156       53106     1.038   -8.641     0.156
+  IO20'       212956        1.025    -10.733      0.127       214077    1.025   -9.504     0.127
+  10s0'                              -11.477                                    -10.217
+              1337754       1.015                 0.096       1340649   1.015              0.096
+  10'°'       5350275       1.009    -11.307      0.076       5356178   1.009   -10.026    0.076
+
+
+
+
+                                                Table     2
+           ERH=> the least x e Z/(m)* - G is < (Cx*log m + C2) for
+           m > m0.
+
+                   •1 G G                                      ■IÍC
+                             <A       c:                                         c2
+   io3         158           2.133    -2.140      0.703       1 :6      2.102   -1.240    0.717
+   w4          246           1.942    -2.178      0.652       269       1.919   -1.260    0.662
+   io5         347           1.811    -2.203      0.615       3 75      1.794   -1.272    0.623
+   IO6         461           1.716    -2.220      0.584       494       1.702   -1.279    0.592
+   IO8         726           1.585    -2.242      0.537       769       1.576   -1.285    0.545
+   IO10        1042          1.500    -2.256      0.504       1095      1.493   -1.283    0.508
+   IO'5        2042          1.374    -2.268      0.443       2121      1.370   -1.271    0.447
+   10"         3342          1.305    -2.267      0.404       3447      1.302   -1.249    0.406
+   10511       17227         1.159    -2.171      0.297       17493     1.158   -1.087    0.297
+   10"         62946         1.098    -1.939      0.232       63487     1.098   -0.829    0.234
+   IO2'        237295        1.061    -1.474      0.182       238402    1.061   -0.345    0.184
+   IO51        1413413       1.033    -0.359      0.133       1416260   1.033   0.857     0.133
+   10"         5529565       1.021    1.238       0.104       5535372   1.021   2.486     0.104
+378                                                ERIC BACH
+
+                                                   Table 3
+                ERH-- a suitable p exists with A/p < (C, log(A2A/f)+ C2)2 for
+                AzA/f > An
+
+                                                    *(P) ¥ 1
+                      ß =0
+                      *0                  *-2                                  A        A
+      10"             13         1.571    -3.570      0.998         21         1.776    -3.498     0.998
+      105             130        1.259    -3.077      0.727         169        1.416    -3.291     0.836
+      10"             599        1.166    -2.350      0.541         712        1.280    -2.773     0.639
+      1021            2475       1.110    -1.367      0.410         2800       1.194    -2.067     0.496
+      1051            15145      1.065    0.439       0.289         16469      1.122    -0.797     0.361
+      10"             58881      1.044    2.336       0.223         62751      1.086    0.471      0.287
+      10"             5483128    1.011    14.236      0.094         5627299    1.027    7.283      0.141
+                                                   X(V)¥0, 1
+                      ß=Q
+      \                                   C,                                   A        C2
+      102             123        3.166    -3.468     0.932          133        3.268    -3.510     0.986
+      105             585        2.379    -3.189     0.775          616        2.441    -3.269     0.820
+      10"             1811       1.974    -2.885     0.666          1888       2.017    -2.997     0.705
+      io21-           5625       1.682    -2.471     0.564          5820       1.714    -2.618     0.598
+      105'            26169      1.420    -1.701     0.445          26876      1.441    -1.913     0.473
+      10u                                 -0.887     0.367          89266      1.303    -1.166     0.391
+                      87338      1.287
+      10"             6164175    1.076    4.206      0.182          6226716    1.082    3.384      0.197
+                                            X(P)¥ 1 ; degree p      1
+                      0=0                                           ß = n
+      X               *o                                            xo         A         C2
+      102             119        2.421    -0.211      0.934         133        2.564    -0.256     0.988
+      105             740        2.357    0.083       0.789         782        2.430    -0.001     0.828
+      1010            2933       2.339    0.293       0.721         3025       2.379    0.216      0.746
+      1020            11639      2.333    0.442       0.682         11838      2.354    0.391      0.695
+      1050            72314      2.331    0.560       0.654         72840      2.340    0.527      0.662
+      10'°'           288614     2.331    0.606       0.645         289688     2.335    0.588      0.648
+      1010'           28800718   2.330    0.643       0.637         28811673   2.331    0.643      0.637
+                                          X(9)¥0,    1 ; degree p    1
+                      ,8 = 0                                        B= n
+                      *o          A        C\         a             *0         C,       C2
+      102             300        3.807    -0.209      0.934         311        3.885    -0.235     0.965
+      105             1359       3.203    -0.013      0.828         1393       3.247    -0.055     0.852
+      1010            4452       2.891    0.150       0.766         4529       2.918    0.111      0.781
+      1020            15280      2.678    0.308       0.717         15451      2.693    0.270      0.729
+      1050            83457      2.505    0.458       0.678         83936      2.513    0.443      0.682
+      10ioo           313974     2.431    0.534       0.660         314986     2.435    0.526      0.662
+      .(,1000                                                                                      0.639
+                      29152988   2.345    0.634       0.639         29163843   2.345    0.634
+
+
+
+                                                Bibliography
+
+             M. Abramowitz and I. A. Stegun, Handbook of mathematical functions. Dover, New York,
+              1965.
+             L. Adleman, K. Manders, and G. Miller, On taking roots in finite fields, Proc. 18th IEEE
+             Symposium on Foundations of Computer Science, 1977, pp. 175-177.
+             L. Adleman, C. Pomerance, and R. Rumely, On distinguishing prime numbers from com-
+             posite numbers. Ann. of Math. (2) 117 (1983), 173-206.
+             N. C. Ankeny, The least quadratic non residue, Ann. of Math. (2) 55 ( 1952), 65-72.
+             E. Bach, Analytic methods in the analysis and design of number-theoretic     algorithms,   MIT
+             Press, Cambridge. Mass., 1985.
+             E. Bach and J. Shallit, Factoring with cvclotomic polynomials. Math. Comp. 52 (1989),
+             201-219.
+                        EXPLICIT BOUNDS FOR PRIMALITY TESTING                                   379
+
+
+ 7. R. P. Brent, On the zeros of the Riemann zeta function in the critical strip, Math. Comp. 33
+    (1979), 1361-1372.
+ 8. J. W. S. Cassels and A. Fröhlich, Algebraic number theory, Academic Press, London, 1986.
+ 9. H. Cohn, Advanced number theory, Dover, New York, 1980.
+10. W. J. Cody and H. C. Thacher, Jr., Chebyshev approximations for the exponential integral
+    Ei(jc), Math. Comp. 23 (1969),289-303.
+11. H. Cohen and H. W. Lenstra, Jr., Primality testing and Jacob! sums, Math. Comp. 42
+    (1984), 287-330.
+12. H. Davenport, Multiplicative number theory. Springer, Berlin, 1980.
+13. D. Davies and C. B. Haselgrove, The evaluation of Dirichlet L-functions, Proc. Roy. Soc.
+    London Ser. A 264 (1961), 122-132.
+14. D. Davies, An approximate functional equation for Dirichlet L-functions, Proc. Roy. Soc.
+    London Ser. A 284 (1965), 224-236.
+15. H. M. Edwards, Riemann's zeta function. Academic Press, New York, 1974.
+16. R. P. Feynman, R. B. Leighton, and M. Sands, The Feynman lectures on physics, vol. 2,
+    Addison-Wesley, Reading, Mass., 1964.
+17. L. J. Goldstein, Analytic number theory, Prentice-Hall, Englewood Cliffs, N. J., 1971.
+18. S. Graham and R. J. Ringrose, Lower bounds for least quadratic non-residues, manuscript,
+    1988.
+19. H. Hasse, Bericht über neuere Untersuchungen und Probleme aus der Theorie der algebrai-
+    schen Zahlkörper, 3rd ed., Physica-Verlag, Würzburg-Wien, 1970.
+20. M. A. Huang, Riemann hypothesis and finding roots over finite fields, Proc. 17th ACM
+    Symposium on Theory of Computing, 1985, pp. 121-130.
+21. A. E. Ingham, The distribution of prime numbers, Cambridge Univ. Press, Cambridge, 1932.
+22. J. C. Lagarias and A. M. Odlyzko, Effective versions of the Chebotarev density theorem, in
+    Algebraic Number Fields (A. Fröhlich, ed.), Academic Press, London, 1977.
+23. _,    On computing Artin L-functions in the critical strip. Math. Comp. 33 (1979), 1081-
+    1095.
+24. J. C. Lagarias, H. L. Montgomery, and A. M. Odlyzko, A bound for the least prime ideal in
+    the Chebotarev density theorem, Invent. Math. 54 (1979), 271-296.
+25. S. Lang, Algebraic number theory, Addison-Wesley, Reading, Mass., 1971.
+26. D. H. Lehmer, E. Lehmer, and D. Shanks, Integer sequences having prescribed quadratic
+    character. Math. Comp. 24 (1970), 433-451.
+27. A. K.. Lenstra, Fast and rigorous factorization   under the extended Riemann hypothesis, Indag.
+    Math. 50(1988), 443-454.
+28. J. van de Lune, H. J. J. te Riele, and D. T. Winter, On the zeros of the Riemann zeta
+    function in the critical strip. IV, Math. Comp. 46 (1986), 667-681.
+29. P. McCullagh, A rapidly convergent series for computing        ip(z) and its derivatives, Math.
+    Comp. 36 (1981), 247-248.
+30. G. L. Miller, Riemann's hypothesis and tests for primality, J. Comput. System Sei. 13 ( 1976),
+    300-317.
+31. H. L. Montgomery,      Topics in multiplicative number theory. Lecture Notes in Math., vol.
+    227, Springer, Berlin, 1971.
+32. A. M. Odlyzko, Lower bounds for discriminants of number fields, Acta Arith. 29 (1976),
+    275-297.
+33. _,      On the distribution of spacings between zeros of the zeta function. Math. Comp. 48
+    (1987), 273-308.
+34. J. Oesterlé. I ersions effectives du théorème de Chebotarev sous l'hypothèse de Riemann génér-
+    alisée, Soc. Math. France Astérisque 61 ( 1979). 165-167.
+380                                           ERIC BACH
+
+
+      35. C. Pomerance, J. L. Selfridge, and S. S. Wagstaff, Jr., The pseudoprimes to 25-10    , Math.
+          Comp. 25(1980), 1003-1026.
+      36. G. Robin, Estimation de la fonction de Tchebychef 8 sur le k-ième nombre premier et
+          grandes valeurs de la fonction co(n) nombre de diviseurs premiers de n , Acta Arith. 42
+          (1983), 367-389.
+      37. J. B. Rosser and L. Schoenfeld. Approximate formulas for some functions of prime numbers,
+          Illinois J. Math. 6 (1962), 64-94.
+      38. L. Rónyai, Factoring polynomials overfinite fields, J. Algorithms 9 (1988), 391-400.
+      39. C. P. Schnorr and H. W. Lenstra, Jr., A Monte Carlo factoring algorithm with linear storage.
+          Math. Comp. 43 ( 1984), 289-311.
+      40. M. Seysen, A probabilistic factorization algorithm with quadratic forms of negative discrim-
+          inant, Math. Comp. 48 (1987), 757-780.
+      41. D. Shanks, Systematic examination of Littlewood's bounds on L(\, x) >Proc. Sympos. Pure
+          Math., vol. 24, Amer. Math. Soc, Providence, R. I., 1973, pp. 294-311.
+      42. R. Spira, Calculationof Dirichlet L-functions,Math. Comp. 23 (1969),489-497.
+      43. R. Solovay and V. Strassen, A fast Monte-Carlo test for primality, SIAM J. Comput. 6
+          (1977), 84-85.
+      44. H. M. Stark, Effectivecases of the Brauer-Siegel theorem, Invent. Math. 23 (1974), 135-152.
+      45. J. Velu, Testsfor primality under the Riemann hypothesis, SIGACT News 10 ( 1978), 58-59.
+      46. A. Walther, Anschauliches zur Riemannschen Zetafunktion, Acta Math. 48 ( 1926), 393-400.
+      47. P. J. Weinberger, On small zeros of Dirichlet L-functions, Math. Comp. 29 ( 1975), 319-328.
+      48. A. E. Western and J. C. P. Miller, Tables of indices and primitive roots. Royal Society,
+          Cambridge, 1968.
+
+   Department    of Computer Sciences, University             of Wisconsin,    Madison,    Wisconsin
+53706. E-mail: bach@cs.wisc.edu
+

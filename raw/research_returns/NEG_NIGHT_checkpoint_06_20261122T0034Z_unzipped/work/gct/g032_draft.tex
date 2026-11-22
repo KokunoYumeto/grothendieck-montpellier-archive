@@ -1,0 +1,229 @@
+\subsection{NN-G032: bounded-mass lift existence is fixed-parameter tractable}
+\paragraph{Statement.}
+For the symmetric effective associative lift problem of NN-G029,
+let $N$ be a bound on the total coefficient mass, including
+the unit, and let $L$ be the bit length of the sparse input
+trace table, its rank and its specified unit and forbidden
+positions, and the budget. There are a computable function
+$F$ and an absolute constant $c$ such that lift existence
+with mass at most $N$ is decidable in time
+\[
+                    F(N)(L+1)^c.                  \tag{G032.1}
+\]
+Thus the problem is fixed-parameter tractable in the numerical
+mass budget. This is valid even when the budget is encoded
+in binary; it is not a polynomial-time claim for unbounded
+$N$. A lift can also be produced in the same type of bound.
+The claim concerns the unrestricted symmetric table problem;
+it does not identify that optimization with a canonical GCT
+basis or imply any positive multiplicity formula.
+
+The proof eliminates integer exponent variables symbolically.
+The new consequence is the parameterized algorithm for this
+lift problem; the integer-linear quantifier elimination used
+below is a standard method, proved here self-containedly.
+It never searches through all integers up to the largest input
+trace exponent. Its constants can be extremely large, so it
+does not make the $N=11147$ example a practical computation.
+
+\paragraph{Finite discrete patterns and integer formulas.}
+First canonically combine repeated sparse monomials, and
+check the prescribed symmetry, unit and input format. These
+operations take polynomial time in $L$. If the absolute trace
+mass exceeds $N$, reject. A unital rank-$r$ lift contains at
+least $2r-1$ unit coefficients, so reject also if $2r-1>N$.
+Consequently every nonrejected input has $r\le(N+1)/2$,
+at most $N$ nonzero trace monomials, and trace coefficient
+absolute values at most $N$.
+
+The following discrete information consequently has only
+a number of possibilities bounded by a computable function
+of $N$: the rank; the occupied trace positions and their
+integer coefficients; the forbidden positions; and the
+coefficient-and-position patterns of all possible effective
+lift tables of total mass at most $N$.
+For a lift pattern, every noncentral symmetric monomial pair
+costs at least two units of mass. Assign a distinct formal
+positive integer variable to each occurrence of such a pair,
+and retain the central coefficients as fixed integers.
+There are at most $\lfloor N/2\rfloor$ exponent variables.
+Within each position, require that separate pairs have
+distinct exponents. Coefficients are selected as part of
+the finite pattern, so there are no unknown coefficient
+products in what follows.
+
+Let $k_1,\ldots,k_h$ be the distinct positive exponents of
+the input trace. They are free integer parameters; their
+binary magnitudes are not included in the discrete pattern.
+One has $h\le\lfloor N/2\rfloor$.
+As in NN-G029, form zero, the signed individual exponent
+variables and trace parameters, and all sums of two signed
+individual forms. Enumerate their possible total order
+and equality patterns. Each chosen pattern is expressed
+by a conjunction of linear equalities and strict
+inequalities with integer coefficients bounded in terms
+of $N$. Since the variables are integers, a strict
+inequality is an ordinary weak inequality with an added
+constant one.
+
+For a fixed collision pattern, domination and parity are
+comparisons of fixed coefficients, and every associativity
+coefficient is a fixed integer sum of fixed integer products.
+Discard a pattern if these tests fail, or if it violates a
+unit or forbidden-position condition. Every remaining
+pattern yields a formula
+\[
+ \exists x_1,\ldots,x_m\in\mathbb Z\quad
+       \Phi(x_1,\ldots,x_m;k_1,\ldots,k_h),          \tag{G032.2}
+\]
+where $m\le N/2$ and $\Phi$ is a finite conjunction of
+integer linear inequalities, including $x_i\ge1$.
+The numbers of patterns, atoms and variables, and all
+coefficients and constants in these formulas, are bounded
+by functions of $N$ alone. The input trace exponents
+appear only as free parameters $k_j$.
+
+Conversely, a satisfying integer assignment to any retained
+formula gives an actual lift: its monomials have the selected
+positive exponents; its constants dominate the trace with
+the correct parity; and all coefficient identities for
+associativity hold by the selected collision partition.
+Thus the finite disjunction of (G032.2) is equivalent to
+the desired bounded-mass existence question. This step
+does not require an incumbent or the numerical cutoff
+from NN-G029.
+
+\paragraph{Elementary elimination of one integer variable.}
+We prove the needed elimination rule completely. Consider
+any finite Boolean combination of integer linear inequalities
+and congruences in one quantified integer $y$, other integer
+variables, and free parameters. All coefficients and moduli
+are fixed integers. Equalities are pairs of inequalities.
+Negating an inequality changes it to an inequality with
+constant shift one. A negated congruence modulo a fixed
+positive $m$ is a disjunction over its other $m-1$ residues.
+After distributing conjunctions and disjunctions, it is
+enough to eliminate $y$ from one conjunction of inequalities
+and congruences. This may greatly increase size, but the
+increase depends only on the formula, not on parameter values.
+
+Let $B\ge1$ be the least common multiple of the absolute
+values of all nonzero coefficients of $y$ in that conjunction.
+If none occurs, set $B=1$. Substitute $z=By$ and add
+$z\equiv0\pmod B$.
+An atom $ay+t\ge0$, where $t$ does not involve $y$,
+becomes, for $a\ne0$,
+\[
+ \operatorname{sgn}(a)z+(B/|a|)t\ge0.
+\]
+A congruence $ay+t\equiv0\pmod m$ becomes
+\[
+ \operatorname{sgn}(a)z+(B/|a|)t
+                   \equiv0\pmod{mB/|a|}.
+\]
+These transformations are equivalent under $z=By$:
+the inequality is multiplied by a positive integer, and
+$m\mid u$ is equivalent to $cm\mid cu$ for every
+positive integer $c$. Atoms with $a=0$ are unchanged.
+Conversely $z\equiv0\pmod B$ recovers an integer $y$.
+
+All remaining atoms involving $z$ are therefore lower bounds
+$z\ge\ell_i$, upper bounds $z\le u_j$, or congruences
+$z\equiv r_a\pmod{m_a}$, where the bounds and residues
+are integer linear forms in the other variables and free
+parameters. Let $M$ be the least common multiple of the
+fixed positive moduli. Enumerate $a=0,\ldots,M-1$ and
+impose the compatibility atoms
+\[
+                      a\equiv r_b\pmod{m_b}
+                 \quad\hbox{for every }b.
+\]
+These atoms exactly say that the chosen residue class
+$z\equiv a\pmod M$ satisfies every congruence.
+
+If either the lower-bound list or the upper-bound list is
+empty, that residue class has an integer satisfying every
+remaining one-sided bound. Thus no further condition is
+needed in that case. If both lists are nonempty, enumerate
+an index $i$ for a largest lower bound and a number
+$b\in\{0,\ldots,M-1\}$, and impose
+\[
+ \ell_i\ge\ell_{i'}\ (\hbox{all }i'),\qquad
+ \ell_i+b\equiv a\pmod M,\qquad
+ \ell_i+b\le u_j\ (\hbox{all }j).
+\]
+These conditions are necessary and sufficient: the smallest
+integer in the chosen residue class at least $\ell_i$ is
+exactly $\ell_i+b$ for its unique such $b$.
+The resulting finite disjunction contains no $z$ or $y$
+and consists only of integer linear inequalities and
+congruences. This proves elimination of one integer
+existential quantifier, with an explicit finite procedure.
+
+\paragraph{Runtime and witness recovery.}
+Apply this elimination successively to all the exponent
+variables in every retained formula (G032.2). Its initial
+size, coefficients, moduli and number of variables depend
+only on $N$. At every step the resulting size, coefficients
+and moduli still depend only on $N$, even though they may
+grow rapidly. The result is a finite Boolean combination
+of integer linear inequalities and fixed-modulus
+congruences in the input exponents $k_j$ alone.
+Formula construction and elimination therefore cost some
+computable function of $N$, independently of the binary
+magnitudes of the $k_j$.
+
+Substitute the given binary exponents into this formula.
+There are only $F_0(N)$ atoms and coefficients, each of
+bit length at most $F_0(N)$ for a computable $F_0$.
+Integer addition, multiplication and division by these
+fixed coefficients and moduli can all be carried out by
+elementary bit algorithms in time bounded by
+$F_1(N)(L+1)^2$. The finite initial parsing and sorting
+contribute another fixed polynomial in $L$.
+This proves (G032.1), with an absolute polynomial exponent.
+
+One may also retain the selected disjunct at every elimination
+step. Recover variables in reverse order, selecting a true
+disjunct after substituting the free parameters and the variables
+already recovered at that stage. With two-sided
+bounds use the recorded integer $z=\ell_i+b$; with only
+lower bounds choose the least compatible residue representative
+above their maximum; with only upper bounds choose the
+largest representative below their minimum; and with no
+bounds choose the selected residue itself. Then set $y=z/B$.
+The compatibility atoms ensure divisibility by $B$.
+Repeating this construction yields the integer exponents
+of a lift. The number of steps and every arithmetic
+coefficient are bounded by functions of $N$, so recovery
+obeys the same type of parameterized time and bit-length
+bound. In particular every recovered bit length is
+$O_N(L+1)$, since each recovery step uses a bounded number
+of linear operations and fixed-modulus divisions with
+coefficients depending only on $N$.\hfill$\square$
+
+\paragraph{Geometric translation and limitations.}
+For a fixed coefficient pattern, the grading weights lie
+in the cocharacter lattice of a finitely presented
+diagonalizable group, with the associativity collisions
+imposing integral linear relations. Domination and the
+chosen order of weights specify finitely many lattice
+chambers. Eliminating exponent variables projects these
+integer lattice conditions; the resulting congruences
+record finite-index lattice obstructions. Their character
+duals are finite diagonalizable groups such as $\mu_m$.
+The actual conclusion is that, for bounded total dimension
+mass, admissibility of the prescribed trace weights is
+decidable by finitely many such linear inequalities and
+congruences, computed uniformly from the mass budget.
+
+This is an arithmetic statement about cocharacter lattices,
+not a claim that inequalities define Zariski-open subsets
+or that an effective lift is a canonical geometric object.
+The grading dictionary is SGA 3, I, 4.7.2--4.7.3, and
+the actual composing kernel realization is NN-G010,
+using archive cote 2, scan 17. The algorithm gives no
+polynomial bound on the mass budget needed by varying
+GCT inputs, no practical small value of $F$, and no
+rank-four positivity, purity, PH0 or PH1 theorem.
+

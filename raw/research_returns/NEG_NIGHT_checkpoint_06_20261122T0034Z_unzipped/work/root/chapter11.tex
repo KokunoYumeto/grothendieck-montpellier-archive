@@ -1,0 +1,344 @@
+\section{NN-S019: exponential positive arithmetic circuit cost for a local counting character}
+
+\paragraph{Statement.}
+Let $G=(V,E_G)$ be a simple graph on $n\ge2$ vertices of
+maximum degree at most a fixed $d\ge1$. Suppose that, for every
+$S\subseteq V$ with $|S|\le n/2$, its edge boundary satisfies
+$|\partial S|\ge h|S|$, where $h>0$ is fixed.
+Give each vertex two independent weights $y_{v,0},y_{v,1}$,
+and each edge $e=uv$ four independent weights $z_{e,a,b}$.
+Choose an orientation of each edge only to order these two bits.
+Define the integral polynomial
+\[
+ P_G(y,z)=\sum_{x\in\{0,1\}^V}
+      \prod_{v\in V}y_{v,x_v}
+      \prod_{e=uv\in E_G}z_{e,x_u,x_v}.
+\]
+It has $2^n$ distinct monomials, all with coefficient one,
+$2n+4|E_G|=O_d(n)$ variables and degree
+$M=n+|E_G|=O_d(n)$. Every binary monotone arithmetic circuit
+over $\mathbb R_{\ge0}$ computing it as a formal polynomial
+has at least the following number of internal addition or multiplication gates:
+\begin{equation}\label{eq:S019-lower}
+ 2^{\kappa n}\quad\hbox{gates},\qquad
+            \kappa=\frac{h}{3(d+1)(d+h)}.
+\end{equation}
+The circuit model permits arbitrary nonnegative real constants,
+addition and multiplication, and sharing of intermediate results.
+
+In contrast, NN-C034 constructs a constant-free integral arithmetic
+circuit for the very same polynomial of size
+\[
+ \operatorname{poly}_d(n)
+ 2^{O_d(n(\log\log n)^2/\sqrt{\log n})}=2^{o(n)},
+\]
+and polynomial formal degree. Thus, for these explicitly specified
+local counting polynomials on any constant-expansion family,
+the positive versus integral arithmetic size ratio is at least
+$2^{\kappa n/2}$ for all sufficiently large $n$.
+This is a consequence of E combined with the elementary
+positive-rectangle argument proved below. It is not a new
+general lower-bound technique or a historical-priority claim
+for monotone graph polynomials.
+
+\paragraph{The positive circuit gives a small balanced cover.}
+There are $M$ weight blocks: one block for each vertex and one
+for each edge. Every output monomial contains exactly one
+variable from every block. Remove zero gates and gates which
+do not contribute to the output. At each remaining gate $g$,
+write $P_g$ for its nonzero polynomial. Fix a path from $g$
+to the output and a nonzero monomial from every sibling at a
+multiplication on this path. Their product is a monomial $c$.
+Positivity implies that $pc$ is an output monomial for every
+monomial $p$ of $P_g$. Consequently all monomials at $g$ have
+the same block multidegree, with each entry zero or one.
+Write $A_g$ for its set of occupied blocks and $r_g=|A_g|$.
+This reasoning does not assume that the circuit is a formula.
+In particular, a positive-degree gate cannot occur twice in
+a contributing parse tree, since its block degrees would
+then exceed the output degrees.
+
+At an addition gate its two nonzero inputs have the same
+block set. At a multiplication gate their block sets are
+disjoint and their union is the output block set of that gate.
+For a fixed output monomial, follow a contributing parse tree
+from degree $M$ downwards. At sums choose a child contributing
+the monomial. At products, while a child has degree greater
+than $2M/3$, follow such a child. At the first product where
+neither child has that degree, the parent still has degree
+greater than $2M/3$. Choose the larger child: its degree is
+strictly greater than $M/3$ and at most $2M/3$. Since
+$h>0$ and $n\ge2$ imply $M\ge3$, this child has degree at
+least two and is an internal gate. Thus every output monomial
+passes through an internal gate
+in the set
+\[
+             \mathcal B=\{g\text{ internal}:M/3\le r_g\le2M/3\}.
+\]
+
+For a fixed $g\in\mathcal B$, sum the products of sibling
+polynomials over all paths from $g$ to the output, obtaining
+a nonnegative context polynomial $C_g$. This polynomial is
+used only for the proof; no efficient construction is needed.
+Every term $P_gC_g$ has support contained in the output
+support, and $C_g$ occupies exactly the complementary blocks.
+The path reasoning just given proves the support cover
+\begin{equation}\label{eq:S019-cover}
+ \operatorname{supp}(P_G)\subseteq
+       \bigcup_{g\in\mathcal B}\operatorname{supp}(P_gC_g).
+\end{equation}
+There are at most as many products as circuit gates. We need
+neither coefficient equality in this cover nor disjointness
+between its products.
+
+\paragraph{A balanced product fixes many original bits.}
+Consider any nonzero product $AB$ with nonnegative coefficients,
+occupying complementary block sets $\mathcal A,\mathcal D$ of
+sizes between $M/3$ and $2M/3$, whose support is contained in
+$\operatorname{supp}(P_G)$. Let $B_0$ be the vertices whose
+incident factor blocks meet both sides of this partition.
+Here the unary vertex block is an incident factor, as is every
+edge block containing the vertex. Put $b=|B_0|$.
+
+For every $v\in B_0$, all monomials of $A$ and $B$ must
+encode the same fixed bit at $v$. Indeed fix a monomial in
+$B$. Each monomial in $A$ must be compatible with it, because
+their product has positive coefficient and is a valid output
+monomial. Since both sides contain a block involving $v$,
+this fixes its bit in every monomial of $A$. Fixing one such
+monomial of $A$ then fixes it in every monomial of $B$.
+Internal consistency of each side also follows from extension
+by any nonzero monomial on the other side. Thus the entire
+product contains at most $2^{n-b}$ output monomials.
+
+Let $V_A$ and $V_B$ be the vertices all of whose incident
+factors belong respectively to $\mathcal A$ and $\mathcal D$.
+They partition $V\setminus B_0$. Every factor in
+$\mathcal A$ touches $V_A\cup B_0$. Since a vertex touches
+at most $d+1$ factors,
+\[
+ |V_A|\ge\frac{M}{3(d+1)}-b,
+ \qquad |V_B|\ge\frac{M}{3(d+1)}-b.
+\]
+There is no graph edge from $V_A$ to $V_B$: its factor
+would have to belong to both sides. Take the smaller of
+$V_A,V_B$, of size $a\le n/2$. All edges in its boundary
+end in $B_0$, so expansion and the degree bound give
+$ha\le db$. Combining with
+$a\ge M/(3(d+1))-b$ yields
+\[
+ b\ge\frac{hM}{3(d+1)(d+h)}\ge\kappa n.
+\]
+This remains valid if the lower bound for $a$ before
+rearrangement is negative. Therefore each product in
+\eqref{eq:S019-cover} contains at most $2^{n-\kappa n}$
+of the $2^n$ output monomials. If the circuit has $s$ gates,
+then $2^n\le s2^{n-\kappa n}$, proving
+\eqref{eq:S019-lower}.
+
+\paragraph{The integral upper bound and nonempty family.}
+The displayed definition of $P_G$ is exactly a universal
+partition polynomial with $n$ Boolean variables, $n$ unary
+factors and $|E_G|$ binary factors. Its density is at most
+$1+d/2$. Thus every hypothesis of NN-C034 holds without
+additional verifier wires, variable copying or a change
+of the parameter. Its circuit output is the integral
+polynomial above, so the comparison is in characteristic
+zero before any reduction. Since the upper exponent is
+$o(n)$, the claimed exponential ratio follows directly.
+
+The expander hypothesis supplies an infinite explicit
+family. One precise classical source is Reingold--Vadhan--
+Wigderson, \emph{Entropy waves, the zig-zag graph product,
+and new constant-degree expanders}, August~1, 2001 version,
+Theorem~3.3, printed p.~11, and Section~5, pp.~16--18. In the published \emph{Annals of Mathematics}~155 (2002), 157--187 version, these are Theorem~3.3 and its proof on pp.~170--171, with the explicit starting graph in Lemma~5.1 and Proposition~5.2 on pp.~178--179. The readable published version is also arXiv:math/0406038v1. Its constant-degree
+graphs have a normalized spectral bound $\lambda<1$
+independent of their size. To pass from its allowed
+multigraphs to simple graphs, remove loops and merge
+parallel edges. For a set of at most half the vertices,
+the spectral inequality applied to its centered indicator
+gives at least $d(1-\lambda)|S|/2$ crossing edges with
+multiplicity. Each unordered edge has multiplicity at
+most $d$, so the resulting simple graph has at least
+$(1-\lambda)|S|/2$ crossing edges and maximum degree
+at most $d$. This gives the required fixed positive $h$.
+The original primary version is
+\url{https://www.math.ias.edu/~avi/PUBLICATIONS/MYPAPERS/SALIL/EXPANDERS/ANNALS/RVW01.pdf}. The published version is
+\url{https://arxiv.org/pdf/math/0406038}.
+
+\paragraph{Representation and Grothendieck translation.}
+Let $T$ be the split torus over $\mathbb Z$ with independent
+characters indexed by all the weights $y,z$. On the finite
+etale Boolean scheme
+$Y=(\operatorname{Spec}\mathbb Z\sqcup\operatorname{Spec}\mathbb Z)^V$,
+give the free rank-one summand at section $x$ the character
+equal to its displayed monomial. Its pushforward to
+$\operatorname{Spec}\mathbb Z$ is an actual free $T$-module
+$\mathcal V_G$ of rank $2^n$, with character $P_G$.
+The dictionary between split-torus representations and
+character gradings is SGA~3, Expos\'e~I,
+4.7.2--4.7.3; direct sum and tensor product induce the
+addition and multiplication of the representation
+Grothendieck ring, as in SGA~6, Expos\'e~IV,
+(1.5.2) and Definition~2.2.
+
+A circuit building this class solely by direct sums,
+tensor products, and nonnegative integer multiplicities
+from the specified one-dimensional characters is a
+monotone arithmetic circuit. It therefore needs
+$2^{\kappa n}$ gates. E and NN-C034 instead give a
+$2^{o(n)}$ expression in the representation ring using
+virtual differences and shared subexpressions. The
+resulting class is still the actual effective class
+$[\mathcal V_G]$. This proves an exponential cost for
+removing subtraction from these precise representation
+expressions, despite their bounded-locality counting origin.
+
+The lower bound concerns this arithmetic model. It does
+not cover formulas with arbitrary Schur-functor primitives,
+lattice-point-counting oracles, coefficient extraction,
+hashing operations, arbitrary dual-character generators, or
+the entire finite pushforward as a unit-cost primitive. It does not count intermediate
+split-semiring values equal to the supported zero: by
+NN-S009, a value alone does not retain cancellation
+provenance. It gives no lower bound for unrestricted
+Boolean circuits and no P versus NP or VP versus VNP
+resolution. In particular, the upper bound remains
+subexponential, not polynomial. Neither A nor M is used.
+
+
+\paragraph{A polynomial monotone Boolean circuit for the same support.}
+The formal-polynomial lower bound above persists alongside a much smaller
+Boolean support circuit.  For each unary or binary factor tuple, let its
+weight be an input bit recording whether that tuple is allowed.  Write
+$a=(a_{v,b},a_{e,b,c})$ for all these bits.  Then
+\[
+ \operatorname{Supp}_G(a)=
+ \bigvee_{x\in\{0,1\}^V}
+       \left(\bigwedge_v a_{v,x_v}\ \wedge\!
+                         \bigwedge_{e=uv}a_{e,x_u,x_v}\right)
+\]
+has a binary monotone Boolean circuit with $O(n^3+|E_G|)$ gates,
+constructible in that time from $G$.  In particular, on the bounded-degree
+expander family it has size $O(n^3)$, although every monotone arithmetic
+circuit for the full formal counting polynomial needs $2^{\kappa n}$
+gates.  No use of E is needed for this Boolean upper bound.
+
+Here is the full construction and proof.  First use input bits
+$f_{v,b},f_{e,b,c}$ recording that a tuple is forbidden.  A forbidden
+unary tuple $(v,b)$ supplies the clause $x_v\ne b$.  A forbidden edge
+tuple $(e=uv,b,c)$ supplies the clause
+\[
+                       (x_u\ne b)\vee(x_v\ne c).
+\]
+Thus consistency of the allowed tuples is exactly satisfiability of
+this two-CNF.  It is useful that the set of possible clauses is fixed
+by $G$: the input bits indicate which clauses are present.
+
+Make an implication graph whose $2n$ vertices are literals
+$L_{v,b}$ meaning $x_v=b$, with complement
+$\overline{L_{v,b}}=L_{v,1-b}$.  A unary forbidden bit supplies
+the edge $L_{v,b}\to L_{v,1-b}$.  A binary forbidden bit supplies
+the two edges
+\[
+ L_{u,b}\longrightarrow L_{v,1-c},\qquad
+ L_{v,c}\longrightarrow L_{u,1-b}.
+\]
+Each adjacency bit is the disjunction of the forbidden-tuple bits
+that supply that edge.  The total number of such occurrences is
+$2n+8|E_G|$, so all adjacency bits require $O(n+|E_G|)$ binary
+OR gates, allowing constants for absent edges.  Every edge
+$L\to M$ has its contrapositive edge
+$\overline M\to\overline L$.
+
+Enumerate the $2n$ literals as $1,\ldots,2n$.  Compute reachability
+using the following Boolean circuits:
+\[
+ R^{(0)}_{ij}=A_{ij}\vee[i=j],\qquad
+ R^{(k)}_{ij}=R^{(k-1)}_{ij}\vee
+             \bigl(R^{(k-1)}_{ik}\wedge R^{(k-1)}_{kj}\bigr)
+                     \quad(1\le k\le2n).
+\]
+Induction on $k$ shows that $R^{(k)}_{ij}$ records whether there is
+a directed path from $i$ to $j$ whose internal vertices are among
+$1,\ldots,k$.  The induction uses a simple path when there is a
+path, so that a visit to $k$ splits it into the two required parts.
+Consequently $R^{(2n)}$ is the reachability relation.  This circuit
+uses $O(n^3)$ binary AND and OR gates.  Its inputs and operations
+are all monotone in the forbidden-tuple bits.
+
+The two-CNF is unsatisfiable precisely when
+\[
+ U_G(f)=\bigvee_{v\in V}
+ \left(R^{(2n)}_{L_{v,0},L_{v,1}}\wedge
+       R^{(2n)}_{L_{v,1},L_{v,0}}\right)=1.
+\]
+This is exactly the ordinary two-CNF strong-component criterion of
+Aspvall--Plass--Tarjan, Theorem~1, printed p.~122, cited precisely
+below.  We import that classical theorem rather than reprove it.
+
+The entire circuit for $U_G$ uses only AND, OR, constants and the
+forbidden inputs.  Form its Boolean dual by interchanging AND with
+OR, interchanging constants zero with one, and replacing each
+forbidden input label by the corresponding allowed input label.
+Induction gate by gate, using De Morgan's laws, shows that the
+dual circuit computes
+\[
+                            1-U_G(1-a)=\operatorname{Supp}_G(a).
+\]
+This is an actual monotone circuit on the allowed bits; no negation
+gates are introduced at its inputs or internally.  Dualization
+preserves the number of gates.  This proves the claimed bound.
+
+The classical source for the implication graph and its exact
+strong-component criterion is Aspvall--Plass--Tarjan,
+\emph{A linear-time algorithm for testing the truth of certain
+quantified Boolean formulas}, \emph{Information Processing Letters}
+8 (1979), 121--123: the graph is defined on printed p.~121, and
+Theorem~1 with its complete proof is on printed p.~122.
+The primary article is available at
+\url{https://mathweb.ucsd.edu/~sbuss/CourseWeb/Math268_2007WS/2SAT.pdf}.
+Only the ordinary existential two-CNF theorem is used here; the
+quantified extension in its Theorem~2 is not used.  The cubic circuit
+construction and monotone dualization are explicit above, so no
+circuit bound is being imported from the article's
+linear-time random-access-machine algorithm.
+
+\paragraph{Geometric form of the support contrast.}
+For each fixed allowed-tuple bit string $a$, let
+\[
+ B_n=\mathbb Z[x_v:v\in V]/(x_v^2-x_v:v\in V)
+                   \simeq\prod_{x\in\{0,1\}^V}\mathbb Z.
+\]
+For a vertex or edge factor $f$, let $p_{f,a}\in B_n$ be its
+Boolean interpolation polynomial, taking value $a_{f,x|I_f}$
+on section $x$.  Explicitly the unary interpolation is
+$a_{v,0}(1-x_v)+a_{v,1}x_v$, and the binary interpolation is
+the corresponding sum of four degree-two Boolean indicator
+monomials multiplied by their allowed bits.  Each $p_{f,a}$
+is an idempotent.  Put $e_a=\prod_f p_{f,a}$ and
+\[
+                 Y_a=\operatorname{Spec}(B_n/(1-e_a)).
+\]
+This is the finite etale scheme over $\mathbb Z$ consisting of
+exactly the allowed assignment sections.  Equivalently one may
+use all equations $p_{f,a}=1$ together with the Boolean equations:
+for idempotents the ideals $(1-e_a)$ and $(1-p_{f,a}:f)$ agree.
+One inclusion follows by expanding $1-\prod_f p_{f,a}$ as a
+telescoping sum; the other follows from
+$(1-p_{f,a})e_a=0$.
+
+For every field $K$, the scheme $Y_a\times\operatorname{Spec}K$
+is nonempty if and only if $\operatorname{Supp}_G(a)=1$.
+Thus the nonemptiness of this explicitly given finite etale
+subscheme is computable by the displayed $O(n^3)$ monotone
+Boolean circuit in its allowed-tuple parameters.  Its rank is
+$P_G(a)$ as an ordinary nonnegative integer, while the full
+torus character before specialization is the exponentially
+costly positive arithmetic object described above.  The map
+from positive formal polynomials to Boolean support is a
+semiring map with idempotent addition.  It is not an evaluation
+of invertible torus characters at zero in the representation
+ring, and it does not retain multiplicities.  This distinction
+is exactly why the arithmetic lower bound and the Boolean
+upper bound coexist.

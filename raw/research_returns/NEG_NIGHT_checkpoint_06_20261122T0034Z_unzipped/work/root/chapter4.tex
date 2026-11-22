@@ -1,0 +1,178 @@
+\section{NN-S012: three different supported-zero circuit restrictions}
+\label{sec:root-circuit-models}
+
+\paragraph{The models and exact statement.}
+Let $R$ be a nonzero commutative unital ring. Circuits have fan-in two
+primitive gates $\oplus,\odot$ in $G(R)$, constants in $G(R)$, and
+Boolean inputs encoded by $0\mapsto\tau$, $1\mapsto1_R$.
+Write $e=0_R$ for the supported zero, $\pi:G(R)\to R$ for amplitude,
+and $\sigma:G(R)\to\mathbb B$ for support. A circuit computes a
+Boolean function by amplitude if its final amplitude is always the
+element $0_R$ or $1_R$ representing that function. Distinguish the
+following three restrictions:
+\begin{enumerate}
+\item Reading only final support $\sigma$ imposes no restriction on
+      intermediate amplitudes.
+\item Requiring the final value to be exactly $\tau$ or $1_R$ forbids
+      a supported zero at the output, but permits it at internal gates.
+\item Requiring that no gate, including a constant gate, takes the
+      value $e$ on any Boolean input forbids supported zeros at every
+      primitive gate.
+\end{enumerate}
+In the third model the final amplitude is again required to be Boolean.
+Circuit sizes count primitive gates, with a fixed constant cost for each
+ring constant.
+
+For every $R$, models 1 and 2 compute precisely the monotone Boolean
+functions, and their minimum circuit sizes are within constant factors
+of monotone Boolean circuit size. The same holds for model 3 whenever
+$R\not\cong\mathbb F_2$. Over $\mathbb F_2$, however, model 3 computes
+only constants and conjunctions of subsets of the input variables.
+In particular, two-variable OR has no such circuit over $G(\mathbb F_2)$,
+although it has a constant-size such circuit over $G(\mathbb F_4)$.
+
+If $R$ is fixed and finite, unrestricted amplitude computation over
+$G(R)$ is equivalent, up to constant factors in circuit size, to ordinary
+Boolean computation. The finite-ring hypothesis is needed for this
+automatic simulation: no claim about unit-cost arbitrary integer or
+complex constants is implicit.
+
+\paragraph{Proof of the support and output statements.}
+At every gate the pair $(\pi,\sigma)$ evolves by ring addition and
+multiplication in the first coordinate and OR and AND in the second.
+The support of each constant is fixed. Induction on the circuit therefore
+gives a monotone circuit of the same size for every gate's support.
+This proves the lower bounds and monotonicity in model 1. In model 2,
+the support of the output equals its Boolean amplitude, proving the same
+lower bound and monotonicity. In model 3 this equality also holds at the
+Boolean output.
+
+For the upper bound in model 1, replace Boolean OR by $\oplus$ and AND
+by $\odot$; only the support is read. For model 2, use multiplication
+for AND and the following constant-size circuit for OR on inputs
+$a,b\in\{\tau,1_R\}$:
+\[
+ (a\oplus b)\oplus((-1_R)\odot(a\odot b)).             \tag{S012.1}
+\]
+Its amplitude is $a+b-ab$, with $\tau$ sent to zero. Its support is
+the Boolean OR of the two inputs. Checking their four possible values
+shows that its final value is $\tau$ for $(\tau,\tau)$ and $1_R$
+otherwise. Thus each Boolean gate is replaced by a fixed number of
+primitive gates and its output has the required encoding. Internal
+supported zeros have not been excluded in this construction.
+
+\paragraph{Proof for every-gate absence.}
+First let $R=\mathbb F_2$ and suppose a circuit satisfies model 3.
+Every gate takes values in $\{\tau,1\}$. If both inputs of an addition
+gate have nonempty support as functions of the input bits, their
+monotone support functions both take value one at the all-ones input.
+The two input values there are both $1$, so the addition gate takes
+the forbidden value $e=1\oplus1$. Hence at least one input of each
+addition gate is identically $\tau$. Delete that gate and retain its
+other input. This can also be done effectively by evaluating support
+at the all-ones input: a monotone support is identically zero exactly
+when it vanishes there. What remains has only multiplication gates,
+the constants $\tau,1$, and input variables. It computes a constant
+or a conjunction. Conversely all those functions have such circuits.
+
+If $2\ne0$ in $R$, circuit (S012.1) already satisfies model 3.
+The first sum has nonzero amplitude $1$ or $2$ whenever supported;
+the product and its negative have amplitude $1$ and $-1$ whenever
+supported, and the output has just been checked. All constants used
+are nonzero. This proves the monotone upper bound in that case.
+
+Suppose instead that $2=0$ and $R\not\cong\mathbb F_2$.
+Choose any $\lambda\in R\setminus\{0,1\}$; no unit hypothesis is
+needed. The following circuit computes OR without a supported zero
+at any primitive gate:
+\[
+ s=a\oplus(\lambda\odot b),\qquad
+ h=(1+\lambda)\oplus a,\qquad
+ t=b\odot h,\qquad s\oplus t.                         \tag{S012.2}
+\]
+The nonzero supported values of $s$ belong to
+$\{1,\lambda,1+\lambda\}$. The gate $h$ is always supported and has
+value $1+\lambda$ or $\lambda$, both nonzero. The gate $t$ is absent
+when $b=\tau$, and otherwise has one of these same two nonzero values.
+The final value is $\tau,1,1,1$ on the ordered inputs
+$(\tau,\tau),(1,\tau),(\tau,1),(1,1)$, respectively. All constants
+and gates therefore satisfy the restriction. AND is multiplication
+on $\{\tau,1\}$, so substituting these circuits at monotone gates
+proves the upper bound for every remaining nonzero ring. The lower
+bound was the support shadow. This completes the classification.
+
+\paragraph{Proof of the finite-ring amplitude simulation.}
+Ordinary AND and NOT are represented in amplitude by $ab$ and $1-a$.
+Lifting them to $G(R)$ preserves these amplitude identities by the
+homomorphism $\pi$, even when a false intermediate value is $e$ rather
+than $\tau$. Thus every Boolean circuit has a constant-factor
+arithmetic lift. Conversely, when $R$ is fixed and finite, every
+element of $G(R)$ has a fixed-length binary encoding. Each addition
+or multiplication is a fixed finite lookup table and has a Boolean
+circuit of constant size. Encode all gates and extract the final
+amplitude bit. This gives the reverse constant-factor simulation.
+The elementary proof uses no E, A, M, or unproved complexity separation.
+
+\paragraph{What is corrected in the supplied circuit dictionary.}
+The source is \emph{OURS\_TRANSLATION\_SPLIT\_ZERO\_20261121.md},
+Section 9, items 1--6. Its support-shadow assertion is correct.
+The phrase ``no supported zeros'' must specify model 2 or model 3.
+In characteristic two the displayed OR formula
+$x\oplus y\oplus xy$ has an internal supported zero at $x=y=1$.
+Thus its proposed monotone equivalence is correct for output-only
+absence, but false for absence at every primitive gate over
+$\mathbb F_2$. Passing to $\mathbb F_4$ repairs that precise gate
+restriction with (S012.2). It does not prove a Boolean circuit lower
+bound: unrestricted computation over either fixed finite field still
+has the same Boolean circuit complexity.
+
+For a monotone family $f_n$, let $M_n$ be its monotone circuit size
+and $C_n$ its general Boolean circuit size. The exact corrected
+comparison is between $M_n$ and $C_n$, or the equivalent split models
+specified above. In particular, $\mathrm{CLIQUE}\in\mathrm P/\mathrm{poly}$
+is equivalent to a polynomial upper bound in the unrestricted amplitude
+model. A statement merely that the ratio $M_n/C_n$ is exponential
+does not provide that upper bound: as numerical growth conditions,
+$M_n=2^{n^a}$ and $C_n=2^{n^a/2}$ have an exponential ratio and neither
+is polynomial. This example is an explanation of the missing logical
+premise, not an assertion of these actual CLIQUE complexities.
+Any claimed equivalence using ``exponential savings'' must include
+the polynomial endpoint, or supply an additional theorem proving it.
+The same caution applies to E: its proved subexponential running times
+give subexponential circuits for the encoded computations, not a
+polynomial endpoint. NN-C001 and NN-C019 give the exact supported-zero
+removal and instance-dependent isolation consequences available from E.
+
+\paragraph{Geometric formulation and proof dictionary.}
+Over $\mathbb F_2$, put
+\[
+ X=\operatorname{Spec}
+ \mathbb F_2[x_1,\ldots,x_n]/(x_1^2-x_1,\ldots,x_n^2-x_n).
+\]
+This is the finite disjoint union of the $2^n$ rational points indexed
+by Boolean assignments. The amplitude at a gate is a section of its
+finite free function algebra; its support is an additional upward-closed
+subset of that indexing Boolean poset. In model 3 the support is exactly
+the nonvanishing locus of the section. Two nonempty upward-closed
+supports contain the all-ones point, and their sections both equal one
+there. Their sum vanishes there in characteristic two while the support
+tag remains present. This is precisely the addition obstruction proved
+above. It is a statement about the actual presentation by functions and
+support tags, not about a virtual Grothendieck class or a Frobenius weight.
+
+The finite-free algebra and its base-change trace are the setting of
+EGA IV$_4$, 18.2.1, especially equation (18.2.1.2), and 18.2.2,
+original printed page 111. The original page image was read in this
+run. Base change to $\mathbb F_4$ keeps the same split finite scheme
+and supplies the additional constant $\lambda$ used in (S012.2).
+Thus every-gate zero avoidance can change under a finite scalar
+extension even though the Boolean function and its support poset do
+not change. The support tags are extra data beyond this algebra;
+NN-S003 explains why additive ringization forgets them. For a general
+ring, absence of the zero element at an $R$-valued input is not
+silently identified with invertibility or with a base-change-stable
+open condition. The general-ring theorem was proved directly in
+$G(R)$, and the displayed scheme dictionary is specifically the
+finite-field case. Neither purity nor A or M imposes the missing
+polynomial upper or lower circuit bound.
+\hfill$\square$

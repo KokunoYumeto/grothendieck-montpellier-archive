@@ -1,0 +1,201 @@
+\paragraph{Extension to sparse polynomial factors with growing scopes.}
+The same integral construction applies beyond constant arity.
+Fix integers $C,a\ge1$.  Suppose there are $n\ge2$ Boolean variables
+and $m\le Cn$ factors, each given by an explicit monomial list
+\[
+ \Phi_f(x)=\sum_{j=1}^{\ell_f}y_{f,j}x^{\alpha(f,j)},
+ \qquad d_f=\max_j|\alpha(f,j)|,
+ \qquad \sum_f d_f\le Cn.
+\]
+The coefficient symbols $y_{f,j}$ are independent; repeated
+monomials in a list are permitted.  An empty list means the zero
+factor and is handled immediately.  Let $L$ be the full bit length
+of these lists, including their variable indices and binary
+exponents.  Suppose each declared scope $I_f$ has size at most
+$\lambda^a$, where $\lambda=\lceil\log_2 n\rceil$.
+The degree bound is imposed on these explicitly supplied
+polynomials before Boolean reduction.  Then
+\[
+ Z_{\Phi}(y)=\sum_{x\in\{0,1\}^n}\prod_f\Phi_f(x)
+\]
+has an integral division-free circuit of size and deterministic
+bit construction time
+\[
+ \operatorname{poly}(n,L)\,
+ 2^{O_{C,a}(n(\log\log n)^2/\sqrt{\log n})}.
+\]
+Its integer constants have polynomial bit length in $n,L$.
+It admits the same constant-free compilation of formal degree
+at most $\max(m,1)$, with subtraction gates assigned the
+addition degree rule.  The output is the formal polynomial
+over $\mathbb Z[y]$, so this single circuit identity transfers
+to every commutative coefficient ring.
+
+In particular, fixed-degree factors with a polylogarithmic
+number of monomials satisfy these hypotheses after changing
+the fixed constants: if the degree is at most $k$ and the
+list length at most $(\log n)^b$, the scope is at most
+$k(\log n)^b$, and the total degree is at most $kCn$.
+This preserves the original number $n$ of Boolean variables.
+There are no auxiliary verifier variables, and no truth table
+on the entire growing scope is constructed.
+
+We prove the exact quantitative interface.  Append one
+dummy factor equal to one, with declared scope $\{i\}$, for
+each variable $i$.  These factors contribute no coefficient
+symbols and have input degree zero; they only ensure that
+every variable has a declared incidence.  If $M_0$ is the
+resulting total scope length, then
+\[
+              n\le M_0\le n+Cn\lambda^a.
+\]
+Put
+\[
+ B_0=\max(1,\lceil M_0/n\rceil)\lceil\sqrt\lambda\rceil,
+ \qquad H=\{i:\deg_{\rm inc}(i)>B_0\}.
+\]
+Double-counting incidences gives
+$|H|\le M_0/B_0\le n/\sqrt\lambda$.
+Sum over all $2^{|H|}$ assignments to these variables.  On a
+branch, substitute the chosen bits in the explicit monomial
+lists and remove them from each declared scope.  Keep the
+remaining declared scopes even if some monomial becomes
+zero.  This uses only the syntactic list and chosen bits,
+with no test of a formal polynomial identity.
+
+Let $n'=n-|H|$.  For sufficiently large $n$ one has
+$n/2\le n'\le n$.  Each surviving variable has incidence at
+most $B_0$, every scope still has size at most $\lambda^a$,
+and the dummy factors ensure $n'\le M'\le B_0n'$ for the
+remaining total incidence $M'$.  Factors with empty scope
+can be multiplied outside the branch's counting routine;
+their polynomials in the $y$ variables are explicit linear
+forms.  This removal does not change $M'$.
+
+Choose a fixed integer $\beta$ larger than $a+2$, increasing
+the threshold of the exceptional finite range to absorb
+$C$.  With $\lambda'=\lceil\log_2 n'\rceil$, both the maximum
+scope and $B_0$ are at most $(\lambda')^\beta$ for all
+sufficiently large $n$.  E Lemma~4.8, with
+$\nu'=\lceil\log_2\lambda'\rceil$, therefore supplies
+\[
+ r=\left\lfloor\frac{\sqrt{\lambda'}}{(\nu')^2}\right\rfloor,
+ \quad Q=\left\lfloor\frac{\lambda'}{128\nu'}\right\rfloor,
+ \quad R=(\beta+3)\lceil\sqrt{\lambda'}\rceil,
+ \quad \tau=\frac1{r\lambda'},\quad D=r^{2Q}.
+\]
+Its exact numerical checks and E Lemma~4.7 construct the
+layout in polynomial time.  Input sizes failing those
+checks form a finite range depending only on the fixed
+constants; direct expansion handles that range within
+the asserted asymptotic bound.
+
+The independent-incidence degree in E Section~3.1 is bounded
+by the sum of the factor degrees, because replacing the
+same Boolean variable in different factors by distinct
+indeterminates does not increase any factor's total degree.
+Consequently, on every branch,
+\[
+       d\le\sum_f d_f\le Cn\le 2Cn'.
+\]
+This is the crucial degree hypothesis; the possibly larger
+number $M'$ of incidences is not substituted for $d$.
+The interpolation polynomial has degree at most $dR$.
+Taking $q=\lfloor dR/Q\rfloor$ and $J=q+1$ gives $QJ>dR$.
+E Proposition~3.4 has the explicit enumeration bound
+\[
+       2Qr\,C_q(2D+1)^{2\tau n'}2^{2n'/r},\qquad
+       C_q=\sum_{s=0}^{\min(q,n')}2^s\binom{n'}s.
+\]
+Put $\eta=R/Q$.  The source's finite-difference estimate
+$\eta^qC_q\le(1+2\eta)^{n'}$ yields
+\[
+ \log_2 C_q
+ \le q\log_2(Q/R)+n'\log_2(1+2R/Q)
+ =O_C\!\left(n'\frac RQ\log\frac{2Q}{R}\right).
+\]
+Together with E Lemma~4.8 this bounds all three exponential
+costs by
+\[
+ O_{C,a}\!\left(\frac{n'(\nu')^2}{\sqrt{\lambda'}}\right).
+\]
+The additional branching cost has logarithm
+$|H|\le n/\sqrt\lambda$.  Since $n'=\Theta(n)$, their sum
+is $O_{C,a}(n(\log\log n)^2/\sqrt{\log n})$.
+
+It remains to verify the factor and coefficient costs,
+which an arity statement alone would not justify.  After
+the fixed Boolean substitutions in E Lemma~3.3, evaluate
+each listed monomial directly in the truncated algebra
+$A[z]/(z^J)$, using its binary exponents or at most
+$\sum_i\alpha(f,j)_i\le Cn$ multiplications.  Sum these
+values with their formal coefficients $y_{f,j}$.
+This takes polynomially many algebra operations in
+$n,J,L$; it never enumerates the $2^{|I_f|}$ local
+assignments.  Before multiplication by the formal
+coefficients, each such substituted monomial is a
+scalar Taylor polynomial.  The rows and unit inverses
+have the polynomial coordinate heights already proved
+for the cyclotomic construction.  A product of at most
+$Cn$ such scalar inputs, followed by Taylor truncation,
+still has polynomial bit height by the same multiplicative
+coordinate-norm bound.  Adding at most $L$ listed terms
+increases logarithmic norm by at most $O(\log(L+1))$.
+All local scalar preprocessing is therefore polynomial
+in $n,L$, and $Q,R,J,D$ are polynomially bounded in $n$.
+
+Use the integral swap matrix, integer measurement fibers,
+unit-separated cyclotomic nodes and explicit Hasse
+interpolation proved above.  Their correctness depends on
+the layout and the degree estimate, not on constant scope
+size.  They give formal identities over $A[y]$ at each
+stage.  The same coefficient-independent choices of
+representatives and branches allow circuit unrolling,
+and taking the coordinate of one in $A$ descends the
+formal output to $\mathbb Z[y]$.  Each genuine factor
+remains linear in its own coefficient block.  Group
+products, sums, empty-scope multiplication and the final
+sum over branches retain the same block degree.  The
+constant-free compilation therefore has formal degree
+at most $\max(m,1)$, just as in the constant-arity case.
+This finishes the construction and its bit bound.
+
+The hypotheses delimit the extension.  A general truth
+table on $\operatorname{polylog} n$ variables can have
+interpolation degree equal to its scope size; $O(n)$ such
+factors need not have total degree $O(n)$.  In that case
+the actual $q=\lfloor dR/Q\rfloor$ must be retained and
+the displayed bound has not been proved.  Nor does a
+coefficient-dependent compression of a numerical equation
+system automatically preserve this universal formal
+polynomial in independent parameters.
+
+\paragraph{Geometric statement of the extended trace theorem.}
+Fix $C,a\ge1$.  Let $m\le Cn$ explicit polynomial lists
+$\Phi_f=\sum_j y_{f,j}x^{\alpha(f,j)}$ have description
+length $L$, declared scopes of size at most
+$(\lceil\log_2n\rceil)^a$, and total degree budget
+$\sum_f\max_j|\alpha(f,j)|\le Cn$.  Put $B=\mathbb Z[y]$ and
+\[
+ \mathscr A=B[x_1,\ldots,x_n]/(x_i^2-x_i),\qquad
+                       u=\prod_f\Phi_f(x).
+\]
+The finite locally free algebra $\mathscr A$ has rank $2^n$.
+Its multiplication trace
+$\operatorname{Tr}_{\mathscr A/B}(u)=Z_\Phi(y)$, as is
+seen in the orthogonal Boolean-idempotent basis.  This
+regular function on $\operatorname{Spec}B$ has an integral
+circuit of size and bit construction time
+$\operatorname{poly}(n,L)2^{O_{C,a}(n(\log\log n)^2/\sqrt{\log n})}$,
+with polynomial-bit integer constants and a constant-free
+compilation of formal degree at most $\max(m,1)$, with $n$
+the original number of Boolean coordinates.  For every map
+$B\to R$ the same circuit computes the base-changed
+multiplication trace over $R$; coordinate descent from
+the finite free cyclotomic extension proves the identity
+before any specialization.  The exact classical trace
+and base-change interface is EGA IV4, 18.2.1--18.2.2,
+printed p.~111, including equation 18.2.1.2.  This is an
+effective theorem for these specified regular trace
+functions, not a claimed polynomial-time algorithm for
+general finite algebra traces or GCT multiplicities.

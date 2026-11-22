@@ -1,0 +1,170 @@
+\section{NN-S014: a logarithmic cancellation bound and a uniform distinguisher}
+
+\paragraph{Statement and exact inputs.}
+There is an absolute constant $c>0$ such that every monotone map
+$S:\{0,1\}^n\to\{0,1\}^{n+1}$, for all sufficiently large $n$,
+has a test depending on at most two output coordinates with distinguishing
+advantage at least $c\log n/n^2$ against the uniform distribution.
+The test is a coordinate or the AND of two coordinates, with its
+acceptance convention possibly complemented. For a uniformly
+polynomial-time computable family $S$, a uniform randomized polynomial-time
+algorithm selects such a test to within an additive $O(n^{-3})$ loss,
+with failure probability at most $2(n+2)^2e^{-2n^2}$.
+
+Consequently, for a uniformly constructible polynomial-size $G(R)$ circuit
+family over any fixed finite nonzero commutative ring, with Boolean
+amplitude output and positive stretch, ordinary security against
+\emph{uniform randomized polynomial-time} distinguishers implies that
+some final output equals the supported zero on
+\[
+                 \Omega(2^n\log n/n^2)
+\]
+seed inputs. The same bound holds for nonuniform-secure generators without
+the uniform circuit-construction hypothesis. This sharpens the quantitative
+bound and removes the nonuniform-adversary restriction of NN-S013 for
+uniform circuit families. It is a necessary condition for pseudorandomness,
+not an existence assertion or a circuit-size lower bound.
+
+The classical inputs are Goldreich--Izsak, \emph{Monotone Circuits:
+One-Way Functions versus Pseudorandom Generators}, Theory of Computing
+8 (2012), 231--238: Corollary~4.4, pp.~235--236, and Theorem~4.5,
+p.~236, followed by the proof of Theorem~1.2 in Section~4.2,
+pp.~236--237. The logarithm is already present in their covariance
+estimate; the following proof changes the marginal-bias threshold.
+Thus no priority claim is made for a new classical correlation theorem.
+The new split-circuit and uniform-selection consequences are proved below.
+The primary source is
+\url{https://theoryofcomputing.org/articles/v008a010/v008a010.pdf}.
+
+\paragraph{Proof of the sharper two-coordinate estimate.}
+Write $f_i$ for the $i$th coordinate of $S$ and $I_i(j)$ for its
+influence at input coordinate $j$. The KKL estimate in the cited
+Corollary~4.4 gives an absolute $a>0$ such that every function with bias
+$o(\log n/n)$ has some influence at least $a\log n/n$, for all
+sufficiently large $n$. The constant can be chosen uniformly here:
+changing a function on a fraction $\delta$ of inputs makes it exactly
+balanced and changes each influence by at most $2\delta$, as proved
+immediately before the cited corollary.
+
+Suppose that every marginal bias is at most
+$\delta=c_0\log n/n^2$, where the absolute $c_0>0$ will be fixed below.
+Choose one such influential input for each of the $n+1$ outputs.
+Two distinct outputs, say $f_i,f_k$, share a chosen input. The
+Talagrand inequality in the cited Theorem~4.5 gives
+\[
+ \operatorname{Cov}(f_i,f_k)
+ \ge c_T\frac{T}{\log(e/T)},\qquad
+ T=\sum_j I_i(j)I_k(j)
+ \ge a^2\frac{(\log n)^2}{n^2}.
+\]
+The expression on the right is increasing for $0<T\le1$ and is
+at least $c_1\log n/n^2$ for an absolute $c_1>0$ and all large $n$.
+For completeness, $T\le1$: for a monotone Boolean function in the
+uniform cube, the absolute value of its first Fourier coefficient is one half of its
+influence, so Parseval gives $\sum_j I_i(j)^2\le4\operatorname{Var}(f_i)
+\le1$; Cauchy--Schwarz proves the bound for $T$.
+The displayed lower estimate also follows directly by substituting
+$a^2(\log n)^2/n^2$ and bounding its logarithmic denominator by
+$3\log n$ for sufficiently large $n$.
+
+Since both marginal means are at least $1/2-\delta$,
+\[
+ \mathbb E(f_if_k)-\frac14
+ \ge c_1\frac{\log n}{n^2}-\delta+\delta^2.
+\]
+Fix $c_0=c_1/4$. If a marginal has bias greater than $\delta$,
+that coordinate gives advantage greater than $\delta$. Otherwise
+the AND of the two coordinates above has advantage at least
+$3c_1\log n/(4n^2)$. Decreasing the universal constant if needed
+proves the assertion for every sufficiently large $n$. The proof
+uses no computation of the influential coordinates.
+
+\paragraph{Uniform selection of the test.}
+Let $\mathcal T$ consist of the $n+1$ coordinate tests and all
+two-coordinate AND tests. Its size is at most $(n+2)^2$.
+For each $D\in\mathcal T$, its uniform mean $u_D$ is known exactly:
+it is $1/2$ or $1/4$. Generate $L=n^8$ independent samples
+$S(U_n)$ and compute every empirical mean $\widehat\mu_D$.
+Put $\varepsilon=n^{-3}$. The elementary Bernoulli exponential
+bound and a union bound give
+\[
+ \Pr\left[\max_{D\in\mathcal T}
+       |\widehat\mu_D-\mathbb E D(S(U_n))|>\varepsilon\right]
+ \le 2(n+2)^2e^{-2n^2}=:\eta_n.                 \tag{S014.1}
+\]
+Here the Bernoulli bound follows by exponential Markov applied to
+independent centred samples and the inequality
+$\mathbb E e^{s(X-\mathbb EX)}\le e^{s^2/8}$ for $0\le X\le1$.
+One proof of this latter inequality differentiates the logarithmic
+moment-generating function twice: its second derivative is the variance
+under an exponential tilt and is at most $1/4$; its value and first
+derivative vanish at zero. Optimizing $s$ gives each tail
+$e^{-2L\varepsilon^2}$, so no additional probabilistic premise is hidden.
+
+Choose a test maximizing $|\widehat\mu_D-u_D|$. Use $D$ itself
+when the empirical bias is nonnegative and $1-D$ otherwise.
+On the event complementary to (S014.1), the chosen, oriented test
+$D_*$ satisfies
+\[
+ \mathbb E D_*(S(U_n))-\mathbb E D_*(U_{n+1})
+ \ge c\frac{\log n}{n^2}-2\varepsilon.           \tag{S014.2}
+\]
+Indeed a genuinely best test loses at most $\varepsilon$ on
+estimation, empirical maximization cannot decrease that value,
+and the chosen test loses at most a further $\varepsilon$.
+The training samples are independent of the challenge on which
+the test is evaluated. The entire selection and evaluation algorithm
+is uniform and polynomial time when $S$ is uniform and polynomial time.
+Neither a hard-coded influential coordinate nor nonuniform advice is
+required. The exponent eight is only a convenient fixed polynomial;
+no optimal sample complexity is asserted.
+
+\paragraph{Transfer to supported zeros.}
+Let $F$ be the first $n+1$ Boolean amplitude outputs and $S$ their
+support outputs. As in NN-S013, $S$ is monotone and
+$F_i(x)\ne S_i(x)$ holds exactly on
+$B_i=\{x:C_i(x)=e\}$. Put
+$b_n=\max_{i\le n+1}\Pr[U_n\in B_i]$.
+Every selected test depends on at most two coordinates. For each fixed
+training outcome, coupling $F$ and $S$ on the same seed changes its
+expectation by at most $2b_n$; complementing the test does not change
+this bound. Average (S014.2) over the independent training samples.
+On the exceptional event any bias is at least $-1$. Therefore the
+uniform randomized distinguisher satisfies the unconditional inequality
+\[
+ \mathbb E D_*(F(U_n))-\mathbb E D_*(U_{n+1})
+ \ge c\frac{\log n}{n^2}-2b_n-2n^{-3}-2\eta_n.  \tag{S014.3}
+\]
+If $F$ is secure against uniform randomized polynomial time, the
+absolute value of the left side is negligible. Thus
+\[
+ b_n\ge\frac{c\log n}{2n^2}-n^{-3}-\eta_n
+                   -\operatorname{negl}(n)
+      =\Omega(\log n/n^2).
+\]
+Multiplying by $2^n$ gives the cardinality claim. For nonuniform security,
+one may simply select the test from the first part as advice, obtaining
+the same conclusion without the training step. Truncation preserves
+pseudorandomness, so every polynomial output length greater than $n$
+is covered. No use of E, A, or M occurs in this distributional theorem.
+\hfill$\square$
+
+\paragraph{Geometric and complexity dictionary.}
+For each input length, the Boolean input algebra is the coordinate
+algebra of the finite split scheme with $2^n$ points. Each $B_i$ is a
+clopen subscheme, and its finite free rank is $\#B_i$.
+The conclusion is therefore a lower bound on the rank of at least one
+supported-zero output fibre, with probability measured by rank divided
+by $2^n$. The finite-algebra trace convention and its base-change
+identity are EGA~IV$_4$, Section~18.2.1, especially equation~(18.2.1.2),
+and Section~18.2.2, printed p.~111. This is an explicit finite-scheme
+dictionary; no l-adic weight or purity theorem is used to obtain the
+probability bound.
+
+The construction of the clopen fibre is implicit in the circuit;
+its exponentially many points need not be enumerated. The theorem
+improves a necessary cancellation condition and supplies a uniform
+attack when that condition fails. It gives neither a lower bound on
+the total number of circuit gates nor a proof of P versus NP or
+VP versus VNP. E's separate subexponential inversion consequences
+retain their original sparsity and locality hypotheses.
