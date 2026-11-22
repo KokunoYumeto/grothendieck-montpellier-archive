@@ -1,0 +1,17 @@
+"""Record a complete proof audit; no mathematical computation was executed."""
+from pathlib import Path
+import datetime,csv,hashlib,json
+w=Path(__file__).resolve().parents[1]
+p=w/'agents/monodromy/nonordinary_ppav_odd_natural_blocks_candidate.tex'
+s=p.read_text()
+assert 'rank' in s and 'five' in s and '3P' in s
+now=datetime.datetime.now(datetime.timezone.utc).isoformat()
+checks={
+'lem:nonordinary-ppav-odd-sharp-norm-candidate':'Full polarized-dual-isogeny, exact norm bundle and nodality argument rederived. The already proved nonproduct fixed-point jet exception is finite for each fixed kernel difference. On a product the joint first-jet rank is five everywhere on an axis; after two values the three-dimensional gradient-pair image cannot consist of singular matrices. Off the axes, the two cross-tangency alternatives reduce to explicit equations involving 3P and g or 2g, hence only finitely many points. The three-value exception has one point parameter and two independent values, so triples are excluded. Every type has 18 nodes, and the total 9(d squared minus1) node directions plus the known source relative rank8 give exactly the odd-degree target coherent rank. Symmetric norm discrepancy is corrected by an actual geometric two-torsion translation. No extra ample component is used.',
+'thm:nonordinary-ppav-odd-natural-block-candidate':'The normalization sequence is typed on relative etale F2 local systems and the odd isogeny is an isomorphism on ambient H1. Node permutations form a subgroup of a product of S18, whose order is prime to31, whereas the simple GL8 has31 in its order. Goursat therefore keeps all GL8 in the kernel of the graph action. The translation submodule is Udual tensor Tprime by the full matrix algebra action, without any general semisimplicity assertion. The already proved H1(GL8,Udual)=0 splits the quotient cocycle; actual kernel translations remove its remaining columns. This gives an actual block fixing a complement. The pure norm family has maximal coherent relative unit rank, so the finite etale Lang system there belongs to the same geometric monodromy as the dense smooth open. Perfect-field geometric base change and target translation transfer in the needed direction.',
+'rem:nonordinary-odd-block-scope-candidate':'An actual eight-dimensional natural block and transvections are established in every odd degree. This does not prove irreducibility of the full target representation, independent full node permutation groups, gluing hearts, or any even-degree theorem. The existing full mixed-product results are not extrapolated to simple surfaces.'}
+with (w/'notes/root_check_events.tsv').open('a',newline='') as f:
+    wr=csv.writer(f,delimiter='\t')
+    for lab,detail in checks.items():wr.writerow([lab,now,'GPT-6 Astra (OpenAI, ChatGPT Pro mode); /root; RESEARCH_SA15','targeted proof check','PASS. '+detail])
+record={'status':'FULL MATHEMATICAL PROOF PASS','actual_utc':now,'events':len(checks),'candidate':str(p.relative_to(w)),'candidate_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'no_mathematical_program':True,'scope':'Actual GL8 block in every fixed nonordinary odd principal degree; full higher-degree image remains open.','checks':checks}
+out=w/'outputs/root_odd_natural_block_audit.json';assert not out.exists();out.write_text(json.dumps(record,indent=2)+'\n');print(json.dumps({k:v for k,v in record.items() if k!='checks'},indent=2))

@@ -1,0 +1,11 @@
+# Late checkpoint 20 work, outside the frozen proved paper
+
+The archive retains the late candidate files and executed programs even when their authors describe them as post-CP20 work. Such a description means that they are excluded from the frozen proved paper and current outcome gate, not that their raw research files are omitted from this checkpoint.
+
+The root reread the complete earlier theta symmetrizer and four-parameter Pfaffian/rank proofs. The factorization q_alpha(s)^2 times sum(s_i^3) was already proved there; rediscovering it is not new movement. The new monodromy candidate seeks uniform stable loss one and full local inertia along the Fermat factor. Its exceptional equal-cube tensor is treated by a retained exact GF8 witness. All failed preliminary pencil programs and their outputs remain included. Global nonzero Lang-cover connectedness is still separate.
+
+For the latter, exchanging the two slots of the alternating tensor writes M(s)x²=x as M(x²)s=x. Away from the Pfaffian cubic, the nonzero Lang incidence projects to the Fermat cone with affine-line fibres. The lower-rank locus remains the obstruction. At rank six its three compatibility equations have independent linearized differentials, because their kernel-vector coefficients are pulled back by Frobenius. The extra reduced-Pfaffian equation still needs an independent condition to bound all exceptional components. This is an exploratory reduction, not a completed connectedness proof.
+
+A fresh primary-source search located Rains and Sam (2019), Gruson and Sam (2015), and the follow-up Rains and Sam (2017). Their exact access limits are recorded as three supplementary source-census rows. They are not additional citations in the frozen 150-entry paper bibliography. The Rains–Sam stable-trivector geometry has not been identified with the actual Cartier tensor in this dossier, and no theorem is imported on that basis.
+
+B56, excluding a cubic wild layer when residual projective order exceeds two, has a complete written candidate and independent audit; the root certificate audit and promotion remain separate from the frozen B55 theorem. The abandoned lower/upper ramification shortcut is explicitly retained. The positive-index cup derivative likewise remains a separately typed reduction candidate; neither a uniform trace identity nor determinant nonvanishing is asserted.

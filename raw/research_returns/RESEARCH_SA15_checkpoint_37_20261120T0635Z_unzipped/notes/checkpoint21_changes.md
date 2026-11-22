@@ -1,0 +1,43 @@
+# Checkpoint 21 research changes
+
+INCOMPLETE. A.3, A.4, higher-dimensional B.3 and general B.4 remain open. The current outcome table states the promoted gates; earlier checkpoint reports remain historical records.
+
+## Uniform root inertia and the actual Coble rank strata
+
+The uniform Q-inertia theorem is proved for every nonordinary principal abelian surface in characteristic two. Its root subgroup has order2^7. A symbolic reduction and one exact GF8 witness handle the equal-cubes exceptional coefficient case; neither is substituted for the geometric moving-kernel argument. Root's complete audit passed17:54:50.737761UTC, with isolated symbolic and field runs0.11528335299954051s and0.0004210940023767762s. The independent reduction/descent audit passed17:56:26.985557UTC, with runs0.1190328619995853s and0.0004610839969245717s. The obstruction/crystal independent audit also passed; both author outputs were preserved. Promotion was17:56:55.221916UTC.
+
+Three further statements identify the actual Cartier Pfaffian cubic with the invariant Coble cubic and prove stability of the actual alternating tensor. This uses the typed Frobenius-twisted embedding, all-characteristic projective normality, invariant cubic uniqueness, and an explicit plane-cubic argument excluding instability on a nonproduct principal surface. The rank-four scheme is exactly the smooth embedded twisted abelian surface; rank≤2 does not occur. Rank-four Lang incidence has dimension at most eight, whereas the parameter space has dimension nine. The rank-eight incidence is irreducible and dominant. The only possible additional dominant component is now at rank six. These are complete reductions; global Lang connectivity and full GL8 are not claimed. Independent full proof/source audits passed18:10:50.580066UTC and18:14:02.595889UTC. The untouched candidate and both audits are retained, along with the explicit translation clarification made at promotion. No numerical program was used for these three proofs.
+
+## Positive-index cup derivative and trace zero
+
+The derivative lemma identifies the actual coherent variation as the transpose of the coefficient-square of the Cartier-dual matrix derivative. Root's full audit passed18:02:04.031520UTC with216 exact dual-number directions in2.0053083460006746s; the independent reduction/descent run took1.8736446040056762s. Promotion was18:02:34.969139UTC. The typed transpose, nonsquare local units and trace-splitting dependence are explicit.
+
+The next proof gives trace zero uniformly: an acyclic alternating rank-two bundle factors the pairing, the resulting cohomological graph is isotropic, and the cup-ratio matrix therefore lies in sl2 in characteristic two. A linear subspace of singular trace-zero matrices is zero or one rank-one nilpotent line. Thus the unresolved determinant gate is strictly narrowed to excluding that line. Root passed18:11:45.623553UTC and reduction/descent18:11:56.330317UTC; exact scalar and finite-field checks took0.04176165999524528s and0.048945014998025727s, respectively, with the author output preserved. The supplement contains20 universal scalar identities,15 nonzero GF4 nilpotents and90 independent pairs. Promotion was18:12:24.806505UTC. A later monad/Petri formulation is retained as unpromoted research; it proves no missing image lower bound.
+
+## Complete exclusion of the cubic wild layer
+
+B56 excludes the irreducible anti-Cartan cubic-wild case by exact first-term comparison. Its expanded supplement checks2,498 monomials,2,494 breaks,2,336 tame weights,45,864 anti-Cartan conjugacies,360 nonzero field elements and6 p=5 orientations. The author, root and independent obstruction/crystal runs took0.4129977519987733s,0.40707763800310204s and0.37780446800024947s. Root's full proof audit passed17:59:12.047180UTC, and promotion followed18:00:38.595824UTC.
+
+B57 completes the order-p³ exhaustion, including projective order two, split anti-Cartan breaks, and the full Cartan-plane alternative. The remaining wild image in every irreducible-residual different-character comparison must have orderp⁴ and equal M2(Fp). Both p=5 type patterns now require625. The exact necessary one-model break pairs are not represented as existence results. The supplement checks942 first-term cases,100,962 anti-break cases,214,860 cross-break cases,45,864 Cartan conjugacies,364 scalar-Frobenius tests and156 F5 hyperplanes (12 invariant). The author/root/independent runs took0.19211209900095128s,0.20058958700246876s and0.18477749200246762s. Root passed18:07:15.184564UTC, obstruction/crystals18:09:35.260938UTC; promotion was18:11:01.424326UTC. B58's proposed additional restriction and its executed finite supplement are retained as candidate work pending full audits, outside these proved gates.
+
+## Source and computation integrity
+
+All executed programs and their actual outputs, including failed searches and pre-promotion versions, are preserved. The full audit JSON files give input/output hashes, actual times and distinctions between proof audits and finite checks. Source locators and access limits are in ROOT_SEARCH_LOG_21.md and the bibliography. The prior unopened Rains–Sam follow-up row is superseded by the actually read 2018 journal article; no claim is made to have read uninspected source dependencies or missing original manuscript scans. No material from Michel Hua's project is used.
+
+The most recent actual hourly review is review13 at17:50:58.396506UTC, with movement and a zero no-movement streak. The next review is due18:50:40UTC. This checkpoint snapshot is not an early hourly review. Checkpoint21 is due18:35:40UTC and will not be archived before that time.
+
+### Late candidate audits after the paper freeze
+
+B58 received a complete root proof/source/code pass at18:29:35.091363UTC and an independent obstruction/crystal pass at18:26:41UTC. Root's isolated exact arithmetic rerun took7.658215595998627s and preserved the author output. Its code, exact executed snapshot, inputs, counts, standard output and result are retained in code/root_b58_audit.py, code/audit_snapshots/verify_tame_full_wild_projective_at_root_audit.py, outputs/root_b58_exact_arithmetic.json, outputs/root_b58_exact_arithmetic_stdout.txt and outputs/root_b58_audit.json. It would remove residual projective order greater than two from the full-p⁴ comparison, but it has not been promoted into the frozen checkpoint paper or current theorem register. The further B59 exhaustion and polar normal-form calculations remain separate candidate research. Their actual programs, outputs and limited claims are retained; they do not alter the checkpoint's proved gates.
+
+### Final checkpoint verification
+
+The frozen paper has485pages and3478362bytes, with560numbered statements,21new identifiers since checkpoint20 and no removed identifier. Every new identifier has an explicit check event and a final statement number. The paper bibliography has153entries; the source census has158rows including late actually read candidate sources. The export currently contains312agent program/output files; any later executed candidate files before archiving are also exported. All102literal printed program paths resolve.
+
+There were2actual builds and0failed compilations. The first build had one box above2pt, a3.4239pt B56.1display onp405. Splitting its valuation line repaired it. The final build took44.485seconds and has zero boxes above2pt; its sole smaller box is0.41342pt onp173. All29selected final images were actually opened and visually reviewed, includingp405,p173,all six new subsections,and a spread over the earlier paper and bibliography. No clipping, overlap, missing glyph or citation/tag defect was observed. Both complete build inputs and logs are retained.
+
+Checkpoint21 is archived only at or after18:35:40UTC. The most recent actual hourly review remains review13 at17:50:58.396506UTC,with movement and zero no-movement streak. The next actual review is due18:50:40UTC; the next checkpoint is due19:20:40UTC. No early review or early archive is represented as completed.
+
+### Finalizer metadata correction
+
+The first finalizer invocation stopped before writing any result because one actual reviewer used the explicit JSON keys result/actual_images_viewed while the other reviewers used status/pages. The corrected finalizer accepts both schemas and then passed. The exact failed program and error are retained in code/finalize_checkpoint21_initial_metadata_failure.py and outputs/checkpoint21_finalizer_preflight_failure.txt. This was a metadata preflight failure, not a failed mathematical computation, failed compilation or unperformed visual inspection.

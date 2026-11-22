@@ -1,0 +1,33 @@
+"""Full written B101 audit and unchanged isolated supplement rerun."""
+from pathlib import Path
+import hashlib,json,datetime,subprocess,sys,time
+w=Path(__file__).resolve().parents[1]
+candidate='agents/reduction_descent/B_uniform_wild_trace_arcs_candidate.tex'
+checker='agents/reduction_descent/code/verify_uniform_wild_trace_arcs.py'
+author_output='agents/reduction_descent/code/verify_uniform_wild_trace_arcs.output.json'
+paths=[candidate,checker,author_output]
+before={p:hashlib.sha256((w/p).read_bytes()).hexdigest() for p in paths}
+assert before[candidate]=='7b3d5176da21e3d81c76e9fea88742dd9459f08112afbd3925d1d71ea688b7c2'
+folder=w/'outputs/root_B101_isolated';assert not folder.exists();folder.mkdir()
+copy=folder/Path(checker).name;copy.write_bytes((w/checker).read_bytes())
+started=time.perf_counter()
+run=subprocess.run([sys.executable,str(copy)],cwd=folder,capture_output=True,text=True)
+(folder/'stdout.txt').write_text(run.stdout);(folder/'stderr.txt').write_text(run.stderr)
+assert run.returncode==0,run.stderr
+actual=json.loads(copy.with_suffix('.output.json').read_text());author=json.loads((w/author_output).read_text())
+omit={'actual_utc','runtime_seconds'}
+assert {k:v for k,v in actual.items() if k not in omit}=={k:v for k,v in author.items() if k not in omit}
+assert before=={p:hashlib.sha256((w/p).read_bytes()).hexdigest() for p in paths}
+record={'status':'FULL INDEPENDENT PROOF AND CODE PASS; ISOLATED FOR CP38','reviewer':'GPT-6 Astra (OpenAI, ChatGPT Pro mode); /root','actual_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'candidate':candidate,'inputs_sha256':before,'entire_candidate_code_and_output_actually_read':True,'run':{'exit_code':run.returncode,'checker_runtime_seconds':actual['runtime_seconds'],'wall_seconds':time.perf_counter()-started,'exact_copy':str(copy.relative_to(w)),'all_mathematical_output_identical':True,'author_inputs_unchanged':True},'counts':actual['counts'],'proof_checks':[
+ 'The integer-exponent choice covers x0<1 and x0>=1; the latter interval has length at least4x0 and admits floor(x0)+1 with at most one correction to avoid N divisibility. The endpoint and divisibility constraints are both strict and no gcd(A,N)=1 condition is imposed.',
+ 'With h=n-1-v>=1 and U=q^h A, the two displayed branch gaps equal N/p^v times e-p^(2h+v-1)A and p^(2h+v)A-e. Hence the first h iterations uniquely take the q term and the following v uniquely take the p term. The full intermediate coefficient ideal(p,u), vanishing degrees2 throughp-1 and unrestricted integral tail give strictly later terms. This works at v0, where there are no p iterations.',
+ 'The exact order recursion J_r=p^r U+b(p^r-1)/(p-1) yields b+(p-1)J_v=eN. P has constant p and reduction X^(eN) with unit leading coefficient. Weierstrass preparation gives the actual complete Eisenstein DVR. Every iterate order is below J_v<eN, so all p-divisible terms remain later after specialization. The last iterate is nonzero while the next is exactly zero; the marked point has exact orderp^n.',
+ 'Because q^h=1 moduloN, b=-(p-1)A moduloN. The exact logarithm induction respects the j-2 summand since N dividesp^j-p^(j-2), giving integral coordinate isomorphisms. Thus P(zeta X)=P(X) and each Y_j has exact covariance a^-1. The actual orderN field automorphism, its fixed field of indexe, the coordinate cocycle and rational marked point all descend. Faithfulness of the field action does not require faithfulness of a. The unit Hensel root and unique tame cyclotomic extension provide mu_p.',
+ 'The marked subgroup is primitive constant of exact orderp^n. The actual quotient and multiplication snake sequence give the stated cyclotomic-determinant extension after twisting. The complete canonical B62 Kummer transitions, prime-to-p averaging and compatible corrected cocycles lift this exact finite extension. Only the graded factors of H are asserted potentially good. The special trace difference is nonzero precisely by N not dividingA. Adding a constant summand preserves ambiguity in all heights>=2.',
+ 'For n>=v+2, the canonical B76 strict mixed necessity is exactly e>p^(2n-3-v), so the actual construction proves both directions across fields. It does not assert construction over every previously fixed K or say anything about n<v+2.',
+ 'In the exact family e=2p^v(p-1), A1 and h1 give b=(p-1)(p^2-2), with one q iteration and v p iterations. The lower comparison is at actualp^(v+2), so the least manuscript index is at leastv+2. At actualp^(v+3), the B76 determinant/dimension bound holds; dimensions0/2, two filtered groups and mixed comparisons are exhausted exactly as in its full proof. Mixed necessity would require2p^v(p-1)>p^(v+3), impossible.',
+ 'For two remaining whole supersingular groups, the B64 actual-target thickness a=eN is used without transferring a source thickness across isogeny. Its recurrence min(a+q_j,pq_j+p-1) equals2p^j-1 throughj=v+2, because the last needed inequality is N>=p. The terminal excess above a/(p-1) is2p^v-1>0. Thus actualp^(v+3) suffices and nu_min=v+2. The unramified completion preserves index and inertia.',
+ 'The finite checker independently verifies all eight symbolic identities,11556 actual arithmetic arc profiles, every chosen q/p step, intermediate and tail bounds, integral cutoffs, descent characters,648 excluded equality ties and108 full exact-family upper recurrences. Its sparse exact logarithm weights are checked through15. Full program and the complete2196-line author output were read, the latter losslessly displayed compactly. Finite arithmetic supplements, but does not establish, formal-group integrality, effectivity or descent.'
+ ],'source_scope':{'primary_passages':'The original Hopkins-Gross recurrence5.3-5.8 and specialization12.1-12.10 were freshly opened and fully read in the immediately preceding root B100 audit. Their exact refs, successful read and initial direct-fetch timeout remain in outputs/root_B100_audit.json.','boundary':'The printed Proposition5.7 cites Hazewinkel21.5 for integrality; no new reading of that book is claimed. No new primary source opening was required for this uniform induction.','canonical_dependencies':'Complete B62, B64 and B76 were reread for B100 and their exact quotient/cocycle/necessary-bound steps are rederived above. B101 does not rely on an unpromoted B100 statement.'},'scope':'All five assertions passed the full root proof and literal program audit. This record executes neither promotion nor a future checkpoint/progress review.'}
+out=w/'outputs/root_B101_audit.json';assert not out.exists();out.write_text(json.dumps(record,indent=2)+'\n')
+print(json.dumps(record,indent=2))

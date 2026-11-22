@@ -1,0 +1,160 @@
+% /root/monodromy, 2026-11-19. Root and reduction-descent complete audits passed.
+\subsection{Two exact tangent triples in the norm family}
+\label{subsec:ss-global-tangent-triples}
+\status{Proved and checked. The parent and reduction-descent agents independently
+audited the full proof and exact verification programs. The reduction-descent
+agent reran both complete global certificates and the separate local verifier.
+These are two geometric witnesses, not a new full-image theorem.}
+
+\begin{lemma}[Global witnesses for both affine triple types]
+\label{lem:ss-global-tangent-triples}
+Use the field, isogeny, monomial tensor basis and kernel elements $G,H$
+of Lemma~\ref{lem:ss-global-contact03} and
+Lemma~\ref{lem:ss-level3-collision-orbits}.
+The following two coefficient vectors define geometrically smooth
+source curves:
+\[
+ \begin{split}
+ s_{\mathrm{line}}&=(24,2,49,5,40,45,54,16,46),\\
+ s_{\mathrm{nonline}}&=(37,55,55,1,1,2,61,1,5).
+ \end{split}
+\]
+Both are sharp: their Cartier kernels consist exactly of the two
+ambient invariant forms. Their norm curves each have one three-branch
+singularity consisting of a simply tangent pair and a transverse third
+branch, and otherwise only ordinary nodes.
+For the first curve the three source points are
+\[
+ \begin{split}
+ P&=((24,23),(56,26)),\\
+ Q=P+G&=((51,23),(23,34)),\\
+ R=P-G&=((57,25),(55,21)).
+ \end{split}
+\]
+For the second they are
+\[
+ \begin{split}
+ P&=((3,44),(14,44)),\\
+ Q=P+G&=((18,34),(50,30)),\\
+ R=P+H&=((12,26),(25,53)).
+ \end{split}
+\]
+In both cases $P,Q$ are the tangent pair. In particular these are
+witnesses for the affine-line and noncollinear triple orbits,
+respectively, and the degree-three relative Hasse divisor is smooth
+at both norm curves.
+\end{lemma}
+\begin{proof}
+All coefficients use the integer encoding of
+$\mathbf F_2[z]/(z^6+z+1)$ in
+Lemma~\ref{lem:ss-global-contact03}. The following exact values
+are retained in the discovery and verification outputs:
+\[
+\begin{array}{c|ccccc}
+ &D(s)&Q(s)&c\text{ in }ds(Q)=c\,ds(P)
+ &\det(ds(P),ds(R))&\text{contact coefficient}\\\hline
+ \mathrm{line}&55&32&31&41&3\\
+ \mathrm{nonline}&62&1&35&49&39
+\end{array}
+\]
+In particular $D(s)^2Q(s)\ne0$, so the relative source Cartier map
+is bijective. The ambient invariant forms are killed by Cartier and
+map isomorphically under the adjunction boundary. Thus the full source
+Cartier kernel consists exactly of these two forms.
+
+The local checks are independent of the discovery formula.
+The program \path{agents/monodromy/code/verify_tangent_triple_local.py}
+reconstructs the finite field by binary polynomial reduction,
+checks the translated points and all displayed values, and computes
+actual order-two elliptic-curve power series. It chooses a branch
+$\gamma(t)$ of the source curve through $P$ to order two and verifies
+\[
+ s(\gamma(t))=O(t^3),\qquad
+ s(\gamma(t)+G)=a t^2+O(t^3),
+ \qquad a=3\ \text{or }39.
+\]
+The nonzero determinant in the table proves that the third branch
+is transverse. Hence the intended singularity is the precise
+one in Lemma~\ref{lem:ss-tangent-triple-bridge}.
+
+For global smoothness, the same four projective product charts used
+in Lemma~\ref{lem:ss-global-contact03} give the unit ideal for the
+source singular-point equations, separately for both coefficient
+vectors. The norm-collision verifier uses the same eight globally
+certified translation matrices. It checks all eight pair-tangency
+ideals and all twenty-eight triple-identification ideals on each of
+the four charts. Pair-tangency support is exactly $P$ for $G$ and
+$Q$ for $-G$, and is otherwise empty.
+
+For the triple ideals, the allowed support is determined before the
+Groebner computation: for given $g,h$, retain exactly those
+$T\in\{P,Q,R\}$ such that $T+g,T+h\in\{P,Q,R\}$ and that lie
+in the chosen chart. If this list is empty, the ideal must be the
+unit ideal. For a nonempty list $T_1,\ldots,T_m$, $m\le3$, choose
+a linear form $\ell$ separating them. Write $\alpha_i=\ell(T_i)$
+and let $p_j$ be the degree-at-most-$m-1$ interpolation polynomial
+with $p_j(\alpha_i)=(T_i)_j$. The program reduces
+\[
+  \prod_i(\ell-\alpha_i)^{32},\qquad
+          (x_j-p_j(\ell))^{32}\quad(1\le j\le4)
+\]
+to zero in the computed Groebner basis. These identities prove
+support containment over the algebraic closure: at a common zero,
+$\ell=\alpha_i$ for some $i$, and injectivity of the thirty-second
+power map then forces every coordinate to equal that of $T_i$.
+The prescribed points themselves satisfy the equations. This is
+an exact finite-support test, not a search for rational points.
+
+All $144$ collision checks pass for each curve. Thus no additional
+triple, quadruple or nontransverse double identification is possible.
+The source curves are smooth connected ample divisors and hence
+integral. The finite pair-intersection checks exclude translation
+invariance, so each source is the normalization of its norm image.
+Etaleness of the isogeny excludes any further branch singularity.
+This proves both global assertions. Finally
+Lemma~\ref{lem:ss-tangent-triple-bridge} applies and proves Hasse
+smoothness at both norm curves.
+\end{proof}
+
+\begin{remark}[Exact execution record and independent audits]
+The discovery program is
+\path{agents/monodromy/code/ss_tangent_triple_search.py}.
+It uses seeds $202611191140$ and $202611191141$, and accepts the
+second and fourth sections at the first base point, respectively.
+Its rational orbit and tangency screens only reject candidates.
+The complete discovery records are
+\path{agents/monodromy/outputs/ss_tangent_triple_collinear.json} and
+\path{agents/monodromy/outputs/ss_tangent_triple_noncollinear.json}.
+The discovery runtimes were $0.8046595620035077$ and
+$0.7408189790003235$ seconds. The first noncollinear attempt had an
+extra point in the intended fibre, and the next two had other rational
+triple fibres; these rejections are retained in that output.
+
+The global collision program is
+\path{agents/monodromy/code/verify_ss_tangent_triple_collisions.py}.
+Its full outputs are
+\path{agents/monodromy/outputs/verify_ss_tangent_triple_collinear_collisions.json}
+and
+\path{agents/monodromy/outputs/verify_ss_tangent_triple_noncollinear_collisions.json}.
+They passed in $72.36891810200177$ and $69.24018129799515$ seconds.
+The separate four-chart source smoothness checks, using the retained
+root verifier, passed in $4.423437987999932$ and $3.9984959799985518$
+seconds; their complete outputs have the corresponding
+\texttt{geometry.json} suffixes in the same directory.
+The independent local-series verifier passed in
+$0.005125144998601172$ seconds, with output
+\path{agents/monodromy/outputs/verify_tangent_triple_local.json}.
+The parent independently read the complete proof and passed it. The
+reduction-descent agent independently read all programs and the proof,
+then reran both $144$-check collision certificates in
+$76.3690687260023$ and $74.86146398200071$ seconds. Its four-chart
+source checks passed in $3.7411868540002615$ and
+$3.3895406299998285$ seconds, and its separate local-series rerun
+passed in $0.007957189001899678$ seconds, again producing $3$ and $39$.
+The independent outputs are retained in the reduction-descent agent's
+output directory with stems
+\path{independent_ss_tangent_triple_collinear},
+\path{independent_ss_tangent_triple_noncollinear}, and
+\path{independent_tangent_triple_local}. The author outputs were
+preserved. Both complete independent audits passed.
+\end{remark}

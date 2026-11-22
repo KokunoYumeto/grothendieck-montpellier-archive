@@ -1,0 +1,61 @@
+"""Refresh CP36 from explicitly promoted canonical inputs only."""
+from pathlib import Path
+import hashlib,json,re,subprocess,sys
+w=Path(__file__).resolve().parents[1]
+subprocess.run([sys.executable,str(w/'code/update_current35.py')],cwd=w,check=True)
+proved_inputs={
+ 'agents/obstructions_crystals/A4_primitive_type_1_3_full_group.tex':'f2830116b972b71469586796ad64820cf46f61829628d9680e70b7c3b680d07d',
+ 'agents/reduction_descent/B_full_Iwahori_selected_point.tex':'fa852188ae2896a81d4df4eb004dd1905e08a3f03df5d82e52b8a51b021e35b6',
+ 'agents/obstructions_crystals/A4_odd_Cartier_evaluation.tex':'7eb1824e6b39299e32be4b936a0c5ee7368ffc429af41b9cc2d3e2fd62025181',
+ 'agents/monodromy/prime_Heisenberg_rank.tex':'0f8199e8fd94413e6a2bdac1cfa5631082ca3a219b2ffe7c00ce954eabe6d84b',
+ 'agents/reduction_descent/B_irreducible_point_field_layers.tex':'f0bcf3d45c036205d90e8fd54a2c6a7c506ebb801386ded1b6bae475c9fb660c',
+ 'agents/reduction_descent/B_first_wild_cyclotomic_different.tex':'054c90fa0094ddacd65a06be4124f7bddf194055ed3dcd8629a9e8e5a07fed0a',
+ 'agents/monodromy/primitive_prime_generic_rank.tex':'b8941ccd160a9d10d52fb83937fa89314f915254145e189f9e5185dd0c5604a1'}
+for rel,digest in proved_inputs.items():
+ p=w/rel;assert hashlib.sha256(p.read_bytes()).hexdigest()==digest
+ assert '\\status{Candidate' not in p.read_text()
+rows=json.loads((w/'notes/item_status.json').read_text())
+for row in rows:
+ if row['item']=='A.3':
+  row['where']+='; lem:DE-odd-line-Frobenius-stable; lem:DE-primitive-one-three-Cartier; lem:DE-primitive-one-three-smooth-member; lem:DE-primitive-one-three-Euler'
+  row['status']+='; globally generated primitive type(1,3) has sharp relative rank2'
+  row['gate']=('ADDITIONAL PROVED PRIMITIVE SOURCE: on a fixed nonordinary abelian surface in characteristic2, an ample globally generated type(1,3) line has a nonempty smooth-member open, generic relative stable rank2 and generic curve p-rank f(A)+2, with genus4. The actual Euler determinant is the reduced Fermat cubic. Global generation is an explicit hypothesis and is not asserted for every type(1,3) polarization. General A.3 remains OPEN. Earlier proved cases and remaining gates: '+row['gate'])
+  row['where']+='; thm:DE-odd-polarization-Cartier-surjection; prop:DE-prime-to-six-evaluation-four; thm:prime-Heisenberg-birational-radical'
+  row['where']+='; lem:primitive-odd-smooth-members; lem:primitive-prime-Euler-criterion; prop:primitive-prime-generic-Euler; thm:primitive-prime-generic-curve-rank'
+  row['status']+='; globally generated primitive types(1,ell),ell=3,5,7,11,13,17 have sharp relative rank ell-1'
+  row['gate']=('NEW SHARP PRIMITIVE CASES: on each fixed nonordinary abelian surface in characteristic2, an ample globally generated type(1,ell) line for ell=3,5,7,11,13,17 has a nonempty open of smooth connected curves of genus ell+1 and p-rank f(A)+ell-1. The actual Euler Frobenius on Omega^1_P^(ell-1) is generically bijective. Odd isotropic theta descent and explicit node smoothing prove smooth-member existence; the birational Pfaffian radical and Q=sum y_i sigma_i^2, with derivative sigma_i^2, prove Euler bijectivity on a nonempty open. For every other odd prime the same conclusion is proved conditional on the actual dual pencil having corank1. Global generation remains explicit, and these primitive systems are not identified with the complete principal |51Theta| system. For any globally generated odd polarization, total Cartier multiplication is surjective; Euler characteristic prime to6 also gives generic evaluation rank4 of F_*L. General A.3, untested primitive types and arbitrary-X rank remain OPEN. '+row['gate'])
+ if row['item']=='A.4':
+  row['where']+='; thm:DE-primitive-one-three-full-image; rem:DE-primitive-one-three-scope'
+  row['status']+='; globally generated primitive type(1,3) full relative GL2 proved'
+  row['gate']=('ADDITIONAL EXACT SOURCE IMAGE: for each fixed nonordinary surface and ample globally generated type(1,3) line in characteristic2, the actual rank2 relative Lang image is GL2(F2) and the nonzero cover is connected of degree3. Complete stability, Cartier nonvanishing, nodal smoothing and actual Kummer/Artin-Schreier restrictions prove the assertion. This is a separate source case; it does not remove fixed-principal degree17 or imply full image for arbitrary primitive(1,ell). General A.4 and the previously proved strongest exceptional-module bounds remain: '+row['gate'])
+  row['where']+='; thm:DE-odd-polarization-Cartier-surjection; prop:DE-prime-to-six-evaluation-four; prop:prime-Heisenberg-dual-rank-through-seventeen; thm:prime-Heisenberg-birational-radical'
+  row['gate']=('NEW ALGEBRAIC REDUCTION FOR PRIMITIVE SOURCES: odd-polarization Cartier nonvanishing is proved under explicit global generation. Universal exact Pfaffian certificates cover every nonzero prime Heisenberg parameter for primes3,5,7,11,13,17. A complete prime-degree Severi--Brauer diagonal-trace argument makes the radical map birational and proves generic section-contraction rank. The maximal Pfaffians have no common divisor. Common maximal-rank wall geometry, stable loss, Lang connectedness and full group still require proof; no fixed-principal degree17 group closure is asserted. '+row['gate'])
+  row['where']+='; prop:primitive-prime-generic-Euler; thm:primitive-prime-generic-curve-rank; rem:primitive-prime-generic-rank-scope'
+  row['gate']=('GEOMETRIC SOURCE RANK NOW PROVED: the globally generated primitive systems of types(1,ell),ell=3,5,7,11,13,17 have nonempty smooth open and generic bijective Euler quotient of rank ell-1. The common maximal-rank Euler wall and its stable loss are not supplied by this generic statement: the degree-ell Pfaffian hypersurface may meet an exceptional locus of the radical map. Thus these new rank theorems do not yet prove full primitive image beyond the type(1,3) case, or remove the principal degree17 exceptional-module gate. '+row['gate'])
+ if row['item']=='B.4':
+  row['where']+='; lem:B-RD96-selected; lem:B-RD96-opposite; prop:B-RD96-conductor; lem:B-RD96-gap; thm:B-RD96-residual-wild; lem:B-RD97-degrees; prop:B-RD97-two; lem:B-RD97-conductors; prop:B-RD97-trace; cor:B-RD97-layers; lem:B-RD98-different; thm:B-RD98-irreducible; cor:B-RD98-exact-five'
+  row['status']='OPEN generally; exact first-wild height-two index nu_min(5,20,2)=2; irreducible-residual first-wild recovery for every p>=5; prior exact tame intervals and small-prime cases remain proved'
+  row['gate']=(
+   'CURRENT EXACT FIRST-WILD CONCLUSION: nu_min(5,20,2)=2 in the full B.4 height-two setting. Actual125-torsion determines every requested prime-to-five finite special character, and the explicit B63 whole-versus-filtered construction gives actual25-torsion ambiguity. B76 handles determinants, dimensions and mixed comparisons; B90 excludes tame reducible residual inertia; B96 excludes the entire residual-wild Iwahori branch; B97--B98 exclude the remaining irreducible-residual branch. The completed maximal unramified base has the same absolute index and inertia question, and contains mu5 by the explicit tame/Cohen/Hensel argument. No residual pattern at p5,e20 remains open. '
+   'WIDER FIRST-WILD RESULT: for every p>=5 at e=p(p-1), an actual p^3 comparison of whole potentially supersingular height-two groups with irreducible residual inertia determines the special characters. B97 proves exact actual point-field degrees p^2 and point conductors c1=(p^2-1)(p-1), c2=(p^4-1)(p-1), and bounds every terminal character by p^(r1-2)c2. Traceless first layers are excluded. In the traceful case, the actual two-tower different estimate gives delta1+p*delta2>=p(p^2-p-1); the first cyclotomic quotient bounds delta1<=p-1, so the last restricted cyclotomic character exceeds the terminal bound. The common first cyclotomic layer is explicitly retained. No CM or abelian-image hypothesis is imposed. For p>=7 the reducible-residual branches are not closed by this theorem; the unrestricted first-wild least index there remains in{2,3}. '
+   'OTHER EXACT CASES: height1 has least index0. At p3,e2,height2 the least index is2 (actual27 suffices,9 ambiguity is sharp). At p2,e1,height2 the least index is3 (actual16 suffices,8 ambiguity is sharp); the potentially supersingular elliptic subclass already suffices at8. For p>=5, perfect residue, mu_p in K and p not dividing e, height2 has exact index1 at e=p-1, index2 exactly when p<e<p^3, and exact index3 on p^3<e<p^3(p+1). At p5 the next allowed tame endpoint e752 has only3<=nu<=4. '
+   'GENERAL PROVED BOUNDS: the actual B63 construction gives nu_min(p,e,h)>=n for p>=5,h>=2,n>=2 and permitted e>p^(2n-3). For p not dividing e, B74 gives nu_min<=n-1 when e<p^n,n>=3; B75 improves the full filtered bound for n>=4 to e<p^(n-1)(p+1). The n3 formal improvement is not asserted as a full index2 theorem. At arbitrary absolute ramification, B76 gives a> (p^2-1)p^(2n-3-v_p(a)) for a rational order-p^n point on a good height2 formal group, and e>p^(2n-3-v_p(e)) for an actual mixed whole/filtered comparison. Dimensions are detected for n>=v_p(e)+2. '
+   'REMAINING GATE: determine the reducible first-wild branches at primes>=7, other wild absolute indices, the remaining larger tame exact intervals (including p5,e752), and the general higher-height function. The smallest remaining first-wild prime is7 in that named family; no claim that it is the globally smallest open B.4 parameter is made. Earlier necessary p5/e20 images and parameters are proof history, now all excluded; their exact proofs and former gates remain in the preceding immutable checkpoints and dated ledger.'
+  )
+(w/'notes/item_status.json').write_text(json.dumps(rows,indent=2)+'\n')
+root=json.loads((w/'notes/root_results.json').read_text())
+nums=dict(re.findall(r'\\newlabel\{([^}]+)\}\{\{([^}]+)\}',(w/'RESEARCH_SA15_paper.aux').read_text()))
+idmap={r['id']:r['label'] for r in root}
+def location(value):
+ return '; '.join(x+(f' (no. {nums[idmap.get(x,x)]})' if idmap.get(x,x) in nums else '') for x in value.split('; '))
+def cell(value):return value.replace('|','\\|').replace('\n',' ')
+table='| Item | Current outcome | Statement / location | Scope and remaining gate |\n|---|---|---|---|\n'
+table+='\n'.join('| '+' | '.join(cell(v) for v in [r['item'],r['status'],location(r['where']),r['gate']])+' |' for r in rows)+'\n'
+(w/'notes/current_outcome_table.md').write_text(table)
+p=w/'RESEARCH_SA15_report.md';text=p.read_text();body=text[text.index('# RESEARCH_SA15 research report'):]
+marker='\n## Checkpoint 36 work: primitive sources and the exact first wild index\n'
+if marker in body:body=body.split(marker)[0]
+p.write_text('INCOMPLETE\n\n'+table+'\n'+body+marker+'\n'+(w/'notes/checkpoint36_changes.md').read_text())
+assert p.read_text().startswith('INCOMPLETE\n\n| Item |')
+assert all(next(r for r in rows if r['item']==item)['status'].startswith('OPEN') for item in ['A.3','A.4','B.3','B.4'])
+print('CP36 seven audited promotions refreshed: primitive prime sharp ranks and exact nu_min(5,20,2)=2; all four general open rows remain open.')

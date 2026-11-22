@@ -1,0 +1,285 @@
+% /root/monodromy with suggestions by /root, 19 November 2026.
+\subsection{Finite constant data for an arbitrary perfect base field}
+\label{subsec:perfect-field-monodromy-data}
+\status{Proved; independent parent proof and original-source audit passed.
+The output is finite polynomial data and matrix lists, rather than a
+uniform structural classification of the resulting finite groups.}
+
+\begin{lemma}\label{lem:effective-separable-factorization}
+Let $k_0$ be a finitely generated field over $\mathbf F_p$,
+given by a finite field presentation.  Arithmetic and
+factorization of separable univariate polynomials over
+$k_0(t_1,\ldots,t_M)$ are terminating exact procedures.
+For a polynomial that defines a finite separable field
+extension of this rational function field, its absolutely
+irreducible factors over $\bar k_0(t_1,\ldots,t_M)$ can
+also be found by a terminating procedure, with their
+coefficients in explicitly presented finite separable
+extensions of $k_0$.
+\end{lemma}
+
+\begin{proof}
+We give details so that no absolute-factorization or
+Galois-group oracle is concealed in the assertion.
+
+A separating transcendence basis of $k_0/\mathbf F_p$
+and a finite separable primitive presentation over the
+corresponding rational function field can be found
+by elimination, linear algebra and enumeration.
+Explicitly, enumerate candidate rational functions
+for a transcendence basis, check algebraic independence
+by elimination, and check that the remaining algebra
+is finite by a zero-dimensional Groebner computation.
+Separability is checked by the rank of the differentials,
+or by the nonzero derivative of a primitive minimal
+polynomial.  Such a candidate exists because the
+ground field is perfect.  For a finite separable
+extension, the primitive element is found by testing
+linear combinations of a finite basis, as in the
+finite-grid argument of the previous theorem.
+Thus we may write
+\[
+ k_0(t)=R(\alpha),\qquad
+ R=\mathbf F_q(u_1,\ldots,u_s,t_1,\ldots,t_M),
+\]
+with a separable minimal polynomial for $\alpha$.
+All arithmetic is then polynomial reduction and linear
+algebra over a rational function field.
+
+Here is a direct factorization procedure over $R(\alpha)$.
+For a monic separable polynomial $f(Z)$, try translates
+$g_c(Z)=f(Z+c\alpha)$ for successively enumerated
+$c\in R$, until
+\[
+ N_c(Z)=\operatorname{Norm}_{R(\alpha)/R}(g_c(Z))
+\]
+is square-free.  Its norm is computed by a resultant.
+Only finitely many $c$ are bad: over an algebraic
+closure its roots are $\beta-c\sigma(\alpha)$, where
+$\beta$ ranges over the roots of $f^\sigma$ and
+$\sigma$ over the distinct embeddings of $R(\alpha)$.
+Within one embedding they are distinct; across two
+different embeddings an equality excludes at most
+one value of $c$.  The rational function field $R$
+is infinite here.  If there are no transcendental
+variables, the field is finite and bounded polynomial
+enumeration directly factors $f$ instead.
+
+Factor $N_c$ over $R$ by clearing denominators and
+the bounded finite-field polynomial enumeration in
+Step 4 of Theorem~\ref{thm:effective-monodromy-matrices}.
+For each irreducible factor $h$ of $N_c$, compute
+$\gcd(g_c,h)$ over $R(\alpha)$ and discard the units.
+These gcds are irreducible and give the factors of
+$g_c$.  To verify irreducibility, two roots of $g_c$
+in the same $R$-Galois orbit are carried to one another
+by an automorphism fixing $R(\alpha)$: otherwise the
+target root would occur in two different conjugates
+of $g_c$, contradicting square-freeness of $N_c$.
+Undoing the translate factors $f$.  Thus all separable
+factorization steps used below are effective.
+
+For absolute factorization, clear denominators of the
+given separable polynomial and remove its content
+in $k_0[t]$, obtaining a primitive polynomial
+$F(t,Z)$.  Its total degree bounds the total degree
+of every polynomial factor over $\bar k_0$.
+For each possible pair of leading monomials and
+factor degrees, write two polynomials with unknown
+coefficients, normalize the leading coefficient of
+one to one, and equate their product with $F$.
+Impose the selected $Z$-degree of the proposed factor
+to be positive and require the selected leading
+coefficients to be nonzero (an inverse variable
+imposes this as an equation).  Permit the complementary
+factor to be the unit polynomial; in particular the
+full-degree factor is always one of the cases.
+There are finitely many cases.  The coefficient
+ideal is proper if and only if that case has a
+factorization over the algebraic closure, by the
+Nullstellensatz.  Properness is decided by whether
+its Groebner basis contains one.
+
+Select the least positive $Z$-degree for which a
+factor exists.  A factor of that degree is absolutely
+irreducible: a nontrivial splitting would yield a
+smaller positive $Z$-degree.  There are no factors
+independent of $Z$, by primitivity and Gauss's lemma.
+Thus a finite list of coefficient tests proves what
+degree to seek; it is not a search whose negative
+outcome is undecidable.
+
+We can find the factor's coefficients explicitly.
+The field defined by the original irreducible factor
+is separably generated over $k_0$.  Its algebraic
+constant field is finite separable, and after adjoining
+it its components are geometrically integral.
+Indeed finiteness and geometric irreducibility are
+\cite[Lemmas~10.47.8 and 10.47.13]{Stacks037P,Stacks037Q};
+geometric reducedness follows from separability by
+\cite[Lemmas~10.44.2 and 10.44.3]{Stacks030W,Stacks030X}.
+Consequently the normalized absolute factors have
+coefficients in finite separable extensions of $k_0$.
+Enumerate separable irreducible polynomials over
+$k_0$, testing irreducibility by the procedure above,
+and enumerate coefficient tuples in their finite
+extensions.  Dovetail these enumerations and test
+the finitely many coefficient equations.  A solution
+exists in one such extension, so the search terminates.
+Repeat division and the finite coefficient tests
+until all factors have been found; their positive
+$Z$-degrees sum to the original degree.
+This proves the absolute-factorization assertion
+without assuming a preexisting algebraic closure
+computing oracle.
+\end{proof}
+
+\begin{theorem}\label{thm:perfect-field-exact-monodromy-data}
+Let $k$ be any perfect field of characteristic $p$,
+and let the fixed smooth projective embedding $X/k$
+be defined over a finitely generated subfield
+$k_0\subset k$.  Fix $d\geq d_{\rm coh}$.
+There is a terminating construction from a finite
+presentation of this field of definition and the
+equations of $X$ of the following finite data:
+\[
+ H_{\rm geom}\triangleleft H_0\subset\GL_{r_d}(\mathbf F_p),
+ \qquad E/k_0\text{ finite Galois},\qquad
+ \rho:H_0\twoheadrightarrow\operatorname{Gal}(E/k_0),
+ \quad\ker\rho=H_{\rm geom}.
+\]
+The two groups are output as complete lists of matrices,
+$E$ by a finite field presentation, and $\rho$ by its
+action on generators of $E$.
+In a compatible geometric frame, the requested images
+over $k$ are exactly
+\begin{equation}\label{eq:perfect-field-monodromy-formula}
+ G_{\rm geom}=H_{\rm geom},\qquad
+ G_{\rm arith}=\rho^{-1}
+       \bigl(\operatorname{Gal}(E/(E\cap k))\bigr).
+\end{equation}
+The intersection is taken using the chosen embedding
+of $E$ into a separable algebraic closure of $k_0$
+inside an algebraic closure of $k$.
+Changing the initial frame conjugates all the displayed
+matrix groups simultaneously.
+
+Geometric irreducibility is a finite subspace test on
+$H_{\rm geom}$.  Arithmetic irreducibility is the same
+test on the explicit preimage in
+\eqref{eq:perfect-field-monodromy-formula}; the only
+additional base-field information is the finite
+intersection $E\cap k$.
+\end{theorem}
+
+\begin{proof}
+The cohomological matrix and stable-image algorithm
+of Proposition~\ref{prop:effective-generic-rank} work
+over $k_0(t)$ as well: they use rational linear
+algebra and Frobenius linearization, not perfection
+of this intermediate field.  Form the frame algebra
+and find a primitive element as before.
+Use Lemma~\ref{lem:effective-separable-factorization}
+to factor its polynomial over $k_0(t)$ and choose
+one field component $L$.
+The finite list of matrix substitutions preserving
+that component is $H_0$.
+It acts as the full Galois group of $L/k_0(t)$:
+the component is a connected torsor under its
+stabilizer, whose order equals its degree.
+
+Let $E$ be the algebraic closure of $k_0$ in $L$.
+It is finite separable by the field facts cited
+in the preceding lemma, and it is Galois over $k_0$
+because $L/k_0(t)$ is Galois.
+The field $L/E$ is separably generated with $E$
+algebraically closed in it, hence geometrically
+integral by the same cited lemmas.
+It follows that the components after extending
+constants to $\bar k_0$ are indexed by the embeddings
+of $E$; their stabilizer in $H_0$ is
+\[
+ H_{\rm geom}=\operatorname{Gal}(L/E(t)).
+\]
+The restriction map to $E$ is $\rho$.
+Both matrix lists are obtained by the finite ideal
+preservation tests, now using one absolute factor
+for $H_{\rm geom}$.
+
+We explain how the field $E$ itself is recovered,
+rather than leaving it as an unspecified relative
+algebraic closure.  Let $f_0$ be the primitive
+polynomial of $L$, and choose a monic absolutely
+irreducible factor $f_{00}$ over $\bar k_0(t)$.
+Normalize every rational-function coefficient by
+coprime numerator and denominator with one leading
+coefficient equal to one.
+Let $E_0$ be the field over $k_0$ generated by all
+the scalar coefficients in these normalized expressions.
+The factorization algorithm gives them in a finite
+explicit extension, so $E_0$ is computed by adjoining
+them and closing their vector span under multiplication.
+This terminates inside that finite extension.
+
+In fact $E_0=E$ with the selected embedding.
+Since $L/E$ is geometrically integral, the geometric
+components are indexed by the embeddings of $E$.
+The stabilizer of one component under
+$\operatorname{Gal}(\bar k_0/k_0)$ is exactly
+$\operatorname{Gal}(\bar k_0/E)$.
+On the other hand, that automorphism fixes the
+chosen factor precisely when it fixes all of its
+normalized coefficients, so this stabilizer is
+$\operatorname{Gal}(\bar k_0/E_0)$.
+The finite separable fields are equal.
+Thus $E$ has been explicitly obtained.
+
+Its embedding into $L$ and the restriction map
+$\rho$ can also be calculated by linear algebra.
+The selected factor realizes $L$ inside
+$E(t)[Z]/(f_{00})$.
+This latter field has degree
+$[E:k_0]\deg f_{00}=[L:k_0(t)]$ over $k_0(t)$,
+so it is the same field $L$.
+Express the computed generators of $E$ in the
+basis $1,\theta,\ldots,\theta^{[L:k_0(t)]-1}$
+by solving a linear system.  Apply every retained
+matrix substitution to these expressions and
+reduce.  This outputs $\rho$ explicitly.
+
+Finally extend the constants to $k$.
+Put $F=E\cap k$.  Since $E/k_0$ is finite Galois,
+$\operatorname{Gal}(Ek/k)=\operatorname{Gal}(E/F)$.
+Since $L/E$ is geometrically integral, extending
+$E$ to $Ek$ does not change its geometric degree
+or create new components.  The component over
+$k(t)$ therefore has degree
+\[
+ |H_{\rm geom}|[E:F],
+\]
+and its automorphism group is exactly the preimage
+of $\operatorname{Gal}(E/F)$ under $\rho$.
+This proves \eqref{eq:perfect-field-monodromy-formula}.
+The geometric image is unchanged by any extension
+of the algebraically closed constant field, giving
+the first formula.  Subspace enumeration gives the
+irreducibility assertions exactly as before.
+\end{proof}
+
+\begin{remark}\label{rem:perfect-field-data-scope}
+The theorem is an exact finite-data description for
+an arbitrary perfect field, and an algorithm whenever
+the finite field-of-definition presentation and the
+finite constant intersection can be evaluated.
+It makes no claim that membership in an arbitrary
+unpresented, possibly noncomputable perfect field
+can be decided by a universal program.
+For a finite base field, the intersection is computed
+by finite-field arithmetic and the previous theorem
+already gives a complete unconditional algorithm.
+The structural question of identifying these outputs
+uniformly as familiar finite groups is separate;
+for projective space it was answered above, whereas
+for general ambient varieties it is not inferred
+from this construction.
+\end{remark}

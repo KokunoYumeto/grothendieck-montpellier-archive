@@ -1,0 +1,15 @@
+# Root Cartier addition-kernel lead — unproved, post-CP30 freeze
+
+Recorded during the 20 November 2026 01:17–01:20 UTC discussion with the monodromy agent. This note is a research lead, not a numbered theorem or a main-gate advance. No mathematical program was run for it.
+
+Let B be a principally polarized abelian surface of characteristic two and two-rank zero, with symmetric principal line bundle M and nonzero theta section theta. Write F:B→B^(2) for relative Frobenius. The theorem of the square suggests a rigidified identification of the addition tensor
+
+S(z,a)=theta(z+a)theta(z-a)
+
+with a section of M_z² external-tensor M_a² on B×B. Apply relative Cartier/trace along the first factor only, so the base in this operation is B_a. With nonzero invariant top forms fixed, the result has the form theta^(2)(z) kappa(a), where kappa belongs to H0(B,M²). This is an O_(B_a)-linear relative trace construction; coefficients in a are not silently squared or square-rooted.
+
+The diagonal subgroup H=ker(F) acts trivially through the addition morphism (z,a)↦(z+a,z-a), because H⊂B[2] and 2h=0 scheme-theoretically. Its induced linearization on M² external-tensor M² should agree with the product of the canonical Frobenius descent linearizations. Their ratio is a character H→Gm: proper connectedness makes automorphisms over H constant in (z,a). In two-rank zero the dual of H is local, so H has no nontrivial geometric character. If all these linearizations are identified exactly, invariance of relative Cartier trace under first-factor H translation should force kappa to be H-invariant for the canonical descent structure, hence kappa=scalar·theta².
+
+The nonzero scalar is a separate obligation. One route is that F_*O_B is the bundle associated to the regular representation of H, and in two-rank zero every simple representation of H is trivial because H^D is local. The trace-kernel then has a filtration by O_(B^(2)); tensoring the ample M^(2) and the vanishing of higher cohomology of ample line bundles on abelian varieties would make H0(M²)→H0(M^(2)) surjective. This establishes nonzero trace, but to conclude that the addition tensor has nonzero image one still needs its nondegeneracy, or a direct argument that its first-factor coefficients span H0(M²). A possible proof uses the scheme-theoretic theta group and irreducibility of its weight-one representation; an original characteristic-two-compatible source and all required hypotheses must be opened and checked. A characteristic-zero addition formula alone is insufficient.
+
+Even a complete coefficient identity would not by itself finish A.4. Choosing a theta-avoiding Lagrangian on a fixed principally polarized quotient B supplies a result on an incoming cover A→B. The original problem fixes A, and a corresponding suitable quotient B with avoiding dual kernel is not supplied by the current avoidance proposition. This direction issue remains explicit. Likewise, maximal generic Cartier rank does not on its own prove full monodromy; the separately stated global radical-generation and specialization requirements still need their actual geometric inputs.

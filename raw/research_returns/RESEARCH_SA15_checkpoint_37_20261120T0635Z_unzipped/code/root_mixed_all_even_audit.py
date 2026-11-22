@@ -1,0 +1,28 @@
+"""Record the completed root proof audit; reuse the retained root graph run."""
+from pathlib import Path
+import csv,datetime,json,hashlib
+w=Path(__file__).resolve().parents[1]
+p=w/'agents/monodromy/mixed_all_even_wreath_groups_candidate.tex'
+proof=p.read_text()
+assert 'large natural block likewise lies' in proof
+run=json.loads((w/'outputs/mixed_even_degree_common_grid.json').read_text())
+assert run['status']=='PASS' and run['tested_even_degrees']==list(range(2,21,2))
+now=datetime.datetime.now(datetime.timezone.utc).isoformat()
+checks={
+'lem:mixed-even-unequal-lifted-wreath-candidate': 'Complete proof independently rederived in both directions. For fixed degree-a C, both elliptic projections have odd degree3a, so ramification is finite. The cubic Segre jet exceptions meet C in a finite set for each fixed point; coincident curve tangent lines form a finite pair locus. Pair-stratum dimensions2,1,0 against ranks4,3,2 and generic second-jet separation give one simple contact. In the reverse direction degree3a>=9 separates all required jets, with a=1 already covered. The restricted projective image removes any section kernel by affine fibres. The full labelled incidence, characteristic-two quadratic root algebra, purity, simple connectedness and labelled-transposition lemma give the sum-zero wreath, not merely S_N.',
+'lem:mixed-even-unequal-boundary-candidate': 'Complete actual-representation proof independently rederived. Normalization gives rank9d^2-2 and body dimensionu+9. Independent component variation gives independent GL_u and GL8 quotients, including the equal-dimensional a=1 case as distinct product factors. Natural-dual H1 vanishing and quotient-cocycle arguments give actual blocks fixing graph and ambient complement. Their perfect body image and S_N have no common quotient:11 distinguishes GL8 from A_N and the explicit order bound handles GL_u for a>=3. Fixing either component and using its full elementary torsor gives all gluing columns, including the ambient-difference column; semisimple isotypic projections and the reverse direction give Hom(R,T0). Every nonzero invariant subspace contains T0.',
+'lem:mixed-even-uniform-common-grid-candidate': 'Complete rank-dropping argument independently rederived. K_(3d,3d) has relative unit rank9d^2-3d, and only its finite Lang subgroup is compared with generic rank9d^2-2. The strict henselian coefficient base is normal integral; membership in S is clopen on the maximal-rank open. Opposite Picard twists make every three-versus-complement partition legal. Boundary graph hearts coincide with ambient finite Lang sections by separated etale uniqueness. The two cochains e02+e12 and e34+e35 evaluate to1 on explicit internal four-cycles. A coboundary supported on cross-edges is just the full cross diagonal, giving dimension18(d-1)-2. Coherent restriction and ambient quotient remain regular by Kunneth and base change; internal graph classes cannot be ambient. Their two nonzero projections and independent natural blocks yield dimension9d^2-4, proving irreducibility.',
+'thm:mixed-every-fixed-modulus-all-even-candidate': 'Complete group proof independently rederived. Every nonzero subspace meets the irreducible common covector kernel in a boundary heart, hence contains it and cannot be a fixed line. Actual natural blocks and all rank-one heart shears are transvections on the kernel. The invariant-socle argument gives semisimplicity for their normal closure; multiplicity-one for each natural factor locates each block in one simple summand, and the shears merge both blocks with the heart. Their dimensions fill the kernel. The previously read exact Kantor-Seress3.6 alternatives are excluded by the actual GL8 block, giving GL_(9d^2-4). Natural-module H1 and absence of fixed vectors force the entire Hom(F2^2,K) translation kernel. The previously proved exact arithmetic covectors give equality of arithmetic and geometric images.',
+'cor:mixed-every-fixed-modulus-all-degrees-candidate': 'Combining the separately audited all-odd and all-even theorems gives both images for every balanced degree on every fixed ordinary-supersingular elliptic product over every perfect characteristic-two field. Odd imageGL_(9d^2-1); even imageHom(F2^2,F2^(9d^2-4)) semidirectGL_(9d^2-4). No arbitrary ambient-surface conclusion is asserted.',
+'rem:mixed-all-even-wreath-scope-candidate': 'Scope checked. Root authored and executed the retained finite graph program before this complete proof audit; its ten cases do not establish any geometric assertion. No second root rerun is claimed. The complete earlier degree2 wreath and finite-Lang proofs, cubic jet proof and natural-module H1 proof were freshly reread for this assembly. Earlier original Entin, Stacks purity and Kantor-Seress reads are reused without a fresh external-source or page-image claim.'
+}
+with (w/'notes/root_check_events.tsv').open('a',newline='') as f:
+    writer=csv.writer(f,delimiter='\t')
+    for label,detail in checks.items():writer.writerow([label,now,'GPT-6 Astra (OpenAI, ChatGPT Pro mode); /root','full mathematical/source/code audit','PASS. '+detail])
+record={'status':'FULL MATHEMATICAL AND CODE PASS','actual_utc':now,'events':len(checks),
+        'candidate_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),
+        'root_graph_run_actual_utc':run['actual_utc'],'root_graph_runtime_seconds':run['runtime_seconds'],
+        'graph_cases':len(run['cases']),'fresh_rerun_claimed':False,
+        'remaining_gate':'Fixed nongeneric nonordinary nonproduct ppav surfaces and arbitrary-X structural groups remain open.'}
+dest=w/'outputs/root_mixed_all_even_audit.json';assert not dest.exists()
+dest.write_text(json.dumps(record,indent=2)+'\n');print(json.dumps(record,indent=2))

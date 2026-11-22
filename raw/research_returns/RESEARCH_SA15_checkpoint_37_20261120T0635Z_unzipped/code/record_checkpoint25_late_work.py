@@ -1,0 +1,27 @@
+"""Record work completed after the frozen PDF without changing its audited bytes."""
+from pathlib import Path
+import datetime, json
+w=Path(__file__).resolve().parents[1]
+dest=w/'notes/checkpoint25_late_research_status.md'
+assert not dest.exists()
+audit=json.loads((w/'outputs/root_B69_audit.json').read_text())
+text='''
+### Research completed after the checkpoint25 PDF freeze
+
+The outcome table and695 numbered statements describe the paper frozen and visually verified at21:24:50UTC. The following later work is retained separately, with complete source and audit records; it has not been silently inserted into the frozen PDF. Its integration and statement numbering are the next publishing action, not a missing mathematical proof disguised as a completed numbered theorem.
+
+**A.4, a refuted shortcut.** The exact search `code/root_f1_five_packets.py` checked all rational points of24 specified two-rank-one curve/field pairs overF4,F16,F64,F256, successfully at21:27:11.708746UTC in1.321733534001396 seconds. It found a triple packet on y²+xy=x5+x3+x. The complete explicit counterexample is in `notes/root_f1_bad_five_kernel_candidate.tex`: forQ=(0,0),P=(1,omega),omega²+omega+1=0, the functionf=v+omega*z²+z+1, z=1/x,v=y/x³, has norm(z+1)^5 and divisor5P-5Q. The classP-Q is nonzero five-torsion. Its hyperelliptic negative andQ lie in the same fibre for each of the six maximal isotropic five-planes containing it. Thus it is false that every five-quotient of a two-rank-one theta curve is nodal. This does not refute existence of a suitable incoming five-neighbour, and supplies no new main-gate movement.
+
+The separate root norm-function certificate passed21:29:36.695811UTC in0.00020161300199106336 seconds. The monodromy agent's independently derived polynomial certificate passed in0.001622812997084111 seconds; its full communicated-proof audit passed21:29:25.145155 and exact formal-file audit21:29:59.784836. Those records distinguish the complete geometric/function proof from the bounded Cantor census. All code, JSON, stdout and stderr are retained. The file remains outside the frozen paper pending integration, despite these successful proof checks.
+
+**B.4, the next tame boundary.** The complete separate proof `agents/reduction_descent/B_one_slope_quotient_candidate.tex` now has full root and independent obstruction/crystal proof and certificate passes. It proves the exact value nu_min(p,p²-1,2)=2 for everyp>=5, includingnu_min(5,24,2)=2. Its new step is the actual stable-line quotient of a one-slope height-two group: it has two slopes with parameterB'=e. This excludes one-/two-slope comparisons at actualp³ for everyp-prime index. The two-slope comparison uses equality of the actual finite norm characters, treatsB=e explicitly, and recovers all allowed indicese<p² without a square-determinant restriction. The full filtered-monodromy conclusion and the existing actualp² lower example are both proved in the file.
+
+The author certificate passed in7.471134923995123 seconds. The independent obstruction/crystal rerun passed in7.527760954006226 seconds, with full audit21:31:26UTC. The root read the entire six-assertion proof and complete program, then performed an author-output-preserving exact rerun in6.916882791992975 seconds; its full record is `outputs/root_B69_audit.json`, actual21:31:41.918491UTC. All mathematical output agreed. It covers72 finite sectors,130398 high-quotient/Newton records,216 one-slope quotients,72 criticalB=e cases and2099574 unrestricted tangent weights; the all-prime proof is separate. This late proof closes the previously displayede24 subcase in the mathematical work, although it is not yet one of the frozen PDF's numbered statements. The five-divisiblee20 case and higher ranges remain open. The exact pre-integration source and both complete audits are preserved, and the next paper version will reflect this closure in its numbered table.
+
+The chronological distinction is explicit: no late mathematical computation is presented as part of the already inspected PDF, and no actual hourly review is fabricated. Review17 remains due21:50:40UTC. The unsuccessful empty patch hunk while recording layout QA was rejected before execution and is retained in `notes/checkpoint25_patch_failure.txt`; it was not a failed mathematical computation or failed compilation.
+'''
+dest.write_text(text.strip()+'\n')
+for rel in ['notes/checkpoint25_changes.md','RESEARCH_SA15_report.md']:
+    with (w/rel).open('a') as f:f.write('\n'+text+'\n')
+print(json.dumps({'actual_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                  'late_work_record':str(dest.relative_to(w)),'frozen_pdf_changed':False},indent=2))
