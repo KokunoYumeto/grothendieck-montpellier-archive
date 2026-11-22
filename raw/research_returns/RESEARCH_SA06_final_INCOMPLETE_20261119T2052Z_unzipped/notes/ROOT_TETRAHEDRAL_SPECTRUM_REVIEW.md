@@ -1,0 +1,31 @@
+# Independent root audit of the tetrahedral exceptional spectrum
+
+19 November 2026, 16:13–16:15 UTC. GPT-6 Astra (OpenAI), ChatGPT Pro mode; RESEARCH_SA06, `/root`; effort setting not separately exposed.
+
+**PASS for TS.1–TS.4 in `agents/real_weil/C3_tetrahedral_K_spectrum_draft.tex`, with the stated source provenance.** We read the complete four-step draft. This is a calculation on the exceptional divisor, not a computation of the image from the resolution. It changes no numbered main-task status.
+
+## Full proof check
+
+We independently checked the external-product comparison before passing to ranks. Every component is a sequence of point blowups of a projective plane. Projective-bundle and blowup decompositions give the external-product equivalence for each component and each intersection. This remains true for a possibly singular parameter P: base change from a field is flat, and the product of a smooth-point regular immersion with P is still a regular immersion. Thus the ordinary blowup is the relevant base-changed blowup. The functors giving the decomposition commute with external products by pullback and the projection formula. The comparison transformation itself is natural for every stratum restriction, so it gives an equivalence of the full diagrams, including coherences, without any compatibility assumption on arbitrarily chosen cellular bases.
+
+The closed union is recovered by successive Milnor squares in characteristic p. Geisser–Hesselholt Theorem C kills the birelative groups after inverting p, in every integer degree; its Theorem A handles nilpotents. Finite affine descent globalizes these assertions. Thus the finite cubical totalization computes ordinary rational K of the union. Tensoring module spectra preserves finite limits because it is exact. This proves the natural equivalence TS.1, and not merely an equality of dimensions.
+
+Over k0=Fpbar, the rational field spectrum is HQ. Therefore the rational spectra of all smooth cellular strata are concentrated in degree zero. The full subcategory of such HQ-module spectra has discrete mapping spaces and is the category of rational vector spaces; there are no unrecorded rational degree-one unit coherences. The finite diagram is consequently its literal K0 cochain complex. Rational Chern character splits it by codimension and is compatible with the restriction pullbacks, which are between smooth strata.
+
+The rank part is the simplicial cochain complex of the tetrahedral boundary: H0=Q, H1=0, H2=Q. The Picard source has rank4+30=34. For each of the six edges, the class of any one point-exceptional curve on the earlier endpoint component has restriction degree1 on that edge and degree0 on all the others. The nonvertex condition is essential and is supplied by TG. Hence the Picard differential surjects onto Q6, with kernel rank28. The four component zero-cycle degree classes give rank4 in degree zero. Thus the total homotopy groups are Q33 in degree0 and Q in degree−2, with all the other rational groups zero. This also matches the Euler count42−12+4=34.
+
+A finite complex of rational vector spaces admits a splitting into its cohomology. Choose it once over k0 and tensor through the natural TS.1 comparison. This gives the asserted parameter-compatible, noncanonical splitting into 33 copies of K(P)Q and one Σ−2K(P)Q. The dual-complex generator has Adams weight0; the degree-zero coefficient obtained by multiplying by K2(k) has weight2. The other weight-two terms are the four component-degree classes. For a smooth proper curve P the same summand is K2(P)Q, with the correct evaluation maps. None of these steps computes K(Z×P) or its restriction image.
+
+## Source audit and its limits
+
+Khan (2020), complete arXiv:1810.12858v3, was freshly opened at https://arxiv.org/pdf/1810.12858 after the version-suffixed URL failed. We read Corollary3.6, author p.12, and Corollary4.4, p.16, with their functor descriptions and the preceding perfect-category argument. Retrievals: `turn600243043view0`, `turn863954157view0`, `turn863954157view1`. The already canonical `D_Khan2020Blowup` entry is reused.
+
+Geisser–Hesselholt Theorems A and C and Thomason–Trobaugh finite-cover descent were freshly checked in the companion root FF/TG receipt. The abstract stable-category tensor/finite-limit step is explicitly justified in the proof above.
+
+We freshly opened Weibel's full Chapter IV at https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.IV.pdf and read Corollary1.13 and Example2.6 (`turn600243043view2`–`view3`), which give the exact finite-field calculation and its algebraic-closure consequence. Quillen's original 1972 Annals bibliographic page was opened at https://annals.math.princeton.edu/1972/96-3/p07 (`turn600243043view1`); that page contains metadata only. We do **not** claim to have read Quillen's original proof from it. The exact finite-field source available in this audit is the opened author textbook. For the rational vanishing actually needed, there is also the elementary route through the locally finite group GL(Fpbar): its positive rational group homology vanishes, plus construction preserves that homology, and the connected K-space is an H-space, so rational Hurewicz gives vanishing of its positive rational homotopy. This alternative does not assert Quillen's exact integral formula.
+
+No new computation or build was run for this independent audit. The finite rank argument was checked algebraically. A retained finite matrix certificate may supplement it, but is not required for its proof.
+
+## Drinfeld correction to the point-parameter strategy
+
+We freshly opened and read Theorem3.7, Remark(ii), and the entire proof on author p.8 of Drinfeld, *Infinite-dimensional vector bundles in algebraic geometry (an introduction)*, arXiv:math/0309155v4, https://arxiv.org/pdf/math/0309155 (`turn275138763view0`). It gives K−1(R)=0 for a commutative henselian local ring. The point-parameter cokernel in FF.1 is therefore zero. In particular, the coefficient product landing in K−1(R) cannot remain nonzero after the required henselian localization. This excludes the proposed point-parameter faithfulness detector. It does not settle the product with a fixed proper curve, because R×P is not generally a local henselian scheme. The family gate remains exactly as stated in FF.1.

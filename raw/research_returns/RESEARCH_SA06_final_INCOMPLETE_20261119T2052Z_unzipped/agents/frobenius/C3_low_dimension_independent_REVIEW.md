@@ -1,0 +1,19 @@
+# Independent audit of C.3o
+
+The current fragment research/agents/real_weil/C3_low_dimension.tex passes the independent proof audit.
+
+For the two-dimensional strict-local Fermat cone, the base change of the standard cone resolution is regular and has precisely the original quartic as its exceptional prime divisor. Its normal line bundle is O_C(-1). A degree-zero line bundle pulled back from C that is trivial off that divisor must be O(bC); restriction and degree give b=0. This is an argument on the actual strict henselization, not solely its completion or an analytic neighborhood. Poincare pullback gives an actual family, so the injected Jacobian point group lies in ordinary algebraic equivalence.
+
+The proposed point p=(u:v:1) with u transcendental and v^4=-1-u^4 gives an infinite-order class p-c0. Every torsion point of the Jacobian over C is already Qbar-rational, and the Abel map is a closed immersion defined over Qbar. A torsion class would force p to descend to Qbar, contradicting transcendence.
+
+For f=z2, the four reduced branches of the punctured divisor are spectra of fields. Thus its Picard group vanishes, giving failure of injectivity in dimension two even with rational coefficients. For the regular three-dimensional source, its quotient by the Fermat equation is the same strictly henselian cone: strict henselization commutes with the quotient with the fixed geometric residue point. Its puncture has trivial Picard group, while the divisor has the preceding nontorsion ordinary algebraic class. This gives the claimed failure of surjectivity in dimension three. Dimension-one normal local domains are discrete valuation rings, and the remaining automatic cases are correct.
+
+The final Fpbar statement also passes. The previously checked actual-family construction places every individual ordinary algebraic-equivalence class in the image of an abelian-variety point group. Over Fpbar all such points are torsion, and finite sums remain torsion. This proves rational ordinary J1 vanishing in that setting and asserts no uniform torsion exponent.
+
+Fresh primary opening: Stacks Project, Lemma52.27.5, Tag0F2H, https://stacks.math.columbia.edu/tag/0F2H (retrieval turn814993185view0), explicitly states that the Picard group of the punctured spectrum of a regular local ring is trivial. The other ingredients are the already audited Jacobian facts and C.3n's actual-family lemma. No shared file was edited.
+
+## Addendum: ordinary algebraic equivalence in every codimension over Fpbar
+
+The new final two paragraphs also pass. With the excellent puncture X itself as the universally catenary base, X times the complete parameter curve and every closed cycle component are of finite type over that base. Closing a horizontal integral component preserves dominance over the smooth parameter curve; torsion-freeness over its discrete valuation rings gives flatness, even though the puncture is not of finite type over the coefficient field. A multiple of the difference of the two marked parameter points is the divisor of a rational function because every point of the curve's Jacobian over Fpbar is torsion. Pulling that function to each horizontal component gives exactly that multiple of the difference of the fibre cycles with their Cartier multiplicities. Proper pushforward to X preserves rational equivalence. Thus each ordinary algebraic-equivalence generator is torsion in every codimension, and finite sums remain torsion. No uniform exponent and no local cycle-functor identity component is asserted.
+
+Fresh exact primary openings for this addendum: Stacks Situation42.7.1, Tag02QL, https://stacks.math.columbia.edu/tag/02QL (turn256168456view0), and Lemma42.20.3 in Section42.20, Tag02S0, https://stacks.math.columbia.edu/tag/02S0 (turn256168456view1). The latter explicitly proves proper pushforward preserves rational equivalence over precisely that general base.

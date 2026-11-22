@@ -1,0 +1,25 @@
+# Hodge inputs for the proposed dimension-six construction
+
+**Certified auxiliary conclusion only.** The independent mathematical check and primary-source inspection were completed on 2026-11-19. The full proof is in `C3_N6_Hodge_inputs.tex`, with citations in `C3_N6_Hodge_references.bib`. This does not certify the proposed local geometry or a dimension-six counterexample.
+
+## Precise conclusion
+
+Choose a Hodge-generic complex point in the smooth quartics containing a fixed line, as part of the data. Its Néron–Severi group has basis H,D and Gram matrix [[4,1],[1,-2]], and its rank-twenty transcendental Hodge structure T has endomorphism algebra Q. For the Fermat plane quartic C, the maximal level-one sub-Hodge structure of H3(W×C,Q) is NS(W)_Q tensor H1(C,Q). Consequently every algebraic codimension-two cycle on W×C×P, for every smooth projective complex curve P, has its H3(W×C) tensor H1(P) component in NS(W)_Q tensor H1(C) tensor H1(P).
+
+The proof explicitly separates Picard rank from the extra endomorphism condition. Local Torelli realizes an open period domain for the two marked divisor classes. A nonscalar rational operator has a proper eigenline locus in the irreducible nondegenerate period quadric. There are countably many operators; CDK gives algebraic Hodge loci. This supplies the indicated very-general choice, but does not assert a property of every complex embedding of arbitrary coefficientwise Q-generic data.
+
+Zarhin gives Hg(T)=SO(T). The joint Hodge group with H1(E_i), E_i=C/Z[i], is the full product with its norm-one torus: the derived group surjects onto SO and maps trivially to the torus. Over Q(i), the tensor decomposes into the two nonisomorphic absolutely irreducible character twists of the standard orthogonal representation, exchanged by conjugation. Thus their rational sum is simple and has nonzero (3,0). No level-one substructure can occur in any finite direct sum of that simple Hodge structure. This also handles an arbitrary parameter curve; it requires no independence between its periods and W.
+
+## Exact opened primary sources
+
+1. **Brevik–Nollet**, *Noether–Lefschetz Theorem with Base Locus*, author version arXiv:0806.1243v3, 3 November 2009. Theorem 1.1 and Corollary 1.3(c), author p2, read with all hypotheses. For the line D0, I_D0(3) is globally generated and H0(I_D0(2)) is nonzero. URL https://arxiv.org/pdf/0806.1243 . Web reference `turn595035540view0`.
+2. **Zarhin**, *Hodge Groups of K3 Surfaces*, J. reine angew. Math.341 (1983),193–220. Original scan visually inspected: Theorem2.2.1 and Example2.2.3 p211, §2.5 proof pp212–213. Exact E=Q specialization is Example2.2.3. URL https://pub.math.leidenuniv.nl/~luijkrmvan/K3Banff/papers/Zarhin_K3_crelle_1983.pdf . Web reference `turn311684393view1`; local decisive image `output/Zarhin1983-20.png`, further proof images `-21.png` and `-22.png`. The publisher and EuDML attempts failed; the Leiden primary scan succeeded.
+3. **Beauville**, *Some surfaces with maximal Picard number*, JEP1 (2014),101–116. Lemma2 p106 and Example3 pp106–107, including the Fermat specialization and its proof, read. URL https://www.numdam.org/article/JEP_2014__1__101_0.pdf . Web reference `turn595035540view2`.
+4. **Huybrechts**, *Lectures on K3 Surfaces*, author prepublication copy, copyright notice2015 (distinct from the published2016 book). Proposition6.2.8 p107 and §6.2.4 p108 read. Global period surjectivity Theorem6.3.1 p112 also read for the optional alternative below. URL https://www.math.uni-bonn.de/people/huybrech/K3Global.pdf . Web attempts timed out, but direct primary download succeeded; local PDF and extracted text inspected.
+5. **Cattani–Deligne–Kaplan**, *On the Locus of Hodge Classes*, author version dated10 February1994, Theorem1.1 and Corollaries1.2–1.4 authorp2 read. URL https://publications.ias.edu/sites/default/files/70_LocusHodgeClasses.pdf . Web references `turn881833488view0` and `turn227391596view0`. All locators refer to that author version, not an unchecked published pagination.
+
+No claim is made that we independently reproved the analytical core of the Local Torelli theorem or CDK. Their exact statements and the formal applications here were checked. Zarhin's cited theorem, its stated E=Q specialization, and its immediate proof were read in the original scan.
+
+## Optional specified-period route, not required by the fragment
+
+In Λ=U1⊕U2⊕U3⊕E8(−1)^2 with hyperbolic bases e_i,f_i, the vectors H=e1+2f1 and D=f1+e2−f2 span a primitive copy of the required lattice. Its orthogonal complement contains U3, so its projective period quadric is rational. A point with eighteen algebraically independent rational-chart parameters in the positivity open avoids all additional rational orthogonality and nonscalar-eigenline loci. Global period surjectivity then gives the corresponding K3. Making H ample and proving H very ample require additional ample-chamber and Saint-Donat inputs. These additional primary inputs have not been audited here, so this is not the selected construction; the quartic-family route already supplies the needed W without them.

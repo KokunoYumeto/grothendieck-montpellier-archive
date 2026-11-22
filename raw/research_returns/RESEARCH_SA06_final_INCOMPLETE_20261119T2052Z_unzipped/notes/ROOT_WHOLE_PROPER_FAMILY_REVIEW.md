@@ -1,0 +1,38 @@
+# Complete independent root review of whole proper top-family lifting
+
+Reviewer: GPT-6 Astra (OpenAI), ChatGPT Pro mode, /root; effort setting not separately exposed. No priority claim.
+
+Completed: 2026-11-19T19:42:05.532320+00:00.
+
+**Verdict: mathematical PASS for WP.1–WP.8 in their exact fixed-local-base resolved scope.** This is an auxiliary strengthening of the prescribed-family lifting theorem, not a smaller remaining main gate: the actual globally compatible families needed in UK.7 have not been constructed by this argument. No main-gate movement is claimed.
+
+The root read the entire current WP fragment and the entire FF.1–FF.4 exact-sequence proof. The full previously audited AE determinantal/flag construction is reused; AE.8–AE.9 was freshly reread in this window. This receipt does not relabel earlier full primary reads as fresh reads.
+
+## Independent proof reconstruction
+
+1. On T=D×P of dimension d+1, an admissible finite perfect zero scheme is defined by d+1 transverse functions on the smooth top stratum of the reduced support. Selecting d independent combinations produces a flag whose ambient complete intersection W is a regular surface along the entire closed fibre. The remaining equation cuts out the finite scheme as a Cartier divisor on the Cohen–Macaulay curve H=W∩T. The multiplicity inherited from D is not discarded. At a point of its support, local coordinates consist of the normal parameter for the component of E and the d+1 transverse directions; the selected d equations give a regular ambient surface independently of whether the equation of D is a higher power of that normal parameter.
+2. W is proper over the original local R, because P is proper and the flag is a closed subscheme of Z×P. Its nonregular locus and any unwanted component have proper closed image in SpecR; a nonempty such image contains the closed point, contradicting the already verified closed-fibre flag. This is the legitimate use of the local base. It would not apply to an arbitrary scalar extension R⊗kK.
+3. H has dimension one, so H²(H,J^n/J^(n+1)) vanishes for every n. The Picard obstruction sequence lifts O_H(−F) through all thickenings without a p-power. Proper existence, descent to a finite smooth R-stage and henselian lifting of a specified finite jet produce an actual line bundle on the same W. The inverse algebraizes as in AE, so invertibility is verified rather than assumed.
+4. The entire square with T is Tor-independent: the Cartier equation of T remains a nonzerodivisor on the regular flag W. Perfect pushforward and derived base change then identify the restriction of j_*(1−Q) with i_*(1−O_H(−F))=[O_F]. This is an integral perfect-K0 identity; coherent G0 and Cartan injectivity play no role.
+5. Repeating AE's exact Eagon–Northcott construction in total gamma degree d+1 yields finite schemes avoiding every lower-dimensional stratum. The next rank-drop inequality excludes the defective locus, and the local block form gives the needed regular sequence and transversality. The rational dimension bound Fγ^(d+2)K0(T)_Q=0 removes the higher tail. Thus every top-tail class is a finite rational sum of the finite classes just lifted. This is not an unproved identification of arbitrary singular Chow groups with K0.
+6. For a perfect curve C in the preceding AE step, general sections of sufficiently positive M A^N and A^N avoid its associated points and its finitely many bad intersection points. Their finite Cartier zero schemes retain C's nilpotents and are transverse on its smooth reduction. The two Cartier exact sequences express [M]−1 as the difference of those finite classes in perfect K0(C): all twists disappear because every invertible module on a finite semilocal scheme is free. This proves the correction identity without a gamma-pushforward formula.
+7. AE lifts a p-power O_H(−aC), producing a restriction equal to the sum of a line-bundle twists of O_C. Subtracting a[O_C] leaves precisely the finite corrections from the preceding step. Lifting them and dividing by a gives a lift of the entire curve class. Combining this with the lifted top tail proves WP.1 on the whole fixed product, rather than only at its endpoints.
+8. In d=2, ranks lift by the existing pointwise result. Any determinant line bundle on D×P lifts after a finite p-power: relative ampleness over P and dimP=1 give the same eventual H² vanishing. A rational multiple of that lifted line class gives the correct determinant modulo Fγ²; WP.1 lifts the remainder. For d=1, WP.1 already handles the rank-zero subgroup. Rational nilinvariance gives the corresponding statement on E×P. Finally FF.1, whose exact pro-sequence argument was reread in full, identifies the remaining cokernel with K_-1(R×P)_Q and proves its vanishing in these stated d≤2 hypotheses.
+
+## Exact source-read scope
+
+Freshly opened and read the entire displayed proof of Stacks Proposition20.20.7 (Tag02UZ), including the irreducible reduction and induction, at https://stacks.math.columbia.edu/tag/02UZ (retrieval turn172882893view0). This applies to nonreduced H because it is a statement about the dimension of its noetherian underlying space.
+
+Freshly opened Stacks Lemma10.78.7 (Tag02M9), including its entire statement and all printed proof hints, at https://stacks.math.columbia.edu/tag/02M9 (retrieval turn172882893view1). The source omits a complete proof. The root independently supplies the needed rank-one case: choose one residue basis at each of the finitely many maximal ideals, lift these simultaneously by CRT, and localize the resulting rank-one map; Nakayama makes it an isomorphism at every maximal ideal, hence globally. No nonexistent full printed proof is claimed.
+
+The prior complete AE source audits of Eagon–Northcott identities, first-jet Bertini, Serre vanishing, Picard thickenings, proper formal existence, Popescu, finite-stage descent and henselian lifting are reused. The prior Weibel gamma-filtration and FF/KST/GH/TT source chain is likewise reused. No finite computation or build was rerun for this receipt; the argument is geometric and exact.
+
+## Remaining limitation
+
+The source class on E×P must already be an actual globally compatible perfect class. Independently chosen component cycles do not supply that class. Also R⊗k k(u) need not be local or henselian; neither WP nor the constant-unit gamma-bound argument supplies the symbolic-unit family lift required by the proposed valuation route. These are separate, expressly retained gaps. A failed specialization argument is not a counterexample to the main quotient vanishing.
+
+Reviewed hash: fcb19e667d8060364c37a7749faf6393ff4d485c346ba1ddbcf43d1ce9969478.
+
+## Final TeX transfer and source-scope update
+
+At 19:48 UTC the root read the entire final five-page TeX source, SHA256 `fe8f965fabc492f1ad3f8e7a3109d8faf854a24b447f17d18c4403a4cdf54c93`, the entire standalone build receipt, and the dated update appended to FF.1–FF.4. The only changes since the completely audited TeX are its final C.3bu status comment and heading. The transfer is faithful. All five recorded build commands exited zero in a total measured 4.225811996002449 seconds, producing five pages and157765bytes with zero recorded warnings. The owner's actual inspection of all five final pages completed at19:45:53.003488UTC; the root has read that receipt and does not relabel it as root visual inspection. Root inspection of the affected master pages is still required before the next checkpoint. The FF update retains its historical formulas and general Z[1/p] scope while identifying precisely the new rational proper-curve d≤2 consequence. The current UK.7 gate remains unchanged.

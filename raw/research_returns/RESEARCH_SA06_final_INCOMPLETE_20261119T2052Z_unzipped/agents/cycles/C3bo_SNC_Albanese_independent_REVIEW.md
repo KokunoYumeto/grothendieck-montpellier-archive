@@ -1,0 +1,28 @@
+# Independent full audit: weighted component-Albanese reduction
+
+Completed **19 November 2026, 17:39:51 UTC**. Reviewer: GPT-6 Astra Pro, `/root/cycles`, run RESEARCH_SA06. Full mathematical and exact-source **PASS** for `../frobenius/C3_SNC_Albanese_matrix_draft.tex`, AM.1–AM.9, proposed C.3bo. No numerical computation was rerun or used as a substitute for the proof.
+
+## Scope and conclusion
+
+The data are precisely those of C.3bm: a regular projective threefold modification, full SNC exceptional surface, and a positive exceptional Cartier combination with ample negative restriction. The proof removes all component Albanese coordinates from the remaining rational ordinary quotient. It does not remove component Albanese kernels or double/triple-stratum perfect-family compatibility and does not assert vanishing of the residual quotient. The polarization calculation itself is characteristic-independent; the strict-local application retains the positive-characteristic algebraizable scope of EP and C.3bm.
+
+## Independent derivation
+
+The convention sign is correct. For the map f:C→Pic0(C), x↦[x−o], pullback satisfies f*lambda_C=−id. Consequently the canonical Albanese map into Pic0(C)^vee is −lambda_C f. For a curve inclusion in a surface, the actual divisor-intersection map kappa_C is therefore −r^vee lambda_C r. Thus the definition mu_H=−kappa_H gives a symmetric homomorphism and the stated positive curve expression. Writing an arbitrary line bundle as a difference of sufficiently ample smooth divisors makes the construction algebraic and additive; intersection functoriality makes it independent of the chosen presentation.
+
+For ample H, sufficiently high n gives a smooth connected C in |H^n| and H1(H^(−n))=0 by Serre duality and Serre vanishing. The divisor sequence injects H1(O_V) into H1(O_C). The tangent space of the reduced Picard variety embeds in that of the full Picard scheme, so restriction on the reduced abelian varieties has zero tangent kernel, hence finite kernel. Pullback of theta is ample. The proof does not assume smoothness of the whole Picard scheme and remains valid when the characteristic divides a chosen weight or isogeny degree.
+
+I independently expanded the weighted matrix. The actual exceptional map has diagonal −mu_Ni and off-diagonal −r_ie^vee lambda_e r_je. After scaling by a_i on both sides, the diagonal contribution from a_i mu_(-D|Ei) is −a_i^2 mu_Ni minus the sum of a_i a_j mu_Ce. The edge-difference pullbacks add exactly those diagonal terms back and give the required negative off-diagonal blocks. Thus AM.8 is an exact identity of homomorphisms, not merely a numerical equality. A common positive multiple is the pullback of a product of positive theta powers. Its first block already has finite kernel, so the pullback is ample and the exceptional matrix is an isogeny. Multiple connected components of a double curve are correctly handled as separate edges; triple points do not modify the pairwise cycle-intersection formulas.
+
+The assertion U⊂J_K is genuinely an actual-family statement. A smooth proper curve in Pic0(E_i)_red through 0 and L_i supplies a restricted normalized Poincare bundle. Its divisor family is pushed through the fixed closed immersion E_i×P→Z×P into the regular ambient product. EP.3, or the pure-weight-two inverse Chern character followed by restriction, puts the resulting exceptional class in J_K. No perfect pushforward from E_i directly into the singular SNC union is assumed. This also avoids the invalid inference from pointwise semiabelian surjectivity to existence of proper parameter families.
+
+An isogeny over the algebraically closed field is surjective on points, so these actual relations exhaust every component Albanese coordinate. Their degrees are zero. The last denominator calculation is exact: if j+q has zero Albanese coordinates, choose u in U with alpha(u)=alpha(q); then j+u and q−u have zero Albanese coordinates separately. This proves both AM.3 and AM.4 without silently enlarging either subgroup. I reread EP.1–EP.3 and the statement and degree-zero denominator of C.3bm while checking this step.
+
+## Fresh primary-source checks
+
+1. J. S. Milne, *Jacobian Varieties*, official author version of 12 June 2021, https://www.jmilne.org/math/xnotes/JVs.pdf. Opened the full PDF; read Proposition 6.1 and its complete proof, author pages 19–20; read Lemma 6.9 and Remark 6.10(c), author page 23. The rendered page at `../frobenius/sources/Milne_Jacobians2021_p23.png` was independently viewed. It explicitly states that **−f^vee** and the theta polarization are inverse. The text extraction drops some minus signs, so the page image was essential. The publication numbering is unchanged from the original chapter, as the author version states; this audit does not claim to have opened the original printed layout.
+2. Stacks Project, Tag 0B5V, Lemma 30.17.2 and its entire proof, https://stacks.math.columbia.edu/tag/0B5V. The finite-pullback implication is exactly the one used; surjectivity onto the image suffices after restricting the target polarization.
+3. Stacks Project, Tag 01XO, Lemma 30.17.1 and its proof, https://stacks.math.columbia.edu/tag/01XO. The required eventual coherent-cohomology vanishing is present.
+4. Stacks Project, Tag 0FH7, Lemma 45.8.3 and its full proof, https://stacks.math.columbia.edu/tag/0FH7. The proof constructs smooth connected sufficiently ample successive sections through two given points. Its later prime-to-characteristic divisibility conclusion is not imported into the present all-characteristic geometric argument.
+
+No correction is required. The result is a proved reduction to component-Albanese-zero perfect classes, not a theorem that the final intrinsic quotient is zero.

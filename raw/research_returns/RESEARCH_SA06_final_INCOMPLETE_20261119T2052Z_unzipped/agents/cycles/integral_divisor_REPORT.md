@@ -1,0 +1,11 @@
+# C.3bh: integral ordinary divisor restriction
+
+The exact universal positive-characteristic table is proved in the excellent henselian normal local coefficient-field scope of C.3z, with regular punctures. Injectivity holds universally exactly in local dimension one; surjectivity exactly in dimensions one, two, and at least four; isomorphy exactly in dimension one. Each failure has an example over the algebraic closure of the prime field, so the assertion is valid for every fixed algebraically closed field of the given positive characteristic. The two failures in dimension three may use different pairs.
+
+The proof preserves integral coefficients and actual fixed-product algebraic-equivalence families. The dimension-two and dimension-three boundary witnesses use specified prime-to-p torsion points: order two on y²z=x³−xz² in odd characteristic, and order three on y²z+yz²=x³ in characteristic two. The integral strict-cone Picard injection preserves these points even over Fpbar. C.3bg supplies the nonzero p-primary kernels in every dimension at least three. The rational table is separate and unchanged.
+
+The complete deliverable is integral_divisor_classification.tex. The only external source cited directly is the already opened Stacks Lemma52.27.5, Tag0F2H, with existing bibliography key D_StacksRegularPuncture from agents/real_weil/references.bib. C.3z supplies exactly the stated general coefficient-field scope; no assertion for arbitrary rings without that hypothesis is imported.
+
+The exact finite certificate and its stdout are code/check_integral_divisor_table.py, code/check_integral_divisor_table.out, and output/check_integral_divisor_table.json. All seven identities passed in 0.199945221 seconds. The final four-stage wrapper is clean, with runtime9.196285224 seconds; output/compile_integral_divisor_table.json and its timestamped logs retain every command. Full root, real_weil and frobenius proof checks passed before integration; frobenius additionally inspected the complete finite program and output. These are independent targeted checks by separate agents in this run, not independent-model verification.
+
+This closes the integral degree-one dimension classification and does not imply a rational or higher-codimension counterexample.

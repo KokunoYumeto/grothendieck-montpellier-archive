@@ -1,0 +1,22 @@
+# Independent audit of C.3ad
+
+Reviewer: `/root/frobenius`. Date: 19 November 2026; last tool clock 08:38:15 UTC. Result: **passed in the stated rational, smooth-cone, algebraic-number-field scope**.
+
+We read the entire typed `real_weil/C3_rational_top_cones_draft.tex` and independently checked its new source inputs. The claimed statement is `CH^d(X)_Q = CH_0(V)_Q / (L CH^(d-1)(V)_Q)` and ordinary `B^d(X)_Q=0`, for a normal degree-one cone over a smooth projective d-fold over Qbar, d at least two. No unrestricted-germ, integral higher-dimensional, or higher-restriction conclusion is certified.
+
+## Primary source checks
+
+* Loday, *Cyclic Homology*, Theorems 4.6.7–4.6.8, printed pp. 151–152: we independently rendered and viewed both complete primary pages from `real_weil/sources/loday1992_cyclic_homology.pdf`. Its acquisition manifest records the URL <https://www.math.univ-paris13.fr/~vallette/GdT/Cyclic%20Homology%20-%20Loday.pdf>, 20,583,505 bytes, SHA256 `9161a46e6a59753156137364d4926ca66085bc6d9c1375d9b86179868d810eea`. Our separate browser open hit the size limit; successful source inspection was local. The decisive renders are `frobenius/output/Loday1992_page_166.png` and `Loday1992_page_167.png`. The hypotheses are exactly a commutative unital algebra over a ring containing Q. The upper Hodge-index vanishing and the top component `HC_n^(n)=Omega^n/dOmega^(n-1)` do not require smoothness. We read the proofs, including the use of the cokernel of the Hochschild boundary and of Connes's operator.
+* Cortiñas–Haesemeyer–Weibel, *Infinitesimal cohomology and the Chern character to negative cyclic homology*: opened the complete primary PDF <https://arxiv.org/pdf/math/0703133> and read Theorem 6.1 and Corollary 6.2, author p. 15, together with Theorem B.10, author p. 25. They give the compatible scheme-level relative comparison and the required shift `K^(d) -> HC^(d-1)[1]`. The opened PDF has an arXiv v2 header dated July 2008 and an internal August 2018 date; this discrepancy is recorded rather than silently normalized.
+* Fulton, *Intersection Theory*, Example 15.2.16, printed pp. 294–295: independently reopened and read the primary book text at <https://djvu.online/file/Pl4avuZzLcI6I>. The rational Chern-character isomorphism for nonsingular varieties is exactly the input used before passing through pointed étale models.
+* The Morrow, Thomason–Trobaugh, and Esnault–Viehweg inputs are the same exact primary statements independently checked in the immediately preceding C.3ab audit. The proof uses no additional smooth-HKR assertion for the nonregular infinitesimal thickenings.
+
+## Proof audit
+
+1. The pro cdh square and the graph quotient of the local `K_0=Z` terms give finite detection exactly as in C.3ab. Passing to a rational Adams summand does not weaken the asserted injectivity.
+2. In internal degree j of `A[t]/t^a`, the formula `t^j omega + t^(j-1) dt wedge eta -> t^j(omega - d eta/j)` has the correct sign. Subtracting `d(t^j eta)/j` removes the vertical term. The remaining exact relations map to zero. The relation `a t^(a-1)dt=0` removes degree a and there are no larger internal degrees. Because the splitting supplies the pullback of base forms, the horizontal pieces glue as `Omega^(d-1) tensor L^j` with no additional conormal summand.
+3. The relative weight-d sheaves vanish for q below d. In the descent spectral sequence the K_0 diagonal has q=b and b at most d; the only possible term is `H^d(Omega^(d-1) tensor L^j)`. Over Qbar, absolute differentials over Q are relative differentials over the field. Kodaira–Akizuki–Nakano kills that term since `(d-1)+d>d` for d at least two. Thus the full relative weight-d K_0 group vanishes.
+4. Finite detection and the split projection give the stated weight-d isomorphism on the resolution. The smooth pointed étale models are adequate for rational Chern character and its compatibility with restriction and flat pullback; finite complexes and rational-equivalence data descend.
+5. Localization and the self-intersection identity identify the quotient by `-c_1(L)`. All maps used to compare the fixed product families preserve ordinary algebraic equivalence. The second injection in C.3e is exactly the needed converse on ordinary quotients. The degree of an ample class on a curve is nonzero, so the top degree quotient vanishes over Q.
+
+No mathematical correction to the typed draft is required. The rational-coefficient and Qbar qualifications are essential to this proof and should remain.

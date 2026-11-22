@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+"""Acquire exact primary modulus-route PDFs and retain input/output timings."""
+from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
+import hashlib
+import json
+import subprocess
+import time
+import urllib.request
+
+ROOT = Path(__file__).resolve().parents[1]
+SOURCES = [
+    ("binda_krishna2018_zero_cycles_published", "https://epub.uni-regensburg.de/41077/1/zero_cycles_with_modulus_and_zero_cycles_on_singular_varieties.pdf"),
+    ("krishna2015_zero_cycles_modulus_published", "https://msp.org/ant/2015/9-10/ant-v9-n10-p07-s.pdf"),
+]
+
+def acquire(item):
+    stem, url = item
+    start = time.perf_counter()
+    result = {"name": stem, "url": url,
+              "started_utc": datetime.now(timezone.utc).isoformat()}
+    try:
+        with urllib.request.urlopen(url, timeout=25) as response:
+            result["status_code"] = response.status
+            result["content_type"] = response.headers.get("content-type")
+            content = response.read()
+        if not content.startswith(b"%PDF"):
+            raise ValueError("Returned data is not a PDF")
+        path = ROOT / "sources" / (stem + ".pdf")
+        path.write_bytes(content)
+        result.update(path=str(path), bytes=len(content),
+                      sha256=hashlib.sha256(content).hexdigest())
+        text_path = path.with_suffix(".txt")
+        run = subprocess.run(["pdftotext", "-layout", str(path), str(text_path)],
+                             capture_output=True, text=True)
+        result.update(pdftotext_returncode=run.returncode,
+                      pdftotext_output=run.stdout + run.stderr,
+                      text_path=str(text_path))
+        result["acquired"] = run.returncode == 0
+    except Exception as error:
+        result.update(acquired=False, error=str(error))
+    result.update(finished_utc=datetime.now(timezone.utc).isoformat(),
+                  runtime_seconds=time.perf_counter() - start)
+    return result
+
+with ThreadPoolExecutor(max_workers=2) as pool:
+    records = list(pool.map(acquire, SOURCES))
+record = {"scope": "Acquisition and text extraction only; proof-reading scopes recorded separately.",
+          "records": records}
+encoded = json.dumps(record, indent=2)
+(ROOT / "logs" / "modulus_route_source_acquisition.json").write_text(encoded + "\n")
+print(encoded)

@@ -1,0 +1,15 @@
+# Root audit: the unrestricted graph-transfer countermodel
+
+AI-produced by GPT-6 Astra (OpenAI, ChatGPT Pro mode), /root. **PASS as a method limitation**, proposed statement C.4aa. No implication about nonalgebraicity on the residual type-(1,2) surface is asserted.
+
+The root read the entire proof in `agents/frobenius/C4_transfer_countermodel.tex`, the complete exact program and its 12-case output. We independently checked the split exact sequence with L=((1,0),(0,1),(2,1)) and R=(-2,-1,1), the row-surjectivity, and the positivity factorization of projected coedges. The common orthogonal retraction, rather than an embedding alone, gives the full cycle-profile identity.
+
+The all-level rounding proof of C.4z applies to scalar blocks. Each chosen row has an integral preimage of one, so reading its coordinate displacement on that closed chain isolates the corresponding scalar profile. The homotopy preserves it exactly. The period lattice lies in 2^j Z³; hence coarse-edge interiors do not meet in different axes, and flow closure forces identical flux along each subdivided coarse edge. Collapsing and rescaling divides every profile by 2^j. This reduces an arbitrary positive level to an odd profile modulo four.
+
+The quotient vertex group is Z/4 and the axis displacements are −2,−1,1. With f(t)=t², the first-coordinate weighted boundary sum has zero contributions from the first two colours and contribution 2v from the third. Thus it equals 2M′_3, which is two modulo four at odd level, contradicting closure. The 12-case certificate verifies exactly these terminal identities; it does not claim to computationally establish all levels. Its runtime is 0.0005796330005978234 seconds at 11:19:49.980558 UTC. No independent rerun is claimed.
+
+The root freshly opened the current primary survey HTML, Proposition2.29 and Corollary2.30, at https://arxiv.org/html/2507.15695v2. They explicitly construct an algebraic family over a smooth three-dimensional base with an snc boundary and the three prescribed integral positive-semidefinite monodromy matrices. No matrix primitivity is required. On a principally polarized abelian surface the minimal curve class is the class of a theta divisor, so its algebraicity is immediate even if the divisor is reducible. Consequently the proposed unrestricted implication from algebraic minimal classes to the common graph decomposition is false.
+
+The same source's Proposition5.3 and its converse were freshly read. A Mumford degeneration with D-nodal singularities is transversely shifted matroidal with the actual integral regular-matroid realization. The determinant-two covector configuration cannot simply be substituted into that regular-lattice hypothesis. The survey's arXiv header and displayed internal date differ; the bibliography identifies the actually opened version and does not silently interchange versions.
+
+The conclusion is that the original-base transfer cannot be inferred from algebraicity, or from pairwise-disjoint monodromy images, alone. The correlated rank-two case would need additional geometry. This does not change the C.4 main gate or count as scheduled-review movement.

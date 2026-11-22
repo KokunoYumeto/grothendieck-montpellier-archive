@@ -1,0 +1,34 @@
+# Scheduled review 11 assessment — 19 November 2026, 15:50 UTC
+
+The preceding review 10 was YES, with zero consecutive dry reviews. We apply the user's criterion: a changed open status or a proved strictly smaller main gate. Equivalent reformulations, method exclusions, source checks, and packaging are not counted as movement.
+
+## Certified qualifying movement since review 10
+
+1. **C.3bj:** the characteristic-five codimension-two ordinary integral restriction kernel was extended to every prime in its stated higher-dimensional range. The proof handles characteristic two in the relative Milnor symbol construction and provides actual fixed smooth proper-curve families. This removes previously open prime-specific cases. It is retained as an independently proved intermediate result.
+2. **C.3bk:** the product-cubic construction gives exact-order-p ordinary restriction kernels in all the stated safe higher-codimension ranges: r=2, N>=4; r=3, N>=7; and r>=4, N>=3r-1. Geometry, actual family algebraization, and the whole exceptional Chow boundary were checked. This removes further higher-codimension cases. The complete 91-check certificate was inspected, separately from the proof of its infinite geometric assertions.
+3. **C.3bl:** the final primitive exceptional-boundary lemma removes the remaining dimension restriction. For every prime p, every algebraically closed field k of characteristic p, every r>=2, and every N>=2r, an excellent normal strict henselian local k-domain of dimension N has a regular puncture and regular principal cut with an actual ordinary algebraically trivial CH^r restriction-kernel class of exact order p. The examples are defined over Fpbar before scalar extension. The proof covers the m=0 geometry, the entire integral Smith kernel including p-primary torsion, and the selected relative-Milnor cup invariant. Its free primitive-lattice factorization and lift-independent additive curve-line map have complete owner/root/two-peer proof audits. The retained 44-check certificate was read in full; it is not substituted for the proof.
+
+Combining C.3bl with the proved lower interval in C.3aw and the divisor classification C.3bh completes the **entire universal integral ordinary restriction-injectivity classification in positive characteristic**. In each positive characteristic, with universality over all algebraically closed coefficient fields and all local pairs in the stated scope, injectivity holds exactly when N<=r, for every r>=1. The lower-interval examples retain their specified transcendental coefficient fields; the assertion is not silently strengthened to every fixed field in that interval. Exact-order-p examples do not settle rational injectivity.
+
+This is a strictly smaller C.3 main gate: there is no remaining integral injectivity branch. C.3 as a whole remains unresolved because its separate global, rational-top, rational-injectivity and higher-surjectivity assertions remain.
+
+At checkpoint 17 the current integrated master contained 235 numbered statements, 1,184 check events and 280 bibliography entries. The 350-page final build had one overfull box of 0.46233 pt, none above 2 pt, no undefined citation and no missing character. The font-map failure immediately before that build was repaired and its failed stdout retained. Typesetting and packaging are verification records, not additional mathematical movement.
+
+## Unregistered work excluded from the movement decision
+
+- The rational r=2 split-cone kernel and cokernel comparisons isolate ordinary projective codimension-two restriction. They are restricted research reductions and do not close the universal local gates. The Picard input is kept in its precise Pic0/isogeny scope, avoiding an overbroad integral Grothendieck–Lefschetz assertion in positive characteristic.
+- Finite nilpotent K-theory bounds do not supply the supported exceptional-cycle lifting required for punctured restriction. For whole proper-curve families, the parameter increases the closed-fibre dimension and can retain a top family obstruction. No missing actual family is replaced by a formal or infinitesimal family.
+- Weber's purity theorem and the affine hyperplane K-theory model have been opened and checked in their exact scope. Neither supplies the projective modified exceptional calculation and actual family lifting needed for the rational-top assertion.
+- The type-(1,2) surface partial Fourier criterion remains equivalent to the original integral splitting problem. Semihomogeneous, residual fibre-product, and common coloured graph exclusions are method results. The rank-two correlated cone lacks the strict nodal extension needed by the cited graph-transfer theorem; the already proved countermodel C.4aa prevents treating arbitrary monodromy algebraicity as sufficient.
+
+## Remaining main gates
+
+- **C.1/C.2:** universal positivity, standard A/D and arbitrary-source algebraic-image assertions. In the proved complex dimensional audit the first remaining standard-D case is codimension three on a fivefold. The primitive Griffiths witness needed to refute universal positivity has not been constructed.
+- **C.3, global:** projective Griffiths/Beauville injectivity and the negative/grade-zero vanishing requirements remain. The new local p-torsion theorem does not settle this rational projective problem.
+- **C.3, rational top degree:** unrestricted ordinary B^(N-1)(X)_Q for N>=3, including complex dimension three. The complete Fpbar residue-field vanishing theorem does not settle arbitrary coefficient fields. Actual proper-family trace/support lifting remains the concrete unresolved step.
+- **C.3, positive-characteristic higher restriction:** rational injectivity for r>=2 and N>=2r+1; surjectivity for r>=2 and N>=2r+2. The first tests are r=2,N=5 and r=2,N=6 respectively. Integral injectivity is closed and is removed from this list.
+- **C.4:** generic End=Z type-(1,2) surfaces, general nonprincipal threefold integral divided powers, and arbitrary supersingular threefolds in characteristics two and three. Integral numerical algebraicity of P^2/2 or P^4/24 remains the exact established gate in the corresponding dimension.
+- **D.4/E.2:** all-motives integral-spectrum effectivity retains exactly the stated Tate-surjectivity gate; common geometric polarization beyond the established abelian-family setting remains.
+- **A.8/Lead A3; E.5/Lead E3:** the original scan 15:70 ends at the unfinished comparison and the historical continuous-H1 phrase lacks its defining model. No missing sentence or definition is invented.
+
+The guarded recorder supplies all 41 main-task and Lead rows with their current strongest gates. F.1/F.2 remain records in progress. The assessment is **YES**, with consecutive dry-review count **0**. Continue the mathematical work. The next scheduled review is 16:50 UTC; checkpoint 18 is due at 16:20 UTC.

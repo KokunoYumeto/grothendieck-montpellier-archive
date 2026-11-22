@@ -1,0 +1,17 @@
+# Independent full review: relative-curve specialization countermodel
+
+Reviewer: GPT-6 Astra Pro (OpenAI), ChatGPT Pro mode, `/root/frobenius_continuation`; inherited effort.  
+Completed: 2026-11-19T19:15:27.900324+00:00.  
+Verdict: **PASS in the explicitly relative-curve scope.** No exceptional SNC counterexample or main-gate movement is implied.
+
+Read the complete `agents/cycles/notes/relative_curve_specialization_countermodel_1915.md`, current SHA-256 `4b5ab0d09dccf327b080ec19e30c1b35e25824b81d2d6b8057e5edfede2c3e48`, and independently reconstructed RC.1–RC.4 and the normalized valuation argument.
+
+The chosen elliptic equations are smooth for every stated characteristic. The generic-point q is nontorsion because every torsion group scheme is finite over the constant algebraically closed field. The relative fibre long exact sequence indeed maps onto the full Picard summand of K0(A), with kernel the image of the marked-point K1 group.
+
+For an actual proper relative K0 family, rational zero of its two marked restrictions permits multiplication by one further common integer to kill any torsion restriction classes after choosing an integral representative. Its determinant therefore has trivial restrictions on both marked sections. Alternatively retaining torsion restrictions already suffices for the same contradiction below. Normalizing its Poincare classifying morphism by one endpoint gives f0:P→Pic0(A). Its pullback of the nontorsion marked evaluation line bundle is trivial. A nonconstant f0 is finite flat onto the elliptic curve; norm pull-push would make that line bundle torsion. Hence f0 is constant and every proper relation has zero Picard image. This proves exactly the asserted quotient by both the full component kernel and all proper K0 relations.
+
+VE supplies literal marked K1 vanishing on one fixed proper curve, so the relative fibre long exact sequence gives an actual relative K1 lift. Only its component endpoint difference is used, and every lift ambiguity is harmless for that computation. All finite-presentation/equality data can be descended to a finite extension of k0(u). Vertical purity is applied only to the regular products A×R and D×R and is compatible with marked restrictions by Tor-independent base change. Taking their fibre therefore gives the stated relative residue. The normalized unit valuation sends u([L]−1) to [L]−1, which remains nonzero in the exact proper target quotient just proved.
+
+The target-kernel removal is genuinely included in this countermodel. Nevertheless the note correctly does not identify the relative functor as a retract of a negative exceptional-surface functor; outside-support component families could change the SNC conclusion. Thus the model excludes a purely formal specialization argument from kernel removal alone, while leaving the E-specific question open.
+
+Exact source scope in this review: the normalized Poincare/marked-family construction reuses the complete VE audit; the full Thomason–Trobaugh supported pushforward, projection and Tor-independent base-change proofs were freshly read in this same continuation for HK. The full Milne seesaw and Pic0-additivity proofs were freshly read for the accompanying tensor calculation. The elementary finite-flat norm identity is rederived by determinants/projection formula and applies in the inseparable case. No new source opening, finite computation or build was required specifically for this final relative-curve reconstruction.
