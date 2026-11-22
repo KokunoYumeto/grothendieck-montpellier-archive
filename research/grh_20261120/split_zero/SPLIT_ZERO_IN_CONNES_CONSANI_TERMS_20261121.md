@@ -146,6 +146,8 @@ Reread: af2a18f6 Q3 (Alpoge's mechanism lives in the effective cone K0+, fibrewi
 5. Caution on "zeta as the unit": that holds with Spec Z as the base (Tate objects over Z counted at all primes). In Connes-Consani's absolute picture Spec Z is the curve over F1 and zeta is its zeta, not the unit; the counted basepoint there multiplies by the F1-zeta of a point.
 
 ## 13. The special points of the rank-three algebra (21 Nov ~19:4x UTC; computed by the main session, Claude Opus 5.5 at effort max)
+**Correction (22 Nov ~00:3x UTC, NEG_NIGHT NN-G012 re-proved by a8d753525 from our constants at v = i; GCT_POS N-001):** the q = −1 symmetry belongs to the β-block, not to the γ-cell, which is not closed at q = −1 (its Σ-components are 4). β₁ = γ₁ + Σ/4, β₂ = γ₂ + Σ/4, γ₁₂, γ₂₁ form a 2×2 matrix algebra, and the cyclic symmetry is the cyclic identity of the matrix trace. It does not extend to the whole rank-three table (N-001).
+
 Scripts: consults/E4_scripts/cell_c3_both_sheets.py, gram_signpoint.py; closed forms from the Fable consult (Theorem 2).
 - D = 4 (q = 1) and D = 1 (q = omega): lambda_1 = lambda_2 and delta = (D - 1)(D - 4) = 0: the split and inert sheets coincide, the two cells merge, and the trace form on the chi^2 cell has rank one.
 - D = 0 (q = -1): lambda_1 = 0 = theta(P_i): the split sheet and the trivial representation vanish; the trace form on the split cell is identically zero; on the inert cell (chi^2, lambda_2 = 4) it is monomial, and the cyclic slot rotation is an exact C3 (commuting with the Dynkin swap: C6; reversed by the transpose: D3).
@@ -153,6 +155,8 @@ Scripts: consults/E4_scripts/cell_c3_both_sheets.py, gram_signpoint.py; closed f
 - [std] q = -1 is where the Hecke algebra's trivial and sign characters coincide: T_s has eigenvalues v and -v^-1, equal exactly when v^2 = -1. So the C3 appears where sign = trivial, on the inert sheet, and everything non-standard at rank three (the six unimodality failures, [3]_q u^2 with u^2 = lambda_2; the C3) lives on that inert sheet.
 
 ## 14. Which dimension ring: fewest supported zeros (21 Nov ~19:5x UTC; computed by the main session)
+**Correction (22 Nov ~00:3x UTC, from the intakes of GCT_POS cp03 N-005 and NEG_NIGHT cp04 NN-G011 by a8d753525, Claude Opus 5.5 at effort high):** the minima below (7,952; 11,764 unimodal) hold only inside Fable's window. Lower counts are certified: 7,276 and 9,040 (all unimodal), then 7,064, 4,520 and 3,352, each within its own class. "Fewest supported zeros" does not select a ring globally.
+
 Script consults/dimension_ring_minimal_pairs.py (integer arithmetic; output .out beside it). Over Fable's search window, with every admissible Lambda pair: 14,975 dimension rings. The number of cancelling pairs 1 + eps (supported zeros) a ring needs, summed over all structure constants:
 - minimum 7,952, attained by exactly one ring: W = 5D, U1 = 3D, U2 = 7D, delta+ = D(D - 3) for both cells (the coefficientwise absolute value of delta_2), Lambda1 = D(4D - 9), Lambda2 = 3D^2 - 10D + 4: Fable's Theorem 7 ring. 6,892 of its pairs sit in the bottom cell (Proposition 6).
 - among the unimodal rings, minimum 11,764, attained by exactly one: the same with delta+ = (D - 1)(D - 2): Fable's Theorem 7' ring.
