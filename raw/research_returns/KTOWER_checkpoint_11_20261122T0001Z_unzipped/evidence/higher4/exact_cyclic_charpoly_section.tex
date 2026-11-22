@@ -1,0 +1,40 @@
+\subsection{An exact cyclic certificate for the whole characteristic polynomial}
+\begin{proposition}[KT-CYCLIC-CHARPOLY]
+Let $A\in M_n(\mathbf Q)$, $n>0$, and let
+$f(X)=X^n+c_1X^{n-1}+\cdots+c_n\in\mathbf Q[X]$.
+Choose a positive integer $D$ with $B=DA\in M_n(\mathbf Z)$,
+and suppose $F(X)=D^nf(X/D)$ has integer coefficients.
+If an integer vector $v$ and a prime $q$ satisfy
+\[
+ \det(v,Bv,\ldots,B^{n-1}v)\not\equiv0\pmod q,
+ \qquad F(B)v=0\quad\hbox{over }\mathbf Z,
+\]
+then $f$ is the characteristic polynomial of $A$.
+\end{proposition}
+\begin{proof}
+The nonzero determinant modulo $q$ proves that the same integer
+determinant is nonzero. Thus $v,Bv,\ldots,B^{n-1}v$ form a basis
+over $\mathbf Q$. Since $F(B)$ commutes with $B$, the asserted
+Horner identity implies that $F(B)$ kills every vector of this
+basis. No nonzero polynomial of degree less than $n$ can
+annihilate $v$, by linear independence. Therefore the minimal
+polynomial of $B$ has degree $n$ and equals the monic polynomial
+$F$; by Cayley--Hamilton it also equals the characteristic
+polynomial of $B$. Rescaling gives
+$\det(XI-A)=D^{-n}F(DX)=f(X)$.
+Neither squarefreeness nor irreducibility of $f$ is required.
+\end{proof}
+
+The implementation \path{cyclic_charpoly_certificate.py} clears
+the exact common denominator, checks the prime by trial division,
+finds a cyclic vector using a full modular Krylov determinant,
+and checks $F(B)v=0$ by exact integer Horner evaluation.
+It calls no characteristic-polynomial routine. Failure to find
+a cyclic vector is inconclusive and cannot produce a certificate.
+The wrapper \path{replay_cyclic_charpoly.py} retains every
+independent orbit, contraction, harmonic-kernel, identifying-point,
+all-neighbor, operator-identity, conjugation, factor-product and
+extra-point check of the frozen verifier; only its characteristic
+polynomial calculation is replaced by the proved certificate.
+The claimed coefficients are an explicit argument to that
+certificate, and a nonzero final Horner vector rejects them.

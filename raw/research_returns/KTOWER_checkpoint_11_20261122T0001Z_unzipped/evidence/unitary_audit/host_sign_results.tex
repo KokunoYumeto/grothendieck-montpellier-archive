@@ -1,0 +1,468 @@
+\section{The Selmer sign and actual ordinary adjoint points}
+\label{sec:kt-host-sign}
+
+This section uses the same pinned-source convention as
+KT-ONECHAR-CLOSED.  The new local argument below is a mathematical
+proof, not a claimed Lean compilation.  Put
+$E=\mathbf Q(\sqrt{-3})$, $\eta=\chi_{-3}$, and
+$\Psi=\varepsilon_\ell^e$, with the arithmetic cyclotomic
+normalization.  Assume $\ell>3$, $e\geq2$ is even, and
+$(\ell-1)\nmid2e$.  These are the relevant rational trivial-character
+\texttt{GD} conditions.  Write $J$ for the anti-diagonal matrix with
+all three anti-diagonal entries equal to one.  The source uses
+\[
+ \theta(g)=Jg^{-t}J,\qquad
+ GG_3=\mathrm{GL}_3\rtimes\{\pm1\},\qquad
+ r_0(g)=(\operatorname{diag}(\Psi(g),1,\Psi(g)^{-1}),\eta(g)).
+                                                               \tag{HS.1}
+\]
+Here $-1$ acts by $\theta$.  Matrix units in this section use
+indices $1,2,3$; the Lean files use $0,1,2$.
+
+\begin{lemma}[KT-HOST-TANGENT-SIGN]
+The weight $-1$ space for the adjoint action of $r_0$ splits as
+\[
+ \langle E_{21},E_{32}\rangle
+  =\langle E_{21}-E_{32}\rangle
+       \oplus\langle E_{21}+E_{32}\rangle,
+                                                               \tag{HS.2}
+\]
+with global characters $\Psi^{-1}$ and $\eta\Psi^{-1}$,
+respectively.  The rational strict Selmer injection used by
+\texttt{ShaInjGen} takes its values in the first line.  The lower
+root of the normalized principal adjoint embedding takes its values
+in the second line.
+\end{lemma}
+\begin{proof}
+The differential of the involution is
+$\theta_{\rm Lie}(X)=-JX^tJ$, so it interchanges
+$E_{21}$ and $-E_{32}$.  Conjugation by
+$\operatorname{diag}(z,1,z^{-1})$ multiplies both matrix units
+by $z^{-1}$.  This proves the two characters in (HS.2).
+In particular complex conjugation acts by $+1$ and $-1$ on
+the two lines, because $\Psi(c)=1$ and $\eta(c)=-1$.
+
+The literal definition \texttt{shaInj\_mat} is
+$t\mapsto t(E_{21}-E_{32})$; the following theorem
+\texttt{shaInj\_ad} proves its equivariance with character
+$\Psi^{-1}$ for every global group element.
+For the second assertion, use the ordered basis
+\[
+ E=\begin{pmatrix}0&1\\0&0\end{pmatrix},\qquad
+ H=\begin{pmatrix}1&0\\0&-1\end{pmatrix},\qquad
+ F=\begin{pmatrix}0&0\\1&0\end{pmatrix}
+\]
+of $\mathfrak{sl}_2$ and replace $H$ by $sH$, where
+$s^2=-1/2$.  Then
+\[
+ \operatorname{ad}(F)=-s^{-1}E_{21}+2sE_{32}
+                  =-s^{-1}(E_{21}+E_{32}).                    \tag{HS.3}
+\]
+The preserved trace form in this basis is
+\[
+ K=\begin{pmatrix}0&0&1\\0&-1&0\\1&0&0\end{pmatrix}.
+                                                               \tag{HS.4}
+\]
+The construction below identifies this basis with the involution
+in (HS.1), proving the asserted normalization.
+\end{proof}
+
+The distinction in (HS.2) is a distinction between tangent
+directions.  To decide whether it excludes a characteristic-zero
+point, one must check the actual point conditions.  In particular,
+\texttt{TypeI} means irreducibility on $G_E$; it does not require
+that a point arise by exponentiating the first line in (HS.2).
+The next lemma addresses the local condition that is missing from
+an argument using residual semisimplification alone.
+
+\begin{lemma}[KT-ORDINARY-ON-BASE-COMPONENT]
+Let $O$ be the ring of integers of any finite extension of
+$\mathbf Q_\ell$,
+and let $D_{\rm loc}$ be the source's local data with unramified
+$\eta$, trivial $\tau$, and $\Psi|_I=\varepsilon_\ell^e$.
+Let $U$ be its unrestricted framed universal ring.  Assume the
+carried local component theorem
+\[
+ \mathrm{primesAt0}(D_{\rm loc},U)=\{I_t\}.                  \tag{HS.5}
+\]
+Let $A$ be a complete Noetherian local $O$-algebra with the same
+residue field.  Suppose an integral lift of $r_0\bmod\mathfrak m_O$
+to $GG_3(A)$ is conjugate, by a matrix congruent to the identity,
+to a lift valued in $B\rtimes\{\pm1\}$, where $B$ is the standard
+upper Borel, and its diagonal character on inertia is exactly
+$\operatorname{diag}(\varepsilon_\ell^e,1,
+\varepsilon_\ell^{-e})$.  Then its map $U.R\to A$ kills $I_t$.
+This holds whether the quadratic local extension is split or
+unramified quadratic.
+\end{lemma}
+
+\begin{proof}
+\paragraph{A smooth integral family with the prescribed inertia.}
+First consider the framed functor of lifts valued in
+$B\rtimes\{\pm1\}$, with the projection $\eta$ fixed and the
+specified torus character on inertia fixed.  It is prorepresented
+by a complete Noetherian local $O$-algebra: this is the usual
+framed lifting construction, imposing the Borel and inertial
+matrix equations.  Its finite tangent space follows from local
+Galois cohomological finiteness.  The unipotent radical $N$,
+its Lie algebra $\mathfrak n$, the Borel Lie algebra
+$\mathfrak b$, and $\mathfrak t=\mathfrak b/\mathfrak n$
+are all stable under $\theta$.
+
+Here is the full lifting argument, including the unramified
+quadratic case.  For a small surjection $A'\to A$ with kernel
+$J$, the obstruction to lifting a homomorphism with fixed
+projection $\eta$ is the usual two-cocycle in
+$H^2(G_{\mathbf Q_\ell},\mathfrak b_{\bar r_0})\otimes J$.
+The fixed outer action merely makes this the indicated twisted
+adjoint module; it does not introduce an additional Frobenius
+descent condition.  On inertia the composition factors of
+$\mathfrak b$ have characters
+\[
+                   1,\quad\bar\varepsilon_\ell^e,
+                         \quad\bar\varepsilon_\ell^{2e}.
+                                                               \tag{HS.6}
+\]
+Every exponent is even.  The Tate dual of each factor has an
+odd exponent, which is nonzero modulo the even number
+$\ell-1$.  Local Tate duality therefore gives
+\[
+ H^2(G_{\mathbf Q_\ell},\mathfrak b_{\bar r_0})
+   =H^2(G_{\mathbf Q_\ell},\mathfrak n_{\bar r_0})=0.
+                                                               \tag{HS.7}
+\]
+This proves that a Borel lift exists over $A'$.  Its torus
+restriction may differ from the required inertia character by
+an element of $H^1(I,\mathfrak t)^{G/I}\otimes J$.
+The correction map
+\[
+ H^1(G,\mathfrak b)\longrightarrow
+ H^1(G,\mathfrak t)\longrightarrow
+ H^1(I,\mathfrak t)^{G/I}                                  \tag{HS.8}
+\]
+is surjective: the first arrow is surjective by (HS.7), and
+the second by $\operatorname{cd}_\ell(G/I)=1$.
+Changing the lift by a one-cocycle consequently corrects its
+inertia without changing the given reduction.  Here inertia acts
+trivially on $\mathfrak t$, so equality of its cohomology classes
+is equality of the actual torus correction cocycles; there is
+no unaccounted inertia coboundary.  Thus the functor
+is formally smooth and its representing ring $R_B$ is a power
+series ring over $O$, in particular a domain.  No unramifiedness
+of the coefficient DVR is used: (HS.6)--(HS.8) are statements
+over its finite residue field, and formal smoothness is relative
+to the given $O$.
+
+For split $\eta$ this is precisely the lifting argument in
+Patrikis, \emph{Deformations of Galois representations and
+exceptional monodromy}, \S4.1, Proposition~4.4, preprint
+pp.~12--13.  Its hypotheses \textnormal{(REG)} and
+\textnormal{(REG*)} hold here: the negative-root inertia
+characters are $\bar\varepsilon_\ell^{-e}$ and
+$\bar\varepsilon_\ell^{-2e}$, nontrivial by
+$(\ell-1)\nmid2e$, and their cyclotomic twists have odd
+nonzero exponents.  The preceding obstruction calculation
+provides the necessary adaptation for nonsplit unramified
+$\eta$ directly.  In particular we have not substituted a
+naive fixed-point condition for descent of a homomorphism.
+
+Adjoin nine formal variables to $R_B$ and conjugate its
+universal lift by the matrix $1+(X_{ij})$.  The resulting
+domain $R'=R_B[[X_{ij}]]$ is a family containing every
+congruently conjugate lift in the lemma.  It also contains
+the exact base representation $r_0$.
+
+\paragraph{The saturation and the chosen component.}
+Recall the literal definitions in the source:
+$I_Y=(I_{\rm ord}:\delta^\infty)$,
+$I_{\rm cr}=\sqrt{I_Y}$, and $I_t$ is the intersection of
+the minimal primes of $I_{\rm cr}$ lying under the base-point
+kernel.  Here $I_{\rm ord}$ is generated by the prescribed
+inertia characteristic polynomials and the entries of
+\[
+ (r(s_0)-\Psi(s_0))
+ (r(s_1)-1)
+ (r(s_2)-\Psi(s_2)^{-1}),\qquad s_i\in I.                   \tag{HS.9}
+\]
+Every expression in (HS.9) vanishes on an upper triangular
+lift in the indicated order: the rightmost factor maps the
+three-dimensional space to the second flag step, the next
+maps that step to the first, and the leftmost kills the first.
+The characteristic polynomial equations also vanish.  These
+statements are preserved under conjugation, so the map
+$\phi:U.R\to R'$ kills $I_{\rm ord}$.
+
+The image of the saturation element $\delta$ in $R'$ is
+nonzero.  To check this without assuming it is nonzero at
+the base, specialize to the diagonal family
+$r_0(\eta,\Psi u_T)$, where $u_T$ is unramified and sends
+a chosen Frobenius to $1+T$.  If the source's chosen
+$\mathrm{fr}$ has Frobenius exponent $m\geq1$, put
+$y=\Psi(\mathrm{fr})(1+T)^m$ and
+$v=\varepsilon_\ell(\mathrm{fr})$.  Writing $c_i$ for the
+source's nonzero products of distinct inertia eigenvalue
+differences, direct substitution gives
+\[
+ \delta=\ell\,c_0c_1^2c_2\,y^{-1}(y-v)^2\ne0
+                                  \quad\text{in }O[[T]].     \tag{HS.10}
+\]
+The $c_i$ are nonzero because the chosen inertia element has
+cyclotomic character of infinite order.  The function $y$ is
+nonconstant and the coefficient ring has characteristic zero.
+Formula (HS.10) is also the computation used in the archived
+\texttt{del\_unr\_twist} proof.  Since $R'$ is a domain,
+$\phi$ kills $I_Y$ and hence $I_{\rm cr}$.
+
+Set $P=\ker\phi$.  It is prime.  The base specialization
+$R'\to O$ shows $P\subseteq\ker x_0$, where $x_0$ is the
+unique framed base-point map.  Choose a minimal prime $Q$ of
+$I_{\rm cr}$ contained in $P$.  Such a prime exists since
+$U.R$ is Noetherian.  Then $Q\subseteq\ker x_0$, so $Q$
+belongs to \texttt{primesAt0}.  By (HS.5), $Q=I_t$.
+Thus $I_t\subseteq P$.  Specializing the family to the lift
+in the lemma proves the assertion.
+\end{proof}
+
+\begin{theorem}[KT-ADJOINT-ACTUAL-HOST-POINT]
+Let $f\in S_{e+1}(\Gamma_0(3),\eta)$ be a non-CM primitive
+eigenform and let $\lambda\mid\ell$ be a coefficient prime.
+Suppose $a_\ell(f)$ is a $\lambda$-adic unit and
+\[
+ \bar r_f^{\,\mathrm{ss}}
+       =1\oplus\eta\bar\varepsilon_\ell^e.                 \tag{HS.11}
+\]
+Keep the assumptions at the beginning of this section and
+the carried local component theorem (HS.5).  For any of the
+global data $D$, an element $g_1$ satisfying $D.\mathrm{Marked}(g_1)$,
+local universal ring
+$U$, and global ring $S=D.\mathrm{Ring}(U,g_1)$ used in the
+rational trivial-character \texttt{OneCharU\_s} construction,
+there is a point
+\[
+                  z:S.R\longrightarrow\overline{\mathbf Q}_\ell
+                                                               \tag{HS.12}
+\]
+satisfying the literal predicates \texttt{IsLocPt} and
+\texttt{TwoPt}.  Its representation on $G_E$ is isomorphic
+to $\operatorname{Ad}(r_f)|_{G_E}$ and is of \texttt{TypeI}.
+Consequently it also satisfies the corresponding
+$D.\mathrm{IsPt}$ conditions.  This conclusion concerns
+actual points of the prescribed source ring, not only
+membership in the ambient admissible class.
+\end{theorem}
+
+\begin{proof}
+\paragraph{A split residual lattice, with its polarization.}
+Use the cohomological dual $r_f^\vee$.  Its residual
+semisimplification is $1\oplus\eta\bar\Psi^{-1}$; its
+adjoint is isomorphic to that of $r_f$.  Choose a stable
+lattice over a finite coefficient DVR.  Because two is a
+unit and complex conjugation has distinct eigenvalues
+$1,-1$, the lattice has a basis in which
+$r_f^\vee(c)=\operatorname{diag}(1,-1)$.  The residual
+representation is triangular in this basis: an invariant
+residual line must be one of the two distinct $c$-eigenlines.
+Thus one of the two off-diagonal matrix-entry ideals is
+contained in the maximal ideal.
+
+Enlarge the coefficient DVR by a square root of a uniformizer
+$\pi$.  If the upper off-diagonal entries are arbitrary
+integral and the lower ones lie in $(\pi)$, replace the
+second basis vector by $\sqrt\pi$ times itself.  The new
+upper entries are multiplied by $\sqrt\pi$ and the new
+lower entries divided by it.  Both are now in the maximal
+ideal.  In the opposite triangular orientation use the
+opposite scaling.  This preserves the diagonal action of
+$c$ and yields an integral representation whose reduction
+is exactly diagonal.  This argument does not assume that
+a split residual lattice existed over the original DVR.
+
+Enlarge coefficients once more to contain a unit $s$ with
+$s^2=-1/2$, and form the adjoint in the ordered basis
+$(E,sH,F)$ of (HS.3).  Denote this representation by $A(g)$.
+It preserves the perfect form $K$ of (HS.4), and
+\[
+ A(c)=D_c:=\operatorname{diag}(-1,1,-1),\qquad
+ JK=-D_c,\qquad\theta(A(g))=D_cA(g)D_c.                    \tag{HS.13}
+\]
+If $j(g)\in\{0,1\}$ is defined by
+$\eta(g)=(-1)^{j(g)}$, set
+\[
+                 r(g)=(A(g)D_c^{j(g)},\eta(g)).              \tag{HS.14}
+\]
+Equation (HS.13) proves directly that (HS.14) is a
+homomorphism to $GG_3$.  It has $r(c).\mathrm{mat}=1$.
+The residual adjoint matrix is
+$\operatorname{diag}(\eta\bar\Psi,1,
+\eta\bar\Psi^{-1})$, and multiplication by $D_c^{j(g)}$
+cancels the two $\eta$ factors.  Hence the residual matrix
+of $r$ is exactly $r_0$, entry by entry.
+
+Let $O$ be the coefficient DVR of $D$, enlarge $O'$ if necessary
+so that it contains $O$, and take
+$A_0=O+\mathfrak m_{O'}$ inside the final coefficient DVR $O'$.
+Every entry of $r$ and of its inverse lies in $A_0$, because
+its reduction is in the residue field of $O$.
+This order is finite over $O$, local with maximal ideal
+$\mathfrak m_{O'}$, and complete; its residue field is exactly
+that of $O$.  Indeed it is the inverse image of that residue
+subfield, and its maximal-ideal topology agrees with its
+$\ell$-adic topology.  Thus it is an admissible coefficient
+algebra for the source's \texttt{IsCO} universal property.
+The unit $s$ itself need not lie in $A_0$; the adjoint
+matrices do, which is all that is required.
+
+\paragraph{Compatibility of the ordinary flag and the involution.}
+The ordinary local theorem gives for $r_f^\vee$ an actual
+upper triangular flag ordered as an unramified character
+followed by a character with inertia
+$\varepsilon_\ell^{-e}$.  Its integral saturated line
+reduces to the first standard line: the two residual
+inertia characters are distinct by
+$(\ell-1)\nmid2e$.  A matrix $q\equiv1\pmod{\mathfrak m_{O'}}$
+therefore makes $q r_f^\vee q^{-1}$ upper triangular
+on $G_{\mathbf Q_\ell}$.  Its adjoint $h=\operatorname{Ad}(q)$
+in the basis above also satisfies $h\equiv1$, lies in
+$\mathrm{GL}_3(A_0)$, preserves $K$, and obeys
+$\theta(h)=D_chD_c$.  Consequently
+\[
+ (\operatorname{conj}_h r)(g)
+       =(hA(g)h^{-1}D_c^{j(g)},\eta(g))                     \tag{HS.15}
+\]
+is valued in $B\rtimes\{\pm1\}$ locally at $\ell$.
+Since $\eta$ is unramified there, its diagonal inertia
+character is exactly
+$(\varepsilon_\ell^e,1,\varepsilon_\ell^{-e})$.
+This proves compatibility with the polarization, including
+the inert quadratic case.  KT-ORDINARY-ON-BASE-COMPONENT
+puts the local representation on $I_t$.
+
+\paragraph{The global normalization and universal point.}
+The representation $r$ kills the exact subgroup
+$D.\mathrm{Kill}$: away from $\ell$, its restriction to
+$G_E$ is unramified by the already checked local conductor
+calculation for the adjoint lift, and membership in
+$D.\mathrm{Kill}$ forces $\eta(g)=1$.  Continuity and all
+integrality conditions hold over $A_0$.
+
+Apply the source's \texttt{exists\_normalised} theorem
+over $A_0$ to the residual marked data.  It supplies a
+matrix $v\equiv1$ such that $r'=\operatorname{conj}_v r$
+is \texttt{Normalised} at $(c,g_1)$.  The local condition
+proved above is preserved: locally $r'$ is still conjugate
+by a matrix congruent to one to (HS.15), so the same local
+lemma applies.  Killing $D.\mathrm{Kill}$ is also unchanged.
+Thus $r'$ is an integral lift satisfying precisely
+\texttt{NormCond(BoxCond)}.
+
+The defining universal property of $S$ gives a local
+$O$-algebra map $S.R\to A_0$ whose universal representation
+is $r'$.  Composing with $A_0\hookrightarrow
+\overline{\mathbf Q}_\ell$ gives (HS.12).
+Every element of the maximal ideal of $S.R$ maps into
+$\mathfrak m_{O'}$, so \texttt{IsLocPt} holds.
+The representation on $G_E$ is isomorphic to
+$\operatorname{Ad}(r_f)|_{G_E}$.  Its absolute
+irreducibility is the all-prime non-CM adjoint
+irreducibility proved in KT-ORDINARY-SYM2-FAMILY.
+It is therefore of \texttt{TypeI} and can be neither
+\texttt{Upper} nor \texttt{Lower}, proving \texttt{TwoPt}.
+The source theorem \texttt{isPt\_push} now gives
+$D.\mathrm{IsPt}$ as well; alternatively each clause was
+verified directly in the construction.
+\end{proof}
+
+\begin{corollary}[KT-ADJOINT-HOST-OBSTRUCTION]
+Every ordinary symmetric-square family in
+KT-ORDINARY-SYM2-GD gives actual \texttt{TypeI},
+\texttt{TwoPt} points as in KT-ADJOINT-ACTUAL-HOST-POINT.
+In particular, under the same carried arithmetic inputs,
+for the certified prime $\ell=697446897311$ and
+\[
+                   e=26+697446897310\,t,\qquad t\geq0,
+\]
+these points coexist with $K_{2e}(\mathbf Z)\{\ell\}=0$.
+Their trace difference from the Eisenstein triple is a
+nonunit at every element of $G_E$.  Any finite set satisfying
+the literal \texttt{CoversPt} condition contains a
+representative of their isomorphism class.
+\end{corollary}
+\begin{proof}
+KT-ORDINARY-SYM2-FAMILY supplies the ordinary forms and
+(HS.11); KT-ORDINARY-SYM2-GD supplies
+$(\ell-1)\nmid2e$.  Apply the preceding theorem.
+The trace assertion follows from its entrywise residual
+triple.  The asserted $K$-group vanishing and the certified
+primality are KT-ORDINARY-SYM2-EXPLICIT-LARGE.
+Finally \texttt{CoversPt} covers every \texttt{TwoPt}
+up to torus conjugation, which preserves the isomorphism
+class on $G_E$.
+\end{proof}
+
+\paragraph{What the sign distinction does and does not prove.}
+The actual source points above rule out an exclusion based
+only on the opposite signs in (HS.2).  The archive injects
+the rational strict Selmer group into a larger weight
+$-1$ deformation module and bounds that module using all
+relevant points.  The presence of a point is not the
+converse of a nonzero rational strict Selmer class.
+A sharper argument would have to retain the first
+eigensummand throughout the deformation-length comparison.
+Neither a projector on its tangent space alone nor removal
+of adjoint characteristic-zero points has been proved to
+give such a comparison here.  Also, the existential
+\texttt{OneCharU\_s} statement may admit finite sets other
+than the particular \texttt{CoversPt} set constructed in
+its proof; the corollary makes no assertion about every
+possible existential witness.
+
+\paragraph{Exact source and proof-check scope.}
+All Lean paths below are relative to the pinned
+\texttt{AutomorphicVarieties/} directory.
+\texttt{UnitaryThreeGroups/UnitaryThreeReflectionRight.lean}
+defines $J$, $\theta$, $\theta_{\rm Lie}$, and $r_0$.
+\texttt{ShaInjGen.lean}, lines 101--129, defines and checks
+the Selmer matrix in (HS.2).
+\texttt{BaseRepGL3NormalisedOfPsiEqOne.lean}, lines 15--24,
+defines \texttt{TypeI}, \texttt{Upper}, and \texttt{Lower}.
+\texttt{NormEx.lean}, lines 155 onward, proves universal
+normalizability by a matrix congruent to one.
+\texttt{GRepresents.lean}, lines 37--105, and
+\texttt{ConjStable.lean}, lines 49 and 94--99, give the
+universal ring and the literal point-cover definitions.
+\texttt{RhoKApply.lean}, lines 61--83, defines
+$D.\mathrm{Kill}$ and $D.\mathrm{IsPt}$; the one-way
+\texttt{isPt\_push} proof is in \texttt{IsPtOf.lean},
+lines 124--166.
+
+The local ideals are defined in
+\texttt{PadicHodgeTheory/IsInertiaInfiniteCyclotomic.lean}.
+The complete proof of (HS.5) is the carried
+\texttt{component\_basic} theorem in
+\texttt{ModularityArgument/CrystallineOrdinaryIdeals/}
+\texttt{OrdinaryComponentUniquePrimeDimThirteenNearBase.lean};
+its local published inputs remain explicit dependencies.
+The saturation calculation is checked against that
+directory's \texttt{SaturatingElementUnramifiedTwistEqPowMulUnit.lean}.
+The seemingly relevant \texttt{OnOrdinaryComponentIffContinuousCrystallineLift}
+theorem is restricted to Artinian characteristic-zero
+deformations of the exact base representation and is not
+used as an arbitrary ordinary-point converse.
+The separately named \texttt{UnitaryThreeDeformations/IsHostFrame}
+fixes the Gaussian character and is not substituted for
+the present Eisenstein-field data.
+
+Patrikis's Proposition~4.4 and its entire proof were read
+in the primary preprint, arXiv:1507.01294, pp.~12--13;
+the elementary extension of its obstruction proof to
+$B\rtimes\eta$ is written out above.  The original local
+ordinary theorem for modular forms and the all-prime
+non-CM image theorem remain the precisely named primary
+inputs already recorded in KT-ORDINARY-SYM2-FAMILY.
+The separate \texttt{host\_sign\_matrix\_check.py/json}
+certificate verifies sixteen matrix and scalar identities
+over the rational function field with $2s^2+1=0$, including
+both $\eta$ components of (HS.14), the residual cancellation,
+the root signs, and (HS.10).  This finite algebra check is
+not presented as a verification of the deformation-theoretic
+or automorphic inputs.

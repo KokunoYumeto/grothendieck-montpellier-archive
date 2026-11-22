@@ -1,0 +1,164 @@
+\section{The finite normal module exists; flatness is a separate gate}
+\label{sec:kt-projector-flatness}
+
+The conditional tool KT-NORMAL-FLAT-TRANSFER asks for more
+than generic automorphic point detection.  Two of its
+integral hypotheses can nevertheless be checked for the
+actual source presentation: a finite weight-zero algebra
+and a finite normal module surjecting onto the base odd
+conormal.  The following statement records exactly this
+partial verification, without a flatness assertion.
+
+\begin{lemma}[KT-FINITE-GRADED-NORMAL-MODULE]
+Use the weighted presentation of the actual normalized
+source ring $S$ in \texttt{ModelOfPres}, together with the
+same carried finiteness of \texttt{weightZeroSubalgebra}
+used in \texttt{ModelUpper}.  Let $S_j$ be its
+weight spaces and let
+\[
+ A=\bigoplus_{j\in\mathbf Z}S_j\subset S,
+ \qquad Q_A=(a-\kappa_S(a):a\in A),
+ \qquad B=A/Q_A.
+                                                                  \tag{KF.1}
+\]
+Then $B_0$ is a finite $O$-algebra, and
+\[
+                 L=(Q_A/Q_A^2)_{-1}                        \tag{KF.2}
+\]
+is a finite $B_0$-module.  There is a natural surjective
+$O$-linear map
+\[
+                            L\twoheadrightarrow C,         \tag{KF.3}
+\]
+where $C$ is the odd weight $-1$ cotangent in (KE.2).
+The involution acts by minus one on $Q_A/Q_A^2$.
+\end{lemma}
+\begin{proof}
+The source construction supplies a weighted power series
+presentation of $S$ with finitely many variables of
+weights in $\{-2,-1,0,1,2\}$ and homogeneous kernel.
+Precisely, \texttt{ModelOfPres.mop\_cover} constructs the
+surjection $q_h:R\to S$ and its finitely generated
+homogeneous kernel; \texttt{mop\_main} identifies the
+variables with differences of universal matrix entries
+and checks the weight bounds.  These are
+\texttt{ModelOfPres.lean:34--121,168--238,243--284}.
+Composing its weighted presentation of $R$ with $q_h$
+gives the asserted presentation of $S$.
+
+The degree-zero image of this presentation is the image
+of the ambient model's degree-zero piece.  The complete
+proof of
+\texttt{ModelIdealFinitenessOfWeightZeroFinite.lean:101--189}
+places it inside the already finite
+\texttt{weightZeroSubalgebra} by compactness and proves
+it finite over $O$.  Hence $S_0$ is finite over $O$.
+The standard weighted-presentation argument
+\texttt{CommutativeAlgebra/IsWRing.lean:8--56}, theorem
+\texttt{isWRing}, makes $A$ a finite-type algebra over
+$S_0$.  Its invoked generation theorem is exactly
+\texttt{GrGen.lean:72--109}, \texttt{gr\_gen}, whose
+homogeneous-series decomposition is proved at lines
+15--57: finitely many
+nonzero-weight monomials generate all homogeneous
+series, with their remaining zero-weight factors in
+$S_0$.  Thus $A$ is Noetherian.  The involution commutes
+with the torus, so it preserves every $S_j$ and $A$.
+Its ideal $Q_A$ is homogeneous and finitely generated
+by homogeneous odd elements.  Therefore $B_0$ is the
+quotient of $S_0$ by $Q_A\cap S_0$ and is finite over $O$.
+
+The conormal $N_A=Q_A/Q_A^2$ is a finite graded
+$B$-module.  Each of its weight pieces is finite over
+$B_0$.  Here is a proof that also applies with negative
+weights.  For a fixed $j$, form the $B$-submodule of
+$N_A$ spanned by $(N_A)_j$.  Since $N_A$ is Noetherian,
+finitely many elements $z_1,\ldots,z_r$ of that weight
+generate this submodule.  If
+$z=\sum_i b_i z_i$ has weight $j$, its weight-$j$
+projection is $z=\sum_i(b_i)_0z_i$.  Thus the same
+finite list generates $(N_A)_j$ over $B_0$.  This is
+the module version of the exact argument in
+\texttt{GradedModulesLength/FgHolds.lean:5--45}.
+Taking $j=-1$ proves the finiteness of $L$.
+
+The augmentation kills every odd element, so the image
+of $Q_A$ lies in $J_0=\ker x_0$ and that of $Q_A^2$
+lies in $J_0^2$.  Every element of the odd weight $-1$
+piece of $J_0/J_0^2$ has an odd homogeneous lift in
+$S_{-1}\subset A$: apply the weight projector and
+$(1-\kappa_S)/2$ to any lift.  That lift belongs to
+$Q_A$, proving (KF.3).  Finally the proof of
+KT-UNSQUARED-NORMAL-JACOBIAN, applied to $A$, shows
+that $N_A$ is entirely odd.  This argument needs no
+identification of an algebraic conormal with its
+completed counterpart beyond the displayed
+surjection.
+\end{proof}
+
+What is still absent is a proof that $B_0$ is
+torsion-free, together with the appropriate reduced
+generic structure and full generic normal rank on all
+of its components.  The carried rigidity statement
+handles the two-sided characteristic-zero orbits; it
+does not by itself control vertical contributions or
+every fiber of the degree-zero quotient.  Replacing
+$B_0$ by its maximal flat reduced quotient may kill
+part of $L$ and its image in $C$.  The reverse-map
+theorem identifies the latter image with the original
+strict Selmer dual, so this loss cannot be ignored.
+
+There are two concrete source boundaries.  First,
+\texttt{ModelIdealFinitenessOfWeightZeroFinite} proves
+module finiteness only; its displayed conclusions
+contain no torsion-freeness or flatness statement.
+Second, \texttt{ModelOfPres.mop\_cover} forms the
+global ring by imposing the global and marking
+relations on a power series extension of the local
+ring.  Even the new integral smoothness of the local
+ring does not prove that these global relations have
+torsion-free quotient.  The characteristic-zero
+point detector \texttt{EtHolds} does not fill either
+gap, for the reasons in Part I of the projector audit.
+
+\begin{lemma}[KT-FIXED-QUOTIENT-FLATNESS-COUNTEREXAMPLE]
+A finite flat reduced augmented $O$-algebra with an
+involution can have a fixed-locus quotient with
+nonzero $O$-torsion, even when two is a unit.
+\end{lemma}
+\begin{proof}
+For $a=\varpi^n$, $n\geq1$, let $R$ be the subalgebra
+of $O^3$ with $O$-basis
+\[
+  1=(1,1,1),\quad u=(0,a,-a),\quad v=(0,a,a).
+                                                                  \tag{KF.4}
+\]
+These vectors are linearly independent, since $a\ne0$
+and two is a unit.  They are closed under
+multiplication because
+\[
+                u^2=av,\qquad uv=au,\qquad v^2=av.          \tag{KF.5}
+\]
+Thus $R$ is finite free of rank three and reduced,
+with generic fiber $K_O^3$.  Projection to its first
+coordinate is an augmentation.  The involution
+swapping the last two coordinates sends $u$ to
+$-u$ and fixes $v$.  Its fixed-locus ideal is $(u)$,
+whose $O$-span is generated by $u$ and $av$.
+Consequently
+\[
+                  R/(u)\simeq O[v]/(av,v^2).               \tag{KF.6}
+\]
+The nonzero class of $v$ is killed by $a$.  In
+particular, flatness of an ambient algebra does not
+pass to the fixed-locus quotient used in (KF.1).
+This is an algebraic scope counterexample, not a
+counterexample to the complete source hypotheses.
+\end{proof}
+
+No determinant over the actual $B_0$, saturation
+identity for $L$, or arithmetic normal Jacobian has
+been computed or proved to be a unit.  The verified
+finite algebra and module in (KF.1)--(KF.3) identify
+where a further integral theorem would apply; they
+do not discharge its flatness and support hypotheses.
