@@ -1,0 +1,340 @@
+\subsection{C.3 over every finite commutative coefficient ring}
+\label{C:finite-bases-subsection}
+
+Here a \emph{finite ring} has a finite underlying set, supplied
+by its addition and multiplication tables. The construction uses finite
+sets of polynomial classes, with no freeness assertion about a bounded
+coefficient coalgebra over the base.
+
+\begin{lemma}[Known residual finiteness, with an explicit equality algorithm]
+\label{C:finite-base-polynomial-equality}
+Let $R$ be a finite commutative ring, and let
+$A=R[z_1,\ldots,z_s]/(f_1,\ldots,f_t)$ be a specified finite presentation.
+Every nonzero element of $A$ survives in a finite quotient ring.
+Equality of two polynomial classes in $A$ is decidable by a uniform
+terminating algorithm from the displayed finite data. The assertion
+also applies to tensor products of two such finitely presented
+$R$-algebras.
+\end{lemma}
+\begin{proof}
+We first give the residual-finiteness argument, also recorded for all
+finitely generated commutative rings in
+\cite[\S2.1, before Lemma 2.1]{C-JaikinZapirain2023}.
+The ring $A$ is Noetherian. Given $0\ne a\in A$, choose a maximal ideal
+$\mathfrak m$ containing $\operatorname{Ann}(a)$. Then $a/1\ne0$ in
+$A_{\mathfrak m}$: an element outside $\mathfrak m$ cannot annihilate
+$a$. Krull intersection gives $a/1\notin\mathfrak m^N A_{\mathfrak m}$
+for some $N$, so $a\notin\mathfrak m^N$
+\cite[Tag 00IP, Lemma 10.51.4]{C-StacksFiniteBaseEquality}.
+The image of $R$ in $A/\mathfrak m$ is a finite domain, hence a finite
+field. The latter residue field is a finite-type algebra over that
+field, so it is finite by the Nullstellensatz
+\cite[Tag 00FV, Theorem 10.34.1(1)]{C-StacksFiniteBaseEquality}.
+Every $\mathfrak m^j/\mathfrak m^{j+1}$ is a finite-dimensional vector
+space over $A/\mathfrak m$, since $\mathfrak m$ is finitely generated.
+It follows that $A/\mathfrak m^N$ is finite. This quotient separates $a$.
+
+For the algorithm, subtract the two input polynomials and call the
+result $h$. At stage $b=0,1,2,\ldots$ perform both of the following
+finite searches.
+\begin{enumerate}
+\item Enumerate all $t$-tuples of polynomials $g_i$ of degree at most
+$b$ over $R$, and check the formal polynomial equality
+$h=\sum_i g_i f_i$. If found, report equality in $A$.
+\item Enumerate all finite commutative unital ring tables with at most
+$b$ elements, all unital ring maps from $R$ to those rings, and all
+$s$-tuples of elements in them. Retain evaluations for which every
+$f_i$ is zero. If one has $h\ne0$, report inequality in $A$.
+\end{enumerate}
+All ring axioms, homomorphism conditions and polynomial evaluations
+are finite table checks. The two reports cannot conflict. If $h=0$
+in $A$, its membership in the finitely generated defining ideal has
+a finite polynomial witness, so the first search eventually reports.
+If $h\ne0$, the finite quotient just proved supplies an evaluation
+eventually found by the second search. Thus one search terminates,
+with a correct answer, on every input. This is a decision algorithm,
+not merely a semidecision procedure. Finally, a tensor product has the
+finite presentation with both sets of variables and defining
+relations, so the same argument applies.
+\end{proof}
+
+\begin{theorem}[Proved: complete finite-base indices, additive groups and operations]
+\label{C:Om-finite-base-algorithm}
+For every finite commutative ring $R$ with $2\in R^\times$ and every
+split $O_m$ over $R$, there is a uniform algorithm giving explicit
+canonical indices for all indecomposable finite projective rational
+representations, all their duality and residue-form data, and the
+entire ring $WG_{\mathrm{sp}}(BO_m/R)$ with its exterior operations.
+
+More precisely, write the computable finite local decomposition as
+$R=\prod_{\nu=1}^sR_\nu$. Over each $R_\nu$, the index set
+$\mathscr J(R_\nu)$ is a union of explicit finite lists, one for each
+free rank $n\geq1$ and minimal polynomial coefficient degree $d\geq0$.
+For a self-dual index choose a nonsingular invariant form of sign
+$\varepsilon_i$, and compute the finite residue endomorphism field
+$D_i$ with its adjoint involution $\sigma_i$. Define the symmetric,
+alternating, unitary and non-self-dual-pair index sets
+$\mathscr J_{\mathrm s},\mathscr J_{\mathrm a},
+\mathscr J_{\mathrm u},\mathscr J_{\mathrm h}$ by the same explicit
+conditions as in Theorem~\ref{C:Om-finite-field-algorithm}.
+Then, with the concrete generators constructed below,
+\[
+ \begin{split}
+ WG_{\mathrm{sp}}(BO_m/R_\nu)
+   &\simeq
+    \bigoplus_{i\in\mathscr J_{\mathrm s}(R_\nu)}
+       \bigl(\mathbb Z e_i\oplus(\mathbb Z/2)t_i\bigr)\\
+   &\hspace{8mm}\oplus
+    \bigoplus_{i\in
+      \mathscr J_{\mathrm a}(R_\nu)\cup
+      \mathscr J_{\mathrm u}(R_\nu)\cup
+      \mathscr J_{\mathrm h}(R_\nu)}
+       \mathbb Z e_i,\\
+ WG_{\mathrm{sp}}(BO_m/R)
+   &\simeq \prod_{\nu=1}^s WG_{\mathrm{sp}}(BO_m/R_\nu).
+ \end{split}                                             \tag{C.3.R1}
+\]
+The second line is an isomorphism of rings with exterior operations,
+computed componentwise. Every requested product and every specified
+exterior-power coefficient of a virtual element is obtained in
+finite time. No uncomputed representation or form isomorphism
+quotient remains in these indices or coefficients.
+The indices over $R$ itself are obtained by extending each local
+indecomposable by zero on the other factors.
+\end{theorem}
+\begin{proof}
+\emph{Local decomposition of the base.}
+Enumerate the ideals of the finite ring and identify its maximal
+ideals by testing whether their quotients are fields. Their
+intersection $J_R$ is nilpotent: its powers eventually stabilize,
+and Nakayama applied to the stabilized finite module makes it zero.
+Choose an exponent $a$ with $J_R^a=0$. Distinct maximal ideals are
+comaximal, as are their $a$th powers, so the Chinese remainder theorem
+gives
+$R=\prod_{\mathfrak m}R/\mathfrak m^a$.
+Each factor is local. All maps and inverse maps can be computed
+from the finite tables. Finite projective modules, coactions, duals
+and symmetric forms decompose over these base idempotents; cross
+pairings between different components vanish. Tensor and exterior
+powers are componentwise. This proves the last assertion in
+(C.3.R1), once the local case is proved. The zero ring has zero
+representation and form group and is handled separately.
+
+\emph{Finite coefficient sets, without a free coalgebra assumption.}
+Assume henceforth that $R$ is nonzero and local. Every finite
+projective $R$-module is free. With the chosen split Gram matrix $J$ put
+\[
+ H=R[x_{ij}]/(X^{\mathsf t}JX-J).
+\]
+The usual comultiplication, counit and antipode are given by
+$X\mapsto XY$, $X\mapsto I_m$, and
+$X\mapsto J^{-1}X^{\mathsf t}J$, respectively. The determinant
+relation makes $X$ invertible, so this is the full orthogonal
+coordinate Hopf algebra.
+
+Fix an order on the finite set $R$ and a monomial order. For each
+$d$, enumerate all polynomials of total degree at most $d$; there
+are finitely many. Use Lemma~\ref{C:finite-base-polynomial-equality}
+to identify equal classes and retain the first representative in
+the order which compares degree first and coefficient lists second.
+Call the resulting finite set $F_dH$. Because degree is compared
+first, these representative sets are nested. They represent the
+image of the degree-at-most-$d$ polynomials, which is an $R$-submodule
+of $H$. It is not asserted to be free. Their union is $H$, and
+products, antipodes and all equality tests can be computed by the
+same algorithm.
+
+Enumerate all $n$-square matrices $h$ with entries in $F_dH$. Retain
+exactly those satisfying
+\[
+ h(XY)=h(X)h(Y)
+ \quad\text{in }M_n\bigl(R[X,Y]/(X^{\mathsf t}JX-J,\,
+                                  Y^{\mathsf t}JY-J)\bigr),
+ \qquad h(I_m)=I_n .                                    \tag{C.3.R2}
+\]
+These tests terminate by the equality lemma. They are precisely
+coassociativity and counit for a coaction on $R^n$; the antipode
+then supplies the inverse action matrix. The tensor-product
+presentation in (C.3.R2) is valid without a flatness hypothesis.
+
+Discard matrices already having all entries in $F_{d-1}H$ when
+$d>0$. Polynomial coefficient degree is basis-independent, since
+conjugation by a matrix over $R$ takes $R$-linear combinations
+of the entries, and $F_{d-1}H$ represents an $R$-submodule.
+Compute the centralizer by enumerating all $Z\in M_n(R)$ and
+testing $Zh=hZ$ in $H$. Discard a coaction if this centralizer
+has a nonzero nonidentity idempotent. The image and kernel of such
+an idempotent are finite projective, hence free, invariant
+summands. Conversely a decomposition gives such an idempotent.
+Finally retain the least element of the finite
+$\mathrm{GL}_n(R)$-conjugacy orbit, replacing entries by their
+canonical polynomial representatives after each conjugation.
+This constructs the claimed finite list without repetitions.
+Every finite projective rational representation occurs because
+its finitely many coefficients have a finite polynomial degree.
+
+For actual computations, a commuting idempotent can be split
+explicitly: enumerate $r$ and $P\in\mathrm{GL}_n(R)$ until
+$P^{-1}ZP=\operatorname{diag}(I_r,0)$. The projective image and
+kernel being free ensures success. Iterate on the two diagonal
+coaction blocks; positive free ranks decrease strictly. This gives
+a terminating decomposition into the canonical indecomposables.
+Duality is computed by $h^\vee=\mathsf S(h)^{\mathsf t}$ and the
+same finite canonicalization.
+
+\emph{Why the hermitian-category theorem applies to a nonfield base.}
+The additive category just used has split idempotents and finite
+morphism sets. Every object is a finite set, so the Fitting
+decomposition for an equivariant endomorphism terminates and
+splits in this category. On an indecomposable, an endomorphism
+is therefore either invertible or nilpotent. Its endomorphism
+ring $E$ is local: if two nonunits summed to a unit, multiplying
+by that inverse would give two nonunits summing to $1$, whereas
+$1$ minus a nilpotent is a unit. Nonunits are also stable under
+multiplication by arbitrary elements; a one-sided inverse in
+a finite ring is two-sided. Thus they form the unique maximal
+ideal. Repeated idempotent splitting gives a Krull--Schmidt
+decomposition with these local endomorphism rings.
+
+Every $E$ is finite, hence Artinian; its radical is nilpotent,
+so it is complete for the radical topology. The dual of a finite
+free module is finite free, biduality is exact on these objects,
+and two is invertible. These verify all the hypotheses of
+Quebbemann--Scharlau--Schulte
+\cite[Propositions 2.4--2.5, p.271; Theorems 3.2--3.3,
+pp.272--273]{C-QSS1979}, now in this additive category over $R$.
+The hypothesis is not that the base itself be a field.
+
+Compute each finite $E$ by the centralizer test. Its radical is
+the set of matrices whose determinants are not units of $R$:
+an invertible equivariant matrix has an equivariant inverse.
+The quotient $D=E/\operatorname{rad}E$ is a finite division
+ring, hence a finite field, as in
+Theorem~\ref{C:Om-finite-field-algorithm}. Its characteristic is
+odd because two is invertible. For a self-dual indecomposable,
+enumerate all symmetric and alternating matrices over $R$,
+test invariance by
+$h^{\mathsf t}Bh=B$ in $H$, and test nonsingularity by
+$\det B\in R^\times$. Proposition 2.5 guarantees success in at
+least one sign. The adjoint involution on $E$ and on its quotient
+field is computed from this chosen matrix.
+
+Transfer and radical reduction identify the form contribution
+with the corresponding finite-field multiplicity-form group.
+The finite-field classifications and their group completions
+were checked in Theorem~\ref{C:Om-finite-field-algorithm}:
+symmetric type with trivial residue involution contributes
+$\mathbb Z\oplus\mathbb Z/2$, alternating type contributes
+$\mathbb Z$, nontrivial residue involution contributes $\mathbb Z$,
+and a non-self-dual pair contributes a hyperbolic $\mathbb Z$.
+This proves the additive formula in (C.3.R1).
+
+The generators are concrete over $R$, with the same formulas
+as over a finite field. If $q_i$ is symmetric with trivial residue
+involution, let $e_i=[q_i]$. Lift a first nonsquare $c\in D_i$
+to $b\in E_i$, put $a=(b+b^*)/2$, and set
+$t_i=[q_i a]-[q_i]$. The reduction of $a$ is $c$, so $a$ is
+invertible, and $q_i a$ is symmetric. In alternating or
+non-self-dual-pair type take $e_i=H(U_i)$. In unitary type,
+with chosen sign $\varepsilon_i$, choose
+$0\ne c\in D_i$ with $\sigma_i(c)=\varepsilon_i c$,
+lift it to $b$, and put $a=(b+\varepsilon_i b^*)/2$.
+Then $a^*=\varepsilon_i a$, its reduction is $c$, and
+$e_i=[q_i a]$ is an invertible symmetric form. Such $c$
+exists, using $b-\sigma_i(b)$ for the negative sign.
+All these searches are over explicitly finite sets.
+
+\emph{Ring and exterior operations.}
+For actual generators, multiply coaction entries for a tensor
+product and take minors for an exterior power. These polynomials
+have degree at most $d+e$ and $rd$, respectively. Canonical
+polynomial equality and the preceding idempotent procedure
+decompose the resulting actual module and identify all its
+canonical indices and minimal degrees. The resulting actual
+Gram matrices are tensor products and determinant forms, so
+their computation uses no division by a factorial.
+
+At the resulting fixed underlying multiplicities, radical
+reduction leaves only a determinant bit for each nonempty
+symmetric-type component and one forced class for the other
+types. Construct the finitely many candidate orthogonal sums
+of the displayed generators, exactly as in the finite-field
+proof, and test each against the actual form by enumerating
+all $P\in\mathrm{GL}_N(R)$ and checking equivariance and Gram
+congruence. The hermitian-category theorem guarantees existence
+and uniqueness of the successful residue-form coordinates.
+This computes every structure constant in (C.3.R1), including
+its two-torsion coordinates. Bilinearity and
+$\lambda_t(x-y)=\lambda_t(x)\lambda_t(y)^{-1}$ give all virtual
+operations to any prescribed finite degree. The equality
+subroutines terminate, and every other enumeration is explicitly
+finite. This completes the uniform algorithm.
+\end{proof}
+
+\begin{proposition}[Proved: a nonfield example over $\mathbb Z/9$]
+\label{C:Om-finite-base-form-example}
+Put $R=\mathbb Z/9$, let $V=R^3$ with Gram matrix $I_3$, and
+let $S=\operatorname{Sym}^2V$ with its rational orthogonal action.
+The group $O(I_3)$ is isomorphic to the split $O_3$ over $R$.
+The module $S$ is indecomposable, and the
+invariant symmetric forms
+\[
+                Q(A,B)=\operatorname{tr}(AB),\qquad 2Q
+\]
+give different classes whose difference has exact order two
+in $WG_{\mathrm{sp}}(BO_3/R)$. Its isotypic contribution is
+$\mathbb Z\oplus\mathbb Z/2$. More precisely,
+\[
+ \operatorname{End}_{O_3}(S)=R[I,K],\qquad
+ K(A)=\operatorname{tr}(A)I_3,\qquad K^2=3K,\qquad
+ E/\operatorname{rad}E=\mathbb F_3 .                     \tag{C.3.R3}
+\]
+\end{proposition}
+\begin{proof}
+The primitive vector $(1,1,4)$ is isotropic over $R$ and has
+unit pairing with $(1,0,0)$. Subtracting half the norm times
+the first vector gives a hyperbolic pair; the orthogonal
+complement is a nonsingular line. Scaling the whole form by
+the inverse of the norm on that line leaves its orthogonal
+group unchanged and identifies it with the split odd-dimensional
+orthogonal group.
+
+The sign-change and permutation argument in
+Proposition~\ref{C:Om-canonical-example} works over $R$ because
+two is invertible. It constrains an endomorphism of symmetric
+matrices to parameters $a,b,c$ there. To obtain $c=a-b$,
+base change to the finite free, hence faithfully flat, algebra
+$R'=R[z]/(z^2+1)$. Its elements $u=4z$, $v=z$ satisfy
+$u^2+v^2=1$ and $uv=5\in R^\times$. The same plane-rotation
+comparison therefore forces $c=a-b$ already over $R$.
+The identity and $K$ are equivariant and $R$-linearly independent,
+so this proves the presentation (C.3.R3).
+
+The ideal $(3,K)$ has cube zero and the quotient is $\mathbb F_3$,
+so $E$ is local. It has no nontrivial idempotents, proving
+indecomposability. Both $I$ and $K$ are self-adjoint for $Q$.
+The Gram matrix of $Q$ is
+$\operatorname{diag}(1,1,1,2,2,2)$, hence invertible over $R$.
+Every invariant nonsingular symmetric form on $S$ is therefore
+$Q(aI+bK)$ with $a\in R^\times$, $b\in R$.
+The residual involution is the identity, and the finite-field
+transfer in Theorem~\ref{C:Om-finite-base-algorithm} gives
+exactly the two rank-one multiplicity classes, represented by
+$Q$ and $2Q$. Their residual coefficients $1,2\in\mathbb F_3$
+are in different square classes. This also proves that their
+difference cannot vanish after stabilization. The matrix
+$\left(\begin{smallmatrix}1&1\\-1&1\end{smallmatrix}\right)$
+has transpose-product $2I_2$ over $R$, so its tensor with $I_S$
+gives $Q\perp Q\simeq2Q\perp2Q$. The difference has exact
+order two.
+
+The executable certificate
+\texttt{code/B\_finish\_finite\_base\_forms.py} enumerates all
+$81$ elements of $E$, all $54$ equivariant units and all $54$
+nonsingular invariant symmetric forms. It checks that the only
+idempotents are $0,I$, and its $2916$ isometry-action comparisons
+give precisely two orbits of size $27$. It also verifies the
+faithfully flat rotation identities and the rank-twelve
+double-sum congruence. The complete symbolic endomorphism
+argument above makes these enumerations exhaustive.
+\end{proof}

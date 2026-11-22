@@ -1,0 +1,9 @@
+# Flat local unions with unchanged residue
+
+Complete unincluded draft `sections/C_finish_henselian_flat_unions_draft.tex` has three IDs:
+
+* `C:flat-local-residue-reflection`: Noetherian henselian local A→any local A′, flat with identical residue, preserves/reflects module isomorphism, indecomposability, self-duality, both form signs and actual isometry. Full Hom base change gives identical actual residue matrix images. Their kernels lie in radicals, so semisimple endomorphism quotients are identical. Form isometry is lifted in the SOURCE A; no Noetherian or QSS hypothesis is imposed on the target.
+* `C:effective-henselian-flat-unions`: computable sequences of solved Noetherian henselian local stages, with flat local computable transitions and the same finite or algebraically closed effective residue, have full ordinary canonical classification over their possibly non-Noetherian colimit. Exact input equality and every kernel are computed at a common finite stage. Finite-predecessor canonical indices remove all unresolved colimit equality. Stage form monoids inject and remain cancellative, yielding injective split WG maps and the full colimit with exterior operations.
+* `C:infinite-variable-henselian-WG`: actual four families, h and sh of countably infinite polynomial local rings over finite Fq or over Z at (p,x_i), p odd. Flatness of stage henselizations comes from Stacks10.155.8/12, explicitly opened. Their rings are countable local domains of infinite embedding and Krull dimension, hence non-Noetherian and nonprofinite. All ordinary algorithms are supplied by finite-stage inputs.
+
+No new blanket Noetherian claim over the union, no unproved idempotent lifting over its endomorphism rings, and no infinite-stream equality/stabilization oracle is used. Root and independent audit requested after saving.

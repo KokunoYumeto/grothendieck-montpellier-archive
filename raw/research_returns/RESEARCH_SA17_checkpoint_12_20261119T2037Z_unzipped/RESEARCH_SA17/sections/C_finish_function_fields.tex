@@ -1,0 +1,337 @@
+\subsection{An actual imperfect family: function fields over
+  \texorpdfstring{$\overline{\mathbf F}_p$}{the algebraic closure of a finite field}}
+\label{C:function-fields-subsection}
+
+Fix a prime $p$ and a coherent computable presentation
+$C=\overline{\mathbf F}_p$ as the union of the finite fields
+$\mathbf F_{p^{s!}}$. Embeddings between successive fields can
+be found by finite search. Elements have finite-stage names,
+and arithmetic and equality are computed in a common stage.
+Keeping the first previously unseen name gives a computable
+enumeration without repetition. Put $k=C(t)$, with rational
+functions represented by coprime numerator and monic denominator.
+All field extensions in this subsection are supplied as finite
+towers of monic irreducible polynomial presentations. Their
+iterated power bases provide exact arithmetic and enumeration.
+The algorithms below prove the required factorization access;
+it is not an additional oracle assumption.
+
+\begin{lemma}[Proved: effective Frobenius roots in every finite tower]
+\label{C:function-field-pth-roots}
+For every explicitly presented finite extension $K/k$, membership
+in $K^p$ is decidable, and the unique $p$-th root of an element
+of $K^p$ is computable. The same holds for iterated $p$-th roots.
+\end{lemma}
+\begin{proof}
+Write $k^p=C(t^p)$. The inverse of Frobenius on $C$ is computable
+in any finite field containing the input. Hence the isomorphism
+$k\longrightarrow k^p$, $a\mapsto a^p$, and its inverse are
+effective: take $p$-th roots of the constant coefficients and
+replace the variable $t^p$ by $t$.
+
+The elements $1,t,\ldots,t^{p-1}$ form a basis of $k$ over $k^p$.
+Their coordinates are computable. Indeed, if $r(t)=f(t)/g(t)$,
+then
+\[
+ r(t)=\frac{f(t)g(t)^{p-1}}{g(t)^p};
+\]
+the denominator belongs to $C[t^p]$. Grouping the monomials of
+the numerator by their exponent modulo $p$ writes $r$ in the
+stated basis, with coefficients in $C(t^p)$.
+
+Let $e_1,\ldots,e_n$ be the known $k$-basis of $K$ obtained from
+its tower. Then
+\[
+ \{t^a e_i:0\leq a<p,\ 1\leq i\leq n\}
+\]
+is a computable $k^p$-basis of $K$. Moreover
+\[
+             K^p=\sum_{i=1}^n k^p e_i^p.               \tag{C.3.K1}
+\]
+This follows by taking $p$-th powers in the expansion of an
+arbitrary element in the $e_i$. The $e_i^p$ are linearly
+independent over $k^p$: a relation with coefficients $a_i^p$
+is the $p$-th power of $\sum_i a_i e_i$, and Frobenius is
+injective on a field.
+
+For $z\in K$, compute $z$ and all $e_i^p$ in the displayed
+$np$-element basis and solve the finite linear system
+$z=\sum_i u_i e_i^p$ over $k^p$. Inconsistency proves
+$z\notin K^p$. Otherwise
+$\sum_i u_i^{1/p}e_i$ is its unique $p$-th root.
+This is a finite computation, with no assumption that $K/k$
+is separable. Repeating it gives the asserted iterated procedure.
+\end{proof}
+
+\begin{proposition}[Proved: a finite constant-field bound for base factorization]
+\label{C:function-field-constant-bound}
+Univariate polynomials over $k=C(t)$ admit a terminating
+factorization algorithm. More explicitly, let a nonconstant
+polynomial in $k[X]$ have primitive denominator-cleared form
+$F(t,X)\in\mathbf F_q[t,X]$, of total degree $D\geq1$.
+Every normalized absolutely irreducible factor of $F$ is defined
+over $\mathbf F_{q^L}$, where
+$L=\operatorname{lcm}(1,\ldots,D)$.
+Thus a finite search over this one finite field suffices.
+\end{proposition}
+\begin{proof}
+All input coefficients lie in one finite constant field
+$\mathbf F_q$. Clearing denominators and removing the greatest
+common divisor of the coefficients as polynomials in $t$
+are effective Euclidean computations in $\mathbf F_q[t]$.
+Fix a monomial order in $\mathbf F_q[t,X]$. Normalize each
+irreducible factor in $C[t,X]$ by requiring its leading
+coefficient to be $1$.
+
+The $q$-power Frobenius permutes these normalized factors,
+because it fixes $F$ and preserves the normalization.
+There are at most $D$ distinct factors: every factor has
+positive total degree, and total degrees add in a product.
+Each Frobenius orbit therefore has length $r\leq D$.
+The coefficients of a factor in an orbit of length $r$
+are fixed by the $q^r$-power Frobenius, and so belong to
+$\mathbf F_{q^r}$. Since every such $r$ divides $L$,
+all factors lie in $\mathbf F_{q^L}[t,X]$.
+This proves the bound, including repeated factors.
+
+Construct a finite constant field containing $\mathbf F_{q^L}$
+inside the chosen presentation of $C$. Enumerate its finitely
+many normalized polynomials of total degree at most $D$.
+Exact polynomial division tests which divide $F$.
+Recursively divide by nonconstant proper factors until none
+remain; every step lowers total degree. All tests and searches
+are finite. The resulting factors are absolutely irreducible,
+because the proved bound already includes every absolute factor.
+Factors depending only on $t$ are units in $C(t)[X]$.
+For the other factors, Gauss's lemma identifies irreducibility
+in $C[t,X]$ with irreducibility over $C(t)$ after primitive
+normalization. Make them monic in $X$ and recover multiplicities
+by exact division. This factors the original polynomial.
+The degree-zero cases and its nonzero scalar are handled directly.
+\end{proof}
+
+\begin{theorem}[Proved: ordinary factorization through arbitrary finite towers]
+\label{C:function-field-factorization}
+There is a terminating algorithm for univariate factorization
+over every explicitly presented finite tower over $C(t)$.
+It applies to inseparable tower steps and to inseparable
+input polynomials. Consequently every such field has the
+finite-tower factorization access required in
+Theorem~\ref{C:artinian_effective_imperfect_C1}.
+\end{theorem}
+\begin{proof}
+We give the tower induction, with the inseparable operations
+specified explicitly. The base is
+Proposition~\ref{C:function-field-constant-bound}, and every
+field occurring is infinite, countable and effectively
+enumerable. Lemma~\ref{C:function-field-pth-roots} supplies
+Frobenius-root tests at every step, independently of this
+factorization induction.
+
+\emph{Reduction to separable input.}
+Suppose first that one can factor separable polynomials over a
+field $E$ in the tower. This suffices to factor every polynomial
+over $E$, as follows. Work with monic nonconstant polynomials
+and use induction on degree.
+If $f'\ne0$ and $\gcd(f,f')\ne1$, factor this proper gcd and
+the quotient recursively; both degrees are smaller.
+If $\gcd(f,f')=1$, the polynomial is separable and the supposed
+procedure applies.
+If $f'=0$, write $f(X)=h(X^p)$ and factor the polynomial $h$,
+whose degree is smaller, recursively.
+
+For each monic irreducible factor $a(Y)$ of $h$, the polynomial
+$a(X^p)$ is either irreducible or the $p$-th power of a monic
+irreducible polynomial. To verify this assertion, let $\beta$
+be a root of $a$, let $\gamma^p=\beta$, and put
+$d=[E(\beta):E]$. The extension
+$E(\gamma)/E(\beta)$ has degree $1$ or $p$, and all roots of
+$a(X^p)$ have the same unique $p$-th-root construction from
+roots of $a$. In the degree-$p$ case the minimal polynomial
+of $\gamma$ already has degree $pd$, so equals $a(X^p)$.
+In the degree-$1$ case it has degree $d$; equivalently, the
+unique irreducible factor has multiplicity $p$.
+For the latter uniqueness, any two roots of $a$ are conjugate
+over $E$ after passage to an algebraic closure, and the
+unique $p$-th roots are conjugate as well.
+This argument remains valid when $a$ is inseparable.
+
+The second case is decided and its factor found by asking
+whether every coefficient of $a(X^p)$ has a $p$-th root in $E$.
+When all do, take those roots and divide all exponents by $p$;
+the resulting polynomial is the irreducible factor.
+When one does not, $a(X^p)$ is irreducible.
+The root tests terminate by
+Lemma~\ref{C:function-field-pth-roots}.
+The multiplicities from $h$ and this step are multiplied.
+This proves the reduction, without confusing a polynomial
+having no repeated irreducible factors with a separable
+polynomial over an imperfect field.
+
+\emph{A separable simple extension.}
+Assume factorization over $E$ is already available, and let
+$K=E(\alpha)$ be given by a monic separable irreducible
+polynomial. To factor a monic separable $f\in K[X]$,
+enumerate $c\in E$ and compute
+\[
+ N_c(X)=N_{K/E}\bigl(f(X-c\alpha)\bigr)\in E[X]
+\]
+until $\gcd(N_c,N_c')=1$.
+The norm is a determinant on the known $E$-basis of $K$,
+so this is effective.
+This search terminates. In an algebraic closure of $E$,
+its roots are $\beta+c\,\sigma(\alpha)$, where $\sigma$
+ranges over the $E$-embeddings of $K$ and $\beta$ ranges
+over the roots of $\sigma(f)$. Within a fixed embedding
+these roots are distinct because $f$ is separable.
+For different embeddings the values $\sigma(\alpha)$
+are different, so any pair can collide for at most one
+value of $c$. There are only finitely many pairs.
+The infinite field $E$ therefore contains a suitable $c$,
+which its enumeration eventually finds.
+
+Factor $N_c$ by the already available procedure over $E$.
+For each of its monic irreducible factors $q$, compute
+\[
+        \gcd_{K[X]}\bigl(f(X-c\alpha),q(X)\bigr).       \tag{C.3.K2}
+\]
+The nonconstant gcds are exactly the monic irreducible
+factors of $f(X-c\alpha)$, with no repetitions.
+Here is the norm argument. The norm of a monic irreducible
+$K$-polynomial is a positive power of one monic irreducible
+$E$-polynomial: every conjugate of one root has the same
+minimal polynomial over $E$, and the product defining the
+norm is invariant under all $E$-automorphisms of a normal
+closure. Alternatively, apply the minimal polynomial to
+a root and all its conjugates.
+If the norm had two relatively prime nonconstant factors
+over $E$, divisibility of one by the original irreducible
+polynomial would force the same divisibility by every
+conjugate, contradicting the other factor.
+Since $N_c$ is separable, this positive power is one, and
+two distinct factors of $f(X-c\alpha)$ cannot have the
+same norm factor. Formula (C.3.K2) therefore recovers them
+one at a time. Replace $X$ by $X+c\alpha$ to finish.
+The preceding reduction handles all remaining inputs over $K$.
+
+This is the norm-and-gcd construction of
+Trager~\cite[Section 2, Theorems 2.1--2.3 and Corollary 2.5,
+pp.\ 219--221]{C-TragerFunctionFields1976}.
+That source states a characteristic-zero hypothesis.
+The argument just given proves precisely the separable-input,
+separable-extension version in the present characteristic;
+the inseparable steps are not inferred from that hypothesis.
+
+\emph{An inseparable simple extension.}
+Now let $K=E(\alpha)$ have monic irreducible polynomial
+$g(T)=h(T^{p^e})$, where $e\geq1$ and $h'\ne0$.
+The polynomial $h$ is irreducible, for a factorization
+would give one of $g$. Put $\beta=\alpha^{p^e}$ and
+$E'=E(\beta)$. Then $E'/E$ is a separable simple extension
+and $K/E'$ is purely inseparable of exponent at most $p^e$.
+The previous step provides factorization over $E'$.
+Its embedding in $K$ is explicit, and coordinate
+conversion is a finite linear computation on power bases.
+If $h$ has degree one, this simply means $E'=E$.
+
+For monic $f\in K[X]$, the polynomial $f(X)^{p^e}$ has
+coefficients in $E'$: every element of $K$ has its
+$p^e$-th power in $E'$. Compute this polynomial and
+factor it over $E'$.
+Each monic irreducible factor $q\in E'[X]$ has exactly
+one monic irreducible factor over $K$, with multiplicity
+a power of $p$ dividing $p^e$. Indeed, if $u\in K[X]$
+is a monic divisor of $q$, then $u^{p^e}\in E'[X]$
+divides $q^{p^e}$. Irreducibility of $q$ gives
+$u^{p^e}=q^b$ for an integer $b$.
+Two different irreducible divisors would have relatively
+prime powers, so this identity proves uniqueness.
+Writing $q=v^a$ for its unique irreducible factor gives
+$v^{p^e}=q^b=v^{ab}$, and thus $a\mid p^e$.
+
+Starting with $q$, repeatedly take a polynomial $p$-th
+root whenever all exponents are divisible by $p$ and
+every coefficient has a $p$-th root in $K$.
+The required membership tests and roots are computed
+by Lemma~\ref{C:function-field-pth-roots}.
+Each successful step lowers the degree by $p$, so the
+procedure stops, and the resulting polynomial is
+the unique irreducible factor just proved to exist.
+Recover its multiplicity in the original $f$ by exact
+division. Repeating for all factors of $f^{p^e}$ gives
+the entire factorization of $f$.
+
+This handles a general simple step by first its separable
+intermediate field and then its purely inseparable part.
+It uses factorization only over $E$ and the separable
+extension of $E$ constructed by the preceding step.
+Thus it is a genuine induction on the supplied tower,
+not an appeal to factorization over the field currently
+being constructed. All irreducibility checks needed
+to verify additional finite tower presentations are
+provided by the same induction. This proves the theorem.
+\end{proof}
+
+\begin{theorem}[Proved: complete coefficient-algebra algorithms over
+imperfect algebraic function fields]
+\label{C:function-field-WG}
+Fix an odd prime $p$. Let $K$ be any field supplied as
+an explicit finite tower over
+$\overline{\mathbf F}_p(t)$, and let $R$ be a
+finite-dimensional commutative $K$-algebra supplied
+by a multiplication table. For every $m\geq0$,
+there are ordinary terminating algorithms giving
+canonical indices for all indecomposable finite
+projective rational $O_{m,R}$-modules, the explicit
+additive form coordinates of
+Theorem~\ref{C:artinian_effective_C1}, and equality,
+products and every specified exterior coefficient
+in the split group $W_G(BO_{m,R})$.
+No unclassified isomorphism quotient or unspecified
+factorization oracle occurs in this assertion.
+The module indices are enumerable natural-number
+matrix indices at each finite dimension and coefficient
+degree, not a finite list of all dimensions.
+\end{theorem}
+\begin{proof}
+The field $K$ is an infinite countable computable
+field, with decidable exact arithmetic and equality
+in its tower power basis. It is a function field
+of transcendence degree one over the algebraically
+closed constant field $\overline{\mathbf F}_p$.
+Tsen's theorem therefore says that it is $C_1$
+\cite[Theorem 59.67.10, Tag 03RD]{C-StacksTsenFunctionFields}.
+This statement does not assume that the displayed
+extension over $C(t)$ is separable.
+
+Theorem~\ref{C:function-field-factorization} supplies
+factorization over $K$ and every further explicit
+finite tower over it, since concatenating the towers
+produces another finite tower over $C(t)$.
+All hypotheses of
+Theorem~\ref{C:artinian_effective_imperfect_C1}
+are consequently proved for this actual field family.
+Apply its direct matrix construction to $R$.
+Projectivity is decided by the finite linear splitting
+test; endomorphism radicals and finite residue fields
+over $K$ are computed by the terminating tower
+certificate; isomorphism and square classes are
+decided by the determinant and factorization tests.
+The dual is $\operatorname{Hom}_R(-,R)$.
+The residual $C_1$ form coordinates, and the balanced
+tensor and exterior constructions over $R$, are
+exactly those established there. Every occurrence
+of its former arithmetic access is now replaced by
+the proved algorithms above. This proves all the
+claimed outputs.
+
+In particular the family includes the imperfect field
+$\overline{\mathbf F}_p(t)$ itself: the valuation
+of $t$ at zero is one, while the valuation of a
+$p$-th power is divisible by $p$.
+The finite extensions remain within the stated
+function-field family, and their imperfectness
+causes no additional oracle requirement.
+This is a termination theorem; no useful complexity
+bound is asserted for the finite searches.
+\end{proof}
