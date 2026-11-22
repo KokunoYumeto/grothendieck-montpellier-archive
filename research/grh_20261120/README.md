@@ -148,7 +148,8 @@ Connes and Consani's F_{1²} (arXiv:2609.00299). In [split_zero/](split_zero/):
 - **Copies of other people's work** that came back inside the returns. Link to the originals instead:
   - Masullo's PDF and its extracted text;
   - our full transcription of his draft, and our index of his statements, which quotes the opening of each one;
-  - Alpöge's note, its text and his Lean files;
+  - Alpöge's note and its text (its Lean formalization is not left out: the Lean files in the returns are copies
+    from L. Alpöge's archive at https://alpo.ge/, made by him working with Claude, or the runs' own);
   - arXiv sources.
 
   Everything the runs derived from these is included.
