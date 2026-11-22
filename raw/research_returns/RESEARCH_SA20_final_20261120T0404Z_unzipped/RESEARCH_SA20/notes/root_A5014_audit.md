@@ -1,0 +1,17 @@
+# Independent root audit: A5.014 compact graph fibres
+
+PASS after reading and checking the complete draft, including circle selection and arbitrary real closed fields. This proves the low-dimensional-fibre part of the original maximal-locus question, not its full remaining higher-dimensional scope.
+
+## Checks
+
+1. Coordinate total variation is definable because Hardt parameterizations and one-variable monotonicity give a uniform finite bound for the family. Reparameterizing an intrinsic edge by an arbitrary monotone homeomorphism does not increase its coordinate monotonicity count. Refining the two coordinate partitions bounds variation differences by the sum of endpoint errors. The normalized length replacement has ambient displacement at most (1+2C)epsilon, without any lower bound on individual edge lengths. Loop edges use a cut interval with endpoints identified.
+2. Finitely many intrinsic-graph permutations and orientations, with circle anchor images as parameters, give finitely many formula formats. Thus complete regularity, quantified using canonical maps, is first-order and definable. Local triviality implies membership in the interior of this locus by definable uniform continuity.
+3. Canonical length comparisons show continuity of circumference and of the intrinsic circle metric under complete regularity, with direct epsilon-delta estimates valid over every real closed field. Components are labelled using fixed separated ambient neighbourhoods of the compact reference components.
+4. The circle selection functional E_y(x)=max_z(d_y(x,z)^2-M||z-p||^2) has E_0(p)=0 and E_0(x)>=d_0(x,p)^2. A regular point p supplies the uniform chord–length bound needed at y0. After choosing nested short arcs J0 inside I0, enlarging M suppresses all maximizing z outside Iy. Uniform energy comparison forces all minimizing x into Jy. There is no circular choice of constants: the reference minimum remains p for every larger M.
+5. On Jy all shorter arcs to Iy avoid the antipode. In intrinsic coordinate u, E_y(u)=u^2+max_z(-2u u(z)+u(z)^2-M||z-p||^2). Hence it is strongly convex on Jy and has a unique global minimizer. This point is definable. At each nearby y, compact separation of its unique minimum plus uniform comparison proves continuity of the minimizers. This construction does not assume a pre-existing circle bundle chart.
+6. After anchoring every circle, canonical automorphisms form a finite group. A positive minimum of their maximum displacements makes every sufficiently small anchored canonical map unique. At an arbitrary nearby y, an arbitrarily small canonical comparison to z can be adjusted by a vanishing circle rotation to preserve anchors. The strict uniform margin for h_y implies k'h_y remains within the chosen displacement bound; uniqueness identifies it with h_z and proves joint continuity. The resulting continuous bijection is definably proper, so its inverse is continuous.
+7. Empty graphs, isolated points, disconnected graphs, loops at intrinsic vertices and unbounded ambient X are covered. Properness gives compact fibres. For an arbitrary map, restrict to the interior of the definable set where fibre dimension is at most one; a low-dimensional locally trivial value necessarily lies there.
+
+The remaining maximal-locus gate therefore has fibre dimension at least two and target dimension at least three. No entire original task row is declared complete merely from this scope enlargement.
+
+Recorded 2026-11-19T16:26:07.667646+00:00.

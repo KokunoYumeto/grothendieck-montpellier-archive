@@ -1,0 +1,5 @@
+# Root audit of pending B059–062
+
+19 November2026,15:32UTC. Full independent re-proof: PASS. The proof remains in `agents/tensor_and_finite/notes/pending_B059_062.tex` during checkpoint06 freeze; it will be promoted afterwards. Its provisional unreviewed header reflects its draft origin and is superseded by this audit record.
+
+We checked integral lifts of normalization generators without a coefficient-field section; the canonical residue-field action on a nilpotent socle line; finite conductor and interpolation bounds; the V-module M/O and balanced pairing; binomial-divisibility estimates with p a zero divisor; the punctured-spectrum identification and Stacks0BCR; conductor transfer to the actual ambient intersection ideal; and faithful-flat descent of the complete Noetherian classification. The exact primary lemma and complete proof were opened at https://stacks.math.columbia.edu/tag/0BCR . This is an audit record, not a new computation or a claim that the non-Noetherian scope is solved.
