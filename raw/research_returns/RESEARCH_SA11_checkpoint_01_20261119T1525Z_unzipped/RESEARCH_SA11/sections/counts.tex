@@ -1,0 +1,316 @@
+\subsection{Certified enumeration and the six-pseudoline test}
+\label{sec:counts}
+
+\paragraph{C.01 (Proved): exhaustive encoding for a simple arrangement.}
+Let $M$ be a simple, uniform oriented matroid of rank three on
+$[n]=\{1,\ldots,n\}$, with a fixed chirotope $\chi_M$.
+For a non-loop, non-parallel, same-rank extension by an element $p$, put
+\[
+ q_{ij}=\chi(i,j,p)\quad (1\leq i<j\leq n).
+\]
+The zero pairs of $q$ form a matching in the complete graph on $[n]$.
+Conversely, we obtain every such extension by enumerating matchings,
+assigning signs to the remaining pairs, and retaining precisely the
+assignments satisfying the chirotope axioms on $[n]\cup\{p\}$.
+We quotient by reorientation of $p$ by requiring the first nonzero
+coordinate of $q$, in lexicographic pair order, to be positive.
+
+\emph{Proof.}
+If $q_{ij}=q_{ik}=0$ for distinct $i,j,k$, then $p$ lies in both
+rank-two flats spanned by $\{i,j\}$ and $\{i,k\}$. Their union has
+rank three because $M$ is uniform. Submodularity bounds the rank of
+their intersection by one. That intersection contains $i$ and $p$,
+so the non-loop $p$ is parallel to $i$, contrary to the hypothesis.
+Thus the zero pairs are disjoint. Every extension therefore occurs in
+our candidate list. We define the remaining triples by alternation,
+set repeated triples to zero, and leave triples in $[n]$ equal to
+$\chi_M$. The full signed basis-exchange axiom is then a necessary
+and sufficient chirotope test, so accepting exactly its solutions
+introduces no extra candidates. Multiplication of all $q_{ij}$ by
+$-1$ is exactly reorientation of $p$. No allowed vector is zero, and
+hence each orbit has exactly one representative with the stated
+normalization. \hfill$\square$
+
+For reproducibility, our fast enumerator first checks the necessary
+three-term Grassmann--Pl\"ucker sign relations
+\[
+ \bigl\{
+ \chi(a,b,c)\chi(a,d,e),
+ -\chi(a,b,d)\chi(a,c,e),
+ \chi(a,b,e)\chi(a,c,d)
+ \bigr\}.
+\]
+Each such set must either be zero or contain both signs. This is
+\emph{only a filter}: a second, independent program checks the full
+signed basis-exchange axiom on every surviving assignment. Explicitly,
+for every ordered basis $x=(x_1,x_2,x_3)$ and every ordered basis
+$y=(y_1,y_2,y_3)$ it verifies that at least one $i$ satisfies
+\[
+ \chi(y_i,x_2,x_3)
+ \chi(y_1,\ldots,y_{i-1},x_1,y_{i+1},\ldots,y_3)
+ =\chi(x_1,x_2,x_3)\chi(y_1,y_2,y_3).
+\]
+It suffices to choose $x_1$ in each unordered basis, put the other two
+entries in increasing order, and use increasing $y$: permutations of
+the remaining entries multiply both sides by the same sign. We thus
+check the full axiom, not merely its three-term consequence. For
+$n=6$, the number of candidates, before this filtering, is
+\[
+ \sum_{k=0}^{3}
+ \frac{6!}{(6-2k)!\,2^k k!}\,2^{15-k-1}=354304.
+\]
+The programs are \texttt{counts\_extensions.py}, its C++ inner loop
+\texttt{counts\_extensions.cpp}, and
+\texttt{counts\_independent\_check.py}. Their input and complete accepted
+sign-vector lists accompany the paper.
+
+\paragraph{C.02 (Proved): explicit input satisfying the test-case hypotheses.}
+In homogeneous coordinates $[x:y:z]$ on $\mathbb{RP}^2$, take the six
+lines with coefficient vectors
+\[
+\begin{split}
+ a_1&=(1,0,1),\quad a_2=(2,0,1),\quad
+ a_3=(0,1,1),\\
+ a_4&=(0,3,1),\quad a_5=(1,1,1),\quad
+ a_6=(4,4,1).
+\end{split}
+\]
+Their twenty determinants, in lexicographic triple order, are
+\[
+\begin{split}
+(&1,3,1,4,-2,-1,-7,-1,-13,-3,\\
+ &-4,-1,-10,1,-14,-6,-2,-8,3,9).
+\end{split}
+\]
+They are all nonzero; the arrangement is therefore simple and
+nontrivial. The line $D=\{z=0\}$ contains
+\[
+ v_{12}=[0:1:0],\qquad
+ v_{34}=[1:0:0],\qquad
+ v_{56}=[1:-1:0].
+\]
+These are three distinct vertices. For $p=(0,0,1)$, its extension
+vector in lexicographic pair order is
+\[
+ (0,+,+,+,+,+,+,+,+,0,-,-,-,-,0).
+\]
+All these claims follow by the displayed integer determinants or
+cross products, which the attached programs also check.
+
+\paragraph{C.03 (Proved): an independent disk-boundary certificate.}
+We count the literal gen--gen inertia arcs of cote 154/120 independently
+of the formula $s_1=2s_0$. Here are the complete rules used by the
+checker, including the endpoint convention.
+
+Realize the rank-two chirotope $q$ by oriented rays $w_i$ in an
+oriented plane and order the $2n$ signed rays $\epsilon w_i$
+cyclically. Equal signed rays form packets. For a two-element packet
+$(\epsilon,i),(\eta,j)$, choose $k$ outside its unoriented parallel
+class and order the first label before the second exactly when
+\[
+ -\eta\,\chi_M(i,j,k)q_{ik}=+1.                 \tag{C.1}
+\]
+The rank-two sign order and (C.1) suffice to construct the complete
+boundary word. The global reversal of this word has no effect on
+any count or gluing.
+
+To verify (C.1), use local affine representatives
+$a_i=(w_i,z_i)$ and $a_j=(\lambda w_i,z_j)$. At the endpoint in
+direction $J(\epsilon w_i)$ of a sufficiently large circle,
+the angular displacement has sign and relative order determined by
+$\epsilon z_i/\lVert w_i\rVert$. Moreover
+\[
+ \det(a_i,a_j,a_k)
+ =-(z_j-\lambda z_i)\det(w_i,w_k).
+\]
+For equal signed rays $\operatorname{sgn}\lambda=\epsilon\eta$;
+substitution gives (C.1). This calculation is local to the
+restriction on $\{i,j,k,p\}$ and does not assert a realization of
+the whole extension. The two packets over the same vertex have
+reversed orders, as required by the disk construction.
+
+Each zero pair gives two generization intervals $G$, one in each
+packet. For two adjacent endpoint labels $(\epsilon,i),(\eta,j)$
+that belong to no $G$ packet, the interval is an ordinary
+specialization interval $S$ precisely when, for every
+$k\notin\{i,j\}$,
+\[
+ \chi_M(i,j,k)q_{ij}
+     =\epsilon q_{ik}=\eta q_{jk}.             \tag{C.2}
+\]
+Indeed, the first expression is the side of line $k$ containing
+$v_{ij}$ in the affine chart $p>0$. The other expressions are its
+sides at the two endpoint rays. Agreement says that $k$ cuts neither
+segment from $v_{ij}$ to those endpoints. Since two pseudolines
+cross at most once and the boundary endpoints are adjacent, this
+is equivalent to the intervening triangle being empty. Its
+collapse is exactly the permitted specialization. The independent
+checker confirms that the resulting pairs are exactly those
+obtained by replacing one nonzero coordinate of $q$ by zero in
+the exhaustive extension list.
+
+For a possible exceptional sweep at $D_i$, the criterion is
+\[
+ q_{ab}\chi_M(a,b,i)=r\in\{+1,-1\}
+ \quad\hbox{for every }a,b\ne i.              \tag{C.3}
+\]
+The common sign says that every base vertex off $D_i$ lies on the
+same side of $D_i$ in the affine chart $p>0$. The other side is an
+empty corridor. Its boundary interval lies on the side with sign
+$-r$, and is shortened past the adjacent ordinary transition
+intervals. Its position among the intervals is obtained from that
+boundary subarc; the program uses its midpoint. When $q$ has one
+zero pair, (C.3) is tested at the two lines through that vertex and
+inserts the exceptional interval between the appropriate two
+$G$ intervals. When $q$ has at least two zero pairs, there is no
+such exceptional interval, since a zero pair avoiding $i$ would
+violate (C.3).
+
+These rules are exhaustive: the manuscript's ordinary transitions
+are exactly the empty triangles and the parallel packets
+(154/035--038), and its exceptional transitions are exactly the
+empty corridors (154/036--038, together with the stable sweeps in
+$\mathcal X_2$, 154/005). Consecutive $G$ intervals in the complete
+cyclic list are therefore precisely the gen--gen inertia arcs.
+Every boundary word and transition interval is recorded in the
+boundary-certificate JSON files.
+
+\paragraph{C.04 (Proved): the finite surface certificates.}
+For the arrangement of C.02 the numbers $c_\nu$ of non-supercritical
+relative positions through exactly $\nu$ vertices are
+\[
+ (c_0,c_1,c_2,c_3)=(80,150,75,10).
+\]
+In particular $s_2=315$. The direct boundary count of C.03 gives
+$240$ gen--gen arcs at positions with two vertices and $60$ at
+positions with three vertices. There are none at stable or
+semi-stable positions. The $60$ flags of type $(0,1)$ in the
+original simple arrangement contribute the exceptional vertices.
+Thus the literal count in 154/120 is
+\[
+             s_0=240+60+60=360.               \tag{C.4}
+\]
+
+We also independently construct the complete edge identifications,
+rather than infer the links from this count. An ordinary edge joins
+an $S$ interval to the $G$ interval of its specialization with the
+same unordered signed endpoint labels. The endpoint map exchanges
+the two chord names. This is the reflection convention selected on
+154/039, where one chord continues into the other chord; it is the
+alternative to the discarded same-chord continuation. An exceptional
+sweep at $i$ replaces $q$ by the normalized sign vector
+\[
+ \operatorname{sw}_i(q)_{ab}=
+ \begin{cases}
+   -q_{ab},&i\in\{a,b\},\\
+   q_{ab},&i\notin\{a,b\}.
+ \end{cases}                                  \tag{C.5}
+\]
+This is the local passage from one side of $D_i$ to the other.
+For a stable exceptional edge, its endpoint map preserves the base
+vertex at each end of the associated original edge. The two
+adjacent $S$ intervals identify those vertices. For an unstable
+exceptional edge, its endpoint map preserves the adjacent original
+edge: resolve the adjacent $G$ interval to a stable position and
+match its sweep partner on the other side. These are exactly the
+four positions at an original vertex--edge flag.
+
+The program \texttt{counts\_gluing.py} records every polygon, edge
+pairing and endpoint permutation. A polygon corner is a consecutive
+pair of transition arcs. Taking equivalence classes under the edge
+endpoint maps yields $360$ classes. Every class contains exactly
+four corners from four distinct polygons, and its link graph has
+four distinct edges and degree two at each of its four vertices.
+Thus every vertex link is a genuine four-cycle. Each edge is
+paired once with an edge in a different polygon. No polygon has
+two corners in the same equivalence class. Consequently each
+closed polygon, edge and vertex embeds in the quotient; no
+unverified closed-colimit embedding assertion is used. The finite
+gluing relation is closed, so the quotient is compact Hausdorff.
+The interior, edge, and vertex neighborhood tests prove that it is
+a closed surface.
+
+The adjacency graph of the polygons is connected. The signed
+orientation constraints on adjacent polygons are inconsistent;
+the full certificate contains an explicit orientation-reversing
+cycle. These facts are checked directly from the endpoint maps.
+There are $660$ ordinary edges and $60$ exceptional edges, hence
+\[
+ (s_0,s_1,s_2)=(360,720,315),\qquad
+ \chi(\mathcal X)=-45.
+\]
+By the classification of compact connected surfaces,
+$\mathcal X\cong\#^{47}\mathbb{RP}^2$ for this arrangement.
+In particular the claim $\chi(\mathcal X)=1-n$ is false.
+
+For clarity about the finite certification, every candidate is
+specified by an explicit sign vector, every accepted candidate
+satisfies the full chirotope axiom, and every gluing is an explicit
+finite permutation of edge endpoints. The asserted counts and
+link properties are exhaustive computations on those lists, with
+assertions verifying each condition. The full axiom checker makes
+$1\,089\,945$ signed basis-exchange checks for C.02. The computation
+is therefore a complete finite counterexample, not a statistical
+search or an inference from a partial enumeration.
+
+\paragraph{C.05 (Proved): dependence on the arrangement at fixed $n$.}
+As a second six-line input, take coefficient vectors
+$(t,t^2,1)$ for $t=0,1,\ldots,5$. The same complete procedure gives
+\[
+ (c_0,c_1,c_2,c_3)=(74,132,57,4),\qquad
+ (s_0,s_1,s_2)=(288,576,267).
+\]
+All $288$ vertex links are four-cycles, all closed faces embed,
+and the quotient is connected and non-orientable. Thus this
+surface is $\#^{23}\mathbb{RP}^2$, with Euler characteristic $-21$.
+The independent axiom check makes $928\,233$ signed basis-exchange
+checks. Together with C.04, this proves that the topology is not
+a function of $n$ alone.
+
+\begin{center}
+\begin{tabular}{lrrrrrr}
+\hline
+Input & $c_0$ & $c_1$ & $c_2$ & $c_3$ & $s_0$ & $s_2$\\
+\hline
+Three lines & 4 & 6 & 0 & 0 & 12 & 10\\
+Four convex dual points & 12 & 18 & 3 & 0 & 36 & 33\\
+Five convex dual points & 31 & 50 & 15 & 0 & 100 & 96\\
+Six convex dual points & 74 & 132 & 57 & 4 & 288 & 267\\
+Six-line input C.02 & 80 & 150 & 75 & 10 & 360 & 315\\
+\hline
+\end{tabular}
+\end{center}
+The first three rows reproduce the earlier small cases and extend
+the test to one five-line input. They are not substituted for a
+claim about arbitrary arrangements.
+
+\paragraph{C.06 (Proved): the fixed straight-line subproblem differs.}
+For the particular realization C.02, the fifteen dual lines have
+$42$ ordinary double vertices, one ordinary triple vertex at
+$p=(0,0,1)$, and six supercritical vertices of multiplicity five.
+Exact cross products give
+\[
+ V=49,\qquad E=42\cdot2+3+6\cdot5=117,\qquad
+ F=1-V+E=69.
+\]
+The non-supercritical \emph{straight} positions therefore number
+$(V-6)+E+F=229$, and their sector count is $2E=234$.
+Their corresponding surface has Euler characteristic $-5$.
+These counts are independently produced by
+\texttt{counts\_straight\_dual.py} using integer arithmetic.
+They do not equal the pseudoline counts $315$ and $360$.
+Stretchability after moving the original lines cannot identify
+all pseudoline extensions with straight extensions of a fixed
+realization. In particular, around the displayed triple position
+there are eight topological stable resolutions, while the fixed
+straight realization supplies only six angular sectors.
+
+\paragraph{C.07 (Proved): the first size allowing three-vertex positions.}
+If a non-supercritical pseudoline $D$ passes through $\nu$ vertices
+of a nontrivial arrangement of $n$ distinct pseudolines, then
+$2\nu\le n$. Each such vertex uses at least two original lines;
+no original line can occur at two different vertices on $D$,
+because it would meet $D$ twice. The sets of original lines used
+at those vertices are therefore disjoint. This proves the
+inequality and shows that $n=6$ is the first possible size for
+a three-vertex position. C.02 realizes this bound.
