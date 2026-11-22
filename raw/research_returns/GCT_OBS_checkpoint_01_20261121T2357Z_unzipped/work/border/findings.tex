@@ -1,0 +1,290 @@
+% New border-rank findings. Include in the checked-results part only after root review.
+\section{Arithmetic replacement of the seventh-minimum certificates}
+
+\subsection*{BR-001: an independent finite checker for all 25 prolongation cases}
+Let the six pairs of $\{0,1,2,3\}$ be in lexicographic order, and number the
+rectangles $q=(I,J)$ by $6\operatorname{index}(I)+\operatorname{index}(J)$.
+For a rectangle subset $S$, set $A=k^S$ and let $B=C$ have the used variables
+$x_{rc}$ as basis.  Its residual inclusion tensor is
+\[
+ T_S^\epsilon=\sum_{q=((r,s),(c,d))\in S}a_q\otimes
+ (x_{rc}\otimes x_{sd}+x_{sd}\otimes x_{rc}
+ +\epsilon x_{rd}\otimes x_{sc}+\epsilon x_{sc}\otimes x_{rd}),
+ \qquad \epsilon\in\{-1,1\}.
+\]
+Here $\epsilon=-1$ is the determinant and $\epsilon=1$ the permanent.
+In characteristic zero, the following 25 cases have border rank at least 14.  The listed determinant
+cases are also taken with their transposes.
+\[
+\begin{array}{c|c|l}
+\text{inherited locator}&\epsilon&S\\\hline
+\text{P-09 A}&-1&0,1,3,6,7,9,12\\
+\text{P-09 B}&-1&0,1,3,6,7,12,13\\
+\text{P-12 C}&-1&0,1,2,3,6,7,8\\
+\text{P-12 D}&-1&0,1,2,3,4,6,12\\
+\text{P-14 E}&-1&0,1,2,3,6,7,9\\
+\text{P-14 F}&-1&0,1,2,3,6,7,18\\
+\text{P-15 det}&-1&0,1,3,6,7,9,18\\\hline
+\text{P-13 1}&1&0,1,2,3,4,6,12\\
+\text{P-13 2}&1&0,1,2,3,6,7,8\\
+\text{P-13 3}&1&0,1,2,6,7,8,18\\
+\text{P-13 4}&1&0,1,2,6,7,18,20\\
+\text{P-13 5}&1&0,1,3,6,7,9,14\\
+\text{P-16 1}&1&0,1,2,3,6,7,9\\
+\text{P-16 2}&1&0,1,2,3,6,7,18\\
+\text{P-16 3}&1&0,1,3,6,7,15,21\\
+\text{P-15 per A}&1&0,1,3,6,7,9,18\\
+\text{P-15 per B}&1&0,1,3,6,7,18,21\\
+\text{P-19}&1&0,1,2,6,7,18,19
+\end{array}
+\]
+The characteristic-zero values were claims of BR\_PENCIL.  The new part here
+is their independent reconstruction by standard-library programs and their
+arithmetic extension, used in BR-002 below.
+
+\paragraph{Proof and complete algorithm.}
+We state the characteristic-independent form of the necessary condition,
+since the inherited findings stated it only in characteristic zero.
+Write $U=T(C^*)\subset A\otimes B$.  If $\underline R(T)\le r$, there is
+an $r$-plane $E\supset U$ such that
+\[
+ \dim\ker\Psi_A(E)\ge r,\qquad \dim\ker\Psi_B(E)\ge r,
+\]
+where $\Psi_A:E\otimes A\to B\otimes\Lambda^2A$ and
+$\Psi_B:E\otimes B\to A\otimes\Lambda^2B$ are wedge maps.
+For spans of $r$ independent pure $AB$ tensors, the corresponding symmetric
+prolongation tensors give $r$ independent kernel vectors; contraction by a
+linear form nonzero on all factors proves independence.  The source bundles
+have constant rank on the Grassmannian, so these kernel-dimension conditions
+are closed.  The condition $U\subset E$ is closed and the Grassmannian is
+proper.  Projection therefore passes this necessary condition to all border
+limits.  The open condition that the $r$ pure $AB$ tensors are independent
+is dense in the $r$-summand parameter space.  This proves the assertion over
+any algebraically closed field.  This is the all-field form of BR\_PENCIL
+P-09's first reduction and Conner--Huang--Landsberg, Proposition 2.1.
+
+The split torus gives $x_{rc}$ weight $R_r+C_c$ and $a_q$ weight
+$-\sum_{r\in I}R_r-\sum_{c\in J}C_c$.  A separating cocharacter limit in the
+proper incidence permits $E$ to be torus invariant.  The image $U$ is the
+direct sum of its $\dim B$ distinct weight lines, each with coefficients
+$\pm1$.  In each such weight, omit the last nonzero coordinate of its image
+vector.  The remaining coordinate vectors, together with $U$, are a basis
+of $A\otimes B$ over $\mathbb Z$.  This specifies all quotient coordinates
+without an arithmetic exceptional prime.
+
+For each orientation and target weight, the programs form the wedge-map
+columns explicitly and eliminate the image of $U$.  If $V_w$ is a quotient
+weight block and $x\in V_w$, the projected column indexed by a factor basis
+vector $f_i$ is a linear map $C_{w,i}x$ of target weight $w+\operatorname{wt}(f_i)$.
+These target weights are distinct for fixed $w$.  Thus adjoining a line
+$kx$ increases rank by precisely the number of its nonzero projected columns.
+All the $C_{w,i}$ are recomputed, rather than read from the inherited data.
+
+The finite enumeration is as follows.
+\begin{enumerate}
+\item Enumerate the support of the quotient $E/U$, respecting the capacity
+of every weight block.  For quotient dimension one or two, the supports
+are single blocks of sufficient capacity or pairs of distinct blocks.
+For quotient dimension four, enumerate every support of at most four blocks
+whose capacities sum to at least four.
+\item Saturate each selected block by its whole quotient weight space.
+If the kernel of either wedge map on this larger space has dimension
+less than $r$, the support is impossible: the kernel for $E$ injects into it.
+\item For a quotient line, enumerate every possible simultaneous zero
+pattern of the $C_{w,i}$.  Start with no equations, repeatedly adjoin the
+row space of one $C_{w,i}$, and keep intersections with a nonzero kernel.
+Canonical exact row reduction removes repetitions.  An intersection $K$
+represents the stratum obtained by removing the kernels of the remaining
+maps that do not vanish identically on $K$.  It is nonempty over the infinite
+algebraic closure: a finite union of proper linear subspaces cannot cover
+$K$.  Conversely, every vector's exact zero pattern occurs in this enumeration.
+\item For lines in distinct weights, the number of distinct active target
+weights is a joint rank lower bound.  Another valid bound sums the individual
+increments and subtracts the total possible overlap of target weights.
+For a fixed line, quotient by its actual image before testing the other line.
+\item For the support-nine cases the only surviving multiplicity patterns
+are $(1,1,1,1)$ and $(2,1,1)$.  In the first pattern, quotient by the images
+of every fixed line.  One or two parameter lines remain.  Repeat the exact
+arrangement enumeration in this quotient and retain a refined stratum only
+if every formerly required nonzero map remains nonzero somewhere on it.
+For a plane in a three-dimensional block, parameterize it as $\ker n$.
+A column map of rank one restricts to rank zero exactly when $n$ spans its
+row space; a map of rank two restricts to rank one exactly when $n$ annihilates
+its one-dimensional kernel; ranks zero and three restrict to ranks zero and
+two.  These are linear conditions on $n$, so the same complete arrangement
+algorithm applies.  Sum, over target weights, the largest contributed rank.
+\end{enumerate}
+These operations exhaust all subspaces, including the parameter families.
+No generic sample stands in for a projective weight space.
+
+For the first 20 cases, \texttt{check\_twodim\_extensions.py} gives:
+\[
+\begin{array}{c|r|r|r|r}
+&\text{supports}&\text{saturated}&\text{line tests}&\text{conditional}\\\hline
+ P09A&1095&1042&53&0\\
+ P09B&50&47&3&0\\
+ P12C&52&50&2&0\\
+ P12D&60&58&2&0\\
+ P14E&1189&1185&4&0\\
+ P14F&1143&1076&66&1\\
+ P13.1&60&58&2&0\\
+ P13.2&52&49&3&0\\
+ P13.3&50&45&5&0\\
+ P13.4&50&46&4&0\\
+ P13.5&56&56&0&0\\
+ P16.1&1189&1176&13&0\\
+ P16.2&1143&1075&67&1\\
+ P16.3&1190&1173&17&0
+\end{array}
+\]
+The six determinant representatives account for twelve cases by transposition.
+The two support-nine permanent types and determinant type are handled by
+\texttt{check\_support9.py}; the determinant transpose is the fourth case.
+Their total supports are respectively $46119,51985,46119$, with no survivors.
+The exact counts, including all parameter strata, are in the output JSON files.
+
+For the remaining P-19 case, the first two steps leave eight supports.
+Exact joint refinement gives eight fixed extensions, each of dimension 13.
+The higher condition is
+\[
+ \dim\mathcal P_{22}(E)\ge r,
+ \quad
+ \mathcal P_{22}(E)=
+ (A\otimes E\otimes B)\cap
+ ((A^{\otimes2})^{\mathfrak S_2}\otimes(B^{\otimes2})^{\mathfrak S_2}).
+\]
+It is again a fixed-ambient kernel condition and therefore closed.  Its
+necessity follows from the $r$ independent tensors $u_i^{\otimes2}\otimes
+v_i^{\otimes2}$ for a span of pure tensors, with the same proper-incidence
+argument.  Using invariant tensors, including diagonal entries, is essential
+in characteristic two; no division by two occurs.
+The program \texttt{check\_higher\_prolongation.py} first computes the kernel
+of the $385\times143$ $B$-wedge map: rank 130 and kernel dimension 13.
+It embeds this kernel in $A\otimes B^{\otimes2}$, verifies symmetry by exact
+coefficient equality, and forms the next $A$-wedge map.  That map has domain
+dimension 91 and rank 79.  Thus $\dim\mathcal P_{22}(E)=12$ in all eight cases,
+a contradiction.  These computations reconstruct the matrices from $S$;
+they import no old certificates.  This completes the independent proof.
+
+\subsection*{BR-002: forty-three in every characteristic}
+For the integral divided-power tensors fixed in BR\_PENCIL FL-01 and every
+algebraically closed field $k$,
+\[
+ \mu_7^{\det}=\mu_7^{\mathrm{per}}=14,
+ \qquad
+ \underline R_k(S_{\det,4})\ge43,
+ \qquad
+ \underline R_k(S_{\mathrm{per},4})\ge43.
+\]
+The assertion includes characteristics two and three.
+
+\paragraph{Proof.}
+Use the field-independent coordinate degeneration BR\_PENCIL P-01 and
+its determinant compression P-07.  These are integral root-subgroup
+specializations, so P-07 remains valid in characteristic two.  There are
+25 determinant Borel seven-plane ideals.  For the permanent, the 1517
+low-support coordinate orbits under row and column permutations and
+transposition cover exactly 1543608 subsets; support at least 14 gives
+a unit flattening minor.  These finite cover assertions, carried from
+BR\_PENCIL R-08/R-10, are also independently rerun by
+\texttt{check\_cover.py}, which exhausts all $\binom{36}{7}=8347680$ subsets.
+
+For every remaining non-prolongation case, form the entire Koszul map,
+rather than the inherited chosen minor.  If its exterior factor has dimension
+$t$ and degree $p$, a pure tensor has map rank $\binom{t-1}{p}$ in every
+characteristic: choose its nonzero factor as a basis vector and inspect the
+basis wedges.  Rank is subadditive and its upper-bound locus is closed.
+Consequently map rank $\rho$ gives border rank at least
+$\lceil\rho/\binom{t-1}{p}\rceil$.
+The independent checker \texttt{check\_koszul.py} forms all columns directly
+from $T_S^\epsilon$, separates exact torus-character blocks, and computes
+all block ranks over $\mathbb Q$.  All 11 determinant support/Koszul cases
+and 1506 permanent Koszul cases give at least 14.
+
+Here is the arithmetic justification, beyond a computation at one large prime.
+Every rational elimination records the numerator and denominator of every
+nonunit pivot.  Direct nonzero scalar tests in the arrangement-compatibility
+step also record their numerators and denominators.  The primes that occur
+divide six.  Every row operation and every inverse used by the proof is
+therefore defined over $\mathbb Z[1/6]$; every exact zero identity holds there.
+All rank computations, linear intersections, and their quotient maps commute
+with specialization to characteristics other than two and three.  A nonzero
+branch test also remains nonzero there.  Intersections that become identical
+can only duplicate already enumerated strata, not create omitted ones.
+This proves the full calculation uniformly away from two and three.
+
+The exceptional computations are small and separate.
+\begin{itemize}
+\item In characteristic three, all eleven determinant support/Koszul cases
+again give at least 14.  The two-dimensional-extension tests have no prime
+three in their pivots.  The support-nine determinant arrangement is rerun
+over $\mathbb F_3$ and has no survivors.  The permanent Koszul calculation
+has only prime two in its pivots; its support-nine cases are also rerun over
+$\mathbb F_3$ with no survivors.
+\item In characteristic two, determinant and permanent tensors coincide.
+The determinant compression reduces to the same 25 Borel ideals.
+All eleven support/Koszul cases still give at least 14 (the two support-factor
+ranks become 6457, still greater than $13\cdot495=6435$).
+Five of the six ordinary determinant prolongation representatives pass the
+same exhaustive computation over $\mathbb F_2$.  The P-09 A representative
+has eight survivors of the first-stage test; their joint arrangements give
+eight fixed extensions.  The higher checker gives $\mathcal P_{22}$ dimension
+12 for each, exactly as above.  Its transpose follows by swapping rows and
+columns.  The support-nine determinant tensor equals the permanent A tensor,
+whose full enumeration over $\mathbb F_2$ has no survivors.
+\end{itemize}
+Thus every required seventh residual tensor has border rank at least 14
+in every characteristic.  The integral anchored-shape curve BR\_PENCIL P-06
+supplies the matching upper bound.  Finally the flattening image of the
+fourfold tensor has dimension 36, with unit coefficient generators, and
+BR\_PENCIL R-01 gives $36-7+14=43$.
+
+\paragraph{What is and is not claimed about unit minors.}
+This proof supplies arithmetic replacements for the rank certificates;
+it does not assert that all 9038 originally selected determinants are units.
+In fact a literal replacement retaining every full block rank is impossible,
+as BR-003 shows.  Rank losses in small characteristics are harmless when the
+remaining total rank still exceeds the required pure-tensor threshold.
+
+\subsection*{BR-003: a genuine nonunit block in the original certificate architecture}
+For the determinant subset $S=\{0,1,2,3,6,7,12\}$, take the $B$-Koszul map
+of exterior degree four.  In the weight
+$(2,0,0,1;1,0,0,2)$, the complete nonzero block, in the ordered bases specified
+by \texttt{even\_minor\_block.json}, is
+\[
+ M=\begin{pmatrix}
+ 1&0&1&0\\1&0&0&1\\0&1&0&0\\0&0&1&1
+ \end{pmatrix}.
+\]
+It has determinant 2 and rank 3 in characteristic two.  In particular
+there is no unit four-minor in that block, nor any four-minor nonzero in
+characteristic two.  The original characteristic-zero full block rank cannot
+be preserved by merely changing a selected minor in this block.
+The complete support-factor rank nevertheless drops only from 6501 to 6457,
+which still proves the same border-rank lower bound 14.
+The proof is the displayed determinant computation and the independent full
+block reconstruction; its first three independent rows certify rank three
+modulo two.
+
+\subsection*{Algebraic-geometric dictionary for BR-001--BR-003}
+All factors are finite free modules over $\mathbb Z$.  Wedge maps are morphisms
+between their exterior-power bundles, and their rank conditions define
+closed determinantal loci.  Candidate extension spaces form closed incidences
+in relative Grassmannians.  Projectivity supplies proper projection and
+cocharacter specialization.  The arithmetic result proves emptiness in each
+algebraically closed fiber: first over $\operatorname{Spec}\mathbb Z[1/6]$
+by invertible elimination, then separately over the fibers at two and three.
+It does not infer emptiness of special fibers from emptiness of the generic
+fiber.  Invariant symmetric tensor squares in the higher test are free
+integral modules, so the proof also specifies the characteristic-two model.
+
+The inherited exact foundational locators are EGA II, Definition 5.4.1,
+Proposition 5.4.2, and Theorem 5.5.3(i) (properness and projective morphisms);
+FGA, Bourbaki expos\'e 221, Theorems 3.1--3.2 (Quot/Hilbert parameter spaces);
+SGA 3, Expos\'e I, Sections 4.5--4.6 including Definition 4.6.1 (module and
+linear group functors); and SGA 6, Expos\'e V, Definition 2.1, Examples 2.2(b),
+and Lemma 2.2.1 (exterior operations on $K_0$).  These are framework locators
+carried from BR\_PENCIL's checked dictionary, not fresh facsimile inspections
+and not attributions of the modern numerical bounds to Grothendieck.
+No unpublished archive cote/scan for these findings has been established.
+No purity, weight, $\ell$-adic, or motivic statement is used.

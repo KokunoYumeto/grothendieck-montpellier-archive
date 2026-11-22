@@ -1,0 +1,224 @@
+\section{Nested coefficient projections and the remaining four-row gates}
+
+\subsection{OBS-001. Exact nested-jet dominance at sizes nine and twenty-three}
+Use coefficient coordinates $c_\alpha$ for
+$F=\sum_{|\alpha|=n}c_\alpha x^\alpha$ in four variables, indexed from zero.
+For $0\le e\le c\le b\le n$, put
+\[
+ J_n(b,c,e)=\{\alpha:\alpha_1+\alpha_2+\alpha_3\le b,
+       \ \alpha_2+\alpha_3\le c,\ \alpha_3\le e\},
+ \qquad N_n(b,c,e)=|J_n(b,c,e)|.
+\]
+The value of the count is, explicitly,
+\[
+ N_n(b,c,e)=\sum_{v=0}^{e}\sum_{u=v}^{c}(b-u+1).
+\]
+The restriction $b\le n$ explains why no further degree-$n$ bound occurs
+in this sum.
+
+\paragraph{Statement.}
+For $n=9$ and $n=23$, the projection of $D_{n,4}$ to the coefficient
+space indexed by $J_n(b,c,e)$ is dominant if and only if
+$N_n(b,c,e)\le 2n^2+2$.
+Consequently, for every degree $d$ and every partition
+$\lambda\vdash nd$ of length at most four, put
+\[
+ (b,c,e)=(\min(n,\lambda_2),\min(n,\lambda_3),\min(n,\lambda_4)).
+\]
+If $N_n(b,c,e)\le 2n^2+2$, then $K_n(\lambda)=a_\lambda$.
+In particular no padded-permanent multiplicity obstruction of that
+weight is possible, for any choice of $m<n$.
+
+\begin{proof}
+The dimension bound $\dim D_{n,4}\le 2n^2+2$ is CUE\_GCT G-06.
+It excludes dominance whenever the number of projected coordinates
+exceeds that bound. For the converse we give exact, independently
+reconstructed Jacobian certificates.
+
+All computations use $p=101$. Start the linear congruential generator at
+$s=20261122$, replace $s$ successively by
+$1664525s+1013904223\pmod{2^{32}}$, and extract
+$\lfloor s/2^{16}\rfloor\pmod {101}$.
+Take $A_0=I_n$, $A_1=\operatorname{diag}(1,\ldots,n)$, and fill
+$A_2,A_3$ in row order by these residues. Differentiate the coefficient
+map of $\det(\sum_{i=0}^3x_iA_i)$ with respect to all $4n^2$ matrix
+entries, including those of $A_0$ and $A_1$.
+
+The checker constructs the adjugate without evaluating or interpolating
+the determinant. Write $B=x_1A_1+x_2A_2+x_3A_3$, $C_0=I_n$ and
+\[
+ e_k=\frac{\operatorname{tr}(BC_{k-1})}{k},\qquad
+ C_k=e_kI_n-BC_{k-1}\quad(1\le k<n).
+\]
+Then
+$\operatorname{adj}(x_0I+B)=\sum_{k=0}^{n-1}x_0^{n-1-k}C_k$,
+and the derivative in the $(u,v)$ entry of $A_i$ is
+$x_i\operatorname{adj}(x_0I+B)_{vu}$.
+These formulas hold in the finite field since $p>n$.
+They also show that every entry reconstructed by the checker is the
+reduction of the actual integral coefficient Jacobian.
+
+There are $\binom{n+3}{3}$ nested profiles. It suffices to check those
+maximal under coordinatewise increase among the profiles with
+$N_n\le2n^2+2$: every other such coordinate set is contained in a maximal
+one. The checker enumerates all profiles and all these maximal members.
+For $n=9$ they are exactly
+\[
+\begin{array}{c|r|r}
+ (b,c,e)&N_9&\text{selected determinant modulo }101\\\hline
+ (8,8,7)&164&76\\
+ (9,6,5)&164&74\\
+ (9,9,3)&164&39
+\end{array}
+\]
+For $n=23$ the 31 maximal profiles and their nonzero maximal minors are
+listed in \texttt{results/det23\_nested\_profiles.json}; the complete
+set is
+\[
+\begin{gathered}
+(16,16,16),(17,14,14),(17,15,11),(17,17,10),\\
+(18,12,12),(18,13,10),(18,15,8),(18,18,7),\\
+(19,11,11),(19,12,9),(19,14,7),(19,16,6),(19,19,5),\\
+(20,11,10),(20,12,7),(20,13,6),(20,17,5),\\
+(21,10,10),(21,11,7),(21,12,6),(21,14,5),(21,21,4),\\
+(22,10,8),(22,11,6),(22,12,5),(22,16,4),\\
+(23,9,9),(23,10,7),(23,11,5),(23,14,4),(23,23,3).
+\end{gathered}
+\]
+Every listed submatrix has full row rank. The first three size-nine
+calculations were also performed using ordinary scalar Gaussian
+elimination, independently of packed elimination. The finite-field
+nonzero minors lift to nonzero integral minors, hence prove dominance
+over $\mathbb C$.
+
+Finally S-001 (the full support lemma F-016) puts every vector in the
+highest-weight multiplicity space of weight $\lambda$ in the polynomial
+algebra on the indicated coordinate set. A dominant coefficient
+projection makes restriction injective on this entire polynomial
+algebra, hence on the entire highest-weight space. Its image therefore
+has dimension $a_\lambda$, proving $K_n(\lambda)=a_\lambda$.
+\end{proof}
+
+\paragraph{Certificate scope and arithmetic.}
+The two standalone programs are \texttt{check\_binary\_jets.py} and
+\texttt{check\_nested\_profiles.py}. They read no inherited coefficient
+matrices or minors. Each output records the seed, selected rows and
+columns, the matrix hash and the minor residue. Packed elimination is
+ordinary Gaussian elimination with base-$2^{32}$ digits: a row update
+forms $a+10100-vb$ digitwise, with all digits of $a,b$ and the pivot
+multiplier $v$ in $\{0,\ldots,100\}$. Each intermediate digit lies
+between 100 and 10200, so no carry or borrow passes between entries.
+For digitwise modular reduction the reciprocal product is also below
+$2^{32}$; the quotient estimate differs from the true quotient by at
+most one and the final mask corrects that difference.
+Row swaps and pivot products are recorded
+with their signs. This is an exact algorithm, not floating-point rank.
+The results are characteristic-zero statements; the prime $101$ is a
+certificate prime, not a claim of uniform dominance in all
+characteristics.
+
+\subsection{OBS-002. Exact early gates on a partial-Hessian direction}
+Consider the four-row direction
+$\nu_n=(5n-7,3,2,2)$ in degree five and its stretches
+$s\nu_n$ in degree $5s$. For $n=9$, OBS-001 excludes $s=1,2$ and
+first ceases to exclude at
+\[
+ s=3,\quad d=15,\quad \lambda=(114,9,6,6),\quad a_\lambda=1250.
+\]
+For $n=23$, it excludes $s=1,\ldots,6$ and first ceases to exclude at
+\[
+ s=7,\quad d=35,\quad \lambda=(756,21,14,14),
+ \quad a_\lambda=2859327863.
+\]
+These are the first remaining tests under this exclusion criterion;
+they are not assertions that gaps occur at these stretches.
+
+\begin{proof}
+The nested profiles are $(\min(n,3s),\min(n,2s),\min(n,2s))$.
+Substitution into the finite sum for $N_n$ gives the asserted thresholds.
+For example at $n=23,s=6$ the profile $(18,12,12)$ has 1001 coordinates
+and is in the checked frontier. At $s=7$ the profile has 1520 coordinates,
+exceeding 1060. The multiplicities are computed by the exact character
+coefficient method described below. No permanent or determinant
+evaluation rank is inferred from a positive ambient multiplicity.
+\end{proof}
+
+\subsection{OBS-003. A complete low-degree candidate sieve, with its limitations}
+In degrees $6,7,8,9,10$ for nonics in four variables, the number of
+positive-ambient-multiplicity partitions not excluded by OBS-001 is,
+respectively,
+\[
+                 446,\quad846,\quad1426,\quad2205,\quad3228.
+\]
+Among these, the only partition of ambient multiplicity one is
+\[
+                   d=6,\qquad\lambda=(15,13,13,13).
+\]
+There are none in degrees seven through ten. This is a sieve for one
+kind of potentially easy witness, not a computation of determinant
+ideals in these degrees.
+For $n=23,d=6$ the same complete sieve leaves 12214 positive-multiplicity
+labels after OBS-001, and none has ambient multiplicity one. The total
+four-row ambient multiplicity sum before that exclusion is 9500810962;
+exactly thirteen four-row labels have zero ambient multiplicity.
+
+\begin{proof}[Finite exact character calculation]
+Expand
+\[
+ \prod_{\alpha_0+\alpha_1+\alpha_2+\alpha_3=n}
+       (1-tx^\alpha)^{-1}.
+\]
+Its $t^d x^\gamma$ coefficient is the weight multiplicity in
+$\operatorname{Sym}^d(\operatorname{Sym}^n\mathbb C^4)$.
+The implementation stores the total number of nonconstant coefficient
+factors and the last three weight coordinates; factors corresponding
+to $(n,0,0,0)$ fill out the remaining outer degree. It successively
+performs the geometric-series update for every other monomial of degree
+$n$, truncating only outside the needed degree and weight box. This
+computes integer weight multiplicities exactly. Multiplying the
+character by $\prod_{i<j}(1-x_j/x_i)$ and extracting $x^\lambda$
+gives its highest-weight multiplicity as the alternating sum of 24
+weight multiplicities, by the Weyl character formula. The program
+enumerates every partition of $9d$ into at most four parts, computes
+this alternating sum, and applies the exact integer coordinate-count
+test of OBS-001. The complete output includes every surviving partition
+and its ambient multiplicity. Hence the asserted finite list and counts
+are independently reproducible.
+\end{proof}
+
+\paragraph{An upper bound that does not decide the candidate.}
+For this same label, an exact Murnaghan--Nakayama calculation gives
+\[
+\begin{split}
+g((15,13,13,13),(9^6),(9^6))&=25792324,\\
+\operatorname{sg}((15,13,13,13),(9^6))&=12860921.
+\end{split}
+\]
+The trace of factor interchange is $-70482$, and the alternating-square
+multiplicity is $12931403$. The two rectangular factors may be transposed
+simultaneously without changing their tensor square or its interchange
+action, so $(9^6)$ is equivalent here to $(6^9)$.
+The checker sums over all 386155 cycle types of $S_{54}$, using
+\[
+g=\sum_{\rho\vdash54}\frac{\chi_\lambda(\rho)\chi_{(9^6)}(\rho)^2}{z_\rho},
+\qquad
+\operatorname{sg}=\frac12\sum_{\rho\vdash54}
+ \frac{\chi_\lambda(\rho)(\chi_{(9^6)}(\rho)^2+
+                  \chi_{(9^6)}(\rho^2))}{z_\rho}.
+\]
+Thus the stabilizer-based symmetric-Kronecker upper bound supplies no
+useful restriction beyond $K_9(\lambda)\le a_\lambda=1$.
+It neither proves determinant nonvanishing nor determinant vanishing.
+
+\subsection{Coherent-ideal interpretation}
+For each dominant nested projection, restriction on the corresponding
+coefficient algebra is injective. Its intersection with the homogeneous
+ideal of $D_{n,4}$ is zero, and therefore every highest-weight
+multiplicity space supported in that algebra maps injectively to the
+coordinate ring. This is the concrete equivariant coherent-ideal
+statement behind OBS-001. It compares images of homogeneous sections;
+it requires no projective normality or vanishing of higher cohomology.
+The Cauchy/Schur passage in the support proof is related to the supplied
+transcription of Grothendieck cote 133, scan 028; the numerical ranks
+are additional data, not consequences of identities in a Grothendieck
+group. No assertion about an uninspected archive scan is made.
