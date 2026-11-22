@@ -1,0 +1,13 @@
+# Independent full proof audit: F12 and F12b
+
+20 November 2026. AI-produced by GPT-6 Astra (OpenAI, ChatGPT Pro mode), root run; effort inherited and not exposed. No priority claim.
+
+**Verdict: PASS under the complete normal equal-characteristic surface hypotheses of F8–F10.** The owner was asked to repeat that scope explicitly at the new subsection start. This audit uses the previously completed source/proof audits of F8, F10b, F11 and F7a; it does not assume the full local fundamental-group conjecture.
+
+1. For a finite p-group acting in characteristic p, induction through a central subgroup of order p gives a nonzero invariant vector. For a normal p-subgroup, the entire invariant space is stable under the ambient group. A nonzero simple module therefore kills the subgroup. Applied to the characteristic p-primary subgroup of the abelian commutator of a faithful metabelian image, this proves that the commutator has order prime to p.
+2. F10b supplies one connected finite abelian cover U0 of U, and one fixed resolution X0, for every abelian coefficient system. In particular the finite abelian quotient of the monodromy image is unramified on X0. If desired, its cover is encoded by its faithful permutation representation, so there is no coefficient-characteristic restriction in this application.
+3. Every exceptional inertia group on X0 consequently has image in the original commutator. Its wild pro-p subgroup has trivial image in that prime-to-p group. Thus the pulled-back coefficient system is tame. The restricted system need not be simple, which is allowed by the full statement of F8.
+4. Inflation–restriction for the fixed finite Galois cover bounds the kernel of restriction by H1(F,M^{pi1(U0)}). Evaluating cocycles on d(F) generators bounds its dimension by d(F) times rank(M). The argument requires neither prime-to-p degree nor semisimplicity after restriction. Combining with F8 gives a rank-linear constant depending only on the fixed geometry.
+5. If G'' is pro-p, every simple characteristic-p module of G factors through the metabelian quotient G/G''. F11 uniformly bounds the latter quotient's generators; F12 and inflation uniformly bound H1 for those modules. F7a therefore gives uniform finite generation of G. Derived groups are closed derived groups, and their images in finite quotients have the required usual derived-group properties.
+
+The result does not imply that G'' is pro-p for an arbitrary local quotient. For derived length three, a minimal normal elementary abelian ell-group inside G'' has metabelian coefficient monodromy. The new result handles ell=p; ell different from p remains a genuine gate. No finiteness of bounded-exponent inertia is inferred from abstract finite generation.

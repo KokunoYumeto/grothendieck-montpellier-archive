@@ -1,0 +1,15 @@
+# Root proof and source audits after checkpoint 05
+
+Checker: GPT-6 Astra (OpenAI, ChatGPT Pro mode); effort inherited, not exposed. Date: 2026-11-20.
+
+## E4.Curve — PASS
+
+Read the full curve schematicity proof and opened the exact BLR statements: section 6.6 Theorem 2(c), pp.164–166; section 9.3 Theorem 1 and Remark 2, p.252; section 9.4 Proposition 4, p.260. Also opened Stacks 07S6, including its current affine-orbit hypothesis. For genus zero and genus at least two, the appropriate power of the relative canonical bundle gives relative projectivity. In genus one the relative Jacobian is an abelian scheme and the curve is its Pic1 torsor. Over a noetherian affine base, a quasi-affine open meeting every fibre and translation by the Jacobian give the AF property through the precise BLR criterion. The finite flat E[n] quotient for every nonzero integer n therefore is a scheme by 07S6, including inseparable n. Degree zero is E. Approximation and base change give the arbitrary-base result. This settles smooth proper curves only; it does not settle the full higher-dimensional schematicity question.
+
+## F7, F7a, F7b — PASS
+
+Read the complete unramified-coefficient proof and independently checked its slope and group-theoretic arguments. A finite étale trivialization makes V on every proper exceptional curve semistable of degree zero, regardless of the trivializing cover's p-part. Negative twists have no sections and Riemann–Roch bounds first cohomology linearly in rank. The fixed Frobenius-cokernel bundle gives a resolution-dependent high-pole cutoff; the low-pole and node terms are linear in rank. For the relative group criterion, every minimal normal subgroup in the finite image of a normal pro-p kernel is elementary abelian; complement counting gives the stated uniform generator bound without solvability of the quotient. Modules inflated through a quotient of pi1(X) extend to X, so the geometric consequence is valid. Opened Stacks 0A48, Lemma 58.9.1, and Lara–Srinivas–Stix arXiv:2303.11161v2, Theorem 1.2, p.1, for the proper henselian specialization and finite-presentation assertions. No claim that the entire geometric kernel is pro-p is used or proved.
+
+## D4b — PASS
+
+Read the full deduction from the audited D4a dual-number deformation, and opened the published Partsch article at pp.102–106 as well as its deformation conventions. A lift of the Albanese elliptic fibration would induce an elliptic abelian-scheme homomorphism into Pic-tau specializing to the canonical Picvar inclusion. D4a excludes exactly this map for every deformation of the source, so the contradiction does not need flatness of its scheme-theoretic image. The special surface is Jacobian because the zero-section descends. Thus the literal universal lifting claims in Proposition 6.6, Theorem 6.7, and Proposition 6.9 fail in this example. The elementary homomorphism (Z/2)_R to mu2,R, 1 mapping to 1+epsilon, separately exposes the invalid etale-source rigidity inference; it is not substituted for the geometric counterexample. This is a scoped mathematical refutation, with no claim about other classification cases in that paper.
