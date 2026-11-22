@@ -1,0 +1,7 @@
+# MA-MO-033 root complete reading
+
+2026-11-21T23:48:58.794357+00:00; GPT-6 Astra Pro, /root, inherited effort not separately exposed; MAS_ARTIN. Original418-line proof fully read; final425-line scope/status deltas separately read. SHA256 `a13cb6760e8d492f0f4961b9ed6d6f08fb3974bd12316ea1f200acdaade9800f`. PASS.
+
+The modulated compact input, test and output functional have exact phase cancellation. The last-edge support selects the unit ideal before the Laplace calculation; the compact remainder is uniformly bounded in frequency. The orbit norm comes from its explicit exponential tail, retaining both weights; it is not estimated by the weaker triangle integral. The actual wider-width theorem is used separately at each fixed delta to justify the scalar limit and does not supply the desired uniform boundary estimate. The Baire argument controls a whole fixed-support test family and constructs a fixed sequence of genuine normalized compact inputs in the failure branch. The cluster configuration is explicitly hypothetical, strictly inside both edges after deleting a finite prefix, and is only a sufficient condition for the necessary reciprocal bound to fail. Positive eta tests do not silently yield the dual bound; reflection changes the test support and character.
+
+The original source E→E and bilinear transpose were freshly rechecked in MO024; the upstream proof is reused at its previously recorded full scope. There is no asserted arithmetic counterexample or full-retention sufficiency decision.

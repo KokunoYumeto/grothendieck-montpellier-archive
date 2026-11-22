@@ -1,0 +1,45 @@
+9.2   The recursive driver
+Fix the degree n of the original input, put
+                         L = ⌈log2 p⌉,     B = 20 + (n + 1)(L + 1),                       (9.2)
+and use the same B throughout preprocessing and recursion. Call the characteristic small
+when p ≤ B 200000 . For larger p, the inequalities needed for the separating-element search and
+all finite-field searches in the splitting procedures follow from the size bounds in Section 10.
+     The procedure Split(F ) receives a monic, square-free, totally split polynomial of degree
+N ≥ 2 in the large-characteristic case. If N is even, use Proposition 2.3. If N is odd, use
+Proposition 8.1. In either case it returns a nontrivial proper monic divisor, and uses table
+entries only for primes at most N .
+     Here is the complete recursive procedure. Its input h is monic; its output is a list of
+distinct monic irreducible factors with multiplicities. Repeated occurrences of the same
+monic polynomial are merged by comparing their coefficient lists.
+Procedure Factor(h).
+1. If deg h = 0, return the empty list. If deg h = 1, return h with multiplicity one.
+2. Compute the formal derivative h′ . If h′ = 0, write h = g p by retaining the coefficients in
+   positions divisible by p, recursively factor g, multiply every returned multiplicity by p,
+   and return the resulting list.
+3. If h′ ̸= 0, compute d0 = gcd(h, h′ ). When d0 ̸= 1, recursively factor d0 and h/d0 , merge
+   the two lists by adding multiplicities of equal factors, and return the merged list.
+4. Now h is square-free. Compute Bh and r = dim Bh . If r = 1, return h with multiplicity
+   one.
+5. If the characteristic is small and r ≥ 2, choose a nonscalar b ∈ Bh . Test gcd(h, b − a) for
+   a = 0, . . . , p − 1 until a nontrivial proper gcd is found. Denote it by h1 .
+6. If the characteristic is large and r ≥ 2, use Lemma 9.1 to obtain b(t) and Ft . Compute
+   S = Split(Ft ) and set h1 = gcd(h, S(b(t))).
+7. In either splitting case, recursively factor h1 and h/h1 , and return the union of the
+   resulting lists.
+    A nonscalar element in Step 5 is found by testing the computed basis against the
+one-dimensional space Fp · 1. In Step 2 the coefficient list is merely scanned; no loop of
+length p is needed to form g.
+Proposition 9.2 (Correctness and the table contract). Fix n, p, and B as in Equation (9.2).
+For every monic h ∈ Fp [X] of degree b ≤ n, Factor(h) terminates and returns its complete
+irreducible factorization. In the large-characteristic case this conclusion assumes the primary
+table through b; no entry for a prime larger than b is used. The number of recursive calls
+for a single input is O((b + 1)2 ).
+Proof. We argue by degree. The two base cases are immediate. In characteristic p, the
+derivative vanishes precisely when all nonconstant exponents are divisible by p. Every
+coefficient of Fp is its own p-th root, so the polynomial g in Step 2 satisfies h = g p exactly
+and has smaller degree. The rule for its multiplicities follows.
+   In Step 3 a nonconstant gcd is proper because deg h′ < deg h. Both recursive arguments
+have smaller positive degree and their product is h. They need not be relatively prime;
+adding multiplicities handles exactly that possibility.
+
+                                              39

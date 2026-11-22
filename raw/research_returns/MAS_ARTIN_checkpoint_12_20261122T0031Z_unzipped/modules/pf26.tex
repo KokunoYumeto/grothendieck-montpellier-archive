@@ -1,0 +1,621 @@
+\section{PF26: the algebraic input and its smaller analytic premise}
+\label{sec:pf26-audit}
+
+\subsection{Source and scope of the check}
+
+The source checked here is the supplied 48-page PDF of OpenAI,
+\emph{Deterministic Polynomial Factorization over Prime Fields}, dated
+4 October 2026.  Printed and PDF page numbers agree. Its SHA-256 is
+\texttt{ed88aa5ba802311a21c4f265bcef43515a16019f4b5afdd7f52ecbd36ce0204d}.
+The complete proofs in Sections 2--10, pp.~6--44, were read, including all
+the inputs to Theorem~1.2, Proposition~8.1 and Proposition~10.1. The
+conclusions below are mathematical proof-reading conclusions, not a
+formal verification or a claim that an implementation was run. PF26
+remains an explicitly named outside preprint in the input register.
+
+\paragraph{MA-PF-001 (the three interfaces are distinct).}
+Put
+\[
+ B=20+(d+1)(\lceil\log_2p\rceil+1).
+\]
+The algebraic reduction of PF26, Theorem~1.2, p.~3, assumes an auxiliary
+prime $\ell_r$ for each prime $r\le d$ only in the branch
+$p>B^{200000}$. Its conditions, equation~(1.2), are
+\[
+ \ell_r\notin\{2,3,p,r\},\qquad
+ \ell_r\equiv1\pmod{12r},\qquad
+ p^{(\ell_r-1)/r}\not\equiv1\pmod{\ell_r}.
+\]
+The running time is polynomial in $B$ and the \emph{numerical values}
+of these primes. Proposition~10.1, pp.~41--44, gives the explicit
+sufficient bound
+\[
+ O(B^{500000}+B^{100}E^{20}),\qquad E=\max(2,\max_r\ell_r).
+ \tag{MA-PF-1}
+\]
+The more flexible algebraic interface is Proposition~8.1, pp.~35--37:
+for a completely split square-free polynomial of odd degree $N$, choose
+an odd prime $r\mid N$; supply a field $K/\mathbb F_p$ of degree at
+most $r-1$, a primitive $r$th root of unity in $K$, and a generator of
+the full $r$-primary subgroup of $K^\times$. These data suffice for a
+proper factor in a fixed polynomial number of bit operations. An
+auxiliary prime is one way to construct these data; it is not part of
+this latter interface.
+
+The analytic premise used for the unconditional statement of PF26 is
+\emph{not} the Riemann hypothesis. It is the theorem quoted as
+Theorem~11.1, pp.~44--45, from the companion
+\emph{Primitive roots for every admissible integer base}, Theorem~1.2:
+for every cyclotomic field $K$ containing $\mu_{12}$ and every
+finite-order Hecke character $\chi$ of $K$,
+\[
+ L_K(s,\chi)\ne0\quad\text{if }\Re s>1-10^{-6}.
+ \tag{MA-PF-2}
+\]
+The principal character is included, its pole at $1$ is permitted, and
+there is no conductor or imaginary-height restriction. PF26 does not
+prove that companion theorem. Its own proof of the implication from
+this premise is Lemma~11.2 and Proposition~11.3, pp.~45--46. The
+algebraic reduction in Theorem~1.2 uses neither this premise nor zero
+location. GRH is a sufficient substitute, as PF26 explicitly observes
+on p.~47. In the present paper $A$ is the Dirichlet theorem under the
+source convention fixed in the introduction, whereas $M$ is conditional.
+
+\emph{Verification.} The stated distinctions follow directly from the
+three source interfaces and the proofs: Sections~2--10 terminate after
+constructing the primary table; Section~11 alone bounds the numerical
+auxiliary-prime search. In particular, accepting the algebraic PF26
+input does not accept its companion's analytic assertion. The proof
+reading below found no gap in these algebraic interfaces.\hfill$\square$
+
+\subsection{The completed check of CX-ALG-028}
+
+\paragraph{MA-PF-002 (the finite residual family and an elementary test).}
+For the large-characteristic branch $p>B^{200000}$, define
+\[
+ \mathcal B(p,m,d)=
+ \{r\le d:r\text{ prime},\ r\nmid(p-1)m,
+              \ p^{r-1}\equiv1\pmod{r^2}\}.
+ \tag{MA-PF-3}
+\]
+Every member is odd and different from $p$. This is exactly the set in
+GRH\_NIGHT CX-ALG-028. Under the algebraic PF26 input and $A$, adding
+RH for $\zeta_{\mathbb Q(p^{1/r})}$ for $r\in\mathcal B(p,m,d)$
+suffices to factor degree-$d$ polynomials over an explicitly supplied
+$\mathbb F_{p^m}$ in deterministic polynomial time in
+$(d+1)m\log p$. Thus the additional family is empty precisely when
+\[
+ \forall r\le d\text{ prime},\quad
+ r\mid(p-1)m\quad\text{or}\quad p^{r-1}\not\equiv1\pmod{r^2}
+ \tag{MA-PF-4}
+\]
+in that branch. In the small-characteristic branch no additional
+analytic input is needed, irrespective of this arithmetic test.
+Only primes actually required by the primary-table construction need
+be included. This is a sufficient family, not a necessity theorem.
+
+\emph{Proof and independent check of the transfer.}
+The large-characteristic inequality gives $p>d$ and $p>3$. For an odd
+prime $r\le d$ put $s=\operatorname{ord}_r(p)$ and
+$a=v_r(p^s-1)$. Since $s\mid r-1$, writing $r-1=st$ gives
+$r\nmid t$. The binomial identity, or the odd-prime lifting-the-exponent
+identity, gives
+\[
+ v_r(p^{r-1}-1)=v_r((p^s)^t-1)=v_r(p^s-1)=a.
+\]
+Consequently the condition $a>1$ in CX-ALG-028 is precisely the
+congruence in (MA-PF-3). The prime $2$ divides $p-1$, so it cannot
+belong to the displayed set.
+
+The quadratic primary entry can be obtained from a nonsquare $c$ of
+$\mathbb F_p$, by raising $c$ to the odd part of $p-1$. If
+$v_2(p-1)=1$, use $c=-1$. If $2\mid m$, compute the quadratic
+subfield of the supplied field by solving $z^{p^2}=z$ over
+$\mathbb F_p$, and choose $0\ne v$ with $v^p=-v$ there. Then
+$c=v^2\in\mathbb F_p$ satisfies $c^{(p-1)/2}=-1$. Otherwise
+$A$, with the classical least nonresidue consequence recorded in
+GRH\_NIGHT CX-ALG-023, supplies $c$ by a polynomially bounded search.
+This checks all quadratic cases, including the supplied-subfield case.
+
+Proceed in increasing order through odd primes $r\le d$. Factoring
+$\Phi_r$ has degree $r-1$, so uses only earlier table entries. An
+irreducible factor gives
+$K_r=\mathbb F_p(\zeta_r)$ of degree
+$s=\operatorname{ord}_r(p)\mid r-1$. Put $Q=p^s$ and $R=r^a$.
+If $a=1$, the element $\zeta_r$ is already the full primary
+generator. If $r\mid p-1$, a small $r$th nonresidue furnished by
+$A$ in $\mathbb F_p=K_r$, raised to $(p-1)/R$, is a full primary
+generator. Testing whether a candidate is an $r$th power uses the
+single modular exponent $(p-1)/r$; no factorization of $p-1$ is needed.
+
+For every remaining case it suffices to construct an explicit
+$U_r\simeq\mathbb F_{p^r}$. If $r\mid m$, solve
+$z^{p^r}=z$ in the supplied field. Its kernel has dimension $r$ and
+its inherited multiplication gives $U_r$. If $r\nmid m$, the
+unhandled conditions are exactly $r\in\mathcal B(p,m,d)$.
+GRH\_NIGHT CX-ALG-024 supplies $U_r$ in polynomial time from $A$
+and RH for the indicated pure field. Its proof was reread in this
+check: the factorization of zeta functions, the discriminant bound and
+the Bach--Sorenson Theorem~5.1 input agree. One can use the invariant
+algebra of PF26 Lemma~3.1, p.~11, to implement its final field
+construction. Its auxiliary prime needs congruence modulo $r$ only;
+the extra factor $12$ in PF26 equation~(1.2) is unnecessary at this
+interface.
+
+Here is the remaining algebraic transfer, with its orders checked.
+Because $(r,s)=1$,
+\[
+ V_r=U_r\otimes_{\mathbb F_p}K_r\simeq\mathbb F_{p^{rs}}
+\]
+is a field of degree $r$ over $K_r$. Solve the $K_r$-linear equation
+$u^Q=\zeta_r u$ for $u\ne0$. Such a solution exists since
+$\zeta_r$ has norm one and the map $v\mapsto v^{Q-1}$ has precisely
+the norm-one subgroup as its image. As
+$v_r(Q^r-1)=a+1$ and $u^{Q-1}$ has order $r$, the $r$-part of
+$\operatorname{ord}(u)$ is exactly $r^{a+1}=rR$. Hence
+\[
+ w=u^{(Q^r-1)/(rR)},\qquad \omega_r=w^r
+\]
+have exact orders $rR$ and $R$. The subgroup of $V_r^\times$ of
+order $R$ is contained in $K_r^\times$, so $\omega_r$ belongs to
+$K_r$; its coordinates are recovered by the known inclusion and a
+linear solve. All dimensions are at most $r(r-1)$ and all exponent
+lengths are polynomial in $r\log p$.
+
+The induction is well founded. PF26 Proposition~2.3, pp.~9--10,
+uses the quadratic entry to split a completely split polynomial of
+even degree. Proposition~8.1, pp.~35--37, uses precisely the odd
+entry just supplied. Its proof receives a field containing a full
+primary generator; it does not inspect how that generator was
+constructed. PF26 Lemma~9.1 and Proposition~9.2, pp.~38--40,
+therefore factor every input below the next table prime with earlier
+entries. The table is constructed once; it is not recursively rebuilt.
+There are at most $d$ entries and polynomially many factoring calls.
+The full reading of the implementation and size proof, reported below,
+checks that the exponent is independent of $r$ and of the genus.
+
+For completeness, over the supplied extension field take a square-free
+$h$ and form
+\[
+ C=\mathbb F_{p^m}[X]/(h),\qquad
+ C_0=\ker(z\mapsto z^p-z).
+\]
+If $h$ has $t$ irreducible factors, then $C_0\simeq\mathbb F_p^t$.
+The kernel is obtained by $\mathbb F_p$-linear algebra on dimension
+$m\deg h$. If $t>1$, a basis supplies a nonscalar $b$. Its minimal
+polynomial over $\mathbb F_p$ is a square-free product of distinct
+linear factors, of degree between $2$ and $t$. Factor it by the
+prime-field procedure. For each root $a$, the gcd
+$\gcd(h,b-a)$ selects the irreducible factors on which $b$ has value
+$a$, producing a proper split. Degrees strictly decrease under
+recursion. Derivative gcds handle multiplicities; if the derivative
+vanishes, take coefficient $p$th roots by inverse Frobenius
+$c\mapsto c^{p^{m-1}}$ and divide all positive exponents by $p$.
+In the branch $p\le B^{200000}$, enumeration of the $p$ scalars in
+the same fixed algebra is already polynomial in $B$. These arguments
+complete the transfer and the empty-set criterion.\hfill$\square$
+
+\paragraph{Unconditional primary-table promise.}
+The stronger conclusion in the last sentence of CX-ALG-028 is also
+valid: if every prime $r\le d$ either divides $m$ or has
+$v_r(p^{\operatorname{ord}_r(p)}-1)=1$, the displayed construction
+uses neither $A$ nor an additional number-field zero-location input.
+For $r=2$ use the two elementary quadratic branches above; for odd
+$r$ use $\zeta_r$ in the valuation-one branch and the supplied
+subfield otherwise. The claim is conditional only on the algebraic
+PF26 interface.
+
+\subsection{One Kummer Hecke function for each residual field}
+
+\paragraph{MA-PF-003 (the single-character identity).}
+Let $r$ be an odd prime, $p\ne r$ a prime, and put
+\[
+ F_r=\mathbb Q(p^{1/r}),\quad K_r=\mathbb Q(\zeta_r),\quad
+ E_r=K_r(p^{1/r}).
+\]
+Let $\psi_{p,r}$ be any faithful character of
+$\operatorname{Gal}(E_r/K_r)\simeq C_r$, interpreted by class field
+theory as its primitive finite-order Hecke character of $K_r$.
+Choose the convention in which its unramified value is the Kummer
+symbol
+\[
+ \psi_{p,r}(\mathfrak l)
+   =\frac{\operatorname{Frob}_{\mathfrak l}(p^{1/r})}{p^{1/r}}
+   =\left(\frac{p}{\mathfrak l}\right)_r
+   \quad (\mathfrak l\nmid pr),
+ \tag{MA-PF-5}
+\]
+with a fixed embedding $\mu_r\hookrightarrow\mathbb C$. Then,
+including every ramified local factor,
+\[
+ \boxed{\displaystyle
+   \frac{\zeta_{F_r}(s)}{\zeta_{\mathbb Q}(s)}
+     =L_{K_r}(s,\psi_{p,r}) .}
+ \tag{MA-PF-6}
+\]
+Each faithful choice gives the same induced $L$-function. In particular,
+under $A$, RH for $\zeta_{F_r}$ is equivalent to RH for this single
+Hecke $L$-function. The residual family in (MA-PF-3) is therefore an
+explicit finite list of finite-order Hecke functions, one for each
+$r\in\mathcal B(p,m,d)$.
+
+\emph{Proof.} The Eisenstein argument in CX-ALG-024 gives
+\[
+ G=\operatorname{Gal}(E_r/\mathbb Q)
+       \simeq\mathbb F_r\rtimes\mathbb F_r^\times,
+\]
+acting on the $r$ roots by affine transformations. Let $P$ denote the
+permutation representation on $\mathbb F_r$ and $N$ its translation
+subgroup. The character of $P-\boldsymbol1$ is $r-1$ at the
+identity, $-1$ at each nonzero translation and $0$ at every element
+whose multiplicative part differs from $1$. On the other hand,
+$\operatorname{Ind}_N^G\psi_{p,r}$ is zero outside $N$ and its
+restriction to $N$ is the sum of all $r-1$ nontrivial characters.
+At a nonidentity element of $N$ their sum is $-1$ and at the identity
+it is $r-1$. Thus
+\[
+   P\simeq\boldsymbol1\oplus
+            \operatorname{Ind}_N^G\psi_{p,r}.
+ \tag{MA-PF-7}
+\]
+The two sides are actual semisimple representations. Artin induction
+formalism gives (MA-PF-6); using inertia-invariant spaces in local
+Euler factors proves the equality at the ramified primes as well.
+Equivalently, one must use the primitive Hecke character attached to
+$E_r/K_r$, not arbitrarily remove every prime above $pr$ from its
+$L$-function. Since the character is nontrivial, its Hecke function is
+entire. In the open critical strip off the middle line $A$ makes
+$\zeta_{\mathbb Q}$ nonzero, so (MA-PF-6) gives the RH equivalence.
+This also recovers the already established identity of CX-ALG-024,
+\[
+ \zeta_{E_r}(s)=\zeta_{K_r}(s)
+                     L_{K_r}(s,\psi_{p,r})^{r-1}.
+ \tag{MA-PF-8}
+\]
+No general Artin-holomorphy conjecture is used.\hfill$\square$
+
+\paragraph{Geometric formulation.}
+Equation (MA-PF-7) is a decomposition of the Artin motive
+$h^0(\operatorname{Spec}F_r)$ into its unit summand and the induction
+of the rank-one Kummer motive over $K_r$. On
+$\operatorname{Spec}\mathcal O_{K_r}[1/(pr)]$, the latter is a
+finite-monodromy rank-one $\ell$-adic sheaf, for $\ell\nmid pr$,
+with coefficient field containing $\mu_r$. Its good Frobenius
+eigenvalues are roots of unity, hence have weight zero. The local
+Euler polynomial is the exterior-power identity
+\[
+ \det(1-T\operatorname{Frob}\mid V^{I})
+  =\sum_j(-T)^j\operatorname{Tr}
+           (\operatorname{Frob}\mid\bigwedge^j V^{I}).
+\]
+This places the identity in the representation-ring and $\lambda$-ring
+language; it does not deduce complex zero location from finite-field
+weights. For finite-monodromy objects the precise foundational
+dictionary is SGA~1, Expos\'e~V, \S7, opening paragraphs, original
+pp.~140--141, recomposed p.~115 (arXiv:math/0206203v2, PDF p.~131).
+The representation-ring use is the same one recorded in GRH\_NIGHT
+CX-ALG-024 and its SGA~6 Expos\'e~V framework reference.
+
+\subsection{A fixed strip is sufficient at the residual primes}
+
+\paragraph{MA-PF-004 (a smaller sufficient analytic condition).}
+Fix a number $\delta$ with $0<\delta\le1/2$, independently of
+$p,m,d$. Assume the algebraic PF26 input and $A$. In the
+large-characteristic branch, it suffices to assume
+\[
+ L_{K_r}(s,\psi_{p,r})\ne0
+       \quad\text{for }\Re s>1-\delta,
+       \qquad r\in\mathcal B(p,m,d),
+ \tag{MA-PF-9}
+\]
+to obtain deterministic polynomial-time factorization, with an exponent
+allowed to depend on the fixed $\delta$. Thus a proof of full RH for
+the residual pure fields is more than this algorithm requires.
+The assertion does not permit a different uncontrolled width
+$\delta(p,m,d)$ for each input.
+
+\emph{Proof.} For one residual $r$, use $K=\mathbb Q(\zeta_r)$ and
+$E=K(p^{1/r})$. Equations (MA-PF-8)--(MA-PF-9) and $A$ place
+all nontrivial zeros of both $\zeta_K$ and $\zeta_E$ in
+$\Re s\le1-\delta$. The standard smoothed formula used and proved
+in PF26 Lemma~11.2, p.~45, works for any fixed such $\delta$.
+Indeed, for a fixed nonzero nonnegative
+$\varphi\in C_c^\infty((1,2))$, write
+$\Phi(s)=\int_0^\infty\varphi(t)t^{s-1}\,dt$ and
+\[
+ \Psi_D(x)=\sum_{\mathfrak p}\sum_{j\ge1}
+       \log N\mathfrak p\,
+       \varphi\bigl((N\mathfrak p)^j/x\bigr),
+\]
+where $\mathfrak p$ runs through the prime ideals of $D$ and
+$\Delta_D$ is its absolute discriminant. Mellin inversion and the
+smoothed explicit formula give
+\[
+ \Psi_D(x)=x\Phi(1)-\sum_\rho x^\rho\Phi(\rho)
+                       +O_\varphi(\log\Delta_D+[D:\mathbb Q]).
+\]
+The zeros are counted with multiplicities. Rapid vertical decay of
+$\Phi$ and the uniform local zero count give
+$\sum_\rho|\Phi(\rho)|\ll_\varphi\log\Delta_D+[D:\mathbb Q]$.
+Consequently
+\[
+ \Psi_D(x)=x\Phi(1)+
+ O_\varphi\bigl(x^{1-\delta}
+               (\log\Delta_D+[D:\mathbb Q])\bigr)
+ \tag{MA-PF-10}
+\]
+for $D=K,E$. This argument uses the fixed strip, not the middle line.
+
+The discriminant estimate in CX-ALG-024 gives
+\[
+ [E:\mathbb Q]=r(r-1),\qquad
+ \log|D_E|\le r(2r-3)\log r+(r-1)^2\log p.
+\]
+Thus the degree-plus-log-discriminant quantity for either field is
+$O(B^3)$, uniformly. Subtracting $r^{-1}$ times the formula for $E$
+from the one for $K$ yields
+\[
+ \Psi_K(x)-r^{-1}\Psi_E(x)
+  =(1-r^{-1})x\Phi(1)+O_\varphi(x^{1-\delta}B^3).
+ \tag{MA-PF-11}
+\]
+Take $x=T_\delta B^{20/\delta}$ with a sufficiently large fixed
+$T_\delta$. The error-to-main-term ratio is
+$O_\varphi(T_\delta^{-\delta}B^{-17})$.
+
+As in PF26 Proposition~11.3, p.~46, terms of prime-power exponent at
+least two or residue degree at least two on the $K$ side contribute
+at most
+\[
+ O_\varphi\bigl([K:\mathbb Q]\sqrt{x}\log^2(2x)\bigr).
+\]
+The degree-one terms above $p$ or $r$ contribute at most
+$O_\varphi([K:\mathbb Q]\log(2x))$. A sufficiently large fixed
+$T_\delta$ makes their sum smaller than half the positive main term
+in (MA-PF-11). Every remaining degree-one prime ideal of $K$ lies
+above a rational prime $\ell\equiv1\pmod r$ with
+$\ell\notin\{p,r\}$. If $p$ is an $r$th power modulo $\ell$,
+that prime ideal splits completely in $E/K$, and its first-power
+contribution cancels exactly in (MA-PF-11). Discarding the remaining
+negative terms gives an upper bound. Therefore a noncancelling
+degree-one prime must occur, furnishing
+\[
+ \ell\ll_\delta B^{20/\delta},\qquad
+ \ell\equiv1\pmod r,\qquad
+ p^{(\ell-1)/r}\not\equiv1\pmod\ell.
+ \tag{MA-PF-12}
+\]
+Search by trial division and modular powering. The invariant algebra
+of PF26 Lemma~3.1 constructs $U_r\simeq\mathbb F_{p^r}$ using a
+number of operations polynomial in $\ell$ and $\log p$. Apply the
+transfer in MA-PF-002. Since $\delta$ is fixed, (MA-PF-12) is a
+fixed polynomial bound, and all subsequent costs are polynomial.
+No twist by $\mathbb Q(\zeta_{12})$ is needed.\hfill$\square$
+
+The abstract motive and finite-\'etale dictionary is unchanged from
+MA-PF-003. The difference is analytic: the prime-detection trace uses
+an error $O(x^{1-\delta})$, not necessarily the square-root error.
+The finite list (MA-PF-9) remains outside what $A$ alone establishes.
+The quoted companion theorem (MA-PF-2) has a different, globally
+quantified statement and has not been audited here.
+
+\subsection{The first residual character is already imaginary quadratic}
+
+\paragraph{MA-PF-005 (the cubic instance and the cutoff distinction).}
+For $d=3$ in the large-characteristic branch,
+\[
+ \mathcal B(p,m,3)=\{3\}
+ \quad\Longleftrightarrow\quad
+       p\equiv-1\pmod9\ \text{ and }\ 3\nmid m.
+ \tag{MA-PF-13}
+\]
+For these instances the only extra Hecke function in MA-PF-003 is
+the order-three Kummer character for
+\[
+ \mathbb Q(\zeta_3,p^{1/3})/\mathbb Q(\zeta_3),\qquad
+ \mathbb Q(\zeta_3)=\mathbb Q(\sqrt{-3}).
+\]
+It is not induced by a character over $\mathbb Q$. Infinitely many
+primes meet this congruence and the exact large-characteristic cutoff
+for fixed $m$ with $3\nmid m$ and $d=3$.
+
+The concrete prime $p=269$ gives a convenient explicit character:
+\[
+ 269^2-1=72360=3^3\cdot2680,
+ \qquad \zeta_{\mathbb Q(269^{1/3})}/\zeta_{\mathbb Q}
+       =L_{\mathbb Q(\sqrt{-3})}(s,\psi_{269,3}).
+ \tag{MA-PF-14}
+\]
+It is an example of the arithmetic condition, but is \emph{not} a
+case where PF26 needs an analytic assumption: for $d=3$ it has
+$B=60$ and $269<60^{200000}$, hence falls in the unconditional
+small-characteristic branch.
+
+\emph{Proof.} In the large branch $p>3$. The prime $2$ is excluded.
+For $r=3$, exclusion of $3\mid p-1$ leaves $p\equiv-1\pmod3$,
+whose order modulo $3$ is $2$. Then
+$v_3(p^2-1)>1$ is equivalent to $p\equiv-1\pmod9$.
+The other exclusion is exactly $3\nmid m$. The polynomial
+$X^3-p$ is Eisenstein at $p$ and has nonsquare discriminant
+$-27p^2$, so its splitting field has group $S_3$ and its quadratic
+subfield is $\mathbb Q(\sqrt{-3})$. Conjugation by the nontrivial
+element of $\operatorname{Gal}(\mathbb Q(\sqrt{-3})/\mathbb Q)$
+sends the order-three Kummer character to its inverse. These two
+characters differ. A character restricted from $G_{\mathbb Q}$
+would be invariant under this conjugation; equivalently a Hecke
+character pulled back by the norm would be invariant. Thus this
+character does not descend from $\mathbb Q$.
+
+Dirichlet's theorem supplies arbitrarily large primes $p\equiv8$
+modulo $9$. For fixed $d=3$, the function
+$20+4(\lceil\log_2p\rceil+1)$ grows logarithmically; hence
+$p>B^{200000}$ for all sufficiently large $p$. This proves the
+infinite-family assertion. Trial division by the primes at most
+$\sqrt{269}<17$ verifies primality of $269$, and the displayed
+arithmetic verifies the example and its branch.\hfill$\square$
+
+This is the concrete connection to the first non-Dirichlet imaginary
+quadratic Hecke case in task~1(d). In the Artin-motive formulation it
+is the two-dimensional irreducible summand of the degree-three
+permutation motive of $X^3-p$. Holomorphy is already supplied by
+Hecke induction; the analytic issue is its zeros. Neither the finite
+monodromy nor the weight-zero statement supplies those zeros' location.
+
+\subsection{Record of the full PF26 proof check}
+
+The following checks record what was actually inspected. Every listed
+proof was read in its entirety from the supplied PDF's extracted
+text. The key interface and analytic-premise pages 35, 44 and 45
+were additionally rendered and visually inspected. The source's
+classical structure theorems remain cited theorems; their entire
+literature was not re-refereed.
+
+\begin{enumerate}
+\item \textbf{Lemma~2.1, p.~7.} A nontrivial gcd produced over the
+working extension is the product of a subset of $\mathbb F_p$-rational
+linear factors, so is over $\mathbb F_p$. Polynomial degrees and
+pivots reduce to scalar zero tests. A field inverse is attempted only
+after every component is nonzero.
+\item \textbf{Lemma~2.2, pp.~8--9.} Distinct-degree decomposition
+needs no complete factorization. If $r\mid e$, the Frobenius
+eigenspace $v^{Q^{e/r}}=\zeta_rv$ projects nontrivially to every
+field component. The moment-curve grid has fewer than $h^2$ forbidden
+values; the strict characteristic inequality supplies enough distinct
+scalars. The valuation of the order of a nonzero solution is exactly
+the full $r$-valuation of $Q^e-1$. Primary logarithms are digit loops,
+not loops over the primary subgroup. Promise of an $r$th power makes
+each logarithm divisible by $r$.
+\item \textbf{Proposition~2.3, pp.~9--10.} Negating a difference
+changes its primary logarithm by half the two-primary order. Each
+unordered pair therefore receives one orientation. The row counts
+cannot all be $(N-1)/2$ when $N$ is even, and $p>N$ preserves the
+distinction after reduction modulo $p$.
+\item \textbf{Lemma~3.1 and Proposition~3.2, pp.~11--13.} Fixed
+functions under the index-$r$ cyclotomic subgroup form an algebra
+whose geometric factors are its cosets. The verified residue test
+makes Frobenius a transitive $r$-cycle, hence the algebra a field.
+The tensor-product field and Frobenius eigenvector have the asserted
+primary orders. The only factoring call has degree $r-1$, so the
+table/factorization induction has no circular dependency.
+\item \textbf{Lemmas~4.1--4.2, pp.~15--16.} Injectivity uses
+injectivity of $1-\sigma$ on the infinity lattice, not on its image
+in the Jacobian. In the label calculation the function action is
+$h(X,Y)\mapsto h(X,\zeta^{-1}Y)$, which gives the sign in
+equation~(4.7). Hilbert~90 removes the norm-one function; invariant
+divisors decompose into reduced ramification coefficients and a
+pullback divisor. Equal labels kill the class because the sum of
+the ramification generators is zero.
+\item \textbf{Lemma~4.3, Lemma~4.4 and Corollary~4.5,
+pp.~17--18.} Frobenius minus one lowers the $\lambda$-filtration
+by one; multiplication by $r$ lowers it by $r-1$. The binomial
+induction gives the precise extension degree $r^{v_r(N)}$.
+The quotient relation's second coordinate shows that fixed pairs
+give genuinely fixed Jacobian points. Finite-field norm surjectivity
+removes the constant obstruction to descending a divisor class and
+its principal function.
+\item \textbf{Proposition~4.6, pp.~18--19.} The relation needed
+for the next label test is proved only after the previous labels
+coincide. The last test would force
+$Ne\in\lambda^{1+(r-1)v_r(N)}\Lambda$, contrary to the exact
+lattice valuation. No unjustified simultaneous identities at all
+levels are used.
+\item \textbf{Proposition~5.1 and Lemma~5.2, pp.~20--23.}
+Fractional ideals use finite quotients with explicit bounds. Their
+inversion, intersections and products reduce to linear conditions.
+Characteristic polynomials of multiplication by $X$ compress the
+bound and compute pushforward divisors, including multiplicities.
+The infinity Vandermonde argument supplies the degree bound for
+the complete Riemann--Roch ansatz, and reduction gives absolute
+degree at most $2g$.
+\item \textbf{Lemma~5.3, pp.~23--24.} At each place a grid
+contains a parameter attaining every component's least valuation.
+The parameter may depend on the place, which is sufficient to
+generate the product ideal; no one parameter must work everywhere.
+Determinants compute the component norm without splitting the
+coefficient algebra. The grid length and generator lists are
+polynomial.
+\item \textbf{Lemma~5.4, p.~24.} Binary addition and doubling
+of reduced divisor classes stores correcting functions by circuits.
+Valuations and nonzero leading coefficients propagate without
+expanding the rational function. Since the final divisor has zero
+coefficient at a ramification point, the final leading coefficient
+is its value there.
+\item \textbf{Theorem~6.1 and Lemma~6.2, pp.~25--27.} The norm
+promise splits the cyclic algebra only for the existence argument.
+The algorithm never uses the unknown splitting or norm solution.
+The ramified and unramified local matrix models satisfy the
+commutation relation with the stated sign. The local residue-root
+promises follow from the norm valuation/residue identities.
+Solving $Ve=he$ in a rank-one left ideal gives the norm equation
+after $r$ iterations.
+\item \textbf{Lemma~6.3 and Lemma~6.4, pp.~28--29.} Completed
+orders descend by finite congruence data, glue to
+$\operatorname{End}\mathcal V$ and have global sections as claimed.
+The splitting proof is over the actual finite field. A maximal
+line subbundle has quotient summand degrees no larger than its
+degree, making the extension groups vanish. Evaluation gives a
+full block triangular algebra. Its trace-pairing kernel is the
+strictly triangular radical, whose common column kernel is the
+first block; this yields the rank-one fiber idempotent by linear
+algebra without diagonalizing a general algebra.
+\item \textbf{Section~6.3 and Lemma~6.5, pp.~29--32.} A lift
+$b$ of the fiber idempotent has constant characteristic polynomial
+$T^{r-1}(T-1)$, so $b^r$ is a rank-one idempotent. Trace-dual basis
+bounds control every local coefficient; the finite ansatz contains
+all global sections. Precision $3M+3$ suffices after multiplication
+by the prescribed powers of local uniformizers. The rational
+linear solve has degrees bounded by minors, avoiding expression
+tree growth.
+\item \textbf{Proposition~7.1, pp.~33--34.} Normalizing the
+pushforward function to residue one at a specified ramification
+point changes a known norm only by an $r$th power in the constant
+field. The norm-solver promise is therefore established. For the
+norm-zero divisor $D-\operatorname{div}(a)$, the maximum of cyclic
+partial sums solves the divisor equation exactly. Subtracting its
+degree times the fixed ramification point gives degree zero and
+does not change its $1-\sigma$ image.
+\item \textbf{Proposition~8.1, pp.~35--37.} The binomial constant
+extension has degree $r^{v_r(N)}\le N$ and supplies the entire
+primary group. Every chosen division, rather than merely one
+special sequence, is rational over that extension. The simultaneous
+sum meets its scalar-grid bound. The reached-test invariant is
+exactly Proposition~4.6's invariant. Binary infinity coefficients
+are never materialized as large divisors.
+\item \textbf{Lemma~9.1 and Proposition~9.2, pp.~38--40.}
+The moment-curve separator has fewer than $t^3$ bad parameters
+for $t$ components. Characteristic-polynomial square-freeness
+detects a separating element, and substitution of a proper factor
+selects a proper group of components. Recursive degrees decrease;
+derivative-zero and repeated-factor branches preserve multiplicities.
+The primary table is built only once.
+\item \textbf{Proposition~10.1, pp.~41--44.} The displayed
+norm, divisor and circuit dimensions are fixed powers of $B$;
+the degree of the curve is not held constant. Moment-curve and
+interpolation grids are smaller than $p>B^{200000}$. The
+auxiliary algebra is charged by its numerical dimension $\ell-1$,
+using elimination without an $\ell$-dependent interpolation grid.
+The indexed-array estimate
+$O(B^{201000}+B^{41}E^{10})$ squares to a bound covered by
+(MA-PF-1). The exponent and the branch cutoffs were checked,
+including their dependence on values rather than bit lengths of
+auxiliary primes.
+\end{enumerate}
+
+\paragraph{Grothendieck's geometric contribution to the algorithm.}
+For square-free $h$, $\operatorname{Spec}(\mathbb F_{p^m}[X]/h)$
+is a finite \mbox{\'etale} scheme; irreducible factors are its connected
+components and primitive idempotents are their indicator functions.
+SGA~1, Expos\'e~I, Corollary~7.4, recomposed p.~9 (PDF p.~25),
+gives the separable-polynomial criterion; Expos\'e~V, \S7,
+recomposed p.~115, gives the finite fundamental-group-set dictionary.
+PF26's norm algorithm also makes essential use of the projective-line
+splitting theorem, not merely a general effectiveness slogan:
+Grothendieck (1957), Th\'eor\`eme~2.1, p.~126, is its published
+holomorphic source, and p.~127 discusses the algebraic version over
+an algebraically closed field. The form over the original finite
+field is proved explicitly in PF26 Lemma~6.3, p.~28. The global
+section algebra's parabolic fiber and its rank-one idempotent are
+the computational bridge. No archive cote for this new algorithm
+has been identified, and none is asserted. The statements do not
+turn a general existence theorem in EGA, FGA or SGA into a polynomial
+algorithm without the size analysis just checked.

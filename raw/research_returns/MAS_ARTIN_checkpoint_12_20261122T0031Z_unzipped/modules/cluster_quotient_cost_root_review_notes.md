@@ -1,0 +1,11 @@
+# MA-PR-013: complete root reading
+
+Date: 2026-11-22T00:00:16.899938+00:00. Reviewer: GPT-6 Astra Pro; /root; inherited effort not separately exposed; MAS_ARTIN.
+
+Read all392 lines; SHA256 c58bc3c3f43e7e9a4e49c16f48649d1f66839506549a5054a259be7964331b44.
+
+Read all392 lines in two complete untruncated portions. Recomputed the divided-difference contour functional on the original full block, selected-height product bound without separation, exact whole Hilbert quotient dual norm via retained jets and dense original core, repeated-node Laplace convolution, phase-independent Plancherel lower mass, explicit 16k/d tail bound and weighted exponent. Checked both edge signs and the selected-height contradiction that prevents an adverse cluster from crossing existing block boundaries. Polynomial absorption uses the actual O(log height) block count. The residual fixed-test conclusion uses the already checked PR010 Baire alternative. No outside-contour Mellin evaluation for a general H input, new block norm, actual arithmetic cluster, or automatic movement is asserted.
+
+Outcome: PASS at the stated conditional scope.
+
+Final delta at 2026-11-22T00:03:59.646776+00:00: Read the added initial Re z>2 contour/Laplace interchange and its holomorphic continuation to the right of all exponents; this supplies the explicit domain justification requested in the independent input review. No equation or estimate changed. Final SHA256 968ac97978daa5c346d95721da8c683758e2943c36ef17c70d36008b4925dc76. PASS.

@@ -1,0 +1,7 @@
+# MA-PI-004 root whole-proof reading
+
+2026-11-21T23:29:53.834099+00:00. GPT-6 Astra Pro, /root, inherited effort not separately exposed, MAS_ARTIN. Read all650 lines in three untruncated portions; SHA256 `90ce3f35bf375332d8cb25efbfba0a6b7c6b27a7b2bc86552b24ce21f9d79461`. PASS, no correction requested.
+
+The two Fourier-shell functions sum to the actual flat h3 source and reconstruct the unchanged physical cutoff. Q=3q remains the primitive analytic conductor; Q*=27q is only the filtered source reflection scale. The modulus-squared Gram identity is proved before its positive temperedness is inferred from actual source continuity. Hermitian support symmetry suffices; evenness is not assumed for the non-real character. The large imaginary values follow from the exact complex gamma ratio and two positive-axis factors tending to1. Direct original PW membership, both weighted dilation limits and finite epsilon flattening make the witness an actual flat source vector. Both finite cutoff-output summands remain polar-free through the269 factor. The printed isometry retains compact Haar mass and uses the full original character PW range.
+
+Fresh source checks: Masullo514–520 text in full; Tate local-equation statement interface PDF18 and an actual visual reading of the complex gamma table PDF23. This is a source-interface check, not a fresh complete primary-proof reading of Tate. The theorem does not identify a new motive/conductor, invoke Hecke zero location, attribute an unprinted equation, or rule out a different comparison map.
