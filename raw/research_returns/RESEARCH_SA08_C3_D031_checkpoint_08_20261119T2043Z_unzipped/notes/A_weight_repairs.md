@@ -1,0 +1,11 @@
+# Actual weight-supported repairs: AT13–AT14
+
+The complete proofs and all typed maps are in `sections/A_weight_repairs.tex`. These are explicit individual constructions. No assertion that their iteration produces an admissible common source is included.
+
+AT13 repairs a prescribed closed coefficient-tail map I_N⟨b⟩⊗D(n)→Z^qX. A finite coefficient resolution, stopped with its last syzygy in form zero, gives the generator module. The actual simultaneous maps to A and B follow from the exact projective simplicial Hom functor on D(n); its Hom into the constant coefficient module is zero. Every resulting horizontal row deformation retracts onto the old row, even when the bottom coefficient module is not free. For q≥2 and torsionfree targets, the torsion quotient keeps these maps and retractions and has H0 exactly S. The latter follows from an explicit rational splitting and the integrality of actual target coefficients.
+
+AT14 is the stronger free-parameter construction. Starting with X_Q vertically resolving S_Q, choose a rational simplicial primitive for the prescribed cycle z:D(n)→Z^qX in a sufficiently high weight, and clear one denominator: db=mz. Adjoin u in form q−1 and v in form q−2, with du=z and dv=mu−b. The two target primitives exist because q−1 is positive and D(n) is projective. The explicit rational change u'=u−b/m gives an identity disk, so the rational coefficient resolution is preserved. Horizontal bounds and all smaller weights are unchanged; terms stay free or flat; H0 stays S. All remaining positive cohomology is torsion.
+
+The remaining low-degree issue is explicit. At q=2 the variable v has form degree zero. Parameters D(n) with n≥2 leave the entire simplex-zero algebra unchanged. Parameter D(1) has a simplex-zero term and can add a disk whose differential is multiplication by the nonunit m. Rational contraction of that disk does not give its integral contraction. The team is checking its coefficient residue obstruction and whether it can be removed compatibly with the two maps.
+
+No new external theorem is imported in these statements. The projective disk identity, the free PD construction, the contractions, and the rational-to-integral coefficient argument are all supplied in the proofs.
