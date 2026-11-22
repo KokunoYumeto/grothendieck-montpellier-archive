@@ -1,8 +1,5 @@
 """Masullo's GRH draft (940 pages, pdfTeX, no source posted): the mathematics only, keyed to the PDF text layer (21 Nov
-2026, main session, Claude Opus 5.5 at effort max). The user, 20 Nov 22:39 UTC: "Only the math, yes. Text layer has the
-pro statements. Would only get page plus text layer and return only the math as LaTeX key to the text layer line";
-22:44 UTC: "you can do the API thing. Just make sure to use batch"; 21 Nov ~01:5x UTC: "we also need to have a version of
-the other GRH proof because they both show different things that might be relevant."
+2026, main session, Claude Opus 5.5 at effort max). The user's word of 20-21 Nov: [the user's words, omitted].
 Per page: the numbered text layer plus the page as two overlapping 200-dpi halves (the pilot of 20 Nov), to
 Claude Opus 5.5 at effort high over the Message Batches API. Requests are split into files under 200 MB (the API's
 batch limit is 256 MB).

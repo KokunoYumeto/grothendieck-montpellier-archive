@@ -3,10 +3,9 @@
 From the main session (Claude Opus 5.5 at effort max), 14 November 2026, ~18:1x UTC, at the user's word. You built
 this batch (the handwriting survey and the 32 H folders, 14 Nov), so you know it.
 
-## The user's words, verbatim (USER_INPUTS P5071, point two)
+## The user's request
 
-"Point two, the transcriptions by Astra Max were they spot checked? What was their quality? If it was decent, we can
-see if there is more that can be pushed over Astra Max, because there is stuff left. Compute left on that interface."
+[the user's words, omitted]
 
 ## What exists
 
