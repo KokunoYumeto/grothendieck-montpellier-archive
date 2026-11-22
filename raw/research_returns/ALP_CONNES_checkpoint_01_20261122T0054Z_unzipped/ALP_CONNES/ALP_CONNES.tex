@@ -1,0 +1,282 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\ifdefined\pdfmapfile
+  \pdfmapfile{+lm.map}
+  \pdfmapfile{+cm.map}
+  \pdfmapfile{+symbols.map}
+  \pdfmapfile{+euler.map}
+  \pdfmapfile{+rsfs.map}
+\fi
+\usepackage[margin=27mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{mathrsfs}
+\usepackage{array,longtable,booktabs,enumitem}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xurl}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,
+ pdftitle={ALP CONNES: consequences, constructions, and the cubic gate},
+ pdfauthor={Research collaboration, 22 November 2026}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\N}{\mathbb N}
+\newcommand{\A}{\mathbb A}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\End}{End}
+\setlength{\emergencystretch}{3em}
+\setlist{nosep}
+
+\title{Alp\"oge's theorem through Connes's programme:\\
+proved consequences, explicit constructions, and the cubic gate}
+\author{ALP\_CONNES research record}
+\date{22 November 2026\quad--\quad working paper}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+We take the supplied theorem A of Alp\"oge (20 November 2026) as an
+input: RH for the Riemann zeta function and for all primitive
+Dirichlet $L$-functions. We distinguish its consequences from
+constructions already unconditional in the sources. The proved
+results include rational-character Weil positivity, the exact
+scope of the cohomological and Sobolev spectral realizations,
+closed finite-window operators, quantitative small Weil
+eigenvalues, numerical Hodge data, and explicit Artin--Tate and
+ray-class models. Follow-up~1 adds the BCM and CM systems,
+neutrality, the local-factor moment problem, and the 2026
+geometric and trace papers. The finite-order character at
+$p=269$ has an explicit maximal integral ray-class host and
+an unconditional strictly positive Weil window through
+$\lambda=4$. The arithmetic sparse-window inequality H04.4
+for that cubic character has not been proved. Nor is a
+gap in a proposed inference described as a theorem of
+logical independence. Every numbered finding has a full
+proof; the check register specifies which readings and
+computations have actually been performed.
+\end{abstract}
+
+\tableofcontents
+\clearpage
+
+\section{Input, normalization, and the state of the questions}
+\label{sec:input}
+
+\paragraph{Theorem A (Alp\"oge, supplied theorem, 20 November 2026).}
+The Riemann zeta function satisfies RH. Dirichlet $L$-functions
+have no nontrivial zero with real part greater than $1/2$;
+all nontrivial zeros of every primitive Dirichlet function
+have real part $1/2$. The original prompt and its follow-up
+are included as \path{TASK_PROMPT.md} and
+\path{TASK_FOLLOWUP_1.md}. This paper accepts A exactly in
+that role. It does not claim an independent Lean compilation.
+
+The attached map \path{OURS_ALPOGE_LEAN_MAP_20261120.md}
+locates the public statements at \path{Main.lean}, lines
+4, 6, 8, 10 and 12, and \path{Statements.lean}, lines
+3--17; the kernel-level interface is in
+\path{Supplements/Kernels/MainTheorems.lean}, lines 7--16.
+The map is a textual audit of the supplied archive, not a
+build certificate. The generic analytic theorem actually
+recovered and read here is \texttt{Deduction.landau\_window}
+in \path{Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindow.lean}.
+Its arithmetic premise remains separate from that
+generic analytic implication. The four-page
+\path{ALPOGE_remark.pdf} was read by text extraction;
+no visual scan inspection or proof verification of A is
+claimed by that operation.
+
+\paragraph{Prior-run inputs.}
+The starting point is
+\path{RETURN_ALP_MACHINE_checkpoint_04_20261121T2304Z},
+especially AM-H01--AM-H04 and AM-H06--AM-H08, and
+\path{RETURN_MAS_ARTIN_checkpoint_10_20261121T2301Z},
+especially MA-FT-001--MA-FT-002 and the actual character
+Gram and trace interfaces they use. We carry their proved
+statements with their hypotheses and distinguish a full
+reading in this run from a carried background assertion.
+The registers give the check type for each such use.
+No numbered assertion from those runs is relabelled here
+as a new theorem.
+
+\paragraph{What the status words mean.}
+``Proved'' below means the displayed conclusion follows
+from the expressly stated inputs; some such inputs include A.
+``Unconditional'' means A and cubic RH are not needed.
+A checked counterexample refutes only the precise
+formulation specified. An open comparison, a missing
+construction, or an unavailable archival source is a
+gate, not a positive or negative theorem about every
+possible approach. Source statements known before this
+run are cited as such. The file \path{QUESTIONS.tsv}
+tracks the individual questions; \path{CHECK_EVENTS.tsv}
+records checks rather than projecting a stronger status
+from another statement's verification.
+
+\begin{center}
+\begin{tabular}{p{.15\textwidth}p{.38\textwidth}p{.37\textwidth}}
+\toprule
+Task & Proved or concretely constructed & Remaining comparison or gate\\
+\midrule
+Trace and windows & All rational unitary sectors, Weil positivity,
+closed compact-resolvent windows, precise spectral multiplicities &
+All-character original C99 cutoff comparison, distinct from the
+cohomological trace; unitarization of nonsimple jet blocks\\
+Spectral triples & Fixed-window Galerkin convergence and quantitative
+vanishing of every fixed low eigenvalue & Selection and comparison of
+the specific lowest eigenfunction and the proposed prolate trial\\
+Sites and motives & Analytic Hodge inequality, numerical square,
+actual Artin--Tate examples and sheaf constructions & A geometric
+surface square, its polarized cohomology and surface Riemann--Roch\\
+BCM and neutrality & Exact positive/twisted trace distinction, cubic
+arithmetic observable, finite unit compensation and norm counts &
+No KMS or local-purity statement supplies the cubic arithmetic ramp\\
+Cubic Kummer & Minimal conductor host, explicit maximal model at269,
+strict finite test windows & H04.4 for unbounded arithmetic windows,
+with individual twisted lengths and growing-host costs\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\part{Proved findings and source corrections}
+
+\input{modules/trace_windows.tex}
+\input{modules/spectral_prolate.tex}
+\input{modules/sites_twistor.tex}
+\input{modules/kummer_lambda.tex}
+\input{modules/bcm_neutrality.tex}
+\InputIfFileExists{modules/trace_followup.tex}{}{}
+\InputIfFileExists{modules/trace_cutoff_bridge.tex}{}{}
+\InputIfFileExists{modules/spectral_followup.tex}{}{}
+\InputIfFileExists{modules/sites_followup.tex}{}{}
+
+\part{Unproved comparisons and source-access limits}
+\section{The central arithmetic gate has not been removed}
+The strongest cubic input carried from ALP\_MACHINE is the
+generic pole/window implication with the actual full local
+coefficients. The new ray-class integral model resolves
+the algebra and its ramified Frobenius lifts. It supplies
+no bound on the individual twisted cohomology lengths.
+The bounded test-function window of AC-K09 and the
+unbounded one-sided arithmetic windows of H04.4 have
+different variables and quantifiers. Conflating them
+would be a gap. The final ledger and implications register
+will state the exact gate reached at the last review.
+
+\section{Spectral and geometric comparisons still requiring proof}
+No proof here identifies a specified prolate eigenvalue
+with an individual zeta ordinate merely from a counting
+asymptotic. The original prolate counting comparison is
+recorded in \path{modules/spectral_prolate_unchecked.md},
+including the versions whose logarithmic terms require
+reconciliation. It is not used in any proved finding.
+No proof here constructs the full arithmetic square
+from the numerical Hodge inequality. An isometry of a
+marked numerical kernel is not a scheme, a motive, or
+a polarized cohomology theory. The unconditional
+Riemann--Roch statements cited in the body retain their
+actual spaces, dimension functions and exceptional
+terms; A does not silently change those definitions.
+
+\section{Grothendieck source dictionary and access levels}
+\label{sec:groth-source}
+The geometric interpretations in the body identify the
+category in which each construction lives. A framework
+reference is not an attribution of a new analytic theorem
+to Grothendieck. The following exact source entries were
+read in the indicated form in this run.
+\begin{itemize}
+\item SGA~1, expos\'e~V, \S4, ``Conditions axiomatiques
+d'une th\'eorie de Galois'', and \S7, ``Cas des
+pr\'esch\'emas'': finite continuous Galois sets and
+finite \'etale covers. The online French transcription
+was read. This is the framework for AC-K01--AC-K06,
+AC-B03--AC-B06 and the finite abelian monodromy results.
+\item SGA~1, expos\'e~XI, \S6, ``Application aux
+rev\^etements principaux: th\'eories de Kummer et
+d'Artin--Schreier'', Proposition~1, Definition~2,
+Corollary~3, Proposition~4 and Corollary~5: the group
+$\mu_n$, its \'etaleness away from $n$, and the
+unit/Picard description of Kummer torsors. The online
+French transcription was read, including the exact
+sequence. This directly describes the cubic covers
+after inverting $3p$ and their coefficient-field
+character projectors.
+\item SGA~4, expos\'e~II, Theorem~4.1: existence and
+left exactness of associated sheaves. The online
+French transcription was read. This is the applicable
+framework for AC-G09, not a statement that the
+sectionwise split-zero presheaf was already a sheaf.
+\item SGA~6, expos\'e~V, 2.2(b) and Lemma~2.2.1:
+exterior-power operations and their representation-ring
+identities. The online French transcription was read.
+These locate the $\lambda$-ring and tensor language
+for the Artin--Tate constructions and AC-K08. They
+do not imply global zero bounds for nonabelian
+Artin functions.
+\end{itemize}
+
+The Montpellier catalogue was consulted for cotes 2
+(Riemann--Roch), 10 (tensor structures), 11
+(correspondences), 14 (Hodge--Tate--Lefschetz), 16
+(standard conjectures), and 19 (topoi). These are
+\emph{catalogue-level thematic references}. The scans
+were not opened successfully here, so no new
+scan-level verification is claimed. Earlier supplied
+documentation contains readings of cote54, scans003,
+005 and007, and cote4, scans003,005 and006. Those
+records are carried as historical source records,
+not as scans reread by this run. Any requested
+archival implication requiring such a reading
+remains a source-access gate. The explicit source
+manifest and source-check evidence preserve the
+distinction.
+
+The identification $\Delta=\chi_{12}\circ u$ in the
+updated intake note has not been independently
+verified: the underlying DELTA23 intake and definition
+of $u$ were not located in the supplied material.
+AC-B06 uses only its fully proved character table.
+
+\appendix
+\section{Evidence, reproducibility, and licensing}
+Every input file is hashed in
+\path{evidence/source_manifest.json} or
+\path{evidence/followup_1_source_manifest.json}.
+The extraction was performed once for each attachment.
+The Python scripts in \path{scripts/} are finite
+certificates of the expressly stated algebraic and
+interval computations. They are not formal proofs
+of A, a Lean build of the inherited archives, or
+certificates of cubic zero location. Independent
+whole-proof readings are recorded in \path{reviews/}
+and the check register.
+
+Checkpoint timing and the scheduled movement reviews
+are in \path{LEDGER.md}; actual clock times are used.
+No earlier checkpoint ZIP is included inside a later
+one. The source ZIPs remain separate inputs.
+Text newly written by the AI collaboration is
+dedicated to the public domain under CC0~1.0, as
+requested. This does not change the rights in the
+attached literature or third-party source material.
+
+\end{document}
