@@ -1,0 +1,5 @@
+# G2/triality exploration log
+
+The initial eight-table export included optional complete 3D4(3) and 3D4(4) checks. All708 selected rows and145463 nonscalar entries passed:11502 complete Fourier spectra on the six required cover/outer tables, and133961 coefficient L1 trace bounds on the two optional triality tables. Runtime1.071s. Full initial input hash941ac19411e2598fe2a8ce1d84631d45badb8e929232fda26154ffe86f1371a6. The optional trace maxima were8/73 and15/241. Full oversized temporary inputs remain in cache; final input is reduced to the six required tables because the uniform generic proof already handles every triality q>=3. This is a packaging reduction, not a mathematical failure.
+
+The q>=5 uniform generic coefficient comparison passed all11 tables in0.613s; it was subsequently sharpened to q>=3 for all three triality tables. Atq2 triality the naive quarter trace bound fails in one entry (generic row6,col2,degree52,bound20); exact spectra handle that endpoint. The generic G2 trace bound also fails atq3/q4 in listed small entries; all universal-cover/outer spectra give the stronger required eigenvalue bounds.

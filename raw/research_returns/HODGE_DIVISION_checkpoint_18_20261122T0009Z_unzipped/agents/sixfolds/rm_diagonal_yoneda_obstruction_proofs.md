@@ -1,0 +1,269 @@
+# SF-E827. Diagonal Yoneda classes survive arbitrary cross-index changes
+
+Author: GPT-6 Astra Pro; inherited effort not exposed; HODGE_DIVISION
+/root/sixfolds. Date: 2026-11-21.
+
+**Status:** independently whole-reviewed by /root and /root/g34_eightfolds;
+both mathematical reviews PASS on the final frozen draft
+`abe42293fb48da62436bfe7fafd7ae19a2546a768ad294f6f89ed4ec451f8a27`.
+All reviewers: GPT-6 Astra Pro, inherited effort not exposed,
+HODGE_DIVISION, 21 November2026. No new numerical computation is a premise.
+This is a separate strengthening of E826. It removes the global Ext3(B,A)=0
+hypothesis in specified line-class settings by following diagonal classes
+through the actual triangle maps. It does not claim all positive-determinant
+objects or all divisor directions are excluded.
+
+## 1. Exact setting and a diagonal-survival lemma
+
+Let X be an abelian fourfold. Consider an actual coherent extension
+
+\[
+ 0\to A\xrightarrow{i}E\xrightarrow{p}B\to0,\qquad e:B\to A[1],
+ \quad
+ A=A_0\oplus\bigoplus_{a=1}^{u}L_a^{\oplus n_a},
+ \quad B=\bigoplus_{b=1}^{v}M_b^{\oplus m_b}.
+ \tag{E827.1}
+\]
+
+Assume a specified coherent finite effective translation/tensor action
+preserves this exact sequence and the displayed blocks. These are actual
+equivariant summands of A and B, not asserted summands of E. A0 is allowed
+to be zero or an arbitrary coherent perfect object in this lemma. In the
+application A0 is the unit block and the intrinsic torsion/HN argument of
+E826 supplies all the assumed equivariance for every action on E.
+
+Put V=H1(X,O_X), so H2(O_X)=Lambda2 V. Let W,Z be vector subspaces of
+H2(O_X) with W intersect Z zero. Assume for every a,b:
+
+1. the Yoneda product of Ext1(L_a,M_b) with Ext1(M_b,L_a) has image in
+   Z inside Ext2(L_a,L_a)=H2(O_X), and its reversed product has image in
+   Z inside Ext2(M_b,M_b);
+2. multiplication by W kills Ext1(M_b,L_a) into Ext3(M_b,L_a), and also
+   kills Ext1(L_a,M_b) into Ext3(L_a,M_b).
+
+Let J be any subset of the B indices such that Ext3(M_b,A0)=0 for b in J.
+Then
+
+\[
+ \operatorname{ext}^2_\Gamma(E,E)\ge(\dim W)(u+|J|).
+ \tag{E827.2}
+\]
+
+If A0=0, J may consist of all v indices. The statement also holds without
+an action, by taking the trivial group. No vanishing of all cross Ext3
+groups is assumed.
+
+Here is the complete proof, retaining multiplicity matrices. In Ext2(A,A)
+let D_A be the direct sum over a of W tensor the identity matrix on the
+multiplicity space of L_a. Thus dim D_A=(dim W)u. Its elements have zero
+A0 block and zero off-diagonal blocks. Each is invariant: translations and
+degree-zero tensoring act trivially on H2(O_X), and conjugation fixes the
+identity of any multiplicity representation, including a projective one.
+
+In Hom(A,triangle), the kernel of
+\(i_*:\operatorname{Ext}^2(A,A)\to\operatorname{Ext}^2(A,E)\)
+is the image of Ext1(A,B). For a class gamma in that group, its image is
+\(e[1]\gamma\). Its a-th diagonal line block is exactly
+
+\[
+ \sum_b e_{ab}[1]\gamma_{ba},
+ \tag{E827.3}
+\]
+
+with the multiplicity matrices multiplied in this order. Hypothesis1
+places every coefficient in Z, hence the whole block in Z tensor
+End(C^{n_a}). This has zero intersection with W tensor its identity. Thus
+D_A injects into Ext2(A,E), regardless of any off-diagonal image or any
+component involving A0. The absence of A0 in B is used here.
+
+In Hom(-,E), the next boundary from Ext2(A,E) to Ext3(B,E), on a class
+\(i[2]d\) with d in D_A, is \(i[3]d[1]e\). Its only nonzero possible
+components before postcomposition by i are
+\(d_a[1]e_{ab}\). They are zero by hypothesis2, also with arbitrary
+multiplicity matrices, because d_a is a scalar identity times a class in W.
+Consequently the image I of Ext2(E,E) in Ext2(A,E) contains this injected
+D_A.
+
+The B-side contributes independently to the kernel of that map. In
+Ext2(B,B), let D_B be the sum over b in J of W tensor the corresponding
+identity matrices. The connecting map from Ext2(B,B) to Ext3(B,A) sends
+such a class h to \(e[2]h\). Every line-target component is zero by
+hypothesis2, and every A0 component is zero by Ext3(M_b,A0)=0. Hence
+D_B lifts to Ext2(B,E).
+
+We must check that the preceding boundary in Hom(-,E) cannot kill these
+lifted diagonal classes. For any alpha in Ext1(A,E), its boundary is
+\(\alpha[1]e\). Projecting to Ext2(B,B) gives
+
+\[
+ (p[1]\alpha)[1]e.
+ \tag{E827.4}
+\]
+
+The b-th diagonal block, b in J, is a sum of line-to-line degree-one
+products in Z tensor End(C^{m_b}). The additional possible term through
+A0 is zero: by fourfold Serre duality Ext1(A0,M_b) is dual to
+Ext3(M_b,A0), which is zero. Therefore the diagonal projection of every
+such boundary has no W component after passing to H2(O_X)/Z.
+
+More formally, take diagonal projection, matrix trace divided by m_b,
+and the quotient by Z on each selected block. This is an equivariant
+linear map from Ext2(B,B) to a space containing an injected copy of
+\(\bigoplus_{b\in J}W\). It kills the projection of all the boundaries
+(E827.4), while the lifts of D_B map onto that copy. Thus
+
+\[
+ Q=\operatorname{Ext}^2(B,E)\big/\operatorname{im}
+     \bigl(\operatorname{Ext}^1(A,E)\to\operatorname{Ext}^2(B,E)\bigr)
+ \tag{E827.5}
+\]
+
+has dimension at least(dim W)|J|, and injects into Ext2(E,E). Its quotient
+there is I, which already contains D_A. All constructions commute with the
+finite action. Taking invariants is exact; invariant lifts of D_B exist by
+averaging; W and the identity matrices remain fixed. The same dimension
+bounds therefore hold for Q invariants and I invariants. This proves
+(E827.2). These are the two actual triangle boundary maps, not an assumed
+associated-graded decomposition of E.
+
+## 2. Nondegenerate line differences: six classes per positive block
+
+Suppose every line bundle L_a tensor M_b inverse is nondegenerate. The
+abelian index theorem puts all its cohomology in a single degree j, and
+that of its inverse in degree4-j. Thus its Ext1 and the reverse Ext1
+cannot both be nonzero. Their products in either diagonal self-Ext2 are
+zero. Moreover, whenever its Ext1 is nonzero, j=1 and its Ext3 is zero;
+the same applies to the inverse. Hypotheses1--2 of section1 hold with
+
+\[
+ Z=0,\qquad W=H^2(X,O_X),\qquad\dim W=6.
+ \tag{E827.6}
+\]
+
+Consequently ext2_Gamma(E,E) is at least6(u+|J|). In particular u at least4
+already excludes a weakly semiregular balanced character of cap rank18,
+without **any** condition on Ext3(B,A0) or on other cross Ext3 groups.
+Opposite index-three pairs elsewhere do not cancel the diagonal classes:
+the extension component and the relevant reverse degree-one component
+would have to occur in the same nondegenerate pair, where they cannot.
+
+For the two-slope architecture in E826, its canonical torsion/HN filtration
+and pairwise block Hom vanishings provide the equivariance required in
+section1 for every specified finite action on E. Thus this is a theorem
+for all extensions in that architecture satisfying the nondegenerate
+line-difference condition, not merely for the printed E826 example.
+
+## 3. Degenerate differences in the four-divisor Gaussian algebra
+
+There is a stronger conclusion for the actual divisor algebra used in our
+constructions, even when some cross differences are degenerate. Write
+
+\[
+ X=Y\times Z_0=E_i^2\times E_i^2,
+ \qquad V_Y=H^1(O_Y),\quad V_Z=H^1(O_{Z_0}).
+ \tag{E827.7}
+\]
+
+These are the two S-matrix factors; they are **not** the irrational RM
+embedding planes. In the divisor basis(theta,theta_U,theta_S,theta_US), a
+rational difference has two blocks xI+yU2, with U2 squared equal to2.
+A nonzero such block is nondegenerate: x2-2y2=0 with rational x,y forces
+x=y=0. Hence a nonzero difference is either nondegenerate on X, or is a
+pullback of a nondegenerate line class from exactly one of Y,Z0.
+The opposite theta slopes in E826 ensure that a cross difference is
+nonzero. Arbitrary degree-zero twists do not change the following proof.
+
+Set
+
+\[
+ W=V_Y\otimes V_Z,\qquad
+ Z=\Lambda^2V_Y\oplus\Lambda^2V_Z
+       \ \subset\ H^2(O_X),\qquad\dim W=4.
+ \tag{E827.8}
+\]
+
+This is a direct decomposition H2(O_X)=W plus Z. The two projections are
+fixed by translations and degree-zero tensor operations on cohomology.
+We verify all hypotheses of section1, including every degenerate case.
+The nondegenerate case has already been proved in section2.
+
+Suppose the difference line is pulled back from Y. It is an exterior
+product L_Y box P_Z, up to a degree-zero twist on Y, because Pic0 of a
+product is the product of the dual abelian varieties. If P_Z is nontrivial,
+all its cohomology, and all that of its inverse, vanish. Otherwise P_Z is
+trivial. Let j in{0,1,2} be the index of the nondegenerate surface line
+L_Y. Kunneth and the surface index theorem give
+
+\[
+ H^1(X,L_Y\boxtimes O_{Z_0})=
+ \begin{cases}
+ H^0(Y,L_Y)\otimes H^1(O_{Z_0}),&j=0,\\
+ H^1(Y,L_Y)\otimes H^0(O_{Z_0}),&j=1,\\
+ 0,&j=2.
+ \end{cases}
+ \tag{E827.9}
+\]
+
+Multiplication by W kills each of these spaces into H3 of the line:
+it raises the Y cohomological degree by one, where the nondegenerate line
+has no cohomology. The same statement holds for its inverse, whose index
+is2-j. Both degree-one spaces can be nonzero only when j=1. In that case
+their product lies in H2(O_Y) tensor H0(O_Z0), the first pure summand of Z.
+This proves hypotheses1 and2, with all multiplicity matrices allowed.
+The case pulled back from Z0 is identical with the factors interchanged.
+This is an actual cohomological product calculation, not only a count of
+the dimensions of the Ext groups.
+
+Therefore for all nonzero cross differences in this rational four-divisor algebra,
+
+\[
+ \operatorname{ext}^2_\Gamma(E,E)\ge4(u+|J|).
+ \tag{E827.10}
+\]
+
+In particular u at least5 excludes every such two-slope balanced extension,
+even with degenerate differences and nonzero opposite Ext3 pairs. If one
+uses selected negative blocks in J, the threshold is u+|J| at least5.
+The defining condition for J is still the explicit Ext3(M_b,A0) vanishing;
+no assertion about the unit block is silently made.
+
+## 4. Balanced consequence and exact remaining scope
+
+The entire normalized balanced character, with any algebraic rational
+B field and q nonzero, has degree-two cap rank18. The exterior proof is
+repeated in E826: two pure blocks have rank1 each and the mixed block has
+rank16. The B-shear is invertible and preserves this rank. The supplied
+invariant CY4 adjunction(S21.8) therefore requires ext2_Gamma(E,E)=18
+under weak semiregularity. Thus either lower bound exceeding18 is a
+contradiction for every specified coherent effective finite action in
+that framework.
+
+This is a strict enlargement of E826's family exclusion: a merely
+nonzero Ext3(B,A) no longer suffices to escape, and in the displayed CM
+divisor algebra neither does a degenerate cross pair. The argument still
+requires the actual equivariant filtration and blocks, supplied by the
+proved two-slope/torsion construction in the applications. It does not
+assert that an arbitrary complex or unstable sheaf has such a filtration.
+When there are too few positive blocks, selected negative blocks do not
+meet their additional vanishing condition, or divisor directions leave the
+four-divisor algebra, this proof leaves a genuine gate. No successful seed
+or general nonexistence theorem is claimed.
+
+## 5. Source and check boundary
+
+The abelian and surface index/vanishing inputs are the original Mumford
+Abelian Varieties(1970), section16 printedpp150--153 and162--163, already
+read in this run. Nontrivial Pic0 cohomology vanishing is the previously
+read published Mukai1981 Theorem2.2 p156 and its base-change consequence,
+or the direct flat-character argument already supplied. The Kunneth
+factorization, both actual triangle boundary calculations, and all
+multiplicity/invariant projections are proved above. The full S21
+adjunction and its stated source statuses are retained exactly as freshly
+reread for E826; no new published status is asserted for a supplied
+preprint input. BF2008's exact published evaluation/trace locators remain
+those fully recorded in E826/E825.
+
+There is no new numerical-rank premise. This proof is a symbolic
+Yoneda/Kunneth argument, independently whole-reviewed as recorded above.
+The existing E826 exact computation supplies an actual example in its
+scope but does not replace the proof for the larger family here.

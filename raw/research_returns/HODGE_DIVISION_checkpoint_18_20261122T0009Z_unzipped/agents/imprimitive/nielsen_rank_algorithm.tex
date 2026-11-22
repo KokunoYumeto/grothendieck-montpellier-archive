@@ -1,0 +1,453 @@
+\section{Exact period ranks for specified Nielsen components}
+\label{sec:nielsen-rank-algorithm}
+
+\paragraph{Scope and check status.}
+This section gives a terminating exact algorithm, not a practical running-time
+bound or a table for unbounded coefficient degree.  It constructs an algebraic
+generic cover of the specified component and computes its period rank by
+linear algebra in a finitely generated field.  No period integral is used.
+The proof and the finite example below are new in this run.  The parent
+completed an independent whole-proof review of D-NR-01--04 on
+21 November 2026, including the primary Romagny--Wewers inputs, and
+recorded PASS.  The finite matrix example was executed exactly; the
+general generic-model search has not been executed.  The classical algebraic algorithms used are
+exact arithmetic in algebraic numbers and finitely generated fields,
+Gr\"obner-basis elimination, and isolation of algebraic roots.
+
+\subsection*{D-NR-01. Input and an exact monodromy subroutine}
+
+The input consists of a finite group $G$, an ordered generating tuple
+$\boldsymbol g=(g_1,\ldots,g_r)$ of nonidentity elements with product one,
+and an absolutely irreducible representation $V$ over an explicitly given
+imaginary quadratic field $K$.  Its dual is not isomorphic to $V$, and its
+two multiplicities in $H^0(C,\omega_C)$ are assumed to be $(n,n)$.
+The desired output is the generic rank on the connected ordered Hurwitz
+component containing $\boldsymbol g$, modulo simultaneous inner conjugacy.
+Finite additional level structures do not change this rank.  Cases $r\le3$
+have rank zero.  We henceforth take $r\ge4$.  All applications here have
+$g(C)\ge2$.
+
+We first describe a subroutine which determines the labelled monodromy of
+an algebraic $G$-cover over $\overline{\mathbf Q}$.  Choose a primitive
+function $y$ for its function field over $\overline{\mathbf Q}(z)$, with
+separable equation
+\[
+                 p(z,y)=0,\qquad \deg_y p=|G|.                 \tag{NR.1}
+\]
+Clear denominators so that $p$ is polynomial in both variables; this adds
+the zeros of the cleared denominators to the exceptional set.
+The deck maps are part of the exact input.  Include among the exceptional
+points the poles of coefficients, the zeros of the leading coefficient and
+the discriminant of $p$, and the finitely many points needed to evaluate
+the chosen rational deck-map formulas.  These are an effectively computable
+finite set of algebraic points.  Standard polygon generators of the
+punctured sphere can be perturbed, using rational vertices, to avoid this
+set while retaining their homotopy classes relative to the actual branch
+points.  Small disjoint rational boxes about the exceptional points make
+this a finite planar construction.  A loop around an extra discriminant
+point has trivial monodromy on the normalization; such a point is not
+silently treated as a new branch point.
+
+Here is an entirely algebraic decision procedure for lifting one polygon
+edge.  Subdivide it into $2^a$ equal segments.  At every subdivision vertex,
+isolate the $|G|$ distinct algebraic roots of (NR.1).  Let $\delta$ be the
+minimum distance between these roots at that vertex.  Choose rational
+centres within $\delta/128$ of the roots and a common rational radius in
+$[\delta/32,\delta/16]$.  Isolation and comparisons of algebraic real
+numbers produce these choices exactly.  The resulting closed discs are
+pairwise disjoint and each initially contains exactly one root.
+
+Write $p(z,w)=\sum_{j=0}^N a_j(z)w^j$ and
+$a_j(z)=\sum_k a_{jk}z^k$, where $N=|G|$.
+For the segment $[z_0,z_1]$, put $h=|z_1-z_0|$ and choose a rational
+$Z\ge\max(|z_0|,|z_1|,1)$.  For a root disc with centre $c_i$ and
+radius $s_i$, choose a rational $R_i\ge|c_i|+s_i$ and a rational
+$\varepsilon_i>|c_i-\alpha_i|$, still smaller than $\delta/128$.
+On its boundary, factorization at the algebraic endpoint gives the
+strictly positive lower bound
+\[
+ \ell_i=|a_N(z_0)|(s_i-\varepsilon_i)
+               \prod_{j\ne i}(|c_i-\alpha_j|-s_i)>0.
+\]
+Choose a rational $L_i$ with $\ell_i/2<L_i<\ell_i$.
+The coefficient derivative estimate on the straight segment gives
+\[
+ |p(z,w)-p(z_0,w)|\le h D_i,\qquad
+ D_i\ge\sum_{j=0}^N R_i^j\sum_{k\ge1}k|a_{jk}|Z^{k-1},
+ \qquad h^2D_i^2<L_i^2,                                    \tag{NR.2}
+\]
+where $D_i$ is a rational upper bound, chosen within a factor two after
+adding one if the exact expression is zero.  All comparisons and bounds
+in this test are computable with algebraic numbers and rational intervals;
+$h^2$ is rational because the polygon vertices are rational.  Test the
+last strict inequality for every root disc.  If it passes, the polynomial
+homotopy $p(z_0,w)+u(p(z,w)-p(z_0,w))$, $0\le u\le1$, has no zero
+on the boundary.  Its winding number, hence its number of zeros in the
+disc, is constant.  This is the elementary Rouch\'e argument, and it proves
+that exactly one root remains in each disc throughout the segment.
+Identify the endpoint root by exact disc membership.  If any inequality
+fails, increase $a$ and start the edge again.
+
+This process terminates.  On the compact edge the nonvanishing leading
+coefficient has a positive minimum, the roots are bounded, and their
+minimum separation is positive.  The prescribed radii and centres make
+every factor in $\ell_i$ uniformly bounded below by a positive constant:
+$s_i-\varepsilon_i\ge3\delta/128$ and
+$|c_i-\alpha_j|-s_i>\delta/2$ for $j\ne i$.
+The chosen rational $L_i$ retain at least half this lower bound.
+The $R_i$, $Z$ and hence the $D_i$ are uniformly bounded above; take their
+rational upper bounds within a fixed additive one when choosing them.
+Dyadic subdivision sends $h$ to zero, so eventually every inequality
+(NR.2) holds.  All accepted steps are finite exact rational certificates.
+This proves both the lifting result and its error control without any
+uncertified analytic continuation.
+
+At the common base point choose one point of the fibre.  Its $G$-orbit
+identifies the fibre with the regular $G$-set.  Monodromy commutes with the
+deck action, so the computed permutations recover elements of $G$, unique
+up to simultaneous inner conjugacy.  At increasing real branch values
+use the standard ordered positive polygon generators, transported from
+$0,1,\ldots,r-1$ through the increasing real chamber.  The same tails,
+loop orientations and multiplication order are used for the input tuple.
+With a left deck action, continuation acts by right multiplication on
+the fibre labelled by $G$; if function pullbacks instead encode the
+opposite action, invert that encoding before the tuple comparison.
+In this convention the standard positive generators have ordered product
+one.  This gives a
+terminating exact test for equality with the input inner Nielsen tuple.
+
+\subsection*{D-NR-02. Constructing the specified generic component}
+
+Put $k=\overline{\mathbf Q}$ with its standard computable presentation by
+minimal polynomials and isolating rectangles.  Normalize the first three
+ordered branch points to $0,1,2$, and let
+\[
+ B=\{(t_4,\ldots,t_r):0,1,2,t_4,\ldots,t_r
+                  \text{ are distinct}\}\subset\mathbf A^{r-3}_k.
+                                                               \tag{NR.3}
+\]
+This is a dense open coordinate chart in the ordered moduli of punctured
+spheres.  Write $K_0=k(t_4,\ldots,t_r)$.  The following search is an actual
+enumeration of finite algebraic descriptions.
+
+All enumerations below are dovetailed: enumerate complete finite packages
+in increasing total description length, including the defining polynomial
+of the coefficient field, every chart, map, and certificate.  At each length
+there are only finitely many strings in a fixed effective alphabet.  The
+phrase ``for each $F$'' therefore never means finishing an infinite search
+over the first field before proceeding to the next.  Since every individual
+test terminates, every valid finite package is eventually tested.
+
+Enumerate monic irreducible polynomials $P(T)\in K_0[T]$ and put
+$F=K_0[T]/(P)$.  Irreducibility here is an effective test: after clearing
+denominators and removing the polynomial content in the $t_i$, Gauss's
+lemma reduces it to factorization of a multivariate polynomial over the
+computable algebraically closed field $k$.  Finite-degree coefficient
+equations with nonzero leading coefficients decide that factorization.
+For each $F$, enumerate projective curves, rational maps
+and their finite affine-chart descriptions over $F$.  Retain a package only
+when it passes all the following exact tests: the curve is smooth and
+geometrically connected; its map $\pi:C\to\mathbf P^1_F$ is finite of
+degree $|G|$; the specified maps give a faithful action of $G$ over
+$\mathbf P^1_F$; and the branch locus is exactly the ordered divisor
+\[
+                    0+1+2+t_4+\cdots+t_r.                    \tag{NR.4}
+\]
+We may restrict to the genus prescribed by Riemann--Hurwitz for the input
+tuple.  Include a primitive plane equation for $F(C)/F(z)$ and explicit
+birational identifications in the package, so the monodromy subroutine has
+its required presentation.
+
+For completeness, the tests just listed are algebraic decisions, not
+oracles for the desired period rank.  Polynomial identities and equality
+of rational maps are ideal-membership tests.  Smoothness is the Jacobian
+criterion on finitely many affine charts.  Dimensions, degrees and the
+Hilbert polynomial are computed from initial monomial ideals; the constant
+term of the curve's Hilbert polynomial gives its genus.  Geometric
+irreducibility can be tested by absolute decomposition.  Alternatively,
+in the enumerated package one can require a birational identification with
+an absolutely irreducible plane equation, a smooth one-dimensional
+projective curve, and a zero-dimensional complement to that identification.
+Absolute irreducibility of a plane equation is decided by trying the
+finitely many possible positive factor degrees and testing the coefficient
+equations over an algebraic closure.  Enumerate the possible nonzero
+leading coefficients of each factor, fix one scaling coefficient to one,
+and impose each required nonvanishing by an auxiliary equation $uv=1$.
+Gr\"obner elimination decides solvability of each such finite system.
+This alternative avoids a general primeness
+oracle.  The absence of base points and the identities on overlaps verify
+the chart descriptions of morphisms.  A nonconstant morphism from the
+smooth projective curve to $\mathbf P^1$ is finite; its degree is checked
+in its primitive function-field presentation.  The group law and
+distinctness of all $|G|$ automorphisms then show that it is a $G$-cover.
+Finally the torsion module $\Omega^1_{C/\mathbf P^1}$ is computed from
+the differentials of the chart equations.  Its support, projected to
+$\mathbf P^1$, is computed by elimination and is compared with (NR.4),
+including the chart at infinity.  These operations terminate over the
+computable characteristic-zero field $F$.
+
+Spread a retained package to a good family over a nonempty open in the
+normalization of $B$ in $F$.  This step is effective as well: clear all
+denominators and remove the images of the nonsmooth, nonfinite,
+nonflat, undefined-map and wrong-branch loci.  Jacobian ideals,
+Fitting ideals, affine-cover certificates and elimination compute these
+loci.  Generic flatness can be effected by inverting the finitely many
+leading coefficients in the relevant module Gr\"obner bases.  Generic
+geometric connectedness and proper smoothness then give geometric
+connectedness throughout this open.  Each excluded locus is proper,
+because the generic package has passed the tests.  Equivalently one may
+enumerate base localizations and their finite Jacobian, Fitting and
+covering certificates; generic validity guarantees that a successful
+localization occurs, and the tests themselves terminate.
+
+We need an open of the \emph{base} over which \emph{every} sheet is good.
+After clearing coefficients of $P$ and inverting its discriminant, the
+monogenic algebra is already finite etale over an open of $B$.  If a
+further nonzero element of this algebra has to be inverted, invert its
+nonzero field norm down to $K_0$.  After finitely many such steps we obtain
+explicit $D\ne0$ and
+\[
+ U=B\cap\{D\ne0\},\qquad
+ S=\operatorname{Spec}\bigl(k[t_4,\ldots,t_r,D^{-1},T]/(P)\bigr)
+       \longrightarrow U                                    \tag{NR.5}
+\]
+finite etale, with the entire package a smooth family of connected
+$G$-covers over $S$.  Factors needed to clear coefficients and branch
+diagonals are included in $D$.  Because $P$ is irreducible over $K_0$,
+$S$ is integral and $S(\mathbf C)$ is connected.
+
+Choose integers $2<t_4<\cdots<t_r$ with $D\ne0$ by enumeration.
+Such integers exist: that ordered integer set is Zariski dense, as follows
+by induction on the number of variables from the finiteness of the zeros
+of a nonzero univariate polynomial.  Compute \emph{every} root of
+$P$ at these integers.  Each is an algebraic point of $S$ and gives an
+exact algebraic $G$-cover with real ordered branch points.  Apply D-NR-01
+to each of these finitely many covers.  If one has the input tuple up to
+simultaneous inner conjugacy, retain this generic package.  Otherwise
+continue the enumeration.
+
+We prove both the correctness and termination of this selection.
+The inner Hurwitz space of complex connected $G$-covers is a finite
+topological covering of branch configuration space; its fibre is exactly
+the finite set of generating product-one tuples modulo inner conjugacy.
+The local charts and the analytic classifying map for a family are proved
+in \cite[Theorem~3.1, Propositions~3.2 and~3.4, pp.~319--321]{NR:RW}.
+Ordered branch points and the normalization (NR.3) are obtained by base
+change and do not alter this assertion.  The classifying map from
+$S(\mathbf C)$ is a map of finite covering spaces over $U(\mathbf C)$.
+It is therefore a covering onto one connected Hurwitz component over
+$U$: locally it maps a sheet isomorphically to a sheet, so its image is
+open; finiteness over $U$ makes the image closed.  Consequently its finite
+fibre over the chosen integer branch configuration contains every inner
+Nielsen point in that component.  This is why all roots of $P$, not one
+arbitrary root, are tested.
+
+Restriction from $B$ to the nonempty Zariski open $U$ does not split a
+connected smooth Hurwitz component: an irreducible complex algebraic
+variety remains irreducible on a nonempty Zariski open.  The algebraic
+Hurwitz scheme and its agreement with this analytic covering are
+\cite[Theorem~4.11, pp.~328--331, and Remark~4.15(i)]{NR:RW}.
+Thus a successful tuple test identifies exactly the required component.
+Since $S\to U$ is finite etale, its family dominates that component and
+has the same generic period rank.
+
+\paragraph{Grothendieck's algebraic framework.}
+This construction sits in the algebraic theory of tame Hurwitz schemes
+over $\mathbf Z[1/|G|]$: after passage to characteristic zero, the
+branch-coordinate morphism is a finite etale cover of the appropriate
+configuration space.  The construction and comparison used here are
+\cite[Theorem~4.11 and Remark~4.15]{NR:RW}, together with their
+finite-field-of-definition Theorem~4.3.  They permit the passage from a
+topologically specified cover to a finite algebraic generic description.
+The algorithm itself uses only characteristic zero and computes an exact
+generic Hodge matrix over a finite extension of
+$\overline{\mathbf Q}(t_4,\ldots,t_r)$.  No stronger effective theorem in
+positive characteristic is being asserted.  In particular we do not
+attribute a direct field-of-definition statement to an unspecified SGA
+locator; Romagny--Wewers explicitly discuss that source issue.
+
+Conversely let $\mathcal H$ be the component specified by the input.
+It is defined over $k$, and its function field is a finite extension of
+$K_0$.  A cover representing its geometric generic point is defined over
+a finite further extension $F$ of that function field: its equations,
+the cover map and the finitely many labelled group automorphisms use only
+finitely many algebraic coefficients.  This also follows directly from
+the finite-field-of-definition theorem
+\cite[Theorem~4.3 and its proof, pp.~323--327]{NR:RW}.
+The center of $G$ is allowed; we do not assume that the coarse generic
+point itself carries a universal cover.  The finite further extension
+removes exactly this possible field-of-moduli obstruction.
+Characteristic zero supplies a primitive element for $F/K_0$.
+The resulting cover, any smooth projective embedding and its finite map
+descriptions occur in the enumeration.  They spread to a package of the
+form (NR.5), and its tuple test succeeds.  Every earlier candidate is
+decided in finitely many steps.  Therefore the search terminates.
+
+\subsection*{D-NR-03. A finite matrix whose rank is the answer}
+
+For the accepted generic cover set
+\[
+ A=\operatorname{Hom}_{G}(V_F,H^0(C,\omega_C)),\qquad
+ A'=\operatorname{Hom}_{G}(V_F^*,H^0(C,\omega_C)).
+                                                               \tag{NR.6}
+\]
+Both spaces have dimension $n$.  Choose a basis $e_1,\ldots,e_m$ of $V$
+and its dual basis.  Define
+\[
+ \mu:A\otimes_F A'\longrightarrow H^0(C,\omega_C^2)^G,
+ \qquad
+ \mu(a\otimes b)=\sum_{j=1}^m a(e_j)b(e_j^*).                \tag{NR.7}
+\]
+The expression is independent of the dual bases and is $G$-invariant.
+
+All parts of (NR.6)--(NR.7) can be computed exactly.  One explicit
+terminating method to compute $H^0(C,\omega_C)$ is useful here.  Every
+rational differential has the form $f\,dz$ with $f\in F(C)$.
+Enumerate these differentials.  On a finite smooth affine cover, regularity
+is membership in the finitely presented K\"ahler differential module.
+After a common denominator is taken, membership of $v/b$ is the module
+membership test $v\in b\Omega^1$; the differential module is torsion-free
+because the curve is smooth.  Module Gr\"obner bases decide it.  Keep
+$F$-linearly independent regular differentials until $g(C)$ are found.
+Riemann--Roch guarantees termination.  Linear dependence over $F$ is
+decided by writing elements in the basis of $F(C)/F(z)$, clearing their
+$z$-denominators, and comparing polynomial coefficients.  Pullback by each
+deck map is exact in the same function field.  The intertwiner equations
+defining (NR.6) are consequently finite linear equations over $F$.
+
+Write $b_1=0,b_2=1,b_3=2,b_i=t_i$ and
+$Q(z)=\prod_{i=1}^r(z-b_i)$.  Invariant quadratic differentials descend as
+\[
+ H^0(C,\omega_C^2)^G
+  =\pi^*H^0\bigl(\mathbf P^1_F,\omega_{\mathbf P^1}^2(B)\bigr),
+ \qquad
+ \frac{z^j(dz)^2}{Q(z)},\quad0\le j\le r-4,                 \tag{NR.8}
+\]
+where equality means the canonical pullback identification.  At a branch
+point $z=u^e$, invariance of a holomorphic quadratic differential makes
+its coefficient a multiple of $u^{e-2}$ modulo powers of $u^e$; descent
+therefore allows exactly a simple pole.  At an unramified point it is
+holomorphic.  At infinity the degree bound in (NR.8) is precisely the
+condition of regularity.
+
+If $\mu(a\otimes b)=f(dz)^2$, its descended coefficient can also be
+computed as $|G|^{-1}\operatorname{Tr}_{F(C)/F(z)}(f)$.
+The trace is an exact finite matrix trace.  Express these outputs in the
+basis (NR.8) to obtain an explicit
+\[
+                       (r-3)\times n^2\text{ matrix }M
+                       \text{ over }F.                      \tag{NR.9}
+\]
+
+We prove that its rank is the desired geometric rank.  For a smooth curve,
+a Cech representative $\{\theta_{ij}\}$ of a first-order deformation
+sends a holomorphic differential $\alpha$ to the class
+$\{\theta_{ij}\mathbin{\lrcorner}\alpha\}\in H^1(C,\mathcal O_C)$.
+Serre duality pairs this class with $\beta$ by pairing the deformation
+with $\alpha\beta$.  This derives the multiplication codifferential of
+the Jacobian period map.  For a $G$-invariant deformation only the group
+average of a product contributes.  On $V\otimes V^*$, the group average
+of a rank-one matrix unit is $m^{-1}$ times the identity, by Schur's
+lemma.  Restriction to the primitive $K$-factor thus gives (NR.7), up to
+a fixed nonzero scalar coming from the normalization of its polarization.
+The cotangent space of the signature-$(n,n)$ unitary period domain is
+$A\otimes A'$.  Polarization identifies the conjugate filtration with
+the annihilator of the first; no extra independent period directions are
+omitted in this description.
+
+The tangent space of the Hurwitz component is
+$H^1(C,T_C)^G$.  The local computation $z=u^e$ gives
+$(\pi_*T_C)^G=T_{\mathbf P^1}(-B)$: an invariant vector field is
+$u h(u^e)\partial_u$ and descends to $e z h(z)\partial_z$.
+Taking cohomology and using exactness of finite-group invariants gives
+\[
+ H^1(C,T_C)^G=H^1(\mathbf P^1,T_{\mathbf P^1}(-B)),
+ \qquad \dim=r-3.                                           \tag{NR.10}
+\]
+The branch-coordinate map is etale, so the family retained in D-NR-02
+has this entire tangent space.  Duality identifies the dual of (NR.10)
+with (NR.8).  Consequently (NR.9) is the full period codifferential on
+the specified component, not a restriction to a conveniently chosen
+subfamily.
+
+Gaussian elimination in $F$ now outputs $q=\operatorname{rank}_F M$.
+Field equality is decidable by reduction modulo $P$ and equality of
+rational functions in the algebraically independent $t_i$.
+One nonzero $q$-minor and a row-reduction identity with exactly $q$
+nonzero rows are finite exact lower- and upper-rank certificates.
+Base change to $\mathbf C$ preserves rank.  On a nonempty open of the
+Hurwitz component this equals the complex period differential rank,
+and hence the dimension of its image.  This proves a terminating exact
+algorithm for every specified input tuple satisfying the hypotheses.
+
+\subsection*{D-NR-04. The smaller trace formula for natural imprimitive groups}
+
+For the natural representation of $G(d,e,m)$, use the actual intermediate
+tower already constructed in D-IM-01:
+\[
+             Y=C/\ker\chi\ \xrightarrow{\ q\ }\quad
+             X=C/H\ \xrightarrow{\ f\ }\ \mathbf P^1,
+ \qquad V=\operatorname{Ind}_H^G\chi.                         \tag{NR.11}
+\]
+Choose bases $\alpha_1,\ldots,\alpha_n$ and
+$\beta_1,\ldots,\beta_n$ of the two reciprocal eigenspaces of
+$H^0(Y,\omega_Y)$.  Their products are invariant under the cyclic group,
+so each descends to a meromorphic quadratic differential
+$\gamma_{ab}$ on $X$, with at most simple poles at the cyclic branch
+points.  Equivalently,
+\[
+ \gamma_{ab}=\frac1d\operatorname{Tr}^{(2)}_{Y/X}
+                          (\alpha_a\beta_b).                \tag{NR.12}
+\]
+Here the superscript means trace of quadratic differentials; in a common
+base coordinate it is the ordinary field trace of their coefficients.
+Frobenius reciprocity identifies the coset basis of the induced module
+with the conjugate pullbacks of these eigendifferentials.  The dual-basis
+contraction in (NR.7) sums exactly over the $m$ cosets.  Therefore it is,
+up to a fixed nonzero scalar,
+\[
+                     \operatorname{Tr}^{(2)}_{X/\mathbf P^1}
+                                      (\gamma_{ab}).         \tag{NR.13}
+\]
+This also proves the formula directly at the level of variations and
+their polarization pairings; it is not an equality inferred from their
+dimensions.  Local trace at a ramification point, or (NR.8), shows that
+(NR.13) has at most simple poles at the original branch divisor $B$.
+
+Thus the exact rank of any specified natural-representation Nielsen
+component is
+\[
+ \boxed{\dim_F\operatorname{span}\left\{
+       \operatorname{Tr}^{(2)}_{X/\mathbf P^1}(\gamma_{ab}):
+                       1\le a,b\le n\right\}.}              \tag{NR.14}
+\]
+The finite algebraic model search above makes this a computable formula,
+including for arbitrary ramification of $X\to\mathbf P^1$.
+It retains that map and imposes no submersion assumption when forgetting
+it.  The universal bounds and the ranks $15$, $14$ and $1$ proved in
+D-IM-03--08 remain distinct claims, not a universal replacement of
+(NR.14) by one of the maxima.
+
+For each fixed $m,d,e,n$, this also gives a finite procedure to tabulate
+all answers.  Faithfulness and Chevalley--Weil give
+$\sum_j\operatorname{rank}(1-g_j)=2m+2n$, so $r\le2m+2n$.
+There are finitely many tuples in the finite group for these lengths.
+Product one, generation, and signature are finite exact tests; run the
+algorithm on each passing tuple.  Computing finite braid orbits can remove
+duplicate work, but is not needed for termination.  This is not a claim
+that the resulting table for every unbounded $m$ has been executed.
+
+\paragraph{A finite check of the matrix step.}
+For a cyclic cubic cover of $\mathbf P^1$ with six branch exponents one
+and six branch exponents two, write
+\[
+ y^3=P(z)Q(z)^2,\qquad \deg P=\deg Q=6,
+\]
+with twelve distinct roots.  The two eigenspace bases are
+$z^a dz/y$ and $z^bQ(z)dz/y^2$, $0\le a,b\le4$.
+Their products are $z^{a+b}(dz)^2/(PQ)$, and the exponents $a+b$
+span $0,\ldots,8$.  The exact matrix has rank nine.  The accompanying
+small script checks all local valuations, the two dimensions five, and
+an identity $9$-minor.  This illustrates and certifies the matrix step;
+it is not an execution of the generic-model search for a large
+$G(d,e,m)$, and it makes no additional claim about those components.

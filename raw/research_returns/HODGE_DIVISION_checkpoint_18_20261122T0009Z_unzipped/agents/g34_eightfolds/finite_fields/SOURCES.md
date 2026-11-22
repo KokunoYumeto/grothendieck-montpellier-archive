@@ -1,0 +1,11 @@
+# Reflection normal-closure reduction: sources
+
+1. A. M. Cohen, *Finite complex reflection groups*, Annales scientifiques de l'École Normale Supérieure, 4e série **9** (1976), 379–436, DOI 10.24033/asens.1313. Primary full text: https://www.numdam.org/article/ASENS_1976_4_9_3_379_0.pdf . Read §§3.4–3.6 and the rank-two table on pp394–395; the higher-rank table in §4.16 on p412; Theorem 5.12 on p435; and the normalizer discussion. These are classification inputs, not newly proved here.
+
+2. A. M. Cohen, erratum to the preceding paper, Annales scientifiques de l'École Normale Supérieure, 4e série **11** (1978), 613, DOI 10.24033/asens.1358. https://www.numdam.org/article/ASENS_1978_4_11_4_613_0.pdf . The entire erratum was read. The corrected Proposition 5.14 has the G25/G26 exception; the erroneous G32 exception and Remark 5.15 are removed. The new proof uses the corrected statement.
+
+3. G. Malle, *On the rationality and fake degrees of characters of cyclotomic algebras*, Journal of Mathematical Sciences, University of Tokyo **6** (1999), 647–677. https://www.ms.u-tokyo.ac.jp/journal/pdf/jms060402.pdf . Tables 8.1–8.2, pp674–675, list the character fields needed here. The explicit table omissions on p676 were checked: G4 and G25 are excluded separately by their order-three reflections; G28 and G35 are rational Weyl groups.
+
+These primary PDF texts were read through the web tool, including relevant table screenshots. Attempts to retain local copies timed out; no local immutable copy of these three papers is claimed. The proof contains its own infinite-series argument, rational-intertwiner normalizer argument, induced-block variation comparison and necessary dimension obstruction. Its finite classification conclusions are restricted exactly to the representations and fields stated. No Guralnick–Saxl theorem or unverified broad low-codimension classification is a premise.
+
+The G24 and GF4 local determinant results used in D-FIELD-03 are independently proved in `../barrier/determinant_barrier.tex` and have a separate whole-proof audit from `/root/imprimitive`. Scalar Gaussian Weyl extensions are outside the seven-field statement, and general no-reflection representations remain open.

@@ -1,0 +1,174 @@
+# SF-E808. Odd radicands ramified at two: an unrestricted Chern-class obstruction
+
+Author/checker: GPT-6 Astra Pro; inherited effort not exposed; HODGE_DIVISION /root/sixfolds. Date: 2026-11-21. New proof independently whole-checked by root on2026-11-21 and incorporated in the canonical eightfold section. This file is a standalone extraction.
+
+Let \(F=\mathbf Q(\sqrt{\Delta})\), with \(\Delta>1\) squarefree and \(\Delta\equiv3\pmod4\). Suppose a polarized abelian fourfold \((X,\theta)\) has Rosati-invariant RM by \(F\), with tangent multiplicities \((2,2)\), and that \(L=H_1(X,\mathbf Z_2)\) is stable under the maximal local order \(R=\mathbf Z_2[u]\), \(u^2=\Delta\). Suppose \(D=\int_X\theta^4/24\) is odd. Define
+
+\[
+ C=\frac{\theta_+^2+\theta_-^2}{2}.
+\]
+
+**Assertion.** For every integral class \(\ell\in H^2(X,\mathbf Z_2)\), every positive integer \(r\), and every two-adic unit \(z\in\mathbf Q_2\),
+
+\[
+ \frac{\ell^2}{2r}-zC\notin H^4(X,\mathbf Z_2).
+ \tag{E808.1}
+\]
+
+Consequently no positive-rank perfect object, with any rational divisor normalization, has normalized balanced character \(r v_q\) when \(rq\) is a two-adic unit. A simple gluable fully semiregular lift with an effective finite coherent target action \(G\) as in supplied S-22 therefore satisfies \(2\mid D|G|\).
+
+Together with SF-E807, this removes the minimal-divisor-space hypothesis from supplied S-32 for all real quadratic fields ramified at two. Maximal-order stability at two and oddness of the relevant degree product are retained.
+
+## The local polarized RM lattice
+
+The element \(u-1\) satisfies
+
+\[
+ t^2+2t+1-\Delta=0.
+\]
+
+This polynomial is Eisenstein at two, because \(1-\Delta\) has valuation one. Thus \(R\) is a discrete valuation ring with uniformizer \(\pi=u-1\). Concretely \(R=\mathbf Z_2+\mathbf Z_2\pi\), and the valuation of \(a+b\pi\) is \(\min\{2v_2(a),2v_2(b)+1\}\); the two terms have distinct valuation parity. This identifies \(R\) with the valuation ring. The finite torsion-free \(R\)-module \(L\) is free of rank four.
+
+Let \(E\) be the polarization pairing on \(L\). Its determinant is odd, so it is perfect over \(\mathbf Z_2\). Exactly as in the full local proof of SF-E807, the form
+
+\[
+ \Psi(x,y)=E(x,uy)+uE(x,y)
+\]
+
+is alternating and \(R\)-bilinear, and it is perfect because
+
+\[
+ E(x,y)=\operatorname{Tr}_{(F\otimes\mathbf Q_2)/\mathbf Q_2}
+              \left(\frac{\Psi(x,y)}{2u}\right).
+\]
+
+For completeness, the trace pairing on \(R\) is perfect: it sends \(a+bu\) to \(b\), and multiplication first by \(u\) sends it to \(a\). This identifies the \(R\)-linear dual with the \(\mathbf Z_2\)-linear dual. A symplectic \(R\)-basis \(x_i,y_i\), \(i=1,2\), follows by splitting off pairs with pairing one.
+
+Let \(\alpha_i,\beta_i,\gamma_i,\delta_i\) be the dual integral basis to \(x_i,ux_i,y_i,uy_i\). Put
+
+\[
+ \begin{aligned}
+ S&=\langle\alpha_1,\gamma_1,\alpha_2,\gamma_2\rangle,
+ &T&=\langle\beta_1,\delta_1,\beta_2,\delta_2\rangle,\\
+ \omega&=\alpha_1\gamma_1+\alpha_2\gamma_2,
+ &\tau&=\beta_1\delta_1+\beta_2\delta_2,\\
+ m&=\alpha_1\delta_1+\beta_1\gamma_1
+       +\alpha_2\delta_2+\beta_2\gamma_2.
+ \end{aligned}
+\]
+
+Evaluation of the pairings gives \(\theta=m\) and \(\theta_u=\omega+\Delta\tau\). Hence
+
+\[
+ Q:=2C=m^{[2]}+\frac1\Delta\omega^{[2]}
+            +\omega\tau+\Delta\tau^{[2]}.
+ \tag{E808.2}
+\]
+
+This is an integral two-adic four-form. Its reduction is independent of the odd radicand:
+
+\[
+ \bar Q=m^{[2]}+\omega^{[2]}+\omega\tau+\tau^{[2]}.
+ \tag{E808.3}
+\]
+
+Here the displayed operations are divided powers and exterior products reduced from the integral lattice; signs disappear modulo two.
+
+## A contraction with no wedge annihilator
+
+Write \(s_0=\alpha_1,s_1=\gamma_1,s_2=\alpha_2,s_3=\gamma_2\), and \(t_0=\beta_1,t_1=\delta_1,t_2=\beta_2,t_3=\delta_2\). Let \(\lambda\) be the dual functional selecting \(s_0\). Direct contraction of (E808.3) gives
+
+\[
+ \chi=\iota_\lambda\bar Q
+ =s_1s_2s_3+s_1t_2t_3+s_2t_1t_3+s_3t_1t_2.
+ \tag{E808.4}
+\]
+
+The map
+
+\[
+ \bar L^*\longrightarrow\bigwedge^4\bar L^*,\qquad
+ v\longmapsto v\chi
+ \tag{E808.5}
+\]
+
+is injective. This is a direct monomial calculation, not a generic-rank assertion. Rename the six variables appearing in \(\chi\) as \(a,b,c,d,e,f\), so \(\chi=abc+aef+bdf+cde\). Their six exterior products are
+
+\[
+ \begin{array}{c|l}
+ a&abdf+acde\\
+ b&abef+bcde\\
+ c&acef+bcdf\\
+ d&abcd+adef\\
+ e&abce+bdef\\
+ f&abcf+cdef .
+ \end{array}
+\]
+
+The twelve monomials are distinct, proving independence of these six images. Exterior multiplication by either of the remaining variables \(s_0,t_0\) gives a nonzero form containing that variable. These two images and the preceding six belong to separate summands according to their \(s_0,t_0\) content. This proves injectivity on the entire eight-dimensional space.
+
+In particular \(\bar Q\ne0\), so \(Q\) is primitive at two.
+
+## A divided-square lemma with denominator two
+
+Let \(M\) be a free \(\mathbf Z_2\)-module, let \(Q\in\bigwedge^4M\), and suppose some functional \(\lambda\in(M/2M)^*\) has the property that exterior multiplication by \(\chi=\iota_\lambda\bar Q\) is injective on \(M/2M\). Then there are no \(\ell\in\bigwedge^2M\) and positive integer \(r\) with
+
+\[
+ \ell^{[2]}-\frac r2Q\in r\bigwedge^4M.
+ \tag{E808.6}
+\]
+
+**Proof.** The hypothesis makes \(Q\) primitive, so integrality forces \(r\) even. Write \(r=2^e k\), with \(k\) odd and \(e\ge1\). The alleged congruence is
+
+\[
+ \ell^{[2]}\equiv 2^{e-1}kQ\pmod{2^e}.
+ \tag{E808.7}
+\]
+
+The minimum valuation of its left side is exactly \(e-1\). Removing the largest common factor \(2^a\) from \(\ell\) reduces the congruence to the same one for a primitive two-form and exponent \(e'=e-2a\ge1\). We may assume that \(\ell\) is primitive.
+
+For \(e=1\), the congruence says \(\bar\ell^{[2]}=\bar Q\). The contraction identity for divided squares gives
+
+\[
+ \chi=(\iota_\lambda\bar\ell)\bar\ell.
+\]
+
+If \(\iota_\lambda\bar\ell=0\), this contradicts \(\chi\ne0\). If it is nonzero, it wedges to zero with \(\chi\), contradicting the assumed injectivity. Thus \(e=1\) is impossible.
+
+For \(e\ge2\), the alternating elementary-divisor algorithm gives
+
+\[
+ \ell=\alpha+2^{e-1}\beta,
+\]
+
+where \(\alpha\) is primitive and decomposable. Indeed primitivity makes the first elementary divisor a unit, while the valuation of the divided square makes the second elementary divisor have valuation \(e-1\); all subsequent divisors have at least that valuation. Dividing (E808.7) by \(2^{e-1}\) and reducing modulo two gives
+
+\[
+ \bar Q=\bar\alpha\bar\beta.
+\]
+
+The two-dimensional support \(P\) of \(\bar\alpha\) therefore wedges to zero with \(\bar Q\). There is a nonzero \(v\in P\cap\ker\lambda\). Contracting \(v\bar Q=0\) by \(\lambda\) gives
+
+\[
+ 0=\lambda(v)\bar Q+v\iota_\lambda\bar Q=v\chi,
+\]
+
+which again contradicts injectivity. Both cases are impossible. ∎
+
+## Chern-character consequence and scope
+
+Multiplication by the unit \(z\) in (E808.1) leaves \(\bar Q\) and its contraction unchanged. The lemma applied to \(zQ\), with \(Q=2C\), proves (E808.1). For a normalized balanced character, degree two forces \(B=-c_1(E)/r\), while degree four gives
+
+\[
+ \operatorname{ch}_2(E)=\frac{c_1(E)^2}{2r}-(rq)C.
+\]
+
+The Chern character on the left is integral on a complex torus, since \(\operatorname{ch}_2=c_1^2/2-c_2\) and every integral two-form has an integral divided square. Hence \(rq\) cannot be a two-adic unit.
+
+If a simple gluable fully semiregular equivariant lift had \(D|G|\) odd, supplied S-22 would give \(4D(rq)^2/|G|\in\{2,4\}\). The value two has impossible odd valuation for a rational square; the value four makes \(rq\) a two-adic unit. Thus \(2\mid D|G|\).
+
+No restriction to the RM divisor plane was made: every integral \(H^2\)-class is included, so extra CM divisor classes cannot evade the conclusion. This does not exclude even-degree polarizations, even-order effective finite actions, nonmaximal local orders, or other proposed characters. It constructs no eightfold supplier.
+
+## Source and check status
+
+The proof uses only the supplied S-22 Euler restriction for the final semiregularity corollary. The integral obstruction, local pairing calculation, contraction matrix, and lifting argument are proved in full above. S-32 is a comparison result, not an input to this proof. The finite certificate checks exact normal-form substitutions and the contraction rank; it does not replace the proof for every rank or every radicand.

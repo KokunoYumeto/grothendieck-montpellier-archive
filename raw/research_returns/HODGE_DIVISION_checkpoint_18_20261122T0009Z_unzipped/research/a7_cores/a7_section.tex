@@ -1,0 +1,230 @@
+\section{The complete transitive $A_7$-cover gate}
+\label{sec:a7-cores}
+
+\paragraph{Status.}
+New root derivation. The complete proof and all source scopes were
+read by the author and an independent reviewer; both checks passed.
+The complete GAP spectrum computation, the separate exact Python
+reconstruction and an independently written polynomial-Fourier
+certificate passed. The independent audit is recorded in
+\texttt{A7\_CORE\_PEER\_AUDIT.md}.
+The original character tables are identified published inputs, not
+newly constructed tables.
+
+\begin{lemma}[D-A7-01: every compatible normalizer]
+\label{D-A7-01}
+Let $W$ be a nontrivial ordinary irreducible representation of a
+quasisimple group with simple quotient $A_7$, and put $a=\dim W$.
+If $W$ is not the deleted permutation representation of $A_7$,
+every nonscalar finite-order operator normalizing its image satisfies
+\[
+                  \nu(T):=a-\max_\lambda\dim W_\lambda(T)
+                            \ge a/4.                 \tag{A7.1}
+\]
+Every such representation has $a\ge4$. The only degrees at most six
+are four and six, and in either of these nonstandard cases one has
+the stronger integral bound $\nu(T)\ge2$.
+\end{lemma}
+
+\begin{proof}
+The universal perfect cover is $\widetilde A_7=6.A_7$, with cyclic
+center of order six. All central quotients are included by using all
+ordinary characters of this cover. The complete ordinary-cover list
+is stated in \cite[Chapter~4, opening paragraph, p.~31]{BI:HHM};
+the ATLAS-derived metadata
+\texttt{ExtensionInfoCharacterTable(CharacterTable("A7"))}
+are exactly \texttt{["6","2"]}. Also
+$\operatorname{Aut}(A_7)=S_7$. The exact official ATLAS table record
+\texttt{A7.2} identifies both $S_7$ and
+\texttt{AutomorphismGroup(AlternatingGroup(7))}; see
+\cite{HD:A7Tables}. These are cited classification inputs.
+
+Use the complete tables \texttt{6.A7} and \texttt{6.A7.2}, with
+their original values, class sizes, element orders, power maps and
+core fusion. Their input SHA-256 is
+\texttt{185c2a90af296395c33ad8c7c5e839fadba5fffaeda3aacac2d99c8d20c906ab}.
+Every nonlinear core row and every extension row with irreducible
+core restriction is selected. The selection and exact spectra give
+\[
+\begin{array}{c|r|r|r}
+\text{table}&\text{selected rows}&\text{nonscalar spectra}&\min a\\\hline
+\texttt{6.A7}&39&1326&4\\
+\texttt{6.A7.2}&18&558&6.
+\end{array}                                                   \tag{A7.2}
+\]
+The GAP program checks full row orthogonality and reconstructs every
+spectrum. The separate Python checker selects extension rows by the
+exact norm of their restricted character, verifies the full fusion,
+class-union and power-map compatibility, and recomputes all $1884$
+spectra using rational cyclotomic Fourier arithmetic. In more detail,
+if $x$ has order $d$, every multiplicity is the integer
+\[
+             m_j=\frac1d\sum_{r=0}^{d-1}
+                    \chi(x^r)\exp(-2\pi i jr/d).          \tag{A7.3}
+\]
+The Python routine computes its rational field trace with exact
+Ramanujan sums; integrality and the sum of all multiplicities are
+checked. Every original nonscalar entry is retained, rather than
+only entries failing a preliminary character-ratio test.
+
+All these spectra satisfy $4(a-\max m_j)\ge a$, except precisely
+extension rows three and four on class~26. Both exceptional rows
+have degree six and restrict to core row two; their spectra are
+$(5,1)$ and $(1,5)$ up to the choice of initial eigenvalue. Core
+row two is the unique degree-six row trivial on all six central
+classes. It is the deleted permutation representation: the natural
+$A_7$ action is doubly transitive, so its deleted module is
+irreducible of degree six. The complete core table gives no other
+center-trivial row of that degree. The two degree-four rows have
+minimum projective support two, and every nonstandard degree-six
+row has minimum support at least two. None of them is the
+irreducible restriction of an extension row. The only nonlinear
+core degrees at most six are four and six. These assertions are
+explicitly tested in \texttt{research/a7\_cores/check.py} and
+recorded for every row in \texttt{checked.json}.
+
+It remains to justify that these two tables cover every compatible
+linear normalizer, including scalar twists and other abstract
+extensions. An automorphism of a represented central quotient
+lifts uniquely to its universal perfect cover. An automorphism
+of that cover which is trivial on $A_7$ differs from the identity
+by a homomorphism from a perfect group to its center; it is therefore
+the identity. If the induced automorphism is inner, Schur's lemma
+makes $T$ a scalar multiple of a represented core element.
+
+Otherwise adjust by an inner operator to the automorphism induced
+by a fixed lift $t$ in the chosen group $6.A_7.2$. A compatible
+intertwiner $A$ has $A^2$ equal to $\rho(t^2)$ times a scalar.
+Rescale $A$ to remove that scalar. This gives an actual extension
+of $W$ to the chosen group, with irreducible core restriction.
+The original $T$ is a scalar times an element of that extension.
+This argument does not require the chosen extension to split and
+also handles an isoclinic extension with a different scalar square.
+Projective support is unchanged by the scalar. Thus the complete
+table inequalities give exactly (A7.1) and its stated endpoints.
+\end{proof}
+
+\begin{lemma}[D-A7-02: the standard tensor endpoint]
+\label{D-A7-02}
+In the actual sixfold-source setting, an inducing block with
+irreducibly acting normal core $A_7^t$ on
+$\operatorname{Std}_7^{\otimes t}$, $t\ge2$, cannot have a
+nine-dimensional period image. This permits all compatible outer
+operators, scalars and permutations of the factors, and a larger
+inducing character field.
+\end{lemma}
+
+\begin{proof}
+Put $e=6^t$. The full normalizer, by $\operatorname{Aut}(A_7)=S_7$
+and Schur's lemma on each factor, consists of scalar multiples
+$g=\lambda T$ of the rational orthogonal tensor-wreath operators
+$T\in\mathcal R_{7,t}$ defined in D-AST-01. That lemma was proved
+for all $n\ge3$, and gives, for every integer $j$,
+\[
+                 \operatorname{tr}(T^j)\ge-e/6.
+                                                               \tag{A7.4}
+\]
+Its elementary proof contracts the tensor indices around each
+factor cycle; every resulting standard trace lies in
+$\{-1,0,1,\ldots,6\}$. A negative product therefore has absolute
+value at most $6^{t-1}$. This also applies to every power.
+
+For any nonreal eigenvalue $\zeta$ of $T$ with multiplicity $m$,
+its conjugate has the same multiplicity. Some power has
+$\operatorname{Re}(\zeta^j)\le-1/2$. The trace of that power is
+at most $e-3m$, so (A7.4) gives $m\le7e/18$.
+The tensor standard form has multiplier $\mu(g)=\lambda^2$.
+Consequently an element of nontrivial multiplier has moving rank
+at least $11e/18$, because its fixed space is a nonreal eigenspace
+of this particular rational $T$.
+
+Every other genuine inertia has moving rank at least $e/6$.
+A nonscalar factor matrix has projective support at least one
+in degree six; convolution of normalized spectra preserves this
+lower fraction on a factor-preserving tensor. A nontrivial factor
+cycle has the stronger quarter bound, by the weighted basis-word
+argument in D-SPOR-03. A nonidentity scalar moves all of $V$.
+
+The multiplier character is nontrivial: otherwise the finite
+inducing image would preserve a nondegenerate bilinear form,
+have real character, and could not have a character field
+containing the original imaginary quadratic field. This is the
+field inclusion from D-BI-01, without assuming field equality.
+The generating product-one branch tuple has at least two entries
+with nontrivial multiplier.
+
+The actual intermediate-cover Euler identity and period
+factorization give a genus-zero base, at least twelve genuine
+inertias and total moving rank $2e+6$. Genus at least two is
+impossible for $e\ge36$; genus one has actual variation rank at
+most six. Hence
+\[
+        2e+6\ge2\frac{11e}{18}+10\frac e6
+                  =\frac{26e}{9},
+                \qquad e\le\frac{27}{4}<36,             \tag{A7.5}
+\]
+contradicting $e=6^t\ge36$. This extends the already written
+standard-tensor argument to its missing $n=7$ endpoint; it does
+not assert that a nonreal-eigenspace bound survives scalar
+convolution without first extracting the actual scalar phase.
+\end{proof}
+
+\begin{theorem}[D-A7-03: no transitive $A_7$-cover core in the nonsplit gate]
+\label{D-A7-03}
+An inducing block in the nonsplit Weil-sixfold problem cannot
+have a nine-dimensional actual period image if its normal
+quasisimple central-product core acts irreducibly, all simple
+quotients are $A_7$, and the inducing group is transitive on those
+factors. All central covers, compatible outer and scalar actions,
+factor permutations and larger inducing character fields are
+allowed.
+\end{theorem}
+
+\begin{proof}
+Write the representation of the lifted core as
+$V=\bigotimes_{i=1}^tW_i$, with $e=\prod_i\dim W_i$.
+Transitivity implies that all factor characters agree up to
+automorphisms of the universal cover. In particular, if one is
+the ordinary deleted representation, then all are: this character
+is invariant under $\operatorname{Aut}(A_7)$, and its central
+kernel is intrinsic. For $t\ge2$, D-A7-02 excludes this case.
+For $t=1$, the full normalizer is
+$\mathbf C^*S_7$ in its deleted representation. D-BI-08 proves
+that rank nine then forces the actual polarization to be split,
+contrary to the present hypothesis. Its proof explicitly allows
+the inducing character field to be larger initially.
+
+Otherwise every factor is nonstandard. By D-A7-01, every
+nonscalar factor-preserving normalizer on $V$ has projective
+support at least $e/4$; normalized eigenvalue multiplicities
+convolve. A nontrivial factor permutation has the same quarter
+bound, and a nonidentity scalar moves all $e$ dimensions.
+Since $e\ge4$, the same actual intermediate-cover formula forces
+genus zero for rank nine, at least twelve branches and total
+moving rank $2e+6$. Thus
+\[
+                  12\lceil e/4\rceil\le2e+6,
+                              \qquad e\le6.             \tag{A7.6}
+\]
+If $t\ge2$, then $e\ge4^2>6$. If $t=1$, the only degrees
+left are four and six. Each genuine nonscalar inertia in either
+case has moving rank at least two by D-A7-01; a genuine scalar
+has still larger moving rank. Thus $24\le2e+6\le18$, another
+contradiction. These exhaust the transitive core cases.
+\end{proof}
+
+\paragraph{Geometry, framework and boundary.}
+This removes the residual $A_7$ and its double, triple and sixfold
+covers from the transitive normal-core gate forced by D-BI-19.
+It does not assert a result for an arbitrary nontransitive product
+of differently labelled factors. The argument is about actual
+finite covers and their weight-one multiplicity variations; the
+integer spectrum and tensor identities belong to the associated
+representation ring. The exact scheme-spreading, SGA finite-cover,
+lambda-ring, K-theory and etale-weight placements are those in the
+framework section. It narrows the supplier-existence part of
+condition A, cote16 scan050, without producing a cycle or changing
+condition I, cote16 scan049 and cote44 Theorem4, or the
+Cayley--Hamilton projector in cote16 scans048--049. No new
+motivic $L$-value estimate or general negative Hodge-conjecture
+conclusion follows. All existing detector constants are unchanged.

@@ -1,0 +1,91 @@
+# SF-UGDC. A nontrivial derived conjugation invisible on all self-Ext sheaves
+
+Author: GPT-6 Astra Pro; inherited effort not exposed; HODGE_DIVISION
+/root/sixfolds. Date: 2026-11-21.
+
+**Status:** complete proof independently whole-read by the root reviewer; PASS.
+The author exact certificate and the root actual rerun at19:12UTC passed.
+It is not a premise of SF-E824, whose proof uses only the first overlap obstruction.
+It refutes the proposed inference from centrality on self-Ext sheaves to an
+untwisted trace on the full derived self-Hom complex.
+
+Let \(R=\mathbf C[[x,y,z,w]]\), let \(v=(-y,x)^t\), \(w_0=(x,y)\), and
+let \(P\) be the minimal free resolution
+
+\[
+ P^{-2}=R\xrightarrow{v}P^{-1}=R^2
+             \xrightarrow{v w_0}P^0=R^2
+\]
+
+of the unit module \(F\). For \(b=(1,0)\), the square-zero module
+endomorphism \(\delta_b\) has the chain lift
+
+\[
+ \delta^0=\begin{pmatrix}-y&0\\x&0\end{pmatrix},
+ \qquad \delta^{-1}=-yI_2,
+ \qquad\delta^{-2}=-y.
+ \tag{DC.1}
+\]
+
+The chain map \(u=1+\delta\) is invertible: the determinant of its
+degree-zero block is \(1-y\), and its remaining blocks are scalar
+multiplication by \(1-y\). These are units in \(R\). It lifts the
+actual automorphism \(1+\delta_b\) of \(F\), whose inverse on the
+module is \(1-\delta_b\).
+
+Put \(C=\mathcal H om_R(P,P)\), with differential
+\(d_C(a)=d_Pa-(-1)^{\deg a}ad_P\). Conjugation by \(u\) is an actual
+chain automorphism of \(C\). It induces the identity on every cohomology
+module. In degree zero this follows from commutativity of
+\(\operatorname{End}_R(F)=R\oplus(R/(x,y))^2\); in positive degrees
+both left and right nilpotent actions are zero, as proved in the unit-gluing
+analysis. Negative Ext is zero because \(F\) is a sheaf.
+
+Nevertheless conjugation by \(u\) is **not** the identity in \(D(R)\).
+Let \(\mathfrak m=(x,y,z,w)\), and consider terms of order one modulo
+\(\mathfrak m^2\). The linear part of \(d_P\) is only
+\(P^{-2}\xrightarrow{v}P^{-1}\); its map to \(P^0\) is quadratic.
+Consequently the linear part \(d_C^{(1)}\) has no arrow into or out of
+the block
+
+\[
+ V=\operatorname{End}_R(P^0)\subset C^0.
+ \tag{DC.2}
+\]
+
+For an arbitrary degree-minus-one homotopy \(K\) with power-series
+coefficients, the order-one part of \(d_CK+Kd_C\) is
+\(d_C^{(1)}K^{(0)}+K^{(0)}d_C^{(1)}\). Its component from \(V\) to
+\(V\) is therefore zero. This does not assume that \(K\) preserves
+the displayed blocks.
+
+On the other hand, the linear part of
+\(uau^{-1}-a\) on \(V\) is \([\delta^0,a]\). At
+\(a=\operatorname{diag}(1,0)\) this equals
+
+\[
+ [\delta^0,a]=\begin{pmatrix}0&0\\x&0\end{pmatrix}\ne0.
+ \tag{DC.3}
+\]
+
+Thus no such homotopy exists. The bounded complex \(C\) is finite free,
+so a null morphism in \(D(R)\) would be nullhomotopic. This proves the
+claim.
+
+In particular there cannot be a trace to the fixed complex \(C\) that is
+invariant under all these inner changes of local trivialization and is
+identity-normalized at rank one. At rank one the required invariance would
+make the nontrivial conjugation equal to the identity. The same contradiction
+holds if rank-one normalization is any quasiisomorphism to \(C\), because
+it is invertible in the derived category.
+
+This conclusion does not rule out a target with its own nontrivial descent,
+a cyclic quotient, or a weaker trace on a filtration piece. It also does not
+claim that a chosen global gluing has no noncanonical trace. SF-E824 uses
+exactly the weaker first-overlap trace, whose determinant calculation is
+proved independently. The local countercalculation is retained to prevent a
+future replacement of that proof by a false full-trace inference.
+
+## Check scope
+
+Root reviewer: GPT-6 Astra Pro; inherited effort not exposed; HODGE_DIVISION /root. The entire proof and certificate were read, and the certificate was actually rerun at2026-11-21 19:12UTC with reported wall time0.338621487seconds. The author read the complete proof and ran the exact25-dimensional graded-endomorphism certificate. An initial purely structural polynomial-equality check failed and was corrected to compare expanded polynomial differences; that failed attempt remains in rm_unit_derived_trace_certificate_attempts.json. No proof-assistant verification is claimed. The local End/Ext facts used above are proved in full in the adjoining unit-gluing analysis; no new outside source is needed.
