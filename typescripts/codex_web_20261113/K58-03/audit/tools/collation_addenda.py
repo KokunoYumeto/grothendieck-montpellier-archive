@@ -1,0 +1,19 @@
+from pathlib import Path
+import csv
+p=Path('out')
+data=[
+(21,'cancelled decomposition','The later witness comparison resolved the separately struck donc, which remains struck within the abandoned decomposition.'),
+(23,'long abandoned supposition','The final longer alternative is cas des suivants, with the preceding au/dans phrase outside the mark as transcribed.'),
+(27,'right-hand addition near H','The final order is le schéma first, la section second. The leader ends immediately before the intersection.'),
+(30,'word near complétion','The witness comparison admitted le long, without an opening parenthesis, as a third reading.'),
+(31,'theories above cancellation','The witness comparison resolved both words as certains théorèmes on their separate crops.'),
+(31,'author and date','On the final crop the continuous a-v, dot above i and tall t settled avait. The name/word below remains uncertain, with Bourbaki added as an alternative.'),
+(31,'degree range','The final text distinguishes i ≤ n on the baseline and the bracketed n ≤ prof F − 2, including the superseded wording.'),
+(31,'cancelled near bottom','On the distinct lower cancellation after this bracket, the witness added a possible reading ending in Grothendieck. It does not replace the words in the bracket.'),
+(32,'superseded item 3','The final punctuation after Grauert allows a colon, period or comma.'),
+(33,'second note','LG was added to the two readings, Lef and LGf, after comparison of the final downstroke.'),
+(33,'top-line restriction functors','The final tight crop settled the connecting mark as a headless dash. The target capital remains W or V.'),
+(35,'source of short sequence','The witness comparison resolved the initial small closed loop as 0. The first connecting stroke remains doubtful.'),
+(35,'struck parenthesis over beta','The witness comparison added tout to est and ou underneath the deletion.')]
+with (p/'audit/blind_followup.tsv').open('w',newline='') as f:
+ w=csv.writer(f,delimiter='\t');w.writerow(['scan','place','final collation']);w.writerows(data)

@@ -1,0 +1,131 @@
+# Blind comparison
+
+Compared 279 independently recorded places with the page files in `audit/first_pass`. 100 differences and 0 unlocated readings.
+
+A place is a word, sign, phrase, or localized group of marks. The original excerpts and decisions are preserved for the differences. The comparison disregards whitespace, math delimiters, simple editorial wrappers, equivalent lengths of right arrows and single-character subscript braces. It retains differences in letters, pen additions when explicitly marked, order, numbers, and signs. The audit also records corrections elsewhere on the page.
+
+| Scan | Place | First reading | Blind reading | Decision on the ink |
+|---|---|---|---|---|
+| 20 | line 1, crossed loop | ` \otimes ` | ` \handwritten{\otimes} ` | The oblong perimeter and uneven diagonals recur three times. Marked all three as filled by pen. |
+| 20 | line 2, composition stroke | ` \bar f':\lambda^{-1} ` | ` \bar f':\handwritten{\lambda}^{-1} ` | Both dots stay. The lambda has the pen shape of the other occurrences. |
+| 20 | paragraph 2, after et | ` \lambda ` | ` \handwritten{\lambda} ` | The hooked apex and variable descents identify the added lambdas. |
+| 20 | definition 2, intersection | ` \cap ` | ` \handwritten{\cap} ` | A continuous round arch in the gap between the two typed capitals. Added the handwriting wrapper. |
+| 21 | above hypothesis | ` dont les composantes irréductibles de dim $\geq k$, et ` | ` dont tte composante irréductible de dim $\geq k$, et ` | The short stroke after dont permits les or tte. The word endings run together. Retained les first and marked the alternative. |
+| 21 | after local k, overwritten end | ` \unsure{en\|et} ` | ` \unsure{ens} ` | Two touches are obscured by a horizontal return. Retained en and et, and added ens as a possible longer form. |
+| 21 | after en effet, struck | ` \unsure{pour} ` | ` que ` | A descending initial survives. Under the horizontal stroke both pour and que are possible. |
+| 21 | before S'il, struck | ` \unsure{Pour le voir\|Par le raisont} ` | ` Par la condition ` | The high loop and the dotted low part permit another reading. Kept the alternatives with Par la condition. |
+| 21 | disconnection, wording | ` S'il le disconnectait ` | ` S'il la déconnectait ` | The first syllable reads dis-. The tiny article is compatible with le or la. Kept dis- and marked the article. |
+| 21 | cancelled decomposition | ` X=(\underbrace{Z\cup X'})\cup X'' ` | ` X=(Z\cup X')\cup X'' ` | The blind string omitted the brace stroke below the first union. Retained the brace and the cancellation. The later witness comparison resolved the separately struck donc, which remains struck within the abandoned decomposition. |
+| 21 | next line, small mark beside X | ` X^{\deleted{\unsure{z\|2}}}=\deleted{U}X'\cup\deleted{U}X'' ` | ` X^{\unsure{?}}=X'\cup X'' ` | The dark return above X is struck. It could have been z or 2. Retained the original marked reading. |
+| 22 | opening, two tensors | ` \otimes ` | ` \handwritten{\otimes} ` | All crossed loops are inked, including the small ones inside Ass subscripts. |
+| 22 | proof, large epsilon-shaped membership | ` \in ` | ` \handwritten{\in} ` | The open curves and added horizontal bars vary from impression to impression. Marked them as handwriting. |
+| 22 | proof, quotient slash | ` / ` | ` \handwritten{/} ` | Slashes lean at different angles and extend out of the typewriter line. Marked the quotient strokes. |
+| 22 | proof, open inclusion after Ass | ` \subset ` | ` \handwritten{\subset} ` | There is no lower equality bar. Marked the open inclusion as handwritten. |
+| 22 | corollary, contraction map | ` \pi^{-1} ` | ` \handwritten{\pi}^{-1} ` | The loop to the left of the two legs is in pen; the -1 is typed above. Marked pi only. |
+| 23 | live generic point | ` le pt gén de ` | ` le pt gén. de Y ` | The high stroke belongs to the accented é; a separate abbreviation stop is uncertain. Retained gén without a period in the live addition. |
+| 23 | long abandoned supposition | ` que l'on est dans le \unsure{l'un des cas suivants} ` | ` que l'on est dans le cas des ` | The lower part of l'un and the rest of the clause run into the cancellation. Added cas des as a possible reading of that part. The final longer alternative is cas des suivants, with the preceding que l’on est dans le outside the mark as transcribed. |
+| 25 | crossed statement | ` \unsure{savoir ni a priori que} ` | ` savoir a priori que ` | The extra low stroke may represent ni. Preserved both possible strings in the cancellation. |
+| 25 | proof right insertion | ` + théor. de dim ` | ` + théorie de dim ` | After théor there are two small touches. The enlarged word may be the abbreviation or théorie. Kept both. |
+| 25 | deleted quote at foot | ` \unsure{en dépendant de type fini} ` | ` essentielt de type fini ` | The last three words are clearer than the opening. Retained the first reading and added essentielt. |
+| 26 | right arrow to B | ` A\handwritten{\to} B ` | ` A\to B ` | The two components are well separated, with a horizontal typewriter dash and a distinct greater sign. Represented the keyed arrow with plain TeX arrow. |
+| 26 | two sequence initials | ` 0\handwritten{\to} ` | ` 0\to ` | The four arrows in the two sequences have the same impressions and spacing as the first one. Removed the handwriting attribution. |
+| 27 | cancelled after on | ` \unsure{obtient} ` | ` de ce fait ` | The extended overstroke leaves one high stem at each end. Added de ce fait as an alternative. |
+| 27 | after le th général | ` appliquer ` | ` appliqué ` | The tail after the last p does not separate r from an accented e. Marked both readings. |
+| 27 | choice of coefficient | ` géométriquemt ` | ` géométriqt ` | The pen shortens the ending to a long q and resolving t. The number of preceding minims is indeterminate. Kept both abbreviations. |
+| 27 | letter after les composantes de | ` \unsure{X\|\alpha} ` | ` \alpha ` | The looped left stroke resembles alpha more than the unlooped X at the start of this line. Reversed the order of the two candidates. |
+| 27 | right-hand addition near H | ` la section ` | ` le schéma ` | The word after the article has a high dotted-like stroke and a broad final horizontal. Marked le schéma as an alternative. The final order is le schéma first, la section second. The leader ends immediately before the intersection. |
+| 27 | left marginal map | ` X\longrightarrow P_k^r ` | ` X\to P^r_k ` | These render identically. A pointed head at P and the two elevations of the indices confirm the first reading. |
+| 30 | upper foliation | ` \uline{III} \deleted{\unsure{1}}0 ` | ` III 0 ` | The separate 0 is clear, with a struck narrow character in front. Kept both layers. |
+| 30 | word near complétion | ` \unsure{(le long\|Au long} ` | ` Au long ` | The round rising stroke joins the next stroke. Au long now leads. An opening parenthesis and joined le remain possible. The witness comparison admitted le long, without an opening parenthesis, as a third reading. |
+| 30 | equivalence above line | ` que $\unsure{F\|\mathcal F}'\mathbin{\unsure{-\|\to}}F'_{/Y'}$ est une ` | ` que F' - F'_{/Y'} est une ` | Two separate bars and an upright favour F. The short intervening mark is headless; retain the dash. |
+| 30 | lower left marginal insertion | ` dans l'énoncé des conditions qui pour des raisons \unsure{à voir\|sont}, \unsure{par\|pour} \unsure{v. commentaire}. ` | ` des raisons ou conditions que pour des raisons sont par nécessité ` | Joined stems in the slanted last line favour nécessité. The words just before it and the beginning of the insertion remain doubtful. |
+| 30 | first long deletion | ` qui s'expriment \unsure{De manière à préciser ceci} ` | ` s'expriment d'une manière à préciser ` | Joined d and the two humps can also be d'une manière. The line crosses the original upper terminals. |
+| 30 | second long deletion | ` \unsure{essentiel est encore fourni} ` | ` est encore fourni ` | Retained the longer marked wording; ends of the first and last words merge with the strike. |
+| 30 | finitude reference | ` N\textsuperscript{o}1 ` | ` N°1 ` | Same pen number and raised o, represented typographically. |
+| 30 | last two cancelled lines | ` \deleted{s'exprime :} \deleted{\unsure{intervenir reposant sur}} ` | ` s'exprime : intervenir reposent sur ` | Slender terminal before sur can be -ent or -ant. Crossing stroke suppresses the middle vowel. |
+| 30 | last live words | ` locales des faisceaux envisagés, qui s'expriment ` | ` locales des faisceaux envisagés qui s'expriment ` | A small low stroke after envisagés supports the comma. |
+| 31 | upper inserted modifier | ` ainsi ` | ` divers ` | Close-up shows two separate dots and a small initial oval. Kept ainsi with its insertion at the base of the leader. |
+| 31 | theories above cancellation | ` certains théorèmes ` | ` certaines théories ` | The ending is a run of low humps, followed by s. Added the second possibilities for adjective and noun; reinspection favours théorèmes. The witness comparison resolved both words as certains théorèmes on their separate crops. |
+| 31 | deleted then replaced divisors | ` certains \inserted{sous-schémas} diviseurs ` | ` certains diviseurs ` | The heavy writing on diviseurs intersects the letter bodies, but a distinct straight strike cannot be isolated. Kept the visible noun and the addition above it. |
+| 31 | new subschemes and superseded qualification | ` \inserted{sous-schémas} diviseurs $Y$ \deleted{(sections hyperplanes)} ` | ` sous-schémas (sections hyperplanes) ` | The first leader lands between certains and diviseurs; the second phrase, further right, is crossed. |
+| 31 | deleted observation | ` Ils prennent \unsure{une\|en} \unsure{nouvelle} l'observation \unsure{faite\|fait} \unsure{par} \unsure{appliqué} ` | ` Ils précisent une remarque observation faite par application ` | The disputed verb shows a dotted interior and a long upper stroke at its right; précisent is possible. Reopened the next two words and the final word under the two strikes. |
+| 31 | qualifying insertion above cas | ` (après des procédés connus de passage aux cônes projetants) ` | ` (qui du procédé général de passage aux cônes projetés) ` | The small first group has a descending p. The middle and the last ending are compressed. Marked local alternatives, retaining the first readings where better supported. |
+| 31 | author and date | ` H. Grauert qui a dit d'ailleurs ` | ` H. Grauert qui avait d'ailleurs, 1958 ` | The trace between a and it is continuous low ink. Added avait alongside a dit. 1958 stands on the following line. On the final crop the continuous a-v, dot above i and tall t settled avait. The name/word below remains uncertain, with Bourbaki added as an alternative. |
+| 31 | lower name with vacant references | ` th. de \deleted{\unsure{co}} nullité de Serre $[\,]$ ` | ` résultats de Serre [ ] ` | There are two tall l stems and an acute ending in nullité. Kept the cancelled preceding onset and the empty citation. |
+| 31 | struck left of (i) | ` \unsure{moyennant des hyp} ` | ` la situation au-dessus applicable ce qui ` | The wavy strike hides two low groups; the rightmost descenders are consistent with hyp. Recorded the other possible opening; no full wording can be certified. |
+| 31 | degree range | ` $i$ \unsure{$\leq$} un \deleted{dépendant de} \inserted{$[{\leq}\operatorname{prof}F-2]$} ` | ` i\leq\operatorname{prof} F-2 ` | The visible i precedes a partly abandoned version. The distinct upper bound stands inside the insertion after the earlier wording; kept both layers. The final text distinguishes i ≤ n on the baseline and the bracketed n ≤ prof F − 2, including the superseded wording. |
+| 31 | second assertion start | ` Si un \unsure{$f$} \unsure{est} un faisceau formel loc libre $\mathcal F$ ` | ` d'un part si un faisceau formel loc. libre \hat F sur X_{/Y} ` | The second pass locates d'une part before si un. The long ascender and divided low humps support the words; retained uncertainty on the ending of the article and on si. |
+| 31 | generation and module | ` \unsure{engendre\|engendré} par ses sections \unsure{$[\exists n]$} sur un ens fini ` | ` engendré par ses sections [sauf sur un ens. fini ` | The bracket enclosures contain a cursive word, very plausibly sauf. Reopened the ending of engendré and kept the order on the page. |
+| 31 | cancelled near bottom | ` et \deleted{\unsure{à preuve le verrez}} \inserted{en fait} pendant ` | ` et ce, sous les autres pratiquement ` | The mark after et crosses the stroke in the middle of the passage; added the competing reading to the two crossed groups. On the distinct lower cancellation after this bracket, the witness added a possible reading ending in Grothendieck. It does not replace the words in the bracket. |
+| 31 | sideways margin | ` La théorie développée ici a pour but de préciser et de \deleted{\unsure{f}} généraliser les résultats de Grauert. ` | ` La théorie développée ici a pour but de préciser et de généraliser les résultats de Grauert. ` | The rotated image confirms the sentence. An oblique stroke from the main deletion reaches the line near de généraliser; left the underlying mark doubtful. |
+| 31 | bottom citation | ` pour le groupe fondamental énoncé en $[\,]$ ` | ` pi₁ Voir le groupe fondamental du numéro des [ ] ` | The first word has a descending p and the phrase closes on bare brackets. No separate pi index is visible there. Kept pour and the blank reference. |
+| 32 | second heading abutting left bracket | ` Le théorème de finitude locale et ses applications. ` | ` Le Théorème de finitude locale et ses applications. ` | Raised T has a full top crossbar in the heading. Replaced the initial lower-case form. |
+| 32 | superseded item 3 | ` 3. Faisceaux de Lefschetz-Grauert. Remarques. ` | ` 3. Fermés de Lefschetz-Grauert : Remarques ` | The surviving humps agree with the live item 5, whose ending has a detached high acute. Changed the noun to Fermés; punctuation after Grauert and after Remarques is partly crossed. The final punctuation after Grauert allows a colon, period or comma. |
+| 32 | superseded item 4 | ` 4. \unsure{Propriétés} propriétés \unsure{des} \uline{Exemples} \unsure{fondament} ` | ` 4. Premières propriétés des Exemples fondamentaux ` | The first word and the ending at right are obscured by hatching and the new 1. Added Premières and fondamentaux as alternatives. |
+| 32 | overwritten two lines | ` Etude ` | ` Étude ` | On the old word an independent acute cannot be distinguished from the superscription; kept Etude first. |
+| 32 | replacement item 3 | ` Cas particulier 1 : \deleted{\unsure{Etude}} \inserted{théorie} des \deleted{\unsure{spa}} schémas locaux. ` | ` Cas particulier 1 : théorie d'en schémas locaux ` | The short group before schémas has a straight strike; it is distinct from the article. Marked the article. |
+| 32 | replacement item 4 | ` Cas particulier 2 : \deleted{\unsure{Etude}} \inserted{théorie} des schémas \inserted{algébriques} projectifs. ` | ` Cas particulier 2 : théorie des schémas projectifs ` | The oval insertion points before projectifs. Its descender and final low waves favour algébriques. |
+| 32 | word above projectifs | ` algébriques ` | ` relatifs ` | The little downstroke after the initial group and long descender before the ending favour algébriques over relatifs. |
+| 32 | slanted note | ` utilise IV, \S\ sur les morphismes étales.... ` | ` utilise IV, § sur les morphismes étales.... ` | Same note including four short marks; the section glyph is encoded with the LaTeX section sign. |
+| 32 | connecting arrows | ` \tikz[baseline=(p.base)]\node[draw,ellipse,inner sep=1pt](p){$\pi_1$}; ` | ` \pi_1 ; 8 ` | Drew both leaders from the marginal annotation. Their tips meet the circle round pi-one and the circle round 8. |
+| 32 | item five | ` Faisceaux de Lefschetz-Grauert : Remarques, exemples. ` | ` Fermés de Lefschetz-Grauert : Remarques, exemples. ` | The word is substantially shorter than Faisceaux. Its detached mark and terminal s favour Fermés, in both versions. |
+| 32 | item six | ` $\pi_0$, \tikz[baseline=(p.base)]\node[draw,ellipse,inner sep=1pt](p){$\pi_1$};, Pic. ` | ` \pi_0,\pi_1,\operatorname{Pic} ` | The oval encloses pi with a lowered 1; Pic. is a plain text abbreviation with a period. |
+| 32 | circle and item 8 | ` \textcircled{8}. Théorèmes de pureté, et théorèmes de Lefschetz pour le $\pi_1$. ` | ` 8. Théorèmes de pureté, et théorèmes de Lefschetz pour le \pi_1. ` | The dot belongs inside the circle. The index in the later occurrence is not circled. |
+| 33 | cancelled right after X | ` presque \unsure{si et\|dans} \unsure{un} ` | ` jusqu'en dim n ` | The first descender and joined strokes permit jusqu'en and presque; the middle can be dim. Retained both readings. |
+| 33 | map before cancellations | ` H^i(X,F)\longrightarrow H^i(X_{/Y},F_{/Y}) ` | ` H^i(X,F)-H^i(X_{/Y},F_{/Y}) ` | The shaft ends in a small upward blob without the strong triangular head seen below. Marked dash versus arrow. |
+| 33 | last sign after map | ` \unsure{\mathrm{est}} ` | ` isom ` | Successive hatch strokes cover the end of the expression. Added isom as a possible start. |
+| 33 | bracketed interpretation | ` F\leadsto F_{/Y} ` | ` F\mapsto F_{/Y} ` | The shaft bows up and down before the head. Kept the wavy arrow. |
+| 33 | box in upper left | ` $\Rightarrow$ Si $z\in X$ est tel \deleted{qu'il \unsure{se ren}} \deleted{\unsure{contre pas}} que $\bar z\cap Y=\varnothing$, alors $z\notin\operatorname{Ass}\underline{\mathcal O}_X$ ` | ` \Rightarrow si z\in X est tel que \bar z\cap Y=\varnothing, alors z\notin\operatorname{Ass}\mathcal O_X ` | The implication points right; O before X is underlined. Kept the crossed lines between tel and que. |
+| 33 | struck words inside box | ` qu'il \unsure{se ren}} \deleted{\unsure{contre pas} ` | ` fermé et ne rencontre pas Y ` | The two struck lines have an f-like descender and the beginning of ren-. Added the possible terminal Y. |
+| 33 | second note | ` Question : $(\mathrm{Lef})$ \deleted{\unsure{\#}} implique-t-elle ` | ` Question : (LGf) implique-t-elle ` | The parenthesized writing ends in a tall descender. Lef remains the closest reading. LGf remains possible. A separate hatch follows. LG was added to the two readings, Lef and LGf, after comparison of the final downstroke. |
+| 33 | lower marginal hypotheses | ` x\in X$ tq $\bar x\cap Y=\varnothing ` | ` x\in X t.q. \bar x\cap Y=\varnothing ` | The abbreviation has no secure intervening point. A bar stands over x. |
+| 33 | top-line restriction functors | ` \mathcal L(U)\mathbin{\unsure{-\|\to}}\mathcal L(\unsure{W\|V}) ` | ` L(U)-L(V) ` | The right capital is doubled and U-like. The bracket below uses V. Retained W and V. The final tight crop settled the connecting mark as a headless dash. The target capital remains W or V. |
+| 33 | categorical comparison | ` \underset{U\supset Y}{\underset{\longrightarrow}{\operatorname{Lim}}} ` | ` \varinjlim_{U\supset Y}\mathcal L(U)\to\mathcal L(X_{/Y}) ` | The arrow is directly under Lim, then U superset Y. Retained the explicit typography and drew the diagonal caption leader. |
+| 33 | caption below the term | ` \text{Catégorie des}\\\text{Modules loc}\\\text{libres sur }U ` | ` Catégorie des Modules loc libres sur U ` | The caption occupies three lines below the brace under L(U). |
+| 33 | caption left of the limit | ``` ``Pseudolim'' de catégories ``` | ` “Pseudolim” de catégories ` | Paired small ticks mark the word. A diagonal double-ended arrow connects its caption to Lim. |
+| 34 | original question and degree | ` Si $\unsure{\alpha\|\ast}$ est un isom pour $i\leq n$ ` | ` si (\ast) est un isom pour i\leq n ` | The small body is heavily retraced. The starred display above supports a star, but the round stroke resembles alpha. Both remain; checked the second occurrence too. |
+| 34 | question mark and degree | ` $i=n+1$, tt $F$ loc libre ?.] ` | ` i=n+1, tt F loc libre ?? ` | One clear question-shaped stroke and a second dot precede the square closing bracket. Kept the visible punctuation. |
+| 34 | words after sequence | ` appliquer le foncteur $_{/Y}$, et le lemme des cinq ` | ` appliquer le foncteur /Y, et le lemme des cinq ` | The slash and Y form a small subscript, and the end reads lemme des cinq in tiny writing. |
+| 34 | above resolution | ` \inserted{\unsure{résol. univers.}} ` | ` résolution ` | The upper replacement almost merges with the original long word. Added the direct single-word reading. |
+| 34 | phrase above mono | ` loc. facteur direct ` | ` loc. préschémiquement ` | The first longer word has an f ascender and the second ends in a distinct high t. Kept loc. facteur direct. |
+| 34 | first example correction | ` quasi \deleted{projectif} \inserted{affine} ` | ` quasi-affine ` | The original word is crossed and affine sits above it. No independent hyphen in this first example. |
+| 34 | example 1 and 2 | ` $(L_\alpha)$ réduit : $\underline{\mathcal O}_X$ ` | ` (L_\alpha) réduit à \underline{\mathcal O}_X ` | The short mark after réduit comprises two vertically aligned dots. An underlined O is followed by lower X. |
+| 34 | lower marginal note | ` $H^{n+1}(\unsure{F\|X})\to H^{n+1}(\hat{\unsure{F\|X}})$ \uline{injectif} ` | ` N.B. Le même argument marche si on n'exige pas la condition H^{n+1}(F)\to H^{n+1}(\hat F) injectif. ` | The upright and transverse stroke suggest F, and the second term has a hat. Retained the alternative in the small, overwritten margin. |
+| 34 | test sheaf display | ` H^i(X,L_\alpha)\overset{\sim}{\longrightarrow}H^i(X_{/Y},L_{\alpha/Y}) ` | ` H^i(X,L_\alpha)\to H^i(X_{/Y},L_{\alpha/Y}) ` | The extra wavy horizontal over the shaft is independent and unstruck. Retained it. |
+| 34 | degree annotation | ` \text{isom pour }i\leq n\\[-2pt]&\text{inj pour }i=n+1 ` | ` isom pour i\leq n inj pour i=n+1 ` | Same two conditions, written on separate lines along the upright separator. |
+| 34 | cancelled warning in box | ` \unsure{Conclusion :} \unsure{pour la} preuve \unsure{on mettra} une condition ` | ` Contrairement : pourquoi on met une condition sur i=n+1 ! ` | Con…l… and the small final group survive above the wavy deletion. Marked the competing onset; in the lower wording pour la and pourquoi remain possible. |
+| 34 | left below warning | ` \unsure{Aut. rédac} ` | ` Cet énoncé ` | The isolated cancelled phrase begins with a rounded C/A shape. Cet énoncé remains possible. |
+| 35 | top star with index | ` \deleted{\unsure{$\ast$}}$(\ast)$ ` | ` (\ast^i) ` | The retraced central star has a separate high dot just to its right and before the closing parenthesis. Added an uncertain i in superscript position. |
+| 35 | source of short sequence | ` \unsure{0}\longrightarrow F\longrightarrow L\longrightarrow G\to0 ` | ` 0-F-L-G\to0 ` | The first shaft starts in a tiny closed loop. Three shafts have only a downward terminal thickening; only the last has a distinct head. Recorded the ambiguity at the first such shaft. The witness comparison resolved the initial small closed loop as 0. The first connecting stroke remains doubtful. |
+| 35 | struck before L alpha | ` \unsure{sommes} ` | ` sur un ` | A single long horizontal obliterates the word divisions. Added sur un as another possible reading. |
+| 35 | diagram top | ` H^i(L) \arrow[r,dash] ` | ` H^i(L)-H^i(G)-H^{i+1}(F)-H^{i+1}(L)-H^{i+1}(G) ` | All top-row shafts lack distinct heads. Confirmed each object and exponent and retained the dashes. |
+| 35 | diagram bottom | ` H^{i+1}(\hat{\unsure{G\|C}}) ` | ` H^i(\hat L)-H^i(\hat G)-H^{i+1}(\hat F)-H^{i+1}(\hat L)-H^{i+1}(\hat G) ` | Four bottom shafts have blunt endings, including the second previously given a head. The last hatted letter resembles C more closely than the G above; retained G as the alternative. |
+| 35 | verticals left to right | ` \arrow[d,"\alpha","\wr"'] ` | ` \alpha,\beta,\varphi,\alpha',\beta' ` | All five shafts point downward. The first and fourth have an additional curved vertical sign immediately to the right of the shaft, before the Greek label. Moved both curved signs to that side. |
+| 35 | struck parenthesis over beta | ` (est bijective) ` | ` (ou bijective) ` | The first small letters fall under the strike; added the possible ou. The witness comparison added tout to est and ou underneath the deletion. |
+| 35 | comparison marks alpha | ` de plus $\alpha'$ est surj par hyp. et $\beta'$ est injective. ` | ` \alpha'\text{ est injective} ` | The boxed final letter has a long lower loop and a second bowl, unlike the small alpha above. Kept beta-prime in the boxed clause. |
+| 35 | second crossed explanation | ` enfin par l'hyp. de réc. ` | ` alors par l'hyp. de réc. ` | The ending of the initial adverb is obscured by the long strike. Added alors as an alternative. |
+| 35 | five lemma conclusion | ` Par lemme des 5, $\varphi$ est \deleted{bijective} surjective ` | ` Par lemme des 5, \varphi est surjective. ` | The word crossed immediately before surjective can still be read as bijective; kept both states. |
+| 35 | over second case | ` \deleted{\unsure{donc}} bijective ` | ` (même bijective) ` | The older word has compressed lower bodies. Added même as a possibility; bijective is live above the second case. |
+
+## Counts by scan
+
+| Scan | Independently recorded places | Differences itemized above |
+|---|---:|---:|
+| 20 | 9 | 4 |
+| 21 | 19 | 7 |
+| 22 | 13 | 5 |
+| 23 | 16 | 2 |
+| 24 | 21 | 0 |
+| 25 | 19 | 3 |
+| 26 | 17 | 2 |
+| 27 | 23 | 6 |
+| 28 | 5 | 0 |
+| 30 | 22 | 9 |
+| 31 | 28 | 15 |
+| 32 | 17 | 12 |
+| 33 | 25 | 12 |
+| 34 | 22 | 12 |
+| 35 | 23 | 11 |
+| **Total** | **279** | **100** |
+
+A retained uncertainty is a disposition. These counts include differences in the scope of a cancellation, an ink addition, or the way notation was encoded. They do not estimate a lexical error rate. The dated audit and the final witness table preserve the stages of the collation.
