@@ -266,3 +266,11 @@ entries take precedence over the sections above where they differ.
     compactifications of coverings, after which cusps and points are not told apart.
   - The example needs only the uniqueness that the proposition asserts: a point y inducing s_Y would have f(y) = 2.
   - A sufficient extra hypothesis, given that proof, is that f is finite.
+- **Keller, section 8 (read: Lemma 2.17 and Corollary 2.18 with their proofs, the setting of Theorem 2.14, the proof of
+  Theorem 4.27, in v2).** Stands. The extra hypothesis of Corollary 2.18 does not exclude the example. The bound on K_2
+  holds without the lemma: H^2(X, G_m) injects into Br(K) for X regular integral, so an element of K_2 dies in Br(κ(D))
+  and deg(D) kills it. K_3 is open.
+- **Ekedahl-van der Geer, section 6 (read: both examples, the definitions of semi-simple rank, Corollary 8.4, the table,
+  in v2).** Stands. Example 12.2 contradicts Corollary 8.4(iii), which gives degrees p + 1, 1, 1, p + 1. In Example 3.4
+  the symbol G_g is not defined in the paper, and is read here as E_g.
+- **Milne, section 3 (read: 3.6 on p. 8 of v1, the only version on Hexagon on 22 Nov 2026).** Stands.
