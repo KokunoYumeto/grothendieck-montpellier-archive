@@ -1,0 +1,41 @@
+"""Record the complete root audit of the original-boundary alternating transfer."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import json
+
+root = Path(__file__).resolve().parents[1]
+path = root / 'parts/C/post24_research/D_original_boundary_alternating_models.tex'
+sha = hashlib.sha256(path.read_bytes()).hexdigest()
+assert sha == 'e3967a82a1ea7b450c64a314630715eb3a97756f767c9ef9504846d300352928'
+record = {
+    'actor':'root', 'model':'GPT-6 Astra Pro',
+    'effort':'setting not independently exposed', 'run':'SA12 run1',
+    'recorded_utc':datetime.now(timezone.utc).isoformat(),
+    'type':'targeted proof check', 'verdict':'PASS',
+    'path':str(path.relative_to(root)), 'sha256':sha,
+    'labels':['D:original-boundary-matrix-alternating-count'],
+    'actual_file_scope':'Complete actual candidate, every proof paragraph and all formulas read in full. Exact dependency scopes reread as listed.',
+    'certificate_scope':'Mathematical proof audit; no numerical certificate is asserted.',
+    'checks':[
+        'The source maps are those of the fixed original-boundary detecting-curve theorem. In higher dimension they belong to the fixed detecting surface over the chosen algebraically closed extension. No local rings of an arbitrary-dimensional original variety are substituted.',
+        'The local-pair projective conjugacy-class bound gives an actual-Hom bound after multiplying by ambient group order. The faithful GL_r to PGL_(r+1) block embedding gives the needed actual linear Hom bound without lifting projective representations. Permutation matrices then give the uncontrolled quadratic-orbit cost.',
+        'The previously proved local tame-p H1 bound applies exactly to Q(R,D). For every other prime, the SNC degree-one Leray terms and proper strict-local base change give the fixed bound 2 sum(g_i)+e+v+h. Horizontal components each have exactly one node and no H1 contribution.',
+        'Uniform trivial-coefficient H1 bounds for every prime imply finite generation only of the maximal pronilpotent quotient by finite Frattini and coprime-product compactness. This does not assert prosolvable finite generation.',
+        'Grothendieck--Murre9.1 permits every connected open complement of a closed subset in a complete noetherian local ring of dimension two with algebraically closed residue field. Its9.2 prime-to-p finite presentation includes finite generation; a quotient retains that finite generation. The theorem is used as a known input, with only the actually available preview reading scope claimed.',
+        'The full local-type enumeration, finite model choices and uncharged fixed-quotient orbit count apply to whole local source orbits. The highest-break bounds on the fixed curve give degree-linear total discriminant for nongalois and disconnected covers as previously proved.',
+        'The disconnected curve assignment uses the actual number of marked curve points. The fixed curve surjection is injective on finite-set isomorphism classes, and the established natural alternating-kernel/LMT/Goursat argument gives only the selected simple product conclusion.',
+        'The statement retains normality for divisorial pairs and the previously stated controlled-centre hypothesis in higher dimension. It adds no nonnormal divisorial descent, unrestricted factorial estimate, hereditary constant, or full finite-generation conclusion.'
+    ],
+    'fresh_primary_reads':[],
+    'reused_previously_checked_inputs':[
+        'parts/C/D_local_tame_p_H1_post09.tex: complete file freshly reread, including the fixed Kummer annihilator, affine-monodromy inertia argument and invariant Matlis calculation.',
+        'parts/B/post23_research/D_local_divisor_tame_H2_B.tex: complete file freshly reread; degree-one use of its exact purity formula and horizontal-component argument checked.',
+        'parts/C/post23_research/sources/Grothendieck_Murre_1971_ch9_preview.txt: complete available two-page text freshly reread. The corresponding official publisher page images122--123 were actually viewed in the preceding audit period; full remaining proof is unavailable and is not claimed read.',
+        'The fixed detecting-curve, original-boundary highest-break, local projective, fixed-formal-fibre and dimensional-reduction inputs retain their previously recorded full exact-file audits.',
+        'ILO ExposeXVI Theorem3.1.1 statement and Corollary3.1.3 full proof retain the prior exact primary-source reading scope.'
+    ],
+    'research_movement':'Original-divisorial and controlled-dimensional enlargement of the same restricted alternating criterion; not a separate geometric-closure movement or requested-row closure.'
+}
+(root / 'parts/D/post24_research/audit_C_original_boundary_alternating_root.json').write_text(json.dumps(record, indent=2)+'\n')
+print(json.dumps({'verdict':'PASS','sha256':sha},indent=2))

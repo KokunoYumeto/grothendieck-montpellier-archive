@@ -1,0 +1,970 @@
+\ifx\danslelivre\undefined
+\documentclass[10pt]{../fichiers-configuration-latex/smfart}
+\usepackage{ifthen}
+\newboolean{english}
+\newboolean{francais}
+\setboolean{english}{false}
+\setboolean{francais}{true}
+\usepackage{palatino,euler}
+\input{../fichiers-configuration-latex/paquets}
+\selectlanguage{francais}
+\input{../fichiers-configuration-latex/lemme-proposition-theoreme}
+\input{../fichiers-configuration-latex/numerotation}
+\input{../fichiers-configuration-latex/macros}
+\input{../fichiers-configuration-latex/ucs_manquants}
+%\input{../.cv}
+
+\usepackage{graphics}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.markings}
+
+\title{XIII. Le théorème de finitude}
+
+\externaldocument{../00-introduction/introduction}
+\externaldocument{../01-quasi-excellents/excellent}
+\externaldocument{../02-topologies/topologies}
+\externaldocument{../03-approximation/approximation}
+\externaldocument{../04-Cohen-Gabber/Cohen-Gabber}
+\externaldocument{../05-algebrisation-partielle/algebrisation}
+\externaldocument{../06-log-lissite/log}
+\externaldocument{../07-uniformisation-locale/uniformisation-faible}
+\externaldocument{../09-uniformisation-premiere-a-l/uniformisation-locale-premiere-a-l}
+\externaldocument{../11-produits-orientes/produits-orientes}
+\externaldocument{../12-descente-cohomologique-orientee/descente-orientee}
+\externaldocument{../14-fonctions-dimension/fonctions-dimension}
+\externaldocument{../15-Lefschetz-affine/Lefschetz-affine}
+\externaldocument{../16-classes-de-Chern/gysin}
+\externaldocument{../17-complexes-dualisants/dualite}
+\externaldocument{../18A-cohomological-dimension/dimensionA}
+\externaldocument{../19-exemples-contre-exemples/contre-exemples}
+\externaldocument{../20-rigidite/rigidite}
+\externaldocument{../21-finitude-non-abelienne/finitude-non-abelienne}
+
+\begin{document}
+
+\begin{center}
+XIII. Le théorème de finitude\\
+Fabrice Orgogozo
+\end{center}
+
+
+\else
+\setboolean{english}{false}
+\setboolean{francais}{true}
+\selectlanguage{francais}
+\chapter{Le théorème de finitude}
+\addtocontents{toc}{par Fabrice Orgogozo}
+\begin{center}
+Fabrice Orgogozo
+\end{center}
+\fi
+
+\section{Introduction}
+
+\subsection{}L'objet de cet exposé est de démontrer le théorème
+suivant (\refext{0}{0-finitude1}).
+
+\begin{théorème2}
+\label{13-constructibilité}
+Soient $X$ un schéma nœthérien \emph{quasi-excellent} (\refext{I}{1def-excellent}),
+$f:Y→X$ un morphisme de type fini, $n≥1$ un entier inversible sur $X$
+et $ℱ$ un faisceau constructible de $𝐙/n$-modules sur $Y$.
+Alors :
+\begin{enumerate}
+\item Pour tout entier $q ≥ 0$ le faisceau $\R^q f_* ℱ$ est
+constructible.
+\item Il existe un entier $N$ tel que $\R^q f_* ℱ=0$ pour $q ≥ N$.
+\end{enumerate}
+\end{théorème2}
+
+\subsubsection{}De façon équivalente, le morphisme
+$\R f_*:\detalepluscoefs{Y}{𝐙/n}→\detalepluscoefs{X}{𝐙/n}$
+induit un morphisme $\detalebccoefs{Y}{𝐙/n}→\detalebccoefs{X}{𝐙/n}$
+entre les sous-catégories de complexes à cohomologie bornée et
+constructible.
+
+\subsection{Remarques}
+\subsubsection{Organisation de l'exposé}L'énoncé ci-dessus est la conjonction d'un résultat de
+\emph{constructibilité} (i) et d'un résultat d'\emph{annulation} (ii).
+Dans le §\ref{13-constructibilité sans annulation}, nous présentons une démonstration
+de la constructibilité qui ne requiert pas
+la forme forte du théorème d'uniformisation mais seulement
+la forme faible (\refext{VII}{7-uniformisation}).
+Les ingrédients clefs supplémentaires sont le théorème de pureté
+absolu, le théorème de constructibilité générique (dû à P. Deligne)
+et la descente cohomologie orientée.
+Au paragraphe \ref{13-compléments annulation}, nous donnons une
+démonstration de résultat d'annulation pour les schémas \emph{de
+dimension finie}, qui complète la démonstration du théorème \ref{13-constructibilité} pour ces schémas.
+Le cas général est traité en §\ref{13-section constructibilité forte}, en s'appuyant sur le
+théorème d'uniformisation premier à $ℓ$ (\refext{IX}{9-unif}), où $ℓ$ est un nombre premier divisant $n$.
+Enfin, nous étendons ce résultat d'abord au cas des coefficients
+$ℓ$-adiques, où $ℓ$ est un nombre premier inversible sur
+les schémas considérés, puis au cas des champs (comme coefficients).
+
+\subsubsection{Terminologie et notations}
+\label{13-terminologie et notations}
+Nous dirons d'un complexe $𝒦∈\ob\,\detalepluscoefs{Y}{Λ}$,
+où $Λ$ est un anneau fini, est \emph{constructible} s'il appartient à
+$\ob\,\detalebccoefs{Y}{Λ}$, c'est-à-dire si ses faisceaux de cohomologie sont
+constructibles, nuls en grands degrés. Lorsque $n ≥ 1$ est fixé
+et que cela ne semble pas créer de confusion nous notons $Λ$
+l'anneau $𝐙/n$. De même, un complexe $𝒦$ sur un schéma $X$
+étant donné, nous noterons souvent encore $𝒦$ ses images
+inverses sur différents $X$-schémas.
+
+\section{Constructibilité via l'uniformisation locale faible}
+\label{13-constructibilité sans annulation}
+
+Dans cette section, on démontre \ref{13-constructibilité} (i),
+dont on reprend les notations.
+
+\subsection{Réductions}
+Les réductions suivantes sont classiques : cf. p. ex. \sga{4}{XVI}{4.5}.
+
+\subsubsection{Réduction au cas où le faisceau $ℱ$ est constant}
+\label{13-réduction cas constant}
+D'après \sga{4}{IX}{2.14 (ii)}, le faisceau $ℱ$ s'injecte
+dans une somme finie $𝒢= ⨁_{i ∈ I} {g_i}_* C_i$ d'images directes par
+des morphismes finis $g_i$ de faisceaux en $𝐙/n$-modules constants constructibles $C_i$.
+On peut supposer $ℱ=𝒢$. Cela résulte d'une part du fait qu'un
+sous-quotient d'un faisceau constructible est
+constructible\footnote{Pour le voir, on peut utiliser le
+fait qu'un faisceau est constructible si et seulement si il est nœthérien, cf.
+\sga{4}{IX}{2.9 (i)}.} et d'autre part de la suite exacte longue
+de cohomologie associée au triangle
+\[
+\R f_*ℱ→\R f_* 𝒢→\R f_* (𝒢/ℱ)\dessusdessous{+1}{→}.
+\]
+Enfin, on peut supposer $ℱ$ constant constructible car
+on peut supposer l'ensemble $I$ être un singleton
+et l'égalité $\R f_*(g_* C)=\R (f ∘ g)_* g$,
+où $g$ est un morphisme fini, nous permet de supposer $g=\Id$.
+Décomposant $n$ en produit, on se ramène au cas où $ℱ$ est
+un faisceau constant $𝐅_ℓ$, le nombre premier $ℓ$ étant inversible
+sur $X$ (cf. p. ex. \sgaquatreetdemi{Th. finitude}{2.2 b)}).
+
+\subsubsection{Réduction au cas où le morphisme $f$ est une immersion ouverte}
+\label{13-réduction cas immersion ouverte}
+Un faisceau sur le schéma nœthérien donc cohérent $X$
+étant constructible si et seulement si il l'est localement
+pour la topologie de Zariski (\sga{4}{IX}{2.4 (i)}),
+on peut supposer $X$ affine. On utilise ici le fait
+trivial que la formation des images directes commute
+au changement de base par un ouvert de Zariski.
+On peut également supposer $Y$ affine ; cela résulte
+par exemple de l'analogue faisceautique
+\[
+E₁^{p,q}=\R^q {f_p}* (ℱ_{|Y_p}) ⇒ \R^{p+q} f_* ℱ
+\]
+de la suite spectrale de Leray (\cite{Hodge3@Deligne}, 5.2.7.1),
+où les $f_p:Y_p → X$ sont déduits de $f$ et d'un hyperrecouvrement
+Zariski $Y_{∙} → Y$.
+Le morphisme $f:Y→X$ est alors affine donc quasi-projectif,
+et le théorème de constructibilité étant connu pour les morphismes
+propres (\sga{4}{XIV}{1.1}), on peut supposer que $f$ est une
+\emph{immersion ouverte} dominante. (On pourrait également utiliser
+le théorème de compactification de Nagata.)
+Conformément à l'usage, nous noterons dorénavant $j:U→X$ le morphisme $f$.
+
+\subsection{Fin de la démonstration du théorème \ref{13-constructibilité} (i)}
+\label{13-fin première démo}
+
+\subsubsection{}Soit $q≥0$ un indice pour lequel on souhaite montrer
+que le faisceau $\R^q j_* 𝐅_ℓ$ est constructible. On rappelle que $j$
+est une immersion ouverte $U ↪ X$ et $ℓ$ est un nombre premier
+inversible sur $X$.
+Il résulte du critère de constructibilité \sga{4}{ix}{2.4.(v)} qu'il suffit de démontrer que
+pour toute immersion fermée $g:Z↪ X$, le faisceau $g^*\R^q j_*𝐅_ℓ$
+est constructible \emph{sur un ouvert dense} de $Z$.
+Le théorème d'uniformisation locale (\refext{VII}{7-uniformisation}),
+joint à la méthode classique de construction d'hyperrecouvrements
+(\cite{Hodge3@Deligne}, §6.2), a pour corollaire immédiat
+le fait suivant.
+
+\begin{théorème2}
+\label{13-cb}
+Il existe un hyperrecouvrement pour la topologie des altérations
+$ε_{∙} : X_{∙}→ X$ satisfaisant les conditions suivantes :
+\begin{enumerate}
+\item pour chaque $i≤q+1$, le schéma $X_i$ est régulier connexe,
+\item pour chaque $i≤q+1$, l'image inverse $U_i$ de $U$ dans $X_i$
+est le complémentaire du support d'un diviseur strictement à croisements normaux,
+\end{enumerate}
+\end{théorème2}
+
+\subsubsection{}
+Notons $Z_{∙}$, $g_{∙}$ et $j_{∙}$ le schéma et les morphismes
+simpliciaux qui se déduisent de $Z$, $g$ et $j$ respectivement
+par le changement de base $X_{∙}→X$.
+Il résulte du théorème de pureté absolue
+(\refext{XVI}{16-theoreme-purete-absolue}) que le complexe
+$g_{∙}^*\R {j_{∙}}_* Λ$ sur $Y_{∙}$
+est à cohomologie constructible en degré $≤q+1$.
+Par ailleurs, il résulte du théorème de constructibilité
+générique \sgaquatreetdemi{Th. finitude}{1.9 (i)}
+— appliqué aux morphismes $ε_p:Z_p → Z$ et aux
+complexes $g_p^*\R {j_p}_* 𝐅_ℓ$ — et de la suite spectrale
+rappelée ci-dessus qu'il existe un ouvert
+dense de $Z$ au-dessus duquel le tronqué en degrés inférieurs
+ou égaux à $q$ de l'image directe $\R {ε_{Z ∙}}_*
+\big(g_{∙}^*\R {j_{∙}}_* 𝐅_ℓ\big)$ est \emph{constructible}.
+D'après \refext{XII}{12-cb orienté} (i)
+cette image directe est isomorphe à $g^*\R j_*𝐅_ℓ$.
+Le faisceau $g^* \R j_* 𝐅_ℓ$ est donc constructible
+sur un ouvert dense de $Z$. CQFD.
+
+\subsection{Compléments}
+\label{13-compléments annulation}
+
+\begin{théorème2}
+\label{13-finitude sur base dimension 1}
+Soient $S$ un schéma nœthérien, $f: X → Y$ un morphisme de type fini
+entre $S$-schémas de type fini et $n$ un entier inversible sur $S$.
+Supposons l'une des deux conditions suivantes satisfaite :
+\begin{enumerate}
+\item le schéma $S$ est de dimension $1$ ;
+\item le schéma $S$ est \emph{local} de dimension $2$.
+\end{enumerate}
+Alors, pour faisceau de $𝐙/n$-modules constructible $ℱ$ sur $X$
+les faisceaux image directe $\R^q f_* ℱ$ sont constructibles
+et nuls pour $q ≫ 0$.
+\end{théorème2}
+
+\begin{remarque2}
+On verra en \refext{XIX}{19-prop-cexgabber} qu'il existe un contre-exemple
+à la constructibilité lorsque $S$ est nœthérien
+de dimension $2$ (non local). Ceci résulte de l'existence
+d'une surface régulière et d'un diviseur possédant une
+infinité de points doubles.
+Il serait intéressant de construire un contre-exemple
+à l'énoncé de constructibilité précédent lorsque $S$
+est \emph{local} (nœthérien) de dimension $3$,
+ou bien de montrer qu'il n'en existe pas.
+\end{remarque2}
+
+\begin{démo}[Esquisse de démonstration]
+(i) D'après le théorème de constructibilité générique
+(\sgaquatreetdemi{Th. finitude}{1.9 (i)}), il existe un
+ouvert dense de $S$ au-dessus duquel le résultat est acquis.
+On peut donc supposer le schéma $S$ \emph{local}.
+Il est également loisible de le supposer strictement
+hensélien. Par restriction à ses composantes irréductibles,
+on peut finalement supposer $S$ local \emph{intègre} (de
+dimension $1$). Soit $S′ → S$ le morphisme de normalisation.
+C'est un homéomorphisme universel de sorte que l'on peut
+remplacer $S$ par $S′$. Or, ce dernier schéma est nœthérien régulier, de dimension $1$.
+La conclusion résulte alors du théorème de constructibilité
+\sgaquatreetdemi{Th. finitude}{1.1}
+et du théorème de finitude de la dimension
+cohomologique \sga{4}{X}{3.2, 4.4}. (Voir aussi \cite[2.4]{PV@Illusie}
+et \refext{XVIII}{18A-GABBER'S BOUND}.)
+
+(ii) Soit $s$ le point fermé de $S$.
+Le schéma $S-\{s\}$ étant de dimension $1$ le résultat
+est acquis au-dessus ce cet ouvert.
+Soit $ℱ$ un $𝐙/n$-Module constructible sur $X$ et considérons
+un triangle distingué
+\[
+𝒦 → ℱ → \R j_* j^* ℱ,
+\]
+où $j$ est l'immersion ouverte $X -X_s ↪ X$.
+Notons que $𝒦$ est à support dans $X_s$ et
+constructible si $\R j_* j^* ℱ$. Appliquant
+le foncteur $\R f_*$ au triangle précédent
+et utilisant la finitude sur $X-X_s$ (resp. $X_s$),
+on est ramené à montrer la constructibilité
+des images directes par les immersions ouvertes
+$X-X_s ↪ X$ et $Y-Y_s ↪ Y$.
+On utilise alors le morphisme de complétion $\chap{S} → S$
+et le théorème de comparaison de Gabber-Fujiwara
+(\cite[6.6.4]{TUBULAR@Fujiwara}) pour se ramener au cas
+où le schéma local $S$ est complet, donc excellent.
+\end{démo}
+
+\subsubsection{}Reprenons les notations du théorème \ref{13-constructibilité}
+et supposons le schéma $X$ de dimension finie.
+Le (i) de \emph{loc. cit.} joint au théorème de
+Lefschetz affine \refext{XV}{15-theoreme-principal}\footnote{Le lecteur
+constatera que cette référence à un exposé ultérieur ne génère pas de cercle vicieux.}
+entraînent le complément suivant, qui sera amélioré dans la section suivante.
+
+\begin{proposition2}
+\label{13-annulation si dimension finie}
+Soit $X$ un schéma nœthérien quasi-excellent
+de \emph{dimension finie}. Soit $f:Y→X$ un morphisme de type fini.
+Pour tout entier $n≥1$ inversible sur $X$, le foncteur $\R f_*:
+\detalepluscoefs{Y}{𝐙/n}→\detalepluscoefs{X}{𝐙/n}$ est de dimension
+cohomologie finie. En particulier, il induit un foncteur
+de $\detalepluscoefs{Y}{𝐙/n}$ dans $\detalepluscoefs{X}{𝐙/n}$.
+\end{proposition2}
+
+\begin{démo}
+Supposons $X$ de dimension finie $d$. On peut supposer $X$ affine.
+Quitte à considérer un hyperrecouvrement Zariski de $Y$ par
+des schémas affines, on peut également supposer ce schéma
+affine. Soit maintenant $N$ un majorant de la dimension des fibres
+de $f$. La dimension cohomologique du foncteur
+image directe par $f$ est au plus $d+N$. En effet, si $\sur{x}$ est
+un point géométrique de $X$, et $ℱ$ un $𝐙/n$-faisceau
+constructible sur $Y$, on a $(\R f_* ℱ)_{\sur{x}}=\R Γ(Y×_X
+X_{(\sur{x})},ℱ)$. Les schémas $X′= X_{(\sur{x})}$
+et $Y′= Y×_X X_{(\sur{x})}$ admettent respectivement les fonctions
+de dimension $δ_{X′}: x′↦ \dim(\sur{\{x′\}})$ et la fonction
+induite $δ_{Y′}$ définie en \refext{XIV}{14-coro-fonction-dim-induite-tf}.
+Notons que $δ_{X′}$ est bornée par $d$ et $δ_{Y′}$
+par $d+N$. Il résulte donc du théorème de Lefschetz affine
+(sous la forme \refext{XV}{15-prop-devissage-classique})
+que $H^q(Y′, ℱ)=0$ pour $q>d+N$.
+\end{démo}
+
+\begin{remarque2}
+On verra en \refext{XVIII}{18A-GABBER'S BOUND} que l'on a un résultat d'annulation
+sous la seule hypothèse que $X$ est nœthérien de dimension finie :
+si $X$ est un schéma nœthérien strictement local hensélien
+de dimension $d>0$ et $n$ est inversible sur $X$, alors
+tout ouvert de $X$ est de $n$-dimension cohomologique au plus
+$2d-1$.
+\end{remarque2}
+
+\subsubsection{Constructibilité des images directes dans le cas non abélien}
+Quitte à remplacer la réduction \ref{13-réduction cas constant}
+par \sga{1}{XIII}{§3, (4)}, l'usage de
+\sga{4}{XIV}{1.1} en \ref{13-réduction cas immersion ouverte}
+par \sga{1}{XIII}{6.2}, le théorème de pureté absolu
+par  \sga{1}{XIII}{2.4}, le théorème de finitude \sgaquatreetdemi{Th. finitude}{1.9 (i)}
+par \cite[2.2]{Alterations@Orgogozo} et enfin
+\refext{XII}{12-cb orienté} (i)
+par \refext{XII}{12-cb orienté} (ii), on obtient
+essentiellement par la même méthode une démonstration du
+théorème suivant.
+
+\begin{théorème}[\refext{XXI}{21-groupes}]\label{13-constructibilité non abélienne}
+Soient $X$ un schéma nœthérien \emph{quasi-excellent}, $f:Y→X$ 
+un morphisme de type fini, et $\mathsf{L}$ l'ensemble des nombres
+premiers inversibles sur $X$. 
+Pour tout champ en groupoïdes constructible ind-$\mathsf{L}$-fini sur $Y_{\et}$
+le champ $f_*𝒞$ est constructible.
+\end{théorème}
+
+\section{Constructibilité et annulation via l'uniformisation locale première à $ℓ$}
+\label{13-section constructibilité forte}
+
+Dans cette section, on démontre le théorème \ref{13-constructibilité}.
+Constructibilité (i) et annulation (ii) sont établis simultanément.
+
+\subsection{Réduction au cas d'une immersion ouverte et de la finitude hors d'un lieu de codimension donnée}
+\label{13-hr}
+
+\subsubsection{}Comme en \ref{13-terminologie et notations},
+posons $Λ=𝐙/n$, où $n$ est l'entier inversible sur $X$ de l'énoncé.
+Pour chaque entier $c≥0$, considérons la propriété $(P_c)$ suivante :
+\begin{quote}
+\emph{Pour tout schéma quasi-excellent nœthérien $X$, toute immersion ouverte
+dominante $j:U↪X$ et tout complexe $𝒦∈\ob\,\detalebccoefs{U}{Λ}$,
+il existe un fermé $T↪X$ de codimension strictement
+supérieure à $c$ tel que $(R j_*𝒦)_{|X-T}$ appartienne à $\ob\,\detalebccoefs{(X-T)}{Λ}$.}
+\end{quote}
+
+\subsubsection{}
+\label{13-Pc impliquent théorème}
+La conjonction des énoncés $(P_c)$ pour
+chaque $c ≥ 0$, entraîne le théorème.
+Soit en effet une paire $(f,ℱ)$ comme dans l'énoncé du théorème. D'après
+le théorème de compactification de Nagata, il existe
+une immersion ouverte $j:X↪\sur{X}$ et un morphisme propre
+$\sur{f}:\sur{X}→Y$ tels que $f=\sur{f}j$. La formule
+de composition $\R f_*=\R \sur{f}_* \R j_{*}$ et le théorème de finitude pour les
+morphismes propres, nous ramènent à démontrer la
+constructibilité de complexe $𝒦=\R j_*ℱ$.
+(Voir aussi \ref{13-réduction cas immersion ouverte}.)
+La conclusion résulte alors du lemme suivant.
+
+\begin{lemme2}
+Soient $X$ un schéma nœthérien et $𝒦∈\ob\,\detalepluscoefs{X}{Λ}$.
+Supposons que pour tout entier $c≥0$, il existe un fermé $T_c$ de
+codimension strictement supérieure à $c$ tel que
+$\mc{K}_{|X-T_c}∈\ob\,\detalepluscoefs{(X-T_c)}{Λ}$.
+Alors, $\mc{K}∈\ob\,\detalebccoefs{X}{Λ}$. 
+\end{lemme2}
+
+\begin{démo}
+Le schéma $X$ étant
+nœthérien, ses localisés sont de dimension finie et pour toute suite
+de fermés $(T_c)_{c∈𝐍}$ comme dans l'énoncé,
+on a $X=⋃_c(X-T_c)$. D'autre part, le schéma $X$ étant quasi-compact,
+il est recouvert par un nombre \emph{fini} des ouverts $X-T_c$.
+La conclusion résulte alors du fait que si $U,U'$ sont deux ouverts de $X$ tels que
+$\mc{K}_{|U}∈\ob\,\detalebccoefs{U}{Λ}$,
+$\mc{K}_{|U'}∈\ob\,\detalebccoefs{U'}{Λ}$, on a également 
+$\mc{K}_{|U∪U'}∈\ob\,\detalebccoefs{(U∪U')}{Λ}$. 
+\end{démo}
+
+\subsubsection{}
+Nous allons démontrer la propriété
+$(P_c)$ ci-dessus par récurrence sur $c$. Insistons sur le fait que
+\emph{le schéma $X$ et le complexe $𝒦$ sont
+variables}. Pour $c=0$, cette propriété est triviale : prendre $T=X-U$.
+Soit $c≥1$ et supposons la propriété établie au cran $c-1$.
+On souhaite la démontrer au cran $c$.
+
+\subsection{Récurrence : l'ingrédient clef et une première réduction}
+
+\subsubsection{}
+\label{13-uniformisation}
+D'après le théorème d'uniformisation première à $ℓ$
+(\refext{IX}{9-unif}) et le théorème de la forme standard (\refext{II}{2-forme standard pour annulation}),
+il existe une famille finie indexée, par un ensemble $I$ d'éléments $i$, de diagrammes commutatifs
+\begin{center}
+\begin{tikzpicture}[auto]
+ \matrix(diag)[matrix of math nodes,column sep=4em,row sep=3ex]
+{ |(X3)| X‴_i & & |(Y)| Y=∐_{j ∈ J} Y_j & \\
+  |(X2)| X″_i & |(X1)| X′ & |(X)| X & |(U)| U\\};
+ \draw[->] (X3) -- node[swap]{fini, plat, surjectif} (X2);
+ \draw[->] (X3) -- node{degré premier à $ℓ$} (X2);
+ \draw[->] (X3) -- (Y);
+ \draw[->] (Y) -- (X);
+ \draw[->] (X2) -- node[swap]{étale} (X1);
+ \draw[->] (X1) -- node{$p$} (X);
+ \draw[->] (X1) -- node[swap]{propre, birationnel} (X);
+ \draw[left hook->] (U) -- node[swap]{$j$} (X);
+ \end{tikzpicture}
+\end{center}
+où, en plus des propriétés indiquées ci-dessus,
+
+— la famille $(X″_i→X')$ est couvrante pour la topologie
+étale complètement décomposée ;
+
+— les schémas $Y_j$, $j ∈ J$, sont \emph{réguliers} ;
+
+— l'image inverse de $U$ dans $Y_j$ est le complémentaire
+d'un diviseur strictement à croisements normaux.
+
+\subsubsection{}
+Soit $(j,𝒦)$ une paire comme dans l'énoncé
+de la propriété $P_c$ (\ref{13-hr}).
+Nous verrons seulement plus tard que l'on peut supposer $𝒦=Λ$.
+D'après l'hypothèse de récurrence appliquée aux paires
+$(j,𝒦)$ et $(j',𝒦)$, où $j'$ est l'immersion ouverte
+de $U'=U×_X X'$ dans $X'$, il existe deux fermés $T↪X$ et $T'↪X'$ 
+de codimension $≥c$ tels que les complexes
+$\R j_* 𝒦$ et $\R j'_*𝒦$ soient constructibles sur les ouverts complémentaires
+correspondants. Le fermé $T$ n'ayant qu'un nombre fini de points maximaux
+et l'énoncé à démontrer — la constructibilité hors d'un
+fermé de codimension $>c$ — étant un problème local au
+voisinage de ces points, on peut supposer $T$ irréductible,
+de codimension $c$, de point générique noté $η_T$. Soit $η'$
+un point maximal de $T'$.
+Si l'image par $p$ de $η'$ n'est pas égale à $η_T$, la composante irréductible
+correspondante de $T'$ disparaît après localisation
+(Zariski) au voisinage de $η_T$.
+Compte tenu du fait que $T$ est de codimension $c$ et $T'$ de codimension au
+moins égale, toute composante irréductible $T'_α$ de $T'$ dominant $T$ est nécessairement de
+dimension égale à celle de $T$, et le morphisme induit $T'_α→T$ est
+génériquement fini. Quitte à se restreindre à un voisinage
+ouvert de $η_T$ dans $X$, on peut finalement supposer que $T'$
+est une somme $\coprod_α T'_α$,
+où les $T'_α$ sont irréductibles et les morphismes $T'_α→T$ sont \emph{finis},
+surjectifs.
+
+\subsection{Notation : le complexe $ψ_f(g,𝒦)$}
+
+\subsubsection{}
+Pour tout $X$-schéma $f:X₁→X$ et tout $X₁$-schéma $g:X₂ → X₁$, notons
+$h$ le morphisme composé $X₂→X₁→X$ et $j₁$ l'immersion
+ouverte $U₁=X₁×_X U↪X₁$ déduite de $j$ par changement de base.
+Considérons le complexe de faisceaux sur $X$,
+
+\begin{minipage}[c]{.65\linewidth}
+\[
+ψ_f(g,𝒦) ≔ \R g_*\big(h^*(\R {j_Y}_*𝒦)\big).
+\]
+\end{minipage} \hfill
+\begin{minipage}[c]{.46\linewidth}
+\begin{tikzpicture}[auto]
+ \matrix(diag)[matrix of math nodes]
+{ |(X2)| X₂ & \\
+  |(X1)| X₁ & |(U1)| U₁ \\
+  |(X)| X & |(U)| U \\};
+ \draw[->] (X2) -- node{$g$} (X1);
+ \draw[->] (X1) -- node{$f$} (X);
+ \draw[left hook->] (U1) -- node[swap]{$j₁$} (X1);
+ \draw[left hook->] (U) -- node[swap]{$j$} (X);
+ \draw[->] (U1) -- (U);
+ \draw[->] (X2) to [in=130,out=210] node[swap]{$h$} (X);
+ \end{tikzpicture}
+\end{minipage}
+
+Ci-dessous, le morphisme $g$ sera le plus souvent une immersion
+fermée, qui sera parfois supprimée de la notation, ainsi que $f$,
+si cela ne semble pas induire de confusion. Par exemple, $ψ(X,𝒦)=\R j_*𝒦$.
+
+\subsubsection{}
+La formation du complexe $ψ$ est fonctorielle en le sens suivant :
+pour tout diagramme commutatif
+\begin{center}
+\begin{tikzpicture}[auto]
+ \matrix(diag)[matrix of math nodes]
+{ & |(X2)| X₂ & & |(X2p)| X₂′ & \\
+  |(U1)| U₁ & |(X1)| X₁ & & |(X1p)| X₁′ & |(U1p)| U₁′ \\
+        & & |(X)| X & & \\};
+ \draw[->] (X2) -- node[swap]{$g$} (X1);
+ \draw[->] (X1) -- node[swap]{$f$} (X);
+ \draw[->] (X2p) -- node{$g′$} (X1p);
+ \draw[->] (X1p) -- node{$f′$} (X);
+ \draw[<-] (X2) -- node{$m$} (X2p);
+ \draw[<-] (X1) -- node{$n$} (X1p);
+ \draw[right hook->] (U1) -- node{$j₁$} (X1);
+ \draw[left hook->] (U1p) -- node[swap]{$j₁′$} (X1p);
+ \end{tikzpicture}
+\end{center}
+le morphisme de changement de base (adjonction)
+$n^* \R {j_Y}_*𝒦 → \R {j_{Y'}}_*𝒦$ induit un morphisme
+\[
+ψ_f(g,𝒦)→ ψ_{f'}(g',𝒦).
+\]
+
+\subsection{Seconde localisation}
+
+\subsubsection{}Nous dirons qu'un morphisme d'une catégorie dérivée $\mathsf{D}^+(𝒯,Λ)$,
+où $𝒯$ est le topos étale d'un schéma, est un
+\emph{$\dbc$-isomorphisme} ou isomorphisme \emph{modulo} $\dbc$,
+s'il a un cône dans $\dbc(𝒯,Λ)$. Cela revient
+d'après \cite[2.1.35]{TC@Neeman} à supposer que
+la flèche induite dans la catégorie triangulée quotient
+$\mathsf{D}^+(𝒯,Λ) ∕ \dbc(𝒯,Λ)$ est un \emph{isomorphisme}.
+Notons que dans la terminologie d'\emph{op. cit.},
+la sous-catégorie $\dbc(𝒯,Λ)$ est \emph{épaisse}.
+La localisation considérée ici (due à J.-L. Verdier)
+est l'analogue triangulé de celle considérée par J.-P. Serre
+dans le cas des catégories abéliennes.
+
+\begin{proposition2}
+Quitte à se restreindre au voisinage de $η_T$, on peut supposer que le morphisme
+d'adjonction
+\[
+ψ_{\Id}(T↪X,ℱ)→ψ_p(T'↪X',ℱ)
+\]
+est un $\dbc$-isomorphisme.
+\end{proposition2}
+
+Notons que le terme de droite, $ψ_p(T'↪X',ℱ)$, est isomorphe
+à la somme directe $⊕_α ψ_p(T'_α↪X',ℱ)$.
+
+\begin{démo}
+Soit $p_U$ le morphisme induit par $p$ au-dessus de l'ouvert $U$ de $X$ ;
+c'est un isomorphisme au-dessus d'un ouvert $W$ de $U$.
+Notons $i$ l'immersion fermé du complémentaire $Z=U-W$ dans $U$.
+On a sur $U$ un triangle distingué
+\[
+𝒦→ \R {p_{U}}_* {p_{U}}^* 𝒦 → i_*ℋ \dessusdessous{+1}{→},
+\]
+où $ℋ$ est constructible sur $Z$, d'après le théorème de finitude pour
+le morphisme propre $p_U$.
+Il résulte du théorème de changement de base propre pour $p$ que le triangle
+distingué précédent devient, après application du foncteur $ψ_{\Id}(T↪X,-)$,
+le triangle distingué de complexes supportés sur $T$ suivant :
+\[
+ψ_{\Id}(T↪X,𝒦)→ ψ_p(p^{-1}(T)↪X',𝒦) → ψ_{\Id}(T↪X,i_*ℋ)  \dessusdessous{+1}{→}.
+\]
+
+Première étape. Nous allons commencer par montrer que la première flèche
+est génériquement sur $T$ un $\dbc$-isomorphisme.
+(« Génériquement sur $T$ » : quitte à se restreindre à un
+voisinage Zariski convenable de $η_T$.)
+Soient en effet $\sur{Z}$ l'adhérence de $Z$ dans $X$, $\sur{j}:Z↪\sur{Z}$
+l'immersion ouverte et $\sur{i}:\sur{Z}↪X$ l'immersion
+fermée, représentés dans le diagramme ci-dessous.
+
+\begin{center}
+\begin{tikzpicture}[auto]
+ \matrix(diag)[matrix of math nodes,column sep=5em,row sep=7ex]
+{ |(U)| U & |(Z)| Z=U-W    \\
+  |(X)| X & |(Zb)| \sur{Z} \\};
+ \draw[left hook->] (Z) -- node[swap]{$i$} (U);
+ \draw[left hook->] (Zb) -- node[swap]{$\sur{i}$} (X);
+ \draw[left hook->] (U) -- node[swap]{$j$} (X);
+ \draw[left hook->] (Z) -- node{$\sur{j}$} (Zb);
+ \end{tikzpicture}
+\end{center}
+La restriction à $T$ du complexe $ψ(T,i_*ℋ)$ — dont on veut montrer
+qu'elle est génériquement $\dbc$-nulle — est isomorphe à la
+restriction du complexe ${\sur{i}}_*\R \sur{j}_* ℋ$.
+Le fermé $\sur{Z}$ étant de codimension $≥1$ dans $X$, car $W$ est partout
+dense dans $X$, l'hypothèse de récurrence
+pour la paire $(\sur{j},ℋ)$ entraîne
+immédiatement le résultat.
+
+Deuxième étape. Pour conclure, il nous faut maintenant montrer que le morphisme d'adjonction
+$ψ_p(p^{-1}(T),𝒦)→ψ_p(T',𝒦)$, à travers lequel le morphisme
+$ψ_{\Id}(T,𝒦)→ψ_p(T',𝒦)$ de l'énoncé se factorise est,
+génériquement sur $T$, un $\dbc$-isomorphisme.
+Sur le fermé $T_p′=p^{-1}(T)$ de $X′$, considérons
+la restriction $ℒ=(\R j'_{*}𝒦)_{|p^{-1}(T)}$ de l'image directe
+par $j′$ de $𝒦$, et le triangle distingué
+\[
+(T_p′ - T′ ↪ T_p′)_! ℒ_{|T_p′-T′} → ℒ → (T′ ↪ T_p′)_* ℒ_{|T′} \dessusdessous{+1}{→}
+\]
+constitué de ses prolongements par zéro.
+Rappelons que $j'$ désigne l'immersion ouverte de $U'$
+dans $X'$. Par définition de $T'$, le premier complexe est
+constructible ; il en est donc de même de son image directe
+(dérivée) par le morphisme \emph{propre} $p_T$.
+Or, l'image directe de la seconde flèche par $p_T$ n'est autre
+que le morphisme d'adjonction $ψ_{p}(T′_p,𝒦)→ ψ_p(T',𝒦)$. CQFD.
+\end{démo}
+
+\subsection{Construction d'une rétraction}
+
+\subsubsection{}
+Quitte à rétrécir $X$ un peu plus encore, on peut supposer que pour tout $α$
+(on rappelle que $T′= ∐_α T′_α$), il existe un indice $i_α$ tel que le morphisme étale $X″_{i_α}→X'$
+ait une section $σ_α$ au-dessus de $T'_α$. Cela résulte
+du fait que la famille $(X″_i→X')_i$ est complètement
+décomposée, de sorte qu'une section existe au voisinage du point
+générique de $T'_α$ (\refext{II}{2-section cd}).
+La propreté du morphisme dominant $X'→X$ permet de
+déduire l'existence d'un ouvert convenable de $X$
+de celle d'un ouvert de $X′$.
+
+
+\subsubsection{}
+Pour simplifier les notations, on pose pour chaque indice $α$,
+$X″_α=X″_{i_α}$, $X‴_α=X‴_{i_α}$ et on note $T″_α⊂X″_α$
+l'image de $T'_α$ par une section $σ_α$ comme ci-dessus,
+et enfin $T‴_α ⊆ X‴_α$ l'image inverse de $T″_α$
+par le morphisme fini $X‴_α → X″_α$.
+
+\begin{proposition2}
+Le morphisme d'adjonction $ψ(T'_α ↪ X′_α,𝒦)→ ψ(T″_α ↪ X″_α,𝒦)$ est un \emph{isomorphisme}.
+\end{proposition2}
+
+Bien entendu, les complexes ci-dessus sont calculés en
+munissant les schémas $X′_α$ et $X″_α$ de la structure
+de $X$-schéma évidente. Nous nous autoriserons dorénavant
+cet abus de notation.
+
+\begin{démo}
+Résulte du fait que le morphisme $X″_α→X'$ est étale.
+\end{démo}
+
+\begin{proposition2}
+Le morphisme d'adjonction $ψ(T″_α↪ X′_α,𝒦)→ ψ(T‴_α↪ X″_α,𝒦)$ a un inverse à gauche.
+\end{proposition2}
+
+\begin{démo}
+Considérons le diagramme à carrés cartésiens suivant :
+\begin{center}
+\begin{tikzpicture}[auto]
+\matrix(diag)[matrix of math nodes,column sep=4em,row sep=5ex]
+{|(T3)| T‴_α & |(X3)| X‴_α & |(U3)| U‴_α \\
+ |(T2)| T″_α & |(X2)| X″_α & |(U2)| U″_α \\};
+\draw[->] (T3) -- node[swap]{$π_T$} (T2) ;
+\draw[->] (T3) -- (X3) ;
+\draw[->] (T2) -- (X2) ;
+\draw[->] (X3) -- node{$π$} (X2) ;
+\draw[->] (U3) -- node[swap]{$j‴_α$} (X3) ;
+\draw[->] (U2) -- node{$j″_α$} (X2) ;
+\draw[->] (U3) -- node{$π_U$} (U2) ;
+\end{tikzpicture}
+\end{center}
+où $U″_α=U ×_X X″_α$, de même pour $U‴_α$, et $π: X‴_α → X″_α$ est
+comme en \ref{13-uniformisation}.
+En particulier, le morphisme $π_U$ est fini, plat, et de
+degré générique premier à $ℓ$, de sorte que le morphisme
+composé
+\[𝒦→{π_U}_*{π_U}^*𝒦\dessusdessous{\tr}{→}𝒦\]
+est la multiplication par le degré, donc inversible.
+Appliquons le foncteur $\R j″_α$.
+Par composition des images directes, le terme du milieu
+est $π_* \R {j‴_α}_*𝒦$, où l'omet le foncteur image
+inverse de la notation (\ref{13-terminologie et notations}).
+D'après le théorème de changement de base pour les morphismes finis, sa
+restriction au fermé $T″_α$ est isomorphe à
+${π_T}_* \big((\R {j‴_α}_*𝒦)_{|T‴_α}\big)$.
+En poussant les faisceaux sur $X$ par le morphisme
+$T″_α→X$, la suite précédente devient donc
+\[
+ψ(T″_α↪ X″_α,𝒦)→ ψ(T‴_α↪ X‴_α,𝒦)→ψ(T″_α↪ X″_α,𝒦)
+\]
+et la composition de ces flèches est un isomorphisme.
+\end{démo}
+
+\subsection{Cas des coefficients constants : utilisation du théorème de pureté}
+
+\subsubsection{}
+Posons $T‴=\coprod T‴_α$, $X‴=∐X‴_{α}$ et considérons le diagramme
+commutatif de morphismes d'adjonction, complété du morphisme trace :
+
+\begin{center}
+{\small
+\begin{tikzpicture}[auto]
+\matrix(diag)[matrix of math nodes,column sep=1.5em,row sep=3ex]
+{|(X)| ψ(T ↪ X,𝒦) & |(X1)| ψ(T' ↪ X', 𝒦) &
+|(X2)| ψ(T ″ ↪ X″,𝒦) & |(X3)| ψ(T‴ ↪ X‴,𝒦) & |(X2bis)| ψ_p(T″ ↪ X ″, 𝒦).\\
+ & & & |(Y)| ψ(T‴ → Y,𝒦) & & \\};
+\draw[->,densely dashed] (X) -- (X1) ;
+\draw[->,densely dashed] (X1) -- (X2) ;
+\draw[->] (X2) -- (X3) ;
+\draw[->,densely dashed] (X2) to [out=20,in=160] (X2bis) ;
+\draw[->] (X3) -- node[swap]{$\tr$} (X2bis) ;
+\draw[->] (X) to [out=-20,in=160] (Y) ;
+\draw[->] (Y) -- (X3) ;
+\end{tikzpicture}
+}
+\end{center}
+D'après les trois propositions précédentes,
+les flèches en tirets deviennent des isomorphismes
+modulo $\dbc$. Si le complexe $ψ(T‴ → Y,𝒦)$
+est \emph{constructible}, c'est-à-dire nul
+modulo $\dbc$, il en résulte que $ψ(T ↪ X,𝒦)$
+— ou, de façon équivalente, $(\R j_* 𝒦)_{|T}$ —
+est également constructible.
+
+\begin{proposition2}
+Le complexe $ψ(T‴ → Y, Λ)$ est constructible.
+\end{proposition2}
+
+\begin{démo}
+Le morphisme composé $T‴ → X$ étant fini, il suffit
+de démontrer que le complexe $\R {j_Y}* Λ$ est constructible.
+Cela résulte des hypothèses faites en \ref{13-uniformisation}
+et du théorème de pureté \refext{XVI}{16-theoreme-purete-absolue}.
+\end{démo}
+
+\subsection{Réduction au cas des coefficients constants}
+\label{13-ops constant}
+
+\subsubsection{}
+Pour achever la démonstration du théorème \ref{13-constructibilité}, il nous faut maintenant
+montrer que la propriété $(P_c)$ de §\ref{13-hr},
+où $c$ est fixé, résulte du cas particulier
+où $𝒦=Λ$ et de l'énoncé $P_{c-1}$.
+
+\subsubsection{}Commençons par observer que l'on peut supposer $𝒦$
+concentré en degré $0$, c'est-à-dire être un \emph{faisceau} constructible,
+que nous noterons dorénavant $ℱ$. L'ensemble des faisceaux constructibles
+satisfaisant à la propriété à établir au rang $c$ est, à $X$ fixé, stable
+par extension et facteur direct. D'après
+\sga{5}{i}{3.1.2}, on peut supposer $ℱ=π_*k_!Λ$ où $π:U'→U$ est un morphisme
+\emph{fini} et $k:W↪U'$ une immersion ouverte, avec $U'$ \emph{intègre}.
+D'après le théorème principal de Zariski (\egalong{iv}{3}{8.12.6}),
+le morphisme composé $U'→X$, \emph{quasi-fini}, se factorise en une immersion
+ouverte $j':U'↪X'$ suivie d'un morphisme fini $\sur{π}:X'→X$.
+\begin{center}
+\begin{tikzpicture}[auto]
+ \matrix(diag)[matrix of math nodes,column sep=4em,row sep=5ex]
+{ |(W)| W & |(Up)| U′ & |(Xp)| X′ \\
+          & |(U)|  U  & |(X)|  X \\};
+ \draw[right hook->] (W)  -- node{$k$} (Up);
+ \draw[right hook->] (Up) -- node{$j′$} (Xp);
+ \draw[->] (Up) -- node[swap]{$π$} (U);
+ \draw[->] (Xp) -- node{$\sur{π}$} (X);
+ \draw[right hook->] (U)  -- node{$j$} (X);
+ \end{tikzpicture}
+\end{center}
+Le complexe $\R j_* π_* k_! Λ$, dont on s'interroge
+sur la constructibilité, est isomorphe au complexe $\sur{π}_*\R j'_* k_!Λ$.
+En vertu du lemme suivant, on peut supposer $X'=X$.
+
+\begin{lemme2}
+Soient $f:Y→X$ un morphisme fini de schémas, $T_Y$ un fermé de $Y$
+et $T_X=f(T_Y)$ son image.
+\begin{enumerate}
+\item On a l'inégalité : $\mathrm{codim}(T_X,X)≥\mathrm{codim}(T_Y,Y)$.
+\item Soit $K∈\ob\,\detalepluscoefs{Y}{Λ}$ tel que
+$K_{|Y-T_Y}∈\ob\,\detalepluscoefs{(Y-T_Y)}{Λ}$.
+Alors, $(f_*K)_{|X-T_X}∈\ob\,\detalepluscoefs{(X-T_X)}{Λ}$.
+\end{enumerate}
+\end{lemme2}
+
+\begin{démo}
+Le premier énoncé est bien connu. %(\ega3{iv}{2}{§5}) ?.
+Le second est un corollaire immédiat de la préservation de la constructibilité 
+par le morphisme composé, fini, $Y-f^{-1}(T_X)↪Y-T_Y→X-T_X$.
+\end{démo}
+
+\subsubsection{}Soient $j:U→X$ et $k:W→U$ sont deux immersions
+ouvertes, avec $U$ intègre. Nous souhaitons maintenant
+déduire la constructibilité du complexe $\R j_* k_!Λ$
+hors d'un fermé de codimension au moins $c$
+de la propriété analogue pour les complexes $\R j_* Λ$.
+Admettant ce résultat pour ces derniers, il résulte du
+triangle distingué $k_!Λ→Λ→i_*Λ\dessusdessous{+1}{→}$, où $i$ est l'immersion 
+fermée du complémentaire $F$ de $W$ dans $U$,
+qu'il suffit de démontrer la constructibilité
+de $R j_* i_*Λ$ hors d'un fermé de codimension au moins $c$.
+Le schéma $U$ étant intègre, l'adhérence $\sur{F}$ de $F$ dans $X$ est de codimension
+strictement positive $X$. Soit $m:F↪\sur{F}$ l'immersion ouverte
+correspondante et $n:\sur{F}↪X$ l'immersion fermée. On a tautologiquement :
+\[
+R j_* i_*Λ=n_* \R m_*Λ,
+\]
+par commutativité du diagramme
+\begin{center}
+\begin{tikzpicture}[auto]
+ \matrix(diag)[matrix of math nodes,column sep=4em,row sep=5ex]
+{ |(U)| U & |(X)|  X \\
+  |(F)| F & |(Fb)| \sur{F} \\};
+ \draw[right hook->] (U)  -- node{$j$} (X);
+ \draw[right hook->] (F) -- node[description]{$m$} (Fb);
+ \draw[->] (F) -- node[swap]{$i$} (U);
+ \draw[->] (Fb) -- node{$\sur{π}$} (X);
+ \end{tikzpicture}
+\end{center}
+Par hypothèse de récurrence $(P_{c-1})$, il existe un fermé
+$T_{\sur{F}}$ de $\sur{F}$, de codimension
+au moins $c$ dans $\sur{F}$, tel que la restriction
+de $\R m_*Λ$ à l'ouvert $\sur{F}-T_{\sur{F}}$ de $\sur{F}$ soit constructible.
+L'image directe par l'immersion fermée $n$ du complexe $\R m_*Λ$
+est donc constructible sur l'ouvert $X-T_{\sur{F}}$ de $X$.
+La conclusion résulte maintenant
+du fait que la codimension de $T_{\sur{F}}$ dans $X$ est
+\emph{strictement supérieure} à $c$.
+
+\begin{remarque2}
+O. Gabber sait également démontrer un résultat
+de \emph{constructibilité uniforme}, dans l'esprit
+de ceux de \cite[§3]{Katz-Laumon} mais sans hypothèse
+sur la caractéristique.
+Cf. courriel à Luc Illusie, du 3 avril 2007 ;
+voir aussi \cite{uniformite@Orgogozo}.
+\end{remarque2}
+
+\section{Coefficients $ℓ$-adiques}
+
+\subsection{Définitions}
+On rappelle ici la construction, due à Torsten Ekedahl
+(\cite{adic@Ekedahl}), de la catégorie triangulée des complexes
+bornés constructibles $ℓ$-adiques. Voir aussi
+\cite{monodromie@Fargues}, §5 pour un résumé et quelques améliorations.
+Pour un formalisme également valable pour les champs
+et sous des hypothèses moins restrictives,
+cf. « Enhanced six operations and base change theorem for sheaves on
+Artin stacks » de Zheng Weizhe et Liu Y.
+
+On fixe ici un schéma nœthérien $X$, sur lequel un nombre premier $ℓ$
+est inversible.
+
+\subsubsection{Systèmes projectifs}
+Notons $X^𝐍$ le topos des systèmes projectifs
+indicés par $𝐍$ de faisceaux étales sur $X$ ; on
+en fait un topos annelé via $𝐙/ℓ^𝐍:=(𝐙/ℓ^n)_n$.
+Un \emph{système projectif $ℓ$-adique} de faisceaux
+sur $X$ est un $𝐙/ℓ^𝐍$-module sur $X^𝐍$,
+c'est-à-dire un système projectif
+de faisceaux abéliens $ℱ=(… → ℱ_{n+1} → ℱ_n → …)$ sur $X$, où $ℱ_n$
+un $𝐙/ℓ^n 𝐙$-modules sur $X$. Ils constituent
+une catégorie abélienne, dont on note
+$\dcoefs{X^𝐍}{𝐙/ℓ^𝐍}$ la catégorie dérivée.
+Un tel système projectif de faisceaux est dit \emph{essentiellement nul} si pour tout $n$
+il existe un entier $m ≥ n$ tel que le morphisme de
+transition $ℱ_m→ℱ_n$ correspondant soit nul.
+De même, un complexe $𝒦 ∈ \Ob\,\dcoefs{X^𝐍}{𝐙/ℓ^𝐍}$
+est essentiellement nul si chaque système projectif $H^i(𝒦)$ de faisceau l'est.
+
+\renewcommand{\mod}{\,\mathrm{mod}\,}
+
+\subsubsection{$𝐙_ℓ$-complexes}
+Soit $\dbccoefs{X^𝐍}{𝐙/ℓ^𝐍}$
+la sous-catégorie pleine de $\dcoefs{X^𝐍}{𝐙/ℓ^𝐍}$
+des complexes
+\[
+𝒦=\big(𝒦_n ∈ \Ob\,\dbcoefs{X^𝐍}{𝐙/ℓ^n}\big)_n
+\]
+dont la « réduction modulo $ℓ$ »
+\[
+𝐅_ℓ \dessusdessous{𝕃}{⊗}_{𝐙/ℓ^𝐍} 𝒦 = (𝐅_ℓ \dessusdessous{𝕃}{⊗}_{𝐙/ℓ^n} 𝒦_n)_n
+\]
+soit un \emph{pro-objet essentiellement
+constant} de $\dbccoefs{X}{𝐙/ℓ}$.
+(« Essentiellement constant » : isomorphe, modulo les complexes essentiellement nuls, à un système
+projectif provenant de $\dbccoefs{X}{𝐙/ℓ}$.)
+Un tel objet est appelé un \emph{$𝐙_ℓ$-complexe borné
+constructible} ; ils forment une catégorie triangulée.
+
+\subsubsection{Catégorie triangulée des $𝐙_ℓ$-faisceaux}
+On note $𝒟^{𝖻}_{𝖼}(X,𝐙_ℓ)$ la catégorie triangulée
+obtenue à partir de la catégorie $\dbccoefs{X^𝐍}{𝐙/ℓ^𝐍}$
+en inversant les \emph{isomorphismes essentiels modulo $ℓ$},
+c'est-à-dire les flèches $u$ tel que
+$𝐅_ℓ \dessusdessous{𝕃}{⊗}_{𝐙/ℓ^𝐍} u$ ait un cône essentiellement nul.
+De même, on peut définir variantes non bornées et non
+constructibles.
+
+\subsubsection{}Comme expliqué en \cite[§5.9]{monodromie@Fargues},
+lorsque $X$ est de type fini sur un corps séparablement clos
+ou fini, la catégorie obtenue est équivalente
+à la catégorie $2-\lim_n \dbctfcoefs{X}{𝐙/ℓ^n}$ considérée
+par P. Deligne dans Weil II. Notons qu'en toute généralité,
+les constituants d'un $𝐙_ℓ$-complexe borné constructible
+sont de tor-dimensions finies.
+On rappelle (\sga{4}{XVII}{4.1.9}) qu'un complexe
+$𝒦∈\ob\,\db(T,A)$, où $T$ est un topos et $A$ un Anneau
+commutatif, est dit de \emph{tor-dimension} inférieure ou égale
+à $n$ si pour tout complexe $ℒ$ de $A$-modules concentré en degrés
+positifs ou nuls, $\HH^i(𝒦⊗^L ℒ)=0$ pour tout $i<-n$.
+
+\subsubsection{}Un des points clefs de la théorie
+est le \emph{lemme de \japonais{中山}-Ekedahl} d'après
+lequel le foncteur triangulé noté $𝐅_ℓ \dessusdessous{𝕃}{⊗}_{𝐙_ℓ} -$,
+déduit du foncteur de réduction modulo $ℓ$ ci-dessus,
+est \emph{conservatif} : $𝒦 ∈ \Ob\,𝒟^{𝖻}_{𝖼}(X,𝐙_ℓ)$
+est nul si et seulement si le complexe $ 𝐅_ℓ
+\dessusdessous{𝕃}{⊗}_{𝐙_ℓ} 𝒦 ∈ \Ob\,\dbccoefs{X}{𝐙/ℓ}$ l'est.
+Nous renvoyons le lecteur à \cite[prop. 1.1]{multiplicativeII@Ekedahl}
+ou \cite[2.3.7,2.4.5]{Finiteness@Illusie} pour
+une première apparition de ce lemme, et \cite[3.6.(ii)]{adic@Ekedahl}
+pour le résultat précédent.
+
+\subsubsection{}D'après ce lemme, et ces corollaires
+(\emph{op. cit.}, th. 5.1.(ii) et th. 6.3), le théorème de
+finitude $ℓ$-adique ci-dessous résulte d'un théorème de finitude
+pour les coefficients finis.
+
+\subsection{Théorèmes : énoncés}
+
+\begin{théorème2}
+Soient $X$ un schéma nœthérien quasi-excellent
+de dimension finie, $ℓ$ un nombre premier inversible
+sur $X$ et $f:Y→X$ un morphisme de type fini.
+Pour tout entier $n≥1$, le foncteur $\R
+f_*:\detalepluscoefs{Y}{𝐙/ℓ^n}→\detalepluscoefs{X}{𝐙/ℓ^n}$
+envoie $\detalebctfcoefs{Y}{𝐙/ℓ^n}$ dans $\detalebctfcoefs{X}{𝐙/ℓ^n}$.
+\end{théorème2}
+
+\begin{démo}
+D'après le résultat du paragraphe §\ref{13-compléments annulation},
+le foncteur $\R f_*$ est de dimension cohomologique finie.
+La conclusion résulte de \sga{4}{XVII}{5.2.11} (tor-dimension finie)
+et du théorème \ref{13-constructibilité} (constructibilité).
+\end{démo}
+
+\begin{remarque2}
+On devrait pouvoir montrer, par réduction au cas des schémas de type
+fini sur $𝐙$, que pour tout morphisme cohérent $f$, le
+foncteur $\R f_*$ envoie un faisceau plat constructible sur un complexe de de tor-dimension 
+au plus zéro.
+\end{remarque2}
+
+D'après les résultats esquissés dans
+\cite[§5-6]{adic@Ekedahl}, on peut déduire du théorème
+précédent le théorème $ℓ$-adique suivant.
+
+\begin{théorème2}
+Soient $X$ un schéma nœthérien quasi-excellent de dimension finie,
+$ℓ$ un nombre premier inversible
+sur $X$ et $f:Y→X$ un morphisme de type fini.
+Le foncteur $\R f_*:\dpluscoefs{Y^𝐍}{𝐙/ℓ^𝐍}→
+\dpluscoefs{X^𝐍}{𝐙/ℓ^𝐍}$, $𝒦=(𝒦_n)_n↦ \R f_* 𝒦 = (\R f_* 𝒦_n)_n$
+  induit un foncteur
+$\R f_*:\dbccoefs{Y}{𝐙_ℓ}→\dbccoefs{X}{𝐙_ℓ}$.
+\end{théorème2}
+
+\ifx\danslelivre\undefined
+\bibliography{../fichiers-configuration-latex/bibliographie}
+\bibliographystyle{../fichiers-configuration-latex/style-GTG}
+\end{document}
+\fi

@@ -1,0 +1,42 @@
+# Residual spectral modules and graded root jets
+
+Status: separate research notes. The local algebra below is proved directly; the global quantitative Frobenius atlas remains unproved. No new manuscript row or movement is claimed.
+
+## Exact residual category to audit
+
+Let C be a smooth proper connected curve over algebraically closed k, n prime to char k, and let X=sqrt[n](N) be the residual mu_n-gerbe of a root construction. Let G->X be a mu_n-gerbe, and consider scalar-weight-one locally free sheaves on G. The relative stack P of scalar-weight-one invertible sheaves on G over C is a G_m-gerbe over a finite etale Z/n-torsor h:R->C. This follows etale-locally from the n characters of the residual mu_n: tensoring by the tautological character line acts transitively, and its nth power is pulled back from the base, hence acts trivially after rigidification. Infinitesimal lifting/uniqueness after rigidification follows from exact invariants for the diagonalizable residual group. The construction generalizes the prime-order argument of Lieblich 2011, Proposition 5.1.6; the source itself fixes a prime in that section.
+
+Because R is a disjoint union of smooth proper curves over k, H^2(R,G_m)=0 (Stacks03RM, full derivation in03RH). Thus P is neutral and admits a universal scalar-weight-one line Lambda on G_R. For a twisted bundle V, take the residual-inertia invariants of Hom(Lambda,V_R). This is a vector bundle W on R. Conversely finite pushforward of Lambda tensor W reconstructs V. These are inverse functors: after an etale trivialization they are exactly decomposition into the n character spaces. The equivalence and its evaluation maps commute with all coefficient-base changes, including nonreduced Artinian bases, once the fixed universal Lambda is chosen.
+
+If the residue character has order m, R has n/m connected components, each a cyclic degree-m cover of C. On each component W has some rank s_j, and rank V = m sum_j s_j. Equivalently h_*W is an ordinary rank-r bundle on the FIXED curve C with an action of the finite etale algebra h_*O_R. After identifying Z/n with mu_n, this algebra is sum_{a=0}^{n-1} T^a for an n-torsion line T and a fixed trivialization of T^n. A module structure is one isomorphism T tensor V0 -> V0 satisfying its nth-iterate relation. This avoids applying a rank-n Morita anchor to a rank-r bundle.
+
+The choice of Lambda matters. It is not supplied with a Frobenius-unit structure merely because its gerbe is neutral. Changing Lambda tensors W by a line bundle on R. Since the stabilizers of G over C have order n^2, a sufficiently divisible power of Lambda descends to R, defining its rational degree on each component. Tensoring by ordinary lines can normalize each degree into [0,1). Under a GIVEN compatible one-step Frobenius identification of the gerbes and of their Picard torsors, the quotient between pulled-back Lambda_a and Lambda_{a+1} has trivial residual character and descends to a line B_a on R. If both rational degrees have been normalized, deg B_a is an integer in [0,p-1]. This observation needs to be embedded in the actual original gerbe cycle; it is not a claim that an arbitrary collection of normalized lines has compatible unit data.
+
+## Exact local coefficient budget over arbitrary rings
+
+Let A be any k-algebra and B=A[z]/(z^(nD)), with t=z^n. Give z weight 1 in Z/n. Let M and N be finite free graded B-modules with homogeneous basis weights i_alpha and j_beta, of ranks r and s. For a degree-zero matrix entry from alpha to beta, only powers a_{alpha,beta}+n b occur, where a_{alpha,beta} is the unique residue in [0,n-1] compatible with the two basis weights and 0<=b<D. Therefore Hom_gr(M,N) is A-free of EXACT rank D r s.
+
+Write an entry as z^a sum_{b=0}^{D-1} c_b t^b. In a product, the residues contribute a carry floor((a+a')/n) in {0,1}; coefficients are bilinear, with terms of t-degree>=D simply omitted. Under p-Frobenius, the residue carry floor(p a/n) lies in {0,...,p-1}; coefficients become pth powers and t-degrees multiply by p. Introduce a separate auxiliary matrix for each Frobenius image. Then all actual matrix, inverse and Frobenius-compatibility equations have degree at most max(2,p), independent of n. This is an equality of polynomial functors over arbitrary coefficient rings, not a tangent-space estimate.
+
+A mu_n-equivariant vector bundle on Spec B is locally, on Spec A, of this homogeneous-free form: decompose its z=0 fibre into the exact character summands, lift a local homogeneous basis, and use nilpotent Nakayama. This only supplies LOCAL coordinates; it gives no global pole bound or global object atlas on a proper curve.
+
+## One high-degree relation per Frobenius cycle
+
+In a genuine cyclic module presentation, if the T-action at subsequent stages is transported through invertible Frobenius arrows, A_0^n=1 propagates around the cycle. Imposing the degree-n relation only once costs O(r^2) degree-n equations. Combining these with O(f r^2) bounded-degree equations gives a mixed Bezout product bounded by p^(O(f r^2)) n^(O(r^2)) <= q^(O(r^2)) when q=p^f and n<=q-1. Replacing every equation degree by n would incorrectly introduce an extra factor f. Alternatively binary-power auxiliary matrices use O(log n * r^2) variables and quadratic equations. These are budget statements conditional on the correctly typed effective cyclic presentation.
+
+## Remaining geometric requirements
+
+1. Prove uniform normalized slope/Hilbert bounds for the residual spectral modules of the actual unit objects, including the chosen universal line and its Frobenius comparisons.
+2. Prove one fixed ORIGINAL exceptional-divisor depth determines the required objects and specified maps; local root jets have n times as many raw layers, but the exact graded budget above avoids an n factor in matrix slots.
+3. Construct an effective global all-Artinian object/arrow chart with those slots. Cohomology dimensions, curve-wise decomposition, or splitting on a cyclic cover do not by themselves establish its equation-degree or realization properties.
+4. For several exceptional components, graph/node residues require additional compatibility. The single-curve residue proposition avoids that issue but does not prove the missing atlas.
+
+A cyclic splitting cover alone also does not give a Clifford-theoretic global rank drop: the generic radial decomposition subgroup need not be the whole puncture group, and a geometric cyclic-algebra anchor need not be a finite Frobenius-unit object.
+
+Sources actually read: retained Lieblich math/0702240v4 Prop3.2.1 pp10-11, Prop4.1.4 p11, Lem4.2.5 pp12-13, and5.1.5-8 pp18-19; Stacks03RM with the complete59.68.1-5 derivation in03RH. Composite-order category and local coefficient budget are the explicit arguments here, not silently attributed to the prime-order source.
+
+## Exact normalization of an already lifted cyclic action (13:38 research note)
+
+Let R be complete local, M a finite R-module (or the corresponding relative module over a local Artinian coefficient algebra), and T a rank-one reflexive tensor autoequivalence with a fixed coherent cyclic identification T^m=Id, m invertible. Suppose an ACTUAL isomorphism beta:T(M)->M exists and its m-fold composite gamma is the identity modulo an ideal I contained in the maximal ideal. In the complete endomorphism algebra, Hensel lifting produces the unique mth root delta congruent to 1 of gamma. Existence can be proved in the complete commutative subalgebra generated by gamma; uniqueness follows successively modulo I^j because the linearized mth-power map is multiplication by the unit m. The cyclic coherence gives beta T(gamma)=gamma beta, so uniqueness gives beta T(delta)=delta beta. Consequently delta^{-1} beta has exact m-fold composite 1 and has the same retained I-jet as beta.
+
+This repairs an approximate cyclic relation on a fixed actual object. It does NOT prove that independently lifted Frobenius arrows intertwine that action. If an arrow already intertwines beta, uniqueness preserves the intertwining after normalization. Otherwise one must lift the arrow inside the honest cyclic-module category, with exact source relations; merely averaging unrelated maps does not establish the required unit equation. It also does NOT give a global rank drop after a Brauer-splitting cover: the residual spectral block category and the full punctured representation category remain distinct. No new assembled result or main-gate movement is claimed.

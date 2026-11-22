@@ -1,0 +1,1 @@
+The originally requested tag00P7 was a mistaken locator. Its HTML is retained as00P7_unrelated_tag.html and is not cited for Krull–Akizuki. The correct opened source is tag00PG, Lemma10.119.12, saved separately. The original provenance filename is preserved as the actual fetch record.

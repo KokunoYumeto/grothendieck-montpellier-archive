@@ -1,0 +1,429 @@
+\documentclass[a4paper,twoside,11pt,reqno]{amsart}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% PDF-Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{mathrsfs,mathtools,amssymb,latexsym,eucal,extarrows,caption,dsfont} 
+\usepackage[headings]{fullpage}
+\pagestyle{headings}
+\usepackage[dvips]{graphicx} 
+\usepackage[usenames]{color}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+\usepackage[shortlabels]{enumitem}
+\usepackage{tikz-cd} % after color 
+
+% SHOWLABELS: uncomment for thm labels
+% \usepackage[inline]{showlabels}
+% \renewcommand{\showlabelfont}{\tiny\tt\color{gray}}
+
+\usepackage[pdfpagelabels, pdftex]{hyperref}
+\definecolor{darkblue}{rgb}{0,0,.85} 
+\definecolor{darkred}{rgb}{0.84,0,0}
+\hypersetup{
+  pdftitle={},
+  pdfauthor={},
+  pdfsubject={},
+  pdfkeywords={},
+  colorlinks=true,    % false: boxed links; true: colored links
+  linkcolor=darkred,     % color of internal links
+  citecolor=darkblue,     % color of links to bibliography
+  filecolor=darkblue,      % color of file links
+  urlcolor=darkblue,       % color of external links
+  breaklinks=true,
+  bookmarksopen=true,
+  bookmarksnumbered=true,
+  pdfpagemode=UseOutlines,
+  plainpages=false}
+\usepackage[capitalise]{cleveref} % load after hyperref
+
+% this improves the spacing:
+\usepackage[kerning=true,spacing=true]{microtype}
+    \microtypecontext{spacing=nonfrench}
+
+\usetikzlibrary{arrows.meta, positioning, decorations.markings,decorations.pathmorphing} 
+
+% --- portion of code needed for wider widehats BEGINNING
+\usepackage{scalerel,stackengine}
+\stackMath
+\newcommand\widerhat[1]{%
+\savestack{\tmpbox}{\stretchto{%
+  \scaleto{%
+    \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
+    {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
+  }{\textheight}% 
+}{0.5ex}}%
+\stackon[1pt]{#1}{\tmpbox}%
+}
+% --- portion of code needed for wider widehats END
+
+% https://lyx-users.lyx.narkive.com/BK511uAb/the-documentclass-book-ams-adds-unnumbered-sections-to-toc
+\DeclareRobustCommand{\SkipTocEntry}[5]{}
+% then put \addtocontents{toc}{\SkipTocEntry} right before an entry to be skipped
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% MACROS      %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \DeclareMathOperator{\rH}{H}
+
+    %% blackboard bold
+    \renewcommand{\mathbb}{\mathds}
+    \newcommand{\bA}{{\mathbb A}}
+    \newcommand{\bC}{{\mathbb C}}
+    \newcommand{\bF}{{\mathbb F}}
+    \newcommand{\bN}{{\mathbb N}}
+    \newcommand{\bP}{{\mathbb P}}
+    \newcommand{\bQ}{{\mathbb Q}}
+    \newcommand{\bR}{{\mathbb R}}
+    \newcommand{\bZ}{{\mathbb Z}}
+    \newcommand{\bD}{{\mathbb D}}
+    
+    %% caligraphic
+    \newcommand{\cA}{{\mathcal A}}
+    \newcommand{\cC}{{\mathcal C}}
+    \newcommand{\cF}{{\mathcal F}}
+    \newcommand{\cG}{{\mathcal G}}
+    \newcommand{\cM}{{\mathcal M}}
+    \newcommand{\cO}{{\mathcal O}}
+    \newcommand{\cP}{{\mathcal P}}
+    \newcommand{\cX}{{\mathcal X}}
+    \newcommand{\cD}{{\mathcal D}}
+    \newcommand{\cU}{{\mathcal U}}
+    \newcommand{\cV}{{\mathcal V}}
+    
+    %% fraktur
+    \newcommand{\fp}{{\mathfrak p}}
+    \newcommand{\fq}{{\mathfrak q}}
+    \newcommand{\fU}{{\mathfrak{U}}}
+    \newcommand{\fV}{{\mathfrak{V}}}
+    \newcommand{\fW}{{\mathfrak{W}}}
+    \newcommand{\fX}{{\mathfrak{X}}}
+    \newcommand{\fY}{{\mathfrak{Y}}}
+    \newcommand{\fZ}{{\mathfrak{Z}}}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%    Math Symbols   %%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+    % arrows 
+    \DeclareRobustCommand\longtwoheadrightarrow {\relbar\joinrel\twoheadrightarrow}
+    \newcommand{\surj}{\longtwoheadrightarrow} 
+   
+    \newcommand{\inj}{\hookrightarrow}
+    \newcommand{\isomto}{\xlongrightarrow{\,\smash{\raisebox{-0.65ex} 
+    {\ensuremath{\displaystyle\sim}}}\,}}
+    \newcommand{\isomfrom}{\xlongleftarrow{\,\smash{\raisebox{-0.65ex}{\ensuremath{\displaystyle\sim}}}\,}}
+    \newcommand{\la}{\longrightarrow} 
+    \tikzset{ % open immersion in tikzcd
+        open/.style = {decoration = {markings, mark = at position 0.5 with { \node[transform shape, scale = .7] {$\circ$}; } }, postaction = {decorate} }
+    }
+
+    % operators 
+    \DeclareMathOperator{\id}{id}
+    \DeclareMathOperator{\pr}{pr}
+    \DeclareMathOperator{\Hom}{Hom}
+    \DeclareMathOperator{\Ext}{Ext}
+    \DeclareMathOperator{\Aut}{Aut}
+    \DeclareMathOperator{\End}{End}
+    \DeclareMathOperator{\coker}{coker}
+    \DeclareMathOperator{\im}{im}    
+    \DeclareMathOperator{\Frac}{Frac}   % field of fractions
+    \DeclareMathOperator{\Gal}{Gal}
+    \DeclareMathOperator{\Spec}{Spec}
+    \DeclareMathOperator{\Spf}{Spf}
+    \DeclareMathOperator{\Spa}{Spa}
+    \DeclareMathOperator{\Bl}{Bl} % blow-up
+    \DeclareMathOperator{\idem}{idem}
+    \DeclareMathOperator{\dlog}{dlog}
+            
+    % subscripts, superscripts 
+    \newcommand{\et}{\text{\rm \'et}} 
+    \newcommand{\op}{{\rm op}}
+    \newcommand{\sep}{{\rm sep}} % sep closure
+    \newcommand{\sh}{{\rm sh}}   % strict henselisation
+    \newcommand{\gp}{{\rm gp}} 
+    \newcommand{\qcqs}{{\rm qcqs}}
+    \newcommand{\rh}{{\rm h}}  % henselisation
+    \newcommand{\ket}{\text{\rm k\'et}} 
+    \newcommand{\sat}{{\rm sat}} 
+    \newcommand{\inte}{{\rm int}}   % \int already occupied
+    \newcommand{\rt}{{\rm t}}  % tame
+    \newcommand{\nr}{{\rm nr}}
+
+    % categories     
+    \newcommand{\cat}[1]{\mathbf{#1}}    
+
+    \newcommand{\Gsets}[1]{{#1\text{-}\sets}}   % finite G-sets
+    \newcommand{\KEtsite}[1]{#1_{\ket}} 
+    \newcommand{\Coh}{\cat{Coh}}
+    \newcommand{\FEt}{\cat{F\acute{E}t}}  
+    \newcommand{\sets}{\cat{sets}} % category of finite sets
+    \newcommand{\Sets}{\cat{Sets}}
+    \newcommand{\Sch}{\cat{Sch}}
+
+    % invariants
+    \newcommand{\piet}{\pi_1^{\et}}
+
+    % symbols
+    \newcommand{\hZ}{{\widehat{\bZ}}}
+    \newcommand{\bbF}{\overline{\bF}}
+    \newcommand{\bax}{\bar{x}}
+
+    % abbreviations
+    \newcommand{\ov}[1]{\overline{#1}}
+    \newcommand{\vtheta}{\vartheta}
+    \newcommand{\ph}{\varphi}
+    \newcommand{\ep}{\varepsilon}
+
+    % colors 
+    \newcommand{\blue}[1]{{\color{blue} #1}}
+    \newcommand{\cyan}[1]{{\color{cyan} #1}}
+    \newcommand{\teal}[1]{{\color{teal} #1}}
+    \newcommand{\red}[1]{{\color{red} #1}}
+    \newcommand{\violet}[1]{{\color{violet} #1}}
+
+    % stacks project references
+    \newcommand{\stacks}[2][Tag]{\cite[\href{https://stacks.math.columbia.edu/tag/#2}{#1~#2}]{StacksProject}}
+
+    % paper specific macros
+    \newcommand{\typeV}{(\mathrm{V})}
+    \newcommand{\typeVd}{(\mathrm{V}_{\rm div})}
+    \newcommand{\pitame}{\pi_1^{\mathrm{t}}}
+    \newcommand{\FEtt}{{\cat{F\acute{E}t}}^{\!\mathrm{t}}}
+    \DeclareMathOperator{\Desc}{DD}
+    \DeclareMathOperator{\spe}{sp}
+    \newcommand{\rig}{{\rm rig}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+    % subsubsection: redefining the font from italics to bold face
+    \makeatletter
+    \def\subsubsection{\@startsection{subsubsection}{3}%
+      \z@{.5\linespacing\@plus.7\linespacing}{-.5em}%
+      {\normalfont\bfseries}}
+    \makeatother
+    
+    % cleverref setup
+    \crefformat{subsection}{\S#2#1#3}
+    
+    \crefname{prop}{Proposition}{Propositions}
+    \crefname{lem}{Lemma}{Lemmas}
+    \crefname{cor}{Corollary}{Corollaries}
+    \crefname{defi}{Definition}{Definitions}
+    \crefname{rmk}{Remark}{Remarks}
+    \crefname{rmks}{Remarks}{Remarks}
+    \crefname{nota}{Notation}{Notations}
+    \crefname{setup}{Setup}{Setups}
+    \crefname{ex}{Example}{Examples}
+    \crefname{fact}{Fact}{Facts}
+
+    \AddToHook{env/prop/begin}{\crefalias{thm}{prop}}
+    \AddToHook{env/lem/begin}{\crefalias{thm}{lemma}}
+    \AddToHook{env/cor/begin}{\crefalias{thm}{cor}}
+    \AddToHook{env/defi/begin}{\crefalias{thm}{defi}}
+    \AddToHook{env/rmk/begin}{\crefalias{thm}{rmk}}
+    \AddToHook{env/rmks/begin}{\crefalias{thm}{rmks}}
+    \AddToHook{env/nota/begin}{\crefalias{thm}{nota}}
+    \AddToHook{env/setup/begin}{\crefalias{thm}{setup}}
+    \AddToHook{env/ex/begin}{\crefalias{thm}{ex}} 
+    \AddToHook{env/fact/begin}{\crefalias{thm}{fact}}
+    
+    % https://tex.stackexchange.com/questions/588480/use-cref-within-enumerate-and-theorem
+    \newcommand{\crefpart}[2]{%
+      \namecref{#1}~\hyperref[#2]{\labelcref*{#1}~\ref*{#2}}%
+    }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%% TOC setup %%%%%
+% dots in TOC
+\makeatletter
+
+\setcounter{tocdepth}{2}
+
+\renewcommand{\tocsection}[3]{%
+  \indentlabel{\@ifnotempty{#2}{\bfseries\ignorespaces#1 #2\quad}}\bfseries#3}
+
+\renewcommand{\tocsubsection}[3]{%
+  \indentlabel{\@ifnotempty{#2}{\ignorespaces#1 #2\quad}}#3}
+
+\newcommand\@dotsep{4.5}
+\def\@tocline#1#2#3#4#5#6#7{\relax
+  \ifnum #1>\c@tocdepth % then omit
+  \else
+    \par \addpenalty\@secpenalty\addvspace{#2}%
+    \begingroup \hyphenpenalty\@M
+    \@ifempty{#4}{%
+      \@tempdima\csname r@tocindent\number#1\endcsname\relax
+    }{%
+      \@tempdima#4\relax
+    }%
+    \parindent\z@ \leftskip#3\relax \advance\leftskip\@tempdima\relax
+    \rightskip\@pnumwidth plus1em \parfillskip-\@pnumwidth
+    #5\leavevmode\hskip-\@tempdima{#6}\nobreak
+    \leaders\hbox{$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill
+    \nobreak
+    \hbox to\@pnumwidth{\@tocpagenum{\ifnum#1=1\bfseries\fi#7}}\par% <-- \bfseries for \section page
+    \nobreak
+    \endgroup
+  \fi}
+\AtBeginDocument{%
+\expandafter\renewcommand\csname r@tocindent0\endcsname{0pt}
+}
+\def\l@subsection{\@tocline{2}{0pt}{2.5pc}{5pc}{}}
+\makeatother
+% /TOC setup
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%  Theoremstyles, Numbering, ... %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \newtheorem{thm}{Theorem}[subsection]
+    \newtheorem{prop}[thm]{Proposition}
+    \newtheorem{lem}[thm]{Lemma}
+    \newtheorem{cor}[thm]{Corollary}
+    \newtheorem{thmABC}{Theorem} 
+    \renewcommand{\thethmABC}{\Alph{thmABC}} % for intro
+    
+    \theoremstyle{definition}
+    \newtheorem{defi}[thm]{Definition}
+    \newtheorem{defiABC}[thmABC]{Definition} % for intro
+    
+    \newtheorem{rmk}[thm]{Remark}
+    \newtheorem{rmks}[thm]{Remarks}
+    \newtheorem{nota}[thm]{Notation}
+    \newtheorem{setup}[thm]{Setup}
+    \newtheorem{ex}[thm]{Example}
+    \newtheorem{fact}[thm]{Fact} 
+    
+    \numberwithin{equation}{subsection} 
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% -----------------------
+%  Bibliography
+% -----------------------
+\usepackage[style=alphabetic, 
+    backend=biber, 
+    natbib=true,
+    url=false,
+    doi=false, 
+    isbn=false,
+    eprint=false, maxbibnames=99,
+    maxalphanames=6, minalphanames=3]{biblatex}
+\addbibresource{arXiv-tamepi1.bib}
+\renewcommand*{\bibfont}{\small}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareFieldFormat[article, inbook, incollection, inproceedings, misc, thesis, unpublished]{title}{\textit{#1}}
+%\DeclareFieldFormat[misc]{title}{{\rmfamily \enquote{#1}}}
+%\DeclareFieldFormat[misc]{note}{\textit{#1}}
+\DeclareFieldFormat{journaltitle}{{\rmfamily #1}}
+\DeclareFieldFormat{booktitle}{{\rmfamily #1}}
+%\renewbibmacro{in:}{\ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}}
+\DeclareFieldFormat{pages}{#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewrobustcmd*{\bibinitdelim}{\addnbthinspace{}}
+\renewrobustcmd*{\bibnamedelima}{\addnbthinspace{}}
+\renewrobustcmd*{\bibnamedelimd}{\addnbthinspace{}}
+\renewcommand*{\newunitpunct}{\addcomma\addspace}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%   Darstellung von @article
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{author/editor}%
+  \newunit
+  \usebibmacro{title}%
+  \newunit
+  \usebibmacro{journal}%
+  \setunit*{\addspace}%
+  \printtext{\textbf{\printfield{volume}}}%
+  \setunit*{\addspace}%
+  \printtext[parens]{\printfield{year}}%
+  \setunit{\addcomma\space}%
+  \iffieldundef{number}{}{\printtext{no.~\printfield{number}}}%
+ % \setunit*{\addcolon}%
+  \setunit{\addcomma\addspace}%
+  \printfield{pages}%
+  \iffieldundef{pubstate}{}{\addcomma\addspace\printfield{pubstate}%
+  	 \iffieldundef{doi}{}{\addcomma\addspace\printfield{doi}}%
+	 }%
+  \usebibmacro{finentry}}
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Frontmatter    %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\hrule width\hsize
+\vskip 1cm
+
+\title{Tame fundamental groups of rigid spaces} 
+
+\author{Piotr Achinger}
+\address{Piotr Achinger
+\newline \indent
+Instytut Matematyczny PAN, Śniadeckich 8, 00-656 Warsaw, Poland 
+\newline \indent
+Kyiv School of Economics, Shpaka 3, 02-000 Kyiv, Ukraine}
+\email{pachinger@impan.pl}
+
+\author{Katharina H\"ubner}
+\address{Katharina H\"ubner
+\newline \indent
+Institut f\"ur Mathematik, Goethe--Universit\"at Frankfurt 
+\newline \indent
+Robert-Mayer-Stra\ss e~6--8, 60325~Frankfurt am Main, Germany}
+\email{huebner@math.uni-frankfurt.de}
+
+\author{Marcin Lara}
+\address{Marcin Lara
+\newline \indent
+Instytut Matematyczny PAN, Śniadeckich 8, 00-656 Warsaw, Poland}
+\email{marcin.lara@impan.pl}
+
+\author{Jakob Stix}
+\address{Jakob Stix
+\newline \indent
+Institut f\"ur Mathematik, Goethe--Universit\"at Frankfurt
+\newline \indent
+Robert-Mayer-Str.~6--8, 60325~Frankfurt am Main, Germany}
+\email{stix@math.uni-frankfurt.de}
+
+\newcommand{\grants}{The first author (PA) was supported by the project KAPIBARA funded by the European Research Council (ERC) under the European Union's Horizon 2020 research and innovation programme (grant agreement No 802787). The second to fourth authors (KH, ML, and JS) acknowledge support by Deutsche Forschungsgemeinschaft (DFG) through the Collaborative Research Centre TRR 326 \emph{Geometry and Arithmetic of Uniformized Structures} project number 444845124. The third author (ML) was later supported by the National Science Centre, Poland, grant number 2023/51/D/ST1/02294. For the purpose of Open Access, the author has applied a CC-BY public copyright licence to any Author Accepted Manuscript (AAM) version arising from this submission.}
+
+% \thanks{\grants}
+%\subjclass[2000]{ }
+%\keywords{}
+\date{\today} 
+%\dedicatory{dedication: to whom it may concern?}
+
+\maketitle
+
+\begin{quotation} 
+    \noindent {\small {\bf Abstract} --- 
+    We introduce the tame \'etale fundamental group $\pi_1^{\rm t}(X/K)$ of a rigid space $X$ over a non-archimedean field $K$. We show that if $X$ is qcqs and $K$ has topologically finitely generated tame Galois group (e.g.\ algebraically closed or a local field), then $\pitame(X/K)$ is topologically finitely generated. If $X$ is moreover the rigid generic fibre of a strictly semistable formal scheme such that the smooth locus of its special fibre admits a projective snc compactification, then $\pi_1^{\rm t}(X/K)$ is topologically finitely presented. The proofs rely on techniques of logarithmic geometry (extended beyond its usual scope of finitely generated monoids), in particular on an analogous finiteness statement for the tame log \'etale fundamental group, and on the  ``vertical compactification'' of a map of adic spaces.}
+\end{quotation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Table of contents %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \setcounter{tocdepth}{1} 
+\hypersetup{linkcolor=black}
+{\small \tableofcontents}
+\hypersetup{linkcolor=darkred}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Main matter     %%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{arXiv-1-intro}
+\input{arXiv-2-pit-schemes}
+\input{arXiv-3-fg-pi1-log} 
+\input{arXiv-4-vertical-compactification}
+\input{arXiv-5-fg-pi1-rig}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Bibliography    %%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\printbibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

@@ -1,0 +1,9 @@
+# Checkpoint21 scope
+
+INCOMPLETE. Scheduled creation:20 November2026,15:55UTC. This full archive contains all current deliverables and accumulated documentation, excluding original supplied attachments and earlier ZIPs.
+
+The verified manuscript has 407pages, final build_pass136,375statement rows and1198actual central check events. Newly assembled post19 units and their exact source hashes are recorded in code/output/integrate_post19*.json. Separate research candidates retain their actual unproved status; no proposed count is inferred from an auxiliary construction.
+
+General D.1, general D.2(ii), and residual L8 remain open. The latest completed hourly comparison is code/output/formal_review13.json: one strict main-gate reduction, consecutive no-movement counter0. Since that review, the restricted field-permutation crown result has been proved, including its tame radial extension; these together constitute one further strict reduction to be assessed at review14,16:10UTC. Only a completed requested-row change or a strictly smaller strongest main gate can reset that counter. Source searches, proof audits, numerical bounds, prerequisites and packaging do not count.
+
+The final PDF has zero warnings, missing characters and undefined citations/references. Overfull boxes before/after:1/1; maximum final overflow:0.5126pt, within the2pt limit. Actual visual inspection is recorded in qa/checkpoint21_actual_inspection.json and qa/pdf_verified_checkpoint21.json. New inspection images are lossless WebP with exact RGB round-trip checks. Historical contact images were losslessly re-encoded with every RGB pixel checked; the old/current path and hash map is qa/historical_contact_encoding_map.json. Earlier immutable archives retain their original image bytes. Only the exact certified PDF hash is delivered.

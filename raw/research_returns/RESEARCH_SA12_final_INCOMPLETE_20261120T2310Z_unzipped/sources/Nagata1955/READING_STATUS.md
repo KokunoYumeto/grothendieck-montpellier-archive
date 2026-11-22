@@ -1,0 +1,1 @@
+The attempted original-paper download returned a small HTML response, not a PDF. It was renamed normalization.failed.html and was not used as an opened mathematical source. The original provenance JSON records the attempted URL and content type. Mori–Nagata is instead being checked directly in EGA IV1, 0.23.2.8(iii).

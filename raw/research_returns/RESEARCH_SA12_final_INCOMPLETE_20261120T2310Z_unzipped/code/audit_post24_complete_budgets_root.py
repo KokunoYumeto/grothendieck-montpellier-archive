@@ -1,0 +1,52 @@
+"""Record the completed source and actual-file audit of all-complete budgets."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import json
+
+root=Path(__file__).resolve().parents[1]
+path=root/'parts/D/post24_research/D_all_complete_geometric_budgets.tex'
+sha=hashlib.sha256(path.read_bytes()).hexdigest()
+assert sha=='ab7107760c5190d1e6acbb129498d6c620873f147591a632142a58da199bd9f6'
+r={
+ 'actor':'root','model':'GPT-6 Astra Pro','effort':'setting not independently exposed',
+ 'run':'SA12 run1','recorded_utc':datetime.now(timezone.utc).isoformat(),
+ 'type':'targeted proof check','verdict':'PASS',
+ 'path':str(path.relative_to(root)),'sha256':sha,
+ 'labels':['D:fixed-henselian-algebraization','D:all-complete-cover-geometric-budgets'],
+ 'actual_file_scope':'Complete actual candidate and both proofs read in full; full named primary passages and internal uniformity clauses checked.',
+ 'certificate_scope':'Mathematical proof audit; no numerical certificate is asserted.',
+ 'checks':[
+  'The complete surface has a power-series presentation and an isolated continuous Jacobian locus over the perfect coefficient field, exactly as in the prior canonical-defect construction. Artin3.8 gives one algebraic local model. The argument uses this formal-Jacobian hypothesis rather than inferring a rank formula from the old scan\'s ambiguous explanatory dimension notation.',
+  'Normality descends faithfully flatly to the henselization. Its residue field is the fixed algebraically closed coefficient field, making this one chosen model strictly henselian before any cover is selected.',
+  'Artin3.11 is applied to this fixed henselian ring and its maximal ideal. Its equivalence includes algebra homomorphisms. A descended finite normal cover is normal by faithful-flat descent and is a domain by injectivity into the completed domain; henselian decomposition then makes it local. The converse uses excellence and normal completion. Etaleness on the puncture and generic degree are preserved.',
+  'The complete previously proved strict-henselian resolution-size argument was reread: its constants are explicitly those of the fixed base exceptional curves and cycle, unchanged at each etale neighbourhood used to descend a cover. No varying model or cover-dependent base constant is substituted.',
+  'The exact Stacks completion lemmas identify complete local rings on closed fibres and preserve regularity for proper finite-type schemes. Closed fibres and all supported exceptional cycles agree, including nilpotents, because they are killed by powers of the maximal ideal.',
+  'Normal line bundles, intersection numbers, arithmetic genera and smooth rational(-1) curves are preserved. Canonical intersections are computed by adjunction rather than by ordinary absolute differentials after completion. Completing a minimal resolution therefore retains its numerical matrix and minimality.',
+  'Flat coherent base change preserves H1 of the structure sheaf. It is a finite-length module supported at the closed point, so its k-dimension and geometric genus do not change. All entries of the size, energy and integral-cycle inequalities transfer with fixed constants.',
+  'The generation cycle and Cartier-chart consequences retain their actual proved hypotheses. The regular case has empty minimal exceptional set and Z0=0, then the separately principalized Cartier model still supplies C. The result is an auxiliary scope extension, not an arbitrary-family atlas or hereditary representation count.'
+ ],
+ 'fresh_primary_reads':[
+  {'url':'https://www.numdam.org/item/PMIHES_1969__36__23_0.pdf','locator':'Artin1969, Theorems3.8--3.9 and written deduction, printed32--34; Theorem3.11, Lemma3.12 full rigidity proof and Lemma3.17 full proof, printed34--38','scope':'Entire written passages freshly opened/read. Local printed32 image actually viewed at qa/Artin1969_root_printed32.webp. The main approximation theorem and Hironaka equivalence are retained known inputs, not newly independently reconstructed proofs.','local_pdf_sha256':'38beaf58d5c557675c3783b6f25a68cfb1bbdbec84882e996f9d7d4b4cc6b434','retrieval_refs':['turn248142922view0','turn585284002view0','turn174694177view0']},
+  {'url':'https://stacks.math.columbia.edu/tag/033G','locator':'Lemma10.164.3','scope':'Complete statement and full written proof freshly opened/read.','retrieval_ref':'turn320250272view0'},
+  {'url':'https://stacks.math.columbia.edu/tag/0BG4','locator':'Lemmas54.11.1--54.11.2','scope':'Complete statements and full written proofs freshly opened/read.','retrieval_ref':'turn320250272view1'},
+  {'url':'https://stacks.math.columbia.edu/tag/02KH','locator':'Lemma30.5.2','scope':'Complete statement and full written proof freshly opened/read.','retrieval_ref':'turn320250272view2'},
+  {'path':'parts/C/sources/post09_reconstruction/IyengarTakahashi2016.pdf','locator':'Example3.3, printed7','scope':'Complete local primary passage freshly extracted/read; earlier full source audit of the canonical-different input retained.'}
+ ],
+ 'independent_source_crosscheck':{
+  'url':'https://download.uni-mainz.de/mathematik/Algebraische%20Geometrie/DvS-Publikationen/A%20Criterion%20for%20the%20Equivalence%20of%20Formal%20Singularities.pdf',
+  'reference':'Möhring and van Straten2002, American Journal of Mathematics124,1319--1327',
+  'locator':'Theorem1.3 and complete proof,1320--1321; introductory isolated-singularity support explanation',
+  'scope':'Freshly opened/read as an independent confirmation of algebraization under finite-dimensional T1. Not an additional dependency of the candidate and not claimed as new research.',
+  'retrieval_ref':'turn824063437view0'
+ },
+ 'reused_previously_checked_inputs':[
+  'parts/B/post14_research/D_punctured_resolution_linear_size_B.tex: complete proof freshly reread, particularly its unchanged-constant strict-henselian clause.',
+  'parts/C/D_exceptional_canonical_energy.tex: complete proof freshly reread, including contractions, arithmetic genera and exact energy scope.',
+  'Integral anti-nef cycle, canonical-module jets and uniform-generation files were fully reread during the Cartier bridge audit in this same period.',
+  'The fixed Noether-different/canonical-defect construction was rechecked at its exact initial Jacobian paragraph; the remainder retains its prior full audit.'
+ ],
+ 'research_movement':'Auxiliary extension of geometric budgets to all complete covers. No separate main-gate movement or requested-row change.'
+}
+(root/'parts/D/post24_research/audit_all_complete_geometric_budgets_root.json').write_text(json.dumps(r,indent=2)+'\n')
+print(json.dumps({'verdict':'PASS','sha256':sha},indent=2))
