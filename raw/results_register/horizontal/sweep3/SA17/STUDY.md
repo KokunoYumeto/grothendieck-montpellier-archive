@@ -495,6 +495,20 @@ symmetric groups".
 
 **Checked:** at order 2 the two descriptions agree. With λ² = 2-subsets and σ² = 2-multisets, E² − λ² = λ² + E = σ².
 
+**Correction to the line above** (corrected 21 Nov 2026 after the intakes of ALPOGE_GCT, GCT_PLETH and GCT_KRON,
+Claude Opus 5.5 at effort high): wrong as an equivariant statement. In the Burnside ring of C₂, for the free orbit E:
+E² = 2E, ε²(E) = 1 (2-subsets), σ²(E) = E + 1; the boxed 2λ²(E) + E = E² fails (fixed-point marks 2 and 0). Only the
+cardinality identity 2·binom(d,2) + d = d² holds. The true identities are Sym²E ≅ ε²E ⊔ E and, for λ_t := σ_{−t}^{-1},
+λ²(E) = E − 1, which linearizes to Λ²C[E] = sgn. The correct decomposition is E×E = E ⊔ Mon(I_2, E), where
+Mon(I_2, E) → P_2(E) is an S_2-torsor that need not be trivial; the signed formula is Bouc-Rökaeus, Theorem 1.1 (1.2).
+His question "λ^i(xy) = ?" has a negative answer for these operations, which are not special (V4 counterexample).
+The boxed identity is right in K₀ of vector bundles (and in representation rings), wrong for finite G-sets with
+unsigned subsets. Found independently by ALPOGE_GCT (PL-01), GCT_PLETH (A-001) and GCT_KRON (A001, A002), 21 Nov
+2026; checked in those intakes (table of marks). [Also CUE_GCT G-01, an independent run, confirmed with the same
+computation; its K₀ form is V² = 2Λ²V + ψ²V. GCT_KRON later read the official facsimile of cote 133 and found the
+mathematics as transcribed. (corrected 21 Nov 2026 after the intakes of CUE_GCT and GCT_KRON part 2, Claude Opus 5.5 at
+effort high)]
+
 ### Scans 20-23: the injection powers τ^n and the map powers T^n on the Burnside ring
 
 **On the page:**
@@ -502,7 +516,10 @@ symmetric groups".
 - τ^n(E) = cl_n(Mon(I_n, E)).
 - The Prop.: τ*(E ⊔ F) = τ*(E)τ*(F).
 - The corollary: τ* is a homomorphism k_0(G) → 1 + k̂_*(G)^+.
-- The operations q_H^n.
+- The operations q_H^n. [Defined on scan 021 (lower half) as q_H^n(x) = q_H(τ^n x), with q_H[E] = [H\E]; thus
+  q_H^n[E] = [Inj(I_n, E)/H], and the subset operation P_n is q_{S_n}^n (GCT_KRON A-029, read on the official
+  facsimile, confirmed in its intake). (corrected 21 Nov 2026 after the intake of GCT_KRON part 2, Claude Opus 5.5 at
+  effort high)]
 - T^n(E) = cl_n(Hom(I_n, E)), and the decomposition of Hom(I_n, E) by the quotients of I_n.
 
 **Checked:**
@@ -521,6 +538,12 @@ symmetric groups".
 - The representables h_I = Mon(I, −), which are connected and are the components of the H_J = Hom(J, −).
 - "Foncteurs spéciaux": finite sums of h_I, equivalently direct summands of H_I. They are stable under finite limits
   and composition.
+  - *Correction* (corrected 21 Nov 2026 after the intakes of GCT_KRON and GCT_PLETH, Claude Opus 5.5 at effort high):
+    "direct summands of H_I", read as summands of a *single* H_I, is false: h_1 ⊔ h_1 has value 2 at a singleton,
+    and every H_J has value 1 there (GCT_KRON A012); likewise h_∅ ⊔ h_∅ (GCT_PLETH A-013). Read: "finite sums of
+    the h_I, equivalently direct summands of finite sums of the H_J; each H_J is the sum of copies of h_I indexed by
+    the equivalence relations on J". Whether the fault is on the page or only in this paraphrase (did he write
+    "facteurs directs de sommes finies de H_I"?) is still to be decided on the scan image.
 - "Foncteurs distingués": finite sums of Mon(I, −)/H, equivalently E ↦ ⊔_n Mon(I_n, E) ∧_{S_n} X_n.
 - "Équivalences": maps bijective for |E| ≥ n. They satisfy 2-out-of-3 and are stable under base change.
 - The subcategory of functors with injective transition maps, with ⊔, × and ∘.
@@ -554,6 +577,20 @@ The rest are definitions. See HUNCHES H10.
   - The characteristic-0 case is the notes' F12 (Λ = Z[h_1, h_2, …]).
 - **Open:** the exact class of rings k for which the answer is yes. Characteristic 0 is necessary for the argument
   above. Whether Z_p-lattices give the polynomial ring is not settled here.
+  - *Superseded* (corrected 21 Nov 2026 after the intakes of GCT_KRON and GCT_PLETH, Claude Opus 5.5 at effort high):
+    the Z_p question is settled. **Yes for Z_p-lattices** (GCT_KRON A013, proof read): K_0 of Z_p-free
+    Z_p[S_n]-modules → R_{Q_p}(S_n) is an isomorphism, so ⊕_n R_{Z_p}(S_n) = Z[ρ_1, ρ_2, …]; classical (the
+    Heller-Reiner/Swan form of the decomposition sequence). So residue characteristic p is allowed for lattices
+    over Z_p, and "characteristic 0 is necessary" should be read as necessary for the ring, not the residue field.
+    **Characteristic 0 of the ring is not sufficient:** for the local ring A = Z_(2)[ε]/(2ε, ε²), the module L = Ae
+    with the transposition acting by 1+ε has determinant character 1+ε, reached neither by ρ₂ (determinant 1) nor by
+    ρ₁² (determinant −1) (GCT_PLETH A-023, GCT_KRON A013, both checked). This agrees with the sweep-3.5 annotation
+    (`C:local_charzero_counterexample`).
+- *Scan 28, his question whether the summands are actual direct summands for effective ξ* (added 21 Nov 2026 after
+  the intakes of GCT_KRON and GCT_PLETH, Claude Opus 5.5 at effort high): no in the monomial basis. The monomial
+  terms of the Cauchy expansion are virtual: τ²(E) = ψ²(E)ρ₂ + Λ²(E)ρ₁² with ψ²(E) = s₂ − s₁₁ for rank 2; for the
+  standard representation E of S_3, ψ²(E) = 1 + E − ε has a negative coefficient (characters (2, 2, −1)) (GCT_KRON
+  A004, GCT_PLETH A-007, ALPOGE_GCT PL-03; confirmed).
 
 ## Cote 133, scans 2-18 and 30-54 (wave 2)
 
@@ -583,6 +620,13 @@ w(H(E)) = Σ (1+α)^{r−k} c̄_k(E). This explains why "w∘α = 1" is struck o
 and Michel Hua's project both read Laborde.
 
 **Open:** the λ-ring question for his split WG(S). See H-133-1 and package SA17-RP5.
+- *Settled negatively for specialness* (corrected 21 Nov 2026 after the intakes of GCT_PLETH, GCT_KRON and
+  ALPOGE_GCT, Claude Opus 5.5 at effort high): the split ring GW^⊕ over BC₃ in characteristic 3 (2 invertible) is
+  not special: over F̄₃ and G = C₃, x² = 3x, xy = 2x, y² = x+1, λ²x = x, λ³x = 1, λ²y = 1 give ψ³(x) = 3 and
+  ψ³(y) = 2x − 2y, and after forgetting the forms the two sides of ψ³(XZ) = ψ³(X)ψ³(Z) are 12 and 12x − 12y
+  (GCT_PLETH A-003, independently re-proved in its intake; GCT_KRON A005, not read there). The opposite-series
+  Burnside structure is not special either (ALPOGE_GCT PL-02: C₂ × C₂, ψ² not multiplicative). Scan 8: exterior
+  powers do not descend to the Witt group (ALPOGE_GCT PL-08 = GCT_PLETH A-005: ⟨1,−1⟩ ↦ ⟨−1⟩ over R).
 
 ### SA17-26 · the game of go (scans 30-34)
 

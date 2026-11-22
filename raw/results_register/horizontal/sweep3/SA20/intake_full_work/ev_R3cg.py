@@ -1,0 +1,3 @@
+ROWS = [
+ ("A.146", "targeted proof check (partial)", "read: the reduction to a homeomorphism F of X = T^3 x I fixed on the boundary (top normalized by A.143, Waldhausen 1968 Thm 7.1 cited, joint-PL path from A.134), the integral translation L_z([x],s) = ([x - rho(s) z], s) making the top lift equal to x (checked: PL, identity near both ends, zero obstruction), the straight-line homotopy k_t from the identity to F in the universal cover coordinates, and the labelled mapping cylinder U: M_F -> X x I, a homotopy equivalence; correct as far as read; the final normal-invariant computation giving c = 0 not read"),
+]

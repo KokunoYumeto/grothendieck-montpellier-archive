@@ -1,0 +1,4 @@
+ROWS = [
+ ("B.068", "targeted proof check (given B.064, B.066)", "read in full: a regular v in D_d(R) rationalizes every coefficient into Q, so rationalization is a retraction Omega(R,S) = R[X] + N with N the null polynomials; a nonzero null coefficient a gives the tensor aP_d x P_d - P_d x aP_d with zero image lying in the distinct summands N x R[X] and R[X] x N, nonzero by extracting the top coefficient of P_d; the polynomial-ring examples (degree spreading with Z^N, and the monic determinant on 0, 1, W, ..., W^(d-1)) checked; correct"),
+ ("B.069", "targeted proof check (given B.064)", "read in full: D_d(U^-1 R) = U^-1 D_d(R); locally D_d(A) = A for d < q and = n for d >= q, using P_d(a) = a^(e_d) u_a with e_d = d(d-1)(d+1)/6 from B.064 and (B69.1); then nB c A forces nB = n (otherwise n is finitely generated with n^2 = n, so n = 0), k -> B/n is an injective epimorphism of a field, hence B = A; surjective Frobenius gives (B69.1) through p^e-th roots; correct"),
+]

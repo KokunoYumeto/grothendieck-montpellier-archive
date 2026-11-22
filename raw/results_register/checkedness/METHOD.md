@@ -3,7 +3,7 @@
 Built 18 Nov 2026 by Claude Opus 5.5 at effort max (brief: `results_register/CHECKEDNESS_BRIEF.md`), with the script
 `build_checkedness.py` in this folder. The script uses no model, no git command and no network; it reads files and
 writes only into this folder. Rerun it to refresh everything:
-`python -I -B <local>/Documents/results_register/checkedness/build_checkedness.py`.
+`python -I -B C:/Users/user/Documents/results_register/checkedness/build_checkedness.py`.
 
 Models named here: every research run is GPT-6 Astra (ChatGPT Pro mode), effort Pro (short: Astra 6 Pro). Every prompt
 header says so ("For GPT-6 Astra (OpenAI), effort Pro, ChatGPT Pro mode"), and every Astra event in the runs' check

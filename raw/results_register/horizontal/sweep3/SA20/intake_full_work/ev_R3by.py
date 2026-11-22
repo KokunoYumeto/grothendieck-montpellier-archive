@@ -1,0 +1,3 @@
+ROWS = [
+ ("B.078", "targeted proof check (partial)", "read: R local with maximal ideal J; the Clifford-regularity identity J^N (J :_K J^N) = J (B78.2) with its proof (E = (J:J), principal or J p = J with J(E:J) = p); the case J^2 = J through B.069 (r/y^N in J for a factor y of least valuation); for J^2 != J, c in J minus J^2 with 2v(y) > v(c) and J^(2h+1) c c^h J (B78.4), cofinality of D_d(R) with the powers of J, C = union (R :_S J^n), the rational image L = R or W = V[1/c] (the first via B.073 on R/J^3 L), and the start of the idempotent decomposition e = z^n; all correct as far as read; the final tensor-kernel exclusions, modelled on B.075, not read"),
+]

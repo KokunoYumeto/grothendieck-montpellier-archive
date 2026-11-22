@@ -1,0 +1,4 @@
+ROWS = [
+ ("B.048", "targeted proof check", "read in full: E = F/V is injective (Zorn extension) and detects torsion, End(E) = V by completeness (compatible residues a_s), so M is cut out by its integral dual M^# (B48.1); Smith reduction of the finite free M^# in Lambda^* gives M = sum t^(-a_i) V e_i + sum F e_j, whose divisible part is the F-span; correct (completeness is used exactly at End(E) = V)"),
+ ("B.049", "targeted proof check (given B.048)", "read in full: injectivity forces b x 1 = 1 x b from the null tensor bP x P - P x bP (top coefficients), so A -> B is epic; then B = A + D with D the divisible part (fibre dimension argument and Nakayama), D = BI = I + DI and D/DI = 0 (a Frac(V)-space finitely generated over V), so D is an idempotent ideal of the Artinian Q, D = eQ; conversely B = eQ x fA with f = 1 - e (checked) has B x_A B = B; correct"),
+]

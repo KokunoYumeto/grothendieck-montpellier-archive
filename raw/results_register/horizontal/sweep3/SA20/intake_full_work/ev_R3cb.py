@@ -1,0 +1,3 @@
+ROWS = [
+ ("A.401", "computation or formal certificate (my own code) plus targeted proof check", "intake_full_work/a401.py (output a401_out.txt): generating the families M_n by intersecting atoms on R = {a,b,c}, I get sizes 2, 3, 9, 38, 191 for n = 0..4, M_1 = {empty, Q, R}, all 825 injective coordinate projections of members up to arity 4 land in the family, and the first projection of T is {a}, not in M_1; the run's all-arity class-elimination argument and the construction of the concrete category (composition through unique middle witnesses, conservativity, finite limits, transport of structure) read and correct; refutation stands"),
+]

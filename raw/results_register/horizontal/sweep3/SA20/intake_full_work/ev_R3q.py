@@ -1,0 +1,3 @@
+ROWS = [
+ ("A.157", "targeted proof check (partial)", "confirmed for the parts read: double mapping cylinders realized as closed bounded definable sets ((1-t)a(x), t b(x), t(1-t)x, t); the labelled m-fold fibrewise join J_m(f); the induction on dim Y using a definable choice section continuous on an open dense U, E = closure of s(U) u K_C, the pullback-pushout square (Barton-Commelin, arXiv:2108.11952, Prop. 9.31, not opened) and R = D(E <- A' -> R_C) with universality by base change; the boundary-section enlargement and the metric consequence not read (part_finite_join_resolution.tex:4-)"),
+]

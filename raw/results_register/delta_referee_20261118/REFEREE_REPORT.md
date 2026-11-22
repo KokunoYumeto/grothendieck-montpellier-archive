@@ -1,7 +1,6 @@
 # Referee report: Δ on GT̂, the two gates
 
-Referee: Claude Fable 5.2 at effort max, read in on this chunk only (agent id not visible from inside the run;
-session scratchpad 329fb1e6). Date: 18 Nov 2026, 15:1x UTC. The work refereed is by GPT-6 Astra (ChatGPT Pro mode).
+Referee: Claude Fable 5.2 at effort max, read in on this chunk only (agent a49aabbf5ed57bb8e). Date: 18 Nov 2026, 15:1x UTC. The work refereed is by GPT-6 Astra (ChatGPT Pro mode).
 Method: every step read and re-derived by hand; no computer algebra. Papers opened are in `papers\` (list at the end).
 
 ## 1. Verdicts

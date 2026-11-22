@@ -220,6 +220,11 @@ From the reader a598c2dff473d448c (Claude Opus 5.5 at effort max). It belongs wi
 **Strongest known reduction.**
 - His reduction to B_{O(m)×O(n)}.
 - Characteristic 0 by complete reducibility (H-133-1; to verify).
+- **21 Nov 2026** (corrected 21 Nov 2026 after the intakes of GCT_PLETH and ALPOGE_GCT, Claude Opus 5.5 at effort
+  high): the first question has the answer no in general for specialness: with 2 invertible, GW^⊕ over BC₃ in
+  characteristic 3 is not special (ψ³ not multiplicative; GCT_PLETH A-003, re-proved in its intake). Exterior powers do
+  not descend to the Witt group (ALPOGE_GCT PL-08, confirmed). Characteristic 0 (H-133-1) and the other
+  characteristics p > 3 are not decided by this counterexample.
 
 **Material a run needs.**
 - Zibrowius 2015 and 2018.

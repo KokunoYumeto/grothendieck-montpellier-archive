@@ -1,0 +1,4 @@
+ROWS = [
+ ("D.001", "targeted proof check", "confirmed: for PGL2 over F2-bar the Weyl group acts trivially on t, t -> t/W is the identity, and a regular semisimple class lies in exactly two Borel subalgebras (separable u^2+au+bc), so p is generically of degree 2, not birational (part_D.tex:15-50); consistent with Grothendieck's own caveat on 123/007 ('car. residuelles != 2')"),
+ ("D.002", "targeted proof check; independent computation", "confirmed: classical types by the affine-map description of the normalizer (read in full); exceptional types recomputed with my own code (intake_full_work/coxnorm.py, output coxnorm_out.txt): |N_W(<c>)| = 12, 48, 48, 108, 240 for G2, F4, E6, E7, E8, exactly h lifts per unit (centralizer <c>), units 5 and 7 mod 12 (F4, E6) and 7, 13, 17, 23 mod 30 (E8) have no lift of the same order (nonsplit); G2 and E7 have cyclic unit groups with lifts of matching order (split)"),
+]

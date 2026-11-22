@@ -120,7 +120,7 @@
   - Its audit of R1–R20 is effectively the corrections ledger for LM6 and LM7.
 - **Thinly read before, now placed:** LM7_FERMAT_TOWER (0 of 229 rows named by any intake), SECTIONS_OVER_Q (18/245), ANABELIAN_SUCCESSOR (1/157), ANABELIAN_A1 (7/121).
 
-Files are in `<local>/Documents\results_register\sweep1_sections\`:
+Files are in `C:\Users\user\Documents\results_register\sweep1_sections\`:
 - PLACEMENT.tsv
 - MERGES.tsv
 - FLAG_VERDICTS.tsv

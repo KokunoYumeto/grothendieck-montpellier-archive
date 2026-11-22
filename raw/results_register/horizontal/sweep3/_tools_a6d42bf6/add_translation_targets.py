@@ -54,6 +54,15 @@ PREFIX = {
  ('SA04', '98'): ('English', 'norms and bounded families (SGA 4 XVII, SGA 6 XIII): read in English and French'),
  ('SA04', '100'): ('English; Japanese; Chinese', 'good reduction of abelian schemes through p-divisible groups: ' + PADIC),
  ('SA04', '101'): ('English; Japanese; Spanish', 'local cohomology and Gorenstein rings: the Goto school of Cohen-Macaulay and Gorenstein rings (Japan) for Japanese; commutative algebra in Barcelona and Valladolid for Spanish; India (TIFR, CMI) reads English'),
+ ('SA01', '71'): ('English; Spanish; Brazilian Portuguese', 'plane polygons and the polygonal Jordan theorem (a 1976 manuscript by another author, with margins): elementary geometry close to teaching, where Spanish and Brazilian Portuguese reach the largest student communities'),
+ ('SA01', '72'): ('English; Spanish', POLY),
+ ('SA01', '75'): ('English; Spanish; Brazilian Portuguese', 'the DEA course Geometries combinatoires (1977-78): students first; ' + POLY),
+ ('SA01', '81'): ('English; Spanish; Russian', 'plane trees, non-crossing partitions and folded discs, the combinatorics behind dessins: ' + DESS),
+ ('SA01', '83'): ('English; Japanese', '2x2 matrices, Azumaya algebras of rank 4 and trace invariants: the invariant-theory community reads English; the Japanese school of quaternion orders and arithmetic of quadratic forms for Japanese'),
+ ('SA01', '93'): ('English; Japanese; Chinese', 'projective connections, opers and uniformization in characteristic p: the Mochizuki school (RIMS Kyoto: p-adic Teichmuller theory, dormant opers) for Japanese; ' + PADIC),
+ ('SA02', '84'): ('English; Japanese', 'quadratic covers, their contracted product and Arf invariants over a base: the community of quadratic forms and quadratic rings (Knus, Loos, Voight, Wood) reads English; the Japanese school of quadratic forms and arithmetic invariants for Japanese'),
+ ('SA02', '90'): ('English', 'representations of flat affine group schemes over a Dedekind ring and the equivariant resolution property (Serre 1968, Thomason 1987): read in English and French'),
+ ('SA02', '91'): ('English', 'Hom functors and flattening without projective hypotheses (Raynaud-Gruson): read in English and French'),
  ('SA04', '102'): ('English', 'Pour EGA VI: foundations read in English and French'),
 }
 T = sys.argv[1]; topic = os.path.basename(os.path.normpath(T))

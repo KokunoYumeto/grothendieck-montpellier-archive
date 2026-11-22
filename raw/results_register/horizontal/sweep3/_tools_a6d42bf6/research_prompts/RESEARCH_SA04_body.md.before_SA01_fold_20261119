@@ -1,0 +1,120 @@
+# RESEARCH_SA04: his arithmetic theory of regular polytopes over rings (cotes 69-89), with the open questions of 93/55-66 and of his 1958 notes (cote 101)
+
+**To be settled:** the "théorie arithmétique des polyèdres réguliers" that he sketches on 70/122-123 and works out in cotes 70-79: the scheme of realizations of a regular type over Z, its invariant quadric and the places where it degenerates, his congruence triangulations of level n, regular polygons and quadratic covers over a base; then the graphs, nets and incidence structures of cotes 69-89, the Euler characteristics of 93/55-66, and his 1958 characterizations of Gorenstein rings (cote 101). A.1 is the main question.
+
+Three neighbouring questions are asked in separate prompts and are not part of this one: his good-reduction theorem of 100/003 (RESEARCH_SA15), his notes on the mysterious functor on 161-5 (RESEARCH_SA23), and cotes 94, 97 and 98 (the working-through prompts). The characteristic-p questions of cote 93 (the Schwarzian of 93/72-84, the torsor device of 93/234-236) go with the rest of cote 93 into RESEARCH_SA03.
+
+For GPT-6 Astra (OpenAI), ChatGPT Pro mode. File prefix for the deliverables: `RESEARCH_SA04`.
+
+**Who drafted it.** Claude Opus 5.5 at effort max (Anthropic), agent a6d42bf6fe2b0d8a8, on 19 Nov 2026. It leads topic SA04 in sweep 3 (wave 1) and swept the topic in sweep 1. The user's decision of 19 Nov 2026 was relayed by the main session (Claude Opus 5.5 at effort max).
+
+## What is attached
+
+- **`RESEARCH_SA04_study.zip`: our study of the topic.**
+  - `study/STUDY.md` (it lists the stretches not yet read in full), `study/HUNCHES.md`, `study/RESEARCH_PACKAGES.md`, and the tables `CHECK_EVENTS.tsv`, `CORRECTIONS.tsv`, `DEPENDS.tsv` and `DELIVERABLES.tsv`.
+  - `study/readings/`: the readings of three readers, each Claude Opus 5.5 at effort max: cotes 69-74 (69, 70, 72, 73 and 74 in full); cotes 76-79; cotes 80-89 with 161-6; cote 93 (scans 47-91 and 221-236) with cote 161-5; cotes 94-102.
+  - `study/sweep2_WHAT_IS_WHERE.md`: the map of the items SA04-1 to SA04-40.
+  - `study/stage_A_dossier_SA04_v2/`: the stage-A topic dossier of cotes 93, 98, 100 and 161-5, made by GPT-6 Astra (ChatGPT Pro mode) on 19 Nov 2026 (`SA04_dossier.md`, `SA04_directions.md`, `READ_ME.md`); its claim ids C-SA04-n and MP-SA04-n refer to its own tables, which are not attached.
+  - All of this was written by Claude Opus 5.5 at effort max (Anthropic) on 18-19 Nov 2026. It was checked as recorded in the CHECK_EVENTS tables and nowhere else.
+- **`RESEARCH_SA04_transcriptions.zip`: the AI transcriptions (LaTeX) of his pages, with their notes.**
+  - `transcriptions/Codex/K<cote>/`: the Work returns of batch K for cotes 69-102, 161-5 and 161-6, with their mathematical notes, by GPT-6.2 Astra at reasoning effort max for most folders and GPT-6 Astra at reasoning effort max for the others (`transcriptions/Codex/AUDIT_K_RETURNS_20261118.tsv` gives the model of each folder). They are the only witnesses of cotes 69-89 except 72/35-81, and of cote 101.
+  - `transcriptions/Pro/`: by GPT-6 Astra (ChatGPT Pro mode), each with its notes and doubt table: 72/35-81 and 93/47-91.
+  - `\scanpage{N}` marks scan N of the cote's PDF. Where two witnesses disagree, the readings say which one the ink supports, when a reader looked at the scan. Where a step of yours depends on a doubtful reading, say so.
+- **`RESEARCH_SA04_broad.zip`: the neighbouring topics,** so that you see the connections:
+  - the sweep-2 maps of SA01 (regular polyhedra over rings: cotes 71, 72, 75, 81, 83 and 93/92-134), SA02 (quadratic algebras: cotes 84, 90, 91/2-18) and SA03 (deformations, cote 91; characteristic p and crystals, 93/2-46 and 135-220);
+  - the sweep-3 studies of SA15 (crystals), SA21 (his 1986 axiomatics of forms, cote 156), SA23 (the EGA drafts and the dossiers 161-162, with SA23's own readings of 161-5 and 161-6) and SA11 (pseudolines, cote 154).
+- Fetch the literature yourself. It is listed under "Sources" below.
+
+## Where this comes from
+
+His pages are in the Grothendieck archive of the University of Montpellier. They were transcribed by AI (above) and studied in our horizontal sweeps by Claude Opus 5.5 at effort max.
+
+- **Cotes 69-79 (1976-1978; reused sheets of 1976-1977).**
+  - 69 and 74: the graph of the 27 lines, characterized by axioms and rebuilt from torsors; E6 from the graph; 3-nets and loops; the series of "graphes trialitaires" 𝒯_ν (the GQ(2, c) with c = 0, 1, 2, 4).
+  - 70: "n-polyèdres réguliers en coordonnées affines universelles"; the invariant quadric of a regular {p, q} over a ring; the icosahedron in characteristic 5; "Position du pb des 2-polyèdres réguliers" (70/114-119) and the "Programme provisoire d'une théorie arithmétique des polyèdres réguliers" (70/122-123).
+  - 72 and 73: pinned regular realizations, the invariant form, continuants, invariant subspaces and Stiefel-Whitney classes; pentagons from their corner triangles.
+  - 76: incidence complexes with the diamond axiom and the n-cartographic groups G_n; flag geometries; the combinatorial cube.
+  - 77: quadratic forms over a base; "Extensions quadratiques" (quadratic covers, the discriminant, the mixed characteristic); the invariants of the groups of the regular spherical polyhedra; orthogonal group schemes.
+  - 78: a course on regular polygons (Nov-Dec 1977): pinnings, D_n and D_∞, the vertex polynomials F_n, cyclotomic polynomials mod p, regular systems of vertices over Z.
+  - 79: congruence triangulations SP_M of level n, their automorphisms, and his axiomatics of "structures triangulaires congruentielles" and of the graphs "à homothéties".
+- **Cotes 80-89 and 161-6 (1977-1986).** Pseudoline arrangements (80); rank-3 quadratic modules and the forms of SO(3) = PGL₂ (82); Schwarz systems and operations on them (85); incidence geometries, the axioms of abstract polytopes, regular maps and 3-3 sets (86-89); graphs in surfaces (161-6).
+- **93/55-66:** axioms for χ and χ_! on locally conical spaces.
+- **Cote 101, "Notes antiques 1958":** the canonical module ("module fondamental"), local duality, deficiency modules, and characterizations of Cohen-Macaulay and Gorenstein rings by Ext^i(k, ·).
+
+**Other work.** Michel Hua's project (github.com/Commutator-IO/grothendieck-project) has modernised readings of some of these cotes. You may consult them; credit any point taken from them to "Michel Hua's project", and quote phrases, not passages.
+
+## Results this prompt builds on (status on 19 Nov 2026)
+
+Each result carries the id of its check event or correction in the attached tables. Check each one where you use it (Rules of proof, 7).
+
+- **R1 (SA04-R70-01 to -07; SA04-K70-01 to -05).** In universal coordinates, requiring every σ_i to be a reflection leaves one parameter α_i per i, the trace of σ_iσ_{i+1} on a face plane, and the order condition is his half-cyclotomic F_p(α) = 0 (70/15-26, 68). For a regular {p, q}: f = x² + y² + z² − γyz − βzx − βxy − (x+y+z) with γ = (α+2)(β+2) − 2, δ'(f₀) = −(α+2)(α+β)(β+2)², δ(f) = (α−2)(α+2)(β+2)², centre (α, −1, −1)/(2(α+β)) and f(o) = (2−α)/(4(α+β)), all verified symbolically; δ' = 4(α+2)(β+2)²·det Gram[p, q]. His table of 70/70 checks, up to two slips (the dodecahedron's δ is −3(β+1)⁴; the pentagram's δ' is α²). Γ⁰_{n,3} ≅ SL(2, Z/n)/±1 exactly for n ≤ 5. In characteristic 5 the 31 directions of the icosahedron are the points of P²(F₅).
+- **R2 (SA04-R72-01 to -08; SA04-K72-01 to -07).** Cote 72: the ink "+1" of 72/36 is his slip (the coherent form is β = 4cos²θ, α = 2cos 2θ); δ_n(B) = B₀ⁿ B₁^(n−1) ··· B_(n−1) L_n(B₁, ..., B_(n−1)) with a continuant recursion for L_n, computed for n ≤ 5; the invariant-subspace theorem of 72/80-83 holds; his guess that the ten cohomology classes are independent is false (η_i² = εη_i). The Pro and Codex witnesses agree on the mathematics.
+- **R3 (SA04-R69-01 to -19; SA04-R74-01 to -09; SA04-K69, SA04-K74).** On 69/3-11 he proves that a graph with 27 vertices, regular of degree 10, in which every edge lies in exactly one triangle, is the graph of the 27 lines; his Lemma 1 is the generalized-quadrangle axiom, so this is the uniqueness of GQ(2,4) from scratch. The bound |S| ≥ 3(ν − 1) of 69/17 holds, with equality exactly for the GQ(2, t). All his counts agree with |W(E6)| = 51840. On 74/19 and 74/121-124 he names the series himself (c = 2^ν). On 74/128-130, for a vertex of 𝒯_ν, the map u = id + δη on V = F₂^I satisfies u² = id + |I|δη; it is bijective for ν = 0, and otherwise ker u = {0, z} and im u = Ker η; the page proves φ: Y → E injective only for ν = 0. 74/63 answers his question of 69/40: relative to a bitriangle, the 120 bitriangles split 1 + 2 + 27 + 54 + 36.
+- **R4 (SA04-R74-01).** His closure condition (f₃f₂f₁)² = id at every point (74/14-16) holds on the 3-net of the Moufang loop M(S₃, 2) of order 12, which is not a group, and fails for a generic loop of order 5: it does not make a net a group net.
+- **R5 (SA04-R76-01 to -10; SA04-K76-01, -03).** The manifold criterion of 76/7 is false (the suspension of a triangulated torus satisfies it; checked on the scan); the essential image claimed in Th. 1 of 76/39 is right for n ≤ 2 and false for n ≥ 3, as he suspects himself on 76/43. His questions on δ-connectivity under heredity and on the automorphisms of hemicubes for n even are answered.
+- **R6 (SA04-R77-01 to -12; SA04-K77-02, -04, -05).** His open "Étudier la nullité du dit déterminant" has the answer Δ = α(α+1)²(α−2)⁵(α+2)². The calculus of quadratic covers and the uniqueness and existence arguments of the mixed-characteristic theorem (77/53-64, 77/74-86) were re-derived; on 77/74 condition b) should read γ(b₀) ≡ Δ mod 4. His normalization on 77/101 is wrong (μ = 2, not 1/2), and so is the identity on 77/117 (two signs).
+- **R7 (SA04-R78-01 to -08; SA04-K78-01, -02, -05, -06).** u_α^n = id ⇔ F_n(α) = 0 holds over every ring, though his Bezout pair is wrong; the order corollary fails for p = 2; on 78/38 all regular n-gons are isomorphic when p | n, so his Question has the answer yes for n = p ≥ 5 and n = 2p ≥ 10 (his sentence reads inverted as transcribed; the reading was not checked on the scan).
+- **R8 (SA04-R79-01 to -17; SA04-K79).** For M free of rank 2 over Z/n, his SP_M has (s₀, s₁, s₂) = (N'/n, N'/2, N'/3) and genus 1 + N'(n − 6)/(12n): it is the Farey map of level n (computed for n = 3, ..., 12), and his automorphism theorems (79/43, 78, 90) hold. His question of 79/115-116 has the answer yes: the torus map {3,6}_(3,0) is regular and orientable and has 9 triangles that are not faces, so his axiom T₀4 (the faces are the 3-cliques of the graph) does not follow from regularity. M is the "enveloping group" of its triangulated structure with antipodism for Λ = Z/n, n = 3, ..., 8 (computed; 79/83). His operation ν is special to congruence structures: the star-power operation fails on the Hurwitz maps with group PSL(2,13) (79/141-143). To "J'ignore si cette condition est tjrs satisfaite !" (79/184) the answer is no: an antipodism fails (H1) on one PSL(2,13) Hurwitz map, while (H1) holds on the congruence maps. B_H ∩ N_H = T_H (164) holds, as he proves. Part of his table of |Z'_n| on 79/143 is wrong (his, as the scan shows), and GP(1, Z/5Z) is A₅ × {±1}, not his "S₅ ?" (79/273).
+- **R9 (SA04-R80-01, SA04-R82-01 to -03, SA04-R85-01 to -03, SA04-R86-01, -02, SA04-R87-01, SA04-R88-01, SA04-R89-01, -02).** A survey reading of cotes 80, 82 and 85-89: his vertex counts of pseudoline arrangements, the bracket of a rank-3 form, the flag counts and the list of spherical C_{p,q} check.
+- **R10 (SA04-R93-01 to -13).** Both of his "j'ignore" questions on 93/066 have positive answers: (g) holds on E_∞ without the restriction to relative polyhedra (compact members of C_∞ are ANRs, hence of finite CW homotopy type), and (a)-(e) characterize χ and χ_! on all of E_∞. His doubt about compact triangulability is right from dimension 4 on. The stage-A dossier reached the finite-homotopy-type argument independently, under compactness, metrizability and recursive local contractibility, and refuted the broad preliminary fibration formula by a telescope example, not the narrowed conical question (C-SA04-50 to -70, §3.3 of `SA04_dossier.md`).
+- **R11 (SA04-R101-01 to -03).** His question on 101/016 has a positive answer for every complete local noetherian domain A ≠ K: Ext^i_A(K, A) = 0 for every i (A is pure-injective, hence cotorsion). Corollary 2 and Proposition 10 of the 1958 notes are right.
+
+## Leads (inferences by Claude, Anthropic; to be checked in full)
+
+- **L1 (A.1).** The scheme of pinned realizations of a regular {p, q} degenerates exactly over the Coxeter discriminant (the factor α + β, which puts the centre at infinity), the squared Gram entries (α + 2, β + 2) and the factor α − 2 of δ, which his remark on 70/70 attaches to the circumscribed quadric through a vertex; for [p₁, ..., p_n] the same holds with det Gram[p₁, ..., p_n] and the continuant L_n of R2.
+- **L2 (A.2).** His axioms To 1-To 8 with (H1) for every element of Z'_n, or the multigraph axioms of §XI with the isomorphy and homogeneity conditions, characterize the congruence triangulations SP_{M,i} (Λ = Z/n) among the regular triangulations of type {3, n}; the criterion amounts to Wohlfahrt's level and the generation of the cartographic group mod n. His §XI.3 turns a homogeneous graph with homotheties into pinned group data (H, U₀, T_H, N_H) with the conditions a)-d) of (163), so the question becomes one about these data for H = PSL(2, Z/n) against the other quotients of the (2, 3, n) triangle group.
+- **L3 (A.3).** For p ≥ 5 there is no regular system of p vertices over Z with an étale regular p-gon at p: the rotation group is a ±1-twist of μ_p, whose Galois module χ_cyc·ε cannot be unramified at p unless p − 1 | 2. Likewise there is no SR(2p)S over Z[1/2] for p ≥ 5.
+- **L4 (A.4).** The mixed-characteristic classification by (L, D, b₀) describes the stack of quadratic algebras [A²/(G_a ⋊ G_m)] through the discriminant; it is not stated in this form in Knus, Loos, Voight or Wood.
+- **L5 (A.5).** The essential image in Th. 1 of 76/39 is the class of free G_n-sets whose ⟨σ₀, ..., σ_{n−1}⟩- and ⟨σ₁, ..., σ_n⟩-orbits realize spheres, recursively; it is decidable for n ≤ 4 (crystallization theory; 3-sphere recognition) and undecidable for large n (Novikov).
+- **L6 (B.1).** If φ: Y → E of 74/128-130 is injective for every ν, then φ(Y) is a union of free orbits of im u, so |im u| divides |Y| = 4c, with |im u| = 2^c when c + 1 is odd and 2^(c+1) when c + 1 is even; that leaves exactly c ∈ {0, 1, 2, 4}, a proof of the classification of the GQ(2, c) by his own torsors, without Higman's inequality.
+- **L7 (B.2).** His closure condition is the Bol closure condition of web geometry: the 3-nets satisfying it are those of the left Bol loops, as his derivation of (b(xb))c = b(x(bc)) on 74/14-16 suggests.
+- **L8 (B.3).** The "Opérations sur systèmes de Schwartz" (85/082-094), with S₃ and Ẑ^× acting on triples (h₀, h₁, h₂) with h₀h₁h₂ = 1, are the operations on regular maps and hypermaps of Jones and Thornton (1983).
+- **L9 (C.1).** On E_∞ his χ_! agrees with the o-minimal Euler characteristic of locally closed definable sets, whose one-point compactifications are locally conical by definable triangulation.
+
+## What the outcome must be
+
+{{OUTCOME}}
+
+## Parts
+
+**A. His arithmetic theory of regular polytopes (cotes 70, 72, 76-79). The main question is A.1.**
+- **A.1 (main).** The "Programme provisoire d'une théorie arithmétique des polyèdres réguliers" (70/122-123), for every regular type τ = [p₁, ..., p_n].
+  - (a) Define his functor of k-realizations of τ (possibly degenerate: a projective space P of dimension n with a section s₀, a hyperplane at infinity, and a set Φ of projective subspaces ordered like Φ_τ, with his conditions 1)-4)) on all rings, prove that it is represented by a scheme of finite type over Z, and determine that scheme, starting from his universal pinned realization over Z[α₁, ..., α_n] cut out by the half-cyclotomic conditions (70/4-26, 68; cote 72).
+  - (b) For every n, determine the invariant quadratic function and its discriminants (R1 for n = 2, R2 for n ≤ 5), and settle L1: determine the locus of Spec Z[α₁, ..., α_n] where the realization degenerates, with the five Platonic solids, the star polyhedra, the infinite polyhedra and the icosahedron in characteristic 5 as test cases.
+  - (c) Settle his two open questions of cote 70: whether D_i(Π) → Grass_i(E) is injective (70/22), and his question (26) of 70/118-119, whether the maps N\Φ_H → Ψ_H(P) are bijective for a split regular polyhedron P over a base.
+- **A.2.** Cote 79, the congruence triangulations SP_M and his axiomatics of "structures triangulaires congruentielles" (§§VI-VIII, To 1-To 8) and of the graphs and multigraphs "à homothéties" (§§IX-XI).
+  - (a) Settle L2: determine whether his axioms characterize the SP_{M,i} among the regular triangulations of type {3, n}, that is, whether every regular map of type {3, n} that satisfies them is a congruence quotient of the Farey map; work through his pinned group data (H, U₀, T_H, N_H) of §XI.3 (R8; SA04-R79-05, -06, -09, -13, -17 are the evidence so far).
+  - (b) Prove that M is the enveloping group of its triangulated structure with antipodism for every n ≥ 3 and for Λ = Z (79/83; computed for n = 3, ..., 8).
+  - (c) Prove or refute his bound "distance 0, 2 or 3" of §X.1.
+- **A.3.** Settle his questions b) and c) of 78/48-49: prove or refute L3, and prove that regular systems of n vertices exist over Z for n = 3 and 4 and over Z[1/2] for n = 6, with explicit examples.
+- **A.4.** Over a scheme S on which 2 is a non-zero-divisor, prove or refute his classification of quadratic covers by triples (L, D, b₀) (77/53-64, 77/74-86): full faithfulness, and the essential image given by b₀² = D on S₀ = V(2) and D₁ = γ(b₀) on S₁ = V(4) (Th. 77/59), together with his criterion that Δ = b² − 4c if and only if the étale algebra A_{2Δ}[√Δ] extends over A_Δ (Th. 77/57). Then settle L4, with locators.
+- **A.5.** Determine the essential image of the functor of Th. 1 (76/39) from his finite n-manifolds with regular filtrations to free G_n-sets, for every n, and settle L5.
+
+**B. Graphs, nets and incidence structures (cotes 69, 74, 80, 85-89).**
+- **B.1.** Prove or refute that φ: Y → E of 74/128-130 is injective for every graph satisfying his Axioms 1-2 of 74/93 (every edge in a unique triangle; every point off a triangle linked to exactly one of its vertices), and with it settle L6. Then prove, for each c ∈ {0, 1, 2, 4}, the uniqueness of 𝒯_ν by his reconstruction from a base triangle (74/93-106, Props 1-5), answering the two questions to which he reduces the classification on 74/103-104.
+- **B.2.** His questions on 74/6-13: is the functor φ from groups with bitorsors to 3-nets an equivalence onto a subcategory he can name, and which 3-nets does it reach? Determine the class of 3-nets satisfying his closure condition (f₃f₂f₁)² = id at every point, and settle L7.
+- **B.3.** From the text of 85/082-094, state what he proves about the operations on Schwarz systems, prove or refute each statement, and settle L8.
+- **B.4.** Cote 80: state precisely and prove or refute his counts of affine pseudoline arrangements ("n = 4: 1, n = 5: 6"), against the known enumeration, and his reconstruction statement of 80/071 (the map is determined by the oriented arrangement when no line bounds a monogon or a bigon).
+
+**C. Euler characteristics of locally conical spaces (93/55-66).**
+- **C.1.** Write the complete theorem of 93/066 on E_∞, with both of his questions answered (R10; check SA04-R93-11 and -12 in full). Then settle L9: for every o-minimal expansion of the real field, does E_∞ contain the locally closed definable sets, and does his χ_! agree there with the o-minimal Euler characteristic?
+
+**D. His 1958 notes on local cohomology (cote 101).**
+- **D.1.** State each characterization of 101/031-043 precisely: Propositions 13-16, the closing theorem, Problem C, and his margin that no two of the three conditions on Ext^{n−1}, Ext^n and Ext^{n+1}(k, M) are enough. Prove or refute each. For the margin, give for each pair of conditions a module satisfying the pair and not the conclusion, or prove that the pair is enough. Compare with Bass (1963) and Roberts (1983).
+
+## Sources (fetch them; cite them with exact locators; prefer the arXiv LaTeX source)
+
+- J. E. Humphreys, *Reflection groups and Coxeter groups* (CUP, 1990), ch. 2 and 6; H. S. M. Coxeter, *Regular polytopes* (3rd ed., Dover, 1973).
+- P. McMullen and E. Schulte, *Abstract regular polytopes* (CUP, 2002); M. Ferri, C. Gagliardi and L. Grasselli on crystallizations (1986); J. H. Rubinstein (1995) and A. Thompson (1994) on recognizing the 3-sphere.
+- H. S. M. Coxeter and W. O. J. Moser, *Generators and relations for discrete groups*, ch. 8; G. A. Jones and D. Singerman, "Theory of maps on orientable surfaces", Proc. London Math. Soc. 37 (1978); G. A. Jones and J. S. Thornton, "Operations on maps, and outer automorphisms", J. Combin. Theory Ser. B 35 (1983); K. Wohlfahrt, "An extension of F. Klein's level concept", Illinois J. Math. 8 (1964).
+- M.-A. Knus, *Quadratic and Hermitian forms over rings* (Springer, 1991); O. Loos, Math. Z. 257 (2007); J. Voight, J. reine angew. Math. 657 (2011); M. M. Wood, "Gauss composition over an arbitrary base", Adv. Math. 226 (2011).
+- F. Oort and J. Tate, "Group schemes of prime order", Ann. Sci. ENS 3 (1970).
+- S. E. Payne and J. A. Thas, *Finite generalized quadrangles* (1984; 2nd ed. 2009), §§1.2, 5.3, 6.1.
+- W. Blaschke and G. Bol, *Geometrie der Gewebe* (Springer, 1938); H. O. Pflugfelder, *Quasigroups and loops: introduction* (Heldermann, 1990).
+- A. Björner, M. Las Vergnas, B. Sturmfels, N. White, G. M. Ziegler, *Oriented matroids* (2nd ed. 1999), ch. 6; D. E. Knuth, *Axioms and hulls*, LNCS 606 (1992).
+- O. Hanner (1951) on ANRs; J. E. West, Ann. of Math. 106 (1977); L. van den Dries, *Tame topology and o-minimal structures* (CUP, 1998), ch. 4 and 8.
+- H. Bass, "On the ubiquity of Gorenstein rings", Math. Z. 82 (1963); P. Roberts, "Rings of type 1 are Gorenstein", Bull. London Math. Soc. 15 (1983); W. Bruns and J. Herzog, *Cohen-Macaulay rings*, ch. 3.
+
+{{RULES}}
+
+{{DELIVER}}

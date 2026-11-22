@@ -1,0 +1,3 @@
+ROWS = [
+ ("A.119", "targeted proof check (partial)", "read: the first part of the countable-model construction (the Kan loop group G(X) with d_0[x] = [d_1 x][d_0 x]^-1, d_i[x] = [d_(i+1) x], s_i[x] = [s_(i+1) x], as in Goerss-Jardine V.5; finite cell modules over the spherical group ring with the Hovey-Shipley-Smith generating acyclic maps; finite certificates for stable equivalences by the small-object argument; the hammock localization as a countable model of the derived mapping spaces, Dwyer-Kan 1980 cited); correct as far as read; the identification of E(K) with pi_0 of the stable concordance group and the passage to the unstable group in dimension >= 9 not read"),
+]

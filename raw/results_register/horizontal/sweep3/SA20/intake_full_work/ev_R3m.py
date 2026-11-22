@@ -1,0 +1,3 @@
+ROWS = [
+ ("A.148", "targeted proof check (given A.147)", "the pair argument read in full and its structure confirmed: one shared construction (same Q, K_0, Hudson K, M) for both factors keeps them equal on E = (A_0 x P) u (X x dP); one common target colouring and one ambient marked isotopy; the common restriction straightened first, then separate PL extensions by prism dimension and a common Alexander filling; the quotient of the PL endpoints is PL; the converse with r = id; relies on A.147's residual lemma, Proposition 57, Mnev's Lemma 8 and marked Hauptvermutung, not read here (part_pair_factorization.tex:8-)"),
+]

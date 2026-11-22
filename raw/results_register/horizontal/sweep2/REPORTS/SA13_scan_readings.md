@@ -4,7 +4,7 @@ Claude Opus 5.5 at effort max (sub-agent of the broad agent a0c4bb37, topic SA13
 
 ## How the scans were read
 
-**Source.** The scans are the archive PDFs in `<local>/Documents\grothendieck_archive_montpellier\05_seminaire_de_geometrie_algebrique_sga\` (32.pdf, 34.pdf, 36.pdf, 39.pdf).
+**Source.** The scans are the archive PDFs in `C:\Users\user\Documents\grothendieck_archive_montpellier\05_seminaire_de_geometrie_algebrique_sga\` (32.pdf, 34.pdf, 36.pdf, 39.pdf).
 
 **Rendering.** Each page was rendered with `pdftoppm` at 90-100 dpi to find the place. The place was then rendered at 300-400 dpi, cropped and magnified with `magick`.
 

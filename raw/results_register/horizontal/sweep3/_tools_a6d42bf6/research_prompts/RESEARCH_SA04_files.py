@@ -17,7 +17,13 @@ for suf in ('_transcription.tex', '_notes.md', '_doubts.md'):   # cote 72, read 
 tx.append(('transcriptions/Codex/AUDIT_K_RETURNS_20261118.tsv', CW + '/../AUDIT_K_RETURNS_20261118.tsv'))
 # the Codex-web transcriptions (GPT-6 Astra at reasoning effort max, Codex web), with their notes
 cotes = ['69', '70', '72', '73', '74', '76', '77', '78', '79', '80', '82', '85', '86', '87', '88', '89',
-         '93', '101', '161-6']   # 94, 97, 98, 100, 102 and 161-5 are asked in other prompts
+         '93', '101', '161-6']
+for c in ('J71', 'J75', 'J81', 'K83'):   # SA01's cotes folded into this prompt (19 Nov 2026)
+    for d in sorted(glob.glob(CW + '/' + c + '-[0-9]*')):
+        k = os.path.basename(d)
+        for suf in ('_transcription.tex', '_mathnotes.md', '_notes.md'):
+            p = d + '/out/' + k + suf
+            if os.path.exists(p): tx.append(('transcriptions/Codex/' + c + '/' + k + suf, p))   # 94, 97, 98, 100, 102 and 161-5 are asked in other prompts
 for c in cotes:
     for d in sorted(glob.glob(CW + '/K' + c + '-[0-9]*')):
         k = os.path.basename(d)
@@ -29,6 +35,13 @@ st = []   # the H035 verdict (cote 94) belongs to the working-through prompts
 SA = D + '/grothendieck_archive_transcription_20261110/stage_a_20261118_sent/returns/SA04_v2_final_20261119T0323Z_unzipped/'
 for fn in ('SA04_dossier.md', 'SA04_directions.md', 'READ_ME.md'):   # the stage-A dossier of cotes 93, 98, 100, 161-5
     st.append(('study/stage_A_dossier_SA04_v2/' + fn, SA + fn))
+S1 = H + '/sweep3/SA01/'
+for fn in sorted(os.listdir(S1)):
+    if fn.endswith(('.md', '.tsv')) and not fn.startswith('_'):
+        st.append(('study/SA01/' + fn, S1 + fn))
+for fn in sorted(os.listdir(S1 + 'readings')):
+    if fn.startswith(('cote72', 'cotes71_75', 'cote81')):
+        st.append(('study/SA01/readings/' + fn, S1 + 'readings/' + fn))
 ZIPS = {'transcriptions': tx, 'study': st}
 # the broad layer: the neighbouring topics (polyhedra and quadratic algebras SA01-SA03; crystals SA15; forms SA21;
 # the EGA V-VI programme SA23; pseudolines SA11)

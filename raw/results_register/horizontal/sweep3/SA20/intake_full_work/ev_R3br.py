@@ -1,0 +1,3 @@
+ROWS = [
+ ("B.075", "targeted proof check (main steps; the U-degree level argument for a proper I read, not fully re-derived)", "read in full: D_d(R) cofinal with powers of m; with theta_2 injective, the rational image L is R or K, and in the K case x = sc gives the idempotent e = x^N (x^N(x-1) = 0 checked) and C = K x R/I; B = {F : F(R) c V} = V[X,U]/(X^q - X - t^a U) with U = (X^q - X)/t^a = -v mod t at X = b + t^a v (checked); C = K is excluded by alpha P x P - P x alpha P projecting to alpha x 1 - 1 x alpha; a proper I is excluded by f x g with disjoint idempotent supports, nonzero modulo m once F lies outside mE, which the level argument with psi_N = b_0 + t^a U^N supplies (read, not re-derived in every degree)"),
+]

@@ -1,0 +1,3 @@
+ROWS = [
+ ("A.134", "targeted proof check (main steps; Hamstrom 1974 cited)", "read: Hamstrom's joint-family PL-TOP comparison for compact 3-manifolds (Thm 3.1.2, cited) extended to all components by Moise-Bing approximation and Edwards-Kirby local contractibility (every TOP component has a PL vertex; injectivity on pi_0 by chaining jointly PL local isotopies, d(g_(i+1) g_i^-1, 1) = d(g_(i+1), g_i)); for a closed surface F the bottom-preserving subgroup splits as A(F) = P(F) x H(F) by h -> (h s(rh)^-1, rh) (the same split restriction as in my A.104 re-proof); correct as far as read; the surface-group comparison and the dimension 0-1 contractibility at the end not read"),
+]

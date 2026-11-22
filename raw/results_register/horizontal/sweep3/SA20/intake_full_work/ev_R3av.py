@@ -1,0 +1,3 @@
+ROWS = [
+ ("D.025", "computation or formal certificate (my own code) plus targeted proof check", "intake_full_work/d025.py (output d025_out.txt): in the cyclic model with inner action (p,q) -> (ap + x, a^-1 q + y) and outer tau(p,q) = (rev p, -rev q), my orbit enumeration gives classes 2, 18, 144, 7200 for n = 3, 4, 5, 6 (= (n!)^2/(n^2 phi(n)), action free) and outer-fixed classes 0, 8, 0, 192, equal to the closed form (D25.1); n = 6 goes beyond the run's checks (A_2-A_4); the count S_n^aff of affine triples and (D25.5) = (D25.1) agree for every even n from 4 to 60; the proof read: F^(-T) = n^-1 F J, the odd-n argument (a = -1 modulo every odd prime power forces a translation, which cannot be an involution with one fixed point), and the CRT count"),
+]

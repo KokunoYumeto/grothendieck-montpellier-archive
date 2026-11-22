@@ -21,10 +21,30 @@ MAP = {"id": ["id", "statement_id", "statement id", "statement", "entry_id", "it
        "result": ["result", "outcome", "verdict", "detail"],
        "where": ["where", "evidence", "locator", "source", "file"]}
 # CHECKEDNESS_EVENTS.tsv (the ledger of 18 Nov, a1cd5fb4): node -> id, kind -> how, detail -> result, source -> where
+# 20 Nov 2026 (session aacf1302, Claude Opus 5.5 at effort max): the S6 ledgers were missing: the intakes' and
+# readings' CHECK_EVENTS in s6_pro_prompts_20261112_work/reviews and the newest S6 run ledger, which carries the
+# runs' cumulative events. S6 labels (maps:src:F.3.6, night:P1.12) are global, so these files get no run prefix.
+NS_ROOTS = list(ROOTS[2:])
+S6W = D / "s6_pro_prompts_20261112_work"
+ROOTS.append(S6W / "reviews")
+ROOTS.append(S6W / "S6_HEXAGON_DEPOSITS_20261120")   # readings of the deposit copies (20 Nov)
+_s6_runs = sorted(S6W.glob("returns/S6_SERIES_GRIND_checkpoint_*_unzipped/CHECK_EVENTS.tsv"))
+S6_EXTRA = _s6_runs[-1:]
+# 20 Nov 2026 (main session 532c054d, Claude Opus 5.5 at effort max; the user: "Check what has actually been intaken ...
+# you need to check"). The intakes' own check events were in the register WITHOUT their run's name (an intake of
+# RESEARCH_SA06 wrote "E.3b", filed as "E.3b"), so no one could ask the register what an intake had checked of a run;
+# and two intake folders were not roots at all (field_experts/intake_*/intakes, the Dérivateurs work folder). Now:
+# every INTAKE_<RUN>_<date>[_partN]_CHECK_EVENTS.tsv gets the prefix <RUN>: from its file name, and ids written as
+# "RUN id" (the Dérivateurs files: "REVLOC A.1") become RUN:id.
+INTAKE_FILE = re.compile(r"^INTAKE_(.+?)_(20\d{6})(?:_part\d+)?_CHECK_EVENTS\.tsv$")
+RUN_SPACE_ID = re.compile(r"^(FREX|DER_LOCALIZERS|REVLOC|RESIDUE|TOTASPH|TOTAL_EXACT\w*|RESEARCH_SA\d+\w*)\s+(\S.*)$")
+ROOTS += sorted(p for p in D.glob("field_experts/intake_*/intakes") if p.is_dir())
+ROOTS.append(D / "derivateurs_companion_20261109/pro_prompts_max_20261112_work")
 rows = []
-for root in ROOTS:
+for root in ROOTS + [None]:
     # 19 Nov: also <name>_CHECK_EVENTS.tsv (intakes, readings); repeats are merged below
-    for f in sorted(set(root.rglob("*CHECK_EVENTS*.tsv")) | set(root.rglob("CHECKEDNESS_EVENTS.tsv"))):
+    files = S6_EXTRA if root is None else sorted(set(root.rglob("*CHECK_EVENTS*.tsv")) | set(root.rglob("CHECKEDNESS_EVENTS.tsv")))
+    for f in files:
         if f.name.startswith("CHECK_REGISTER"): continue
         try:
             r = csv.DictReader(open(f, encoding="utf-8", errors="replace"), delimiter="\t")
@@ -35,7 +55,7 @@ for root in ROOTS:
             # CHECK_COUNTS does not merge different statements. Publication working copies (*_publish*) repeat a return's
             # files and are left out.
             ns = ""
-            if root in ROOTS[2:]:
+            if root in NS_ROOTS:
                 parts = f.relative_to(root).parts[:-1]
                 if any("_publish" in q for q in parts):
                     continue
@@ -43,9 +63,15 @@ for root in ROOTS:
                 if ret:
                     ns = re.sub(r"_(checkpoint_\d+|final(_INCOMPLETE)?)(_\d{8}T\d{4}Z)?_unzipped$", "", ret[-1])
                     ns = re.sub(r"_unzipped$", "", ns)
+            mi = INTAKE_FILE.match(f.name)
+            if mi and not ns:
+                ns = mi.group(1)          # INTAKE_RESEARCH_SA06_20261120_CHECK_EVENTS.tsv -> RESEARCH_SA06
             for x in r:
                 row = [(x.get(pick[k]) or "").strip() if pick[k] else "" for k in MAP] + [f.relative_to(D).as_posix()]
-                if ns and row[0] and not row[0].startswith(ns):
+                ms = RUN_SPACE_ID.match(row[0])
+                if ms:
+                    row[0] = f"{ms.group(1)}:{ms.group(2)}"
+                elif ns and row[0] and not row[0].startswith(ns):
                     row[0] = f"{ns}:{row[0]}"
                 rows.append(row)
         except Exception as e:

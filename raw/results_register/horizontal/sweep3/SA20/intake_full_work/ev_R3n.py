@@ -1,0 +1,3 @@
+ROWS = [
+ ("A.147", "targeted proof check (partial)", "confirmed for the parts read: the definable fixed-point fact for continuous definable contractions of a cube (minimum argument, continuity estimate (147.3)); the Hudson-type graph deformation rho_{y,v}(q) = min_j max{f^j(y), q - 2jv} with rho_{y,0} = id, Lipschitz constant c, and the time equation t = rho_{V_t(x),v}(T_v p) a contraction with constant cL < 1, giving H_{p,v} with the explicit inverse (147.7), based and bottom-fixed; the terminal-time support labels with at most k stars and monotone in the box order; the final step through Mnev's Proposition 57 and the PL straightening not read (part_parameter_lipschitz_comparison.tex:10-)"),
+]

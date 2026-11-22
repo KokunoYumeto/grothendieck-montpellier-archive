@@ -1,0 +1,3 @@
+ROWS = [
+ ("D.015", "targeted proof check (main steps, given D.002 and D.003)", "read in full: Kostant's lift n with n^h = 1 extended over Z[1/h] by schematic density; smooth centralizer by averaging (h invertible); rank r from det(1 - c) = z (the (h, z) table checked: every prime of z divides h) and the r root orbits of length h; fibrewise conjugacy of n and t = rho^vee(zeta_h) through Weyl characters and relative conjugacy by vanishing H^1 of the cyclic group; C_G(t)/T_0 = P^vee/Q^vee of rank z, T n T_0 = 1 from the finite etale comparison, Phi -> A a T_0^c-torsor with |Phi| = z h phi(h) (|A| = h phi(h) agrees with my D.002 computation), free action on the Borel pairs, so the quotient has rank |W|^2/(z h phi(h)) (2 for A_2, as in D.016); no gap found"),
+]

@@ -1,0 +1,4 @@
+ROWS = [
+ ("B.022", "computation", "the Newton-basis lemma of the proof verified exhaustively by my own code (intake_full_work/bhargava.py, output bhargava_out.txt): for (q,m) = (2,1), (2,2), (2,3), (3,1), (3,2) and n <= 40 (q = 2) or 30 (q = 3), v(d_n) = m floor(n/q) + sum_{j>=2} floor(n/q^j), and sum_{i<n} v(x - a_i) >= v(d_n) for every x in R mod t^M; with the proof check of 20 Nov this gives B.022 a targeted check plus a computation (the patching step is checked by reasoning only)"),
+ ("B.023", "targeted proof check", "confirmed: R = k + t^m l[[t]] is local Noetherian of dimension one (free of rank mf over k[[t^m]]); mixed-digit Newton basis of Int(R,V); D_0 = B/tB embeds in l^R; Galois descent C_0 (x)_k l = D_0 through finite subalgebras that are products of copies of l; the image of Int(R) is C_0 by the F^{Q^e} trick (values c + t^N w^N with c in k); kernel A n tB = t^m B; patching as in B.022 (part_B.tex B.023 proof)"),
+]

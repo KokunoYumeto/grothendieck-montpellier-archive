@@ -99,3 +99,11 @@ and I integrate their files into STUDY, HUNCHES, RESEARCH_PACKAGES and the TSVs.
 - Found while building: H22-4 was wrong in characteristic 0. Numerical and homological equivalence agree for 2-cycles
   on complex fourfolds by hard Lefschetz, Lefschetz (1,1) and Hodge-Riemann (my sketch). It is recorded in SA22
   HUNCHES, CHECK_EVENTS and CORRECTIONS, and is RESEARCH_SA22 B.1 / L1.
+
+## 19 Nov 17:33 UTC: general intake of EXIT_TOWER cp28 (outside sweep 3, a job of the main session)
+
+- Written: `pro_intake_20261119/GENERAL_INTAKE_EXIT_TOWER_cp28_20261119.md` (every one of the 218 rows the earlier
+  intakes had not named, with claim, status, newness, implication, the prompts it bears on; the 65 named rows checked
+  against their verdicts, no disagreement), and `pro_intake_20261119/CHECK_EVENTS.tsv` (7 checks of my own, all agree).
+- `field_experts/build_intake_ledger.py` rebuilt: the ledger lists the intake as naming 283 of 283 rows of cp28.
+- No prompt edited; the main session routes the updates.

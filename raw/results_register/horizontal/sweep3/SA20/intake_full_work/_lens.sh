@@ -1,0 +1,1 @@
+for i in "$@"; do python -I -B getrow.py $i 2000 > _t.txt; f=$(head -1 _t.txt | sed 's/.* at //; s/ (other.*//'); s=$(sed -n '2,/end{saresult}/p' _t.txt | wc -l); p=$(sed -n '/begin{proof}/,/end{proof}/p' _t.txt | wc -l); printf "%s %s st=%s pr=%s\n" $i "$f" $s $p; done

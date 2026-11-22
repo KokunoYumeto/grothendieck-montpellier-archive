@@ -1,0 +1,3 @@
+ROWS = [
+ ("A.159", "targeted proof check (partial)", "read in part: the meaning of standard bounds (ordinary integers in M); the auxiliary finite PL data of A.147 (Hudson sequence, support labels, conic balls, Mnev colouring) fixed over the real algebraic numbers and transferred by finite semialgebraic certificates; the number of Hudson increments is an ordinary integer only when the forward bound L is standard; the crux, that the relevant parameter bounds can be made standard over a non-Archimedean model, was not verified and is the point an independent check of A.159-A.160 must examine"),
+]

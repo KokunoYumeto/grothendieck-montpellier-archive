@@ -133,6 +133,10 @@ From the reader a598c2dff473d448c (Claude Opus 5.5 at effort max), `readings/133
     on B_G;
   - Zibrowius's λ-ring theorem for symmetric representation rings (2015; to verify).
 - **Open part:** characteristic p > 2.
+- **State, 21 Nov 2026** (corrected 21 Nov 2026 after the intake of GCT_PLETH, Claude Opus 5.5 at effort high): the
+  open part has a negative answer for specialness in characteristic 3: over BC₃ (2 invertible) the split GW^⊕ is not
+  special, since ψ³ is not multiplicative (GCT_PLETH A-003, re-proved in its intake). So no positive answer holds for
+  every p > 2. The characteristic-0 hunch itself is not affected. See STUDY.md, SA17-21.
 
 **H-133-2. Scans 36 and 46-54 are a crossed-module form of P. Hall's isoclinism.**
 - **Grounds:** a group seen through G/Z(G), G' and the commutator map.

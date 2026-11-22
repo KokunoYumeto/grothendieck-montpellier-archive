@@ -18,7 +18,7 @@ All come from the coordinator, the main session (Claude Opus 5.5 at effort max).
    the wave is merged.
 5. **19 Nov (they wrote ~03:5x UTC; the clock read 01:55 UTC):** after the merge report, write one research prompt per
    topic for GPT-6 Astra (ChatGPT Pro mode).
-   - Folders: <local>/Documents/pro_prompt_builds/RESEARCH_SA05/, RESEARCH_SA06/, RESEARCH_SA07/,
+   - Folders: C:/Users/user/Documents/pro_prompt_builds/RESEARCH_SA05/, RESEARCH_SA06/, RESEARCH_SA07/,
      RESEARCH_SA15/. The folder moved there from TO_SEND/11_Finish_prompts/ at the main session's word, 19 Nov
      ~02:4x UTC. Never write into TO_SEND: the main session links finished prompts in after its own lint.
    - Each folder is flat, at most 20 files, with any README kept outside it.
@@ -133,3 +133,42 @@ Compute bound: about 600k tokens of context for each reader.
   - pro_prompt_builds/RESEARCH_SA14_SA19 -> TO_SEND/PRO/1_Archive_research_by_topic/19_SA14_SA19_...;
   - pro_prompt_builds/RESEARCH_SA16_SA18 -> TO_SEND/PRO/1_Archive_research_by_topic/20_SA16_SA18_....
   The ORDER.md lines are 19 and 20 (18 was taken by SA04).
+
+## New job, 19 Nov: F17, the bounded check of EXIT_TOWER D.72 against Minahan, arXiv:2305.12548v3 (bound ~120k)
+
+- Note: results_register/sweep1_sections/F17_MINAHAN_D72_20261119.md.
+- Check event: results_register/sweep1_sections/CHECK_EVENTS.tsv.
+- The arXiv source goes into a new empty folder in the scratchpad.
+
+- F17 DONE (19 Nov ~16:40 UTC): verdict D.72 HOLDS. Note results_register/sweep1_sections/F17_MINAHAN_D72_20261119.md; check event row 33 of results_register/sweep1_sections/CHECK_EVENTS.tsv (EXIT_TOWER:D.72, targeted proof check). Sources: arXiv e-print and PDF of 2305.12548v3 (hashes in the note; copies only in the scratchpad). Reported to the main session.
+
+- SA16 full merge and prompt 20 Part I DONE (19 Nov ~16:5x UTC). SA16 merged from readings c62_c64.md and c62b_c63.md: 56 check events, 39 corrections, 9 hunches, packages R1-R3 and R5-R6, 15 dependencies, 23 deliverables; unread list empty. The partial-merge rows are in sweep3/_premerge_SA16_20261119/. In RESEARCH_SA16_SA18, Part I is now R2, R3, R5 and R6, with the results R9-R12 added. Both lints pass. The TO_SEND folder 20 is still hard-linked (same hashes) and pack_one_zip leaves it as it is; the ORDER.md line is updated. RESEARCH_SA14_SA19 (folder 19) fails the paper lint on the same missing cited-results sentence; it is not changed.
+- Prompt 19 fix DONE (19 Nov ~17:0x UTC): the cited-results sentence was added to the Rules of proof of RESEARCH_SA14_SA19_work/draft.md and PROMPT.md reassembled with R1-R10 (before the change, reassembly reproduced the old PROMPT.md byte for byte). Both lints pass on the TO_SEND/19 copy, which is a hard link with the same hash. The ZIP is unchanged and ORDER.md needs no change.
+- INTAKE_A/B additions DONE (19 Nov ~17:2x UTC). Both build PROMPT.md files in pro_intake_20261119/ got a new section, "Checks made after this prompt was built". INTAKE_B's section records the F17 check of D.72 as an earlier event (holds; Theorem A open; the two remarks single-checked; not to be redone). Both sections give the sweep-1 sections data. Each build got a new <X>_5_sweep1_sections.zip: B has 95 flag verdicts, 14 check events, the CORRECTIONS file and the F17 note; A has 205 flag verdicts, 6 check events and the CORRECTIONS file. The send folders were relinked to the builds and repacked with pack_one_zip; each send PROMPT.md is the build file plus the packer's attachment paragraph. --lint passes on both send copies, and the checkpoint and check-events lines are intact. The old send copies are in pro_intake_20261119/_work/superseded_send_20261119/.
+
+## New job, 19 Nov ~17:30 UTC: general intake of SECTIONS_OVER_Q cp17 (bound ~250k; sub-agents 0)
+- Brief (the main session, Claude Opus 5.5 at effort max; the user, P7524: SECTIONS_OVER_Q is important and was taken in too thinly). The intakes so far name 18 of the 245 register rows:
+  - pro_intake_20261116/EXPERT_GT_TOWER_AND_GHOSTS_20261116.md (a3d0d8f6): the ghosts A.44, A.65, A.72; the finite exclusions A.137/A.139, A.196, A.207/A.209;
+  - claude_math_notes/NOTES_20261115.md (the main session; read to cp11);
+  - pro_intake_20261114/debate_20261114/RESPONSE_MANUSCRIPT.md (a9da1eb1);
+  - CONSOLIDATED_REGISTER_20261114.md (a59e5db1).
+  Read their scope paragraphs first, and do not redo what they settled.
+- For every row they do not name: what it claims and its status; whether it is new against the literature (as far as the run and our records show); what it implies for the programme; which unsent prompts it bears on (INTAKE_A_ANABELIAN_SECTIONS, the sweep-3 research prompts).
+- For the rows they name: only where my reading disagrees with their verdict.
+- Check the sense of what matters most, and record my own checks in CHECK_EVENTS.tsv. Placing or reading a row is not a check.
+- Output: pro_intake_20261119/GENERAL_INTAKE_SECTIONS_OVER_Q_cp17_20261119.md with its CHECK_EVENTS.tsv; then run `python -I -B field_experts/build_intake_ledger.py`; then report in a few lines. Do not edit prompts.
+- Working files: pro_intake_20261119/_work/GI_SOQ_cp17/ (chunk notes; they survive compaction).
+- GI_SOQ progress 1. The register is SECTIONS_OVER_Q_checkpoint_17_20261116T1754Z_unzipped/SECTIONS_OVER_Q_results.csv: 245 rows (A 211, B 16, C 10, D 8). Statuses: Proved 227, Refuted 13, Open 4, Known 1. The non-proved rows: A.1 O, A.3 R, A.4 R, A.8 R, A.9 R, A.18 R, A.20 R, A.24 O, A.49 R, A.110 R, B.1 K, B.5 R, B.10 R, B.11 R, B.15 O, C.3 R, C.10 R, D.8 O. Statements have a median of 1.3 KB (321 KB in all).
+- Named by a3d0d8f6 (EXPERT_GT_TOWER_AND_GHOSTS, cp17), 18 rows: A.25 A.32 A.42 A.44 A.48 A.50 A.52 A.59 A.62 A.65 A.66 A.68 A.72 A.137 A.139 A.196 A.207 A.209. For these, write only where I disagree.
+- NOTES_20261115 (read to cp11) discusses about 57 ids in its SOQ paragraphs. Check what it settled, and do not redo it. The debate docs name no SOQ row ids.
+- Tool: pro_intake_20261119/_work/GI_SOQ_cp17/named_ids.py. Next: read the scope paragraphs, then the rows in chunks with notes in _work/GI_SOQ_cp17/chunk_*.md.
+- GI_SOQ progress 2: chunk_01.md (rows 1-14) and chunk_02.md (rows 15-34) are written, with CHECK_EVENTS_work.tsv (A.8, A.17, A.19, A.28). Next: rows 35 onward (rows.py 35 56 480 140). Write working files with the Write tool: a long bash heredoc failed to parse.
+- GI_SOQ progress 3: chunk_03.md (rows 35-56) is written, with check events for A.35, A.40 and A.53. Next: rows 57 onward.
+- GI_SOQ progress 4: chunk_04.md (rows 57-80) is written. Next: rows 81 onward (rows.py 81 104 400 110).
+- GI_SOQ progress 5: chunk_05.md (rows 81-104) is written, with check events for A.98 and A.103. Next: rows 105 onward (rows.py 105 130 340 90).
+- GI_SOQ progress 6: chunk_06.md (rows 105-130) is written, with a check event for A.114. Next: rows 131 onward (rows.py 131 160 300 70).
+- GI_SOQ progress 7: chunk_07.md (rows 131-160) is written, with check events for A.138, A.144, A.149, A.150 and A.156. Next: rows 161 onward (rows.py 161 190 280 60).
+- GI_SOQ progress 8: chunk_08.md (rows 161-190) is written. Next: rows 191-245 (A.191-A.211, then B, C, D).
+- GI_SOQ progress 9: chunk_09.md (rows 191-211) is written, with a check event for A.205. Next: the B, C and D rows 212-245 (rows.py 212 245 300 70).
+- GI_SOQ progress 10: chunk_10.md (the B, C and D rows) and head.md (header, sections 1-2) are written, with a C.1 check. Next: write sections 3-4, assemble the final file, write CHECK_EVENTS, run build_intake_ledger, report.
+- GI_SOQ DONE (19 Nov ~18:3x UTC): pro_intake_20261119/GENERAL_INTAKE_SECTIONS_OVER_Q_cp17_20261119.md (81 KB, sections 1-5 in the form of ae4ae3dc's EXIT_TOWER intake), with GENERAL_INTAKE_SECTIONS_OVER_Q_cp17_20261119_CHECK_EVENTS.tsv; the 18 check events are also appended to pro_intake_20261119/CHECK_EVENTS.tsv. build_intake_ledger.py was rerun: the ledger shows 'names 245 of 245 rows of cp17'. Working files are in _work/GI_SOQ_cp17/. Reported to the main session.

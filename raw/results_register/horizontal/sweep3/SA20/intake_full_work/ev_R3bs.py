@@ -1,0 +1,3 @@
+ROWS = [
+ ("B.057", "targeted proof check (the assembly and main steps, given B.024, B.045, B.048, B.050, B.052, B.053, B.056)", "read in full: monic null polynomials make A -> C epic, B.056 gives C = A + D, the torsion T = J/I and D = D' (B.052) a finite-dimensional ideal of Q with I a full V-lattice; nonreduced selected factors are excluded by B.045's polynomials once u^c e_0 O c I (B57.3); a proper I is excluded by the supported (c+1)-fold difference with H(x) - H(0) in I (B57.4) and valuation c against I^r of valuation >= c+1; then C = Q, dim R = 1 and two field factors are excluded as in B.050; the logic is correct, B.045, B.052, B.053 not all rechecked here"),
+]

@@ -37,7 +37,24 @@ needed before they can be edited (DELIVERABLES.tsv).
 
 **Cote 44: the "Programme de travail" in seven theorems, and the letter to Serre of 12.8.1964 (SA19-14 = SA18-14).**
 - Th. 1-4: algebraic equivalence modulo Albanese equivalence as an abelian variety;
-- Th. 5 "Néron";
+- Th. 5 "Néron" (scan 004). [The displayed formula ⟨ζ,ζ′⟩ = (−1)^m Z·Z′ fails: HODGE_SIGN AR-01, P²×P² with
+  Z = a² − ab + b² and a pencil with geometrically integral fibres and E = 0, gives ⟨ζ,ζ⟩ = 0 ≠ 3. The intended
+  qualification after "géom. intègres..." must exclude the case E = 0 or add singular-fibre terms. (corrected 21 Nov
+  2026 after the intake of HODGE_SIGN, Claude Opus 5.5 at effort high)] [Also false as displayed on a quadric pencil
+  for every m ≥ 2 and every characteristic (JAC1964 H9-C1, confirmed); corrected by H9-T1 (one Schur term per singular
+  fibre whose specialization map is not injective; for m = 1 Shioda's correction), with no correction under H9-T2
+  (injective specialization at every singular fibre): this is the "variante locale" of his margin on scan 004.
+  (corrected 21 Nov 2026 after the intake of JAC1964, Claude Opus 5.5 at effort high)] [The same correction, derived
+  independently: SIGN_NEXT SN-44-01, with the E-dichotomy SN-44-03; on P²×P² each of the three nodes contributes 1
+  (SN-44-04, checked). (corrected 21 Nov 2026 after the intake of SIGN_NEXT, Claude Opus 5.5 at effort high)] [After a
+  finite separable cover the corrected statement holds only on the Albanese-primitive domain (the primitive qualification
+  of scan 008 in the Chow sense, alb(hz) = 0): on E⁴ an explicit homologically trivial class has height −12d³ (JAC1964
+  H9-T17, confirmed and recomputed in its intake). (corrected 21 Nov 2026 after the intake of JAC1964 part 2, Claude Opus
+  5.5 at effort high)]
+- [Th. 4 (scan 002): proved for abelian varieties in every characteristic on the primitive part, under 032 Cor. 8.4
+  (JAC1964 JAC-T4.3, confirmed; it uses the margin of scan 008, "il faut tenir compte de la décomposition primitive");
+  false on the full factor (JAC-P03: on E³ the uncorrected correspondence is indefinite). (corrected 21 Nov 2026 after the
+  intake of JAC1964, Claude Opus 5.5 at effort high)]
 - Th. 6 "Lefschetz";
 - Th. 7 "Matsusaka": numerical equivalence = τ-equivalence.
 

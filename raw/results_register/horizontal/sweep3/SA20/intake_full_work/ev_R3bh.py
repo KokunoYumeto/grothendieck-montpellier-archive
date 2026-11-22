@@ -1,0 +1,3 @@
+ROWS = [
+ ("B.024", "targeted proof check (given B.019, B.021, B.022)", "read in full: R is local Noetherian one-dimensional with normalization V (units by finiteness of R/J, ideals generated modulo JhV); B = Int(R,V) is V-free on a greedy Newton basis; B/JB is the ring of locally constant D-valued functions, with delta(X) = (X^Q - X)/pi separating digits (v(delta(x) - delta(y)) = r - 1 because the cofactor is -1 modulo pi, checked) and indicators H^(Q^m); C = A/JB = colim R_0^(E_N) is free with C x D = B/JB, so the Milnor square R = V x_D R_0 and B.021 make A projective; JB c A checked directly; this extends Hexagon candidate B.022 to every finite-conductor subring of a DVR"),
+]

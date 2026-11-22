@@ -1,0 +1,3 @@
+ROWS = [
+ ("B.070", "targeted proof check (given B.063)", "read in full: the Newton identity F(r) = sum Delta^n F(0) binom(r,n) holds in S without cancelling integers (Stirling expansion in the torsion-free R), so Omega(R,S) = sum (R :_S n!)(X)_n; exact localization through the finite evaluation kernel; locally in residue characteristic p, (a)_p = p! binom(a,p) gives a^p - a in pA, so A/pA = F_p and n = pA; without p-torsion C is A or A[1/p] with the binomial basis; with p-torsion, reduction modulo P = n p^j A (PC = P) to the DVR A/P and B.063 give failure; the examples Int(Z) and Z + Q eps checked; correct"),
+]

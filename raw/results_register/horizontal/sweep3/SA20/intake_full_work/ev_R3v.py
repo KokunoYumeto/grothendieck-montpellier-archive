@@ -1,0 +1,3 @@
+ROWS = [
+ ("A.154", "targeted proof check (partial)", "confirmed for the part read: o-minimal uniform finiteness gives a standard bound N on monotonicity intervals, so the variation V_f(t) is a definable finite maximum with |V_f - V_g| <= 2N ||f - g|| and ||f(v) - f(u)|| <= V_f(v) - V_f(u); the coordinate-clock induction reparameterizes the i-th coordinate by A_b(t) = t + V_{f_b}(t) (strictly increasing, A_b(v) - A_b(u) >= v - u), producing parameter-preserving homeomorphisms Psi_i with Lipschitz bounds in processed coordinates; the remaining estimates and the PL step not read (part_spatial_lipschitz_factorization.tex)"),
+]

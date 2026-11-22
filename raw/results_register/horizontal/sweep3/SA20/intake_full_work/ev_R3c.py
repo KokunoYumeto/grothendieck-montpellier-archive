@@ -1,0 +1,4 @@
+ROWS = [
+ ("B.038", "targeted proof check", "confirmed in full: D(F(u_n)) = (DF)(u_n) + F'(u_n) with D(u_n) = 1 gives F'(0) in V; beta(F,G) = D(F'(0))G'(0) + V is R-balanced since D(r)F'(0)G'(0) in V; beta(cP x P - P x cP) = D(c)P'(0)^2 + V != 0 while the polynomial image is 0 (part_B.tex:2403-)"),
+ ("B.041", "targeted proof check", "confirmed in full: infinite residue field by invertible Vandermonde; nonprincipal maximal ideal: no least positive value, nodes 0,a,...,a^d with Vandermonde value d(d+1)(d+2)delta/6 (recomputed: sum of j delta plus sum of i delta over 1 <= i < j <= d) and Cramer give Int(V) = V[X]; principal case: Newton basis with base-q digit nodes, denominator value w_q(n)v(pi), numerator bound by common leading digits (valid in any rank), and L != V forces pi^{-1} in L; freeness and B.018 (part_B.tex:2647-2735)"),
+]

@@ -1,0 +1,3 @@
+ROWS = [
+ ("A.132", "targeted proof check (partial)", "read: the statement and the first part of the proof (the germ simplicial group G with restriction maps from Homeo(D^4;0) and Homeo(R^4;0), the continuous local extension operator from Edwards-Kirby 1971 Thm 5.1 (cited), and the horn-lifting set-up with uniform radii toward the Kan-fibration claim); the identification P_TOP(S^3) = Omega(TOP(4)/O(4)) was not read to the end; the stated values agree with my background knowledge (TOP(4)/O(4) -> TOP/O 5-connected by Freedman-Quinn, so pi_2 Omega(TOP(4)/O(4)) = pi_3(TOP/O) = Z/2), which I did not reopen; pi_2 P_PL(S^3) = 0 not checked"),
+]

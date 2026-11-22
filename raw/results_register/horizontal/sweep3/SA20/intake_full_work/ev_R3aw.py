@@ -1,0 +1,3 @@
+ROWS = [
+ ("D.010", "targeted proof check (main steps)", "read in full: Cl(A) = Cl(A[x, t^+-1]) for a normal noetherian domain (horizontal components removed over the UFD Frac(A)[x, t^+-1], vertical primes extended with multiplicity one), the explicit reflexivity check N[x, t^+-1] = N x_A R and faithfully flat descent of invertibility give (D.10.5); pi_* G_m = G_m + M_D and R^1 pi_* G_m = 0 on the big-cell charts give (D.10.1)-(D.10.2) by Leray; H^1_et(Y, Z) = 0 on normal connected Y, so H^1(S, M) = H^1(Gamma, M) is finite (killed by |Gamma|); p_* O = O by normality gives Pic(G') = Pic(T); the G sequence through vertical divisors (EGA IV 21.4.13, cited) and the geometric vanishing for simply connected derived groups; no gap found"),
+]

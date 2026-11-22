@@ -104,3 +104,36 @@ Readers already used for SA10/SA21 may be resumed with SendMessage for later str
   055 H036, 109 H02M-1, 163 H02M-2) got the "Sweep-3 results on these pages." paragraph after the Space marker (CRLF kept,
   bytes before the marker identical; --lint passes); backups in scratchpad sa04/wt_backups/.
   NEXT: SA01 merge when its three readers report (wait btll52hjr).
+- 19 Nov ~17:4x UTC: SA01 MERGED (sweep3/SA01: CHECK_EVENTS 79, CORRECTIONS 38, DEPENDS 29, DELIVERABLES 7 with translate_to).
+  CLUSTER DECISION (user's parsimonious-slots rule): SA01 gets no prompt of its own. Its 72/75 questions (P72-1, P75-1,
+  H72-2/3) and cote 81 (P-R4-4, H81-1) are folded into RESEARCH_SA04 (A.1 d-e, B.5; SA01 study + J71/J75/J81/K83 attached);
+  SA04's A.4 (cote 77 quadratic covers, lead L4) MOVED OUT to SA02's prompt (with cotes 83, 84: the quadratic-algebra
+  cluster); 93/92-134 (H93-3, H93-5; R1: 93/121-124 prove char-p rigidity of G_0 for the local model) to SA03's prompt
+  with SA04's P93-2 and H93-4. #18 rebuilt, relinked, repacked: PROMPT.md 38.9 KB + ZIP 3.17 MB, lints pass; ORDER line 18
+  updated. Backups: research_prompts/RESEARCH_SA04_body.md.before_SA01_fold_20261119, _files.py.before_SA01_fold_20261119.
+- Engel recheck DONE (s6 reviews/ENGEL_A31_A32_RECHECK_20261119.md + 5 events): holds; wording caveat (non-seminormal X(0)).
+- SA02 readers started 19 Nov ~17:5x UTC: R4 cote 84; R3 cotes 90, 91/2-18 (sweep3/SA02/READER_PROMPTS.md). Stage-A
+  dossiers: SA02_part2_final_20261119T1453Z, SA03_part3_final_20261119T1515Z (returns/). R1 on SA04 80-89 (step 2), then
+  SA03 (93/2-46, 135-220 + the SA04/SA01 cote-93 char-p questions); cote 91/19-143 to R3 after SA02.
+  SA02's prompt must carry: cote 84 packages + SA04's old A.4 (cote 77, L4 text in RESEARCH_SA04_body.md.before_SA01_fold)
+  + SA01's cote 83 (H83-1 composition = Bhargava?, the Azumaya criterion proof, H83-2 nets).
+- CLOCK CORRECTION (date -u at 16:52 UTC; file times via date -u -r): several entries above carry LOCAL times (CET = UTC+1)
+  labelled UTC. The true UTC times: SA04 final merge 15:46 (labelled ~16:2x); stage-A dossier relink ~16:0x (~16:3x);
+  main's side job (SA23 repack) 15:59 (~16:5x); Engel recheck 16:29 (~17:3x); SA01 merge and the #18 refold 16:31-16:32
+  (~17:4x); SA02 readers started ~16:40 (~17:5x). Cause: file times are local and I labelled them UTC unchecked.
+- 19 Nov ~16:55-17:05 UTC: SA02 MERGED (CHECK_EVENTS 32, CORRECTIONS 22, DEPENDS 9, DELIVERABLES 3 + translate_to).
+  RESEARCH_SA02 built (pro_prompt_builds/RESEARCH_SA02; A.1 main = the generalized Arf-Stiefel-Whitney invariants of
+  84/43; A.2 classification incl. cote 77 (old SA04 A.4 + L4); A.3 contracted product + cote 83 Azumaya; A.4 chi-signs;
+  A.5 three quadratic algebras), both lints pass; linked + packed: TO_SEND/.../21_SA02_Quadratic_covers_cotes_77_83_84_night
+  (PROMPT.md 25.0 KB + ZIP 1.2 MB, packed lint passes); ORDER line 21 (renumbered by main). Cotes 90/91-2-18 results put into the WT
+  prompts 010 H01J, 118 H01K, 064 H01L-2, 172 H01L-1 (CRLF kept, --lint passes; backups in scratchpad sa04/wt_backups).
+- SA03 readers started ~17:0x UTC: R3 cote 91/19-143; R4 cote 93/2-46 + 135-220 (sweep3/SA03/READER_PROMPTS.md). R1 still on
+  SA04 80-89 (step 2). NEXT: SA03 merge; SA03 prompt = the cote-93 characteristic-p cluster (93/2-46, 72-91, 92-134,
+  135-220, 221-236: P93-2, H93-4, H93-3, H93-5 + R4's packages); cote 91/19-143 results into WT prompts H028, H02A, H02B,
+  H02D (and H026 for 93/135-207); then the SA04 re-merge for R1's 80-89 and a repack of #18 if unsent.
+- 19 Nov ~17:15 UTC (main): 19 was taken (19_SA14_SA19); main renamed my folder to TO_SEND/PRO/1_Archive_research_by_topic/21_SA02_Quadratic_covers_cotes_77_83_84_night and its ORDER line to 21 (files unchanged, hard links hold). SA03 takes the next free number from ORDER.md (22 at present): read ORDER.md and the folder list before linking. Allowance in main's message: Sub-agents allowed: 0 (resumes only).
+- 19 Nov ~17:20 UTC: R3 finished cote 91/19-143 (13 events, 10 corrections; packages P91-2 = WT H028 territory,
+  P91-3 schematic sets 91/81-122 and H91-2 the loop group 91/131-143 = NOT in WT prompts -> SA03 prompt Part B).
+  Its 91/19-80 results put into the unsent WT prompts 015 H028, 123 H02A, 177 H02B, 150 H02D (CRLF kept, --lint passes;
+  backups in scratchpad sa04/wt_backups). SENT_PRO.tsv lists none of the WT prompts I edited (checked).
+  Waiting: R4 (93/2-46, 135-220), R1 (SA04 80-89 full).

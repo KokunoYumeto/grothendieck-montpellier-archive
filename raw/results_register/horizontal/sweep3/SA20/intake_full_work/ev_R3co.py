@@ -1,0 +1,4 @@
+ROWS = [
+ ("A.162", "statement read only", "statement and the list of inputs read in round 3 (the joint-germ simplicial group G_iota, the fibre model q: Sing H -> G_iota with fibre P_TOP(RP^3), Boyle-Chen-Conway 2025 Thm 2.3 and Kwasik-Schultz 1989 as the equivariant inputs, Edwards-Kirby for parameter control); no step of the proof checked"),
+ ("A.163", "targeted proof check (partial)", "read: the set-up and the relative mapping-cylinder lemma's first step; checked: for V = B x I^r, H^3(V, dV; Z/2) = H^(3-r)(B; Z/2) by Kunneth suspension, the boundary compression c_s F c_s^-1 extended by the identity is isotopic to F rel boundary and carries a relative homotopy to the identity onto a common collar; the claimed kernel H^1(B; Z/2) in (A.163.2) is consistent with the fibre Map(B, K(Z/2,1)) of A.135; the surgery-assembly argument (A_7, A_8 injective, Wh(pi) = 0) not read"),
+]
