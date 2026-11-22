@@ -1,0 +1,29 @@
+# Root post-build20 proof and source-scope checks
+
+Date: 19 November 2026, 15:23–15:31 UTC. Reviewer: GPT-6 Astra (OpenAI, ChatGPT Pro mode), root. These are targeted proof checks of existing statements, not new status changes or a claim of independently reproving every external theorem.
+
+## Cap-radius image and limits
+
+Read the complete current `sections/part_a2b_secondary.tex` and the relevant proof in `sections/part_a2_limits.tex`, including the expanded regularity argument. The regularity statement explicitly concerns metrics on trivialized moving pieces; it does not claim real-analytic dependence of the entire piecewise metric at a fixed point traversed by a seam. The common conformal structure across the collar and the compactifying coordinate in the far end are both preserved by the specified interpolation. The moving-seam first variation, rather than an unavailable second derivative across the seam, is the input to the energy identity.
+
+Checked the positive-energy formula and its bilinear symmetry, the uniform small-boundary collar bound, and the recession argument in directions with zero coordinates. The latter correctly uses the upper coordinate bounds and the support-supremum formula to compare `p` with `p + epsilon*1`; it does not assume all weights remain positive. In the minimization proof, bounded sublevels follow by taking a limiting nonnegative escape direction. The affine supporting function prevents a minus-infinity boundary value, and the uniformly negative derivative along the inward diagonal excludes every finite boundary minimum. Thus the range proof does not silently restrict to a compact suborthant.
+
+In the cap-limit proof, the uniform weighted deficit first bounds the positive-weight logarithmic radii below. It then identifies every subsequential limiting disc system by equality in the opened weighted reduced-modulus theorem. The zero-weight conclusion follows from disjointness and the empty interior of the Strebel critical graph, rather than an unsupported assertion that every boundary length grows at the same rate. The last identification is of radius vectors and their canonical representatives; arbitrary noncanonical discs are not falsely identified with those representatives.
+
+Outcome: no new gap or correction found. Existing IDs `A2b-regularity`, `A2b-energy`, `A2b-recession`, `A2b-image`, `A2-strebel-deficit`, `A2-cap-limit`. The external infinite-grafting, Beltrami-parameter and weighted reduced-modulus inputs remain explicitly cited known results; this check is of their use and the complete intervening deductions.
+
+## Arbitrary module-functor exponentials
+
+Read the full statements and proofs `C-functor-criterion`, `C-functor-counter`, and `C-qcoh` in `sections/part_c.tex`. For the ordinary exponential, evaluation at scalar one followed by the finite logarithm gives injectivity, while scalar-linearity of the logarithm identifies a natural action with a single endomorphism. The uniform nilpotence bound is explicitly required. For the formal exponential, the extension of the logarithm gives existence; the kernel consists exactly of endomorphisms killed by every nilpotent scalar after every base change, so its fibres are the asserted translates. The two different notions of nilpotence are not conflated.
+
+The non-quasicoherent examples are well typed: `R_red` has the quotient `R`-module structure; `R + Omega_(R/Q)` has an `R`-linear action for each fixed scalar. The differential of that scalar is natural under algebra homomorphisms but need not be scalar-linear as a function of the acting parameter. The dual-number example therefore refutes formal surjectivity without contradicting the group law. In the quasicoherent case, coefficient comparison in the universal polynomial/truncated-polynomial algebras gives the divided-power identities over an arbitrary commutative Q-algebra, without a noetherian or finite-generation assumption. The non-finitely-generated diagonal module example correctly separates sufficiency of finite generation from necessity.
+
+Outcome: no new gap or correction found; no finite program rerun.
+
+## Historical JSTOR page and recent source queries
+
+Rechecked the saved historical Lieberman access note and the relevant HTML indicators. The page explicitly says that the preview is unavailable and access requires registration or purchase. Placeholder thumbnail/internal references were not used to request content. The already observed first-page route therefore remains closed; there is no newly advertised unrestricted mathematical preview in this saved page.
+
+Fresh root web queries checked the German Pfluger title/collected-paper wording and Fujiwara's Japanese author/title and doctoral metadata. They returned later citations, the different 1994 doctorate, the known 1995 DOI, and author profiles, without a new target original. The public paper *Stabilität konformer Verheftung* was passed to A567 as a possible provenance lead, not relabelled as the 1960 article. Root initially misidentified its authors as Pfluger–Kühnau from the search context; A567's actual original-title-page reading corrected this to **Alfred Huber and Reiner Kühnau**, Commentarii Mathematici Helvetici 69 (1994), 311–321. Its p.321 reference [11] gives the target Pfluger citation, but no copy locator. No mathematical claim in the manuscript relied on the mistaken attribution. The Fujiwara doctorate's previously recorded restriction and different title were confirmed from existing notes; its content was not requested. No source-reading requirement was closed by these metadata searches.
+
+The accompanying query register records exact searches and reference identifiers. No runtime is invented for ad hoc local text reads or unmeasured web operations. These checks do not count as progress movement under the user's review rule.

@@ -1,0 +1,3 @@
+// Exact two web-command bodies executed sequentially in this session; not rerun by saving this file.
+const first = await tools.mcp__codex_apps__search_service_web_run({system2_search_query:[{q:'site:scholar.archive.org "Numerical and Homological Equivalence" Lieberman'},{q:'site:scholar.archive.org "Theory of tubular neighborhood" Fujiwara'}],response_length:"long"});
+const second = await tools.mcp__codex_apps__search_service_web_run({system1_search_query:[{q:'site:scholar.archive.org "2373533"'},{q:'site:scholar.archive.org "S0012-7094-95-08002-8"'}],open:[{ref_id:"https://scholar.archive.org/"}],response_length:"long"});

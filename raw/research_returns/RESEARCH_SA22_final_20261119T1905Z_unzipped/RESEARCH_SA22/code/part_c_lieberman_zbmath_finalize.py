@@ -1,0 +1,10 @@
+"""Hash the three retained raw tool responses; no new source request."""
+import datetime,hashlib,json,pathlib,time
+ROOT=pathlib.Path(__file__).resolve().parents[1]
+START=datetime.datetime.now(datetime.timezone.utc).isoformat();T=time.perf_counter()
+p=ROOT/'code/part_c_lieberman_zbmath_web_output.json';d=json.loads(p.read_text())
+for r in d['calls']:
+ b=pathlib.Path(r['raw_cache_path']).read_bytes();r['raw_cache_bytes']=len(b);r['raw_cache_sha256']=hashlib.sha256(b).hexdigest()
+p.write_text(json.dumps(d,ensure_ascii=False,indent=2)+'\n')
+out={'started_utc':START,'runtime_seconds':time.perf_counter()-T,'raw_web_records_hashed':len(d['calls']),'compact_metadata_path':str(p.relative_to(ROOT)),'compact_metadata_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'network_requests':0,'mathematical_checks':0,'theorem_or_source_status_changes':0}
+(ROOT/'code/part_c_lieberman_zbmath_finalize_output.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps(out,indent=2))

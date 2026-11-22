@@ -1,0 +1,30 @@
+"""Record the actual root checks of inherited claims, preserving their input IDs."""
+from pathlib import Path
+import csv,json,time
+start=time.perf_counter()
+root=Path(__file__).resolve().parents[1]
+who='GPT-6 Astra (OpenAI, ChatGPT Pro mode; root run; effort not separately exposed)'
+rows=[
+('A1-dimensions','independent re-proof','Fenchel--Nielsen count with moving boundary points; stable-graph Euler identity and orientation/peripheral marking counterexample rechecked. Original Bers1981 sections2(F),3(F),4(E) and Mondello2011 conventions inspected.'),
+('A3-boundary-chart','independent re-proof','Real leading coefficient a z^m in the upper half-plane forces a sin(m theta)>=0 for every 0<theta<pi, hence m=1,a>0; full proof in paper.'),
+('SA22-6 (67/055-056, Théorème 1)','used and rechecked in this run','Preserves attached CHECK_EVENTS.tsv line2. Reproved as A3-boundary-chart, including nonconstancy and correct half-plane orientation.'),
+('SA22-6 (67/072, NB 1)','used and rechecked in this run','Preserves attached CHECK_EVENTS.tsv line3. Disc automorphisms identify ordered boundary triples uniquely; used in A3-slit. The interior-tip and boundary-root normalization is separately typed.'),
+('SA22-6 (67/061, Lemme 3 c)','independent re-proof','Preserves attached CHECK_EVENTS.tsv line4. A3-rectifiable supplies a complete grid/Morera proof for continuous functions and locally finite unions of rectifiable arcs.'),
+('SA22-6 (67/059-060, 072-073: Th. 4, Lemme 4 B, Scholie)',"refuted, with the refined statement's id",'Preserves attached CHECK_EVENTS.tsv line5. A3-welding, A3-graph and A3-slit give quasisymmetry as a sufficient condition, removable uniqueness, vertex compatibility, and the corrected boundary-tip normalization. Quasisymmetry is not necessary in all weldings.'),
+('SA22-7 (67/077, dimensions)','used and rechecked in this run','Preserves attached CHECK_EVENTS.tsv line6. Fenchel-Nielsen count 2(3g-3+n)+n=6g-6+3n; fixed stable graph: sum_v(3g_v-3+n_v)+|E|=3g-3+n. Dimensions do not imply a global isomorphism.'),
+('SA22-3 (67/016, dimension of TB)','used and rechecked in this run','Preserves attached CHECK_EVENTS.tsv line34. Same Fenchel-Nielsen count, with freely moving boundary points and labelled boundary circles; length coordinates in A4-grafting give the extra n real parameters.'),
+('SA22-3 (67/016, \'a homotopy equivalence\')','used and rechecked in this run','Preserves attached CHECK_EVENTS.tsv line35. The free-group automorphism a->ab,b->b has inverse a->ab^-1,b->b and sends (ab)^-1 to (ab^2)^-1, with nonperipheral abelianization -(1,2). Markings throughout preserve orientation and peripheral classes; input credits Michel Hua\'s project.'),
+('SA22-3 (67/019, the cells Q_i)','used and rechecked in this run','Preserves attached CHECK_EVENTS.tsv line36. The symmetric spherical lune Q0={|z|<=1,Re z<=1/2} is used in A4-orange-extremal and rederived as the equal-weight Strebel cap in A2-explicit-limits; critical-arc equations and radius 4/(3sqrt3) independently checked.'),
+('SA22-3 (67/019-020, the orange-slice model)','independent re-proof','Preserves attached CHECK_EVENTS.tsv line37 and its credit to Michel Hua\'s project. Rechecked every annulus inclusion, extremal-length inequality, and the exact rational bound in A4-orange-extremal; five exact arithmetic checks in part_a_certificates.py.'),
+('SA22-3 (67/019, radii bounded; January Conjecture 068-069)','independent re-proof','Preserves attached CHECK_EVENTS.tsv line38. A1-cap-bound reproves the quarter-theorem estimate. A2b-image gives exact coupled support inequalities; A2-nonbox refutes the stronger rectangular-bound expectation. The letter\'s boundedness revision is consistent only as a bound, not as a full image description.'),
+('L2',"refuted, with the refined statement's id",'Prompt line122. A1-global-refutation gives q=17 versus16 already on labelled nodal0,4. Correct exact image, tangent and fundamental-group maps are proved in A1-graph-range; local plumbing comparisons do not invert the unrestricted map.'),
+('L3','used and rechecked in this run','Prompt line123. A2-cusp-norm derives rotation-invariant tangent norms from q=exp(2pi i zeta). A4-grafting proves the bundle by boundary lengths. Unrestricted horocycles are interpreted in the cusp cover, with immersed images allowed.'),
+('L4',"refuted, with the refined statement's id",'Prompt line124. The unconditional one-length wording needs a fixed compactification and a relative-growth direction. A2-cap-limit gives all directions; A2-explicit-limits gives the single-dominant Koebe slit, equal-weight orange caps and two-equal/one-zero half-planes. A2-nonbox and A2-independence settle the other clauses.'),
+('L5','used and rechecked in this run','Prompt line125. A3-L5 proves the smooth-diffeomorphism/isometric-seam reading. It does not assert that arbitrary smooth embedded cuts inherit compatible toric actions; A1-nontoric-cut gives a complete analytic counterexample.'),
+('A2-collar-explicit','targeted proof check','Independently checked the full cutoff supersolution, exact graph-curvature formula, outward-normal error, n=10000 and epsilon=10^-14 inequalities, and maximum-principle direction. Negative value <=-(9991/20)10^-14; area forces a positive value elsewhere.'),
+('A1-Earle-Sipe-comparison','targeted proof check','Opened original published Earle-Sipe1991 and checked coordinate equations in Sections2,6. The normalized boundary equation uv=e^(i theta) gives zw=t and the tensor t partial_z tensor partial_w. Not a substitution for the unverified joint Earle-Marden chapter.'),
+]
+with (root/'checks/root_input_events.tsv').open('w',newline='') as f:
+ w=csv.writer(f,delimiter='\t');w.writerow(['statement_id','date','who','type','outcome'])
+ for ident,kind,outcome in rows:w.writerow([ident,'2026-11-19',who,kind,outcome])
+print(json.dumps({'events':len(rows),'scope':'actual root checks of run and inherited statements; input IDs preserved','seconds':time.perf_counter()-start},indent=2))

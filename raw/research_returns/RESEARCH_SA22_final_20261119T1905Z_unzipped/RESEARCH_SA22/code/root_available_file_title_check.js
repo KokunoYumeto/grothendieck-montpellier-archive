@@ -1,0 +1,2 @@
+// Actual three-title request, executed once; saved for provenance, not rerun.
+await tools.mcp__codex_apps__library_search({search_query:[{q:'"Numerical and Homological Equivalence of Algebraic Cycles on Hodge Manifolds"',search_title_only:true},{q:'"Theory of tubular neighborhood in etale topology"',search_title_only:true},{q:'"Ueber die Konstruktion Riemannscher Flächen durch Verheftung"',search_title_only:true}],top_k:6,result_format:"metadata_only"});

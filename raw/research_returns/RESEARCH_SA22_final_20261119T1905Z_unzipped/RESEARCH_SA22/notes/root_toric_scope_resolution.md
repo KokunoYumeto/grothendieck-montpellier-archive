@@ -1,0 +1,15 @@
+# Unequal-toric definition gap: resolution
+
+Root read the full new proof and the independent Part B audit, then checked the integrated build22. Toric compatibility identifies normalized angular coordinates; it does not equate paired canonical hyperbolic lengths. The previously overbroad scope sentence in `sections/part_a1_cut_choice.tex` now explicitly requires equal lengths before invoking the geodesic theorem.
+
+For independent halfedge squared lengths, the full cap-logarithm map is the proved gradient diffeomorphism F onto D_Y. The projection P_* sums the two logs at each node. Its image is exactly the previously proved support region: component support inequalities give one inclusion, and the equal-length inverse gives the other. Its fibers in cap logs are nonempty open convex affine sections of dimension |E|.
+
+The stronger global real-analytic parameterization by d_e=s_+-s_- was checked separately. For each prescribed d the shifted positive-orthant potential has positive Hessian and unchanged recession slopes. Strict support inequalities exclude unbounded minimizing sequences; an affine lower bound and lower-semicontinuous closure give a minimum; the uniform negative divergence of a vanishing cap's log excludes every finite boundary minimum. The unique interior critical point depends analytically on (y,d), including d=0. Tensor phases determine the seam identifications. Finite automorphisms act by signed edge permutations, so only the marked fiber, not every coarse quotient fiber, is asserted to be a vector space.
+
+The proof uses **all seams geodesic** for its converse identifying d=0. It does not infer inherited canonical metrics from a single geodesic among nongeodesic cuts. Root checked the added dimension calculation, the empty active-set case and the restriction of the universal R^E-fiber statement to tensors plus external shadows. Full external discs require the stated exact matching condition.
+
+The analytic counterexample is completely specified by radius pairs (1,1) and (2,1/2) on two labelled two-cusp pants, with phase1. Both give q=1; their cut-component lengths distinguish the cut objects. It does not assert distinct underlying uncut surfaces. It is not a finite enumeration and no finite mathematical program was run for it.
+
+Root also actually viewed original physical scans67/079-082. These record the nongeodesic qualification, polar-rescaling discussion and the proposed fundamental-group/tangent tests. On these four images the printed archive footers are78-81 and the lower-left handwritten numbers are81-84; locators in this work consistently use the physical PDF scan number. No blanket interpretation of every folio number is inferred from this four-page observation.
+
+Literature-check scope is separately recorded by `code/root_toric_literature_search.json` and `code/root_toric_literature_verify.json`: three preliminary and two verifying queries. They did not identify this exact global fiber statement, and establish no priority or exhaustive absence claim. All proof dependencies are the opened results already used for A1/A2.
