@@ -5,6 +5,14 @@ Where these come from: the 6,439 places where earlier second passes of this arch
 facsimile against witness H. Two thirds of those changes (3,211 of the 5,032 that changed the text) were at places
 witness C had not marked as doubtful: look for these kinds everywhere, not only at its doubt marks. The counts say where
 the errors were; they never decide a reading. The ink decides.
+
+**Where the errors are densest (23 Nov refresh, 1,218 second-passed pages, 17,827 reading corrections).** Formula-dense
+pages and pages with diagrams in his late hand (cotes 141-152 and 156) carry about 13 reading corrections per 100
+words and 15-16 a page; prose pages and typescripts carry 2-4 per 100 words and about 5 a page. Give the dense pages
+the most crops. Even on them, two corrections in three are in the words between the formulas and in the struck,
+inserted and margin text, not inside the formulas: read those words as closely as the formulas. And read every line
+of every manuscript page against the scan, not only the boxes: about one correction in five lies where witnesses C
+and H agree and C has no doubt mark.
 The one-line refinements that name runs (SP72-SP83, SP114-SP117) come from those runs' own feedback of 20-21 Nov.
 
 **Where the first readings were changed most often** (559 pages read twice, token by token; tokens changed per 100,
@@ -44,6 +52,11 @@ settled (56 in 100); the alternative or another reading in the rest. **A doubt m
 the changes log gives the crop's box and the stroke that decides. A doubt mark inside struck text stays unless every
 letter is plain on the crop. A doubt mark in a formula is decided with the whole formula: the signs next to a doubtful
 sign were wrong twice as often as the others.
+In every \unsure{a|b} you keep, the first alternative is the one the text uses: put first the reading the ink and the
+sentence favour, never a misspelling or a non-word when a real word fits the strokes (40 kept marks after earlier
+passes had it the wrong way round: analognous|analoguous, invarient|invariant, plui|plus). Check the order of every
+doubt mark you keep before you freeze the page. When a crop settles a doubt, remove the mark in the page itself, not
+only in the log.
 
 **Where witness C was wrong, most often first (places on those 470 pages):**
 
@@ -64,13 +77,19 @@ sign were wrong twice as often as the others.
    - Letters his hand forms alike are a different case from such slips. Where his p looks like an n, or his ζ like a
      ξ, the ink alone does not decide: his notation on these pages and the mathematics decide which letter it is, and
      the habit goes into the hand log (last section). A slip is a clear letter that is wrong, and it stays.
+   - A symbol that names one object is read the same way throughout the page and the cote (ξ and ζ for one object on
+     16/53, [K_0:K] for [K_0:Q] on 15/142 survived a pass): check it against the notation table, and crop every
+     instance that differs.
+   - A curly capital: decide script (\mathscr) or calligraphic (\mathcal) from his clearest instance on these pages,
+     enter it in the notation table, and hold it; the two were swapped in both directions.
 2. **Words (1,032).**
    - His coined terms read as familiar words of the same outline (« préfigure » as « polygone », « strates » as
      « structures »): where a strange word recurs, check it where he defines it.
    - His own spellings, his English words and his accents stay as written: the earlier readings normalised 4 of the 6
      places checked (« because » given as « avec », « systématiques » as « systématique »).
    - Endings (a final s, de and des, le and les): the grammar does not decide them; he breaks agreement himself (2 of
-     the 6 endings checked by eye).
+     the 6 endings checked by eye). Read an ending on a crop of the word; when H's ending differs
+     from C's, crop it even if the rest of the word agrees.
    - A terminal pen return is not a letter: compare the ending with an ending of the same page (SP83).
 3. **Omissions (1,009).**
    - A one-word insertion (la, le, de, un, et, des, ne, même) is small and easily misread: words in an insertion were
@@ -82,7 +101,9 @@ sign were wrong twice as often as the others.
    - A curved leader that carries an insertion to its place is not a parenthesis, a strike or a comma: trace its path
      first, and record the attachment apart from the words (SP74, SP75, SP78, SP83).
 4. **Drawings and diagrams (886).** What looks like a drawing may be a crossing-out, a hatched formula, a matrix or a
-   diagram to set (17 such cases checked by eye). In a real figure, count the sides, points and strokes twice.
+   diagram to set (17 such cases checked by eye). In a real figure, count the sides, points and strokes twice. A label's side of its arrow (above or
+   below, left or right) and which arrow it labels are part of the reading: earlier passes put labels on the wrong
+   side.
    Running text is never drawn: a word, letter or sign of the text is transcribed, with `\unsure` where in doubt, never
    set as a picture (on the calibration pages of 21 Nov the three-reader passes drew inserted words, struck letters
    and typed overstrikes as TikZ, and the reading was lost). A real figure keeps its open and filled points, pen gaps,
@@ -92,7 +113,8 @@ sign were wrong twice as often as the others.
    leaf) separately from what it says.
 7. **Struck text (417).** Three separate questions: which words are struck, whether the line is a strike at all, and
    which words replace them. A struck word given as live, or a live one given as struck, is witness C's commonest silent
-   error.
+   error. Mark \deleted only where a stroke crosses that word on a tight crop; a stroke of the line above or
+   below, or an underline, is not a cancellation (« entre 14 orbites » was marked struck with no stroke on it).
    A descender from the line above, or a leader or a drawing that crosses a word, is not a strike: follow the stroke
    to its letter (SP75, SP82, SP83).
 8. **Abbreviations expanded, spelling modernised (389).** His short forms stay in the text: tt, ess., t.f., il f. et il
@@ -102,7 +124,9 @@ sign were wrong twice as often as the others.
 9. **Text that is not on the page (128).** A word the sentence needs is either an insertion that was missed or not on
    the page. If it is not on the page, it is not transcribed, not even as a doubtful reading; it goes in the notes.
    Nothing is completed: an unbalanced parenthesis, a word cut at the paper's edge, a label missing from a sequence
-   stay as they are (SP78, SP79, SP82). Two witnesses agreeing on a word the sentence wants is no evidence: in SP78
+   stay as they are (SP78, SP79, SP82). But a reading that starts or ends mid-word, or a bracket without its partner, at the edge of a
+   crop means the crop cut the phrase: widen the crop to the whole phrase and read again (« tion avec coh-mologie
+   cristall]ine » on 66/2). Two witnesses agreeing on a word the sentence wants is no evidence: in SP78
    both added « en » where only « une » is written, in SP83 both dropped a detached accent.
 10. **Other (292).**
 
@@ -127,6 +151,8 @@ sheet first (SP82, SP83). Thin foliation numbers in another hand are not his num
   Read letter by letter the words you recognise at once: a typed word may be misspelt, and it stays misspelt.
 - **What the machine cannot type:** a doubled capital typed for a double-struck letter, or an x for ×. Enter the keyed
   form once in the notation table, and do not doubt it at each place.
+- **A double-struck letter inside a French word** (po$\mathbb{l}$arisations, m$\mathbb{i}$xtes) is an artefact of the
+  first reading: read it as the plain letter.
 
 **Small things that were changed often.**
 - **Accents:** an accent is one short stroke whose slant need not tell acute from grave. Where a stroke is there, write
@@ -158,6 +184,9 @@ can be absent.
   line in the doubts file and needs no crop. Resolving a doubt mark is a reading, and it needs its crop (above).
 - **Crops.** One crop for each place the halves leave open and for each place that always gets one (method, step 2c);
   no second crop of a decided place outside the second reading (method, step 7); no TeX compilation.
+- **A crop that decides** is at most 40 % of the scan's width, cut from the full-resolution scan and enlarged, never
+  shrunk; a strip of a whole line is a page view and decides nothing (on earlier returns 36 % of the decisions had
+  no such crop, and they are read again). Record each crop's box in scan pixels.
 
 **The hand log: learn his hand as you read.** Keep `{S}_hand_log.md` from the first page. Enter every habit of his
 hand or his notation that can mislead a reader: a letter he forms like another (a p like an n, a u like an n, a ζ like a
