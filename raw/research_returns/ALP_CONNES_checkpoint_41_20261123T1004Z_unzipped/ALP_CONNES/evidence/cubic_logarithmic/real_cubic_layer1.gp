@@ -1,0 +1,15 @@
+default(parisize,500000000);
+default(realprecision,100);
+p=polcompositum(y^3-269,y^3-3*y+1)[1];
+p=polredbest(p);
+print("polynomial=",p);
+b=bnfinit(p,1);
+print("degree=",poldegree(b.pol));
+print("signature=",b.nf.sign);
+print("discriminant=",b.disc);
+print("ordinary_class=",b.cyc);
+print("logarithmic3_preliminary=",bnflog(b,3));
+writebin("ALP_CONNES/evidence/cubic_logarithmic/real_cubic_layer1_preliminary.bin",b);
+print("full_bnf_certification=",bnfcertify(b));
+print("logarithmic3_certified=",bnflog(b,3));
+quit

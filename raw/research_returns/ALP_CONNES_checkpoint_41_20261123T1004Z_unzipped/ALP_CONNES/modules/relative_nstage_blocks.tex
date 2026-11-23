@@ -1,0 +1,497 @@
+\section{The actual NStage blocks and a relative-adjoint reduction}
+\label{sec:relative-nstage-blocks}
+
+The exact theta transport of AC-G42 preserves a packet and its
+transported lattice.  The coefficient needed for the cubic problem
+is instead relative to two packets.  The following statements locate
+that distinction inside the supplied source and give the integral
+coefficient comparison that a new relative theorem would have to use.
+They do not reverse any congruence-index inequality.
+
+\begin{proposition}[AC-G44: literal blocks, local conditions, and cancellation]
+\label{AC-G44}
+Fix a source datum at a coefficient prime $\ell$, and write
+$\mathcal O$ for its complete coefficient DVR, $L$ for its fraction
+field, $D=L/\mathcal O$, $F$ for its host field, and
+$\varepsilon$ for the $\ell$-adic cyclotomic character.
+The source semisimple decomposition at its selected point is
+\[
+ r_\pi\simeq\rho_\pi\oplus\bigoplus_{c=1}^{t}a_c,
+ \qquad a_c=a_1\varepsilon^{-(c-1)}.                 \tag{G44.1}
+\]
+Its good-block and scalar-ratio coefficients are respectively
+\[
+ W=\rho_\pi a_1^{-1},\qquad
+ W^\vee\varepsilon,\qquad a_ca_1^{-1}
+                   =\varepsilon^{-(c-1)}.          \tag{G44.2}
+\]
+More precisely, the source quantity \texttt{sPi} is the length
+of the Selmer group of $D\otimes_{\mathcal O}W$ having its stated
+Bloch--Kato local condition at $\ell$, no condition at $S\cup Q$,
+and the unramified condition elsewhere.  Its separately supplied
+\texttt{shaLen} is the strict Tate group: unramified outside
+$\ell$ and locally zero at every prime above $\ell$.
+These are different definitions.
+
+Simultaneously replacing $r_\pi,\rho_\pi,a_c$ by
+$\nu r_\pi,\nu\rho_\pi,\nu a_c$, for any integral unit-valued
+character $\nu$, leaves every coefficient in (G44.2) and
+$r_\pi a_1^{-1}$ exactly unchanged.  The corresponding local
+cohomology groups and specified local subgroups are unchanged
+when the same period data are used.
+
+Even if the displayed formula for $a_c$ in (G44.1) were removed,
+the additional source hypotheses
+\texttt{SemisimpleDecomposition}, \texttt{admG4}, and
+\texttt{TameGeneratorConditions} force every $a_c/a_1$ to be
+unramified at every finite prime not above $\ell$.
+Consequently, over any host unramified at $269$ and containing
+$\mathbb Q(\omega)$, the coefficient
+$\chi_{269}\varepsilon^{-e}$ cannot replace such a scalar ratio
+at $\ell\ne269$ while retaining those hypotheses.
+No assertion about the coefficient prime $269$ is made by this
+inertia argument.
+
+Finally, assume the residual good-block spanning condition in
+\texttt{admG3}.  For every integral rank-one character $\eta$,
+\[
+ \operatorname{Hom}_{\mathcal O[G_F]}
+       (D(\eta),D\otimes W)=0,
+ \qquad
+ \operatorname{Hom}_{\mathcal O[G_F]}
+       (D\otimes W,D(\eta))=0.                       \tag{G44.3}
+\]
+Thus a coefficient inclusion or quotient of the actual good
+block does not supply the scalar cubic group.  This statement
+does not assert that arbitrary abstract maps between the resulting
+cohomology groups must vanish.
+\end{proposition}
+\begin{proof}
+\proofstep{1. Reading the precise coefficient and local definitions.}
+All source locators in this section use the previously pinned
+commit \texttt{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}.
+In \path{Formalism/SharpRestriction/LevelLetterCocycles/DataN.lean},
+\texttt{NData.chi\_def}, lines 126--128, is exactly the formula
+for $a_c$ in (G44.1).  The same directory's
+\path{DecompositionData.lean},
+\texttt{SemisimpleDecomposition}, lines 267--271, is the
+representation decomposition in that equation.
+In \path{QuotientHomNonvanishingBound.lean},
+\texttt{Glob.Wp} and \texttt{Glob.T2}, lines 45--51,
+and their matrix versions \texttt{WpO}, \texttt{T2O},
+\texttt{rTwO}, \texttt{rDuO}, \texttt{chiRatO},
+lines 271--284, give precisely (G44.2).
+
+The same file defines \texttt{selG} in lines 786--789 and
+\texttt{Br.selPi}, \texttt{Br.sPi}, \texttt{Br.sFin} in
+lines 857--864.  Its \texttt{LlG}, lines 779--784, supplies
+the local Bloch--Kato condition at $\ell$.
+The complete case distinction is
+\path{Formalism/GaloisCohomology/Statement.lean},
+\texttt{SelAll} and \texttt{bkCond}, lines 158--168:
+at $\ell$ use the supplied local submodule, away from $\ell$
+use the whole local $H^1$ on $S\cup Q$, and otherwise use
+\texttt{unrAt}.
+In that file, \texttt{LData.hS}, lines 52--64,
+\texttt{qzTw}, lines 67--69, and \texttt{Sha},
+\texttt{shaLen}, lines 75--78, instead define the strict
+Tate group on the Galois group unramified outside $\ell$.
+The length identification with the row datum is the separate
+field \texttt{NData.sha\_eq}, lines 66--68 of \texttt{DataN.lean}.
+In particular, the notation \texttt{sPi} does not identify the
+source good-block Selmer group with that strict group.
+
+Cancellation under simultaneous twisting is an equality of
+integral matrices:
+$(\nu\rho)(\nu a_1)^{-1}=\rho a_1^{-1}$ and
+$(\nu a_c)(\nu a_1)^{-1}=a_ca_1^{-1}$.
+Taking a dual and then tensoring with $\varepsilon$ preserves
+the equality.  Thus this calculation does not require a
+rational projector, a change of lattice, or a claim about
+invariance of Bloch--Kato conditions under an arbitrary twist:
+the representations to which those conditions are applied are
+literally equal.
+
+\proofstep{2. The independent inertia obstruction.}
+Let $v\nmid\ell$.  If $v\in S\cup Q$, the second clause of
+\texttt{TameGeneratorConditions},
+\texttt{DecompositionData.lean}, lines 224--230, says
+$a_c(g)=a_1(g)$ for every $g\in I_v$ and every $1\le c\le t$.
+Their ratio is therefore trivial on $I_v$.
+If $v\notin S\cup Q$, \texttt{admG4}, lines 198--201,
+says that $r_\pi(g)=1$ for $g\in I_v$.
+The direct-sum decomposition forces every scalar constituent,
+including $a_c$ and $a_1$, to be one on that inertia group.
+This proves the assertion at every $v\nmid\ell$.
+
+For the stated cubic host, the valuation of $269$ at every prime
+above $269$ is one.  The polynomial $X^3-269$ is Eisenstein at
+that prime.  Since the host contains $\mu_3$ and the residue
+characteristic is not three, the local Kummer extension is
+cyclic, totally tamely ramified, and of degree three.
+Consequently $\chi_{269}|_{I_v}$ is nontrivial.
+For $\ell\ne269$, the cyclotomic character is unramified at $v$:
+roots of unity of order prime to the residue characteristic
+belong to the maximal unramified extension, by the simple-root
+lifting of their residue roots.  Thus
+$\chi_{269}\varepsilon^{-e}|_{I_v}$ is still nontrivial.
+This contradicts the preceding consequence of the source
+hypotheses, independently of \texttt{chi\_def}.
+
+\proofstep{3. The actual good rank and all torsion coefficient maps.}
+The source \path{Formalism/LocalRingCardinality/Params.lean}
+defines $r=k+m-1$, with even $k,m$, $m\ge2$, and
+$k\ge m+3$.  Hence $k\ge6$ and $r\ge7$.
+The final clause of \texttt{admG3},
+\texttt{DecompositionData.lean}, lines 191--196, says that
+the residual matrices of $\rho_\pi$ span the full matrix
+algebra.  After any extension of the residue field they still
+span the full matrix algebra, so their representation is
+absolutely irreducible.  Multiplying each matrix by the
+nonzero scalar $\overline a_1(g)^{-1}$ does not change its
+linear span.  The reduction $\overline W$ is therefore also
+absolutely irreducible, of dimension $r>1$.
+
+Let $\varpi$ be a uniformizer and $k_{\mathcal O}$ the residue
+field.  For each $n\ge1$, the finite module
+$(D\otimes W)[\varpi^n]$ has a filtration whose successive
+nonzero factors are $\overline W$: identify it with
+$W/\varpi^n W$ by multiplication by $\varpi^{-n}$ and use
+its $\varpi$-adic filtration.  In contrast,
+$D(\eta)[\varpi^n]$ has only the one-dimensional factor
+$k_{\mathcal O}(\overline\eta)$.
+A nonzero finite image of an equivariant map in either
+direction in (G44.3) would be a quotient of one of these
+finite modules and a submodule of the other.  Jordan--H\"older
+would give it a common simple factor.  There is none, since
+one simple factor has dimension $r>1$ and the other has
+dimension one.  Every element of either divisible module
+is killed by some $\varpi^n$.  Applying this argument to
+each restriction proves both vanishing statements.
+\end{proof}
+
+\begin{proposition}[AC-G44-trace: the integral mixed-adjoint reduction]
+\label{AC-G44-trace}
+Let $\Gamma$ be profinite, let $T$ be a continuous free
+$\mathcal O$-representation of positive rank $r$, and let
+$\eta:\Gamma\to\mathcal O^\times$ be continuous.  Put
+\[
+ A=D(\eta),\qquad
+ B=D\otimes_{\mathcal O}\operatorname{Hom}_{\mathcal O}
+                      (T,T(\eta)).                    \tag{G44.4}
+\]
+Fix any family of closed subgroups $\Gamma_v$ and define
+$S(A),S(B)$ as the kernels of restriction to their local
+$H^1$ groups.  Then there are natural maps
+\[
+ S(A)\xrightarrow{\ i\ }S(B)\xrightarrow{\ \mathrm{tr}\ }S(A),
+ \qquad \mathrm{tr}\,i=r.                              \tag{G44.5}
+\]
+If $\ell\nmid r$, the first map is split injective.
+In general, whenever the two quantities on the right are finite,
+\[
+ \operatorname{length}_{\mathcal O}S(A)
+ \le \operatorname{length}_{\mathcal O}S(B)
+       +\operatorname{length}_{\mathcal O}
+                         H^1(\Gamma,A[r]).             \tag{G44.6}
+\]
+In particular that finiteness implies the finiteness of $S(A)$.
+The same comparison holds for any additive normalization of
+length, including the source's coefficient-normalized length.
+The assertion also applies to functorial Selmer local conditions
+for which both displayed coefficient maps preserve the chosen
+local subgroups.
+\end{proposition}
+\begin{proof}
+The action on an endomorphism is
+$g\cdot X=\eta(g)T(g)XT(g)^{-1}$.
+The scalar map $a\mapsto a\operatorname{Id}_T$ is equivariant,
+as is $X\mapsto\operatorname{tr}(X)$, since trace is invariant
+under conjugation.  Their composition is multiplication by $r$.
+These maps are integral; no averaging over $\mu_3$ occurs.
+They induce the maps on continuous cocycles, commute with
+coboundaries and restriction to every $\Gamma_v$, and therefore
+induce (G44.5) on the indicated kernels.
+If $r$ is a unit, $r^{-1}\operatorname{tr}$ is a retraction.
+
+In general $\ker i\subset S(A)[r]$ by (G44.5).
+The exact sequence of discrete continuous $\Gamma$-modules
+\[
+                  0\longrightarrow A[r]\longrightarrow A
+                   \xrightarrow{\ r\ }A\longrightarrow0
+                                                               \tag{G44.7}
+\]
+is exact because $D=L/\mathcal O$ is divisible.
+Its cohomology sequence shows that $H^1(\Gamma,A)[r]$
+is an image of $H^1(\Gamma,A[r])$.
+Thus $\ker i$ has length at most the second term in (G44.6),
+while $\operatorname{im}i\subset S(B)$ has length at most the
+first.  The exact sequence with this kernel and image gives
+the claimed finiteness and inequality.  This argument uses
+only finite-length additivity and therefore also proves the
+normalized version.
+
+For $\eta=\chi_{269}\varepsilon^{-e}$, the underlying rational
+mixed representation is
+\[
+ \operatorname{Hom}(V,\chi_{269}V)(-e)
+                 =\chi_{269}\varepsilon^{-e}\otimes\operatorname{End}(V).
+                                                               \tag{G44.8}
+\]
+This identifies the coefficient to which the trace reduction
+applies.  For number fields one may take $\Gamma=G_{F,\Sigma}$
+with $\Sigma$ containing all coefficient ramification, and
+include decomposition groups at $\ell$ and the desired inertia
+subgroups among the $\Gamma_v$.  One must actually match those
+conditions to a proposed relative theorem.  Formula (G44.6)
+is not a claim that the source's \texttt{selPi} is $S(B)$,
+and its finite correction is estimated arithmetically in
+AC-G44-budget below.
+\end{proof}
+
+\begin{proposition}[AC-G44-center: what a balanced branch comparison sees]
+\label{AC-G44-center}
+Let $T_0\subset\mathcal O^X$ be the finite local algebra
+of AC-G39 and fix $x\in X$.  Suppose its paired algebra is
+\[
+ C=T_0\times_{T_0/\delta T_0}T_0,
+ \qquad \delta=\omega-1,                               \tag{G44.9}
+\]
+with the understanding that $\delta$ is a unit and the algebra
+is the full product at $\ell\ne3$.
+Let $\epsilon_0(a,b)=a(x)$ and $\epsilon_1(a,b)=b(x)$.
+Give $\mathcal O$ and $D$ the corresponding $C$-actions.
+Then evaluation at one gives an exact identification
+\[
+ \operatorname{Hom}_{C}(\mathcal O_{\epsilon_0},D_{\epsilon_1})
+                     =D[\delta].                      \tag{G44.10}
+\]
+More generally, every $C$-linear map from a module on which
+$C$ acts through $\epsilon_0$ to one on which it acts through
+$\epsilon_1$ has image killed by $\delta$.
+Thus these balanced maps vanish away from three.
+For $\mathcal O=\mathbb Z_3[\omega]$, their images are killed
+by the uniformizer $\lambda=\omega-1$.
+Any such map out of the fixed-field strict cubic group of
+AC-K23 has kernel containing $\lambda S_e$ and hence has
+kernel length at least $m_e-1\in\{3,4\}$.
+\end{proposition}
+\begin{proof}
+The ideal generated by all differences
+$\epsilon_1(c)-\epsilon_0(c)$, $c\in C$, is exactly
+$\delta\mathcal O$.  Every difference belongs to this ideal
+by (G44.9), and $(0,\delta\cdot1)\in C$ has difference
+$\delta$.  A $C$-linear map from $\mathcal O_{\epsilon_0}$
+is determined by $m=f(1)\in D$ and satisfies
+\[
+       (\epsilon_1(c)-\epsilon_0(c))m=0\quad(c\in C).
+\]
+These conditions are equivalent to $\delta m=0$, and every
+such $m$ defines a $C$-linear map.  This proves (G44.10).
+For a general map $f$ and vector $v$, central linearity gives
+$(\epsilon_1(c)-\epsilon_0(c))f(v)=0$; applying the specific
+element $(0,\delta)$ proves the image assertion.
+At coefficient three in the specified ring, AC-G22 and
+AC-K23 give $S_e\simeq\mathcal O/\lambda^{m_e}$ with
+$m_e=4+1_{e\equiv2\bmod3}$.  An image killed by $\lambda$
+forces $\lambda S_e$ into the kernel.  This submodule has
+length $m_e-1$, proving the final claim.
+\end{proof}
+
+\begin{corollary}[AC-G44-budget: the trace correction has small arithmetic support]
+\label{AC-G44-budget}
+Let $F$ be totally imaginary and contain $K=\mathbb Q(\omega)$.
+For each prime $\ell$ let $\mathcal O_\ell$ be a finite coefficient
+DVR containing the values of $\chi_{269}$, and put
+$b_\ell=[\mathcal O_\ell:\mathbb Z_\ell]$ and
+$A_{\ell,e}=(\operatorname{Frac}(\mathcal O_\ell)/
+\mathcal O_\ell)(\chi_{269}\varepsilon_\ell^{-e})$.
+Let $\Sigma_{0,\ell}$ consist of infinity and the primes of
+$F$ over $3\ell269$.  For every integer $r\ge1$, uniformly
+in the integral weight $e$, one has
+\[
+ \sum_{\ell\mid r}\frac1{b_\ell}
+  \log\#H^1(G_{F,\Sigma_{0,\ell}},A_{\ell,e}[r])
+ \le C r\bigl(\log D_F+n_F\log(269r)\bigr),             \tag{G44.11}
+\]
+where $C$ is absolute, $D_F=|\operatorname{disc}F|$ and
+$n_F=[F:\mathbb Q]$.
+
+For a scalar strict Selmer group unramified outside
+$\Sigma_{0,\ell}$, this is also a valid upper bound for
+the normalized trace-kernel correction in (G44.6), even
+when the representation $T$ requires a larger ramification
+set.  Thus no new estimate for the number of auxiliary
+ramified primes of $T$ is needed for this correction.
+
+On the growing host (FG.3), with an actual source rank
+$r=k+m-1$, source cutoff $R.t\le t$, and outer cutoff
+$t=\lfloor x^{401}\rfloor$, the total correction
+for one chosen trace extraction at each prime and each weight
+$1\le e<t$ is
+\[
+ O_\epsilon\!\left(x^{804+41\epsilon/5}(\log x)^2\right)
+                 =o\!\left(\exp(x^\epsilon/2)\right).   \tag{G44.12}
+\]
+This consumes less than any fixed positive fraction of the
+allowance in AC-K27 for sufficiently large $x$.
+The assertion controls this finite correction; it does not
+supply the upper bound for the mixed Selmer group, or an
+unbounded multiplicity of separate trace extractions.
+\end{corollary}
+\begin{proof}
+\proofstep{1. A uniform splitting field for the finite coefficient.}
+Fix $\ell\mid r$, put $a=v_\ell(r)$ and $q_\ell=\ell^a$.
+The finite module $M=A_{\ell,e}[r]$ is killed by $q_\ell$
+and is generated by $b_\ell$ elements as an abelian group.
+Its order is $q_\ell^{b_\ell}$.
+The extension
+\[
+                 L=F(\sqrt[3]{269},\mu_{q_\ell})       \tag{G44.13}
+\]
+is Galois over $F$, is unramified outside
+$\Sigma_{0,\ell}$, trivializes $M$ for every $e$, and
+contains $\mu_{q_\ell}$.  Indeed the first radical kills
+the cubic character; over $\mu_{q_\ell}$ the cyclotomic
+character is one modulo $q_\ell$, hence its every integral
+power is one on $M$.
+The Galois assertion uses $\mu_3\subset F$.
+For $F_1=F(\sqrt[3]{269})$ we have $[F_1:F]\le3$.
+If this degree is three, the integral power basis has
+relative discriminant $-27\cdot269^2$, so
+\[
+ \log D_{F_1}\le3\log D_F+n_F\log(27\cdot269^2).
+\]
+If the degree is one the same upper bound is immediate.
+Tensoring with the cyclotomic order, as in the proof of
+(FG.10), and using
+$[\mathbb Q(\mu_{q_\ell}):\mathbb Q]\le q_\ell$ and
+$\log D_{\mathbb Q(\mu_{q_\ell})}\le q_\ell\log q_\ell$,
+gives
+\[
+ \begin{aligned}
+ [L:F]&\le3q_\ell,&n_L&\le3q_\ell n_F,\\
+ s_L&\le3q_\ell s_F,&
+ \log D_L&\le C_0q_\ell
+              \bigl(\log D_F+n_F\log(269q_\ell)\bigr),
+ \end{aligned}                                                 \tag{G44.14}
+\]
+where $s_F=|\Sigma_{0,\ell,\rm fin}|\le3n_F$.
+The relative discriminant also proves the stated
+ramification support; cyclotomic ramification occurs
+only above $\ell$.
+
+Apply AC-K19, (FG.2), with its number of abelian generators
+set equal to $b_\ell$.  After division by $b_\ell$, its
+right side is
+\[
+ 2\log D_L+2n_L\log8+
+ \log q_\ell\,[2([L:F]+n_L+s_L)+n_F+3s_F].
+\]
+Substituting (G44.14), $s_F\le3n_F$, and
+$q_\ell\le r$ bounds this by
+$C_1q_\ell(\log D_F+n_F\log(269r))$.
+It bounds the logarithm of the global $H^1$ in particular.
+The distinct prime powers $q_\ell$ have product $r$ and
+sum at most $r$.  For two integers $u,v\ge2$,
+$u+v\le uv$; induction proves the assertion for all the
+prime-power factors, with equality allowed when there
+is only one.  For $r=1$ the sum is empty.
+Summing proves (G44.11).
+
+\proofstep{2. The small support suffices for the kernel.}
+Let $S(A_{\ell,e})$ be the scalar strict group under
+consideration.  Its unramified condition outside
+$\Sigma_{0,\ell}$ places it in
+$H^1(G_{F,\Sigma_{0,\ell}},A_{\ell,e})$.
+Inflation from this group to absolute $H^1$ is injective:
+the normal kernel of $G_F\to G_{F,\Sigma_{0,\ell}}$
+acts trivially on the coefficient, and the first
+inflation--restriction arrow is injective.
+If a class is in the kernel of scalar inclusion into
+the mixed coefficient, trace shows that its multiple
+by $r$ is zero in absolute cohomology.  Injectivity of
+inflation shows that the multiple is already zero in
+$H^1(G_{F,\Sigma_{0,\ell}},A_{\ell,e})$.
+The exact sequence (G44.7), now on this smaller Galois
+group, gives the needed lift from
+$H^1(G_{F,\Sigma_{0,\ell}},A_{\ell,e}[r])$.
+This proves the correction bound without requiring $T$
+to factor through the smaller Galois group.
+The normalization is exact:
+$b_\ell^{-1}\log\#M$ equals the source normalized
+$\ell$-length of $M$ multiplied by $\log\ell$.
+
+\proofstep{3. The actual source growth.}
+The field degree and discriminant formulas (FG.11),
+with the source window inequalities used in (FG.4), give
+\[
+ n_F=O_\epsilon(x^{2+8\epsilon}),\qquad
+ \log D_F=O_\epsilon
+       (x^{2+41\epsilon/5}(\log x)^2).
+\]
+The literal field \texttt{Ranks.rank\_add\_five\_le} in
+\texttt{Params.lean} is $r+5\le R.t$, so
+$R.t\le\lfloor x^{401}\rfloor$ gives $r\le x^{401}$.
+The ranked-host supply audited in AC-G34 even has the
+stronger $400$-cutoff reserve; only the displayed weaker
+upper bound is used here.
+There are fewer than $x^{401}$ weights.
+Multiply (G44.11) by this number, use
+$\log(269r)=O(\log x)$, and obtain the first estimate
+in (G44.12).  For fixed positive $\epsilon$, every fixed
+power of $x$ times a fixed power of $\log x$ is
+$o(\exp(x^\epsilon/2))$; taking logarithms proves this
+last assertion directly.  Source ranks are odd, so the
+prime two actually contributes no trace correction,
+although the estimate did not need that improvement.
+The positive relative slack required to add this error
+to a main estimate is exactly the convention in AC-K27.
+\end{proof}
+
+\paragraph{The precise source comparison that remains.}
+In \path{QuotientHomNonvanishingBound.lean},
+\texttt{GoodCongruenceObjects}, lines 473--517, evaluates
+\emph{all} block maps at a single selected point $\pi'$.
+This is explicitly proved for the center in
+\path{CongruenceAnnihilatesCharacterPart.lean},
+\texttt{psi\_scal}, lines 191--203:
+$\psi_\rho(f\operatorname{Id})=f(\pi')\operatorname{Id}$ and
+$\psi_{\chi,c}(f\operatorname{Id})=f(\pi')$ for every $c$.
+The two separate transported packets instead give the distinct
+maps $\epsilon_0,\epsilon_1$ of (G44.9).
+Consequently the common-central-evaluation hypothesis used in
+AC-G37-ann cannot be retained merely by replacing one of its
+block maps by the other packet's evaluation.
+AC-G44-center describes exactly the additional restriction
+imposed by requiring a comparison to be balanced over this
+paired center.  It does not say that every possible arithmetic
+comparison must be balanced in that way.  Restricting the center
+to the diagonal scalars restores a common evaluation, but does
+not preserve the full Hecke-family congruence comparison by itself.
+A new deformation or relative-cohomology construction may retain
+more information; none is supplied by (G44.10).
+
+The direction of the existing source theorem is also explicit:
+\texttt{QuotientHom}\allowbreak\texttt{NonvanishingBound},
+lines 539--549, bounds
+\texttt{vcc} above by lengths of \texttt{homRho} and
+\texttt{homChi}; \texttt{GlobalLattice}\allowbreak\texttt{IndexTheorem},
+\texttt{DecompositionData.lean}, lines 323--336, bounds
+\texttt{vcc} above by \texttt{sPi}, the strict Tate lengths,
+and stated local and class-group terms.  A small congruence
+index therefore does not bound those Selmer lengths.
+The remaining usable gate is a theorem controlling the relative
+coefficient (G44.8), with compatible integral lattices and local
+conditions, in the direction needed for an upper Selmer bound.
+If such a theorem is proved, (G44.6) extracts the desired scalar
+coefficient with its stated finite-rank correction.  The exact
+transport of two separate theta packets alone does not prove it.
+
+\paragraph{Dictionary scope.}
+The tensor, dual, and internal-Hom operations here are operations
+on representations and their integral lattices.  They are
+compatible with the already audited finite-\'etale representation
+dictionary in SGA~1, Expos\'e~V, \S\S4 and 7.
+No new geometric-square existence theorem, Hodge inequality,
+or unverified Grothendieck locator is being asserted.

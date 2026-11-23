@@ -1,0 +1,208 @@
+\section{Charged derivatives and the finite Hecke action}
+\label{sec:charged-theta-interface}
+
+The neutral principal line in AC-G35 does not make its tangent
+representation neutral.  The relevant question is whether a
+nontrivial charge in the differentiated theta space changes
+the finite character that enters the source cohomology bound.
+The supplied source answers one precisely scoped version of
+this question.
+
+\begin{proposition}[AC-G36: exact derivative charge and a finite-character obstruction]
+\label{AC-G36}
+Use the source harmonic-polynomial space
+$\operatorname{Harm.rowHighest}(c,c')$.
+Write the row degrees, in its literal notation, as
+\[
+ d_{\tau,a}=\operatorname{partOf}(c_\tau)(a),\qquad
+ d'_{\tau,b}=\operatorname{partOf}(c'_\tau)(b).
+\]
+Choose $r_\tau\in\{1,-1\}$ with
+$\tau(\omega)=\omega^{r_\tau}$.
+Scaling each differential direction by the action of
+$[\omega]$ scales every polynomial differential operator
+from this highest-weight space by
+\[
+ \omega^{q(c,c')},\qquad
+ q(c,c')=\sum_\tau r_\tau
+       \left(\sum_a d_{\tau,a}-\sum_b d'_{\tau,b}\right)
+                        \quad\text{in }\mathbb Z/3.   \tag{G36.1}
+\]
+The relative cubic charge is independent of the common
+metaplectic vacuum phase; in the source Fock normalization
+that phase can be a sixth root of unity.
+
+Fix the source datum $D$, its two Hermitian spaces, finite
+Weil representation and finite Schwartz/level data.
+Changing only the creation polynomial $P$ preserves every
+finite Hecke eigensystem on a nonzero created vector.
+In particular it cannot change a fixed one-dimensional
+finite character $\mu$ to $\chi_{269}\mu$ when
+$\chi_{269}$ is nontrivial.
+This assertion does not compare different ranks, finite
+Schwartz functions, levels or Arthur packets.
+\end{proposition}
+\begin{proof}
+\proofstep{1. The literal highest-polynomial charge.}
+The exact definitions and support theorem are
+\texttt{Harm.rowHighest} and
+\path{Harm.mem_rowHighest_iff_support} in
+\path{Definitions/ThetaValues/ExistsMemRowHighestTotalDegreeEqTwo.lean}.
+Every monomial $X^m$ in a polynomial $P$ in that space has
+\[
+ \sum_jm(x_{\tau,a,j})=d_{\tau,a},\qquad
+ \sum_jm(y_{\tau,b,j})=d'_{\tau,b}.                    \tag{G36.2}
+\]
+The file
+\path{Definitions/ThetaValues/PolyDerivSmulLetter.lean}
+identifies the positive-row type with $\tau$ and the
+negative-row type with its conjugate, in the exact theorems
+\texttt{rowType\_rowOf\_inl} and
+\texttt{rowType\_rowOf\_inr}.
+Thus $[\omega]$ multiplies the associated $x$ directions
+by $\omega^{r_\tau}$ and the $y$ directions by
+$\omega^{-r_\tau}$.
+By (G36.2), the product of these scalars for a monomial is
+$\omega^{q(c,c')}$, independent of that monomial.
+
+For clarity, this last step is also a direct proof, without
+an analytic transformation assumption.
+An iterated derivative is multilinear in its differential
+directions.  Scaling those directions by scalars $s_j$
+multiplies the term for $X^m$ by $\prod_js_j^{m_j}$.
+When this product is the same scalar for every term in $P$,
+it factors out of the sum defining $\operatorname{polyDeriv}$.
+This is precisely the supplied theorem
+\path{GlobalTheory.ThFr.polyDeriv_smul_letter}
+(the namespace is that of the named source file).
+It proves (G36.1).
+The equation is a statement about scaling directions;
+a convention using pullback on cotangent coordinates
+inverts this character, consistently on both sides.
+
+The polynomial derivative is part of the actual source
+construction.  In \path{SpanningFamilies/IsSystem.lean},
+\texttt{GlobalTheory.SW.thP} is \texttt{polyDeriv} applied
+to the theta function \texttt{thA} and evaluated at zero.
+In \path{SpanningFamilies/IsStabForm.lean}, the fields
+\texttt{Dic.dir\_eq}, \texttt{Dic.mem} and \texttt{Dic.span}
+identify the algebraic directions and highest-polynomial
+space with that analytic construction.
+Those definitions do not themselves alter a finite
+Schwartz function or introduce a finite Galois character.
+
+\proofstep{2. Keep the metaplectic half-weights.}
+The exact Fock formulas in \texttt{DataTheta.lean} are
+\texttt{omE\_diag}, \texttt{cartan1} and \texttt{cartan2}.
+For a mode $j$ of sign $s_j\in\{1,-1\}$,
+they give the diagonal infinitesimal weight
+$s_j(m_j+1/2)$ on $X^m$.
+For a diagonal compact path with integer rotation rates
+$a_j$, integration therefore gives, at angle $2\pi/3$,
+\[
+ X^m\longmapsto
+ \underbrace{\exp\left(\frac{\pi i}{3}\sum_j s_ja_j\right)}_{\displaystyle\beta\in\mu_6}
+ \omega^{\sum_j s_ja_jm_j}X^m.                        \tag{G36.3}
+\]
+Here integration is justified directly by the source
+\texttt{FockData.der} and \texttt{GrpData.expt\_add}:
+the group law moves the derivative at zero to every point
+of the one-parameter group.  On an eigenmonomial the
+resulting differential equation is
+$v'(t)=i\lambda v(t)$ with
+$\lambda=\sum_js_ja_j(m_j+1/2)$.
+Differentiating $e^{-i\lambda t}v(t)$ gives zero, which
+proves the displayed exponential action.
+This uses no choice of an unproved global lift.
+
+The same path acts on the vacuum by $\beta$.
+Dividing its monomial eigenvalue by the vacuum eigenvalue
+leaves exactly the integral cubic weight in (G36.3).
+For example a single positive mode of rate one has
+$\beta=e^{\pi i/3}$, whose cube is $-1$; dropping this
+half-weight would incorrectly replace that chosen
+order-six lift by an order-three action.
+Conversely, this common phase does not change the relative
+polynomial charge and does not specify a character of
+finite Frobenius elements.
+Formula (G36.3) is an archimedean representation calculation;
+it is not an identification of its vacuum with every
+algebraic rigidified principal theta line of AC-G35.
+
+\proofstep{3. Creation commutes with the actual finite action.}
+For fixed $P$, abbreviate the source creation operator by
+\[
+ C_Pf=\operatorname{pureTensorO}(\ldots,f,P).
+\]
+The full supplied theorem
+\path{GlobalTheory.AdForm.FinComm.finite_comm_creation}
+in \path{Proofs/DecoratedLatticeProofs/FiniteCommCreation.lean}
+states, with its standard-pair and Weil-data hypotheses,
+\[
+ \Omega(g,h)C_Pf=C_P\Omega(g,h)f,
+       \qquad g\in G_f(S),\ h\in G_f(T).              \tag{G36.4}
+\]
+The more general theorem
+\path{GlobalTheory.OrientedHeis.om_fin_pureTensorO}
+in \path{Proofs/TwistedOperators/CompAtMtOfMemGfC.lean}
+has the same conclusion with the displayed scale and frame
+parameters retained.
+Its preceding theorem \texttt{compAt\_mt\_of\_mem\_GfC}
+explains the mechanism: the finite subgroup is the kernel
+of the archimedean projection, so its component at each
+archimedean place is the identity.
+The full proof of (G36.4) consequently commutes that finite
+action with each infinitesimal creation operator; induction
+commutes it with every monomial and then every $P$.
+This is a source theorem about the actual action, rather
+than an analogy with an abstract oscillator.
+
+A finite Hecke operator on vectors fixed by a compact open
+subgroup is a finite linear combination of the relevant
+finite-group translates.  By linearity, (G36.4) implies
+\[
+                       T C_P f=C_P T f.              \tag{G36.5}
+\]
+If $Tf=a_Tf$, then $T(C_Pf)=a_T(C_Pf)$.
+Thus every nonzero $C_Pf$ has exactly the old finite
+Hecke eigenvalues.  The same argument gives
+$C_P(T-a_T)^n=(T-a_T)^nC_P$, so it also preserves the
+specified generalized eigenspaces; it need not be injective.
+
+For a one-dimensional unramified character, the eigenvalue
+at Frobenius is nonzero.  A nontrivial cubic character is
+nontrivial on Frobenius at some place outside any prescribed
+finite excluded set, by the finite Galois correspondence
+and Chebotarev applied to its cyclic splitting field.
+At that place the values of $\mu$ and $\chi_{269}\mu$ differ.
+Equation (G36.5) therefore prevents a nonzero change from
+one to the other by $C_P$ alone.
+This argument concerns a one-dimensional character;
+it makes no assertion that an arbitrary higher-rank
+representation cannot have a self-twist.
+
+\proofstep{4. The supplied jet identity and the remaining gate.}
+The theorem
+\path{GlobalTheory.KJInf.CoreG.thetaKernel_eq_jet_thC}
+in \path{ThetaKernelSplitPlacesEqJetClassicalTheta.lean}
+uses (G36.4) explicitly.  Its conclusion identifies the
+created theta kernel with a scalar times
+$\operatorname{jetP}(\operatorname{thC}(\Phi,\ldots),P)$,
+with the same finite Schwartz data $\Phi$ and the same $P$.
+Therefore replacing the kernel by that literal jet
+expression does not evade the commutation calculation.
+In particular a nonzero value of (G36.1) alone cannot
+replace a scalar block by a cubic finite-character block
+in \texttt{NData}.
+
+To obtain such a block one must also modify and compare
+finite data or an actual descent action, and then verify
+the new Hecke, local inertia and cohomological identities.
+A change of ranks or of packet falls outside (G36.4), which
+compares a single fixed source datum; no impossibility
+claim for such a new comparison is made.
+Together with the exact \texttt{chi\_def} cancellation and
+\texttt{sha\_eq} restriction of AC-G29, this identifies the
+remaining source-specific task rather than supplying the
+missing \texttt{LinkN} theorem.
+\end{proof}

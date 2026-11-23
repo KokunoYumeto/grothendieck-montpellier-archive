@@ -1,0 +1,10 @@
+default(parisize,200000000);
+default(realprecision,80);
+b=bnfinit(y^3-269,1);
+print("degree=",poldegree(b.pol));
+print("signature=",b.nf.sign);
+print("discriminant=",b.disc);
+print("ordinary_class=",b.cyc);
+print("full_bnf_certification=",bnfcertify(b));
+print("logarithmic3=",bnflog(b,3));
+quit

@@ -1,0 +1,12 @@
+Read("common_actual.g");
+Read("row_functions.g");
+P3:=SylowSubgroup(GW,3); N3:=Normalizer(GW,P3);;
+H:=Group(Concatenation(GeneratorsOfGroup(N3),[iperm]));;
+Assert(0,Size(P3)=3^5 and Size(N3)=3888 and Size(H)=7776);
+rows:=RowsOfGroup(H,false);;
+found:=Filtered(rows,r->r.index1=3215 and r.adm);;
+Assert(0,Length(found)>=1);
+PrintTo("nwp3_verified.g","VERIFIED := [];\n");
+WriteMatches("nwp3_verified.g",[found[1]],"actual Sylow3 normalizer");
+Print("Actual NWP3 row3215 PASS\n");
+QUIT;

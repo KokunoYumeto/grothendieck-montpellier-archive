@@ -1,0 +1,361 @@
+% HD-I17. GPT-6 Astra Pro, inherited effort, /root/imprimitive.
+% 21 November 2026. Fresh interval verification, with full analytic proof.
+\subsection{HD-I17: exact Fuchsian existence, conjugacy and the common residue box}
+\label{sec:HD-I17}
+
+This section verifies the auxiliary rank-eight Fuchsian system used
+in HD-G17.  The numerical centre and target integer matrices come
+from Benjamin Severn's candidate archive
+\texttt{qi-m3-certificates}, supplied with an unrefereed manuscript.
+They are used as explicit data.  No existence or rank theorem in
+that manuscript is an input here.  The following fresh computation
+and analytic argument prove the required existence and identify
+its exact monodromy and its residue enclosure.
+
+\paragraph{Statement and specified data.}
+Let $a,b,c,d$ be the integer matrices in \texttt{mtuple.json},
+datum \texttt{g}, tuple index $0$.  There is a Fuchsian system
+\begin{equation}
+ \frac{dY}{dz}=
+ \left(\frac{B_0}{z}+\frac{u_1v_1^t}{z-1}
+                         +\frac{u_2v_2^t}{z-(2+i)}\right)Y,
+ \qquad
+ B_0=\frac1{20}\operatorname{diag}(1,3,7,9,11,13,17,19),
+                                                        \tag{I17.1}
+\end{equation}
+with $v_1^tu_1=v_2^tu_2=1/2$, and an invertible matrix $Q$,
+whose based monodromies at $0,1,2+i$ are respectively
+$QaQ^{-1},QbQ^{-1},QcQ^{-1}$.  For the explicitly fixed loops
+below, the positive infinity monodromy is $QdQ^{-1}$.
+Its residue
+$B_\infty=-(B_0+u_1v_1^t+u_2v_2^t)$ is semisimple with exact
+eigenvalue multiset
+\begin{equation}
+ -1,-1,-\frac{11}{12},-\frac23,-\frac7{12},
+               -\frac5{12},-\frac13,-\frac1{12}.       \tag{I17.2}
+\end{equation}
+The unknown parameters lie in the exact archived residue box
+used by the separate Laurent calculation HD-G17.
+
+Here are the literal input identifiers.  The archive's centre
+pickle contains only a list of $87$ pairs of decimal strings;
+its gauge pickle has only lists, integers and the global
+\texttt{builtins.complex}.  All opcodes were inspected before
+conversion, and a restricted unpickler permitted that one
+global only.  The converted JSON preserves every binary gauge
+constant.  The SHA-256 values are:
+\begin{center}\begin{minipage}{0.96\linewidth}\scriptsize\ttfamily
+xtilde\_g\_0.pkl\\
+afc056d5bb122e3c6d92c8dfbf6d5c54e2e8bd64468f875c2509ff08d8ce0649\\
+meta\_g\_0.pkl\\
+d60a5a641dbaef02a9bc02a0f4c4d9d16146f1ed032fe5d0408d884bebbbdb67\\
+mtuple.json (archive and local copy)\\
+239f3df1d88ba10ad4e805180040250447ba4e1a5b40a6cbc774c3a8c44be49d\\
+center\_g.json (data-only conversion)\\
+7c568f5df6c10702c1599ea60e47a8e35f0167c47c87decb15c5062392a263ae
+\end{minipage}\end{center}
+The complete script and transport-library hashes are in
+\texttt{geometry\_and\_link.json}.  That file also records the
+coordinatewise enclosure comparisons and all infinity minors.
+
+\paragraph{1. Rigorous transport and the holomorphic equations.}
+Fix $z_0=1/2-i$.  For each finite pole $p$, the path goes straight
+from $z_0$ to the first vertex of a positively oriented regular
+$12$-gon of radius $0.45$ centred at $p$, traverses its vertices,
+and returns to $z_0$.  The vertex coordinates are the specific
+binary rationals produced by the script; subsequent certification
+treats these as exact rational points.  Their exact geometric
+checks are described in section~4.
+
+The eight coordinates of $u_1$ and one coordinate $u_{2,j_0}$
+are fixed dyadic constants from the gauge data.  The variables are
+the eight entries of $v_1$, the other seven entries of $u_2$,
+the eight entries of $v_2$, and the $64$ entries of $Q$, for a
+total of $87$.  Let $M_0,M_1,M_c$ denote transport around the
+three loops.  These are holomorphic functions of all variables:
+Picard's iterated-integral series along a fixed compact path
+converges uniformly on compact parameter sets, bounded by the
+exponential series for the supremum norm of its coefficient
+matrix.  Thus it defines a holomorphic matrix function.
+
+The transport enclosure used here has an explicit majorant.
+For $A(z)=\sum A_k/(z-p_k)$ at a regular centre $z_*$, put
+$\delta=\min_k|z_*-p_k|$ and
+$S=\sum_k\|A_k\|_\infty$, using outward bounds on both.
+The Taylor coefficient of $A$ in degree $j$ has norm at most
+$S/\delta^{j+1}$.  The solution with value $I$ at the centre
+is therefore coefficientwise majorized by
+$(1-t/\delta)^{-S}$.  At a step $h$, set $q=|h|/\delta<1/2$.
+After truncation at degree $N_0$, the tail is bounded by
+\[
+ \sum_{j>N_0}\binom{S+j-1}{j}q^j
+ \leq
+ \frac{\binom{S+N_0}{N_0+1}q^{N_0+1}}
+ {1-q(1+S/(N_0+2))}.
+\]
+The denominator is checked positive.  The recurrence for the
+matrix coefficients and this scalar bound are evaluated by
+Arb complex balls; the tail is added to every matrix entry.
+For boxes in the parameters the stable direct Taylor recurrence
+is used, so all parameter dependence remains enclosed.
+All steps end at their prescribed exact endpoints; the repaired
+library asserts exact equality before skipping a purported
+zero-length segment.  The library was read in full independently.
+Arb's arithmetic semantics are its inclusion guarantee; see the
+official \href{https://python-flint.readthedocs.io/en/latest/acb.html}
+{\texttt{acb} documentation} and the
+\href{https://flintlib.org/doc/arb.html}{FLINT real-ball documentation}.
+
+Exact integer matrix calculations give
+\[
+ abcd=I,\quad a^{20}=I,\quad b^2=c^2=I,\quad
+ \operatorname{rank}(I-b)=\operatorname{rank}(I-c)=1,
+ \quad d^{12}=I,
+\]
+and
+\[
+ \det(xI-a)=x^8-x^6+x^4-x^2+1,\qquad
+ \det(xI-d)=(x-1)^2(x^2+x+1)(x^4-x^2+1).
+\]
+Let $e_j$ be eigenvectors of $a$ for
+$\lambda_j=\exp(2\pi i\beta_j)$, with $\beta_j$ the diagonal
+entries of $B_0$.  Seven-row pivot solves with certified nonzero
+minors compute enclosures for these exact vectors.  The exact
+characteristic polynomial ensures that the omitted equation
+holds.  Write $b=I-x_by_b^t$ and $c=I-x_cy_c^t$ by exact
+rational factorizations, with $y_b^tx_b=y_c^tx_c=2$; choose exact
+bases of the two seven-dimensional kernels of $y_b^t,y_c^t$.
+
+Define the holomorphic map $F:\mathbf C^{87}\to\mathbf C^{87}$
+by the following $87$ scalar equations: the two equations
+$v_i^tu_i-1/2$; seven selected rows of each of the eight vectors
+$(M_0-\lambda_j I)Qe_j$; seven selected rows of
+$(M_1+I)Qx_b$ and seven single-pivot-row equations for
+$(M_1-I)Qw$, as $w$ runs through the kernel basis; the analogous
+$14$ equations for $M_c,c$; and $\det Q-1$.
+The row choices are fixed once from the centre.  Every rank
+assertion needed to justify these choices is subsequently
+checked by ball minors on the whole solution enclosure.
+
+\paragraph{2. The contraction proof and the fresh bounds.}
+Let $\widetilde x$ be the $256$-bit midpoint of the data-only
+decimal centre.  The new script
+\texttt{verify\_fuchsian\_existence.py} evaluates $F$ there and
+constructs an approximate derivative matrix $D$ as follows.
+For the $23$ residue variables it uses the exact difference
+quotient with $h=2^{-80}$, enclosing both function values.
+For the other $64$ variables it computes the exact derivative
+in the entry $Q_{uv}$: a term $MQe$ contributes $M_{iu}e_v$,
+and the determinant contributes $\operatorname{adj}(Q)_{vu}$.
+Thus these columns require no finite-difference estimate.
+An ordinary floating inverse proposes a dyadic matrix $Y$;
+all assertions about it are then checked by ball arithmetic.
+
+Let $R_0=2^{-40}$ and let $K_i$ bound $|F_i|$ on the complex
+polydisc of radius $R_0$ about $\widetilde x$.  The evaluated
+rectangular input box contains that polydisc.  Cauchy's estimate
+for a one-variable difference quotient gives
+\[
+ |D_{ij}-\partial_jF_i(\widetilde x)|
+ \leq \frac{K_i h}{R_0(R_0-h)}
+\]
+in the first $23$ columns.  Hence the row-norm error is bounded by
+$E=\max_i23K_i h/[R_0(R_0-h)]$.
+On a polydisc of radius $\rho<R_0$, Cauchy's second-derivative
+estimate gives the derivative variation bound
+\[
+ C=\max_i\frac{2\cdot87^2\rho K_i}{(R_0-\rho)^2}.
+\]
+The factor $2$ covers a repeated partial derivative; summing
+over the moving variable and then the derivative's row gives
+the two factors $87$.
+
+Put $\eta=\|YF(\widetilde x)\|_\infty$ and choose the outward
+dyadic value $\rho=10\eta$.  The fresh computation proved
+\begin{align*}
+ \max_iK_i&<1.607\cdot10^{-6},&
+ \|I-YD\|_\infty&<7.14\cdot10^{-10},\\
+ \|Y\|_\infty&<55.56,&
+ \eta&<1.284\cdot10^{-35},\\
+ \kappa:=\|I-YD\|_\infty+\|Y\|_\infty(E+C)
+        &<0.002053,&
+ \eta+\kappa\rho&<\rho.
+\end{align*}
+The certificate file \texttt{existence\_\allowbreak certificate.json}
+records the full outward enclosures.
+They were recomputed in $185$ seconds from the centre and gauge
+data; the missing numerical starting solution and the missing
+\texttt{fuchs.py} from the original runner are not used.
+
+For $G(x)=x-YF(x)$ these inequalities give
+$\|dG\|_\infty\leq\kappa<1$ on the closed polydisc of radius
+$\rho$ and $\|G(x)-\widetilde x\|_\infty\leq\eta+\kappa\rho<\rho$.
+The contraction principle gives a unique fixed point $x_*$ there.
+Moreover $Y$ is invertible: the strict bound $\|I-YD\|<1$ makes
+$YD$ invertible for the actual difference/derivative matrix
+enclosed by $D$, and these are square matrices.  Thus the fixed
+point satisfies $F(x_*)=0$, proving exact existence.
+Its distance from the centre satisfies the stronger bound
+\begin{equation}
+ \|x_*-\widetilde x\|_\infty
+ \leq\frac{\eta}{1-\kappa}
+ <1.285978034319198\cdot10^{-35}.                 \tag{I17.3}
+\end{equation}
+
+\paragraph{3. Every omitted equation and exact conjugacy.}
+At the root, $B_1=u_1v_1^t$ and $B_c=u_2v_2^t$ have eigenvalues
+$1/2,0,\ldots,0$ and are semisimple.  The residue $B_0$ is diagonal
+with the specified distinct eigenvalues.  No two eigenvalues of
+any of these residues differ by a nonzero integer.  The local
+holomorphic-gauge argument in section~5 therefore identifies
+local monodromy with the exponential of the residue.
+Consequently $M_0-\lambda_jI$ has rank seven,
+$M_1+I,M_c+I$ have rank seven, and
+$M_1-I,M_c-I$ have rank one.
+
+On the whole parameter enclosure of radius $\rho$, the fresh
+certificate verifies a nonzero $7\times7$ minor in each selected
+seven-row block of $M_0-\lambda_jI$ and of $M_1+I,M_c+I$.
+The seven equations defining the negative-eigenvector images
+therefore imply their omitted eighth equation at the root:
+the selected rows span the full rank-seven row space.
+For each reflection, the chosen row of $M-I$ has a certified
+nonzero entry.  At the root its rank is one, so vanishing of
+that row on $Qw$ implies $(M-I)Qw=0$.
+The vectors $x_b$ and the kernel basis of $y_b^t$ together form
+a basis, because $y_b^tx_b=2$; the same holds for $c$.
+Thus the equations prove
+$M_0Q=Qa$, $M_1Q=Qb$, and $M_cQ=Qc$ on full bases.
+Finally $\det Q=1$ makes these actual conjugacies.
+
+\paragraph{4. Based-loop convention and the explicit pullback tuple.}
+The exact geometry script uses rational cross products of the
+binary vertices.  It checks that each closed $12$-gon is convex,
+positively oriented and contains its own pole, while all its
+vertices lie within distance $0.46$ of that pole.  The other poles
+are outside that disk.  It also checks that the small triangles
+used to replace the approximate final vertex by the first and
+to straighten the stem contain no puncture.  Hence each loop
+is the positive meridian with straight radial stem from $z_0$.
+
+The stem directions, in counterclockwise order, are $c,1,0$.
+The three exact cross products for this order are $1/2,5/2,1$,
+all positive, and all stems lie in the upper half-plane from
+$z_0$.  Following the positively oriented boundary of a small
+regular neighbourhood of this embedded tree traverses the
+meridians in the path order $\gamma_c,\gamma_1,\gamma_0$.
+For $Y'=A Y$, transport after the first path is multiplied on
+the left by transport along the next path.  Therefore the
+positive boundary about all finite poles has matrix
+$M_0M_1M_c=QabcQ^{-1}$, and the positive infinity meridian
+has its inverse $QdQ^{-1}$.
+This order matters: direct exact computation shows that the
+reversed matrix product $cba$ has a different characteristic
+polynomial, so it is not substituted for $abc$.
+
+For later use, the actual local system
+$s^{1/4-3}M(s^5)$ can be described by lifted meridians with
+the following product-one tuple:
+\begin{equation}
+ \left(i a^5,
+  a^{-4}ba^4,a^{-4}ca^4,
+  a^{-3}ba^3,a^{-3}ca^3,\ldots,b,c,-i d^5\right).
+                                                        \tag{I17.4}
+\end{equation}
+These are the successive lifts represented by the five
+Schreier sheets about $0$, with the scalar character $i$
+at $0$ and $-i$ at infinity.  Their product is checked by the
+identity
+\[
+ a^5\prod_{j=4,3,2,1,0}a^{-j}(bc)a^j=(abc)^5,
+\]
+followed by $(abc)^5d^5=I$.  HD-G17 uses this precise tuple
+and computes its group and cup form directly; no identification
+with a reversed or transposed archived tuple is assumed.
+
+\paragraph{5. The exact infinity exponents.}
+An approximate eigenbasis of the enclosed $B_\infty$ is used
+only to propose a dyadic invertible matrix $V$.  Its determinant
+is certified nonzero.  For $T=V^{-1}B_\infty V$, the new verifier
+uses the outward Arb bound
+\[
+ \left|T_{jj}-q_j\right|+\sum_{k\ne j}|T_{jk}|
+        <2.874\cdot10^{-15},
+\]
+where the proposed rational centres $q_j$ have exactly the
+multiset (I17.2).  This replaces the original runner's
+floating-point radius printout.  The Gershgorin components
+are pairwise disjoint apart from the two centred at $-1$;
+they contain the indicated numbers of eigenvalues.
+
+All eigenvalues therefore lie in a strip of width less than one,
+and no difference of two is a nonzero integer.  Here is the
+local gauge fact used both here and in section~3.  For a
+regular-singular equation with residue $B$, seek a solution
+$H(t)t^B$, $H(0)=I$.  If the analytic remainder is
+$\sum_{j\geq0}A_jt^j$, the coefficient recurrence is
+\[
+ (kI-\operatorname{ad}B)H_k
+          =\sum_{j=0}^{k-1}A_jH_{k-1-j}.
+\]
+The stated eigenvalue-difference condition makes all left
+operators invertible.  Their inverse norms are at most $C/k$
+for one finite $C$: for large $k$ this is the Neumann-series
+bound, and the remaining finitely many $k$ enlarge $C$.
+An analytic scalar majorant for
+$h'=C A/(1-t/R)\,h$ proves convergence of $H$ on a smaller
+disk.  Thus local monodromy is conjugate to $\exp(2\pi iB)$.
+
+At infinity it is also conjugate to the exact matrix $d$,
+which satisfies $d^{12}=I$.  The exponential is therefore
+semisimple, and so is $B_\infty$: a nontrivial Jordan block
+would retain a nontrivial nilpotent part under the exponential.
+Each eigenvalue of $B_\infty$ is consequently a real multiple
+of $1/12$ modulo integers.  Each certified disk contains
+only its displayed such rational number.  This proves (I17.2)
+exactly, not by rounding a numerical spectrum.
+
+As a separate conditioning check, the geometry/link script
+certifies a nonzero rank-seven minor of $B_\infty-qI$ for
+each of the six simple eigenvalues, and a nonzero rank-six
+minor for $q=-1$.  It records their actual rows, columns and
+ball determinants; every determinant excludes zero.  This
+connects the exact spectral multiplicities to the eigenvector
+solves used by the Laurent calculation.
+
+\paragraph{6. Literal linkage to the independent Laurent rank box.}
+The archived radius used in HD-G17 is the exact binary value
+represented by
+$r_L=1.0528417230446196\cdot10^{-34}$.
+The centre strings and fixed gauge constants are the same
+inputs whose hashes appear above.  In addition to the strict
+inequality in (I17.3), the new script checks all $87$ literal
+rectangular inclusions
+\[
+ [\Re\widetilde x_j\pm\delta]
+       +i[\Im\widetilde x_j\pm\delta]
+ \ \subset\
+ \operatorname{acb}\bigl(\operatorname{arb}(a_j,r_L),
+                         \operatorname{arb}(b_j,r_L)\bigr),
+ \qquad \delta=\operatorname{upper}\frac{\eta}{1-\kappa},
+\]
+where $(a_j,b_j)$ are the original decimal strings.  Every
+inclusion passes, so the existing independent Laurent
+calculation applies to the exact Fuchsian system proved here.
+
+\paragraph{Audit and reproducibility.}
+The full source \texttt{cert\_M.py} and transport library were
+read before constructing the fresh verifier.  The new verification
+uses the original explicit candidate centre, but independently
+rebuilds its equations, pivot choices, derivative calculation,
+contraction bounds and infinity enclosures.  It computes $64$
+derivative columns exactly instead of repeating the original
+finite differences.  The fresh interval run passed; the separate
+exact geometry/box/minor run passed.  The author, GPT-6 Astra Pro
+with inherited effort, read the complete analytic argument and
+its relation to both computations on 21 November 2026.  These are
+distinct events; a successful numerical run is not described
+as a substitute for the omitted-row, gauge or topological proofs.
+The files are in \texttt{work/imprimitive/e8/}; the two result
+files are \texttt{existence\_certificate.json} and
+\texttt{geometry\_and\_link.json}.

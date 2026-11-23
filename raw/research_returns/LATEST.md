@@ -5,14 +5,14 @@ their deliverables only. Older checkpoints stay as they were pushed.
 
 | Run | Most recent | Delivered (UTC) | Folders here |
 |---|---|---|---:|
-| ALP_CONNES | **[checkpoint 04](ALP_CONNES_checkpoint_04_20261122T0309Z_unzipped/)** | 2026-11-22 03:09 | 2 |
-| ALP_MACHINE | **[checkpoint 10](ALP_MACHINE_checkpoint_10_20261122T0305Z_unzipped/)** | 2026-11-22 03:05 | 2 |
+| ALP_CONNES | **[checkpoint 44](ALP_CONNES_checkpoint_44_20261123T1226Z_unzipped/)** | 2026-11-23 12:26 | 4 |
+| ALP_MACHINE | **[checkpoint 55](ALP_MACHINE_checkpoint_55_20261123T1505Z_unzipped/)** | 2026-11-23 15:05 | 9 |
 | ALPOGE_BRIDGES | **[checkpoint 09](ALPOGE_BRIDGES_checkpoint_09_20261121T0546Z_unzipped/)** | 2026-11-21 05:46 | 5 |
 | ALPOGE_GCT | **[checkpoint 09](ALPOGE_GCT_checkpoint_09_20261121T0547Z_unzipped/)** | 2026-11-21 05:47 | 6 |
 | AN_GRH | **[final](AN_GRH_final_20261121T0821Z_unzipped/)** | 2026-11-21 08:21 | 5 |
-| ARCH_ALG | **[checkpoint 05](ARCH_ALG_checkpoint_05_20261122T0332Z_unzipped/)** | 2026-11-22 03:32 | 2 |
+| ARCH_ALG | **[final](ARCH_ALG_final_20261122T0622Z_unzipped/)** | 2026-11-22 06:22 | 3 |
 | BR_PENCIL | **[checkpoint 02](BR_PENCIL_checkpoint_02_20261121T0429Z_unzipped/)** | 2026-11-21 04:29 | 1 |
-| C44_POS | **[checkpoint 05](C44_POS_checkpoint_05_20261122T0258Z_unzipped/)** | 2026-11-22 02:58 | 2 |
+| C44_POS | **[final](C44_POS_final_20261122T1020Z_unzipped/)** | 2026-11-22 10:20 | 3 |
 | CUE_GCT | **[checkpoint 08](CUE_GCT_checkpoint_08_20261121T0649Z_unzipped/)** | 2026-11-21 06:49 | 5 |
 | CX_GRH | **[final](CX_GRH_final_20261121T0005Z_unzipped/)** | 2026-11-21 00:05 | 1 |
 | DEG_L | **[checkpoint 06](DEG_L_checkpoint_06_20261121T0517Z_unzipped/)** | 2026-11-21 05:17 | 5 |
@@ -25,15 +25,23 @@ their deliverables only. Older checkpoints stay as they were pushed.
 | GCT_PLETH | **[checkpoint 09](GCT_PLETH_checkpoint_09_20261121T0546Z_unzipped/)** | 2026-11-21 05:46 | 4 |
 | GCT_POS | **[final](GCT_POS_final_20261122T0219Z_unzipped/)** | 2026-11-22 02:19 | 2 |
 | GHOSTS | **[final](GHOSTS_final_20261121T0256Z_unzipped/)** | 2026-11-21 02:56 | 3 |
+| GRH_ALGORITHMS | **[checkpoint 08](GRH_ALGORITHMS_checkpoint_08_20261123T0224Z_unzipped/)** | 2026-11-23 02:24 | 1 |
+| GRH_ALGORITHMS_FINISH | **[checkpoint 02](GRH_ALGORITHMS_FINISH_checkpoint_02_20261123T1614Z_unzipped/)** | 2026-11-23 16:14 | 1 |
 | GRH_NIGHT | **[checkpoint 07](GRH_NIGHT_checkpoint_07_20261121T0617Z_unzipped/)** | 2026-11-21 06:17 | 5 |
 | HECKE_DIV | **[final](HECKE_DIV_final_20261121T0204Z_unzipped/)** | 2026-11-21 02:04 | 2 |
-| HODGE_DIVISION | **[checkpoint 22](HODGE_DIVISION_checkpoint_22_20261122T0309Z_unzipped/)** | 2026-11-22 03:09 | 5 |
+| HODGE_BOUNDED_CYCLES | **[final](HODGE_BOUNDED_CYCLES_final_20261123T0508Z_unzipped/)** | 2026-11-23 05:08 | 1 |
+| HODGE_DIVISION | **[checkpoint 34](HODGE_DIVISION_checkpoint_34_20261122T1208Z_unzipped/)** (highest number; [HODGE_DIVISION_checkpoint_28_20261122T1240Z_unzipped](HODGE_DIVISION_checkpoint_28_20261122T1240Z_unzipped/) was delivered later) | 2026-11-22 12:08 | 7 |
+| HODGE_FINISH | **[checkpoint 05](HODGE_FINISH_checkpoint_05_20261123T1604Z_unzipped/)** | 2026-11-23 16:04 | 3 |
 | HODGE_SIGN | **[final](HODGE_SIGN_final_20261121T0057Z_unzipped/)** | 2026-11-21 00:57 | 1 |
 | JAC1964 | **[checkpoint 06](JAC1964_checkpoint_06_20261121T0521Z_unzipped/)** | 2026-11-21 05:21 | 5 |
 | K17 | **[checkpoint 08](K17_checkpoint_08_20261121T0616Z_unzipped/)** | 2026-11-21 06:16 | 5 |
 | KTOWER | **[checkpoint 11](KTOWER_checkpoint_11_20261122T0001Z_unzipped/)** | 2026-11-22 00:01 | 4 |
 | MAS_ARTIN | **[checkpoint 15](MAS_ARTIN_checkpoint_15_20261122T0246Z_unzipped/)** | 2026-11-22 02:46 | 6 |
-| NEG_NIGHT | **[checkpoint 09](NEG_NIGHT_checkpoint_09_20261122T0249Z_unzipped/)** | 2026-11-22 02:49 | 2 |
+| NEG_NIGHT | **[checkpoint 15](NEG_NIGHT_checkpoint_15_20261122T0719Z_unzipped/)** | 2026-11-22 07:19 | 3 |
+| NIGHT_AFTER_ALPOGE | **[checkpoint 13](NIGHT_AFTER_ALPOGE_checkpoint_13_20261123T1154Z_unzipped/)** | 2026-11-23 11:54 | 2 |
+| POLISH_ALGEBRAIC_GEOMETRY | **[checkpoint 20](POLISH_ALGEBRAIC_GEOMETRY_checkpoint_20_20261123T1600Z_unzipped/)** | 2026-11-23 16:00 | 5 |
+| POLISH_CRISTAUX | **[checkpoint 16](POLISH_CRISTAUX_checkpoint_16_20261123T1614Z_unzipped/)** | 2026-11-23 16:14 | 3 |
+| POLISH_TOPOLOGY_PERIODS | **[checkpoint 13](POLISH_TOPOLOGY_PERIODS_checkpoint_13_20261123T1048Z_unzipped/)** | 2026-11-23 10:48 | 2 |
 | RESEARCH_SA05 | **[final, marked incomplete](RESEARCH_SA05_final_INCOMPLETE_20261119T0951Z_unzipped/)** | 2026-11-19 09:51 | 2 |
 | RESEARCH_SA06 | **[final, marked incomplete](RESEARCH_SA06_final_INCOMPLETE_20261119T2052Z_unzipped/)** | 2026-11-19 20:52 | 4 |
 | RESEARCH_SA07 | **[checkpoint 12](RESEARCH_SA07_checkpoint_12_20261119T1255Z_unzipped/)** | 2026-11-19 12:55 | 3 |

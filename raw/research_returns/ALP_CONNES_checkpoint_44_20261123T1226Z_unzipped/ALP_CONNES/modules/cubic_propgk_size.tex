@@ -1,0 +1,281 @@
+\section{The cubic coefficient and the exact scope of the common integer bound}
+\label{sec:cubic-propgk-size}
+
+This section reads the actual source interface behind the explanatory
+name \texttt{PropGK}.  All Lean paths below are relative to
+\path{src/Development/AutomorphicArithmetic/AutomorphicVarieties/}
+at commit \texttt{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}.
+Reading the source proofs is not a claim to have executed Lean or to
+have independently verified every imported theorem.
+
+\paragraph{The source statement and the point of generality.}
+\path{UnitaryThreeGroups/KatoUse.lean}, definitions
+\texttt{PropGK}, \texttt{CorGK}, and \texttt{OneChar}, quantifies
+over \emph{Dirichlet} characters of $(\mathbb Z/N)^\times$.
+The imaginary quadratic field $K$ is an auxiliary field for the
+unitary argument.  More precisely,
+\path{HeightAndVanishing/DirichletPrimeToLPartMulLPowerPart.lean},
+\texttt{Vlen}, \texttt{Vn}, and \texttt{orb}, defines
+\[
+ \begin{split}
+ V_{\ell,e,\psi}
+   &=\operatorname{length}_{O}
+       \bigl(\operatorname{ShaU}_{\ell N}
+        ((\operatorname{Frac}O/O)(\psi^{-1})(-e))\bigr),
+       \quad\hbox{over }G_{\mathbb Q},\\
+ V^{\rm n}_{\ell,e,\psi}&=V_{\ell,e,\psi}/e_O,
+ \qquad
+ \operatorname{orb}(H)=\{\psi:\ker\psi=H\}.
+ \end{split}                                                    \tag{GK.1}
+\]
+Here $e_O=\operatorname{length}_O(O/\ell O)$, and the precise
+local-condition family is the source's \texttt{ShaU}; it must not
+be silently replaced by another Selmer condition.  The definitions
+of \texttt{Chr.rho}, \texttt{VS}, \texttt{V'}, and \texttt{nrm}
+are in \path{CharacterLevelBounds/ShaFamMono.lean}.
+
+The entire proof of
+\path{ModularityArgument/ThresholdArguments/DenseThresholdCases/FPropGKU.lean},
+\texttt{propGK\_of\_numberU3U\_of\_oneCharU}, has been read.
+It separates into two inputs.  The one-character input extracts
+finitely many automorphic trace differences from the cohomology
+length.  The other input, \texttt{NumberU3U\_s}, bounds their product
+by one nonzero integer, chosen before $\ell$.
+Unlike \texttt{PropGK}, this latter input permits any finite,
+Galois-stable family of roots of unity.  Its exact definition is in
+\path{ModularityArgument/ThresholdArguments/DenseThresholdCases/NumberU3US.lean}.
+The complete assembly proof in \texttt{KeepNumU.lean},
+\texttt{numberU3U\_of\_adm2A\_imp\_adm2B}, combines fixed-$K$
+cuspidal trace data and rational rank-two trace data.  If their
+counting constants are $(c_1,A_1)$ and $(c_2,A_2)$, it gives
+\[
+ c=5\bigl(c_1+c_2|D_K|^{A_2}\bigr),\qquad A=A_1+A_2+1.
+                                                               \tag{GK.2}
+\]
+Those counting and automorphy inputs remain source inputs here.
+
+For clarity, denote its unchanged admissible class by
+$\mathcal A_{\ell,e,M}$: it is the union of
+\texttt{Adm3U\_s} at level $M$ and \texttt{Adm2A} at level
+$M|D_K|$, with exactly the source's attachment, local-level and
+safety conditions.  Put
+\[
+ E_{q,e}(z)=q^{-e}z+1+q^ez^{-1},\qquad v_\ell(\ell)=1.
+                                                               \tag{GK.3}
+\]
+The input \texttt{NumberU3U\_s} says that, for fixed quadratic
+$K$, there are $c,A$ such that for $e\ge1$, $M\ge1$,
+$p\ge7$ prime with $p\nmid M D_K$, a place $w\mid p$, and
+a finite Galois-stable root-of-unity family $(z_o)_{o\in\mathcal O}$,
+there is $J_p\in\mathbb Z\setminus\{0\}$ with
+\[
+ \log|J_p|\le c|\mathcal O|[M(e+1)]^A\log p.                    \tag{GK.4}
+\]
+For every $\ell\ne2,p$, every choice of the source coefficient
+embedding, and every finite family of pairwise nonisomorphic
+members of $\mathcal A_{\ell,e,M}$ for each $o$, all trace
+differences at $\operatorname{Frob}_w^{-1}$ from
+$E_{Nw,e}(z_o)$ are nonzero and
+\[
+ \sum_o\sum_{\rho}v_\ell
+  \bigl(\operatorname{tr}\rho(\operatorname{Frob}_w^{-1})
+                       -E_{Nw,e}(z_o)\bigr)\le v_\ell(J_p).
+                                                               \tag{GK.5}
+\]
+Complex algebraic quantities in this formula are transported to
+$\overline{\mathbb Q}_\ell$ by that embedding.
+Equation (GK.5) is the source's norm inequality after taking
+$-\log_\ell$, so its direction and its normalization are fixed.
+The complete proof of
+\path{BuildingsResidueChars/FrobeniusTraceNormNonzeroLogBound.lean}
+was read: its integer is the Galois-invariant product of
+$q^e(t_s-E_{q,e}(z_o))$ over the full finite trace data.
+Its literal \texttt{Af.TrData} input uses $|t_s|\le3$ and integrality of $q^et_s$; the separate \texttt{Win.TrData} has the weaker bound $\sqrt q+2$. AC-G112 and AC-G112-twist explicitly supply the stronger \texttt{Af} fields. In the product argument,
+omitting factors can only increase the $\ell$-adic norm when
+$\ell\nmid q$.
+
+\begin{proposition}[AC-K29: controlled inert primes and a conditional cubic size bound]
+\label{AC-K29}
+Let $K=\mathbb Q(\omega)$ and let
+$\chi:G_K\to\mu_3$ be the character of
+$K(\sqrt[3]{269})/K$.  Let $N\mid M$, with $269\mid M$.
+Fix $e\ge1$ and a finite family
+$\mathcal O=\{(\psi_o,j_o)\}$, where $\psi_o$ is a Dirichlet
+character modulo $N$ and $j_o\in\{0,1,2\}$.
+Assume the family is stable, with multiplicities, under automorphisms
+of its algebraic coefficient field.  Define
+\[
+ R_o=(\psi_o|_{G_K}\chi^{j_o}\kappa^e)
+       \oplus1\oplus
+       (\psi_o^{-1}|_{G_K}\chi^{j_o}\kappa^{-e}),              \tag{GK.6}
+\]
+where $\kappa$ is the cyclotomic character.
+There are distinct primes $p,p'$ such that
+\[
+ \begin{gathered}
+ p\equiv p'\equiv2\pmod3,
+ \qquad11\le p<30M,\quad11\le p'<(30M)^2,\\
+ pp'\text{ is prime to }30M,
+ \qquad\log p+\log p'\le3\log(30M),\qquad
+ \chi(\operatorname{Frob}_w)=1\quad(w\mid p\text{ or }p').
+ \end{gathered}                                                \tag{GK.7}
+\]
+The last assertion refers to the arithmetic Frobenius at the unique
+place of $K$ over either inert prime.
+
+Assume the fixed-$K$ source input \texttt{NumberU3U\_s}, as
+specified in (GK.4)--(GK.5).  Let $\mathcal E$ be any set of
+eligible coefficient primes, all different from $2$, for which
+the following \emph{cubic extraction hypothesis} holds.
+For each $\ell\in\mathcal E$, $o\in\mathcal O$, and either
+auxiliary prime $r\in\{p,p'\}\setminus\{\ell\}$, use the actual
+strict Selmer group of AC-K25 with coefficient
+$(\operatorname{Frac}O_\ell/O_\ell)
+ (\psi_o^{-1}|_{G_K}\chi^{-j_o})(-e)$.
+It has finite normalized length
+\[
+ s_{\ell,o}=\frac{\operatorname{length}_{O_\ell}S_{\ell,o}}
+                   {\operatorname{length}_{O_\ell}(O_\ell/\ell O_\ell)}
+       =\frac{\log\#S_{\ell,o}}{[\operatorname{Frac}O_\ell:
+                              \mathbb Q_\ell]\log\ell}\ge0.
+                                                               \tag{GK.8a}
+\]
+There is a finite family $X_{\ell,o,r}$
+of representations of $G_K$, and a comparison to members of
+$\mathcal A_{\ell,e,M}$, which is injective on isomorphism
+classes, preserves traces at $\operatorname{Frob}_{w_r}^{-1}$,
+and satisfies
+\[
+ s_{\ell,o}\le2\sum_{\rho\in X_{\ell,o,r}}v_\ell
+  \left(\operatorname{tr}\rho(\operatorname{Frob}_{w_r}^{-1})
+             -\operatorname{tr}R_o(\operatorname{Frob}_{w_r}^{-1})\right).
+                                                               \tag{GK.8}
+\]
+No isomorphism class is repeated within $X_{\ell,o,r}$.
+Then
+\[
+ \sum_{\ell\in\mathcal E}\log\ell\sum_{o\in\mathcal O}s_{\ell,o}
+   \le6c|\mathcal O|[M(e+1)]^A\log(30M).                     \tag{GK.9}
+\]
+In particular the left side has finite support.  This assertion
+bounds only the eligible primes for which (GK.8) and its comparison
+have been proved; it does not include excluded primes by convention.
+\end{proposition}
+\begin{proof}
+The integer $30M-1$ is congruent to $2$ modulo $3$.
+At least one of its prime factors is therefore $2$ modulo $3$.
+Choose such a factor $p$.  It divides neither $M$ nor $2,3,5$,
+so $p\ge11$ and $p<30M$.  Applying the same argument to
+$30Mp-1$ gives $p'\ne p$, with all the asserted bounds and
+coprimalities.  Their logarithmic bound follows immediately.
+
+For $r=p$ or $p'$, the cube map on $\mathbb F_r^\times$ is a
+bijection, since $\gcd(3,r-1)=1$.  Thus $X^3-269$ has a root
+in $\mathbb F_r$.  Its other two roots lie in $\mathbb F_{r^2}$,
+which contains $\mu_3$.  Since $r\nmid3\cdot269$, the extension
+is unramified there and its Frobenius over $K$ is trivial.
+This proves the last part of (GK.7).
+
+Put $q=r^2$ and $z_{o,r}=\psi_o(q)^{-1}$.
+Restriction of a Dirichlet character and of $\kappa$ to the
+arithmetic Frobenius over $K$ evaluates them as $\psi_o(q)$ and
+$q$, respectively.  Consequently (GK.6) gives the exact equality
+\[
+ \operatorname{tr}R_o(\operatorname{Frob}_{w_r}^{-1})
+                        =E_{q,e}(z_{o,r}).                    \tag{GK.10}
+\]
+The family $z_{o,r}$ consists of roots of unity and is Galois
+stable.  Applying (GK.4)--(GK.5) at $p$ and at $p'$ produces
+integers $J_p,J_{p'}$ independent of $\ell$.  Use the
+trace-preserving comparison in (GK.8) to obtain
+\[
+ \sum_os_{\ell,o}\le2v_\ell(J_r)
+        \quad(\ell\in\mathcal E,\ \ell\ne r).                \tag{GK.11}
+\]
+The differences are nonzero by the same source input, so all
+valuations used here are finite.
+For any finite subset of $\mathcal E$, use $r=p$ at primes other
+than $p$, and use $r=p'$ if $\ell=p$.  The factorization of a
+nonzero rational integer yields
+\[
+ \sum_{\ell\in\mathcal E}\log\ell\sum_os_{\ell,o}
+   \le2\log|J_p|+2\log|J_{p'}|.
+\]
+One may first read this as a bound for every finite subset.
+Equation (GK.11) also makes every positive summand supported on
+the prime divisors of $J_pJ_{p'}$, proving finite support directly.
+Equations (GK.4) and (GK.7) now give (GK.9).
+\end{proof}
+
+\begin{corollary}[AC-K29-budget: the conductor and weight scale of this reduction]
+\label{AC-K29-budget}
+Suppose the extraction hypotheses of AC-K29 are established over
+the actual family, with $|\mathcal O_x|\le D_x$ and one level
+$M_x$ for every $1\le e<t_x$.  Then its eligible-prime sum is at most
+\[
+ 6cD_x M_x^A t_x(t_x+1)^A\log(30M_x).                       \tag{GK.12}
+\]
+If $t_x\le x^{401}$, $D_x$ is bounded by a fixed power of $x$,
+and
+\[
+ \log M_x=O_\varepsilon(x^{\varepsilon/5}(\log x)^2),          \tag{GK.13}
+\]
+this bound is $o(\exp(x^\varepsilon/2))$.
+A fixed power of the conductor in $M_x$ is allowed in (GK.13).
+The source constants $c,A$ depend on the fixed field $K$,
+not on $x,e$ or the coefficient prime.
+\end{corollary}
+\begin{proof}
+Sum (GK.9) and use
+$\sum_{1\le e<t}(e+1)^A\le t(t+1)^A$.
+The logarithm of (GK.12), after replacing a zero factor by one
+if necessary, is at most
+$A\log M_x+O_\varepsilon(\log x+\log\log(30M_x))=o(x^\varepsilon)$.
+Subtracting $x^\varepsilon/2$ proves the claimed little-o estimate.
+Replacing a conductor by any fixed power multiplies its logarithm
+by a fixed constant and preserves this argument.
+\end{proof}
+
+\paragraph{Why this is a new extraction obligation.}
+Complex conjugation gives $\chi^c=\chi^{-1}$.
+For $j=1,2$, neither $\chi^j$ nor $\chi^j\kappa^e$ is the
+restriction of a one-dimensional character of $G_{\mathbb Q}$:
+such restrictions are fixed by conjugation, whereas equality here
+would require $\chi^{2j}=1$.
+The CM Hom realization of AC-G23 does not change this fact.
+The corrected packet (GK.6) is conjugate self-dual, because
+conjugate duality exchanges its two endpoints.  Its determinant,
+however, is $\chi^{2j}$, and its middle character is exactly $1$.
+It is therefore not the source's rational packet
+$\Psi\oplus1\oplus\Psi^{-1}$ with determinant one.
+
+The entire proof of \texttt{FOneCharU.lean},
+\texttt{oneCharU\_of\_katoTwoW\_rig\_admI\_automorphy}, was read.
+Its \texttt{Dat}, \texttt{exists\_dat}, \texttt{model\_upper},
+\texttt{vlen\_le}, type-I automorphy, and type-II Kato input are
+built with $\Psi=\texttt{Chr.Psi}(\texttt{Chr.dirG}\ \mathbb Q\ \psi)$.
+Thus (GK.8), including its local-condition identification, is not
+an instance of that theorem for $j=1,2$.
+At an inert Frobenius a type-II block
+$1\oplus(\chi^j\otimes W|_{G_K})$ has the same trace as
+$1\oplus W|_{G_K}$.  This supplies the required trace comparison
+\emph{if} the modular descent, level and other source admissibility
+conditions for $W$ have been established.  It does not prove the
+vanishing or integral comparison needed to extract that block
+from the cubic Selmer group.
+
+Finally, \path{HeightAndVanishing/Counts.lean}, record
+\texttt{GD}, has twelve explicit conditions: $\ell\ne2$,
+$e\ge1$, $N$ even, $\ell\nmid\operatorname{ord}\psi$,
+$\operatorname{comp}_\ell(\psi)^2=1$,
+$\psi(-1)=(-1)^e$, $[K:\mathbb Q]=2$, $K$ totally complex,
+$\ell\nmid|D_K|h_K$, $(|D_K|,N)=1$, its stated noncontainment
+of $\ker\overline\kappa_\ell\cap\ker(\texttt{chiP}_\ell\psi)$
+in $G_K$, and $\ell-1\nmid2e$.
+They are not omitted when using the source \texttt{PropGK}.
+No replacement conditions for the cubic packet, no estimate for
+their exceptional-prime contribution, and no cubic version of
+(GK.8) are asserted proved here.  AC-K29 locates the remaining
+arithmetic work in that extraction and those exceptions; the
+common-integer size assembly adds no new growing-conductor
+estimate once its exact hypotheses are available.

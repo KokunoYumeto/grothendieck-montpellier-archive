@@ -1,0 +1,436 @@
+\section{One source window for a fixed family of cyclic hosts}
+\label{sec:cubic-abelian-common-window}
+
+\paragraph{Status and input boundary.}
+This manuscript proves a finite-family strengthening of the actual
+source window construction.  It is not a consequence of treating
+separate instances of \texttt{VWinAt} as black boxes.
+It retains the original source arithmetic and automorphic inputs
+listed below.  It does not deduce those inputs from hypothesis A,
+construct the mixed realization $\mathcal R_{\rm cub}$, or prove
+the remainder of the index bound (TC.3).
+All source paths are relative to \texttt{src/} at commit
+\texttt{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}.
+The proof is a mathematical replay of the displayed source definitions;
+no Lean execution or independent verification of the whole repository
+is asserted.
+
+\paragraph{The exact retained source package.}
+Use the literal definitions \texttt{LData}, \texttt{shaInv},
+\texttt{VVat}, \texttt{VVle}, \texttt{PointHV}, and
+\texttt{ThmBcFree}.  The package used here consists of
+\[
+ \begin{gathered}
+ C_K\geq1,\qquad \texttt{LemmaK}(C_K),\qquad
+ \texttt{FixedIn},\qquad\texttt{TwoIn},\\
+ \texttt{PointHV},\qquad\texttt{ThmBcFree}.
+ \end{gathered}                                                   \tag{AW.1}
+\]
+In particular the third and fourth entries have their actual
+quantifier order.  For every fixed abelian field datum $M$,
+\texttt{TwoIn} supplies one integer $R_0(M)$ such that for
+\emph{every} admissible pair $q,d$ there is a number field $L_0$ with
+\[
+ \texttt{TwoBase}(M,q,d,L_0),\qquad
+ \texttt{ABound}(2,R_0(M),L_0).                                  \tag{AW.2}
+\]
+The field $L_0$ can depend on $q,d$; the rank $R_0(M)$ does not.
+More explicitly, the complete containing proof
+\texttt{QuadraticExtensions/IsAlgClosureRat.lean} first obtains a
+rank $g$ by Ferrero--Washington over the fixed datum
+\texttt{withI}(M), then proves \texttt{baseRk}/\texttt{towerTwo}
+with rank $4(g+6\deg M)$ for every such $q,d$.
+Its \texttt{twoIn} passes this uniform rank to the tower-bound
+input.  The ramification and tower arguments imported there are
+retained; no rank for a growing field is silently replaced by
+the rank of a different fixed field.
+For a fixed odd prime $\ell$ and fixed datum $A$ containing
+$\mu_\ell$, \texttt{FixedIn} supplies an $\texttt{ABound}$
+rank for a model of $A$.  These are assertions about the actual
+strict Tate groups and their cyclotomic layers.
+They are not inferred here from a finite class-number calculation.
+
+The containing file \texttt{LayeredIsomorphisms/SecondBound.lean}
+states these definitions.  The complete short proof
+\texttt{ThmBabOfLemmaK.lean} obtains them from the source's
+Poitou--Tate and local-duality inputs, Ferrero--Washington, and
+\texttt{PropA.aBound\_of\_isTower}.  The complete
+\texttt{HeightAndVanishing/JointWinOfCounts.lean} proof supplies
+\texttt{PointHV} from the original \texttt{CountI},
+\texttt{CountII}, \texttt{CountIII}, \texttt{CountV},
+\texttt{CountZ}, \texttt{LemmaK}, and duality inputs.
+The \texttt{HVCore.of\_four\_alt} proof also supplies the
+retained \texttt{ThmBcFree}.  The larger actual wrapper
+\texttt{VwinOfRow.lean} passes the original \texttt{Row0b}
+input through \texttt{automorphic\_window\_of\_inputs}, with
+the stated open-image and base-change inputs.
+These named upstream inputs remain the original inputs; their
+deep proofs are not replaced by the argument below.
+
+Let $S_\ell(E,e)$ denote the strict group with coefficient
+$\mathbb Q_\ell/\mathbb Z_\ell(-e)$, unramified away from
+$\ell$ and zero at every completion above $\ell$.
+The source comparison \texttt{shaLen\_eq\_shaInv} and
+\texttt{vvle\_iff\_shaInv}, together with AC-G31's literal
+\texttt{LData} identification, uses precisely these groups.
+Thus \texttt{VVle} bounds the nonnegative all-prime sum
+\[
+ \mathcal B(E,t)=
+  \sum_\ell\sum_{1\leq e<t}\log\#S_\ell(E,e).                    \tag{AW.3}
+\]
+Equivalently one may first use every finite set of coefficient
+primes, as the source does.  Finiteness and finite prime support
+for fixed $E,t$ are supplied by AC-K10.
+
+\begin{theorem}[AC-G172: a common arithmetic window for the abelian sector]
+\label{AC-G172}
+Retain (AW.1).  Fix a finite family $\Psi$ of primitive Dirichlet
+characters, a real $C_t\geq1$, and
+$0<\varepsilon<1/256$.  Let $h(u)$ be any page satisfying
+(TC.2).  There are $J\geq1$, $X_0$, and $C\geq1$, independent of
+$X,q,d,u$, such that for every $X\geq X_0$ and every prescribed
+$\operatorname{WinPair}(\varepsilon,X^{1/J},q,d)$ there is
+one $W$ satisfying
+\[
+ X^{1/J}\leq W,\qquad W^2\leq X,                                \tag{AW.4}
+\]
+and, simultaneously for every $\psi\in\Psi$ and
+$u\in[W,W^2]$, the actual field
+\[
+ E_{\psi,u}=
+ \mathbb Q(\zeta_{2^{h(u)+2}})^+
+ \mathbb Q(\sqrt{-q})\mathbb Q(\sqrt{-d})L_\psi
+\]
+satisfies
+\[
+ \mathcal B(E_{\psi,u},\lfloor u^{C_t}\rfloor)
+       \leq C\exp(Cu^{4\varepsilon/5})
+       =o\bigl(\exp(u^\varepsilon/2)\bigr).                     \tag{AW.5}
+\]
+The little-o assertion is uniform on these windows and prescribed
+pairs.  The constants may depend on the fixed family, retained
+source inputs, $C_t$, and $\varepsilon$.
+
+In particular take the $24$ characters of modulus $84$, represented
+by their associated primitive characters, and $C_t=401$.
+On the same $W$, the actual abelian field
+\[
+ F_u=\mathbb Q(\zeta_{2^{h(u)+2}},\zeta_7,
+                   \sqrt{-q},\sqrt{-d},\omega)
+\]
+satisfies
+\[
+ \mathcal B(F_u,\lfloor u^{401}\rfloor)
+               =o\bigl(\exp(u^\varepsilon/2)\bigr).             \tag{AW.6}
+\]
+For the original coefficient rings $O_\ell$, their degrees
+$b_\ell$, and derived indices of AC-K25--27, define
+\[
+ I_{399}^{(0)}(u)=
+ \sum_{1\leq e<\lfloor u^{399}\rfloor}\sum_\ell
+ \frac{\log\#k_{O_\ell}}{b_\ell}
+ \sum_{\substack{\eta\in\widehat{\operatorname{Gal}(H_u/K)}\\
+                  \eta|_{\operatorname{Gal}(H_u/F_u)}=1}}
+                  \max(0,i_{\ell,\eta,e}).                     \tag{AW.7}
+\]
+Then on the same $W$,
+\[
+               I_{399}^{(0)}(u)
+                 =o\bigl(\exp(u^\varepsilon/2)\bigr).           \tag{AW.8}
+\]
+This is the entire actual $j=0$ sector: all its growing finite
+characters, all coefficient primes, and every indicated Tate
+weight are included.  It is not a bound for $j=1,2$.
+\end{theorem}
+
+\begin{proof}
+\proofstep{1. Fixed input data and a common choice of $J$.}
+Put $t(u)=\lfloor u^{C_t}\rfloor$.
+The full proof \texttt{AdmissibleOfPageN.lean} shows that the
+page and $t$ are $\texttt{admitted}(4,C_t,h,t)$.
+For each $\psi$ set
+\[
+ M_\psi=\texttt{AbF.ofChar}(\psi),\quad
+ B_\psi=\texttt{Bchi}(\psi),\quad
+ A_{\psi,\ell}=\texttt{AbF.cyc}(\ell\psi.N).
+\]
+These are fixed data, even though the later fields depend on $u,q,d$.
+The literal \texttt{Bchi} is finite, consists of odd primes, and
+each $A_{\psi,\ell}$ contains $\mu_\ell$.
+Choose $R_{0,\psi}$ using (AW.2), and choose
+$R_{\psi,\ell}$ using \texttt{FixedIn}, for
+$\ell\in B_\psi$.  Define
+\[
+ \begin{split}
+ R_*&=\sum_{\psi\in\Psi}R_{0,\psi}
+            +\sum_{\psi\in\Psi}\sum_{\ell\in B_\psi}R_{\psi,\ell},\\
+ \eta_0&=\varepsilon/(2C_K),\qquad
+ J=2^{R_*+2}(C_t/\eta_0)^{R_*}.
+ \end{split}                                                 \tag{AW.9}
+\]
+In particular $J\geq4$ and $0<\eta_0\leq C_t$.
+Duplicating an auxiliary field for different $\psi$ only enlarges
+$R_*$ by a fixed amount; no disjointness is needed.
+
+For each $\psi$, apply \texttt{PointHV} with
+$j_\psi(\ell)=\operatorname{Nat.log}(\ell,R_{\psi,\ell})+3$
+on $B_\psi$, using the source's natural-number logarithm,
+which is also defined at $R=0$.
+Choose arbitrary values outside $B_\psi$.
+It supplies constants $C_\psi$ and two auxiliary primes.
+All are fixed before $X,q,d$ are prescribed.
+
+\proofstep{2. The exceptional sets are combined before choosing a window.}
+This is the new finite-family step, compared with AC-G31.
+The exact signature of \texttt{PartA.partA} permits
+\emph{any positive $J$}; it does not require a separate formula
+in terms of its own rank $R_{0,\psi}$.
+The same is true of \texttt{PartB.partB}.
+Apply every instance using the single $J$ in (AW.9), and take the
+maximum of their finitely many thresholds.
+These thresholds are uniform in the later pair $q,d$.
+Specifically, \texttt{PartA} first fixes $M,R,J,C_t,\varepsilon$
+and its threshold, and only afterwards quantifies over $X,q,d,L_0$.
+Equation (AW.2) supplies the required $L_0$ for the prescribed pair.
+
+For sufficiently large $X$, the given \texttt{WinPair} implies
+every required $\texttt{PrimePair}(\psi.N,q,d)$,
+\[
+ \log(qd)\leq X^{\varepsilon/(4J)},\qquad
+ q,d>2X^{C_t}+1,                                                 \tag{AW.10}
+\]
+and makes both primes larger than all fixed auxiliary primes and
+all fixed prime divisors in the finitely many \texttt{Host.Big}
+conditions.  These are the same estimates used in the complete
+proof of \texttt{vwinAt\_of\_joint}:
+write $Y_0=X^{1/J}$, use
+$\log(qd)\leq Y_0^{\varepsilon/5}(1+(\log Y_0)^2)
+\leq Y_0^{\varepsilon/4}$ eventually, and use the lower bound
+$\log q>Y_0^{\varepsilon/5}/2$ (and the stronger lower bound
+for $\log d$).  A fixed positive power of $X$ dominates $\log X$.
+The exclusions of finitely many fixed primes are therefore uniform.
+
+Part A supplies an exceptional set $\mathcal E_{0,\psi}$ of
+cardinality at most $R_{0,\psi}$; Part B supplies
+$\mathcal E_{\psi,\ell}$ of cardinality at most $R_{\psi,\ell}$.
+Let $\mathcal E$ be their union.  Then $|\mathcal E|\leq R_*$.
+These sets can depend on $X,q,d$ as permitted by the source.
+The proof does not assume that they are fixed once and for all.
+The complete elementary source proof \texttt{Window1.lean},
+followed by \texttt{Window.lean}, gives $W$ as in (AW.4) with
+\[
+ \forall u\in[W,W^2],\quad
+ \forall e\in\mathcal E,\quad e\leq u^{C_t}
+                          \Longrightarrow e\leq u^{\eta_0}.
+                                                                    \tag{AW.11}
+\]
+For clarity, its underlying induction has the following form.
+For a set of at most $R$ points on the logarithmic axis, and
+$B\geq1,U>0$, it finds
+$U/(2^{R+2}B^R)\leq y$, $2y\leq U$, such that any marked
+$a\leq v\in[y,2y]$ satisfies $Ba\leq v$.
+If a mark occurs in $(U/(2B),U]$, remove it and apply the
+induction below $U/(2B)$; otherwise take $y=U/2$.
+Apply this with $B=C_t/\eta_0$, $U=\log X$, and marks
+$\log e/C_t$ for positive $e\in\mathcal E$; $e=0$ is harmless.
+Exponentiation proves (AW.11).
+
+The condition for the union implies the condition for each subset.
+Consequently every Part A conclusion and every Part B conclusion
+holds on this one $W$, at every $u$ in its full squared window.
+Taking $X_0$ large enough makes $X^{1/J}$ exceed all pointwise
+thresholds.  No intersection of previously chosen windows occurs.
+
+\proofstep{3. The actual pointwise automorphic estimate.}
+Part A bounds the coefficient-two sum for each $E_{\psi,u}$ by
+$\exp(u^{4\varepsilon/5})$ before multiplication by $\log2$.
+Part B bounds every required layer in
+$\texttt{LayerLe}(\psi,\ell,j_\psi(\ell),t(u),B)$ with
+$B=\exp(u^{4\varepsilon/5})$.
+The quantification over all models of the auxiliary fields in
+\texttt{PartB} is exactly the one in \texttt{LayerLe}.
+By (AW.10), \texttt{Host.Big} holds for the actual host
+$(\psi,h(u),q,d)$ and $t(u)$.
+Apply \texttt{PointHV} directly, as in the full proof
+\texttt{ThmHV.lean}.  This avoids requiring that the common $J$
+equal the single-character wrapper's \texttt{Jchi}.
+Using \texttt{hostCond}, its conclusion is
+\[
+ \texttt{VVplusLe}\left(E_{\psi,u},t(u),
+       (\operatorname{cond}(E_{\psi,u})t(u))^{C_\psi}
+              +C_\psi\exp(u^{4\varepsilon/5})\right).          \tag{AW.12}
+\]
+The field is the literal \texttt{IsChiField}: its stabilizer is
+the intersection defining $B_{h(u)}L_\psi$.
+It is CM since it contains $\mathbb Q(\sqrt{-q})$ and is abelian
+over $\mathbb Q$.
+
+The retained \texttt{ThmBcFree} bounds the complementary
+odd-prime eigenspaces.  The complete conductor and page proofs give
+\[
+ \log(\operatorname{cond}(E_{\psi,u})t(u))
+                                  \leq2u^{\varepsilon/4},
+ \qquad
+ \texttt{minusBound}\leq K_\psi\exp(8u^{\varepsilon/4}).        \tag{AW.13}
+\]
+Here $K_\psi$ is fixed.  All relevant degrees are bounded by the
+conductor, as in \texttt{ConductorBoundsOf\allowbreak IsChiField.lean}.
+The complete \texttt{LengthEqAddEigen.lean} proof splits
+the two conjugation eigenspaces at odd coefficient primes and
+keeps the prime two separately.  Its \texttt{vvle\_of\_parts}
+therefore bounds (AW.3) by
+\[
+ \begin{split}
+ &\log2\exp(u^{4\varepsilon/5})
+   +K_\psi\exp(8u^{\varepsilon/4})\\
+ &\hspace{12mm}+\exp(2C_\psi u^{\varepsilon/4})
+                   +C_\psi\exp(u^{4\varepsilon/5}).
+ \end{split}                                                 \tag{AW.14}
+\]
+Take a maximum over the finite family to obtain (AW.5).
+Its stronger little-o conclusion follows without changing
+$\varepsilon$: for fixed $C$,
+$\log C+Cu^{4\varepsilon/5}-u^\varepsilon/2\to-\infty$.
+Thus the estimate supplies every fixed positive fraction of
+the desired budget after increasing the initial threshold.
+
+\proofstep{4. The noncyclic abelian field and its integral coefficients.}
+Write
+$B_u=\mathbb Q(\zeta_{2^{h(u)+2}})^+
+\mathbb Q(\sqrt{-q})\mathbb Q(\sqrt{-d})$.
+The exact AC-G30 computation gives
+\[
+ F_u=B_u\mathbb Q(\zeta_{84}),\qquad
+ \operatorname{Gal}(F_u/B_u)\simeq C_2^3\times C_3.              \tag{AW.15}
+\]
+Restriction identifies its $24$ characters with the fixed family
+just used.  Every $E_{\psi,u}=B_uL_\psi$ is an actual subfield
+of $F_u$; its relative cyclic degree is at most six.
+
+Fix $\ell$ and use a completion $O^{(6)}_\ell$ of
+$\mathbb Z[\zeta_6]$, of degree $b^{(6)}_\ell\leq2$.
+Let $\mathcal T_{\ell,\eta}(B_u,e)$ be the strict character
+group over $B_u$ with this coefficient and Tate twist $-e$.
+Integral Fourier, Shapiro, and the full-local/inertia restriction
+squares of AC-K25 give
+\[
+ \left|\log\#S_\ell(F_u,e)
+ -\frac1{b^{(6)}_\ell}\sum_\eta
+                     \log\#\mathcal T_{\ell,\eta}(B_u,e)\right|
+                                  \leq E_{F,\ell}(u,e).        \tag{AW.16}
+\]
+This is exact when $\ell\ne2,3$.
+For each individual $\eta$, use the Fourier comparison for the
+cyclic subfield cut out by $\eta$.  That comparison sums over
+all characters of its cyclic quotient, one of which is $\eta$.
+Nonnegativity gives
+\[
+ \frac1{b^{(6)}_\ell}\log\#\mathcal T_{\ell,\eta}(B_u,e)
+       \leq\log\#S_\ell(E_{\eta,u},e)+E_{\eta,\ell}(u,e).
+                                                                    \tag{AW.17}
+\]
+Again the error vanishes away from $2,3$.
+This argument uses two finite Fourier comparisons; it does not
+assert that a map into a larger sum of permutation modules has
+finite cokernel.
+
+At $2,3$, AC-G30-Fourier supplies the exact fixed defects for
+(AW.16).  The cyclic quotient comparisons also have fixed rank,
+fixed exponent, and finite action factoring through
+$\mathbb Q(\zeta_{84})$.
+The common fixed field $\mathbb Q(\zeta_{168})$ trivializes
+these actions and every Tate twist of the finite defects.
+AC-K19 applies over the totally imaginary field $B_u$.
+Its bound is uniform in $e$ and is
+$O(\log D_{F_u}+[F_u:\mathbb Q]+s_{F_u})$ per weight;
+including the finitely many ramified rational primes gives
+$s_{F_u}=O([F_u:\mathbb Q])$.
+Hence the sum of all errors in (AW.16)--(AW.17), through
+$e<\lfloor u^{401}\rfloor$, is
+\[
+ O_\varepsilon\bigl(u^{403+41\varepsilon/5}(\log u)^2\bigr).
+                                                                    \tag{AW.18}
+\]
+This is the already proved growing-host estimate in AC-K19.
+It is uniform for the prescribed pair because $u\geq X^{1/J}$.
+Sum (AW.16)--(AW.17), then the $24$ bounds (AW.5).
+Equation (AW.18) is little-o of the budget, proving (AW.6).
+
+\proofstep{5. The original $j=0$ summands and coefficient ranks.}
+The characters in (AW.7) are exactly those of
+$\operatorname{Gal}(F_u/K)$, with exponent $3\cdot2^{h(u)}$.
+Thus they are all valued in the original $O_\ell$ of AC-K25;
+no new integral lattice or coefficient realization is substituted.
+Apply the proof of AC-K25 directly to $F_u/K$, using those
+$O_\ell$ and dividing orders by their actual
+$b_\ell=\operatorname{rank}_{\mathbb Z_\ell}O_\ell$.
+When $\ell\ne269$, the supplementary prime $269$ in the original
+localization set can be removed for these coefficients by the
+same inflation and inertia-kernel argument in AC-K25, Step 3.
+When $\ell=269$, it remains a coefficient-prime place with the
+full local zero condition throughout.
+This gives the all-prime comparison of the sum of their strict
+lengths with $\mathcal B(F_u,\lfloor u^{399}\rfloor)$,
+with the proved polynomial Fourier cost at $2,3$.
+The auxiliary rings $O^{(6)}_\ell$ in Step 4 are already
+eliminated through the intrinsic group $S_\ell(F_u,e)$;
+they never replace the original $O_\ell$ in (AW.7).
+
+For every summand the determinant comparison (EU.2) gives
+$\max(0,i_{\ell,\eta,e})\leq
+\operatorname{length}_{O_\ell}H^2_{\ell,\eta}(e)$.
+The absolute local comparison FL.4 may be restricted to this
+subset, since its right-hand cost bounds the sum for all
+characters.  Its total cost at cutoff $399$, together with the
+growing Fourier cost, is
+\[
+ O_\varepsilon\bigl(u^{802+16\varepsilon}(\log u)^2\bigr).
+                                                                    \tag{AW.19}
+\]
+Every coefficient prime is retained, including $2,3,269$;
+the finite prime supports are those already proved in
+AC-K25--27.  Equations (AW.6) and (AW.19), and monotonicity
+from cutoff $401$ to $399$, prove (AW.8).
+\end{proof}
+
+\paragraph{Exact relationship with the old open questions.}
+AC-QG100 records the loss in AC-G31 when one is given only
+separate \texttt{VWinAt} statements.  That deduction remains
+correct under its stated hypotheses.  The proof above supplies
+the missing finite-family synchronization from the stronger
+actual source construction, using its literal uniform
+\texttt{TwoIn} and arbitrary-$J$ Part A/Part B interfaces.
+It removes that source-budget loss for the abelian field $F_u$.
+AC-QG101's obstruction to the stated naive change of
+$\varepsilon$ is not altered: no such reparameterization is used.
+
+\paragraph{The surviving I399 common-window condition.}
+Write $I_{399}=I_{399}^{(0)}+I_{399}^{(\ne0)}$.
+If a bound with fixed positive slack for $I_{399}^{(\ne0)}$
+is supplied on the very same $W$ constructed above, (AW.8)
+absorbs the abelian sector and gives (TC.3), after increasing
+the threshold.  This is an exact conditional use of the result.
+An independent assertion of the form ``there exists some
+$W$ for the remainder'' does not supply this compatibility.
+In particular, a squared window $[Y,Y^2]$ contained in
+$[W,W^2]$, with $W>1$, forces $Y=W$: its endpoints give
+$W\leq Y$ and $Y^2\leq W^2$.
+There is no general operation of shrinking an already chosen
+squared window to a different squared window inside it.
+Nor does the source give a prescribed-window estimate in place
+of its exceptional-set construction.
+Accordingly (AW.8) is not asserted to weaken the existential
+remainder-only form of I399, and does not close EB-Q02,
+$\mathcal R_{\rm cub}$, or AM-H04.4.
+
+\paragraph{Geometric and source scope.}
+All groups are the original cohomology of arithmetic curves
+with pure Tate or finite Artin--Tate coefficients.
+The finite cover/Fourier dictionary is exactly AC-K19/25 and
+AC-G30; no new motive, Hodge-square construction, or mixed
+theta identification is claimed.  Complete applied containing
+source proofs and their exact hashes are listed in the adjacent
+receipt.  Deep automorphy, duality, Ferrero--Washington, and
+the source's tower bound are retained at the stated interfaces;
+reading their wrappers is not represented as a reproof of those
+deep inputs.

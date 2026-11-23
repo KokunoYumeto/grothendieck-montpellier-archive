@@ -1,0 +1,13 @@
+# Checkpoint05 — ongoing research
+
+Fifth scheduled45-minute checkpoint,23November2026 at00:05UTC (01:05 Europe/Berlin). The first three-hour review is recorded; the next review is00:20UTC. The current streak of reviews without mathematical movement is0. The uniform A-only construction and auxiliary-prime derivation remain open, with the same one-sided positive-window and maximal-unit gates.
+
+The newest standalone manuscript incorporates every completed result throughGRH-P098. The cubic average now uses C logP explicit candidates, C>1/log3, outside O(sqrtP loglogP) exceptional input primes, by the classical quadratic-product argument and private ramification. A fresh same-model worker derived this refinement while independently checking the previous average statements, before seeing their proofs; the root reconstructed it before reading that full derivation. Cilleruelo and Montgomery receive exact credit.
+
+The paper also gives two unconditional ordinary Tate trials overFp^4, a prescribed-radicand ordinary model, a supersingular point/maximal-unit equivalence, exact failed examples and infinitely many failures of the fixed two-trial noncube menu. The full p-dependent rational-twist density and interpolation calculations are integrated with their method-specific limits. These do not remove exceptional prescribed inputs and do not count as movement of the main gate.
+
+Current searches: breaking semiprimitive Jacobi purity with an added conductor and testing whether a separating Frobenius generator can be computed uniformly; the full ordinary endomorphism action and split-cubic selection. Any unproved calculation remains in the research records, not among proved paper statements.
+
+The latest98-page PDF compiles without overfull boxes or undefined references; its build report is included. All new proof modules have been fully read and checked, and a fresh whole-paper expert reading is complete, with its exact snapshot and correction recorded. The final newcomer reading, all-page visual inspection, version-folder migration, source-snapshot identity and final manifest remain to be completed. The source inventory covers every current bibliography item and the three attached SGA dictionary sources. Three bibliography items lack original-byte hashes; the Solovay–Strassen item includes both its article and erratum. The unavailable objects are explicitly recorded without invented hashes.
+
+Next scheduled checkpoint:00:50UTC. Next hourly progress review:00:20UTC; a second consecutive review without mathematical movement would end research at01:20UTC. Earlier checkpoint ZIPs are not embedded. No source papers/extractions or unchanged attachments are included. No public repository was changed and no author contacted.

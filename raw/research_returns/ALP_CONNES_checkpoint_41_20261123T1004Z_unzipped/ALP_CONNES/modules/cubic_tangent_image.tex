@@ -1,0 +1,303 @@
+\section{The exact mixed tangent image needed by the extraction proof}
+\label{sec:cubic-tangent-image}
+
+This section gives a conditional replacement for one precise hypothesis
+in the source extraction argument.  It does not construct a cubic
+\texttt{Dat}, identify its integral Selmer module, or assert that its
+mixed tangent image vanishes.  Paths in this section are relative to
+\texttt{src/Development/AutomorphicArithmetic/AutomorphicVarieties/}
+at the pinned commit of AC-K29, except where a full relative path is
+explicitly written.
+
+\paragraph{The literal source domains.}
+Write $O=c.O$ and $\kappa=\overline{\mathbb Q}_\ell$ with the
+source coefficient embedding.  In
+\path{UnitaryThreeGroups/TanCocIsBK.lean},
+\texttt{tanCoc\_isBK}, the quantifier is over every
+\[
+ F:S.R\longrightarrow_O\kappa[\epsilon]/(\epsilon^2),
+ \qquad \operatorname{IsLocPt}(\operatorname{dualFst}F).
+                                                               \tag{GT.1}
+\]
+Here $S:D.\operatorname{Ring}(U,g_1)$, $U:D.\operatorname{ULoc}$,
+$D.\operatorname{Marked}(g_1)$, and $D:\operatorname{Dat}
+(\Omega,K,c,e,\psi)$ have exactly the source meanings.
+In particular $\ell$ is prime, $\Omega$ is an algebraic closure
+of $\mathbb Q$, $K$ is a number field embedded in $\Omega$,
+$N\ne0$, and $\psi$ is the source Dirichlet character modulo $N$.
+The theorem also assumes its entire \texttt{CohInp}.
+It proves that the displayed cocycle is continuous and satisfies
+all of the source's \texttt{IsBK} local conditions; it does not
+prove that its global class is zero.
+
+The relevant restriction on the specialized point is in
+\path{UnitaryThreeGroups/Rigid0.lean}, record \texttt{PtHyp}.
+Its last field is
+\[
+ \forall f:S.R\longrightarrow_O\kappa,\quad
+ \operatorname{TwoPt}(\eta,r,f)\Longrightarrow
+ \operatorname{Rigid}(r,f),\qquad r=S.r.\operatorname{hom}.
+                                                               \tag{GT.2}
+\]
+In \path{UnitaryThreeGroups/GRepresents.lean},
+\texttt{tanCoc}, \texttt{Rigid}, and \texttt{RigidWt} are defined explicitly.
+The predicate \texttt{Rigid} quantifies over every $F$ in (GT.1)
+with $\operatorname{dualFst}F=f$, not just lifts chosen by one
+basis of a tangent space.  Its conclusion is
+$\operatorname{tanCoc}(F,r)=\operatorname{cob}(r_f,X)$ for
+some matrix $X$, where $r_f=\operatorname{push}(f,r)$.
+Here \texttt{TwoPt}, defined in \texttt{ConjStable.lean}, means
+\texttt{IsLocPt} together with neither \texttt{Upper} nor
+\texttt{Lower} for the specialized representation.
+The other two fields of \texttt{PtHyp} are retained: at every local
+point which is both upper and lower, its specialized representation
+equals the base representation (not an asserted equality of algebra
+maps), and
+\texttt{RigidWt} holds at that base point for every integer
+weight $j\le0$.
+
+The statement of
+\path{UnitaryThreeGroups/ModelUpper.lean}, \texttt{model\_upper},
+is more algebraic.  Its quantifiers range over every prime
+$\ell\ne2$, coefficient $c$, topological groups $\Gamma,H$,
+characters $\eta:\Gamma\to\{\pm1\}$ and
+$\Psi:\Gamma\to O^\times$, set $\mathcal N\subset\Gamma$,
+continuous homomorphism $\iota:H\to\Gamma$, the specified universal
+local ring $U$ for the restrictions of $(\eta,\Psi)$, an ideal
+$I\subset U.R$, elements $c_c,g_1\in\Gamma$, a source
+$S:\operatorname{SRing}(\mathcal N,\iota,U,I,c_c,g_1)$, and every
+$M:\operatorname{Model}(S,\kappa)$.
+It retains \texttt{Marks}, \texttt{LemmaM}, finiteness over $O$
+of the weight-zero subalgebra, \texttt{PtHyp} at $M.x_0$, and
+nonvanishing of the selected trace difference at every two-point
+point.  None of those conditions is dropped below.
+The proof uses the last field of \texttt{PtHyp} in
+\path{UnitaryThreeGroups/GradedModelDerivationConditionOfPtHyp.lean},
+\texttt{gradedModel\_derivationCondition\_of\_ptHyp}, to control
+all point derivations, before producing the finite trace family.
+
+\begin{proposition}[AC-K29-tangent: exact replacement of the mixed rigidity step]
+\label{AC-K29-tangent}
+Fix any of the source data just described, or a proposed modified
+arithmetic model for which the same ring, lift, local-condition and
+extraction interfaces have separately been established.
+The following assertions are pointwise in all of those data; to
+apply them throughout the family in AC-K29 they must hold for every
+$x,e,\ell,o$ and every coefficient extension, local choice $U$,
+marked element $g_1$, ring $S$, model $M$, two-point point $f$, and
+lift $F$ used in that extraction.
+
+Suppose each type-II point has endpoint block $B_f$, middle
+character $m_f$, and a normalized semidirect unitary action on
+$\operatorname{Mat}_3(\kappa)$ preserving the decomposition
+\[
+ \operatorname{ad}(r_f)=\mathcal A_f\oplus\mathcal C_f
+                                      \oplus\mathcal R_f.       \tag{GT.3}
+\]
+Here $\mathcal A_f$ consists of the four entries in the endpoint
+corner $\{0,2\}\times\{0,2\}$, $\mathcal C_f$ of the $(1,1)$
+entry, and $\mathcal R_f$ of the four endpoint/middle entries.
+Denote the coordinate projections by $P_A,P_C,P_R$.  Thus
+\[
+ P_RX=\begin{pmatrix}
+ 0&X_{01}&0\\ X_{10}&0&X_{12}\\0&X_{21}&0
+ \end{pmatrix}.                                               \tag{GT.4}
+\]
+Assume, for every such $f$ and every $F$ with
+$\operatorname{dualFst}F=f$, that the cocycle
+$\gamma_F=\operatorname{tanCoc}(F,r)$ is continuous and satisfies
+\texttt{IsBK}, and that $P_A\gamma_F$ and $P_C\gamma_F$ are
+coboundaries in their respective representations.
+Define the actual mixed tangent image by
+\[
+ \mathcal T_f=
+ \left\{[P_R\gamma_F]:
+ F\in\operatorname{Hom}_{O\text{-alg}}
+       (S.R,\kappa[\epsilon]/(\epsilon^2)),\
+       \operatorname{dualFst}F=f\right\}
+       \subseteq H^1_f(\mathbb Q,\mathcal R_f),                 \tag{GT.5}
+\]
+when $\Gamma=G_{\mathbb Q}$; for a general group use the
+continuous $H^1$ with the stipulated local conditions instead.
+Then
+\[
+ \mathcal T_f=\{0\}
+ \quad\Longleftrightarrow\quad
+ \forall F\text{ over }f,\quad
+       \gamma_F\text{ is a coboundary}.                         \tag{GT.6}
+\]
+The assertion on the right is exactly the type-II part of (GT.2).
+It is also equivalent to the mixed cocycle of every actual lift
+being a coboundary, under the retained diagonal-block assumptions.
+
+Consequently, if the first two fields of \texttt{PtHyp}, the
+type-I/type-II dichotomy, the entire type-I rigidity step,
+and all other premises and integral
+comparisons of \texttt{model\_upper} and \texttt{vlen\_le} are
+retained, imposing $\mathcal T_f=0$ at every type-II point supplies
+the remaining rigidity field.  Together with the actual automorphic
+admissibility, trace-class injection, and local-condition
+identification, this is sufficient for the extraction premise of
+AC-K29.  It is not a proof of those additional premises.
+
+For the cubic endpoint descent of AC-G45, before or after the
+fixed scalar normalization of AC-G46, the mixed module is
+\[
+ \mathcal R_f\simeq V_f\otimes
+                  \operatorname{Ind}_{G_K}^{G_{\mathbb Q}}\chi^j
+       \quad (j=1,2).                                        \tag{GT.7}
+\]
+The full assertion $H^1_f(\mathbb Q,\mathcal R_f)=0$ is sufficient
+for (GT.5) to vanish.  The replacement (GT.5) asks only about the
+image of the actual lifts.  No surjectivity of this image onto
+$H^1_f$ is assumed or proved.
+
+Finally, a fixed scalar character twist has the exact identities
+\[
+ \operatorname{ad}(r_f^\nu)=\operatorname{ad}(r_f),\qquad
+ \operatorname{tanCoc}(F,r^\nu)=\operatorname{tanCoc}(F,r).
+                                                               \tag{GT.8}
+\]
+They hold also for the anticyclotomic semidirect extension of
+$\nu$ in AC-G46.  Thus a transport by that fixed twist leaves
+the image (GT.5) unchanged whenever the actual rings and lifts
+are transported; it does not by itself prove its vanishing.
+\end{proposition}
+\begin{proof}
+\proofstep{1. The actual tangent cocycle.}
+Write $F(a)=f(a)+\epsilon d(a)$, so that $d$ is an $O$-derivation
+with values in the $S.R$-module $\kappa_f$.  If $a(g)$ is the
+matrix component of $r(g)$, the literal definition is
+\[
+       \gamma_F(g)=d(a(g))\,f(a(g))^{-1}.                       \tag{GT.9}
+\]
+The first-order product rule, including the derivative of
+$J a^{-t}J$ on the nonidentity component, gives
+$\gamma_F(gh)=\gamma_F(g)+\operatorname{ad}(r_f)(g)\gamma_F(h)$.
+This is exactly \texttt{tan\_coc} and its complete matrix proof
+in \texttt{TanCocIsBK.lean}.  The continuity and local conditions
+are the retained hypotheses, supplied by \texttt{tanCoc\_isBK}
+for the literal source data.  Linear combinations of $O$-derivations
+again give lifts of $f$, and the zero derivation gives the constant
+lift.  Thus (GT.5) is a linear subspace containing zero.
+
+\proofstep{2. The source block decomposition.}
+For a block matrix with endpoint corner $B_f$ and middle scalar
+$m_f$, conjugation preserves each of the three coordinate spaces
+in (GT.3).  The other component of the semidirect action is
+negative transpose followed by the anti-diagonal reversal;
+it preserves the endpoint corner and the middle entry and
+exchanges the two mixed rectangular spaces.  Hence all three
+coordinate projections commute with the full adjoint action.
+They are continuous, sum to the identity, and have pairwise
+zero products.
+
+For comparison with the literal old source, let
+\[
+ p_\pm(X)=(X_{01}\pm X_{12},\ X_{21}\mp X_{10}),\qquad
+ s_\pm(v)=\begin{pmatrix}
+ 0&v_0&0\\ \mp v_1&0&\pm v_0\\0&v_1&0
+ \end{pmatrix}.
+                                                               \tag{GT.10}
+\]
+A direct entrywise calculation gives
+$P_RX=\tfrac12s_+p_+(X)+\tfrac12s_-p_-(X)$.
+These are exactly \texttt{pB 1}, \texttt{pB (-1)},
+\texttt{sB 1}, \texttt{sB (-1)} and \texttt{decomp} in
+\path{TheoremsMuLinked/GaloisRepresentationTypes/ReducibleThreeDim.lean}.
+In the old determinant-one endpoint situation their equivariance
+identifies the two summands with $V_f$ and $V_f\eta_K$.
+In the cubic situation the whole mixed space remains invariant,
+whereas these two old summands need not be invariant separately.
+The coset-column identification proved in AC-G45 gives (GT.7).
+The combined projection (GT.4), rather than an unproved old
+rank-two splitting, is therefore the relevant one.
+
+Continuous equivariant projections preserve cocycles,
+coboundaries and the stated local conditions.  For the latter,
+away from $\ell$ apply the projection to an inertia coboundary;
+at $\ell$ apply its tensor with $B_{\mathrm{cris}}$ to the
+trivializing vector.  This is also the complete argument of
+\texttt{bk\_map} in the same source file.  Thus (GT.5) has the
+asserted target.
+
+\proofstep{3. Equivalence and the exact source use.}
+If $[P_R\gamma_F]=0$, choose $Y_R\in\mathcal R_f$ with
+$P_R\gamma_F(g)=\operatorname{ad}(r_f)(g)Y_R-Y_R$.
+Choose $Y_A,Y_C$ similarly using the retained assumptions.
+Their sum gives
+\[
+ \gamma_F(g)=\operatorname{ad}(r_f)(g)(Y_A+Y_C+Y_R)
+                                      -(Y_A+Y_C+Y_R).
+\]
+The source convention is
+$\operatorname{cob}(r_f,X)(g)=X-\operatorname{ad}(r_f)(g)X$;
+take $X=-(Y_A+Y_C+Y_R)$.
+Conversely, projecting any such coboundary proves that its mixed
+class is zero.  This proves both directions of (GT.6), with
+exactly the stated quantifier over all lifts of each point.
+
+The entire proof of
+\path{ModularityArgument/ThresholdArguments/DenseThresholdCases/FPtHypU.lean}
+first obtains \texttt{tanCoc\_isBK}.  At a two-point point it
+uses type-I rigidity in one case and full adjoint vanishing in
+the type-II case, and then converts membership in $B^1$ to the
+source \texttt{cob} convention.
+The complete proof of \texttt{TypeIIOfBlochKatoLocalPoint.lean}
+in the same directory handles the corner with
+\texttt{RigiditySecondCase}, the middle with the nonpositive-weight
+input, and the old two mixed summands with \texttt{kUse'}.
+Replacing only that last use by (GT.5) and the preceding
+recombination gives precisely the same last field of
+\texttt{PtHyp}.  All first-field, base-weight, type-I,
+integrality, finite-algebra, model and admissibility hypotheses
+remain present.  The complete \texttt{model\_upper} proof then
+applies to literal source models; a proposed modified model must
+also establish its corresponding interface before this inference
+can be used for the cubic coefficient.
+
+\proofstep{4. Fixed scalar twisting.}
+For a usual representation, write $a^\nu(g)=\nu(g)a(g)$.
+Scalar matrices cancel in conjugation, so the adjoint action is
+unchanged.  For the semidirect unitary group use a scalar function
+$q(g)$ satisfying $q(gh)=q(g)q(h)^{\eta(g)}$, as furnished by
+an anticyclotomic character on $G_K$ and value one at complex
+conjugation.  Then $a^\nu(g)=q(g)a(g)$ defines the corresponding
+semidirect twist; scalars still cancel in
+$a^\nu(g)\theta_{\eta(g)}(X)a^\nu(g)^{-1}$.
+The fixed twist is valued in the coefficient algebra, so every
+$O$-derivation has $d(q(g))=0$.  Equation (GT.9) gives
+\[
+ d(q(g)a(g))\,f(q(g)a(g))^{-1}
+   =q(g)d(a(g))\,f(a(g))^{-1}q(g)^{-1}
+   =\gamma_F(g).
+\]
+This proves (GT.8), including the cocycle itself, not just its
+cohomology class.  Coordinate projections and local-condition
+cochain complexes are therefore identical.  Transport of a
+particular deformation ring or its prescribed local conditions
+is a separate hypothesis; none has been inferred from this
+identity.
+\end{proof}
+
+\paragraph{Admissibility and scope.}
+The fixed-$K$ counting class has no explicit determinant-one
+condition.  Its \texttt{Adm3Alt} definition is in
+\path{ModularityArgument/ThresholdArguments/DenseThresholdCases/AfStmt.lean},
+and \texttt{Adm3U\_s} adds \texttt{Unl} in \texttt{NumberU3US.lean}.
+The imported definition
+\path{src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/AdmissibleResidues/IsAutomorphicOverImagQuad.lean},
+\texttt{AutCsd0}, asks for an attached regular algebraic cuspidal
+representation satisfying \texttt{DualIsConj}; it does not impose
+a trivial central character.  The remaining \texttt{WitA},
+\texttt{Level} and \texttt{Unl} conditions still require proof.
+At the inert primes of AC-K29, the blockwise map
+$(\nu\chi^j V_f)|_{G_K}\oplus\nu\mapsto V_f|_{G_K}\oplus1$
+preserves the tested trace, and is injective on isomorphism classes
+when the endpoint block is irreducible and the twisting characters
+are fixed.  Indeed the unique irreducible two-dimensional summand
+is recovered from either side and the fixed twist is invertible.
+Membership of the image in the source \texttt{Adm2A} still asks
+for its actual newform attachment, \texttt{WitAQ}, determinant
+weight and level.  Neither this counting observation nor the
+scalar determinant correction supplies the vanishing in (GT.5).

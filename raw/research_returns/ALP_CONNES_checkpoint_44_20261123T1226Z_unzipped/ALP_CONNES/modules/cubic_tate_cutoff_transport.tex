@@ -1,0 +1,467 @@
+\section{A smaller arithmetic Tate cutoff with the source ranks unchanged}
+\label{sec:cubic-tate-cutoff-transport}
+
+\paragraph{Status and precise scope.}
+This is a conditional-interface proof; checks are recorded in
+\texttt{CHECK\_EVENTS.tsv}.
+It changes the arithmetic cutoff $\lfloor x^{401}\rfloor$ to
+$\lfloor x^{399}\rfloor$ for every $0<\varepsilon<1/256$.
+The actual source ranks, hosts, geometric
+constant $C_t=401$, interpolation order $\lceil x^{377}\rceil$,
+ordinary and mixed local conditions, and analytic realizations are
+unchanged.  No numerical upper bound for an elliptic-unit index is
+proved.  The cubic mixed theta/Selmer identification and its analytic
+realization, explicitly retained in AC-K27, remain inputs.  The rational
+Dirichlet theorem \texttt{zeroFreeAll\_of\_topG} is not applied to a
+cubic character.
+
+All Lean source locators below refer to commit
+\texttt{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}, under \texttt{src/}.
+The argument is a mathematical proof about the displayed definitions;
+no Lean execution is asserted.
+
+\paragraph{Notation and the arithmetic gate.}
+Put $K=\mathbb Q(\omega)$ and use the actual fields $F_u$ and
+$H_u=F_u(\sqrt[3]{269})$, group $G_u$, coefficient rings $O_\ell$,
+degrees $b_\ell$, and derived indices $i_{\ell,\eta,e}$ of AC-K25--27.
+For a real $C\geq 5$ define
+\[
+ T_C(u)=\lfloor u^C\rfloor,\qquad
+ I_C(H_u,u)=\sum_{1\leq e<T_C(u)}\sum_\ell
+ \frac{\log\#k_{O_\ell}}{b_\ell}
+ \sum_{\eta\in\widehat G_u}\max(0,i_{\ell,\eta,e}).
+ \tag{TC.1}
+\]
+Every coefficient prime and every character of the full growing group
+occurs.  These sums are not restricted to the coefficient $269$, to
+selected residual characters, or to a sparse set of Tate weights.
+
+Here is the exact window convention used for the replacement.
+For every fixed finite datum in the retained cubic application,
+every $0<\varepsilon<1/256$, and every page $h(u)$ satisfying
+\[
+ u^{2+8\varepsilon}\leq 2^{h(u)}
+                   \leq2u^{2+8\varepsilon}\quad(u\geq1),
+ \tag{TC.2}
+\]
+there must be $J\geq1$, $X_0$, and a positive relative slack
+$\sigma\in(0,1)$, independent of $X,q,d,u,\ell,\eta,e$, such that:
+for every $X\geq X_0$ and every prescribed pair
+$\operatorname{WinPair}(\varepsilon,X^{1/J},q,d)$, there is one
+$W$ with $X^{1/J}\leq W$ and $W^2\leq X$ for which
+\[
+ I_{399}(H_u,u)\leq(1-\sigma)\exp(u^\varepsilon/2)
+                 \quad\hbox{for every }u\in[W,W^2].
+ \tag{TC.3}
+\]
+The fields in this display are the actual fields on that page and
+that one pair $q,d$.  If the retained application has several
+simultaneously required fields or finite labels, (TC.3) is imposed
+on all of them on the same $W$; this proof does not construct a
+common window from separate label-dependent windows.  As in the
+source, fixed-datum and $\varepsilon$ dependence of $J,X_0,\sigma$
+is allowed.  Alternatively one can assume a little-o estimate,
+uniform on these same windows, which supplies any chosen fixed slack.
+
+\paragraph{The retained cubic input, stated without a cutoff.}
+Denote by $\mathcal R_{\rm cub}$ the unchanged mixed realization
+required after AC-K27.  It supplies the actual source-compatible
+families, mixed theta data, their strict-Selmer identification with
+the local and coefficient normalizations of AC-K25, and their
+analytic comparison to the cubic function in AM-H04.  Its arithmetic
+interface at a datum $D$ is indexed by the actual integer $t=D.R.t$:
+finiteness and the all-prime sum for every $1\leq e<t$, followed by
+the source's one-way mixed analogue of \texttt{LinkN\_at}.
+In particular the identified aggregate is
+\[
+ v_D(\ell)=\log\ell\sum_{1\leq e<D.R.t}
+                         \operatorname{shaLen}_D(\ell,e),
+ \tag{TC.4}
+\]
+with its prescribed comparison to the actual strict groups of $H$.
+The normalization and every finite comparison cost in that
+identification are retained, with the positive budget slack they
+require.  No reverse theta inequality is assumed.
+
+This formulation does not assert that $\mathcal R_{\rm cub}$ has
+been established.  It states explicitly the remaining input needed
+for the cubic conclusion.  The upper envelope $x^{401}$ is not a
+parameter of this input: it was used to supply (TC.4) for the actual
+$t$.  This finite range is the literal range in \texttt{Data.VV},
+\texttt{SizeData\_2.VV}, \texttt{ShaFinOdd}, \texttt{vvTerm},
+\texttt{LinkV\_at}, and \texttt{HypV}.  The complete proof of
+\texttt{vvRecord} uses \texttt{NData.sha\_eq} only for $0<e<D.R.t$;
+\texttt{divinN\_at} then consumes the sum (TC.4), with no extension
+of its weight range.  Thus an unproved mixed replacement of these
+identifications remains unproved at exactly the same places.
+If a proposed cubic realization uses additional Tate weights,
+it does not satisfy this stated retained interface, and the present
+conditional conclusion does not cover it.
+
+\begin{theorem}[AC-K35: conditional cutoff transport, arithmetic cutoff $399$]
+\label{AC-K35}
+For the actual source rank construction, the numerical premise
+(TC.3), with the unchanged common-window and slack conventions,
+supplies the same all-prime strict bound at every actual $D.R.t$
+as the former cutoff-$401$ premise.  It supplies the same
+\texttt{FReq.req}/\texttt{FReq.At} arithmetic property on the same
+host through all source point/family transports.
+
+Consequently, retaining $\mathcal R_{\rm cub}$ and all its other
+geometric, automorphic, local, coefficient, and analytic hypotheses,
+the cutoff-$399$ version of (EB.1) can replace its cutoff-$401$
+numerical premise in that cubic conditional implication to AM-H04.4.
+This is not an unconditional assertion of AM-H04.4, a proof of
+$\mathcal R_{\rm cub}$, or a bound for (TC.1).
+\end{theorem}
+
+\begin{proof}
+First, the old cutoff-$401$ premise implies (TC.3) with exactly
+the same $J,X_0,\sigma,W$, fields, and labels: for $u\geq1$,
+$T_{399}(u)\leq T_{401}(u)$ and every index summand is
+nonnegative.  No choice of new common windows is needed for
+this implication.  The old requirement for every
+$0<\varepsilon<1/52$ restricts to every
+$0<\varepsilon<1/256$.  The rest of the proof establishes sufficiency
+of the smaller premise; it does not assume an estimate for the
+discarded weights $T_{399}(u)\leq e<T_{401}(u)$.
+
+\proofstep{1. A sharp bound for the ranks actually constructed.}
+Write
+\[
+ a=2+8\varepsilon,\quad b=\tfrac92+10\varepsilon,\quad
+ c=\tfrac12-\tfrac\varepsilon{16},\quad
+ \alpha=\tfrac{797}{2}+\tfrac{929}{16}\varepsilon.
+ \tag{TC.5}
+\]
+The complete definitions in \texttt{PairRowIffQdRows.lean} give
+\[
+ \begin{gathered}
+ x^a\leq n\leq2x^a,\quad f=2n,\quad
+ x^c\leq m\leq2x^c,\quad x^b\leq k\leq2x^b,\quad
+ r=k+m-1,\quad L=x^\varepsilon,\\
+ T=\lceil x^{377}\rceil,\\
+ n_W=8\left\lceil\frac{10r}{8}
+              \left(f+\frac{f^2(k-1)^3L^2}{m}\right)\right\rceil,
+ \\ r+t=8fr+4+Tn_W.
+ \end{gathered}
+ \tag{TC.6}
+\]
+These are the actual equalities proved by
+\texttt{exists\_ranks\_rankVal\_frame}; $t$ is not being chosen
+independently.  Since $x>1$, $b>c$, $m\geq2$, and $k\geq5$,
+\[
+ f\leq4x^a,\quad r\leq4x^b,\quad
+ f+\frac{f^2(k-1)^3L^2}{m}
+        \leq132x^{17+(769/16)\varepsilon}.
+\]
+For the last estimate the two terms have bounds
+$4x^a$ and $128x^{2a+3b+2\varepsilon-c}$; the latter exponent
+is $17+(769/16)\varepsilon$ and exceeds $a$.
+The ceiling contributes less than $8$, so
+\[
+ n_W\leq5288x^{43/2+(929/16)\varepsilon},\quad
+ T\leq2x^{377},\quad 8fr+4\leq132x^\alpha.
+\]
+Dropping $-r$ from (TC.6) proves
+\[
+                         t\leq10708x^\alpha.
+ \tag{TC.7}
+\]
+For comparison, $r\geq k$, $f\geq2x^a$, $k-1\geq k/2$,
+and $m\leq2x^c$ also give $n_W\geq(5/2)
+x^{43/2+(929/16)\varepsilon}$.  Since $T\geq x^{377}$ and
+$(8f-1)r+4>0$,
+\[
+                         t\geq\tfrac52x^\alpha.
+ \tag{TC.8}
+\]
+This confirms that the proof is estimating the actual construction.
+
+Put $D_*=3191/8$.  Uniformly for $0<\varepsilon<1/256$,
+\[
+ \alpha<\frac{1633185}{4096}<D_*,\qquad
+ D_*-\frac{1633185}{4096}=\frac{607}{4096}.
+\]
+Therefore (TC.7) implies
+\[
+ x\geq10708^{4096/607}\quad\Longrightarrow\quad t\leq x^{D_*}.
+ \tag{TC.9}
+\]
+In particular $D_*<399$.  No geometric constant, rank, or host was
+altered to obtain this reserve.  By (TC.8), an integer cutoff at most
+$398$ cannot majorize this same actual rank construction for any fixed
+positive $\varepsilon$; no optimality for other rank constructions is
+asserted.
+
+\proofstep{2. The comparisons AC-K25--27 at an arbitrary cutoff.}
+The proofs of AC-K25--27 hold for any finite positive integer
+cutoff $T$.  The per-weight Fourier error in (FC.5) is
+$O(D^3\log D_H+D^4\log(2D))$, independent of the weight.
+The local and degree-one torsion bounds (FL.4) and (LT.2),
+summed over $e<T$, are bounded by a fixed constant times
+\[
+ D^2T^2\log(8TD)+D\mathcal R T^2+DrT,
+ \tag{TC.10}
+\]
+where $r\leq12$ and
+$\mathcal R=O_\varepsilon(x^{\varepsilon/5}(\log x)^2)$.
+The host estimates are still
+\[
+ D=O_\varepsilon(x^{2+8\varepsilon}),\qquad
+ \log D_H=O_\varepsilon(x^{2+41\varepsilon/5}(\log x)^2).
+\]
+For $T=T_C(x)$ with fixed $C\geq5$, these bounds and the exact
+determinant specialization (EU.1)--(EU.4) give
+\[
+ \left|\sum_{1\leq e<T_C(x)}\sum_\ell\log\#S_\ell(H_x,e)
+                       -I_C(H_x,x)\right|
+ \ll_\varepsilon x^{2C+4+16\varepsilon}(\log x)^2.
+ \tag{TC.11}
+\]
+Indeed the Fourier exponent is $C+8+161\varepsilon/5$,
+which is smaller than $2C+4+16\varepsilon$ in this range.
+The two other terms of (TC.10) are smaller as well.
+Finiteness and nonnegativity are exactly those already proved
+for every finite cutoff in AC-K25--27; no infinite signed sum
+is introduced.  At $C=399$ the error is
+$O_\varepsilon(x^{802+16\varepsilon}(\log x)^2)$.
+
+The implied constants are uniform over the allowed pair $q,d$
+and page at that $x$: the displayed discriminant and ramification
+bounds use only the defining window inequalities.  A fixed
+finite host factor merely affects the fixed implied constant.
+For each fixed $\varepsilon>0$ the error is
+$o(\exp(x^\varepsilon/2))$.  Thus (TC.3), after increasing
+$X_0$, supplies
+\[
+ \sum_{1\leq e<T_{399}(u)}\sum_\ell\log\#S_\ell(H_u,e)
+                  \leq\exp(u^\varepsilon/2)
+                         \quad(u\in[W,W^2]).
+ \tag{TC.12}
+\]
+For example the error can be made at most
+$(\sigma/2)\exp(u^\varepsilon/2)$ throughout the window.
+The normalization by $b_\ell$ and all bad coefficient-prime
+Fourier costs are included in (TC.11).
+
+\proofstep{3. The full common-window transport.}
+Fix the source finite datum and its constant $c_0\geq1$ in
+the relation $n=c_0 2^h$.  Set
+\[
+                  \xi=c_0^{1/(2+8\varepsilon)}\geq1.
+ \tag{TC.13}
+\]
+This is the same fixed multiplicative rescaling as in the
+complete proof of \texttt{WinPairs.lean}; it is not an
+independent choice of a field for each weight or coefficient.
+Apply the input window at $u$ and put $x=\xi u$, $Z=\xi W$.
+Increase its initial threshold so that
+\[
+ W\geq\xi^3,\qquad W\geq\xi^{3191},\qquad
+ \xi W\geq10708^{4096/607},
+ \tag{TC.14}
+\]
+and so that all the original host and pair thresholds hold.
+All these requirements depend only on the fixed datum and
+$\varepsilon$ and are imposed before choosing the later scale.
+For every $x\in[Z,Z^{3/2}]$, one has
+\[
+ u=x/\xi\geq W,\qquad
+ x\leq(\xi W)^{3/2}\leq W^2,\qquad u\leq W^2.
+ \tag{TC.15}
+\]
+The one pair $q,d$ and the page $h(u)$ are retained.
+Multiplying (TC.2) by $c_0=\xi^{2+8\varepsilon}$ gives
+$x^{2+8\varepsilon}\leq n\leq2x^{2+8\varepsilon}$.
+The source pair construction and its monotonicity give all
+the unchanged other fields of \texttt{WinDatum}, with common
+window exponent $3/2$; the proof uses only (TC.15), not a Tate
+cutoff.
+
+For any of the actual \texttt{RankVal} data at this $x$,
+(TC.9) and (TC.14) give
+\[
+ t\leq x^{3191/8}=\xi^{3191/8}u^{3191/8}
+                  \leq u^{399}.
+ \tag{TC.16}
+\]
+Since $t$ is integral, $t\leq\lfloor u^{399}\rfloor$.
+All summands in (TC.12) are nonnegative, so it bounds the
+entire interval $1\leq e<t$, at every coefficient prime.
+Also
+\[
+                 \exp(u^\varepsilon/2)
+                       \leq\exp(x^\varepsilon/2)
+                       =\sqrt{\exp(x^\varepsilon)}.
+ \tag{TC.17}
+\]
+The finiteness clause for every weight in that interval is
+preserved at the same time.  This is precisely the monotonicity
+used by \texttt{VVle.mono}; all its finite-prime-set inequalities
+follow from the nonnegative full-prime sum.  Algebraic closures
+and local coefficient realizations are not selected to depend
+on $e$: their canonical strict groups and normalized lengths
+are those of the retained identification.  No coefficient prime,
+character, or weight is dropped.
+
+One can formalize this replay by replacing the auxiliary
+\texttt{WinDatum.bound} field with the resulting bound for
+every compatible actual \texttt{RankVal} datum.  All other
+fields are identical.  In the complete proof of
+\texttt{supplyOfAdmOf.lean}, the bound field is used only in
+the last paragraph, where the old $x^{400}$ majorant is
+restricted to $R.t$.  Equation (TC.16) performs that last
+restriction directly.  The field construction, pair choice,
+admissible ranks, \texttt{HostGood}, and all their dependencies
+are therefore unchanged.  For the rational source this proves
+the pointwise conclusion of \texttt{HostExW} for each
+$0<\varepsilon<1/256$ from the corresponding
+\texttt{VWinAt(psi,399)} window data.  Literal \texttt{HostExW}
+quantifies over every $0<\varepsilon<1/52$; neither that
+full-range wrapper nor its \texttt{TopG} application is asserted
+here.  For the cubic application the pointwise argument supplies
+the strict bound (TC.4) on its actual retained fields, using
+(TC.11)--(TC.12), not by pretending those fields are rational
+\texttt{IsChiField} instances.
+
+\proofstep{4. Every later interface preserves the actual range.}
+In \texttt{Supply.lean}, \texttt{FReq.req} passes $R.t$ to
+the arbitrary arithmetic predicate; \texttt{FReq.At} passes
+$D.R.t$.  The complete \texttt{FReq.at\_of\_from} proof
+uses the actual rank equality, host equality, and the equality
+of the selected places to transport that predicate.  It does
+not enlarge $t$ or call an arithmetic assertion at exponent
+$401$.  \texttt{FamCore.R\_eq} keeps these ranks identical
+over the family at the same scale.  Likewise
+\texttt{hypV\_of\_cls} is a restriction of the same predicate.
+The compositum with the fixed cubic field is included in the
+retained structured host data and transported with its fixed
+embeddings.  This step is not an arbitrary field isomorphism
+which could permute the specified cubic character.
+
+The complete \texttt{vvRecord}/\texttt{divinN\_of\_hypV}
+proofs turn the finite-prime-set bounds at $e<D.R.t$ into
+the summable quantity (TC.4), then use \texttt{LinkN\_at}.
+The latter is an upper bound for the theta quantity in terms
+of this sum, with its other geometric terms unchanged.
+The argument neither reverses this inequality nor asks for
+any $e\geq D.R.t$.  The mixed replacements supplied by
+$\mathcal R_{\rm cub}$ enter at exactly these same finite
+indices.  Consequently the new arithmetic bound supplies
+the same retained family-level conclusion.  All geometric
+uses of the fixed constant $C_t=401$, such as the allowed
+size of interpolation parameters, remain untouched.
+
+The packaged \texttt{Supply.ExD} has a full-range
+\texttt{HostExW} premise, so it cannot simply be invoked with
+the restricted supply.  The actual construction has the following
+pointwise replay.  In the complete proof of \texttt{hostQ} in
+\texttt{SmallestPrimePolynomialBound.lean}, the host supply is
+called once, at the fixed $\varepsilon$.  Its \texttt{relevel}
+changes the list of level primes but leaves $R$, the underlying
+\texttt{HostAx}, and $TT$ unchanged, so the predicate
+$G.\mathrm{req}$ and the integer $R.t$ are identical.
+The same fixed-$\varepsilon$ argument therefore supplies the
+pointwise \texttt{HostExQW} data.
+
+In the complete proof of \texttt{hostWW}, the only such host call
+is again at that fixed $\varepsilon$.  If $\varepsilon_0$ and
+$\varepsilon_1$ are its existing positive object and weight
+thresholds, replace its output threshold by
+$\min\{\varepsilon_0,\varepsilon_1,1/512\}$.  Then every
+$0<\varepsilon$ below or equal to this threshold is strictly
+below $1/256$.  The object and weight constructions, their maxima
+of constants, the intermediate kits, and the resulting family
+use only this same $\varepsilon$.  Thus the unchanged literal
+\texttt{DC.HostWW} conclusion holds, with its smaller existential
+threshold; no full-range \texttt{HostExW} is manufactured.
+
+The complete \texttt{kitS} proof then takes the minimum of the
+host and object thresholds, and \texttt{designS} takes another
+minimum with $1/53$.  Both call their input only at the chosen
+$\varepsilon$; \texttt{designS} transports $G.\mathrm{pt}$ through
+\texttt{exists\_famP\_of\_kits} into $G.\mathrm{cls}$.
+Accordingly the construction used in \texttt{ObjCTrue.recS}
+gives the same literal \texttt{DC.DesignChoices} conclusion
+with a smaller positive threshold, without applying its packaged
+\texttt{ExD} statement.  The complete
+\texttt{designExists\_of\_choices} and \texttt{topDesWin} proofs
+again only take minima of positive thresholds and evaluate their
+inputs at the chosen exponent.  All their other source hypotheses
+remain exactly the retained hypotheses.  This proves the family
+replay on the smaller interval rather than adding a stronger
+family-existence clause to $\mathcal R_{\rm cub}$.
+
+\proofstep{5. The analytic exponent and the cubic scope.}
+Steps 1--4 require every $0<\varepsilon<1/256$, which lies
+inside the original source interval $0<\varepsilon<1/52$.
+This restriction preserves arbitrarily small positive exponents.
+Suppose the retained analytic realization gives
+its usual window bound $G_{269,j}(y)\leq C y^{1/2+A\varepsilon}$
+for arbitrarily large common windows of fixed relative exponent,
+with $A\geq0$ fixed as $\varepsilon$ tends to zero, as required by
+that realization.  For a possible zero with real part
+$\beta>1/2$, choose
+\[
+ 0<\varepsilon<\min\left\{\varepsilon_{\rm realization},
+       \frac1{256},\frac1{4\max(1,A)},
+       \frac{\beta-1/2}{2\max(1,A)}\right\}.
+\]
+Then $0<1/2+A\varepsilon<\min(1,\beta)$, and AM-H04's cubic
+window criterion applies exactly as before.  If the realization
+uses its separately stated exponent function instead, its
+unchanged requirement that this function tend to $1/2$
+is used in the same way.  No one fixed positive $\varepsilon$
+is asserted to exclude every possible zero.
+
+The source \texttt{FamilyClassConnected} also explicitly
+quantifies over every sufficiently small positive $\varepsilon$,
+and the displayed \texttt{GrowthBoundGivesRiemannHypothesis}
+interface has the same convention.  These rational interfaces
+verify the quantifier bookkeeping; their conclusion about
+Dirichlet characters is not substituted for the unproved cubic
+realization.  Since the cubic realization and its inputs were
+retained, this proves the stated conditional replacement.
+\end{proof}
+
+\paragraph{What the improvement does not accomplish.}
+The new premise is weaker than the cutoff-$401$ numerical
+premise because it sums a proper shorter initial interval of
+nonnegative indices on the same field.  It is still unproved.
+Equations (TC.7)--(TC.8) also show that a logarithmic cutoff
+cannot dominate the actual source $t$ by this route.
+The exact definitions impose $T=\lceil x^{377}\rceil$;
+\texttt{ParamsT.TO\_ge} furthermore contains the constraint
+\[
+ \frac{PP^4 D_p^3 k f x^{C_p}}{m\,\mathrm{de2}}\leq T,
+ \qquad PP=C_P(frL)^{e_P},\quad e_P\geq12.
+\]
+Changing that construction requires a new interpolation estimate.
+
+The higher-K upper envelopes audited in AC-K24 remain too large
+at cutoff $399$.  For example, in its 2015 envelope for
+$\log\#K$, the factor $D_H^{528m^5d_H^4}$ alone has logarithm
+at least a positive constant times $m^5$ when $D_H>1$.
+At a weight comparable to $x^{399}$ this is of order
+$x^{1995}$, much larger than $x^\varepsilon/2$ for the
+same $x$ and $0<\varepsilon<1/256$.  Thus that upper envelope
+does not prove the needed $\exp(x^\varepsilon/2)$ estimate.
+This is a failure of an available upper bound, not a lower bound
+for the actual K-group or elliptic-unit index.
+
+\paragraph{Source and geometric scope.}
+The exact new source reads are recorded with hashes in the
+adjacent manifest.  The complete rank-construction and rank-bound
+proofs, \texttt{WinPairs}, \texttt{supplyOfAdmOf}, \texttt{Supply},
+\texttt{DivinNOfHypV}, the complete pointwise chain
+\texttt{hostQ}/\texttt{hostWW}/\texttt{kitS}/\texttt{designS},
+\texttt{ObjCTrue.recS}, \texttt{designExists\_of\_choices},
+\texttt{topDesWin}, and the displayed final analytic interface
+were read.  AC-K25--27's applied finite-cutoff comparisons were
+rederived; their upstream duality and elliptic-unit theorem
+inputs are retained, not freshly reproved here.
+The finite arithmetic cover, Artin--Tate coefficients, and
+determinant lines are exactly those already described in those
+modules.  No new Grothendieck archive search, motive, or
+geometric realization is asserted.

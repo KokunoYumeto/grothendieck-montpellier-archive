@@ -1,0 +1,140 @@
+\section{Conductor three in the actual character-supply interface}
+\label{sec:conductor-three-audit}
+
+\begin{proposition}[AC-G34: conductor three is allowed by the inspected supply chain]
+\label{AC-G34}
+In the supplied character-supply interface, the primitive character
+$\psi_{-3}$ is not excluded by the separate predicate
+\texttt{CoprimeFifteen}.  More precisely, the declarations and
+implementations listed below accept an arbitrary primitive character
+$\psi$ of conductor $M>0$; the relevant coprimality condition is
+$\gcd(M,qd)=1$.  Specialization to $M=3$, with the large auxiliary
+primes $q,d$ in the supplied windows, satisfies this condition.
+The conclusion remains conditional on the actual supplied
+$\operatorname{VWinAt}(\psi,401)$ input.  It is the pure Tate
+Selmer bound in the source, not a cubic Artin twist of that bound.
+
+The source also contains a precise reserve for a \emph{fixed}
+frame multiplier: it passes from its cutoff $\lfloor x'^{401}\rfloor$
+to $\lfloor x^{400}\rfloor$ under a constant rescaling
+$x=kx'$.  This reserve does not establish the independent-window
+amalgamation considered in AC-G31.
+\end{proposition}
+\begin{proof}
+\proofstep{1. Exact declarations and the conductor.}
+All fetched files in this audit are pinned to repository commit
+\texttt{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}; their complete
+contents and hashes are retained in
+\path{evidence/source_interface/manifest.json}.
+The exact outer declaration is
+\texttt{UpperTheory.Top.supplyChi} in
+\texttt{CharacterBoxes/SupplyChi.lean}:
+\[
+ \forall\psi:\mathrm{PChar},\qquad
+ \operatorname{VWinAt}(\psi,401)
+       \Longrightarrow
+ \operatorname{HostExW}(3/2,(\operatorname{GChi}\psi).\mathrm{req}).
+                                                        \tag{G34.1}
+\]
+The implementation calls
+\texttt{UpperTheory.T3.supplyOfAdmOf}, in the file of that name,
+and the admission theorem in
+\texttt{CoprimeRanks/AdmChi.lean}.
+The character-field construction is the theorem
+\texttt{UpperTheory.Top.fieldChi} in
+\texttt{CharacterBoxes/FieldChi.lean}.
+Its hypotheses on the auxiliary primes include
+\[
+ q\ne3,\quad \gcd(M,qd)=1,\quad 4M\le b,
+ \qquad
+ \left(\frac{-d}{\ell}\right)=1
+ \quad(\ell\le b,\ \ell\text{ odd prime}),             \tag{G34.2}
+\]
+and its conductor conclusion is
+\[
+ M\mid Q_S,\qquad
+ Q_S\mid\operatorname{lcm}(2^{e+2},M),\qquad
+ Q_S\le4M\,\operatorname{ord}(\phi).                   \tag{G34.3}
+\]
+The first divisibility is the first clause of
+\texttt{KerChi}, defined in \texttt{CharacterBoxes/TwistForm.lean}.
+For $M=3$, (G34.3) therefore permits, and indeed requires,
+$3\mid Q_S$.  The condition $q\ne3$ in (G34.2) is a condition
+on the auxiliary prime, not on the character conductor.
+In \texttt{supplyOfAdmOf}, it is proved from the large-prime window;
+$\gcd(M,qd)=1$ is supplied by \texttt{PairGood.coprime}.
+Thus there is no conductor-three exclusion in this step.
+
+The theorem \texttt{UpperTheory.T3.hostOfFieldOf} in
+\texttt{ShortNorms/hostOfFieldOf.lean} accepts $M>0$ with
+$Q_S\mid\operatorname{lcm}(2^{e+2},M)$ and does not assume
+$\gcd(Q_S,15)=1$.  In its helper \texttt{hof\_exists\_host},
+the congruences modulo fifteen concern the chosen level
+primes $p_{\mathrm{de}},p'_{\mathrm{de}}$:
+\[
+ p_{\mathrm{de}}\equiv p'_{\mathrm{de}}\equiv1\pmod{15}.
+\]
+They are obtained together with congruence one modulo
+$Q_Sqd$, using a common multiple.  Both congruences are
+compatible even when three divides $Q_S$.
+The separately named \texttt{CoprimeFifteen}, whose definition
+is \texttt{Nat.Coprime H.QS 15} in
+\texttt{ConjEMemHostFIff.lean}, is neither a field of
+\texttt{Host} nor a hypothesis of the displayed chain.
+The full implementations of \texttt{FieldChi},
+\texttt{WinPairs}, \texttt{supplyOfAdmOf},
+\texttt{hostOfFieldOf}, \texttt{PairRows}, \texttt{PairHyp},
+\texttt{IsChiField} and \texttt{AdmChi} were read for this audit.
+This proves the claimed scope of the conductor check.
+
+\proofstep{2. The fixed rescaling and its exact cutoff.}
+Put $a=2+8\varepsilon$ and let the fixed multiplier be
+$c\ge1$.  Set $k=c^{1/a}$, so $k\ge1$ and $k^a=c$.
+The dyadic page at $x'$ has
+$x'^a\le2^e\le2x'^a$; therefore, at $x=kx'$,
+\[
+                  x^a\le c2^e\le2x^a.                \tag{G34.4}
+\]
+If $x'\ge k^{400}$, then
+\[
+ x^{400}=k^{400}x'^{400}\le x'^{401},\qquad
+ \sqrt{\exp(x'^\varepsilon)}
+        \le\sqrt{\exp(x^\varepsilon)}.                \tag{G34.5}
+\]
+These inequalities give the required monotonicity of the
+Selmer cutoff and budget.  If the old window is $[W,W^2]$
+and $W\ge k^3$, then
+$(kW)^{3/2}\le W^2$; every $x$ in
+$[kW,(kW)^{3/2}]$ has $x'=x/k$ in the old window.
+This is exactly the argument of
+\texttt{UpperTheory.Top.winPairs}.
+Its target \texttt{WinDatum.bound}, defined in
+\texttt{TwistForm.lean}, is
+\[
+ \operatorname{VVle}
+   \bigl(E,\lfloor x^{400}\rfloor,
+                 \sqrt{\exp(x^\varepsilon)}\bigr),    \tag{G34.6}
+\]
+for every field satisfying the literal
+\texttt{IsChiField} condition.
+The subsequent source rank theorem bounds its chosen $R.t$
+by that cutoff.  Thus one must distinguish the outer
+$401$-cutoff hypothesis from the $400$-cutoff reserve used
+in constructing a ranked host.
+
+No exponent $\varepsilon$ is changed in this argument, and
+there is only one character window.  In particular it does
+not remove the two-scale $q,d$ obstruction in AC-G31.
+Finally, the conclusion of \texttt{supplyOfAdmOf} explicitly
+uses \texttt{VVle H.E R.t (Real.sqrt s.b)}; the coefficient
+there is the pure Tate one in \texttt{LData}, as in AC-G29.
+Replacing it by a nontrivial cubic coefficient is a different
+statement.  This proves all assertions.
+\end{proof}
+
+This is a check of the supplied source statements and their
+inspected mathematical implementation, not a claim that a
+new Lean build was executed.  The audit closes the proposed
+\texttt{CoprimeFifteen} exclusion at this interface; it neither
+derives \texttt{VWinAt} from theorem A nor changes the
+coefficient in \texttt{NData.sha\_eq}.

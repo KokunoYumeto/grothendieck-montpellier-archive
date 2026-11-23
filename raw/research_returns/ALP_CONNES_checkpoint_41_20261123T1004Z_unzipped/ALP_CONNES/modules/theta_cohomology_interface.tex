@@ -1,0 +1,567 @@
+\section{The actual theta-index normalization and the mixed-character gate}
+\label{sec:theta-cohomology-interface}
+
+The regular construction of AC-G27 can be compared with the
+literal arithmetic normalization in the supplied source.  This
+comparison gives a bounded lattice loss, but the cohomology
+bound remains a separate input.  Throughout this section the
+source version is the immutable commit
+\texttt{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}.
+The newly recovered files and their hashes are recorded in the
+companion notes and acquisition manifest.
+
+\begin{theorem}[AC-G28: cubic projectors in the source index units]
+\label{AC-G28}
+Let $R$ be the ring of integers of a finite extension of
+$\mathbb Q_\ell$ containing $\omega$, let $V$ be a finite-dimensional
+vector space over its fraction field, and let $M\subset V$ be a
+full $R$-lattice.  Suppose $U(M)=M$ and $U^3=1$.
+For $J\subset\{0,1,2\}$ put
+\[
+ P_J=\sum_{j\in J}\frac13\sum_{a=0}^2\omega^{-ja}U^a,
+ \qquad V_J=P_JV,
+ \qquad M_J^+=P_JM,\quad M_J^-=M\cap V_J.
+                                                        \tag{G28.1}
+\]
+Then
+\[
+ 3M_J^+\subset M_J^-\subset M_J^+,
+ \qquad
+ M_J^+=V_J\cap(M+V_{J^c}).                              \tag{G28.2}
+\]
+Writing $r_J=\dim V_J$, the normalized length used in
+\texttt{DataN.lenUnit} satisfies
+\[
+ 0\le\frac{\operatorname{length}_R(M_J^+/M_J^-)}
+      {\operatorname{length}_R(R/\ell R)}
+ \le\begin{cases}
+ r_J,&\ell=3,\\
+ 0,&\ell\ne3.
+ \end{cases}                                            \tag{G28.3}
+\]
+The same inclusion bound holds after intersecting with a
+rational subspace or passing to a rational quotient.  If the
+integral $C_3$-action is retained through tensor, Weyl, dual,
+or other functorial integral constructions and the character
+projection is performed only at the end, (G28.2)--(G28.3)
+still hold with the constant $3$, independently of their degree.
+In contrast, applying a homogeneous polynomial functor of degree
+$d$ to the two lattices in (G28.2), after projection, gives the
+general inclusion $3^d F(M_J^+)\subset F(M_J^-)$.
+
+If $M=R^a\oplus R[C_3]^b$, with trivial action on $R^a$, then
+for every nonempty proper $J$ one has the sharper exact formula
+\[
+ M_J^+/M_J^-\simeq(R/3R)^b,
+ \qquad \operatorname{lenUnit}_3(M_J^+/M_J^-)=b
+                      \quad(\ell=3).                  \tag{G28.4}
+\]
+The theta permutation lattice of AC-G27 therefore has this
+normalized length $b=(r^3-r)/3$, where $r=d^g$, for every
+nontrivial proper character selection.  This projected-to-intersected
+length is a different invariant from the full Fourier determinant
+index of AC-G27.
+\end{theorem}
+\begin{proof}
+The polynomial $X^3-1$ is separable over the fraction field.
+The three displayed character operators are mutually orthogonal
+idempotents and sum to the identity.  Thus $V=V_J\oplus V_{J^c}$.
+Every coefficient of $3P_J$ belongs to $R$, so $3P_JM\subset M$;
+it also lies in $V_J$.  Conversely $P_J$ is the identity on
+$M\cap V_J$.  This proves the inclusions.
+
+If $x=P_Jm$, then $x=m-P_{J^c}m\in V_J\cap(M+V_{J^c})$.
+If $x=m+y$ belongs to that intersection, with $m\in M$ and
+$y\in V_{J^c}$, applying $P_J$ gives $x=P_Jm$.
+This proves the second equality in (G28.2), exactly the
+projected/intersected shape in \texttt{NData.MtUp} and
+\texttt{NData.MtLow}.
+
+Both $M_J^+$ and $M_J^-$ are free of rank $r_J$.
+Their quotient is a quotient of $M_J^+/3M_J^+$, so its
+length is at most $r_Jv_R(3)$.  The denominator in
+\texttt{lenUnit} is $v_R(\ell)$.  At $\ell=3$ these
+valuations agree, and at other primes $3$ is a unit.
+This proves (G28.3), including finite length; no manipulation
+of the source's $\mathrm{toNat}$ at infinite length is involved.
+
+For any rational subspace $W$, multiplying an element of
+$M_J^+\cap W$ by $3$ places it in $M_J^-\cap W$.
+Applying a linear quotient map gives the corresponding statement
+for image lattices.  For any newly constructed integral module
+with the induced order-three action, the same projector proof
+starts afresh and has the same denominator $3$.  No estimate of
+its dimension or tensor degree enters this argument.
+If instead $F$ is a homogeneous polynomial functor of degree
+$d$ applied to an already projected inclusion, the maps
+$3\operatorname{id}:M_J^+\to M_J^-$ and
+$\operatorname{id}:M_J^-\to M_J^+$ induce maps whose composite
+is $F(3\operatorname{id})=3^d\operatorname{id}$.
+Interpreting their images in the common rational representation
+gives the asserted degree-dependent inclusion.  The latter
+claim is restricted to such polynomial functors; the
+degree-independent projector assertion only requires an
+integral order-three action.
+
+It remains to compute one regular orbit.  Write its basis as
+$e_0,e_1,e_2$, with $Ue_a=e_{a+1}$, the suffixes taken modulo
+$3$.  For a singleton $J=\{j\}$, an eigenvector is
+$v_j=\sum_a\omega^{-ja}e_a$.  Its coefficients
+are units, so $M\cap V_J=Rv_j$, whereas $P_JM=(1/3)Rv_j$.
+The quotient is $R/3R$.
+For a two-element $J$, let $k$ be its complement.  The
+linear functional defining $V_J$ has unit coefficients and
+takes the value $3$ on a generator of the complementary
+eigenline.  It follows that
+\[
+ M\big/\big((M\cap V_J)+(M\cap V_{\{k\}})\big)
+              \simeq R/3R.
+\]
+Projection identifies this quotient with $M_J^+/M_J^-$.
+The trivial summands contribute nothing, and direct sums give
+(G28.4).  The integral orbit decomposition of AC-G27 now gives
+the theta-lattice assertion.
+\end{proof}
+
+\begin{corollary}[The exact height and global index normalization]
+\label{AC-G28-normalization}
+Let $F$ be a totally imaginary number field of degree $D$,
+with the same Hermitian metrics on two full $\mathcal O_F$-lattices
+$L\subset M$ of rank $n>0$.  Suppose
+$3^aM\subset L\subset M$, for an integer $a\ge0$.
+In the convention of
+\texttt{Formalism.HarderNarasimhan.StatementPl.size} and
+\texttt{muDef},
+\[
+ 0\le\mu(M)-\mu(L)
+   =\frac{2}{Dn}\log[M:L]\le2a\log3.                  \tag{G28.5}
+\]
+The same bounds hold for the differences of the maximum
+slopes and of the minimum slopes.  Thus a final cubic
+character projection costs at most $2\log3$ in each of
+these slope conventions.
+
+There is also a direct conditional comparison in the precise
+\texttt{LinkN\_at} units.  Suppose an actual source row has
+\texttt{etaJ\_tie} identifying its local indices with comparisons
+as in (G28.1), and suppose for every coefficient-field place
+$w\mid3$ the sum of their selected ranks is at most
+$d_0=\texttt{dZ0}\,j$.  The additional index contribution is
+then at most
+\[
+ \sum_{w\mid3}\frac{\log Nw}{[F:\mathbb Q]}
+                 e(w/3)\,\eta_J(j,w)
+              \le d_0\log3.                            \tag{G28.6}
+\]
+It is zero at all other coefficient primes.  Hence the
+additional term inside the rank-normalized bracket of
+\texttt{LinkN\_at} is at most $\log3$, once that row dictionary
+and rank comparison have been proved.
+\end{corollary}
+\begin{proof}
+The two covolumes differ by the additive-group index
+$[M:L]$.  All degree, discriminant, and rank factors in the
+definition of \texttt{ht} are the same.  Since $F$ is totally
+imaginary, $2\,\texttt{nPl}=D$; the source definitions give
+\[
+ \operatorname{size}(M)=\operatorname{ht}(M)^{1/(Dn)},
+ \qquad \mu(M)=-2\log\operatorname{size}(M).
+\]
+Thus the middle equality in (G28.5) follows.  The quotient
+$M/L$ is a quotient of $M/3^aM$, whose cardinality is
+$3^{aDn}$, proving the inequalities.
+
+Intersecting with any rational subspace preserves the
+inclusions and the constant $3^a$.  Passing to the image in
+any rational quotient also preserves them.  Apply (G28.5)
+to each such intersection or quotient.  The maximum slope
+is the supremum of the intersection slopes: a sublattice
+with a fixed rational span has no larger slope than the
+intersection with that span.  Similarly the minimum slope
+is the infimum of the saturated quotient slopes.  Taking
+these suprema and infima proves the corresponding bounds.
+
+For (G28.6), (G28.3) and the assumed rank comparison imply
+$\eta_J(j,w)\le d_0$.  All summands are nonnegative.
+Writing $Nw=3^{f(w/3)}$ and using
+$\sum_{w\mid3}e(w/3)f(w/3)=D$ yields the stated bound.
+The source \texttt{etaSum} uses the weight
+$\texttt{lwP}(w)\,\texttt{ramIdx}(w)$, with no factor $2$;
+\texttt{DataArith.sizeOfVal} uses twice that weight.
+This accounts for $\log3$ in (G28.6) and $2\log3$ in
+(G28.5).  Neither is a normalization of a spectral trace.
+\end{proof}
+
+\begin{remark}[What the theta ties do and do not identify]
+The exact source locators for the preceding comparison are
+\texttt{DataN.lean}: \texttt{lenUnit}, \texttt{NData.MtUp},
+\texttt{MtLow}, \texttt{etaLoc};
+\texttt{NStageTrivialCharacterCoeffEq.lean}: the field
+\texttt{NStage.etaJ\_tie}; and
+\texttt{DataParams\_2}: \texttt{SizeData\_2.dZ0},
+\texttt{lwP}, \texttt{sz}.  The last two displayed filenames
+with an ASCII suffix refer to the supplied files whose actual
+suffix is the Unicode subscript $2$.
+The source \texttt{DataTheta.ThetaX.TieRowIsom} instead says
+that a Petersson product scaled by \texttt{mY} equals the
+given row inner product; \texttt{TieMY} expresses
+\texttt{mY} as a product of explicit parabolic indices.
+The source \texttt{DataCoeff.normFock} divides a Fock pairing
+by the pairing of the chosen highest-weight vector with itself.
+Neither of these declarations divides a determinant index
+by the number of theta sections.
+The inequality (G28.6) is therefore a conditional comparison
+with the actual row index: the identification of the new
+regular construction with those rows, including the selected
+rank bound, has not been supplied by AC-G27 or by the
+archimedean orthogonality of its projectors.
+\end{remark}
+
+\begin{theorem}[AC-G29: scalar cancellation and the actual cohomology gate]
+\label{AC-G29}
+Let $G$ be a group, $R$ a commutative ring, and
+$\kappa:G\to R^\times$ a character.  For $R$-representations
+$V,W$, tensoring both with the free rank-one character
+$R(\kappa)$ gives an integral, $G$-equivariant identification
+\[
+ \operatorname{Hom}_R(V\otimes R(\kappa),
+                     W\otimes R(\kappa))
+       \simeq\operatorname{Hom}_R(V,W).                 \tag{G29.1}
+\]
+In particular, the literal family in \texttt{NData.chi\_def},
+\[
+          \chi_c=\chi_1\varepsilon^{-(c-1)},
+                         \qquad 1\le c\le t,
+\]
+has pairwise coefficients
+\[
+ \operatorname{Hom}(R(\chi_a),R(\chi_b))
+                =R(\varepsilon^{a-b}).                 \tag{G29.2}
+\]
+A common cubic twist of this family leaves these coefficients
+unchanged, including at the coefficient prime $3$.
+
+For comparison, put $P=R[C_3]$ with its regular action.
+Under conjugation by the regular permutation,
+\[
+              \operatorname{End}_R(P)\simeq P^{\oplus3}
+                                                        \tag{G29.3}
+\]
+integrally.  After extending scalars to a characteristic-zero
+splitting field, the mixed family
+$R(\chi_1\kappa^i\varepsilon^{-(a-1)})$, $i=0,1,2$,
+has cross coefficients
+\[
+       R(\kappa^{j-i}\varepsilon^{a-b}).                \tag{G29.4}
+\]
+Thus retaining regular cubic blocks produces the required
+mixed cubic coefficients, whereas a common scalar twist
+cannot produce them through (G29.2).
+
+In the supplied source the existing arithmetic tie is
+\texttt{NData.sha\_eq}: at each finite length and
+$0<e<t$, it identifies \texttt{Rows.shaLen} with the
+strict cohomology length of
+$\mathbb Q_\ell/\mathbb Z_\ell(-e)$ over the actual field
+\texttt{Host.E}.  It is not a tie to (G29.4).
+The source \texttt{LinkN\_at} has the direction
+\[
+ \eta\le d_0\left(C\,\mathcal E+
+           \sum_\ell\log\ell\sum_{0<e<t}
+                    \operatorname{shaLen}_\ell(e)\right),
+                                                        \tag{G29.5}
+\]
+with an explicitly defined geometric quantity $\mathcal E$.
+Consequently an upper bound on the additional index from
+AC-G28 supplies no upper bound on the cohomology sum in
+(G29.5).  That sum is bounded separately by
+\texttt{LinkV\_at} or by the varying-field \texttt{VVle}
+input to \texttt{VAt}/\texttt{VWinAt}.
+\end{theorem}
+\begin{proof}
+Choose the standard generator of the free rank-one module
+$R(\kappa)$.  It identifies the underlying Hom modules in
+(G29.1).  For a map $f$, the Galois action on the twisted Hom
+is
+\[
+ g\cdot f=(\kappa(g)\rho_W(g))\,f\,
+                 (\kappa(g)\rho_V(g))^{-1}
+            =\rho_W(g)f\rho_V(g)^{-1}.
+\]
+This proves equivariance without dividing by the order of
+the character.  Inverting the tensor functor by
+$R(\kappa^{-1})$ also shows that it is exact and preserves
+extension classes and all restriction maps.  For rank-one
+characters the Hom character is $\chi_b\chi_a^{-1}$,
+which gives (G29.2).  When $b>a$, its negative Tate weight
+is precisely $e=b-a$ in the source \texttt{qzTw} convention.
+
+For (G29.3), index a basis of $P$ by $i\in\mathbb Z/3$.
+The matrix units $E_{ij}$ form a basis of its endomorphism
+module.  Conjugation takes $E_{ij}$ to $E_{i+1,j+1}$.
+There are exactly three free orbits, distinguished by
+$j-i$.  Each is an integral regular module, proving (G29.3)
+over every $R$, including residue characteristic $3$.
+The rank-one ratio calculation gives (G29.4).
+For finite projective $V,W$, one can equivalently identify
+the regular-block Hom with
+\[
+ \operatorname{Hom}_R(V\otimes P,W\otimes P)
+       \simeq\operatorname{Hom}_R(V,W)
+                    \otimes\operatorname{End}_R(P).
+\]
+This expresses the new mixed coefficient before any
+nonintegral character splitting.
+
+The asserted source identification is read directly from
+\path{GaloisCohomology.Statement.LData}: its finite set
+$S$ is required to equal the primes above $\ell$, and its
+character must pull back to the cyclotomic character.
+The definitions are
+$\texttt{qzTw}(e)=\mathbb Q_\ell/\mathbb Z_\ell(-e)$,
+$\texttt{Sha}=\texttt{Sha1}$ for the local family at $S$,
+and $\texttt{shaLen}=\operatorname{length}_{\mathbb Z_\ell}
+\texttt{Sha}$.
+In \texttt{NData}, \texttt{ldat} is such a datum for
+$\texttt{H.E}$; \texttt{sha\_eq} gives the equality to the
+row field whenever the actual length equals a natural number.
+This ties the row variable to arithmetic when finite.  The
+abstract \texttt{Rows.Data} countermodel of AC-G25 therefore
+applies to that raw structure, and is not a countermodel to
+a fully tied finite \texttt{NData}.
+
+Finally \texttt{GlobalTheoremInputs.LinkN\_at} is exactly
+(G29.5), under summability of its \texttt{vvTerm}.
+Even numerically, an inequality
+$0\le\eta\le d_0(E+V)$ with $d_0>0$ and $E,V\ge0$
+cannot imply an upper bound on $V$: for example fix
+$\eta=0$, $d_0=1$, $E=0$, and let $V$ be arbitrarily large.
+This is a counterexample to reversing that inequality,
+not an assertion that actual cohomology lengths in a fixed
+number field can be assigned arbitrarily.
+The independently declared \texttt{LinkV\_at} bounds the
+cohomology sum from above.  The definitions
+\texttt{ExistsPageN.VVle}, \texttt{VAt}, and
+\texttt{VWinAt} quantify over the source host fields and
+their windows.  Neither (G28.3) nor (G29.1) changes those
+quantifiers or proves the required bound.
+\end{proof}
+
+\begin{proposition}[Exact transport of the local Hecke fragment]
+\label{AC-G29-Hecke}
+Let $R$ be the integers of a finite extension of $\mathbb Q_3$
+containing $\omega$, and write $e_R=v_R(3)$.
+Let $T\subset R^X$ be an $R$-subalgebra, where $X$ is finite
+and nonempty, such that $T$ is local and separates the points
+of $X$.  Let $M$ be a finite free $R$-module with a faithful
+$T$-action.  The regular cubic extension
+\[
+ T'=T[C_3]\subset R^{X\times\{0,1,2\}},
+             \qquad M'=M\otimes_R R[C_3]               \tag{G29.6}
+\]
+again gives a local algebra separating its rational
+eigencharacters, acting faithfully on a finite free module.
+These are the corresponding local algebra clauses of
+\texttt{NData}; no global Hecke or automorphic realization is
+asserted here.
+
+Let $P$ be the rational projector associated with any subset
+of $X$, and put
+\[
+ A=P(M),\qquad B=M\cap\operatorname{im}P,
+                 \qquad r=\dim\operatorname{im}P.
+\]
+Select one cubic character in (G29.6).  For the joint
+projector $P\otimes P_j$ the new projected and intersected
+lattices are, respectively,
+\[
+           (1/3)A\,v_j,\qquad B\,v_j,
+\]
+and consequently
+\[
+ \operatorname{length}_R(M'_{P,j,+}/M'_{P,j,-})
+       =\operatorname{length}_R(A/B)+r e_R,
+ \qquad \eta'_{P,j}=\eta_P+r.                          \tag{G29.7}
+\]
+At a coefficient prime different from $3$, the same joint
+character comparison has exactly the old length; the
+algebra $T[C_3]$ is then the product of three copies of $T$
+over a splitting coefficient ring, and each character factor
+is treated separately.
+
+The old length in (G29.7) can be arbitrarily large even in
+the displayed local algebra fragment.  Indeed, for a
+uniformizer $\pi$ and any integer $n\ge1$, take
+\[
+ T_n=M_n=\{(a,b)\in R^2:a\equiv b\pmod{\pi^n}\}.
+\]
+For the first-coordinate Hecke projector one has
+\[
+ A=R(1,0),\quad B=\pi^nR(1,0),\quad
+       \eta_P=n/e_R,\quad \eta'_{P,j}=n/e_R+1.          \tag{G29.8}
+\]
+Thus the cubic splitting contributes a controlled additive
+term and does not bound the original Hecke congruence length.
+\end{proposition}
+\begin{proof}
+Since $R$ is Noetherian, $T\subset R^X$ is a finite
+torsion-free $R$-module.  It is therefore finite free.
+Point separation implies that $T\otimes_R\operatorname{Frac}R$
+contains every coordinate idempotent.  For a fixed $x$, choose
+for each $y\ne x$ an element $f_{xy}\in T$ with
+$f_{xy}(x)\ne f_{xy}(y)$; the product of
+\[
+       \frac{f_{xy}-f_{xy}(y)}{f_{xy}(x)-f_{xy}(y)}
+\]
+over $y\ne x$ is that idempotent.  Thus the rational
+eigenspace projectors used in the statement exist.
+
+Evaluation of $\sum_{a=0}^2t_a\sigma^a$ at $(x,j)$
+means $\sum_a t_a(x)\omega^{ja}$.  A polynomial of degree
+at most two that vanishes at all three distinct roots is
+zero over the fraction field.  Evaluation is consequently
+injective.  Elements of $T$ separate unequal $x$'s, and
+$\sigma$ separates unequal $j$'s, so $T'$ separates all
+the stated characters.
+For locality, every maximal ideal of the finite integral
+extension $T'$ contracts to the unique maximal ideal
+$\mathfrak m_T$ of $T$.
+The residue field $k_T$ has characteristic $3$, and
+\[
+        T'/\mathfrak m_TT'=k_T[C_3]
+                    \simeq k_T[z]/(z-1)^3
+\]
+has just one maximal ideal.  Hence $T'$ is local.
+For faithfulness, apply $\sum_a t_a\sigma^a$ to
+$m\otimes1$ for every $m\in M$.
+The result is $\sum_a t_am\otimes\sigma^a$; its
+vanishing implies that every $t_a$ acts as zero and hence
+is zero.  This proves all asserted local algebra properties.
+
+Identify $M'$ with three copies of $M$.
+On one regular cubic orbit, $P_j$ has image
+$(1/3)Rv_j$, with all three coordinates of $v_j$ units.
+Thus applying the joint projector gives $(1/3)A v_j$.
+A vector $a v_j$ in the joint rational eigenspace lies in
+$M^3$ exactly when $a\in M$; since $a$ already belongs
+to $\operatorname{im}P$, its intersection is $Bv_j$.
+The exact sequence
+\[
+ 0\longrightarrow A/B\longrightarrow (1/3)A/B
+       \longrightarrow (1/3)A/A\longrightarrow0
+\]
+has last term isomorphic to $(R/3R)^r$.
+Taking lengths and dividing by $e_R$ proves (G29.7).
+If $3$ is a unit, the last term is zero and the usual
+Chinese remainder theorem gives the three local character
+factors as stated.
+
+Finally $T_n$ is free with basis $(1,1)$ and $(\pi^n,0)$.
+A pair in $T_n$ is a unit exactly when its common residue
+modulo $\pi$ is nonzero: the coordinate inverses still
+agree modulo $\pi^n$.  Hence $T_n$ is local.  The element
+$(\pi^n,0)$ separates its two rational characters, and
+its regular action on itself is faithful.  Projection of
+$(1,1)$ gives $(1,0)$, while a pair $(a,0)$ lies in
+$T_n$ exactly when $a\in\pi^nR$.
+This proves (G29.8), and (G29.7) gives its joint cubic
+version.  The example concerns precisely this local
+algebra/lattice fragment; it is neither a countermodel to
+all the fields of \texttt{NData} nor a refutation of a
+supplied global theorem.
+\end{proof}
+
+\begin{proposition}[The full-packet regular tensor fails the existing good-row test]
+\label{AC-G29-good-row}
+Let $V$ be a nonzero representation of dimension $n$ over a
+field, and let $P$ be the three-dimensional regular permutation
+representation through a cubic character $\kappa$.
+Then $V\otimes P$ is reducible: it has the canonical proper
+invariant subspace
+\[
+             V\otimes\langle e_0+e_1+e_2\rangle.
+                                                        \tag{G29.9}
+\]
+This remains true in characteristic $3$.
+If $\kappa$ is trivial on a subgroup $I$, then for every
+$\tau\in I$,
+\[
+ \det\bigl(X-\tau\mid V\otimes P\bigr)
+                  =\det\bigl(X-\tau\mid V\bigr)^3.     \tag{G29.10}
+\]
+In particular this polynomial is not squarefree.
+
+The source \texttt{CyclotomicNorms.StatementT.IsGood}
+requires each prescribed auxiliary polynomial to be
+squarefree.  A literal extension of an entire packet by
+the regular cubic representation therefore cannot preserve
+this good-row condition at an auxiliary inertia place
+where $\kappa$ is unramified, if the prescribed polynomial
+is transported through the existing inertia tie.
+For $\chi_{269}$, every auxiliary rational prime different
+from $269$ has this unramified property.
+This rules out that particular full-packet substitution;
+it does not rule out a new construction using separately
+twisted packets or a regular action on a multiplicity space.
+\end{proposition}
+\begin{proof}
+The vector $e_0+e_1+e_2$ is fixed by every permutation in
+the regular action and is nonzero over every field.
+Tensoring its one-dimensional span with $V$ gives an
+invariant subspace of dimension $n$ in a space of
+dimension $3n$, proving (G29.9).
+If the action on $P$ is trivial on $I$, the restricted
+representation is the direct sum of three copies of
+$V|_I$.  Its characteristic polynomial is the cube in
+(G29.10).  A nonconstant polynomial has a root over an
+algebraic closure, and that root has multiplicity at least
+three in its cube.  Thus the cube is not squarefree,
+in every characteristic.
+
+The source clause is explicit: following the monicity,
+degree, and nonzero-constant-term conditions, \texttt{IsGood}
+requires $\forall v,\ \texttt{Squarefree}(f(v))$.
+The tie is also explicit in \texttt{DataN.NTypes}:
+\texttt{inertiaCharpoly\_type} expresses the inertia
+polynomial at the chosen tame generator as the product
+of the linear factors obtained from the roots of
+\texttt{items\_2}; \texttt{teichC\_inj} is injective on
+the nonzero roots.  Consequently a squarefree monic
+polynomial with nonzero constant term would give distinct
+inertia eigenvalues under this tie.
+The clause \texttt{NAut.wdOf\_ine} identifies those
+inertia factors with the characteristic polynomial of an
+actual Galois representation away from its coefficient
+prime.  This is incompatible with (G29.10) at any such
+auxiliary place.  Equivalently, a direct polynomial
+transport would give $f(v)^3$, which fails the displayed
+squarefree clause immediately.
+
+The character $\chi_{269}$ is unramified away from $269$
+by AC-K04 and AC-G22; restriction to a larger base field
+preserves this unramified property.  The application to
+the auxiliary inertia places follows.  The statement is
+restricted to tensoring the entire Galois packet.  Applying
+scalar twists to three separate packets leaves each
+individual auxiliary inertia representation unchanged
+and does not encounter this particular cubic repetition,
+but requires the new cross-block arithmetic tie already
+identified in AC-G29.
+\end{proof}
+
+\begin{remark}[The narrowed remaining theorem]
+To use the regular principal construction in the supplied
+arithmetic argument, one needs an actual mixed-block version
+of its automorphic/cohomology dictionary: the new integral
+row and theta lattices must be identified with the source
+objects, the selected ranks must be controlled as in
+(G28.6), and the strict local conditions and arithmetic tie
+must be proved for the cross coefficients (G29.4).
+The normalized extra character-projection loss can then be
+bounded by AC-G28.  The uniform upper bound on those
+cohomology lengths over the growing host family remains
+a separate arithmetic assertion.  The construction does
+not replace the field \texttt{Host.E} by an etale CM algebra
+in an existing theorem, and its common scalar-twist variant
+does not alter the pairwise pure-Tate coefficients at all.
+\end{remark}

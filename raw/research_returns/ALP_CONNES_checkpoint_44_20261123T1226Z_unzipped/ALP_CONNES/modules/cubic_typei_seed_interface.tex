@@ -1,0 +1,161 @@
+\section{The exact Type I seed interface}
+\label{sec:cubic-typei-seed}
+
+\begin{lemma}[AC-K29-seed-shape: the cubic tuple is not a scalar adjoint tuple]
+\label{AC-K29-seed-shape}
+Let $H$ be a group with an involutive automorphism $c$.
+Let $\xi,\gamma:H\to k^\times$ be characters over a field,
+with
+\[
+ \xi^3=1,\quad \xi\ne1,\quad \xi^c=\xi^{-1},
+                         \qquad \gamma^c=\gamma.
+                                                               \tag{SI.1}
+\]
+For $j=1,2$, no character $u:H\to k^\times$ and no
+permutation transform the multiset
+\[
+                  u\{\xi^j\gamma,1,\xi^j\gamma^{-1}\}
+                                                               \tag{SI.2}
+\]
+into $\{\theta,1,\theta^{-1}\}$ for a character $\theta$.
+This applies to the cubic residual tuple at every
+$\ell\ne3$, and also to its order-nine scalar normalization.
+\end{lemma}
+\begin{proof}
+For three characters $a,b,d$, a scalar multiple of their
+multiset can be $\{\theta,1,\theta^{-1}\}$ only if one
+of the three characters is the geometric mean of the other
+two: choosing the entry which becomes $1$ gives respectively
+\[
+                         bd=a^2,\qquad ad=b^2,
+                                  \qquad ab=d^2.              \tag{SI.3}
+\]
+Take $a=\xi^j\gamma$, $b=1$, $d=\xi^j\gamma^{-1}$.
+The middle alternative gives $\xi^{2j}=1$, impossible
+for a nontrivial cubic character.  The first gives
+$\gamma^3=\xi^{-j}$, and the third gives
+$\gamma^3=\xi^j$.  Apply $c$ to either identity and use
+(SI.1).  Its right side is inverted and its left side is
+unchanged, again forcing $\xi^{2j}=1$.  This proves all
+cases, independently of the scalar $u$.
+Reduction preserves the order of $\chi$ at $\ell\ne3$,
+and a rational character restricted to $G_K$ is fixed by
+complex conjugation.  Thus (SI.1) holds for the residual
+characters under consideration.  The order-nine scalar
+normalization is among the arbitrary $u$ already excluded.
+\end{proof}
+
+\begin{remark}[AC-K29-TypeI-source: the generic source layer and the missing construction]
+\label{AC-K29-TypeI-source}
+The following is an audit of the actual pinned source
+interfaces, rather than an assertion that cubic Type I
+automorphy is false.  In this paragraph all filenames are
+relative to
+\path{src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/}
+at commit \texttt{7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}.
+
+\begin{enumerate}
+\item The literal \texttt{AutBAlt} in
+\path{AutomorphyUnramifiedCoefficients.lean}, lines 16--18,
+quantifies points of the old $D.\mathrm{Ring}$, where
+$D=\mathrm{Dat}(\Omega,K,c,e,\psi)$ and $\psi$ is a
+rational Dirichlet character.  Its Type II companion is
+the pointwise input used successfully in AC-K29-typeII.
+The Type I assembly in \path{AutEnd3Alt.lean},
+\texttt{autEnd3\_alt}, retains the old \texttt{OrdPt}
+and \texttt{GalLink} throughout its reduction to
+\texttt{AutPtAlt}.  It does not itself replace the residual
+tuple.
+
+\item A genuinely more general layer is present.
+\path{IsSeed.lean}, lines 25--34, defines
+\texttt{IsSeedAlt} for arbitrary tuples of characters
+$\psi_i,\tau_i$ on a CM field, with continuity,
+irreducibility, a symmetric conjugate-dual pairing,
+the residual sum, specified away-from-$\ell$ type,
+ordinary local flags, and an \emph{already automorphic}
+scalar twist.  Likewise
+\path{PointTheoremBaseObject.lean}, lines 26--49,
+quantifies arbitrary \texttt{Resid} data.
+Its point clause requires \texttt{IsAutCsdA} before
+concluding $J\subseteq\ker x$.
+The complete assembly
+\path{THidaX.lean}, \texttt{hida\_x\_of\_printed\_hida},
+produces a Hecke ideal $J$ for arbitrary residual data.
+The record \texttt{UnitaryHeckeData} in
+\path{UnitaryHeckeData.lean} has no nonzero localized-module
+field.  More decisively, the exact definition
+\texttt{HSet.IsJ} in
+\path{HeckeAlgebras/IsTheta.lean}, lines 46--52
+(relative here to \path{AutomorphicVarieties/}), explicitly
+allows the alternative
+\[
+          M_{K}=0,\qquad J=B,                             \tag{SI.4}
+\]
+before its nonzero Hecke-algebra branch.  Thus existence
+of this ideal alone does not assert nontrivial automorphic
+support for the cubic datum.  An actual automorphic point
+to which the point clause applies excludes (SI.4).
+
+\item The supplied construction of a rank-three seed is
+\path{AdjointLiftFromEisensteinSeedOfHyps.lean},
+\texttt{adjoint\_lift\_from\_eisenstein\_of\_propagation},
+whose full proof starts at line 184.  It constructs a
+rational two-dimensional ordinary Eisenstein-congruent
+representation $\rho$, takes $\operatorname{ad}^0\rho$,
+and checks the tuple $(\Psi,1,\Psi^{-1})$.
+The proof explicitly uses the identity
+$\operatorname{ad}^0(\rho\otimes\nu)
+=\operatorname{ad}^0\rho$.
+AC-K29-seed-shape shows that neither a scalar twist of
+this output nor a permutation provides the cubic residual
+tuple.  This is a statement about that specific seed
+construction, not about all possible automorphic seeds.
+
+\item Propagation must also be checked for the changed datum.
+The exact statement \texttt{SeedPtOfAlt} in
+\path{PrConc.lean}, lines 19--34, and the complete applied
+proof \texttt{main}/\texttt{seedPtOf\_alt} in
+\path{PrSeedPtOf.lean}, lines 152--259, still instantiate
+the tuples as powers of a rational $\Psi$ through
+\texttt{CReal} and \texttt{GalLink}.
+The conclusion \texttt{AutPtAlt} in
+\path{PrDesc.lean}, lines 16--21, has the same frame
+restriction.  The generic determinant-pair argument
+inside this proof accepts componentwise residual
+characters, but that fact alone does not verify all
+frame, auxiliary-place, and component-propagation
+hypotheses for the cubic tuple.
+\end{enumerate}
+
+The remaining Type I target is consequently concrete:
+construct an actual ordinary conjugate-self-dual cuspidal
+seed with the cubic residual sum and its prescribed local
+types, and verify the changed frame and propagation
+interfaces that carry its automorphic support to every
+actual Type I point used by the finite extraction.
+The higher-level generic Hida statements can be retained
+as source inputs once their hypotheses are verified.
+This audit neither assumes that a suitable seed cannot
+exist nor promotes the existence of a generic Hecke ideal
+to the required pointwise automorphy theorem.
+It also leaves the \texttt{Adm3U\_s} level and no-link
+conditions in AC-K29-budget explicit.  No new Lean run or
+independent verification of the imported automorphy
+literature is claimed.
+\end{remark}
+
+\paragraph{Geometric dictionary.}
+The three residual characters specify a decomposed finite
+local system; scalar twisting tensors it by a rank-one
+local system.  AC-K29-seed-shape is an obstruction to the
+specified adjoint construction of this local system.
+The formal deformation ring records lifts with their
+local conditions, while the Hecke ideal records the support
+provided by the automorphic module.  Its allowed zero
+module branch explains why existence of the ideal does not
+itself supply an automorphic point.  The finite-cover
+terminology reuses the audited SGA~1, Expos\'e~V,
+\S\S4 and~7 dictionary only; neither the deformation
+conditions nor nonzero Hecke support is attributed to
+that categorical equivalence.

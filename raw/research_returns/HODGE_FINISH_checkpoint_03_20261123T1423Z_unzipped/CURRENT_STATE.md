@@ -1,0 +1,11 @@
+# Continuation state at checkpoint 03
+
+Current standalone PDFs: Paper A 63 pages; Paper B 87 pages. Both latest projects have completed three fresh TeX passes with no overfull boxes or unresolved references. Paper A has a full expert page-image reading; its three changed pages have been reread. Its newcomer reading and both complete B image readings remain unfinished.
+
+Q24 is proved, including the period-to-geometry dictionary and a portable interval replay adapter. Q32 is proved at diagonal scope. Q23 has a proved rank-twelve K3 existence lemma and conditional quadratic-block theorem; automatic half-twist formal transfer is refuted. A separate corollary distinguishes the published canonical Kuga–Satake input. The principal even-lattice reduction is repaired without freeness; scalar-standard exclusion covers every positive rank. The coordinate-sign obstruction is now proved for n >=2, with exact determinant and fourfold incidence checks. New tags extend through UNFILED.109; all original 001–089 remain.
+
+Fresh independent theorem attacks now cover the sharp theta rank and full generic ideal, the positive Gaussian network, the cyclic suppliers, and the two remaining Mumford criteria. Targeted comparisons are proceeding. The all-field quantitative sixfold theorem has an unresolved independent re-proof obligation: the explicit regularity estimate R=560r²+8Dr+6. Its precise written proof is now being attacked; this is not recorded as an independent PASS. The fresh higher-dimensional Eisenstein supplier and strengthened n=2 sign theorem still need their final separate-worker checks.
+
+All finite catalogue replays, including the degree-99 actual group and kernel computation, pass. Final records, source hashes, portable command documentation, deposit sheets, and every-page double readings remain to be finished. Do not upgrade historical or targeted checks to independent checks.
+
+Start 12:02 UTC. Earlier immutable checkpoints: 01 at12:47:26UTC; 02 at13:32:37UTC. Checkpoint03 was due14:17:37UTC and is being saved after continuation context recovery at approximately14:25UTC. The next interval runs from the actual save. First three-hour movement review remains15:02UTC, then hourly. No public deposit or commit has occurred. The final deliverable remains HODGE_FINISH_final.zip.
