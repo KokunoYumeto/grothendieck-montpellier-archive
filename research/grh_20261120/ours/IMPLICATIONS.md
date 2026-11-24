@@ -19,7 +19,8 @@ Alpöge's Lean theorems (Main.lean) hold; they were read as statements, not buil
   Drinfeld's hexagon relation and to cotes 67-68: not worked out.
 - **GCT.** Nothing changes: KL positivity comes from purity; Koiran needs more GRH than A3-A5 (Q07). CX_GRH (21 Nov)
   localizes Koiran's input to RH for ζ_E of one bounded solution field (CX-K01) and proves HN ∈ AM ⊆ Π₂P
-  conditionally on Masullo (CX-K02). A_D gives the bounded abelian promise (CX-K03). The equation-given h.s.o.p.
-  search is in FP^{Σ₂P} under M (CX-K05). (corrected 21 Nov 2026 after the intake of CX_GRH, Claude Opus 5.5 at effort
+  assuming GRH for Hecke L-functions (CX-K02); since 25 Nov 2026 HN ∈ AM also follows without GRH from the zero-free half-plane
+  results (hexagon:2611.01018). A_D gives the bounded abelian promise (CX-K03). The equation-given h.s.o.p.
+  search is in FP^{Σ₂P} assuming GRH for Hecke L-functions (CX-K05). (corrected 21 Nov 2026 after the intake of CX_GRH, Claude Opus 5.5 at effort
   high)
 - **ETH.** No source on disk for a disproof; nothing to bridge until a source is given.

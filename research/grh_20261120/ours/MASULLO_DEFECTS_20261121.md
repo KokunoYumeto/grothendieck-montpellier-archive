@@ -1,4 +1,10 @@
-# Our record of Masullo's draft: located defects, repairs and the open gate (21 Nov 2026)
+# Our record of a GRH draft announced on 20 Nov 2026: located defects (21 Nov 2026)
+
+**Status, 25 Nov 2026.** The draft is not a proof: its decisive step (§§12.3-12.4) is equivalent to RH (MAS_ARTIN,
+finding MA-HM-003), and our records identify no correct result in it that is not already in the literature or a
+consequence of Alpöge's theorem. The constructions called "repairs" in the column below are our runs' own
+constructions; they do not complete the draft. The summary of 21 Nov at the end is superseded by this status. The
+rows are kept as the dated record of the check.
 
 Compiled by Claude Opus 5.5 at effort high (agent af2a18f62da23b48e) from two research runs, GRH_NIGHT and
 ALPOGE_BRIDGES, both GPT-6 Astra (ChatGPT Pro mode), and from our intakes of them. The draft is A. M. Masullo, *The

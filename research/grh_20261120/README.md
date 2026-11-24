@@ -1,15 +1,18 @@
-# The two GRH proofs of 20 November 2026: our working-through, status as of 22 Nov 2026 01:46 UTC
+# Alpöge's proof of RH and GRH for Dirichlet L-functions (20 November 2026): our working-through, status as of 22 Nov 2026 01:46 UTC, corrected 25 Nov 2026
 
-On 20 Nov 2026 two proofs of generalized Riemann hypotheses appeared:
-- **L. Alpöge**: RH, and GRH for Dirichlet L-functions. A note (https://alpo.ge/remark.pdf), with a Lean formalization
-  whose `Main.lean` proves Mathlib's `RiemannHypothesis` and the Dirichlet statements.
-- **A. M. Masullo**: GRH for the Hecke L-functions of every number field. A 940-page draft, announced by R. Vakil:
-  https://math216.wordpress.com/2026/11/20/hurried-announcement-alessandro-masullo-grh/
+On 20 Nov 2026 **L. Alpöge** proved RH, and GRH for Dirichlet L-functions: a note (https://alpo.ge/remark.pdf), with
+a Lean formalization whose `Main.lean` proves Mathlib's `RiemannHypothesis` and the Dirichlet statements. GRH for the
+Hecke L-functions of a general number field remains open.
 
-Both are unrefereed. That night we sent 21 research prompts (22-42) to GPT-6 Astra (ChatGPT Pro mode), asking how the two
-results bear on the Grothendieck programme of this repository, on geometric complexity theory, and on each other. We
-took the returns in as they landed. Results that need only Alpöge are marked as such; those that need Masullo are
-marked conditional.
+That night we sent 21 research prompts (22-42) to GPT-6 Astra (ChatGPT Pro mode), asking how the new results bear on
+the Grothendieck programme of this repository and on geometric complexity theory. We took the returns in as they
+landed. Results that need only Alpöge's theorem are marked as such. Results that need GRH for Hecke L-functions are
+stated as conditional on it, and it is open.
+
+Earlier versions of this page also treated a draft announced the same day, claiming GRH for all Hecke L-functions, as
+an input. Our check found its decisive step (§§12.3-12.4) equivalent to RH, so it is not a proof (MAS_ARTIN, finding
+MA-HM-003), and found no correct result in it that is not already in the literature or a consequence of Alpöge's
+theorem; it is no longer used. The dated intakes, reports and prompts below are kept as they were written.
 
 Who did what:
 - the runs: GPT-6 Astra (ChatGPT Pro mode);
@@ -39,10 +42,12 @@ The intakes are in [`intakes/`](intakes/), each with its check events.
   $\min_{0\ne u\in U_{n,b}}\mathrm{BR}(u)=\mathrm{BR}(T_b)$, hence $\mathrm{BR}(T_n)\ge\binom nb^s+\mathrm{BR}(T_b)-1$.
   It gives border rank ≥ 39 for the 4×4 determinant and permanent. The literature check is pending.
 - **Complexity** (28 CX_GRH): which form of GRH each conditional result needs. Some need Dirichlet characters only,
-  and then Alpöge suffices. Others need number fields, and then they need Masullo: Koiran's Nullstellensatz in AM,
-  Hooley's Artin conjecture, effective Chebotarev.
+  and then Alpöge suffices. Koiran's Nullstellensatz in AM no longer needs GRH: it follows from the recent zero-free
+  half-plane results (hexagon:2611.01018, with Baldwin-Sivek, arXiv:2611.06705, and Frei-Sofos-Widmer,
+  arXiv:2610.18491). Hooley's Artin conjecture and effective Chebotarev in its GRH form still assume GRH for Hecke
+  L-functions (open), and stay conditional.
 - **Zeta functions of schemes and motives** (35 ZETA_TWO):
-  - Under Masullo, RH holds for every CM motive. The open part is the non-CM motives.
+  - Assuming GRH for Hecke L-functions (open), RH holds for every CM motive. The non-CM motives are open even then.
   - Under Alpöge, an off-line zero of a non-CM elliptic L-function cannot be hidden inside $\zeta_E$.
   - Alpöge alone removes the Siegel-zero condition from Wei's bound for CM heights.
   - The naive "RH for every Λ-scheme" is false: $\mathrm{Spec}\,\mathbf Z[1/p]$ has zeros $2\pi ik/\log p$ on
@@ -135,7 +140,7 @@ Connes and Consani's F_{1²} (arXiv:2609.00299). In [split_zero/](split_zero/):
 | 45 | SIGN_NEXT: SIGN NEXT Grothendiecks Hodge-index route after the sign-only proof | [SIGN_NEXT_checkpoint_02_20261121T0430Z](../../raw/research_returns/SIGN_NEXT_checkpoint_02_20261121T0430Z_unzipped/) | [INTAKE_SIGN_NEXT_20261121.md](intakes/SIGN_NEXT/INTAKE_SIGN_NEXT_20261121.md), [INTAKE_SIGN_NEXT_20261121_part2.md](intakes/SIGN_NEXT/INTAKE_SIGN_NEXT_20261121_part2.md) |
 | 46 | HODGE_DIVISION: HODGE DIVISION bounding the detector degree of Weil classes | [HODGE_DIVISION_checkpoint_18_20261122T0009Z](../../raw/research_returns/HODGE_DIVISION_checkpoint_18_20261122T0009Z_unzipped/) | [INTAKE_HODGE_DIVISION_20261121.md](intakes/HODGE_DIVISION/INTAKE_HODGE_DIVISION_20261121.md), [INTAKE_HODGE_DIVISION_20261121_part2.md](intakes/HODGE_DIVISION/INTAKE_HODGE_DIVISION_20261121_part2.md), [INTAKE_HODGE_DIVISION_20261121_part3.md](intakes/HODGE_DIVISION/INTAKE_HODGE_DIVISION_20261121_part3.md) |
 | 47 | KTOWER: KTOWER the Galois action on the tower the K groups of Z and cote 149 | [KTOWER_checkpoint_11_20261122T0001Z](../../raw/research_returns/KTOWER_checkpoint_11_20261122T0001Z_unzipped/) | [INTAKE_KTOWER_20261121.md](intakes/KTOWER/INTAKE_KTOWER_20261121.md), [INTAKE_KTOWER_20261121_part2.md](intakes/KTOWER/INTAKE_KTOWER_20261121_part2.md) |
-| 48 | MAS_ARTIN: MAS ARTIN Masullo s central trace identity over Q the S Artin gate and the analytic premis | [MAS_ARTIN_checkpoint_12_20261122T0031Z](../../raw/research_returns/MAS_ARTIN_checkpoint_12_20261122T0031Z_unzipped/) | [INTAKE_MAS_ARTIN_20261121.md](intakes/MAS_ARTIN/INTAKE_MAS_ARTIN_20261121.md), [INTAKE_MAS_ARTIN_20261121_part2.md](intakes/MAS_ARTIN/INTAKE_MAS_ARTIN_20261121_part2.md) |
+| 48 | MAS_ARTIN: a central trace identity over Q, the S₅ Artin gate and the analytic premise | [MAS_ARTIN_checkpoint_12_20261122T0031Z](../../raw/research_returns/MAS_ARTIN_checkpoint_12_20261122T0031Z_unzipped/) | [INTAKE_MAS_ARTIN_20261121.md](intakes/MAS_ARTIN/INTAKE_MAS_ARTIN_20261121.md), [INTAKE_MAS_ARTIN_20261121_part2.md](intakes/MAS_ARTIN/INTAKE_MAS_ARTIN_20261121_part2.md) |
 | 49 | ALP_MACHINE: ALP MACHINE Alp ge s machine the lift count the definite seesaw Kummer characters and the os | [ALP_MACHINE_checkpoint_07_20261122T0050Z](../../raw/research_returns/ALP_MACHINE_checkpoint_07_20261122T0050Z_unzipped/) | [INTAKE_ALP_MACHINE_20261121_hecke.md](intakes/ALP_MACHINE/INTAKE_ALP_MACHINE_20261121_hecke.md), [INTAKE_ALP_MACHINE_20261121_lifts.md](intakes/ALP_MACHINE/INTAKE_ALP_MACHINE_20261121_lifts.md) |
 | 50 | ARCH_ALG: ARCH ALG the archive s algebra cotes 136 134 8 15 and 123 from where ALPOGE BRIDGES stopp | [ARCH_ALG_checkpoint_01_20261121T2359Z](../../raw/research_returns/ARCH_ALG_checkpoint_01_20261121T2359Z_unzipped/) | not yet |
 | 51 | C44_POS: C44 POS positivity in Grothendieck s 1964 programme cote 44 and his correspondence route | [C44_POS_checkpoint_01_20261121T2359Z](../../raw/research_returns/C44_POS_checkpoint_01_20261121T2359Z_unzipped/) | not yet |
@@ -146,8 +151,7 @@ Connes and Consani's F_{1²} (arXiv:2609.00299). In [split_zero/](split_zero/):
 
 ## Left out
 - **Copies of other people's work** that came back inside the returns. Link to the originals instead:
-  - Masullo's PDF and its extracted text;
-  - our full transcription of his draft, and our index of his statements, which quotes the opening of each one;
+  - the draft mentioned above, its extracted text, our transcription of it and our index of its statements;
   - Alpöge's note and its text (its Lean formalization is not left out: the Lean files in the returns are copies
     from L. Alpöge's archive at https://alpo.ge/, made by him working with Claude, or the runs' own);
   - arXiv sources.
