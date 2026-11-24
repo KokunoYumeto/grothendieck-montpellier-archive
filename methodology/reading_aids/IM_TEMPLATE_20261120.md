@@ -71,11 +71,22 @@ are not ink and are never transcribed.
    recovery file, a summary, or an export of the newest pages only. Each checkpoint zip holds the current deliverables
    and documentation; earlier checkpoints are not copied into it. The checkpoints are what keeps the work if this
    session dies: work that is in no checkpoint is lost.
+   **Crops: one dump, at the end.** In the checkpoints and the final ZIP, `crops/` holds only `crops/CROPS.tsv`: each
+   crop's file name, its page, its box in pixels of the attached scan, and the place it decided. With the final ZIP,
+   deliver the crop images once, as `{S}_crops.zip`: the crops of the places you changed or left undecided, as
+   greyscale JPEG at quality 85; the boxes in `CROPS.tsv` let us cut any other crop again from our scans. Keep
+   `{S}_crops.zip` under 200 MB: if it would be larger, lower the JPEG quality or the size, and leave out no crop
+   of a change. Each ChatGPT account has 100 GB of storage, and crops repeated in every checkpoint fill it.
 6. **If the execution environment fails.** A failed or unavailable environment does not end the task. Retry at
    intervals for as long as this session lasts, without writing recovery text into the chat. When the environment is
    back, restore your work from your newest checkpoint and the earlier checkpoints its file list names, redo what you
    had done after that checkpoint, and continue to the end. Do not write files out in this chat instead: the work
    reaches us only through checkpoint ZIPs and the final ZIP.
+
+**No copies of sources in any ZIP you return.** No ZIP you return holds an unchanged copy of an attached file, or a
+copy or plain text extraction of another author's paper, book or scan. We have the attached files; for a source you
+fetched yourself, record the citation, the address, the SHA-256 and the pages used. Whatever this task asks you to
+deliver (transcriptions, translations, editions, notes, programs, figures) always goes in.
 
 This task is long by design: {R} rows on {N} pages, each decided and, where it is a correction of our reading, put into
 its page exactly. Work through all of it completely; do not stop at a sample or a plan, and do not ask whether to

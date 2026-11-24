@@ -147,6 +147,11 @@ sheet first (SP82, SP83). Thin foliation numbers in another hand are not his num
 **Typescripts.**
 - **A letter typed over another:** record the letter underneath, where it can be read, as `\deleted{x}` before the
   letter that stands (`\deleted{\illegible{1}}` where it cannot). This is the same decision on every page.
+- **Two letters in one cell, read as two letters,** make false words. Seen in the Pursuing Stacks typescript, against
+  the print (24 Nov 2026): "comrresponding" (r typed over m, 134-4/28), "descripttion" (134-3/27), "hontractible"
+  and "hamotopy" (134-4/85), "particubar" (134-6/93). Where a typed word has a doubled or unexpected letter and
+  the print or the sense has the plain word, look for a darker cell, two shapes in one place, before writing both
+  letters; then apply the rule above.
 - **Typing errors:** both earlier readers corrected them silently, writing the word they recognised (64 of 118 places).
   Read letter by letter the words you recognise at once: a typed word may be misspelt, and it stays misspelt.
 - **What the machine cannot type:** a doubled capital typed for a double-struck letter, or an x for ×. Enter the keyed
@@ -164,6 +169,25 @@ sheet first (SP82, SP83). Thin foliation numbers in another hand are not his num
   it out on many pages.
 - **Formula numbers:** his formula numbers stand at the left of the formula. Write them as the conventions do; their side
   is set once for the edition.
+
+**His short words** (40 places of Les Dérivateurs checked on the ink against the printed edition, 24 Nov 2026).
+- **de, des, du and « ds » (dans)** are often a d with a short tail in his fast hand. An e-loop after the d gives de or
+  des (157-4/375 « sont des Cof_W »); two humps, or an s-curl right after the d, gives dans or his « ds » (157-3/191,
+  157-2/344); a bare d with no tail is de (157-4/278). Where the shape is only a d and a flat stroke, the ink does not
+  decide: write `\unsure{…|…}` with the reading the mathematics needs first (dans before a class or category such as W
+  or Cof_W, du before a singular noun). His « ds » stays « ds ». Where earlier readings have « de » and the print
+  « dans », about a third were misreadings.
+- **« sch.lie » is scholie** (a reduced o), never « salade »; it follows « théorème » or « th. » and a number (157-3/268,
+  270, 276).
+- **canulé** (« je me suis canulé ») is c, a round letter, two humps, l, é; « coulé » has one hump less (157-1/71,
+  157-2/15, 157-2/347).
+- **donc and alors:** « donc » is a d and a wave ending in a down-stroke, with no ascender; « alors » begins with a tall
+  a-l. The printed edition has « alors » at places where « donc » is plain (157-1/84, 157-2/42, 157-4/165): the ink
+  decides.
+- **pas and par** are both a p and a flat tail: read them by sense. The printed edition has « par » where the same shape
+  reads « pas » in the next line (157-2/169).
+- **An article follows its noun:** where le, la, les, du or des differs from another witness, read the noun after it
+  first, its number, gender and the word itself (157-2/170 « caractère »; 157-1/28 « du produit »).
 
 **The sheet.** On a typescript, a blank the machine left for a symbol stays a blank unless it was inked. Settle first
 whether a sheet is turned or upside down, and how it joins the next leaf; a sentence need not continue on the next scan.
@@ -187,6 +211,42 @@ can be absent.
 - **A crop that decides** is at most 40 % of the scan's width, cut from the full-resolution scan and enlarged, never
   shrunk; a strip of a whole line is a page view and decides nothing (on earlier returns 36 % of the decisions had
   no such crop, and they are read again). Record each crop's box in scan pixels.
+
+**The leaf in its folder.** The passes keep the scan order and record what lies on one page; they rarely see what
+spans pages. Of 130 codicological findings by Michel Hua's project (its review campaign of 24 Nov 2026, credited to it),
+checked on our scans and readings (90 confirmed, 24 partly, none refuted), our record had caught 28 outright; most of the
+rest were page order, and in most of those our own transcription already held the evidence. Run these checks over the
+whole package before the last page is finished. Record what they find in the notes; the transcription keeps the scan
+order.
+1. **His numbers against the archive order.** Record his page, sheet, typescript and formula numbers and the archivists'
+   pencil number on every page; where they run out of step with the scans, give the reading order (cote 48: a typescript
+   "(30" filed before its "(29").
+2. **Joins.** Compare the last words of each page with the first words of the next page and of the two after it: a
+   sentence that resumes two scans later marks a reversed pair or an interposed leaf (161-3; 82/16 continues on 82/18).
+3. **Gaps.** Note pencil-number jumps, gaps in his pagination, and pages that stop with nothing to continue them (129:
+   pencil 80 then 83; cote 6: eleven ahead).
+4. **A leaf of another text.** A typescript, printed or photocopied leaf, or a leaf on another subject, with its own
+   pagination or section numbers: name it (which work, which section), say whether its numbering belongs to another
+   series, and do not treat it as a draft of the folder. Where it copies a printed text, the printed text is a second
+   witness for the reading (127/9 is EGA IV 21.10; cote 136 carries the typescript of SGA 7 I IX on 89 scans).
+5. **A leaf that continues a text elsewhere.** A leaf outside the numbered series, on another subject, or opening
+   mid-sentence: look for its text in the neighbouring pages and cotes (151, p. 17 continues "Hyperrecouvrements";
+   161-4 continues 161-6).
+6. **Versos.** Identify the typescript or printout on the back by its numbers; its order often explains the binding
+   order (55/10 and 55/12).
+7. **A second ink or another hand.** A paler ink, pencil, red or blue margins are a later campaign until shown otherwise:
+   record them as a layer. Name another hand even when it cannot be attributed (66: the list in brown ink, the margins in
+   pale grey; 81: a school hand).
+8. **Dating from the paper.** Letterhead, listing paper, stamps, notices and printouts date the paper, not the writing:
+   an earliest date only. Describe it and record the date; copy no personal data (64/157: a notice of June 1981; 148/39:
+   a printout dated 11-06-82).
+9. **A page or drawing crossed out whole** is one deleted block and its own thread: keep it in place, follow the live
+   text across it, and say what replaces it (35: a dependency graph struck and redrawn as two; 130/46 and 130/48).
+10. **A revision sheet** ("la feuille jointe", marked as such in a margin) revises the text it annotates: note which
+    passages it withdraws (4/2).
+11. **The folder against its inventory.** Note once where the content does not match the inventory's title, series, page
+    count or date range (159, filed under Dérivateurs, is on connections on curves; the wrapper of 26 says "V" where the
+    inventory says EGA VI).
 
 **The hand log: learn his hand as you read.** Keep `{S}_hand_log.md` from the first page. Enter every habit of his
 hand or his notation that can mislead a reader: a letter he forms like another (a p like an n, a u like an n, a ζ like a
