@@ -101,7 +101,7 @@ outcome. Give each event the type of what actually happened, neither more nor le
 
 ## What to return
 
-One zip file, `{S}.zip`, offered as the only download. It holds:
+Two files, offered as downloads: `{S}_final.zip`, which holds everything below, and `{S}_crops.zip`, the one crop dump (under Checkpoints). It holds:
 
 1. **`placements.tsv`**, one row per row of the corrections table, in its order, with the columns `id`, `cote`, `scan`,
    `decision` (a, b, c or d), `find` (for a: the exact span of the page as given, long enough to stand once on it),
