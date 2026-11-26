@@ -1,8 +1,7 @@
 # The most recent return of each run
 
 The table marks the most recent checkpoint or final of each run. Returns added from 22 November 2026 hold
-their mathematics only (papers, results, registers, checks, cited programs), with their papers from 26
-November 2026. Older checkpoints stay as they were pushed.
+their deliverables only, with their papers from 26 November 2026. Older checkpoints stay as they were pushed.
 
 | Run | Most recent | Delivered (UTC) | Folders here |
 |---|---|---|---:|
@@ -25,7 +24,7 @@ November 2026. Older checkpoints stay as they were pushed.
 | DER_LOCALIZERS | **[checkpoint 08](DER_LOCALIZERS_checkpoint_08_20261118T0954Z_unzipped/)** | 2026-11-18 09:54 | 1 |
 | DP_MULT | **[checkpoint 06](DP_MULT_checkpoint_06_20261121T0420Z_unzipped/)** | 2026-11-21 04:20 | 5 |
 | FERMAT_SECTIONS | **[final](FERMAT_SECTIONS_final_20261125T1724Z_unzipped/)** | 2026-11-25 17:24 | 2 |
-| FINMON_CP2 | **[checkpoint 12](FINMON_CP2_checkpoint_12_20261125T1345Z_unzipped/)** | 2026-11-25 13:45 | 1 |
+| FINMON_CP2 | **[checkpoint 27](FINMON_CP2_checkpoint_27_20261126T0120Z_unzipped/)** | 2026-11-26 01:20 | 2 |
 | FLEET_HARD_LINKS | **[checkpoint 07](FLEET_HARD_LINKS_checkpoint_07_20261125T0725Z_unzipped/)** | 2026-11-25 07:25 | 1 |
 | FREX | **[final](FREX_final_20261118T1235Z_unzipped/)** | 2026-11-18 12:35 | 1 |
 | GCT_GINEQ | **[final](GCT_GINEQ_final_20261120T2340Z_unzipped/)** | 2026-11-20 23:40 | 1 |

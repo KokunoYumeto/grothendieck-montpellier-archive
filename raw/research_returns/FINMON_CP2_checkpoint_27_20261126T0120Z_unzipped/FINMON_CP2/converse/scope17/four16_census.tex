@@ -1,0 +1,168 @@
+\subsection{A fresh four-object census at sixteen arrows}
+
+\begin{proposition}[Proved by complete finite computation]
+\label{CP2:A-baseline-four-census}
+No category on four objects with at most sixteen arrows has
+classifying space of type $\mathbb{CP}^2$.
+\end{proposition}
+\begin{proof}
+The excess-eight theorem excludes at most fifteen arrows.
+At sixteen arrows the ninth-excess support theorem requires
+acyclic support, and Proposition~\ref{CP2:A-baseline-four-large}
+excludes every corner of order at least eight.  It remains
+to check exactly sixteen arrows, four objects, acyclic
+support, and corner orders at most seven.
+
+\paragraph{Complete profile scope.}
+The new program \path{converse/scope17/four16_scope.py}
+enumerates all subsets of the six upper-triangular pairs on
+four objects, retaining exactly the transitive connected
+supports.  There are eighteen with these topological labels.
+Every finite poset admits a linear extension, so no support
+is lost.  It assigns positive integers to the four diagonal
+positions and every supported cross-hom, with total sixteen,
+and restricts the diagonal entries to at most seven.  This
+gives $103370$ labelled decorations.  For each it tries every
+object permutation and the opposite matrix, retaining the
+least upper-triangular representative.  The resulting
+$18217$ profiles cover every category in the stated scope;
+the use of opposition preserves the homotopy type of the
+nerve.
+
+The following sufficient obstructions remove $17935$ of
+these profiles.  Several can apply to the same profile;
+the ledger records all reasons, and does not add overlapping
+counts.  Singleton cross-homs use
+Lemma~\ref{CP2:A-singleton-support}; four-object support has
+no fourth homology.  Semisimple corners of orders one or
+two use the support-height bound.  A full singleton cut is
+a join.  A cut into two blocks with zero second cohomology
+uses Lemma~\ref{CP2:A-two-block}; each proper block has at
+most three objects.  The block test proves zero second
+cohomology component by component using a corner of order
+at most four, the H2-cost bound, singleton cross-homs, or
+semisimple corners and support height at most one.
+
+A singleton arrow into an extreme corner invokes the
+fixed-arrow corollary whenever the complementary block
+passes that test.  Extreme corners of order at most four
+whose every stalk has size one or two use the binary-stalk
+lemma, under the necessary rank-one cohomology hypothesis.
+With at most two parallel excesses and corners at most
+four, Lemma~\ref{CP2:A-high-two-parallel} applies.  More
+generally, if no two parallel hom-sets are serial and every
+corner of potentially nonzero second cohomology is incident
+to a singleton edge, every global second class vanishes on
+those corners: the singleton-edge join makes its endpoint
+inclusions null-homotopic.  Thus
+Lemma~\ref{CP2:A-high-parallel-cut} applies.  All support
+cycle ranks here are at most three, within its hypothesis.
+
+The scope also uses a literal singleton-comma deletion.
+If an object has exactly one incoming cross arrow from a
+trivial corner, its comma category from the deletion is a
+point; the outgoing assertion is dual.  This reduction is
+used only when the deletion saves at least three arrows.
+The remaining three-object category then has at most
+thirteen arrows and is excluded by the unrestricted
+excess-eight theorem.  No unproved sixteen-arrow baseline
+is invoked by this cut.
+
+For a support tree, transitivity implies that there is no
+chain of two strict comparisons.  Consequently its nerve
+is the union of its edge-collage nerves along their corner
+nerves.  The tree test is used only when every internal
+corner has order at most five.  Such corner spaces have
+zero rational homology in degrees at least three.  The
+iterated Mayer--Vietoris sequences therefore pass bounded
+homology to every edge and make fourth-cohomology
+restriction to the edges injective.  Every edge is
+required to satisfy one of the following already proved
+tests: at most two cross arrows; both corners of order at
+most four; at most eleven total arrows; one corner of order
+at most two and the other of order at most eight; or corner
+orders three and five.  The fourth case uses exact orbit
+comparison and the bounded order-eight act theorem; the
+last uses the $P_5$ graph theorem, after the small-corner
+classification.  Thus every restriction of a global
+degree-two square is zero, and injectivity makes the
+global square zero.
+
+Finally, a star with center order at most eight and all
+leaves of order at most two admits exact orbit comparison
+at every leaf.  This is a rational homology and cohomology
+ring comparison to a star with trivial leaves.  Identifying
+those leaf points adds only circles to its classifying
+space and gives an ordinary act cone at the center.
+Boundedness and all cohomology in degrees at least two
+are preserved, so the order-eight act theorem applies.
+These are all the profile cuts in the code.  An independent
+targeted review checked every predicate against the named
+lemma, including the transfer and deletion hypotheses.
+
+\paragraph{Complete table search in the residual scope.}
+There are $282$ residual profiles.  The largest normalized
+two-chain basis has $66$ elements.  The program
+\path{converse/scope17/four16_search.cpp} uses all ordinary
+corner monoids from Theorem~\ref{CP2:A-monoid-census}, with
+both isomorphism orientations retained.  It fixes these
+corner multiplications and the identity laws.  Each other
+composable pair has as its domain the complete cross-hom
+of the required type.  Propagation uses only equations
+$(ab)c=a(bc)$ with known inner products; it either rejects
+unequal known values or forces an unknown outer product.
+It then branches over every possible value of a remaining
+entry.  Induction on this finite search tree proves that
+every associative table with the chosen corners occurs.
+
+The sole table-level structural cut is when all four
+corner algebras are semisimple.  Nondegeneracy modulo
+$32003$ of the regular trace pairing certifies
+nondegeneracy over $\mathbb Q$ and hence semisimplicity.
+The height-three bar bound then gives $H_4=0$.
+No inherited act-cone or projective-endpoint table pruning
+is enabled.  Retraction pruning in the generic engine
+cannot fire, since the profiles have no arrows in both
+directions between distinct objects.
+
+The remaining tables undergo the necessary tests
+$H_1(-;\mathbb F_2)=0$ and $\dim H_2(-;\mathbb F_2)=1$.
+For tables passing both, exact cross-hom relabelling keys
+remove only repeated typed composition tables.  Every
+nonidentity composable product is in the key, while
+identity products are already fixed.  Cache eviction can
+retain duplicates and does not discard a new orbit.
+The reported retained count is therefore a record count,
+not an isomorphism-class count.
+
+The producer supplies the full typed table, a nonboundary
+two-cocycle, and either a literal three-cochain whose
+coboundary is its Alexander--Whitney square, or a claim of
+positive third mod-two homology.  The separate checker
+\path{converse/scope17/check_four16.cpp} imports neither
+the search nor the cup producer.  It reconstructs all
+normalized chains, checks types, identities, every
+associativity equation, connectedness, both preliminary
+homology tests, the cocycle and its nonboundary class,
+and every square-primitive equation.  For the other
+reason it recomputes $H_3$.  The gzip end and CRC and the
+generator/checker record totals are also checked.
+
+All $282$ profile intervals completed.  The producer visited
+$155765567$ corner-representative associative tables, of which
+$15341745$ passed the first two homology tests before relabelling.
+The independent checker accepted $1721983$ retained records:
+$1719138$ have literal zero-square primitives and $2845$ have
+positive third mod-two homology.  No record remains unexcluded.
+The complete join \path{outputs/four16/scope_join.json} verifies
+all profile indices, the exact residual ledger, every completed
+interval, generator/checker count equality, source hashes and
+all closed certificate-stream hashes.  The proof ledger and all
+$282$ checked streams are retained under \path{outputs/four16/}.
+The earlier interrupted FIFO-transport attempt is preserved
+separately and contributes no completion claim.
+
+This completes the residual exclusion by
+Proposition~\ref{CP2:A-cup-certificate} and hence proves
+the proposition in its full stated scope.
+\end{proof}
