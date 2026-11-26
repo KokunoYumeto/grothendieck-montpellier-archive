@@ -21,7 +21,7 @@ their deliverables only, with their papers from 26 November 2026. Older checkpoi
 | DEG_L | **[checkpoint 06](DEG_L_checkpoint_06_20261121T0517Z_unzipped/)** | 2026-11-21 05:17 | 5 |
 | DELTA23 | **[checkpoint 06](DELTA23_checkpoint_06_20261121T0329Z_unzipped/)** | 2026-11-21 03:29 | 3 |
 | DP_MULT | **[checkpoint 06](DP_MULT_checkpoint_06_20261121T0420Z_unzipped/)** | 2026-11-21 04:20 | 5 |
-| FERMAT_SECTIONS | **[checkpoint 13](FERMAT_SECTIONS_checkpoint_13_20261125T1152Z_unzipped/)** | 2026-11-25 11:52 | 1 |
+| FERMAT_SECTIONS | **[final](FERMAT_SECTIONS_final_20261125T1724Z_unzipped/)** | 2026-11-25 17:24 | 2 |
 | FINMON_CP2 | **[checkpoint 12](FINMON_CP2_checkpoint_12_20261125T1345Z_unzipped/)** | 2026-11-25 13:45 | 1 |
 | FLEET_HARD_LINKS | **[checkpoint 07](FLEET_HARD_LINKS_checkpoint_07_20261125T0725Z_unzipped/)** | 2026-11-25 07:25 | 1 |
 | GCT_GINEQ | **[final](GCT_GINEQ_final_20261120T2340Z_unzipped/)** | 2026-11-20 23:40 | 1 |
@@ -34,7 +34,7 @@ their deliverables only, with their papers from 26 November 2026. Older checkpoi
 | GRH_ALGORITHMS | **[checkpoint 08](GRH_ALGORITHMS_checkpoint_08_20261123T0224Z_unzipped/)** | 2026-11-23 02:24 | 1 |
 | GRH_ALGORITHMS_FINISH | **[checkpoint 07](GRH_ALGORITHMS_FINISH_checkpoint_07_20261123T2059Z_unzipped/)** | 2026-11-23 20:59 | 2 |
 | GRH_NIGHT | **[checkpoint 07](GRH_NIGHT_checkpoint_07_20261121T0617Z_unzipped/)** | 2026-11-21 06:17 | 5 |
-| GT_AFTER_H17 | **[checkpoint 07](GT_AFTER_H17_checkpoint_07_20261125T0716Z_unzipped/)** | 2026-11-25 07:16 | 1 |
+| GT_AFTER_H17 | **[final](GT_AFTER_H17_final_20261125T1829Z_unzipped/)** | 2026-11-25 18:29 | 2 |
 | HECKE_DIV | **[final](HECKE_DIV_final_20261121T0204Z_unzipped/)** | 2026-11-21 02:04 | 2 |
 | HODGE_BOUNDED_CYCLES | **[final](HODGE_BOUNDED_CYCLES_final_20261123T0508Z_unzipped/)** | 2026-11-23 05:08 | 1 |
 | HODGE_DIVISION | **[checkpoint 34](HODGE_DIVISION_checkpoint_34_20261122T1208Z_unzipped/)** (highest number; [HODGE_DIVISION_checkpoint_28_20261122T1240Z_unzipped](HODGE_DIVISION_checkpoint_28_20261122T1240Z_unzipped/) was delivered later) | 2026-11-22 12:08 | 7 |
@@ -42,6 +42,7 @@ their deliverables only, with their papers from 26 November 2026. Older checkpoi
 | HODGE_FINISH | **[final](HODGE_FINISH_final_20261123T1713Z_unzipped/)** | 2026-11-23 17:13 | 4 |
 | HODGE_SIGN | **[final](HODGE_SIGN_final_20261121T0057Z_unzipped/)** | 2026-11-21 00:57 | 1 |
 | IHARA_AFTER_STEP17 | **[checkpoint 09](IHARA_AFTER_STEP17_checkpoint_09_20261125T1001Z_unzipped/)** | 2026-11-25 10:01 | 1 |
+| INTAKE_A | **[checkpoint 07](INTAKE_A_checkpoint_07_20261126T0148Z_unzipped/)** | 2026-11-26 01:48 | 1 |
 | JAC1964 | **[checkpoint 06](JAC1964_checkpoint_06_20261121T0521Z_unzipped/)** | 2026-11-21 05:21 | 5 |
 | K17 | **[checkpoint 08](K17_checkpoint_08_20261121T0616Z_unzipped/)** | 2026-11-21 06:16 | 5 |
 | KTOWER | **[checkpoint 11](KTOWER_checkpoint_11_20261122T0001Z_unzipped/)** | 2026-11-22 00:01 | 4 |
@@ -71,7 +72,7 @@ their deliverables only, with their papers from 26 November 2026. Older checkpoi
 | RESEARCH_SA22_run2 | **[final](RESEARCH_SA22_run2_final_20261119T2149Z_unzipped/)** | 2026-11-19 21:49 | 1 |
 | RESEARCH_SA23 | **[final](RESEARCH_SA23_final_20261120T0511Z_unzipped/)** | 2026-11-20 05:11 | 1 |
 | SIGN_NEXT | **[checkpoint 02](SIGN_NEXT_checkpoint_02_20261121T0430Z_unzipped/)** | 2026-11-21 04:30 | 1 |
-| SPLIT_ZERO_AFTER_FGJM | **[checkpoint 30](SPLIT_ZERO_AFTER_FGJM_checkpoint_30_20261125T1220Z_unzipped/)** | 2026-11-25 12:20 | 1 |
+| SPLIT_ZERO_AFTER_FGJM | **[checkpoint 50](SPLIT_ZERO_AFTER_FGJM_checkpoint_50_20261126T0610Z_unzipped/)** | 2026-11-26 06:10 | 2 |
 | THETA3 | **[checkpoint 07](THETA3_checkpoint_07_20261121T0604Z_unzipped/)** | 2026-11-21 06:04 | 5 |
 | THETA_CIRCUIT_SIZE | **[final](THETA_CIRCUIT_SIZE_final_20261125T0303Z_unzipped/)** | 2026-11-25 03:03 | 1 |
 | TRACE_DET | **[final](TRACE_DET_final_20261121T0218Z_unzipped/)** | 2026-11-21 02:18 | 2 |
