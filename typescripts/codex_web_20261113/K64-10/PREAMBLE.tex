@@ -1,0 +1,66 @@
+\PassOptionsToClass{leqno}{article}
+% Preamble for the Codex-web transcription folders of the Montpellier archive (13 Nov 2026). LuaLaTeX or pdfLaTeX.
+% A folder's standalone file is: \input{PREAMBLE.tex} \begin{document} \input{<ID>_transcription} \end{document}
+% 18 Nov 2026 (the main session, Claude Opus 5.5 at effort max): under LuaLaTeX, \deleted is lua-ul's strike-through
+% switch in a group, and \diagram and \figure open a group, so that what they hold is read as ordinary input, not as a
+% macro argument: struck displays, diagrams (tikz-cd's &), line and paragraph breaks then compile. ulem's \sout, kept
+% for pdfLaTeX, broke on them in 80 of the 202 batch-K returns of 18 Nov. \unsure in math is one atom, so that an
+% exponent after it is no double superscript.
+\documentclass[11pt]{article}
+\usepackage{iftex}
+\ifLuaTeX\usepackage{fontspec}\else\usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}\fi
+\usepackage{amsmath,amssymb,mathrsfs}
+\usepackage{tikz,tikz-cd}
+\usetikzlibrary{decorations.pathmorphing,arrows.meta,calc,positioning,shapes.geometric,matrix}
+\usepackage{enumitem}
+\usepackage[normalem]{ulem}
+\usepackage{xcolor}
+\ifLuaTeX\usepackage{lua-ul}\fi
+% Cote 64 has full-width diagrams and long marginal notes.
+\setlength{\paperwidth}{297mm}
+\setlength{\paperheight}{420mm}
+\AtBeginDocument{%
+  \ifLuaTeX
+    \pagewidth=\paperwidth\relax
+    \pageheight=\paperheight\relax
+  \else
+    \ifdefined\pdfpagewidth
+      \pdfpagewidth=\paperwidth\relax
+      \pdfpageheight=\paperheight\relax
+    \fi
+  \fi}
+\setlength{\textwidth}{21cm}
+\setlength{\oddsidemargin}{-0.25cm}
+\setlength{\evensidemargin}{-0.25cm}
+\setlength{\marginparwidth}{4.5cm}
+\setlength{\textheight}{30cm}
+% \cotefile{C}: start of archive file C.pdf; \scanpage{N}: start of scan page N of that PDF
+\newcommand{\cotefile}[1]{\par\medskip\noindent\textsf{[cote #1]}\par}
+\newcommand{\scanpage}[1]{\par\medskip\noindent\marginpar{\footnotesize\textsf{[scan #1]}}}
+% \mspage{n}: his own page or sheet number, or the typed page number of a typescript
+\newcommand{\mspage}[1]{\marginpar{\footnotesize\textsf{p.~#1}}}
+% doubt marks
+\newcommand{\unsure}[1]{\ifmmode{{\color{orange}#1}^{?}}\else{\color{orange}#1}\textsuperscript{?}\fi}
+\newcommand{\illegible}[1]{\ifmmode\text{[illeg.~#1]}\else[illeg.~#1]\fi}
+% state of the page
+\newcommand{\handwritten}[1]{#1}
+\makeatletter
+\ifLuaTeX
+  \newcommand{\deleted}{\ifmmode\expandafter\tr@deleted@math\else\expandafter\tr@deleted@text\fi}
+  \def\tr@deleted@text{\bgroup\@strikeThrough\let\tr@next=}
+  \newcommand{\tr@deleted@math}[1]{\text{\@strikeThrough$#1$}}
+  % \uline and \uuline (ulem's names, used by the transcriptions) as lua-ul underlines in a group: a struck word
+  % inside an underlined passage then compiles (ulem's word-by-word underline broke on it: K23-03, K79-11)
+  \newunderlinetype\tr@lowerline{\leaders\vrule height -1.05ex depth 1.15ex}
+  \renewcommand{\uline}{\bgroup\@basicUnderLine\let\tr@next=}
+  \renewcommand{\uuline}{\bgroup\@basicUnderLine\tr@lowerline\let\tr@next=}
+\else
+  \newcommand{\deleted}[1]{\ifmmode\text{\sout{$#1$}}\else\sout{#1}\fi}
+\fi
+\newcommand{\inserted}[1]{\ifmmode\langle#1\rangle\else$\langle$#1$\rangle$\fi}
+\newcommand{\margin}[1]{\marginpar{\footnotesize #1}}
+\newcommand{\diagram}{\par\begin{center}\bgroup\aftergroup\tr@diagram@end\let\tr@next=}
+\def\tr@diagram@end{\end{center}\par}
+% drawings that are not diagrams, reproduced in TikZ (the archive's macro name; LaTeX's figure float is not used)
+\renewcommand{\figure}{\par\begin{center}\bgroup\aftergroup\tr@diagram@end\let\tr@next=}
+\makeatother
