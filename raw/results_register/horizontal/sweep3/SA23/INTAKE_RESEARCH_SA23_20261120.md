@@ -315,7 +315,7 @@ tensor powers and k → ∞ (Weil I, § 3). The same device gives Weyl's inequal
   abelian scheme, purity says nothing (next point).
 - **cat:J8 (S_3 over Q_5).** The obstruction is an Artin representation: Hodge-Tate weight 0 and Frobenius weight 0,
   so purity is trivial there. Its global L-function, for an S_3 field, is a Hecke L-function of a quadratic field,
-  outside "Artin-Tate with abelian Artin part". GRH for Dirichlet L-functions does not reach it.
+  outside [the user's words, omitted]. GRH for Dirichlet L-functions does not reach it.
 
 ### 4.4 The crystalline rows: cat:J1-J4 (and L6-L8)
 
@@ -327,7 +327,7 @@ tensor powers and k → ∞ (Weil I, § 3). The same device gives Weyl's inequal
   - J3's pair a = 1 and a = 1 + p have the same slope and the same filtration. D_1 is the Tate motive Q(0). D_{1+p} is
     not motivic, because (1+p)² = p^w has no solution.
   - Slope 0 does not force weight 0: the unit root of an ordinary elliptic curve has slope 0 and weight 1. So the
-    rigidity is "Weil number", not "root of unity". In weight 0, Kronecker makes a a root of unity.
+    rigidity is [the user's words, omitted], not [the user's words, omitted]. In weight 0, Kronecker makes a a root of unity.
 
   J3 itself is a statement about isocrystals, and purity does not change its truth. Purity gives the geometric meaning
   of the unit parameters that J3 shows slopes and weak admissibility miss.

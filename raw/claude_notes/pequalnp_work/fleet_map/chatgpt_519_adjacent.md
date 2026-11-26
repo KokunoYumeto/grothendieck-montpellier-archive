@@ -1,0 +1,69 @@
+# Adjacent pendant roots in the all-gate unicyclic problem
+
+[Shared proof map](FLEET_MAP.md) · [Local mathematical evidence](<local>/Documents/Codex/2026-11-22/the-two-tracks-share-no-sound/work/fleet_proof_map/)
+
+Let G be a connected simple graph whose unique cycle has length n ≥ 7, of maximum degree three. Write f_G(x) for the OR of x_i AND x_j over the edges, C(G) for its minimum circuit size over fan-in-two AND, OR and NOT, m for its edge count, τ for its minimum vertex cover size, and B(G)=m+τ−1. Every gate counts. The cover construction gives C(G)≤B(G). The argument below proves three more statements.
+
+* B(G)−1≤C(G) for **every** such unicyclic graph.
+* In the reduced cycle problem, any counterexample **minimal under deletion of pendant leaves** has no adjacent marked roots. Its cyclic gaps each contain exactly two or four unmarked vertices.
+* Consequently the exact all-gate formula holds for **every subcubic unicyclic graph with a seven-cycle**, with arbitrary attached trees. On an eight-cycle the only unresolved deletion-minimal marking up to symmetry has two roots separated by gaps of two and four unmarked vertices.
+
+These are mathematical deductions from checked theorems, with the new deductions reviewed here on paper. The assigned statement quantifies over graphs with arbitrarily many cycles. [Assigned statement](https://data.pequalnp.com/data/lemma/L-meta-519.ed26ac472458.json) · [Cover upper bound](https://data.pequalnp.com/data/lemma/L-meta-105.9d8ac69aac51.json)
+
+## One gate of slack
+
+First let G be a cycle C_n plus one pendant leaf at each vertex in a subset S. Write l for a leaf and v for its root. A minimum cover can always be chosen to contain v, by exchanging l for v if necessary. Thus τ(G−v)=τ(G)−1. The two restrictions on l are f_{G−l} at zero, and x_v OR f_{G−v} at one. The second function has exact size B(G)−3: deleting v removes three edges, G−v is a forest with edges, and adding the fresh OR variable x_v costs exactly one gate. The lower bound for adding this variable follows by fixing it to zero (one-gate elimination), and the upper bound is one output OR.
+
+For any circuit for f_G, **at least one** restriction at the specified l saves at least two gates. This is `gate_elim_at` in the PermInputs helper used by the forest proof. Both restrictions are nonconstant and l is relevant (set only v true). If the chosen value is one, the result is C(G)≥B(G)−1. If zero is chosen, deletion of l reduces B by at most two and induction on the number of leaves gives the same bound. Start with the checked exact cycle formula. The one-gate lemma L014 alone loses another gate here. [Two-gate theorem, PermInputs](https://github.com/brilliant-hq/pequalnp-proofs/blob/main/lean/PEqualNP/MetaComplexity/Helpers/PermInputs.lean) · [L014](https://data.pequalnp.com/data/lemma/L-meta-014.17bbe9d3c481.json) · [Exact forest bound](https://data.pequalnp.com/data/lemma/L-meta-104.53ddb020f55d.json) · [Exact cycles](https://data.pequalnp.com/data/lemma/L-meta-106.612bc014c723.json)
+
+## The shape of a minimal obstruction
+
+Fix n and suppose that some marking fails the exact bound. Take an inclusion-minimal such set S. With zero marks the cycle bound is exact. With one mark choose a minimum cycle cover containing its root. The cover size stays fixed, and the checked one-gate pendant lower bound L543 suffices. Hence |S|≥2.
+
+For every mark, τ(G−l)=τ(G)−1: if equal, fixing l to zero saves one gate and the minimality of S already proves B(G). Thus C(G)=B−1 and the two cofactor complexities at **each** leaf are exactly B−2 (false) and B−3 (true). For the first equality use the exact formula on the proper marking. For the second use the preceding forest calculation. In any least circuit, setting l false can therefore save **at most one** gate, and setting it true can save **at most two**. [Pendant lower bound](https://data.pequalnp.com/data/lemma/L-meta-543.ce352e6a7c76.json)
+
+Let O_l be the first gate reading the leaf in a least circuit. Ignore semantically unused input positions. A least circuit has no dead gates or constant, copy or repeated-input binary gates that can be suppressed, since its output function is nonconstant. If two distinct gates read l, fixing l false suppresses both. Thus O_l is its unique reader. It must be an OR: an AND or NOT makes a constant upon fixing l false, suppressing the reader and at least one further gate. Such a constant cannot itself be the output since the restriction is nonconstant. Write O_l=l OR h_l. On fixing l true, O_l is constant true. It has exactly one reader (otherwise three gates disappear). That reader must be an AND, since another OR or NOT produces a constant and every nonconstant-output completion saves a third gate. Write A_l=O_l AND k_l. After fixing l true, dropping precisely O_l and A_l and bypassing A_l by k_l gives a **minimum** circuit C' for x_v OR H where H=f_{G−v}. All other gates remain, and C' has no redundant gate.
+
+In C' the wire v is followed by a unique chain consisting entirely of OR gates to the output. Both v and every wire on this chain below the last gate have only their next chain gate as reader. The other operand of every gate on the chain is computed independently of v. This is the precise structural theorem L568. [Free-input chain theorem](https://data.pequalnp.com/data/lemma/L-meta-568.41c6660571ae.json)
+
+Restoring l=0 changes C' only by routing the old uses of A_l through k_l AND h_l in place of k_l. At the singleton input v, C' is true and the original circuit with l=0 is false. If the replacement affected only off-chain wires or only the off-chain side of a chain OR, the chain would still carry a true value from v to the output. Hence the replacement intercepts a chain link (possibly the final output). Therefore k_l is v or a gate on the v-chain, with value v OR B_l(Y) for a function of Y independent of v. The unique-reader assertion implies that A_l supplies the continuation of that chain, with no additional fan-out; bypassing an additional wire use would give k_l another consumer in C'. A double occurrence at a single gate would be a removable repeated-input gate. The primary-input and final-output cases use the same argument.
+
+The wire h_l comes earlier than O_l, so its value is unchanged by bypassing O_l and A_l. It must be false on the singleton input v, since the replacement flips the output there from true to false. It is therefore neither v nor a v-chain gate. In C' it has no dependence on v, and the same is true in the original circuit. The off-chain operands below and above A_l group into B_l(Y) and D_l(Y), respectively. Both are independent of v and l; neither could depend on O_l or A_l since those have only their chain continuations. The original function consequently has the representation
+
+    D_l(Y) OR [(v OR B_l(Y)) AND (l OR h_l(Y))].
+
+At v=0,l=1, this gives D_l OR B_l=H. On every independent input Y of G−v (H=0), both terms D_l and B_l vanish. Setting v=1,l=0 then gives **h_l(Y)=the OR of the two cycle neighbors of v**. This conclusion only concerns independent inputs Y.
+
+## Two adjacent roots cause a directed circuit cycle
+
+Suppose i and j are adjacent marked roots. Abbreviate the leaf, OR reader, AND reader and feeder at root i by l_i,O_i,A_i,h_i, and similarly at j. The OR readers are distinct: if two leaves had the same unique reader, they would enter as l_i OR l_j and would be interchangeable, contradicted by the assignment with only root i on. The AND readers are distinct as well. If they coincided, the other input k_i to A_i would be O_j. On the assignment where only l_j is true, H_i=0 and i=0, hence k_i=0 from k_i=i OR B_i and B_i≤H_i. But O_j=1 there.
+
+At l_i=0 the signal h_j depends on i: it differs on the empty input and the singleton i, both independent in G−j. Now fix l_i=1 and use the minimum circuit C'_i. The OR O_j and the AND A_j survive, with O_j still feeding A_j. If A_i had no directed path to h_j (equality included), changing l_i could not change h_j. Indeed, the only exit from l_i is O_i and its only exit is A_i. Thus h_j in C'_i would still depend on i. Every i-dependent wire in that circuit belongs to its OR-only i-chain, including i itself. Such a wire cannot feed O_j followed by A_j, since an i-chain wire has a unique chain successor and A_j is an AND. This contradiction forces a path A_i→h_j. Interchanging the roots forces A_j→h_i. Combining the forced paths with h_j→O_j→A_j and h_i→O_i→A_i makes a directed cycle in the original acyclic circuit.
+
+    A_i → … → h_j → O_j → A_j → … → h_i → O_i → A_i
+
+![Forced gate dependencies and the first remaining marked cycle](519_adjacent_evidence/adjacent_roots.png)
+
+On the left the solid arrows are circuit wires and the dashed arrows are the paths just proved necessary. The right panel shows the first marking surviving the parity and run tests below.
+
+This excludes adjacent marked roots in a deletion-minimal unicyclic counterexample. A counterexample with adjacent roots, if one exists, would therefore contain a smaller counterexample without an adjacent pair; minimality of the proper markings is essential to the cofactor calculation.
+
+## The same obstruction in a graph with several cycles
+
+There is a consequence for a smallest counterexample to the full posted L519. Choose one with the fewest vertices, and suppose adjacent degree-three vertices i and j each have a pendant neighbor. For each such leaf l with root v, both G−l and G−v satisfy the degree and girth hypotheses. The latter retains an edge, for the edge from the other marked root to its own leaf survives. By minimality both smaller edge functions have exact size. Consequently the true cofactor still has size B−3 and the false cofactor has size B−1 or B−2. In the first case the specified false restriction, which saves at least one gate, already contradicts G being a counterexample. In the second case two-gate elimination puts C(G) at least B−1, so it is exactly B−1. Everything from the unique OR reader through the two forced dependency paths now applies verbatim. Here h_v agrees with the OR of all nonleaf neighbors of v on independent inputs of G−v, and singleton i is still an independent input. If a smallest full counterexample exists, **adjacent degree-three vertices each having a private leaf cannot occur in it, even when G has several cycles**. This leaves adjacent cubic vertices without two such pendant neighbors outside this exchange argument.
+
+## Gap parity and the remaining cases
+
+Number S cyclically and let g_i count the unmarked vertices between consecutive marked roots. An optimum cover contains every marked root simultaneously, by replacing any selected leaf by its root. The unmarked intervals are paths. Thus
+
+    τ(G) = |S| + Σ floor(g_i/2).
+
+Deleting the leaf at a root between gaps a and b merges those two gaps, with length a+b+1. The cover number drops by one precisely if **both a and b are even**. Every gap in a minimal obstruction is therefore even. There are no zero gaps by the adjacent-root argument. A gap of length at least six supplies six consecutive degree-two vertices on the unique cycle, where L520 already gives equality. The only gaps left are **two and four**. In particular n is a cyclic sum of 3s and 5s with at least two summands. At n=7 there is no possibility. At n=8 the only necklace is gaps (2,4); at n=9 it is (2,2,2); at n=10 it is (4,4); at n=11 it is (2,2,4). These are candidate obstructions, not counterexamples. [Six-vertex run](https://data.pequalnp.com/data/lemma/L-meta-520.8ca33af959dd.json)
+
+The local calculation `519_adjacent_evidence/check_gaps.py` compared the cover formula with enumeration of all cycle-vertex covers for every marking through n=10. It checked the deletion identity for all masks through n=16 and enumerated eligible gap necklaces up to cyclic rotation and reflection. It did not search unrestricted Boolean circuits.
+
+## Attached trees, basis and remaining scope
+
+Let K be a tree attached to a cycle graph G₀ only at v, and let e=|E(K)|. Suppose the claimed bound C≥B−δ is available for G₀ and G₀ with a single fresh leaf at v. For the union, L549 bounds C from below by one of two quantities. If a cover S_K excludes v, the bound is e+|S_K|+C(G₀). Joining S_K to an optimum cover of G₀ covers the union. If S_K includes v, the bound is e+|S_K|+C(G₀+leaf)−2. Choose an optimal cover of G₀+leaf containing v, discard its dummy leaf, and glue the two covers at v, deducting one for their common vertex. Substituting the respective B−δ lower bounds proves the same lower bound for the union. Apply this separately to each singly rooted attachment; take as induction measure the number of attachments larger than one edge. The nonconstant and false-at-each-root-value hypotheses follow from an edge in the cycle and the empty and singleton-root assignments. Thus the one-gate bound holds with arbitrary attached trees, and the all-gate equality holds throughout the seven-cycle family. [Rooted-forest theorem](https://data.pequalnp.com/data/lemma/L-meta-549.4f9cdded8d08.json) · [Upper construction](https://data.pequalnp.com/data/lemma/L-meta-548.dfb730dc8fe3.json)
+
+The independent proof in `612_orientations.md` gives exact size for bipartite, four-cycle-free unicyclic graphs in the positive AND/OR basis by counting AND and OR gates separately. Restricting a neighborhood deletes an AND there because a singleton cannot propagate to the output along an OR-only dependency path. A NOT gate changes precisely that reasoning. The all-gate proof above uses checked cofactor elimination and the minimum-circuit OR-chain theorem in the AND/OR/NOT basis. Its unproved residual families include cycles with gaps 2 or 4 and graphs with several cycles. The assigned gap's allowed imports list contains only the definition root; a Lean submission would also need to make its proof dependencies available within that constraint.

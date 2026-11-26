@@ -1,0 +1,121 @@
+\section{A graph cut polynomial in the second block}
+The preceding algorithm becomes expensive when many variables contain
+no whole clause among them. We give a family for which the first
+block has a known value and evaluating the second is already
+\(\#\mathrm P\)-hard. Precision two here means two blocks of \(s\)
+base-13 digits. The reduction uses polynomially growing \(s\).
+The cut polynomial in the theorem is the zero-field Ising partition
+function up to a scalar. Indeed, with
+\(\epsilon_v=(-1)^{\sigma(v)}\) and \(k=|E(G)|\),
+\(2|\delta(\sigma)|=k-\sum_{uv\in E(G)}\epsilon_u\epsilon_v\).
+For positive \(Y>1\), the edge weights favor unequal spins.
+For the conventional Ising formulation see \cite{js}. The construction
+below places this graph polynomial at a particular arithmetic position
+of a sparse univariate root count.
+
+\begin{theorem}\label{th:cuts}
+Let \(G\) have \(q\) vertices, no loops or isolated vertices, and \(k\)
+edges. Write \(Z_G(Y)=\sum_{\sigma:V(G)\to\{0,1\}}Y^{|\delta(\sigma)|}\),
+where \(\delta(\sigma)\) is the set of edges whose endpoints differ.
+Given \(G\) and a positive integer \(h\) in unary, one can construct
+a normalized formula in which every row contains the same positive
+literal \(x\), and \(x\) is forced true. The formula has exactly
+\(2^{q+2}\) witnesses. From \(R_2\) of its field polynomial one can
+recover \(Z_G(2^h)\bmod 13^s\) in polynomial bit time.
+With \(h=q+1\) and a polynomial choice of \(s\), a single evaluation
+of its second block recovers every coefficient of \(Z_G\).
+\end{theorem}
+
+\begin{proof}
+Use \(N=q+3\) variables: the vertices of \(G\), the center \(x\),
+and two additional bits \(y,z\). For each edge \(uv\) put in \(h\)
+copies of each ordered row \((x,u,v),(x,v,u)\).
+Append four binary rows \((x,t,t)\) for \(t=y,\neg y,z,\neg z\).
+There are \(g=2hk\) edge rows and \(M=g+4\) rows in total. Two
+opposite requirements on \(y\) force \(x\) true; then every other
+bit is free. The second pair of opposite requirements will also
+exclude false-center contributions at first order.
+
+Introduce a formal variable \(t\) for an equal edge with unequal-edge
+weight one. After removing the four required equal edges from each
+gate, let \(f_{pqr}(t)=c_0+c_1t+\cdots\) be its local polynomial.
+More precisely, replace each \(w\) in \eqref{eq:local} by \(t\)
+on equal bits and 1 otherwise, and divide by \(t^4\). The local gate
+has 25 edges, so \(\widehat K=\beta^{21} f_{pqr}(\alpha/\beta)\).
+Writing \(b(\sigma)\) for the number of defective variable pairs,
+form the integer polynomial
+\[
+ P(t)=\sum_{\sigma\in\{00,01,10,11\}^{N}}
+            t^{b(\sigma)}\prod_{c}f_c(\sigma;t).
+\]
+In \(\mathbb Z/\alpha^2\mathbb Z\), let \(\tau=\alpha\beta^{-1}\)
+and \(T=N+21M+1\). The vertex and anchor factors give
+\begin{equation}
+ V=\frac{R_2}{\beta^T(1+\tau)}
+   =P(0)+\tau P'(0)\pmod{\alpha^2},\qquad P(0)=2^{N-1}.       \label{eq:derivative}
+\end{equation}
+All denominators in this equality are units. Subtract \(2^{N-1}\)
+from a representative of \(V\), divide by \(\alpha\), and multiply
+by \(\beta\). The result is \(P'(0)\bmod\alpha\).
+
+Here are the entries of the local gate needed for the derivative.
+Use \(U=(0,1)\) for true and \(F=(1,0)\) for false. At \(p=U\)
+the leading coefficient is one for \emph{all} states of \(q',r\),
+including defects. On healthy \(q',r\) the first correction is
+\[
+ \begin{array}{c|rr}
+ c_1(U,q',r)&r=U&r=F\\\hline
+ q'=U&8&8\\ q'=F&12&9
+ \end{array}.
+\]
+For a verification by hand, the triangle polynomial
+\(L(d_1,d_2,d_3)/t\bmod t^2\) with these weights is \(3t\)
+when the three neighboring bits coincide and \(1+2t\) otherwise.
+Indeed a mixed triple forces a unique internal choice with one equal
+edge, and two choices give two equal edges. For three equal bits
+three choices give two equal edges. Multiplying these four linear
+polynomials and the private-edge weight in \eqref{eq:local} gives
+the displayed table. At constant order the private pair \(u,v\)
+must be complementary. Its choice \(v=1\) works just when
+\(p_-=1\) or \(q'_-=1\). The choice \(v=0\) works just when
+\(p_+=q'_+=r_-=1\) and at least one of \(p_-,q'_-\) is zero.
+Consequently on healthy \(q',r\),
+\begin{align*}
+ c_0(11,q',r)&=1+\mathbf1_{\{q'=F,\ r=U\}},\\
+ c_0(00,q',r)&=\mathbf1_{\{q'=U\}} .
+\end{align*}
+
+Only zero or one defective pair can contribute to \(P'(0)\).
+With no defect, a false center violates at least one pin row for
+each of \(y,z\), giving a double zero. For a true center all leading
+entries equal one. The product derivative adds the local corrections.
+Their sum over all assignments on two distinct neighboring variables
+is \(37\), and on one repeated signed variable it is \(17\).
+Thus all such derivatives together give
+\(37g\,2^{N-3}+17\cdot4\,2^{N-2}\).
+
+If any variable other than \(x\) is the sole defect, a false center
+still has a healthy contradictory pair of pin rows. For a true
+center all local leading coefficients are one. These possibilities
+contribute \((N-1)2^{N-1}\). For a sole defect \(x=00\), the two
+signs on \(y\) cannot both be true and give zero. For \(x=11\)
+each pin row gives one. An edge \(uv\) gets a factor two in exactly
+one of the two input orders if its ends differ, and gets one in both
+orders if they agree. The two independent pin bits contribute four.
+Putting the contributions together gives the integer identity
+\begin{equation}
+ P'(0)=37g\,2^{N-3}+68\,2^{N-2}+(N-1)2^{N-1}
+                           +4Z_G(2^h).                              \label{eq:cut}
+\end{equation}
+Four is a unit modulo \(\alpha\). Equations \eqref{eq:derivative}
+and \eqref{eq:cut} recover the claimed value.
+
+Each coefficient of \(Z_G\) is at most \(2^q\). Choose \(h=q+1\)
+and \(13^s>2^{q+hk}\), with \(s\ge2\). Then \(Z_G(2^h)\) is the
+actual integer and its base-\(2^h\) digits are the coefficients
+without carries. All field parameters, the bit lengths of weights
+and integers, and the number of written terms in \(H\) are polynomial
+in \(q+k\) by the sparse construction \cite[Thm.~1]{degree}.
+The lower block is already known from \eqref{eq:derivative}, so only
+the second block needs an oracle.
+\end{proof}

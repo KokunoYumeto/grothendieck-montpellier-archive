@@ -1,0 +1,220 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=27mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\usepackage{xurl}
+\setlength{\emergencystretch}{2em}
+
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/grothendieck-questions-workbench}
+\newcommand{\recordurl}{https://github.com/KokunoYumeto/mathematics-workbenches}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{maincor}[theorem]{Corollary}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{proposition}[thm]{Proposition}
+\newtheorem{corollary}[thm]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[thm]{Remark}
+
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\F}{\mathbb F}
+\DeclareMathOperator{\Sec}{Sec}
+\DeclareMathOperator{\Inn}{Inn}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\divi}{div}
+
+\title[Prime-to-$p$ sections separate rational points]{Rational points of curves in characteristic $p$ are separated by the prime-to-$p$ fundamental group, on a question of Grothendieck}
+\author{}
+\date{23 November 2026}
+
+\begin{document}
+
+\begin{abstract}
+Grothendieck observed, in a manuscript now in the Montpellier archive, that over a field of characteristic $p$ the abelianized prime-to-$p$ fundamental group of a curve does not separate its rational points, because prime-to-$p$ Kummer theory does not see torsion of $p$-power order, and he asked whether the whole prime-to-$p$ fundamental group does. For hyperbolic curves over finite fields, Sa\"idi and Tamagawa proved that the decomposition groups in this group separate the closed points outside a finite exceptional set. We prove that there is no exception. Let $X$ be a hyperbolic curve over a field $K$ finitely generated over $\F_p$. Then two distinct rational points of $X$ never define conjugate sections of the geometrically prime-to-$p$ fundamental group of $X$ over the Galois group of $K$. When $K$ is finite it follows that the exceptional set of Sa\"idi and Tamagawa is empty: every closed point is determined by its decomposition group. The proof rests on the comparison theorems of SGA~1, on the Riemann hypothesis for curves over finite fields, on the finiteness theorem of Sa\"idi and Tamagawa, and on the configuration space used in Mochizuki's theory of cuspidalization. The theorem and its proof were produced by GPT-6 Astra (ChatGPT Pro mode) and checked by Claude Opus 5.5 at effort max. Claude Fable 5.2 at effort max edited the text, followed every step again and added the corollary on closed points, which has had no second check. No human has checked any of this.
+\end{abstract}
+
+\maketitle
+
+\section{The question and the result}
+
+\subsection{Grothendieck's question}
+Let $K$ be a field, $\overline K$ a separable closure, $G_K=\mathrm{Gal}(\overline K/K)$, and $X$ a smooth geometrically connected curve over $K$. The fundamental group of $X$ is an extension of $G_K$ by the fundamental group of $X_{\overline K}$, and a rational point $P\in X(K)$ splits it: $P$ gives a section $s_P$ of $\pi_1(X)\to G_K$, well defined up to conjugation by $\pi_1(X_{\overline K})$. The first question of the arithmetic of fundamental groups is whether $P\mapsto[s_P]$ is injective. Over a finitely generated field of characteristic $0$ it is, for curves of positive genus already in the abelianization: the difference of two sections is there the Kummer class of $P-Q$ in the Jacobian, and by the Mordell--Weil theorem this class vanishes only if $P=Q$.
+
+In characteristic $p$ the fundamental group of $X_{\overline K}$ is replaced by its maximal quotient of order prime to $p$, the quotient that specializes well and is topologically finitely generated. In a manuscript of the Montpellier archive \cite[cote 149, ms.~pp.~17--18]{Archive}, Grothendieck notes that the abelian argument then fails, already for an elliptic curve with a point removed: the prime-to-$p$ Kummer map of the Jacobian kills its $p$-primary torsion. He asks whether the full prime-to-$p$ group may still separate the points. He reduces the question to a statement about coverings: if $P$ and $Q$ have the same class, then for every connected prime-to-$p$ Galois cover and every point $P'$ above $P$ there is a point $Q'$ above $Q$ such that $Q'-P'$ has $p$-power order in the generalized Jacobian of the cover. He writes that one might be able to deduce $P=Q$ from this.
+
+\subsection{The theorem}
+Let $p$ be a prime, $K$ a field finitely generated over $\F_p$, and $X$ a smooth geometrically connected curve over $K$ which is \emph{hyperbolic}: $2g-2+n>0$, where $g$ is the genus of the smooth compactification of $X_{\overline K}$ and $n$ the number of its points at infinity. Put
+\[
+ \Delta_X=\pi_1(X_{\overline K})^{(p')},\qquad
+ \Pi_X=\pi_1(X)\big/\ker\bigl(\pi_1(X_{\overline K})\to\Delta_X\bigr),
+\]
+where $(p')$ denotes the maximal quotient of order prime to $p$. The sequence $1\to\Delta_X\to\Pi_X\to G_K\to1$ is exact: only the geometric part has been made prime to $p$, and the arithmetic quotient is the whole of $G_K$. We call $\Pi_X$ the \emph{geometrically prime-to-$p$ fundamental group} of $X$. A point $P\in X(K)$ defines a section $s_P$ of $\Pi_X\to G_K$, up to conjugation by $\Delta_X$; its image is a decomposition group of $P$. We write $\Sec(\Pi_X\to G_K)$ for the set of continuous sections.
+
+\begin{theorem}\label{thm:main}
+The map
+\[
+ X(K)\longrightarrow \Sec(\Pi_X\to G_K)/\Delta_X,\qquad P\longmapsto[s_P],
+\]
+is injective.
+\end{theorem}
+
+The theorem says that two distinct rational points can be told apart by a finite \'etale cover. If $P\ne Q$, there is a finite \'etale cover $Y\to X$, whose pullback to $X_{\overline K}$ is dominated by a Galois cover of degree prime to $p$, with a $K$-rational point above $P$ and none above $Q$. Indeed, the covers of this kind with a rational point above $P$ correspond to the open subgroups of $\Pi_X$ containing $s_P(G_K)$; if each of them had a rational point above $Q$, the limit argument of Step~4 below would give a decomposition group of $Q$ inside $s_P(G_K)$, hence equal to it. In Grothendieck's form: if $P,Q\in X(K)$ satisfy his condition for all prime-to-$p$ covers, then $P=Q$; for proper curves over a finite field the two forms are equivalent by Kummer theory, since the kernel of the prime-to-$p$ Kummer map of a finite abelian group is its $p$-primary part.
+
+The hypothesis that $X$ be hyperbolic cannot be dropped. For an elliptic curve $E$ the group $\Delta_E$ is abelian, and $s_P$ and $s_Q$ are conjugate exactly when $P-Q$ has $p$-power order in $E(K)$. Removing a point from $E$ does not change the abelianization of the geometric group, which is the content of Grothendieck's remark; by Theorem~\ref{thm:main} it makes the map injective. For $\mathbb A^1$ and $\mathbb P^1$ the group $\Delta_X$ is trivial and the map is constant. For $\mathbb G_m$ the map is injective, by the Kummer argument of Section~\ref{sec:open}.
+
+Over a finite field every closed point becomes rational after a finite extension of the base field, and the theorem then gives a statement about all closed points. Let $k$ be a finite field of characteristic $p$, $X$ a hyperbolic curve over $k$, and $\widetilde X$ the normalization of the smooth compactification of $X$ in the pro-cover of $X$ defined by $\Pi_X$. For a closed point $\tilde x$ of $\widetilde X$ let $D_{\tilde x}\subset\Pi_X$ be its decomposition group, the stabilizer of $\tilde x$. Sa\"idi and Tamagawa call $\tilde x$ \emph{exceptional} if there is a closed point $\tilde x'\ne\tilde x$ such that $D_{\tilde x}\cap D_{\tilde x'}$ is open in both groups; the images in $X$ of the exceptional points form their exceptional set \cite[Definitions 1.3, 1.5, 1.10]{ST09}.
+
+\begin{maincor}\label{cor:closed}
+Let $X$ be a hyperbolic curve over a finite field of characteristic $p$. No closed point of $\widetilde X$ is exceptional. In particular, the decomposition groups in $\Pi_X$ of two distinct closed points of $X$ are not conjugate.
+\end{maincor}
+
+\subsection{Why it matters}
+For the full fundamental group of a hyperbolic curve over a finite field, the map from closed points to conjugacy classes of decomposition groups is injective, and the anabelian theorems of Tamagawa and Mochizuki recover the curve from the group; Sa\"idi and Tamagawa recall this in \cite[Introduction]{ST09}. For the geometrically prime-to-$p$ group, the natural one in families and the one of Grothendieck's question, they proved that the map is injective outside a finite exceptional set \cite[Proposition 1.8(vi), Corollary 1.11]{ST09}, wrote that they could only prove it ``almost injective'', and recovered from the group the points of the complement of that set \cite[Introduction]{ST09}. In their later refinement for geometrically pro-$\Sigma$ groups the exceptional sets could not even be shown to be finite \cite[Introduction, pp.~4--5]{ST18}. Theorem~\ref{thm:main} answers Grothendieck's question for rational points of hyperbolic curves over every finitely generated field of characteristic $p$, and Corollary~\ref{cor:closed} shows that for the set of all primes different from $p$ the exceptional set is empty.
+
+\subsection{Credit}
+Grothendieck asked the question and reduced it to the statement about coverings \cite[ms.~pp.~17--18]{Archive}. Step~4 uses the finiteness of the exceptional set, which is a theorem of Sa\"idi and Tamagawa \cite[Proposition 1.8(vi)]{ST09}. Step~5 uses Lemma 1.7 of the same paper, and Corollary~\ref{cor:closed} uses parts (ii) and (iii) of its Proposition 1.8. The objects of Steps~1, 2 and~5 are those of Mochizuki's theory of cuspidalization \cite{Moch}: the configuration space of two points on the curve, the decomposition group of the diagonal, and the quotients of the fundamental group of a punctured curve that are pro-$r$ or central along the puncture, whose extension class is the Chern class of the point. Sa\"idi and Tamagawa carried that theory over to prime-to-$p$ groups \cite[\S 2]{ST09}; we cite it from their account, and we do not use its reconstruction theorems. The comparison and specialization theorems are those of SGA~1 \cite{SGA1}. The absolute values of the Frobenius eigenvalues on $H^1$ of a curve are given by Weil's Riemann hypothesis for curves, cited here from \cite[Th\'eor\`eme 1.6]{WeilI}.
+
+What is new here is the following. Lemma~\ref{lem:free} and Proposition~\ref{prop:exact} prove directly that the configuration fibration stays exact when it is made pro-$r$ along the diagonal. A conjugator between the sections of $P$ and $Q$ is then used to carry the curve punctured at $P$ to the curve punctured at $Q$, over the identity of $\Pi_C$ (Step~2). Steps~3 and~4 compare the numbers of points of corresponding covers and deduce that the points outside the exceptional set are fixed. Step~5 is a Kummer argument with the function whose divisor is $p^e(P-Q)$.
+
+\subsection{Context}
+In characteristic $0$ the injectivity of $P\mapsto[s_P]$ follows from the Mordell--Weil theorem, as recalled above, and the open part of the section conjecture is surjectivity. In characteristic $p$, Grothendieck's remark shows why the prime-to-$p$ form is harder: the abelian information is blind to the $p$-power torsion of Jacobians, so that an argument must use the nonabelian structure of $\Delta_X$. The theorem of Sa\"idi and Tamagawa does so, through cuspidalization, and leaves the finite exceptional set. We did not find Theorem~\ref{thm:main} or Corollary~\ref{cor:closed} in the papers cited here. We could not consult Stix's monograph \cite{Stix}, which has a chapter on the injectivity of $P\mapsto[s_P]$, and so we cannot say what it contains on prime-to-$p$ quotients in characteristic $p$.
+
+\subsection{Scope}
+Proved: Theorem~\ref{thm:main}, for rational points of proper and of affine hyperbolic curves over every field finitely generated over $\F_p$; and Corollary~\ref{cor:closed}, for all closed points when the base field is finite. Not proved: the analogue for geometrically pro-$\Sigma$ quotients, $\Sigma$ a smaller set of primes; any statement on surjectivity, that is, on which sections come from points; any statement in higher dimension. For an infinite field $K$ we have not written out the statement about decomposition groups of closed points of higher degree.
+
+\section{Proof overview}
+
+The case to which everything is reduced is that of a proper curve $C$ of genus at least two over a finite field $k$. Suppose that $P\ne Q$ in $C(k)$ have conjugate sections in $\Pi_C$. Then $P-Q$ is torsion of $p$-power order in the Jacobian, and this is exactly what prime-to-$p$ Kummer theory cannot see. The difficulty is to turn the equality of two sections of $\Pi_C$, which says nothing about functions, into a statement about a function on $C$. The idea is to carry the equality from $C$ to the punctured curves $C-P$ and $C-Q$, whose fundamental groups do know the functions with zeros and poles at $P$ and $Q$. This is done in three moves.
+
+First, the configuration space $C\times C$ minus the diagonal fibres over $C$, and its fibre over $P$ is $C-P$. Fix a prime $r\ne p$. When the fundamental groups are made pro-$r$ along the diagonal and along the puncture, the fibre sequence stays exact (Step~1), and the decomposition group of the diagonal contains the full inertia group $\Z_r(1)$ of the puncture (Step~2). A conjugator between $s_P$ and $s_Q$ lifts to the decomposition group of the diagonal. Conjugation by the lift carries the fibre over $P$ to the fibre over $Q$, and gives an isomorphism $\beta$ between these groups of $C-P$ and of $C-Q$ which induces the identity on $\Pi_C$ and respects the punctures. Genus at least two is used here: the fibre group must be free of rank at least two for Lemma~\ref{lem:free}. The restriction to prime-to-$p$ groups is used to compare with a lift to characteristic $0$ and to have tame ramification along the diagonal.
+
+Second, $\beta$ preserves the $r$-adic cohomology of the compactifications of corresponding covers, with its Frobenius action. By the trace formula, corresponding covers have the same number of points over every finite extension of $k$ (Step~3). A limit argument then shows that $\beta$ sends the decomposition group of a rational point to the decomposition group of a rational point. Since $\beta$ is the identity on $\Pi_C$, the two points have the same decomposition group in $\Pi_C$, and outside the finite exceptional set of Sa\"idi and Tamagawa they are the same point (Step~4).
+
+Third, let $f$ be the function with divisor $p^e(P-Q)$. On the quotients that are central along the punctures, $\beta$ defines a class with residues $1$ at $P$ and $-1$ at $Q$. The Kummer class of $f$ differs from $p^e$ times this class by the Kummer class of a constant $a\in k^\times$, because $H^1$ of the curve with coefficients $\Z_r(1)$ has no Frobenius invariants: this is where the Riemann hypothesis for curves enters. At a point $R$ outside the exceptional set the class defined by $\beta$ vanishes, so $f(R)/a$ has order prime to $r$. But $f$ takes every value, among them $a\zeta$ with $\zeta\ne1$ a root of unity of order a power of $r$ (Step~5).
+
+The general case follows in Section~\ref{sec:open}. A proper curve over a finitely generated field is specialized to a closed point of a model where $P$ and $Q$ stay distinct. An affine curve of genus at least two is mapped to its compactification. In genus $0$ and $1$ the abelianization suffices, after one prime-to-$p$ cover in genus $1$; these cases use that $K$ is finitely generated, through the theorem of Lang and N\'eron and the freeness of divisor groups. Corollary~\ref{cor:closed} is deduced from Theorem~\ref{thm:main} over the finite extensions of the base field.
+
+\section{The finite-field case}\label{sec:finite}
+
+In this section $k$ is a finite field of characteristic $p$ with $q$ elements, $C/k$ is a proper smooth geometrically connected curve of genus $g\ge2$, and $P,Q\in C(k)$. We write $\Pi_C$, $\Delta_C$ as in Section~1, and we fix a prime $r\ne p$. For a profinite group $G$ let $N(G)$ be the intersection of the open normal subgroups of $G$ of $r$-power index, so that $G^{(r)}=G/N(G)$ is the maximal pro-$r$ quotient of $G$; the subgroup $N(G)$ is characteristic in $G$.
+
+\begin{thm}\label{thm:finite}
+If $s_P$ and $s_Q$ are conjugate by an element of $\Delta_C$, then $P=Q$.
+\end{thm}
+
+The rest of this section proves Theorem~\ref{thm:finite}; suppose $P\ne Q$ and $s_Q=\gamma s_P\gamma^{-1}$ with $\gamma\in\Delta_C$.
+
+\subsection{Step 1: the configuration fibration stays exact}
+Let $F=\Delta_{C-P}$ and $E=\Delta_{C\times C-\mathrm{diag}}$ be the geometric prime-to-$p$ fundamental groups, $K_F=\ker(F\to\Delta_C)$ and $K_E=\ker(E\to\Delta_C\times\Delta_C)$, and put $F_c=F/N(K_F)$ and $E_c=E/N(K_E)$; the second projection $C\times C-\mathrm{diag}\to C$ has fibre $C-P$ over $P$.
+
+\begin{lemma}\label{lem:free}
+Let $1\to L\to H\to B\to1$ be an exact sequence of groups with $L$ free of finite rank $d\ge2$, such that $H$ acts on $L/[L,L]L^r$ through a finite $r$-group. Then $L^{(r)}\to H^{(r)}$ is injective.
+\end{lemma}
+
+\begin{proof}
+Conjugation gives an action of $H$ on $L^{(r)}$, and $\Aut(L^{(r)})=\varprojlim\Aut(L^{(r)}/U)$ over the open characteristic subgroups $U$. For a finite $r$-group $W$ with Frattini subgroup $\Phi(W)$, the kernel of $\Aut(W)\to\Aut(W/\Phi(W))$ is an $r$-group: by Burnside's basis theorem it acts freely on the set of tuples lifting a fixed basis of $W/\Phi(W)$, and the cardinality of this set is a power of $r$. For $W=L^{(r)}/U$, the group $W/\Phi(W)$ is a quotient of $L/[L,L]L^r$, on which $H$ acts through an $r$-group; so $H$ acts on each $W$ through an $r$-group, and the closure $A$ of the image of $H$ in $\Aut(L^{(r)})$ is pro-$r$. Hence $H\to A$ factors through $H^{(r)}$. On $L$ the action is inner, so $L^{(r)}\to H^{(r)}\to A$ is $x\mapsto\Inn(x)$, whose kernel is the centre of $L^{(r)}$, trivial for a free pro-$r$ group of rank at least two. So $L^{(r)}\to H^{(r)}$ is injective.
+\end{proof}
+
+\begin{proposition}\label{prop:exact}
+The sequence $1\to F_c\to E_c\to\Delta_C\to1$ induced by the second projection is exact, and the same holds for the arithmetic quotients $\Pi_{C-P}/N(K_F)$ and $\Pi_{C\times C-\mathrm{diag}}/N(K_E)$ over $G_k$.
+\end{proposition}
+
+\begin{proof}
+First let $C$ be a compact Riemann surface of genus $g\ge2$, and use topological fundamental groups $\Lambda=\pi_1(C-P)$, $\Gamma=\pi_1(C\times C-\mathrm{diag})$, $B_0=\pi_1(C)$. The second projection is a locally trivial fibration with fibre $C-P$ (Fadell--Neuwirth), and $\pi_2(C)=0$, so $1\to\Lambda\to\Gamma\to B_0\to1$ is exact. Prime-to-$p$ completion is right exact; $N(K_F)$ maps into $N(K_E)$; and $E_c\to\Delta_C$ is onto with kernel the image of $F_c$. It remains to show that $F_c\to E_c$ is injective, that is, that every finite quotient $F_c\to\mathcal Q$ is dominated by a finite quotient of $E_c$.
+
+Let $R\subset\mathcal Q$ be the image of $K_F$, an $r$-group, and $A=\mathcal Q/R$, a quotient of $F/K_F=\Delta_C$. Let $a\colon C'\to C$ be the corresponding Galois cover with group $A$, and $Y=(C'\times C')-\bigcup_{\sigma\in A}\{(\sigma x,x)\}$; these graphs are disjoint because $A$ acts freely, and $Y\to C\times C-\mathrm{diag}$ is Galois with group $A\times A$, so $H=\pi_1(Y)$ is normal in $\Gamma$ with $\Gamma/H=A\times A$. Since $\Lambda$ maps to $B_0\times\{1\}$, we have $\Lambda\cap H=\ker(\Lambda\to A)=L$, the fundamental group of the fibre $V'=C'-a^{-1}(P)$ of the second projection $Y\to C'$; $L$ is free of rank $2g(C')+|A|-1\ge4$. The monodromy of $\pi_1(C')$ on $H_1(V',\F_r)$ is trivial on the quotient $H_1(C',\F_r)$, because the compactified family is the product $C'\times C'\to C'$, and trivial on the classes of the punctures, which are not permuted; so it is unipotent with square zero, an elementary abelian $r$-group, and Lemma~\ref{lem:free} applies to $1\to L\to H\to\pi_1(C')\to1$. The image of $L$ in $\mathcal Q$ is $R$, an $r$-group, so there is a normal subgroup $T\subset H$ of $r$-power index with $T\cap L\subseteq\ker(L\to R)$. Let $T'=\bigcap_{\gamma\in\Gamma/H}\gamma T\gamma^{-1}$; it is normal in $\Gamma$, $H/T'$ is an $r$-group, and $\Gamma/T'$ is an extension of $A\times A$ by $H/T'$, of order prime to $p$. So $\Gamma\to\Gamma/T'$ factors through $E$, and through $E_c$, because $K_E$ maps into the $r$-group $H/T'$. Finally $\Lambda\cap T'\subseteq\Lambda\cap H\cap T=L\cap T\subseteq\ker(L\to R)\subseteq\ker(\Lambda\to\mathcal Q)$, using $\Lambda\cap H=L$. So $\Lambda\to\mathcal Q$ factors through $\Lambda\to\Gamma/T'$, which proves injectivity.
+
+For the curve over $k$, lift $C$ and $P$ to $W(k)$ (SGA~1, III, Corollaire 7.4; the point lifts by smoothness). The prime-to-$p$ geometric fundamental groups of $C-P$, of $C\times C-\mathrm{diag}$ (a smooth proper surface minus a smooth divisor, along which every prime-to-$p$ cover is tame) and of $C$ specialize isomorphically and compatibly \cite[XIII, Corollaire 2.9, \S2.10, Lemme 2.11]{SGA1}. The subgroups $K_F,K_E,N(\cdot)$ are defined group-theoretically, so the sequence is exact for the \'etale groups. As $N(K_F)$ and $N(K_E)$ are characteristic in normal subgroups of the arithmetic groups, the arithmetic quotients exist and are extensions of the same $G_k$.
+\end{proof}
+
+\subsection{Step 2: equal sections transport the cusp}
+Let $\mathcal G=\Pi_{C\times C-\mathrm{diag}}/N(K_E)$ and $G_P=\Pi_{C-P}/N(K_F)$; by Proposition~\ref{prop:exact}, $G_P$ is the inverse image of $s_P(G_k)$ under the second projection $\mathcal G\to\Pi_C$, and similarly for $Q$. Let $\mathcal D\subset\mathcal G$ be a decomposition group of the diagonal: the stabilizer in $\mathcal G$ of a point above the generic point of the diagonal in the normalization of $C\times C$ in the pro-cover defined by $\mathcal G$.
+
+\begin{lemma}\label{lem:diag}
+$\mathcal D$ is an extension $1\to\Z_r(1)\to\mathcal D\to\Pi_C\to1$, mapping diagonally to $\Pi_C\times_{G_k}\Pi_C$, and $\mathcal D\cap G_P$ is a decomposition group of the cusp of $C-P$.
+\end{lemma}
+
+\begin{proof}
+Prime-to-$p$ covers of $C\times C-\mathrm{diag}$ are tame along the smooth divisor $\mathrm{diag}\cong C$, so by Abhyankar's lemma on Kummer charts \cite[XIII, Proposition 5.2]{SGA1} the decomposition group of the diagonal is an extension of $\pi_1(\mathrm{diag})$, whose image is $\Pi_C$ embedded diagonally, by the image of tame inertia, which in $\mathcal G$ is a quotient of $\Z_r(1)$. It is the whole of $\Z_r(1)$: with $\Lambda=\langle a_i,b_i\rangle$, the loop around the puncture is $\prod_i[a_i,b_i]$, and the map $a_1\mapsto1+e_{12}$, $b_1\mapsto1+e_{23}$, other generators $\mapsto1$, into the pro-$r$ Heisenberg group of upper unitriangular $3\times3$ matrices over $\Z_r$, sends it to $[1+e_{12},1+e_{23}]=1+e_{13}$, of infinite order; this map factors through $F_c$, and by Proposition~\ref{prop:exact} through $E_c$. The diagonal meets each fibre transversally in one point, so the cusp inertia of the fibre is the diagonal inertia, and the cusp group of the fibre over $P$ is $\mathcal D\cap G_P$.
+\end{proof}
+
+Lift $\gamma$ to $\tilde\gamma\in\mathcal D$; then both projections of $\tilde\gamma$ to $\Pi_C$ equal $\gamma$, and conjugation by $\tilde\gamma$ maps $G_P$ onto $G_Q$ and the cusp group $\mathcal D\cap G_P$ onto $\mathcal D\cap G_Q$, acting on the first projection by $\Inn(\gamma)$. Since $F_c\to\Delta_C$ is onto, there is $\delta$ in the geometric part of $G_Q$ whose first projection is $\gamma^{-1}$. Conjugation by $\delta\tilde\gamma$ is an isomorphism
+\[
+ \beta\colon G_P\xrightarrow{\ \sim\ }G_Q
+\]
+over the identity of $\Pi_C$ (through the first projections) and over $G_k$, which preserves the conjugacy classes of cusp groups.
+
+\subsection{Step 3: corresponding covers have the same number of points}
+
+\begin{lemma}\label{lem:rquot}
+Let $N=N(K_F)$. Every open subgroup $I\le F$ containing $N$ satisfies $I^{(r)}=(I/N)^{(r)}$.
+\end{lemma}
+
+\begin{proof}
+Let $I/J$ be a finite $r$-quotient, $I_0$ the intersection of the conjugates of $I$ in $F$, and $M$ the intersection of the conjugates of $J\cap I_0$ in $F$. Then $I_0/M$ is an $r$-group, and the image of $K_F$ in $F/I_0$ is an $r$-group because $N\subseteq I_0$; so the image of $K_F$ in $F/M$ is an $r$-group, hence $N\subseteq M\subseteq J$. As $J$ was arbitrary, $N\subseteq N(I)$, which is the assertion.
+\end{proof}
+
+Let $I$ be an open subgroup of $G_P$ and $V_I\to(C-P)_{k_I}$ the corresponding cover, $k_I$ its field of constants, and $X_I$ its smooth compactification. The geometric fundamental group of $V_I$ has the same pro-$r$ completion as its image in the geometric prime-to-$p$ group, and by Lemma~\ref{lem:rquot} this is the pro-$r$ completion of the geometric part of $I$. Killing the inertia of the cusps gives the geometric pro-$r$ fundamental group of $X_I$, with its Frobenius action. Since $\beta$ is an isomorphism over $G_k$ preserving cusp classes, it identifies $H^1(X_I\otimes\overline k,\Z_r)$ with $H^1(X_{\beta(I)}\otimes\overline k,\Z_r)$ as modules over the Frobenius of $k_I$. By the Lefschetz trace formula for curves, $X_I$ and $X_{\beta(I)}$ have the same number of points over every finite extension of $k_I$. The cusps of $V_I$ over $P$ and their degrees are read off from the double cosets of the cusp groups, which $\beta$ preserves. Subtracting, $V_I$ and $V_{\beta(I)}$ have the same number of points over every finite extension of $k_I$.
+
+\subsection{Step 4: $\beta$ fixes the points outside a finite set}
+Let $L/k$ be finite, and write $(G_P)_L$ and $(G_Q)_L$ for the inverse images of $G_L$ in $G_P$ and $G_Q$. Let $R\in(C-P)(L)$, let $D_R\subset (G_P)_L$ be a decomposition group of $R$, and put $S=\beta(D_R)$. For every open $H\supseteq S$ of $(G_Q)_L$, the cover corresponding to $\beta^{-1}(H)\supseteq D_R$ has an $L$-point above $R$, so by Step~3 the cover $V_H$ of $C-Q$ corresponding to $H$ has an $L$-point. The sets $V_H(L)$, $H\supseteq S$, are finite and nonempty and form an inverse system over the directed set of such $H$, so their limit is nonempty. A compatible family gives $T\in(C-Q)(L)$ and a decomposition group $D_T$ contained in every $H\supseteq S$, hence in $S$; both project isomorphically onto $G_L$, so $D_T=S$. Thus $\beta$ sends point sections to point sections, and, since $\beta$ induces the identity on $\Pi_C$, the decomposition groups of $R$ and of $T$ in $\Pi_{C_L}$ coincide.
+
+By Sa\"idi and Tamagawa there is a finite set $\mathcal E_C$ of closed points of $C$, their exceptional set for the set of all primes different from $p$, with this property: a closed point of the pro-cover of $C$ which does not lie above $\mathcal E_C$ is determined by its decomposition group in $\Pi_C$, even up to commensurability \cite[Definitions 1.3, 1.5, 1.10, Proposition 1.8(vi)]{ST09}. The set is the same for every constant extension \cite[Remark 1.2]{ST09}. Hence $T=R$ whenever $R$ does not lie above $\mathcal E_C$.
+
+\subsection{Step 5: the Kummer contradiction}
+Equal sections have equal images in the abelianization, so the class of $P-Q$ lies in the kernel of the prime-to-$p$ Kummer map of the finite group $J_C(k)$, which is its $p$-primary part. Choose $e\ge0$ and $f\in k(C)^\times$ with $\divi f=p^e(P-Q)$.
+
+Let $M=\Z_r(1)$, and let $E_P$, $E_Q$ be the quotients of $G_P$, $G_Q$ that are central along the cusp: $1\to M\to E_P\to\Pi_C\to1$, with extension class in $H^2(\Delta_C,M)=\Z_r$ the class of the point (the first Chern class of $\mathcal O(P)$, by the presentation of the punctured surface, SGA~1, XIII, Corollaire 2.12); by Lemma~\ref{lem:diag} the kernel is all of $M$. The isomorphism $\beta$ induces $\bar\beta\colon E_P\to E_Q$ over $\Pi_C$, acting on $M$ by a unit $u$; as both extension classes are the class of a point, $u=1$. On $E_P\times_{\Pi_C}E_Q$, $\chi(x,y)=\bar\beta(x)y^{-1}$ is an $M$-valued crossed homomorphism. Pulled back to the cuspidally central quotient of the fundamental group of $C-\{P,Q\}$, it has residues $1$ at $P$ and $-1$ at $Q$, while the Kummer class $\kappa(f)\in H^1(\,\cdot\,,M)$ has residues $p^e$ and $-p^e$. So $\kappa(f)-p^e\chi$ is unramified and lies in $H^1(\Pi_C,M)$. By the inflation--restriction sequence, $H^1(\Pi_C,M)=H^1(G_k,M)$: the Frobenius eigenvalues on $\mathrm{Hom}(T_rJ_C,\Z_r(1))\otimes\Q_r$ have absolute value $\sqrt q$ \cite[Th\'eor\`eme 1.6]{WeilI}, so there are no invariants, and the module is torsion-free. By Kummer theory over $k$ there is $a\in k^\times$ with
+\[
+ \kappa(f)=p^e\chi+\kappa(a).
+\]
+Let $R\notin\mathcal E_C\cup\{P,Q\}$ be a closed point and $L=k(R)$. Let $D_R^P\subset E_P$ and $D_R^Q\subset E_Q$ be the images of decomposition groups of an $L$-rational point above $R$, chosen with the same image $D_R$ in $\Pi_{C_L}$. By Step~4, $\bar\beta(D_R^P)$ is conjugate to $D_R^Q$, and the conjugator projects to the normalizer of $D_R$ in $\Pi_{C_L}$. By \cite[Lemma 1.7]{ST09} the projection to $G_L$ is injective on this normalizer; as $D_R$ already maps onto $G_L$, the normalizer is $D_R$. So after multiplying the conjugator by an element of $D_R^Q$ it lies in $M$. Then $\chi$ restricted to the decomposition group of $R$ is the coboundary of an element of $M$, and restricting the displayed identity to it gives $\kappa_L(f(R)/a)=0$: the element $f(R)/a$ has order prime to $r$ in $L^\times$.
+
+Since $P\ne Q$, $f$ is not constant, so $f\colon C\to\mathbb P^1$ is onto. The points of $\mathcal E_C\cup\{P,Q\}$ have finitely many values under $f$; choose a root of unity $\zeta\in\overline k$ of order a power of $r$, $\zeta\ne1$, with $a\zeta$ different from these values, and a closed point $R$ with $f(R)=a\zeta$. Then $f(R)/a=\zeta$ has nontrivial $r$-power order in $k(R)^\times$, a contradiction. This proves Theorem~\ref{thm:finite}.
+
+\section{Finitely generated fields and affine curves}\label{sec:open}
+
+\subsection{Proper curves of genus at least two}
+Let $K$ be finitely generated over $\F_p$, $C/K$ proper of genus $g\ge2$, and $P\ne Q$ in $C(K)$ with conjugate sections. Spread $C$, $P$, $Q$ out over a smooth connected scheme $S$ of finite type over $\F_p$ with function field $K$, shrinking $S$ so that $P$ and $Q$ extend to disjoint sections. Let $s\in S$ be a closed point, $A$ the henselization of $\mathcal O_{S,s}$ and $L$ its fraction field. Smooth proper specialization identifies the geometric prime-to-$p$ fundamental groups of $C_{\overline L}$ and $C_{\overline{k(s)}}$ \cite[X, Th\'eor\`eme 3.8, Corollaire 3.9]{SGA1}, and $G_L\to\pi_1(\mathrm{Spec}\,A)=G_{k(s)}$ is onto because $A$ is a normal henselian domain. Restricting the conjugacy to $G_L$ and pushing it to $\Pi_{C_A}=\Pi_{C_{k(s)}}$, the sections of the distinct points $P_s,Q_s\in C(k(s))$ become conjugate, against Theorem~\ref{thm:finite}.
+
+\subsection{Affine curves}
+Let $X\subset C$ be affine hyperbolic. After a finite separable extension of $K$ we may assume the points at infinity rational; a finite purely inseparable extension changes neither the \'etale fundamental groups nor the Galois group \cite[IX, Th\'eor\`eme 4.10]{SGA1}, and injectivity over an extension implies it over $K$. If $g\ge2$, the surjection $\Pi_X\to\Pi_C$ carries conjugate sections to conjugate sections, and the proper case applies.
+
+If $g=0$, choose three points at infinity as $0,1,\infty$; the coordinate maps $X$ into $\mathbb G_m$, and conjugate sections give equal prime-to-$p$ Kummer classes of $z(P)$ and $z(Q)$ in $K^\times$. The kernel of the prime-to-$p$ Kummer map of $K^\times$ is trivial: modulo its finite group of constants, of order prime to $p$, $K^\times$ embeds into the free abelian group of divisors of a normal model, so an element that is an $n$-th power for every $n$ prime to $p$ is $1$. Hence $z(P)=z(Q)$ and $P=Q$.
+
+If $g=1$, let $E=C$, with origin a rational point at infinity, let $S$ be the set of points at infinity, and let $P\ne Q$ in $X(K)$ have conjugate sections. The generalized Jacobian $G$ of $E$ with reduced modulus $S$ is an extension of $E$ by a split torus $T$. The group $E(K)$ is finitely generated (Lang--N\'eron; the field of constants of $K$ is finite), and $T(K)$ is a finite group of order prime to $p$ times a free abelian group. So an element $x$ of $G(K)$ divisible by every integer prime to $p$ is torsion of $p$-power order: its image in $E(K)$ is then torsion of $p$-power order; let $p^A$ be the exponent of $E(K)[p^\infty]$ and $N'$ that of the prime-to-$p$ torsion of $E(K)$. For $n$ prime to $p$ write $x=nN'y$; the image of $y$ in $E(K)$ is torsion, so $w=p^AN'y$ lies in $T(K)$ and $p^Ax=nw$. Thus $p^Ax\in T(K)$ is divisible in $T(K)$ by every integer prime to $p$, and by the argument of the case $g=0$, applied to each coordinate of $T(K)=(K^\times)^{\dim T}$, $p^Ax=0$. Hence the class of $Q-P$ in $G(K)$, which lies in the kernel of the prime-to-$p$ Kummer map, has some order $p^a$.
+
+Choose $m$ prime to $p$ with $m^2>p^a$, and let $X'=E-[m]^{-1}(S)$, a Galois cover of $X$ with group $E[m]$, of degree $m^2$ prime to $p$; after a finite extension $K'$ of $K$ the points of $E[m]$, of $[m]^{-1}(S)$ and of $[m]^{-1}(P)$ are rational. Then $s_P|_{G_{K'}}$ has its image in $\Pi_{X'}$, and so has $s_Q|_{G_{K'}}=\gamma s_P|_{G_{K'}}\gamma^{-1}$, because $\Pi_{X'}$ is normal in $\Pi_{X_{K'}}$; so $Q$ lifts to a point $Q'\in X'(K')$; writing $\gamma$ as an element of $\Delta_{X'}$ times a lift of a deck transformation $\tau$, the sections of $Q'$ and of the point $P'=\tau(P'_0)$ above $P$, for a lift $P'_0$ of $P$, are conjugate by $\Delta_{X'}$. So the class of $Q'-P'$ has $p$-power order in the generalized Jacobian $G'$ of $E$ with modulus $[m]^{-1}(S)$. Its image in $E$ has $m(Q'-P')=Q-P$, of order dividing $p^a$, and $m$ is prime to $p$; so it has order $p^b$ with $b\le a$, and since the torus of $G'$ has no nonzero $p$-primary points, $p^b$ is also its order in $G'$. Hence there is a function $h$ on $E$ with $\divi h=p^b(Q'-P')$ and $h=1$ at every point of $[m]^{-1}(S)$, a set of $m^2|S|\ge m^2$ points. As $P'\ne Q'$, $h-1$ is a nonzero function whose only pole is $P'$, of order $p^b<m^2$; so it has at most $p^b$ zeros, a contradiction. This proves Theorem~\ref{thm:main}.
+
+\subsection{Closed points over a finite field: proof of Corollary~\ref{cor:closed}}
+Let $k$ be finite, $X$ a hyperbolic curve over $k$, and suppose that $\tilde x\ne\tilde x'$ are closed points of $\widetilde X$ such that $D_0=D_{\tilde x}\cap D_{\tilde x'}$ is open in $D_{\tilde x}$ and in $D_{\tilde x'}$. By \cite[Proposition 1.8(ii)]{ST09} neither point lies above a point at infinity, and by \cite[Proposition 1.8(iii)]{ST09} the images $\bar x$ and $\bar x'$ of the two points in $X_{\overline k}$ are distinct. The decomposition group of a closed point which is not at infinity meets $\Delta_X$ trivially, so the projection to $G_k$ is injective on $D_{\tilde x}$ and on $D_{\tilde x'}$, with open image. Hence the image of $D_0$ is $G_L$ for a finite extension $L$ of $k$ in $\overline k$.
+
+The inverse image $\Pi_{X_L}$ of $G_L$ in $\Pi_X$ is the geometrically prime-to-$p$ fundamental group of $X_L=X\otimes_kL$, with the same pro-cover. The group $D_{\tilde x}\cap\Pi_{X_L}$ is the decomposition group of $\tilde x$ in $\Pi_{X_L}$. It contains $D_0$ and maps injectively to $G_L$, while $D_0$ maps onto $G_L$; so it equals $D_0$. Hence the image $x_L$ of $\tilde x$ in $X_L$ is an $L$-rational point, and $D_0$ is the image of a section $s_{x_L}$ of $\Pi_{X_L}\to G_L$. The same holds for $\tilde x'$ and its image $x'_L$. The sections $s_{x_L}$ and $s_{x'_L}$ have the same image $D_0$, so they are equal, and Theorem~\ref{thm:main}, applied to $X_L$ over $L$, gives $x_L=x'_L$. But an $L$-rational point of $X_L$ has exactly one point of $X_{\overline k}$ above it, so $\bar x=\bar x'$, a contradiction. This proves Corollary~\ref{cor:closed}.
+
+\section{What remains open}
+For the geometrically pro-$\Sigma$ quotient, with $\Sigma$ a set of primes smaller than the set of all primes different from $p$, neither Theorem~\ref{thm:main} nor Corollary~\ref{cor:closed} is proved. For $\Sigma$ cofinite a finite exceptional set is available \cite[Proposition 1.8(vi)]{ST09}, which is what Step~4 needs, and we have not checked whether the other steps go through; for $\Sigma$ not cofinite even the finiteness of the exceptional sets is open \cite[Introduction, pp.~4--5]{ST18}. For an infinite finitely generated field $K$ we have not treated the decomposition groups of closed points of higher degree; the argument of Corollary~\ref{cor:closed} is the natural starting point. Nothing is proved here about surjectivity, or about varieties of higher dimension.
+
+\section*{Note on method}
+The theorem and its proof were produced by GPT-6 Astra (ChatGPT Pro mode). Claude Opus 5.5 at effort max re-proved Steps~1 and~2 independently from the statements. In a separate check, Claude Opus 5.5 at effort max checked Steps~3 to~5 and Section~\ref{sec:open} line by line, corrected the genus-one argument (the lifted points are paired by a deck transformation; no translation is needed), wrote out the divisibility argument for the generalized Jacobian, and wrote the first version of this text. Claude Fable 5.2 at effort max edited the text into its present form and followed every step again. That reading made three repairs of wording in the proofs, none of which changes a statement: the extension $K'$ in the genus-one case must also split the fibre above $P$; Lemma 1.7 of \cite{ST09} is cited for what it states; and a superfluous appeal to cohomological dimension in Step~5 is removed. It also added the reformulation by covers after Theorem~\ref{thm:main}, the remark on elliptic curves, and Corollary~\ref{cor:closed} with its proof. Corollary~\ref{cor:closed} has not been checked by a second reader.
+
+Of the sources, the passages of \cite{ST09} cited here were read at the source for this version: the Introduction, Remark 1.2, Definitions 1.3, 1.5, 1.6 and 1.10, the statements of Lemma 1.7, Proposition 1.8 and Corollary 1.11, and in \S 2 the statement of Theorem 2.2 and the passages on the fundamental extension. The Introduction of \cite{ST18} and Grothendieck's manuscript pages, in our transcription and translation, were read by Claude Opus 5.5 at effort max and not again for this version. The locators in \cite{SGA1} and \cite{WeilI} are those of the proof as it was produced; they were not reopened. \cite{Moch} is cited through \cite[\S 2]{ST09} and was not opened, and its journal reference is given from memory. \cite{Stix} could not be consulted.
+
+No human has checked this note. Our text is dedicated to the public domain under CC0~1.0. The workbench is \expandafter\url\expandafter{\workbenchurl}; the permanent records are at \expandafter\url\expandafter{\recordurl}.
+
+\begin{thebibliography}{9}
+\bibitem{Archive} A.~Grothendieck, manuscripts, Archives Grothendieck, Universit\'e de Montpellier, cote 149, ms.~pp.~17--18 (scans 35--36 of the digitized cote). \url{https://grothendieck.umontpellier.fr/archives-grothendieck/}.
+\bibitem{SGA1} A.~Grothendieck, \emph{Rev\^etements \'etales et groupe fondamental} (SGA~1), Lecture Notes in Math.\ 224, Springer, 1971: III 7.3--7.4; IX 4.10; X 3.8--3.9; XIII 2.9--2.12 and 5.2.
+\bibitem{Moch} S.~Mochizuki, \emph{Absolute anabelian cuspidalizations of proper hyperbolic curves}, J.\ Math.\ Kyoto Univ.\ \textbf{47} (2007), 451--539: Propositions 1.6 and 1.8, Theorem 1.16, as cited in \cite[\S 2]{ST09}.
+\bibitem{ST09} M.~Sa\"idi and A.~Tamagawa, \emph{A prime-to-$p$ version of Grothendieck's anabelian conjecture for hyperbolic curves over finite fields of characteristic $p>0$}, Publ.\ RIMS \textbf{45} (2009), 135--186; arXiv:0801.1452: Introduction; Remark 1.2; Definitions 1.3, 1.5, 1.10; Lemma 1.7; Proposition 1.8; Corollary 1.11; \S 2.
+\bibitem{ST18} M.~Sa\"idi and A.~Tamagawa, \emph{A refined version of Grothendieck's anabelian conjecture for hyperbolic curves over finite fields}, J.\ Algebraic Geom.\ \textbf{27} (2018), 383--448; arXiv:1708.08773, Introduction, pp.~4--5.
+\bibitem{Stix} J.~Stix, \emph{Rational points and arithmetic of fundamental groups: evidence for the section conjecture}, Lecture Notes in Math.\ 2054, Springer, 2013 (not consulted).
+\bibitem{WeilI} P.~Deligne, \emph{La conjecture de Weil.~I}, Publ.\ Math.\ IH\'ES \textbf{43} (1974), 273--307: (1.5.1) and Th\'eor\`eme 1.6.
+\end{thebibliography}
+
+\end{document}

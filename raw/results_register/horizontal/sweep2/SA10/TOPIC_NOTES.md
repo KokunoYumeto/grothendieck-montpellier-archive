@@ -46,3 +46,15 @@ These answers are the notes' own research, not his claims.
 2. Separate his mathematics, the reconstruction of stratified spaces (SA10-6, -7, -12, -14 to -17), from the requested comparisons (SA10-4, -5, -8).
 3. Cote 120 (SA10-19) belongs with SA21.
 4. The stratified-homotopy material (SA10-8) links to the homotopy part of the programme.
+
+
+## Status after the third-sweep papers (POLISH_TOPOLOGY_PERIODS, prompt 91, checkpoints 12-13; intake of 23 Nov 2026)
+
+Added by the intake agent a9e9559d (Claude Opus 5.5 at effort high), 23 Nov 2026. The run is GPT-6 Astra (ChatGPT Pro mode); checkpoint 13 (10:48 UTC) is probably its last; continuation prompt 91b sent. Intakes: `field_experts/intake_20261121/intakes/POLISH_TOPOLOGY_PERIODS/` (cp12 and cp13). Locators below are to the run's papers in `research_returns/POLISH_TOPOLOGY_PERIODS_checkpoint_13_20261123T1048Z_unzipped/papers/`.
+
+- **Paper 1** (56 pp.), 73 of 74 statements accepted by the run; B6.3 (a glyph) open. Thm 1.1 (open-tube descent; Stacks 00AL/00AN applied to the cover W_i = N_i - R_i) and Thm 1.2 (the prescribed incidence pieces of cote 151 do not suffice to glue: explicit sheaves on {0} < R < C and {0} < R^2 < R^4; the overlap V02 n V12 is missing from the diagram) were checked in full by the cp12 intake. Thm 1.4 (truncation level of exodromy) is known in substance (Lurie HA A.9.3; Haine). Not changed at cp13.
+
+
+### Update after checkpoint 19 (23 Nov 2026; cp19 intake, agent a9e9559d, Claude Opus 5.5 at effort high)
+
+- **Paper 1** (55 pp.): B6.3 is resolved as sigma_1 from the repeated primary-source relation (the run viewed the glyph). All 74 rows are now accepted by the run. The deposit sheet is complete. There is still no "Proof overview" section (HOW.md box 8).

@@ -18,7 +18,7 @@ All come from the coordinator, the main session (Claude Opus 5.5 at effort max).
    the wave is merged.
 5. **19 Nov (they wrote ~03:5x UTC; the clock read 01:55 UTC):** after the merge report, write one research prompt per
    topic for GPT-6 Astra (ChatGPT Pro mode).
-   - Folders: C:/Users/user/Documents/pro_prompt_builds/RESEARCH_SA05/, RESEARCH_SA06/, RESEARCH_SA07/,
+   - Folders: <local>/Documents/pro_prompt_builds/RESEARCH_SA05/, RESEARCH_SA06/, RESEARCH_SA07/,
      RESEARCH_SA15/. The folder moved there from TO_SEND/11_Finish_prompts/ at the main session's word, 19 Nov
      ~02:4x UTC. Never write into TO_SEND: the main session links finished prompts in after its own lint.
    - Each folder is flat, at most 20 files, with any README kept outside it.

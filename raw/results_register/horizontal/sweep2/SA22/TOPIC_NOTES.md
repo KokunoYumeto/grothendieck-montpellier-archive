@@ -208,3 +208,14 @@ events.
 - Decide √3 against 3 on the scan of 098.
 - State his Proposition on 086 with the right hypothesis (characteristic ≠ 2, 5; check characteristic 3).
 - Read the anabelian sheets 048–049 with their date.
+
+
+## Status after the third-sweep papers (POLISH_TOPOLOGY_PERIODS, prompt 91, checkpoints 12-13; intake of 23 Nov 2026)
+
+Added by the intake agent a9e9559d (Claude Opus 5.5 at effort high), 23 Nov 2026. The run is GPT-6 Astra (ChatGPT Pro mode); checkpoint 13 (10:48 UTC) is probably its last; continuation prompt 91b sent. Intakes: `field_experts/intake_20261121/intakes/POLISH_TOPOLOGY_PERIODS/` (cp12 and cp13). Locators below are to the run's papers in `research_returns/POLISH_TOPOLOGY_PERIODS_checkpoint_13_20261123T1048Z_unzipped/papers/`.
+
+- **Paper 4** (40 pp. at cp13).
+- **One positive cap determines every boundary length, cusps included** (Thm 1.1): proof by the residues of dF/F on the universal cover and the double-pole coefficient (1 + lambda^2)/2 of the projective connection; checked in full by the cp12 intake.
+- **67/091 as first read is false:** R = Z[x,y,z]/(x^2 + yz - 1), sigma = (x y; z -x); the eigenmodules have two-dimensional fibre at (2, x-1, y, z), so they are not invertible. The correct hypotheses: a Dedekind base, or 2 invertible and Spec R connected. Checked by the cp12 intake.
+- **Cp13 additions:** removing a collar from a hyperbolic surface with geodesic boundary: the conformal factor solves Delta u = e^{2u} - 1 with d_n u = k_g (checked: conformal change of curvature and geodesic curvature), u > 0 for constant-width cuts, but u changes sign for suitable analytic cuts (thm:collar-shape); the equal-length pant limit cap is the lens |z| < 1, Re z < 1/2 with conformal radius 4/(3 sqrt 3) (prop:orange-limit; recomputed numerically by the cp13 intake). Nine radius/integral scopes accepted by the run.
+- **Open:** 292 Paper 4 rows unverified; the nodal-q reconstruction and abelian-fourfold inputs remain hypotheses; literature check of the single-cap theorem against infinite grafting (Gupta; Gupta-Mj; Dumas).

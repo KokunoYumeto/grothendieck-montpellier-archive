@@ -1,0 +1,492 @@
+% Hexagon note, 23 Nov 2026. CC0 1.0.
+% Mathematics: GPT-6 Astra (ChatGPT Pro mode). Text, corollary for analytically irreducible domains and the
+% worked examples: Claude Opus 5.5 at effort high (editor).
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[margin=2.7cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[hidelinks]{hyperref}
+\emergencystretch=2em
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\F}{\mathbf F}
+\newcommand{\Int}{\operatorname{Int}}
+\newcommand{\Fn}{\mathcal F}
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/mathematics-workbenches/blob/main/works/WB-0004.md}
+
+\title{Integer-valued polynomials over a one-dimensional analytically\\ irreducible local domain form a free module:\\ Elliott's non-flatness conjectures fail}
+\author{}
+\date{23 November 2026, version 2 \quad CC0 1.0}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+In 2011 J.~Elliott conjectured that the ring $\Int(D)$ of integer-valued polynomials is not flat over
+$D=\F_2[[T^2,T^3]]$, nor over $D=\F_2+T\F_4[[T]]$, and more generally that some local, Noetherian,
+one-dimensional, analytically irreducible domain has a non-flat $\Int(D)$. This spring H.~Ma, with the reasoning
+system Rethlas, answered Problem~19 of Cahen, Fontana, Frisch and Glaz negatively, with a local domain whose
+normalization has two maximal ideals. We prove that Elliott's conjectures fail. For the first of his rings,
+Elliott himself announced freeness in 2013, without a published proof that we could find. If $D$ is a subring of a
+discrete valuation ring $V$ with finite residue field, and $D$ contains a nonzero ideal of $V$, then $\Int(D)$ is a
+free $D$-module. Consequently $\Int(D)$ is free for every one-dimensional analytically irreducible Noetherian local
+domain $D$. By Elliott's own theorems, the canonical maps $\Int(D)^{\otimes n}\to\Int(D^n)$ are then isomorphisms and
+$\Int(D)$ carries a unique compatible biring structure. For Elliott's two rings we write down the polynomials
+explicitly. The proof patches two free modules along the conductor square and uses a matrix identity of
+Whitehead and a theorem of Kaplansky. The proof was produced by GPT-6 Astra (ChatGPT Pro mode). The corollary
+for analytically irreducible domains and the explicit examples were written by Claude Opus 5.5 at effort high,
+which also checked the proof; Claude Opus 5.5 at effort max checked the whole note again. No human has checked
+this note.
+\end{abstract}
+
+\section{The question and the theorem}
+
+Let $D$ be an integral domain with fraction field $K$. The ring of integer-valued polynomials is
+$\Int(D)=\{f\in K[X]: f(D)\subseteq D\}$. It contains $D[X]$ and is in general larger, as $\binom{X}{2}\in\Int(\mathbf Z)$ shows. As a $D$-module, $\Int(D)$ is free when $D$ is
+a Dedekind domain. It is locally free when $D$ is a Krull domain, or more generally a TV PvMD
+\cite[Theorem~1.2]{E11a}. In the list of Cahen, Fontana, Frisch and Glaz, Elliott asks whether this persists
+\cite[Problem~19, p.~9]{CFFG}: is $\Int(D)$ flat over every domain $D$ (19a)? Is it free (19b)?
+
+Elliott expected the answer to be no, and named the rings where he expected it to fail. For a local domain $D$ whose
+maximal ideal $M$ is finitely generated and not principal, $M^{-1}$ is an overring. If $\Int(D)$ is flat, then
+$\Int(D,M^{-1})=M^{-1}\Int(D)$ \cite[Proposition~2.13, p.~12]{E11a}. For $D=\F_2+T\F_4[[T]]$, with $M^{-1}=\F_4[[T]]$,
+and for $D=\F_2[[T^2,T^3]]$, with $M^{-1}=\F_2[[T]]$, he reduced non-flatness to the statement
+\begin{equation}\label{eq:elliott}
+ X^2+X\notin M\,\Int(D)
+\end{equation}
+\cite[Propositions~2.14 and~2.16, p.~12]{E11a}. He conjectured that~\eqref{eq:elliott} holds for both rings
+\cite[Conjectures~2.15 and~2.17]{E11a}. Since the two rings are local, Noetherian, one-dimensional and
+analytically irreducible, either conjecture would give his Conjecture~2.10 \cite[p.~11]{E11a}: \emph{some such domain
+has a non-flat $\Int(D)$}. He recalled these conjectures as open in 2011 \cite[p.~2]{E11b}. On 26 December 2013
+he added to his MathOverflow question \cite{MO} that $\Int(D)$ is free for $D=\F_2[[T^2,T^3]]$, and that he would
+write up the proof; we have not found that proof in print. In 2016 he still conjectured that domains with non-free
+$\Int(D)$ exist \cite[p.~2]{E16b}.
+
+\begin{theorem}\label{thm:main}
+Let $V$ be a discrete valuation ring with finite residue field, uniformizer $\pi$ and fraction field $K$. Let
+$R\subseteq V$ be a subring with the same unit, and suppose $\pi^mV\subseteq R$ for some $m\geq1$. Then $R$ is a
+one-dimensional Noetherian local domain with fraction field $K$, and $\Int(R)$ is a free $R$-module of countably
+infinite rank.
+\end{theorem}
+
+\begin{corollary}\label{cor:ai}
+Let $D$ be a one-dimensional Noetherian local domain whose completion is a domain. Then $\Int(D)$ is a free
+$D$-module. In particular Elliott's Conjectures~2.10, 2.15 and~2.17 of \cite{E11a} are false, and
+$X^2+X\in M\,\Int(D)$ for both of his rings.
+\end{corollary}
+
+\begin{corollary}\label{cor:biring}
+For every $D$ as in Corollary~\ref{cor:ai}, the canonical maps $\Int(D)^{\otimes_D n}\to\Int(D^n)$ are isomorphisms
+for all $n$. There is a unique $D$-$D$-biring structure on $\Int(D)$ for which $D[X]\to\Int(D)$ is a biring
+homomorphism.
+\end{corollary}
+
+In words: over a one-branch local domain of dimension one with finite normalization, integer-valued polynomials
+behave exactly as over a discrete valuation ring, as far as module structure and the operations of composition and
+tensor products are concerned. Corollary~\ref{cor:biring} follows from Theorem~\ref{thm:main} by theorems of Elliott:
+if $\Int(D)$ is free, the canonical maps are isomorphisms \cite[Propositions~6.8(a), 6.10(d)]{E07}, as recalled in
+\cite[p.~9]{CFFG} and \cite[p.~16]{E11b}, and then the biring exists and is unique \cite[p.~10]{CFFG}, by
+\cite{E10}. We have not re-read the proofs in \cite{E07,E10}. Theorem~\ref{thm:main} gives Problems~19, 20 and~21
+of \cite{CFFG} a positive answer on this class of domains.
+
+The conjectured witness becomes explicit. For $D=\F_2[[t^2,t^3]]$ put
+\[
+ q=\frac{X^2+X}{t^2},\qquad h_2=\Bigl(\frac{q+q^2}{t}\Bigr)^4,\qquad h_1=q+t\,h_2 .
+\]
+Then $h_1,h_2\in\Int(D)$ and $X^2+X=t^2h_1+t^3h_2$, with $t^2,t^3\in M$ (Example~\ref{ex:cusp}). For
+$D=\F_2+t\F_4[[t]]$, with $\F_4=\F_2(\omega)$, put $q=(X^2+X)/t$, $h_2=q+q^2$ and $h_1=q+\omega h_2$. Then
+$X^2+X=t\,h_1+\omega t\,h_2$ (Example~\ref{ex:f4}).
+
+\paragraph{Why this matters.}
+Whether $\Int(D)$ is always flat had been open since Elliott's papers, and its negative answer this year
+\cite{Ma} made it natural to ask where flatness fails. Ma's domain is $\F_2+t(t+1)T$ with $T=\F_2[t]$ localized at
+the two primes $(t)$ and $(t+1)$ \cite[\S3]{Ma}. It is local and one-dimensional, but its normalization $T$ has two
+maximal ideals: it has two branches. The same domain answers Problem~21 negatively \cite[Theorem~3.4]{JLSWXY}.
+Theorem~\ref{thm:main} shows that one branch with finite normalization never fails. So the domains Elliott proposed
+as the first examples of non-flatness are free, and the number of branches is the feature that separates the two
+behaviours in dimension one.
+
+\paragraph{The credit.}
+The questions, the flatness criterion and the two candidate rings are Elliott's \cite{E11a,E11b,CFFG}. The first
+non-flat example is Ma's, found with Rethlas \cite{Ma,Rethlas}. The proof of Theorem~\ref{thm:main} uses known tools,
+cited where they are used:
+\begin{itemize}
+\item the Newton basis built from a sequence that minimizes products of differences, which is Bhargava's
+$\pi$-ordering \cite{Bha};
+\item the polynomial $(X^Q-X)/\pi$, which Elliott also uses \cite[Proposition~5.4, p.~16]{E11b};
+\item Milnor's patching of modules over a conductor square \cite[\S2]{Mil};
+\item Whitehead's lemma that $\operatorname{diag}(\alpha,\alpha^{-1})$ is a product of elementary matrices;
+\item Kaplansky's theorem that projective modules over a local ring are free \cite{Kap}.
+\end{itemize}
+New here are Theorem~\ref{thm:main}, Corollaries~\ref{cor:ai} and~\ref{cor:biring} as consequences, and the explicit
+identities above. Freeness for $\F_2[[T^2,T^3]]$ was announced by Elliott in 2013 \cite{MO}; the note proves it
+together with the general statement. We know of no earlier written proof for either of Elliott's two rings. The
+standard monograph \cite{CC} was not available to us; Elliott, who cites it, still describes the question as open in
+2011 and 2016 \cite{E11b,E16b}.
+
+\section{Context}
+
+For a Dedekind domain $\Int(D)$ is free \cite[Remark~II.3.7(iii)]{CC}, as cited in \cite[p.~2]{E11b}.
+Elliott proved local freeness for Krull domains and TV PvMDs \cite[Theorem~1.2]{E11a}. Our domains are neither:
+$\F_2[[t^2,t^3]]$ is not integrally closed, and its maximal ideal is $t$-maximal but not principal, which Elliott
+notes places it outside his theorem \cite[p.~4]{E11a}.
+
+Ma's theorem \cite[Theorem~1.1]{Ma} answers Problems~19a and~19b negatively. Its proof uses Elliott's criterion: the
+polynomial $(X^2+X)/(t(t+1))$ lies in $\Int(D,T)$ but not in $T\,\Int(D)$ \cite[Proposition~4.1, pp.~4--5]{Ma}. The
+argument was produced by Rethlas and checked by Ma \cite[\S6]{Ma}. Jiang, Li, Sun, Wang, Xiao and Yu use the same
+domain to show that no compatible biring structure need exist, answering Problem~21 \cite[Theorem~3.4]{JLSWXY}. Both
+results bear on this note in the same way. Their domain has two branches, and Theorem~\ref{thm:main} cannot apply,
+because its normalization is not local. Our theorem covers every one-branch domain with finite normalization, and
+none of theirs. Neither result implies the other. Together they show that, among one-dimensional local domains with
+finite normalization, the branch count decides flatness and the existence of the biring.
+
+\section{Proof overview}
+
+The difficulty is that $\Int(R)$ is not finitely generated, so the usual Noetherian arguments do not apply: they
+identify flat finitely generated modules with projective ones and check them locally. Elliott's criterion gives a
+necessary condition for flatness, the identity $V\Int(R)=\Int(R,V)$. Even proving that identity directly means
+writing every $V$-valued polynomial as a combination of $R$-valued ones. The examples above show that this is possible but
+intricate.
+
+The idea is to use the conductor square
+\[
+ R=V\times_{V/J}R/J,\qquad J=\pi^mV .
+\]
+It cuts $\Int(R)$ into two pieces that are easy to understand.
+\begin{itemize}
+\item Over the discrete valuation ring $V$, the module $B=\Int(R,V)$ is free, with an explicit Newton basis.
+\item Modulo $J$, both $B$ and $\Int(R)$ become rings of locally constant functions on $R$, with values in the finite
+rings $V/J$ and $R/J$. Such function modules are free, with bases obtained by refining congruence classes. The
+digit polynomial $(X^Q-X)/\pi$ produces every congruence indicator, which shows that all such functions are values of
+polynomials.
+\end{itemize}
+So $\Int(R)$ is patched from a free $V$-module and a free $R/J$-module along an automorphism $\alpha$ of a free
+$V/J$-module. In general $\alpha$ need not lift to $V$. But $\operatorname{diag}(\alpha,\alpha^{-1})$ is a product
+of elementary matrices, and these always lift. Hence $\Int(R)$ is a direct summand of a free module. Since $R$ is
+local, Kaplansky's theorem makes it free.
+
+Where the hypotheses are used:
+\begin{itemize}
+\item That $V$ is a discrete valuation ring with finite residue field gives the Newton basis (Lemma~\ref{lem:newton})
+and the digit polynomial (Lemma~\ref{lem:indicators}).
+\item The conductor $\pi^mV\subseteq R$ gives the square and the finiteness of $V/J$.
+\item Locality of $R$ gives freeness from projectivity.
+\end{itemize}
+Corollary~\ref{cor:ai} reduces to the theorem: for an analytically irreducible domain the normalization is a finite,
+local discrete valuation ring.
+
+\section{The ring and the module over the valuation ring}
+
+From now on $V,\pi,K,m$ are as in Theorem~\ref{thm:main}. Let $Q$ be the order of the residue field of $V$, and $v$
+the normalized valuation. Put $J=\pi^mV$, $\bar D=V/J$ (a finite ring), $R_0=R/J\subseteq\bar D$,
+\[
+ A=\Int(R),\qquad B=\Int(R,V)=\{f\in K[X]:f(R)\subseteq V\}.
+\]
+Then $A\subseteq B$, because $R\subseteq V$.
+
+\begin{lemma}\label{lem:ring}
+$R$ is a one-dimensional Noetherian local domain with fraction field $K$ and maximal ideal $R\cap\pi V$. Moreover
+$V$ is a finite $R$-module and is the integral closure of $R$.
+\end{lemma}
+
+\begin{proof}
+Every $v\in V$ equals $(\pi^mv)/\pi^m$ with both terms in $R$, so $\operatorname{Frac}(R)=K$.
+
+\emph{Local.} Let $x\in R$ with $v(x)=0$. Multiplication by $x$ on the finite ring $R_0$ is injective, since $x$ is a
+unit of $V$ and $J$ is an ideal of $V$. Hence it is surjective, and there is $y\in R$ with $xy\in1+J$. The inverse of
+an element of $1+J$ in $V$ lies in $1+J\subseteq R$, so $x$ is a unit of $R$.
+
+\emph{Finite.} $V$ is generated over $R$ by representatives of the finite set $V/J$.
+
+\emph{Noetherian.} Let $H\neq0$ be an ideal and $h\in H$ of least valuation. Then $JhV=hJ\subseteq H\subseteq hV$,
+and $hV/hJ$ is finite. The ideal $hJ=h\pi^mV$ is isomorphic to $V$ as an $R$-module, so it is finitely generated. Finitely many further elements of $H$ represent its image in
+$hV/hJ$. So $H$ is finitely generated.
+
+\emph{Dimension.} Every nonzero prime contains some $hJ$, so its residue ring is finite, hence a field.
+
+\emph{Integral closure.} $V$ is finite, hence integral, over $R$, and it is integrally closed in $K$.
+\end{proof}
+
+\begin{lemma}\label{lem:newton}
+Choose $a_0\in R$. Inductively choose $a_n\in R$ minimizing $v\bigl(\prod_{i<n}(a_n-a_i)\bigr)$, and put
+$b_n=\prod_{i<n}(X-a_i)/(a_n-a_i)$. Then $B=\bigoplus_{n\geq0}Vb_n$.
+\end{lemma}
+
+\begin{proof}
+$R$ is infinite, since it contains $J$, so the minimum is finite and the $a_n$ are distinct. By minimality,
+$v(\prod_{i<n}(x-a_i))\geq v(\prod_{i<n}(a_n-a_i))$ for every $x\in R$, so $b_n\in B$; also $b_n(a_n)=1$ and
+$b_n(a_i)=0$ for $i<n$. Let $f\in B$ have degree $d$, and write $f=\sum_{n\le d}c_nb_n$ with $c_n\in K$. Evaluating
+at $a_0,a_1,\dots$ in turn shows that $c_0=f(a_0)\in V$, then $c_1=f(a_1)-c_0b_0(a_1)\in V$, and so on: each
+$c_n=f(a_n)-\sum_{i<n}c_ib_i(a_n)\in V$.
+\end{proof}
+
+This is Bhargava's construction of a regular basis from a $\pi$-ordering \cite{Bha}.
+
+\section{Reduction modulo the conductor}
+
+For $N\geq1$ let $E_N$ be the set of classes of $V/\pi^NV$ that meet $R$. For a ring $S$, let $\Fn(R,S)$ be the ring
+of functions $R\to S$ that factor through $R\to E_N$ for some $N$. It is the union of the rings $S^{E_N}$, embedded
+by pullback along $E_{N+1}\to E_N$.
+
+\begin{lemma}\label{lem:indicators}
+Evaluation induces ring isomorphisms
+\[
+ B/JB\xrightarrow{\ \sim\ }\Fn(R,\bar D),\qquad A/JB\xrightarrow{\ \sim\ }\Fn(R,R_0).
+\]
+Note that $JB\subseteq A$.
+\end{lemma}
+
+\begin{proof}
+If $f\in JB$ then $f(R)\subseteq J\subseteq R$, so $JB\subseteq A$.
+
+\emph{Well defined.} If the coefficients of $f\in B$ have valuation at least $-h$, then $x-y$ divides $x^k-y^k$ in
+$V$, so $v(f(x)-f(y))\geq v(x-y)-h$. Hence $f\bmod J$ factors through $E_{m+h}$.
+
+\emph{Injective.} If $f(R)\subseteq J$, then $\pi^{-m}f\in B$, so $f\in JB$.
+
+\emph{Surjective.} Let $\delta=(X^Q-X)/\pi$. It maps $V$ to $V$, because $x^Q\equiv x\pmod\pi$. If $v(x-y)=r\geq1$,
+then
+\[
+ \delta(x)-\delta(y)=\frac{x-y}{\pi}\Bigl(\sum_{i=0}^{Q-1}x^{Q-1-i}y^i-1\Bigr),
+\]
+and the bracket is $\equiv Qx^{Q-1}-1\equiv-1\pmod\pi$, since $Q$ is a power of the residue characteristic. So
+$v(\delta(x)-\delta(y))=r-1$. By induction, for $x,y\in V$,
+\[
+ x\equiv y\pmod{\pi^N}\iff \delta^{\circ j}(x)\equiv\delta^{\circ j}(y)\pmod\pi\ \text{ for } 0\leq j<N .
+\]
+Indeed, if $v(x-y)=r<N$, the valuations of $\delta^{\circ j}(x)-\delta^{\circ j}(y)$ are $r,r-1,\dots,0$ for
+$j=0,\dots,r$. If $r\geq N$, they are at least $1$ for $j<N$.
+
+Fix a class $c\in E_N$, a point $x_c\in R$ of it, and $c_j=\delta^{\circ j}(x_c)$. Put
+$H_c=\prod_{j<N}\bigl(1-(\delta^{\circ j}(X)-c_j)^{Q-1}\bigr)$. Then $H_c$ maps $V$ to $V$, and for $x\in V$:
+\begin{itemize}
+\item if $x$ lies in $c$, every factor is $\equiv1\pmod\pi$, so $H_c(x)\equiv1$;
+\item otherwise some factor is $1-u^{Q-1}$ with $u$ a unit, which is $\equiv0\pmod\pi$, so $H_c(x)\equiv0$.
+\end{itemize}
+Raise $H_c$ to the power $Q^m$:
+\begin{itemize}
+\item if $z\in\pi V$, then $v(z^{Q^m})\geq Q^m\geq m$;
+\item if $z=1+w$ with $v(w)\geq1$, then $v((1+w)^p-1)\geq v(w)+1$, because the middle binomial coefficients are
+divisible by $p$ and $v(w^p)\geq v(w)+1$. After the $\log_pQ^m\geq m$ successive $p$-th powers,
+$z^{Q^m}\equiv1\pmod{\pi^m}$.
+\end{itemize}
+So $H_c^{Q^m}\in B$ is the indicator of $c$ modulo $J$. A function in $\Fn(R,\bar D)$ that factors through
+$E_N$ is $\sum_{c\in E_N}d_cH_c^{Q^m}\bmod J$, with $d_c\in V$ lifting its values.
+
+\emph{The image of $A$.} Values of $f\in A$ lie in $R$, so they reduce into $R_0$. Conversely, if $f\in B$ has all
+its values in $R_0$ modulo $J$, then $f(R)\subseteq R+J=R$.
+\end{proof}
+
+\begin{lemma}\label{lem:free-functions}
+$C=\Fn(R,R_0)$ is a free $R_0$-module of countably infinite rank, and $C\otimes_{R_0}\bar D\to\Fn(R,\bar D)$ is an
+isomorphism.
+\end{lemma}
+
+\begin{proof}
+Choose for each $N$ a map $s_N:E_N\to E_{N+1}$ that picks one class above each class. Restriction along $s_N$ is a
+retraction of $R_0^{E_N}\to R_0^{E_{N+1}}$, and its kernel is free on $E_{N+1}\setminus s_N(E_N)$. Hence
+$C=R_0^{E_1}\oplus\bigoplus_N\ker$ is free. Its rank is infinite, because $R$ is infinite and distinct points lie in
+distinct classes for large $N$. The tensor product commutes with the union, and $R_0^{E_N}\otimes_{R_0}\bar D=\bar
+D^{E_N}$.
+\end{proof}
+
+\section{Patching, and the proof of Theorem~\ref{thm:main}}
+
+\begin{lemma}\label{lem:patch}
+Let $V\to\bar D$ be a surjective ring map, $R_0\to\bar D$ a ring map, and $R=V\times_{\bar D}R_0$. Let $I$ be a set
+and $\alpha$ an automorphism of $\bar D^{(I)}$. Put
+\[
+ M_\alpha=\{(b,c)\in V^{(I)}\oplus R_0^{(I)}:\ \bar b=\alpha(\bar c)\}.
+\]
+Then $M_\alpha\oplus M_{\alpha^{-1}}\cong R^{(I\sqcup I)}$. In particular $M_\alpha$ is projective over $R$.
+\end{lemma}
+
+\begin{proof}
+Matrices act on direct sums, so their columns have finite support. In $\operatorname{End}(\bar D^{(I)}\oplus\bar
+D^{(I)})$, block multiplication gives
+\[
+ \begin{pmatrix}\alpha&0\\0&\alpha^{-1}\end{pmatrix}
+ =\begin{pmatrix}1&\alpha\\0&1\end{pmatrix}
+ \begin{pmatrix}1&0\\-\alpha^{-1}&1\end{pmatrix}
+ \begin{pmatrix}1&\alpha\\0&1\end{pmatrix}
+ \begin{pmatrix}0&-1\\1&0\end{pmatrix}.
+\]
+Lift each entry of $\alpha$ and $\alpha^{-1}$ to $V$, lifting zero to zero, so that columns keep finite support.
+The four factors with these lifts are automorphisms of $V^{(I\sqcup I)}$, since $\begin{pmatrix}1&a\\0&1\end{pmatrix}$
+has inverse $\begin{pmatrix}1&-a\\0&1\end{pmatrix}$ whatever $a$ is. Their product $\Gamma$ reduces to
+$\operatorname{diag}(\alpha,\alpha^{-1})$. Now $(b,c)\mapsto(\Gamma^{-1}b,c)$ maps $M_\alpha\oplus M_{\alpha^{-1}}$
+isomorphically onto $\{(b,c):\bar b=\bar c\}=R^{(I\sqcup I)}$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Lemma~\ref{lem:ring} gives the properties of $R$. Since $J\subseteq R$, the map $R\to V\times R_0$ identifies $R$
+with $V\times_{\bar D}R_0$.
+
+By Lemma~\ref{lem:newton}, $B\cong V^{(I)}$ with $I$ countably infinite. By Lemmas~\ref{lem:indicators}
+and~\ref{lem:free-functions}, $C=A/JB\cong R_0^{(I)}$, and the composite
+\[
+ C\otimes_{R_0}\bar D\cong\Fn(R,\bar D)\cong B/JB
+\]
+is an isomorphism. In these bases it is an automorphism $\alpha$ of $\bar D^{(I)}$. An element of $A$ is exactly an
+$f\in B$ whose class modulo $JB$ lies in $C$ (Lemma~\ref{lem:indicators}). So $f\mapsto(f,f\bmod JB)$ identifies $A$
+with $M_\alpha$, which is projective by Lemma~\ref{lem:patch}.
+
+A projective module over a local ring is free \cite[Theorem~2]{Kap}. $A$ is countably generated, and it is not
+finitely generated, since it contains $R[X]$ and is torsion-free of infinite rank. So it is free of countably
+infinite rank.
+\end{proof}
+
+\section{Analytically irreducible domains}
+
+\begin{proof}[Proof of Corollary~\ref{cor:ai}]
+Let $(D,M)$ be as in the corollary, with fraction field $K$.
+
+\emph{Infinite residue field.} Let $f\in\Int(D)$ have degree $n$. Choose $a_0,\dots,a_n\in D$ with distinct residues.
+Lagrange interpolation gives
+\[
+ f=\sum_i f(a_i)\prod_{j\neq i}\frac{X-a_j}{a_i-a_j},
+\]
+whose denominators are units. Hence $\Int(D)=D[X]$, which is free.
+
+\emph{Finite residue field.} Since the completion $\hat D$ is a domain, it is reduced, so $D$ is analytically
+unramified. Its integral closure $D'$ in $K$ is therefore a finite $D$-module \cite[Tag~032Y]{Stacks}. So $D'$ is a
+one-dimensional integrally closed Noetherian domain, that is, a semilocal Dedekind domain. Each of its maximal
+ideals $\mathfrak n_1,\dots,\mathfrak n_r$ lies over $M$.
+
+We show $r=1$. By \cite[Proposition~10.13]{AM}, $D'\otimes_D\hat D$ is the inverse limit of the rings $D'/M^kD'$.
+Each of these has finite length, so it is the product of its localizations at the $\mathfrak n_i$, all nonzero
+\cite[Theorem~8.7]{AM}. In the limit, $D'\otimes_D\hat D$ is a product of $r$ nonzero rings.
+
+On the other hand, $\hat D$ is flat over $D$ \cite[Proposition~10.14]{AM}. So $D'\otimes_D\hat D\subseteq
+K\otimes_D\hat D=S^{-1}\hat D$, where $S=D\setminus\{0\}$, and the elements of $S$ are nonzerodivisors on $\hat D$.
+Thus $D'\otimes_D\hat D$ lies in the fraction field of the domain $\hat D$ and has no nontrivial idempotents.
+So $r=1$.
+
+Hence $V=D'$ is a discrete valuation ring with finite residue field, finite over $D$. Take a nonzero $s\in D$ with
+$sD'\subseteq D$, which exists because $D'$ is finite. Then the conductor $\{x\in D':xD'\subseteq D\}$ is a nonzero
+ideal of $V$, so it contains $\pi^mV$ for some $m\geq1$. Theorem~\ref{thm:main} applies.
+
+Elliott's two rings are complete, hence analytically irreducible. This refutes~\eqref{eq:elliott}, and with it
+Conjectures~2.15 and~2.17. Conjecture~2.10 asserts the existence of a domain that the corollary excludes.
+\end{proof}
+
+\section{Elliott's two rings by hand}
+
+The following identities give the failure of~\eqref{eq:elliott} without the general theorem. They were also checked
+by exact series arithmetic, with the program \texttt{check\_examples.py}, which is kept with the records of this note.
+
+\begin{example}\label{ex:f4}
+Let $V=\F_4[[t]]$ with $\F_4=\F_2(\omega)$ and $\omega^2=\omega+1$, let $D=\F_2+tV$, and let $M=tV$. Every $x\in D$
+is $a+tv$ with $a\in\F_2$ and $v\in V$. Since $a^2=a$,
+\[
+ q(x)=\frac{x^2+x}{t}=v+tv^2\in V .
+\]
+Write the constant term of $q(x)$ as $\alpha+\beta\omega$ with $\alpha,\beta\in\F_2$. Then $q(x)^2$ has constant term
+$\alpha+\beta\omega^2=\alpha+\beta+\beta\omega$, so:
+\begin{itemize}
+\item $h_2=q+q^2$ takes the value $\beta+tV\subseteq D$;
+\item $h_1=q+\omega h_2$ takes the value $\alpha+tV\subseteq D$.
+\end{itemize}
+Thus $h_1,h_2\in\Int(D)$. In characteristic $2$, $q=h_1+\omega h_2$, so
+\[
+ X^2+X=t\,h_1+(\omega t)\,h_2\in M\,\Int(D).
+\]
+Here $q\in\Int(D,V)$ but $q\notin\Int(D)$: for instance $q(\omega t)=\omega+\omega^2t$.
+\end{example}
+
+\begin{example}\label{ex:cusp}
+Let $V=\F_2[[t]]$, $D=\F_2[[t^2,t^3]]=\F_2+t^2V$, and $M=(t^2,t^3)=t^2V$. Every $x\in D$ is $a+t^2v$, and
+\[
+ q(x)=\frac{x^2+x}{t^2}=v+t^2v^2=v_0+v_1t+O(t^2).
+\]
+Since $q(x)^2=v_0+O(t^2)$, the element $y=(q(x)+q(x)^2)/t$ lies in $V$ and satisfies $y\equiv v_1\pmod t$. Frobenius
+gives $y^4\in\F_2+t^4V\subseteq D$ and $y^4\equiv v_1\pmod{t^4}$. So:
+\begin{itemize}
+\item $h_2=\bigl((q+q^2)/t\bigr)^4$ lies in $\Int(D)$;
+\item $h_1=q+t\,h_2$ takes the value $v_0+v_1t+t\,v_1+O(t^2)=v_0+O(t^2)$, which lies in $D$.
+\end{itemize}
+Thus $h_1\in\Int(D)$, and
+\[
+ X^2+X=t^2h_1+t^3h_2\in M\,\Int(D).
+\]
+Again $q\notin\Int(D)$: the value $q(t^3)=t+t^4$ has a nonzero coefficient of $t$.
+\end{example}
+
+In both examples, the polynomial that Elliott proposed as a witness of non-flatness, $(X^2+X)/t^m$, lies in
+$V\Int(D)$, as Theorem~\ref{thm:main} predicts. In Ma's two-branch domain the analogous polynomial does not
+\cite[Proposition~4.1]{Ma}.
+
+\section{What remains open}
+
+\begin{itemize}
+\item \emph{Infinite normalization.} Theorem~\ref{thm:main} needs a finite normalization. There are one-dimensional
+Noetherian local domains with finite residue field whose integral closure is local but not finite (analytically
+ramified unibranch domains). Whether $\Int(D)$ is flat or free for them is open. The proof uses the conductor, which
+is zero there.
+\item \emph{Several branches.} When the finite normalization has several maximal ideals, Ma's example shows that
+flatness can fail. We do not characterize which multi-branch domains have flat $\Int(D)$.
+\item \emph{Higher dimension.} We do not treat local domains of dimension at least two outside the Krull and TV PvMD
+cases.
+\item \emph{Regular bases.} The basis of $\Int(D)$ produced here is not shown to be regular, meaning one polynomial
+of each degree, and we do not decide whether a regular basis exists for Elliott's rings.
+\end{itemize}
+
+\section*{Note on method}
+The proof of Theorem~\ref{thm:main} was produced by GPT-6 Astra (ChatGPT Pro mode), in a study of the operations on
+integer-valued polynomials that arose from Grothendieck's Montpellier manuscripts. The study also checked the proof
+in a targeted reading.
+
+Claude Opus 5.5 at effort high checked every step of that proof, and wrote this text. It also wrote the reduction
+of Corollary~\ref{cor:ai}, the reading of Corollary~\ref{cor:biring} through Elliott's theorems, and the two
+examples. The examples were verified by an exact program. Claude Opus 5.5 at effort max then checked every step of the
+note again, the corollary and the examples included.
+
+The sources \cite{CFFG,E11a,E11b,E16b,Ma,JLSWXY,MO} were read at the locators given, and \cite[Tag~032Y]{Stacks} at
+the source. The results of \cite{E07,E10} are cited as \cite[pp.~9--10]{CFFG} and \cite[p.~16]{E11b} recall them;
+we have not opened \cite{E07,E10}. The monograph \cite{CC} was not consulted.
+
+No human has checked this note. Our text is dedicated to the public domain under CC0~1.0. The program
+\texttt{check\_examples.py} and the records of the checks are at the permanent page of this work, WB-0004:
+\url{\workbenchurl}.
+
+\begin{thebibliography}{99}\small
+\bibitem{AM} M.~F. Atiyah and I.~G. Macdonald, \emph{Introduction to Commutative Algebra}, Addison-Wesley, 1969.
+\bibitem{Bha} M.~Bhargava, P-orderings and polynomial functions on arbitrary subsets of Dedekind rings,
+\emph{J. reine angew. Math.} 490 (1997), 101--127.
+\bibitem{CC} P.-J. Cahen and J.-L. Chabert, \emph{Integer-Valued Polynomials}, Math. Surveys Monogr.~48, Amer. Math.
+Soc., 1997.
+\bibitem{CFFG} P.-J. Cahen, M. Fontana, S. Frisch and S. Glaz, Open problems in commutative ring theory, in
+\emph{Commutative Algebra} (M.~Fontana, S.~Frisch, S.~Glaz, eds.), Springer, 2014, 353--375; page numbers refer to
+the authors' version of 23 December 2013.
+\bibitem{E07} J.~Elliott, Universal properties of integer-valued polynomial rings, \emph{J. Algebra} 318 (2007),
+68--92.
+\bibitem{E10} J.~Elliott, Birings and plethories of integer-valued polynomials, \emph{Actes des Rencontres du CIRM}
+2 (2010), no.~2.
+\bibitem{E11a} J.~Elliott, Integer-valued polynomial rings, $t$-closure, and associated primes, \emph{Comm.
+Algebra} 39 (2011), 4128--4147; page numbers refer to arXiv:1105.0142v1.
+\bibitem{E11b} J.~Elliott, Presentations and module bases of integer-valued polynomial rings, arXiv:1109.3921v1
+(2011).
+\bibitem{E16b} J.~Elliott, Integer-valued polynomials on commutative rings and modules, arXiv:1608.00171v1 (2016).
+\bibitem{MO} J.~Elliott, Polynomials mapping the twisted cubic power series ring to itself, MathOverflow question
+75202, \url{https://mathoverflow.net/q/75202} (asked 12 September 2011; addition of 26 December 2013).
+\bibitem{JLSWXY} J.~Jiang, Y.~Li, Z.~Sun, Y.~Wang, L.~Xiao and J.~Yu, On some open problems in commutative algebra
+resolved by Rethlas, arXiv:2605.25259v2 (2026).
+\bibitem{Rethlas} H.~Ju et al., Automated conjecture resolution with formal verification, arXiv:2604.03789 (2026).
+\bibitem{Kap} I.~Kaplansky, Projective modules, \emph{Ann. of Math.} 68 (1958), 372--377.
+\bibitem{Ma} H.~Ma, A counterexample to Problem 19 on integer-valued polynomial rings, arXiv:2604.05922v2 (2026).
+\bibitem{Mil} J.~Milnor, \emph{Introduction to Algebraic K-Theory}, Ann. of Math. Stud.~72, Princeton, 1971.
+\bibitem{Stacks} The Stacks Project Authors, \emph{The Stacks Project}, \url{https://stacks.math.columbia.edu}.
+\end{thebibliography}
+\end{document}

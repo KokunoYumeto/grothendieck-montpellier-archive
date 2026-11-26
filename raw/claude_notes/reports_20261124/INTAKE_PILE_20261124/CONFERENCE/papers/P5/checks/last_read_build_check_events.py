@@ -1,0 +1,96 @@
+"""Write CHECK_P5_LAST_READ_CHECK_EVENTS.tsv (the check events of the last read of paper 5).
+
+Conference convener ae84c4aa (Claude Fable 5.2 at effort max), 25 Nov 2026.
+"""
+import pathlib
+
+WHO = "ae84c4aa572daf430 (Claude Fable 5.2 at effort max; conference convener, last read of P5)"
+DATE = "2026-11-25"
+P, C, B, R = ("targeted proof check", "computation or formal certificate",
+              "carried as background without fault found", "refuted, with the refined statement's id")
+ROWS = [
+    ("Section 2: Definitions 2.1, 2.2, the hypotheses, the ranks and parameters", P,
+     "compared with the text of GCT VI v4 (Definitions 1.2.2, 1.2.4, 1.2.7; Theorem 1.6.1; Hypotheses 1.6.5-1.6.7, "
+     "3.3.1-3.3.4; Problem 1.1.3; Section 3.4 with 3.4.1-3.4.3) and of Mulmuley's appendix to Briand-Orellana-Rosas: "
+     "stated as printed; one difference to state: GCT VI prints the numerator of a positive form as h_d t^d + ... + h_0 "
+     "(repair R6)"),
+    ("Lemma 3.1", P, "printed proof followed; holds"),
+    ("Prop 3.2", P, "printed proof followed step by step (degree classes, prime filtration, conormal sequence, Koszul "
+                    "homology at the generic point); holds"),
+    ("Lemma 3.3", P, "redone by hand; holds"),
+    ("Lemma 3.4", P, "printed proof followed (the semisimple part fixes y; the projection to the two-primary torsion "
+                     "keeps every multiplicative relation and the determinant); holds"),
+    ("Lemma 3.5, Thm 3.6", P, "printed proofs followed; hold"),
+    ("Remark 3.7", P, "both examples recomputed by hand (limits 1 and 2; F - G = 3z/(1+z^3); 1 - z + z^2 = Phi_(3M)); hold"),
+    ("Lemma 4.1, Prop 4.2, Thm 4.3", P, "printed proofs followed, including (10), (11), (12) and the case q = c, f = 0; hold"),
+    ("Thm 5.1", P, "printed proof followed (trace of the cyclic permutation, exponential formula, p_r[s_(2,1)]); holds"),
+    ("Lemma 5.2", C, "checks/last_read_lie.py: the map X -> X.z_n has rank n^2 for n = 2..7, exact arithmetic"),
+    ("Lemma 5.2 (all n)", B, "printed proof read, coefficients not recomputed; the check of 22 Nov by e0d20ada (Claude "
+                             "Opus 5.5 at effort max) stands"),
+    ("Thm 5.3", P, "printed proof followed; the Kempf-Ness data, the count of fixed weights, the single pair of "
+                   "opposite eigenvalues and the character argument for the stabilizer redone by hand; holds"),
+    ("Thm 5.3 and Prop 6.1(1),(3),(4): data", C,
+     "checks/last_read_checks.py: Kempf-Ness coefficients and weights, n = 2..39; fixed weights and simple spectrum, "
+     "n = 2..15; S odd, S = n mod 3, kernel of det of order nu, grading stabilizer of order M, n = 2..59; no failure"),
+    ("Thm 5.4 (Theorem A), Cor 5.5", P, "hypotheses of Thm 3.6 matched one by one; the relaxed PH3 compared with the "
+                                         "appendix text; hold"),
+    ("Prop 6.1(1)", P, "redone by hand (smoothness; closed orbit by Kempf-Ness); holds"),
+    ("Prop 6.1(2)", P, "redone by hand, every case of the Hessian locus and the ternary base case; the proof holds; the "
+                       "first clause of the statement lacks the condition a_1^(3M) = 1 (repair R4)"),
+    ("Prop 6.1(2), the Hessian locus", C, "checks/last_read_hessian.py: Groebner bases in every chart, n = 4 and 5: "
+                                          "exactly [e_1], [e_n], [+-sqrt(3) e_(n-1) + e_n]"),
+    ("Prop 6.1(3)", P, "redone by hand; the grading stabilizer is mu_M for every n, also when 3 divides n; outside "
+                       "test at n = 3 (residue 1/2 of 1/((1-t^4)(1-t^6)) at t = i) agrees with e_Y = 1"),
+    ("Prop 6.1(4)", P, "redone by hand; holds"),
+    ("Thm 6.2 (Theorem B), Cor 6.3", P, "printed proof followed; each cited statement used within its hypotheses; hold"),
+    ("Section 7.1 (Fourier normalization), Prop 7.1", P, "redone by hand; hold"),
+    ("Section 7.1, Prop 7.1, Prop 7.2 at n = 4", C,
+     "checks/last_read_checks.py: q_r(X) - q_(r+60)(X) = 2 W_4(r) for all 120 residues, constituents by exact "
+     "interpolation from Salmon's series, A = C/M from the product formula; C_4(zeta) = 0.12500+0.30178i from both"),
+    ("Prop 7.2", P, "redone by hand (h_3 = e_3 + h_1 p_2; the cancellations; |S_n| = binom(n,3)); holds"),
+    ("Prop 7.2", C, "checks/last_read_checks.py: the character of Sym^3 V - V(x)V^* on <D> equals the multiset S_n, n = 4..10"),
+    ("Prop 7.3, inequality (24)", P, "redone by hand; total cubic loss 7/6 n^3; holds"),
+    ("Prop 7.3, inequality (24)", C, "checks/last_read_checks.py: exact log2|Z_n| >= first line for n = 4..14; first "
+                                     "line >= n^4/24 - 2n^3 for 4 <= n < 200"),
+    ("Prop 7.3 (window), Cor 7.4", P, "redone by hand; hold (the window needs n >= 6, as stated)"),
+    ("Prop 7.5", P, "redone by hand (decomposition of S_n, count binom(n-1,2), exponent -n^3/6+4n^2-107n/6+19, n >= 48, "
+                    "the parent-child bookkeeping); holds"),
+    ("Prop 7.5", C, "checks/last_read_checks.py: P_n(a) = J_n(a) P_(n-1)(-a) for every odd a, n = 5..11; delta_n below "
+                    "its bound, n = 5..14"),
+    ("Lemma 7.6, formula (29), the sine estimate", P, "redone by hand; hold"),
+    ("Prop 7.7", P, "redone by hand, every constant (n/24, 12nR^2, 10nR^2, 30nR^2 + nR <= 100nR^2, 2502/10^5 < 1/12); holds"),
+    ("Prop 7.8", P, "redone by hand, every count and constant (N_u bound, the block identity, 2n - 4 other factors, "
+                    "(K-5)^3/24, n^3/6 - 3n^2 + 71n/6 - 11, thresholds 16/delta and 2688/delta^3); holds"),
+    ("Thm 7.9 (Theorem C), Cor 7.10", P, "redone by hand, every threshold (48/delta^3, N = 10^20, Q_n <= 2^(n^4), "
+                                          "n >= 2N^4, n >= 1024); hold"),
+    ("Thm 7.9", C, "checks/last_read_checks.py: the constants; E_n/|Z_n| = 4.8, 24, 25, 3.4, 9.4e-2, 9.7e-4, 1.2e-6, "
+                   "1.1e-10, 4.6e-16, 6.5e-23, 2.0e-31 for n = 4..14"),
+    ("Prop 8.1, Prop 8.2 (Theorem D)", P, "redone by hand; applicability compared with GCT VI, Problem 1.1.3 and Section "
+                                           "3.4 (tori allowed; sums of polynomial characters explicit; rank(x) without "
+                                           "rho); hold as stated"),
+    ("Prop 8.1, Prop 8.2", C, "checks/last_read_checks.py: f_N for N = 2..12; g_N, its series and p = s = N - 2 from "
+                              "the definitions, odd N = 3..19"),
+    ("Section 8, closing remark (dependence on the bit length makes the examples harmless)", R,
+     "false: the specification of a torus character has bit length O(log N) (GCT VI, Section 3.4.2, p. 56) and the "
+     "indices are N - 2 and N; refined statement: repair R3 of CHECK_P5_LAST_READ.md"),
+    ("Section 9, formula quoted from Briand-Orellana-Rosas, Theorem 2.4", R,
+     "misquoted: the stretched coefficient is N/2 + 1 for even N and (N-1)/2 for odd N; refined statement: repair R2"),
+    ("Section 9 'What we searched' and Introduction 'Earlier work'", P,
+     "compared with PROVENANCE.md: the wording is wider than the three web searches and seven Hexagon queries on "
+     "record (repair R7); three web searches of my own found no earlier refutation and four context papers, named in "
+     "the check, not opened"),
+    ("Abstract, Introduction (Theorems A-D), title", P,
+     "compared with Thm 5.4, Thm 6.2, Thm 7.9, Props 8.1, 8.2 and their corollaries: the abstract and Theorems A-D claim "
+     "no more than is proved; the title and 'All three refutations of PH3' are not exact (repairs R8, R5)"),
+    ("Text, line 207", P, "broken cross-reference, printed 'Section efsec:provenance' on page 4 (repair R1); the source "
+                          "scanned for other lost backslashes: none"),
+    ("Citations: Losev, Theorem 4, p. 1; Luna, slice theorem and Remarque 1", P,
+     "compared with the writer's saved copies: as cited"),
+]
+out = pathlib.Path(__file__).resolve().parent.parent / "CHECK_P5_LAST_READ_CHECK_EVENTS.tsv"
+lines = ["\t".join(("statement", "date", "who", "type", "outcome"))]
+for s, t, o in ROWS:
+    assert "\t" not in s + t + o and "\n" not in s + t + o
+    lines.append("\t".join((s, DATE, WHO, t, o)))
+out.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
+print("wrote", out.name, "with", len(ROWS), "rows")

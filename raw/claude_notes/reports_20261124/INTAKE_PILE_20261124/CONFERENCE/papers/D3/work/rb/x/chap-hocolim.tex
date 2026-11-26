@@ -1,0 +1,2150 @@
+\chapter{Homotopy colimits in a cofibration category}
+\label{chap:limcolimcofinal}
+
+In this chapter we prove the existence of homotopy colimits in cofibration categories, and dually the existence of homotopy limits in fibration categories. The homotopy colimit should be thought of as the total left derived functor of the colimit - at least if the base cofibration category is cocomplete. The actual construction of the homotopy colimit proceeds in two steps - first, for diagrams of direct categories, and second, reducing the general case to the case of diagrams of direct categories. This essentially follows Anderson's original argument \cite{Anderson1}, simplified by Cisinski \cite{Cisinski2}, \cite{Cisinski4}.
+
+Throughout this chapter, we will assume the entire set of cofibration category axioms CF1-CF6. An exercise left for the reader is to see which of the results can be reformulated and proved within the restricted cofibration category axioms CF1-CF5, or even within the precofibration category axioms CF1-CF4.
+
+We show that given a cofibration category ${\cat M}$ and a small direct category ${\cat D}$, the diagram category ${\cat M}^{\cat D}$ with pointwise weak equivalences ${\cat W}^{\cat D}$ admits two cofibration category structures - the Reedy $({\cat M}^{\cat D}, {\cat W}^{\cat D}, {\cat Cof}^{\cat D}_{Reedy})$ and the pointwise structure $({\cat M}^{\cat D}, {\cat W}^{\cat D}, {\cat Cof}^{\cat D})$. A general small category ${\cat D}$ only yields a pointwise cofibration structure $({\cat M}^{\cat D}, {\cat W}^{\cat D}, {\cat Cof}^{\cat D})$, but ${\cat M}^{\cat D}$ admits a certain cofibrant approximation functor that allows us to reduce the construction of homotopy colimits in ${\cat M}^{\cat D}$ to the construction of homotopy colimits indexed by direct diagrams in ${\cat M}$.
+
+We then proceed to prove a number of properties of homotopy limits and of ${\bf ho}{\cat M}^{\cat D}$ that will allow us to show in \chapterref{chap:derivators} that that homotopy colimits in a cofibration category satisfy the axioms of a left Heller derivator. Dually, homotopy limits in a fibration category satisfy the axioms of a right Heller derivator.
+
+\section{Direct and inverse categories}
+\label{sec:catdirinv}
+If we start with a small {\it direct} category ${\cat D}$, then homotopy colimits in ${\cat M}^{\cat D}$ for a cofibration category ${\cat M}$ can be constructed using just cofibrant replacements, small sums and pushouts. Dually, if ${\cat D}$ is a small {\it inverse} category and ${\cat M}$ is a fibration category, homotopy limits in ${\cat M}^{\cat D}$ can be constructed using fibrant replacements, small products and pullbacks.
+
+Here are a few definitions that we will need.
+
+\index{category!direct, inverse}
+\begin{defn}[Direct and inverse categories]
+\label{def:directinvcat}
+\mbox{}
+Let ${\cat D}$ be a category. A non-negative degree function on its objects is a function $deg \colon Ob {\cat D} \ra {\mathbb Z}_+$.
+\begin{enumerate}
+\item
+The category ${\cat D}$ is {\it direct} if there is a non-negative degree function $deg$ on the objects of ${\cat D}$ such that any non-identity map $d_1 \ra d_2$ satisfies $deg(d_1) < deg(d_2)$.
+\item
+The category ${\cat D}$ is {\it inverse}  if there is a non-negative degree function $deg$ on the objects of ${\cat D}$ such that any non-identity map $d_1 \ra d_2$ satisfies $deg(d_1) > deg(d_2)$.
+\end{enumerate}
+\end{defn}
+
+\index{latching and matching!category}
+\begin{defn}[Latching and matching categories]
+\label{def:latchingmatchingcat}
+Let $d$ be an object of a category ${\cat D}$.
+\begin{enumerate}
+\item
+If ${\cat D}$ is direct, the {\it latching category} $\partial({\cat D} \downarrow d)$ is the full subcategory of the over category $({\cat D} \downarrow d)$ consisting of all objects except the identity of $d$. 
+\item
+If ${\cat D}$ is inverse, the {\it matching category} $\partial(d \downarrow {\cat D})$ is the full subcategory of the under category $(d \downarrow {\cat D})$ consisting of all objects except the identity of $d$.
+\end{enumerate}
+\end{defn}
+
+If ${\cat D}$ is a direct category, then $\partial({\cat D} \downarrow d)$ is also direct with $deg(d^{'} \ra d) = deg (d^{'})$. All the objects of $\partial({\cat D} \downarrow d)$ have therefore degree $< deg(d)$. For any map $f \colon d^{'} \ra d$, forgetting codomains of maps yields a canonical isomorphism of categories 
+\begin{equation}
+\label{eqn:latchlatch}
+\partial(\partial({\cat D} \downarrow d) \downarrow f) \cong \partial ({\cat D} \downarrow d^{'})
+\end{equation}
+between the latching category of $\partial({\cat D} \downarrow d)$ at $f$ and the latching category of ${\cat D}$ at $d^{'}$.
+
+Dually, if the category ${\cat D}$ is inverse, then $\partial(d \downarrow {\cat D})$ is an inverse category whose objects have all degree $< deg(d)$. For any map $f \colon d \ra d^{'}$, forgetting domains of maps yields an isomorphism of matching categories
+\begin{equation}
+\label{eqn:matchmatch}
+\partial( f \downarrow \partial(d \downarrow {\cat D})) \cong \partial (d^{'} \downarrow {\cat D})
+\end{equation}
+
+\index{latching and matching!object}
+\begin{defn}[Latching and matching objects]
+\label{def:latchingmatchingobject}
+Suppose that ${\cat M}$ is a category, that $X$ is a ${\cat D}$ -diagram of ${\cat M}$ and that $d$ is an object of ${\cat D}$.
+\begin{enumerate}
+\item
+If ${\cat D}$ is direct, the {\it latching object} of $X$ at $d$, if it exists, is by definition 
+\begin{center}
+$LX_d = \colim^{\partial({\cat D} \downarrow d)}X$
+\end{center}
+\item
+If ${\cat D}$ is inverse, the {\it matching object} of $X$ at $d$, if it exists, is by definition 
+\begin{center}
+$MX_d = \lim^{\partial(d \downarrow {\cat D})}X$
+\end{center}
+\end{enumerate}
+\end{defn}
+
+The latching object $LX_d$, if it exists, is therefore defined only up to an unique isomorphism. If the category ${\cat M}$ is cocomplete, then $LX_d$ always exists.
+
+If ${\cat D}$ is direct or inverse and $n \eps {\mathbb Z}_+$ then we will denote ${\cat D}^{<n}, {\cat D}^{\leq n}$ the full subcategories with objects of degree $< n$ respectively $\leq n$. If ${\cat D}$ is direct, then $\partial({\cat D} \downarrow d) \cong$ $\partial({\cat D}^{\leq deg(d)} \downarrow d) \cong$ $(\partial({\cat D} \downarrow d))^{< deg(d)}$. 
+
+Suppose that $X$ is a ${\cat D}$-diagram in ${\cat M}$, with ${\cat D}$ direct, and that $f \colon d^{'} \ra d$ is a map in ${\cat D}$. Using \eqref{eqn:latchlatch}, if either $L(X|_{\partial({\cat D} \downarrow d)})_f$ or $LX_{d^{'}}$ exist, then they both exist and are canonically isomorphic.
+
+Latching objects are related to Kan extensions in the following sense. Denote $\delta_d \colon {\cat D}^{<deg(d)} \ra {\cat D}$ the inclusion functor. If ${\cat M}$ is a cocomplete category and $X$ is a ${\cat D}$ -diagram of ${\cat M}$, then the latching object $LX_d$ is isomorphic to $(\colim^{\delta_d} X)_d$.
+
+Dually, if the category ${\cat D}$ is inverse, then $\partial(d \downarrow {\cat D})$ is an inverse category with $deg(d \ra d^{'}) = deg (d^{'})$, and $\partial(d \downarrow {\cat D}) \cong \partial(d \downarrow {\cat D}^{\leq deg(d)}) \cong (\partial(d \downarrow {\cat D}))^{< deg(d)}$. If $X$ is a ${\cat D}$ -diagram of ${\cat M}$ and if $f \colon d \ra d^{'}$ is a map in ${\cat D}$, if either matching space $M(X|_{\partial(d \downarrow {\cat D})})_f$ or $MX_{d^{'}}$ exist then they both exist and are canonically isomorphic. If ${\cat M}$ is furthermore a complete category, then $MX_d \cong (\lim^{\delta_d} X)_d$.
+
+\section{Reedy and pointwise cofibration structures for direct diagrams}
+\label{sec:reedycofstruct}
+
+Gived a cofibration category ${\cat M}$ and a small direct category ${\cat D}$, we define two cofibration category structures on ${\cat M}^{\cat D}$ - the Reedy and the pointwise cofibration structure. The pointwise cofibration structure has pointwise weak equivalences and pointwise cofibrations. The Reedy cofibration structure also has pointwise weak equivalences, but has a more restrictive set of cofibrations - these are called the Reedy cofibrations. In particular, Reedy cofibrations are pointwise cofibrations.
+
+The axioms for the pointwise cofibration structure are easily verified except for the factorization axiom. To prove the factorization axiom, we will construct the Reedy cofibration structure, prove all the axioms (including the factorization axiom) for the Reedy cofibration structure, and obtain as a corollary the factorization axiom for the pointwise cofibration structure.
+
+Dually, if ${\cat M}$ is a fibration category and ${\cat D}$ is a small inverse category then we define two fibration category structures on ${\cat M}^{\cat D}$ - the pointwise and the Reedy fibration category structures. 
+
+We start with the definition of pointwise weak equivalences, pointwise cofibrations and pointwise fibrations:
+
+\index{pointwise!(co)fibration}
+\index{pointwise!weak equivalence}
+\begin{defn}
+\label{def:pointwisecof}
+Let ${\cat D}$ be a small category. Given a cofibration (respectively fibration) category ${\cat M}$, a map of ${\cat D}$-diagrams $X \ra Y$ in ${\cat M}^{\cat D}$ is a pointwise weak equivalence (resp. a pointwise cofibration, resp. a pointwise fibration) if all maps $X_d \ra Y_d$ are weak equivalences (resp. cofibrations, resp. fibrations) for all objects $d$ of ${\cat D}$.
+\end{defn}
+
+A diagram $X$ is therefore pointwise cofibrant (resp. pointwise fibrant) if all $X_d$ are cofibrant (resp. fibrant) for all objects $d$ of ${\cat D}$.
+
+The category of pointwise weak equivalences is then just ${\cat W}^{\cat D}$. The category of pointwise cofibrations is ${\cat Cof}^{\cat D}$. The category of pointwise fibrations is ${\cat Fib}^{\cat D}$.
+
+We continue with the definition of Reedy cofibrations and Reedy fibrations:
+
+\index{Reedy (co)fibration}
+\begin{defn}
+\label{def:reedycof}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category and ${\cat D}$ be a small direct category.
+\begin{enumerate}
+\item
+A ${\cat D}$-diagram $X$ of ${\cat M}$ is called {\it Reedy cofibrant} if for any object $d$ of ${\cat D}$, the latching object $LX_d$ exists and is cofibrant, and the natural map $i_d \colon LX_d \ra X_d$ is a cofibration.
+\item
+A map of Reedy cofibrant ${\cat D}$-diagrams $f \colon X \ra Y$ is called a {\it Reedy cofibration} if for any object $d$ of ${\cat D}$, the natural map $X_d \Sum_{LX_d} LY_d \ra Y_d$ is a cofibrantion. (Notice that the pushout $X_d \Sum_{LX_d} LY_d$ always exists if $X, Y$ are Reedy cofibrant because of the pushout axiom.) The class of Reedy cofibrations will be denoted ${\cat Cof}^{\cat D}_{Reedy}$.
+\end{enumerate}
+\item
+Let ${\cat M}$ be a fibration category and ${\cat D}$ be a small inverse category.
+\begin{enumerate}
+\item
+A ${\cat D}$-diagram $X$ of ${\cat M}$ is called {\it Reedy fibrant} if for any object $d$ of ${\cat D}$, the matching object $MX_d$ exists and is fibrant, and the natural map $p_d \colon X_d \ra MX_d$ is a fibration.
+\item
+A map of Reedy fibrant ${\cat D}$-diagrams $f \colon X \ra Y$ is called a {\it Reedy fibration} if for any object $d$ of ${\cat D}$, the natural map $X_d \ra MX_d \times_{MY_d} Y_d$ is a fibrantion. The class of Reedy cofibrations will be denoted ${\cat Fib}^{\cat D}_{Reedy}$.
+\end{enumerate}
+\end{enumerate}
+\end{defn}
+
+We'd like to stress that a Reedy cofibration $X \ra Y$ has by definition a Reedy cofibrant domain $X$. This is required because our cofibration categories are not necessarily cocomplete. Dually, a Reedy fibration $X \ra Y$ has by definition a Reedy fibrant codomain $Y$. In this regard, our definition of Reedy (co)fibrations is different than the usual one in Quillen model categories, which are by definition complete and cocomplete, where Reedy cofibrations (resp. fibrations) are allowed to have non-Reedy cofibrant domain (resp. non-Reedy fibrant codomain).
+
+A pointwise cofibration $X \ra Y$ is not required to have a pointwise cofibrant domain $X$.
+
+If ${\cat M}$ is a cofibration category and ${\cat D}$ is a small direct category, notice that the constant initial-object ${\cat D}$-diagram $c\initial$ is Reedy cofibrant (as well as pointwise cofibrant). A ${\cat D}$-diagram $X$ is Reedy cofibrant iff the map $c\initial \ra X$ is a Reedy cofibration. 
+
+If $f \colon X \ra Y$ is a Reedy cofibration in ${\cat M}^{\cat D}$ for ${\cat D}$ direct, then on account of \eqref{eqn:latchlatch} for any object $d \eps {\cat D}$ the restriction of $f$ as a diagram map over $\partial ({\cat D} \downarrow d)$ is also a Reedy cofibration. 
+
+\begin{prop}
+\label{prop::reedycofformcat}
+\mbox{}
+\begin{enumerate}
+\item
+Let $({\cat M}$, ${\cat W}$, ${\cat Cof})$ be a cofibration category and ${\cat D}$ be a small direct category. Then the Reedy cofibrations ${\cat Cof}^{\cat D}_{Reedy}$ are stable under composition, and include the isomorphisms with a Reedy cofibrant domain.
+\item
+Let $({\cat M}$, ${\cat W}$, ${\cat Fib})$ be a fibration category and ${\cat D}$ be a small inverse category. Then the Reedy fibrations ${\cat Fib}^{\cat D}_{Reedy}$ are stable under compositions, and include the isomorphisms with a Reedy fibrant codomain.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+We only prove (1). If $X \ra Y \ra Z$ is a composition of Reedy cofibrations in ${\cat M}^{\cat D}$, then for any object $d$ of ${\cat D}$ we factor $X_d \Sum_{LX_d} LZ_d \ra Z_d$ as the composition 
+\begin{center}
+$X_d \Sum_{LX_d} LZ_d \ra Y_d \Sum_{LY_d} LZ_d \ra Z_d$
+\end{center}
+The second map is a cofibration since $Y \ra Z$ is a Reedy cofibration. The first map is a cofibration as well, as a pushout of the cofibration $X_d \Sum_{LX_d} LY_d \ra Y_d$ along $X_d \Sum_{LX_d} LY_d \ra X_d \Sum_{LX_d} LZ_d$, where $X_d \Sum_{LX_d} LZ_d$ is a cofibrant object. We deduce that $X \ra Z$ is a Reedy cofibration.
+
+If $X \ra Y$ is an isomorphism in ${\cat M}^{\cat D}$ with $X$ Reedy cofibrant, then $Y$ is Reedy cofibrant as well. The latching maps $X_d \Sum_{LX_d} LY_d \ra Y_d$ are isomorphisms with cofibrant domain therefore cofibrations, so $X\ra Y$ is a Reedy cofibration.
+\end{proof}
+
+\begin{thm}[Reedy and pointwise (co)fibration structures]
+\label{thm:reedycofibstruct}
+\mbox{}
+\begin{enumerate}
+\item
+If $({\cat M}$, ${\cat W}$, ${\cat Cof})$ is a cofibration category and ${\cat D}$ is a small direct category, then
+\begin{enumerate}
+\item
+$({\cat M}^{\cat D}, {\cat W}^{\cat D}, {\cat Cof}^{\cat D}_{Reedy})$ is a cofibration category - called the Reedy cofibration structure on ${\cat M}^{\cat D}$.
+\item
+$({\cat M}^{\cat D}, {\cat W}^{\cat D}, {\cat Cof}^{\cat D})$ is a cofibration category - called the pointwise cofibration structure on ${\cat M}^{\cat D}$.
+\end{enumerate}
+\item
+If $({\cat M}$, ${\cat W}$, ${\cat Fib})$ is a fibration category and ${\cat D}$ is a small inverse category, then
+\begin{enumerate}
+\item
+$({\cat M}^{\cat D}, {\cat W}^{\cat D}, {\cat Fib}^{\cat D}_{Reedy})$ is a fibration category - called the Reedy fibration structure on ${\cat M}^{\cat D}$.
+\item
+$({\cat M}^{\cat D}, {\cat W}^{\cat D}, {\cat Fib}^{\cat D})$ is a fibration category - called the pointwise fibration structure on ${\cat M}^{\cat D}$.
+\end{enumerate}
+\end{enumerate}
+\end{thm}
+
+The proof of this theorem is deferred until the next section, after we work out some basic properties of colimits and limits. 
+
+\section{Colimits in direct categories (the absolute case)}
+\label{sec:colimdirectabsolute}
+
+The Lemmas \ref{lem:colimpushout}, \ref{lem:colimpushoutset} below provide the essential inductive step required for building colimits of Reedy cofibrant diagrams in a direct category. 
+
+The colimits of any two weakly equivalent Reedy cofibrant diagrams are weakly equivalent, cf. \theoremref{thm:colimdirect} below. In that sense, the colimit of a Reedy cofibrant diagram actually computes its {\it homotopy} colimit. In view of this, the meaning of \lemmaref{lem:colimpushoutset} below is that homotopy colimits over a direct category can be constructed, after a Reedy cofibrant replacement, as iterated pushouts of small sums of latching object maps.
+
+If $\{d_k | k \eps K\}$ is a set of objects of a category ${\cat D}$, denote ${\cat D} \backslash \{d_k | k \eps K \}$ the maximal full subcategory of a category ${\cat D}$ without the objects $d_k$. Our first lemma applies to the case of a direct (resp. inverse) category ${\cat D}$ and an object $d$ of ${\cat D}$ such that ${\cat D} \backslash \{d\} \ra {\cat D}$ is an open (resp. closed) embedding.
+
+For example, if ${\cat D}$ is a direct category with all objects of degree $\leq n$ and $d$ is an object of ${\cat D}$ of degree $n$ then ${\cat D} \backslash \{d\} \ra {\cat D}$ is an open embedding. Dually, if ${\cat D}$ an inverse category with all objects of degree $\leq n$ and $d$ is an object of ${\cat D}$ of degree $n$ then ${\cat D} \backslash \{d\} \ra {\cat D}$ is a closed embedding.
+
+\begin{lem}
+\label{lem:colimpushout}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category. Let ${\cat D}$ be a direct category, $d$ an object of ${\cat D}$ such that ${\cat D} \backslash \{d\} \ra {\cat D}$ is an open embedding, and $X$ be a ${\cat D}$-diagram of ${\cat M}$. Assume that $LX_d$ and $\colim^{{\cat D} \backslash \{d\}} X$ exist and are cofibrant, and that $i_{d} \colon LX_d \ra X_d$ is a cofibration. Denote $f_d$ the colimit map induced by ${\cat D} \backslash \{d\} \ra {\cat D}$.
+\begin{center}
+$ \xymatrix {
+        LX_d \ar[r]^-{f_d} \ar@{>->}[d]_{i_d} & 
+	\colim^{{\cat D} \backslash \{d\}} X \ar@{>-->}[d]^{j_d} \\
+	X_d \ar@{-->}[r] & 
+	\colim^{\cat D} X
+	}$
+\end{center}
+Then the pushout of ($i_d, f_d$) is isomorphic to $\colim^{\cat D} X$. 
+
+In particular $\colim^{\cat D} X$ exists and is cofibrant, and $j_d$ is a cofibration.
+\item
+Let ${\cat M}$ be a fibration category. Let ${\cat D}$ be an inverse category, $d$ an object of ${\cat D}$ such that ${\cat D} \backslash \{d\} \ra {\cat D}$ is a closed embedding, and $X$ be a ${\cat D}$-diagram of ${\cat M}$. Assume that $MX_d$ and $\lim^{{\cat D} \backslash \{d\}} X$ exist and are fibrant, and that $p_{d} \colon X_d \ra MX_d$ is a fibration. Denote $g_d$ the limit map induced by ${\cat D} \backslash \{d\} \ra {\cat D}$.
+\begin{center}
+$ \xymatrix {
+	\lim^{\cat D} X \ar@{-->}[r] \ar@{-->>}[d]_{q_d} &
+	X_d \ar@{->>}[d]^{p_d} \\
+	\lim^{{\cat D} \backslash \{d\}} \ar[r]_-{g_d} & 
+        MX_d
+	}$
+\end{center}
+Then the pullback of ($p_d, g_d$) is isomorphic to $\lim^{\cat D} X$.
+
+In particular $\lim^{\cat D} X$ exists and is fibrant, and $q_d$ is a fibration.
+\end{enumerate}
+
+\end{lem}
+
+\begin{proof}
+We will prove (1) - the proof of (2) is dual.
+
+The pushout of (1) exists from axiom CF3. The latching object $LX_d$ is by definition $\colim^{\partial({\cat D} \downarrow d)}X$. Since ${\cat D} \backslash \{d\} \ra {\cat D}$ is an open embedding, the pushout of ($i_d, f_d$) satisfies the universal property that defines $\colim^{\cat D} X$. The map $j_d$ is a cofibration as the pushout of $i_d$, and therefore $\colim^{\cat D} X$ is cofibrant.
+\end{proof}
+
+Here is a slightly more general statement of the previous lemma:
+
+\begin{lem}
+\label{lem:colimpushoutset}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category. Let ${\cat D}$ be a direct category, $\{d_k | k \eps K\}$ a set object of ${\cat D}$ of the same degree such that ${\cat D} \backslash \{d_k | k \eps K\} \ra {\cat D}$ is an open embedding, and $X$ be a ${\cat D}$-diagram of ${\cat M}$. Assume that $LX_{d_k}$ for all $k$ and $\colim^{{\cat D} \backslash \{d_k | k \eps K\}} X$ exist and are cofibrant, and that $i_{k} \colon LX_{d_k} \ra X_{d_k}$ is a cofibration for all $k$.  Denote $f_K$ the colimit map induced by ${\cat D} \backslash \{d_k | k \eps K\} \ra {\cat D}$.
+\begin{center}
+$ \xymatrix {
+        \Sum LX_{d_k} \ar[r]^-{f_K} \ar@{>->}[d]_{\Sum i_k} & 
+	\colim^{{\cat D} \backslash \{d_k | k \eps K\}} X \ar@{>-->}[d]^{j_K} \\
+	\Sum X_{d_k} \ar@{-->}[r] & 
+	\colim^{\cat D} X
+	}$
+\end{center}
+Then the pushout of ($\Sum i_{k}, f_K$) is isomorphic to $\colim^{\cat D} X$. 
+
+In particular $\colim^{\cat D} X$ exists and is cofibrant, and $j_K$ is a cofibration.
+\item
+Let ${\cat M}$ be a fibration category. Let ${\cat D}$ be an inverse category, $\{d_k | k \eps K\}$ a set object of ${\cat D}$ of the same degree such that ${\cat D} \backslash \{d_k | k \eps K\} \ra {\cat D}$ is a closed embedding, and $X$ be a ${\cat D}$-diagram of ${\cat M}$. Assume that $MX_{d_k}$ and $\lim^{{\cat D} \backslash \{d_k | k \eps K\}} X$ exist and are fibrant, and that $p_{k} \colon X_{d_k} \ra MX_{d_k}$ is a fibration.  Denote $g_K$ the limit map induced by ${\cat D} \backslash \{d_k | k \eps K\} \ra {\cat D}$.
+\begin{center}
+$ \xymatrix {
+	\lim^{\cat D} X \ar@{-->}[r] \ar@{-->>}[d]_{q_K} &
+	\times X_{d_k} \ar@{->>}[d]^{\times p_{k}} \\
+	\lim^{{\cat D} \backslash \{d_k | k \eps K\}} X \ar[r]_-{g_K} & 
+        \times MX_{d_k}
+	}$
+\end{center}
+Then the pullback of ($\times p_k, g_K$) is isomorphic to $\lim^{\cat D} X$.
+
+In particular $\lim^{\cat D} X$ exists and is fibrant, and $q_K$ is a fibration.
+\end{enumerate}
+\end{lem}
+
+\begin{proof}
+We only prove (1). By axiom CF5, the map $\Sum i_k$ is a cofibration, and the pushout of ($\Sum i_{k}, f_K$) exists. Since ${\cat D} \backslash \{d_k | k \eps K\} \ra {\cat D}$ is an open embedding, the pushout satisfies the universal property that defines $\colim^{\cat D} X$.
+\end{proof}
+
+We will also need the following two lemmas.
+
+\begin{lem}
+\label{lem::compospushout}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category, and consider a commutative diagram
+\begin{center}
+$\xymatrix{
+    A_0 \ar@{>->}[r]^{a_{01}} \ar[d]_{f_0} & A_1 \ar@{>->}[r]^{a_{12}} \ar[d]_{f_1} & A_2 \ar[d]_{f_2} \\
+    B_0 \ar[r]^{b_{01}} & B_1 \ar[r]^{b_{12}} & B_2
+    }$
+\end{center}
+with $a_{01}, a_{12}$ cofibrations and $A_0, B_0, B_1, B_2$ cofibrant.
+\begin{enumerate}
+\item
+If $B_0 \Sum_{A_0} A_1 \ra B_1$ and $B_1 \Sum_{A_1} A_2 \ra B_2$ are cofibrations, then so is $B_0 \Sum_{A_0} A_2 \ra B_2$
+\item
+If $B_0 \Sum_{A_0} A_1 \ra B_1$ and $B_1 \Sum_{A_1} A_2 \ra B_2$ are weak equivalences, then so is $B_0 \Sum_{A_0} A_2 \ra B_2$
+\end{enumerate}
+\item
+Let ${\cat M}$ be a fibration category, and consider a commutative diagram
+\begin{center}
+$\xymatrix{
+    A_2 \ar[r]^{a_{21}} \ar[d]_{f_2} & A_1 \ar[r]^{a_{10}} \ar[d]_{f_1} & A_0 \ar[d]_{f_0} \\
+    B_2 \ar@{->>}[r]^{b_{21}} & B_1 \ar@{->>}[r]^{b_{10}} & B_0
+    }$
+\end{center}
+with $b_{10}, b_{21}$ fibrations and $A_0, A_1, A_2, B_0$ fibrant.
+\begin{enumerate}
+\item
+If $A_1 \ra B_1 \times_{B_0} A_0$, $A_2 \ra B_2 \times_{B_1} A_1$ are fibrations, then so is $A_2 \ra B_2 \times_{B_0} A_0$
+\item
+If $A_1 \ra B_1 \times_{B_0} A_0$, $A_2 \ra B_2 \times_{B_1} A_1$ are weak equivalences, then so is $A_2 \ra B_2 \times_{B_0} A_0$
+\end{enumerate}
+\end{enumerate}
+\end{lem}
+
+\begin{proof}
+We only prove (1). The pushouts $B_0 \Sum_{A_0} A_1$, $B_1 \Sum_{A_1} A_2$ and $B_0 \Sum_{A_0} A_2$ exist since $a_{01}$ and $a_{12}$ are cofibrations and $A_0,, B_0, B_1, B_2$ are cofibrant. In the diagram
+\begin{center}
+$\xymatrix{
+    A_0 \ar@{>->}[r]^{a_{01}} \ar[d]_{f_0} & A_1 \ar@{>->}[r]^{a_{12}} \ar[d] & A_2 \ar[d] \\
+    B_0 \ar[rd]_{b_{01}} \ar@{>->}[r] & B_0 \Sum_{A_0} A_1 \ar@{>->}[r]^-b \ar[d]_a & B_0 \Sum_{A_0} A_2 \ar[d]^c \\
+    & B_1 \ar[rd]_{b_{12}} \ar@{>->}[r] & B_1 \Sum_{A_1} A_2 \ar[d]^d \\
+    & & B_2 \\
+    }$
+\end{center}
+the map $b$ is a cofibration, as a pushout of $a_{12}$.
+
+If $a$ and $d$ are cofibrations, then $c$ is a cofibration as a pushout of $a$, therefore $dc$ is a cofibration. This proves part (a).
+
+If $a$ and $d$ are weak equivalences, then by excision $c$ is a weak eqivalence, and therefore $dc$ is a weak equivalence. This proves part (b).
+\end{proof}
+
+\begin{lem}
+\label{lem::compospushout2}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category, and consider a map of countable direct sequences of cofibrations
+\begin{center}
+$ \xymatrix {
+        A_0 \ar@{>->}[r]^{a_{0}} \ar[d]_{f_0} &
+        A_1 \ar@{>->}[r]^{a_{1}} \ar[d]_{f_1} &
+	... \ar@{>->}[r] &
+        A_n \ar[d]_{f_n} \ar@{>->}[r]^{a_n} & 
+        ... & \\
+        B_0 \ar@{>->}[r]^{b_{0}} &
+        B_1 \ar@{>->}[r]^{b_{1}} &
+	... \ar@{>->}[r] &
+        B_n \ar@{>->}[r]^{b_n} & 
+        ... &
+	}$
+\end{center}
+with $A_0$, $B_0$ cofibrant and $a_{n}, b_{n}$ cofibrations for $n \ge 0$. 
+\begin{enumerate}
+\item
+If all maps $B_{n-1} \Sum_{A_{n-1}} A_{n} \ra B_{n}$ are cofibrations, then 
+\begin{center}
+$B_0 \Sum_{A_0} \colim A_n \ra \colim B_n$ 
+\end{center}
+is a cofibration.
+\item
+If all maps $B_{n-1} \Sum_{A_{n-1}} A_{n} \ra B_{n}$ are weak equivalences, then 
+\begin{center}
+$B_0 \Sum_{A_0} \colim A_n \ra \colim B_n$ 
+\end{center}
+is a weak equivalence.
+\end{enumerate}
+\item
+Let ${\cat M}$ be a fibration category and consider a map of countable inverse sequences of fibrations
+\begin{center}
+$ \xymatrix {
+    & 
+    ... \ar@{->>}[r]^{a_n} & 
+    A_n \ar@{->>}[r] \ar[d]^{f_n} & 
+    ... \ar@{->>}[r]^{a_{1}} & \
+    A_1 \ar@{->>}[r]^{a_{0}} \ar[d]^{f_1} &
+    A_0 \ar[d]^{f_0} \\
+    &
+    ... \ar@{->>}[r]^{b_n} &
+    B_n \ar@{->>}[r] &
+    ... \ar@{->>}[r]^{b_{1}} &
+    B_1 \ar@{->>}[r]^{b_{0}} &
+    B_0
+  }$
+\end{center}
+with $A_0$, $B_0$ fibrant and $a_{n}, b_{n}$ fibrations for $n \ge 0$.
+\begin{enumerate}
+\item
+If all maps $A_{n} \ra B_{n} \times_{B_{n-1}} A_{n-1}$ are fibrations, then 
+\begin{center}
+$\lim A_n \ra \lim B_n \times_{B_0} A_0$
+\end{center}
+is a fibration.
+\item
+If all maps $A_{n} \ra B_{n} \times_{B_{n-1}} A_{n-1}$ are weak equivalences, then 
+\begin{center}
+$\lim A_n \ra \lim B_n \times_{B_0} A_0$
+\end{center}
+is a weak equivalence.
+\end{enumerate}
+\end{enumerate}
+\end{lem}
+
+\begin{proof}
+We only prove(1). Denote $A = \colim A_n$ and $B = \colim B_n$.
+
+The map $B_0 \Sum_{A_0} A \ra B$ factors as the composition of the direct sequence of maps $B_{n-1} \Sum_{A_{n-1}} A \ra B_{n} \Sum_{A_{n}} A$, and each map in the sequence is a pushout of $B_{n-1} \Sum_{A_{n-1}} A_{n} \ra B_{n}$ along the cofibration $B_{n-1} \Sum_{A_{n-1}} A_{n} \ra B_{n-1} \Sum_{A_{n-1}} A$.
+
+\begin{center}
+$\xymatrix{
+    A_0 \ar@{>->}[r]^{a_{0}} \ar[d]_{f_0} & A_1 \ar@{>->}[r]^{a_{1}} \ar[d] & ... \ar[r] & A \ar[d] \\
+    B_0 \ar[rd]_{b_{0}} \ar@{>->}[r] & B_0 \Sum_{A_0} A_1 \ar@{>->}[r] \ar[d] & ... \ar[r] & B_0 \Sum_{A_0} A \ar[d] \\
+    & B_1 \ar@{>->}[r] \ar@{>->}[rd]_{b_1} & ... \ar[r] & B_1 \Sum_{A_1} A \ar[d] \\
+    & & ... \ar[rd] & ... \ar[d] \\
+    &&& B
+    }$
+\end{center}
+
+For part (a), each map $B_{n-1} \Sum_{A_{n-1}} A_{n} \ra B_{n}$ is a cofibration, therefore by CF3 so is its pushout $B_{n-1} \Sum_{A_{n-1}} A \ra B_{n} \Sum_{A_{n}} A$, and by CF6 so is the sequence composition $B_0 \Sum_{A_0} A \ra B$.
+
+For part (b), consider the map of direct sequences of cofibrations $\phi_n \colon B_0 \Sum_{A_0} A_n \ra B_n$. Each map $\phi_n$ is a weak equivalence using excision, and the result folows from \lemmaref{lem:transcompequiv}.
+\end{proof}
+
+We are ready to state the following result.
+\begin{thm}
+\label{thm:colimdirect}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category and ${\cat D}$ be a small direct category. Then:
+\begin{enumerate}
+\item
+If $X$ is Reedy cofibrant in ${\cat M}^{\cat D}$, then $\colim^{\cat D} X$ exists and is cofibrant in ${\cat M}$
+\item
+If $f \colon X \ra Y$ is a Reedy cofibration in ${\cat M}^{\cat D}$, then $\colim^{\cat D} f$ is a cofibration in ${\cat M}$
+\item
+If $f \colon X \ra Y$ is a pointwise weak equivalence of Reedy cofibrant objects in ${\cat M}^{\cat D}$, then $\colim^{\cat D} f$ is a weak equivalence in ${\cat M}$.
+\end{enumerate}
+\item
+Let ${\cat M}$ be a fibration category and ${\cat D}$ be a small inverse category. Then:
+\begin{enumerate}
+\item
+If $X$ is Reedy fibrant in ${\cat M}^{\cat D}$, then $\lim^{\cat D} X$ exists and is fibrant in ${\cat M}$
+\item
+If $f \colon X \ra Y$ is a Reedy fibration in ${\cat M}^{\cat D}$, then $\lim^{\cat D} f$ is a fibration in ${\cat M}$
+\item
+If $f \colon X \ra Y$ is a pointwise weak equivalence of Reedy fibrant objects in ${\cat M}^{\cat D}$, then $\lim^{\cat D} f$ is a weak equivalence in ${\cat M}$.
+\end{enumerate}
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We only prove (1). Denote ${\cat D}_n = {\cat D}^{\le n}$, and ${\cat D}_{-1} = \emptyset$.
+
+For (1) (a), an inductive argument using \lemmaref{lem:colimpushoutset} shows that each $\colim^{{\cat D}_n} X$ exists and that all maps  $\colim^{{\cat D}_{n-1}} X \ra \colim^{{\cat D}_n} X$ are cofibrations. Using CF6 (1), we see that $\colim^{{\cat D}} X$ exists and is cofibrant.
+
+We now prove (1) (b). In view of \lemmaref{lem::compospushout2} (a), it suffices to show for any Reedy cofibrantion $f \colon X \ra Y$ in ${\cat M}^{{\cat D}}$ that
+\begin{equation}
+\label{eqn:colimreedycof3}
+\colim\nolimits^{{\cat D}_{n}} X \Sum_{\colim^{{\cat D}_{n-1}} X} \colim\nolimits^{{\cat D}_{n-1}} Y \ra \colim\nolimits^{{\cat D}_{n}} Y
+\end{equation}
+is a cofibration in ${\cat M}$ for any $n$. Observe that the sum of the left term of (\ref{eqn:colimreedycof3}) exists and is cofibrant from CF3, because $\colim^{{\cat D}_{n-1}} X \ra \colim^{{\cat D}_n} X$ is a cofibration with cofibrant domain, and $\colim\nolimits^{{\cat D}_{n-1}} Y$ is cofibrant as proved in (1) (a). 
+
+We use induction on $n$. Assume that (\ref{eqn:colimreedycof3}) is a cofibration for indices $< n$, for any choice of ${\cat D}$. From \lemmaref{lem::compospushout} (a), the map 
+\begin{equation}
+\label{eqn:colimreedycof5}
+\colim\nolimits^{{\cat D}_{n-1}} X \ra \colim\nolimits^{{\cat D}_{n-1}} Y
+\end{equation}
+is a cofibration, for any choice of ${\cat D}$.
+
+Using the notation of \lemmaref{lem:colimpushoutset}, we denote $\{d_k | k \eps K\}$ the set of objects of ${\cat D}$ of degree $n$. Consider the diagram below
+\begin{equation}
+\label{eqn:colimreedycof6}
+\xymatrix {
+        \;\;\;\; \Sum LX_{d_k} \;\;\;\; \ar[rr] \ar[dd]_{u_1} \ar@{>->}[rd]_{\Sum i_k(X)} &  & \colim\nolimits^{{\cat D}_{n-1}} X \ar'[d][dd]^{u_3} \ar@{>->}[rd] & \\
+        & \;\;\;\; \Sum X_{d_k}  \;\;\;\; \ar[rr] \ar[dd]^(.3){u_2} & & \colim\nolimits^{{\cat D}_{n}} X \ar[dd]^{u_4} \\
+        \;\;\;\; \Sum LY_{d_k} \;\;\;\; \ar'[r][rr] \ar@{>->}[rd]_{\Sum i_k(Y)} & & \colim\nolimits^{{\cat D}_{n-1}} Y \ar@{>->}[rd] & \\
+        & \;\;\;\; \Sum Y_{d_k} \;\;\;\; \ar[rr] & & \colim\nolimits^{{\cat D}_{n}} Y
+	}
+\end{equation}
+ 
+The maps $\Sum i_k(X), \Sum i_k(Y)$ are cofibrations because $X, Y$ are Reedy cofibrant. The top and bottom faces are pushouts by \lemmaref{lem:colimpushoutset}. 
+
+The vertical map $u_3$ is a cofibration from statement (\ref{eqn:colimreedycof5}). 
+
+The vertical map $u_1$ is a cofibration also from statement (\ref{eqn:colimreedycof5}). This is because the latching space at $d_k$ is a colimit over the direct category $\partial ({\cat D} \downarrow d_k)$. All objects of $\partial ({\cat D} \downarrow d_k)$ have degree $< n$, and the restriction of $f \colon X \ra Y$ to $\partial ({\cat D} \downarrow d_k)$ is Reedy cofibrant, so from (\ref{eqn:colimreedycof5}) we get that each $\colim^{\partial ({\cat D} \downarrow d_k)} f$ is a cofibration in ${\cat M}$.
+
+At last, the map $(\Sum X_{d_k}) \Sum_{\Sum LX_{d_k}} (\Sum LY_{d_k}) \ra \Sum Y_{d_k}$ is a cofibration because $f$ is a Reedy cofibration.
+
+The hypothesis of the Gluing Lemma \ref{lem:gluinglemma1} (1) (a) then applies, and we can conclude that the map \eqref{eqn:colimreedycof3} is a cofibration. The induction step is completed, and with it (1) (b) is proved.
+
+The proof of (1) (c) follows the same exact steps as the proof of (1) (b) - only we use 
+\begin{enumerate}
+\item[-]
+The Gluing Lemma \ref{lem:gluinglemma1} (b) instead of the Gluing Lemma \ref{lem:gluinglemma1} (a)
+\item[-]
+\lemmaref{lem::compospushout} (b) instead of (a)
+\item[-]
+\lemmaref{lem::compospushout2} (b) instead of (a)
+\end{enumerate}
+The reader is invited to verify the remaining details.
+\end{proof}
+
+In order to go back and complete the missing proof of the previous section, we need to state the following corollary - whose proof is implicit in the proof of \theoremref{thm:colimdirectemb}.
+\begin{cor}
+\label{cor:colimdirectcorollary}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category and ${\cat D}$ be a small direct category. If $X \ra Y$ is a Reedy cofibrantion in ${\cat M}^{\cat D}$, then both $LX_d \ra LY_d$ and $X_d \ra Y_d$ are cofibrations in ${\cat M}$ for any object $d$ of ${\cat D}$.
+\item
+Let ${\cat M}$ be a fibration category and ${\cat D}$ be a small inverse category. If $X \ra Y$ is a Reedy fibrantion in ${\cat M}^{\cat D}$, then both $MX_d \ra MY_d$ and $X_d \ra Y_d$ are fibrations in ${\cat M}$ for any object $d$ of ${\cat D}$.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+We only prove (1). The latching category $\partial({\cat D} \downarrow d)$ is a direct category, and the restriction of $X \ra Y$ to $\partial({\cat D} \downarrow d)$ is Reedy cofibrant. It follows from \theoremref{thm:colimdirect} (1) (b) that $LX_d \ra LY_d$ is a cofibrantion. The map $X_d \ra Y_d$ factors as $X_d \ra X_d \Sum_{LX_d} LY_d \ra Y_d$; the second factor is a cofibration since $X \ra Y$ is a Reedy cofibration, and the first factor is a pushout of $LX_d \ra LY_d$, therefore a cofibration. It follows that $X_d \ra Y_d$ is a cofibration.
+\end{proof}
+
+In particular, we have proved that Reedy cofibrations are pointwise cofibrations. Dually, Reedy fibrations are pointwise fibrations. We can finally go back and provide a
+
+\begin{proof}[Proof of \theoremref{thm:reedycofibstruct}]
+Given a cofibration category $({\cat M}$, ${\cat W}$, ${\cat Cof})$ and ${\cat D}$ a small direct category, we want to show that $({\cat M}^{\cat D}, {\cat W}^{\cat D}, {\cat Cof}^{\cat D}_{Reedy})$ forms a cofibration category. Recall that any Reedy cofibration $X \ra Y$ has $X$ {\it Reedy cofibrant} by definition.
+
+(i) {\it Axiom CF1} is verified in view of \lemmaref{prop::reedycofformcat}.
+
+(ii) {\it Axiom CF2} is easily verified.
+
+(iii) {\it Pushout axiom CF3 (1)}. Let $f \colon X \ra Y$ be a Reedy cofibration, and $g \colon X \ra Z$ be a map with $Z$ Reedy cofibrant. The pushout $Y \Sum_X Z$ exists since each $X_d \ra Y_d$ is a cofibration by \corollaryref{cor:colimdirectcorollary}, and each $Z_d$ is cofibrant. Denote $T = Y \Sum_X Z$, and $f^{'}_d$ the cofibration $LX_d \ra LY_d$
+
+Consider the diagram below:
+\begin{center}
+$\xymatrix {
+        LX_d \ar[rr] \ar@{>->}[dd]_{u_1} \ar@{>->}[rd]_{f^{'}_d} &  & LZ_d \ar@{>->}'[d][dd]^{u_3} \ar@{>->}[rd] & \\
+        & LY_d \ar[rr] \ar@{>->}[dd]^(.3){u_2} & & LT_d \ar[dd]^{u_4} \\
+        X_d \ar'[r][rr] \ar@{>->}[rd]_{f_d} & & Z_d \ar@{>->}[rd] & \\
+        & Y_d \ar[rr] & & T_d
+	}$
+\end{center}
+
+From the universal property of $LT_d$, it follows that $LT_d$ exists and is isomorphic to $LY_d \Sum_{LX_d} LZ_d$, so the top face is a pushout. The bottom face is a pushout as well, and the hypothesis of the Gluing Lemma \ref{lem:gluinglemma1} (1) (a) applies: namely, $u_1, u_3$ are cofibrations since $X, Z$ are Reedy cofibrant, $f_d, f^{'}_d$ are cofibrations by \corollaryref{cor:colimdirectcorollary}, and $X_d \Sum_{LX_d} LY_d \ra Y_d$ is a cofibration since $f$ is a Reedy cofibration .
+
+It follows from the Gluing Lemma that $u_4$ is a cofibration and $LT_d \Sum_{LZ_d} Z_d \ra T_d$ is a cofibration, which proves that $T$ is Reedy cofibrant and that $Z \ra T$ is a Reedy cofibration. This completes the proof that Reedy cofibrations are stable under pushout. 
+
+(iv) {\it Axiom CF3 (2)} follows from a pointwise application of CF3 (2) in ${\cat M}$, since Reedy cofibrations are pointwise cofibrations by \corollaryref{cor:colimdirectcorollary}.
+
+(v) {\it Factorization axiom CF4}. Let $f \colon X \ra Y$ be a map with $X$ Reedy cofibrant. We construct a factorization $f=rf^{'}$ with $r$ a weak equivalence and $f^{'}$ a Reedy cofibration.
+\begin{center}
+$f \colon \xymatrix {X \ar@{>->}[r]^{f^{'}} & Y^{'} \ar[r]^r_{\sim} & Y}$
+\end{center}
+
+We employ induction on the degree $n$. Assume $Y^{'}, f^{'}, r$ constructed in degree $<n$. Let $d$ be an object of ${\cat D}$ of degree $n$, and let us define $Y^{'}_d, f^{'}_d, r_d$. Define $LY^{'}_d$ as $\colim^{\partial({\cat D} \downarrow d)} Y^{'}$, which exists and is cofibrant by \theoremref{thm:colimdirect} applied to $\partial({\cat D} \downarrow d)$. In the diagram below
+\begin{center}
+$\xymatrix {
+    LX_d \ar@{>->}[r] \ar@{>->}[d] & LY^{'}_d \ar@{>->}[d] & & \\
+    X_d \ar@{>->}[r]^-{g_d} & X_d \Sum_{LX_d} LY^{'}_d \ar@{>->}[r]^-{h_d} & Y^{'}_d \ar[r]^{r_d}_{\sim} & Y_d
+  }$
+\end{center}
+the pushout exists by axiom CF3, and $Y^{'}_d, h_d, r_d$ is defined as the CF4 factorization of $X_d \Sum_{LX_d} LY^{'}_d \ra Y_d$. Define $f^{'}_d = h_dg_d$, and the inductive step is complete.
+
+(vi) {\it The axiom CF5.} 
+Suppose that $f_i \colon X_i \ra Y_i$, $i \eps I$ is a set of Reedy cofibrations. The objects $X_i$ are Reedy cofibrant, therefore pointwise cofibrant by \corollaryref{cor:colimdirectcorollary}. The maps $f_i$ are in particular pointwise cofibrations by \corollaryref{cor:colimdirectcorollary}, and a pointwise application of CF5 shows that $\Sum X_i$, $\Sum Y_i$ exist and $\Sum (f_i)$ is a pointwise cofibration. Furthermore, latching spaces commute with direct sums, from which one easily sees that $\Sum f_i$ is actually a Reedy cofibration. If each $f_i$ is a trivial Reedy cofibration, a pointwise application of CF5 yields that $\Sum f_i$ is a weak equivalence.
+
+(vii) {\it The axiom CF6.} 
+Consider a countable direct sequence of Reedy cofibrations
+\begin{center}
+$ \xymatrix {
+        X_0 \ar@{>->}[r]^{a_{0}} &
+        X_1 \ar@{>->}[r]^{a_{1}} &
+        X_2 \ar@{>->}[r]^{a_{2}} &
+	... \\
+	}$
+\end{center}
+The object $X_0$ is Reedy cofibrant, therefore pointwise cofibrant by \corollaryref{cor:colimdirectcorollary}. The maps $a_n$ are in particular pointwise cofibrations by \corollaryref{cor:colimdirectcorollary}, and a pointwise application of CF6 shows that $\colim X_n$ exists and $X_0 \ra \colim X_n$ is a pointwise cofibration. We'd like to show that $X_0 \ra \colim X_n$ is a Reedy cofibration.
+
+For any object $d$ of ${\cat D}$, in the diagram below
+\begin{center}
+$ \xymatrix {
+        L(X_0)_d \ar@{>->}[r] \ar@{>->}[d] &
+        L(X_1)_d \ar@{>->}[r] \ar@{>->}[d] &
+        L(X_2)_d \ar@{>->}[r] \ar@{>->}[d] &
+	... \\
+        (X_0)_d \ar@{>->}[r] &
+        (X_1)_d \ar@{>->}[r] &
+        (X_2)_d \ar@{>->}[r] &
+	... \\
+	}$
+\end{center}
+the vertical maps are cofibrations in ${\cat M}$ because the diagrams $X_n$ are Reedy cofibrant. By \corollaryref{cor:colimdirectcorollary} the top and bottom horizontal maps are cofibrations. A pointwise application of CF6 shows $\colim^n L(X_n)_d$ exists, and one easily sees that it satisfies the universal property that defines $L(\colim^n (X_n))_d$.
+
+Furthermore, each map $(X_{n-1})_d \Sum_{L(X_{n-1})_d} {L(X_{n})_d} \ra (X_{n})_d$ is a cofibration, since $a_{n-1}$ is a Reedy cofibration. From \lemmaref{lem::compospushout2} we see that each map $(X_{0})_d \Sum_{L(X_{0})_d} {L(\colim X_{n})_d} \ra (\colim X_{n})_d$ is a cofibration, which implies that $\colim X_n$ is Reedy cofibrant and that $X_0 \ra \colim X_n$ is a Reedy cofibration. This proves CF6 (1).
+
+If additionally all $a_n$ are trivial Reedy cofibrations, a pointwise application of CF6 (2) shows that $X_0 \ra \colim X_n$ is a pointwise weak equivalence, therefore a trivial Reedy cofibration. 
+
+We have completed the proof that $({\cat M}^{\cat D}, {\cat W}^{\cat D}, {\cat Cof}^{\cat D}_{Reedy})$ is a cofibration category. Let's prove now that $({\cat M}^{\cat D}, {\cat W}^{\cat D}, {\cat Cof}^{\cat D})$ is also a cofibration category.
+
+(i) {\it Axioms CF1-CF3, CF5-CF6} are trivially verified.
+
+(ii) {\it The factorization axiom CF4.} Let $f \colon X \ra Y$ be a map of ${\cat D}$-diagrams with $X$ pointwise cofibrant. Consider the commutative diagram
+\begin{center}
+$\xymatrix{ 
+    & & Y \\
+    X \ar[r]_{f^{'}} \ar[urr]^f & Y^{'} \ar[ur]^(.3)r & \\
+    X_1 \ar[u]_\sim^a \ar[r]_{f_1} & Y_1^{'} \ar[u]^b_\sim \ar[uur]_{r_1}^\sim &
+  }$
+\end{center}
+where $X_1$ is a Reedy cofibrant replacement of $X$, $r_1f_1$ is a factorization of $fa$ as a Reedy cofibration $f_1$ followed by a weak equivalence $r_1$, and $Y^{'} = X \Sum_{X_1} Y_1^{'}$. The map $f_1$ is in particular a pointwise cofibration. Its pushout $f_1$ is therefore a pointwise cofibration, and by excision the map $b$ is a weak equivalence, so $r$ is a weak equivalence by the 2 out of 3 axiom. We have thus constructed a factorization $f = rf^{'}$ as a pointwise cofibration $f^{'}$ followed by a pointwise weak equivalence $r$.
+
+The proof of \ref{thm:reedycofibstruct} part (1) is now complete, and part (2) is proved by duality.
+\end{proof}
+
+As a corollary of \theoremref{thm:reedycofibstruct}, we can construct the Reedy and the pointwise cofibration category structures on {\it restricted} small direct diagrams in a cofibration category. 
+
+\index{restricted diagrams}
+\begin{defn}
+\label{defn::restricteddiagrams}
+If $({\cat M}, {\cat W})$ is a category with weak equivalences and $({\cat D_1}, {\cat D_2})$ is a category pair, a ${\cat D_1}$ diagram $X$ is called {\it restricted} with respect to ${\cat D_2}$ if for any map $d \ra d^{'}$ of ${\cat D}_2$ the map $X_{d} \ra X_{d^{'}}$ is a weak equivalence. 
+
+We will denote ${\cat M}^{({\cat D_1}, {\cat D_2})}$\index{${\cat M}^{({\cat D_1}, {\cat D_2})}$} the full subcategory of ${\cat D}_2$-restricted diagrams in ${\cat M}^{{\cat D_1}}$.
+\end{defn}
+
+With this definition we have
+
+\begin{thm}
+\label{thm:reedycofibstruct2}
+\mbox{}
+\begin{enumerate}
+\item
+If $({\cat M}$, ${\cat W}$, ${\cat Cof})$ is a cofibration category and $({\cat D}_1, {\cat D}_2)$ is a small direct category pair, then
+\begin{enumerate}
+\item
+$({\cat M}^{({\cat D}_1, {\cat D}_2)} , {\cat W}^{{\cat D}_1}, {\cat Cof}^{{\cat D}_1}_{Reedy} \cap {\cat M}^{({\cat D}_1, {\cat D}_2)})$ is a cofibration category - called the ${\cat D}_2$-restricted Reedy cofibration structure on ${\cat M}^{({\cat D}_1, {\cat D}_2)}$.
+\item
+$({\cat M}^{({\cat D}_1, {\cat D}_2)} , {\cat W}^{{\cat D}_1}, {\cat Cof}^{({\cat D}_1, {\cat D}_2)})$ is a cofibration category - called the ${\cat D}_2$-restricted pointwise cofibration structure on ${\cat M}^{({\cat D}_1, {\cat D}_2)}$.
+\end{enumerate}
+\item
+If $({\cat M}$, ${\cat W}$, ${\cat Fib})$ is a fibration category and $({\cat D}_1, {\cat D}_2)$ is a small inverse category pair, then
+\begin{enumerate}
+\item
+$({\cat M}^{({\cat D}_1, {\cat D}_2)} , {\cat W}^{{\cat D}_1}, {\cat Fib}^{{\cat D}_1}_{Reedy} \cap {\cat M}^{({\cat D}_1, {\cat D}_2)})$ is a fibration category - called the ${\cat D}_2$-restricted Reedy fibration structure.on ${\cat M}^{({\cat D}_1, {\cat D}_2)}$
+\item
+$({\cat M}^{({\cat D}_1, {\cat D}_2)} , {\cat W}^{{\cat D}_1}, {\cat Fib}^{({\cat D}_1, {\cat D}_2)})$ is a fibration category - called the ${\cat D}_2$- restricted pointwise fibration structure on ${\cat M}^{({\cat D}_1, {\cat D}_2)}$.
+\end{enumerate}
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We only prove part (1) - part (2) is dual. 
+
+(i) {\it Axioms CF1 and CF2} are clearly verified for both the pointwise and the Reedy restricted cofibration structures. 
+
+(ii) {\it The pushout axiom CF3 (1)}. Given a pointwise cofibration $i$ and a map $f$ with $X, Y, Z$ pointwise cofibrant in ${\cat M}^{({\cat D}_1, {\cat D}_2)}$
+\begin{center}
+$ \xymatrix {
+	X \ar[r]^f \ar@{>->}[d]_i &
+	Z \ar@{>-->}[d]^j \\
+	Y \ar@{-->}[r]_g &
+	T
+	}$
+\end{center}
+then the pushout $j$ of $i$ exists in ${\cat M}^{{\cat D_1}}$, and $j$ is a pointwise cofibration. For any map $d \ra d^{'}$ of ${\cat D}_2$ using the Gluing Lemma \ref{lem:gluinglemma1} applied to the diagram
+\begin{center}
+$ \xymatrix {
+        X_d \ar[rr]^{f_{d}} \ar[dd]_{\sim} \ar@{>->}[rd]_{i_{d}} &  & Z_d \ar'[d][dd]^{\sim} \ar@{>->}[rd] & \\
+        & Y_d \ar[rr] \ar[dd]^(.3){\sim} & & T_d \ar[dd] \\
+        X_{d^{'}} \ar'[r][rr]_{f_{d^{'}}} \ar@{>->}[rd]_{i_{d^{'}}} & & Z_{d^{'}} \ar@{>->}[rd] & \\
+        & Y_{d^{'}} \ar[rr] & & T_{d^{'}}
+	}$
+\end{center}
+it follows that $T_{d} \ra T_{d^{'}}$ is an equivalence, therefore $T$ is a ${\cat D}_2$- restricted diagram.
+
+Furthermore, $j$ is a Reedy cofibration if $i$ is one and $X$, $Z$ are Reedy cofibrant, by \theoremref{thm:reedycofibstruct}. This shows that the pushout axiom is satisfied for both the pointwise and the Reedy restricted cofibration structures.
+
+(iii) {\it The axiom CF3 (2)} is clearly verified for both the pointwise and the Reedy restricted cofibration structures. 
+
+(iv) {\it The factorization axiom CF4}. Let $f \colon X \ra Y$ be a map in ${\cat M}^{({\cat D}_1, {\cat D}_2)}$. If $X$ is a pointwise (resp. Reedy) cofibrant diagram, by \theoremref{thm:reedycofibstruct} $f$ factors as $f = rf^{'}$ with $f^{'} \colon X \ra Y^{'}$ a pointwise (resp. Reedy) cofibration and $r \colon Y^{'} \ra Y$ a pointwise weak equivalence. In both cases $Y^{'}$ is restricted, and CF4 is satisfied for both the pointwise and the Reedy restricted cofibration structures.
+
+(v) {\it Axiom CF5} for both the restricted pointwise and restricted Reedy cofibration structures follows from the fact that if $X_i$, $i \eps I$ is a set of restricted pointwise (resp. Reedy) cofibrant diagrams, then $\Sum X_i$ is a restricted pointwise (resp. Reedy) cofibrant diagram by \lemmaref{lem:smallcofsums}.
+
+(vi) {\it Axiom CF6}. Given a countable direct sequence of pointwise (resp. Reedy) cofibrations with $X_0$ pointwise (resp. Reedy) cofibrant
+\begin{center}
+$ \xymatrix {
+        X_0 \ar@{>->}[r]^{a_{01}} &
+        X_1 \ar@{>->}[r]^{a_{12}} &
+        X_2 \ar@{>->}[r]^{a_{23}} &
+	... \\
+	}$
+\end{center}
+the colimit $\colim X_n$ exists and is pointwise (resp. Reedy) cofibrant. If all $X_n$ are restricted, from \lemmaref{lem:transcompequiv} $\colim X_n$ is restricted. The axiom CF6 now follows for both the restricted pointwise and restricted Reedy cofibration structures.
+\end{proof}
+
+
+\section{Colimits in direct categories (the relative case)}
+\label{sec:colimdirectrelative}
+
+The contents of this section is not used elsewhere in this text, and may be skipped at a first reading. 
+
+Recall that a functor $u \colon {\cat D} \ra {\cat D}^{'}$ is an {\it open embedding} (or a {\it crible}) \index{open embedding, crible} if $u$ is a full embedding with the property that any map $f \colon d^{'} \ra ud$ with $d \eps {\cat D}, d^{'} \eps {\cat D}^{'}$ has $d^{'}$ (and $f$) in the image of $u$. Dually, $u$ is a {\it closed embedding} (or a {\it cocrible}) \index{closed embedding, cocrible} if $u^{op}$ is an open embedding, meaning that $u$ is a full embedding and any map $f \colon ud \ra d^{'}$ with $d \eps {\cat D}, d^{'} \eps {\cat D}^{'}$ has $d^{'}$ (and $f$) in the image of $u$.
+
+Open and closed embedding functors are stable under compositions. 
+
+If ${\cat D}$ is a direct category, note that ${\cat D}^{\le n} \ra {\cat D}^{\le n+1}$ and ${\cat D}^{\le n} \ra {\cat D}$ are open embeddings. If ${\cat D}$ is an inverse category, then ${\cat D}^{\le n} \ra {\cat D}^{\le n+1}$ and ${\cat D}^{\le n} \ra {\cat D}$ are closed embeddings.
+
+Recall that a functor $u \colon {\cat D} \ra {\cat D}^{'}$ is an {\it open embedding} (or a {\it crible}) \index{open embedding, crible} if $u$ is a full embedding with the property that any map $f \colon d^{'} \ra ud$ with $d \eps {\cat D}, d^{'} \eps {\cat D}^{'}$ has $d^{'}$ (and $f$) in the image of $u$. Dually, $u$ is a {\it closed embedding} (or a {\it cocrible}) \index{closed embedding, cocrible} if $u^{op}$ is an open embedding, meaning that $u$ is a full embedding and any map $f \colon ud \ra d^{'}$ with $d \eps {\cat D}, d^{'} \eps {\cat D}^{'}$ has $d^{'}$ (and $f$) in the image of $u$.
+
+Open and closed embedding functors are stable under compositions. 
+
+If ${\cat D}$ is a direct category, note that ${\cat D}^{\le n} \ra {\cat D}^{\le n+1}$ and ${\cat D}^{\le n} \ra {\cat D}$ are open embeddings. If ${\cat D}$ is an inverse category, then ${\cat D}^{\le n} \ra {\cat D}^{\le n+1}$ and ${\cat D}^{\le n} \ra {\cat D}$ are closed embeddings.
+
+Here is a statement that is slightly more general than \theoremref{thm:colimdirect}.
+
+\begin{thm}
+\label{thm:colimdirectemb}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category and ${\cat D}^{'} \ra {\cat D}$ be an open embedding of small direct categories. Then:
+\begin{enumerate}
+\item
+If $X$ is Reedy cofibrant in ${\cat M}^{\cat D}$, then $\colim^{{\cat D}^{'}} X, \colim^{\cat D} X$ exist and $\colim^{{\cat D}^{'}} X \ra \colim^{\cat D} X$ is a cofibration in ${\cat M}$
+\item
+If $f \colon X \ra Y$ is a Reedy cofibration in ${\cat M}^{\cat D}$, then 
+\begin{center}
+$\colim^{\cat D} X \Sum_{\colim^{{\cat D}^{'}} X} \colim^{{\cat D}^{'}} Y \ra \colim^{\cat D} Y$ 
+\end{center}
+is a cofibration in ${\cat M}$
+\item
+If $f \colon X \ra Y$ is a pointwise weak equivalence between Reedy cofibrant diagrams in ${\cat M}^{\cat D}$, then 
+\begin{center}
+$\colim^{\cat D} X \Sum_{\colim^{{\cat D}^{'}} X} \colim^{{\cat D}^{'}} Y \ra \colim^{\cat D} Y$ 
+\end{center}
+is a weak equivalence in ${\cat M}$
+\end{enumerate}
+\item
+Let ${\cat M}$ be a fibration category and  ${\cat D}^{'} \ra {\cat D}$ be a closed embedding of small inverse categories. Then:
+\begin{enumerate}
+\item
+If $X$ is Reedy fibrant in ${\cat M}^{\cat D}$, then $\lim^{{\cat D}^{'}} X, \lim^{\cat D} X$ exist and $\lim^{{\cat D}} X \ra \lim^{{\cat D}^{'}} X$ is a fibration in ${\cat M}$
+\item
+If $f \colon X \ra Y$ is a Reedy fibration in ${\cat M}^{\cat D}$, then 
+\begin{center}
+$\lim^{{\cat D}} X \ra \lim^{{\cat D}^{'}} X \times_{\lim^{{\cat D}^{'}} Y} \lim^{{\cat D}} Y $ 
+\end{center}
+is a fibration in ${\cat M}$
+\item
+If $f \colon X \ra Y$ is a pointwise weak equivalence between Reedy fibrant diagrams in ${\cat M}^{\cat D}$, then 
+\begin{center}
+$\lim^{{\cat D}} X \ra \lim^{{\cat D}^{'}} X \times_{\lim^{{\cat D}^{'}} Y} \lim^{{\cat D}} Y $ 
+\end{center}
+is a weak equivalence in ${\cat M}$
+\end{enumerate}
+\end{enumerate}
+\end{thm}
+
+If we take ${\cat D}^{'}$ to be empty in \theoremref{thm:colimdirectemb}, then we get the statement of \theoremref{thm:colimdirect}.
+
+\begin{proof}[Proof of \theoremref{thm:colimdirectemb}]
+Part (2) is dual to part (1), so we only need to prove part (1). The proof, as expected, retracks that of \theoremref{thm:colimdirect}.
+
+We will use on ${\cat D}^{'}$ the degree induced from ${\cat D}$. Denote ${\cat D}_{-1} = {\cat D}^{'}$, and let ${\cat D}_n$ be the full subcategory of ${\cat D}$ having as objects all the objects of ${\cat D}^{'}$ and all the objects of degree $\le n$ of ${\cat D}$. Notice that all inclusions ${\cat D}_{n-1} \ra {\cat D}_n$ are open embeddings. Also, all inclusions ${\cat D}^{' < n} \ra {\cat D}^{' \le n}$ are open embeddings.
+
+Let us prove (1) (a). From \theoremref{thm:colimdirect} we know that $\colim^{{\cat D}^{'}} X, \colim^{\cat D} X$ exist and are cofibrant. An inductive argument using \lemmaref{lem:colimpushoutset} shows that each $\colim^{{\cat D}_n} X$ exists and that all maps $\colim^{{\cat D}_{n-1}} X \ra  \colim^{{\cat D}_n} X$ are cofibrations. Using CF6 (1), we see that $\colim^{{\cat D}^{'}}X \ra \colim^{{\cat D}} X$ is a cofibration.
+
+We now prove (1) (b). In view of \lemmaref{lem::compospushout2} (a), it suffices to show that
+\begin{equation}
+\label{eqn:colimreedycof3bis}
+\colim\nolimits^{{\cat D}_{n}} X \Sum_{\colim^{{\cat D}_{n-1}} X} \colim\nolimits^{{\cat D}_{n-1}} Y \ra \colim\nolimits^{{\cat D}_{n}} Y
+\end{equation}
+is a cofibration in ${\cat M}$ for any $n$. Observe that the sum of the left term of (\ref{eqn:colimreedycof3bis}) exists and is cofibrant because of (1) (a) and CF3. 
+
+As in \lemmaref{lem:colimpushoutset}, we denoted $\{d_k | k \eps K\}$ the set of objects of ${\cat D} \backslash {\cat D}^{'}$ of degree $n$. We now look back at the cubic diagram \eqref{eqn:colimreedycof6}:
+
+The maps $\Sum i_k(X), \Sum i_k(Y)$ are cofibrations because $X, Y$ are Reedy cofibrant. The top and bottom faces are pushouts by \lemmaref{lem:colimpushoutset}. 
+
+The vertical maps $u_1, u_3$ are cofibrations by \theoremref{thm:colimdirect}.
+
+The map $(\Sum X_{d_k}) \Sum_{\Sum LX_{d_k}} (\Sum LY_{d_k}) \ra \Sum Y_{d_k}$ is a cofibration because $f$ is a Reedy cofibration.
+
+From the Gluing Lemma \ref{lem:gluinglemma1} (1) (a), we conclude that the map \eqref{eqn:colimreedycof3bis} is a cofibration.
+
+The proof of (1) (c) follows the same exact steps as the proof of (1) (b) - only we use as for \theoremref{thm:colimdirect} (1) (c):
+\begin{enumerate}
+\item[-]
+The Gluing Lemma \ref{lem:gluinglemma1} (b) instead of the Gluing Lemma \ref{lem:gluinglemma1} (a)
+\item[-]
+\lemmaref{lem::compospushout} (b) instead of (a)
+\item[-]
+\lemmaref{lem::compospushout2} (b) instead of (a)
+\end{enumerate}
+\end{proof}
+
+We have shown that given a cofibration category ${\cat M}$ and a small direct category ${\cat D}$, then $\colim^{\cat D}$ carries Reedy cofibrations (resp. weak equivalences between Reedy cofibrant diagrams) in ${\cat M}^{\cat D}$ to cofibrations (resp. weak equivalences between cofibrant objects) in ${\cat M}$. This result is extended below to the case of relative colimits from a small direct category to an arbitrary small category (\theoremref{thm::colimfromdirectcat}) and between two small direct categories (\theoremref{thm::colimpairdirectcat}). 
+
+\begin{thm}
+\label{thm::colimfromdirectcat}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category and $u \colon {\cat D}_1 \ra {\cat D}_2$ be a functor of small categories with ${\cat D}_1$ direct.
+\begin{enumerate}
+\item
+If $X$ is Reedy cofibrant in ${\cat M}^{{\cat D}_1}$, then $\colim^u X$ exists and is pointwise cofibrant in ${\cat M}^{{\cat D}_2}$
+\item
+If $f \colon X \ra Y$ is a Reedy cofibration in ${\cat M}^{{\cat D}_1}$, then $\colim^u f$ is a pointwise cofibration in ${\cat M}^{{\cat D}_2}$
+\item
+If $f \colon X \ra Y$ is a pointwise weak equivalence of Reedy cofibrant objects in ${\cat M}^{{\cat D}_1}$, then $\colim^u f$ is a pointwise weak equivalence in ${\cat M}^{{\cat D}_2}$.
+\end{enumerate}
+\item
+Let ${\cat M}$ be a fibration category and $u \colon {\cat D}_1 \ra {\cat D}_2$ be a functor of small categories  with ${\cat D}_1$ inverse.
+\begin{enumerate}
+\item
+If $X$ is Reedy fibrant in ${\cat M}^{{\cat D}_1}$, then $\lim^u X$ exists and is pointwise fibrant in ${\cat M}^{{\cat D}_2}$
+\item
+If $f \colon X \ra Y$ is a Reedy fibration in ${\cat M}^{{\cat D}_1}$, then $\colim^u f$ is a pointwise fibration in ${\cat M}^{{\cat D}_2}$
+\item
+If $f \colon X \ra Y$ is a pointwise weak equivalence of Reedy fibrant objects in ${\cat M}^{{\cat D}_1}$, then $\lim^u f$ is a pointwise weak equivalence in ${\cat M}^{{\cat D}_2}$.
+\end{enumerate}
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We only prove statement (1) - statement (2) follows from duality.
+
+Let us prove (a). To prove that $\colim^u X$ exists, cf. \lemmaref{lem::computerelcolim} it suffices to show for any object $d_2 \eps {\cat D}_2$ that $\colim^{(u \downarrow d_2)} X$ exists. But the over category $(u \downarrow d_2)$ is direct and the restriction of $X$ to $(u \downarrow d_2)$ is Reedy cofibrant, therefore by \theoremref{thm:colimdirect} $\colim^{(u \downarrow d_2)} X$ exists and is cofibrant in ${\cat M}$. It follows that $\colim^u X$ exists, and since $\colim^{(u \downarrow d_2)} X \cong (\colim^u X)_{d_2}$ we have that $\colim^u X$ is pointwise cofibrant in ${\cat M}^{{\cat D}_2}$.
+
+We now prove (b). If $f \colon X \ra Y$ is a Reedy cofibration in ${\cat M}^{{\cat D}_1}$, then the restriction of $f$ to $(u \downarrow d_2)$ is Reedy cofibrant for any object $d_2 \eps {\cat D}_2$, therefore by \theoremref{thm:colimdirect} $\colim^{(u \downarrow d_2)} f$ is a cofibration in ${\cat M}$. Since $(\colim^u f)_{d_2} \cong \colim^{(u \downarrow d_2)} f$ by the naturality of the isomorphism in \theoremref{thm:colimdirect}, it follows that $\colim^u f$ is pointwise cofibrant in ${\cat M}^{{\cat D}_2}$.
+
+To prove (c), assume that $f \colon X \ra Y$ is a pointwise weak equivalence between Reedy cofibrant diagrams in ${\cat M}^{{\cat D}_1}$. The restrictions of $X$ and $Y$ to $(u \downarrow d_2)$ are Reedy cofibrant for any object $d_2 \eps {\cat D}_2$, and by \theoremref{thm:colimdirect} (1) (c) the map $\colim^{(u \downarrow d_2)} X \ra \colim^{(u \downarrow d_2)} Y$ is a weak equivalence. In conclusion, the map $\colim^u X \ra \colim^u Y$ is a pointwise weak equivalence in ${\cat M}^{{\cat D}_2}$.
+\end{proof}
+
+\begin{thm}
+\label{thm::colimpairdirectcat}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category and $u \colon {\cat D}_1 \ra {\cat D}_2$ be a functor of small direct categories.
+\begin{enumerate}
+\item
+If $X$ is Reedy cofibrant in ${\cat M}^{{\cat D}_1}$, then $\colim^u X$ exists and is Reedy cofibrant in ${\cat M}^{{\cat D}_2}$
+\item
+If $f \colon X \ra Y$ is a Reedy cofibration in ${\cat M}^{{\cat D}_1}$, then $\colim^u f$ is a Reedy cofibration in ${\cat M}^{{\cat D}_2}$
+\item
+If $f \colon X \ra Y$ is a pointwise weak equivalence of Reedy cofibrant objects in ${\cat M}^{{\cat D}_1}$, then $\colim^u f$ is a pointwise weak equivalence in ${\cat M}^{{\cat D}_2}$.
+\end{enumerate}
+\item
+Let ${\cat M}$ be a fibration category and $u \colon {\cat D}_1 \ra {\cat D}_2$ be a functor of small inverse categories.
+\begin{enumerate}
+\item
+If $X$ is Reedy fibrant in ${\cat M}^{{\cat D}_1}$, then $\lim^u X$ exists and is Reedy fibrant in ${\cat M}^{{\cat D}_2}$
+\item
+If $f \colon X \ra Y$ is a Reedy fibration in ${\cat M}^{{\cat D}_1}$, then $\lim^u f$ is a Reedy fibration in ${\cat M}^{{\cat D}_2}$
+\item
+If $f \colon X \ra Y$ is a pointwise weak equivalence of Reedy fibrant objects in ${\cat M}^{{\cat D}_1}$, then $\lim^u f$ is a pointwise weak equivalence in ${\cat M}^{{\cat D}_2}$.
+\end{enumerate}
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We only prove statement (1) - statement (2) follows from duality.
+
+Let us prove (a). We know from \theoremref{thm::colimfromdirectcat} (1) (a) that $\colim^u X$ exists and is pointwise cofibrant in ${\cat M}^{{\cat D}_2}$, and we would like to show that $\colim^u X$ is Reedy cofibrant. For that, fix an object $d_2$ of ${\cat D}_2$, and let us try to identify the latching object $\colim^{\partial({\cat D}_2 \downarrow d_2)} \colim^u X$.
+
+The functor $H \colon {\cat D}_2 \ra {\cat Cat}$, $Hd_2^{'} = (u \downarrow d_2^{'})$ restricts to a functor $\partial({\cat D}_2 \downarrow d_2) \ra {\cat Cat}$. The Grothendieck construction $\int_{\partial({\cat D}_2 \downarrow d_2)} {H}$ has as objects 4-tuples $(d_1^{'}, d_2^{'}, d_2, ud_1^{'} \ra d_2^{'} \ra d_2)$ of objects $d_1^{'} \eps {\cat D}_1, d_2^{'}, d_2 \eps {\cat D}_2$ and maps $ud_1^{'} \ra d_2^{'} \ra d_2$ such that $d_2^{'} \ra d_2$ is a non-identity map. 
+
+Denote $\partial(u \downarrow d_2)$ the full subcategory of the over category $(u \downarrow d_2)$ consisting of triples $(d_1^{'}, d_2, ud_1^{'} \ra d_2)$ with a non-identity map $ud_1^{'} \ra d_2$. We have an adjoint pair of functors $F : \partial(u \downarrow d_2) \rightleftarrows \int_{\partial({\cat D}_2 \downarrow d_2)} {H} : G$, defined as follows:
+\begin{center}
+$F(d_1^{'}, d_2, ud_1^{'} \ra d_2) = (d_1^{'}, ud_1^{'}, d_2, ud_1^{'} \ra ud_1^{'} \ra d_2)$
+\end{center}
+\begin{center}
+$G(d_1^{'}, d_2^{'}, d_2, ud_1^{'} \ra d_2^{'} \ra d_2) = (d_1^{'}, d_2, ud_1^{'} \ra d_2)$
+\end{center}
+\begin{center}
+$id \colon 1_{\partial(u \downarrow d_2)} \Ra GF$
+\end{center}
+\begin{center}
+$FG(d_1^{'}, d_2^{'}, d_2, ud_1^{'} \ra d_2^{'} \ra d_2) = (d_1^{'}, ud_1^{'}, d_2, ud_1^{'} \ra ud_1^{'} \ra d_2) \Ra (d_1^{'}, d_2^{'}, d_2, ud_1^{'} \ra d_2^{'} \ra d_2)$ given on $2^{nd}$ component by $ud_1^{'} \ra d_2^{'}$.
+\end{center}
+The category $\partial(u \downarrow d_2)$ is direct, and the restriction of $X$ to $\partial(u \downarrow d_2)$ is Reedy cofibrant, therefore $\colim^{\partial(u \downarrow d_2)} X$ exists and is cofibrant. 
+
+$G$ is a right adjoint functor, therefore right cofinal, and by \propositionref{prop:cofinallimit} we have that $\colim^{\int_{\partial({\cat D}_2 \downarrow d_2)} {H}} X$ exists and is $\cong \colim^{\partial(u \downarrow d_2)} X$. From \propositionref{prop:grothendieckconstrcolims}, $\colim^{(d_2^{'} \ra d_2) \eps \partial({\cat D}_2 \downarrow d_2)}$ $\colim^{(u \downarrow d^{'}_2)} X$ exists and is $\cong \colim^{\int_{\partial({\cat D}_2 \downarrow d_2)} {H}} X \cong \colim^{\partial(u \downarrow d_2)} X$. In conclusion, the latching object $\colim^{\partial({\cat D}_2 \downarrow d_2)} \colim^u X$ exists and is $\cong \colim^{\partial(u \downarrow d_2)} X$. In particular the latching object is cofibrant.
+
+The inclusion functor $\partial(u \downarrow d_2) \ra (u \downarrow d_2)$ is an open embedding, and from \theoremref{thm:colimdirectemb} (1) (a) the latching map $\colim^{\partial(u \downarrow d_2)} X \ra \colim^{(u \downarrow d_2)} X$ is a cofibration, therefore $\colim^u X$ is Reedy cofibrant in ${\cat M}^{{\cat D}_2}$. The proof of statement (a) of our theorem is complete.
+
+Let us prove (b). If $f \colon X \ra Y$ is a Reedy cofibration, by \theoremref{thm:colimdirectemb} (1) (b) the map
+\begin{center}
+$\colim^{(u \downarrow d_2)} X \Sum_{\colim^{\partial(u \downarrow d_2)} X} \colim^{\partial(u \downarrow d_2)} Y \ra \colim^{(u \downarrow d_2)} Y$
+\end{center}
+is a cofibration, therefore $\colim^u X \ra \colim^u Y$ is a Reedy cofibration in ${\cat M}^{{\cat D}_2}$.
+
+Part (c) has been already proved as \theoremref{thm::colimfromdirectcat} (1) (c).
+\end{proof}
+
+\section{Colimits in arbitrary categories}
+\label{sec:colimarbitrarycat}
+
+Denote $\Delta^{'}$\index{$\Delta^{'}$, $\Delta^{'}{\cat D}$, $\Delta^{'op}{\cat D}$} the subcategory of the cosimplicial indexing category $\Delta$, with same objects as $\Delta$ and with maps the order-preserving {\it injective} maps ${\bf n}_1 \ra {\bf n}_2$. 
+
+If ${\cat D}$ is a category, we define $\Delta^{'}{\cat D}$ to be the category with objects the functors ${\bf n} \ra {\cat D}$, and with maps $({\bf n_1} \ra {\cat D}) \lra ({\bf n_2} \ra {\cat D})$ the commutative diagrams
+\begin{center}
+$ \xymatrix {
+        {\bf n_1} \ar[rr]^f \ar[dr] & & {\bf n_2} \ar[dl] \\
+	& {\cat D} &
+	}$
+\end{center}
+where $f$ is injective and order-preserving.
+
+The category $\Delta^{'}{\cat D}$ is direct, and comes equipped with a {\it terminal projection} functor $p_t \colon \Delta^{'}{\cat D} \ra {\cat D}$\index{$p_i, p_t$} that sends ${\bf n} \ra {\cat D}$ to the image of the terminal object $n$ of the poset ${\bf n}$.
+
+The opposite category of $\Delta^{'}{\cat D}$ is denoted $\Delta^{'op}{\cat D}$. It is an inverse category, and comes equipped with an {\it initial projection} functor $p_i \colon \Delta^{'op}{\cat D} \ra {\cat D}$ that sends ${\bf n} \ra {\cat D}$ to the image of the initial object $0$ of the poset ${\bf n}$.
+
+\begin{lem}
+\label{lem:deltaprimeovercat}
+If $u \colon {\cat D}_1 \ra {\cat D}_2$ is a functor and $d_2 \eps {\cat D}_2$ is an object
+\begin{enumerate}
+\item
+There is a natural isomorphism $(up_t \downarrow d_2) \cong \Delta^{'}(u \downarrow d_2)$
+\item
+There is a natural isomorphism $(d_2 \downarrow up_i) \cong \Delta^{'op}(d_2 \downarrow u)$
+\end{enumerate}
+\end{lem}
+
+\begin{proof}
+Left to the reader.
+\end{proof}
+
+\begin{lem}
+\label{lem:deltaprimelcofinal}
+If ${\cat D}$ is a category and $d \eps {\cat D}$ is an object
+\begin{enumerate}
+\item
+\begin{enumerate}
+\item
+The category $p_t^{-1}d$ has an initial object and hence has a contractible nerve.
+\item
+The category $(p_t \downarrow d)$ has a contractible nerve.
+\item
+The inclusion $p_t^{-1}d \ra (p_t \downarrow d)$ is homotopy right cofinal.
+\end{enumerate}
+\item
+\begin{enumerate}
+\item
+The category $p_i^{-1}d$ has a terminal object and hence has a contractible nerve.
+\item
+The category $(d \downarrow p_i)$ has a contractible nerve.
+\item
+The inclusion $p_i^{-1}d \ra (d \downarrow p_i)$ is homotopy left cofinal.
+\end{enumerate}
+\end{enumerate}
+\end{lem}
+
+\begin{proof}
+We denote an object ${\bf n} \ra {\cat D}$ of $\Delta^{'}{\cat D}$ as $(d_0 \ra ... \ra d_n)$, where $d_i$ is the image of $i \eps {\bf n}$ and $d_i \ra d_{i+1}$ is the image of $i \ra i+1$. Each map $i \colon {\bf k} \ra {\bf n}$ determines a map $(d_{i0} \ra ... \ra d_{ik}) \ra (d_0 \ra ... \ra d_n)$ in the category $\Delta^{'}{\cat D}$.
+
+We denote an object of $(p_t \downarrow d)$ as $(d_0 \ra ... \ra d_n) \ra d$, where $d_n \ra d$ is the map $p_t (d_0 \ra ... \ra d_n) \ra d$.
+
+The category $p_t^{-1}d$ has the initial object $(d) \eps \Delta^{'}{\cat D}$, which proves part (1) (a). For (1) (b), a contraction of the nerve of $(p_t \downarrow d)$ is defined by
+\begin{center}
+$\xymatrix{
+    (p_t \downarrow d) \rruppertwocell^{1_d}{\alpha} \rrlowertwocell_{c_d}{^\beta} \ar[rr]^(.3){a_d} && (p_t \downarrow d)
+  }$
+\end{center}
+
+In this diagram, $c_d$ is the constant functor that takes as value the object $(d) \overset{1_d}{\ra} d$. The functor $a_d$ sends an object $(d_0 \ra ... \ra d_n) \overset{f}{\ra} d$ to $(d_0 \ra ... \ra d_n \overset{f}{\ra} d) \overset{1_d}{\ra} d$, and a map defined by $i \colon {\bf k} \ra {\bf n}$ to its extension $\overline{i} \colon {\bf k+1} \ra {\bf n+1}$ with $\overline{i}(k+1) = n+1$.
+
+On an object $(d_0 \ra ... \ra d_n) \ra d$, the natural map $\alpha$ is given by the map $i \colon {\bf n} \ra {\bf n+1}$, $ik = k$ and the natural map $\beta$ is given by the map $i \colon {\bf 0} \ra {\bf n+1}$, $i0 = n+1$.
+
+Let us prove (1) (c). Denote $i_d \colon p_t^{-1}d \ra (p_t \downarrow d)$ the full inclusion functor. Note that the images of $a_d$ and $c_d$ are inside $i_d(p_t^{-1}d)$. Let $x$ be an object of $(p_t \downarrow d)$ of the form $(d_0 \ra ... \ra d_n) \overset{f}{\ra} d$. 
+
+If $d_n \overset{f}{\ra} d$ is the identity map, then $x$ is in the image of $i_d$ therefore $(x, x \overset{1_x}{\ra} x)$ is an initial object of $(x \downarrow i_d)$. If $d_n \overset{f}{\ra} d$ is not the identity map, then $(a_d x, x \ra a_d x)$ defined by the map $i \colon {\bf n} \ra {\bf n+1}$, $ik = k$ is an initial object in $(x \downarrow i_d)$. In both cases, $(x \downarrow i_d)$ is contractible therefore $i_d$ is homotopy right cofinal.
+
+The statements of part (2) follow from duality.
+\end{proof}
+
+The category $p_t^{-1}d$ is direct for any object $d \eps {\cat D}$, since it is a subcategory of the direct category $\Delta^{'}{\cat D}$. Dually, the category $p_i^{-1}d$ is inverse for any object $d \eps {\cat D}$.
+
+\begin{lem}
+\label{lem:restrictedreedycofibrant}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category and ${\cat D}$ be a small category. Then for any Reedy cofibrant diagram $X \eps {\cat M}^{\Delta^{'}{\cat D}}$ and any object $d \eps {\cat D}$, the restriction $X|_{p_t^{-1}d}$ is Reedy cofibrant in ${\cat M}^{p_t^{-1}d}$.
+\item
+Let ${\cat M}$ be a fibration category and ${\cat D}$ be a small category. Then for any Reedy fibrant diagram $X \eps {\cat M}^{\Delta^{'op}{\cat D}}$ and any object $d \eps {\cat D}$, the restriction $X|_{p_i^{-1}d}$ is Reedy fibrant in ${\cat M}^{p_i^{-1}d}$.
+\end{enumerate}
+\end{lem}
+
+\begin{proof}
+We only prove (1). For $d \eps {\cat D}$, fix an object $\underline{d} = (d_0 \ra ... \ra d_n)$ $\eps \Delta^{'}{\cat D}$ with $d_n = d$. We need some notations. Assume that 
+\[
+\underline{i} = \{i_1, ..., i_u \}, \,\,\,\,\,\, \underline{j} = \{j_1, ..., j_v \}, \,\,\,\,\,\, \underline{k} = \{k_1, ..., k_w \} 
+\]
+is a partition of $\{0, ..., n \}$ into three (possibly empty) subsets with $u + v + w = n+1$. Denote $\underline{n}_{\underline{i}, \underline{\widehat{j}}}$ the full subcategory of $\Delta^{'}{\cat D}$. with objects $d_{l_0} \ra ... \ra d_{l_x}$ with $\underline{i} \subset \underline{l}$ and $\underline{j} \cap \underline{l} = \emptyset$, where $\underline{l} = \{l_0, .., l_x \}$. Although not apparent from the notation, the category $\underline{n}_{\underline{i}, \underline{\widehat{j}}}$ depends on the choice of $\underline{d} \eps \Delta^{'}{\cat D}$.
+
+The category $\underline{n}_{\underline{i}, \underline{\widehat{j}}}$ is direct, and has a terminal object denoted $\underline{d}_{\underline{\widehat{j}}}$. Denote $\partial \underline{n}_{\underline{i}, \underline{\widehat{j}}}$ the maximal full subcategory of $\underline{n}_{\underline{i}, \underline{\widehat{j}}}$ without its terminal element.
+
+$Claim.$ The restriction of $X$ to $\underline{n}_{\underline{i}, \underline{\widehat{j}}}$ is Reedy cofibrant.
+
+Taking in particular $\underline{i} = \{ n \}$ and $\underline{j} = \emptyset$, the Claim implies that the Reedy condition is satisfied for $X|_{p_t^{-1}d}$ at $\underline{d}$. It remains to prove the Claim, and we will proceed by induction on $n$.
+
+\begin{enumerate}
+\item[-]
+The Claim can be directly verified for $n = 0$. Assume that the Claim was proved for $n^{'} < n$, and let's prove it for $n \ge 1$.
+\item[-]
+If $\underline{j} \neq \emptyset$, the claim follows from the inductive hypothesis for smaller $n$. It remains to prove the Claim for $\underline{n}_{\underline{i}, \underline{\widehat{\emptyset}}}$.
+\item[-]
+We only need to prove the Reedy condition for $X$ at the terminal object $\underline{d}_{\underline{\widehat{\emptyset}}} = \underline{d}$ of $\underline{n}_{\underline{i}, \underline{\widehat{\emptyset}}}$. The Reedy condition at any other object of $\underline{n}_{\underline{i}, \underline{\widehat{\emptyset}}}$ follows from the inductive hypothesis for smaller $n$.
+\item[-]
+If $\underline{i} = \{i_1, ..., i_u \}$ is nonempty, in the diagram
+\begin{equation}
+\label{eqn:claimindstep}
+\xymatrix{
+    \colim^{\partial \underline{n}_{\{i_1, ..., i_u\} \backslash \{ i_s \}, \widehat{\{ i_s \}}}} X \ar[r] \ar@{>->}[d] & 
+    \colim^{\partial \underline{n}_{\{i_1, ..., i_u\}, \widehat{\emptyset}}} X \ar@{>->}[d] \\
+    X_{\underline{d}_{\widehat{\{ i_s \}}}} \ar[r] & \colim^{\partial \underline{n}_{\{i_1, ..., i_u\} \backslash \{ i_s \}, \widehat{\emptyset}}} X
+    }
+\end{equation}
+the left vertical map is a cofibration with cofibrant domain, from the inductive hypothesis for smaller $n$. If the top right colimit in the diagram exists and is cofibrant, then the bottom right colimit exists, the diagram is a pushout and therefore the right vertical map is a cofibration.
+\item[-]
+The colimit $\colim^{\partial \underline{n}_{\{0, ..., n\}, \widehat{\emptyset}}} X$ exists and is the initial object of ${\cat M}$
+\item[-]
+The map $\colim^{\partial \underline{n}_{\emptyset, \widehat{\emptyset}}} X$ $\ra$ $X_{\underline{d}}$ is a cofibration with cofibrant domain since $X$ is Reedy cofibrant in $\Delta^{'} {\cat D}$. 
+\item[-]
+An iterated use of \equationref{eqn:claimindstep} shows that the colimit below exists and 
+\[
+\colim\nolimits^{\partial \underline{n}_{\{i_1, ..., i_u\} , \widehat{\emptyset}}} X \ra X_{\underline{d}}
+\]
+is a cofibration with cofibrant domain. This completes the proof of the Claim.
+\end{enumerate}
+
+\comment{
+For any object $\underline{d} = (d_0 \ra ... \ra d_n = d)$ of $p_t^{-1}d$ denote $\underline{d^{'}}$ the object $(d_0 \ra ... \ra d_{n-1})$ of $\Delta^{'}{\cat D}$. Denote $LX_{\underline{d}}, LX_{\underline{d^{'}}}$ the latching objects of $X$ at $\underline{d}$ resp. $\underline{d^{'}}$ in ${\cat M}^{\Delta^{'}{\cat D}}$, and denote $L(X|_{p_t^{-1}d})_{\underline{d}}$ the latching space of the restriction $X|_{p_t^{-1}d}$ at $\underline{d}$ in ${\cat M}^{p_t^{-1}d}$.
+
+The square in the diagram below is a pushout
+\begin{center}
+$\xymatrix{
+    LX_{\underline{d^{'}}} \ar[r] \ar@{>->}[d] & L(X|_{p_t^{-1}d})_{\underline{d}} \ar@{>->}[d]_g & \\
+    X_{\underline{d^{'}}} \ar[r] & LX_{\underline{d}} \ar@{>->}[r]^h & X_{\underline{d}}
+    }$
+\end{center}
+The maps $f$ and $h$ are cofibrations since $X$ is Reedy cofibrant in ${\cat M}^{\Delta^{'}{\cat D}}$. The map $g$ is a cofibration as the pushout of $f$, therefore $hg$ is a cofibration. This shows that $X|_{p_t^{-1}d}$ is Reedy cofibrant.
+
+Part (2) follows from duality.
+}
+\end{proof}
+
+For a category ${\cat D}$, the subcategories $p_t^{-1}d \subset \Delta^{'}{\cat D}$ are disjoint for $d \eps {\cat D}$, and their union $\cup_{d \eps {\cat D}} \; p_t^{-1}d$ forms a category that we will denote $\Delta^{'}_{res}{\cat D}$\index{$\Delta^{'}_{res}{\cat D}$, $\Delta^{'op}_{res}{\cat D}$}. We will also denote $\Delta^{'op}_{res}{\cat D}$ the opposite of $\Delta^{'}_{res}{\cat D}$.
+
+Given a cofibration category ${\cat M}$ we use the shorthand notation ${\cat M}^{\Delta^{'}{\cat D}}_{res}$\index{${\cat M}^{\Delta^{'}{\cat D}}_{res}$, ${\cat M}^{\Delta^{'op}{\cat D}}_{res}$} for the category  ${\cat M}^{({\Delta^{'}{\cat D}}, {\Delta^{'}_{res}{\cat D}})}$ of $\Delta^{'}_{res}{\cat D}$ restricted $\Delta^{'}{\cat D}$ diagrams in ${\cat M}$. ${\cat M}^{\Delta^{'}{\cat D}}_{res}$ is a full subcategory of ${\cat M}^{\Delta^{'}{\cat D}}$, and (\theoremref{thm:reedycofibstruct2}) it carries a restricted Reedy cofibration structure as well as a restricted pointwise cofibration structure. Furthermore, the functor $p_t^* \colon {\cat M}^{\cat D} \ra {\cat M}^{\Delta^{'}{\cat D}}$ has its image inside ${\cat M}^{\Delta^{'}{\cat D}}_{res}$.
+
+Dually, for a fibration category ${\cat M}$ we denote ${\cat M}^{\Delta^{'op}{\cat D}}_{res}$ the category ${\cat M}^{({\Delta^{'op}{\cat D}}, {\Delta^{'op}_{res}{\cat D}})}$ of restricted diagrams. ${\cat M}^{\Delta^{'op}{\cat D}}_{res}$ carries a restricted Reedy fibration structure as well as a restricted pointwise fibration structure. The functor $p_i^* \colon {\cat M}^{\cat D} \ra {\cat M}^{\Delta^{'op}{\cat D}}$ has its image inside ${\cat M}^{\Delta^{'op}{\cat D}}_{res}$.
+
+\begin{prop}
+\label{prop:restrictedproperty}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category and ${\cat D}$ be a small category. Then for every restricted Reedy cofibrant diagrams $X, X^{'} \eps {\cat M}^{\Delta^{'}{\cat D}}_{res}$ and every diagram $Y \eps {\cat M}^{{\cat D}}$
+\begin{enumerate}
+\item
+A map $X \ra p_t^* Y$ is a pointwise weak equivalence iff \\ its adjoint $\colim^{p_t} X$ $\ra$ $Y$ is a pointwise weak equivalence.
+\item
+A map $X \ra X^{'}$ is a pointwise weak equivalence iff \\ the map $\colim^{p_t} X$ $\ra$ $\colim^{p_t}X^{'}$ is a pointwise weak equivalence.
+\end{enumerate}
+\item
+Let ${\cat M}$ be a fibration category and ${\cat D}$ be a small category. Then for every restricted Reedy fibrant diagrams $X, X^{'} \eps {\cat M}^{\Delta^{'op}{\cat D}}_{res}$ and every diagram $Y \eps {\cat M}^{{\cat D}}$
+\begin{enumerate}
+\item
+A map $p_i^* Y \ra X$ is a pointwise weak equivalence iff \\ its adjoint $Y$ $\ra$ $\lim^{p_i} X$ is a pointwise weak equivalence.
+\item
+A map $X \ra X^{'}$ is a pointwise weak equivalence iff \\ the map $\lim^{p_t} X$ $\ra$ $\lim^{p_t}X^{'}$ is a pointwise weak equivalence.
+\end{enumerate}
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+We will prove (1), and (2) will follow from duality. Let $d$ be an object of ${\cat D}$. The categories $p_t^{-1}d$ and $(p_t \downarrow d)$ are direct, and since $X$ is Reedy cofibrant so are its restrictions to ${p_t^{-1}d}$ (by \lemmaref{lem:restrictedreedycofibrant}) and to $(p_t \downarrow d)$.
+
+The colimits $\colim^{p_t^{-1}d}X$, $\colim^{(p_t \downarrow d)} X$ therefore exist. Since $i_d \colon p_t^{-1}d \ra (p_t \downarrow d)$ is right cofinal, we have $\colim^{p_t^{-1}d}X \cong \colim^{(p_t \downarrow d)} X$. We also conclude that $\colim^{p_t} X$ exists and $\colim^{(p_t \downarrow d)} X \cong (\colim^{p_t} X)_d$.
+
+The diagram $X$ is restricted and $p_t^{-1}d$ has an initial object that we will denote $e(d)$. We get a pointwise weak equivalence $cX_{e(d)} \ra X|_{p_t^{-1}d}$ in ${\cat M}^{p_t^{-1}d}$ from the constant diagram to the restriction of $X$. But the diagram $cX_{e(d)}$ is Reedy cofibrant since $e(d)$ is initial in $p_t^{-1}d$. The map $cX_{e(d)} \ra X|_{p_t^{-1}d}$ is a pointwise weak equivalence between Reedy cofibrant diagrams in ${\cat M}^{p_t^{-1}d}$, therefore $X_{e(d)} \cong \colim^{p_t^{-1}d}cX_{e(d)} \ra \colim^{p_t^{-1}d}X$ is a weak equivalence.
+
+In summary, we have showed that the composition 
+\begin{center}
+$X_{e(d)} \ra \colim^{p_t^{-1}d}X \cong \colim^{(p_t \downarrow d)} X \cong (\colim^{p_t} X)_d$
+\end{center}
+is a weak equivalence. We can now complete the proof of \propositionref{prop:restrictedproperty}.
+
+To prove (a), the map $\colim^{p_t}X \ra Y$ is a pointwise weak equivalence iff the map $X_{e(d)} \ra Y_d$ is a weak equivalence for all objects $d$ of ${\cat D}$. Since $X$ is restricted, this last statement is true iff the map $X \ra p_t^*Y$ is a pointwise weak equivalence.
+
+To prove (b), the map $\colim^{p_t}X \ra \colim^{p_t}X^{'}$ is a pointwise weak equivalence iff the map $X_{e(d)} \ra X^{'}_{e(d)}$ is a weak equivalence for all objects $d$ of ${\cat D}$. Since $X, X^{'}$ are restricted, this last statement is true iff the map $X \ra X^{'}$ is a pointwise weak equivalence.
+\end{proof}
+
+As an application, we can now prove that the category of diagrams in a cofibration (resp. fibration) category admits a pointwise cofibration (resp. fibration) structure. This result is due to Cisinski. We should note that the statement below is not true if we replace ``cofibration category'' with ``Quillen model category''.
+
+\begin{thm}[Pointwise (co)fibration structure]
+\label{thm:generalpointwisecofstructure}
+\mbox{}
+\begin{enumerate}
+\item
+If $({\cat M}$, ${\cat W}$, ${\cat Cof})$ is a cofibration category and ${\cat D}$ is a small category then $({\cat M}^{\cat D}$, ${\cat W}^{\cat D}$, ${\cat Cof}^{\cat D})$ is a cofibration category.
+\item
+If $({\cat M}$, ${\cat W}$, ${\cat Fib})$ is a fibration category and ${\cat D}$ is a small category then $({\cat M}^{\cat D}$, ${\cat W}^{\cat D}$, ${\cat Fib}^{\cat D})$ is a fibration category.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+To prove (1), axioms CF1-CF3 and CF5-CF6 are easily verified. To prove axiom CF4, we replay an argument found in the proof of \theoremref{thm:reedycofibstruct} (1) (b). Let $f \colon X \ra Y$ be a map of ${\cat D}$-diagrams with $X$ pointwise cofibrant. Let $a \colon X_1 \ra p^*_t X$ be a Reedy cofibrant replacement in ${\cat M}^{\Delta^{'}{\cat D}}_{res}$. We factor $X_1 \ra p^*_t Y$ as a Reedy cofibration $f_1$ followed by a pointwise weak equivalence $r_1$
+\begin{center}
+$\xymatrix {
+    X_1 \ar@{>->}[r]^{f_1} & Y_1 \ar[r]^{r_1}_\sim & p^*_tY
+  } $
+\end{center}
+
+We then construct a commutative diagram
+\begin{center}
+$\xymatrix{ 
+    &&& Y \\
+    X \ar@{>->}[rr]_{f^{'}} \ar[urrr]^f && Y^{'} \ar[ur]^(.3)r & \\
+    \colim^{p_t} X_1 \ar[u]_\sim^{a^{'}} \ar@{>->}[rr]_{\colim^{p_t} f_1} && \colim^{p_t} Y_1 \ar[u]^{b^{'}}_\sim \ar[uur]_{r_1^{'}}^\sim &
+  }$
+\end{center}
+In this diagram $a^{'}$ resp. $r^{'}_1$ are the adjoints of $a$ resp. $r_1$, therefore by \propositionref{prop:restrictedproperty} (1) (a) $a^{'}$ and $r^{'}_1$ are weak equivalences. Since $f_1$ is a Reedy cofibration, $\colim^{p_t} f_1$ is a pointwise cofibration, and we construct $f^{'}$ as the pushout of $\colim^{p_t} f_1$. It follows that $f^{'}$ is a pointwise cofibration. By pointwise excision, $b^{'}$ and therefore r are pointwise weak equivalences. The factorization $f = rf^{'}$ is the desired decomposition of $f$ as a pointwise cofibration followed by a weak equivalence, and CF4 is proved.
+
+The proof of (2) is dual.
+\end{proof}
+
+As an immediate corollary, we can show that for a small category pair $({\cat D}_1, {\cat D}_2)$, the category of reduced diagrams ${\cat M}^{({\cat D}_1, {\cat D}_2)}$ carries a pointwise cofibration structure if ${\cat M}$ is a cofibration category.
+
+\begin{thm}[Reduced pointwise (co)fibration structure]
+\label{thm:generalpointwisecofibstruct2}
+\mbox{}
+\begin{enumerate}
+\item
+If $({\cat M}$, ${\cat W}$, ${\cat Cof})$ is a cofibration category and $({\cat D}_1, {\cat D}_2)$ is a small category pair, then $({\cat M}^{({\cat D}_1, {\cat D}_2)} , {\cat W}^{{\cat D}_1}, {\cat Cof}^{({\cat D}_1, {\cat D}_2)})$ is a cofibration category - called the ${\cat D}_2$-restricted pointwise cofibration structure on ${\cat M}^{({\cat D}_1, {\cat D}_2)}$.
+\item
+If $({\cat M}$, ${\cat W}$, ${\cat Fib})$ is a fibration category and $({\cat D}_1, {\cat D}_2)$ is a small category pair, then $({\cat M}^{({\cat D}_1, {\cat D}_2)} , {\cat W}^{{\cat D}_1}, {\cat Fib}^{({\cat D}_1, {\cat D}_2)})$ is a fibration category - called the ${\cat D}_2$- restricted pointwise fibration structure on ${\cat M}^{({\cat D}_1, {\cat D}_2)}$.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Entirely similar to that of \theoremref{thm:reedycofibstruct2}.
+\end{proof}
+
+Denote ${\cat M}^{\Delta^{'}{\cat D}}_{res, rcof}$\index{${\cat M}^{\Delta^{'}{\cat D}}_{res, rcof}$, ${\cat M}^{\Delta^{'op}{\cat D}}_{res, rfib}$} the full subcategory of ${\cat M}^{\Delta^{'}{\cat D}}_{res}$ of restricted Reedy cofibrant diagrams for a cofibration category ${\cat M}$. The next proposition states that restricted Reedy cofibrant diagrams in ${\cat M}^{\Delta^{'}{\cat D}}$ form a cofibrant approximation of ${\cat M}^{\cat D}$. 
+
+Dually for a fibration category ${\cat M}$ denote ${\cat M}^{\Delta^{'op}{\cat D}}_{res, rfib}$ the full subcategory of ${\cat M}^{\Delta^{'op}{\cat D}}_{res}$ of restricted Reedy fibrant diagrams. We show that restricted Reedy fibrant diagrams in ${\cat M}^{\Delta^{'op}{\cat D}}$ form a fibrant approximation of ${\cat M}^{\cat D}$.
+
+\begin{prop}
+\label{prop:generalpointwisecofstructureapprox}
+Let ${\cat D}$ be a small category.
+\begin{enumerate}
+\item
+If ${\cat M}$ is a cofibration category then $\colim^{p_t} \colon {\cat M}^{\Delta^{'}{\cat D}}_{res, rcof} \ra {\cat M}^{\cat D}$ is a cofibrant approximation for the pointwise cofibration structure on ${\cat M}^{\cat D}$.
+\item
+If ${\cat M}$ is a fibration category then $\lim^{p_i} \colon {\cat M}^{\Delta^{'op}{\cat D}}_{res, rfib} \ra {\cat M}^{\cat D}$ is a fibrant approximation for the pointwise fibration structure on ${\cat M}^{\cat D}$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+We only prove (1), since the proof of (2) is dual.
+
+The functor $\colim^{p_t}$ sends Reedy cofibrations to pointwise cofibrations by \theoremref{thm:colimdirect} and preserves the initial object, which proves CFA1. CFA2 is a consequence of \propositionref{prop:restrictedproperty} (1) (b). CFA3 is a consequence of \remarkref{rem:grothendieckconstrcolims}.
+
+For CFA4, let $f \colon \colim^{p_t}X \ra Y$ be a map in ${\cat M}^{\cat D}$ with $X \eps {\cat M}^{\Delta^{'}{\cat D}}_{res, rcof}$ restricted and Reedy cofibrant. Factor its adjoint $f^{'} \colon X \ra p_t^*Y$ as a Reedy cofibration $f_1$ followed by a pointwise weak equivalence $r_1$
+\begin{center}
+$\xymatrix {
+    X \ar@{>->}[r]^{f_1} & Y^{'} \ar[r]^{r_1}_\sim & p^*_tY
+  } $
+\end{center}
+We get the following CFA4 factorization of $f$
+\begin{center}
+$\xymatrix {
+    \colim^{p_t}X \ar@{>->}[rr]^{\colim^{p_t} f_1} && \colim^{p_t} Y^{'} \ar[r]^-{r_1^{'}}_-\sim & Y
+  } $
+\end{center}
+where $r_1^{'}$ is the adjoint of $r_1$, therefore a weak equivalence.
+\end{proof}
+
+Here is another application of \propositionref{prop:restrictedproperty}:
+
+\begin{thm}
+\label{thm:pointwisecofstructureequivalence}
+Let ${\cat D}$ be a small category.
+\begin{enumerate}
+\item
+If ${\cat M}$ is a cofibration category then 
+\begin{center}
+${\bf ho}p_t^{*} \colon {\bf ho}{\cat M}^{\cat D} \ra {\bf ho}{\cat M}^{\Delta^{'}{\cat D}}_{res}$ 
+\end{center}
+is an equivalence of categories.
+\item
+If ${\cat M}$ is a fibration category then 
+\begin{center}
+${\bf ho}p_i^{*} \colon {\bf ho}{\cat M}^{\cat D} \ra {\bf ho}{\cat M}^{\Delta^{'op}{\cat D}}_{res}$ 
+\end{center}
+is an equivalence of categories.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Let us prove (1). We will apply the Abstract Partial Quillen Adjunction \theoremref{thm:generalexistencetotalderivedadjoint2} to
+\begin{center}
+$\xymatrix{
+    {\cat M}^{\Delta^{'}{\cat D}}_{res, rcof} \ar[rr]^{v_1 = \colim^{p_t}} \ar@{_{(}->}[d]_{t_1} && {\cat M}^{\cat D} \\
+    {\cat M}^{\Delta^{'}{\cat D}}_{res} && {\cat M}^{\cat D} \ar[ll]_{v_2 = p_t^*} \ar[u]_{t_2 = 1_{{\cat M}^{\cat D}}}
+    }$
+\end{center}
+The functor $t_1$ is the full inclusion of ${\cat M}^{\Delta^{'}{\cat D}}_{res, rcof}$ in ${\cat M}^{\Delta^{'}{\cat D}}_{res}$. We have that $v_1, v_2$ is an abstract Quillen partially equivalent pair with respect to $t_1, t_2$. Indeed:
+\begin{enumerate}
+\item
+The functor pair $v_1, v_2$ is partially adjoint with respect to $t_1, t_2$.
+\item
+$t_1$ is a cofibrant approximation of the cofibration category ${\cat M}^{\Delta^{'}{\cat D}}_{res}$ with the Reedy reduced structure. In particular $t_1$ is a left approximation. The functor $t_2 = 1_{{\cat M}^{\cat D}}$ is a right approximation. 
+\item
+$v_1$ preserves weak equivalences from \theoremref{thm::colimfromdirectcat}, and so does $v_2 = p_t^*$.
+\item
+\propositionref{prop:restrictedproperty} (1) (a) states that for any objects $X \eps {\cat M}^{\Delta^{'}{\cat D}}_{res, rcof}$, $Y \eps {\cat M}^{\cat D}$, a map $v_1X \ra t_2Y$ is a weak equivalence iff its partial adjoint $t_1X \ra v_2Y$ is a weak equivalence
+\end{enumerate}
+
+In conclusion we have a pair of equivalences of categories
+\begin{center}
+$\xymatrix {{\bf ho}{\cat M}^{\Delta^{'}{\cat D}}_{res} \ar@<2pt>[rrrr]^-{{\bf ho}(v_1) \, {\bf s}_1} &&&& {\bf ho}{\cat M}^{{\cat D}} \ar@<2pt>[llll]^-{{\bf ho}(v_2) \, {\bf s}_2 \cong {\bf ho}(p^*_t)}}$
+\end{center}
+where ${\bf s}_1$ is a quasi-inverse of ${\bf ho}t_1$ and ${\bf s}_2$ is a quasi-inverse of ${\bf ho}t_2$, and therefore ${\bf ho}(v_2) \, {\bf s}_2$ is naturally isomorphic to ${\bf ho}(p^*_t)$. This proves that ${\bf ho}(p^*_t)$ is an equivalence of categories.
+
+The proof of part (2) is dual.
+\end{proof}
+
+\section{Homotopy colimits}
+\label{sec:hocolimcolimdirect}
+Suppose that $({\cat M}, {\cat W})$ is a category with weak equivalences and suppose that $u \colon {\cat D}_1 \ra {\cat D}_2$ is a functor of small categories. We denote $\gamma_{{\cat D}_i} \colon {\cat M}^{{\cat D}_i} \ra {\bf ho} {\cat M}^{{\cat D}_i}$, $i = 1, 2$ the localization functors.
+
+We define ${\cat M}^{{\cat D}_1}_{{\colim}^u}$\index{${\cat M}^{{\cat D}_1}_{{\colim}^u}$, ${\cat M}^{{\cat D}_1}_{{\lim}^u}$} to be the full subcategory of ${\cat M}^{{\cat D}_1}$ of ${\cat D}_1$ diagrams $X$ with the property that $\colim^uX$ exists in ${\cat M}^{{\cat D}_2}$. Denote $i_{\colim^u} \colon {\cat M}^{{\cat D}_1}_{{\colim}^u} \ra {\cat M}^{{\cat D}_1}$ the inclusion. In general ${\cat M}^{{\cat D}_1}_{{\colim}^u}$ may be empty, but if ${\cat M}$ is cocomplete then ${\cat M}^{{\cat D}_1}_{{\colim}^u} = {\cat M}^{{\cat D}_1}$. Let ${\cat W}^{{\cat D}_1}_{{\colim}^u}$ be the class of pointwise weak equivalences of ${\cat M}^{{\cat D}_1}_{{\colim}^u}$. 
+
+Dually, let ${\cat M}^{{\cat D}_1}_{{\lim}^u}$ be the full subcategory of ${\cat M}^{{\cat D}_1}$ of ${\cat D}_1$ diagrams $X$ with the property that $\lim^uX$ exists in ${\cat M}^{{\cat D}_2}$, let $i_{\lim^u} \colon {\cat M}^{{\cat D}_1}_{{\lim}^u} \ra {\cat M}^{{\cat D}_1}$ denote the inclusion, and let ${\cat W}^{{\cat D}_1}_{{\lim}^u}$ be the class of pointwise weak equivalences of ${\cat M}^{{\cat D}_1}_{{\lim}^u}$.
+
+\index{homotopy (co)limit}
+\begin{defn}
+\label{defn:homotopycolim}
+\mbox{}
+\begin{enumerate}
+\item
+The {\it homotopy colimit} of $u$, if it exists, is the left Kan extension of $\gamma_{{\cat D}_2}\colim^u$ along $\gamma_{{\cat D}_1}i_{\colim^u}$
+\begin{center}
+$\xymatrix {
+    {\cat M}^{{\cat D}_1}_{{\colim}^u} \ar[rr]^{\colim^u} \ar[d]_{\gamma_{_{{\cat D}_1}}i_{\colim^u}} && {\cat M}^{{\cat D}_2} \ar[d]^{\gamma_{{\cat D}_2}} _(.5)\,="b" \\ 
+    {\bf ho} {\cat M}^{{\cat D}_1} \ar[rr]_{{\bf L} \colim^u} ^(.5)\,="a" & & {\bf ho} {\cat M}^{{\cat D}_2} \ulltwocell<\omit>{<0>\eps_u \;}
+  }$
+\end{center}
+and is denoted for simplicity $({\bf L}\colim^u, \eps_u)$\index{${\bf L}\colim^u$, ${\bf R}\lim^u$} instead of the more complete notation $({\bf L}_{_{\gamma_{_{{\cat D}_1}}i_{\colim^u}}}\colim^u, \eps_u)$
+\item
+The {\it homotopy limit} of $u$, if it exists, is the right Kan extension of $\gamma_{{\cat D}_2}\lim^u$ along $\gamma_{{\cat D}_1}i_{\lim^u}$
+\begin{center}
+$\xymatrix {
+    {\cat M}^{{\cat D}_1}_{{\lim}^u} \ar[rr]^{\lim^u} \ar[d]_{\gamma_{_{{\cat D}_1}}i_{\lim^u}} \drrtwocell<\omit>{<0>\; \nu_u} && {\cat M}^{{\cat D}_2} \ar[d]^{\gamma_{{\cat D}_2}} \\ 
+    {\bf ho} {\cat M}^{{\cat D}_1} \ar[rr]_{{\bf R} \lim^u} && {\bf ho} {\cat M}^{{\cat D}_2}
+  }$
+\end{center}
+and is denoted for simplicity $({\bf R}\lim^u, \nu_u)$
+\end{enumerate}
+\end{defn}
+
+
+If $({\cat M}$, ${\cat W}$, ${\cat Cof})$ is a cofibration category, then we also define the class ${\cat Cof}^{{\cat D}_1}_{{\colim}^u}$ of pointwise cofibrations $f \colon X \ra Y$ in ${\cat M}^{{\cat D}_1}_{{\colim}^u}$ with the property that $\colim^u f \colon \colim^u X \ra \colim^u Y$ is well defined and pointwise cofibrant in ${\cat M}^{{\cat D}_2}$.
+
+Dually, if $({\cat M}$, ${\cat W}$, ${\cat Fib})$ is a fibration category, then we define the class ${\cat Fib}^{{\cat D}_1}_{{\lim}^u}$ of pointwise fibration maps $f$ in ${\cat M}^{{\cat D}_1}_{{\lim}^u}$ with the property that $\lim^u f$ is well defined and pointwise fibrant in ${\cat M}^{{\cat D}_2}$.
+
+\begin{lem}
+\label{lem:homotcatcolim}
+Let $u \colon {\cat D}_1 \ra {\cat D}_2$ be a functor of small categories.
+\begin{enumerate}
+\item
+If ${\cat M}$ is a cofibration category, then 
+\begin{enumerate}
+\item
+$({\cat M}^{{\cat D}_1}_{{\colim}^u}, {\cat W}^{{\cat D}_1}_{{\colim}^u}, {\cat Cof}^{{\cat D}_1}_{{\colim}^u})$ is a cofibration category
+\item
+$\colim^{p_t} \colon {\cat M}^{\Delta^{'}{\cat D}_1}_{res, rcof} \ra {\cat M}^{{\cat D}_1}_{\colim^u}$ is a cofibrant approximation
+\item
+${\bf ho}{\cat M}^{{\cat D}_1}_{{\colim}^u} \ra {\bf ho}{\cat M}^{{\cat D}_1}$ is an equivalence of categories.
+\end{enumerate}
+\item
+If ${\cat M}$ is a fibration category, then 
+\begin{enumerate}
+\item
+$({\cat M}^{{\cat D}_1}_{{\lim}^u}, {\cat W}^{{\cat D}_1}_{{\lim}^u}, {\cat Fib}^{{\cat D}_1}_{{\lim}^u})$ is a cofibration category
+\item
+$\lim^{p_i} \colon {\cat M}^{\Delta^{'op}{\cat D}_1}_{res, rfib} \ra {\cat M}^{{\cat D}_1}_{\lim^u}$ is a fibrant approximation
+\item
+${\bf ho}{\cat M}^{{\cat D}_1}_{{\lim}^u} \ra {\bf ho}{\cat M}^{{\cat D}_1}$ is an equivalence of categories.
+\end{enumerate}
+\end{enumerate}
+\end{lem}
+
+\begin{proof}
+We only prove (1), since the proof of (2) is dual.
+
+For an object $X \eps {\cat M}^{\Delta^{'}{\cat D}_1}_{res, rcof}$, we have that the colimits $\colim^{p_t}X$, $\colim^{up_t}X$ exist and are pointwise cofibrant by \theoremref{thm::colimfromdirectcat} since $X$ is Reedy cofibrant in ${\cat M}^{\Delta^{'}{\cat D}_1}$. Since $\colim^{up_t}X \cong \colim^{u}\colim^{p_t}X$, we conclude that the functor $\colim^{p_t} \colon {\cat M}^{\Delta^{'}{\cat D}_1}_{res, rcof} \ra {\cat M}^{{\cat D}_1}$ has its image inside ${\cat M}^{{\cat D}_1}_{\colim^u}$.
+
+Let us prove (a). Axioms CF1-CF2 and CF5-CF6 are easily verified for ${\cat M}^{{\cat D}_1}_{{\colim}^u}$. The pushout axiom CF3 (1) follows from the fact that if 
+\begin{center}
+$ \xymatrix {
+	X \ar[r] \ar@{>->}[d]_i &
+	Z \ar@{>-->}[d]^j \\
+	Y \ar@{-->}[r] &
+	T
+	}$
+\end{center}
+is a pushout in ${\cat M}^{{\cat D}_1}$ with $X, Y, Z$ cofibrant in ${\cat M}^{{\cat D}_1}_{{\colim}^u}$ and $i$ a cofibration in ${\cat M}^{{\cat D}_1}_{{\colim}^u}$, then $\colim^u X, \colim^u Y, \colim^u Z$ are pointwise cofibrant and $\colim^u i$ is a pointwise cofibration in ${\cat M}^{{\cat D}_2}$, therefore by \remarkref{rem:grothendieckconstrcolims} we have that $\colim^uT$ exists and is the pushout in ${\cat M}^{{\cat D}_2}$ of
+\begin{center}
+$ \xymatrix {
+	\colim^u X \ar[r] \ar@{>->}[d]_{\colim^u i} &
+	\colim^u Z \ar@{>-->}[d]^{\colim^u j} \\
+	\colim^u Y \ar@{-->}[r] &
+	\colim^u T
+	}$
+\end{center}
+The axiom CF3 (2) follows from a pointwise application of CF3 (2) in ${\cat M}$.
+
+Let us prove the factorization axiom CF4. We repeat the argument in the proof of \theoremref{thm:generalpointwisecofstructure}.
+
+Let $f \colon X \ra Y$ be a map in ${\cat M}^{{\cat D}_1}_{{\colim}^u}$ with $X$ cofibrant. Let $a \colon X_1 \ra p_t^*X$ be a Reedy cofibrant replacement in ${\cat M}^{\Delta^{'}{\cat D}_1}_{red}$. We factor $X_1 \ra p^*_t Y$ as a Reedy cofibration $f_1$ followed by a pointwise weak equivalence $r_1$
+\begin{center}
+$\xymatrix {
+    X_1 \ar@{>->}[r]^{f_1} & Y_1 \ar[r]^{r_1}_\sim & p^*_tY
+  } $
+\end{center}
+
+We then construct a commutative diagram
+\begin{center}
+$\xymatrix{ 
+    &&& Y \\
+    X \ar@{>->}[rr]_{f^{'}} \ar[urrr]^f && Y^{'} \ar[ur]^(.3)r & \\
+    \colim^{p_t} X_1 \ar[u]_\sim^{a^{'}} \ar@{>->}[rr]_{\colim^{p_t} f_1} && \colim^{p_t} Y_1 \ar[u]^{b^{'}}_\sim \ar[uur]_{r_1^{'}}^\sim &
+  }$
+\end{center}
+In this diagram $a^{'}$ resp. $r^{'}_1$ are the adjoints of $a$ resp. $r_1$, therefore by \propositionref{prop:restrictedproperty} (1) (a) $a^{'}$ and $r^{'}_1$ are weak equivalences. Since $f_1$ is a Reedy cofibration, $\colim^{p_t} f_1$ is a cofibration in ${\cat M}^{{\cat D}_1}_{{\colim}^u}$, and we construct $f^{'}$ as the pushout of $\colim^{p_t} f_1$. It follows that $f^{'}$ is a cofibration of ${\cat M}^{{\cat D}_1}_{{\colim}^u}$. By pointwise excision, $b^{'}$ and therefore r are pointwise weak equivalences. The factorization $f = rf^{'}$ is the desired decomposition of $f$ as a pointwise cofibration followed by a weak equivalence in ${\cat M}^{{\cat D}_1}_{{\colim}^u}$, and CF4 is proved.
+
+Part (b) follows from \propositionref{prop:generalpointwisecofstructureapprox} and the fact that $\colim^{p_t} \colon {\cat M}^{\Delta^{'}{\cat D}_1}_{res, rcof} \ra {\cat M}^{{\cat D}_1}$ has its image inside ${\cat M}^{{\cat D}_1}_{{\colim}^u}$. 
+
+To prove part (c), since both functors $\colim^{p_t} \colon {\cat M}^{\Delta^{'}{\cat D}_1}_{res, rcof} \ra {\cat M}^{{\cat D}_1}$ and its corestriction $\colim^{p_t} \colon {\cat M}^{\Delta^{'}{\cat D}_1}_{res, rcof} \ra {\cat M}^{{\cat D}_1}_{{\colim}^u}$ are cofibrant approximations it follows (\theoremref{thm:existenceleftderivedequiv}) that both induced functors ${\bf ho}{\cat M}^{\Delta^{'}{\cat D}_1}_{res, rcof} \ra {\bf ho}{\cat M}^{{\cat D}_1}$ and ${\bf ho}{\cat M}^{\Delta^{'}{\cat D}_1}_{res, rcof} \ra {\bf ho}{\cat M}^{{\cat D}_1}_{{\colim}^u}$ are equivalences of categories. The functor ${\bf ho}{\cat M}^{{\cat D}_1}_{{\colim}^u} \ra {\bf ho}{\cat M}^{{\cat D}_1}$ is therefore an equivalence of categories.
+\end{proof}
+
+We now state the main result of this section. 
+\begin{thm}[Existence of homotopy (co)limits]
+\label{thm:genholim}
+\mbox{}
+\begin{enumerate}
+\item
+Let ${\cat M}$ be a cofibration category and $u \colon {\cat D}_1 \ra {\cat D}_2$ be a functor of small categories. Then the homotopy colimit $({\bf L}\colim^u, \eps_u)$ exists and 
+\begin{center}
+${\bf L}\colim^u \colon {\bf ho} {\cat M}^{{\cat D}_1} \rightleftarrows {\bf ho} {\cat M}^{{\cat D}_2} \colon {\bf ho}u^{*}$ 
+\end{center}
+forms a naturally adjoint pair.
+\item
+Let ${\cat M}$ be a fibration category and $u \colon {\cat D}_1 \ra {\cat D}_2$ be a functor of small categories. Then the homotopy limit $({\bf R}\lim^u, \nu_u)$ exists and 
+\begin{center}
+${\bf ho}u^{*} \colon {\bf ho} {\cat M}^{{\cat D}_2} \rightleftarrows {\bf ho} {\cat M}^{{\cat D}_1} \colon {\bf R}\lim^u$ 
+\end{center}
+forms a naturally adjoint pair.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Parts (1) and (2) are dual, and we will only prove part (1).
+
+From \lemmaref{lem:homotcatcolim} and \corollaryref{cor:neededbygenhomlim}, to prove the existence of the left Kan extension $({\bf L}\colim^u, \eps_u)$ it suffices to prove the existence of the total left derived of $\colim^u \colon {\cat M}^{{\cat D}_1}_{{\colim}^u} \ra {\cat M}^{{\cat D}_2}$. But the latter is a consequence of \theoremref{thm:existenceleftderivedapprox} applied to the cofibrant approximation $\colim^{p_t} \colon {\cat M}^{\Delta^{'}{\cat D}_1}_{res, rcof} \ra {\cat M}^{{\cat D}_1}_{{\colim}^u}$.
+
+To prove that ${\bf L}\colim^u \dashv {\bf ho}u^{*}$ forms a naturally adjoint pair, we will apply the Abstract Quillen Partial Adjunction \theoremref{thm:generalexistencetotalderivedadjoint2} to
+\begin{center}
+$\xymatrix{
+    {\cat M}^{\Delta^{'}{\cat D}_1}_{res, rcof} \ar[rr]^{v_1 = \colim^{up_t}} \ar[d]_{t_1 = \colim^{p_t}} && {\cat M}^{{\cat D}_2} \\
+    {\cat M}^{{\cat D}_1} && {\cat M}^{{\cat D}_2} \ar[ll]_{v_2 = u^*} \ar[u]_{t_2 = 1_{{\cat M}^{{\cat D}_2}}}
+    }$
+\end{center}
+
+We have that $v_1, v_2$ is an abstract Quillen partially adjoint pair with respect to $t_1, t_2$:
+\begin{enumerate}
+\item
+The functor pair $v_1, v_2$ is partially adjoint with respect to $t_1, t_2$.
+\item
+$t_1$ is a cofibrant approximation of the cofibration category ${\cat M}^{{\cat D}_1}$ by \propositionref{prop:generalpointwisecofstructureapprox}. In particular $t_1$ is a left approximation. The functor $t_2 = 1_{{\cat M}^{{\cat D}_2}}$ is a right approximation. 
+\item
+$v_1$ preserves weak equivalences by \theoremref{thm::colimfromdirectcat}, and so does $v_2 = p_t^*$.
+\end{enumerate}
+
+In conclusion we have a naturally adjoint pair
+\begin{center}
+$\xymatrix {{\bf ho}{\cat M}^{{\cat D}_1} \ar@<2pt>[rrrr]^-{{\bf ho}(v1) \, {\bf s}_1 \cong {\bf L}\colim^u} &&&& {\bf ho}{\cat M}^{{\cat D}_2} \ar@<2pt>[llll]^-{{\bf ho}(v_2) \, {\bf s}_2 \cong {\bf ho}(u^*)}}$
+\end{center}
+where ${\bf s}_1$ is a quasi-inverse of ${\bf ho}t_1$ and ${\bf s}_2$ is a quasi-inverse of ${\bf ho}t_2$.
+\end{proof}
+
+As a consequence of \theoremref{thm:genholim} we can verify that
+
+\begin{cor}
+\label{cor:composhomotcolimits}
+Suppose that $u \colon {\cat D}_1 \ra {\cat D}_2$ and $v \colon {\cat D}_2 \ra {\cat D}_3$ are two functors of small categories.
+\begin{enumerate}
+\item
+If ${\cat M}$ is a cofibration category, then ${\bf L}\colim^{vu} \cong {\bf L}\colim^{v}{\bf L}\colim^{u}$.
+\item
+If ${\cat M}$ is a fibration category, then ${\bf R}\lim^{vu} \cong {\bf R}\lim^{v}{\bf R}\lim^{u}$.
+\end{enumerate}
+\end{cor}
+
+\begin{proof}
+This is a consequence of the adjunction property of the homotopy (co)limit and the fact that ${\bf ho}(vu)^* \cong {\bf ho}u^* {\bf ho}v^* $.
+\end{proof}
+
+Consider a small diagram
+\begin{equation}
+\label{eqn:2catsquare4}
+\xymatrix {
+    {\cat D}_1 \ar[r]^u \ar[d]_f & 
+    {\cat D}_2 \ar[d]^g _\,="b" \\
+    {\cat D}_3 \ar[r]_v ^\,="a" & 
+    {\cat D}_4 \ultwocell<\omit>{<0>\phi}
+  }
+\end{equation}
+If ${\cat M}$ is a cofibration category, from the adjunction property of the homotopy colimit we get a natural map denoted
+\begin{center}
+$\phi_{{\bf L}\colim} \colon {\bf L}\colim^u {\bf ho}f^* \Ra {\bf ho}g^* {\bf L}\colim^v$
+\end{center}
+and dually if ${\cat M}$ is a fibration category we get a natural map denoted
+\begin{center}
+$\phi_{{\bf R}\colim} \colon {\bf ho}v^* {\bf R}\lim^g  \Ra {\bf R}\lim^f {\bf ho}u^* $
+\end{center}
+
+Suppose that $u \colon {\cat D}_1 \ra {\cat D}_2$ is a functor of small categories. For any object $d_2 \eps {\cat D_2}$, the {\it standard over 2-category diagram} of $u$ at $d_2$ is defined as
+\begin{equation}
+\label{eqn:stdover2cat}
+\xymatrix {
+    (u \downarrow d_2) \ar[r]^-{p_{(u \downarrow d_2)}} \ar[d]_{i_{u, d_2}} & 
+    \terminalcat \ar[d]^{e_{d_2}} _\,="b" \\
+    {\cat D}_1 \ar[r]_u ^\,="a" & 
+    {\cat D}_2 \ultwocell<\omit>{<0>{{\phi}_{u, d_2} \;\;\;\;\;\;}}
+  }
+\end{equation}
+
+In this diagram, the functor $p_{{\cat D}} \colon {\cat D} \ra \terminalcat$ denotes the terminal category projection. The functor $i_{u, d_2}$ sends an object $(d_1, f: ud_1 \ra d_2)$ to $d_1 \eps {\cat D}_1$ and a map $(d_1, f) \ra (d^{'}_1, f^{'})$ to the component map $d_1 \ra d^{'}_1$. The functor $e_{d_2}$ embeds the terminal category $\terminalcat$ as the object $d_2 \eps {\cat D}_2$, and for an object $(d_1 \eps {\cat D}_1, f \colon ud_1 \ra d_2)$ of $(u \downarrow d_2)$ the natural map $\phi_{u, d_2}(d_1, ud_1 \ra d_2)$ is $f \colon ud_1 \ra d_2$. If ${\cat M}$ is a cofibration category, we obtain a natural map
+\begin{equation}
+\label{eqn:homotopycolimbasechange}
+{\bf L}{\colim}^{(u \downarrow d_2)} X \Ra ({\bf L}{\colim}^u X)_{d_2}
+\end{equation}
+
+Dually, the {\it standard under 2-category diagram} of $u$ at $d_2$ is
+\begin{equation}
+\label{eqn:stdunder2cat}
+\xymatrix {
+    (d_2 \downarrow u) \ar[r]^-{i_{d_2, u}} \ar[d]_-{p_{(d_2 \downarrow u)}} & 
+    {\cat D}_1 \ar[d]^u _\,="b" \\
+    \terminalcat \ar[r]_{e_{d_2}} ^\,="a" & 
+    {\cat D}_2 \ultwocell<\omit>{<0>{{\phi}_{d_2, u} \;\;\;\;\;\;}}
+  }
+\end{equation}
+If ${\cat M}$ is a fibration category, we obtain a natural map
+\begin{equation}
+\label{eqn:homotopylimbasechange}
+({\bf R}{\lim}^u X)_{d_2} \Ra {\bf R}{\lim}^{(d_2 \downarrow u)} X
+\end{equation}
+
+The next theorem proves a base change formula for homotopy (co)limits. This lemma is a homotopy colimit analogue to the well known base change formula for ordinary colimits \lemmaref{lem::computerelcolim}. 
+
+\begin{thm}[Base change property]
+\label{thm:computerelhocolim}
+\mbox{}
+\begin{enumerate}
+\item
+If ${\cat M}$ is a cofibration category and $u \colon {\cat D}_1 \ra {\cat D}_2$ is a functor of small categories, then the natural map (\ref{eqn:homotopycolimbasechange}) induces an isomorphism
+\begin{center}
+${\bf L}{\colim}^{(u \downarrow d_2)} X \cong ({\bf L}{\colim}^u X)_{d_2}$
+\end{center}
+for objects $X \eps {\cat M}^{{\cat D}_1}$ and $d_2 \eps {\cat D}_2$.
+\item
+If ${\cat M}$ is a fibration category and $u \colon {\cat D}_1 \ra {\cat D}_2$ is a functor of small categories, then the natural map (\ref{eqn:homotopylimbasechange}) induces an isomorphism
+\begin{center}
+$({\bf R}{\lim}^u X)_{d_2} \cong {\bf R}{\lim}^{(d_2 \downarrow u)} X$
+\end{center}
+for objects $X \eps {\cat M}^{{\cat D}_1}$ and $d_2 \eps {\cat D}_2$.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We only prove (1). For a diagram $X \eps {\cat M}^{{\cat D}_1}$, pick a reduced Reedy cofibrant replacement $X^{'} \eps \Delta^{'}_{res}{\cat D}_1$ of $p_t^* X$. We have ${\colim}^{up_t} X^{'} \cong {\bf L}{\colim}^u X$. By \lemmaref{lem:deltaprimeovercat}, $(up_t \downarrow d_2) \cong \Delta^{'}(u \downarrow d_2)$. The restriction of $X^{'}$ to the direct category $\Delta^{'}(u \downarrow d_2)$ is a Reedy cofibrant replacement of the restriction of $X$ to $\Delta^{'}(u \downarrow d_2)$, so in ${\bf ho}{\cat M}$ we have isomorphisms ${\colim}^{(up_t \downarrow d_2)} X^{'}$ $\cong$ ${\colim}^{\Delta^{'}(u \downarrow d_2)} X^{'}$ $\cong$ ${\bf L}{\colim}^{(u \downarrow d_2)} X$. Using \lemmaref{lem::computerelcolim}, the top map and therefore all maps in the commutative diagram 
+\begin{center}
+$\xymatrix{
+    {{\colim}^{(up_t \downarrow d_2)} X^{'}}_{\,} \ar[r] \ar[d] & ({\colim}^{up_t} X^{'})_{d_2} \ar[d] \\
+    {{\bf L}{\colim}^{(u \downarrow d_2)} X}_{\,} \ar[r] & ({\bf L}{\colim}^u X)_{d_2}
+  }$
+\end{center}
+are isomorphisms, and the conclusion is proved.
+\end{proof}
+
+Suppose that $({\cat M}, {\cat W})$ is a category with weak equivalences, and that $u \colon {\cat D}_1 \ra {\cat D}_2$ is a functor of small categories. The next result describes a sufficient condition for $({\bf L}\colim^u$, $\eps_u)$ to exist - without requiring ${\cat M}$ to carry a cofibration category structure. 
+
+In preparation, notice that the natural map (\ref{eqn:homotopycolimbasechange}) actually exists under the weaker assumption that $({\cat M}, {\cat W})$ is a category with weak equivalences, that ${\bf L}{\colim}^u$ exists and is a left adjoint of ${\bf ho}u^*$, and that ${\bf L}{\colim}^{(u \downarrow d_2)}$ exists and is a left adjoint of ${\bf ho}p^*_{(u \downarrow d_2)}$. A dual statement holds for the map (\ref{eqn:homotopylimbasechange}).
+
+\begin{thm}
+\label{thm:openembeddingdiagrams}
+Suppose that $({\cat M}, {\cat W})$ is a pointed category with weak equivalences.
+\begin{enumerate}
+\item
+If $u \colon {\cat D}_1 \ra {\cat D}_2$ is a small closed embedding functor, then
+\begin{enumerate}
+\item
+$\colim^u$ and its left Kan extension $({\bf L}\colim^u, \eps_u)$ exist, and ${\bf L}\colim^u$ is a fully faithful left adjoint to ${\bf ho}u^*$
+\item
+For any object $d_2$ of ${\cat D}_2$, the functors ${\colim}^{(u \downarrow d_2)}$ and ${\bf L}{\colim}^{(u \downarrow d_2)}$ are well defined and the natural map (\ref{eqn:homotopycolimbasechange}) induces an isomorphism
+\begin{center}
+${\bf L}{\colim}^{(u \downarrow d_2)} X \cong ({\bf L}{\colim}^u X)_{d_2}$
+\end{center}
+for objects $X \eps {\cat M}^{{\cat D}_1}$ and $d_2 \eps {\cat D}_2$.
+\end{enumerate}
+\item
+If $u \colon {\cat D}_1 \ra {\cat D}_2$ is a small open embedding functor, then
+\begin{enumerate}
+\item
+$\lim^u$ and its right Kan extension $({\bf R}\lim^u, \nu_u)$ exist, and ${\bf R}\lim^u$ is a fully faithful left adjoint to ${\bf ho}u^*$
+\item
+For any object $d_2$ of ${\cat D}_2$, the functors ${\lim}^{(d_2 \downarrow u)}$ and ${\bf R}{\lim}^{(d_2 \downarrow u)}$ are well defined and the natural map (\ref{eqn:homotopylimbasechange}) induces an isomorphism
+\begin{center}
+$({\bf R}{\lim}^u X)_{d_2} \cong {\bf R}{\lim}^{(d_2 \downarrow u)} X$
+\end{center}
+for objects $X \eps {\cat M}^{{\cat D}_1}$ and $d_2 \eps {\cat D}_2$.
+\end{enumerate}
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We start with (1) (a). Denote $u_! \colon {\cat M}^{{\cat D}_1} \ra {\cat M}^{{\cat D}_2}$ the 'extension by zero' functor, that sends a diagram $X \eps {\cat M}^{{\cat D}_1}$ to the diagram given by $(u_!X)_{d_2} = X_{d_2}$ for $d_2 \eps u{\cat D}_1$ and $(u_!X)_{d_2} = \initial$ otherwise. The functor $u_!$ is a fully faithful left adjoint to $u^*$, and sends weak equivalences to weak equivalences. In particular, $\colim^u \cong u_1$ exists and is defined on the entire ${\cat M}^{{\cat D}_1}$, and ${\bf L}\colim^u$ as in \definitionref{defn:homotopycolim} exists and is isomorphic to ${\bf ho}u_!$. We apply the Abstract Quillen Adjunction \theoremref{thm:generalexistencetotalderivedadjoint} to 
+\begin{center}
+$\xymatrix {{\cat M}^{{\cat D}_2} \ar[r]^{t_1 = id} & {\cat M}^{{\cat D}_2} \ar@<2pt>[r]^{u_1 = u_!} & {\cat M}^{{\cat D}_1} \ar@<2pt>[l]^{u_2 = u^*} & {\cat M}^{{\cat D}_1} \ar[l]_{t_2 = id} }$
+\end{center}
+observing that its hypotheses (1)-(3) and (4l) apply. We deduce that ${\bf L}\colim^u \cong {\bf ho}u_!$ is a fully faithful right adjoint to ${\bf ho}u^*$. 
+
+To prove the isomorphism (1) (b), observe that $(u \downarrow d_2)$ has $d_2$ as a terminal object if $d_2 \eps u{\cat D}_1$ and is empty otherwise, so ${\colim}^{(u \downarrow d_2)} X \cong X_{d_2}$ if $d_2 \eps u{\cat D}_1$ and $\cong \initial$ otherwise. Both functors ${\colim}^{(u \downarrow d_2)}$ and $\colim^u$ preserve weak equivalences, and we have adjoint pairs ${\bf L}{\colim}^{(u \downarrow d_2)} \dashv {\bf ho}p^*_{(u \downarrow d_2)}$ and ${\bf L}{\colim}^u \dashv {\bf ho}u^*$. The natural isomorphism ${\colim}^{(u \downarrow d_2)} X \cong (\colim^u X)_{d_2}$ yields the desired isomorphism (\ref{eqn:homotopycolimbasechange}).
+
+The proof of part (2) is dual.
+\end{proof}
+
+The two lemmas below are part of the proof of \theoremref{thm:leftadjointoflcolim} below. We keep the notations used in \theoremref{thm:openembeddingdiagrams} and its proof, and introduce a few new ones. ${\cat M}$ denotes a pointed cofibration category, and $u \colon {\cat D}_1 \ra {\cat D}_2$ a small closed embedding functor. $v \colon {\cat D}_2 \backslash {\cat D}_1 \ra {\cat D}_2$ denotes the inclusion functor - it is an {\it open} embedding. We also denote $V = \Delta^{'}v \colon {\Delta^{'}({\cat D}_2 \backslash {\cat D}_1)} \ra {\Delta^{'}{\cat D}_2}$. 
+
+We denote $u_! = \colim^u \colon {\cat M}^{{\cat D}_1} \ra {\cat M}^{{\cat D}_2}$ and $v_* = \lim^v \colon {\cat M}^{{\cat D}_2 \backslash {\cat D}_1} \ra {\cat M}^{{\cat D}_2}$  - these are the 'extension by zero' functors. We also denote $v_! = \colim^v$ and $V_! = \colim^V$, and we will keep in mind that they are defined only on a {\it full subcategory} of ${\cat M}^{{\cat D}_2 \backslash {\cat D}_1}$ resp. $ {\cat M}^{\Delta^{'}({\cat D}_2 \backslash {\cat D}_1)}$.
+
+We denote $({\cat M}^{{\cat D}_2})_0$ the full subcategory of ${\cat M}^{{\cat D}_2}$ consisting of objects $X$ with the property that $v_!v^*X$ exists and is pointwise cofibrant, and the map $v_!v^*X \ra X$ is a pointwise cofibration. $\initial$ is a cofibrant object, and we define the functor $u^{'}_1 \colon ({\cat M}^{{\cat D}_2})_0 \ra {\cat M}^{{\cat D}_2}$ as the pushout
+\begin{center}
+$\xymatrix{
+    v_!v^*X \ar@{>->}[r] \ar[d] & X \ar@{-->}[d] \\
+    \initial \ar@{>-->}[r] & u_1^{'}X
+  }$
+\end{center}
+
+\begin{lem}
+\label{lem:leftadjointoflcolim1}
+\mbox{}
+\begin{enumerate}
+\item
+There exists a canonical partial adjunction
+\begin{center}
+$\xymatrix{
+    ({\cat M}^{{\cat D}_2})_0 \ar[r]^{u^{'}_1} \ar@{_{(}->}[d] & {\cat M}^{{\cat D}_2} \\
+    {\cat M}^{{\cat D}_2} & {\cat M}^{{\cat D}_2} \ar[l]^{u_!u^*} \ar[u]_{1_{{\cat M}^{{\cat D}_2}}}
+  }$
+\end{center}
+\item
+There exists a canonical partial adjunction
+\begin{center}
+$\xymatrix{
+    ({\cat M}^{{\cat D}_2})_0 \ar[r]^{u^*u^{'}_1} \ar@{_{(}->}[d] & {\cat M}^{{\cat D}_1} \\
+    {\cat M}^{{\cat D}_2} & {\cat M}^{{\cat D}_1} \ar[l]^{u_!} \ar[u]_{1_{{\cat M}^{{\cat D}_1}}}
+  }$
+\end{center}
+\end{enumerate}
+\end{lem}
+
+\begin{proof}
+Denote $\eps_X \colon v_!v^*X \rightarrowtail X$ the natural map defined for $X \eps ({\cat M}^{{\cat D}_2})_0$.
+
+For any object $Z \eps {\cat M}^{{\cat D}_2}$, the diagram 
+\begin{center}
+$\xymatrix{
+    u_!u^*Z \ar[r] \ar[d] & Z \ar[d]^{\nu_Z} \\
+    \initial \ar[r] & v_*v^*Z
+  }$
+\end{center}
+is both a pushout and a pullback. For $X \eps ({\cat M}^{{\cat D}_2})_0$, the maps $X \ra u_!u^*Z$ are in a 1-1 correspondence with maps $f: X \ra Z$ such that $\nu_Z f: X \ra v_*v^*Z$ is null, therefore in 1-1 correspondence with maps $f: X \ra Z$ such that $f\eps_X \colon v_!v^*X \ra Z$ is null, therefore in 1-1 correspondence with maps $u^{'}_1 X \ra Z$. This shows that we have a natural bijection $Hom (u^{'}_1 X, Z) \cong Hom (X, u_!u^*Z)$, which proves (1). 
+
+For an object $Y \eps {\cat M}^{{\cat D}_1}$ and a map $u^*u^{'}_1 X \ra Y$, denote $\overline{Y}^{X} \eps {\cat M}^{{\cat D}_2}$ the object with $\overline{Y}^{X}_{d} = Y_d$ for $d \eps {\cat D}_1$ and $\overline{Y}^{X}_{d} = (u^{'}_1 X)_d$ otherwise. We see that $Hom (u^*u^{'}_1 X, Y)$ $\cong$ $Hom (u^{'}_1 X, \overline{Y}^{X})$ $\cong$ $Hom (X, u_!u^*\overline{Y}^{X})$ $\cong$ $Hom (X, u_!Y)$, which completes the proof of (2).
+\end{proof}
+
+\begin{lem}
+\label{lem:leftadjointoflcolim2}
+For any diagrams $Y, Y^{'} \eps {\cat M}^{\Delta^{'}{\cat D}_2}$ that are Reedy cofibrant, denote $X = \colim^{p_t} Y$ and $X^{'} = \colim^{p_t} Y^{'}$ in ${\cat M}^{{\cat D}_2}$. Then
+\begin{enumerate}
+\item
+The colimit $v_!v^*X$ exists and is pointwise cofibrant, and $v_!v^*X \rightarrowtail X$ is a pointwise cofibration
+\item
+If $Y \ra Y^{'}$ is a pointwise weak equivalence, then so is $v_!v^*X \ra v_!v^*X^{'}$
+\end{enumerate}
+\end{lem}
+
+\begin{proof}
+The objects of ${\Delta^{'}{\cat D}_2}$ are all of the form 
+\begin{center}
+$\underline{d} = (d_0 \ra ... \ra d_i \ra d^{'}_{i+1} \ra ... \ra d^{'}_n)$
+\end{center}
+where $d_0, ..., d_i \eps {\cat D}_2 \backslash {\cat D}_1$ and $d^{'}_{i+1}, ..., d^{'}_n \eps {\cat D}_1$. As a consequence, given $Y \eps {\cat M}^{\Delta^{'}({\cat D}_2 \backslash {\cat D}_1)}$ by \lemmaref{lem::computerelcolim} we have $(V_!Y)_{\underline{d}} \cong Y_{d_0 \ra ... \ra d_i}$. The functor $V_!$ is thus defined on the entire ${\cat M}^{\Delta^{'}({\cat D}_2 \backslash {\cat D}_1)}$ - note that $v_!$ may not be defined on the entire ${\cat M}^{{\cat D}_2 \backslash {\cat D}_1}$. 
+
+The latching map of $V_!Y$ at $\underline{d}$ is $LY_{\underline{d}} \ra Y_{\underline{d}}$ if $i = n$, and $Y_{d_0 \ra ... \ra d_i} \overset{id}{\ra}$ $Y_{d_0 \ra ... \ra d_i}$ if $i < n$. Based on this, we see that if $Y \eps {\cat M}^{\Delta^{'}{\cat D}_2}$ is Reedy cofibrant then $V^*Y$ is Reedy cofibrant and $V_!V^*Y \ra Y$ is a Reedy cofibration.
+
+Pick $Y \eps {\cat M}^{\Delta^{'}{\cat D}_2}_{res, rcof}$ with $\colim^{p_t} Y = X$. Using \lemmaref{lem::computerelcolim} we see that $v^*X \cong \colim^{p_t} V^* Y$.
+\begin{center}
+$\xymatrix{
+    {\cat M}^{\Delta^{'}{\cat D}_2 \backslash {\cat D}_1}_{rcof} \ar[r]^V \ar[d]_{\colim^{p_t}} & {\cat M}^{\Delta^{'}{\cat D}_2}_{rcof} \ar[d]^{\colim^{p_t}} \\
+    {\cat M}^{{\cat D}_2 \backslash {\cat D}_1} \ar[r]^v & {\cat M}^{{\cat D}_2}
+  }$
+\end{center}
+The colimits $\colim^{p_t} V^* Y \cong v^*X$ and $\colim^{p_t} V_!V^*Y$ exist (the latter since $V_!V^*Y$ is Reedy cofibrant). By \lemmaref{lem::colimcomposition} we have that $v_!\colim^{p_t} V^* Y \cong v_!v^*X$ exists and is $\cong \colim^{p_t}V_!V^*Y$. Applying $\colim^{p_t}$ to the Reedy cofibration $V_!V^*Y \ra Y$ yields $v_!v^*X \ra X$, which is a pointwise cofibration between pointwise cofibrant objects by \theoremref{thm::colimfromdirectcat}. This proves part (1).
+
+If $Y \ra Y^{'}$ is a pointwise weak equivalence between Reedy cofibrant objects, then so is $V_!V^*Y \ra V_!V^*Y^{'}$, so by \theoremref{thm::colimfromdirectcat} the map $\colim^{p_t}V_!V^*Y \ra \colim^{p_t}V_!V^*Y^{'}$ is a weak equivalence. This proves part (2).
+\end{proof}
+
+\begin{thm}
+\label{thm:leftadjointoflcolim}
+\mbox{}
+\begin{enumerate}
+\item
+If ${\cat M}$ is a pointed cofibration category and $u \colon {\cat D}_1 \ra {\cat D}_2$ is a small closed embedding functor, then ${\bf L}\colim^u$ admits a left adjoint.
+\item
+If ${\cat M}$ is a pointed fibration category and $u \colon {\cat D}_1 \ra {\cat D}_2$ is a small open embedding functor, then ${\bf R}\lim^u$ admits a right adjoint.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We only prove (1). We will apply the Abstract Partial Quillen Adjunction \theoremref{thm:generalexistencetotalderivedadjoint2} to
+\begin{center}
+$\xymatrix{
+    {\cat M}^{\Delta^{'}{\cat D}_2}_{res, rcof} \ar[rrr]^-{v_1 = u^*u^{'}_1\colim^{p_t}} \ar[d]_{t_1 = \colim^{p_t}} &&& {\cat M}^{{\cat D}_1} \\
+    {\cat M}^{{\cat D}_2} &&& {\cat M}^{{\cat D}_1} \ar[lll]_-{v_2 = u_!} \ar[u]_{t_2 = 1_{{\cat M}^{{\cat D}_1}}}
+    }$
+\end{center}
+We have that $v_1, v_2$ is an abstract Quillen partially adjoint pair with respect to $t_1, t_2$:
+\begin{enumerate}
+\item
+From \lemmaref{lem:leftadjointoflcolim2} (1) we have $Im \, \colim^{p_t} \subset ({\cat M}^{{\cat D}_2})_0$, so the functor $v_1$ is correctly defined. Using \lemmaref{lem:leftadjointoflcolim1} (2) we see that $v_1, v_2$ are partially adjoint with respect to $t_1, t_2$.
+\item
+The functor $t_1$ is a cofibrant approximation of ${\cat M}^{{\cat D}_2}$ by \propositionref{prop:generalpointwisecofstructureapprox}, therefore a left approximation. The functor $t_2 = 1_{{\cat M}^{{\cat D}_1}}$ is a right approximation, and $u_2t_2$ preserves weak equivalences.
+\item
+By \lemmaref{lem:leftadjointoflcolim2} (2), the functor $v_!v^*t_1$ preserves weak equivalences. But $u^{'}_1t_1Y$ is the pushout of $v_!v^*t_1Y \rightarrowtail t_1 Y$ by $v_!v^*t_1Y \ra 0$, and an application of the Gluing Lemma shows that $u^{'}_1t_1$ and therefore $v_1$ also preserve weak equivalences.
+\item
+The functor $v_2$ preserves weak equivalences.
+\end{enumerate}
+
+We conclude that ${\bf R}v_2 \cong {\bf ho}u_! \cong {\bf L}\colim^u$ admits a left adjoint.
+\end{proof}
+
+\comment{
+\section{Exact functors}
+\label{sec:exactfunctors}
+In this section, we investigate a class of functors between (co)fibration categories that preserve homotopy (co)limits. The proofs are only sketched, and the details are left to the reader for verification.
+
+\begin{defn}
+\label{defn:homotopyexact}[Exact functors]
+\mbox{}
+\begin{enumerate}
+\item
+A functor $t \colon {\cat M}_1 \ra {\cat M}_2$ between cofibration categories is {\it left exact} if
+\begin{enumerate}
+\item
+$t$ preserves the initial object, cofibrations and trivial cofibrations
+\item
+For any cofibration $f \colon A \rightarrowtail B$ and any map $g \colon A \ra C$ in ${\cat M}_1$ with $C$ cofibrant, the natural map $tB \Sum_{tA} tC \ra t(B \Sum_A C)$ is an isomorphism in ${\cat M}_2$
+\item
+For any ordinal $k$ and any direct $k$-sequence of cofibrations $A_0 \ra A_1 \ra ... $ of length $k$ in ${\cat M}_1$ the natural map $\colim tA_i \ra t \colim A_i$ is an isomorphism in ${\cat M}_2$
+\end{enumerate}
+\item
+A functor $t \colon {\cat M}_1 \ra {\cat M}_2$ between fibration categories is {\it right exact} if
+\begin{enumerate}
+\item
+$t$ preserves the final object, fibrations and trivial fibrations
+\item
+For any fibration $f \colon B \ra A$ and any map $g \colon C \ra A$ in ${\cat M}_1$  with $C$ fibrant, the natural map $t(B \times_{A} C) \ra tB \times_{tA} tC$ is an isomorphism in ${\cat M}_2$
+\item
+For any ordinal $k$ and any inverse $k$-sequence of fibrations $A_0 \la A_1 \ra ... $ of length $k$ in ${\cat M}_1$ the natural map $t\lim A_i \ra \lim tA_i$ is an isomorphism in ${\cat M}_2$
+\end{enumerate}
+\end{enumerate}
+\end{defn}
+
+\begin{lem}
+\label{lem:leftexactstability}
+\mbox{}
+\begin{enumerate}
+\item
+Left (and right) exact functors are stable under composition. 
+\item
+Left exact functors preserve weak equivalences between cofibrant objects. 
+\item
+Right  exact functors preserve weak equivalences between fibrant objects.
+\end{enumerate}
+\end{lem}
+
+\begin{proof}
+Part (1) follows directly from \definitionref{defn:homotopyexact}. Part (2) is a consequence of the Brown Factorization Lemma and the fact that left exact functors preserve trivial cofibrations. Part (3) is dual to (2).
+\end{proof}
+
+If $t \colon {\cat M}_1 \ra {\cat M}_2$ is a left exact functor between cofibration categories, and ${\cat D}$ is a small category, then $t^{\cat D} \colon {\cat M}_1^{\cat D} \ra {\cat M}_2^{\cat D}$ is again left exact with respect to the pointwise cofibration structure on ${\cat M}_1^{\cat D}$ and ${\cat M}_2^{\cat D}$. 
+
+Furthermore, if ${\cat D}$ is direct and $X \eps {\cat M}_1^{\cat D}$ is Reedy cofibrant, then an inductive argument using \lemmaref{lem:colimpushout} shows that $\colim^{\cat D} t^{\cat D}(X) \ra t \; \colim^{\cat D}X$ is an isomorphism. From this, it is straightforward to see that if ${\cat D}$ then $t^{\cat D} \colon {\cat M}_1^{\cat D} \ra {\cat M}_2^{\cat D}$ is again left exact with respect to the Reedy cofibration structure on ${\cat M}_1^{\cat D}$ and ${\cat M}_2^{\cat D}$.
+
+Dually, $t \colon {\cat M}_1 \ra {\cat M}_2$ is right exact between fibration categories and ${\cat D}$ is a small category, then $t^{\cat D}$ is right exact with respect to the pointwise fibration structure ${\cat M}_1^{\cat D}$ and ${\cat M}_2^{\cat D}$. If ${\cat D}$ is inverse, then $t^{\cat D}$ is also right exact with respect to the Reedy fibration structure on ${\cat M}_1^{\cat D}$ and ${\cat M}_2^{\cat D}$, and if $X \eps {\cat M}_1^{\cat D}$ is Reedy fibrant then $t \; \lim^{\cat D}X \ra \lim^{\cat D} t^{\cat D}(X)$ is an isomorphism.
+
+TO DO: complete section.
+
+\begin{prop}
+\label{prop:leftexactpreservecolim}
+\mbox{}
+\begin{enumerate}
+\item
+Suppose that $t \colon {\cat M}_1 \ra {\cat M}_2$ is a left exact functor between two cofibration categories, and that $u \colon {\cat D}_1 \ra {\cat D}_2$ is a functor of small categories with ${\cat D}_1$ direct.
+\item
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\end{proof}
+\bigskip
+
+} % end comment
+
+\section{The conservation property}
+\label{sec:conservationproperty}
+
+\index{functor!conservative functors}
+Recall that a family of functors $u_i \colon {\cat A} \ra {\cat B}_i, i \eps I$ is {\it conservative} if for any map $f \eps {\cat A}$ with $u_if$ an isomorphism in ${\cat B}_i$ for all $i \eps I$ we have that $f$ is an isomorphism in ${\cat A}$. A family of functors $\{ u_i\}$ is conservative iff the functor $(u_i)_i \colon {\cat A} \ra \times_i {\cat B}_i$ is conservative.
+
+\begin{thm}
+\label{thm:homotcatconservative}
+Let ${\cat D}$ be a small category, and suppose that ${\cat M}$ is either a cofibration or a fibration category. The projections $p_d \colon {\cat M}^{\cat D} \ra {\cat M} $ on the $d$ componenent for all objects $d \eps {\cat D}$ then induce a conservative family of functors ${\bf ho}(p_d) \colon {\bf ho}{\cat M}^{\cat D} \ra {\bf ho}{\cat M}$.
+\end{thm}
+
+\begin{proof}
+Assume that ${\cat M}$ is a cofibration category (the proof for fibration categories is dual).
+
+Let $\overline{f} \colon A \ra B$ be a map in ${\bf ho}{\cat M}^{\cat D}$ such that ${\bf ho}(p_d)\overline{f} \eps {\bf ho}{\cat M}$ are isomorphisms for all objects $d \eps {\cat D}$. We want to show that $\overline{f}$ is an isomorphism in ${\bf ho}{\cat M}^{\cat D}$.
+
+Using the factorization axiom CF4 applied to the pointwise cofibration structure $({\cat M}^{\cat D}$, ${\cat W}^{\cat D}$, ${\cat Cof}^{\cat D})$, we may assume that $A, B$ are pointwise cofibrant. From \theoremref{thm::descrhomotcof} applied to $({\cat M}^{\cat D}$, ${\cat W}^{\cat D}$, ${\cat Cof}^{\cat D})$, we may further assume that $\overline{f}$ is the image of a pointwise cofibration $f$ of ${\cat M}^{\cat D}$.
+
+Assume we proved our theorem for all {\it direct} small categories. The map $p_t^*f$ in ${\cat M}^{\Delta^{'}{\cat D}}$ satisfies the hypothesis of our theorem and $\Delta^{'}{\cat D}$ is direct. It follows that $p_t^*f$ is an isomorphism in ${\bf ho}{\cat M}^{\Delta^{'}{\cat D}}$, so by \lemmaref{lem::cofcatequivinhomotcat} there exist pointwise cofibrations $f^{'}, f^{''} \eps {\cat M}^{\Delta^{'}{\cat D}}$ such that $f^{'}p^{*}f, f^{''}f^{'}$ are pointwise weak equivalences in ${\cat M}^{\Delta^{'}{\cat D}}$. 
+
+But $p^{*}f$ is $\Delta^{'}_{res}{\cat D}$ restricted, and therefore so are $f^{'}$ and $f^{''}$. By the same \lemmaref{lem::cofcatequivinhomotcat} $p^{*}f$ is an isomorphism in ${\bf ho}{\cat M}^{\Delta^{'}{\cat D}}_{res}$, and by \theoremref{thm:pointwisecofstructureequivalence} $f$ is an isomorphism in ${\bf ho}{\cat M}^{{\cat D}}$
+
+It remains to prove our theorem in the case when ${\cat D}$ is direct.
+
+As before, let $\overline{f} \colon A \ra B$ be a map in ${\bf ho}{\cat M}^{\cat D}$ such that ${\bf ho}(p_d)\overline{f} \eps {\bf ho}{\cat M}$ are isomorphisms for all objects $d \eps {\cat D}$, and we want to show that $\overline{f}$ is an isomorphism in ${\bf ho}{\cat M}^{\cat D}$. Repeating the previous argument applied to the Reedy cofibration structure $({\cat M}^{\cat D}, {\cat W}^{\cat D}, {\cat Cof}^{\cat D}_{Reedy})$, we may further assume that $\overline{f}$ is the image of a Reedy cofibration $f \colon A \ra B$.  
+
+We will construct a Reedy cofibration $f^{'} \colon B \ra B^{'}$ such that $f^{'}f \eps {\cat W}^{\cat D}$. Once the construction is complete, we will be able to apply the same construction to $f^{'}$ and obtain a Reedy cofibration $f^{''} \colon B^{'} \ra B^{''}$ such that $f^{''}f^{'} \eps {\cat W}^{\cat D}$. As a consequence, it will follow that $f$ is an isomorphism in ${\bf ho}{\cat M}^{\cat D}$.
+
+To summarize, given a Reedy cofibration $f \colon A \ra B$ with the property that $f_d$ is an isomorphism in ${\bf ho}{\cat M}$, it remains to construct a Reedy cofibration $f^{'} \colon B \ra B^{'}$ such that $f^{'}f \eps {\cat W}^{\cat D}$. We will construct $f^{'}$ by induction on degree.
+
+For $n = 0$, ${\cat D}^{0}$ is discrete and the existence of $f^{' \, 0}$ follows from \lemmaref{lem::cofcatequivinhomotcat}. Assume now $f^{' \, < n} \colon B^{< n} \ra B^{' \, < n}$ constructed. 
+
+For any object $d \eps {\cat D}^n$, we construct the following diagram:
+\begin{center}
+$ \xymatrix {
+        L A_d \ar@{>->}[r]^-{i_d} \ar@{>->}[d]_{L(f^{'} f)_d}^\sim &
+        A_d \ar@{>->}[r]^{f_d} \ar@{>->}[d]^\sim_{\beta_d} & B_d \ar@{>->}[r]^{\overline{f^{'}_d}} & \overline{B_d} \ar@{>->}[d]^\sim_{\overline{\overline{f^{'}_d}}} \\
+        L B^{'}_d \ar@{>->}[r]^-{\gamma_d} & \overline{B^{'}_d} \ar@{>->}[rr]_\sim^{\delta_d} & & B^{'}_d
+	}$
+\end{center}
+where:
+\begin{enumerate}
+\item
+$LA_d$, $LB^{'}_d$ exist and are cofibrant because $A, B^{' \, < n}$ are Reedy cofibrant
+\item
+Since $f^{' \, <n}f^{<n}$ is a trivial Reedy cofibration, $L(f^{'}f)_d$ is a trivial cofibration
+\item
+The map $i_d$ is a cofibration since $A$ is Reedy cofibrant
+\item
+$\beta_d$ is constructed as the pushout of $L(f^{'}f)_d$, therefore a trivial cofibration. $\gamma_d$ is a pushout of $i_d$, therefore a cofibration.
+\item
+$\overline{f^{'}_d}$ is a cofibration constructed by \lemmaref{lem::cofcatequivinhomotcat} applied to $f_d$, so that $\overline{f^{'}_d} f_d$ is a trivial cofibration
+\item
+$\delta_d$ is constructed as the pushout of $\overline{f^{'}}_d f_d$, therefore a trivial cofibration. $\overline{\overline{f^{'}_d}}$ is a pushout of $\beta_d$, therefore a trivial cofibration.
+\end{enumerate}
+
+We define $f^{'}_d = \overline{\overline{f^{'}_d}} \, \overline{f^{'}_d}$, for all objects $d \eps {\cat D}^n$. The map $f^{' \, \le n}$ is a Reedy cofibration, and $(f^{'}f)^{\le n} \eps {\cat W}^{\le n}$. The inductive step is now complete, and the proof is finished.
+\end{proof}
+
+For each category with weak equivalences $({\cat M}, {\cat W})$ and small category ${\cat D}$, the functor ${\cat M}^{\cat D} \ra ({\bf ho}{\cat M})^{\cat D}$ induces a functor denoted $\mathrm{dgm}_{_{{\cat D}, {\cat M}}} \colon {\bf ho}({\cat M}^{\cat D}) \ra ({\bf ho}{\cat M})^{\cat D}$, or simply
+\begin{equation}
+\label{eqn:dgm}
+\mathrm{dgm}_{_{{\cat D}}} \colon {\bf ho}({\cat M}^{\cat D}) \ra ({\bf ho}{\cat M})^{\cat D}
+\end{equation}
+when $({\cat M}, {\cat W})$ is inferred from the context.
+
+\begin{cor}
+\label{cor:homotcatconservative}
+If ${\cat M}$ is either a cofibration or a fibration category, and if ${\cat D}$ is a small category, then the functor $\mathrm{dgm}_{_{\cat D}}$ of (\ref{eqn:dgm}) is a conservative functor.
+\end{cor}
+
+\begin{proof}
+Consequence of the fact that a map $f$ of ${\cat D}$ diagrams is an isomorphism iff each $f_d$ for $d \eps {\cat D}$ is an isomorphism.
+\end{proof}
+
+\section{Realizing diagrams}
+\label{sec:realizingdiagrams}
+
+Start with a category with weak equivalences $({\cat M}, {\cat W})$ and a small category ${\cat D}$. Given a ${\cat D}$-diagram $X$ in ${\bf ho}{\cat M}$, we would like to know under what conditions the diagram $X$ is isomorphic to the image of a diagram $X^{'} \eps {\bf ho}({\cat M}^{\cat D})$ under the functor $\mathrm{dgm}_{_{\cat D}}$ of (\ref{eqn:dgm}). If such a diagram $X^{'}$ exists, it is called a {\it realization} of the diagram $X$ in the homotopy category ${\bf ho}({\cat M}^{\cat D})$.
+
+We will show that if ${\cat M}$ is a cofibration category and ${\cat D}$ is a small, direct, free category then any diagram $X \eps ({\bf ho}{\cat M})^{\cat D}$ admits a realization $X^{'} \eps {\bf ho}({\cat M}^{\cat D})$. Furthermore any two such realizations $X^{'}, X^{''}$ of $X$ are non-canonically isomorphic in ${\bf ho}({\cat M}^{\cat D})$. Denis-Charles Cisinski \cite{Cisinski2} proves this result for {\it finite} direct, free categories, but his techniques extend to our situation.
+
+Dually, if ${\cat M}$ is a fibration category and ${\cat D}$ is a small, inverse, free category then any diagram $X \eps ({\bf ho}{\cat M})^{\cat D}$ admits a realization $X^{'} \eps {\bf ho}({\cat M}^{\cat D})$, and $X^{'}$ is unique up to a non-canonical isomorphism in ${\bf ho}({\cat M}^{\cat D})$. 
+
+Let us recall the definition of a small free category. A {\it directed graph} ${\cat G}$ consists of a set of vertices ${\cat G}_0$, a set of arrows ${\cat G}_1$ along with two functions $s, t \colon {\cat G}_1 \ra {\cat G}_0$ giving each arrow a source respectively a target. A {\it map} of directed graphs $u \colon {\cat G} \ra {\cat G}^{'}$ consists of two functions $u_i \colon {\cat G}_i \ra {\cat G}^{'}_i$ for $i = 0, 1$ that commute with the source and destination maps. We denote ${\cat Graph}$ the category of directed graphs. 
+
+There is a functor $F \colon {\cat Cat} \ra {\cat Graph}$ which sends a small category ${\cat D}$ to the underlying graph $F{\cat D}$ - with the objects of ${\cat D}$ as vertices and the maps of ${\cat D}$ as arrows, forgetting the composition of maps. The functor $F$ has a left adjoint $G \colon {\cat Graph} \ra {\cat Cat}$, which sends a graph ${\cat G}$ to the small category $G{\cat G}$ with objects ${\cat G}_0$ and with non-identity maps between $x, x^{'} \eps {\cat G}_0$ defined as all formal compositions $f_nf_{n-1}...f_0$ of arrows $f_i$, for $i \ge 0$, such that $sf_0 = x, tf_n = x^{'}$ and $tf_i = sf_{i+1}$ for $0 \le i < n$.
+
+A small category ${\cat D}$ is {\it free} if it is {\it isomorphic} to $G{\cat G}$ for a graph ${\cat G}$. The generators of a category are its undecomposable maps, i.e. maps that cannot be written as compositions of two non-identity maps. For a small category ${\cat D}$, one can form the graph ${\cat G}$ of undecomposable maps, with the objects of ${\cat D}$ as vertices and the undecomposable maps of ${\cat D}$ as arrows. Since ${\cat G}$ is a subgraph of $F{\cat D}$, there is a functor $G{\cat G} \ra {\cat D}$ which is an {\it isomorphism} iff the category ${\cat D}$ is free.
+
+%A category is {\it finite} if its objects and maps form a finite set. It is easy to see that a free category is finite iff its graph of undecomposable maps is finite and does not admit any cycles. We leave the proof of the following statement to the reader:
+
+%\begin{lem}
+%\label{lem:descrfinitefreecat}
+%The statements below are equivalent for a category ${\cat D}$.
+%\begin{enumerate}
+%\item
+%${\cat D}$ is finite and free
+%\item
+%${\cat D}$ is finite and direct, and for any object $d \eps {\cat D}$ the latching category $\partial({\cat D} \downarrow d)$ is a disjoint sum of categories with a terminal object.
+%\item
+%${\cat D}$ is finite and inverse, and for any object $d \eps {\cat D}$ the matching category $\partial(d \downarrow {\cat D})$ is a disjoint sum of categories with an initial object. $\square$
+%\end{enumerate}
+%\end{lem}
+
+A vertex $x_0$ of a graph ${\cat G}$ has {\it uniformly bounded ascending chains} if there is a positive integer $k$ such that any sequence of arrows $x_0 \ra x_1 \ra x_2 ...$ has at most length $k$. The vertex $x_0$ has {\it uniformly bounded descending chains} if there is a positive integer $k$ such that any sequence of arrows $... \ra x_2 \ra x_1 \ra x_0$ has at most length $k$. We leave the proof of the following lemma to the reader:
+
+\begin{lem}
+\label{lem:descrfinitefreecat}
+\mbox{}
+\begin{enumerate}
+\item
+The following statements are equivalent for a small category ${\cat D}$.
+\begin{enumerate}
+\item
+${\cat D}$ is direct and free
+\item
+${\cat D}$ is free, and all vertices of its graph of undecomposable maps have uniformly bounded descending chains (in particular, its graph of undecomposable maps has no loops)
+\item
+${\cat D}$ is direct and for any $d \eps {\cat D}$ the latching category $\partial({\cat D} \downarrow d)$ is a disjoint sum of categories with a terminal object.
+\end{enumerate}
+\item
+The following statements are equivalent for a small category ${\cat D}$.
+\begin{enumerate}
+\item
+${\cat D}$ is inverse and free
+\item
+${\cat D}$ is free, and all vertices of its graph of undecomposable maps have uniformly bounded ascending chains
+\item
+${\cat D}$ is inverse and for any $d \eps {\cat D}$ the matching category $\partial(d \downarrow {\cat D})$ is a disjoint sum of categories with an initial object. 
+\end{enumerate}
+\item
+A finite, free category is both direct and inverse. $\square$
+\end{enumerate}
+
+\end{lem}
+
+For example, the categories $0 \dbra 1$, $\,\,1 \la 0 \ra 2$ and $1 \ra 0 \la 2$ (given by their subgraph of non-identity maps) are at the same time direct, inverse and free. The category $\mathbf{N}$ of nonnegative integers $0 \ra 1 \ra ...$ is free and direct, and its opposite $\mathbf{N}^{op}$ is free and inverse. The category given by the commutative diagram
+\[
+\xymatrix{
+  0 \ar[r] \ar[d] & 1 \ar[d] \\
+  2 \ar[r] & 3
+}
+\]
+is finite, direct and inverse but not free.
+
+Let us now investigate the more trivial problem of realizing ${\cat D}$-diagrams for a {\it discrete} small category ${\cat D}$.
+
+\begin{lem}
+\label{lem:cofcatsumsofdiagrams}
+Suppose that ${\cat D}_k$, $k \eps K$ is a set of small categories. If ${\cat M}$ is either a cofibration or a fibration category, then the functor
+\begin{center}
+$\xymatrix {
+    {\bf ho}{\cat M}^{{\Sum}_{k \eps K} {\cat D}_k}
+    \ar[rr]^-{{\bf ho}(i_k^*)_{k \eps K}} &&
+    {\times}_{k \eps K} {\bf ho}{\cat M}^{{\cat D}_k}
+  }$
+\end{center}
+is an isomorphism of categories, where $i_{k} \colon {\cat D}_{k} \ra {\Sum}_{k^{'} \eps K} {\cat D}_{k^{'}}$ denotes the component inclusion for $k \eps K$.
+\end{lem}
+
+\begin{proof}
+Consequence of \theoremref{thm:prodhomotopycat} for ${\cat M}_k = {\cat M}^{{\cat D}_k}$, which is a cofibration category by \theoremref{thm:generalpointwisecofstructure}.
+\end{proof}
+
+We can apply the existence of the homotopy (co)limit functor for the particular case of discrete diagrams to prove:
+
+\begin{lem}
+\label{lem:cofcathomotopysum}
+\mbox{}
+\begin{enumerate}
+\item
+If ${\cat M}$ is a cofibration category, then ${\bf ho}{\cat M}$ admits all (small) sums of objects. The functor ${\cat M}_{cof} \ra {\bf ho}{\cat M}$ commutes with sums of objects.
+\item
+If ${\cat M}$ is a fibration category, then ${\bf ho}{\cat M}$ admits all (small) products of objects. The functor ${\cat M}_{fib} \ra {\bf ho}{\cat M}$ commutes with products of objects.
+\end{enumerate}
+\end{lem}
+
+\begin{proof}
+We only prove (1). Given a set of objects $X_k, k \eps K$ of a cofibration category ${\cat M}$, if we view $K$ as a discrete category then by \theoremref{thm:prodhomotopycat} ${\bf L}\colim^{K} X_k$ satisfies the universal property of the sum of $X_k$ in ${\bf ho}{\cat M}$. If all $X_k$ are cofibrant, then $\Sum_{k \eps K} X_k$ exists in ${\cat M}$ and computes ${\bf L}\colim^{K} X_k$, which proves the second part.
+\end{proof}
+
+We now turn to the problem of realizing ${\cat D}$-diagrams in a cofibration category for a small direct category ${\cat D}$.
+
+\begin{lem}
+\label{lem:sufficientfinitefull}
+Suppose that either ${\cat M}$ is a cofibration category and ${\cat D}$ is a small direct category, or ${\cat M}$ is a fibration category and ${\cat D}$ is a small inverse category.
+
+Suppose that $X, Y$ are objects of ${\cat M}^{\cat D}$. If for each $n \ge 0$ there exists 
+\[
+f_n \eps Hom_{{\bf ho}{{\cat M}^{{\cat D}^{\le n}}}} (X^{\le n}, Y^{\le n})
+\]
+ such that $f_{n}$ restricts to $f_{n-1}$ for all $n > 0$, then there exists $f \eps Hom_{{\bf ho}{{\cat M}^{{\cat D}}}} (X, Y)$ such that $f$ restricts to $f_n$ for all $n \ge 0$.
+\end{lem}
+
+\begin{proof}
+Assume that ${\cat M}$ is a cofibration category and that ${\cat D}$ is a small direct category. (The proof using the alternative hypothesis is dual).
+
+We may assume that $X, Y$ are Reedy cofibrant. We fix a sequence of cylinders with respect to the Reedy cofibration structure $I^nX$ and $I^nY$, and denote $I^{\infty}X = \colim (X \overset{i_0}{\ra} IX \overset{i_0}{\ra} I^2X ...)$ and $I^{\infty}Y = \colim (Y \overset{i_0}{\ra} IY \overset{i_0}{\ra} I^2Y ...)$. Denote $j_{n} \colon X \ra I^{n}X$ and $k_{n} \colon Y \ra I^{n}Y$ the trivial cofibrations given by iterated compositions of $i_0$. Using axiom CF6, the maps $j_{\infty} = \colim j_n \colon X \ra I^{\infty}X$ and $k_{\infty} = \colim k_n \colon Y \ra I^{\infty}Y$ are trivial cofibrations.
+
+By induction on $n$, we will construct a factorization in ${\cat D}^{\le n}$
+\begin{center}
+$\xymatrix{
+    I^nX^{\le n} \ar[r]^-{a_n} & 
+    Z_n &
+    I^nY^{\le n} \ar[l]^-{\sim}_-{b_n}
+  }$
+\end{center}
+with $Z_n$ Reedy cofibrant and $b_n$ a weak equivalence in ${\cat D}^{\le n}$, such that $b_n^{-1}a_n$ has the homotopy type of $f_n$, and a trivial Reedy cofibration $c_{n-1}$ in ${\cat D}^{< n}$ that make the next diagram commutative
+\begin{center}
+$\xymatrix{
+    I^{n-1}X^{< n} \ar[r]^-{a_{n-1}} \ar@{>->}[d]_{i_0}^\sim  & 
+    Z_{n-1} \ar@{>->}[d]_-{c_{n-1}}^-\sim & 
+    I^{n-1}Y^{< n} \ar[l]_-{b_{n-1}}^-\sim \ar@{>->}[d]_{i_0}^\sim \\
+    I^{n}X^{< n} \ar[r]_-{a^{< n}_n} & 
+    Z^{< n}_{n} &
+    I^{n}Y^{< n} \ar[l]^-{b^{< n}_n}_-\sim
+  }$
+\end{center}
+
+Once the inductive construction is complete, we get a factorization
+\begin{center}
+$\xymatrix{
+    X \ar@{>->}[r]^-{j_{\infty}}_-\sim & 
+    I^{\infty}X \ar[r]^-{a} & 
+    Z &
+    I^{\infty}Y \ar[l]^-{\sim}_-{b} &
+    Y \ar@{>->}[l]^-{\sim}_-{k_{\infty}}
+  }$
+\end{center}
+defined by $a = \colim^n a_n$ and $b = \colim^n b_n$. Using axiom CF6 and \lemmaref{lem:transcompequiv}, $Z$ is Reedy cofibrant and $b$ is a weak equivalence. The map $k_{\infty}^{-1}b^{-1}aj_{\infty}$ in ${\bf ho}{{\cat M}^{{\cat D}}}$ restricts to $f_n$ for all $n \ge 0$.
+
+To complete the proof, let us perform the inductive construction of $Z_n, a_n, b_n, c_{n-1}$ for $n \ge 0$. The initial step construction of $Z_0, a_0, b_0$ folows from \lemmaref{lem:cofcatsumsofdiagrams}. Assume that $Z_{n-1}, a_{n-1}, b_{n-1}$ have been constructed.
+
+From \theoremref{thm::descrhomotcof}, there exists a factorization in ${\cat D}^{\le n}$
+\begin{center}
+$\xymatrix{
+    I^{n-1}X^{\le n} \ar@{>->}[r]^-{a^{'}_n} & 
+    Z^{'}_n &
+    I^{n-1}Y^{\le n} \ar@{>->}[l]^-{\sim}_-{b^{'}_n}
+  }$
+\end{center}
+with $a^{'}_n$ a Reedy cofibration and $b^{'}_n$ a trivial Reedy cofibration in ${\cat D}^{\le n}$, such that $b_n^{'-1}a_n^{'}$ has the homotopy type of $f_n$ in ${\bf ho}{{\cat M}^{{\cat D}^{\le n}}}$. Using the inductive hypothesis and \theoremref{thm::descrhomot}, there exist a Reedy cofibrant diagram $Z^{'' < n}_{n}$ and weak equivalences $\alpha, \beta$ in ${\cat D}^{< n}$ that make the next diagram {\it homotopy} commutative
+\begin{center}
+$\xymatrix{
+    & 
+    Z_{n-1} \ar@{-->}[d]^-{\alpha} & 
+    \\
+    I^{n-1}X^{< n} \ar[ru]^-{a_{n-1}} \ar@{>->}[rd]_-{a^{' < n}_n} & 
+    Z^{'' < n}_{n}  & 
+    I^{n-1}Y^{< n} \ar[lu]_-{b_{n-1}} \ar@{>->}[ld]^-{b^{' < n}_n} \\
+    & 
+    Z^{' < n}_{n} \ar@{-->}[u]_-{\beta} &
+  }$
+\end{center}
+We may assume that $\alpha, \beta$ are trivial Reedy cofibrations - if they are not, we may replace them with $\alpha^{'}, \beta^{'}$ defined by a cofibrant replacement
+\begin{center}
+$\alpha + \beta \colon Z_{n-1} \Sum Z^{' < n}_{n} \overset{\alpha^{'} + \beta^{'}}{\rightarrowtail} Z^{''' < n}_{n} \overset{\sim}{\ra} Z^{'' < n}_{n}$
+\end{center}
+
+Using \lemmaref{lem::choosecyl} twice, we can embed our homotopy commutative diagram in a diagram commutative on the nose with the maps $c_{n-1}, \gamma$ trivial Reedy cofibrations
+\begin{center}
+$\xymatrix{
+    I^{n-1}X^{< n} \ar@{>->}[r]^-{a_{n-1}} \ar@{>->}[d]_{i_0} & 
+    Z_{n-1} \ar@{>-->}[d]^-{c_{n-1}} & 
+    I^{n-1}Y^{< n} \ar@{>->}[l]_-{b_{n-1}} \ar@{>->}[d]^{i_0} \\
+    I^{n}X^{< n} \ar@{-->}[r]^-{a^{< n}_n}  & 
+    Z^{< n}_{n} & 
+    I^{n}Y^{< n}  \ar@{-->}[l]_-{b^{< n}_n} \\
+    I^{n-1}X^{< n} \ar@{>->}[r]_-{a^{' < n}_n} \ar@{>->}[u]^{i_1} & 
+    Z^{' < n}_{n} \ar@{>-->}[u]_-{\gamma} &
+    I^{n-1}Y^{< n}  \ar@{>->}[l]^-{b^{' < n}_n} \ar@{>->}[u]_{i_1}
+  }$
+\end{center}
+This diagram defines a Reedy cofibrant object $Z_n^{< n}$, a map $a_n^{< n}$, a weak equivalence $b_n^{< n}$ and the trivial Reedy cofibration $c_{n-1}$. It remains to extend $Z_n^{< n}, a_n^{< n}, b_n^{< n}$ in degree $n$ such that $b_n^{-1}a_n = f_n$ in ${\bf ho}{{\cat M}^{{\cat D}^{\le n}}}$.
+
+For each object $d \eps {\cat D}^{n}$, we construct $Z^{'''}_d$ as the colimit of the diagram of solid maps
+\begin{center}
+$ \xymatrix {
+        LI^{n}X_d \ar[rr]^{\colim a_n^{< n}} \ar@{>->}[rd]_{} &  & \colim^{\partial ({\cat D} \downarrow d)}Z^{< n}_{n} \ar@{>-->}[rd]^{\epsilon} & \\
+        & I^{n}X_d \ar@{-->}[rr]^(.3){\delta}  & & Z^{'''}_d  \\
+        LI^{n-1}X_d \ar@{>->}'[r][rr]_(.7){} \ar@{>->}[rd]_{} \ar@{>->}[uu]^{Li_{1d}} & & \colim^{\partial ({\cat D} \downarrow d)}Z^{' < n}_{n} \ar@{>->}[rd] \ar@{>->}'[u]^{\colim \gamma}[uu] & \\
+        & I^{n-1}X_d \ar@{>->}[rr]^{a^{'}_{nd}} \ar@{>->}[uu]_(.7){i_{1d}} & & Z^{'}_d \ar@{-->}[uu]_{\zeta}
+	}$
+\end{center}
+The bottom and left faces are Reedy cofibrant, and the maps $Li_{1d}, i_{1d}$ and $\colim \gamma$ are trivial Reedy cofibrations. A quick computation shows that the colimit $Z^{'''}_d$ actually exists, that $\eps$ is a Reedy cofibration and that the map $\zeta$ is a weak equivalence. In consequence $\delta$ has the homotopy type of $f_{nd}$. 
+
+We also construct $Z^{''''}_d$ as the colimit of the diagram of solid maps
+\begin{center}
+$ \xymatrix {
+        \colim^{\partial ({\cat D} \downarrow d)}Z^{< n}_{n} \ar@{>-->}[rd]_{\mu} &  & LI^{n}Y_d \ar@{>->}[rd] \ar[ll]_{\colim b_n^{< n}} & \\
+        & Z^{''''}_d  & & I^{n}Y_d \ar@{-->}[ll]^(.7){\nu} \\
+        \colim^{\partial ({\cat D} \downarrow d)}Z^{' < n}_{n}  \ar@{>->}[rd]_{} \ar@{>->}[uu]^{\colim \gamma} & & LI^{n-1}Y_d \ar@{>->}[rd] \ar@{>->}'[u]^{Li_{1d}}[uu] \ar@{>->}'[l]^(.8){\colim b_{n-1}}[ll] & \\
+        & Z^{'}_d \ar@{-->}[uu]_(.7){\theta} & & I^{n-1}Y_d \ar@{>->}[uu]_{i_{1d}} \ar@{>->}[ll]_{b_{n-1,d}} 
+	}$
+\end{center}
+The bottom and right faces are Reedy cofibrant, the maps $Li_{1d}$, $i_{1d}$, $\colim \gamma$, $\colim b_{n-1}$ and $b_{n-1,d}$ are trivial Reedy cofibrations and the map $\colim b_n^{< n}$ is a weak equivalence. By computation one shows that the colimit $Z^{''''}_d$ actually exists, that $\mu$ is a Reedy cofibration and that $\nu, \theta$ are weak equivalences. We now construct $Z_d$ as the pushout
+\begin{center}
+$\xymatrix{
+    \colim^{\partial ({\cat D} \downarrow d)}Z^{< n}_{n} \ar@{>->}[r]^-{\mu} \ar@{>->}[d]_{\eps} & Z^{''''}_d \ar@{>-->}[d]_{{\eps}^{'}} \\
+    Z^{'''}_d \ar@{>-->}[r]^{{\mu}^{'}} & Z_d
+  }$
+\end{center}
+From the Gluing Lemma applied to the diagram
+\begin{center}
+$ \xymatrix {
+        \colim^{\partial ({\cat D} \downarrow d)}Z^{< n}_{n} \ar@{>->}[rr]_{\mu} \ar@{>->}[rd]_{\eps} &  & \;\; Z^{''''}_d \;\; \ar@{>->}[rd]^{\eps^{'}} & \\
+        & \;\; Z^{'''}_d \;\; \ar@{>->}[rr]^(.3){\mu^{'}}  & & \;\; Z_d \;\;  \\
+        \colim^{\partial ({\cat D} \downarrow d)}Z^{' < n}_{n} \ar[uu]^{\colim \gamma} \ar@{>->}'[r][rr] \ar@{>->}[rd] && \;\; Z^{'}_d \;\; \ar[rd]^{id} \ar'[u]^{\theta}[uu] & \\
+        & \;\; Z^{'}_d \;\; \ar[rr]^{id} \ar[uu]_(.7){\zeta} & & \;\; Z^{'}_d \;\; \ar@{>->}[uu]_{\iota}
+	}$
+\end{center}
+where the top and bottom faces are pushouts and the vertical maps $\colim \gamma$, $\zeta$, $\theta$ are weak equivalences we see that $\iota$ and therefore ${\mu}^{'}, {\eps}^{'}$ are weak equivalences.
+
+We define $a_{nd} = {\mu}^{'}\delta$, $b_{nd} = {\eps}^{'}\nu$. Repeating our construction for any $d \eps {\cat D}^n$ allows us to define $Z_n, a_n$ and $b_n$.
+
+For all objects $d \eps {\cat D}^n$, the latching map $\eps^{'}\mu$ is a cofibration, therefore $Z_n$ is Reedy cofibrant. The map $b_n$ is a weak equivalence because $b_n^{< n}$ is a weak equivalence and for all objects $d \eps {\cat D}^n$ the maps ${\eps}^{'}, \nu$ are weak equivalences. The map $b_n^{-1}a_n$ has the homotopy type of $f_n \eps Hom_{{\bf ho}{\cat M}^{{\cat D}^{\le n}}}(X^{\le n}, Y^{\le n})$ because $b_n^{' -1}a_n^{'}$ has the homotopy type of $f_n$ and for all $d \eps {\cat D}^n$ the maps $\zeta$, $\theta$, $\nu$, $\mu^{'}$ and $\eps^{'}$ are weak equivalences.
+\end{proof}
+
+
+We now turn to the main theorem of this section.
+
+\begin{thm}[Cisinski]
+\label{thm:freedirectdiagramrealization}
+\mbox{}
+\begin{enumerate}
+\item
+If ${\cat M}$ is a cofibration category and ${\cat D}$ is a small, direct and free category, then the functor $\mathrm{dgm}_{_{\cat D}} \colon {\bf ho}({\cat M}^{\cat D}) \ra ({\bf ho}{\cat M})^{\cat D}$ is full and essentially surjective.
+\item
+If ${\cat M}$ is a fibration category and ${\cat D}$ is small, inverse and free then the functor $\mathrm{dgm}_{_{\cat D}} \colon$ ${\bf ho}({\cat M}^{\cat D})$ $\ra$ $({\bf ho}{\cat M})^{\cat D}$ is full and essentially surjective.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We only prove part (1). The category ${\cat M}^{\cat D}$ is endowed with a pointwise cofibration structure. Since ${\bf ho}({\cat M}^{\cat D}) \cong {\bf ho}({\cat M}^{\cat D}_{cof})$ and ${\bf ho}{\cat M} \cong {\bf ho}{\cat M}_{cof}$, we may assume for simplicity that ${\cat M} = {\cat M}_{cof}$.
+
+Let us first show that $\mathrm{dgm}_{_{\cat D}}$ is essentially surjective. For an object $X$ of $({\bf ho}{\cat M})^{\cat D}$, we will construct by induction on degree a Reedy cofibrant diagram $X^{'} \eps {\cat M}^{\cat D}$ and an isomorphism $f \colon \mathrm{dgm}_{_{\cat D}}(X^{'}) \overset{\cong}{\ra} X$. The inductive hypothesis is that $X^{' \le n}$ is Reedy cofibrant and that $f^{\le n} \colon \mathrm{dgm}_{{\cat D}^{\le n}}(X^{' \le n}) \overset{\cong}{\ra} X^{\le n}$ is an isomorphism.
+
+The initial step $n = 0$ follows from \lemmaref{lem:cofcatsumsofdiagrams}, since ${\cat D}^{\le 0}$ is discrete. Assume that $X^{'<n}, f^{< n}$ have been constructed, and let's try to extend them over each object $d \eps {\cat D}^n$. 
+
+By \lemmaref{lem:descrfinitefreecat}, the latching category $\partial({\cat D} \downarrow d)$ is a disjoint sum of categories with terminal objects denoted $d_i \ra d$. We therefore have $\colim^{\partial({\cat D} \downarrow d)} X^{'} \cong \Sum_i X^{'}_{d_i}$, and $\Sum_i X^{'}_{d_i}$ computes the sum of $X^{'}_{d_i}$ also in ${\bf ho}{\cat M}$. We can thus construct a map $\colim^{\partial({\cat D} \downarrow d)} X^{'} \ra X_d$ in ${\bf ho}{\cat M}$, compatible with $f^{< n}$. This map yields a factorization $\colim^{\partial({\cat D} \downarrow d)} X^{'} \rightarrowtail X^{'}_d \overset{\sim}{\leftarrowtail} X_d$ in ${\cat M}$, since we assumed that ${\cat M} = {\cat M}_{cof}$. Define $f_d$ as the inverse of $X^{'}_d \overset{\sim}{\leftarrowtail} X_d$. Repeating the construction of $X^{'}_d, f_d$ for each $d \eps {\cat D}^n$ yields the desired extension $X^{' \le n}, f^{\le n}$. The map $f \colon \mathrm{dgm}_{_{\cat D}}(X^{'}) \overset{\cong}{\ra} X$ we constructed is a degreewise isomorphism, therefore an isomorphism.
+
+We have shown that $\mathrm{dgm}_{_{\cat D}}$ is essentially surjective, let us now show that it is full. Using \lemmaref{lem:sufficientfinitefull}, it suffices to show that for any Reedy cofibrant diagrams $X^{'}, Y^{'} \eps {\cat M}^{\cat D}$ and map $f \colon \mathrm{dgm}_{{{\cat D}}}(X^{'}) \ra \mathrm{dgm}_{{{\cat D}}}(Y^{'})$, we can construct a set of maps $f^{'}_n \eps Hom_{{\bf ho}{{\cat M}^{{\cat D}^{\le n}}}} (X^{\le n}, Y^{\le n})$ for $n \ge 0$ such that $f^{'}_{n}$ restricts to $f^{'}_{n-1}$ and $f$ restricts to $\mathrm{dgm}_{{\cat D}^{\le n}}(f^{'}_n)$.
+
+We will construct such a map $f^{'}_n$ by induction on $n$. The initial step map $f^{'}_0$ exists as a consequence of \lemmaref{lem:cofcatsumsofdiagrams}. Assume that $f^{'}_{n-1}$ has been constructed.
+
+Using \theoremref{thm::descrhomotcof} we can construct a factorization in ${\cat D}^{< n}$
+\begin{center}
+$\xymatrix{
+    X^{' < n} \ar@{>->}[r]^-{a_{n-1}} & 
+    Z^{'}_{n-1} &
+    Y^{' < n} \ar@{>->}[l]^-{\sim}_-{b_{n-1}}
+  }$
+\end{center}
+with $a_{n-1}$ a Reedy cofibration and $b_{n-1}$ a trivial Reedy cofibration in ${\cat D}^{< n}$, such that $b_{n-1}^{-1}a_{n-1} = f^{'}_{n-1}$.
+
+For any object $d \eps {\cat D}^n$, the latching category $\partial({\cat D} \downarrow d)$ is a disjoint sum of categories with terminal objects, and the functor ${\cat M} = {\cat M}_{cof} \ra {\bf ho}{\cat M}$ commutes with sums of objects. As a consequence, the diagram 
+\begin{center}
+$\xymatrix{
+    LX^{'}_d \ar@{>->}[rrr]^-{\colim^{\partial({\cat D} \downarrow d)} a_{n-1}} \ar[d] &&&
+    \colim^{\partial({\cat D} \downarrow d)} Z^{'}_{n-1} &&&
+    LY^{'}_d \ar@{>->}[lll]^-{\sim}_-{\colim^{\partial({\cat D} \downarrow d)} b_{n-1}} \ar[d] \\
+    X^{'}_d \ar[rrrrrr]^{f_d} &&&&&& Y^{'}_d 
+  }$
+\end{center}
+commutes in ${\bf ho}{\cat M}$. All maps of this diagram are maps of ${\cat M}$, with the exception of $f_d$ which is a map of ${\bf ho}{\cat M}$. Since ${\cat M}$ admits a homotopy calculus of left fractions, a quick computation shows that this diagram can be embedded in a homotopy commutative diagram with all maps in ${\cat M}$
+\begin{center}
+$\xymatrix{
+    LX^{'}_d \ar@{>->}[rrr]^-{\colim^{\partial({\cat D} \downarrow d)} a_{n-1}} \ar[d] &&&
+    \colim^{\partial({\cat D} \downarrow d)} Z^{'}_{n-1} \ar@{>-->}[d] &&&
+    LY^{'}_d \ar@{>->}[lll]^-{\sim}_-{\colim^{\partial({\cat D} \downarrow d)} b_{n-1}} \ar[d] \\
+    X^{'}_d \ar@{>-->}[rrr] &&& {S_d} &&& Y^{'}_d \ar@{>-->}[lll]^\sim
+  }$
+\end{center}
+with the composition in ${\bf ho}{\cat M}$ of the bottom edge having the homotopy type of $f_d$.
+
+Since the cylinders are with respect to the Reedy cofibration structure, notice that $LIX^{'}_d$, $LIY^{'}_d$ are cylinders of $(LX^{'})_d$ and $(LY^{'})_d$. Using \lemmaref{lem::choosecyl} twice, we can embed our homotopy commutative diagram into a diagram commutative on the nose
+\begin{center}
+$\xymatrix{
+    LIX^{'}_d \ar@{-->}[ddrr]_{t_d} & LX^{'}_d \ar@{>->}[l]^-{\sim}_-{i_0} \ar@{>->}[r] &
+    \colim^{\partial({\cat D} \downarrow d)} Z^{'}_{n-1} \ar@{>->}[d] & LY^{'}_d \ar@{>->}[l]^-{\sim} \ar@{>->}[r]_-{\sim}^-{i_0} & LIY^{'}_d \ar@{-->}[ddll]^{t^{'}_d} \\
+    LX^{'}_d \ar@{>->}[u]_-{\sim}^-{i_1} \ar[d] && {S_d} \ar@{>-->}[d]^\sim && LY^{'}_d \ar@{>->}[u]^-{\sim}_-{i_1} \ar[d] \\
+    X^{'}_d \ar@{>-->}[rr] && {T_d} && Y^{'}_d \ar@{>-->}[ll]^\sim
+  }$
+\end{center}
+where the bottom edge has the homotopy type of $f_d$. 
+
+Denote $z_d$ the map $\colim^{\partial({\cat D} \downarrow d)} Z^{'}_{n-1} \ra T_d$. We repeat the construction above for all $d \eps {\cat D}^n$. The maps $t_d, t_di_0, z_d, t^{'}_di_0, t^{'}_d$ define Reedy cofibrant extensions $\overline{LIX^{' \le n}}$, $\overline{LX^{' \le n}}$, $\overline{Z^{'}_{n-1}}$, $\overline{LY^{' \le n}}$, $\overline{LIY^{' \le n}}$ over ${\cat D}^{\le n}$ and a zig-zag of maps 
+\begin{center}
+$X^{' \le n} \ra \overline{LIX^{' \le n}} \overset{\sim}{\la} \overline{LX^{' \le n}} \ra \overline{Z^{'}_{n-1}} \overset{\sim}{\la} \overline{LY^{' \le n}} \ra \overline{LIY^{' \le n}} \overset{\sim}{\la} Y^{' \le n}$
+\end{center}
+which defines the desired $f^{'}_n$.
+\end{proof}
+
+Suppose that ${\cat C}$ is a category and $u \colon {\cat D}_1 \ra {\cat D}_2$ is a functor. Let $X \eps {\cat C}^{\cat D}_1$ be a diagram. A {\it weak colimit}\index{weak (co)limit} of $X$ along $u$, if it exists, is a diagram $\wcolim^u X \eps {\cat C}^{\cat D}_2$ along with a map $\eps \colon X \ra u^* \wcolim^u X$ with the property that for any other diagram $Y \eps {\cat D}_2$ and map $f \colon X \ra u^*Y$ there exists a (not necessarily unique) map $g \colon \wcolim^u X \ra Y$ such that $f = u^* g \comp \eps$. A weak colimit $(\wcolim^u X \eps)$, if it exists, is not necessarily unique. If the base category ${\cat C}$ is cocomplete, then the colimits along $u$ are weak colimits. Weak limits are defined in a dual fashion, and are denoted $\wlim^u X$.
+
+The homotopy category of a cofibration category is not cocomplete, in general. As a benefit of \theoremref{thm:freedirectdiagramrealization}, the homotopy category of a cofibration category admits weak colimits indexed by diagrams that satisfy the conclusion of \theoremref{thm:freedirectdiagramrealization}. Furthermore, there is a way to make these weak colimits {\it unique} up to a {\it non-canonical} isomorphism. This is an idea we learned from Alex Heller, \cite{Heller}.
+
+Suppose that ${\cat M}$ is a cofibration category and that $u \colon {\cat D}_1 \ra {\cat D}_2$ is a functor of small categories where ${\cat D}_1$ has the property that $\mathrm{dgm}_{{\cat D}_1}$ is full and essentially surjective. Let $X \eps ({\bf ho}{\cat M})^{{\cat D}_1}$ be a diagram in the homotopy category. There exists $X^{'} \eps {\bf ho}({\cat M}^{{\cat D}_1})$ with $\mathrm{dgm}_{{\cat D}_1}X^{'} \cong X$, using the essential surjectivity of $\mathrm{dgm}_{{\cat D}_1}$. Denote $\eps^{'} \colon X^{'} \ra u^* {\bf L}\colim^u X^{'}$ the canonical map. Since $\mathrm{dgm}_{{\cat D}_1}$ is full, we see that 
+\[
+(\mathrm{dgm}_{{\cat D}_1}({\bf L}\colim\nolimits^u X^{'}), \mathrm{dgm}_{{\cat D}_1}\eps^{'}) 
+\] 
+is a weak colimit of $X$ along $u$. 
+
+We denote ${\bf W}\colim^u X$ the weak colimit that we constructed. If $X^{''} \eps {\bf ho}({\cat M}^{{\cat D}_1})$ also satisfies $\mathrm{dgm}_{{\cat D}_1}X^{''} \cong X$, since $\mathrm{dgm}_{{\cat D}_1}$ is full we can construct a {\it non-canonical} map $f \colon X^{'} \ra X^{''}$ with $\mathrm{dgm}_{{\cat D}_1}f$ the isomorphism $\mathrm{dgm}_{{\cat D}_1}X^{'} \cong \mathrm{dgm}_{{\cat D}_1}X^{''}$. By \corollaryref{cor:homotcatconservative}, $\mathrm{dgm}_{{\cat D}_1}$ is conservative therefore $f$ is an isomorphism. This shows that ${\bf W}\colim^u X$ as constructed is unique {\it up to a non-canonical isomorphism}.
+
+The weak colimit ${\bf W}\colim^u X$ will be called a {\it privileged weak colimit}, following Alex Heller's terminology. Dually, if ${\cat M}$ is a fibration category and $u \colon {\cat D}_1 \ra {\cat D}_2$ is a functor of small categories with $\mathrm{dgm}_{{\cat D}_1}$ full and essentially surjective, we can construct privileged weak limits of $X \eps ({\bf ho}{\cat M})^{{\cat D}_1}$ along $u$, which are denoted ${\bf W}\lim^u X$. 
+\begin{thm}
+\label{thm:existenceweakcolimits}
+\mbox{}
+\begin{enumerate}
+\item
+Suppose that ${\cat M}$ is a cofibration category and that $u \colon {\cat D}_1 \ra {\cat D}_2$ is a functor of small categories with ${\cat D}_1$ direct and free. Then the privileged weak colimits ${\bf W}\colim^u X$ exist for $X \eps ({\bf ho}{\cat M})^{{\cat D}_1}$, and are unique up to a non-canonical isomorphism.
+\item
+Suppose that ${\cat M}$ is a fibration category and that $u \colon {\cat D}_1 \ra {\cat D}_2$ is a functor of small categories with ${\cat D}_1$ inverse and free. Then the privileged weak limits ${\bf W}\lim^u X$ exist for $X \eps ({\bf ho}{\cat M})^{{\cat D}_1}$, and are unique up to a non-canonical isomorphism.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Consequence of the fact that by \theoremref{thm:freedirectdiagramrealization}, for both (1) and (2) the functor $\mathrm{dgm}_{{\cat D}_1}$ is full and essentially surjective.
+\end{proof}
+

@@ -108,3 +108,68 @@ Pages 20-25 of a numbered manuscript (sections 1.10-2.7, with a "Chapitre 3" on 
 - **readings/c7_c8.md**: cotes 7 and 8: 147 pages. Read by afcdf31bb407576f5 with sub-readers a28f4edc0783f3d6a and aa78098b7d78d6642, all Claude Opus 5.5 at effort max. 61 check events, 44 corrections, 18 hunches. On 8:81 he expected the universal obstruction to lifting the representation of GL(d, F_p) to Z/p^2 to be nonzero for d >= 2 ('sans doute pas nulle'). It is zero exactly for (d, p) = (2,2), (2,3), (3,2) and nonzero in every other case (recomputed and re-proved).
 - **readings/c9_c100.md**: cote 9 (29 pages) and cote 100 scans 3-45 (43 pages), read by a8d07e7854f1cb9b4 with the sub-reader a8d91f19c2d8f19c1, both Claude Opus 5.5 at effort max. 48 check events, 29 corrections, 15 hunches. Part 2) of his Theorem on 100:3 is false over non-reduced bases: a Serre-Tate counterexample over Z_p[eps]/(eps^2). It holds for reduced S; the gap is his step a) on 100:7, which he marked '?' twice. 9:14 'faux par Tate': his expectation holds for ordinary reduction (proved) and fails for supersingular reduction (a sketched counterexample over Q_p(zeta_(p^2)), resting on Kisin's theory and Illusie's lifting theorem). Cote 100 is probably from 1968, not March 1967.
 <!-- readers:end -->
+
+## Integration of POLISH_CRISTAUX, checkpoints 13-18 (23 Nov 2026)
+
+Added by Claude Opus 5.5 at effort max (agent a512cf71295c14ccb). The polish run of this study (prompts 92 and 92b,
+GPT-6 Astra, ChatGPT Pro mode) has 21 papers at checkpoint 18; the intake is
+`field_experts/intake_20261121/intakes/POLISH_CRISTAUX/INTAKE_POLISH_CRISTAUX_20261123_cp18.md`.
+- **Cote 8:49 answered** (Paper 19): Lubin-Tate lattices agree iff e <= p; extremal containment exponents max(0, e - p);
+  tangent images always agree. Targeted check of the mechanism in the intake.
+- **Cote 8:81 extended** (Paper 8): least non-split co-Lie rank 4, 3, 2 for p = 2, 3, >= 5, realized on surfaces.
+- **The inertia-character question (SA15-B chain)** (Paper 2, now 120 pages): exact wild bands
+  nu_min(p, p^v(p-1), 2) = v + 1 and nu_min(p, k p^v(p-1), 2) = v + 2 for 2 <= k <= p - 1; a bracket at every wild index;
+  nu_min(p, (p^2-1)p^v, 2) = v + 2; and v + 2 for all k <= p^2 outside an explicit exceptional set of size
+  (3p-5)/2 + floor((p-2)/3). Read at statement level with arithmetic consistency checks; the proofs carry only the run's
+  same-model reconstructions.
+- **Hyperplane-section monodromy in characteristic two** (Papers 18, 20, 21): full GL_8(F_2) and GL_80(F_2) for degree 1
+  and 3 sections of the square of y^2 + y = x^3; GL_8 on an ordinary open; F_2^96 x| GL_32 for quadrics; invariant
+  covectors 2^f - eps_A. Statement level, with genus and rank consistency recomputed.
+- Correction carried from the cp12 intake: full rational 27-torsion with additive reduction first occurs at e = 162, not 216.
+
+## Integration of POLISH_CRISTAUX, the final (23 Nov 2026)
+
+Added by Claude Opus 5.5 at effort max (agent a512cf71295c14ccb); intake
+`field_experts/intake_20261121/intakes/POLISH_CRISTAUX/INTAKE_POLISH_CRISTAUX_20261123_final.md`.
+- **Two threads.** The run's final (sealed 18:48 UTC, 18 papers, 461 pages) continues the original prompt 92 from
+  checkpoint 13. Checkpoints 16-18, described in the block above, belong to the continuation 92b, which also started
+  from checkpoint 13. The final therefore lacks the 92b results: the E_p theorem of Paper 2, the proper integral H^1
+  comparison of Paper 9, and 92b's Papers 18, 20, 21 (invariant covectors; GL_8 and GL_80 monodromy). Its Paper 18 is
+  92b's Paper 19 (the Lubin-Tate lattices, 8:49). Merging the threads is open.
+- **What the final adds.**
+  - Paper 2: exact bands nu_min(p, k p^r (p-1), 2) = r + 2 for 2 <= k <= (p^2-1)/2, p not dividing k or k = p, and
+    r + 3 for p | k, k >= 2p.
+  - Paper 2: the first open coefficient k0 = (p^2+1)/2. At e = k0 (p-1) p^r and n = r + 3, an unequal-character pair has
+    a forced normal form (equal Hasse parameters, opposite tangent scalars, split residual representations), and its
+    image is not in the principal nonsplit Cartan.
+  - Paper 8: the complete table of sections of GL_d, SL_d and Sp_2g(Z/p^2) over F_p.
+  - Paper 10: eventual generic defect two for every positive-index mixed pair in characteristic two.
+- **Checks in that intake.** The two threads' Paper 2 values agree on 1,595 overlapping cases. Seven small cases of the
+  section table were recomputed by exhaustive search. The alpha_2 theta-descent lemma of Paper 10 was re-proved. The
+  Monsky-Washnitzer half of Paper 9's affine theorem was checked.
+- **Index convention.** nu_min(p, e, 2) is the least nu such that M[p^(nu+1)] determines the character, so nu = 2 means
+  p^3-torsion (Paper 2, introduction.tex line 14). The values above and in the block before are the paper's nu.
+
+## Thread B of POLISH_CRISTAUX to checkpoint 22 (24 Nov 2026)
+
+Added by Claude Opus 5.5 at effort max (agent a512cf71295c14ccb); intake
+`field_experts/intake_20261121/intakes/POLISH_CRISTAUX/INTAKE_POLISH_CRISTAUX_20261124_threadB_cp22.md`.
+Thread B (the 92b continuation) did not stop at checkpoint 18. Its checkpoint 22 (filed 21:45 UTC on 23 Nov) was still
+an active snapshot.
+- **The inertia-character question, whole band.** Paper 2, thm:next-wild-band-complete: nu_min(p, (p-1)p^v k, 2) = v + 2
+  for every v >= 0 and 2 <= k <= p^2 with p not dividing k, and v + 1 at k = 1. The exceptional set E_p of the block
+  above is gone. The reduction to the single multiplier p^2 - (p-1)/2 (thm:single-exception-recovery) had a targeted
+  check, given three carried inputs. Its exchanged case forces p^2 | k + (p-1)/2, so it also excludes thread A's open
+  boundary k = (p^2+1)/2. The exclusions of the last multiplier at every v were read at statement level only.
+- **Weak-formal cohomology.** Paper 9:
+  - H^1(C_X, O[1/p]) is rigid H^1 for every smooth separated X of finite type, with no lift (thm:nolift);
+  - integral H^1 is p-torsion-free and injects into it (thm:integral-rational-injection);
+  - on the affine line, integral H^2 contains a countable direct sum of K/W (thm:affine-second-torsion; the H^2
+    deduction was checked).
+  - Thread A's remark on "the absence of p-torsion on the affine-line site" holds only in degree one.
+- **Hyperplane sections in characteristic two.** Paper 21:
+  - the Hasse divisor in |3d Theta| on an ordinary principally polarized surface is reduced, of degree 9d^2 (the degree
+    was recomputed);
+  - full GL_8 on an ordinary moduli open;
+  - an actual GL_8 block for every d >= n + 1.
+- **Naming trap.** The two threads use k0 for different numbers: thread A's (p^2+1)/2, thread B's p^2 - (p-1)/2.

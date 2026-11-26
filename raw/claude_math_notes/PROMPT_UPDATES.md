@@ -115,3 +115,16 @@ a line here.
   of the old packed PROMPT.md is kept; the Space copies do not hold the two new files, so space_flat.py needs a rerun if
   the Space is used for this prompt. Scripts: results_register/horizontal/sweep3/_tools_a34c0444/
   add_sa08_results_to_sa09.py, relink_sa09_send_folder.py.
+
+
+## POLISH_TOPOLOGY_PERIODS: items for the prompt after 91b (intake a9e9559d, Claude Opus 5.5 at effort high, 23 Nov 2026)
+
+Prompt 91b (sent; continues from checkpoint 13) carries the S20 literature into Paper 2. It does not carry these items from the cp12 and cp13 intakes; they belong in the finishing prompt that follows 91b's final return (running threads are unreachable after one to two hours):
+1. Every paper gets a section headed "Proof overview" (HOW.md box 8); none of the seven has one.
+2. CHECK_EVENTS types: Paper 2 carries six events whose types are not among the seven of the rubric (build and visual checks); move them to a QA log. Normalize the model field to "GPT-6 Astra (ChatGPT Pro mode)".
+3. Paper 5's abstract names "Claude Opus 5.5" without its effort: write "at effort max".
+4. Paper 4: compare the single-cap theorem with infinite grafting and meromorphic projective structures (Gupta 2014; Gupta-Mj; Dumas) at exact locators.
+5. Paper 7: obtain the Order 40 (2023) page of Jenca's Corollary 4.5; route the V-poset counterexample to CORRECTIONS_FOR_AUTHORS.md only if the published corollary keeps the unbounded wording.
+6. Paper 2: obtain King 1985 (Topology Appl. 20, 149-160) for the A.205 comparison; the collar rows now use base-fixed cone parametrizations, and the paper should say in Section 1 that the literal base-setwise reading of II c) is false (the space is Homeo(Y) up to homotopy).
+7. The Elliott note in CORRECTIONS_FOR_AUTHORS.md resolves a conjecture; title it so.
+8. Split Paper 3: a short paper on the strong transcendence counterexample and the dimension table (Thm 1.1, Cor 1.2), apart from the elliptic and arithmetic material.

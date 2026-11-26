@@ -43,3 +43,10 @@ Cotes 153 and 155 are algebra, not stratified spaces: analysers are close to ple
 3. The requested questions (H01-H12, TC01-TC20) repeat those of SA10; merge SA11-1, -2, -4 with SA10-2, -3, -4, -5. They are the notes' research, not his claims.
 4. Place cotes 153 and 155 in the global outline with lambda-rings and plethories, and with Tannakian reconstruction.
 5. The pseudoline programme of cote 154 (SA11-8 to -17, -19) continues SA01's pseudolines and the cote 80 Work folder (SA04-28).
+
+
+## Status after the third-sweep papers (POLISH_TOPOLOGY_PERIODS, prompt 91, checkpoints 12-13; intake of 23 Nov 2026)
+
+Added by the intake agent a9e9559d (Claude Opus 5.5 at effort high), 23 Nov 2026. The run is GPT-6 Astra (ChatGPT Pro mode); checkpoint 13 (10:48 UTC) is probably its last; continuation prompt 91b sent. Intakes: `field_experts/intake_20261121/intakes/POLISH_TOPOLOGY_PERIODS/` (cp12 and cp13). Locators below are to the run's papers in `research_returns/POLISH_TOPOLOGY_PERIODS_checkpoint_13_20261123T1048Z_unzipped/papers/`.
+
+- **Paper 5** (41 pp.): X_2 is the connected sum of n + 1 + 4 sum_k k c_{2k+1} projective planes (c_j = relative positions through exactly j old vertices); two six-line arrangements give 23 and 47 crosscaps. The Euler-characteristic algebra (chi = F(1) - F'(1) - b with F(-1) = 1 - n, F'(-1) = b) and a hand case were checked by the cp12 intake; the local surface topology has a fresh separate proof in the run (not read by us). Cp13 adds an independent incidence construction of every endpoint pairing (run computation, page 20 changed). Open: C.06 (identity with Grothendieck's unspecified gluing).

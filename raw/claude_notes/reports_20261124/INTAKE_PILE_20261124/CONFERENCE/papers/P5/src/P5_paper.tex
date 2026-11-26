@@ -1,0 +1,1864 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1.15in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\emergencystretch=3em
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{thmA}{Theorem A}
+\newtheorem*{thmB}{Theorem B}
+\newtheorem*{thmC}{Theorem C}
+\newtheorem*{thmD}{Theorem D}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Gm}{\mathbb{G}_m}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\Hilb}{\operatorname{Hilb}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Stab}{\operatorname{Stab}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Tr}{\operatorname{Tr}}
+
+\title{Counterexamples to the positivity and saturation hypotheses of GCT~VI\thanks{AI-produced. The results are due to two runs of GPT-6
+Astra (OpenAI, ChatGPT Pro mode); the text was written by Claude Opus~5.5
+(Anthropic) at effort high, which also supplied the steps marked as added
+in Section~\ref{sec:provenance}; see that section for who proved, wrote and
+checked what. No human has checked this text. To the extent that any rights
+exist in it, they are dedicated to the public domain under CC0~1.0.}}
+\author{}
+\date{25 November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Part VI of Mulmuley's geometric complexity theory formulates three hypotheses
+on the stretching quasi-polynomials of Kronecker coefficients, plethysm
+coefficients and, more generally, multiplicities of subgroup restriction:
+the saturation index (SH) and the positivity index (PH2) should be bounded by
+a polynomial in the size of the input, and the generating function should
+admit a positive rational form whose largest denominator exponent, the modular
+index, is bounded by such a polynomial (PH3). We show that these hypotheses
+fail. For every $n\ge2$ the series $\sum_{s\ge0}g((s^n),(s^n),(s^n))\,t^s$
+of triple-rectangular Kronecker coefficients has a pole at a primitive root of
+unity of order $2^{n-1}3^{r}$ for some $r\ge0$, so every positive rational
+form, indeed every expression $P(t)/\prod_i(1-t^{a_i})^{b_i}$, has some
+$a_i\ge2^{n-1}$, while the input rank is $n^2+5n$; this refutes the existence
+clause of PH3 for Kronecker coefficients, also in the relaxed form that
+Mulmuley gave in the appendix to the paper of Briand, Orellana and Rosas. The
+proof reduces modulo three to the cyclic permutation of the three tensor
+factors, whose trace is the Hilbert series of the invariants of
+$\C^n\oplus\mathbb S_{(2,1)}\C^n$, and locates there a unique fixed curve of
+the grading group $\mu_{2^{n-1}}$. For the plethysm coefficients of
+$\Sym^{d}(\Sym^3\C^n)$ along the ray of the determinant, the Hilbert series
+has simple poles at the primitive $2^{n-1}$-th roots of unity for every
+$n\ge4$, which refutes PH3; a signed trace of these poles dominates all other
+terms, which gives positivity and saturation indices larger than $2^{cn}$ for
+every $c<1/4$ and all large $n$, refuting PH2 and SH(a). Both arguments rest
+on a support theorem for cubic forms: a diagonal matrix of two-power order
+fixing a semistable cubic in $n$ variables has determinant of order at most
+$2^{n-1}$, with equality only for the chain cubic
+$x_1^2x_2+\dots+x_{n-1}^2x_n+x_n^3$. For restriction from a rank-one torus,
+which GCT~VI admits as an explicit embedding, the three hypotheses fail at a
+fixed input rank.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction and results}\label{sec:intro}
+
+\paragraph{The hypotheses.}
+Mulmuley's GCT~VI~\cite{GCT6} proposes to decide the nonvanishing of
+structure constants of representation theory, among them the Kronecker
+coefficients and the plethysm coefficients, by linear programming on a
+stretching quasi-polynomial, and it formulates three hypotheses that would
+make this work. Let $f(n)$ be the stretching function of a structure constant
+(the constant at the $n$-fold stretched input), a quasi-polynomial, and
+$F(t)=\sum_{n\ge0}f(n)t^n$ its generating function. The \emph{positivity
+index} $p(f)$ and the \emph{saturation index} $s(f)$ measure how far $f$ must
+be shifted before all constituents have nonnegative coefficients, respectively
+are positive at every positive integer whenever not identically zero; a
+\emph{positive form} of $F$ is an expression with denominator
+$\prod_i(1-t^{a_i})^{d_i}$ and a numerator with nonnegative integer
+coefficients and constant term one, and its \emph{modular index} is
+$\max_ia_i$. (The definitions are recalled in Section~\ref{sec:defs}.) The
+hypotheses ask that $s(f)$ (SH(a)), $p(f)$ (PH2) and the modular index of some
+positive form (PH3) be bounded by a polynomial in the rank of the input:
+\cite[Hypotheses 3.3.2(a), 3.3.3, 3.3.4, p.~51]{GCT6} in general and
+\cite[Hypotheses 1.6.5(a), 1.6.6, 1.6.7, pp.~24--25]{GCT6} for plethysm.
+After Briand, Orellana and Rosas found counterexamples to the earlier, strict
+forms of SH and PH2 for Kronecker coefficients~\cite{BOR}, Mulmuley stated
+relaxed forms of SH, PH2 and PH3 for Kronecker coefficients in an appendix to
+their paper~\cite[Appendix, pp.~18--20]{BOR}; the polynomial bounds above are
+of that relaxed kind.
+
+\paragraph{Results.}
+Write $g(\lambda,\mu,\nu)$ for the Kronecker coefficient and put
+\[
+ k_n(s)=g\bigl((s^n),(s^n),(s^n)\bigr),\qquad
+ K_n(t)=\sum_{s\ge0}k_n(s)t^s .
+\]
+This is the stretching function of the Kronecker coefficient of the triple of
+columns $((1^n),(1^n),(1^n))$.
+
+\begin{thmA}[Theorem~\ref{thm:kronecker}]
+For every $n\ge2$ there is an integer $r\ge0$ such that $K_n(t)$ has a pole at
+every primitive root of unity of order $2^{n-1}3^r$. Consequently every
+expression $K_n(t)=P(t)/\prod_i(1-t^{a_i})^{b_i}$ with $P\in\Q[t]$ and
+positive integers $a_i,b_i$ has $\max_ia_i\ge2^{n-1}$. The existence clause of
+PH3 for Kronecker coefficients \cite[Hypothesis 3.3.4]{GCT6} fails, and so
+does the relaxed PH3 of \cite[Appendix]{BOR}.
+\end{thmA}
+
+Let $\nu=\gcd(n,3)$, $d_0=n/\nu$ and $m=\binom{n+2}3=\dim\Sym^3\C^n$. The
+plethysm coefficient of the ray $\mu=(3)$, $\lambda=(d_0)$, $\pi=((3/\nu)^n)$
+of \cite[Section 1.6]{GCT6} has stretching function
+\[
+ f_n(s)=\dim\Hom_{GL_n}\bigl((\det)^{3s/\nu},\Sym^{d_0s}(\Sym^3\C^n)\bigr),
+ \qquad H_n(t)=\sum_{s\ge0}f_n(s)t^s ,
+\]
+the number of linearly independent $SL_n$-invariants of degree $d_0s$ of
+cubic forms in $n$ variables.
+
+\begin{thmB}[Theorem~\ref{thm:plethysmPH3}]
+For every $n\ge4$, $H_n(t)$ has a simple pole at every primitive root of unity
+of order $2^{n-1}$. Every expression $H_n(t)=P(t)/\prod_i(1-t^{a_i})^{b_i}$ has
+some $a_i$ divisible by $2^{n-1}$, while the parameter of
+\cite[Hypothesis 1.6.7]{GCT6} is $m^2+n+1=O(n^6)$. PH3 fails for plethysm
+coefficients.
+\end{thmB}
+
+\begin{thmC}[Theorem~\ref{thm:indices}]
+For every real $0<c<1/4$ and all sufficiently large $n$, the positivity index
+and the saturation index of $f_n$ satisfy
+\[
+ p(f_n)>2^{cn},\qquad s(f_n)\ge2^{cn};
+\]
+explicitly, $p(f_n)>2^{n/8}$ and $s(f_n)\ge2^{n/8}$ for $n\ge2\cdot10^{80}$.
+PH2 and SH(a) for plethysm coefficients \cite[Hypotheses 1.6.5(a),
+1.6.6]{GCT6} fail.
+\end{thmC}
+
+\begin{thmD}[Propositions~\ref{prop:torusmodular} and~\ref{prop:torusindices}]
+For restriction from $\Gm$ along explicit polynomial embeddings into $GL_2$
+and $GL_3$, which \cite[Section 3.4]{GCT6} admits, the input rank stays $5$,
+respectively $6$, while the modular index of every positive form, respectively
+the positivity and saturation indices, are unbounded. Hypotheses 3.3.2(a),
+3.3.3 and 3.3.4 of \cite{GCT6} fail as stated for the subgroup restriction
+problem.
+\end{thmD}
+
+\paragraph{What is not claimed.}
+None of these results bears on the density clauses \cite[Hypotheses
+1.6.5(b), 3.3.2(b)]{GCT6}, which ask for strict saturation of almost all
+inputs; our families are sparse. We do not determine the exponent $r$ of
+Theorem~A (for $n=2,3,4,5$ separate computations in the run give $r=0$; we do
+not use them), and we do not bound the positivity or saturation index of the
+Kronecker family. Nothing here concerns the occurrence of representations in
+orbit closures, the other route of geometric complexity theory, or the
+complexity of deciding the vanishing of these coefficients.
+
+\paragraph{Method.}
+The refutations of PH3 for Kronecker and for plethysm coefficients detect a pole of a Hilbert series at a root of
+unity $\zeta$ of large order by the fixed locus of the grading element
+$\zeta$ on the invariant-theoretic quotient: a unique fixed curve along which
+the quotient is smooth forces a pole (Proposition~\ref{prop:fixedcomponentpole}),
+while an isolated fixed point forces regularity (Lemma~\ref{lem:isolated}).
+The fixed loci are found by a support theorem for cubic forms
+(Theorem~\ref{thm:fullcubicsupport}), which singles out the chain cubic. For
+Kronecker coefficients the quotient is that of three-tensors, whose fixed loci
+we cannot control directly; instead the cyclic permutation $\tau$ of the three
+factors acts on the invariants, its trace series agrees with $K_n$ modulo
+three, and by a character identity (Theorem~\ref{thm:K023}) it is the Hilbert
+series of a quotient of $\C^n\oplus\mathbb S_{(2,1)}\C^n$, where the support
+theorem applies again. A transfer lemma for congruent rational series
+(Theorem~\ref{thm:transfer}) carries the pole back, at the price of the unknown power $3^r$.
+The torus examples of Theorem~D are elementary.
+
+\paragraph{Earlier work.}
+On 25 November 2026 we ran web searches, searched the Hexagon repository, and
+went through the papers that cite \cite{GCT6} or \cite{BOR} in the OpenAlex
+index, for earlier statements that PH3, PH2 or SH fails in these forms;
+Section~\ref{sec:literature} lists what was searched and what was not.
+Briand, Orellana and Rosas~\cite{BOR} refuted the strict forms of SH and PH2
+for Kronecker coefficients; the positivity indices of their examples are at
+most one, so they agree with the relaxed forms. Ikenmeyer, Mulmuley and
+Walter~\cite{IMW} and Fischer and Ikenmeyer~\cite{FI} showed that deciding the
+positivity of Kronecker and of plethysm coefficients is NP-hard; this concerns
+the exact decision problem, not the index hypotheses. Kahle and
+Micha\l{}ek~\cite{KM} showed that plethysm quasi-polynomials need not count
+lattice points of polytopes of the matching dimension, which bears on the
+polytope hypothesis PH1. In these searches we found no earlier refutation of
+PH3, or of the relaxed SH(a) and PH2.
+
+Section~\ref{sec:provenance} says who proved and checked what.
+
+\section{Definitions and the hypotheses}\label{sec:defs}
+
+\paragraph{Quasi-polynomials and indices.}
+A function $f:\Z_{\ge0}\to\Z$ is a quasi-polynomial if there are a period
+$l\ge1$ and polynomials $f_1,\dots,f_l$ with $f(n)=f_j(n)$ for $n\equiv j
+\pmod l$. The following are \cite[Definitions 1.2.2 and 1.2.4,
+pp.~13--14]{GCT6}.
+
+\begin{definition}\label{def:indices}
+The quasi-polynomial $f$ is \emph{strictly positive} if all coefficients of
+all $f_j$ are nonnegative; its \emph{positivity index} $p(f)$ is the least
+integer $p\ge0$ such that $n\mapsto f(n+p)$ is strictly positive. It is
+\emph{strictly saturated} if, for every $j$, either $f_j$ is identically zero
+or $f_j(n)>0$ for every integer $n\ge1$; its \emph{saturation index} $s(f)$ is
+the least integer $s\ge0$ such that $n\mapsto f(n+s)$ is strictly saturated.
+\end{definition}
+
+\begin{definition}[{\cite[Definition 1.2.7, p.~15]{GCT6}}]\label{def:positiveform}
+Let $F(t)=\sum_{n\ge0}f(n)t^n$ with $f$ a quasi-polynomial of degree $d$, not
+identically zero. A \emph{positive form} of $F$ is an expression
+\[
+ F(t)=\frac{h_0+h_1t+\dots+h_et^e}{\prod_{i=0}^k(1-t^{a_i})^{d_i}}
+\]
+with $h_0=1$, all $h_i$ nonnegative integers, $a_i,d_i$ positive integers and
+$\sum_id_i=d+1$. Its \emph{modular index} is $\max_ia_i$.
+\end{definition}
+
+In \cite[eq.~(1.4)]{GCT6} the numerator is printed as $h_dt^d+\dots+h_0$,
+with the letter $d$ of the degree of $f$. We allow a numerator of any degree
+$e$; this only enlarges the class of positive forms.
+
+Our lower bounds on modular indices use only the denominator: they hold for
+every expression $P(t)/\prod_i(1-t^{a_i})^{b_i}$ with $P\in\C[t]$, with no
+condition on the numerator or on the exponents $b_i$.
+
+\paragraph{The hypotheses.}
+In \cite[Section 3.3, p.~51]{GCT6} the input $x$ of a structure constant has a
+rank $\rank(x)$ and a stretching quasi-polynomial $\tilde f(x,n)$, and the
+hypotheses read: (SH)(a) $s(\tilde f)=O(\mathrm{poly}(\rank(x)))$, (b) the
+saturation index vanishes for almost all $x$ (Hypothesis 3.3.2); (PH2)
+$p(\tilde f)=O(\mathrm{poly}(\rank(x)))$ (Hypothesis 3.3.3); (PH3) the
+generating function $F(x,t)=\sum_n\tilde f(x,n)t^n$ has a positive rational
+form of modular index $O(\mathrm{poly}(\rank(x)))$, and more specifically the
+modular index defined in \cite[Section 4.1.1]{GCT6} is
+$O(\mathrm{poly}(\rank(x)))$ (Hypothesis 3.3.4). These are stated for the
+Kronecker problem, the plethysm problem and the subgroup restriction problem,
+among others. For subgroup restriction along an explicit polynomial
+homomorphism $\rho:H\to G$, with $H$-representation $\lambda$ and
+$G$-representation $\pi$, the rank is the sum of the ranks of $H$ and $G$ and
+the heights of the specified weights \cite[Section 3.4, p.~52]{GCT6}; the
+Kronecker and plethysm problems are special cases.
+
+For plethysm, \cite[Section 1.6, pp.~24--25]{GCT6} states the same hypotheses
+with the parameter $h=\dim G+\operatorname{ht}(\lambda)+\operatorname{ht}(\pi)$:
+SH(a) asks $s\le ch^{c'}$ (Hypothesis 1.6.5(a)), PH2 asks for a polynomial
+bound on the positivity index (Hypothesis 1.6.6), and PH3 asks that the
+generating function have a positive rational form with modular index bounded
+by a polynomial in $h$, and more specifically that this hold for the minimal
+positive form attached to an h.s.o.p.\ of lexicographically minimal degree
+sequence (Hypothesis 1.6.7).
+
+The relaxed hypotheses of \cite[Appendix, pp.~19--20]{BOR} are stated for
+Kronecker coefficients $g_{\lambda,\mu}^{\pi}$ with $H=GL_n\times GL_n\subset
+G=GL_{n^2}$, with the parameter $h$ the largest height of $\lambda,\mu,\pi$:
+(SH)(a) $s=O(\mathrm{poly}(h))$; (PH2) $p=O(\mathrm{poly}(h))$; (PH3) the
+modular index of the minimal positive form is $O(\mathrm{poly}(h))$.
+
+\paragraph{The inputs of this paper.}
+For $k_n$ we take $H=GL_n\times GL_n$, $G=GL_{n^2}$ and the columns
+$\lambda=\mu=(1^n)$, $\pi=(1^n)$, stretched to $(s^n)$. Then $\rank(x)=2n+n^2+3n
+=n^2+5n$ in the sense of \cite[Section 3.4]{GCT6}, and $h=n$ in the sense of
+\cite[Appendix]{BOR}. For $f_n$, $G=GL(\Sym^3\C^n)=GL_m$, $\operatorname{ht}
+(\lambda)=1$, $\operatorname{ht}(\pi)=n$, so $h=m^2+n+1$, and the rank of
+\cite[Section 3.4]{GCT6} is $n+m+n+1$. Both are bounded by a polynomial in
+$n$; so is the parameter of every hypothesis above.
+
+\section{Hilbert series and fixed points of the grading}\label{sec:hilbert}
+
+Throughout, $R=\bigoplus_{d\ge0}R_d$ is a finitely generated positively graded
+$\C$-algebra with $R_0=\C$, and $\Hilb_R(t)=\sum_d\dim R_d\,t^d$. It is a
+rational function whose poles are roots of unity. For a root of unity $\eta$,
+the grading element $\eta$ acts on $R_d$ by $\eta^d$; we write $X=\Spec R$ and
+$X^\eta$ for the scheme-theoretic fixed locus. If $\eta$ has order $q$, then
+$X^\eta=\Spec R/I_q$ with
+\begin{equation}\label{eq:fixedideal}
+ I_q=(R_d:\ q\nmid d),
+\end{equation}
+since a homogeneous element of degree $d$ is changed by the factor $\eta^d$.
+
+\begin{lemma}\label{lem:isolated}
+If $X^\eta$ is supported at the graded origin, then $\Hilb_R(t)$ is regular at
+every primitive root of unity of the order $q$ of $\eta$.
+\end{lemma}
+
+\begin{proof}
+Choose homogeneous generators $a_1,\dots,a_l$ of $I_q$ with degrees $e_i$ not
+divisible by $q$. As the support is the origin, $R/I_q$ is finite-dimensional.
+The homology modules $N_j$ of the graded Koszul complex $K_R(a_1,\dots,a_l)$
+are finitely generated over $R$ and annihilated by $I_q$, because
+multiplication by each $a_i$ is null-homotopic on the Koszul complex; hence
+they are finite-dimensional. The graded Euler characteristic gives
+\[
+ \Hilb_R(t)\prod_{i=1}^l(1-t^{e_i})=\sum_j(-1)^j\Hilb_{N_j}(t),
+\]
+whose right side is a polynomial. No factor $1-t^{e_i}$ vanishes at a
+primitive $q$-th root of unity.
+\end{proof}
+
+\begin{proposition}\label{prop:fixedcomponentpole}
+Let $R$ be a domain, $M\ge2$, $\zeta$ a primitive $M$-th root of unity. Suppose
+$X^\zeta$ has a unique irreducible component $Y$ of maximal dimension
+$\delta\ge1$, and $X$ is smooth at the generic point of $Y$. Give $Y$ its
+reduced structure; its coordinate ring is concentrated in degrees divisible
+by $M$; put $h_Y(z)=\sum_k\dim\C[Y]_{Mk}z^k$ and
+$e_Y=\lim_{z\to1}(1-z)^\delta h_Y(z)>0$. Then the conormal space of $Y$ in $X$
+at its generic point has no eigenvalue one under $\zeta$, and if
+$\nu_1,\dots,\nu_c$ ($c=\dim X-\delta$) are its eigenvalues,
+\begin{equation}\label{eq:residue}
+ \lim_{t\to\zeta}(1-t^M)^\delta\Hilb_R(t)=\frac{e_Y}{\prod_{j=1}^c(1-\nu_j)}\ne0 .
+\end{equation}
+In particular $\Hilb_R$ has a pole of order exactly $\delta$ at $\zeta$, and
+every expression $\Hilb_R(t)=P(t)/\prod_i(1-t^{a_i})^{b_i}$ with $P\in\C[t]$
+has some $a_i$ divisible by $M$.
+\end{proposition}
+
+\begin{proof}
+Choose homogeneous algebra generators of $R$ and list those of degree not
+divisible by $M$ as $f_1,\dots,f_l$, $\deg f_i=w_i$. Their ideal $I$ is the
+fixed-locus ideal: $f_i$ is a nonzero multiple of $\zeta\cdot f_i-f_i$, and
+modulo the $f_i$ every remaining generator is fixed. Thus $X^\zeta=\Spec R/I$
+and $(R/I)_d=0$ when $M\nmid d$. The ideal is homogeneous, so every component
+of the fixed locus is stable under the connected grading torus, hence graded;
+the coordinate ring of $Y$ lives in degrees divisible by $M$.
+
+Let $K_\bullet$ be the graded Koszul complex on $f_1,\dots,f_l$, its $i$-th
+exterior generator of degree $w_i$ and $\zeta$-character $\zeta^{w_i}$, and
+$N_j$ its homology. As before, each $N_j$ is a finite graded $R/I$-module, and
+\begin{equation}\label{eq:euler}
+ \Hilb_R(t)\prod_{i=1}^l(1-t^{w_i})=\sum_{j=0}^l(-1)^j\Hilb_{N_j}(t).
+\end{equation}
+All factors $1-t^{w_i}$ are nonzero at $\zeta$.
+
+Every finite graded $R/I$-module $N$ splits into its degree classes modulo
+$M$; each class, regraded so that degree $M$ becomes degree one, has support
+of dimension at most $\delta$, so $\Hilb_N$ has a pole of order at most
+$\delta$ at $\zeta$. If the localization $N_\eta$ at the generic point $\eta$
+of $Y$ is a $\C(Y)$-vector space, then
+\begin{equation}\label{eq:leading}
+ \lim_{t\to\zeta}(1-t^M)^\delta\Hilb_N(t)=e_Y\Tr(\zeta\mid N_\eta).
+\end{equation}
+Indeed, take a graded prime filtration of each degree class of $N$. Factors
+supported in dimension less than $\delta$ contribute zero to the limit. Since
+$Y$ is the unique component of dimension $\delta$, the remaining factors are
+shifted copies of $\C[Y]$; one generated in degree $a$ contributes
+$t^ah_Y(t^M)$, with leading coefficient $\zeta^ae_Y$. After localization
+these factors give a filtration of $N_\eta$ by lines of character $\zeta^a$,
+which gives the trace. That $e_Y>0$ is the positivity of the leading Hilbert
+coefficient of the positively graded domain $\C[Y]$ regraded by $M$.
+
+At a smooth closed point of $X$ on $Y$, diagonalize the finite-order action of
+$\zeta$ on the cotangent space and lift eigenvectors to the maximal ideal by
+the averaging projectors. They are formal coordinates, the completed local
+ring is the power series ring in them with diagonal action, and the fixed
+scheme is cut out by the coordinates with eigenvalue different from one. So
+the fixed scheme is smooth and regularly embedded there, and its conormal
+representation has no eigenvalue one. This applies at the generic point of
+$Y$.
+
+Put $K=\C(Y)$. In the regular local ring $R_\eta$, the ideal $I_\eta$ is the
+maximal ideal, generated by a regular sequence of length $c$. There is an
+exact sequence of $K$-representations of $\langle\zeta\rangle$
+\[
+ 0\to L\to E=\bigoplus_{i=1}^lKe_i\to V=I_\eta/I_\eta^2\to0,\qquad
+ e_i\mapsto f_i\bmod I_\eta^2 ,
+\]
+where $E$ has the characters $\zeta^{w_i}\ne1$ and $V$ the characters
+$\nu_1,\dots,\nu_c\ne1$. Choosing among the $f_i$ a minimal generating set of
+$I_\eta$, which is a regular sequence, and subtracting combinations of it from
+the other generators changes the Koszul complex into the Koszul complex of a
+regular sequence tensored with the Koszul complex on $l-c$ zeros; hence
+$(N_j)_\eta\cong\bigwedge^j_KL$, naturally and therefore equivariantly. These
+modules are vector spaces, so \eqref{eq:leading} applies, and
+$\sum_j(-1)^j\Tr(\zeta\mid(N_j)_\eta)=\det(1-\zeta\mid L)$. Multiplying
+\eqref{eq:euler} by $(1-t^M)^\delta$ and letting $t\to\zeta$,
+\[
+ \lim_{t\to\zeta}(1-t^M)^\delta\Hilb_R(t)
+ =e_Y\frac{\det(1-\zeta\mid L)}{\prod_i(1-\zeta^{w_i})}
+ =\frac{e_Y}{\det(1-\zeta\mid V)} ,
+\]
+which is \eqref{eq:residue}. The pole order is at most $\delta$ by the module
+argument and exactly $\delta$ since the limit is not zero. Finally, if no
+$a_i$ were divisible by $M$, the expression $P/\prod_i(1-t^{a_i})^{b_i}$
+would be regular at $\zeta$.
+\end{proof}
+
+The Koszul lemmas used (null-homotopy, change of generators, vanishing of
+higher Koszul homology for a regular sequence) are
+\cite[Tags 0621, 062F]{Stacks}. Nonreduced structure of $X^\zeta$ at the
+origin does no harm: its contributions are finite-dimensional.
+
+\begin{lemma}\label{lem:orbitclosure}
+Let $p\in X$ be a closed point other than the origin, and suppose that its
+stabilizer in the grading group $\Gm$ is exactly $\mu_M$. Let $Y$ be the
+closure of its $\Gm$-orbit, with reduced structure. Then $\C[Y]$ is
+concentrated in degrees divisible by $M$, the set $\{k:\C[Y]_{Mk}\ne0\}$ is a
+numerical semigroup (cofinite in $\Z_{\ge0}$), each nonzero
+$\C[Y]_{Mk}$ is a line, and $e_Y=1$ with $\delta=1$.
+\end{lemma}
+
+\begin{proof}
+Restriction to the orbit is the homomorphism $R\to\C[u]$, $f\mapsto f(p)u^d$
+for $f\in R_d$; its image is $\C[Y]$, spanned by the $u^d$ with $d\in S=\{d:
+f(p)\ne0\text{ for some }f\in R_d\}$, a semigroup since products of functions
+nonzero at $p$ are nonzero at $p$. An element $\lambda\in\Gm$ fixes $p$ if and
+only if $f(\lambda\cdot p)=\lambda^df(p)=f(p)$ for all homogeneous $f$, since
+homogeneous functions separate the points of $X$; that is, if and only if
+$\lambda^d=1$ for all $d\in S$. So the stabilizer is $\mu_{\gcd S}$, and
+$\gcd S=M$. A subsemigroup of $M\Z_{\ge0}$ whose elements have greatest
+common divisor $M$ contains all sufficiently large multiples of $M$. Hence
+$h_Y(z)=1/(1-z)-P(z)$ for a polynomial $P$, and $e_Y=1$.
+\end{proof}
+
+\begin{lemma}\label{lem:lift}
+Let $GL_n$ act linearly on a vector space $U$, let $R=\C[U]^{SL_n}$ be graded
+so that $R_0=\C$, and let $\gamma$ be an odd integer such that every
+$B\in GL_n$ acts on $X=\Spec R$ as the grading element $(\det B)^\gamma$. Let
+$p\in X$ be a closed point other than the origin, fixed by a grading element
+$\eta$ of order $2^a$, and let $y\in U$ lie in the closed $SL_n$-orbit over
+$p$. Then there is a diagonalizable $A\in GL_n$ of finite two-power order with
+$A\cdot y=y$ and $\ord(\det A)=2^a$.
+\end{lemma}
+
+\begin{proof}
+As $\gamma$ is odd, there is $\theta$ of order $2^a$ with $\theta^\gamma=\eta$.
+Choose $B\in GL_n$ with $\det B=\theta$. Then $B\cdot y$ lies in a closed orbit
+over $\eta\cdot p=p$, and each fibre of the quotient map contains a unique
+closed orbit \cite[Section I.1, p.~84]{Luna}; so $B\cdot y=S\cdot y$ with
+$S\in SL_n$, and $C=S^{-1}B$ fixes $y$ with $\det C=\theta$. The semisimple
+part $C_s$ of $C$ also fixes $y$ (an eigenvector of $C_s$ for an eigenvalue
+$\ne1$ cannot be fixed by $C=C_sC_u$, whose unipotent part preserves the
+eigenspaces of $C_s$) and has the same determinant. Diagonalize $C_s$ and let
+$\Gamma\subset\C^*$ be the group generated by its eigenvalues, a finitely
+generated abelian group, the product of its finite cyclic torsion subgroup and
+a free group. The projection of $\Gamma$ onto the two-primary part of its
+torsion subgroup, trivial on the free factor, is a homomorphism
+$\Gamma\to\C^*$; applied to every eigenvalue it preserves every multiplicative
+relation among them, in particular the relations expressing $C_s\cdot y=y$
+weight by weight, and it fixes $\theta$. The resulting diagonal matrix $A$
+fixes $y$, has finite two-power order, and $\det A=\theta$.
+\end{proof}
+
+\begin{lemma}\label{lem:cyclotomic}
+Let $p$ be a prime and $d=p^re$ with $p\nmid e$. In $\F_p[t]$,
+$\overline{\Phi_d}=\overline{\Phi_e}$ if $r=0$ and
+$\overline{\Phi_d}=\overline{\Phi_e}^{\,p^{r-1}(p-1)}$ if $r\ge1$. The roots of
+$\overline{\Phi_e}$ in $\overline\F_p$ are the elements of multiplicative order
+$e$, each simple.
+\end{lemma}
+
+\begin{proof}
+For $r\ge1$, $\Phi_{ep^r}(t)\Phi_e(t^{p^{r-1}})=\Phi_e(t^{p^r})$ in $\Z[t]$
+(group the roots on the right by the $p$-part of their order). Modulo $p$,
+$t\mapsto t^{p^j}$ becomes the $p^j$-th power; cancel
+$\overline{\Phi_e}^{\,p^{r-1}}$. The factorization $t^e-1=\prod_{b\mid e}
+\Phi_b(t)$ persists modulo $p$, $t^e-1$ is separable there, and induction on
+$e$ assigns to $\overline{\Phi_e}$ exactly the roots of order $e$.
+\end{proof}
+
+\begin{theorem}\label{thm:transfer}
+Let $F,G\in\Q(t)\cap\Z[[t]]$ have all their poles at roots of unity, let $p$ be
+a prime, $p\nmid M$, and suppose $F\equiv G\pmod{p\Z[[t]]}$. Suppose $G$ has a
+pole of order $\delta\ge1$ at a primitive $M$-th root of unity $\zeta$, no pole
+at any primitive $Mp^r$-th root of unity for $r\ge1$, and that
+$C=\lim_{t\to\zeta}(1-t^M)^\delta G(t)$ is a unit in $\Z[\zeta]_{\mathfrak p}$
+for some prime $\mathfrak p$ over $p$. Then $F$ has a pole at a primitive
+$Mp^r$-th root of unity for some $r\ge0$, hence at all of them; and every
+expression $F(t)=P(t)/\prod_i(1-t^{a_i})^{b_i}$ with $P\in\Q[t]$ and $a_i,b_i>0$
+has some $a_i$ divisible by $Mp^r$, in particular $a_i\ge M$.
+\end{theorem}
+
+\begin{proof}
+A reduced expression of $F$ has a denominator that is, up to sign, a product
+of cyclotomic polynomials; normalize its constant term to $1$. The numerator is
+then integral, being the product of the integral series $F$ with an integral
+polynomial. So $F=N_F/D_F$ and $G=N_G/D_G$ with $N_\bullet,D_\bullet\in\Z[t]$,
+$D_\bullet(0)=1$, coprime over $\Q$, the $D_\bullet$ signed products of
+cyclotomic polynomials. Write $D_G=\varepsilon\Phi_M^\delta D_0$. By
+Lemma~\ref{lem:cyclotomic} and the hypothesis on poles of order $Mp^r$, the
+reduction $\overline{D_0}$ does not vanish at $\alpha=\zeta\bmod\mathfrak p$,
+which has exact order $M$. With $U_M=(1-t^M)/\Phi_M$, separability of
+$t^M-1$ modulo $p$ gives $\overline{U_M}(\alpha)\ne0$. So $D_0(\zeta)$ and
+$U_M(\zeta)$ are $\mathfrak p$-units, and
+$C=U_M(\zeta)^\delta N_G(\zeta)/(\varepsilon D_0(\zeta))$ forces
+$N_G(\zeta)$ to be a unit: $\overline{N_G}(\alpha)\ne0$ while
+$\overline{D_G}$ vanishes at $\alpha$. So $\overline G\in\F_p(t)$ has a pole
+at $\alpha$. Reduction of both fractions is defined in $\F_p(t)$ and in
+$\F_p[[t]]$, and the map from such fractions to series is injective; the
+congruence gives $\overline F=\overline G$ in $\F_p(t)$, so
+$\overline{D_F}(\alpha)=0$. Some cyclotomic factor $\Phi_d$ of $D_F$ has
+$\overline{\Phi_d}(\alpha)=0$, and by Lemma~\ref{lem:cyclotomic} the prime-to-$p$
+part of $d$ is $M$: $d=Mp^r$. As $N_F,D_F$ are coprime over $\Q$, $F$ has a
+pole at a primitive $d$-th root of unity, and by rationality over $\Q$ at all
+of them. A denominator $\prod_i(1-t^{a_i})^{b_i}$ must vanish there, so
+$d\mid a_i$ for some $i$.
+\end{proof}
+
+\begin{remark}
+The hypothesis on the poles of order $Mp^r$ cannot be dropped: $G(t)=1+pt^{pM}/
+(1-t^{pM})$ has integral nonnegative coefficients and $\lim_{t\to\zeta}
+(1-t^M)G(t)=1$, but $\overline G=1$. Nor can the conclusion be improved to
+$r=0$: for $p=3$, $M=2^a\ge4$ and $z=t^{M/2}$, the series
+$F=(1+z)/(1-z+z^2)+2t/(1-t)^2$ and $G=1/(1+z)+2t/(1-t)^2$ have nonnegative
+integral coefficients, $F-G=3z/(1+z^3)$, the residue of $G$ at the primitive
+$M$-th roots is $2$, a $3$-adic unit, but $F$ has its poles there only at order
+$3M$, since $1-z+z^2=\Phi_{3M}(t)$.
+\end{remark}
+
+\section{Cubic supports fixed by a two-power diagonal matrix}\label{sec:support}
+
+Let $F\in\C[x_1,\dots,x_n]$ be a cubic form and $B$ the integer matrix whose
+columns are the exponent vectors of its monomials with nonzero coefficient
+(its \emph{support}). We say $F$ satisfies the \emph{span condition} if
+$\one=(1,\dots,1)^t$ lies in the rational column span of $B$.
+
+\begin{lemma}\label{lem:span}
+Every cubic form at which some $SL_n$-invariant of positive degree does not
+vanish satisfies the span condition, in every coordinate basis.
+\end{lemma}
+
+\begin{proof}
+Some coefficient monomial of the invariant is nonzero at $F$ and so involves
+only coefficients of supported monomials. Invariance under the diagonal torus
+of $SL_n$ makes the sum of the corresponding exponent vectors, counted with
+multiplicity, a vector with all coordinates equal, and positive since the
+degree is positive.
+\end{proof}
+
+If a diagonal matrix $A$ with eigenvalues $\alpha_1,\dots,\alpha_n$ of finite
+two-power order fixes $F$, the character $\psi:\Z^n\to\C^*$,
+$u\mapsto\prod_i\alpha_i^{u_i}$, kills the lattice generated by the support,
+and $\psi(\one)=\det A$. If $K$ is a set of support columns forming a basis of
+the rational support span, the equation $Kz=\one$ has a unique rational
+solution; by Cramer's rule applied to a nonzero maximal minor $K_I$, the least
+$d\ge1$ with $dz$ integral divides $\det K_I$, and $d\one=K(dz)$ is in the
+support lattice. Hence
+\begin{equation}\label{eq:cramer}
+ \ord(\det A)\le2^{v_2(\det K_I)} .
+\end{equation}
+
+\paragraph{The support graph.}
+A monomial $x_i^2x_j$ ($i\ne j$) gives an edge between $i$ and $j$ with
+coefficient two at $i$ and one at $j$; a cube $x_i^3$ gives a loop with
+coefficient three; all $n$ vertices are included. Every other monomial is of
+the form $x_ix_jx_k$ with three distinct indices (a \emph{triple}). For a
+spanning tree of a connected component with $v$ vertices, the $v\times(v-1)$
+matrix $T$ of its columns has rank $v-1$ (remove a leaf: its row has a single
+nonzero entry, one or two). So a graph component has rank $v$ or $v-1$ (an
+isolated vertex has rank one if its cube occurs, zero otherwise). Deleting a
+row $r$ of $T$ and removing leaves other than $r$ one at a time shows
+\begin{equation}\label{eq:treeminor}
+ \det T^{(r)}=\pm2^{e_r},\qquad 0\le e_r\le v-1 .
+\end{equation}
+The signed cofactor vector $u$ of $T$ spans the kernel of $T^t$; along an edge
+with coefficients two and one it satisfies $2u_i+u_j=0$, so adjacent entries
+differ in absolute value by a factor two and have opposite signs:
+\begin{equation}\label{eq:cofactor}
+ u=\varepsilon2^{e}\bigl((-2)^{h_v}\bigr)_v,\qquad
+ \varepsilon=\pm1,\quad e\ge0,\quad h_v\ge0,\quad\min_vh_v=0 .
+\end{equation}
+
+\begin{proposition}\label{prop:graphsupport}
+Suppose the support of $F$ consists of cubes and monomials $x_i^2x_j$ only, and
+$F$ satisfies the span condition. If a diagonal matrix $A$ of finite two-power
+order fixes $F$, then $\ord(\det A)\le2^{n-1}$. If equality holds, then after
+a permutation of the variables the support is exactly
+\begin{equation}\label{eq:chainsupport}
+ x_1^2x_2,\ x_2^2x_3,\ \dots,\ x_{n-1}^2x_n,\ x_n^3,
+\end{equation}
+the eigenvalues of $A$ are $\xi,\xi^{-2},\xi^4,\dots,\xi^{(-2)^{n-1}}=1$ with
+$\xi$ of order $2^{n-1}$, and a diagonal substitution turns $F$ into the chain
+cubic $F_n=x_1^2x_2+\dots+x_{n-1}^2x_n+x_n^3$.
+\end{proposition}
+
+\begin{proof}
+The support lattice, the span condition and $\psi$ split over the connected
+components of the support graph, and $\det A$ is the product of the values of
+$\psi$ on the all-ones vectors $\one_v$ of the components. Each value has
+two-power order; we show it is at most $2^{v-1}$ for a component with $v$
+vertices, and at most $2^{v-2}$ if $v\ge2$ and the component is rank-deficient.
+An isolated vertex must carry a cube (span condition), and $3e_i$ in the
+lattice makes $\psi(e_i)$ trivial.
+
+\emph{Rank $v-1$.} The span of the component is that of a spanning tree $T$,
+and $Tc=\one_v$ has a unique rational solution. By Cramer's rule for every
+$T^{(r)}$, the denominator $q$ of $c$ divides every $2^{e_r}$, and
+$q\one_v=T(qc)$ lies in the lattice. By \eqref{eq:cofactor} adjacent $e_r$
+differ by one; all are at most $v-1$, so their minimum is at most $v-2$, and
+$q\le2^{v-2}$.
+
+\emph{Rank $v$.} One further column extends $T$ to a nonsingular square
+matrix $C$, whose graph is connected and unicyclic (the cycle may be a loop or
+a double edge). The order of $\psi(\one_v)$ divides $|\det C|$, so it is at
+most $2^{v_2(\det C)}$. Expanding along leaf rows contributes a factor one or
+two for each of the $v-l$ tree edges off the cycle of length $l$. A loop
+contributes the odd factor three, so $v_2(\det C)\le v-1$. A cycle of length
+$l\ge2$ has determinant $\pm(2^a+(-1)^{l-1}2^{l-a})$ for some $0\le a\le l$;
+it is nonzero, so $a\ne l-a$ when $l$ is even, and its valuation is
+$\min(a,l-a)\le\lfloor(l-1)/2\rfloor$. Then $v_2(\det C)\le v-l+
+\lfloor(l-1)/2\rfloor\le v-2$.
+
+The product of two-power orders has order at most the largest one, and every
+component has at most $n$ vertices; this gives $\ord(\det A)\le2^{n-1}$. In the
+case of equality, some component has $n$ vertices, so the graph is connected,
+of full rank, and the chosen unicyclic basis has a loop, at a vertex we call
+the root; and every leaf-expansion factor is two. Rooting the tree at the
+loop, each tree edge has coefficient two at its child and one at its parent,
+and the eigenvalue relations are $\alpha_{\rm root}^3=1$ and
+$\alpha_{\rm parent}=\alpha_{\rm child}^{-2}$. As the eigenvalues have two-power
+order, $\alpha_{\rm root}=1$, and a vertex at depth $d$ has eigenvalue of order
+at most $2^d$; if the depth of the tree is $h$, then $\det A$ has order at most
+$2^h$. So $h\ge n-1$, and the tree is a path rooted at one end. The deepest
+eigenvalue $\xi$ has order $2^{n-1}$, and the eigenvalues along the path are
+$\xi,\xi^{-2},\dots,\xi^{(-2)^{n-1}}=1$. In particular $A$ has order $2^{n-1}$.
+
+These eigenvalues fix no other cubic monomial. Indeed, the exponents
+$(-2)^i\bmod2^{n-1}$, $0\le i\le n-2$, have distinct two-adic valuations and
+the last exponent is $0$. In a sum of three of them that vanishes modulo
+$2^{n-1}$, the least valuation among the nonzero ones cannot occur exactly
+once, nor three times (three equal nonzero terms have the valuation of one of
+them, since three is odd); so it occurs twice, at one index $i$, and the third
+term is $-2(-2)^i$, the next chain exponent, or zero if $i=n-2$. Three zero
+terms give $x_n^3$. So the monomials fixed by $A$ are exactly
+\eqref{eq:chainsupport}, and they all occur, being the columns of the basis.
+Rescale $x_n$ by a cube root and then each $x_i$, $i=n-1,\dots,1$, by a square
+root to make all coefficients one.
+\end{proof}
+
+\begin{theorem}\label{thm:fullcubicsupport}
+Let $F$ be a cubic form in $n\ge2$ variables satisfying the span condition, and
+let a diagonal matrix $A$ of finite two-power order fix $F$. Then
+$\ord(\det A)\le2^{n-1}$. If equality holds, then after a permutation of the
+variables the support of $F$ is exactly \eqref{eq:chainsupport}, $A$ has order
+$2^{n-1}$, and a diagonal substitution turns $F$ into $F_n$. The bound is
+attained by $F_n$.
+\end{theorem}
+
+\begin{proof}
+Let $G$ be the matrix of the graph columns (cubes and $x_i^2x_j$). By the
+spanning-tree argument, if the graph has $f$ components of full rank and $c$
+rank-deficient components, with $v_i$ vertices, then $\rank G=n-c$. In each
+full component choose a square basis $C_i$ (a spanning tree and one more graph
+column); the proof of Proposition~\ref{prop:graphsupport} gives
+\begin{equation}\label{eq:fullcomp}
+ v_2(\det C_i)\le v_i-1 .
+\end{equation}
+In each deficient component choose a spanning tree $T_i$; its signed cofactor
+vector is $2^{e_i}u_i$ with $(u_i)_v=\varepsilon_i(-2)^{h_{iv}}$ as in
+\eqref{eq:cofactor} (for an isolated vertex without cube, $e_i=h_{iv}=0$).
+Put $b_i=v_i-1-e_i$ and $H_i=\max_vh_{iv}$. Since a tree minor is a product of
+$v_i-1$ factors one or two, $0\le H_i\le b_i$; and if $H_i=b_i$, the vertex of
+height $H_i$ is unique: rooting the tree there, its deleted-row minor has
+absolute value $2^{v_i-1}$, so every factor is two, each edge has coefficient
+two at its child and one at its parent, $h_{\rm parent}=h_{\rm child}+1$, and
+heights decrease strictly away from the root.
+
+Normalize the entries of $u_i$ by $2^{b_i}$. For sums over distinct vertices
+$E$ of one deficient component,
+\begin{equation}\label{eq:smallsums}
+ \Bigl|\sum_{v\in E}\frac{(u_i)_v}{2^{b_i}}\Bigr|\le1,\ \tfrac54,\ \tfrac32
+ \qquad\text{for }|E|=1,2,3 .
+\end{equation}
+If $H_i<b_i$, all entries have absolute value at most $1/2$. If $H_i=b_i$,
+there is one entry of absolute value one, which we make positive; the entries
+of absolute value $1/2$ are at height $H_i-1$ and so negative; all others have
+absolute value at most $1/4$. A pair avoiding the top entry has sum at most one
+in absolute value, a pair containing it at most $5/4$; a triple avoiding it at
+most $3/2$; a triple containing it gives $0$ if both others are $-1/2$, at
+most $3/4$ if one is, and at most $1+1/4+1/4$ otherwise.
+
+The bases $C_i$ and trees $T_i$ form a rational basis of the graph columns.
+Extend it by $q$ triple columns $\beta_1,\dots,\beta_q$ to a basis of all
+support columns; then $0\le q\le c$ and the support rank is $r=n-c+q$. If
+$q=0$, the graph part satisfies the span condition by itself, and
+Proposition~\ref{prop:graphsupport} applies: it gives the bound, and in case
+of equality the chain eigenvalues, which fix no triple monomial; so $F$ has no
+triple monomials and the theorem holds. Assume $q>0$.
+
+Define the $c\times q$ matrix $D_{ij}=u_i^t(\beta_j|_i)$, where $\beta_j|_i$ is
+the restriction to the vertices of deficient component $i$. The map sending a
+vector to its $c$ pairings with the $u_i$ is surjective with kernel the
+rational span of the graph columns (on a full component the graph columns span
+all coordinates; on a deficient one $\ker u_i^t$ is the tree span), so $D$ has
+rank $q$; choose $q$ deficient components $J$ with $\det D_J\ne0$. Let $K$ be
+the $n\times r$ basis matrix. Keep all rows of full components and of the
+components in $J$; in every other deficient component delete one row at a
+vertex of height zero. The resulting $r\times r$ minor satisfies
+\begin{equation}\label{eq:minorfactor}
+ \det K_I=\pm\Bigl(\prod_{\text{full }i}\det C_i\Bigr)
+ 2^{\sum_{\text{deficient }i}e_i}\det D_J .
+\end{equation}
+Indeed, in a full component eliminate the triple entries with its graph
+columns and factor out $\det C_i$; in a deficient component outside $J$ the
+retained tree block is square with determinant $\pm2^{e_i}$ (the deleted row
+had height zero); eliminate and factor out. These operations stay inside
+components. What remains are the tall tree blocks of $J$ and the $q$ triple
+columns; expanding along maximal minors of each tree block leaves one row per
+component, given by the cofactor vector $2^{e_i}u_i$, and the remaining
+$q\times q$ determinant is $\det D_J$.
+
+Divide row $i$ of $D_J$ by $2^{b_i}$. Each column then involves at most three
+distinct vertices; by \eqref{eq:smallsums} its squared Euclidean norm is at
+most $3$ (three components), $(5/4)^2+1=41/16$ (two and one) or $(3/2)^2$ (all
+in one). Hadamard's inequality gives
+\begin{equation}\label{eq:hadamard}
+ 0<|\det D_J|\le2^{\sum_{i\in J}b_i}3^{q/2} .
+\end{equation}
+If $q<c$, or $q=c$ and $f>0$, then by \eqref{eq:fullcomp},
+\eqref{eq:minorfactor} and \eqref{eq:hadamard},
+\[
+ v_2(\det K_I)\le\sum_{\rm full}(v_i-1)+\sum_{\rm def}e_i+\sum_{i\in J}b_i
+ +\tfrac q2\log_23
+ =n-f-c-\!\!\sum_{\substack{{\rm def}\ i\notin J}}\!\!b_i+\tfrac q2\log_23<n-f-c+q,
+\]
+strictly since $q>0$ and $\sqrt3<2$; the right side is at most $n-1$, so
+$v_2(\det K_I)\le n-2$. If $q=c$ and $f=0$, then $K$ is square and every
+column has coordinate sum three, so $\one^tK=3\one^t$ and $3\mid\det K$, hence
+$3\mid\det D$; with $\sum_i(e_i+b_i)=n-c$,
+\[
+ 2^{v_2(\det K)}\le2^{\sum e_i}\frac{|\det D|}3\le2^{n-c}3^{c/2-1}<\frac{2^n}3
+ <2^{n-1}.
+\]
+In both cases \eqref{eq:cramer} gives $\ord(\det A)\le2^{n-2}$. So equality
+occurs only with $q=0$. Finally $F_n$ is fixed by
+$\diag(\xi,\xi^{-2},\dots,\xi^{(-2)^{n-1}})$ with $\xi$ of order $2^{n-1}$,
+whose determinant $\xi^{S}$, $S=\sum_{i<n}(-2)^i$, has order $2^{n-1}$ since
+$S$ is odd.
+\end{proof}
+
+\section{Kronecker coefficients}\label{sec:kronecker}
+
+Let $W=\C^n$ with basis $e_1,\dots,e_n$, and let $R_n=\C[W\otimes W\otimes W]
+^{SL_n^3}$, graded so that $(R_n)_s$ is the space of invariants of degree $ns$
+(invariants occur only in degrees divisible by $n$). By Schur--Weyl duality
+$\dim(R_n)_s=g((s^n),(s^n),(s^n))=k_n(s)$, so $K_n=\Hilb_{R_n}$. Let $\tau$ be
+the cyclic permutation of the three tensor factors; it acts on $R_n$ as a
+graded algebra automorphism of order three.
+
+Let $\mathcal U_n=W\oplus\mathbb S_{(2,1)}W$, give its coordinate ring the
+grading in which linear functions on $W$ have weight one and those on
+$\mathbb S_{(2,1)}W$ weight three, and let $b_n(s)$ be the dimension of the
+$SL_n$-invariants of weighted degree $ns$ and $B_n(t)=\sum_sb_n(s)t^s$. (All
+invariants have weighted degree divisible by $n$, as the scalars $\mu_n$ act
+on weighted degree $D$ by $\zeta^D$.) Then $B_n=\Hilb_{T_n}$ with
+$T_n=\C[\mathcal U_n]^{SL_n}$ graded by $s$.
+
+\begin{theorem}\label{thm:K023}
+For every $n\ge2$ and $s\ge0$,
+\[
+ \tr\bigl(\tau\mid(R_n)_s\bigr)=b_n(s),\qquad k_n(s)\equiv b_n(s)\pmod3 ,
+\]
+and $k_n(s)-b_n(s)$ is a nonnegative multiple of three. Hence
+$K_n(t)\equiv B_n(t)\pmod{3\Z[[t]]}$.
+\end{theorem}
+
+\begin{proof}
+We may compute with polynomial representations of $W$ instead of $W^*$; the
+simultaneous contragredient preserves the dimensions of invariant spaces and
+commutes with permutations of the factors. In degree $d=ns$, Schur--Weyl
+duality gives, compatibly with $\tau$,
+\[
+ (R_n)_s\simeq\bigl([\lambda]\otimes[\lambda]\otimes[\lambda]\bigr)^{S_d},
+ \qquad\lambda=(s^n),
+\]
+since $\Sym^d(W\otimes W\otimes W)$ is the diagonal $S_d$-invariant part of
+$(W^{\otimes d})^{\otimes3}$ and $(W^{\otimes d})^{SL_n}$ is the Specht module
+$[\lambda]$. For an endomorphism $A$ of a vector space, the trace of the cyclic
+permutation composed with $A^{\otimes3}$ is $\tr(A^3)$ (contract the cyclic
+indices in a basis). Averaging over $S_d$,
+\[
+ \tr\bigl(\tau\mid(R_n)_s\bigr)=\frac1{d!}\sum_{\pi\in S_d}\chi_\lambda(\pi^3).
+\]
+By the Frobenius formula $p_\mu=\sum_\lambda\chi_\lambda(\mu)s_\lambda$, this
+average is the coefficient of $s_\lambda z^d$ in
+$\sum_d\frac{z^d}{d!}\sum_{\pi\in S_d}p_{{\rm type}(\pi^3)}$. Cubing a
+permutation keeps a $j$-cycle with $3\nmid j$ and splits a $3r$-cycle into three
+$r$-cycles, so by the exponential formula the series is
+\[
+ \exp\Bigl(\sum_{3\nmid j}\frac{z^jp_j}j+\sum_{r\ge1}\frac{z^{3r}p_r^3}{3r}\Bigr)
+ =\exp\Bigl(\sum_{r\ge1}\frac{z^rp_r}r+\sum_{r\ge1}\frac{z^{3r}}r\,
+ p_r[s_{(2,1)}]\Bigr),
+\]
+using $p_r[s_{(2,1)}]=(p_r^3-p_{3r})/3$, which follows from
+$s_{(2,1)}=(p_1^3-p_3)/3$. The right side is the character of the symmetric
+algebra on $W\oplus\mathbb S_{(2,1)}W$ with weights one and three
+\cite[Chapter I, \S\S7--8]{Macdonald}; specializing to $n$ variables and taking
+the coefficient of $s_{(s^n)}$ gives $b_n(s)$. Finally, $\tau$ is defined over
+$\Q$ on $(R_n)_s$, and an operator of order three on a rational vector space has
+characteristic polynomial $(X-1)^a(X^2+X+1)^b$, dimension $a+2b$ and trace
+$a-b$; the difference is $3b\ge0$.
+\end{proof}
+
+We realize $\mathbb S_{(2,1)}W$ as the degree-three part of the free Lie
+algebra on $W$ inside $W^{\otimes3}$, with $[a,b]=ab-ba$: the map
+$W\otimes\Lambda^2W\to W^{\otimes3}$, $a\otimes(b\wedge c)\mapsto[a,[b,c]]$,
+has kernel $\Lambda^3W$ by the Jacobi identity, and its image is
+$\mathbb S_{(2,1)}W$. Its weights are $2e_i+e_j$ ($i\ne j$), with multiplicity
+one, and $e_i+e_j+e_k$ ($i,j,k$ distinct), with multiplicity two. Put
+\[
+ z_n=(e_n,F_n)\in\mathcal U_n,\qquad F_n=\sum_{i=1}^{n-1}[e_i,[e_i,e_{i+1}]],
+ \qquad M=2^{n-1}.
+\]
+
+\begin{lemma}\label{lem:liezero}
+For every $n\ge2$, the stabilizer of $z_n$ in $\mathfrak{gl}_n$ is zero, so the
+stabilizer of $z_n$ in $GL_n$ is finite.
+\end{lemma}
+
+\begin{proof}
+Write $Xe_j=\sum_ax_{aj}e_a$ and suppose $Xz_n=0$; then $Xe_n=0$, and $X$ acts
+on $F_n$ as a derivation of the brackets. For $r\ne s$, the weight $2e_r+e_s$
+is spanned by $L_{rs}=[e_r,[e_r,e_s]]$, and its coefficient in $XF_n$ is
+\[
+ \mathbf1_{r<n}x_{s,r+1}+2\cdot\mathbf1_{s=r+1}x_{rr}-\mathbf1_{s=r-1}x_{r,r-1},
+\]
+the last term coming from $[e_r,[e_{r-1},e_r]]=-L_{r,r-1}$. Taking $s=r+1$ gives
+$2x_{rr}+x_{r+1,r+1}=0$, and $x_{nn}=0$, so the diagonal vanishes. For column
+$j\ge2$ the only possibly nonzero entries are then $x_{j-1,j}$ and
+$x_{j-2,j}=x_{j-1,j-2}$ ($j\ge3$); for $j\ge4$ the latter is an entry below the
+diagonal in column $j-2\ge2$, hence zero. So besides the first column and the
+superdiagonal only $x_{13}=x_{21}$ ($n\ge3$) can be nonzero. Put
+$y_j=x_{j-1,j}$; $Xe_n=0$ gives $y_n=0$. If $n=2$, $Xe_2=0$ also kills $x_{12}$,
+and the coefficient of $L_{21}$ gives $x_{21}=0$. Let $n\ge3$.
+
+For $a\ge4$, the weight $e_1+e_2+e_a$ receives only the term of index one,
+with coefficient $x_{a1}$ times the nonzero vector
+$[e_a,[e_1,e_2]]+[e_1,[e_a,e_2]]$; so $x_{a1}=0$. For $3\le j\le n-1$, the
+weight $e_{j-1}+e_j+e_{j+1}$ receives only the two adjacent terms, with
+coefficients $y_j$ and $x_{j+1,j-1}=0$, the former multiplying the nonzero
+vector $[e_{j-1},[e_j,e_{j+1}]]+[e_j,[e_{j-1},e_{j+1}]]$; so $y_j=0$. In the
+weight $e_1+e_2+e_3$, with the basis $A=[e_1,[e_2,e_3]]$,
+$B=[e_2,[e_1,e_3]]$ and $[e_3,[e_1,e_2]]=-A+B$, the contribution is
+$y_2(A+B)+x_{31}(-2A+B)$; so $y_2-2x_{31}=y_2+x_{31}=0$ and
+$x_{31}=y_2=0$. Finally $x_{13}=x_{21}$ vanishes by $Xe_3=0$ if $n=3$, and for
+$n\ge4$ because the weight $e_1+e_3+e_4$ receives only the derivative of the
+repeated $e_3$ in the term of index three, with coefficient $x_{13}$ times a
+nonzero vector. So $X=0$. An algebraic group in characteristic zero has the
+dimension of its Lie algebra.
+\end{proof}
+
+\begin{theorem}\label{thm:K024}
+Let $n\ge2$, $M=2^{n-1}$, $\zeta$ a primitive $M$-th root of unity, and
+$X_n=\Spec T_n$.
+\begin{enumerate}
+\item The $SL_n$-orbit of $z_n$ is closed; its stabilizer in $GL_n$ is cyclic of
+order $M$, generated by
+\begin{equation}\label{eq:chainelement}
+ g=\diag(\zeta^{w_1},\dots,\zeta^{w_n}),\qquad w_i=(-2)^{i-1}\bmod M ,
+\end{equation}
+on which $\det$ is faithful; its stabilizer in $SL_n$ is trivial.
+\item The nonzero closed points of $X_n$ fixed by the grading group $\mu_M$
+form one orbit of the grading group $\Gm$, the orbit of the image $p_n$ of
+$z_n$, whose stabilizer in $\Gm$ is exactly $\mu_M$. $X_n$ is smooth at $p_n$,
+and the fixed scheme $X_n^{\zeta}$ is smooth of dimension one there.
+\item $B_n$ has a simple pole at every primitive $M$-th root of unity $\xi$,
+with $\lim_{t\to\xi}(1-t^M)B_n(t)$ a unit in $\Z[\xi,1/2]$.
+\item If the two-part of an integer $d$ is at least $M$ and $d\ne M$, then
+$B_n$ is regular at every primitive $d$-th root of unity; in particular at the
+primitive $M3^r$-th roots for $r\ge1$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\emph{Closed orbit.} For $1\le i<n$ put $q_i=(1-(-1/2)^i)/3$ and $q_n=1-q_{n-1}$;
+all are positive, and with $a_i=2e_i+e_{i+1}$ ($i<n$), $a_n=e_n$, one has
+$\sum_iq_ia_i=\one$ ($2q_1=1$, $q_{i-1}+2q_i=1$, $q_{n-1}+q_n=1$). The words
+$[e_i,[e_i,e_{i+1}]]$ have squared norm six in the Hermitian metric of
+$W^{\otimes3}$; give the word $i$ the coefficient $\sqrt{q_i/6}$ and $e_n$ the
+coefficient $\sqrt{q_n}$. The diagonal part of the moment map of $SU_n$ is then
+$\one$ minus its trace part, which vanishes; its off-diagonal part vanishes
+because no two of the weights $a_1,\dots,a_n$ in the same summand differ by a
+root $e_a-e_b$, and the summands are orthogonal and preserved. So this vector
+is a zero of the moment map, and its $SL_n$-orbit is closed by the
+Kempf--Ness criterion \cite[Theorem 4, p.~1]{Losev}. The weights $a_i$ are
+linearly independent (triangular, determinant $2^{n-1}$), so the diagonal torus
+acts transitively on vectors with these weights and nonzero coefficients; it
+maps our vector to $z_n$, and the orbit of $z_n$ is closed as well.
+
+\emph{Stabilizer.} The weights $w_i$ are distinct modulo $M$, $w_n=0$ and
+$2w_i+w_{i+1}\equiv0$, so $g$ fixes $z_n$, and $\det g=\zeta^{\sum w_i}$ with
+$\sum_iw_i$ odd. Let $L=\Stab_{GL_n}(z_n)$, finite by Lemma~\ref{lem:liezero}.
+As $g$ has simple spectrum, its centralizer in $L$ is diagonal; a diagonal
+element of $L$ satisfies $d_n=1$ and $d_i^2d_{i+1}=1$, so the centralizer is
+$\langle g\rangle$, of order $M$. Column orthogonality gives
+$\sum_{\rho\in{\rm Irr}(L)}|\rho(g)|^2=M$; the powers $\det^k$, $0\le k<M$, are
+distinct linear characters (as $\det g$ has order $M$) and exhaust this sum. So
+every linear character of $L$ is a power of $\det$, and every nonlinear
+irreducible character vanishes at $g$. Let $K=\ker(\det|_L)$. A representation
+of $g$ has trace zero exactly when the multiplicities of $\eta$ and $-\eta$
+agree for every eigenvalue $\eta$ (use the basis $1,\zeta,\dots,\zeta^{M/2-1}$
+of $\Q(\zeta)$ and $\zeta^{M/2}=-1$). The spectrum \eqref{eq:chainelement} has
+exactly one pair $\{\eta,-\eta\}$, on $P=\langle e_{n-1},e_n\rangle$, since
+the $w_i$ with $i\le n-2$ have distinct two-adic valuations less than $n-2$.
+So every nonlinear constituent of $W$ lies in $P$; the linear constituents are
+powers of $\det$, on which $K$ acts trivially; $P$ is $L$-stable, $K$ acts on
+it with determinant one and fixes $e_n$, and a finite-order element of
+$SL_2(\C)$ fixing a nonzero vector is the identity. So $K=1$ and
+$L=\langle g\rangle$; the $SL_n$-stabilizer is trivial.
+
+\emph{The grading.} The scalar $\lambda I\in GL_n$ acts on $\mathcal U_n$ as the
+weight grading, and on $(T_n)_s$ by $\lambda^{\pm ns}=(\det\lambda I)^{\pm s}$;
+so each $B\in GL_n$ acts on $X_n$ as the grading element $(\det B)^{\pm1}$.
+Hence the grading stabilizer of $p_n$ is $\det(L)=\mu_M$, and every point of
+$\Gm\cdot p_n$ is fixed by $\mu_M$.
+
+\emph{Fixed points.} Let $p\ne0$ be a closed point of $X_n$ fixed by a grading
+element of order $2^a\ge M$ and $y$ in its closed orbit. By
+Lemma~\ref{lem:lift} (with $\gamma=\pm1$) some diagonal $A$ of two-power order
+fixes $y$ with $\ord(\det A)=2^a$. In an eigenbasis of $A$ consider the weights
+of the nonzero components of $y$: linear weights $e_i$, and weights $2e_i+e_j$,
+$e_i+e_j+e_k$ of $\mathbb S_{(2,1)}W$. Replace each linear weight $e_i$ by
+$3e_i$; this preserves the rational span and, for eigenvalues of two-power
+order, the condition of being fixed ($\alpha_i=1\iff\alpha_i^3=1$). The span
+condition holds by the argument of Lemma~\ref{lem:span}, applied to a
+positive-degree invariant nonzero at $y$. The resulting columns are the support
+of a cubic form fixed by $A$, and Theorem~\ref{thm:fullcubicsupport} gives
+$2^a\le M$; so $a=n-1$, and the support is the chain \eqref{eq:chainsupport}
+after a permutation. The cube $3e_n$ comes from the linear coordinate $e_n$,
+since $\mathbb S_{(2,1)}W$ has no weight $3e_i$, and the other columns from the
+one-dimensional weight spaces of $2e_i+e_{i+1}$. So $y$ is diagonally
+equivalent to $z_n$, and $p\in\Gm\cdot p_n$.
+
+\emph{Smoothness and the fixed tangent space.} Since the closed orbit of $z_n$
+has trivial stabilizer in $SL_n$, Luna's slice theorem
+\cite[Section III.1, Th\'eor\`eme du slice \'etale and Remarque 1$^\circ$, pp.~97--98]{Luna} shows that $X_n$ is smooth at $p_n$ with
+tangent space $\mathcal U_n/\mathfrak{sl}_n\cdot z_n$, equivariantly for $g$.
+The fixed space of $g$ on $\mathcal U_n$ has dimension $n$. Recall
+$v_2(w_i)=i-1$ for $i<n$ and $w_n=0$. A linear weight $e_i$ is fixed only for
+$i=n$. A weight $2e_i+e_j$ is fixed only for $j=i+1$: if $j=n$, then
+$2w_i\equiv0$ forces $i=n-1$; if $i=n$, then $w_j\not\equiv0$; if $i,j<n$ and
+$j\ne i+1$, the valuations $i$ and $j-1$ of $2w_i$ and $w_j$ differ, so the sum
+has valuation at most $n-2$; and $2w_i+w_{i+1}=0$. A weight $e_i+e_j+e_k$ is
+never fixed, since among its nonzero terms the least valuation occurs once.
+As $g$
+has simple spectrum, $\dim\mathfrak{sl}_n^g=n-1$. Taking fixed vectors is exact
+for a finite group in characteristic zero, so $\dim(T_{p_n}X_n)^g=1$, and as in
+the proof of Proposition~\ref{prop:fixedcomponentpole} the fixed scheme is
+smooth of dimension one at $p_n$. Translating by the grading group, the same
+holds along $\Gm\cdot p_n$.
+
+\emph{The pole.} Let $Y$ be the closure of $\Gm\cdot p_n$. Its only other point
+is the origin, since the grading is positive; so the support of
+$X_n^{\zeta}$ is $Y$, a curve, and $X_n$ is smooth at its generic point. By
+Lemma~\ref{lem:orbitclosure}, $e_Y=1$. Proposition~\ref{prop:fixedcomponentpole}
+gives a simple pole at $\zeta$ with $\lim(1-t^M)B_n=1/\prod_j(1-\nu_j)$, where
+the $\nu_j$ are the eigenvalues of $\zeta$ on the conormal space, all
+different from one and all $M$-th roots of unity. For an $M$-th root of unity
+$\nu\ne1$ of order $2^b$, $(1-\nu)\sum_{j<2^{b-1}}\nu^j=1-\nu^{2^{b-1}}=2$, so
+$1-\nu$ is a unit in $\Z[\zeta,1/2]$. The same holds at every primitive
+$M$-th root by Galois conjugation, $B_n$ having rational coefficients.
+
+\emph{No other poles of large two-part.} If the two-part of $d$ is at least $M$
+and $d\ne M$, a nonzero point fixed by a primitive $d$-th root would be fixed by
+its two-primary part, of order at least $M$, hence lie on $\Gm\cdot p_n$, whose
+grading stabilizer is $\mu_M\not\ni$ the primitive $d$-th roots. So the fixed
+locus is the origin, and Lemma~\ref{lem:isolated} applies.
+\end{proof}
+
+\begin{theorem}\label{thm:kronecker}
+For every $n\ge2$ there is $r\ge0$ such that $K_n(t)=\sum_sg((s^n),(s^n),
+(s^n))t^s$ has a pole at every primitive root of unity of order $2^{n-1}3^r$.
+Every expression $K_n(t)=P(t)/\prod_i(1-t^{a_i})^{b_i}$ with $P\in\Q[t]$ and
+positive integers $a_i,b_i$ has some $a_i$ divisible by $2^{n-1}3^r$; in
+particular every positive form of $K_n$ has modular index at least $2^{n-1}$.
+\end{theorem}
+
+\begin{proof}
+Both $K_n$ and $B_n$ are Hilbert series of finitely generated positively graded
+domains, so they are rational with poles at roots of unity, with integral
+coefficients. By Theorem~\ref{thm:K023}, $K_n\equiv B_n\pmod 3$. By
+Theorem~\ref{thm:K024}, $B_n$ has a simple pole at each primitive $M$-th root
+$\zeta$, $M=2^{n-1}$, with limit a unit in $\Z[\zeta,1/2]$, hence a unit at
+every prime above $3$, and no pole at the primitive $M3^r$-th roots, $r\ge1$.
+Theorem~\ref{thm:transfer} with $p=3$, $F=K_n$, $G=B_n$ applies.
+\end{proof}
+
+\begin{corollary}\label{cor:kroneckerPH3}
+The existence clause of PH3 for Kronecker coefficients \cite[Hypothesis
+3.3.4]{GCT6} fails: for the inputs $((1^n),(1^n),(1^n))$, with
+$\rank(x)=n^2+5n$, every positive rational form of the generating function has
+modular index at least $2^{n-1}$. The relaxed PH3 of \cite[Appendix,
+p.~20]{BOR}, which bounds the modular index of the minimal positive form by a
+polynomial in the largest height $h=n$, fails as well.
+\end{corollary}
+
+\begin{proof}
+The minimal positive form is a positive form, and $2^{n-1}$ exceeds every
+polynomial in $n$, hence in $n^2+5n$, for large $n$.
+\end{proof}
+
+\section{Plethysm coefficients: the modular index}\label{sec:plethysm}
+
+Let $V=\C^n$ with coordinates $x_1,\dots,x_n$, $n\ge4$, $\nu=\gcd(n,3)$,
+$d_0=n/\nu$, $\gamma=3/\nu$ (an odd integer) and $M=2^{n-1}$. Points of
+$\Sym^3V^*$ are cubic forms, with $(a\cdot F)(x)=F(a^{-1}x)$. Let
+$R=\C[\Sym^3V^*]^{SL_n}$ with its coefficient grading $R_D$.
+
+\paragraph{The multiplicity algebra.}
+If $R_D\ne0$, the scalar $\zeta I_n\in SL_n$, $\zeta^n=1$, acts on $R_D$ by
+$\zeta^{\pm3D}$, so $n\mid3D$, that is $D=d_0s$. Writing $a=zh$ with
+$h\in SL_n$ and $z^n=\det a$, the element $a\in GL_n$ acts on $R_{d_0s}$ by the
+character $(\det a)^{\gamma s}$, and, as functions,
+\begin{equation}\label{eq:detcharacter}
+ P(a\cdot F)=(\det a)^{-\gamma s}P(F)\qquad(P\in R_{d_0s}).
+\end{equation}
+Choosing a volume vector $\varepsilon\in\Lambda^nV$, evaluation of an
+intertwiner at $\varepsilon^{\otimes\gamma s}$ identifies the degree-$s$ part
+of the multiplicity algebra $\bigoplus_s\Hom_{GL_n}((\det)^{\gamma s},
+\Sym^{d_0s}(\Sym^3V))$ of \cite[Section 4.1.2, eq.~(4.5)]{GCT6} with $R_{d_0s}$,
+compatibly with products. So the multiplicity algebra is
+$T^{(n)}=\bigoplus_sR_{d_0s}$, the whole invariant ring with its degrees
+divided by $d_0$, a finitely generated positively graded domain with
+$T^{(n)}_0=\C$, and $H_n=\Hilb_{T^{(n)}}$. Let $X=\Spec T^{(n)}$. By
+\eqref{eq:detcharacter}, $a\in GL_n$ acts on $X$ as the grading element
+$(\det a)^{-\gamma}$; as $\det$ is onto $\C^*$ and $\gamma$ is odd, every
+grading element arises.
+
+\begin{proposition}\label{prop:chaincubic}
+Let $F_n=x_1^2x_2+x_2^2x_3+\dots+x_{n-1}^2x_n+x_n^3$ and $p_n\in X$ its image.
+\begin{enumerate}
+\item $F_n$ defines a smooth hypersurface, and its $SL_n$-orbit is closed.
+\item Every linear transformation preserving $F_n$ up to a scalar is a scalar
+multiple of a diagonal matrix $\diag(a_1,a_1^{-2},a_1^4,\dots,a_1^{(-2)^{n-1}})$
+with $a_1^{3M}=1$. These matrices form the stabilizer of $F_n$ in $GL_n$, a
+cyclic group of order $3M$; the stabilizer in $SL_n$ is the scalar group
+$\mu_\nu$, which acts trivially on cubic forms.
+\item The stabilizer of $p_n$ in the grading group is exactly $\mu_M$.
+\item $X$ is smooth at $p_n$, and for a primitive $M$-th root of unity $\zeta$
+the fixed scheme $X^\zeta$ is smooth of dimension one at $p_n$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) The partial derivatives are $2x_1x_2$, $x_{i-1}^2+2x_ix_{i+1}$
+($1<i<n$) and $x_{n-1}^2+3x_n^2$. At a common zero $x\ne0$, let $j$ be least
+with $x_j\ne0$. If $j<n$, the $j$-th derivative gives $x_{j+1}=0$, and then
+the $(j+1)$-st is $x_j^2\ne0$; if $j=n$, the last one is $3x_n^2\ne0$. So
+$F_n$ is smooth. For the closed orbit, put $r_i=(1-(-1/2)^i)/3$ for $i<n$ and
+$r_n=(1-r_{n-1})/3$; all are positive, and with $a_i=2e_i+e_{i+1}$ ($i<n$),
+$a_n=3e_n$, one has $\sum_ir_ia_i=\one$. Fix an $SU_n$-invariant Hermitian
+product on $\Sym^3V^*$; distinct monomials are orthogonal, having distinct
+torus weights. The cubic $F=\sum_i(r_i/\|m_i\|^2)^{1/2}m_i$, where $m_i$ are the
+chain monomials, is a zero of the moment map of $SU_n$: its diagonal part is the restriction of $\sum_ir_ia_i$ to the trace-free
+diagonal matrices, which is zero because $\sum_ir_ia_i=\one$, and its off-diagonal part
+vanishes because no two of the weights $a_i$ differ by a root $e_a-e_b$
+(their differences have an entry $\pm2$, or the form $2e_i-e_{i+1}-e_{i+2}$, or
+$2e_{n-1}-2e_n$). By the Kempf--Ness criterion \cite[Theorem 4, p.~1]{Losev}
+the $SL_n$-orbit of $F$ is closed. The weights $a_i$ are linearly independent,
+so a diagonal matrix maps $F$ to $F_n$, whose orbit is therefore closed.
+
+(2) Half the Hessian matrix of $F_n$ is tridiagonal, with diagonal
+$(x_2,x_3,\dots,x_n,3x_n)$ and off-diagonal entries $x_1,\dots,x_{n-1}$. Its
+projective locus of rank at most two consists of
+\begin{equation}\label{eq:hessianlocus}
+ [e_1]\quad\text{and}\quad[ae_{n-1}+be_n]\ \text{with}\ a=0\ \text{or}\ a^2=3b^2 ,
+\end{equation}
+three collinear points and a fourth point off their line. Indeed, a tridiagonal
+block whose off-diagonal entries are all nonzero has kernel of dimension at
+most one, and the zero off-diagonal entries cut the matrix into such blocks; so
+the rank is at least the number of nonzero $x_1,\dots,x_{n-1}$, and at most two
+of them are nonzero. If exactly two, $x_i,x_j$ with $i<j$: when $j\ge i+2$ the
+block on $\{i,i+1\}$ has determinant $-x_i^2$ (its first diagonal entry
+$x_{i+1}$ vanishes) and the block of $x_j$ adds rank at least one; when $j=i+1$
+and $i\ge2$, the singleton block $\{i-1\}$ has diagonal $x_i\ne0$, separate
+from a block of rank at least two; when $i=1$, the block on $\{1,2,3\}$ has
+determinant $-x_2^3\ne0$ for $n\ge5$, and for $n=4$ either this holds or
+$x_4\ne0$ and the singleton $\{4\}$ adds one. If exactly one, $x_j$: for $2\le
+j\le n-2$ the block $\{j,j+1\}$ has determinant $-x_j^2$ and the singleton
+$\{j-1\}$ has diagonal $x_j$; for $j=1$ the block $\{1,2\}$ has rank two and
+$x_n\ne0$ would add the last two diagonal entries, leaving $[e_1]$; for
+$j=n-1$, with $a=x_{n-1}$, $b=x_n$, the singleton $\{n-2\}$ has entry $a$ and
+the block $\left(\begin{smallmatrix}b&a\\a&3b\end{smallmatrix}\right)$ has rank
+one exactly when $a^2=3b^2$. If none, the point is $[e_n]$, of rank two.
+
+A linear transformation $T$ with $F_n\circ T=cF_n$ transforms the Hessian by
+congruence, so it preserves \eqref{eq:hessianlocus}, hence fixes $[e_1]$, the
+point off the line of the other three. In coordinate forms $\ell_i=(Tx)_i$
+this says $\ell_1=ax_1+L(x_2,\dots,x_n)$ with $a\ne0$, while $\ell_2,\dots,
+\ell_n$ do not involve $x_1$. The coefficient of $x_1^2$ in
+$F_n(\ell)=cF_n(x)$ gives $a^2\ell_2=cx_2$; that of $x_1$ gives $2aL\ell_2=0$,
+so $L=0$. Setting $x_1=0$, $(\ell_2,\dots,\ell_n)$ preserves up to a scalar the
+chain cubic in $x_2,\dots,x_n$, with $\ell_2$ a multiple of $x_2$. If $n-1\ge4$
+we repeat the argument; it remains to treat the ternary cubic
+$G=y^2z+z^2w+w^3$ with $\ell=(by,uy+A,vy+B)$, $A,B$ independent linear forms
+in $z,w$. The coefficient of $y$ in $G(\ell)$ is $vA^2+2uAB+3vB^2$; it
+vanishes, so $u=v=0$. The coefficient of $y^2$ gives $b^2A=cz$; writing
+$B=\alpha z+\beta w$ with $\beta\ne0$, the coefficient of $zw^2$ is
+$3\alpha\beta^2=0$, so $\alpha=0$. Hence every such $T$ is diagonal. Dividing $T$ by a cube root of $c$, we may
+take $c=1$. A diagonal $\diag(a_1,\dots,a_n)$ preserves $F_n$ exactly when $a_i^2a_{i+1}=1$
+and $a_n^3=1$, that is $a_i=a_1^{(-2)^{i-1}}$ and $a_1^{3M}=1$; its
+determinant is $a_1^S$ with $S=\sum_{i=0}^{n-1}(-2)^i=(1-(-2)^n)/3$, which is
+odd and congruent to $n$ modulo three. So $\gcd(S,3M)=\nu$, and the kernel of
+$\det$ has order $\nu$; when $\nu=3$ its elements are the scalars
+$\omega I$, $\omega^3=1$, as $(-2)^i\equiv1\pmod3$, and these act trivially on
+cubic forms.
+
+(3) Since each fibre of the quotient map contains one closed orbit, a grading
+element fixes $p_n$ exactly when it is $(\det a)^{-\gamma}$ for some $a$ in the
+stabilizer of $F_n$. With $a_1$ of order $3M$, $(\det a)^{-\gamma}=
+a_1^{-\gamma S}$ has order $3M/\gcd(3M,\gamma S)$. As $S$ is odd,
+$\gcd(3M,\gamma S)=\gcd(3,\gamma S)$, which is $\gcd(3,3S)=3$ if $\nu=1$ and
+$\gcd(3,S)=3$ if $\nu=3$ (then $S\equiv n\equiv0\pmod3$). So the grading
+stabilizer of $p_n$ is $\mu_M$.
+
+(4) The group $SL_n/\mu_\nu$ acts on $\Sym^3V^*$ and has trivial stabilizer at
+$F_n$, whose orbit is closed. By Luna's slice theorem \cite[Section III.1,
+Th\'eor\`eme du slice \'etale and Remarque 1$^\circ$, pp.~97--98]{Luna}, $X$ is smooth at $p_n$ with tangent space
+$\Sym^3V^*/\mathfrak{sl}_n\cdot F_n$. Let $A=\diag(\zeta,\zeta^{-2},\dots,
+\zeta^{(-2)^{n-1}})$ with $\zeta$ a primitive $M$-th root of unity; it fixes
+$F_n$, and acts on $X$ as the grading element $(\det A)^{-\gamma}=\zeta^{-\gamma
+S}$, a primitive $M$-th root of unity, whose fixed scheme is $X^\zeta$. The
+monomials fixed by $A$ are exactly the $n$ chain monomials, by the valuation
+argument at the end of the proof of Proposition~\ref{prop:graphsupport}; and
+$\dim\mathfrak{sl}_n^A=n-1$, as $A$ has simple spectrum. Taking invariants is
+exact, so $\dim(T_{p_n}X)^A=1$, and the fixed scheme is smooth of dimension one
+at $p_n$ (proof of Proposition~\ref{prop:fixedcomponentpole}).
+\end{proof}
+
+\begin{theorem}\label{thm:plethysmPH3}
+Let $n\ge4$ and $M=2^{n-1}$.
+\begin{enumerate}
+\item The support of the fixed scheme $X^{\mu_M}$ is the closure $Y$ of the
+grading orbit of $p_n$, and $X$ is smooth along $Y\setminus\{0\}$.
+\item $H_n$ has a simple pole at every primitive $M$-th root of unity $\zeta$,
+with
+\begin{equation}\label{eq:plethysmresidue}
+ \mathcal C_n(\zeta):=\lim_{t\to\zeta}(1-t^M)H_n(t)
+ =\frac1{\det\bigl(1-\zeta\mid N^*_{Y/X,\eta_Y}\bigr)}\ne0 .
+\end{equation}
+\item If $\eta$ is a root of unity whose order $q$ has two-part at least $M$,
+then $H_n$ has a pole at $\eta$ if and only if $q=M$.
+\item In every expression $H_n(t)=P(t)/\prod_j(1-t^{a_j})^{b_j}$ with
+$P\in\C[t]$ and $a_j,b_j>0$, some $a_j$ is divisible by $M$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Let $p\ne0$ be a closed point fixed by a grading element of order $2^a\ge M$,
+and $F$ a cubic in its closed orbit. Lemma~\ref{lem:lift} (with the odd
+exponent $-\gamma$) gives a diagonal $A$ of two-power order fixing $F$ with
+$\ord(\det A)=2^a$; Lemma~\ref{lem:span} gives the span condition; and
+Theorem~\ref{thm:fullcubicsupport} gives $2^a\le M$, so $a=n-1$, and $F$ is
+equivalent to $F_n$ under a permutation and a diagonal substitution. So
+$p\in GL_n\cdot p_n$, which is the grading orbit of $p_n$. Conversely that
+orbit is fixed by $\mu_M$ (Proposition~\ref{prop:chaincubic}(3)). The closure
+$Y$ adds only the origin, so the support of $X^{\mu_M}$ is $Y$, a curve, and
+$X$ is smooth along $Y\setminus\{0\}$ by Proposition~\ref{prop:chaincubic}(4)
+and translation. Proposition~\ref{prop:fixedcomponentpole} with $\delta=1$ and
+Lemma~\ref{lem:orbitclosure} ($e_Y=1$) give (2). For (3): if $q=2^ab$, $b$ odd,
+$a\ge n-1$, and $q\ne M$, a nonzero point fixed by $\eta$ is fixed by its
+two-primary part, of order $2^a\ge M$, hence lies on the grading orbit of
+$p_n$, whose grading stabilizer is $\mu_M\not\ni\eta$. So $X^\eta$ is supported
+at the origin, and Lemma~\ref{lem:isolated} applies. (4) follows from (2).
+\end{proof}
+
+\begin{corollary}\label{cor:plethysmPH3}
+For $n\ge4$, every positive rational form of $H_n$ has modular index at least
+$2^{n-1}$, while $\dim GL_m+\operatorname{ht}(\lambda)+\operatorname{ht}(\pi)
+=m^2+n+1=O(n^6)$ and $\rank(x)=2n+m+1$. The existence clause of
+\cite[Hypothesis 1.6.7]{GCT6}, and so also its specific clause on the minimal
+positive form, fails for plethysm coefficients; so does
+\cite[Hypothesis 3.3.4]{GCT6} for the plethysm problem.
+\end{corollary}
+
+\section{Plethysm coefficients: the positivity and saturation indices}\label{sec:indices}
+
+We keep the notation of Section~\ref{sec:plethysm}, with $n\ge4$, and put
+$\zeta=e^{2\pi i/M}$, $\mathcal C_n(\rho)=\lim_{t\to\rho}(1-t^M)H_n(t)$ and
+$A_n(\rho)=\mathcal C_n(\rho)/M$ for primitive $M$-th roots $\rho$. Since
+$H_n$ has rational coefficients, $\mathcal C_n(\zeta^a)$ is the Galois
+conjugate of $\mathcal C_n(\zeta)$ under $\zeta\mapsto\zeta^a$, and
+$A_n(\zeta^{-a})=\overline{A_n(\zeta^a)}$. Define the $M$-periodic
+\emph{dyadic wave}
+\begin{equation}\label{eq:wave}
+ W_n(r)=\sum_{\substack{1\le a<M\\a\ \mathrm{odd}}}A_n(\zeta^a)\zeta^{-ar}
+ =\frac1M\Tr_{\Q(\zeta)/\Q}\bigl(\mathcal C_n(\zeta)\zeta^{-r}\bigr)\in\Q .
+\end{equation}
+
+\subsection{The wave and the indices}
+
+By \cite[Theorem 1.6.1(b), p.~21]{GCT6}, $f_n$ is a quasi-polynomial, that is,
+$H_n$ is a proper rational function with poles at roots of unity. So
+\begin{equation}\label{eq:fourier}
+ f_n(s)=\sum_\rho P_\rho(s)\rho^{-s}\qquad(s\ge0),
+\end{equation}
+the sum over the poles $\rho$ of $H_n$, with $P_\rho$ a polynomial of degree
+one less than the pole order. At a simple pole $\rho$ of order $M$,
+$1-t^M=(1-t/\rho)\prod_{\rho'\ne\rho}(1-t/\rho')$ over the other $M$-th roots
+of unity $\rho'$, and $\prod_{\rho'\ne\rho}(1-\rho/\rho')=M$; so near $\rho$,
+$H_n(t)=(\mathcal C_n(\rho)/M)/(1-t/\rho)+O(1)$, and $P_\rho=A_n(\rho)$ is
+constant.
+
+\begin{proposition}\label{prop:wave}
+Let $L$ be the least common multiple of the orders of the poles of $H_n$, a
+period of $f_n$, and write $f_n(s)=q_r(s)$ for $s\equiv r\pmod L$. Then
+$v_2(L)=n-1$, and for every residue $r$ and every $X$,
+\begin{equation}\label{eq:waveidentity}
+ q_r(X)-q_{r+L/2}(X)=2W_n(r).
+\end{equation}
+Consequently $f_n(x)\ge2W_n(x)$ for every integer $x\ge p(f_n)$ and every
+integer $x\ge s(f_n)+1$. In particular, if $2W_n(x)>f_n(x)$ for an integer
+$x\ge0$, then $p(f_n)>x$ and $s(f_n)\ge x$.
+\end{proposition}
+
+\begin{proof}
+By Theorem~\ref{thm:plethysmPH3}(2),(3), every pole order has two-part at most
+$M$, and $M$ occurs; so $v_2(L)=n-1$. By \eqref{eq:fourier},
+$q_r(X)=\sum_\rho P_\rho(X)\rho^{-r}$. If the order of $\rho$ has two-part at
+most $M/2$, it divides $L/2$ and $\rho^{-L/2}=1$; if it has two-part $M$, then
+$\rho=\zeta^a$ with $a$ odd (Theorem~\ref{thm:plethysmPH3}(3)) and
+$\rho^{-L/2}=-1$, as $L/M$ is odd. Subtracting the two expansions gives
+\eqref{eq:waveidentity}. If $p=p(f_n)$, every constituent polynomial of
+$n\mapsto f_n(n+p)$, namely $X\mapsto q_r(X+p)$, has nonnegative coefficients,
+so $q_r(y)\ge0$ for all real $y\ge p$ and all $r$. If $s=s(f_n)$, every
+constituent $X\mapsto q_r(X+s)$ is either identically zero or positive at every
+integer $X\ge1$, so $q_r(y)\ge0$ for every integer $y\ge s+1$. At such $x$, take
+$r\equiv x\pmod L$ in \eqref{eq:waveidentity}: $f_n(x)-2W_n(x)=
+q_{r+L/2}(x)\ge0$.
+\end{proof}
+
+\subsection{An exact product for the residues}
+
+Write $w_i=(-2)^i$ for $0\le i\le n-2$ and $w_{n-1}=0$, and form the multisets
+\begin{equation}\label{eq:Sn}
+\begin{gathered}
+ \mathcal E_n=\{\{0,1,k\}:2\le k<n\}\cup\{\{0,2,3\}\},\\
+ \mathcal S_n=\{w_i:0\le i\le n-2\}\ \sqcup\ \{w_i+w_j+w_k:0\le i<j<k<n,\
+ \{i,j,k\}\notin\mathcal E_n\},
+\end{gathered}
+\end{equation}
+with repetitions retained. Then $|\mathcal S_n|=(n-1)+\binom n3-(n-2)-1=
+\binom n3$, and no element of $\mathcal S_n$ is divisible by $M$: a singleton
+$w_i$ ($i\le n-2$) has valuation $i<n-1$, and in a sum of distinct $w$'s the
+smallest valuation among the nonzero terms occurs once.
+
+\begin{proposition}\label{prop:product}
+For every odd $a$,
+\begin{equation}\label{eq:product}
+ \mathcal C_n(\zeta^a)=\prod_{b\in\mathcal S_n}\bigl(1-\zeta^{a\nu b}\bigr)^{-1}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+By Galois conjugation it suffices to take $a=1$. Put $\eta=\zeta^\nu$ and
+$\alpha_i=\eta^{w_i}$, and let $D=\diag(\alpha_0,\dots,\alpha_{n-1})$, which
+fixes $F_n$ (its chain monomials have exponents $2w_i+w_{i+1}\equiv0$ and
+$3w_{n-1}=0$). On coordinate functions of $\Sym^3V^*$, that is on
+$\Sym(\Sym^3V)$, $D$ acts through the character of $\Sym^3V$, and on invariants
+of coefficient degree $d_0s$ by $(\det D)^{\gamma s}$. Here
+$(\det D)^\gamma=\zeta^{3\sum_iw_i}$ and $3\sum_iw_i=1-(-2)^{n-1}\equiv1
+\pmod M$; so $D$ acts on $T^{(n)}$ as the grading element $\zeta$. By the
+tangent space computation in Proposition~\ref{prop:chaincubic}(4), the
+cotangent space of $X$ at $p_n$ has the character $\Sym^3V-(V\otimes V^*-1)$
+as a representation of $\langle D\rangle$, and the conormal space of $Y$ is
+obtained by removing the trivial character of the fixed direction:
+\begin{equation}\label{eq:conormal}
+ N^*=\Sym^3V-V\otimes V^* .
+\end{equation}
+With $h_j$, $e_j$ the complete and elementary symmetric functions in the
+$\alpha_i$, the identity $\prod_i(1+t\alpha_i)=\prod_i(1-t^2\alpha_i^2)/
+\prod_i(1-t\alpha_i)$ gives $h_3=e_3+h_1\sum_i\alpha_i^2$. The multisets
+$\{\alpha_i^2\}$ and $\{\alpha_i^{-1}\}$ differ only in that $\alpha_0^{-1}$ is
+replaced by $1$, because $\alpha_i^2=\alpha_{i+1}^{-1}$ for $i<n-1$ and
+$\alpha_{n-1}=\alpha_{n-2}^2=1$. So \eqref{eq:conormal} is
+$e_3+h_1-\alpha_0^{-1}h_1$. The trivial weight $\alpha_{n-1}$ in $h_1$ cancels
+the term $i=0$ of $\alpha_0^{-1}h_1$. For $2\le k<n$ the subtracted weight
+$w_k-w_0$ equals the weight of the triple $\{0,1,k\}$, as $w_0+w_1=-1$; the
+last subtracted weight $w_1-w_0=-3$ equals that of $\{0,2,3\}$ ($1+4-8$ for
+$n\ge5$; $1+4+0\equiv-3\pmod8$ for $n=4$). These triples are distinct, and what
+remains is the multiset $\mathcal S_n$. Equation \eqref{eq:plethysmresidue}
+gives \eqref{eq:product}.
+\end{proof}
+
+\subsection{A dominant pair}
+
+Put $r_\nu=3\nu\in\{3,9\}$, let $1\le a_*<M$ with $r_\nu a_*\equiv1\pmod M$
+(so $a_*$ is odd and $a_*\not\equiv-a_*$), and
+\begin{equation}\label{eq:ZE}
+ Z_n=A_n(\zeta^{a_*}),\qquad
+ E_n=\sum_{\substack{a\bmod M\ \mathrm{odd}\\a\not\equiv\pm a_*}}|A_n(\zeta^a)| .
+\end{equation}
+
+\begin{proposition}\label{prop:amplitude}
+For every $n\ge4$,
+\begin{equation}\label{eq:amplitude}
+ \log_2|Z_n|\ge\binom n4-3\binom{n-1}3-(n-1)(n-2)-\binom n3-(n-1)
+ \ge\frac{n^4}{24}-2n^3 .
+\end{equation}
+If $n\ge6$ and $E_n\le|Z_n|/4$, then for every integer $X$ there is an integer
+$x$ with $X\le x\le X+8$ and $W_n(x)\ge|Z_n|/4$.
+\end{proposition}
+
+\begin{proof}
+By \eqref{eq:product}, $Z_n=M^{-1}\prod_{b\in\mathcal S_n}(1-\theta^b)^{-1}$ with
+$\theta=\zeta^{\nu a_*}$, so that $\theta^3=\zeta$. Every factor has absolute
+value at most two. Consider the triples $i<j<k\le n-2$ of $\mathcal S_n$, those
+not using the zero weight. Their weight $w=w_i+w_j+w_k$ is divisible by three
+(each $w_i\equiv1\pmod3$) and $|w|<2^{k+1}$, so
+$|1-\theta^w|=|1-\zeta^{w/3}|\le2\pi|w|/(3M)\le8\cdot2^k/M$, and
+$-\log_2|1-\theta^w|\ge(n-1-k)-3$. Summing $n-1-k$ over all triples
+$i<j<k\le n-2$ counts the choices of a fourth index in $\{k+1,\dots,n-1\}$ and
+gives $\binom n4$; at most $n-2$ of these triples belong to $\mathcal E_n$, each
+with a term at most $n-1$. The remaining at most $\binom n3$ factors contribute
+at least $-1$ each, and $M^{-1}$ contributes $-(n-1)$. This proves the first
+inequality of \eqref{eq:amplitude}. For the second use $\binom n4\ge
+n^4/24-n^3/4$, $3\binom{n-1}3\le n^3/2$, $\binom n3\le n^3/6$ and
+$(n-1)(n-2)+(n-1)\le n^2\le n^3/4$: the total cubic loss is at most
+$\tfrac76n^3$.
+
+Write $r_\nu a_*=1+kM$; then $1\le k<r_\nu$ and $\gcd(k,r_\nu)=1$, since
+$kM\equiv-1\pmod{r_\nu}$. Thus $a_*/M=k/r_\nu+1/(r_\nu M)$. For fixed $X$, the
+$r_\nu$ numbers $Z_n\zeta^{-a_*X}e^{-2\pi ikj/r_\nu}$, $0\le j<r_\nu$, are
+equally spaced on the circle of radius $|Z_n|$, so one has real part at least
+$\cos(\pi/r_\nu)|Z_n|\ge|Z_n|/2$. Replacing the phase $e^{-2\pi ikj/r_\nu}$ by
+$\zeta^{-a_*j}$ changes it by a factor $e^{-2\pi ij/(r_\nu M)}$ and the real
+part by at most $(2\pi/M)|Z_n|\le|Z_n|/4$ for $n\ge6$. So
+$2\operatorname{Re}(Z_n\zeta^{-a_*(X+j)})\ge|Z_n|/2$ for this $j\le8$. The terms
+$a=\pm a_*$ of \eqref{eq:wave} are this conjugate pair, and the others have
+total absolute value at most $E_n\le|Z_n|/4$.
+\end{proof}
+
+\begin{corollary}\label{cor:conditional}
+If $E_n\le|Z_n|/4$ for all sufficiently large $n$, then for every real
+$0<c<1/4$ and all sufficiently large $n$, $p(f_n)>2^{cn}$ and $s(f_n)\ge2^{cn}$.
+\end{corollary}
+
+\begin{proof}
+Take $X=\lceil2^{cn}\rceil$ and $x\le X+8$ as in
+Proposition~\ref{prop:amplitude}. The value $f_n(x)$ is at most the dimension
+of $\Sym^{d_0x}(\Sym^3V)$, so
+$\log_2\max\{1,f_n(x)\}\le(m-1)\log_2(m+nx)=\frac c6n^4+O_c(n^3\log n)$, which
+is eventually smaller than $\log_2(2W_n(x))\ge n^4/24-2n^3-1$, as $c/6<1/24$.
+Proposition~\ref{prop:wave} gives $p(f_n)>x\ge2^{cn}$ and $s(f_n)\ge x$.
+\end{proof}
+
+\subsection{Reduction to an increment}
+
+For $n\ge4$ write $M_n=2^{n-1}$, $b_n=3^{-1}\bmod M_n$, and for odd $a$
+\begin{equation}\label{eq:Pn}
+ P_n(a)=\prod_{b\in\mathcal S_n}|1-e^{2\pi iab/M_n}|^{-1},\qquad
+ Q_n=\sum_{\substack{a\bmod M_n\ \mathrm{odd}\\a\ne\pm b_n}}\frac{P_n(a)}{P_n(b_n)} .
+\end{equation}
+By \eqref{eq:product}, $|A_n(\zeta^a)|=P_n(\nu a)/M_n$; multiplication by the
+odd number $\nu$ permutes the odd residues, and $\nu a_*\equiv b_n$. So
+$Q_n=E_n/|Z_n|$ and $P_n(b_n)=M_n|Z_n|$. For $n\ge5$ form the multiset of
+$\binom{n-1}2$ residues
+\begin{equation}\label{eq:Tn}
+ \mathcal T_n=\{1\}\sqcup\{1+w_j+w_k:2\le j<k<n,\ (j,k)\ne(2,3)\}
+ \sqcup\{2+w_k:3\le k<n\}\sqcup\{6\},
+\end{equation}
+and $J_n(a)=\prod_{b\in\mathcal T_n}|1-e^{2\pi iab/M_n}|^{-1}$.
+
+\begin{proposition}\label{prop:recursion}
+For $n\ge5$ and odd $a$, $P_n(a)=J_n(a)\,P_{n-1}(-a\bmod M_{n-1})$. The selected
+sibling ratio satisfies
+\begin{equation}\label{eq:sibling}
+ \delta_n:=\frac{P_n(b_n+M_{n-1})}{P_n(b_n)}\le2^{-n^3/6+4n^2-107n/6+19},
+ \qquad\delta_n\le2^{-n^3/12}\ (n\ge48).
+\end{equation}
+If for some $0<\rho<1$ and all $n\ge n_0$ and all odd $a$ with
+$a\bmod M_{n-1}\notin\{\pm b_{n-1}\}$
+\begin{equation}\label{eq:contraction}
+ J_n(a)+J_n(a+M_{n-1})\le\rho J_n(b_n),
+\end{equation}
+then $Q_n\le\rho Q_{n-1}+2\delta_n$ for $n\ge n_0$, and $Q_n\to0$.
+\end{proposition}
+
+\begin{proof}
+The weights $w_1,\dots,w_{n-1}$ are $-2$ times the weights of the chain in
+$n-1$ variables, in the same order. All triples with smallest index at least one
+lie in $\mathcal S_n$; the scaled $\mathcal S_{n-1}$ omits among them exactly
+$\{1,2,k\}$ ($3\le k<n$) and $\{1,3,4\}$; and $\mathcal S_n$ has the extra
+singleton $w_0=1$ and the triples $\{0,j,k\}$, $2\le j<k<n$, other than
+$\{0,2,3\}$. Their weights are those of \eqref{eq:Tn}: $w_1+w_2+w_k=2+w_k$, and
+$\{1,3,4\}$ has weight $-2-8+16=6$ ($n\ge6$) or $-2-8+0\equiv6\pmod{16}$ ($n=5$).
+The count is $1+(\binom{n-2}2-1)+(n-3)+1=\binom{n-1}2$. Substituting
+$e^{2\pi i a(-2b')/M_n}=e^{2\pi i(-a)b'/M_{n-1}}$ gives the recursion.
+
+The residues $b_n$ and $b_n+M_n/2$ have the same smaller factor, and every even
+weight gives the same factor at both; so $\delta_n=\prod_{b\in\mathcal O_n}
+|\tan(\pi b_nb/M_n)|$ over the odd weights $\mathcal O_n=\{1\}\sqcup\{1+w_j+w_k\}$.
+The bulk ones, $2\le j<k\le n-2$, $(j,k)\ne(2,3)$, number
+$B=\binom{n-3}2-1$, are divisible by three with $|b|<2^{k+1}\le M_n$; as
+$3b_n\equiv1$, $|\tan(\pi b_nb/M_n)|=|\tan(\pi b/(3M_n))|\le2\pi|b|/(3M_n)\le
+8\cdot2^k/M_n$, using $|\sin u|\le|u|$ and $\cos u\ge1/2$ on $[-\pi/3,\pi/3]$.
+The sum of $n-1-k$ over them is $\binom{n-2}3-(n-4)$. The other $n-2$ odd
+factors are at most $M_n/2$, an odd residue being at distance at least one from
+$M_n/2$, so the cosine is at least $\sin(\pi/M_n)\ge2/M_n$. Hence
+$\log_2\delta_n\le3B-\binom{n-2}3+(n-4)+(n-2)^2=-n^3/6+4n^2-107n/6+19$, which
+is at most $-n^3/12$ for $n\ge48$.
+
+Group the odd residues modulo $M_n$ by their reduction modulo $M_{n-1}$. The
+two selected parents $\pm b_{n-1}$ have the selected children $\pm b_n$ and the
+children $\pm b_n+M_{n-1}$, of total normalized mass $2\delta_n$ (conjugation).
+Every other parent has two children whose normalized mass is at most $\rho$
+times its own in $Q_{n-1}$, by the recursion and \eqref{eq:contraction}, since
+$P_n(b_n)=J_n(b_n)P_{n-1}(b_{n-1})$. So $Q_n\le\rho Q_{n-1}+2\delta_n$, and as
+$\delta_n\to0$, $Q_n\to0$.
+\end{proof}
+
+\subsection{The increment estimates}
+
+\begin{lemma}\label{lem:sparse}
+Let $1\le r\le3$, integers $1\le q_1<\dots<q_r$, signs $\epsilon_i$,
+$\kappa\in\Z$, $J\ge1$ odd, $R=\lceil\log_2(16J)\rceil$, and
+$x=\kappa/3+(J/3)\sum_i\epsilon_i2^{-q_i}$. Then $\|x\|_{\mathbb R/\Z}\ge
+1/(6\cdot2^{q_1+(r-1)R})$. In particular, if $q_1\le R$, then
+$2^{-3R-1}\le|1-e^{2\pi ix}|\le2$.
+\end{lemma}
+
+\begin{proof}
+Keep the initial block of terms ending before the first gap $q_{i+1}-q_i>R$
+(all terms if there is none), ending at $q_t$. Its numerator over $3\cdot
+2^{q_t}$ is odd (the last term is odd, the earlier ones and $\kappa2^{q_t}$
+even), so it is at distance at least $1/(3\cdot2^{q_t})$ from $\Z$. The tail
+is less than $(2J/3)2^{-q_{t+1}}\le J2^{-R}/(3\cdot2^{q_t})\le
+1/(48\cdot2^{q_t})$. So $\|x\|\ge1/(6\cdot2^{q_t})$, and $q_t\le q_1+(r-1)R$.
+Finally $|1-e^{2\pi ix}|\ge4\|x\|$.
+\end{proof}
+
+Let $l=n-1$, $M=2^l$, and for odd $J$ let $b_J\equiv J\cdot3^{-1}\pmod M$; then
+$\eta_J=\zeta^{b_J}$ satisfies $\eta_J^3=\zeta^J$ and
+\begin{equation}\label{eq:cuberoot}
+ \eta_J=\omega_Je^{2\pi iJ/(3M)},\qquad\omega_J^3=1,\qquad
+ \omega_J=1\iff3\mid J\quad(J<M),
+\end{equation}
+since $3b_J=J+k_JM$ with $k_J\in\{0,1,2\}$, $\omega_J=e^{2\pi ik_J/3}$, and
+$k_J=0$ only if $3\mid J$. For $|y|\le1/24$,
+$|\log_2(\sin(\pi y)/(\pi y))|\le8y^2$, by $1-u^2/6\le\sin u/u\le1$.
+
+\begin{proposition}[near increments]\label{prop:near}
+For odd $1\le j<M$, with $a_j\equiv j\cdot3^{-1}\pmod M$ and
+$R=\lceil\log_2(16j)\rceil$, and $n\ge5$,
+\begin{equation}\label{eq:near}
+ \Bigl|\log_2\frac{J_n(a_j)}{J_n(b_n)}+\binom{n-1}2\log_2j
+ -\mathbf1_{3\mid j}\binom n2\Bigr|\le100nR^2 .
+\end{equation}
+For $\delta=10^{-5}$ and odd $3\le j\le2^{\delta n}$ this gives
+$\log_2(J_n(a_j)/J_n(b_n))\le-n^2\log_2j/12$.
+\end{proposition}
+
+\begin{proof}
+The weights of $\mathcal T_n$ are: the \emph{bulk} weights $1+w_u+w_v$
+($2\le u<v\le l-1$, $(u,v)\ne(2,3)$), the weights $2+w_k$ ($3\le k\le l-1$) and
+$6$, all divisible by three, $B_3=(n-1)(n-4)/2$ in number; and the
+\emph{exceptional} weights $1$, $2$ and $1+w_k$ ($2\le k\le l-1$), $n-1$ in
+number. Give each weight its largest active dyadic index $k$ and put $q=l-k$
+(the weights $1$ and $2$ get $q=l$ and $q=l-1$). The exceptional weights have
+each $q=1,\dots,l$ exactly once, so $B_3+(n-1)=\binom{n-1}2$ and the exceptional
+$q$ sum to $\binom n2$. A weight divisible by three has absolute value between
+$2^{k-2}$ and $2^{k+1}$ (for $1+w_u+w_v$ use $2^v-2^{v-1}-1\ge2^{v-2}$, $v\ge3$);
+for each $q$ there are at most $2n$ of them. An exceptional weight has absolute
+value between $2^{k-1}$ and $3\cdot2^{k-1}$. By \eqref{eq:cuberoot}, the target
+root is $\omega_je^{2\pi ij/(3M)}$. A factor is \emph{low} if $q>R$ and
+\emph{high} otherwise. Lemma~\ref{lem:sparse} applies to every factor (each
+weight is a signed sum of at most three powers of two): a high target factor is
+at least $2^{-3R-1}$, and at least $2^{-2R-1}$ for an exceptional one; all
+factors are at most two.
+
+For a low factor divisible by three there is no cube-root shift: its target
+phase is $j$ times its reference phase and is at most $(2j/3)2^{-q}<1/24$ in
+absolute value; by the sine estimate the logarithm of the factor ratio differs
+from $\log_2j$ by at most $16j^24^{-q}$; summing over at most $2n$ weights for
+each $q>R$ gives less than $n$, as $j^24^{-R}\le1/256$. For a high factor
+divisible by three, the reference phase lies between $2^{-q}/12$ and
+$2\cdot2^{-q}/3<1/2$ in absolute value, so the reference factor is at least
+$2^{-q}/3$, and the logarithm of the ratio is at most $5R$ in absolute value;
+there are at most $2nR$ of them, and restoring their $\log_2j$ main terms costs
+at most $2nR^2$. So the factors divisible by three contribute $-B_3\log_2j$ to the
+logarithm of the reciprocal product, with error at most $20nR^2$.
+
+Every exceptional reference factor lies between $1/3$ and two: its cube-root
+shift is nontrivial and its phase perturbation is at most $1/4$. If $3\nmid j$,
+every low exceptional target factor has the same kind of shift, perturbed by
+less than $1/24$, so its logarithmic ratio is at most three; the at most $R$
+high ones are at most $3R$ each; the total is at most $10nR^2$. If $3\mid j$,
+the target shift vanishes; a low exceptional target factor lies between
+$(2/3)j2^{-q}$ and $4j2^{-q}$, so its reciprocal ratio has logarithm $q-\log_2j$
+up to four. Restoring the $q$ of the at most $R$ high factors costs at most
+$R^2$, their actual ratios at most $3R^2$, discarding the $-\log_2j$ terms at
+most $nR$, and the low errors at most $4n$; the exceptional contribution is
+$\binom n2$ up to $10nR^2$. Altogether
+$\log_2(J_n(a_j)/J_n(b_n))=-B_3\log_2j+\mathbf1_{3\mid j}\binom n2+\mathcal E$ with
+$|\mathcal E|\le30nR^2$, and replacing $B_3$ by $\binom{n-1}2$ costs
+$(n-1)\log_2j\le nR$.
+
+For the consequence, put $t=\log_2j>3/2$, so $R\le t+5$. With
+$\binom{n-1}2\ge n^2/2-2n$ and $\binom n2\le n^2/2$, \eqref{eq:near} gives at
+most $-(t-1)n^2/2+n(2t+100(t+5)^2)\le-tn^2/6+2502nt^2$, using $t-1\ge t/3$ and
+$t+5\le5t$; and $t\le n/10^5$ with $2502/10^5<1/12$.
+\end{proof}
+
+\begin{proposition}[far increments]\label{prop:far}
+Let $n\ge5$, $l=n-1$, $M=2^l$, $a$ odd, $j\equiv3a\pmod M$ with $1\le j<M$, and
+$J=\min\{j,M-j\}$. Then
+\begin{equation}\label{eq:far}
+ \log_2\frac{J_n(a)}{J_n(b_n)}\le7n^2-\frac{(\log_2J-8)_+^3}{24}.
+\end{equation}
+In particular, for $\delta>0$, $J\ge2^{\delta n}$ and
+$n\ge\max\{5,16/\delta,2688/\delta^3\}$, the ratio is at most
+$2^{-\delta^3n^3/384}$.
+\end{proposition}
+
+\begin{proof}
+Consider the \emph{active pair} factors $1-\exp(2\pi ia(1+w_j+w_k)/M)$,
+$2\le j<k<l$; the increment contains all but $(j,k)=(2,3)$. Every phase is
+nonzero modulo one, its numerator being odd. Put $\theta=a/M$,
+$y_{jk}=\theta(1+w_j+w_k)$ modulo one, and for $0\le u\le l-1$ let $r=l-u$ and
+$N_u$ be the number of active pairs with $\|y_{jk}\|<2^{-u}$.
+
+The map sending a subset of $\{0,\dots,l-1\}$ to the sum of its $w_i$ modulo
+$2^l$ is injective (a difference of two subset sums has a unique least index
+with coefficient $\pm1$, of valuation less than $l$). Call an index early if
+$j<r$ and late otherwise; there are $e=(r-2)_+$ early indices. There are at
+most $\binom e2$ early--early pairs. For a fixed early $j$, the mixed numerators
+$a(1+w_j+w_k)$ are congruent modulo $2^r$ and distinct modulo $M$; the condition
+$\|y_{jk}\|<2^{-u}$ puts their centred representatives in $(-2^r,2^r)$, which
+holds at most three of one class; so there are at most $3e$ good mixed pairs.
+The late--late numerators are all congruent to $a$ modulo $2^r$ and distinct,
+so at most three are good. Hence
+\begin{equation}\label{eq:Nu}
+ N_u\le\binom r2+3r+3 .
+\end{equation}
+
+Let $\tau=\|3\theta\|=J/M$ and suppose $\tau>3\cdot2^{-u}$. Partition the early
+indices into $h=\lfloor e/2\rfloor$ consecutive pairs $(2,3),(4,5),\dots$. For
+two of them, $(j,j+1)$ and $(k,k+1)$, the identity
+$y_{jk}+y_{j+1,k}+y_{j,k+1}=3\theta\pmod1$ (from $w_{j+1}=-2w_j$) shows that
+the three phases cannot all be within $2^{-u}$ of an integer; so one of the four
+pairs of the block is bad. The $\binom h2$ blocks are disjoint and do not
+contain $(2,3)$. So under this condition
+$N_u\le\binom r2+3r+3-\binom{\lfloor(r-2)_+/2\rfloor}2$.
+
+For a nonzero phase $y$ with denominator dividing $M$, $\|y\|\ge1/M$ and
+$\log_2|1-e^{2\pi iy}|^{-1}\le-\log_2\|y\|\le\sum_{u=0}^{l-1}
+\mathbf1_{\{\|y\|<2^{-u}\}}$. The other $2n-4$ increment factors have
+logarithmic reciprocals at most $l$ each, less than $2n^2$ in total. Let
+$K=(\lfloor\log_2J\rfloor-2)_+$; for $1\le r\le K$, $J>3\cdot2^r$, so the
+condition holds at $u=l-r$. Summing,
+\[
+ \log_2J_n(a)\le\binom n3+\tfrac32l(l+1)+3l+2n^2
+ -\sum_{r=1}^K\binom{\lfloor(r-2)_+/2\rfloor}2 ,
+\]
+where the first four terms are at most $n^3/6+4n^2$ for $n\ge5$, and the sum is
+at least $(K-5)_+^3/24\ge(\log_2J-8)_+^3/24$, since for $r\ge6$ the summand is
+at least $(r-3)(r-5)/8\ge(r-5)^2/8$.
+
+For the selected increment, the $B=\binom{n-3}2-1$ bulk active pairs
+(divisible by three) have factor at most $8\cdot2^k/M$ at $a=b_n$, as in the
+proof of Proposition~\ref{prop:recursion}, and all other factors are at most
+two. So
+\[
+ \log_2J_n(b_n)\ge\binom{n-2}3-(n-4)-2B-\binom{n-1}2
+ =\frac{n^3}6-3n^2+\frac{71n}6-11\ge\frac{n^3}6-3n^2 .
+\]
+Subtracting gives \eqref{eq:far}. If $\log_2J\ge\delta n\ge16$, then
+$(\log_2J-8)^3/24\ge\delta^3n^3/192$, and $7n^2\le\delta^3n^3/384$ for
+$n\ge2688/\delta^3$.
+\end{proof}
+
+\begin{theorem}\label{thm:indices}
+$E_n/|Z_n|\to0$. Consequently, for every real $0<c<1/4$ and all sufficiently
+large $n$,
+\[
+ p(f_n)>2^{cn},\qquad s(f_n)\ge2^{cn},
+\]
+and $p(f_n)>2^{n/8}$, $s(f_n)\ge2^{n/8}$ for every $n\ge2\cdot10^{80}$.
+\end{theorem}
+
+\begin{proof}
+For an odd residue $a\ne\pm b_n$, let $j$ be the least positive residue of $3a$
+up to sign, $1<j\le M/2$ (and $j=1$ exactly for $a=\pm b_n$); as
+$J_n(a)=J_n(-a)$, Proposition~\ref{prop:near} covers $j\le2^{\delta n}$ with
+ratio at most $2^{-n^2\log_23/12}$, and Proposition~\ref{prop:far} the rest with
+ratio at most $2^{-\delta^3n^3/384}$, for $n$ large. So the two children of any parent other than $\pm b_{n-1}$ have normalized increments of
+sum at most $1/2$ eventually: \eqref{eq:contraction} holds with $\rho=1/2$, and
+Proposition~\ref{prop:recursion} gives $Q_n=E_n/|Z_n|\to0$.
+Corollary~\ref{cor:conditional} gives the first assertion.
+
+For the explicit bound, let $N=10^{20}$. For $n\ge N$ both ratios are at most
+$2^{-n^2/8}$ ($\log_23>3/2$; and $\delta^3n^3/384\ge n^2/8$ for
+$n\ge48/\delta^3$), so \eqref{eq:contraction} holds with $\rho=1/2$ for all
+$n\ge N$. Every factor of $P_n(a)$ is at least $4/M_n$, so
+$P_n(a)\le2^{(n-3)\binom n3}$, while $P_n(b_n)=M_n|Z_n|\ge2^{-2n^3}$ by
+\eqref{eq:amplitude}; hence $Q_n\le2^{n-1+(n-3)\binom n3+2n^3}\le2^{n^4}$.
+Iterating from $N$, with $\delta_k\le2^{-k^3/12}$,
+\[
+ Q_n\le2^{-(n-N+1)}Q_{N-1}+2\sum_{k=N}^n2^{-(n-k)}\delta_k
+ \le2^{-n+N-1+N^4}+4\cdot2^{-N^3/12}\le\frac14\qquad(n\ge2N^4).
+\]
+For such $n$ take $X=\lceil2^{n/8}\rceil$ in Proposition~\ref{prop:amplitude}:
+some $x\in[X,X+8]$ has $2W_n(x)\ge2^{n^4/24-2n^3-1}$. As $\log_2n\le n/16$ for
+$n\ge128$, $2^{n/8}\ge n^2$; also $m\le n^3/5$ for $n\ge16$ and $x\le2^{n/8+1}$,
+so $m+nx\le4n2^{n/8}$ and
+\[
+ \log_2\max\{1,f_n(x)\}\le(m-1)\log_2(m+nx)\le\frac{n^3}5\Bigl(\frac n8+
+ \log_2n+2\Bigr)\le\frac{3n^4}{80}+\frac{2n^3}5<\frac{n^4}{24}-2n^3-1
+\]
+for $n\ge1024$. Proposition~\ref{prop:wave} gives $p(f_n)>x\ge2^{n/8}$ and
+$s(f_n)\ge x$.
+\end{proof}
+
+\begin{corollary}\label{cor:PH2SH}
+Hypotheses 1.6.5(a) (SH) and 1.6.6 (PH2) of \cite{GCT6} fail for the plethysm
+coefficients of the ray $\mu=(3)$, $\lambda=(d_0)$, $\pi=((3/\nu)^n)$: the
+indices exceed every polynomial in $h=m^2+n+1=\Theta(n^6)$. Hypotheses
+3.3.2(a) and 3.3.3 fail for the plethysm problem with $\rank(x)=2n+m+1$.
+\end{corollary}
+
+\section{Restriction from a torus}\label{sec:torus}
+
+The subgroup restriction problem of \cite[Section 3.4]{GCT6} allows $H$ to be a
+torus and $\rho:H\to G$ any explicit polynomial homomorphism
+\cite[Section 3.4.1]{GCT6}; the rank of the input is the sum of the ranks of
+$H$ and $G$ and the heights of the specified weights, and it does not see the
+exponents of $\rho$. For $H=\Gm$ the multiplicity of the character $t\mapsto
+t^{k}$ in the restriction of $\Sym^n\C^N$ is the number of monomials of degree
+$n$ whose weight is $k$.
+
+\begin{proposition}\label{prop:torusmodular}
+For $N\ge2$ let $\rho_N:\Gm\to GL_2$, $\rho_N(t)=\diag(t^{N+1},t)$, let $\pi=(1)$
+(the representation $\C^2$, stretched to $\Sym^n\C^2$) and $\lambda$ the
+character $t\mapsto t^2$ (stretched to $t^{2n}$). Then
+\[
+ f_N(n)=\dim\Hom_{\Gm}\bigl(t^{2n},\Sym^n(\C^2)|_{\rho_N}\bigr)=\mathbf1_{N\mid n},
+ \qquad \sum_{n\ge0}f_N(n)T^n=\frac1{1-T^N},
+\]
+and every expression of this series as $P(T)/\prod_i(1-T^{a_i})^{b_i}$ has some
+$a_i$ divisible by $N$, while $\rank(x)=1+2+1+1=5$. Hypothesis 3.3.4 of
+\cite{GCT6} fails for subgroup restriction as stated.
+\end{proposition}
+
+\begin{proof}
+The monomial $y_1^ay_2^{n-a}$ has weight $(N+1)a+(n-a)=n+Na$, which equals
+$2n$ exactly when $Na=n$; there is one such $a\in[0,n]$ if $N\mid n$ and none
+otherwise. The series has a pole at every primitive $N$-th root of unity, and a
+denominator must vanish there.
+\end{proof}
+
+Here $p(f_N)=s(f_N)=0$, so this example does not touch PH2 or SH.
+
+\begin{proposition}\label{prop:torusindices}
+For odd $N\ge3$ let $\sigma_N:\Gm\to GL_3$, $\sigma_N(t)=\diag(t,t^3,t^{N+1})$,
+with $\pi=(1)$ and $\lambda=t^2$ as before. Then
+\[
+ g_N(n)=\#\{(b,c)\in\Z_{\ge0}^2:2b+Nc=n\},\qquad
+ \sum_{n\ge0}g_N(n)T^n=\frac1{(1-T^2)(1-T^N)},
+\]
+and $p(g_N)=s(g_N)=N-2$, while $\rank(x)=1+3+1+1=6$. Hypotheses 3.3.2(a) and
+3.3.3 of \cite{GCT6} fail for subgroup restriction as stated.
+\end{proposition}
+
+\begin{proof}
+A monomial $y_1^ay_2^by_3^c$ of degree $n$ has weight $a+3b+(N+1)c=n+2b+Nc$,
+which equals $2n$ exactly when $2b+Nc=n$, and then $a=n-b-c\ge0$ automatically.
+This gives $g_N$ and its series. As $N$ is odd, $n-Nc$ is even exactly when
+$c\equiv n\pmod2$, so $g_N(n)$ is the number of $c\equiv n\pmod2$ with
+$0\le c\le n/N$. The period is $2N$. For $n=2Nq+r$, $0\le r<2N$, one finds
+$g_N(n)=q+1$ if $r$ is even, and $g_N(n)=q+\mathbf1_{r\ge N}$ if $r$ is odd. So
+the constituents are $g_r(X)=(X-r)/(2N)+\varepsilon_r$, with $\varepsilon_r=1$
+for even $r$ and $\varepsilon_r=\mathbf1_{r\ge N}$ for odd $r$.
+
+The constituents of $n\mapsto g_N(n+p)$ are $X\mapsto g_r(X+p)$, $0\le r<2N$,
+with constant terms $(p-r)/(2N)+\varepsilon_r$ and slope $1/(2N)$. For odd
+$r<N$ the constant term is $(p-r)/(2N)$, nonnegative only if $p\ge r$; the
+largest such $r$ is $N-2$. For $p=N-2$ the other constant terms are positive:
+$(N-2-r)/(2N)+1\ge1/2$ for even $r\le2N-2$, and $\ge(N-1)/(2N)$ for odd
+$r\ge N$. So $p(g_N)=N-2$. A constituent $X\mapsto g_r(X+s)$ is not
+identically zero and is increasing, so it is positive at every integer $X\ge1$
+exactly when $(1+s-r)/(2N)+\varepsilon_r>0$; for odd $r<N$ this means $s\ge r$,
+and for $s=N-3$ it fails at $r=N-2$; for $s=N-2$ all hold. So $s(g_N)=N-2$.
+\end{proof}
+
+Neither example touches the density clause 3.3.2(b). In both, the index is of
+the size of the exponent $N$ of the embedding, while the specification of a
+torus character has bit length $O(\log N)$ \cite[Section 3.4.2, p.~56]{GCT6}.
+So the bounds fail in $\rank(x)$ and also in the bit length of the input. For
+the general subgroup restriction problem a bound would have to depend on the
+exponents of $\rho$ themselves; with that dependence these two examples are
+harmless. The Kronecker and plethysm families of
+Sections~\ref{sec:kronecker}--\ref{sec:indices} have no such parameter: their
+embeddings are fixed by $n$.
+
+\section{Earlier work and the scope of the results}\label{sec:literature}
+
+\paragraph{What we searched.}
+On 25 November 2026 we ran three web searches: for counterexamples to
+Mulmuley's hypotheses PH2, PH3 and SH on the stretching quasi-polynomials of
+Kronecker and plethysm coefficients; for the poles and periods of stretched
+rectangular Kronecker coefficients; and for the work of Kahle and
+Micha\l{}ek on the quasi-polynomials of plethysm. They led to \cite{BOR} and
+\cite{KM}. We also searched the Hexagon repository
+(\url{https://hexagonmath.org}) for ``Mulmuley'', ``plethysm'',
+``Kronecker'', ``geometric complexity'', ``positivity hypothesis'',
+``saturation hypothesis'' and ``modular index''; these searches returned no
+work on the hypotheses (the matches for ``plethysm'' and ``Kronecker'' concern
+other questions). We then took the works that cite \cite{GCT6} (64) or
+\cite{BOR} (52) in the OpenAlex index, 94 works in all, and searched the full
+text of the 73 of them that are on arXiv for the names of the hypotheses and
+for ``positivity index'', ``saturation index'', ``modular index'' and
+``positive form''; the 21 others we judged by title only. Besides Mulmuley's
+own papers and \cite{BOR}, the matches discuss the strict saturation property
+of particular families of (reduced) Kronecker coefficients. Finally we read the
+four texts discussed below. We did not search zbMATH or MathSciNet. This is a
+bounded search, and we claim no priority.
+
+\paragraph{Briand, Orellana and Rosas.}
+In \cite{BOR}, Briand, Orellana and Rosas showed that the strict saturation
+hypothesis of the first versions of GCT~VI (``strong SH'') fails for Kronecker
+coefficients: for $\lambda=(k,k)$, $\mu=(k+1,k-1)$, $\nu=(2k-2i-2j,2i,2j)$
+with $i>j>0$ and $k>2i+j$, the stretched coefficient is $N/2+1$ for even $N$ and $(N-1)/2$ for odd $N$, so it vanishes at $N=1$ and is positive for every $N>1$ \cite[Theorem 2.4, p.~7]{BOR}; they also gave
+counterexamples to strong PH2 \cite[Section 2.4, p.~8]{BOR}. In their examples
+the positivity index is at most one \cite[Section 2.5, p.~8]{BOR}. Mulmuley's
+appendix \cite[pp.~18--20]{BOR} then relaxed SH, PH2 and PH3 to polynomial
+bounds in the largest height. Our Theorem~\ref{thm:kronecker} refutes the
+relaxed PH3 of that appendix; the relaxed SH(a) and PH2 for Kronecker
+coefficients remain open as far as this paper is concerned, while their
+analogues for plethysm fail by Theorem~\ref{thm:indices}. GCT~VI v4 (22 January
+2009), the newest version on arXiv, states the relaxed hypotheses in the form
+quoted in Section~\ref{sec:defs}.
+
+\paragraph{Hardness, rectangular coefficients, and a report.}
+Ikenmeyer, Mulmuley and Walter proved that deciding the positivity of Kronecker
+coefficients is NP-hard \cite[Theorem 1.3, p.~7]{IMW}, and constructed
+superpolynomially many triples whose Kronecker coefficient vanishes while some
+stretched coefficient does not \cite[Theorem 1.7, p.~11]{IMW}; these are
+failures of the strict saturation property, and they bear on the exact decision
+problem, while the relaxed hypotheses were formulated for a relaxed decision
+problem \cite[Theorem 3.3.6, p.~52]{GCT6}. Fischer and Ikenmeyer proved the
+same NP-hardness, and $\#P$-hardness of computation, for plethysm coefficients
+with any fixed inner degree $m\ge3$ \cite[Theorems 3.1 and 3.2, p.~5]{FI}; our
+plethysm family has inner degree three. Ikenmeyer and Panova studied
+rectangular Kronecker coefficients, of which $k_n$ is the case of three equal
+rectangles; among other things they show that the positivity stretching
+factor is at most two for a long first row and that the rectangular Kronecker
+semigroup has trivial saturation \cite[Section 5(c),(d), p.~13]{IP}. These are
+statements about positivity of the coefficients, not about the indices or the
+poles of the stretching functions. The report \cite[Conjecture 3, p.~3]{ICERM}
+states the relaxed SH(a) and PH2 for Kronecker coefficients, with the parameter
+the largest height, as a conjecture of Mulmuley, and notes that the examples of
+\cite{BOR} do not contradict it; it does not state PH3. Our results leave that
+conjecture open for Kronecker coefficients.
+
+\paragraph{Kahle and Micha\l{}ek.}
+Kahle and Micha\l{}ek~\cite{KM} showed, on the examples $S^3(S^k)$ and
+$S^k(S^3)$, that the quasi-polynomials of plethysm need not count lattice points
+of inhomogeneous polytopes whose dimension equals their degree. This concerns
+the polytope hypothesis PH1 of \cite{GCT6}, not the index hypotheses treated
+here.
+
+\paragraph{What remains open.}
+(1) The exponent $r$ in Theorem~\ref{thm:kronecker}: whether $K_n$ always has
+its pole at the primitive $2^{n-1}$-th roots themselves. (2) The positivity and
+saturation indices of the Kronecker family $k_n$. (3) The density clauses
+1.6.5(b) and 3.3.2(b). (4) Whether a weakened PH3, with the modular index
+replaced by a quantity insensitive to a single pole of exponential order, could
+serve the purposes of \cite{GCT6}; the poles found here are simple, isolated in
+the two-adic direction, and come from one fixed curve.
+
+\section{Who proved and checked what}\label{sec:provenance}
+
+The Kronecker results (Theorems~\ref{thm:K023}, \ref{thm:K024},
+\ref{thm:transfer}, \ref{thm:kronecker}, Lemma~\ref{lem:liezero}) were found
+and proved by a run of GPT-6 Astra (OpenAI, ChatGPT Pro mode) on 21--22
+November 2026; the support theorem (Section~\ref{sec:support}),
+Proposition~\ref{prop:fixedcomponentpole} and the plethysm results
+(Sections~\ref{sec:plethysm}--\ref{sec:indices}) and the torus examples by an
+earlier run of the same model on 20--21 November. Claude Opus~5.5 at effort max
+read every proof of the Kronecker chain, of
+Proposition~\ref{prop:fixedcomponentpole} and of Section~\ref{sec:support} and
+reran the computations with its own code (22 November); Claude Opus~5.5 at
+effort high read the proofs of Theorem~\ref{thm:plethysmPH3}, of the
+canonical-algebra identification and of Section~\ref{sec:indices} and recomputed
+their numerical claims in small dimensions (21 November). In writing this text
+the latter added: the Kempf--Ness proof of closedness for the chain cubic
+(replacing a citation), the grading stabilizer of $p_n$ for all $n$ and
+Lemma~\ref{lem:orbitclosure} (which give $e_Y=1$ also when $3\mid n$), the
+direct count of fixed weights, the route to \eqref{eq:amplitude} through
+Proposition~\ref{prop:product}, the Fourier normalization, and the proofs of
+Propositions~\ref{prop:torusmodular} and~\ref{prop:torusindices}; it checked
+these, and the Hessian locus of Proposition~\ref{prop:chaincubic}(2), by
+computation. Claude Fable~5.2 at effort max then read the whole text,
+followed every proof, redid the added steps, the constants of
+Section~\ref{sec:indices} and Section~\ref{sec:torus} by hand, and tested them
+with computations of its own (25 November). No proof in this paper has been
+checked by a human.
+
+\begin{thebibliography}{99}
+
+\bibitem{BOR}
+E.~Briand, R.~Orellana, M.~Rosas, \emph{Reduced Kronecker coefficients and
+counter-examples to Mulmuley's strong saturation conjecture SH}, with an
+appendix by K.~Mulmuley, Comput. Complexity \textbf{18} (2009);
+arXiv:0810.3163v3 (14 May 2009). Page numbers refer to the arXiv version.
+
+\bibitem{FI}
+N.~Fischer, C.~Ikenmeyer, \emph{The computational complexity of plethysm
+coefficients}, arXiv:2002.00788v1 (3 February 2020).
+
+\bibitem{ICERM}
+J.~A.~Grochow, K.~Rusek, \emph{Report on ``Mathematical aspects of P vs.\ NP
+and its variants''}, workshop at ICERM, 1--5 August 2011 (organizers S.~Basu,
+J.~M.~Landsberg, J.~M.~Rojas), arXiv:1203.2888v2 (21 March 2012).
+
+\bibitem{IMW}
+C.~Ikenmeyer, K.~D.~Mulmuley, M.~Walter, \emph{On vanishing of Kronecker
+coefficients}, arXiv:1507.02955v2 (21 July 2017).
+
+\bibitem{IP}
+C.~Ikenmeyer, G.~Panova, \emph{Rectangular Kronecker coefficients and
+plethysms in geometric complexity theory}, arXiv:1512.03798v2 (11 August 2017).
+
+\bibitem{KM}
+T.~Kahle, M.~Micha\l{}ek, \emph{Obstructions to combinatorial formulas for
+plethysm}, Electron. J. Combin. \textbf{25}(1) (2018), \#P1.41;
+arXiv:1507.07131v3.
+
+\bibitem{Losev}
+I.~Losev, \emph{The Kempf--Ness theorem and invariant theory},
+arXiv:math/0605756.
+
+\bibitem{Luna}
+D.~Luna, \emph{Slices \'etales}, Bull. Soc. Math. France, M\'emoire \textbf{33}
+(1973), 81--105.
+
+\bibitem{Macdonald}
+I.~G.~Macdonald, \emph{Symmetric functions and Hall polynomials}, 2nd ed.,
+Oxford University Press, 1995.
+
+\bibitem{GCT6}
+K.~D.~Mulmuley, \emph{Geometric complexity theory VI: the flip via saturated
+and positive integer programming in representation theory and algebraic
+geometry}, arXiv:0704.0229v4 (22 January 2009). Page numbers refer to this
+version.
+
+\bibitem{Stacks}
+The Stacks Project Authors, \emph{The Stacks Project},
+\url{https://stacks.math.columbia.edu}, Section 15.29 (Tag 0621) and
+Lemma 15.31.2 (Tag 062F).
+
+\end{thebibliography}
+
+\end{document}

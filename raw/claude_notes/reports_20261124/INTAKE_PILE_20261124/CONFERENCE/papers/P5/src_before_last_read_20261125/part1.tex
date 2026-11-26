@@ -1,0 +1,280 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1.15in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\emergencystretch=3em
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{thmA}{Theorem A}
+\newtheorem*{thmB}{Theorem B}
+\newtheorem*{thmC}{Theorem C}
+\newtheorem*{thmD}{Theorem D}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Gm}{\mathbb{G}_m}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\Hilb}{\operatorname{Hilb}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Stab}{\operatorname{Stab}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Tr}{\operatorname{Tr}}
+
+\title{The positivity hypotheses of GCT~VI fail for Kronecker and plethysm
+coefficients\thanks{AI-produced. The results are due to two runs of GPT-6
+Astra (OpenAI, ChatGPT Pro mode); the text was written by Claude Opus~5.5
+(Anthropic) at effort high, which also supplied the steps marked as added
+in Section~\ref{sec:provenance}; see that section for who proved, wrote and
+checked what. No human has checked this text. To the extent that any rights
+exist in it, they are dedicated to the public domain under CC0~1.0.}}
+\author{}
+\date{25 November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Part VI of Mulmuley's geometric complexity theory formulates three hypotheses
+on the stretching quasi-polynomials of Kronecker coefficients, plethysm
+coefficients and, more generally, multiplicities of subgroup restriction:
+the saturation index (SH) and the positivity index (PH2) should be bounded by
+a polynomial in the size of the input, and the generating function should
+admit a positive rational form whose largest denominator exponent, the modular
+index, is bounded by such a polynomial (PH3). We show that these hypotheses
+fail. For every $n\ge2$ the series $\sum_{s\ge0}g((s^n),(s^n),(s^n))\,t^s$
+of triple-rectangular Kronecker coefficients has a pole at a primitive root of
+unity of order $2^{n-1}3^{r}$ for some $r\ge0$, so every positive rational
+form, indeed every expression $P(t)/\prod_i(1-t^{a_i})^{b_i}$, has some
+$a_i\ge2^{n-1}$, while the input rank is $n^2+5n$; this refutes the existence
+clause of PH3 for Kronecker coefficients, also in the relaxed form that
+Mulmuley gave in the appendix to the paper of Briand, Orellana and Rosas. The
+proof reduces modulo three to the cyclic permutation of the three tensor
+factors, whose trace is the Hilbert series of the invariants of
+$\C^n\oplus\mathbb S_{(2,1)}\C^n$, and locates there a unique fixed curve of
+the grading group $\mu_{2^{n-1}}$. For the plethysm coefficients of
+$\Sym^{d}(\Sym^3\C^n)$ along the ray of the determinant, the Hilbert series
+has simple poles at the primitive $2^{n-1}$-th roots of unity for every
+$n\ge4$, which refutes PH3; a signed trace of these poles dominates all other
+terms, which gives positivity and saturation indices larger than $2^{cn}$ for
+every $c<1/4$ and all large $n$, refuting PH2 and SH(a). Both arguments rest
+on a support theorem for cubic forms: a diagonal matrix of two-power order
+fixing a semistable cubic in $n$ variables has determinant of order at most
+$2^{n-1}$, with equality only for the chain cubic
+$x_1^2x_2+\dots+x_{n-1}^2x_n+x_n^3$. For restriction from a rank-one torus,
+which GCT~VI admits as an explicit embedding, the three hypotheses fail at a
+fixed input rank.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction and results}\label{sec:intro}
+
+\paragraph{The hypotheses.}
+Mulmuley's GCT~VI~\cite{GCT6} proposes to decide the nonvanishing of
+structure constants of representation theory, among them the Kronecker
+coefficients and the plethysm coefficients, by linear programming on a
+stretching quasi-polynomial, and it formulates three hypotheses that would
+make this work. Let $f(n)$ be the stretching function of a structure constant
+(the constant at the $n$-fold stretched input), a quasi-polynomial, and
+$F(t)=\sum_{n\ge0}f(n)t^n$ its generating function. The \emph{positivity
+index} $p(f)$ and the \emph{saturation index} $s(f)$ measure how far $f$ must
+be shifted before all constituents have nonnegative coefficients, respectively
+are positive at every positive integer whenever not identically zero; a
+\emph{positive form} of $F$ is an expression with denominator
+$\prod_i(1-t^{a_i})^{d_i}$ and a numerator with nonnegative integer
+coefficients and constant term one, and its \emph{modular index} is
+$\max_ia_i$. (The definitions are recalled in Section~\ref{sec:defs}.) The
+hypotheses ask that $s(f)$ (SH(a)), $p(f)$ (PH2) and the modular index of some
+positive form (PH3) be bounded by a polynomial in the rank of the input:
+\cite[Hypotheses 3.3.2(a), 3.3.3, 3.3.4, p.~51]{GCT6} in general and
+\cite[Hypotheses 1.6.5(a), 1.6.6, 1.6.7, pp.~24--25]{GCT6} for plethysm.
+After Briand, Orellana and Rosas found counterexamples to the earlier, strict
+forms of SH and PH2 for Kronecker coefficients~\cite{BOR}, Mulmuley stated
+relaxed forms of SH, PH2 and PH3 for Kronecker coefficients in an appendix to
+their paper~\cite[Appendix, pp.~18--20]{BOR}; the polynomial bounds above are
+of that relaxed kind.
+
+\paragraph{Results.}
+Write $g(\lambda,\mu,\nu)$ for the Kronecker coefficient and put
+\[
+ k_n(s)=g\bigl((s^n),(s^n),(s^n)\bigr),\qquad
+ K_n(t)=\sum_{s\ge0}k_n(s)t^s .
+\]
+This is the stretching function of the Kronecker coefficient of the triple of
+columns $((1^n),(1^n),(1^n))$.
+
+\begin{thmA}[Theorem~\ref{thm:kronecker}]
+For every $n\ge2$ there is an integer $r\ge0$ such that $K_n(t)$ has a pole at
+every primitive root of unity of order $2^{n-1}3^r$. Consequently every
+expression $K_n(t)=P(t)/\prod_i(1-t^{a_i})^{b_i}$ with $P\in\Q[t]$ and
+positive integers $a_i,b_i$ has $\max_ia_i\ge2^{n-1}$. The existence clause of
+PH3 for Kronecker coefficients \cite[Hypothesis 3.3.4]{GCT6} fails, and so
+does the relaxed PH3 of \cite[Appendix]{BOR}.
+\end{thmA}
+
+Let $\nu=\gcd(n,3)$, $d_0=n/\nu$ and $m=\binom{n+2}3=\dim\Sym^3\C^n$. The
+plethysm coefficient of the ray $\mu=(3)$, $\lambda=(d_0)$, $\pi=((3/\nu)^n)$
+of \cite[Section 1.6]{GCT6} has stretching function
+\[
+ f_n(s)=\dim\Hom_{GL_n}\bigl((\det)^{3s/\nu},\Sym^{d_0s}(\Sym^3\C^n)\bigr),
+ \qquad H_n(t)=\sum_{s\ge0}f_n(s)t^s ,
+\]
+the number of linearly independent $SL_n$-invariants of degree $d_0s$ of
+cubic forms in $n$ variables.
+
+\begin{thmB}[Theorem~\ref{thm:plethysmPH3}]
+For every $n\ge4$, $H_n(t)$ has a simple pole at every primitive root of unity
+of order $2^{n-1}$. Every expression $H_n(t)=P(t)/\prod_i(1-t^{a_i})^{b_i}$ has
+some $a_i$ divisible by $2^{n-1}$, while the parameter of
+\cite[Hypothesis 1.6.7]{GCT6} is $m^2+n+1=O(n^6)$. PH3 fails for plethysm
+coefficients.
+\end{thmB}
+
+\begin{thmC}[Theorem~\ref{thm:indices}]
+For every real $0<c<1/4$ and all sufficiently large $n$, the positivity index
+and the saturation index of $f_n$ satisfy
+\[
+ p(f_n)>2^{cn},\qquad s(f_n)\ge2^{cn};
+\]
+explicitly, $p(f_n)>2^{n/8}$ and $s(f_n)\ge2^{n/8}$ for $n\ge2\cdot10^{80}$.
+PH2 and SH(a) for plethysm coefficients \cite[Hypotheses 1.6.5(a),
+1.6.6]{GCT6} fail.
+\end{thmC}
+
+\begin{thmD}[Propositions~\ref{prop:torusmodular} and~\ref{prop:torusindices}]
+For restriction from $\Gm$ along explicit polynomial embeddings into $GL_2$
+and $GL_3$, which \cite[Section 3.4]{GCT6} admits, the input rank stays $5$,
+respectively $6$, while the modular index of every positive form, respectively
+the positivity and saturation indices, are unbounded. Hypotheses 3.3.2(a),
+3.3.3 and 3.3.4 of \cite{GCT6} fail as stated for the subgroup restriction
+problem.
+\end{thmD}
+
+\paragraph{What is not claimed.}
+None of these results bears on the density clauses \cite[Hypotheses
+1.6.5(b), 3.3.2(b)]{GCT6}, which ask for strict saturation of almost all
+inputs; our families are sparse. We do not determine the exponent $r$ of
+Theorem~A (for $n=2,3,4,5$ separate computations in the run give $r=0$; we do
+not use them), and we do not bound the positivity or saturation index of the
+Kronecker family. Nothing here concerns the occurrence of representations in
+orbit closures, the other route of geometric complexity theory, or the
+complexity of deciding the vanishing of these coefficients.
+
+\paragraph{Method.}
+All three refutations of PH3 detect a pole of a Hilbert series at a root of
+unity $\zeta$ of large order by the fixed locus of the grading element
+$\zeta$ on the invariant-theoretic quotient: a unique fixed curve along which
+the quotient is smooth forces a pole (Proposition~\ref{prop:fixedcomponentpole}),
+while an isolated fixed point forces regularity (Lemma~\ref{lem:isolated}).
+The fixed loci are found by a support theorem for cubic forms
+(Theorem~\ref{thm:fullcubicsupport}), which singles out the chain cubic. For
+Kronecker coefficients the quotient is that of three-tensors, whose fixed loci
+we cannot control directly; instead the cyclic permutation $\tau$ of the three
+factors acts on the invariants, its trace series agrees with $K_n$ modulo
+three, and by a character identity (Theorem~\ref{thm:K023}) it is the Hilbert
+series of a quotient of $\C^n\oplus\mathbb S_{(2,1)}\C^n$, where the support
+theorem applies again. A transfer lemma for congruent rational series
+(Theorem~\ref{thm:transfer}) carries the pole back, at the price of the
+unknown power $3^r$.
+
+\paragraph{Earlier work.}
+We searched arXiv, the web and the Hexagon repository for earlier statements
+that PH3, PH2 or SH fails in these forms (Section~\ref{sec:literature}).
+Briand, Orellana and Rosas~\cite{BOR} refuted the strict forms of SH and PH2
+for Kronecker coefficients; the positivity indices of their examples are at
+most one, so they agree with the relaxed forms. Kahle and Micha\l{}ek~\cite{KM}
+showed that plethysm quasi-polynomials need not count lattice points of
+polytopes of the matching dimension, which bears on the polytope hypothesis
+PH1 rather than on the index hypotheses. We found no earlier refutation of
+PH3, or of the relaxed SH(a) and PH2.
+
+Section~ef{sec:provenance} says who proved and checked what.
+
+\section{Definitions and the hypotheses}\label{sec:defs}
+
+\paragraph{Quasi-polynomials and indices.}
+A function $f:\Z_{\ge0}\to\Z$ is a quasi-polynomial if there are a period
+$l\ge1$ and polynomials $f_1,\dots,f_l$ with $f(n)=f_j(n)$ for $n\equiv j
+\pmod l$. The following are \cite[Definitions 1.2.2 and 1.2.4,
+pp.~13--14]{GCT6}.
+
+\begin{definition}\label{def:indices}
+The quasi-polynomial $f$ is \emph{strictly positive} if all coefficients of
+all $f_j$ are nonnegative; its \emph{positivity index} $p(f)$ is the least
+integer $p\ge0$ such that $n\mapsto f(n+p)$ is strictly positive. It is
+\emph{strictly saturated} if, for every $j$, either $f_j$ is identically zero
+or $f_j(n)>0$ for every integer $n\ge1$; its \emph{saturation index} $s(f)$ is
+the least integer $s\ge0$ such that $n\mapsto f(n+s)$ is strictly saturated.
+\end{definition}
+
+\begin{definition}[{\cite[Definition 1.2.7, p.~15]{GCT6}}]\label{def:positiveform}
+Let $F(t)=\sum_{n\ge0}f(n)t^n$ with $f$ a quasi-polynomial of degree $d$, not
+identically zero. A \emph{positive form} of $F$ is an expression
+\[
+ F(t)=\frac{h_0+h_1t+\dots+h_et^e}{\prod_{i=0}^k(1-t^{a_i})^{d_i}}
+\]
+with $h_0=1$, all $h_i$ nonnegative integers, $a_i,d_i$ positive integers and
+$\sum_id_i=d+1$. Its \emph{modular index} is $\max_ia_i$.
+\end{definition}
+
+Our lower bounds on modular indices use only the denominator: they hold for
+every expression $P(t)/\prod_i(1-t^{a_i})^{b_i}$ with $P\in\C[t]$, with no
+condition on the numerator or on the exponents $b_i$.
+
+\paragraph{The hypotheses.}
+In \cite[Section 3.3, p.~51]{GCT6} the input $x$ of a structure constant has a
+rank $\rank(x)$ and a stretching quasi-polynomial $\tilde f(x,n)$, and the
+hypotheses read: (SH)(a) $s(\tilde f)=O(\mathrm{poly}(\rank(x)))$, (b) the
+saturation index vanishes for almost all $x$ (Hypothesis 3.3.2); (PH2)
+$p(\tilde f)=O(\mathrm{poly}(\rank(x)))$ (Hypothesis 3.3.3); (PH3) the
+generating function $F(x,t)=\sum_n\tilde f(x,n)t^n$ has a positive rational
+form of modular index $O(\mathrm{poly}(\rank(x)))$, and more specifically the
+modular index defined in \cite[Section 4.1.1]{GCT6} is
+$O(\mathrm{poly}(\rank(x)))$ (Hypothesis 3.3.4). These are stated for the
+Kronecker problem, the plethysm problem and the subgroup restriction problem,
+among others. For subgroup restriction along an explicit polynomial
+homomorphism $\rho:H\to G$, with $H$-representation $\lambda$ and
+$G$-representation $\pi$, the rank is the sum of the ranks of $H$ and $G$ and
+the heights of the specified weights \cite[Section 3.4, p.~52]{GCT6}; the
+Kronecker and plethysm problems are special cases.
+
+For plethysm, \cite[Section 1.6, pp.~24--25]{GCT6} states the same hypotheses
+with the parameter $h=\dim G+\operatorname{ht}(\lambda)+\operatorname{ht}(\pi)$:
+SH(a) asks $s\le ch^{c'}$ (Hypothesis 1.6.5(a)), PH2 asks for a polynomial
+bound on the positivity index (Hypothesis 1.6.6), and PH3 asks that the
+generating function have a positive rational form with modular index bounded
+by a polynomial in $h$, and more specifically that this hold for the minimal
+positive form attached to an h.s.o.p.\ of lexicographically minimal degree
+sequence (Hypothesis 1.6.7).
+
+The relaxed hypotheses of \cite[Appendix, pp.~19--20]{BOR} are stated for
+Kronecker coefficients $g_{\lambda,\mu}^{\pi}$ with $H=GL_n\times GL_n\subset
+G=GL_{n^2}$, with the parameter $h$ the largest height of $\lambda,\mu,\pi$:
+(SH)(a) $s=O(\mathrm{poly}(h))$; (PH2) $p=O(\mathrm{poly}(h))$; (PH3) the
+modular index of the minimal positive form is $O(\mathrm{poly}(h))$.
+
+\paragraph{The inputs of this paper.}
+For $k_n$ we take $H=GL_n\times GL_n$, $G=GL_{n^2}$ and the columns
+$\lambda=\mu=(1^n)$, $\pi=(1^n)$, stretched to $(s^n)$. Then $\rank(x)=2n+n^2+3n
+=n^2+5n$ in the sense of \cite[Section 3.4]{GCT6}, and $h=n$ in the sense of
+\cite[Appendix]{BOR}. For $f_n$, $G=GL(\Sym^3\C^n)=GL_m$, $\operatorname{ht}
+(\lambda)=1$, $\operatorname{ht}(\pi)=n$, so $h=m^2+n+1$, and the rank of
+\cite[Section 3.4]{GCT6} is $n+m+n+1$. Both are bounded by a polynomial in
+$n$; so is the parameter of every hypothesis above.
+

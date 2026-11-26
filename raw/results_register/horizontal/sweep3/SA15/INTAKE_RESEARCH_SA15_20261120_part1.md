@@ -239,6 +239,7 @@ Math. IHES 43, 1974) and II (52, 1980).
 - cor:B-RD27-exact-three: the formula N(e) = 1 + min(s, floor((L+1)/2), floor((L+s+1)/4)) is consistent with B-RD26
   (m = 12 gives e >= (2/3) 3^max(2n-2, 4n-4-s), i.e. n-1 <= s, (L+1)/2 and (L+s+1)/4); at e = 216 (u = 108, s = 3,
   L = 4) it gives N = 3, and e >= (2/3)·243 = 162 holds, so full 27-torsion with defect twelve is allowed, as stated.
+  - Note (23 Nov 2026, intake of POLISH_CRISTAUX, Claude Opus 5.5): the least index for full rational 27-torsion with additive reduction is e = 162 (u = 81, s = 4, defect m = 12), recomputed from the criterion of thm:three-range in `field_experts/intake_20261121/intakes/POLISH_CRISTAUX/INTAKE_POLISH_CRISTAUX_20261123_cp12.md` section 3; e = 216 is the first index the tame construction misses, realized with defect 12 only.
 - thm:B-RD42 (nu_min(3,2,2) = 2): the proof skeleton followed; it rests on prop:B-RD29, thm:B-RD34, prop:B-RD35,
   B-RD37, B-RD38, B-RD40, B-RD41 and the two B-RD42 lemmas, not read.
 

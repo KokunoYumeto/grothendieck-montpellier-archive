@@ -1,0 +1,292 @@
+<title>After Alpöge's Proof</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column with a sticky table of contents on wide screens; sections are numbered because the order is the reading order. */
+:root {
+  --paper: #f6f7f8;
+  --ink: #1d2328;
+  --muted: #5a6670;
+  --rule: #d5dbe0;
+  --accent: #1f5f73;
+  --accent-soft: #e2eef1;
+  --note: #8a5a14;
+  --note-soft: #f6eddc;
+  --display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --text: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #14191d; --ink: #e3e8ec; --muted: #9aa7b1; --rule: #2c353c;
+    --accent: #7cc3d6; --accent-soft: #1b2c33; --note: #e0b56a; --note-soft: #2b2416; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #14191d; --ink: #e3e8ec; --muted: #9aa7b1; --rule: #2c353c;
+  --accent: #7cc3d6; --accent-soft: #1b2c33; --note: #e0b56a; --note-soft: #2b2416; color-scheme: dark;
+}
+body { background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--text); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-block: 2.5rem 4rem;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 3rem; }
+@media (max-width: 860px) { .wrap { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; } nav.toc { position: static !important; } }
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 1.5rem); align-self: start; font-size: 0.86rem; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+nav.toc a { color: var(--muted); text-decoration: none; }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--accent); text-decoration: underline; }
+main { min-width: 0; max-width: 72ch; }
+header.top h1 { font: 600 clamp(2rem, 4vw, 2.8rem)/1.1 var(--display); margin: 0 0 0.6rem; text-wrap: balance; }
+.eyebrow { font: 500 0.78rem/1.2 var(--text); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.8rem; }
+.lede { font: 400 1.15rem/1.55 var(--display); color: var(--ink); margin: 0 0 1rem; }
+.byline { color: var(--muted); font-size: 0.88rem; margin: 0; }
+section { border-top: 1px solid var(--rule); padding-top: 1.6rem; margin-top: 2.2rem; }
+h2 { font: 600 1.5rem/1.25 var(--display); margin: 0 0 0.9rem; text-wrap: balance; }
+h2 .num { font: 500 0.95rem var(--mono); color: var(--accent); margin-right: 0.5rem; }
+h3 { font: 600 1.05rem/1.35 var(--text); margin: 1.4rem 0 0.4rem; }
+p { margin: 0 0 0.9rem; }
+ul { margin: 0 0 0.9rem; padding-left: 1.2rem; display: grid; gap: 0.35rem; }
+code, .id { font: 400 0.86em var(--mono); color: var(--accent); }
+.path { font: 400 0.82rem var(--mono); color: var(--muted); word-break: break-all; }
+.state { display: inline-block; font: 500 0.72rem/1 var(--text); letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 0.28rem 0.45rem; border-radius: 3px; background: var(--accent-soft); color: var(--accent); vertical-align: 0.12em; margin-right: 0.35rem; }
+.state.open { background: var(--note-soft); color: var(--note); }
+.callout { background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 0.9rem 1rem; margin: 0 0 1.1rem; }
+.callout p:last-child { margin-bottom: 0; }
+.tbl { overflow-x: auto; margin: 0 0 1rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; vertical-align: top; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--rule); }
+th { font-weight: 600; color: var(--muted); font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.small { font-size: 0.86rem; color: var(--muted); }
+a { color: var(--accent); }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Contents">
+  <p class="eyebrow">Contents</p>
+  <ol>
+    <li><a href="#posted">1. Posted this week</a></li>
+    <li><a href="#results">2. The strongest new results</a></li>
+    <li><a href="#map">3. One map across the fields</a></li>
+    <li><a href="#fleet">4. The P vs NP fleet</a></li>
+    <li><a href="#s6">5. S6</a></li>
+    <li><a href="#archive">6. The archive</a></li>
+    <li><a href="#passes">7. What the second passes taught</a></li>
+    <li><a href="#next">8. Queued and next</a></li>
+    <li><a href="#where">9. Where everything is</a></li>
+  </ol>
+</nav>
+
+<main>
+<header class="top">
+  <p class="eyebrow">20 – 24 November 2026 · report for reading at leisure</p>
+  <h1>After Alpöge's proof</h1>
+  <p class="lede">On 20 November L. Alpöge proved the Riemann hypothesis for every Dirichlet L-function, ζ included, and it is formalized in Lean. Everything below builds on that: what the three Claude sessions (main, S6, pequalnp) and their agents found and did in the days since.</p>
+  <p class="byline">Written by Claude (Claude Opus 5.5 at effort max), main session, 23 Nov 2026 ~19:00 UTC. Status words are the check events our intakes recorded. "On paper" means proved by one of our agents with no second reader yet. This page is updated as findings come in; last update 24 Nov ~12:30 UTC (six correction e-mails sent; the finite-field paper on Hexagon; H22 v4; the first return of prompt 93; thread B's closing of the wild band; the ZETA_HEAT final; the send order).</p>
+</header>
+
+<section id="posted">
+  <h2><span class="num">1</span>Posted this week</h2>
+  <p>Five notes went to Hexagon on 23 Nov, each after a full reading by the main session on top of the field experts' checks. All five were published by 21:45 UTC that day. Each has a permanent record in the mathematics-workbenches index. On 24 Nov two of them went up as version 2, and the finite-field paper went up; all three are in moderation. Hexagon now allows 25 deposits a day.</p>
+  <ul>
+    <li><strong>The finite-field paper, hexagon:2611.00987v1 (24 Nov, 11:25 UTC, 191 pp.).</strong> What Alpöge's theorem makes unconditional in algorithms, and prime-degree finite fields from a small cyclotomic cofactor with no Riemann hypothesis at all. The 159-page draft grew overnight to 190 pages in the Pro run. Codex (GPT-6.2 Astra at reasoning effort ultra) then integrated it into a 191-page edition with five fixes. Our GRH_ALGORITHMS expert recomputed all five and said "post as is". The pequalnp session deposited it.</li>
+    <li><strong>P90a, WB-0003, hexagon:2611.00936.</strong> A very ample counterexample to Kodaira vanishing on a surface, answering a question of Raynaud (1978). Version 2 went up on 24 Nov at 10:56 UTC. It adds the corollary that the same example answers Kweon's Question 7.7, second half, negatively, and it fixes a positive-dimension point in Theorem 2.</li>
+    <li><strong>S20, WB-0004, 2611.00937.</strong> Integer-valued polynomials over a one-dimensional analytically irreducible local domain form a free module, so Elliott's non-flatness conjectures fail. From cote 123. Version 1 missed a credit: on 26 December 2013 Elliott announced on MathOverflow that the module is free for the first of his two rings, with no published proof that we could find. Version 2 adds that credit, with the mathematics unchanged; it went up on 24 Nov at 00:03 UTC.</li>
+    <li><strong>H09, WB-0005, 2611.00938.</strong> Divisibility of invariant derivatives on formal groups of every height, on a question of Katz.</li>
+    <li><strong>H06b, WB-0006, 2611.00939.</strong> The question of Anderson and Ihara on the pro-p Galois action on P¹ − {0, 1, ∞}, settled at every prime satisfying Vandiver's conjecture: new at irregular Vandiver primes.</li>
+    <li><strong>H17, WB-0007, 2611.00940.</strong> Relation (IV) of Nakamura and Schneps holds on the profinite Grothendieck–Teichmüller group, with GT̂ = Λ₀·G_Q and an application to the two elliptic points of the modular curve. From the La Longue Marche line.</li>
+  </ul>
+  <p class="small">Waiting for your word: H15 (Galois orbits of CM points with an explicit exponent), H07 v3, and H22 v4. H22 v4 corrects two sentences of v3 that the run of prompt 93 found false: an R-module is projective over R₀ only if it is zero. The board now has 109 candidates.</p>
+</section>
+
+<section id="results">
+  <h2><span class="num">2</span>The strongest new results of the last runs</h2>
+  <p>From the intake wave of 23 Nov: nine runs, each read by the field expert who knows it, most useful first.</p>
+  <h3><span class="state">checked</span>Finite fields of prime degree with no Riemann hypothesis</h3>
+  <p>GRH_ALGORITHMS_FINISH (P145/P144) builds F_{p^r} deterministically in time polynomial in r, log p and a cyclotomic cofactor of Φ_d(p). It replaces the analytic auxiliary prime by algebra: adjoin Φ_ℓ, take a root, its norm, then Bézout, since r ∤ ℓ−1. Lenstra's construction problem gets a strictly smaller gate, unconditionally. The 159-page paper has every fix of its finishing prompt and is close to postable.</p>
+  <h3><span class="state">checked</span>The Hodge conjecture for abelian varieties as a uniform bound over finite fields</h3>
+  <p>HODGE_FINISH delivered two papers.</p>
+  <ul>
+    <li><strong>Paper A (66 pp.)</strong> proves the criterion from published inputs, with an explicit Weil engine. It includes the new theorem that every integral Gaussian Hermitian lattice of class [−3] embeds in U ⊥ U ⊥ ⟨1, −3⟩.</li>
+    <li><strong>Paper B (88 pp.)</strong> gives construction obstructions and criteria for Mumford's fourfold: if one quadratic Lie block is algebraic, the Hodge conjecture holds for every power of it.</li>
+  </ul>
+  <h3><span class="state">checked</span>Grothendieck's question on cote 8, sheet 49, answered</h3>
+  <p>POLISH_CRISTAUX's Paper 19: the two Lubin–Tate lattices agree exactly when e ≤ p, and their tangent images always agree. Paper 8 adds that the least rank of a local system with a non-split co-Lie complex is 4, 3, 2 for p = 2, 3, ≥ 5. Papers 20–21 give full mod-2 monodromy, GL₈ and GL₈₀, for sections of the supersingular cubic square.</p>
+  <h3><span class="state">checked</span>Simple zeros as the growth of a finite positivity test</h3>
+  <p>ZETA_HEAT, prompt 62, at its first checkpoint: under Alpöge's theorem, the simplicity of the zeta zeros is equivalent to an exact growth rate of the backward-heat Toeplitz minors, with the explicit constants π and 2π/√3. There is also a trace certificate of simplicity below any given height.</p>
+  <h3><span class="state">checked</span>The cubic gate, from the arithmetic side</h3>
+  <p>ALP_CONNES G219: at coefficient 7 the strict Selmer groups of the matched cubic Kummer family are nonzero. So the cubic-RH gate cannot close by "all strict groups vanish"; it has to absorb a measured, mostly bounded term. ALP_MACHINE's LIFT110 shows that abelian coefficient fields cannot carry normalized ideal generators, a second structural constraint on step 8 of Alpöge's formal development.</p>
+  <h3><span class="state">checked</span>And from the polish runs</h3>
+  <p>Grothendieck's II c) holds exactly when the parametrizations fix the base pointwise; otherwise the space is equivalent to Homeo(Y). A collar removed from a hyperbolic surface can make the conformal factor change sign. Necessary conditions for Picard kernels on surfaces in characteristic p bear on Grothendieck's Picard question.</p>
+  <h3><span class="state">checked</span>Late on 23 Nov: the second intake wave</h3>
+  <ul>
+    <li><strong>A finite test for simple zeta zeros, exact at every height</strong> (ZETA_HEAT, checkpoint 3). Under Alpöge's theorem, the zeros up to height T are all simple exactly when some finite trace defect of Suzuki's compressions, computed from primes and integrals with no zero locations, falls below 2/T^(2k). The supremum of the test is the first multiple zero, if there is one, and the heat-flow limit equals half its square. Every zero up to height 97.632 is certified simple from prime powers below e¹². The proof was followed step by step; four of the six certificate rows were recomputed, without rigour, to 9–10 digits.</li>
+    <li><strong>Grothendieck's question on cote 133 answered no</strong> (NIGHT_GROTHENDIECK_QUESTIONS, Part A). He asked whether a local ring, or more generally K₀(k) = Z, is enough. Over the dual numbers Z_(p)[ε]/ε² the trivial classes do not generate, at every prime, already in degree p. Characteristic 0 is necessary. Over Z_(p) a square-zero extension works exactly when its ideal is a Q-vector space. Our reading of the page stands, with two corrections.</li>
+    <li><strong>Picard kernels in characteristic p</strong> (POLISH_ALGEBRAIC_GEOMETRY). On a normal surface, an algebraically trivial p-torsion line bundle that is trivial on a curve of positive self-intersection never reaches conductor equality: a short proof, checked in full. At equality on a very ample curve the run now pins the shape: a ≥ 5, a ≠ 6, K ∼ (pa − 1)Y, a strange embedding, a general-type quotient.</li>
+    <li><strong>Flatness is not needed for Elliott's plethory</strong> (POLISH_TOPOLOGY_PERIODS). A non-Noetherian inclusion has every polynomial tensor map an isomorphism, yet neither S nor its differentials are flat. The same run finds π₂ of the TOP concordance space of S³ to be Z/2, against 0 in PL.</li>
+    <li><strong>Alpöge's formal interface needs metabelian coefficient fields</strong> (ALP_MACHINE, LIFT112–113). Normalized generators for an odd class subgroup of order g force degree divisible by g over the abelian part, and that degree is attained. Over Q(ω), which has class number one, the obstruction is empty, so it does not touch the moonshine prompt's route.</li>
+  </ul>
+  <h3><span class="state">checked</span>24 Nov: the morning's returns</h3>
+  <ul>
+    <li><strong>The next wild band, closed</strong> (POLISH_CRISTAUX, thread B, checkpoint 22).
+      <ul>
+        <li>For the special inertia character the index is v + 2 on the whole band 2 ≤ k ≤ p², p ∤ k, for every v (v + 1 at k = 1). The exceptional set of checkpoint 18 is gone.</li>
+        <li>The step that cuts it to a single multiplier was checked: the counting argument re-derived, and both patterns recomputed for every prime from 5 to 79.</li>
+        <li>Thread A's boundary case at (p² + 1)/2 cannot occur.</li>
+        <li>Grothendieck's weak-formal H¹ is rigid cohomology rationally, with no lift needed, and torsion-free integrally. It has infinite torsion in H² on the affine line.</li>
+        <li>Reduced Hasse divisors carry natural GL₈ blocks in every cubic-theta degree.</li>
+      </ul>
+      The merge prompt 92c now carries all of it.</li>
+    <li><strong>The finite test for simple zeta zeros, final</strong> (ZETA_HEAT).
+      <ul>
+        <li>An integer form: the zeros up to a zero-free height T are all simple exactly when ind₊(T·H_N − G_N) reaches n(T) for some N, with H_N and G_N computed from primes.</li>
+        <li>A lower rate for the Weil form on every window, improving Mori's exponent (statement level so far).</li>
+        <li>Every zero up to height 97.632 is simple. This is now certified twice, by two independently written programs in ball arithmetic.</li>
+      </ul>
+      A Hexagon note is written. An independent re-proof by a second agent and a reading of Alpöge–Furman's body are under way before it goes up.</li>
+    <li><strong>The first return of prompt 93</strong> (zero-adjoined semirings, read by Claude Fable 5.2 at effort max; thirteen results confirmed).
+      <ul>
+        <li>An exact count |E| + τ − 1 for monotone circuits of bipartite C₄-free edge functions whose monomials use at most one variable of one side. It contains the fleet's open conjecture L-meta-647.</li>
+        <li>The pequalnp session checked the fleet's formal statement against it and published both proofs in our mirror.</li>
+        <li>The rank-three unimodality claim in Mulmuley's GCT VIII fails, on a constant printed in its own figure.</li>
+      </ul></li>
+    <li><strong>Cote 133, classified in the curvilinear case</strong> (NIGHT_GROTHENDIECK_QUESTIONS). For A finite free and local over a mixed-characteristic discrete valuation ring with edim(A/pA) ≤ 1, the trivial classes generate exactly when A is regular. When A is singular, a split Z/N appears.</li>
+    <li><strong>Topology and cote 120</strong> (POLISH_TOPOLOGY_PERIODS). A surjective Casson–Sullivan homomorphism for oriented 3-manifolds with finite π₁, vanishing on T³. And coarsest embedded smooth partitions exist for every semialgebraic set, but depend on the embedding: the compact cusp shows it.</li>
+  </ul>
+  <h3><span class="state">checked</span>Corrections to published papers: six e-mails sent on 24 Nov</h3>
+  <p>Each point was checked at the source by the field expert. The e-mails went from the research address between 11:27 and 11:54 UTC, under your rule of that morning. Each says who is writing and why: we read the paper for our research project and spotted the point.</p>
+  <ul>
+    <li><strong>Esnault</strong>, math/0608203: an injectivity in Lemma 2.2 needs a hypothesis, and a residue map in Proposition 2.5 is ill-defined from degree 2 on. The corrected sequence holds in full generality.</li>
+    <li><strong>Boyle–Chen</strong>, Rev. Mat. Iberoam. 2024, Theorem A.6: the displayed generator does not fix the end, and the group has order at most 2, not Z.</li>
+    <li><strong>Galvin</strong>, Compositio 2026: a Steenrod-square inequality the wrong way round in Lemma 4.9, and Σ(X/∂X) for ΣX₊ in Proposition 2.23. No theorem changes.</li>
+    <li><strong>Orson–Powell–Randal-Williams</strong>, accepted at Crelle: k ≥ 1 for k ≥ 0 in Remark 8.2, and L^s against L^q in Theorem 2.3(D), before typesetting.</li>
+    <li><strong>Thakur</strong>, Prop. 2.9: it fails for Q(√−23), p = 2, d = 3, where no model over F₈ exists. The corrected statement covers central models.</li>
+    <li><strong>Mulmuley</strong>, GCT VIII: c(γ²₂₁; γ²₂₁; γ²₂₁) = (q^½ − q^−½)²·(q³ + q² + 3q + 2 + 3q⁻¹ + q⁻² + q⁻³), whose coefficients 1, 1, 3, 2, 3, 1, 1 are not unimodal. Positivity holds; unimodality does not.</li>
+  </ul>
+  <p class="small">Waiting for the version-2 notes to be public: Mukai (two slips in a proof) and Zheng (Corollary 4.4 fails in characteristic 5) after P90a v2, with a note to Kweon on his question; and Elliott, acknowledging his 2013 announcement, after S20 v2.</p>
+</section>
+
+<section id="map">
+  <h2><span class="num">3</span>One map across the fields</h2>
+  <p>You asked how the Riemann proofs map through Hodge, NCG, GCT, moonshine and towards global Langlands. Eight structural notes now lay our results on one ladder: Dirichlet (GL₁/Q), Hecke characters, Artin, GL₂, GL_n. Two map agents also wrote 60 maps onto the P vs NP fleet's proof graph. Nothing is graded. The findings below are the notes' own, with their check state.</p>
+  <div class="callout">
+    <p><strong>The convergence.</strong> Four of our lines wait on one next rung: RH for the cubic Hecke character of Q(ω). These are GRH_ALGORITHMS Q02 (the field-construction gate at r = 3), ALP_CONNES and ALP_MACHINE's H04.4, ALP_MACHINE Q3, and Koiran's HN for cubic solution fields. For F = Q(∛269) this is ζ_F/ζ: the L-function of a weight-one dihedral newform of level 3·269² = 217083, with the coefficients matched prime by prime. P017 and H04.4 turn out to be the same one-sided estimate for one prime sum.</p>
+  </div>
+  <ul>
+    <li><span class="state">on paper</span><strong>One mechanism in four places.</strong> Positivity of a Toeplitz form detects zeros: Weil windows, backward-heat minors, Li sections, GCT structure constants. In each, the defect is positive unconditionally, and the hypothesis is that its limit vanishes. Heat flow damps with a Gaussian; the window truncates.</li>
+    <li><span class="state">on paper</span><strong>Positivity breaks at the next rung by induction.</strong> Connes-type positivity fails for the Dedekind zeta of any non-abelian field, which has multiple zeros. It has to be posed per irreducible representation, where MAS_ARTIN's S₅ chain makes it automatic through Cohen's theorem.</li>
+    <li><span class="state">on paper</span><strong>The arithmetic quotient of GT̂.</strong> Λ₀ is normal in GT̂, and GT̂/Λ₀ ≅ Gal(Q(μ_∞, 2^(1/∞))/Q). Alpöge's theorem governs its cyclotomic and mod-2 layer; the mod-4 layer runs into weight-one theta series over Q(i).</li>
+    <li><span class="state">checked</span><strong>Permanent and determinant as one zeta function.</strong> perm X is the x₁⋯x_n coefficient of det(I − diag(x)X)⁻¹, and det X is the same coefficient of det(I + diag(x)X): the symmetric-power denominator against the exterior-power numerator. Checked exactly for n ≤ 4.</li>
+    <li><span class="state">on paper</span><strong>The fleet's hard link L-gct-086 in cumulant form.</strong> Take the logarithm of the rook polynomial. Its leading terms (k−1)!/k·p_k give the coefficients 1/2, 2/3, 3/2 found earlier, and 3p₂² in L-gct-134 is exactly the disconnected part.</li>
+    <li><span class="state">on paper</span><strong>Level spaces are deformations of special points.</strong> A level space with one symmetry has dimension at most n²/q &lt; n, so the extremal ones are not special points. The PSL₂(7) slice is Klein's quartic, with 24 level lines (numerical so far).</li>
+    <li><span class="state">checked</span><strong>#SAT mod 2 is a Hasse–Witt scalar,</strong> a Frobenius on a Hodge piece (NEG_NIGHT). The hardness lives in the multiplicity and the rank, not in p.</li>
+    <li><span class="state">on paper</span><strong>Where the K-theory size argument stops.</strong> The class-number size method clears cyclotomic class components exactly when φ(d) ≤ 2, the orders KTOWER cleared. Order 5 needs an arithmetic annihilator.</li>
+    <li><span class="state">on paper</span><strong>Our lattice J carries a new Hecke eigenform:</strong> a level-3, weight-12 newform. The Leech lattice's theta series has only Δ.</li>
+  </ul>
+  <p class="small">Every finding has a home: prompts 68, 69 and 93 are rebuilt with them; 70d (Hodge made effective) and 95 (GT̂ after H17) are new; the fleet items go to the pequalnp session's prompt. The map of which finding went where is in DISTRIBUTION_TO_PROMPTS.md (§9).</p>
+</section>
+
+<section id="fleet">
+  <h2><span class="num">4</span>The P vs NP fleet (the pequalnp session)</h2>
+  <p>We joined pequalnp.com as KokunoYumeto: about 100 people and 400 agents attacking P vs NP with Lean-checked lemmas. What the session did:</p>
+  <ul>
+    <li>It proved <strong>Lemma K (L-gct-122)</strong> in Lean and submitted it. The fleet closed it unchecked, because its desk accepts only the steps the attack is waiting on, and races decide the easy ones.</li>
+    <li><strong>Level spaces of the permanent:</strong>
+      <ul>
+        <li>LS(n) ≤ n²/3 + 2n;</li>
+        <li>exact formulas for S₂, S₃, S₄ on doubly centred matrices;</li>
+        <li>in the real case, dim(L ∩ L̄) ≤ 2n − 2;</li>
+        <li>a Taylor-order lower bound;</li>
+        <li>L-meta-782 proved on paper.</li>
+      </ul>
+      The swarm improved some of our earlier GCT bounds (L-gct-070/074) and uses our O-011 decomposition (L-gct-215).</li>
+    <li><strong>L-meta-647 (24 Nov).</strong> The fleet's conjecture on monotone circuits for bipartite C₄-free graphs now has two proofs of ours: the pequalnp session's of 23 Nov, and the stronger Theorem 1.1 of prompt 93's run. Both are in our public mirror as entry X-meta-005, with the three reductions that match the theorem to the fleet's Lean statement. Filing it with the fleet is your call.</li>
+    <li><strong>The question you raised:</strong> what do we know that the racers don't? The maps, the joint GCT lemma space and the structural notes are the answer being built. Everything has been passed to ChatGPT through the pequalnp session.</li>
+  </ul>
+</section>
+
+<section id="s6">
+  <h2><span class="num">5</span>S6 (the S6 session)</h2>
+  <ul>
+    <li><strong>Paper II</strong> is final: the source and PDF hashes have not changed through checkpoint 52.</li>
+    <li><strong>Paper III</strong> stood at 19 of its 128 required checks at checkpoint 52.</li>
+    <li><strong>A new defect type, D26</strong>, a statement claimed beyond its scope, has been found twice. In 02K2, "not a normalization morphism" fails at N = 1. In 02KE, a closing sentence on the integral Pontryagin class fails at d = 1. Both are repaired, with every conclusion kept.</li>
+    <li>The session also relayed a missed case, with an explicit counterexample, in two Paper II statements. Codex (GPT-6.2 Astra at reasoning effort ultra) found the construction already printed in Paper II as Example P205, and the S6 session confirmed it: P205 is exactly the construction that refuted the original forms of 02Y6 and 02XE, and it is consistent with their corrected statements. Paper II needs no mathematical change, only two cross-reference sentences. Codex also found that across fibres the elliptic pieces are isogenous exactly when ε², ε or ε³ is rational, and that the Fano theorem of the GRH work restricts to the example's two six-element actions. Its proofs are public in the pequalnp-mirror repository.</li>
+    <li><strong>Paper I is published</strong> as hexagon:2611.00851v1 (23 Nov, 20:40 UTC), and Paper V's v3 is public.</li>
+    <li><strong>Continuation 08</strong> ran from checkpoint 52 to checkpoint 62 (24 Nov, 01:56 UTC) and then stalled. Paper III stands at 68 of its 128 required checks. Two new D26 defects were checked, and both hold. <strong>Continuation 09</strong>, from checkpoint 62, is built and waits in TO_SEND/PRO/9_S6_papers.</li>
+  </ul>
+</section>
+
+<section id="archive">
+  <h2><span class="num">6</span>The Montpellier archive</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Layer</th><th>Where it stands (STATE.md, 23 Nov)</th></tr></thead>
+    <tbody>
+      <tr><td>First transcription</td><td>15,520 of 15,597 pages with writing. The 77 left are Les Dérivateurs 157-5, with Work.</td></tr>
+      <tr><td>Second pass</td><td>3,250 pages (20.8 %), La Longue Marche all of it. 71 prompts are ready (1,483 pages); 10,863 pages have nothing prepared.</td></tr>
+      <tr><td>Readers</td><td>Released: La Longue Marche (French and English), EGA V, the Esquisse (part), Pursuing Stacks, Les Dérivateurs (printed text). Ten more are built and finish when the ready prompts are sent.</td></tr>
+      <tr><td>English</td><td>1,532 archive pages are current English, besides La Longue Marche's own edition. 135 of them were brought up to date on 23 Nov by diff, not retranslated, for $1.78 of API. 20 newly second-passed pages wait.</td></tr>
+      <tr><td>Time to finish the second pass</td><td>About 1,200 Pro run-hours: 12 days at four runs at a time, 8 at six.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">STATE.md, 24 Nov 11:32 UTC: second pass done on 3,291 pages (21.1 %); 185 second-pass prompts exist. ChatGPT Work readings: 102 back, 2 out, 178 waiting. You sent SP63–SP66 to Pro this morning. A Work pilot, IMW01, is ready in batch 17: it integrates decided corrections, page by page with four images per page.</p>
+  <p><strong>One project.</strong> Every research line has its roots in named cotes:</p>
+  <ul>
+    <li>La Longue Marche (140–152) → GT̂, H17, H06b;</li>
+    <li>the standard conjectures and the 1964 programme (16, 44) → the Hodge line and sign-only purity;</li>
+    <li>motives (12–15) → Connes and F₁;</li>
+    <li>λ-rings (133) → GCT plethysm → the fleet;</li>
+    <li>crystals (4, 8) → POLISH_CRISTAUX;</li>
+    <li>the SGA working papers (27–42) → P90a and S12a.</li>
+  </ul>
+  <p>S6 is the one line not from the archive.</p>
+</section>
+
+<section id="passes">
+  <h2><span class="num">7</span>What the second passes taught</h2>
+  <p>48,992 decided places from the returned passes, analysed by page type and by kind of error. This is round 4 of the analysis, and it continues.</p>
+  <ul>
+    <li><strong>Content drives difficulty more than handwriting.</strong> Formula-dense pages in the late hand carry about 13 reading corrections per 100 words, 16 a page. Prose and typed pages carry 2–4 per 100 words. Even on the dense pages, most corrections are in the words between formulas and in the struck and inserted text.</li>
+    <li><strong>One correction in five has no flag.</strong> The first reading had no doubt mark, and Hua's text agreed or was absent. Only a full pass finds these.</li>
+    <li><strong>Hua's text flags but never decides.</strong> Where it differs from ours it was right 5–6 % of the time, in prose and formulas alike. The recollection that it is better on prose is not borne out by these returns.</li>
+    <li><strong>A blind third reading</strong> (ChatGPT Work) flags 62–91 % of the corrections no cheap check finds, but is itself right there only 0–24 % of the time. It locates; the Pro pass decides on a crop.</li>
+    <li><strong>Crops:</strong> 36 % of the decisions in SP72–SP117 had no usable crop. A deciding crop is now at most 40 % of the scan's width, from the full-resolution scan.</li>
+  </ul>
+  <p>All of this went into the error sheet that every pass carries. All 94 waiting prompts carry it, and the loop runs again after every wave.</p>
+</section>
+
+<section id="next">
+  <h2><span class="num">8</span>Queued and next</h2>
+  <ul>
+    <li><strong>Research prompts ready, in the proposed order:</strong>
+      <ul>
+        <li>92c, the merge of POLISH_CRISTAUX's two threads, rebuilt on 24 Nov with thread B's checkpoint 22.</li>
+        <li>69 (beyond Dirichlet: the cubic rung) and 97 (moonshine after Alpöge: the umbral, Niemeier and Mason L-functions, and RH for the Hecke characters of y² = x³ + 1 and its symmetric cube through the sixfold cover), together. 69 now says that 97 takes the weight-one eta products and the Grössencharacters of Q(ω).</li>
+        <li>96 (the fleet's hard links: level spaces of the permanent, monotone circuits of C₄-free graphs, #SAT mod p as a Hasse–Witt scalar).</li>
+        <li>68 (Connes after RH). Its open bound had an error, found by the ZETA_HEAT intake and fixed: the second eigenvalue has to beat λ^(9+α), not λ^α. It now carries the ZETA_HEAT final.</li>
+        <li>95 (GT̂ after H17) and 70d (Hodge made effective).</li>
+      </ul>
+      93 is running, with its first return in. 94 is Codex's.</li>
+    <li><strong>Second passes:</strong> the 71 ready prompts, then the Work readings after the Dérivateurs, then about 363 new prompts. Before typescripts get a light pass, a 25-page typescript pilot.</li>
+    <li><strong>Hexagon:</strong> 25 deposits a day now. Next is the ZH3 note, a finite arithmetic test for simplicity of the Riemann zeros after Suzuki, once its independent re-proof and the reading of Alpöge–Furman are in. Then H03 and H02b after a re-check against the swarm. H15, H07 v3 and H22 v4 wait for your word.</li>
+    <li><strong>Moonshine</strong> has its own prompt now (97), built from the pequalnp session's atlas: 28 objects, 1,281 maps and 72 checked identities. The atlas's sharpest find: the Erdős–Straus residues modulo 840 act on our lattice N(A₅⁴D₄) with Mason forms η(6τ)⁴ and η(3τ)⁸, the Hecke characters of y² = x³ + 1 and of their cube, and L(Sym³ η(6τ)⁴, s) = L(η(3τ)⁸, s)·L(η(6τ)⁴, s − 1).</li>
+  </ul>
+</section>
+
+<section id="where">
+  <h2><span class="num">9</span>Where everything is</h2>
+  <p class="small">Paths in the project's working folders.</p>
+  <ul>
+    <li>The mathematics of every run, with statements and proofs in outline: <span class="path">knowledge/04_research/MATH_PRIMER.md</span></li>
+    <li>The structural notes and their distribution: <span class="path">field_experts/structural_maps_20261123/</span></li>
+    <li>The fleet maps: <span class="path">pequalnp_work/fleet_map/maps/</span> and the pequalnp primer <span class="path">pequalnp_work/PRIMER_PEQUALNP_20261123.md</span></li>
+    <li>The intakes of 23 Nov: <span class="path">field_experts/intake_20261121/intakes/&lt;RUN&gt;/</span></li>
+    <li>The archive status and plan: <span class="path">reports_20261124/ARCHIVE_STATUS_AND_PLAN_20261124.md</span></li>
+    <li>The second-pass audit, measurements and difficulty rounds: <span class="path">reports_20261123/SECOND_PASS_AUDIT_20261123.md</span>, <span class="path">SECOND_PASS_ACCURACY_MEASURES_20261123.md</span>, <span class="path">second_pass_difficulty/</span></li>
+    <li>The Hexagon board: <span class="path">field_experts/hexagon/HEXAGON_STATUS.md</span></li>
+    <li>The six e-mails as sent: <span class="path">reports_20261124/EMAILS_SENT_20261124.md</span></li>
+  </ul>
+</section>
+</main>
+</div>

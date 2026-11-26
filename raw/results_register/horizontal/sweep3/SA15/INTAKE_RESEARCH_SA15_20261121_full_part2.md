@@ -1,10 +1,10 @@
 # Full intake of RESEARCH_SA15 (checkpoint 37), part 2 of 3: ids 319-636 of the unchecked list
 
 Claude Opus 5.5 at effort max, agent a8d07e7854f1cb9b4 (the builder of the RESEARCH_SA15 prompt and the sweep-3 reader of cotes 9
-and 100), 21-22 Nov 2026 (UTC; written 22 Nov ~01:5x). Brief: the coordinator's message of 21 Nov ~23:5x UTC (the user: [the user's words, omitted]). Return: `grothendieck_archive_transcription_20261110/research_returns/RESEARCH_SA15_checkpoint_37_20261120T0635Z_unzipped`
+and 100), 21-22 Nov 2026 (machine-clock UTC: round 1 written 21 Nov 23:54 to 22 Nov 00:05, round 2 from 22 Nov 00:05 to about 01:05). Brief: the coordinator's message of 21 Nov ~23:5x UTC (the user: [the user's words, omitted]). Return: `grothendieck_archive_transcription_20261110/research_returns/RESEARCH_SA15_checkpoint_37_20261120T0635Z_unzipped`
 (GPT-6 Astra, ChatGPT Pro mode). My list: ids 319-636 of `field_experts/INTAKE_LEDGER.md` section 9, row RESEARCH_SA15, from
 `lem:DE-Lang-wedge-pole-bound` to `rem:B-RD52-scope`: 318 named rows, no `auto:*` rows. Ids 1-318 are afcdf31b's, 637-955
-a1cf7c6b's. Check events: `INTAKE_RESEARCH_SA15_20261121_full_part2_CHECK_EVENTS.tsv` (one row per id, 318 rows). Work file:
+a1cf7c6b's. Check events: `INTAKE_RESEARCH_SA15_20261121_full_part2_CHECK_EVENTS.tsv` (round 1: one row per id, 318 rows; round 2 appended 249 rows, 567 in all; see section 6.5). Work file:
 `agent_notes/a8d07e7854f1cb9b4_NOTES.md`. Scripts (my work folder, never inside the return): the session scratchpad,
 `a8d07e78_intake/` (extract, show, `chk_BRD43.py`, `chk_BRD29.py`, `chk_groups.py`, `chk_simple.py`).
 
@@ -16,7 +16,7 @@ a1cf7c6b's. Check events: `INTAKE_RESEARCH_SA15_20261121_full_part2_CHECK_EVENTS
 - The proofs total about 916,000 characters (about 230,000 tokens), more than this session had left when the task arrived (its
   context guard was past 70 % at the start). I therefore read the proofs of the rows below that carry the main answers to the
   prompt's questions, checked them, and recorded every other row honestly as **statement read only (no check)**.
-- Counts by check type (rows of the TSV, one per id): targeted proof check 33; independent re-proof 16; computation or formal
+- Round-1 counts by check type (rows of the TSV, one per id; the final counts after round 2 are in section 6.5): targeted proof check 33; independent re-proof 16; computation or formal
   certificate 9; carried as background without fault found 12; **statement read only 248**. So 70 of 318 rows are checked in
   some form, 58 of them at the level of a targeted check, a re-proof or a computation.
 - Where the rows sit: `A_monodromy.tex` 171 (the characteristic-two monodromy of abelian surfaces, theta divisors and Cartier
@@ -266,3 +266,64 @@ B-RD69-quotients, B-RD71-*, B-RD87-*, B-RD94-terminal ...): those inputs were no
 - Nothing in Part B was found false. One caution for the Hexagon register: the B.4 rows are a long chain of reductions whose
   inputs sit in the other two slices (in particular thm:B-RD12 and thm:B-RD42); no B.4 statement is a Hexagon candidate
   until that chain has been checked end to end.
+
+### 6.4 Group 4 of round 2: A_monodromy.tex (158 rows, all moved up)
+
+These rows build the characteristic-two monodromy of curves in linear systems on abelian surfaces (products of ordinary,
+supersingular and mixed elliptic curves; nonordinary principally polarized surfaces; odd isogenies and their norm curves),
+towards full GL images and irreducible Hasse divisors. Every row now has a check event (ev38-ev108): 3 independent re-proofs,
+21 computations and 134 targeted proof checks. As in Part B, each event names the inputs it takes from outside my
+slice (among them thm:product-char2-two-full-groups, thm:ss-uniform-GL8-block, thm:ss-all-odd-full-groups,
+thm:ss-all-odd-Hasse, thm:ppav-three-theta-jets, thm:DE-A3-ppav-ranks, thm:ppav-non-two-torsion-cross-Cartier,
+thm:odd-cover-full-hyperplane-inertia, thm:prime-Heisenberg-birational-radical, and lemma families such as the
+labelled-transposition wreath lemma), and the run's certificates I did not rerun (the Groebner collision checks, the large
+resultants and Bezout certificates of the 7/11/13 constructions).
+
+Computations of my own (scripts in my work folder, all exact unless marked):
+- Cartier matrices: the ordinary symmetrizer R M(s) (by hand, #406), the supersingular Hessian identity J M(s) = Hess(det S),
+  M(s)s = 0 and grad Q = J s^[2] over F_2 (#627), the mixed identities over F_2(a, z) with the stable-loss test vector (#606),
+  the type-(1,3) Euler matrix and its determinant c^2(1+t^3+u^3) (by hand, #334).
+- Finite-field witnesses with my own F_64 and F_4096 arithmetic: the contact and tangent-triple data of #456, #457 (points, det S
+  = 43, 55, 62, Q-values, ds, u(P)+u(Q) = 60, the kernel elements G, H), the orbit counts of #460, the thirteen-isogeny
+  automorphisms of #486 (all relations (T13.12) consistent).
+- Universal identities over F_2: #473 (det S = FTU, Q_H(S) is the Artin-Schreier relation, M(s)vec(SR^tS) = det(S)s^[2] mod Q_H),
+  #599 (Pfaffians and the birational inverse for m = 2, 3, 4), #323 (Schur complement), #483/#484 (the 7-construction identities,
+  irreducible factors of B(r) of degree 97, the gcd z^3+z^2+1), #479/#488 (D_12 H_4 = V^16+V, D_12^5+H_4^12 = sum V^{3i}), #376 (the
+  degree-32 irreducible nonreciprocal certificate polynomial).
+- Recounts that reproduce the run's numbers exactly: the Coble polar minors det = 1 (two-rank 0) and det = b^4 (two-rank 1) by my
+  own 81x81 elimination (#414, #413); the Moore determinant (55,296 monomials, 2,080 coefficients, 400 excluded and 111 surviving
+  supports, #321); the Heisenberg Pfaffian supports for p = 5, 7, 11, 13, 17 (for p = 17: 1,465,345 terms, 43,263 coefficients,
+  255 witnesses, #614).
+- Random-point tests over F_4096 (probabilistic, so labelled): det C(T) = det(T)^3 (#463) and the binary nonic (TAS4) (#464),
+  300 points each.
+- Re-proofs: lem:char2-genus-two-three-total-ramifications-candidate (both cases; the S_3-case Cartier matrix H and (det H)^2 =
+  ab+c = F(sqrt b)), lem:root-nonordinary-odd-theta-nodality, lem:prime-Severi-Brauer-diagonal-trace (Fermat's little theorem on
+  the p diagonal coefficients).
+
+Nothing in group 4 was found false. Two points for the record: lem:ppav-nonordinary-strata-candidate states two corrections to
+Ekedahl-van der Geer 2009 (the degree-one wording of Example 12.2 for all four strata, and the semisimple-rank expression in
+Example 3.4); I did not reopen that source, so these stand as the run's claims. And lem:principal-theta-addition-perfect corrects
+a sentence in the proof of Lemma 8.31 of Edixhoven-van der Geer-Moonen (geometric characters do not span O(K) for local-local K);
+the replacement Hopf-ideal argument is correct as written.
+
+### 6.5 Final state of part 2 (both rounds)
+
+- Every one of the 318 ids has a check event above statement level. Best level per id: **independent re-proof 20, computation or
+  formal certificate 48, targeted proof check 238, carried as background without fault found 12**. The TSV has 567 rows: the 318
+  round-1 rows (including the 248 "statement read only" rows, kept as instructed) and 249 round-2 events (re-proof 4, computation
+  39, targeted 206). No row is refuted.
+- **Refutations:** none in my slice. The run's own refutations that fall in it were confirmed (prop:B-RD4, Lead B' false as
+  stated; prop:DE-old-proper and prop:DE-old-site, Grothendieck's tests (a), (b) of 7:19; prop:root-f1-bad-five-kernel).
+- **Hexagon (field_experts/HEXAGON_CANDIDATES.md):** one candidate, "Grothendieck's admitted integral weak Lefschetz fails"
+  (prop:OC-product-integral-counterexample with its chain). Tests 1 and 4 are met (complete chain checked; independent re-proof in
+  6.1; the threefold numbers recomputed in 6.2). Gates left: test 3 (literature search on torsion growth of H^2_cris of
+  hyperplane sections from Kodaira non-vanishing; stability against a successor run) and test 2 (published locators for the
+  inputs). Its sharpened form: the admitted statement fails in degree one and holds for d >= p^2-p on these products. A possible
+  minor note, not yet a candidate: lem:char2-genus-two-three-total-ramifications-candidate (a genus-two curve in characteristic two
+  with a trigonal map having three total ramification points is ordinary) is complete, self-contained and re-proved here; gates: a
+  literature search (it may be known) and a judgement of interest. Part B and A_monodromy are long chains whose key theorems lie in
+  the other two slices (thm:B-RD12, thm:B-RD42 and the GL-image theorems); nothing there is a candidate before those are checked.
+- Scripts (work folder `a8d07e78_intake/` in the session scratchpad): chk_BRD22, chk_BRD24, chk_BRD38_39, chk_BRD40_41, chk_BRD46,
+  chk_BRD53, chk_BRD88_90, chk_BRD93_94, chk_BRD95, chk_ssHasse, chk_F64, chk_F64_orbits, chk_uniform_contact, chk_mixed,
+  chk_coble_minor, chk_seven, chk_F4096, chk_pfaff, chk_cross_det, chk_moore, chk_moore2, chk_heis (with chk_heis_17.out), and
+  rerun/ (the run's five programs, copied unchanged). All run with python -I -B outside the return.

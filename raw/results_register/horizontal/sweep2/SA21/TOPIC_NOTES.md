@@ -95,3 +95,10 @@ I extended the objects of SA21-10, SA21-11 and SA21-15.
 - the magasins and ateliers;
 - the lieux axioms;
 - the third Analysis Situs.
+
+
+## Status after the third-sweep papers (POLISH_TOPOLOGY_PERIODS, prompt 91, checkpoints 12-13; intake of 23 Nov 2026)
+
+Added by the intake agent a9e9559d (Claude Opus 5.5 at effort high), 23 Nov 2026. The run is GPT-6 Astra (ChatGPT Pro mode); checkpoint 13 (10:48 UTC) is probably its last; continuation prompt 91b sent. Intakes: `field_experts/intake_20261121/intakes/POLISH_TOPOLOGY_PERIODS/` (cp12 and cp13). Locators below are to the run's papers in `research_returns/POLISH_TOPOLOGY_PERIODS_checkpoint_13_20261123T1048Z_unzipped/papers/`.
+
+- **Paper 7** (45 pp.): the general Boolean-neighbourhood theorem for orthosets is Jenca, Order 43 (2026), art. 11, Thm 3.2, p. 5 (credit, not ours). SA21-B-extension-unique is refuted; replaced by SA21-B-extension-Zorn and SA21-B-deployment-unique (run event P07-ROOT-EXT-REFUTE). The correction to Jenca's Corollary 4.5 (arXiv:2206.08113v1, p. 8; unbounded V-poset) is not routed: the Order 40 (2023) page has not been seen, and the journal abstract says bounded. Cp13 adds only a full scope inventory (43 rows scoped, 21 proved, 18 unverified, 2 refuted).

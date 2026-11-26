@@ -90,3 +90,10 @@ Claude Opus 5.5 at effort max, agent a34c04448e8299803. The gap list of the broa
 - **For part 2:** the dating of each mathematical leaf of 138 on the images (which leaves carry writing on dated
   sheets); the moduli and rigidity claims of scans 98-102 (self-flagged 'vérifier'); the catalogue of scans 113-120
   against the notes' corrections (MM02, MM14-MM17).
+
+
+## Status after the third-sweep papers (POLISH_TOPOLOGY_PERIODS, prompt 91, checkpoints 12-13; intake of 23 Nov 2026)
+
+Added by the intake agent a9e9559d (Claude Opus 5.5 at effort high), 23 Nov 2026. The run is GPT-6 Astra (ChatGPT Pro mode); checkpoint 13 (10:48 UTC) is probably its last; continuation prompt 91b sent. Intakes: `field_experts/intake_20261121/intakes/POLISH_TOPOLOGY_PERIODS/` (cp12 and cp13). Locators below are to the run's papers in `research_returns/POLISH_TOPOLOGY_PERIODS_checkpoint_13_20261123T1048Z_unzipped/papers/`.
+
+- **Paper 6** (31 pp.): all 43 corrected statements accepted by the run (re-proofs by the same model). Credits now in the paper: the dessin classification's combinatorial core is Mulase-Penkava 1998; the walking-complex equivalence for targets with kernels is in Hua's Hexagon compilation 2611.00125v2, pp. 165-166 (the paper isolates the exact kernels needed in an arbitrary additive target). Thm 1.5(2) (perfect = pseudo-coherent with bounded Tor amplitude at closed points) is standard. Our earlier SA09 records that present B3.1 or A2.2 as new should carry these credits. Not changed at cp13. Read at statement level only by the intakes.

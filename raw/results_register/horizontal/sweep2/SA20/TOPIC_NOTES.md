@@ -123,3 +123,56 @@ K123-03 (cote 123) and K125-01 (cote 125). All were read; 3 also against their t
   Brieskorn, Slodowy and Steinberg.
 - Which text the typescript leaves among the notes belong to: "2. Accouplements définis par une biextension", 2.1.8 to
   2.1.13, and sheets 22–23 (3.1.2 and 3.1.3).
+
+
+## Status after the third-sweep papers (POLISH_TOPOLOGY_PERIODS, prompt 91, checkpoints 12-13; intake of 23 Nov 2026)
+
+Added by the intake agent a9e9559d (Claude Opus 5.5 at effort high), 23 Nov 2026. The run is GPT-6 Astra (ChatGPT Pro mode); checkpoint 13 (10:48 UTC) is probably its last; continuation prompt 91b sent. Intakes: `field_experts/intake_20261121/intakes/POLISH_TOPOLOGY_PERIODS/` (cp12 and cp13). Locators below are to the run's papers in `research_returns/POLISH_TOPOLOGY_PERIODS_checkpoint_13_20261123T1048Z_unzipped/papers/`.
+
+- **Paper 2** (85 pp., cp13 source SHA-256 8162c1af...).
+- **Collars and cones, cp13 change:** under the literal convention (cone parametrizations mapping the base only setwise onto Y) the rows A.105, A.109, A.111, A.112 are refuted; the run states normalized replacements P02-A105/A109/A111/A112-normalized, which require base-fixed parametrizations, with the same outcome table for the eleven arrows (PB = PBCR = EPCR = EPC; EP not). The mechanism, checked by the cp13 intake: the base-setwise parametrizations of a fixed cone form G_Y x Homeo_def(Y), with G_Y (base pointwise, vertex fixed) contractible by the Alexander trick; for Y = S^0, identity and reflection lie in different components. A101-A104, A106-A108, A110 accepted by the run.
+- **Torus concordance:** pi_0 P(T^d) = F_2[t^{+-1}]/F_2 for d >= 6, now cited to Igusa 1984 Thm 8.a.2 (dimension >= 6; the earlier text said >= 5).
+- **B082, the universal coefficient-syzygy (Tor) criterion** for unique coaddition/comultiplication on Omega(R,S), over arbitrary unital inclusions: accepted by the run after a separate frozen proof (10:07 UTC); read by us at statement level only.
+- **A.160** (PL and definable concordance spaces agree over every o-minimal real closed field): accepted by the run; not read by us.
+- **Int(R) is free for every finite-conductor subring R of a DVR with finite residue field** (Paper 2 Thms 12.1-12.2): posted as hexagon:2611.00937 (S20 note, 23 Nov), with the corollary that Int(D) is free for every one-dimensional analytically irreducible Noetherian local domain; refutes Elliott's Conjectures 2.10, 2.15, 2.17 (Comm. Algebra 39 (2011)). Elliott e-mail drafted, unsent.
+- **Open:** King 1985 not obtained (A.205 comparison); 195 Paper 2 rows unverified in the run.
+
+
+### Update after checkpoint 19 (23 Nov 2026, 18:18 UTC; cp19 intake, agent a9e9559d, Claude Opus 5.5 at effort high)
+
+- **Paper 2 now has 169 pages**, with 23 standalone inputs. The run accepts 436 of the 1,028 original rows; 591 are open.
+- **Int(D) is free** for every one-dimensional analytically irreducible Noetherian local domain (thm:int-analytic-free), with explicit witnesses for Elliott's two rings (prop:elliott-explicit-witnesses). This matches the posted S20 note.
+  - New credit: Elliott announced freeness for F_2[[T^2,T^3]] on MathOverflow 75202 (addition of 26 Dec 2013), without a proof in print. I read it at the source.
+  - The posted note hexagon:2611.00937 needs a version 2 crediting it: `reports_20261123/s20_note/s20_note_v2.pdf` is ready, and its posting is for the main session.
+- **A non-flat positive example** (thm:nonflat-forest-plethory). There is a non-Noetherian zero-dimensional local F_2-algebra inclusion R ⊂ S, built from binary trees with y_v = x_v y_{v0} y_{v1}, for which all tensor maps Ω(R,S)^{⊗n} → Ω_n(R,S) are isomorphisms and yet S and Ω(R,S) are not flat. So flatness is not necessary for the unique plethory. Targeted check by the cp19 intake: the epicness chain, Q(r) = 0, the Hermite splitting and non-flatness verified; the colon identity and the multivariable step were read.
+- **New concordance results** (read at statement level only):
+  - π_0 P_PL(M) ≅ E(M) for every compact connected PL manifold of dimension ≥ 6, with no smoothing assumed;
+  - P_TOP(S^3) ≃ ΩQ_4, with π_2 P_TOP(S^3) = Z/2 while π_2 P_PL(S^3) = 0;
+  - π_0 P_PL(B) = 0 for balls, low-dimensional manifolds and surfaces other than S^2 and RP^2;
+  - invariance of marked definable automorphism spaces under elementary extension;
+  - an infinite-rank free abelian subgroup for closed orientable 3-manifolds with infinite π_1 (via Lin-Xie-Zhang);
+  - outer-face spaces: BP_TOP(B), and a rational semialgebraic T^6 loop with no definable filling.
+- **New corrections for authors** (in the run's CORRECTIONS_FOR_AUTHORS.md):
+  - **Boyle-Chen**, Rev. Mat. Iberoam. 40 (2024), Thm A.6, p. 614. The displayed generator T_1(r,θ,y) = (r, θ+πy, y) does not fix the top end. I confirmed this at the source (page image read). The infinite-cyclic classification conflicts with Kalliongis-McCullough 1992 Lemma 4.1.1 (order 2). E-mail Draft 3, unsent.
+  - **Bonahon**, author draft of 2000, Thm 3.12: the Klein bottle × I boundary swap.
+  - **Walsberg**, arXiv:1510.07291v2, Lemma 7.23: a gap in the proof, repaired; the lemma itself is correct.
+- **B059:** the literal ambient clause is refuted with an infinite-residue counterexample (internal record).
+- **Still open:** A124, the dimension-five injectivity; 131 rows unverified; the whole-paper expert and newcomer readings; the visual QA of the 169-page PDF (only 16 pages checked in this exact version).
+
+
+### Update after checkpoint 26 (24 Nov 2026; cp26 intake, agent a9e9559d, Claude Opus 5.5 at effort high)
+
+- **Paper 2 now has 250 pages.** The run accepts 463 of the 1,028 original rows, plus 12 supplemental results. The S20 sections are unchanged, so hexagon:2611.00937v2 stands.
+- **New results** (read at statement level only):
+  - five-dimensional stable surjectivity on concordance components (A124 injectivity open);
+  - a surjective Casson-Sullivan homomorphism for oriented 3-manifolds with finite π_1, vanishing on T^3;
+  - the RP^3 component group;
+  - intrinsic PL partitions without conical charts;
+  - coarsest embedded smooth partitions, which depend on the embedding (the cusp example was checked by the cp26 intake).
+- **New corrections for authors:**
+  - Galvin, Compositio 2026: Lemma 4.9 (inequality reversed) and Prop. 2.23 (relative suspension);
+  - Galvin's thesis (Q_8);
+  - Orson-Powell-Randal-Williams: Remark 8.2 (k ≥ 1) and the L^s/L^q target;
+  - Stasica 2003, p. 151.
+  - E-mail Drafts 4 and 5, unsent.
+- **Paper 2 should be split into four parts:** the Additif; concordance components; partitions; integer-valued polynomial algebra.

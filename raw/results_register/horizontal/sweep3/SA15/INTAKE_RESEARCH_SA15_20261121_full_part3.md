@@ -347,3 +347,122 @@ the run: none.
     order divisible by the prime 4278255361 with ord = 80).
   - thm:ss-product-degree-one-full-group: T^8+T^7+T^5+T+1 checked (irreducible, not reciprocal, root order 85).
   - thm:product-Hasse-irred: global argument checked.
+
+**Round 2, second part (after a compaction; machine clock 22 Nov 2026, 00:38-01:3x UTC).** Every row that was at
+statement level has now been read with its proof. None remains at statement level.
+
+- **8.6 on principally polarized and product surfaces, characteristic two.**
+  - Ordinary products and ordinary ppav: thm:ordinary-products-Hasse-irreducible (its symmetrizer and squarefreeness
+    lemmas recomputed by hand), thm:ppav-three-theta-jets (full), thm:ppav-level3-Cartier-symmetric (full; upgraded from a
+    rerun), thm:ordinary-ppav-Hasse-kernel, thm:ordinary-ppav-eventual-full. For the last, the text only says "opened
+    classification" for the symmetric-group case of Kantor-Seress; I supplied the exclusion (a subgroup of S_m fixing
+    a codimension-8 subspace of the deleted permutation module moves at most 22 points, while GL_8(2) has minimal
+    permutation degree 255).
+  - Nonordinary ppav in degree one: the conditional polar-stable theorem, the two-rank-zero and two-rank-one normal
+    forms, and thm:every-nonordinary-ppav-degree-one-full-candidate. thm:nonordinary-ppav-all-covectors: all twelve
+    entries of its Cartier table recomputed by hand, giving 2^f invariant covectors in even degree and none in odd degree.
+  - Higher degrees: the odd natural block, the three-theta conditional theorem, generic mixed products, all even mixed
+    degrees, the generic nonordinary groups, even addition, the five-, seven-, eleven- and thirteen-self-isogenies, the
+    good-theta and nine-theta norm steps, the arbitrary odd neighbour, the cubic-component transfer and degree three on
+    every nonordinary surface. Their assemblies and all dimension counts were checked (for example R = 18t+8 and
+    8+17t > R/2; 80+161t > 81t+40; r+(18e^2-1)t = R-t).
+  - Ranks and the Lang programme: thm:ss-rectangular-all-degrees, thm:DE-A3-mixed-thin-all,
+    thm:DE-A3-mixed-index-ordered-ranks; thm:DE-Lang-polar-irreducible, thm:DE-Lang-theta-wedge-quotient-bound (its
+    characteristic-two vanishing of H^0(P^(N-1), Omega^k(t)), t <= k, through the exterior Euler sequence),
+    thm:DE-compatible-residual-module-sum (the group-algebra identities over F_2), thm:DE-odd-polarization-Cartier-surjection,
+    thm:prime-Heisenberg-birational-radical, thm:primitive-prime-generic-curve-rank, thm:odd-cover-full-hyperplane-inertia,
+    thm:ppav-non-two-torsion-cross-Cartier and, in part, thm:DE-Moore-singular-parameters (its support lemma not reread).
+  - Part A.1: thm:OC-explicit-integral-counterexample, with lem:OC-explicit-differential-bound checked line by line
+    (35+556 = 591, so h^0(Omega^1_X) <= 591.9^556 < m-1), and thm:OC-product-exact-degrees.
+- **Part B.** The 13 remaining theorems were read in full and their arithmetic re-derived: B-RD10 (every index recipe and its
+  exceptions), B-RD12 ((B.12.4) to (B.12.5) and the criterion (B.12.1)), B-RD23 (all valuations of the full-nine
+  construction; m = 4 excluded at e = 24, 30, 42, 48 by (B.12.1)), B-RD31, B-RD34, B-RD45, B-RD49, B-RD52, B-RD62,
+  B-RD63-arc, B-RD74-upper, B-RD98-irreducible (the decisive N(p^4-3p^3+1) > 0) and B-RD100-ambiguity.
+- **The 52 scope remarks.** Each was read in full and compared with its theorem; none claims more than its theorem. Two
+  are stale within the paper (presentation only):
+  - rem:Cartier-kernel-wall-inertia-scope says that the nonemptiness of H_U is not asserted; it is supplied later by
+    prop:odd-cover-common-rank-wall-nonempty and used in thm:odd-cover-full-hyperplane-inertia;
+  - rem:B-RD54-scope is closed by thm:B-RD61 (section 6).
+
+  B-RD31, B-RD34 and B-RD45 are intermediate bounds superseded by B-RD42 and B-RD48, as their own proofs say.
+- **Independent computations (my own code, in my scratchpad).**
+  - `ss_deg1.py`, both certificates of thm:ss-product-degree-one-full-group: the third Frobenius iterate has
+    characteristic polynomial T(T^8+T^7+T^5+T+1); the transvection data are exact (ranks 8 and 7, u, s_0.u = 0,
+    v = (0,0,0,0,4,3,0,5,5)); the relative determinant has valuation one along the line.
+  - `polar_p0.py` and `polar_p1.py`, for two-rank zero and two-rank one. From each displayed trivector I computed:
+    - the nine 8-Pfaffians, which are x_i times one cubic;
+    - its polar B, equal to the displayed one;
+    - the 81x81 Lie-stabilizer minors, which are 1 in F_2[a,b,c] and b^4 in F_2[a,b] as stated.
+- **Reruns of the run's own code** in my folder:
+  - PASS: `verify_nonordinary_seven_good_parameters.py` (only its Unix SIGALRM lines removed in my copy),
+    `verify_p3_ranges.py` (its exceptions agree with my hand derivation) and `verify_full9_construction.py`;
+  - not rerunnable: `verify_nonordinary_thirteen_certificates.py`. Its five stored coefficient outputs are not in
+    checkpoint 37.
+- **A correction of my own.** In the row for thm:ordinary-ppav-eventual-full I first wrote that a GL_8(2) block would move
+  at most 18 points, and compared its order with 20!. That bound was wrong. I corrected the row to the argument above.
+- **Open gates the run states itself** (not errors):
+  - sharp ranks in positive polarization index on mixed surfaces (the variation-image bound (DE-PT6));
+  - generation of the whole image by hyperplane radicals in the odd-cover and Lang programme;
+  - fixed two-rank-zero surfaces in odd degrees not divisible by 3, 5, 7, 11 or 13 (first 17);
+  - two-rank one in degrees 5 and 8.
+- **Hexagon.**
+  - Candidate 1 (the plane-curve chain) is unchanged.
+  - A possible third candidate: GL_8(F_2) in degree one on every nonordinary principally polarized surface in
+    characteristic two. My checks cover the whole chain except lem:root-nonordinary-Coble-identification-candidate,
+    which is not in my list, and the cited Rains-Sam results. It is not ready: that lemma needs a check, and the
+    literature search has not been done.
+- **Clock.** The clock times in my notes file before 00:38 UTC were estimates and are wrong. The TSV timestamps are the
+  machine clock.
+
+**Counts after these items** (best check per id, 319 ids):
+
+| Check | Ids |
+|---|---|
+| independent re-proof | 1 |
+| targeted proof check | 154 |
+| computation or formal certificate | 142 |
+| carried as background without fault found | 3 |
+| earlier intakes only | 19 |
+| statement level | 0 |
+
+13 ids carry both a targeted check and a computation of their own. Refutations of the run: none. Remaining for item (2):
+50 theorem rows whose only own event is a certificate rerun. Their proofs are being read next, and they are listed below
+as they are done.
+
+**Item (2), the certificate-only theorem rows (machine clock 22 Nov, about 01:3x-01:5x UTC).** I read the proofs behind
+the following and recorded new targeted events. Each row keeps its rerun event.
+- 8.6 in degree one and two, and the eventual theorems:
+  - thm:mixed-every-fixed-modulus-degree-one-candidate, -degree-three-candidate and -all-odd-candidate;
+  - thm:every-nonordinary-ppav-degree-two-full-candidate;
+  - thm:nonordinary-degree-three-from-neighbour-candidate;
+  - thm:RD-A4-three-step;
+  - thm:ordinary-products-eventual-full;
+  - thm:ss-product-degree-two-full-group. Its group argument is now checked as well, including why the irreducible f
+    of degree 32 forces the primitive prime 65537. Its certificates I had recomputed earlier.
+- The relative ranks: thm:ss-product-two-axis-cross-squarefree, thm:DE-A3-mixed-all-product-ranks,
+  thm:DE-A3-ordinary-arbitrary-embedding and thm:DE-A3-all-ss-rectangles.
+
+**Not yet read beyond their reruns: 38 theorem rows.**
+- Part B: B-RD8, B-RD26-wild (whose construction arithmetic I verified by my own script), B-RD57, 58, 59, 64-72, 75, 78,
+  80, 82, 90-96 and 99.
+- The DE-A3 rank theorems: mixed-generic, mixed-nonproduct, ordinary-all, ppav and separable.
+- thm:DE-Moore-Fermat-nondivisibility, thm:DE-SS-odd-pullback-dual-rank, thm:DE-primitive-one-three-full-image,
+  thm:OC-exact-integral-injectivity-degrees, thm:mixed-every-fixed-modulus-degree-two-candidate,
+  thm:mixed-three-by-b-full-groups-candidate and thm:ss-product-exact-covectors.
+
+They carry a rerun of the run's own code, and nothing more from me. The remaining 92 certificate-only ids are remarks
+that hold a certificate.
+
+**Final counts** (best check per id, 319 ids):
+
+| Check | Ids |
+|---|---|
+| independent re-proof | 1 |
+| targeted proof check | 166 |
+| computation or formal certificate | 130 |
+| carried as background without fault found | 3 |
+| earlier intakes only (re-filed) | 19 |
+| statement level | 0 |
+
+25 ids have both a targeted check and a computation. In total the TSV has 346 rows: 327 events of mine and 19 re-filed
+rows. Refutations of the run: none.

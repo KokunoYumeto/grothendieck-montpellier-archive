@@ -1,0 +1,16 @@
+# Plethysm in degree five
+
+**Lead with the support theorem.** Given an outer partition of five and an arbitrary inner symmetric power, which output partitions occur? Subtracting the fifth row length from every row removes a determinant twist and conjugates the outer label when that length is odd. In the strict interior all five non-one-dimensional labels occur. The trivial and sign labels both disappear on the rays with gaps $(L,1,1,1)$ and $(1,1,1,L)$, $L\equiv 1\pmod{5}$, and the trivial label disappears at two further points. The paper reduces the proper-face cases to a catalogue of 344 normalized exceptional gap vectors.
+
+I read the reduction from balanced weight spaces to the finite exhaustion, including the four multiplication maps. In each gap direction a sum of squares of products of five flag minors is symmetric, has the prescribed weight and is nonzero at a Vandermonde matrix. Multiplication therefore propagates occurrence by a gap increment of ten. Stability on the outer rays and a coordinate bound reduce the remaining positive cases to finitely many minimal elements.
+
+**Independent check.** I expanded the power sums of the composed symmetric functions and computed symmetric-group characters by rim-hook removal. This uses neither the paper's balanced Jacobi–Trudi recurrence nor its cached values. I reproduced the full seven-label vectors at all five strict exceptional bases. For gaps $(1,2,2,1)$, the vector is $(0,2,3,4,4,3,1)$. Adding one to every output row gives $(1,3,4,4,3,2,0)$, as predicted by the sign twist. On the proper face $(0,5,0,0)$, only label $(3,1,1)$ occurs, with multiplicity one. These are seven direct calculations. The paper records 2,777 distinct modules in its full finite calculation. The 108- and 152-tag positive formulas are separate results whose proofs remain outside this check.
+
+**Source and comparative reading.** `PLETHYSM_FORMULAS_checkpoint_01.zip`, SHA-256 `d3bb8ba140cf034ca49930285401efef22bfc53834e03c97a76b8e0a763761a3`. In root `plethysm_degree_five.tex`, see lines 103–146 for the criterion, 431–750 for the reduction, 631–642 for the strict bases and 766 onward for the catalogue. Start the positive-formula comparison with Fischer–Ikenmeyer, Proposition 3.3, which already gives exact polynomial time at fixed outer weight. Pak–Panova–Swanson, Theorem 1.2, gives a marked-tree count when the **output** has two rows. Both distinguish the scope of the new draft's arbitrary-output, fixed-outer-degree results. [Fischer–Ikenmeyer](https://arxiv.org/pdf/2002.00788#page=5) · [Pak–Panova–Swanson, v3](https://arxiv.org/pdf/2511.02312v3#page=1)
+
+## Manuscript organization
+
+**Manuscript order.** Lead with the theorem in `plethysm_degree_five.tex` lines 103–146, work the odd-twist example, then prove propagation and give the catalogue. Put the positive formulas under their own hypotheses. Fischer–Ikenmeyer establish polynomial time at fixed outer weight, while Pak–Panova–Swanson’s marked-tree count assumes a two-row output. [Fischer–Ikenmeyer, Proposition 3.3](https://arxiv.org/pdf/2002.00788#page=5) · [Pak–Panova–Swanson, Theorem 1.2](https://arxiv.org/pdf/2511.02312v3#page=1)
+
+
+Replay files are in `CODEX_CP01_20261122_EVIDENCE/`. The check-event table sits beside this note. These are targeted Codex reads, GPT-6.2 Astra, effort ultra.

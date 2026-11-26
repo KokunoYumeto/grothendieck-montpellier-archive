@@ -328,3 +328,230 @@ No error found in these rows.
 
 No error found in these rows.
 
+### 1.17 Rows 401, 402, 404-408 (22 Nov, 00:46-00:49 UTC)
+
+| # | row | run's status | my check | verdict |
+|---|---|---|---|---|
+| 401 | D:tame-sufficient | known (SGA 7 XIII 2.1.10-11) | sketch read | background; citation not opened |
+| 402 | D:tame-surface-all-characteristics-H1 | proved | Artin-Schreier-Lang sequence; F_p- versus k-dimension; local bounds at Sigma | confirmed |
+| 404 | D:twisted-connected-anchor-minimal-slopes | proved u.s.h. | e(F') - e(F) = chi(Q); the inverse transform; slope window | confirmed (independent re-proof) |
+| 405 | D:twisted-deck-Frobenius-semilinear-model | proved u.s.h. | T^d = F_q^*; fixed frames; semilinear descent | confirmed (independent re-proof); register lists the row as its own dependency |
+| 406 | D:twisted-period-independent-normal-depth | proved u.s.h. | window width linear in m; Hom-layer thresholds; (D.TD.12) | confirmed; endpoints of (D.TD.14) not re-derived |
+| 407 | D:uniform-H1-obstruction | proved | H^1 of products of perfect two-generated groups <= dim M; certificate rerun | confirmed (independent re-proof and computation) |
+| 408 | D:uniform-comparable-reduction-cycle | proved u.s.h. | componentwise -Z.H; the three cases of (D.CR.13); budgets | confirmed (independent re-proof) |
+
+No error found in these rows. The certificate of row 407 was rerun from a copy in my work folder: 2,803,802 assertions passed in 0.7 s.
+
+### 1.18 Rows 409, 410, 412-420, 422, 423 (22 Nov, 00:49-00:52 UTC)
+
+| # | row | run's status | my check | verdict |
+|---|---|---|---|---|
+| 409 | D:uniform-local-growth-all-dimensions | proved | free-product count with relative conjugations | confirmed (independent re-proof) |
+| 410 | D:uniform-local-representation-growth | proved | Lang fixed vectors; Artinian constancy (L8); orbit and Krull argument; D^m components | confirmed |
+| 412 | D:unitary-unbounded-scalar-obstruction | proved u.s.h. | Heisenberg pair in SU_m(q); cocycle zeta^(ba'); exact order m; explicit m | confirmed (independent re-proof) |
+| 413 | D:unpointed-Eisenstein-witness | proved | b_00^e = 0; unpointed disc automorphisms; Newton | confirmed (independent re-proof) |
+| 414 | D:unramified-field-permutation-crowns | proved u.s.h. | twisted Shapiro; crown arithmetic; monolithic primitive | confirmed; count from reader A's half |
+| 415 | D:unramified-permutation-linear-crowns | proved u.s.h. | Shapiro bijection; normalizer multiplicity; crown arithmetic | confirmed; count from reader A's half |
+| 416 | D:unramified-semilinear-determinant-budget | proved u.s.h. | purity, Leray, proper base change; 2g_t generators | confirmed (independent re-proof) |
+| 417 | D:vertical-boundary-all-dimensions | proved | regular generic fibre in all dimensions; SGA 1 X 2.9; row 239 | confirmed |
+| 418 | D:vertical-fibration-exact | proved u.s.h. | sections through f-smooth points over strictly henselian traits | confirmed (independent re-proof) |
+| 419 | D:vertical-fibration-models | proved u.s.h. | birational surjectivity; finite proper descent | confirmed (independent re-proof) |
+| 420 | D:vertical-fibration-multiplicity | proved u.s.h. | e(b'/b) divides m_b; finite inertia images; open subgroup argument | confirmed (independent re-proof) |
+| 422 | D:weak-cycle-generated-determinant-lifting | proved u.s.h. | H^1 vanishing on layers; lifting sections and line isomorphisms | confirmed (independent re-proof) |
+| 423 | D:weighted-affine-component-bound | proved u.s.h. | coordinate powering of rank prod w_i; system of parameters and hyperplanes | confirmed (independent re-proof); register lists the row as its own dependency |
+
+No error found in these rows.
+
+### 1.19 Rows 424-438 (22 Nov, 00:52-00:56 UTC)
+
+| # | row | run's status | my check | verdict |
+|---|---|---|---|---|
+| 424 | D:weighted-exceptional-chain-compression | proved | ADE shape of noncore blocks; harmonic weights; constants 31, 93, 95 | confirmed (independent re-proof) |
+| 425 | D:weighted-fixed-determinant-normal-presentation | proved u.s.h. | twist, generating presentation, Hom-layer sizes O(m s^2) | confirmed |
+| 426 | D:weighted-fixed-residual-bundle-deformations | proved u.s.h. | two-chart gluing family; perturbation lemma; weighted degrees | confirmed; register lists the row as its own dependency |
+| 427 | D:weighted-graded-boundary | proved u.s.h. | combination of row 428 with the mixed-boundary theorems | confirmed |
+| 428 | D:weighted-graded-extraction | proved u.s.h. | O_C(-1) model; Eisenstein extension; toric charts; Q-factoriality by norms | confirmed |
+| 429 | D:weighted-normal-layer-background-budget | proved u.s.h. | weighted component arithmetic with the background block | confirmed (independent re-proof) |
+| 430 | D:weighted-normal-layer-budget | proved u.s.h. | weighted component arithmetic | confirmed (independent re-proof) |
+| 431 | D:wild-GLn | refuted (wild GL_n comparison) | diagonal cocycles distinguished by determinant | refutation confirmed (independent re-proof) |
+| 433 | D:wild-genus2-pro2 | proved | purity; nilpotent Frobenius on H^1(C',O) | confirmed; first step via row 365 |
+| 434 | D:wild-genus2-single-curve | refuted (a single smooth curve need not be tame) | the example by hand, identity (I) expanded; certificate rerun (26 assertions) | example confirmed (independent re-proof and computation) |
+| 435 | D:wild-genus2-source | proved | both source charts; (C')^2 = -2; Frobenius on C'; discrepancy -2 | confirmed (independent re-proof) |
+| 436 | D:wild-swap-exact-image | proved u.s.h. | image of wild inertia of order exactly 2; d <= 2g+2 | confirmed |
+| 437 | D:wild-units | refuted (wild unit comparison of 31/044) | norm t^p/(1 - t^(p-1)); Hilbert 90 | refutation confirmed (independent re-proof) |
+| 438 | L6b | known with derivation | five-term sequence for the resolution | confirmed |
+
+No error found in these rows. The three refuted rows (431, 434, 437) are the run's own refutations; each counterexample holds. I did not compare 431 and 437 with the scan 31/044 (I did not read cote 31 in sweep 3).
+
+## 2. Counts by check type
+
+Computed by `final_counts.py` (my work folder, python -I -B) from the events file: 225 events for all 219 ids of my list;
+no id is missing. Six ids carry two events (343; 384, whose second event is the addendum of section 1.11; 315 and 329, read again in section 8; 407 and 434,
+each an independent re-proof plus a computation).
+
+| type | events | ids, by their strongest event |
+|---|---|---|
+| computation or formal certificate | 2 | 2 (407, 434; both also re-proved independently) |
+| independent re-proof | 65 | 63 |
+| targeted proof check | 145 | 144 |
+| carried as background without fault found | 3 | 3 (225, 337, 401) |
+| statement read, proof partly checked | 9 | 7 (292, 302, 313, 319, 324, 328, 363) |
+| statement read only | 1 | 0 (315 was read in full in section 8) |
+
+The two computations are reruns of the run's own certificates, from copies in my work folder, never inside the return:
+`parts/D/code/check_uniform_h1_obstruction.py` (2,803,802 assertions, exit 0) and
+`parts/B/code/check_wild_genus2_curve.py` (26 assertions, exit 0). The seven rows still read only partly are
+listed for a later pass; 329 (D:projective-base-generation), on which rows 256, 270 and 331 rest, and 315 were completed in section 8.
+
+## 3. Refutations
+
+I found no error in any of the 219 rows and refuted nothing. The run marks six rows of my half "Refuted"; in each its
+counterexample holds:
+
+- 222 D:fixed-different-unbounded-rational-chain;
+- 335 D:prop5-counterexample (with 333-334 it settles the unwritten Proposition 5 of 29/197, consistent with my sweep-3
+  reading of that page);
+- 343 D:pure-root-rational-tail-obstruction (the characteristic-2 cusp cover);
+- 431 D:wild-GLn and 437 D:wild-units (the wild comparisons, through t -> t/(1+t) on k[[t]] in characteristic p; the
+  run ties 437 to 31/044, which I did not read in sweep 3, so the comparison with the ink is not made here);
+- 434 D:wild-genus2-single-curve (a single smooth genus-two exceptional curve with a wild quasi-etale double cover;
+  identity (I) and both charts checked by hand, certificate rerun).
+
+The run's further obstruction examples were also confirmed: D:pronilpotent-obstruction, D:one-curve-wild-swap-cover
+with 436, D:fixed-vs-valuation, 345 and 374 (alternating and superperfect products), 407 (uniform H^1 without finite
+generation), 412 (no uniform scalar exponent from unitary forms).
+
+## 4. Corrections and errata
+
+**In the run.** No mathematical error found. Register errata only: rows 388, 390, 400, 405, 423 and 426 list
+themselves among their own dependencies (depends_on). In row 406 the endpoints of the window (D.TD.14) are written
+with a Frobenius spread (p-1)gamma_m on each side; I did not re-derive that constant, and the proof uses only that the
+width is linear in m, which any rank-independent Frobenius instability bound gives.
+
+**In my own files, corrected on 22 Nov.** The section headings 1.1-1.11 and the work-file stamps carried estimated
+times ahead of the clock; they now give the transcript and file times. The events written before midnight UTC (the
+first 29) now carry the date 2026-11-21. Two row references were wrong and are fixed: row 391 rests on row 376
+(D:surface-curvewise-conductor), not 380; the event of D:hereditary-Cartier-generation-budget names row 351
+(D:reflexive-pullback-uniform-generation), not "the row 349 area". The loose rows 343, 346, 349 and 362 now stand
+under heading 1.12.
+
+## 5. What is new
+
+I made no literature search (the reading limit had passed), so nothing here is asserted to be new in the literature.
+Most of the run's proved rows in my half are its own assembly of known tools (Lang, Katz, Langer's boundedness and
+Riemann-Roch, Hu-Teyssier's conductor and Betti bounds, Lucchini-Marion-Tracey's crown estimates, Grothendieck
+existence), and their main counting theorems (393, 394, 398-400, 410) rest partly on rows of reader A's half. The
+explicit objects that look most likely to be new, and are fully checked here, are:
+
+- the characteristic-two example 433-435: S: b^2 + (t^5 + t^2 a^2) b + a^5 = 0 with one smooth genus-two exceptional
+  curve, C^2 = -1, and its wild quasi-etale double cover T, whose resolution is the Frobenius cover of the same curve
+  with (C')^2 = -2; pi_1(U_T)^(2) = 1 and pi_1(U_S)^(2) = Z/2;
+- the symmetric-square example with exact wild image of order two and d(Gamma_R) <= 2g+2 (D:one-curve-wild-swap-cover,
+  436);
+- the graded-cone tameness engine D:graded-cone-tame with D:formal-torus-lift, and its extraction 428.
+
+## 6. Hexagon readiness
+
+The five tests of `field_experts/HEXAGON_CANDIDATES.md`: complete; self-contained; stable, with a literature search
+done; checked (an intake targeted check plus an independent re-proof or a computation); of interest now.
+No row of my half passes all five, because no literature search has been made for any of them.
+
+| candidate | complete | self-contained | literature search | checked | of interest |
+|---|---|---|---|---|---|
+| 433-435, the wild genus-two example | yes | yes | not done | yes (re-proof, certificate rerun) | yes (formal linearity cannot be dropped) |
+| D:one-curve-wild-swap-cover (320) with 436 | yes | yes | not done | yes (re-proof of 320, targeted check of 436) | yes |
+| D:graded-cone-tame (253) with D:formal-torus-lift (234) | yes | yes | not done | targeted checks only; an independent re-proof is still needed | yes (key engine) |
+
+The first is the nearest: it needs only the search (Artin's wild Z/2 quotients in characteristic two and the
+Lorenzini-Schroer work on wild quotient singularities are where to look first).
+
+## 7. Open dependencies outside my half
+
+Rows of my half rest on these statements, which I did not check (most are among reader A's ids 1-219):
+D:alternating-compressed-local-orbits, D:finite-puncture-local-orbit-factorial-count, D:exceptional-degree-linear-core,
+D:contract-zero-cost-blocks, D:SNC-general-Brauer-geometry, D:SNC-general-residual-category,
+D:SNC-general-projective-quadratic-count, D:canonical-order-Morita-conductor,
+D:finite-Morita-Frobenius-object-effectivity, D:bounded-centre-projective-growth, D:bounded-scalar-projective-growth,
+D:Kummer-uniform-Frobenius-defect, D:filtered-linear-curve-resolution, D:filtered-polynomial-diagrams,
+D:compressed-skew-Frobenius-unit-jets, D:coherent-full-root-coefficient-gerbe,
+D:bounded-graph-projective-crown-reduction, D:finite-jet-unit-Isom, D:etale-resolution-semilinear-count,
+D:etale-resolution-hereditary-linear-count, D:fixed-boundary-small, D:Qfactorial-partial-resolution,
+D:finite-cone-wild-bound, D:local-complete-Lang, and those listed in the work file (D:bounded-period-hereditary-
+projective-growth, D:curve-fixed-local-growth-numerical, D:controlled-one-curve-gerbe-anchors, D:finite-formal-cone-cover,
+D:elliptic-cone-Heisenberg-covers, D:Brauer-zero-projective-representation-growth, D:canonical-module-two-level-recovery,
+D:Artinian-full-neighbourhood-realization, D:cover-uniform-Noether-different, D:cover-uniform-canonical-defect,
+D:arbitrary-cover-ordinary-hereditary-growth, D:finite-local-images-arbitrary). Cited literature was not opened in this
+intake (past the reading limit), notably Hu-Teyssier (rows 376, 383), Langer (390, 395), Lucchini-Marion-Tracey
+(392, 397, 414, 415), GKKL (374), SGA 7 XIII (401), Chatzistamatiou-Rulling (L6b).
+
+## 8. Second pass (22 Nov, 00:58-00:59 UTC)
+
+| # | row | run's status | my check | verdict |
+|---|---|---|---|---|
+| 329 | D:projective-base-generation | proved | one base open for all quotients (smooth base change, fpqc descent of etaleness); wild inertia images bounded by (m_E)_p c_D; projective fixed-boundary group of a cover | confirmed; rests on rows 354, 239 and D:fixed-boundary-positive (reader A's half) |
+| 315 | D:normal-subgroup-projective-crowns | proved u.s.h. | bounded-index normal subgroup; restriction count q^((A a t + 1) r^2); extension cost of order S to the power a-1; crown inequality | confirmed; the lift bijection comes from row 313 (partly checked) |
+
+No error found. Rows 256, 270 and 331, which rest on 329, are thereby checked through that dependency as well.
+
+## 9. Second pass on the seven partly checked rows (22 Nov, 01:00-01:04 UTC)
+
+At the coordinator's word (22 Nov): the proofs of 292, 302, 313, 319, 324, 328 and 363 read in full, with their cited
+sources opened where freely available (arXiv LaTeX sources, downloaded to my work folder, never into the return).
+
+| # | row | my check | sources opened | verdict |
+|---|---|---|---|---|
+| 292 | D:local-pair-unbounded-horizontal-root-atlas | uniformity in N_a: genus and marks O(m_i); normalized weights; one coefficient slot per marked pair (p after Frobenius) | Borne arXiv:math/0604458 (Prop. 3, Thm. 4); Borne-Vistoli arXiv:1001.0466 (main theorem); Crainic arXiv:math/0403266 (section 2) | confirmed; SNC presentation rows in reader A's half |
+| 302 | D:moving-line-polynomial-background | primitive element; ordered divisors and Artinian lifting; exact complement condition; trace-dual degrees; chart count | Stacks tags standard, not opened | confirmed; compression lemma in reader A's half |
+| 313 | D:nonsplit-automorphism-wreath-lifts | wreath cocycle identity; normalization of transports; conjugacy; monolithic embedding | none needed | confirmed (independent re-proof) |
+| 319 | D:one-curve-unbounded-period-projective-count | class count; presentation budgets; E independent of f; row 429 | none needed | confirmed; anchors and unit-Isom rows in reader A's half |
+| 324 | D:persistent-first-neighborhood | phi^*C = eC'; retraction below order e; h^*e_Y = 0; Frobenius injectivity | Brenner arXiv:math/0402179, Prop. 2.1 | confirmed (independent re-proof) |
+| 328 | D:primitive-defining-characteristic-orbit-models | faithful F_p-representation of PGammaL_d; induction; Maroti's trichotomy; D^4 | Maroti 2002 not opened (statement matches the published theorem) | confirmed (independent re-proof) |
+| 363 | D:single-curve-Cartier-module-jet-recovery | specialization to etale covers via row 364 | none needed | confirmed; the recovery theorem is in reader A's half |
+
+No error found. After this pass (232 events in all, superseding the counts of section 2) no row of my half is left at "statement read" or "partly checked": by strongest
+event, 2 computation, 66 independent re-proof, 148 targeted proof check, 3 carried as background (225, 337, 401).
+
+## 10. Literature search for the wild genus-two example (rows 433-435) (22 Nov, 01:05-01:13 UTC)
+
+**The object.** In characteristic two, S: b^2 + (t^5 + t^2 a^2) b + a^5 = 0 is a normal Gorenstein surface germ whose
+resolution has one smooth exceptional curve C (y^2 + y = x^5, genus two, C^2 = -1, discrepancy -3). Its double cover T,
+etale off the singular point, is fiercely ramified along C (e = 1, purely inseparable residue extension of degree two,
+different exponent one). The resolution of T has one curve C', the Frobenius twist of C, with (C')^2 = -2 and
+discrepancy -2. Then pi_1(U_T)^(2) = 1 and pi_1(U_S)^(2) = Z/2. The weighted-homogeneous germ S_0: b^2 + t^5 b + a^5 = 0
+has the same resolution graph, and its covers are tame along C by D:graded-cone-tame. So the example shows that the
+tame behaviour of a single smooth exceptional curve depends on the formal neighbourhood, not on the graph.
+
+**Searched** (22 Nov, web searches of arXiv and the journal literature; the LaTeX or PDF opened where named):
+- wild quotients of smooth germs: Artin, Wild Z/2 actions in dimension two (Proc. AMS 1975), and Coverings of the
+  rational double points in characteristic p (1977); Lorenzini-Schroer, Moderately ramified actions in positive
+  characteristic (arXiv:1904.08371, Math. Z. 2020); Ito-Schroer, Wild quotient surface singularities whose dual graphs
+  are not star-shaped (arXiv:1209.3605); Lorenzini-Schroer, Discriminant groups of wild cyclic quotient singularities
+  (arXiv:2101.08090, ANT 2023). In all of these the source of the wild cover is a smooth germ, and the exceptional
+  curves of the quotient are rational trees.
+- wild covers between singular germs: Matsumoto, mu_p- and alpha_p-actions on K3 surfaces in characteristic p
+  (arXiv:1812.03466, JAG 2023), section 6, on Z/p- and alpha_p-coverings of rational double points. These have rational
+  exceptional curves.
+- tameness theorems: Carvajal-Rojas-Schwede-Tucker, Fundamental groups of F-regular singularities via F-signature
+  (arXiv:1606.04088; LaTeX opened: the local fundamental group of a strongly F-regular singularity is finite of order
+  prime to p); Carvajal-Rojas-Staebler, the local etale fundamental group of KLT threefold singularities (arXiv:2004.07628;
+  tame and finite for p > 5); arXiv:1707.08611 (the local etale fundamental group of a log terminal surface germ is
+  finite). These exclude such covers only inside the klt and F-regular ranges. S, with discrepancy -3, lies outside
+  even the log-canonical range.
+- Cutkosky-Srinivasan, Local fundamental groups of surface singularities in characteristic p, Comment. Math. Helv. 68
+  (1993), 319-332 (doi 10.1007/BF02565822). This is the paper most likely to contain a related phenomenon. Its keywords
+  are local fundamental groups and Brieskorn singularities. I could not reach its text: the GDZ copy offers only a
+  viewer page, zbMATH refused the request, and claude_tools/find_paper.py found no copy on disk (default literature
+  roots, regex "Cutkosky...Srinivasan | local fundamental groups of surface singularities", 240 s limit, no match).
+- Hexagon (hexagonmath.org/search), at the user's word. I searched "singularity", "wild ramification", "fundamental
+  group surface" and "Artin-Schreier". Nothing relevant came up; the nearest work is Kisin, Serre's conjecture on the
+  Artin character for a regular local ring (28 Oct 2026), which concerns group actions on regular local rings.
+
+**Verdict.** In the sources searched, this example is not known: no source gives a quasi-etale double cover of a
+normal surface singularity with a single smooth exceptional curve of positive genus that is wild along that curve, and
+none gives these equations. Wild quasi-etale covers as such are classical (Artin 1975, 1977), but always with smooth
+sources or rational double points. The verdict is "new, provisionally". It becomes final only after Cutkosky-Srinivasan
+1993 has been read, since the singularities it studies are the right kind.
+
+**Hexagon readiness, revised.** The example is complete and self-contained. It is checked: I re-proved it by hand and
+reran its certificate. It is of interest now, and the literature search is done except for one paper. It is the
+nearest Hexagon candidate; posting waits only on reading Cutkosky-Srinivasan 1993.

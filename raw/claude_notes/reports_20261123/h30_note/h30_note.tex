@@ -1,0 +1,252 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=27mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\usepackage{xurl}
+\setlength{\emergencystretch}{2em}
+
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/zeta-and-l-functions-workbench}
+\newcommand{\recordurl}{https://github.com/KokunoYumeto/mathematics-workbenches}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem*{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Q}{\mathbf Q}
+\newcommand{\src}[1]{\texttt{#1}}
+\newcommand{\tagM}{\textup{(M)}}
+\newcommand{\tagR}{\textup{(R)}}
+\newcommand{\tagG}{\textup{(G)}}
+\newcommand{\tagN}{\textup{(N)}}
+\newcommand{\tagK}{\textup{(K)}}
+
+\title[The length of the chain of theta lifts]{The length of the chain of theta lifts in Alp\"oge's proof of the Riemann hypothesis}
+\author{}
+\date{23 November 2026}
+
+\begin{document}
+
+\begin{abstract}
+Alp\"oge's proof of the Riemann hypothesis for Dirichlet $L$-functions, announced on 20 November 2026 together with a formalization in Lean, obtains multiplicity from a chain of $m$ theta lifts between definite unitary groups, with $m$ of the order of the square root of the main parameter $x$. We show that the size hypotheses of the formal development leave no freedom in the length of this chain. Every set of parameters that satisfies them has $x^{1/2-29\epsilon/400}\le m\le x^{1/2-21\epsilon/400}$ and $(\log f)^2\le m/2-1$, where $2f$ is the degree of the CM field; in particular a chain of two lifts is excluded. Moreover $x^\epsilon>2^{300}$, $m>2^{7778}$ and $f>2^{33598}$. The proof is elementary. It uses five inequalities that occur among the conditions of the hypothesis, which we list with their places in the source, and its numerical part is certified by a self-contained Lean module. This is a statement about the hypotheses under which the proof is carried out, and not about its validity: the proof is asymptotic in $x$, and the bounds say how large the parameters must be before the hypotheses can hold, and which of them a variant with a chain of bounded length would have to replace. The theorem and its proof were produced by GPT-6 Astra (ChatGPT Pro mode) and checked by Claude Opus 5.5 at effort high; Claude Fable 5.2 at effort max re-derived them, compared the hypotheses with the source, and wrote this text. No human has checked them.
+\end{abstract}
+
+\maketitle
+
+\section{The question and the result}
+
+\subsection{The chain}
+On 20 November 2026 Alp\"oge announced a proof of the Riemann hypothesis and of the generalized Riemann hypothesis for Dirichlet $L$-functions, with a complete formalization in Lean \cite{remark,archive}. The remark describes the proof as a descendant of Stepanov's method in which multiplicity, which is hard to find over the integers, is obtained from theta lifts. Step 8 of its timeline is a chain of theta lifts
+\[
+ U(X_0)\longrightarrow U(X_1)\longrightarrow\cdots\longrightarrow U(X_m)
+\]
+between totally definite unitary groups, each of which wins one order of multiplicity, and it takes $m$ of the size of the square root of the length of the sum over primes that is to be bounded \cite[pp.~1 and 4]{remark}.
+
+Three guides to the proof appeared the next day, and each explains this choice. In Zhang's account the bound obtained from the periods has two principal errors, of sizes $x/m$ and $m$ up to small powers of $x$, and taking $m$ close to $\sqrt x$ balances them \cite[p.~9; Lemma 6.1, p.~58]{Zhang}. Jaswal says that the gains of the $m$ lifts add up and that the error of the comparison is smallest at $m\approx\sqrt x$ \cite[pp.~2 and 6]{Jaswal}. Slijep\v{c}evi\'c records the sizes that the formal development prescribes at a scale $x$, among them $\sqrt{x\delta_1}\le m\le2\sqrt{x\delta_1}$ with $\delta_1=x^{-\epsilon/8}$ for a rank datum that has the sizes of the scale \cite[Definition 6.3, p.~31; Lemma 6.4, p.~32]{Slijepcevic}.
+
+So the length of the chain is tied to the main parameter by design. This note asks how tightly, in the formal development as it is written. Can the chain be short for some choice of the other parameters? How large must the parameters be before the hypotheses can hold at all? The answers matter to anyone who wants to test a step of the argument on an example, or to simplify the argument by shortening the chain.
+
+\subsection{The hypotheses}
+In the formal development the numerical requirements on the parameters of a chain are collected in one hypothesis, a conjunction of twenty-four conditions named \src{SizesAt} \cite{archive}. We use the following part of it. The parameters are real numbers $x$ and $\epsilon$ and integers $n$, $m$, $k$, with
+\begin{equation}\label{base}
+ x>1,\qquad 0<\epsilon<\frac1{52},\qquad L=x^\epsilon,\qquad\theta=\frac\epsilon{100},\qquad\delta=x^{-\epsilon/8},
+\end{equation}
+\begin{equation}\label{ranks}
+ f=2n,\qquad m\ \text{even},\qquad 2\le m\le f\le k,\qquad m+3\le k .
+\end{equation}
+Here $x$ is the scale. The integer $m$ is the number of lifts, and $k$ is the dimension of the first Hermitian space $X_0$ \cite[p.~25]{Zhang}. The integer $n$ is the order of a finite group in terms of which the CM field $E$ of the construction is specified, and $f=2n$ is the degree over $\Q$ of the maximal totally real subfield of $E$, so that $[E:\Q]=2f=4n$ \cite[pp.~43 and 51]{Zhang}, \cite[(H3), p.~11]{Slijepcevic}. Put $r=m/2-1$, a nonnegative integer. All logarithms are natural. The five inequalities are
+\begin{align}
+ x^{-\theta}\sqrt{x\delta}\ \le\ m\ &\le\ x^{\theta}\sqrt{x\delta}, \tag{M}\\
+ \log f\ &\le\ \sqrt r, \tag{R}\\
+ (k\,e^{L})^{8}\ \le\ g\quad\text{and}\quad\log g\ &\le\ x^{\theta}L, \tag{G}\\
+ x^{2+8\epsilon-\theta}\ &\le\ n, \tag{N}\\
+ x^{9/2+10\epsilon-\theta}\ &\le\ k. \tag{K}
+\end{align}
+In \tagG{} the number $g$ is a positive real number; in the source it is either of two auxiliary numbers $g_0$, $g_1$ that are attached to the field.
+
+\begin{definition}
+An \emph{admissible datum} is a tuple $(x,\epsilon,n,m,k,g)$ satisfying \eqref{base}, \eqref{ranks} and \tagM, \tagR, \tagG, \tagN, \tagK.
+\end{definition}
+
+Section~\ref{sec:source} gives the place of each of these conditions in the source. Every set of parameters satisfying \src{SizesAt} gives an admissible datum; this is seen by inspecting the definitions.
+
+\subsection{The theorem}
+
+\begin{theorem}\label{main}
+Every admissible datum has the following properties.
+\begin{enumerate}
+\item The length of the chain satisfies
+\[
+ x^{1/2-29\epsilon/400}\ \le\ m\ \le\ x^{1/2-21\epsilon/400}.
+\]
+\item The degree and the length satisfy
+\[
+ (\log f)^2\ \le\ \frac m2-1,\qquad\text{equivalently}\qquad m\ \ge\ 2+2\bigl\lceil(\log f)^2\bigr\rceil .
+\]
+In particular $m\ne2$. Moreover $(\log m)^2\le m/2-1$, which fails for every even $m\le18$; so $m\ge20$.
+\item The following absolute bounds hold:
+\[
+ L>2^{300},\qquad x>2^{15600},\qquad m>2^{31113/4}>2^{7778},\qquad f>2^{33598},\qquad k>2^{73197}.
+\]
+\end{enumerate}
+\end{theorem}
+
+\begin{proposition}\label{uniform}
+Every admissible datum satisfies
+\[
+ m>x^{10371/20800},\qquad f>2x^{2},\qquad k>x^{9/2},\qquad L>(36\log x)^{100/101}.
+\]
+Consequently, in a family of admissible data whose scales $x$ are unbounded, the lengths $m$ are unbounded.
+\end{proposition}
+
+\subsection{What the theorem says}
+Part (1) says that the length is the square root of the scale up to a factor $x^{O(\epsilon)}$, from both sides; it is the hypothesis \tagM{} in closed form. Part (2) says that the length also bounds the degree of the field, $f\le\exp\sqrt{m/2-1}$, and that the shortest chains do not occur: not two lifts, and in fact not fewer than twenty. Part (3) says that admissible data exist only at very large scales. The chain has more than $2^{7778}>10^{2341}$ lifts, and the CM field has degree $2f>2^{33599}>10^{10114}$.
+
+None of this is an objection to the proof. The argument bounds a sum over primes on long intervals at arbitrarily large scales, and only large $x$ is needed to exclude zeros; the guides say so throughout \cite[p.~4]{Jaswal}, \cite[p.~4]{Zhang}. The theorem makes the word ``large'' explicit for the hypotheses as they are written, and it has two uses. First, no instance of the chain that satisfies the hypotheses can be written down or computed: an experiment with a CM field of moderate degree, or with a few lifts, tests a situation outside the hypotheses. Second, the remark expects shorter arguments to follow \cite[p.~3]{remark}. A variant of the argument in which the chain has bounded length cannot keep \tagM, one with two lifts cannot keep \tagR, and as long as \tagG{} is kept the floor $L>2^{300}$ on the scale remains.
+
+\subsection{Credit}
+The chain of theta lifts, its length of order $\sqrt x$, and the hypotheses studied here are Alp\"oge's \cite[step 8]{remark}, \cite{archive}. The reason for the square root is explained by Zhang, Jaswal and Slijep\v{c}evi\'c at the places cited above. Part (1) of Theorem~\ref{main} is the hypothesis \tagM{} solved for $m$. It agrees with their descriptions, and it adds to them only the exact exponents of the revision that we cite.
+
+What is proved here beyond that is part (2), part (3) and Proposition~\ref{uniform}. We searched the texts of \cite{Jaswal,Zhang,Slijepcevic,Three} for the logarithmic bound of part (2), for the exclusion of short chains and for explicit lower bounds on the parameters, and did not find them. We did not read these papers in full.
+
+\subsection{Context}
+A fourth post simplifies three steps that lead from the bound on long intervals to the zeros. It takes the construction of the lifts and the estimates that produce the intervals as inputs \cite[p.~1]{Three}, so it does not change the hypotheses studied here. A companion to this note writes out another passage of the same remark, its footnote 3, as a short proof of Deligne's bound for Frobenius eigenvalues \cite{DeligneNote}; the two notes do not depend on each other.
+
+\subsection{Scope}
+Proved: Theorem~\ref{main} and Proposition~\ref{uniform}, for admissible data. The following is not proved and not claimed.
+\begin{itemize}
+\item Nothing is said about the correctness of the formal development or of the theorem that it proves.
+\item Long chains are not shown to be necessary for the method. The theorem concerns the hypotheses as they are written; other hypotheses might admit short chains.
+\item The bounds are not the best possible. The remaining conditions of \src{SizesAt} are not used and may force more, and the strict bounds of part (3) are attained by no datum.
+\item The existence of admissible data is not examined. The formal development provides the parameters of the fields that it constructs at large scales.
+\item The passage from \src{SizesAt} to an admissible datum is an inspection of definitions; it has not been checked by Lean (Section~\ref{sec:lean}).
+\end{itemize}
+The numbers in part (3) depend on the constants chosen in the formal development: the bound $1/52$ for $\epsilon$, the ratio $\theta/\epsilon=1/100$ and the exponent $8$ in \tagG. The mechanism does not depend on them.
+
+\subsection{Proof overview}
+The three parts use different hypotheses. Part (1) is \tagM{} alone, because $\sqrt{x\delta}$ is a power of $x$. Part (2) is \tagR{} together with the parity of $m$ and the inequalities $2\le m\le f$: after squaring, \tagR{} bounds $(\log f)^2$ by the integer $m/2-1$.
+
+Part (3) rests on \tagG, the only one of the five conditions in which the scale meets an absolute constant. It bounds one number $g$ from below by $(ke^{L})^{8}$ and from above by $\exp(x^{\theta}L)$. Eliminating $g$ gives $8(L+\log k)\le L^{101/100}$, and hence $L^{1/100}>8$. In words: the exponent $\theta=\epsilon/100$ leaves the upper bound a factor $L^{1/100}$ of room, and this factor must exceed $8$. For instance $L=10^{90}$ is excluded, since $10^{0.9}<8$. Once $L>2^{300}$ is known, the condition $\epsilon<1/52$ gives $x>L^{52}$, and the lower bounds in \tagM, \tagN{} and \tagK, which are powers of $x$, carry the floor to $m$, $f$ and $k$. The upper bounds on $n$ and $k$ in the source, its comparison of the two auxiliary numbers, and its other conditions are not used.
+
+\section{The five inequalities in the formal development}\label{sec:source}
+
+The conditions \eqref{base}, \eqref{ranks} and \tagM--\tagK{} are taken from three files of \cite{archive}, in the directory \src{src/Formalism}:
+\begin{itemize}
+\item[\src{P}] \src{LocalRingCardinality/Params.lean},
+\item[\src{D}] \src{LocalRingCardinality/DataParams\textsubscript{2}.lean},
+\item[\src{E}] \src{SharpRestriction/ElevenLe.lean}.
+\end{itemize}
+The table gives, for each condition, the declaration that contains it and its lines.
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{17mm}>{\raggedright\arraybackslash}p{97mm}>{\raggedright\arraybackslash}p{24mm}@{}}
+\hline
+Condition & Declaration in the source & File, lines\\
+\hline
+\eqref{base} & the structure \src{Scale}, with fields $1<x$, $0<\epsilon$, $\epsilon<1/52$; the definitions $L=x^{\epsilon}$, $b=\exp L$ and $\delta_1=x^{-\epsilon/8}$ & \src{D}, 9--16, 27, 29, 45\\
+$\theta$ & \src{szTh}, defined as $\epsilon/100$ & \src{E}, 11\\
+\eqref{ranks} & the structure \src{Ranks}, with fields $m$ even, $2\le m$, $m+3\le k$, $m\le2\cdot\mathrm{ord}$, $2\cdot\mathrm{ord}\le k$; the definitions $n=\mathrm{ord}$, $f=2n$ and $r_S=m/2-1$ & \src{P}, 6--24, 28, 30, 38\\
+\tagM & \src{SizeM}, both halves & \src{E}, 27--29\\
+\tagR & the ninth of the fourteen conditions of \src{SizeKRel}, namely $\log f\le\sqrt{r_S}$ & \src{E}, 44\\
+\tagG & \src{SizeG} at one pair of indices: its first condition $(kb)^8\le g_i$ and its third condition $\log g_i\le x^{\theta}L$ & \src{E}, 123--125\\
+\tagN & the first half of \src{SizeN} & \src{E}, 24--25\\
+\tagK & the first half of \src{SizeK} & \src{E}, 31--33\\
+ & \src{SizesAt}, the conjunction of twenty-four conditions, of which \src{SizeN}, \src{SizeM}, \src{SizeK}, \src{SizeKRel} and \src{SizeG} are the first, second, third, fourth and twenty-first & \src{E}, 134--138\\
+\hline
+\end{tabular}
+\end{center}
+
+Two points need care. In the source, $r_S$ is formed in the natural numbers, where division and subtraction are truncated. Since $m$ is even and $m\ge2$, it equals the integer $m/2-1\ge0$, so nothing is lost. And \src{SizeG} is stated for both auxiliary numbers $g_0$ and $g_1$ and also compares them; we use its first and third conditions for one of them.
+
+The line numbers are those of the copy of the development that was distributed with the remark on 20 November 2026, in which the editor of this note read the declarations. They agree with the line ranges recorded for the revision cited in \cite{archive}.
+
+\section{Proofs}
+
+\begin{proof}[Proof of Theorem~\ref{main}]
+(1) Since $x>0$, we have $\sqrt{x\delta}=\sqrt{x^{1-\epsilon/8}}=x^{1/2-\epsilon/16}$. Multiplying by $x^{-\epsilon/100}$ and by $x^{\epsilon/100}$, and using $\frac1{16}+\frac1{100}=\frac{29}{400}$ and $\frac1{16}-\frac1{100}=\frac{21}{400}$, turns \tagM{} into the two inequalities of (1).
+
+(2) As $m$ is even and $m\ge2$, the number $r=m/2-1$ is a nonnegative integer. As $f\ge m\ge2$, we have $\log f\ge\log2>0$. Both sides of \tagR{} are therefore nonnegative, and squaring gives $(\log f)^2\le r=m/2-1$. Because $r$ is an integer, this is the same as $\lceil(\log f)^2\rceil\le m/2-1$, that is, $m\ge2+2\lceil(\log f)^2\rceil$. If $m=2$, then $r=0$ and $(\log f)^2\le0$, which contradicts $\log f>0$. Finally $m\le f$ gives $(\log m)^2\le(\log f)^2\le m/2-1$. For $m=4,6,\dots,18$ the values of $(\log m)^2$ are
+\[
+ 1.92,\quad3.21,\quad4.32,\quad5.30,\quad6.17,\quad6.96,\quad7.69,\quad8.35
+\]
+to two decimals, and each exceeds the corresponding value $1,2,\dots,8$ of $m/2-1$. So $m\ge20$; at $m=20$ the inequality holds, as $(\log20)^2<8.98$.
+
+(3) We have $L>1$ by \eqref{base}, and $k\ge m+3\ge5$ by \eqref{ranks}, so $\log k>0$. Taking logarithms in the first inequality of \tagG{} and then using the second gives
+\begin{equation}\label{elim}
+ 8\,(L+\log k)\ \le\ \log g\ \le\ x^{\theta}L=L^{101/100},
+\end{equation}
+because $x^{\theta}=(x^{\epsilon})^{1/100}=L^{1/100}$. Since $\log k>0$, it follows that $8L<L^{101/100}$, hence $8<L^{1/100}$ and
+\[
+ L>8^{100}=2^{300}.
+\]
+Next, $\log L=\epsilon\log x$ and $0<\epsilon<1/52$ give
+\begin{equation}\label{xL}
+ \log x>52\log L>0,
+\end{equation}
+so $\log_2x>52\cdot300=15600$. Now take logarithms of the lower bound in (1), of \tagN{} and of \tagK. Substituting $\epsilon\log x=\log L$ and then \eqref{xL}, and using $f=2n$, we get
+\begin{align*}
+ \log m&\ \ge\ \tfrac12\log x-\tfrac{29}{400}\log L\ >\ \bigl(26-\tfrac{29}{400}\bigr)\log L=\tfrac{10371}{400}\log L,\\
+ \log f&\ \ge\ \log2+2\log x+\tfrac{799}{100}\log L\ >\ \log2+\tfrac{11199}{100}\log L,\\
+ \log k&\ \ge\ \tfrac92\log x+\tfrac{999}{100}\log L\ >\ \tfrac{24399}{100}\log L.
+\end{align*}
+With $\log L>300\log2$, division by $\log2$ gives
+\begin{align*}
+ \log_2m&>300\cdot\tfrac{10371}{400}=\tfrac{31113}4,\\
+ \log_2f&>1+300\cdot\tfrac{11199}{100}=33598,\\
+ \log_2k&>300\cdot\tfrac{24399}{100}=73197 .
+\end{align*}
+Since $31113/4>7778$, this proves (3).
+\end{proof}
+
+The strict inequality $L>2^{300}$ comes from $\log k>0$, and the strict inequalities for $m$, $f$ and $k$ come from $\epsilon<1/52$. The number $g$ has disappeared in \eqref{elim}: a larger $g$ helps its lower bound only at the cost of its upper bound.
+
+\begin{proof}[Proof of Proposition~\ref{uniform}]
+By part (1) of Theorem~\ref{main}, by $\epsilon<1/52$ and by $x>1$,
+\[
+ m\ \ge\ x^{1/2-29\epsilon/400}\ >\ x^{1/2-29/20800}=x^{10371/20800}.
+\]
+By \tagN{} and \tagK, and because $8\epsilon-\theta>0$ and $10\epsilon-\theta>0$, we have $f=2n\ge2x^{2+8\epsilon-\theta}>2x^2$ and $k\ge x^{9/2+10\epsilon-\theta}>x^{9/2}$. By \eqref{elim}, $8\log k<L^{101/100}$; with $\log k>\frac92\log x$ this gives $36\log x<L^{101/100}$, that is, $L>(36\log x)^{100/101}$. The last assertion follows from $m>x^{10371/20800}$.
+\end{proof}
+
+The bound for $L$ in Proposition~\ref{uniform} says that at a given scale $x$ the exponent $\epsilon$ cannot be small: $\epsilon\log x>\frac{100}{101}\log(36\log x)$.
+
+\section{The formal certificate}\label{sec:lean}
+
+The implication from \eqref{base}, \eqref{ranks} and \tagM--\tagK{} to the conclusions has been formalized in a self-contained Lean module. The module declares a structure whose fields are exactly these hypotheses and proves fifteen statements about it:
+\begin{itemize}
+\item the two inequalities of part (1);
+\item the identity $r=m/2-1$ in the real numbers, the inequality $(\log f)^2\le m/2-1$, and $m\ne2$;
+\item the bounds $\epsilon\log x>300\log2$, $L>2^{300}$, $x>2^{15600}$, $m>2^{7778}$, $f>2^{33598}$ and $k>2^{73197}$;
+\item the four bounds of Proposition~\ref{uniform}, and its last assertion in the following form: for every real $H\ge1$, if $x\ge\max\{H^{20800/10371},\exp(H^{101/100}/36),2\}$, then $L$, $m$, $f$ and $k$ all exceed $H$.
+\end{itemize}
+It was compiled with Lean 4.33.1 against the version of Mathlib used by \cite{archive}, and the compiler reports that each of the fifteen statements depends only on the axioms \src{propext}, \src{Classical.choice} and \src{Quot.sound}. The module and the record of its compilation are in the workbench cited at the end. The statement $m\ge20$ of part (2) is not in the module; it is the computation given in the proof above.
+
+The passage from \src{SizesAt} to this structure is not formalized. A Lean file that defines the map from a proof of \src{SizesAt} to the structure, field by field as in the table of Section~\ref{sec:source}, and that deduces the conclusions for the source's own $m$, $f$, $k$ and $L$, has been written. It has not been compiled, because it imports the module of the source that defines \src{SizesAt}, and that module was not built in the environment in which the certificate was made. Compiled, it would add one thing: the conclusions would be theorems about the objects of the formal development, checked by the kernel together with their axiom report, in place of the inspection of definitions recorded in Section~\ref{sec:source}. The mathematical content would not change.
+
+\section{What remains open}
+
+Whether the method admits a chain of bounded length under other size hypotheses is open; the theorem only identifies which of the present hypotheses exclude it. The least scale at which all twenty-four conditions of \src{SizesAt} can hold together is not determined; the bound $x>2^{15600}$ uses five of them. The map from \src{SizesAt} to admissible data remains to be compiled.
+
+\section*{Note on method}
+The theorem and its proof were produced by GPT-6 Astra (ChatGPT Pro mode), which also wrote and compiled the Lean module of Section~\ref{sec:lean}. The proof was checked by Claude Opus 5.5 at effort high, against the definitions of the source and again in its final form. Claude Fable 5.2 at effort max edited the result into this note: it re-derived every step, added the statement $m\ge20$ and the worked values in the proof of part (2), read the remark \cite{remark}, and read the declarations listed in Section~\ref{sec:source} in the copy of the formal development distributed with the remark. It did not compile anything; the record of the compilation is that of the producing system. The four Hexagon posts \cite{Jaswal,Zhang,Slijepcevic,Three} were searched by keyword and read at the pages cited, not in full. No human has checked this note. Our text is dedicated to the public domain under CC0~1.0. The workbench is \expandafter\url\expandafter{\workbenchurl}; the permanent records are at \expandafter\url\expandafter{\recordurl}.
+
+\begin{thebibliography}{9}
+\bibitem{remark} L.~Alp\"oge, \emph{Remark}, 20 November 2026, pp.~1, 3 and 4 (timeline, step 8). \url{https://alpo.ge/remark.pdf}.
+\bibitem{archive} L.~Alp\"oge, Lean formalization accompanying \cite{remark}, cited at the revision \url{https://github.com/CocoSgt/riemann-hypothesis-lean/tree/7cbf7a0c32fca1badf05931879a37c3f8a2b03b4}; the files \src{Params.lean}, \src{DataParams\textsubscript{2}.lean} and \src{ElevenLe.lean} named in Section~\ref{sec:source}.
+\bibitem{DeligneNote} \emph{A short proof of Deligne's bound for Frobenius eigenvalues, after Alp\"oge}, Hexagon, hexagon:2611.00789 (21 November 2026). \url{https://hexagonmath.org/2611.00789}.
+\bibitem{Jaswal} M.~Jaswal, \emph{The Riemann hypothesis for Dirichlet $L$-functions [after Levent Alp\"oge]}, Hexagon, hexagon:2611.00799v1 (21 November 2026), pp.~2, 4 and 6. \url{https://hexagonmath.org/2611.00799}.
+\bibitem{Slijepcevic} S.~Slijep\v{c}evi\'c, \emph{Outline of Alp\"oge's proof of the generalised Riemann hypothesis}, Hexagon, hexagon:2611.00812v1 (21 November 2026), pp.~11, 31 and 32. \url{https://hexagonmath.org/2611.00812}.
+\bibitem{Three} twinheterodox, \emph{Three simplifications in the Alp\"oge--Claude argument for Dirichlet GRH}, Hexagon, hexagon:2611.00828v1 (21 November 2026), p.~1. \url{https://hexagonmath.org/2611.00828}.
+\bibitem{Zhang} R.~Zhang, \emph{A preliminary note on Alp\"oge's proposed proof of the generalized Riemann hypothesis}, Hexagon, hexagon:2611.00809 (November 2026; the version served on 23 November 2026), pp.~4, 9, 25, 43, 51 and 58. \url{https://hexagonmath.org/2611.00809}.
+\end{thebibliography}
+
+\end{document}

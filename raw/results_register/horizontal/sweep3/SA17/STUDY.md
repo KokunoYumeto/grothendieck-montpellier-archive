@@ -564,6 +564,9 @@ The rest are definitions. See HUNCHES H10.
 - The margin: "Relation avec le th. de commutation à la H. Weyl".
 - The corollary: λ^n(ξ) is the coefficient of ρ_1^n, and the Adams operation ("S^n") is the coefficient of ρ_n.
 - The question: for which k is ⊕ R_k(S_n) the polynomial ring on the ρ_i? "Est-ce vrai si k est un anneau local?"
+  - *Reading* (added 23 Nov 2026, Claude Opus 5.5 at effort high, agent a0805369bae2ebddc): the text of record
+    (`text_of_record/pages/133/133_scan029.tex`, ms. page 28) continues "(plus gén, tel que K(k) ← Z iso)": he
+    asks about local rings and, more generally, rings with K_0(k) = Z.
 
 **Checked:**
 - **Over a field of characteristic 0** the formula is the Cauchy identity Σ_λ s_λ(x)s_λ(y) = Σ_ν m_ν(x)h_ν(y),
@@ -586,6 +589,40 @@ The rest are definitions. See HUNCHES H10.
     with the transposition acting by 1+ε has determinant character 1+ε, reached neither by ρ₂ (determinant 1) nor by
     ρ₁² (determinant −1) (GCT_PLETH A-023, GCT_KRON A013, both checked). This agrees with the sweep-3.5 annotation
     (`C:local_charzero_counterexample`).
+  - *Further answers* (added 23 Nov 2026 after the intake of NIGHT_GROTHENDIECK_QUESTIONS cp04, Part A, Claude Opus 5.5 at
+    effort high; that run is GPT-6 Astra, ChatGPT Pro mode; paper `papers/A133_lattices/main.tex`, Theorem 1.1):
+    - **Neither locality nor K_0(k) = Z suffices, even flat and with only ±1 as square roots of 1:** generation fails over
+      Z_(p)[ε]/(ε²) for every prime p, in degree p (`dual_numbers_all_primes.tex`; for p = 2 the involution
+      [[1, ε], [ε, −1]] minus the regular representation has order 2). Proof read and its matrix identities recomputed
+      in that intake. So no condition on characters alone (determinant, roots of unity) characterizes generation.
+    - **Characteristic 0 of the ring is necessary:** if m·1 = 0, the Newton power sum P_m(ρ_1, …, ρ_m) = 0 (exterior-power
+      Euler relation; proof read). This supersedes the F_2 and F_p examples above as the general statement.
+    - **Positive side:** every coherent regular local ring of characteristic 0 (all noetherian regular local rings,
+      valuation domains) and every local Q-algebra; Φ is always split injective in characteristic 0 (statement level).
+    - **Square-zero extensions of Z_(p):** polynomial iff the ideal is a Q-vector space (detector part read).
+    - Also failing (statement level): nonmaximal Z_2-orders in quadratic fields, two-dimensional normal local domains
+      in every residue characteristic, even truncations Z_(p)[e]/(e^{2m}).
+    - **Open at cp04:** the exact class of singular mixed-characteristic local rings; odd truncations; odd-residue
+      ramified dual numbers outside v_2(e) ≤ v_2(p−1). The last two are closed at cp13 (next block).
+  - *Further answers at cp13* (added 24 Nov 2026 after the intake of NIGHT_GROTHENDIECK_QUESTIONS cp13, Part A, Claude
+    Opus 5.5 at effort high; same run, paper now 111 pages; statement ids NGQ-A133-026 to -059):
+    - **Regular is the dividing line in the curvilinear case:** let A be finite free and local over any
+      mixed-characteristic DVR, with edim(A/pA) ≤ 1. Then generation holds iff A is regular (Cor. 27.3). For A
+      singular, the degree-p generic kernel contains a split ⊕_ℕ ℤ/N; its retraction kills all Young permutation
+      lattices. Core case Thm 26.1: O[t]/(F) with v_O(p) = 1, F ≡ tⁿ mod p, a_0 ∈ p²O, and N = min(n, p·r), where r is
+      the first index with a_r ∉ p². Its lattice construction and detector were read with proof in that intake, and
+      the factorization identities recomputed.
+    - **Every truncation fails:** O[t]/(tⁿ) for every n ≥ 2 and every mixed-characteristic DVR O (Thms 13.1, 18.1,
+      19.1). Over Z_p and Z_(p) the failure is a split countable ℤ/n. So odd truncations are negative, and so are the
+      ramified dual numbers at every odd p: an exact order-2 class, by a divisor-class detector on
+      O[[X,t]]/((1+X)^p − 1 + t²) (Cor. 18.8). The cp04 parity invariant vanishes there (Thm 17.1); only that detector
+      fails, and the ring still fails.
+    - **Quadratic orders:** a Z_p-order in a quadratic field is polynomial iff it is maximal, at every prime
+      (Thm 23.1, statement level).
+    - **Reductions:** completion is injective on lattice K_0 over any characteristic-0 DVR (Thm 25.1). Over Z_p,
+      coefficients congruent mod p^r with r > 2v_p|G| give the same K_0 (Thm 24.1). Both at statement level.
+    - **Open at cp13:** singular rings with edim(A/pA) ≥ 2 (non-monogenic orders); an intrinsic criterion for normal
+      singular rings; the exact kernel over ramified DVRs.
 - *Scan 28, his question whether the summands are actual direct summands for effective ξ* (added 21 Nov 2026 after
   the intakes of GCT_KRON and GCT_PLETH, Claude Opus 5.5 at effort high): no in the monomial basis. The monomial
   terms of the Cauchy expansion are virtual: τ²(E) = ψ²(E)ρ₂ + Λ²(E)ρ₁² with ψ²(E) = s₂ − s₁₁ for rank 2; for the

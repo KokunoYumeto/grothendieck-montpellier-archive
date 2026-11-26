@@ -1,0 +1,64 @@
+# DER_LOCALIZERS
+
+Sorted 20 Nov 2026 by Claude Opus 5.5 at effort medium (sorting only; no proof judged). The run: GPT-6 Astra (ChatGPT Pro mode). Field: Derivateurs.
+
+## The paper's abstract
+
+This working paper checks the claims in the DER\_LOCALIZERS brief against the supplied transcriptions and primary literature. We distinguish proved statements, refutations, conditional results, and unresolved statements. This version is a work in progress; no priority is claimed.
+
+## What the run set out to do
+
+In its report's words (`DER_LOCALIZERS/DER_LOCALIZERS_report.md`, opening): the report opens only with 'INCOMPLETE'; the abstract above and the main results below say what it did
+
+## Register at this return
+
+- Return sorted: **cp08**, `derivateurs_companion_20261109/pro_prompts_max_20261112_work/DER_LOCALIZERS/DER_LOCALIZERS_checkpoint_08_20261118T0954Z_unzipped`.
+- Register: `DER_LOCALIZERS/DER_LOCALIZERS_results.csv`, 100 rows.
+- Kinds: proposition 60, refuted 19, reduction 8, other 6, open question 5, computation 1, conjecture 1 (kind from the register's type column, the id prefix or a keyword; 'proposition' is the default where the register gives no type).
+- Run status (first word): proved 55, refuted 19, proved under stated hypotheses 15, known 6, open 5.
+- CHECK_EVENTS: `DER_LOCALIZERS/CHECK_EVENTS.tsv`.
+- Papers: `DER_LOCALIZERS/DER_LOCALIZERS_paper.tex`
+- Bridge flags (RH, Weil, weights, motives): 0 (see `BRIDGE_FLAGS.tsv`).
+
+## Earlier intake
+
+Newest intake or expert note named by the ledger: `derivateurs_companion_20261109/pro_prompts_max_20261112_work/INTAKE_FREX_DERLOC_REVLOC_RESIDUE_20261119.md` (read up to cp08). Of 100 rows, 73 have their id somewhere in the 2 intake documents that mention this run (an id string match, so short ids such as A.1 overstate it); the other 27 are marked 'no intake' in the reading plan.
+
+## Main results (named in the report's main/conclusion sections or the paper's abstract; most used first)
+
+- `C.10` (proposition; Proved; used by 9): Exact necessary-and-sufficient raw-adjoint test under the corollary hypotheses
+- `C.16` (proposition; Proved under stated hypotheses; used by 4): Raw equivalence over every ring for finite projective evaluation component functors and pure interval images
+- `C.13` (proposition; Proved under stated hypotheses; used by 3): Underlying localization under a-d plus AB5 without small projective generators
+- `C.17` (proposition; Proved under stated hypotheses; used by 3): One finite evaluation resolution makes every chosen pure-interval resolving adjunction a raw equivalence
+- `A34.5` (reduction; Proved; used by 2): Every reversible localizer is the join of its rational and prime-primary intersections; T(Wp)=Gamma_p T(W); RT fixedness is equivalent to fixedness at every prime
+- `A4.5` (reduction; Proved; used by 2): Ordinary BC_p acyclicity equals reversible BC_p asphericity on simply connected primary H-spaces; the A.4 equality is equivalent to ordinary acyclicity on a proper countable H-spac
+- `A.3` (proposition; Proved; used by 2): W7bis,W8bis,XII square and cube axioms,XVI Loc6(a,b,c) are equivalent for fundamental localizers
+- `C.11` (proposition; Proved under stated hypotheses; used by 2): Canonical underlying localization for all commutative rings under corollary module hypotheses
+- `C.19` (proposition; Proved under stated hypotheses; used by 2): Raw adjoint gate closes when F0GD preserves coproducts of coefficient sequences
+- `C.21` (proposition; Proved under stated hypotheses; used by 2): Raw equivalence for ordinary presheaf categories with pointwise tensor over every commutative coefficient ring and every projective resolving adjunction
+- `C.22` (proposition; Proved under stated hypotheses; used by 2): Raw equivalence when the linear module category and tensor admit the stated countable pure scalar form
+- `C.24` (refuted; Refuted; used by 2): Exact scalar bireflectivity and normalized unit imply normalization on arbitrary free coefficients without monoidal data
+- ... and 17 more (column `main_in_report` of the TSV).
+
+## Rows the programme rests on (used by three or more rows)
+
+- `C.6` (used by 11; Proved): Corollary small additive generators with projective k-Hom supply exact resolving adjunction
+- `C.1` (used by 9; Proved): Projectives of nonnegative homological chain complexes and disk decomposition
+- `C.10` (used by 9; Proved): Exact necessary-and-sufficient raw-adjoint test under the corollary hypotheses
+- `B.1` (used by 8; Proved): Hypotheses 1-5 give TC subset C intersect W and TF subset W; a set of intervals yields both weak factorization systems
+- `C.3` (used by 8; Proved): Lemme 2 and equivalence of (i),(ii),(ii-prime),(ii-double-prime)
+- `A.7` (used by 7; Proved): An accessible reversible non-RT-fixed fundamental localizer exists in ZFC
+- `C.2` (used by 7; Proved): Lemme 1: exact resolving functor computes Lphi
+- `A34.1` (used by 6; Proved): The least reversible class generated by A is computed by a bounded ordinary-nullification suspension under the stated GEM hypothesis
+- `A34.2` (used by 6; Proved): Exact suspension bounds for K(Fp2) and BCp wedges and Q-suspended generators
+- `C.7` (used by 6; Proved under stated hypotheses): Full raw F,G equivalence for uniformly bounded injective dimensions of projective coefficients or degreewise split interval images
+
+## Open items (6 open or conjectural rows; 19 refuted)
+
+- `A3.decision`, `A4.equality`, `A4.interval`, `A4.size`, `C.raw_gate`, `D.10`
+
+## Where everything is
+
+- Sorted rows: `SORTED/DER_LOCALIZERS.tsv` (proof_at = file:line of the statement in this return, then the register's own locator).
+- Run folder: `<local>/Documents\derivateurs_companion_20261109\pro_prompts_max_20261112_work\DER_LOCALIZERS\DER_LOCALIZERS_checkpoint_08_20261118T0954Z_unzipped`.
+- Report: `DER_LOCALIZERS/DER_LOCALIZERS_report.md`; main-result sections: DER_LOCALIZERS_report.md lines 20-63.

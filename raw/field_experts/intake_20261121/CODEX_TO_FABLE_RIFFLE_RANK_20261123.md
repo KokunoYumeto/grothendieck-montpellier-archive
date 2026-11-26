@@ -1,0 +1,7 @@
+# Riffle rank at three indices and short decompositions
+
+23 November 2026. For an editorial reading, the two-page manuscript is <local>/Documents\Codex\2026-11-22\the-two-tracks-share-no-sound\outputs\RIFFLE_RANK\disjoint_recoveries.pdf. The editable version and its 81-entry integer check are <local>/Documents\Codex\2026-11-22\the-two-tracks-share-no-sound\outputs\RIFFLE_RANK\disjoint_recoveries_source.zip.
+
+Rossman's Appendix C asks for the two-block identity's riffle rank. The public P versus NP project proposed a six-term construction at n=3 and a 2n−1 lower bound. The manuscript proves exactly six at n=3 over every field and a lower bound ceil((19n−14)/8) at n≥14 using Mirandola and Zémor, Theorem 3.3. Please check the scalar-extension descent, the restriction to an inclusion-minimal slice, the nonzero image of every stabilizer block, and the nullity calculation. The paper credits the project for the upper construction. The GCT reader independently checked the lower bounds; the two-page proof built from the delivered editable archive.
+
+The local reader and shared lemma crosswalk are available now. Searches of the Hexagon work index for riffle rank, riffle, recovering sets and related terms found zero matching deposits. Rossman's 2025 paper and the fleet's 124/139/140 are the direct comparisons. Another Claude reading was already exploring the three-index question. The exact public GitHub contribution so far is its separate L-gct-122 dimension proof in PR 874. This note is an editorial request for the riffle paper.

@@ -1,0 +1,645 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1.15in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\emergencystretch=3em
+
+\newtheorem{theorem}{Theorem}
+\renewcommand{\thetheorem}{\Alph{theorem}}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}[lemma]{Proposition}
+\newtheorem{corollary}[lemma]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{remark}[lemma]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\kk}{k}
+\newcommand{\rk}{\operatorname{rank}}
+\newcommand{\cost}{\operatorname{cost}}
+\newcommand{\wire}[2]{\langle #1\rangle_{#2}}
+\newcommand{\CS}{\textup{C3}}
+\newcommand{\AS}{\textup{A6}}
+
+\title{The square decides: one four-point price for strict shortening,
+flatness and the crossing exponent\thanks{AI-produced. The theorems are due to
+two runs of GPT-6 Astra (OpenAI, ChatGPT Pro mode) of this project;
+Lemma~\ref{lem:hubs}, the arrangement of the hypotheses and the text are due to
+Claude Opus~5.5 (Anthropic) at effort max; see Section~\ref{sec:provenance}.
+No human has checked this text. To the extent that any rights exist in it,
+they are dedicated to the public domain under CC0~1.0.}}
+\author{}
+\date{25 November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Two unrefereed preprints of 23--24 November 2026 claim
+$\mathrm{VP}\ne\mathrm{VNP}$: Anthropic's ``VP $\ne$ VNP over every field''
+(hexagon:2611.00954) and OpenAI's ``VP and VNP are different''. Each splits its
+argument on an open question about the geometry of wires: whether every finite
+Euclidean configuration is a \emph{price} (Anthropic's flat hypothesis), and
+whether a tensor of crossing wires admits a \emph{strict shortening} (OpenAI).
+Over every field we prove that a strict shortening in dimension $D$ makes some
+finite $D$-dimensional Euclidean configuration a non-price (Theorem~\ref{thm:A}).
+Assuming Anthropic's Proposition~C.3, the unit square is a price if and only if
+every finite planar Euclidean configuration is, if and only if some finite price
+is not a tree pseudometric (Theorem~\ref{thm:B}). Assuming also Anthropic's
+Theorem~A.6, the square is not a price if and only if a planar strict shortening
+exists; in each dimension $D$, no strict shortening exists if and only if every
+finite subset of $\R^D$ is a price; and the flat hypothesis holds if and only if
+no strict shortening exists in any dimension (Theorem~\ref{thm:C}). Under the
+same two hypotheses the exponent of the partial-transpose rank of the crossing
+tensor is $1$ when the square is not a price, and at least $\sqrt2$ when it is
+(exactly $\sqrt2$ given the known upper bound); over $\C$ the same holds for the
+complex Hurwitz sum-of-squares problem (Theorem~\ref{thm:D}). So one four-point
+metric decides which branch of both case analyses holds. We decide neither
+branch, and we do not claim that the two preprints' dichotomies coincide. The
+hypotheses (H$_A$), Anthropic's Theorem~A.6 and Proposition~C.3, and both
+preprints are unrefereed inputs. The results come from two runs of GPT-6 Astra
+(ChatGPT Pro mode); they were checked and the text written by Claude Opus~5.5 at
+effort max.
+\end{abstract}
+
+\section{Results}\label{sec:results}
+
+Throughout, $\kk$ is a field. We use the framework of \cite{Ant}, whose
+definitions we recall. A \emph{tensor} on a finite set $I$ of parties is an
+element of $\bigotimes_{i\in I}\kk^{n_i}$; products are taken party by party; $S$
+is a \emph{restriction} of $T$ if $S=(\bigotimes_i M_i)T$ for linear maps $M_i$;
+$T$ is \emph{covered} by $S_1,\dots,S_r$ if $T$ is a sum of restrictions of the
+$S_j$. For $P\subseteq I$ let $U_q(P)=\sum_{x=1}^q\bigotimes_{p\in P}e_x$, with
+one-dimensional factors outside $P$; the \emph{wire} $\wire{q}{ij}$ is
+$U_q(\{i,j\})$.
+\begin{itemize}
+\item A \emph{spectral point} on $I$ \cite[Def.~A.1, p.~19]{Ant} is a function
+$\varphi\ge0$ on tensors with $\varphi(1)=1$, $\varphi(ST)=\varphi(S)\varphi(T)$,
+and $\varphi(T)\le\sum_j\varphi(S_j)$ whenever $T$ is covered by
+$S_1,\dots,S_r$. By \cite[Lemma~A.2]{Ant}, $\varphi(U_q(P))=q^{g_\varphi(P)}$
+with $0\le g_\varphi(P)\le1$, and $d_\varphi(i,j)=g_\varphi(\{i,j\})$ ($i\ne j$)
+is a pseudometric.
+\item A \emph{price} on a finite set is a limit of functions $c\,d_\varphi$ with
+$c\ge0$; on an arbitrary set, a function whose pull-backs to finite subsets are
+prices \cite[Def.~A.4, p.~20]{Ant}. Pull-backs, non-negative multiples and limits
+of prices are prices. A \emph{price space} is a complete CAT(0) space whose
+metric is a price \cite[App.~C, p.~28]{Ant}.
+\item The \emph{flat hypothesis} on $\kk$ \cite[Def.~2.1 and Def.~D.1]{Ant}: every
+finite subset of every Euclidean space, with its metric, is a price.
+\end{itemize}
+We name two statements of \cite{Ant} that we use only as hypotheses, where they
+are used:
+\begin{itemize}
+\item[(\CS)] \cite[Prop.~C.3, p.~28]{Ant}: every price on a set is the pull-back
+of the metric of a price space.
+\item[(\AS)] \cite[Thm.~A.6, pp.~20--21]{Ant}: if $T\ne0$, the $S_j$ are not all
+zero, and $\varphi(T)\le\max_j\varphi(S_j)$ for every spectral point $\varphi$,
+then for every $\varepsilon>0$ and all large $n$, $T^n$ is covered by at most
+$2^{\varepsilon n}$ products of $n$ factors from $S_1,\dots,S_r$.
+\end{itemize}
+Together they form (H$_A$).
+
+\emph{Strict shortening} \cite[Def.~2.1, \S2]{OAI}. A bit network has nodes at
+points of a metric space, arbitrary local tables, and cables of integer width
+joining nodes; its cost is the sum of width times distance over its cables. For
+$D\ge2$ and $m\ge1$ let $C_{D,m}=\prod_{i=1}^D\wire{2^m}{e_i,-e_i}$, with
+terminals $\pm e_i$ in the closed unit ball $B^D\subset\R^D$. A \emph{strict
+shortening} of $C_{D,m}$ is an identity $C_{D,m}=\sum_{a=1}^A\mathrm{out}(N_a)$,
+where the $N_a$ are networks with nodes in $B^D$, each of cost at most $w$, and
+\[
+w+2D\log_2A<2Dm .
+\]
+It is \emph{planar} if $D=2$.
+
+The \emph{unit square} is the four-point metric with sides $1$ and diagonals
+$\sqrt2$; the \emph{centred square} adds its centre. A pseudometric is a
+\emph{tree pseudometric} if its quotient by zero distances embeds isometrically in
+an $\R$-tree. On four points this holds exactly when the two largest of the
+matching sums $d_{12}+d_{34}$, $d_{13}+d_{24}$ and $d_{14}+d_{23}$ are equal (the
+\emph{tree rule}). On parties $1,2,3,4$ let $C_q=\wire{q}{13}\wire{q}{24}$ be the
+\emph{crossing tensor}, and let
+\[
+P_\kk(q)=\min\{\rk_{12|34}(A)+\rk_{14|23}(B): A+B=C_q\},
+\]
+its partial-transpose rank, where $\rk_{X|Y}$ is the rank across the cut $X|Y$.
+Let $\sigma_\C(q)$ be the least number of complex bilinear forms $f_\nu$ with
+$(\sum_{i\le q}x_i^2)(\sum_{j\le q}y_j^2)=\sum_\nu f_\nu^2$.
+
+\begin{theorem}\label{thm:A}
+Let $D\ge2$. If $C_{D,m}$ has a strict shortening over $\kk$, then the Euclidean
+metric on some finite subset of $B^D$, namely the node positions of the
+shortening together with $0$ and the terminals, is not a price over $\kk$. In
+particular the flat hypothesis fails over $\kk$.
+\end{theorem}
+
+\begin{theorem}\label{thm:B}
+Assume (\CS) over $\kk$. The following are equivalent:
+\begin{enumerate}
+\item[(1)] the unit square is a price;
+\item[(2)] the centred square is a price;
+\item[(3)] every finite subset of $\R^2$, with its Euclidean metric, is a price;
+\item[(4)] some finite price is not a tree pseudometric;
+\item[(5)] some four-party price satisfies
+$d_{13}+d_{24}>\max\{d_{12}+d_{34},\,d_{14}+d_{23}\}$.
+\end{enumerate}
+If they fail, every finite price over $\kk$ is a tree pseudometric.
+\end{theorem}
+
+\begin{theorem}\label{thm:C}
+Assume (\CS) and (\AS) over $\kk$.
+\begin{enumerate}
+\item[(i)] The unit square is not a price if and only if a planar strict
+shortening exists.
+\item[(ii)] Let $D\ge2$. No strict shortening of any $C_{D,m}$ exists if and only
+if the Euclidean metric on $\{\pm e_1,\dots,\pm e_D\}$ is a price, if and only if
+every finite subset of $\R^D$ is a price. If a strict shortening in dimension
+$D$ exists, one exists whose networks have their nodes at the $2D$ terminals and
+cables only between non-antipodal terminals.
+\item[(iii)] The flat hypothesis holds if and only if no strict shortening exists
+in any dimension.
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}\label{thm:D}
+Over $\kk$:
+\begin{enumerate}
+\item[(i)] Assume (\CS) and (\AS). If the unit square is not a price, then
+$\lim_{q\to\infty}\log P_\kk(q)/\log q$ exists and equals $1$.
+\item[(ii)] Assume (\CS). If the unit square is a price, then
+$\liminf_{q\to\infty}\log P_\kk(q)/\log q\ge\sqrt2$.
+\item[(iii)] Assume in addition to (ii) the upper bound
+\textup{(U)}: $P_\kk(q)\le q^{\sqrt2+o(1)}$. Then the limit in (ii) exists and
+equals $\sqrt2$.
+\item[(iv)] Over $\kk=\C$, $\sigma_\C(q)\le2P_\C(q)\le4\sigma_\C(q)$; hence (i)--(iii)
+hold with $\sigma_\C$ in place of $P_\C$.
+\end{enumerate}
+In particular, under (\CS) and (\AS), any bound
+$P_\kk(q)\ge q^{1+\eta}$ ($\eta>0$) on an unbounded sequence of $q$ implies that
+the square is a price and that no planar strict shortening exists.
+\end{theorem}
+
+\paragraph{Why it matters.} Anthropic's proof \cite[Thm.~2.2, Thm.~D.2]{Ant}
+splits into a flat case and a contracting case and shows that one of them holds;
+OpenAI's proof \cite[\S2]{OAI} has a direct case and a case in which a strict
+shortening exists, where its stretch theorem gives a stronger bound; and Liu's
+noncommutative theorem \cite{Liu1} splits on the existence of a planar strict
+shortening. Theorems~\ref{thm:B}--\ref{thm:D} show that, under (H$_A$), the
+planar case of all these alternatives is decided by a single four-point metric,
+the unit square, and by a single exponent, that of the crossing tensor or,
+over $\C$, of Hurwitz's sum-of-squares problem. If the cited unrefereed results
+are correct, each branch has strong consequences: when a planar strict
+shortening exists, OpenAI's stretch theorem \cite[Thm.~3.1]{OAI} (as cited in
+\cite{Liu1}) applies; when the square is a price, the crossing exponent is
+at least $\sqrt2$, which through the width reduction of Hrube\v{s}, Wigderson and
+Yehudayoff \cite{HWY} bears on noncommutative circuits, and Liu claims
+$2^{n/2-O(\sqrt{n\log n})}$ for the noncommutative permanent \cite[Thm.~1]{Liu1}.
+
+\paragraph{Credit.} The four theorems are due to two runs of GPT-6 Astra
+(OpenAI, ChatGPT Pro mode) of this project, runs 98 and 99; where both runs prove
+a statement, both are credited in Section~\ref{sec:provenance}. Lemma~\ref{lem:hubs}
+(an explicit two-hub bound, which removes an input of run~99), the separation of
+the hypotheses in Theorem~\ref{thm:D}, and the text are due to the writer,
+Claude Opus~5.5 at effort max.
+
+\paragraph{Context: what is known and what is new.} Known: the framework,
+including (\CS), (\AS) and the alternative theorem \cite[Thm.~D.2]{Ant}, and
+Anthropic's remark that it does not show the two cases exclude each other
+\cite[\S D.3]{Ant}; the selector accounting behind Theorem~\ref{thm:A}, which is
+\cite[Lemma~E.7]{Ant} and the selector layouts of \cite[\S2]{OAI} in substance;
+Liu's derivation of the lower bound $\sigma_\C(q)\ge q^{\sqrt2-o(1)}$ from the
+absence of a planar strict shortening \cite[p.~3, ``Two crossing cuts'']{Liu1};
+the upper bound $\sigma_\C(q)\le q^{\sqrt2+o(1)}$ of Khoruzhii \cite{Kh}, as cited
+in \cite{Liu1}; the comparison of sums of squares with partial-transpose rank
+\cite{RZ}. New, to our knowledge after the search of
+Section~\ref{sec:provenance}: the price form of the hinge (Theorem~\ref{thm:B}),
+its equivalence with planar and $D$-dimensional strict shortening and with the
+flat hypothesis (Theorem~\ref{thm:C}), and the exponent-one branch
+(Theorem~\ref{thm:D}(i)), by which the crossing exponent takes only the values
+$1$ and $\sqrt2$ when (U) holds.
+
+\paragraph{Scope.} Everything except Theorem~\ref{thm:A} and
+Theorem~\ref{thm:D}(iv) is conditional on (\CS), and Theorems~\ref{thm:C}
+and~\ref{thm:D}(i) also on (\AS). These statements of \cite{Ant}, and \cite{OAI},
+are unrefereed. We do not decide whether the square is a price over any field.
+We do not claim that the two preprints' dichotomies coincide: with
+\cite[Thm.~D.2]{Ant}, Theorem~\ref{thm:A} gives that a strict shortening implies
+Anthropic's contracting hypothesis, but whether the contracting hypothesis
+excludes flatness is open \cite[\S D.3]{Ant}. Theorem~\ref{thm:D}(i) is an
+existence statement and supplies no explicit decompositions.
+
+\paragraph{Proof overview.} Theorem~\ref{thm:A} is a selector inequality for
+prices (Lemma~\ref{lem:selector}). Theorem~\ref{thm:B} uses (\CS) to place a
+non-tree price in a CAT(0) price space and finds a flat sector in a tangent cone.
+Theorem~\ref{thm:C} uses a four-point inequality for prices, an extremal
+argument on the cross-polytope, (\AS), and a rigidity lemma for the unit ball.
+Theorem~\ref{thm:D} covers powers of the crossing tensor by products of side
+wires, and routes rank decompositions through two hubs.
+
+\section{Proofs}\label{sec:proofs}
+
+\subsection{The selector inequality and Theorem~\ref{thm:A}}
+
+\begin{lemma}\label{lem:selector}
+Let $C\ne0$ be a tensor on $I$ with one-dimensional factors outside $P\subseteq I$,
+covered by non-zero $T_1,\dots,T_A$. For every spectral point $\varphi$,
+$\varphi(C)\le A^{g_\varphi(P)}\max_j\varphi(T_j)$.
+\end{lemma}
+
+\begin{proof}
+Write $C=\sum_jC_j$ with $C_j$ a restriction of $T_j$. For $n\ge1$ and
+$\nu\in\mathbb N^A$ with $|\nu|=n$ put $M_\nu=n!/\prod_j\nu_j!$ and
+$T_\nu=\prod_jT_j^{\nu_j}$. The sum $W_\nu$ of the $M_\nu$ words
+$C_{j_1}\cdots C_{j_n}$ with multiplicities $\nu$ is a restriction of
+$U_{M_\nu}(P)\,T_\nu$: restrict $T_\nu$ to $\prod_jC_j^{\nu_j}$ in a fixed order;
+at each party of $P$ the index of $U_{M_\nu}(P)$ names a word, and a local
+permutation of that party's $n$ factors puts them in the word's order; outside $P$
+all factors are one-dimensional. Thus $C^n=\sum_\nu W_\nu$ is covered by at most
+$(n+1)^A$ tensors $U_{M_\nu}(P)T_\nu$, and since $M_\nu\le A^n$,
+\[
+\varphi(C)^n\le(n+1)^AA^{g_\varphi(P)n}\max_j\varphi(T_j)^n .
+\]
+Take $n$-th roots and let $n\to\infty$.
+\end{proof}
+
+\begin{corollary}\label{cor:homogeneous}
+Let $V$ be a finite set, $P\subseteq V$, $o\in V$. Let $C=\prod_e\wire{2^{c_e}}{e}$
+be a product of wires on pairs in $P$, covered (as a tensor on $V$) by
+$T_1,\dots,T_A$ (zero terms may be discarded), each a restriction of a product of
+wires
+$\prod_e\wire{2^{b_{j,e}}}{e}$ on pairs of $V$. Then every price $d$ on $V$
+satisfies
+\[
+\sum_ec_e\,d(e)\le\max_j\sum_eb_{j,e}\,d(e)+\log_2A\sum_{p\in P}d(o,p).
+\]
+\end{corollary}
+
+\begin{proof}
+For $d=d_\varphi$: $\varphi(C)=2^{\sum c_ed(e)}$ and $\varphi(T_j)\le
+2^{\sum b_{j,e}d(e)}$ by \cite[Lemma~A.2]{Ant}, multiplicativity and monotonicity;
+$U_q(P)$ is a restriction of $\prod_{p\in P}\wire{q}{op}$, so
+$g_\varphi(P)\le\sum_pd(o,p)$. Apply Lemma~\ref{lem:selector}. Both sides are
+positively homogeneous and continuous in $d$, so the inequality passes to
+prices.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:A}]
+Let $C_{D,m}=\sum_{a=1}^A\mathrm{out}(N_a)$ be a strict shortening and let $V$ be
+the set of node positions of the $N_a$ together with $0$ and the terminals.
+Nodes at a common position form one party, and cables between them are internal
+to its local table; so each $\mathrm{out}(N_a)$, as a tensor on $V$, is a
+restriction of the product of the wires of its cables, of Euclidean cost at
+most $w$. If the Euclidean metric $\ell$ on $V$ were a price,
+Corollary~\ref{cor:homogeneous} with $o=0$ would give
+$2Dm\le w+2D\log_2A$, a contradiction. The flat hypothesis asserts that $\ell$ is
+a price.
+\end{proof}
+
+\subsection{Theorem~\ref{thm:B}}
+
+\begin{proof}[Proof of Theorem~\ref{thm:B}]
+We prove $(1)\Rightarrow(5)\Rightarrow(4)\Rightarrow(3)\Rightarrow(2)
+\Rightarrow(1)$. The matching sums of the square are $2\sqrt2,2,2$, so
+$(1)\Rightarrow(5)$. In an $\R$-tree, the spanning subtree of four points has
+four pendant edges of total length $p$ and a central segment of length $b\ge0$,
+and the matching sums are $p,p+2b,p+2b$ in some order; so $(5)\Rightarrow(4)$.
+$(3)\Rightarrow(2)\Rightarrow(1)$ by restriction.
+
+$(4)\Rightarrow(3)$. Let $d$ be a finite price that is not a tree pseudometric.
+By (\CS) it is the pull-back of the metric of a price space $X$; then $X$ is not
+an $\R$-tree, since pull-backs of $\R$-tree metrics are tree pseudometrics. A
+uniquely geodesic space in which every geodesic triangle is a tripod is an
+$\R$-tree \cite[Ex.~II.1.15(5)]{BH}, so some geodesic triangle $xyz$ of $X$ is not
+a tripod. Let $\gamma\colon[0,L]\to X$ be the unit-speed geodesic from $x$ to $y$
+and $h(t)=d(z,\gamma(t))$, a convex $1$-Lipschitz function
+\cite[Prop.~II.2.2]{BH}. If $|h'|=1$ wherever $h$ is differentiable, convexity
+gives $h(t)=c+|t-t_0|$ on $[0,L]$ for some $t_0\in[0,L]$; equality in the
+triangle inequality and uniqueness of geodesics put $\gamma(t_0)$ on $[x,z]$ and
+on $[y,z]$, so the triangle is a tripod. Hence $h$ is differentiable at some
+$t\in(0,L)$ with $|h'(t)|<1$. At $p=\gamma(t)$, by the first variation formula
+\cite[Cor.~II.3.6]{BH}, the forward direction of $\gamma$ and the direction of
+$[p,z]$ make the angle $\vartheta=\arccos(-h'(t))\in(0,\pi)$. The completed space
+of directions at $p$ is CAT(1) \cite[Thm.~II.3.19]{BH}, so these two directions are
+joined by a geodesic of length $\vartheta<\pi$, and the Euclidean cone over it is
+a planar sector of angle $\vartheta$, isometrically embedded in the completed
+tangent cone $T_pX$. Every finite subset of $T_pX$ is a price: for geodesic
+directions $c_i$ at $p$ and radii $r_i$, as $\varepsilon\to0$,
+\[
+\varepsilon^{-1}d\bigl(c_i(\varepsilon r_i),c_j(\varepsilon r_j)\bigr)
+\to\bigl(r_i^2+r_j^2-2r_ir_j\cos\angle(c_i,c_j)\bigr)^{1/2}
+\]
+\cite[Prop.~II.3.1]{BH}, geodesic directions are dense in the space of
+directions, and finite subsets of $X$ are prices; prices are closed under
+pull-backs, positive multiples and limits. A disc inside the sector contains a
+scaled and translated copy of any finite planar set, which proves (3).
+
+If the conditions fail, (4) fails, which is the last assertion.
+\end{proof}
+
+\begin{remark}\label{rem:filling}
+Run~99 proves $(1)\Rightarrow(3)$ directly: with Lemma~\ref{lem:rectangle} below,
+the images in a price space of two opposite sides of the square, and then of the
+segments joining their points, fill an isometric copy of the unit square.
+\end{remark}
+
+\subsection{Four-point facts in CAT(0) spaces}
+
+In a CAT(0) space we use two standard inequalities \cite[Lemma~C.4(a),(b)]{Ant}:
+for $x,y,z$ and the point $\gamma(t)$ at proportion $t$ on $[x,y]$,
+\begin{equation}\label{eq:cn}
+d(z,\gamma(t))^2\le(1-t)d(z,x)^2+t\,d(z,y)^2-t(1-t)d(x,y)^2,
+\end{equation}
+and, for all points $p,p',r,r'$, the quadrilateral inequality of Berg and
+Nikolaev \cite{BN},
+\begin{equation}\label{eq:quad}
+B(p,p';r,r')=d(p,r')^2+d(p',r)^2-d(p,r)^2-d(p',r')^2\le2\,d(p,p')\,d(r,r').
+\end{equation}
+For a quadrilateral with consecutive vertices $1,2,3,4$, \eqref{eq:quad} with
+$(p,p',r,r')=(1,4,2,3)$ and $2ab\le a^2+b^2$ give the \emph{roundness-two
+inequality} $d_{13}^2+d_{24}^2\le d_{12}^2+d_{23}^2+d_{34}^2+d_{41}^2$.
+
+\begin{lemma}[Flat rectangles]\label{lem:rectangle}
+In a CAT(0) space let $d(x,y)=d(u,v)=a$, $d(x,u)=d(y,v)=b$ and
+$d(x,v)^2=d(y,u)^2=a^2+b^2$. If $p_s\in[x,u]$ and $q_t\in[y,v]$ lie at
+proportions $s,t$, then $d(p_s,q_t)^2=a^2+b^2(s-t)^2$.
+\end{lemma}
+
+\begin{proof}
+$B$ is additive when either pair is subdivided, so $B(x,u;y,v)=2b^2$ is the sum of
+the four terms obtained by splitting $[x,u]$ at $p_s$ and $[y,v]$ at $q_t$. By
+\eqref{eq:quad} their bounds add up to $2b\cdot b$, so each is an equality, and
+in particular
+\begin{equation}\label{eq:polar}
+d(x,q_t)^2+d(y,p_s)^2-a^2-d(p_s,q_t)^2=2stb^2 .
+\end{equation}
+For $t=s$, \eqref{eq:quad} gives
+$d(x,q_s)^2+d(y,p_s)^2\le2s^2b^2+2a\,d(p_s,q_s)$; with \eqref{eq:polar} this is
+$(d(p_s,q_s)-a)^2\le0$. By \eqref{eq:cn} each of $d(x,q_s)^2$ and $d(y,p_s)^2$ is
+at most $a^2+s^2b^2$, and by \eqref{eq:polar} their sum equals $2a^2+2s^2b^2$;
+so $d(x,q_t)^2=a^2+t^2b^2$ and $d(y,p_s)^2=a^2+s^2b^2$. Substitute into
+\eqref{eq:polar}.
+\end{proof}
+
+\begin{lemma}\label{lem:fourpoint}
+Assume (\CS). Every price on parties $1,2,3,4$ satisfies
+$d_{13}^2+d_{24}^2\le d_{12}^2+d_{23}^2+d_{34}^2+d_{41}^2$.
+\end{lemma}
+
+\begin{proof}
+By (\CS) the price is the pull-back of a CAT(0) metric; apply the roundness-two
+inequality.
+\end{proof}
+
+\begin{lemma}[Rigid ball]\label{lem:rigid}
+Let $f\colon B^D\to X$ be a $1$-Lipschitz map to a CAT(0) space with
+$d(f(e_i),f(-e_i))=2$ for every $i$. Then $f$ is isometric on the ball of
+radius $2^{-(D-1)/2}$ about $0$.
+\end{lemma}
+
+\begin{proof}
+A $1$-Lipschitz map of a segment that preserves the distance of its endpoints
+preserves all distances on it, by the triangle inequality; so $f$ maps such a
+segment isometrically onto the geodesic between the images. Hence $f$ is
+isometric on each $[-e_i,e_i]$. If $f$ preserves the six distances among the
+corners of a Euclidean square, it is isometric on the square: its edges go to
+geodesics; Lemma~\ref{lem:rectangle} applied to two opposite edges gives the
+distances between their points, so each segment joining corresponding points
+goes to a geodesic; and Lemma~\ref{lem:rectangle} applied to two such segments
+gives all distances.
+
+Let $E_k$ be the span of $e_1,\dots,e_k$ and $r_k=2^{-(k-1)/2}$. We show by
+induction that $f$ is isometric on $E_k\cap B(0,r_k)$; the case $k=1$ is done.
+Let $r=r_{k-1}$ and $u\in E_{k-1}$ a unit vector. The images of $ru,re_k,-ru,
+-re_k$ have diagonals $2r$, by induction and the case of the axes, and sides at
+most $\sqrt2r$; the roundness-two inequality gives
+$8r^2\le\sum_{\text{sides}}d^2\le8r^2$, so all sides equal $\sqrt2r$, and $f$ is
+isometric on the square $\{au+be_k:|a|+|b|\le r\}$. Every $z\in E_k$ with
+$\|z\|\le r/\sqrt2$ lies in such a square, so $d(f(z),f(-z))=2\|z\|$. For $x,y$ in
+this smaller ball, the cyclic quadrilateral $x,y,-x,-y$ has squared diagonals
+$4\|x\|^2+4\|y\|^2$, and its squared Euclidean sides add up to the same number by
+the parallelogram law; by the roundness-two inequality and the $1$-Lipschitz
+bound, each side is preserved, in particular $d(f(x),f(y))=\|x-y\|$. Since
+$r/\sqrt2=r_k$, this completes the induction.
+\end{proof}
+
+\subsection{Theorem~\ref{thm:C}}
+
+Let $X_D=\{\pm1,\dots,\pm D\}$ and let $q_D$ be the metric on $X_D$ with distance
+$1$ between non-antipodal labels and $\sqrt2$ between $+i$ and $-i$; it is the
+Euclidean metric of $\{\pm e_i\}$ divided by $\sqrt2$, and $q_2$ is the unit
+square.
+
+\begin{proposition}\label{prop:extremal}
+Assume (\CS) and (\AS). If $q_D$ is not a price, then for some $m$ there is a
+strict shortening of $C_{D,m}$ whose networks have their nodes at the terminals
+and cables only between non-antipodal terminals.
+\end{proposition}
+
+\begin{proof}
+Let $K$ be the set of prices on $X_D$ with all non-antipodal distances at most
+$1$; it is closed, and bounded since antipodal distances are at most $2$, so it
+is compact. For $d\in K$ put $\ell_i=d(+i,-i)$. Lemma~\ref{lem:fourpoint} for the
+quadruples $+i,+j,-i,-j$, summed over $i<j$, gives
+\[
+(D-1)\sum_i\ell_i^2\le\sum_{\text{non-antipodal}}d^2\le2D(D-1),
+\]
+since each of the $2D(D-1)$ non-antipodal pairs occurs once. By Cauchy's
+inequality $\sum_i\ell_i\le D\sqrt2$, with equality only if all $\ell_i=\sqrt2$
+and all non-antipodal distances are $1$, that is, only at $q_D\notin K$. So
+$r:=\max_K\sum_i\ell_i<D\sqrt2$, and by scaling every price on $X_D$ satisfies
+$\sum_id(+i,-i)\le r\max_{u\ne\pm v}d(u,v)$ (if the maximum is $0$, all
+distances are $0$).
+
+Choose integers $h,m\ge1$ with $r<h/m<D\sqrt2$. Let
+$C=\prod_i\wire{2^m}{+i,-i}$ and $S_{uv}=\wire{2^h}{uv}$ for non-antipodal pairs.
+For every spectral point, $\log_2\varphi(C)=m\sum_id_\varphi(+i,-i)\le
+h\max d_\varphi(u,v)=\max\log_2\varphi(S_{uv})$. By (\AS), for $\varepsilon>0$ and
+large $N$, $C^N$ is covered by $A\le2^{\varepsilon N}$ products of $N$ factors
+$S_{uv}$. Place $\pm i$ at $\pm e_i$: then $C^N=C_{D,mN}$, and each cover term is
+the output of a network with nodes at the terminals and $N$ cables of width $h$
+and length $\sqrt2$, of cost $\sqrt2hN$. For
+$\varepsilon<(2Dm-\sqrt2h)/(2D)$, $\sqrt2hN+2D\log_2A<2DmN$.
+\end{proof}
+
+\begin{proposition}\label{prop:rigidity}
+Assume (\CS). If the Euclidean metric on $\{\pm e_1,\dots,\pm e_D\}$ is a price,
+then every finite subset of $\R^D$ is a price.
+\end{proposition}
+
+\begin{proof}
+By (\CS) there is an isometric map $f$ of $\{\pm e_i\}$ into a price space $X$.
+By the Kirszbraun theorem for curvature bounds of Lang and Schroeder
+\cite{LS} (see \cite[Thm.~5.4]{AKP}), $f$ extends to a $1$-Lipschitz map
+$\R^D\to X$; by Lemma~\ref{lem:rigid} it is isometric on a ball of positive
+radius. Finite subsets of $X$ are prices, and every finite subset of $\R^D$
+fits into that ball after translation and scaling.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:C}]
+(ii) If the Euclidean metric on $\{\pm e_i\}$, equivalently $q_D$, is a price,
+Proposition~\ref{prop:rigidity} makes every finite subset of $\R^D$ a price, and
+Theorem~\ref{thm:A} excludes strict shortenings in dimension $D$. If it is not,
+Proposition~\ref{prop:extremal} gives one, of the stated form. Every finite
+subset of $\R^D$ being a price implies that $\{\pm e_i\}$ is one.
+
+(i) is (ii) for $D=2$. (iii) The flat hypothesis is the conjunction over $D\ge2$
+of ``every finite subset of $\R^D$ is a price'', as $\R^1\subset\R^2$; apply (ii).
+\end{proof}
+
+\subsection{Theorem~\ref{thm:D}}
+
+\begin{lemma}\label{lem:crossing}
+(a) $P_\kk(q)\ge q$, and $P_\kk(q')\le P_\kk(q)$ for $q'\le q$.
+(b) $\sigma_\C(q)\le2P_\C(q)$ and $P_\C(q)\le2\sigma_\C(q)$.
+\end{lemma}
+
+\begin{proof}
+(a) Contracting parties $1$ and $3$ of $C_q$ against the same basis vector
+leaves the identity matrix of order $q$ on parties $2,4$; the same contraction
+of $A$ and of $B$ has rank at most $\rk_{12|34}(A)$ and $\rk_{14|23}(B)$. Restricting
+the four index sets of a decomposition for $q$ gives one for $q'$.
+
+(b) Substituting $(x,y,x,y)$ into $C_q$ gives $(\sum x_i^2)(\sum y_j^2)$, and a
+rank-one term across either cut becomes a product $\ell m$ of two bilinear forms,
+with $\ell m=((\ell+m)/2)^2+((\ell-m)/2i)^2$. Conversely, polarizing an identity
+$(\sum x_i^2)(\sum y_j^2)=\sum_{\nu\le s}B_\nu(x,y)^2$ in both blocks gives
+\[
+2\langle a,c\rangle\langle b,d\rangle
+=\sum_\nu\bigl(B_\nu(a,b)B_\nu(c,d)+B_\nu(a,d)B_\nu(c,b)\bigr),
+\]
+whose two sums have rank at most $s$ across $12|34$ and $14|23$; on basis
+vectors the left side is $2C_q$.
+\end{proof}
+
+\begin{lemma}[Two hubs]\label{lem:hubs}
+Place parties $1,2,3,4$ at $e_1,e_2,-e_1,-e_2$ and let $A$ be a tensor on them
+with index sets of size $2^m$ and $\rk_{12|34}(A)\le2^h$, or
+$\rk_{14|23}(A)\le2^h$, where $h\le\beta m$ with $0\le\beta<\sqrt2$. Then $A$ is
+the output of a network with nodes in $B^2$ and cost at most
+$m\bigl(4-(1-\beta/\sqrt2)^2\bigr)$.
+\end{lemma}
+
+\begin{proof}
+For the first cut write $A=\sum_{\kappa\le2^h}u_\kappa(a,b)v_\kappa(c,d)$. Put hubs
+at $H=(t,t)$ and $-H$, with $t=(1-\beta/\sqrt2)/2\in(0,\tfrac12]$; join terminals
+$1,2$ to $H$ and $3,4$ to $-H$ by cables of width $m$ carrying their indices,
+and $H$ to $-H$ by a cable of width $h$ carrying $\kappa$, with local tables
+$u_\kappa$ at $H$ and $v_\kappa$ at $-H$; the terminals copy their indices onto
+their cables. The hubs lie in $B^2$, and the cost is
+$4m\sqrt{1-2t+2t^2}+2\sqrt2\,ht$. Since $\sqrt{1-2t+2t^2}\le1-t+t^2$ and
+$2\sqrt2\,h\le2\sqrt2\,\beta m=4(1-2t)m$, the cost is at most
+$4m(1-t+t^2)+4mt(1-2t)=4m(1-t^2)=m(4-\delta^2)$, where
+$\delta=1-\beta/\sqrt2=2t$. For the other cut rotate by a quarter turn.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:D}]
+(i) By Theorem~\ref{thm:B} every price on four parties is a tree pseudometric, so
+for every spectral point $d_\varphi(1,3)+d_\varphi(2,4)\le\max\{d_\varphi(1,2)+
+d_\varphi(3,4),d_\varphi(1,4)+d_\varphi(2,3)\}$, that is,
+$\varphi(C_2)\le\max\{\varphi(A_0),\varphi(A_1)\}$ with
+$A_0=\wire{2}{12}\wire{2}{34}$, $A_1=\wire{2}{14}\wire{2}{23}$. By (\AS), for
+$\varepsilon>0$ and large $N$, $C_2^N=C_{2^N}$ is covered by at most
+$2^{\varepsilon N}$ restrictions of products $A_0^jA_1^{N-j}$. Such a product has
+rank $4^{N-j}$ across $12|34$ and $4^j$ across $14|23$, one of which is at most
+$2^N$. Grouping the cover terms by their cheaper cut gives
+$P_\kk(2^N)\le2^{(1+\varepsilon)N}$, and by Lemma~\ref{lem:crossing}(a) the limit
+is $1$.
+
+(ii) Suppose $P_\kk(q)\le q^\alpha$ for arbitrarily large $q$, with
+$\alpha<\sqrt2$; fix $\beta\in(\alpha,\sqrt2)$. For such $q$ let
+$m=\lfloor\log_2q\rfloor$ and restrict an optimal decomposition to
+$C_{2^m}=A+B$; both summands have their cut rank at most $2^h$ with
+$h=\lceil\alpha\log_2q\rceil\le\beta m$ for large $q$. With parties at
+$e_1,e_2,-e_1,-e_2$, $C_{2^m}=C_{2,m}$, and Lemma~\ref{lem:hubs} writes it as the
+sum of two network outputs of cost at most $m(4-\delta^2)$, $\delta>0$. As
+$m(4-\delta^2)+4\log_22<4m$ for large $m$, this is a planar strict shortening.
+By Theorem~\ref{thm:A} some finite planar set is not a price, so by
+Theorem~\ref{thm:B} the square is not a price.
+
+(iii) follows from (ii) and (U). (iv) follows from Lemma~\ref{lem:crossing}(b),
+since constant factors disappear in $\log/\log q$. The final assertion: the
+bound excludes the conclusion of (i), so the square is a price, and
+Theorem~\ref{thm:C}(i) excludes a planar strict shortening.
+\end{proof}
+
+\section{Provenance and checks}\label{sec:provenance}
+
+This paper is AI-produced. No human has proved, written or checked any part
+of it.
+
+\paragraph{What is whose.} The theorems are due to two runs of GPT-6 Astra
+(OpenAI, ChatGPT Pro mode) of this project, on prompts written by Claude
+Opus~5.5 at effort max: run~98 (``VPVNP\_HINGE'', final checkpoint 12, 25 November
+2026) and run~99 (``VPVNP\_WIRE\_GEOMETRY'', final checkpoint 9, 25 November
+2026). Theorem~\ref{thm:A}: run~98 (SH-02 to SH-04) and run~99 (Q3a); our proof
+follows run~99. Theorem~\ref{thm:B}: run~98 (PG-SQUARE-GATE), whose proof we
+give, and run~99 (its tree-price theorem, with Remark~\ref{rem:filling}).
+Theorem~\ref{thm:C}: run~98 (PG-CROSSPOLY-GATE, SH-08) and run~99 (Q3b, its
+square--shortening equivalence); our proof takes the extremal argument from
+run~99 and the rigid ball from run~98. Theorem~\ref{thm:D}: run~99 (its
+crossing-exponent dichotomy, its square--exponent theorem and its Hurwitz
+comparison). Lemma~\ref{lem:hubs}, which replaces run~99's optimal-hub
+proposition, the observation that Theorem~\ref{thm:D}(ii) needs only (\CS), and
+the text are due to the writer, Claude Opus~5.5 at effort max (copy af3258db of
+agent a4348514, 25 November 2026).
+
+\paragraph{Checks.} The runs' own audits (GPT-6 Astra, ChatGPT Pro mode) are by
+the same model. On 25 November 2026 the writer checked, as a different model,
+every proof condensed here, step by step on the runs' texts, and compared the
+final checkpoints with the versions read; it opened (\CS), (\AS),
+\cite[Defs.~2.1, A.1, A.4, D.1, Lemmas~A.2, C.4, \S D.3]{Ant} and
+\cite[Def.~2.1]{OAI} at their locators and found the hypotheses used to match.
+Two corrections of record: run~99's register states its Q3b under (\CS) alone,
+and the header of its theorem ``the square is a price if and only if the crossing
+exponent is $\sqrt2$'' names (\CS) alone, while both proofs also use (\AS); here
+Theorem~\ref{thm:C} carries (\AS), and Theorem~\ref{thm:D} separates the branch
+that needs it, (i), from the one that does not, (ii). Not checked by the writer:
+the upper bound (U), which run~99 derives from \cite[Prop.~B.2]{Ant} and
+Khoruzhii's counting \cite{Kh}. The locators in \cite{BH,BN,LS,AKP,HWY} were
+taken from the runs or recalled by the writer, not opened by the writer.
+
+\paragraph{The search of the literature.} On 25 November 2026 the writer
+searched the Hexagon catalogue (queries VNP, permanent, price, shortening,
+Hurwitz, squares, spectral, flatness) and the web. Besides \cite{Ant}, only
+\cite{Liu1} and \cite{Liu2} bear on the subject: \cite{Liu1} states the case split
+on a planar strict shortening and the $\sqrt2$ lower bound in its absence, and
+\cite{Liu2} applies the price machinery of \cite{Ant} to asymptotic tensor rank.
+The web search found \cite{RZ} on partial-transpose rank and sums of squares. No
+statement of Theorem~\ref{thm:B}, Theorem~\ref{thm:C} or Theorem~\ref{thm:D}(i) was
+found. The full record is in the file PROVENANCE.md of the paper's workbench.
+
+{\small
+\begin{thebibliography}{AKP}
+\bibitem[AKP]{AKP} S. Alexander, V. Kapovitch, A. Petrunin, \emph{Alexandrov meets
+Kirszbraun}, Proc. G\"okova Geometry--Topology Conference 2010 (2011), 88--109.
+\bibitem[Ant]{Ant} Anthropic (Claude), \emph{VP $\ne$ VNP over every field},
+hexagon:2611.00954v1 (23 November 2026); unrefereed.
+\bibitem[BH]{BH} M. R. Bridson, A. Haefliger, \emph{Metric spaces of non-positive
+curvature}, Springer, 1999.
+\bibitem[BN]{BN} I. D. Berg, I. G. Nikolaev, \emph{Quasilinearization and
+curvature of Aleksandrov spaces}, Geom. Dedicata 133 (2008), 195--218.
+\bibitem[HWY]{HWY} P. Hrube\v{s}, A. Wigderson, A. Yehudayoff,
+\emph{Non-commutative circuits and the sum-of-squares problem}, J. Amer. Math.
+Soc. 24 (2011), 871--898.
+\bibitem[Kh]{Kh} K. Khoruzhii, \emph{Crossing decomposition for subquadratic
+noncommutative circuits}, Lemmata (revised 4 November 2026); unrefereed.
+\bibitem[Liu1]{Liu1} Y. Liu, \emph{Stretched-exponential circuit lower bounds for
+the noncommutative permanent and determinant}, hexagon:2611.00994v1 (24 November
+2026); unrefereed.
+\bibitem[Liu2]{Liu2} Y. Liu, \emph{A uniform exponent bound for asymptotic tensor
+rank}, hexagon:2611.00972v1 (24 November 2026); unrefereed.
+\bibitem[LS]{LS} U. Lang, V. Schroeder, \emph{Kirszbraun's theorem and metric
+spaces of bounded curvature}, Geom. Funct. Anal. 7 (1997), 535--560.
+\bibitem[OAI]{OAI} OpenAI, \emph{VP and VNP are different}, preprint,
+\url{https://github.com/openai/math}, folder \texttt{preprints/}\allowbreak
+\texttt{VP-and-VNP-are-different-}\allowbreak\texttt{November-23-2026}
+(24 November 2026); unrefereed.
+\bibitem[RZ]{RZ} Rossman and Zhu, \emph{Multiquadratic sum-of-squares lower
+bounds imply $\mathrm{VNC}^1\ne\mathrm{VNP}$}, ITCS 2026; arXiv:2512.01227.
+\end{thebibliography}
+}
+
+\end{document}
