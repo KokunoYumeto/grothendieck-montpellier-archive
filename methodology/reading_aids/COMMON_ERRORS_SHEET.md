@@ -13,7 +13,8 @@ the most crops. Even on them, two corrections in three are in the words between 
 inserted and margin text, not inside the formulas: read those words as closely as the formulas. And read every line
 of every manuscript page against the scan, not only the boxes: about one correction in five lies where witnesses C
 and H agree and C has no doubt mark.
-The one-line refinements that name runs (SP72-SP83, SP114-SP117) come from those runs' own feedback of 20-21 Nov.
+The one-line refinements that name runs come from those runs' own feedback: SP72-SP83 and SP114-SP117 of 20-21 Nov,
+SP107-SP129 of 24-26 Nov.
 
 **Where the first readings were changed most often** (559 pages read twice, token by token; tokens changed per 100,
 on average 7):
@@ -117,6 +118,13 @@ only in the log.
    below, or an underline, is not a cancellation (« entre 14 orbites » was marked struck with no stroke on it).
    A descender from the line above, or a leader or a drawing that crosses a word, is not a strike: follow the stroke
    to its letter (SP75, SP82, SP83).
+   A cancellation keeps the layers under it: a struck passage can hold an older correction of its own (an overtype, a
+   struck word, an insertion with its leader); record the outer strike and every inner layer (SP122, 162-5/47-49;
+   SP123, 36/42). Words between or below struck spans stay live unless a stroke crosses them; a strike is never extended
+   across a white gap to make the grammar fit (SP107, 104/12 and 104/16). A letter written over another without erasing
+   it is both: the older shape as \deleted, the new one live (SP107: five ξ overwritten as α on 104/16). Thick or
+   retraced ink is not by itself an earlier letter: invent no hidden token to explain a heavy stroke (SP119, 37/63,
+   64, 80 and 95; SP120, 162-5/24).
 8. **Abbreviations expanded, spelling modernised (389).** His short forms stay in the text: tt, ess., t.f., il f. et il
    s., tot^t, néc^t, ss-, ½, and = standing for « même ». An expansion goes only in the abbreviations list.
    A stop is read, not supplied (autom, mod, gén without a dot stay so; four points stay four), and inside a doubt
@@ -163,6 +171,11 @@ sheet first (SP82, SP83). Thin foliation numbers in another hand are not his num
 - **Accents:** an accent is one short stroke whose slant need not tell acute from grave. Where a stroke is there, write
   the accent the word has in French; note a missing accent only where no stroke is there.
   A proper name's accent is read on each leaf: Teichmuller and Teichmüller both occur (SP78).
+- **Underlines** are read one occurrence at a time, like letters: where a rule starts and stops is the reading. A separate
+  C followed by an underlined H is not CH underlined (SP122, 162-5/60-65); in « IX » only the X may be underlined, and
+  the next « IX » bare (SP119, 37/64); one formula can mix underlined and bare operators (Pic, Hom, Ext, H: SP123,
+  36/39-43); a letter underlined alone and the same letter inside an underlined phrase are two readings (SP129,
+  10/159-174). Never carry an underline over from a clearer occurrence. Witness H often drops the rules (SP119).
 - **Letters of one cote in formulas:** on cote 156-3 a capital E in a formula may be his ε; compare it with an ε of
   the same page.
 - **Page numbers:** look at the head of the sheet for his own page number before the first line. Earlier readings left
@@ -221,10 +234,16 @@ order.
 1. **His numbers against the archive order.** Record his page, sheet, typescript and formula numbers and the archivists'
    pencil number on every page; where they run out of step with the scans, give the reading order (cote 48: a typescript
    "(30" filed before its "(29").
+   His lower archive numbers, section numerals, numbered references and page references are separate systems; a pale
+   number read in two orientations of the sheet is one number (SP119, 37/60; SP123, 36/42).
 2. **Joins.** Compare the last words of each page with the first words of the next page and of the two after it: a
    sentence that resumes two scans later marks a reversed pair or an interposed leaf (161-3; 82/16 continues on 82/18).
+   A join is shown by words that continue, never by related mathematics alone: a shared topic does not join two
+   unfinished calculations (SP123, 36/41-43).
 3. **Gaps.** Note pencil-number jumps, gaps in his pagination, and pages that stop with nothing to continue them (129:
    pencil 80 then 83; cote 6: eleven ahead).
+   A package that stops mid-sentence at its last scan does not by itself prove a missing leaf: the next leaf may simply
+   lie outside the package (SP129, 10/178).
 4. **A leaf of another text.** A typescript, printed or photocopied leaf, or a leaf on another subject, with its own
    pagination or section numbers: name it (which work, which section), say whether its numbering belongs to another
    series, and do not treat it as a draft of the folder. Where it copies a printed text, the printed text is a second
