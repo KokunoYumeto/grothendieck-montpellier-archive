@@ -1,0 +1,67 @@
+\section{What graph parameters give the direct exponents}\label{sec:graph-exponents}
+This section distinguishes two established ways to pay for the choice of a balanced cut. One is the origin-to-terminal selector layout in \cite[Section 2.1]{OpenAI2026}; the other is the cube bound for the unit-tensor exponent in \cite[Propositions E.9--E.10, pages 36--37]{Anthropic2026}. Their optimal exponents can be compared within these specific accounting rules.
+
+Let a finite simple graph have $k$ vertices, $E$ edges, and maximum degree $\Delta$. Orient each edge once and place its two ends at $\pm v_e$, where $\|v_e\|=1$. For a balanced vertex set $S$, let
+\[
+ w_S=\sum_{e\text{ crossing }S}\sigma_{S,e}v_e,\qquad
+ W=\min_{S\text{ balanced}}\|w_S\|,
+\]
+where $\sigma_{S,e}$ is positive when the positive end is held by $S$ and negative otherwise. Balanced means $k/3\leq|S|\leq2k/3$. Each edge carries $m$ bits. A term of flattening rank at most $2^h$ across $S$ can be sent through hubs $\pm u w_S/\|w_S\|$, joined by an $h$-bit bridge. The inequality $\|v-z\|\leq1-v\cdot z+\|z\|^2/2$, for $\|v\|=1$, gives a saving of at least
+\begin{equation}\label{eq:general-hub-saving}
+ 2u(m\|w_S\|-h)-Emu^2
+\end{equation}
+relative to the direct cost $2Em$. If $h\leq mW/2$, taking $u=W/(2E)\leq1/2$ gives a saving at least $mW^2/(4E)$. Denote the charged cost of naming the cut by $Q(k)$.
+
+\begin{proposition}[Parameter exponent]\label{prop:parameter-exponent}
+Suppose a graph family and a specified naming rule satisfy, up to positive constant factors,
+\[
+ \Delta\asymp k^\delta,\quad E\asymp k^\varepsilon,
+ \quad W\asymp k^\beta,\quad Q(k)\asymp k^\nu.
+\]
+Suppose also that the input-size reduction permits $m\Delta\asymp L$, where $L$ is the logarithm of the target size, and that the decomposition's bridge width is bounded by a constant times $k+\log(n+s)$. Put $a=\nu+\varepsilon+\delta-2\beta$. If $a>0$, $a\geq\delta$, $\beta>\delta$, and the additive overhead is smaller than the resulting threshold, the displacement certificate gives a lower bound whose logarithm has exponent
+\begin{equation}\label{eq:graph-parameter-exponent}
+ 1+\frac{\beta-\delta}{a}
+\end{equation}
+in $L$. Constants are chosen so that $Q(k)<mW^2/(4E)$.
+\end{proposition}
+\begin{proof}
+Substitute $m\asymp Lk^{-\delta}$ into the saving. Its order is $Lk^{2\beta-\delta-\varepsilon}$. It pays $Q(k)$ when $k^a$ is at most a sufficiently small constant times $L$. Take $k\asymp L^{1/a}$, with that constant small. The hypothesis $a\geq\delta$ ensures that $m\asymp L^{1-\delta/a}$ can be chosen as a positive integer; when equality holds, the constant can be chosen to make this integer sufficiently large. The bridge threshold $mW/2$ then has order $Lk^{\beta-\delta}$, which is precisely the exponent in \eqref{eq:graph-parameter-exponent}. A circuit below this threshold produces a forbidden saving under the corresponding rigidity hypothesis. The explicit assumption about additive overhead ensures that solving for $\log s$ preserves this order.
+\end{proof}
+
+\begin{proposition}[Optimal exponents for the two accounting rules]\label{prop:accounting-optimal}
+Consider this quadratic displacement certificate with one label for each balanced vertex set and with the local variable budget $m\Delta\leq L$.
+\begin{enumerate}
+\item For orthogonal edge directions and the origin-to-terminal selector charge $Q=2E\log A$, where $A$ is the number of balanced sets, the largest possible exponent certified in $L$ is $5/4$. Bounded-degree expanders attain it up to constants.
+\item In the flat case, use the oriented coordinate placement $v_{ab}=e_a$ for an edge $a<b$, and charge the cube estimate $Q=2\sqrt{k}\log A$. The largest possible exponent certified under this charged estimate is $4/3$. Complete graphs attain it, and so do bounded-degree expanders. More generally regular expanding families of every degree order between a constant and order $k$ attain the same exponent.
+\end{enumerate}
+These ceilings concern the indicated selector charges and quadratic estimate. They do not exclude a better bound from a smaller unit-tensor exponent, a different naming scheme, or an additional tensor identity.
+\end{proposition}
+\begin{proof}
+The number of balanced sets has $\log A=\Theta(k)$: an upper bound is $2^k$, and the middle binomial coefficient, at least $2^k/(k+1)$, gives the lower bound.
+
+For orthogonal edge directions, $\|w_S\|^2$ is the number of crossing edges, so $W^2\leq E$. Even when $h=0$, the maximum of \eqref{eq:general-hub-saving} is $mW^2/E\leq m$. Therefore a successful certificate paying $Q=\Theta(Ek)$ requires $m=\Omega(Ek)$. Since $\Delta\geq2E/k$, it follows that $L\geq m\Delta=\Omega(E^2)$. The bridge threshold is at most
+\[
+ mW\leq m\sqrt E\leq L\sqrt E/\Delta=O(L^{5/4}),
+\]
+using $\Delta\geq1$. For a bounded-degree expander, $E=\Theta(k)$ and every balanced cut has $\Theta(k)$ crossing edges. Thus $W=\Theta(\sqrt k)$, $Q=\Theta(k^2)$, and $m=\Theta(L)$. Taking $k$ a small constant times $\sqrt L$ attains $L^{5/4}$.
+
+For the second rule we first bound what any placement by unit vectors could achieve. Write $b_v$ for the signed sum of the directions of the edges incident to $v$. Then $\sum_v b_v=0$, $\|b_v\|\leq\deg(v)$, and $w_S=\sum_{v\in S}b_v$. Averaging over all $r$-element sets, with $r=\lfloor k/2\rfloor$, gives
+\[
+ \mathbb E\|w_S\|^2
+ =\frac{r(k-r)}{k(k-1)}\sum_v\|b_v\|^2
+ \leq\frac{k}{4(k-1)}\sum_v\deg(v)^2
+ \leq C E\Delta
+\]
+for an absolute constant $C$. Consequently $W^2\leq C E\Delta$. The maximum quadratic saving is at most $C m\Delta\leq CL$. Paying the specified charge $Q=\Theta(k^{3/2})$ therefore requires $k=O(L^{2/3})$. Also $E\leq k\Delta/2$, so
+\[
+ mW\leq C'm\Delta\sqrt k=O(L^{4/3}).
+\]
+
+To attain the bound, take a regular family whose balanced cuts have at least a fixed positive fraction of all its edges, so $E=\Theta(k\Delta)$ and their sizes are $\Omega(k\Delta)$. In the oriented coordinate placement, the $a$th component of $w_S$ is, with one sign, the number $c_a$ of crossing edges $ab$ with $a<b$. Thus $\sum_a c_a\geq c k\Delta$, and Cauchy--Schwarz gives $\|w_S\|\geq c\Delta\sqrt k$. The reverse bound just proved has the same order. The saving is then of order $m\Delta=\Theta(L)$, the bridge threshold has order $L\sqrt k$, and $k$ a sufficiently small constant times $L^{2/3}$ pays the cube charge and attains exponent $4/3$. Complete graphs and bounded-degree expanders both meet these conditions.
+\end{proof}
+
+For comparison with the constants in the OpenAI proof, moving only the first hub by $u$ and leaving the other at the origin gives the upper bound
+\[
+ -mu\sqrt{\gamma d}+Dmu^2+hu
+\]
+on the cost change when a balanced cut crosses at least $\gamma d$ orthogonal diameters. With $h\leq m\sqrt{\gamma d}/2$ and $u=b/\sqrt d$, this is at most $m(-b\sqrt\gamma/2+(D/d)b^2)$. The bounded-degree condition bounds $D/d$, so a fixed sufficiently small positive $b$ gives a saving of a positive constant times $m$. There are at most $2^d$ labels, whose charged cost is at most $2Dd$. Taking $d=a\sqrt{\log n}$, $m=\lfloor c\log n\rfloor$, first fixing $b,c$ and then choosing $a$ small, pays this charge. The threshold $m\sqrt{\gamma d}/2$ has order $(\log n)^{5/4}$, while the additive $O(d+\log n)$ bridge overhead is lower order. Thus these four inequalities and their parameter choices, considered as the direct geometric accounting in that preprint, are consistent.

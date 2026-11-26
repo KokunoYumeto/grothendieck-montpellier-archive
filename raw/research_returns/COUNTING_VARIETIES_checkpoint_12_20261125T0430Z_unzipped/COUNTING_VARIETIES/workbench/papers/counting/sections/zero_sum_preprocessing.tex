@@ -1,0 +1,347 @@
+\subsection{Retaining all prime-field components}
+A homogeneous linearized relation with zero coefficient sum does not
+specify one prime-field value of its argument. It nevertheless permits
+a smaller equation that keeps every such value. Additive composition
+is classical \citep[\S6]{sp-giesbrecht}; the issue here is recognizing
+the hidden argument and controlling support through repeated reductions.
+
+\begin{theorem}[A zero-sum relation with controlled support growth]
+\label{sp:thm:zero-sum-preprocessing}
+Fix $p$ and let a homogeneous sparse binary-exponent list generate
+$K\subset\Fp[x_0,\ldots,x_N]$, with $I=K^{\mathrm{sat}}$ and $S/I$
+geometrically integral. Suppose a nonzero row admits
+\[
+ F=U^Q+\sum_{i=0}^{s}a_i V^{Q-p^i}U^{p^i},
+ \qquad Q=p^e>p,\quad 0\le s<e,
+\]
+where $U$ is homogeneous, $V$ is a coefficient-one monomial of the
+same degree $d\ge1$, and
+\[
+ (d+1)p^s\le Q,\qquad a_i\in\Fp,
+ \qquad 1+\sum_i a_i=0.
+\]
+None of these data is given. A deterministic polynomial sparse-bit
+algorithm recognizes and exactly verifies such a representation whenever
+one exists, normalizes $U$ to exclude the monomial $V$, and replaces
+$F$ by the nonzero polynomial
+\begin{equation}
+ G=U^p-V^{p-1}U.
+ \label{sp:eq:zero-sum-output}
+\end{equation}
+It satisfies
+\[
+ K\subseteq K'\subseteq I,
+ \qquad (K')^{\mathrm{sat}}=I,
+ \qquad \deg G=\frac{p\deg F}{Q}<\deg F.
+\]
+No coordinate index is added, and the output has at most twice the
+input support. A deterministic convention can minimize the output
+degree among passing representations. Despite this possible increase,
+repeated use has polynomial total sparse-bit cost, also when
+interleaved with the preceding coordinate, digit, linearized and
+affine reductions. If $T_0$ is the original total support and $D_0$
+the largest original degree, the total support throughout any such
+interleaved computation is at most
+\[
+ 16T_0\max\{1,\log_p D_0\}.
+\]
+\end{theorem}
+\begin{proof}
+Put $D=\deg F$. The translation $U\mapsto U-cV$, $c\in\Fp$,
+leaves the relation unchanged because its coefficient sum is zero.
+Remove the $V$-term of $U$. The normalized $U$ is nonzero, since
+otherwise $F=0$. The same gap calculation as before gives
+\[
+ U=E_Q(F),
+\]
+where $E_Q$ is the divided coordinatewise $Q$-section. Indeed,
+$Qv+p^i(u-v)$ is coordinatewise divisible by $Q$ only when $u=v$.
+Thus the inner polynomial is determined at every candidate scale.
+
+Enumerate powers $Q>p$ dividing $D$, and the admissible values of
+$s$, all in polynomial number in $\log(D+1)$. Set $d=D/Q$, reject a
+zero section, and form $R=F-U^Q$. A genuine normalized representation
+has $R\ne0$. Otherwise $U/V$ in the rational function field would
+satisfy the nonzero polynomial $\sum_i a_iT^{p^i}$, because
+$\sum_i a_i=-1$. The polynomial ring is geometrically integral, so
+its algebraic constants are $\Fp$. This would make $U$ a scalar
+multiple of $V$, contrary to its normalization.
+
+For completeness of the monomial search, put $q=p^s$ and $M=Q-q$,
+and choose any exponent $\gamma$ in $R$. At least one contributing
+lower-block term has
+\[
+ \gamma=(Q-p^i)v+p^iu
+        =Mv+\beta,
+ \qquad \beta=(q-p^i)v+p^iu\ge0,
+ \qquad |\beta|=qd\le M.
+\]
+Therefore the coordinatewise floor $\lfloor\gamma/M\rfloor$ equals
+$v$, or equals $v+e_j$ for a single coordinate $j$. Enumerate these
+possibilities and keep the nonnegative vectors of degree $d$ whose
+monomial is absent from $U$. This includes the equality case $qd=M$.
+For each candidate solve
+\[
+ \sum_{i=0}^{s}a_iV^{Q-p^i}U^{p^i}=R,
+ \qquad \sum_{i=0}^{s}a_i=-1
+\]
+by coefficientwise linear algebra, and verify the exact sparse identity.
+There are $O(\log D)$ unknowns and
+$O(|\operatorname{supp}F|\log D)$ equations. Frobenius powers and
+monomial shifts construct every column without dense expansion.
+The true representation passes. All accepted representations meet
+the stated conditions. Decreasing order of $Q$ minimizes
+$pD/Q$, with fixed further orders resolving ties. Every coordinate
+of $V$ occurs in $R$, since its lower-block exponents are at least
+$Mv$ coordinatewise; hence no new index is introduced.
+
+Let $\overline U,\overline V$ be the images in $S/I$. If
+$\overline V=0$, the original relation gives $\overline U=0$.
+Otherwise $\overline U/\overline V$ is algebraic over $\Fp$,
+hence belongs to $\Fp$. In either case $G\in I$.
+To prove the other ideal inclusion, write
+\[
+ L(T)=\sum_{k=0}^e c_kT^{p^k},\qquad
+ c_e=1,\quad \sum_{k=0}^e c_k=0,
+ \qquad b_j=-\sum_{k=0}^j c_k.
+\]
+Here $c_k=a_k$ for $k\le s$ and is zero at the other lower indices.
+Adjacent coefficients give
+\[
+ L(T)=\sum_{j=0}^{e-1}b_j(T^p-T)^{p^j}.
+\]
+Homogenizing to degree $Q$ in $U,V$ yields the exact identity
+\begin{equation}
+ F=\sum_{j=0}^{e-1}b_j
+       V^{Q-p^{j+1}}G^{p^j}.
+ \label{sp:eq:zero-sum-divisibility}
+\end{equation}
+All exponents of $V$ are nonnegative. Thus $F\in(G)$, proving
+$K\subseteq K'\subseteq I$ and equality after saturation.
+The polynomial $G$ is nonzero: if it vanished in the ambient
+polynomial ring, the nonconstant rational function $U/V$ would be a
+root of $T^p-T$, again impossible. Formula~\eqref{sp:eq:zero-sum-output}
+gives its degree and its support bound.
+
+It remains to control iteration. Let $T_0$ be the original total
+support, $D_0$ the largest original degree, and $v$ the number of
+initially occurring coordinates. Every current nonzero row belongs
+to the proper homogeneous ideal $I$, so its degree is positive.
+The gap and $Q>p$ give
+\[
+ D=dQ>d^2,\qquad D_{\mathrm{new}}=pd<p\sqrt D,
+ \qquad D_{\mathrm{new}}\le D/p.
+\]
+Along a lineage put $z=\log_p D$. At a zero-sum step,
+\[
+ z_{\mathrm{new}}<1+\tfrac12z_{\mathrm{old}},
+ \qquad z_{\mathrm{new}}\le z_{\mathrm{old}}-1.
+\]
+Intervening earlier operations only decrease degree. After $j\ge1$
+zero-sum steps the first inequality therefore gives
+$z_j<2+(z_0-2)/2^j$. After
+$\lceil\log_2\max\{1,z_0\}\rceil$ such steps, if that many occur,
+the degree is below $p^3$; at most three further steps are possible
+by the second inequality. Thus every lineage has at most
+\[
+ k_0=\left\lceil\log_2\max\{1,\log_p D_0\}\right\rceil+3
+ \quad\text{zero-sum steps},\qquad
+ 2^{k_0}\le16\max\{1,\log_p D_0\}.
+\]
+
+Give each original term a formal token. Across a
+support-nonincreasing operation, assign all new terms injectively
+to old tokens, including terms in different affine output rows.
+Across a zero-sum step assign at most two new tokens to each old
+token. Unassigned tokens terminate. These assignments only count
+terms and assert no matching of polynomial coefficients. A token
+follows the degree of its current row. Branching occurs only at a
+zero-sum step, so each initial token has at most $2^{k_0}$ descendant
+leaves, including terminated tokens. The current tokens form an
+antichain in this forest. Consequently the total support, across
+all rows and all splits, satisfies
+\begin{equation}
+ T_{\max}\le T_0 2^{k_0}
+ \le16T_0\max\{1,\log_p D_0\}.
+ \label{sp:eq:zero-sum-support-budget}
+\end{equation}
+
+To count all non-coordinate operations, suppress only
+coordinate-content transitions in this forest and retain every
+other transition, including unary transitions of earlier rules.
+Every nontrivial remaining step makes each output degree at most
+$\rho=1-1/(v+2)$ times its input degree: this is the digit guarantee,
+while the other steps divide degree by at least $p$. No operation
+introduces a coordinate, so the active count never exceeds $v$.
+Since $-\log\rho\ge1/(v+2)$, every root-to-leaf path has at most
+\[
+ h_0=\left\lfloor(v+2)\log D_0\right\rfloor
+\]
+edges. A tree with at most $2^{k_0}$ leaves and height $h_0$ has at
+most $2^{k_0}(h_0+1)$ vertices, because its root-to-leaf paths cover
+every vertex. Each successful non-coordinate row operation has a
+nonzero output and can be charged to one of its new token edges;
+distinct operations create distinct edges. The total number of
+these operations is therefore
+\[
+ O\!\left(T_0(v+2)(1+\log D_0)^2\right).
+\]
+This height-times-leaves count includes all unary earlier-rule
+transitions, so no vertex bound is inferred from branching depth
+alone.
+
+Perform maximal eligible coordinate-content cleanup initially and
+between successive non-coordinate operations. Removing one
+coordinate's complete content does not create content in another
+coordinate, so a batch has at most $v$ removals per current row.
+The number of rows is at most $T_{\max}$, and the number of batches
+is bounded by one plus the operation count just proved. Thus
+coordinate cleanup also has polynomial cost. Coefficients remain
+in $\Fp$, coordinate indices never grow, and exponent lengths are
+bounded by the original degree bit length. Every intermediate list
+has polynomial sparse-bit size. Complete recognition scans have
+polynomial cost in that size; a successful scan is charged to a
+successful operation or cleanup batch, and a complete unsuccessful
+scan terminates. This proves the full interleaved bit bound.
+\end{proof}
+
+Support can increase in one allowed step. Over $\F_3$, let $m\ge3$,
+$d=3^{2(m-1)}$, $V=y^d$, and
+\[
+ U=\sum_{j=0}^{m-1}(-1)^j
+       x^{3^{2j}}y^{d-3^{2j}},\qquad Q=3^{2m+1}.
+\]
+Take $a_0=a_2=1$, with the other lower coefficients zero. The two
+lower blocks telescope to two endpoint terms, so $F$ has $m+2$
+terms. The two exponent sets in $U^3-V^2U$ consist of odd and even
+powers of three and are disjoint, giving $2m$ terms. At $m=3$ this
+is a five-term input and a six-term output. A different passing
+representation may give a smaller output; the example shows why a
+uniform iteration proof cannot simply assume support nonincrease.
+
+\begin{example}[A strict family for the zero-sum reduction]
+\label{sp:ex:zero-sum-family}
+Over $\F_2$, let $n\ge5$ be odd and put
+\[
+ g=\sum_{j=0}^{n-1}x_j^n+x_0^{n-1}x_1,
+ \qquad \mathcal M=\operatorname{supp}(g),
+ \qquad Q=2^r>n.
+\]
+Here a member of $\mathcal M$ denotes its coefficient-one monomial.
+Let $K$ be generated by the displayed rows
+\begin{equation}
+ g^Q-V^{Q-1}g,\qquad
+ g^{2Q}-V^{2Q-1}g,
+ \qquad V\in\mathcal M.
+ \label{sp:eq:zero-sum-family}
+\end{equation}
+Then $K^{\mathrm{sat}}=(g)$, whose projective hypersurface in
+$\PP^{n-1}$ is smooth, geometrically integral and anticanonical.
+The preceding coordinate, digit, nonzero-sum and affine reductions
+leave this displayed list unchanged, and its least principal
+complete-intersection excess is $n(Q-1)$.
+Theorem~\ref{sp:thm:zero-sum-preprocessing}, choosing minimum output
+degree, replaces its rows by $g(g+V)$, of degree $2n$ and with an
+$n$-term degree-$n$ cofactor. The designated sparse-cofactor algorithm
+therefore computes the scalar in polynomial bit time.
+For $n=2r+1$, $r\ge3$, the input length is polynomial in $r$ while
+the earlier residual numerical cofactor degrees are exponential in $r$.
+\end{example}
+\begin{proof}
+The partial derivatives of $g$ are
+\[
+ g_{x_0}=x_0^{n-1},\qquad
+ g_{x_1}=x_1^{n-1}+x_0^{n-1},\qquad
+ g_{x_j}=x_j^{n-1}\quad(j\ge2).
+\]
+Their only common affine zero is the origin, proving projective
+smoothness. Positive-degree factors would intersect projectively
+and yield a singular point; repeated factors are likewise excluded.
+Thus $g$ is geometrically irreducible. Its degree is the number $n$
+of homogeneous coordinates, so it is anticanonical.
+
+The cofactors $g^{P-1}-V^{P-1}$, $P=Q,2Q$, have no common
+projective zero. Where $g=0$, vanishing of all cofactors forces all
+$V$ to vanish, including every $x_j^n$. Where $g\ne0$, their
+vanishing gives
+\[
+ (V/g)^{Q-1}=(V/g)^{2Q-1}=1.
+\]
+The two exponents are coprime, so $V/g=1$ for all $V\in\mathcal M$.
+But $|\mathcal M|=n+1$ is even, contradicting
+$1=g/g=\sum_{V\in\mathcal M}V/g$. The cofactor ideal sheaf is
+therefore the unit sheaf, proving the scheme-theoretic saturation.
+The least nonzero degree in $K$ is $nQ$, attained by a row of
+scale $Q$, so its principal excess is $nQ-n$.
+
+Fix a row of scale $P=Q$ or $2Q$. Its pure top terms include
+$x_j^{nP}$ for every pure monomial different from $V$.
+Only $V^P$ cancels between the two blocks: any further cancellation
+would require $P(\alpha-v)=u-v$, with every coordinate on the
+right of absolute value less than $P$. At least $n-1$ pure top
+terms remain, so the monomial content is one.
+
+Consider a digit scale $A=2^a\le P$. Every pure top term has low
+digit zero. Choose a pure monomial $x_j^n$ whose coordinate is
+outside the support of $V$. Its mixed term has $j$-exponent $n$,
+which is odd, and therefore gives a nonzero low row. Since the
+common total degree $nP$ is divisible by $A$, a column of high
+total degree $nP/A$ can occur only in low row zero. A surviving
+pure top column and any nonzero entry in the nonzero low row form
+a triangular two-by-two minor with nonzero diagonal. The digit
+rank is at least two.
+
+If $P<A\le nP$, write $A=Pb$, with $b$ a power of two satisfying
+$2\le b\le n$. Choose two indices $j\ge2$ whose pure monomials
+are not $V$; $n\ge5$ guarantees two choices. Their top terms have
+distinct low rows $P(n\bmod b)e_j$ and distinct high columns
+$\lfloor n/b\rfloor e_j$. Both factors are nonzero because $n$
+is odd and $b\le n$. They form an identity minor. The cross
+monomial involves only indices zero and one. Every remaining mixed
+term has a coordinate not divisible by $P$, since $P>n$ and
+$u\ne v$; it cannot enter those low rows. Thus the minor persists.
+For $A>nP$ the high factor is constant. No nontrivial digit
+reduction applies at any scale.
+
+In characteristic two a nonzero additive coefficient sum equals
+one. Its top-section formula forces the inner polynomial of any
+passing earlier relation at scale $A$ to be $E_A(F)$. Because $n$
+is odd and $A$ divides $nP$, necessarily $A\le P$. Here
+\[
+ E_A(F)=g^{P/A}-H,
+ \qquad H=E_A(V^{P-1}g).
+\]
+The term $V$ contributes the nonzero monomial $V^{P/A}$ to $H$.
+The other pure monomials have different residues modulo $A$.
+The cross monomial shares a residue with a pure monomial only for
+$x_1^n$, and then only if $A\mid n-1$. Thus $H$ is nonzero and
+involves either one coordinate or only $x_0,x_1$. It cannot be a
+multiple of $g$, which has positive degree in every other coordinate.
+Consequently $E_A(F)\notin(g)$, contradicting the safety conclusion
+of any passing nonzero-sum relation. An affine no-root relation is
+also impossible: it would put a positive-degree monomial in $(g)$,
+although this prime ideal contains no coordinate. None of the
+earlier rules changes the row, so their whole displayed-row closure
+leaves the list unchanged.
+
+For the new rule take $U=g+V$, $s=0$, and $a_0=1$. The degree gap
+is $n+1\le P$, and its output is
+\[
+ (g+V)^2-V(g+V)=g(g+V).
+\]
+No smaller output degree is possible, since $P$ is the largest
+power of two dividing $nP$. At this scale $U=E_P(F)=g+V$ is fixed.
+If a different monomial $W$ gave a passing output, safety modulo
+$(g)$ would imply $V(V+W)=0$, hence $V+W\in(g)$. This is a
+polynomial of degree $n$ with at most two terms, whereas $g$ has
+$n+1\ge6$ terms. It must be zero, so $W=V$. Thus the
+minimum-degree output is precisely the stated row. Its cofactor
+$g+V$ has degree $n$ and $n$ terms, meeting
+Theorem~\ref{sp:thm:sparse-cofactor} with explicit polynomial bounds.
+
+Finally, there are $2(n+1)$ original rows, each with $2n$ terms and
+exponent bit length $O(r+\log n)$. Setting $n=2r+1$ gives polynomial
+input length in $r$, while $n(Q-1)$ is exponential. This comparison
+concerns the specified preprocessing and cofactor conditions; it
+asserts no hardness of the scalar on this family.
+\end{proof}

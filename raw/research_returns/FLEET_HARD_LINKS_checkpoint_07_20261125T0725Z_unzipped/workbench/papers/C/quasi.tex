@@ -1,0 +1,201 @@
+\subsection{The quasi-\texorpdfstring{$F$}{F}-splitting matrix and complexity}
+\label{subsec:quasi-height-complexity}
+
+The full-height iteration used here is an existing algorithm.
+Kawakami, Takamatsu, and Yoshikawa give its exact criterion
+\citep[Theorem~C, version~3, p.~4; Theorem~5.8, pp.~37--39]{KTY2025};
+the criterion was already present in version~2 of their preprint, p.~5.
+Batubara, Garzella, and Pan identify the fixed finite-dimensional operator
+and implement its matrix iteration
+\citep[Section~3.4 and Algorithm~4, p.~7]{BGP2025}.
+Yobuko identifies quasi-$F$-split height with Artin--Mazur height for
+Calabi--Yau varieties
+\citep[Theorem~4.5; author version, pp.~9--10]{Yobuko2019}.
+We analyze this algorithm under the circuit input convention of this paper.
+
+Put $S=\mathbb F_p[x_1,\ldots,x_d]$ and write
+\[
+ D=d(p-1),\qquad g=F^{p-1},\qquad
+ V=S_D,\qquad a=(p-1,\ldots,p-1),
+\]
+\[
+ W=\dim_{\mathbb F_p}V=\binom{dp-1}{d-1}.
+\]
+Thus $V=S_D$ is the space of homogeneous degree-$D$ polynomials.
+Choose a homogeneous integral coefficient lift
+$G=\sum_{|\beta|=D}\widetilde c_\beta x^\beta$ of $g$, and define
+\begin{equation}\label{eq:quasi-delta}
+ \Delta=\left(
+ \frac{G^p-\sum_{|\beta|=D}\widetilde c_\beta^{\,p}x^{p\beta}}p
+ \right)\bmod p.
+\end{equation}
+This is the monomial representative $\Delta_1(g)$ of the cited criterion;
+see also \citet[Proposition~3.2, Remark~3.4 and Algorithm~1, p.~5]{BGP2025}.
+The sum is over distinct collected monomials.
+The numerator is divisible by $p$ coefficientwise. Moreover, replacing
+$G$ by $G+pH$, or a scalar lift by $\widetilde c_\beta+pb$, changes the
+corresponding $p$th power by a multiple of $p^2$. Thus
+\eqref{eq:quasi-delta} is independent of the chosen integer coefficient
+lifts. This includes $p=2$ and requires no Teichm\"uller representatives.
+Computationally, form the numerator modulo $p^2$, choose each residue in
+$[0,p^2)$, and divide it by $p$; the resulting residue in $[0,p)$ is exact.
+
+Define the $\mathbb F_p$-linear map $U$ on monomials by
+\[
+ U(x^\gamma)=
+ \begin{cases}
+ x^{(\gamma-a)/p},&\gamma\equiv a\pmod p,\\
+ 0,&\text{otherwise}.
+ \end{cases}
+\]
+Since $\deg\Delta=pD$, the map
+\[
+ M:V\longrightarrow V,\qquad v\longmapsto U(\Delta v)
+\]
+preserves $V$: its retained monomials have degree
+$(pD+D-d(p-1))/p=D$. In the monomial basis,
+\begin{equation}\label{eq:quasi-matrix-entry}
+ M_{\alpha,\beta}=[x^{p\alpha+a-\beta}]\Delta,
+ \qquad |\alpha|=|\beta|=D,
+\end{equation}
+where a negative exponent gives zero. Let $\ell(v)=[x^a]v$.
+The only degree-$D$ monomial outside $(x_1^p,\ldots,x_d^p)$ is $x^a$.
+Consequently the cited height criterion gives
+\begin{equation}\label{eq:quasi-height-iteration}
+ h(X)=\inf\{j\ge1:\ell(M^{j-1}g)\ne0\},\qquad \inf\varnothing=\infty.
+\end{equation}
+
+For the field hypotheses, apply Kawakami, Takamatsu, and Yoshikawa's
+projective criterion and Yobuko's
+comparison after extension to $\overline{\mathbb F}_p$. The Cartier map
+over a perfect field takes $p$th roots of coefficients, but every
+coefficient of this recurrence lies in $\mathbb F_p$, so the recurrence
+is exactly the linear one displayed above. Formal-group height is
+unchanged by extending the base field, since nonvanishing of the first
+nonzero coefficient of the $p$-series is unchanged. The adjunction and
+cohomology calculations already made verify the Calabi--Yau hypotheses.
+This applies also when $d=3$.
+
+\begin{lemma}[A matrix stopping bound]
+\label{lem:quasi-matrix-stopping}
+In \eqref{eq:quasi-height-iteration}, a finite height is at most $W$.
+Thus testing $j=1,\ldots,W$ detects infinite height as well. For the
+smooth inputs here one may use the smaller cutoff $\min(W,B_d)$.
+\end{lemma}
+\begin{proof}
+The sequence $y_r=\ell(M^rg)$ satisfies a linear recurrence of order
+at most $W$ by Cayley--Hamilton. If its first $W$ terms vanish, the
+recurrence forces every subsequent term to vanish. Otherwise the first
+nonzero term has index at most $W-1$, which proves the assertion by
+\eqref{eq:quasi-height-iteration}. This argument requires no computation
+of the characteristic polynomial. The alternative bound $B_d$ is
+\eqref{eq:HC1}.
+\end{proof}
+
+Write $\mathrm{FPSPACE}$ for function problems computable deterministically
+with a number of work bits polynomial in the input length.
+
+\begin{theorem}[Resource bounds for exact height]
+\label{thm:quasi-height-resource-bounds}
+For a binary-encoded prime $p$ and a division-free circuit of size $s$
+in $d\ge3$ explicitly listed variables, promised to define a smooth
+degree-$d$ hypersurface in $\mathbb P^{d-1}$, exact Artin--Mazur height,
+including $\infty$, belongs to $\mathrm{FPSPACE}$.
+There is also a deterministic dense implementation with bit complexity
+\[
+ 2^{O(d\log p)}\operatorname{poly}(s,d,\log p).
+\]
+The polynomial-space and dense-time bounds refer to separate
+implementations of the same height criterion.
+\end{theorem}
+\begin{proof}
+Let $L$ denote input length and set $E=pD=dp(p-1)$. All scalar
+calculations below take place modulo $p$ or $p^2$, so each scalar has
+$O(\log p)$ bits. A monomial of total degree at most $E$ has an exponent
+vector using $O(d\log(E+1))$ bits. Furthermore,
+\[
+ \log W=O(d(1+\log p)),\qquad
+ \log(E+1)=O(\log d+\log p).
+\]
+These lengths are polynomial in $L$, because $d$ is explicitly bounded
+by input length.
+
+\paragraph{Coefficient access.}
+For a degree-$d$ output coefficient of $F$, recurse through its arithmetic
+circuit. At a product gate, enumerate all coordinatewise splits of the
+target exponent vector, obtain the two child coefficients, and accumulate
+their product modulo $p$. At a sum gate, add the child coefficients.
+Constants and variables are immediate. A recursion path has at most $s$
+gates, and each frame stores polynomial-length exponent vectors, gate
+addresses, a loop counter and an $O(\log p)$-bit accumulator. Intermediate
+gates need not be homogeneous. Equivalently, this computation evaluates
+the circuit modulo all monomials of total degree greater than $d$, which
+retains the required output exactly. The degree-$d$ output is selected
+using the promise; an output coefficient of any other total degree is zero.
+
+Coefficients of a power $A^r$ are obtained by the same convolution
+recursion applied to
+\[
+ A^r=A^{\lfloor r/2\rfloor}A^{\lceil r/2\rceil},
+\]
+with base cases $r=0,1$. The power recursion has depth
+$O(\log(r+1))$. First compute coefficients of $g=F^{p-1}$ modulo $p$.
+Treat their representatives in $[0,p)$ as the coefficients of a virtual
+homogeneous lift $G$, and compute coefficients of $G^p$ modulo $p^2$.
+The two powering recursions add only $O(\log p)$ depth to the original
+circuit recursion. In the pure-power sum in \eqref{eq:quasi-delta}, a
+requested exponent has at most one contributing term, determined by
+coordinatewise divisibility by $p$. Scalar powering modulo $p^2$ and
+the exact scalar division by $p$ complete the coefficient calculation.
+Thus every coefficient of $\Delta$, and hence every matrix entry in
+\eqref{eq:quasi-matrix-entry}, is accessible in polynomial space.
+
+\paragraph{Matrix powers.}
+For $r\ge2$, compute one entry recursively from
+\[
+ (M^r)_{\alpha,\beta}
+   =\sum_{|\gamma|=D}
+      (M^{\lfloor r/2\rfloor})_{\alpha,\gamma}
+      (M^{\lceil r/2\rceil})_{\gamma,\beta}\pmod p.
+\]
+The cases $r=0,1$ use the identity and the entry oracle just constructed.
+For $r<W$, the matrix recursion has depth $O(\log W)$.
+Every frame stores two index vectors, the current summation index, a
+binary exponent, and one field accumulator. All have polynomial length.
+An entry-oracle call adds only the polynomial stack used for coefficients.
+Finally, compute
+\[
+ \ell(M^{j-1}g)=
+ \sum_{|\beta|=D}(M^{j-1})_{a,\beta}g_\beta\pmod p
+\]
+and scan $j=1,\ldots,W$ using a binary counter. Return the first nonzero
+test, or $\infty$ if all vanish. Lemma~\ref{lem:quasi-matrix-stopping}
+proves correctness. The outer scan does not create a recursion chain of
+length $W$; every requested power uses divide and conquer. The complete
+stack, counters, exponents and scalar accumulators use $L^{O(1)}$ space.
+
+\paragraph{A separate dense time bound.}
+The number of monomials of total degree at most $E$ is
+\[
+ V_E=\binom{E+d}{d}
+ \le \bigl(e[p(p-1)+1]\bigr)^d
+ \le (ep^2)^d,
+ \qquad W\le\binom{dp}{d}\le(ep)^d.
+\]
+Expand the original circuit modulo $p$ through total degree $d$,
+using at most $\binom{2d}{d}\le4^d$ positions. Dense binary powering
+computes $g$ and $G^p$ in $O(\log p)$ polynomial-product stages.
+Naive coefficient convolution uses at most $V_E^2$ scalar products
+per stage. Form $\Delta$ by \eqref{eq:quasi-delta} and construct the
+$W^2$ matrix entries by coefficient lookup. At most $W-1$ matrix-vector
+products then test the whole sequence, using $O(W^3)$ field operations.
+Degree indexing and scalar arithmetic contribute a fixed polynomial in
+$d,\log p$; even sequential array-access implementations contribute
+only a fixed polynomial in $V_E,W$. Thus the total bit complexity is
+a fixed polynomial in $s,d,\log p,V_E,W$, giving
+$2^{O(d\log p)}\operatorname{poly}(s,d,\log p)$ uniformly in all
+parameters. This dense implementation uses exponentially large arrays,
+whereas the preceding recursion recomputes entries to obtain the
+polynomial-space bound.
+\end{proof}
+

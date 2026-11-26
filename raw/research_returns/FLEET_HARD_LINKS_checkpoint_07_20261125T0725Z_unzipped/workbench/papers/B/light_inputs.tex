@@ -1,0 +1,59 @@
+\section{Why bounded-weight tests cannot give the conjectured bound}
+This section proves the weight barrier and the one-point line-output construction from the earlier notes \citep[Theorem~C, Section~3.3; Theorem~D, Section~1.2]{FableNotes}. Their significance is that the circuit lower bound must use large independent sets, not merely the values on edges and small negative inputs.
+
+Let $q$ be prime. Write $G_q$ for the incidence graph between the $q^2$ points $(a,b)\in\mathbb F_q^2$ and the $q^2$ nonvertical lines $b=sa+t$. It has $n=2q^2$ vertices and $q^3$ edges, and has no triangle or four-cycle. The graphs in this section omit the vertical parallel class; they differ from the full affine-plane graph considered earlier.
+
+\begin{theorem}[The weight barrier]\label{thm:weightbarrier}
+There is a binary monotone circuit of size $8q^2-4q-1$ agreeing with $f_{G_q}$ on every input of weight at most two. For every integer $1\le w\le2q^{1/8}$, there is such a circuit of size at most $28wn$ which accepts every input containing an edge and rejects every independent set of at most $w$ vertices.
+\end{theorem}
+\begin{proof}
+An incidence-preserving change of coordinates is specified by
+$\alpha,\gamma\in\mathbb F_q^*$ and $\beta,\delta,\epsilon\in\mathbb F_q$:
+\[
+ a'=\alpha a+\beta,\quad b'=\gamma b+\delta a+\epsilon,
+ \quad s'=(\gamma s+\delta)/\alpha,
+ \quad t'=\gamma t+\epsilon-s'\beta.
+\]
+Indeed $b'-s'a'-t'=\gamma(b-sa-t)$.
+For one such change, compute the disjunctions $X_a,Y_b$ of the selected points with the indicated first or second coordinate, and $S_s,T_t$ of the selected lines with the indicated slope or intercept. Each of the four families uses $q(q-1)$ gates. Then compute
+\[
+ Z_z=\bigvee_{as=z}(X_a\wedge S_s),\qquad
+ W_u=\bigvee_{z+t=u}(Z_z\wedge T_t),\qquad
+ D=\bigvee_u(W_u\wedge Y_u).
+\]
+Every field element occurs as a product and a sum, so the first two stages each use $q^2$ products and $q^2-q$ additions. The final stage uses $q$ products and $q-1$ additions. Their total is $8q^2-4q-1$.
+
+If the selected point set is $A$ and the selected line set is $B$, this circuit accepts precisely when some $p_1,p_2\in A$ and $\ell_1,\ell_2\in B$ satisfy
+\[
+ b'(p_2)=s'(\ell_1)a'(p_1)+t'(\ell_2).
+\]
+Every incidence satisfies this identity by repeating its point and line. If either set is empty it fails, and if both have size one it is exactly incidence. This proves the first assertion.
+
+Choose the coordinate change uniformly. For a fixed quadruple, its acceptance identity becomes
+\[
+ \gamma(b_2-s_1a_1-t_2)+\delta(a_2-a_1)
+       -\frac{\beta\gamma}{\alpha}(s_1-s_2)=0.
+\]
+If $a_1\ne a_2$, exactly one choice of $\delta$ works, conditional on the other parameters. If $a_1=a_2$ and $s_1\ne s_2$, exactly one choice of $\beta$ works. If both pairs are equal, the identity would assert that $p_2$ lies on $\ell_2$, which is impossible for an independent set. Thus, for an independent set with $|A|=a$, $|B|=b$ and $a+b\le w$, the acceptance probability is at most
+\[
+ \frac{a^2b^2}{q}\le\frac{w^4}{16q}\le q^{-1/2}.
+\]
+There are at most $n^w\le q^{3w}$ relevant nonempty sets of size at most $w$: encode a sorted set by a length-$w$ tuple, repeating its final entry. Take the conjunction of circuits from $7w$ independent coordinate choices. Its expected number of accepted independent sets of size at most $w$ is at most $q^{3w-7w/2}<1$. Some choice therefore accepts none. It still accepts every edge-containing input, and uses at most
+\[
+ 7w(8q^2-4q-1)+(7w-1)<56wq^2=28wn
+\]
+gates.
+\end{proof}
+
+The result is an existence statement for nonuniform circuits. It does not give an efficient algorithm to find the successful coordinate changes. For each fixed $w$, testing correctness only on edges and independent sets of at most $w$ vertices cannot prove a lower bound proportional to $q^3$ as $q$ grows.
+
+\begin{proposition}[All affine line outputs on one-point inputs]\label{prop:lightlines}
+For every prime $q$, all $q^2+q$ affine-plane line disjunctions can be computed correctly on inputs containing at most one selected point by one binary monotone circuit of size $O(q^2)$.
+\end{proposition}
+\begin{proof}
+Compute the $2q$ coordinate disjunctions $X_a,Y_b$ at cost $2q(q-1)$. Use the usual binary representatives $0,\ldots,q-1$. For each bit position and each bit value, take the disjunction of the corresponding coordinate wires. There are $O(\log q)$ such disjunctions, of total size $O(q\log q)$. On a one-point input they give both a bit and its complement for each coordinate; on the zero input all these wires are zero.
+
+For each fixed slope $s$, binary multiplication by $s$, subtraction and reduction modulo $q$ compute $t=b-sa$ using $O((\log q)^2)$ Boolean gates, by the ordinary shift-and-add and long-division algorithms. Replace each wire by a pair carrying its value and complement. An AND becomes AND on the first rail and OR on the second; an OR becomes OR on the first and AND on the second; a NOT swaps the rails. Propagate all constants in the resulting circuit. The output bits of $t$ and their complements are nonconstant functions of $(a,b)$, so this produces only variable-input AND and OR gates for these outputs.
+
+A binary prefix tree decodes the $q$ valid values of $t$. Each internal prefix extends its predecessor by one AND with a bit rail. The full tree has fewer than $2^{\lceil\log_2q\rceil+1}\le4q$ nodes, so the decoder costs $O(q)$ gates. Its leaf for $t_0$ is exactly the disjunction for $b=sa+t_0$ on a one-point input. Every gate in the constant-propagated positive circuit is zero when all its rail inputs are zero, so the zero input is also correct. The vertical outputs are already the $X_a$. Summing over the $q$ slopes gives $O(q^2+q(\log q)^2)=O(q^2)$ gates.
+\end{proof}

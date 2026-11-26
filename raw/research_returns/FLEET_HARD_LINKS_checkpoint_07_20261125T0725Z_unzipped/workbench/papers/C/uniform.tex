@@ -1,0 +1,55 @@
+\subsection{Uniform characteristic and exact counting}
+Varying the characteristic gives a stronger lower bound than fixing one modular counting class. We state the encoding explicitly, since this distinction is essential.
+
+The symbols $\mathrm P$ and $\mathrm{FP}$ denote deterministic
+polynomial-time decision and function computation, respectively.
+A superscript denotes access to the indicated oracle; in particular,
+a $\#\mathrm P$ oracle returns an exact integer count.
+
+\begin{theorem}[Uniform height two and exact counting]\label{thm:uniform-counting}
+Let $\mathcal H_2$ be the promise decision problem whose input is a prime $p$ in unary and a width-three formula $\Phi$, promised to have $p\mid\#\operatorname{SAT}(\Phi)$, and whose answer is whether the counting hypersurface $X_\Phi$ has height two. Then
+\[
+ \mathrm{FP}^{\mathcal H_2}=\mathrm{FP}^{\#\mathrm P},
+\]
+where oracle calls to the promise problem must satisfy its promise.
+The reduction from exact counting uses polynomially many nonadaptive calls. Consequently the full exact-height function for the circuit presentations of this paper is $\#\mathrm P$-hard under polynomial-time nonadaptive oracle reductions, even when every query has height at least two and its characteristic is polynomially bounded in the size of the original counting input.
+\end{theorem}
+\begin{proof}
+For the upper inclusion, the ordered local lists defining $T_{p+1}(\Phi)$ have length polynomial in the unary input length and are checked by the displayed marginal equations. Hence this integer is a $\#\mathrm P$ count uniformly in $p$. On the promise, the oracle answer is obtained from its exact value by reducing modulo $p^2$ and testing whether the residue is nonzero. The height-two criterion proves correctness. An exact-counting oracle therefore simulates each promised $\mathcal H_2$ call in polynomial time.
+
+For the other inclusion let $\Phi$ have $N\ge1$ explicitly declared variables, and put $S=\#\operatorname{SAT}(\Phi)$, so $0\le S\le2^N$. For any polynomially bounded positive prime $p$ and any $a\in\{0,\ldots,p-1\}$, construct a width-three formula $\Phi_a$ with exactly $S+a$ satisfying assignments as follows. Introduce a branch bit $b$ and $k=\lceil\log_2 p\rceil$ bits $z$, and use the Boolean predicate
+\[
+ (\neg b\wedge\Phi(x)\wedge z=0)
+ \ \vee\
+ (b\wedge x=0\wedge z<a).
+\]
+The two branches have respectively $S$ and $a$ assignments. The comparison $z<a$ has a Boolean circuit of size polynomial in $k$; the whole predicate therefore has polynomial size. Give each circuit gate a new variable and impose its truth table by clauses of width at most three, then force the output to one. For example, $v=u\wedge w$ is enforced by
+\[
+ (\neg v\vee u)\wedge(\neg v\vee w)
+       \wedge(v\vee\neg u\vee\neg w),
+\]
+and a negation uses two binary clauses. OR gates are treated by the dual three clauses. Each input assignment has exactly one extension to the gate variables, so this transformation preserves the satisfying count exactly. The case $a=0$ uses the always-false second branch. Declared variables and auxiliary variables remain part of the counted assignment.
+
+For each prime use the height-two gadget $\Psi_p$ already proved above: for odd $p$ take $\Theta_{p-1,p-2}$, and for $p=2$ take the displayed three-clause characteristic-two gadget. It has $O(p^2)$ clauses, $p\mid\#\operatorname{SAT}(\Psi_p)$, and
+\[
+ v_p\bigl(T_{p+1}(\Psi_p)\bigr)=1.
+\]
+Conjoin $\Phi_a$ with $\Psi_p$ on disjoint variable sets. Every resulting query satisfies the Hasse-zero promise. Multiplicativity and $T_{p+1}(\Phi_a)\equiv(S+a)^2\pmod p$ give
+\[
+ h(X_{\Phi_a\wedge\Psi_p})=2
+ \quad\Longleftrightarrow\quad S+a\not\equiv0\pmod p.
+\]
+Exactly one of the $p$ answers is therefore negative, identifying $S\bmod p$. These $p$ queries are fixed before any answer is read.
+
+We give an elementary polynomial bound for the primes required. Put $M=4(N+1)^2$, let $P_M$ be the product of the primes at most $M$, and let $L_M=\operatorname{lcm}(1,\ldots,M)$. Every binomial coefficient $\binom Mj$ divides $L_M$: for each prime, its factorial-valuation formula is a sum of at most $\lfloor\log_p M\rfloor$ terms, each zero or one. Hence
+\[
+ L_M\ge\max_j\binom Mj\ge\frac{2^M}{M+1},
+ \qquad L_M\le P_M^{\lfloor\log_2M\rfloor}.
+\]
+For $N\ge1$, $M\ge16$, $\log_2(M+1)\le M/2$, and $\log_2M\le2(N+1)$. These inequalities imply $P_M\ge2^{N+1}>2^N$. Trial division or a sieve lists all primes up to $M$ in polynomial time. Asking all shifts for all these primes takes at most $M^2$ queries. Chinese remaindering then recovers the unique $S\in[0,2^N]$ from its residues. The case $N=0$ can be evaluated directly.
+
+Every query has polynomial length. The gadget has $O(p^2)$ incidences, while the sum construction has polynomial size in the original formula length and $\log p$. In the hypersurface construction the least power satisfies $Q\le p(u+2)$, so its explicitly listed $Q+1$ variables and its arithmetic circuit still have polynomial size because $p\le M$. Thus the reduction also supplies valid polynomial-size circuit inputs to the exact-height problem.
+
+Finally, any $\#\mathrm P$ function counts the accepted strings of a polynomial-time verifier of polynomially bounded length. Unrolling that verifier into a Boolean circuit and applying the unique-extension gate clauses just used gives a parsimonious width-three formula. The reduction consequently applies to all $\#\mathrm P$ functions. Replacing each decision query by an exact-height query and testing whether the answer is two proves the final assertion. The value $\infty$ is simply one of the negative answers. The finite-height bound gives $O(d)$ bits for every finite answer, so reading a height answer also costs polynomial time.
+\end{proof}
+The prime varies in this theorem. It supplies no $\#\mathrm P$-hardness statement at one fixed characteristic, and its exact-counting equivalence concerns the uniform height-two oracle. The complexity of the unrestricted full-height function still requires an upper bound matching its lower bound.

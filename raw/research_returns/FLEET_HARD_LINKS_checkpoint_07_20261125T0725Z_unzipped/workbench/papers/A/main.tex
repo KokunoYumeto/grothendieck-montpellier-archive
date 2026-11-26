@@ -1,0 +1,345 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools,microtype,booktabs,longtable}
+\usepackage[margin=27mm]{geometry}
+\usepackage[round,authoryear]{natbib}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/arithmetic-geometry-complexity-workbench}
+\newcommand{\recordurl}{https://github.com/KokunoYumeto/mathematics-workbenches}
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\LS}{\operatorname{LS}}
+\DeclareMathOperator{\per}{per}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\St}{St}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\title{Level spaces of the permanent at the all-ones matrix}
+\author{}
+\date{25 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Minc's expansion expresses the permanent of the all-ones matrix plus a perturbation through its weighted rook numbers. We study linear spaces on which every nonconstant term vanishes, a question arising in the public P versus NP programme and its lower bounds for border determinantal complexity. Using Mirandola and Z\'emor's coordinatewise-product theorem, we prove the unconditional bound $(n^2+2n-1)/3$ in every order at least three; in particular the order-six upper bound becomes fifteen. For order six we also prove the bound ten for every level space invariant under a full row or column cycle, and for every space on which a nontrivial row/column symmetry acts as a scalar. We also identify an eight-by-eight Klein slice exactly. We give the connected-partition expansion of the logarithm of the rook polynomial, including every term in degrees five and six, and prove dimension bounds, a Taylor-order obstruction, amplification, and a classification of rank-one level lines. These results delimit the problem; they do not establish a uniform linear bound or the proposed bound ten for matrices of order six. The mathematics and text were produced by GPT-6 Astra Pro, with exact rational checks; separate re-proofs and their scope are recorded with the paper, and no human has checked it.
+\end{abstract}
+
+\section{The question and the results}
+The question is how large a linear family of perturbations can leave a permanent exactly constant.
+For an $n\times n$ matrix $A$, write
+\[
+ \per(A)=\sum_{\sigma\in S_n}\prod_{i=1}^n A_{i,\sigma(i)},
+ \qquad J_n=(1)_{1\leq i,j\leq n}.
+\]
+A complex linear subspace $L\subseteq\C^{n\times n}$ is a \emph{level space} if
+$\per(J_n+t)=n!$ for every $t\in L$. Let $\LS(n)$ be the largest possible dimension.
+The public P versus NP programme asks whether $\LS(n)\leq Cn$ for a constant independent of $n$ \citep{Fleet}.
+The first numerical target considered here is $\LS(6)\leq10$.
+Theorem~\ref{thm:weighted-bound} proves the unconditional bound $\LS(6)\le15$. Theorem~\ref{thm:rowcycle} proves the target under full row- or column-cycle invariance; Theorem~\ref{thm:scalar-six} proves it under a nontrivial scalar permutation symmetry. Theorem~\ref{thm:hook} shows that no larger level space contains the standard hook. These are restrictions on possible counterexamples, not reductions of arbitrary spaces to symmetric ones. The elementary construction below gives $\LS(6)\geq9$.
+Neither the target nor the uniform linear bound is proved in this paper.
+
+The geometric reason for studying the problem is a transfer theorem in the public proof repository: a bound $\LS(n)\leq G$ implies that every border determinantal representation of the permanent of order $n+1$, of size $N$, satisfies
+\begin{equation}\label{eq:transfer}
+ (n+1)^2+1\leq G+2(n+1)+N.
+\end{equation}
+The exact Lean statement is the theorem on level-space transfer in the module cited in \citet{FleetTransfer}; it specifies the border representation hypothesis.
+For $n=6$ and $G=10$, the inequality is $50\leq24+N$, hence $N\geq26$.
+This is a conditional consequence of the target ten, which is not established here. The unconditional cubic theorem does give the following bound.
+
+\begin{corollary}[Consequence for border determinantal size]\label{cor:border-cubic-bound}
+For $m\ge4$, every coefficientwise limit of affine determinant expressions of size $N$ for the permanent of order $m$ satisfies
+\[
+ N\ge m^2-2m+1-\left\lfloor\frac{m^2-2}{3}\right\rfloor.
+\]
+\end{corollary}
+\begin{proof}
+Apply the cited level-space transfer with $n=m-1$ and
+$G=\lfloor((m-1)^2+2(m-1)-1)/3\rfloor=\lfloor(m^2-2)/3\rfloor$, using Theorem~\ref{thm:weighted-bound}. Rearranging \eqref{eq:transfer} gives the assertion.
+\end{proof}
+For example the formula gives $N\ge74$ at $m=12$, compared with the classical border lower bound $m^2/2$ of \citet[Theorem~1.0.1, p.~1 of the April~2010 author manuscript]{LMR}. This is a finite numerical consequence of the level-space theorem; it is not an assertion that this asymptotic bound is the strongest available.
+Mignon and Ressayre's quadratic lower bound concerns determinantal complexity \citep[Theorem~1]{MR}; the distinction between an exact representation and its closure must be kept when comparing results.
+
+For a rectangular matrix $t$, let $S_k(t)$ be the sum of its $k\times k$ subpermanents, with $S_0=1$ and $S_k=0$ above the smaller side length. Define
+\[
+ R_t(z)=\sum_{k\geq0}S_k(t)z^k,
+ \qquad c_k(t)=[z^k]\log R_t(z).
+\]
+The logarithm is a formal power series over $\Q$; no analytic convergence is involved. A matrix is \emph{doubly centred} if every row sum and every column sum is zero.
+
+\begin{theorem}\label{thm:summary}
+For complex square matrices the following statements hold.
+\begin{enumerate}
+\item A linear space is level precisely when all its positive-degree rook numbers vanish. Equivalently, its first $n$ rook cumulants vanish.
+\item The cumulants have the connected-partition formula of Theorem~\ref{thm:connected}. On doubly centred matrices the degree-five and degree-six expansions are exactly those in Table~\ref{tab:cumulants}.
+\item For $n\geq2$,
+\[
+ 2n-3\leq\LS(n)\leq
+ \min\left\{\left\lfloor\frac{n^2-1}{2}\right\rfloor,
+ \left\lfloor\frac{n^2+2n-1}{3}\right\rfloor\right\}.
+\]
+A real level space has dimension at most $2n-2$.
+\item The function $\LS$ is superadditive, and
+\[
+ \lim_{n\to\infty}\frac{\LS(n)}n
+ =\sup_{n\geq1}\frac{\LS(n)}n,
+\]
+where infinity is permitted.
+\end{enumerate}
+\end{theorem}
+
+In words, the first three homogeneous equations give an unconditional quadratic bound. The improvement uses the marginal sums directly, instead of first paying their full dimension and bounding the doubly centred kernel. The real quadratic form also forces a real level space to be much smaller than a general complex isotropic space. They do not supply the higher-degree dimension inequality that a linear bound requires. The Taylor-order theorem below makes that limitation quantitative.
+
+
+\begin{theorem}[Symmetric spaces and the Klein slice]\label{thm:symmetric-summary}
+Every complex level space of six-by-six matrices invariant under a full row or column six-cycle has dimension at most ten. The same bound holds if a nonidentity scalar $\omega\ne1$ is the action on the whole space of a row permutation, column permutation, or a composition of these with transposition. For every $p,q\ge2$, the standard level space supported in the first row and column, of dimension $p+q-3$, admits no proper linear level-space extension.
+
+Let $\operatorname{PSL}_2(\mathbb F_7)$ act simultaneously on the rows and columns indexed by $\mathbb P^1(\mathbb F_7)$. Each of its two conjugate non-real three-dimensional matrix summands has exactly twenty-four level lines, the cone over the ordinary flexes of Klein's quartic. Their direct sum contains no level space of dimension three, and a level space containing one of these pure lines has dimension one. The existence of a level plane transverse to both summands is not decided.
+\end{theorem}
+The symmetry conclusions are proved in Theorems~\ref{thm:rowcycle}, \ref{thm:scalar-six} and \ref{thm:hook}. The exact Klein equations, including their normalization over $\mathbb Q(\sqrt{-7})$, are Theorem~\ref{thm:klein-pure} and Propositions~\ref{prop:klein-mixed}--\ref{prop:klein-noextension}. These conclusions exclude specified classes of larger spaces and make no claim that every extremal space belongs to one of those classes.
+
+\subsection{Sources and scope}
+The permanent expansion is classical; the public proof repository cites \citet{Minc} and gives its exact formal statement \citep{FleetExpansion}. Partition-lattice inversion for rook polynomials goes back to \citet{GJW}; the connected formula used here is its labelled exponential-formula refinement. We provide the refinement and the small-degree calculations in full. Our quadratic and cubic dimension argument uses the coordinatewise-product theorem of \citet[Theorem~3.3, preprint p.~7]{MZ}.
+
+The Fano schemes studied by \citet{CI} parametrize linear spaces on homogeneous determinantal and permanental varieties. Their diagonal-torus argument, in Section~2.2 and Proposition~2.3, does not preserve the translated level condition at $J_n$. Section~\ref{sec:symmetry} explains this obstruction explicitly.
+OpenAI's September preprint states a cubic border determinantal lower bound for arbitrary affine expressions and coefficientwise limits, with explicit constants \citep[Theorem~1.1, p.~2]{OpenAICubic}. More recent preprints of Anthropic and OpenAI claim superpolynomial arithmetic and border lower bounds \citep{Anthropic,OpenAI}. If valid, these results are asymptotically stronger than the numerical transfer proved here. They do not classify level spaces, and none of the proofs below assumes their claims. Their theorem statements were consulted; their proofs have not been independently verified here.
+
+\section{Proof overview}
+The permanent expansion first replaces one polynomial identity on a subspace by homogeneous identities. We then enforce distinct row and column labels by two applications of partition-lattice inversion. A pair of partitions is a bipartite multigraph; the logarithm keeps its connected components. Double centring kills every graph with a vertex of degree one. This gives finite, checkable expressions for the higher conditions.
+
+The dimension arguments use different parts of that description. The quadratic condition is a nondegenerate form on the total-sum-zero hyperplane. For the unconditional cubic bound, we replace each entry by that entry minus half its row and column sums, then append scaled marginal sums. The quadratic and cubic equations become two moments for a common weighted coordinate form, and the first moment vanishes too. Mirandola and Z\'emor's product-dimension theorem applies after adjoining the constant vector and saturating by the product stabilizer. The sole possible zero-weight block at orders four and six is excluded by a marginal-sum constraint. Root-of-unity row blocks show why a fixed list of such identities cannot yield a uniform linear bound. Block sums amplify every example, while rank-one matrices reduce all the conditions to disjoint supports of two elementary-symmetric generating polynomials.
+
+\section{Rook numbers and connected partitions}
+This section obtains formulas valid in every matrix size, rather than formulas inferred by interpolation.
+
+\begin{proposition}[Minc's expansion]\label{prop:minc}
+For $t\in\C^{n\times n}$,
+\[
+ \per(J_n+t)=\sum_{k=0}^n(n-k)!S_k(t).
+\]
+Consequently a complex linear space $L$ is level if and only if $S_k|_L=0$ for $1\leq k\leq n$.
+\end{proposition}
+\begin{proof}
+In the expansion of $\prod_i(1+t_{i,\sigma(i)})$, choose the $k$ positions at which the perturbation is used. A fixed matching of $k$ rows to $k$ columns extends to exactly $(n-k)!$ permutations. Summing over these matchings gives the formula.
+If $L$ is level, then for every $t\in L$ the polynomial $\per(J_n+zt)$ is constant for all complex $z$, since $zt\in L$. Its degree-$k$ coefficient is $(n-k)!S_k(t)$, which must vanish. The converse follows from the expansion.
+\end{proof}
+
+Let $\Pi_k$ be the set of partitions of $\{1,\ldots,k\}$. For $\pi\in\Pi_k$, put
+\[
+ \mu(\pi)=\prod_{B\in\pi}(-1)^{|B|-1}(|B|-1)!.
+\]
+For $\pi,\sigma\in\Pi_k$, define
+\[
+ T_{\pi,\sigma}(t)=
+ \sum_{a:\pi\to[n]}\sum_{b:\sigma\to[n]}
+ \prod_{\ell=1}^k t_{a(B_\pi(\ell)),b(B_\sigma(\ell))}.
+\]
+The labels in these sums need not be distinct. The two partitions are \emph{connected} when their join is the one-block partition. Equivalently, the bipartite multigraph whose vertices are the blocks, and whose edges are the labels $1,\ldots,k$, is connected.
+
+\begin{theorem}\label{thm:connected}
+For every matrix $t$ and every $k\geq1$,
+\begin{align}
+ S_k(t)&=\frac1{k!}\sum_{\pi,\sigma\in\Pi_k}
+ \mu(\pi)\mu(\sigma)T_{\pi,\sigma}(t),\label{eq:mobius}\\
+ c_k(t)&=\frac1{k!}\sum_{\substack{\pi,\sigma\in\Pi_k\\\pi\vee\sigma=\hat1}}
+ \mu(\pi)\mu(\sigma)T_{\pi,\sigma}(t).\label{eq:connected}
+\end{align}
+If all row and column sums of $t$ vanish, terms with any singleton block are zero and may be omitted.
+\end{theorem}
+\begin{proof}
+For a tuple of row indices, partition the positions having equal indices. The indicator that all indices are distinct is the sum of $\mu(\pi)$ over partitions whose blocks impose equalities satisfied by that tuple. This is the defining inversion identity for the partition lattice. Apply the same identity independently to column indices. The resulting sum counts ordered pairs of injective tuples, with their matrix-entry products. Each matching is counted $k!$ times, proving \eqref{eq:mobius}.
+
+Every pair of partitions decomposes uniquely into its connected components on disjoint sets of labels. Both the M\"obius factors and the unrestricted-label sum factor over these components: equal numerical row labels in different components impose no restriction. If the sum of weights of connected pairs on $j$ labels is $w_j$, this unique decomposition gives
+\[
+ \sum_{k\geq0}S_kz^k
+ =\sum_{r\geq0}\frac1{r!}\left(\sum_{j\geq1}\frac{w_j}{j!}z^j\right)^r.
+\]
+For completeness, the coefficient counts a partition of the $k$ labels into $r$ unordered nonempty components, then one connected pair on each component. The factors $r!$ and $j!$ account exactly for their orderings. Taking the formal logarithm proves \eqref{eq:connected}.
+
+If a row-partition block is a singleton, its numerical label occurs in one factor only. Summing over that label gives a column sum of $t$, hence zero. A column singleton similarly gives a row sum.
+\end{proof}
+
+For a nonnegative integer matrix $A=(a_{ij})$ of size $r\times s$, write
+\[
+ T_A(t)=\sum_{u_1,\ldots,u_r=1}^n\sum_{v_1,\ldots,v_s=1}^n
+           \prod_{i=1}^r\prod_{j=1}^s t_{u_i v_j}^{a_{ij}},
+ \qquad T_A^+=T_A+T_{A^{\mathsf T}}.
+\]
+Zero exponents contribute one. Rows and columns of $A$ are unlabeled for this notation, since permuting them does not change $T_A$.
+The small-degree formulas can now be written compactly.
+Let $p_j=\sum_{i,l}t_{il}^j$, $R_4=\sum_i(\sum_l t_{il}^2)^2$, $C_4=\sum_l(\sum_i t_{il}^2)^2$, and $Q_4=\tr((tt^{\mathsf T})^2)$.
+On doubly centred matrices,
+\begin{align*}
+ c_2&=p_2/2,&c_3&=2p_3/3,\\
+ c_4&=\tfrac32p_4-\tfrac34(R_4+C_4)+\tfrac14Q_4.
+\end{align*}
+Since $S_1=0$, this also gives
+$S_4=c_4+S_2^2/2$.
+
+\begin{table}[!htbp]
+\centering\small
+\begin{tabular}{@{}cl@{}}
+\toprule
+Degree&Connected contraction and coefficient\\\midrule
+5&$\displaystyle \frac{24}{5}T_{(5)}-4T_{(2\ 3)}^+
+ +T_{\left(\begin{smallmatrix}0&2\\2&1\end{smallmatrix}\right)}
+ +2T_{\left(\begin{smallmatrix}1&1\\1&2\end{smallmatrix}\right)}$\\[10pt]
+6&$\displaystyle 20T_{(6)}-15T_{(2\ 4)}^+-\frac{20}{3}T_{(3\ 3)}^+
+ +\frac52T_{(2\ 2\ 2)}^+$\\[8pt]
+&$\displaystyle {}+\frac92T_{\left(\begin{smallmatrix}0&2\\2&2\end{smallmatrix}\right)}
+ +2T_{\left(\begin{smallmatrix}0&2\\3&1\end{smallmatrix}\right)}^+
+ +6T_{\left(\begin{smallmatrix}1&1\\1&3\end{smallmatrix}\right)}$\\[8pt]
+&$\displaystyle {}+3T_{\left(\begin{smallmatrix}1&1\\2&2\end{smallmatrix}\right)}^+
+ +2T_{\left(\begin{smallmatrix}1&2\\2&1\end{smallmatrix}\right)}$\\[8pt]
+&$\displaystyle {}-\frac32T_{\left(\begin{smallmatrix}0&1&1\\2&1&1\end{smallmatrix}\right)}^+
+ -\frac12T_{\left(\begin{smallmatrix}0&1&2\\2&1&0\end{smallmatrix}\right)}^+
+ -\frac13T_{\left(\begin{smallmatrix}1&1&1\\1&1&1\end{smallmatrix}\right)}^+$\\[8pt]
+&$\displaystyle {}+\frac16T_{\left(\begin{smallmatrix}0&1&1\\1&0&1\\1&1&0\end{smallmatrix}\right)}$\\
+\bottomrule
+\end{tabular}
+\caption{The complete formulas for $c_5$ and $c_6$ on doubly centred matrices. The notation $T_A^+$ includes the transpose even when the numbers of its row and column vertices differ.}\label{tab:cumulants}
+\end{table}
+
+\begin{proof}[Verification of the table]
+For each bipartite multigraph $A$, let $\operatorname{Aut}_{\mathrm{bip}}(A)$ be the permutations of its row and column vertices preserving $A$. The coefficient in \eqref{eq:connected} is
+\begin{equation}\label{eq:graphweight}
+ \frac{\prod_i(-1)^{r_i-1}(r_i-1)!
+       \prod_j(-1)^{s_j-1}(s_j-1)!}
+ {|\operatorname{Aut}_{\mathrm{bip}}(A)|\prod_{i,j}a_{ij}!},
+\end{equation}
+where $r_i$ and $s_j$ are its degrees. Indeed, the number of labellings of its $k$ edges is $k!$ divided by its parallel-edge factorials and its vertex automorphism group; the $k!$ cancels \eqref{eq:connected}.
+All degrees are at least two. For total degree five, the two vertex counts are at most two; listing their possible degree sums yields the five types displayed, with transposes counted separately. For total degree six they are at most three. The possible degree partitions on either side are $(6)$, $(4,2)$, $(3,3)$ and $(2,2,2)$. Listing the connected contingency matrices with each pair of these margins gives the twenty-one types displayed, again including transposes. Formula \eqref{eq:graphweight} gives every coefficient. For example, the doubled-single-edge graph has coefficient $1/2$; the four-cycle has coefficient $1/4$; and the six-cycle has coefficient $1/6$. These checks also fix the normalization.
+\end{proof}
+
+\section{Elementary dimension bounds}
+This section separates consequences of the first two nontrivial conditions from claims requiring all orders.
+On the hyperplane $S_1=0$, an elementary two-matching count gives
+\begin{equation}\label{eq:quad}
+ 2S_2(t)=\sum_{ij}t_{ij}^2-\sum_i\left(\sum_jt_{ij}\right)^2
+                         -\sum_j\left(\sum_it_{ij}\right)^2.
+\end{equation}
+Every matrix there decomposes uniquely as
+$t=D+a\mathbf1^{\mathsf T}+\mathbf1b^{\mathsf T}$,
+where $D$ is doubly centred and $\sum a_i=\sum b_j=0$.
+The three summands are orthogonal in \eqref{eq:quad}; its coefficients relative to the entrywise form are $1,1-n,1-n$. Thus it is nondegenerate for $n\geq2$, with real signature $((n-1)^2,2n-2)$.
+Polarization makes a level space totally isotropic. Over $\C$ its dimension is therefore at most $\lfloor(n^2-1)/2\rfloor$; over $\R$ it is at most $\min\{(n-1)^2,2n-2\}$.
+
+For subspaces $U,V\subseteq\C^M$, let $UV$ be the linear span of their coordinatewise products, and write $V^2=VV$. The coordinatewise stabilizer is
+\[
+ \St(V)=\{a\in\C^M:aV\subseteq V\}.
+\]
+It is a unital subalgebra of $\C^M$. Orthogonal complements in the next lemma use the bilinear form $\langle x,y\rangle=\sum_i x_i y_i$, without complex conjugation.
+
+\begin{lemma}\label{lem:fermat}
+If a subspace $W\subseteq\C^M$ satisfies $\sum_iw_i^2=\sum_iw_i^3=0$ for every $w\in W$, then $3\dim W\leq M$.
+\end{lemma}
+\begin{proof}
+Polarization gives $W+W^2\subseteq W^\perp$, with coordinatewise products. Put $V=W+W^2$ and $H=\St(V)$. Every unital subalgebra of $\C^M$ consists of vectors constant on the parts of a coordinate partition: this follows by separating any two coordinates not identified by all its elements and using polynomial interpolation to construct the part indicators. The indicators of $H$ decompose $V$ into coordinate blocks $V_B$, each with scalar stabilizer.
+
+Let $W_B$ be the coordinate projection of $W$. The identities
+$\langle w,1_Bw'\rangle=0$ and $\langle w,1_Bw'w''\rangle=0$ follow because $1_B$ preserves $V$. Hence $W_B$ satisfies the same quadratic and cubic identities. If it is nonzero, $1_B\notin W_B$, since its squared-coordinate sum is $|B|\ne0$. Mirandola and Z\'emor's theorem applied on $B$ to $W_B$ and $W_B+\C1_B$ gives
+\[
+ \dim V_B\geq\dim W_B+(\dim W_B+1)-1=2\dim W_B.
+\]
+On the other hand $V_B\subseteq W_B^\perp$, so $3\dim W_B\leq|B|$. Sum over the blocks, using $\dim W\leq\sum_B\dim W_B$. Blocks with $W_B=0$ require no argument.
+\end{proof}
+
+For a level space $L$, let $K$ be its doubly centred kernel. The map taking row and column sums has image in the product of two sum-zero spaces, of dimension $2n-2$. Thus
+$\dim L\leq\dim K+2n-2$. The formulas for $S_2,S_3$ and Lemma~\ref{lem:fermat} give $\dim K\leq\lfloor n^2/3\rfloor$. This gives the bound $\dim L\leq\lfloor n^2/3\rfloor+2n-2$; Theorem~\ref{thm:weighted-bound} improves it by keeping the marginal sums within the weighted product argument.
+If $L$ is complex, $L\cap\overline L$ is the complexification of its real fixed subspace; that real subspace is level. Therefore $\dim_\C(L\cap\overline L)\leq2n-2$ as well.
+
+The standard hook consists of matrices supported on the first row and first column, with first-row sum zero and the first-column sum below the first row zero. Its dimension is $2n-3$. Its first rook number is zero, its second is the product of the two indicated sums, and all higher ones vanish by support. This proves the lower bound.
+
+\input{weighted}
+
+\section{Amplification by direct sums}
+Direct sums turn a level-space construction at one order into constructions at all larger orders and determine the limiting dimension ratio.
+
+\begin{proposition}\label{prop:amplify}
+If $A\oplus B$ is a block-diagonal matrix, then $R_{A\oplus B}=R_AR_B$. Consequently $\LS(n+m)\geq\LS(n)+\LS(m)$ and the limit in Theorem~\ref{thm:summary} holds.
+\end{proposition}
+\begin{proof}
+A matching splits uniquely between the two diagonal blocks, and its weight is the product of the two matching weights. This proves the generating-function identity. Direct sums of two level spaces are therefore level. In particular, for fixed $r$, $\LS(n)\geq\lfloor n/r\rfloor\LS(r)$, using zero perturbations in the unused rows and columns. Dividing by $n$ and taking the lower limit gives at least $\LS(r)/r$ for every $r$. The upper limit is at most their supremum by definition, proving the equality, including when the supremum is infinite.
+\end{proof}
+
+\section{The Taylor-order obstruction and rank-one lines}
+This section gives exact tests which prevent limited-degree information from being mistaken for the full level condition.
+
+\begin{proposition}\label{prop:barrier}
+Let $q\mid r\leq n$ and let $\omega$ be a primitive $q$th root of unity. Form matrices with $r/q$ independent row blocks
+$(a,\omega a,\ldots,\omega^{q-1}a)$ and all remaining rows zero. This is a space of dimension $nr/q$, and $S_k$ vanishes on it unless $q\mid k\leq r$.
+Let $C\ge0$. If vanishing in a set of orders $\Omega\subseteq\{1,\ldots,n\}$ forces every subspace to have dimension at most $Cn$, put $a=\lfloor C\rfloor+1$. Then for every $1\leq q\leq\lfloor n/a\rfloor$, $\Omega$ meets $\{q,2q,\ldots,aq\}$. In particular
+\[
+ |\Omega|\geq\left\lceil\frac{\lfloor n/a\rfloor}{a}\right\rceil,
+ \qquad\max\Omega\geq\lfloor n/a\rfloor.
+\]
+\end{proposition}
+\begin{proof}
+Cycling the rows within every block multiplies the matrix by $\omega$ or $\omega^{-1}$, depending on the direction. Invariance and homogeneity imply $S_k=\omega^kS_k$, so $q\nmid k$ forces zero. Orders above $r$ vanish because every such submatrix uses a zero row. For the consequence take $r=aq$. The resulting space has dimension $an>Cn$, so at least one tested order must be a positive multiple of $q$ no larger than $aq$. A fixed order can belong to at most $a$ of these sets, since it equals $jq$ for some $1\leq j\leq a$. Counting the sets gives the cardinality bound; the last set gives the maximum-order bound.
+\end{proof}
+
+The conclusion is a necessary condition on a proposed method. It neither constructs a superlinear level space nor proves that a suitable growing family of conditions suffices.
+
+\begin{proposition}\label{prop:rankone}
+For nonzero $x,y\in\C^n$, the line $\C xy^{\mathsf T}$ is level if and only if $e_k(x)e_k(y)=0$ for every $1\leq k\leq n$, where $e_k$ denotes the elementary symmetric polynomial. Equivalently, the polynomials
+\[
+ P_x(z)=\prod_i(1+x_i z),\qquad P_y(z)=\prod_j(1+y_jz)
+\]
+have disjoint nonconstant coefficient supports.
+\end{proposition}
+\begin{proof}
+Each $k\times k$ subpermanent of a rank-one matrix is $k!$ times the product of the selected row factors and selected column factors. Thus $S_k(xy^{\mathsf T})=k!e_k(x)e_k(y)$, and Proposition~\ref{prop:minc} gives the equivalence. Conversely any two nonconstant polynomials with constant term one, degree at most $n$, and disjoint positive coefficient supports factor into such linear factors over $\C$; pad their factor lists with zero entries. This describes every pair, up to coordinate permutation and the rescaling $(x,y)\mapsto(ax,a^{-1}y)$.
+\end{proof}
+For example, take $x=(1,\omega,\ldots,\omega^{n-1})$ with $\omega$ primitive of order $n$. Its elementary symmetric coefficients vanish except in degrees zero and $n$. Exactly the vectors $y$ with at least one zero coordinate give level lines. Taking $k=n$ in the proposition shows that every rank-one level line has a zero coordinate in at least one factor. Thus two full vectors of roots of unity never give one.
+
+\section{Symmetry and the geometric obstruction}\label{sec:symmetry}
+This section identifies the precise group action available at the all-ones matrix.
+The group $G=(S_n\times S_n)\rtimes\langle\mathsf T\rangle$ preserves every $S_k$. If an eigenvalue $\omega$ has order $q$, its eigenspace for a coordinate permutation $g$ has one dimension per coordinate orbit of length divisible by $q$. Therefore it has dimension at most $\lfloor n^2/q\rfloor$. If $q>n$, every $S_k$ of positive degree at most $n$ vanishes there by homogeneity; this gives a level space of dimension less than $n$.
+
+This argument includes transposition, but it gives no degeneration of an arbitrary level space. The group $G$ is finite, so every morphism of algebraic groups from a connected torus to $G$ is trivial. A torus in the full orthogonal group of $S_2$ need not preserve $S_3$ or any later condition. Row and column scaling provides the action used for homogeneous permanental Fano schemes by \citet[Section~2.2, Proposition~2.3 and Remark~2.5]{CI}, but it moves the point $J_n$. For a direct example, scaling the first column by two takes the row-supported level line with row $(1,-1,0,\ldots,0)$ to a line with nonzero $S_1$.
+
+\input{zeta}
+\input{symmetry}
+\input{stabilizer}
+\input{gate_failure}
+\input{extra}
+\input{hyper}
+\input{klein}
+
+\section{What remains open}
+The linear bound for $\LS(n)$ and the unrestricted target $\LS(6)\leq10$, the equality $\LS(4)=5$, and the existence of a seven-dimensional level space of $4\times5$ matrices remain unresolved here. The connected formulas provide the exact next equations, but no dimension inequality for their common isotropic subspaces has been proved. A numerical search without a witness cannot replace such an inequality or a certified emptiness calculation.
+
+The Fourier-minor route has a specific restriction. At composite order $n=ab$, with $a,b>1$, the submatrix of the Fourier matrix on rows $\{0,a\}$ and columns $\{0,b\}$ is all ones, and is singular. Thus the all-minors theorem cannot extend to composite order. \citet[Theorem~B and Corollary~2]{Loukaki} and \citet[Theorem~1.2]{CLMP} establish results for principal or specially matched minors under stated arithmetic hypotheses. They do not provide unrestricted nonvanishing for the induction proposed here.
+
+\section*{Method and records}
+The mathematics and text were produced by GPT-6 Astra (ChatGPT Pro mode). Exact rational calculations were used to check the connected expansions; they are checks of the formulas, not a classification of all level spaces. Specified statements have separate re-proofs by the same model, with the precise scope recorded at \url{\recordurl}. No human has checked this paper. The program \emph{Rook-cumulant verifier} and its expected output are available through the workbench at \url{\workbenchurl}. This text is dedicated to the public domain under CC0~1.0.
+
+\begin{thebibliography}{99}
+\bibitem[Anthropic(2026)]{Anthropic} Anthropic. (2026). \emph{VP $\ne$ VNP over every field}. Preprint, Theorem~1.1. \url{https://hexagonmath.org/2611.00954v1}.
+\bibitem[Caragea et~al.(2025)]{CLMP} Caragea, A., Lee, D.~G., Malikiosis, R., \& Pfander, G.~E. (2025). \emph{Chebotarev type results for composite group order. Part~1: Square free natural numbers}. arXiv:2505.24326, Theorem~1.2.
+\bibitem[Chan and Ilten(2015)]{CI} Chan, M., \& Ilten, N. (2015). Fano schemes of determinants and permanents. \emph{Algebra \& Number Theory, 9}(3), 629--679. arXiv:1312.2577v2, Section~2.2, pp.~7--8.
+\bibitem[Elkies(1999)]{Elkies1999} Elkies, N.~D. (1999). The Klein quartic in number theory. In S. Levy (Ed.), \emph{The eightfold way: The beauty of Klein's quartic curve} (pp.~51--102). Cambridge University Press. Section~1.2, equations (1.9)--(1.18); Section~2.1, Proposition~(i), pp.~64--65. \url{https://library.slmath.org/books/Book35/files/elkies.pdf}.
+\bibitem[Goldman et~al.(1976)]{GJW} Goldman, J.~R., Joichi, J.~T., \& White, D.~E. (1976). Rook theory.~V. Rook polynomials, M\"obius inversion and the umbral calculus. \emph{Journal of Combinatorial Theory, Series A, 21}, 230--239. \url{https://doi.org/10.1016/0097-3165(76)90067-4}.
+\bibitem[Goulden and Jackson(1992)]{GJMaster} Goulden, I. P., \& Jackson, D. M. (1992). Immanants, Schur functions, and the MacMahon master theorem. \emph{Proceedings of the American Mathematical Society, 115}(3), 605--612. Corollary~2.2, p.~608.
+\bibitem[Kaneta(1998)]{Kaneta1998} Kaneta, H. (1998). A 72-arc associated with the $A_6$-invariant sextic. \emph{RIMS K\^oky\^uroku, 1063}, 30--40. Lemma~1.4, p.~32.
+\bibitem[Landsberg et~al.(2013)]{LMR} Landsberg, J.~M., Manivel, L., \& Ressayre, N. (2013). Hypersurfaces with degenerate duals and the geometric complexity theory program. \emph{Commentarii Mathematici Helvetici, 88}(2), 469--484. \url{https://doi.org/10.4171/CMH/292}. Locator: April~2010 author manuscript, Theorem~1.0.1, p.~1. \url{https://math.univ-lyon1.fr/~ressayre/PDFs/lmr.pdf}.
+\bibitem[Loukaki(2025)]{Loukaki} Loukaki, M. (2025). Chebotarev's theorem for cyclic groups of order $pq$ and an uncertainty principle. \emph{Bulletin of the London Mathematical Society, 57}(12), 3841--3856. \url{https://doi.org/10.1112/blms.70192}.
+\bibitem[Marcus and May(1962)]{MarcusMay1962} Marcus, M., \& May, F. C. (1962). The permanent function. \emph{Canadian Journal of Mathematics, 14}, 177--189. \url{https://doi.org/10.4153/CJM-1962-013-4}.
+\bibitem[Mignon and Ressayre(2004)]{MR} Mignon, T., \& Ressayre, N. (2004). A quadratic bound for the determinant and permanent problem. \emph{International Mathematics Research Notices, 2004}(79), 4241--4253. Theorem~1.
+\bibitem[Minc(1978)]{Minc} Minc, H. (1978). \emph{Permanents}. Addison--Wesley. The expansion used here is also stated and proved in the public module cited below.
+\bibitem[Mirandola and Z\'emor(2015)]{MZ} Mirandola, D., \& Z\'emor, G. (2015). Critical pairs for the Product Singleton Bound. \emph{IEEE Transactions on Information Theory, 61}(9), 4928--4937. Theorem~3.3; arXiv:1501.06419v2, p.~7.
+\bibitem[OpenAI(2026a)]{OpenAICubic} OpenAI. (2026a, September 24). \emph{A cubic lower bound for border determinantal complexity of the permanent}. Preprint. Theorem~1.1, p.~2. \url{https://github.com/openai/math/tree/main/preprints/A-cubic-lower-bound-for-border-determinantal-complexity-of-the-permanent-September-24-2026}.
+\bibitem[OpenAI(2026b)]{OpenAI} OpenAI. (2026b). \emph{VP and VNP are different}. November~23 edition, Theorem~1.1 and Corollary~1.2. \url{https://github.com/openai/math/tree/main/preprints/VP-and-VNP-are-different-November-23-2026}.
+\bibitem[P versus NP programme(2026a)]{Fleet} P versus NP programme. (2026a). \emph{Public proof graph and Lean repository}. \url{https://pequalnp.com}; \url{https://github.com/brilliant-hq/pequalnp-proofs}.
+\bibitem[P versus NP programme(2026b)]{FleetTransfer} P versus NP programme. (2026b). Level-space transfer theorem. \emph{Lean repository}, module \texttt{PEqualNP.Gct.L077}, theorem \texttt{PEqualNP.Gct.L077}.
+\bibitem[P versus NP programme(2026c)]{FleetExpansion} P versus NP programme. (2026c). Minc expansion. \emph{Lean repository}, module \texttt{PEqualNP.Gct.L084}, theorem \texttt{PEqualNP.Gct.L084}.
+\end{thebibliography}
+\end{document}

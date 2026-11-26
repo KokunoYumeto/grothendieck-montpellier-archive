@@ -1,0 +1,76 @@
+\subsection{A mixed five-cycle family}
+
+\begin{lemma}
+If $n\geq3$ and $U\subseteq\mathbb C^n$ is linear with $e_{n-1}|_U=0$, then $\dim U\leq n-2$.
+\end{lemma}
+\begin{proof}
+Let $\ell_1,\ldots,\ell_n$ be the coordinate linear forms on $U$.
+If one is zero, at least two are zero: with exactly one zero, the sole surviving term of $e_{n-1}$ is the nonzero product of the remaining forms. Thus $\dim U\leq n-2$ in this case.
+Otherwise partition the forms into proportionality classes, writing $\ell_i=a_iL_C$ for $i\in C$, where $a_i\ne0$. In the fraction field of $\mathbb C[U]$,
+\[
+ 0=\frac{e_{n-1}(\ell)}{\ell_1\cdots\ell_n}
+   =\sum_C\frac{\sum_{i\in C}a_i^{-1}}{L_C}.
+\]
+Multiply by $\prod_C L_C$ and reduce modulo each $L_C$.
+Distinct representatives are relatively prime, so $\sum_{i\in C}a_i^{-1}=0$ for every class.
+Each class has at least two members. Since the coordinate forms span $U^*$, we obtain $\dim U\leq\lfloor n/2\rfloor\leq n-2$.
+\end{proof}
+
+\begin{proposition}
+Let $\omega$ be a primitive fifth root of unity. Every level space of six-by-six matrices whose rows have the form
+\[
+ c,\omega c,\omega^2c,\omega^3c,\omega^4c,d,
+ \qquad c,d\in\mathbb C^6,
+\]
+has dimension at most nine.
+\end{proposition}
+\begin{proof}
+The rank-one formula and $\prod_{a=0}^4(1+z\omega^a)=1+z^5$ give
+\[
+ S_1=\sum_jd_j,\qquad S_5=5!e_5(c).
+\]
+For the second identity, terms involving the last row and four of the first five rows have coefficient $e_4(1,\omega,\ldots,\omega^4)=0$.
+The projection of the level space to $c$ therefore has dimension at most four by the lemma.
+Its kernel consists of last-row vectors of sum zero and has dimension at most five. Rank-nullity proves the bound.
+\end{proof}
+
+\subsection{A small-characteristic obstruction to specialization certificates}
+
+Consider the closed subscheme $Z_d\subseteq\operatorname{Gr}(d,36)_{\mathbb Z}$ defined by vanishing of the restrictions of the integer polynomials $S_1,\ldots,S_6$ to the universal subspace.
+The morphism $Z_d\to\operatorname{Spec}\mathbb Z$ is projective, hence proper.
+If $Z_d$ has a complex point, its image contains the generic point of $\operatorname{Spec}\mathbb Z$; its closed image is then all of $\operatorname{Spec}\mathbb Z$.
+Thus emptiness over $\overline{\mathbb F}_p$ at any one prime would prove emptiness over $\mathbb C$.
+For $d=11$, the primes two, three and five cannot be used in this way.
+
+\begin{proposition}
+Over each of $\mathbb F_2,\mathbb F_3,\mathbb F_5$, the equations $S_1=\cdots=S_6=0$ contain an eleven-dimensional linear subspace of six-by-six matrices.
+\end{proposition}
+\begin{proof}
+In characteristic $p$, a block of $p$ identical rows contributes zero to every rook sum involving a nonempty selection from that block.
+Indeed cyclic rotation of its row positions acts freely on the corresponding matchings and leaves each monomial value unchanged.
+A nonempty matching cannot be fixed by a nonidentity rotation: invariance would assign the same column to all rows in a nontrivial row orbit, contradicting distinctness of columns.
+Each orbit therefore contributes $p$ identical terms, hence zero.
+
+In characteristic two, three independently chosen identical-row pairs give a space of dimension eighteen on which every positive rook sum vanishes.
+In characteristic three, two independently chosen identical-row triples give dimension twelve.
+In characteristic five, choose the first five rows equal and arbitrary, and choose the last row arbitrarily subject to its coordinate sum being zero. This gives dimension $6+5=11$.
+The terms using the five-row block vanish, while the only possible nonempty matching confined to the last row contributes its zero first rook sum.
+Taking an eleven-dimensional subspace in the first two constructions completes the proof.
+\end{proof}
+
+These are vanishing statements for the individual integer-defined layers. They do not use the equality $\operatorname{perm}(J+t)=6!$, which degenerates in these characteristics. An emptiness certificate by this specialization method must use a prime at least seven; no such certificate is proved here.
+
+\subsection{Exploratory unrestricted numerical search}
+
+An original numerical search was carried out on complex isotropic Grassmannian charts that impose $S_1=S_2=0$ up to floating-point roundoff. On the $35$-dimensional hyperplane $S_1=0$, the quadratic matrix is $Q=I-R^{\mathsf T}R-C^{\mathsf T}C$, where $R,C$ take row and column sums. After reducing this nondegenerate form to the identity, a Witt chart has basis
+\[
+ T=E+F\left(K-\tfrac12B^{\mathsf T}B\right)+HB,
+ \qquad K^{\mathsf T}=-K.
+\]
+Here the columns of $E$ and $F$ are dual eleven-dimensional isotropic frames, and the columns of $H$ form an orthonormal frame for their thirteen-dimensional orthogonal complement. The matrix $K$ is eleven-by-eleven and skew-symmetric, and $B$ is thirteen-by-eleven. For dimension eleven, this gives $55+143=198$ complex parameters.
+The implementation evaluates the permanent at seven roots of unity by Ryser's subset formula and extracts $S_3,\ldots,S_6$ by Fourier inversion, with analytic derivatives.
+Each of sixteen starts used $1024$ training parameter vectors and an independent holdout of $512$ vectors after Hermitian orthonormalization of the final basis. Eight initial charts extended the known nine-dimensional hook by two isotropic directions, and eight used random charts; all chart parameters were allowed to vary.
+
+No candidate was found. The smallest Euclidean norm of the four holdout root-mean-square layer residuals was $1.869$ for the hook-based starts and $4.206$ for the random starts. By comparison, a dimension-nine calibration with $512$ training points attained $1.65\times10^{-11}$. An earlier calibration with only $100$ training points had a tiny training residual but a holdout residual $4.14\times10^{-4}$; this detected overfitting is documented with the calculation.
+The numerical kernel was independently compared with direct enumeration of all square subpermanents, with maximum absolute error $6.35\times10^{-12}$ on the check instances, and its analytic derivative was checked by centered finite differences.
+The searches are discovery calculations, not infeasibility certificates: they neither cover the Grassmannian nor rule out other critical points or exact level spaces. Reproducible code, seeds, all start records and open CSV basis data accompany the paper.

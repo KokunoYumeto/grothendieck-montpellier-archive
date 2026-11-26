@@ -1,0 +1,352 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=28mm]{geometry}
+\usepackage{microtype}
+\usepackage[authoryear,round]{natbib}
+\usepackage{xurl}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,allcolors=blue!50!black]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\cris}{\mathrm{cris}}
+\newcommand{\dR}{\mathrm{dR}}
+\newcommand{\et}{\mathrm{\acute et}}
+\newcommand{\st}{\mathrm{s}}
+\newcommand{\uF}{\mathrm{u}}
+\newcommand{\coker}{\operatorname{coker}}
+\newcommand{\Cone}{\operatorname{Cone}}
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/schemes-and-moduli-workbench}
+\newcommand{\recordurl}{https://github.com/KokunoYumeto/mathematics-workbenches}
+\title{Grothendieck's Frobenius-stable Lefschetz formula\ for every smooth ample divisor, after Ogus}
+\author{}
+\date{23 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Grothendieck's notes on torsion in crystalline cohomology relate the Frobenius-stable vanishing cohomology of a hypersurface section to coherent cohomology and crystalline torsion. We prove the resulting exact sequence for every smooth ample divisor, with no lower bound on its degree. We also prove that the integral Frobenius-bijective quotient is torsion-free; over a finite field its rank counts the unit reciprocal roots of the vanishing-cohomology polynomial. These are consequences of Frobenius factorization, crystalline base change, and the comparison theorem of Katz and Messing, in the framework of Ogus's integral stable-part comparison. They require no torsion-freeness assertion for the full crystalline quotient. We also identify the torsion Gysin transpose and the adjoint operator in the two dual stable sequences on the manuscript sheets. The mathematics and text were produced and checked by GPT-6 Astra Pro, including a separate statement-only re-proof by the same model; no human has checked them.
+\end{abstract}
+
+\section{Grothendieck's question and the precise assertions}
+
+The purpose of this paper is to explain why Frobenius-stable cohomology satisfies an integral weak Lefschetz statement in every positive hypersurface degree. In \emph{Torsion en cohomologie cristalline}, Grothendieck writes
+\begin{quote}
+``Je pense que l'homomorphisme $v$ de (8.5.2) est injectif''
+\end{quote}
+and points out that this would simplify his sequence (8.5.1). This is cote~4, archive sheet~7, Remark~8.5.7; the sequence itself is on archive sheet~6, corresponding respectively to PDF images~8 and~7 of the Montpellier scan \citep{GrothendieckNotes}. The map $v$ is restriction on the Frobenius-bijective parts of coherent cohomology. His observation for a sufficiently high degree follows from coherent vanishing. Frobenius replaces that degree restriction by a limiting argument.
+
+Fix a perfect field $k$ of characteristic $p>0$, put $W=W(k)$, and let $\sigma$ be the Witt-vector Frobenius. Let $X/k$ be smooth, projective, and geometrically connected of dimension $n\geq2$. Let $i:Y\hookrightarrow X$ be a smooth effective ample divisor. For example, with a fixed projective embedding, $Y$ may be any smooth member of $|\OO_X(d)|$ with $d\geq1$. Throughout, ``every degree'' refers to this hypersurface degree.
+
+Write
+\[
+ C^j(Z)=H^j_{\cris}(Z/W),\qquad
+ T^j(Z)=C^j(Z)_{\mathrm{tors}},
+\]
+and define the two cokernels
+\begin{align*}
+ E&=\coker\bigl(C^{n-1}(X)\longrightarrow C^{n-1}(Y)\bigr),\\
+ E_{\OO}&=\coker\bigl(H^{n-1}(X,\OO_X)
+                  \longrightarrow H^{n-1}(Y,\OO_Y)\bigr).
+\end{align*}
+Every group carries its natural Frobenius. For a finite-dimensional $k$-space $M$ with a $\sigma$-semilinear endomorphism $F$, set
+\[
+ M_{\st}=\bigcap_{r\geq0}F^rM.
+\]
+Frobenius is bijective on this subspace. The word ``stable'' here does not assert semisimplicity of any Galois representation. For a finite $W$-module with Frobenius, set
+\[
+ M^{\uF}=\varprojlim_a(M/p^aM)_{\st}.
+\]
+This includes possible Frobenius-bijective torsion; it is an integral object, not merely a subspace after inverting $p$.
+
+\begin{theorem}[Stable weak Lefschetz and Grothendieck's sequence]
+\label{thm:exact}
+Under the hypotheses above, restriction on $C^j(-)^{\uF}$ is an isomorphism for $j<n-1$ and is injective with torsion-free cokernel for $j=n-1$. There is a natural exact sequence
+\begin{equation}\label{eq:main}
+ 0\longrightarrow T^n(X)[p]_{\st}
+ \longrightarrow(E/pE)_{\st}
+ \xrightarrow{\varphi}(E_{\OO})_{\st}
+ \longrightarrow0.
+\end{equation}
+Consequently
+\[
+ \dim_k(E/pE)_{\st}
+ =\dim_k(E_{\OO})_{\st}+\dim_k T^n(X)[p]_{\st},
+\]
+and $\varphi$ is an isomorphism exactly when $T^n(X)[p]_{\st}=0$.
+\end{theorem}
+
+Thus the stable coherent vanishing cohomology accounts for the unit part of the crystalline vanishing cohomology, except for an explicitly identified torsion contribution from $X$. The integral assertion concerns the stable summands. It does not assert that $E$ itself is torsion-free.
+
+For the arithmetic formulation, suppose $k=\mathbf F_q$ and let $\ell\ne p$. Let $\Phi_q$ denote geometric Frobenius on $\ell$-adic cohomology, and put
+\begin{equation}\label{eq:polynomial}
+ P_{\mathrm{van}}(T)=
+ \frac{\det(1-T\Phi_q\mid H^{n-1}_{\et}(Y_{\bar k},\mathbf Q_\ell))}
+ {\det(1-T\Phi_q\mid H^{n-1}_{\et}(X_{\bar k},\mathbf Q_\ell))}.
+\end{equation}
+Weak Lefschetz makes this a polynomial. A reciprocal root means an $\alpha$ in a factor $1-\alpha T$, and multiplicities are included.
+
+\begin{theorem}[Unit-root count]\label{thm:units}
+The module $E^{\uF}$ is finite free over $W$. Its rank and the number of $p$-adic unit reciprocal roots of \eqref{eq:polynomial} are both
+\[
+ \dim_k(E/pE)_{\st}.
+\]
+The polynomial belongs to $\mathbf Z[T]$ and is independent of $\ell$. The number of unit roots is independent of the embedding of its algebraic roots into $\overline{\mathbf Q}_p$.
+\end{theorem}
+
+\paragraph{Published inputs and scope.}
+Ogus proves exactness of stable extraction in Lemma~4.8, then identifies infinitesimal cohomology with the stable part of crystalline cohomology in Theorem~4.9; Remark~4.10 and Corollary~4.11 include torsion in the integral comparison with $p$-adic \'etale cohomology \citep[pp.~314--315]{Ogus}. For a recent derived formulation of this same stable comparison, see \citet[Theorems~3.3.2--3.3.3]{Grammatica}. It expresses infinitesimal cohomology as the derived inverse limit of crystalline Frobenius and does not assert a Lefschetz exact sequence. Katz and Messing prove equality of the characteristic polynomials in each degree for crystalline and $\ell$-adic cohomology \citep[Theorem~1, p.~74]{KatzMessing}. Crystalline perfectness, derived base change, and comparison with de Rham cohomology are the standard smooth proper theorems; precise modern formulations are \citet[Tags~07MY, 07MU, and~07MW]{Stacks}, respectively. For Frobenius becoming invertible after inverting $p$, see Tag~07N0, Theorem~60.26.4. The formulas here are presented as consequences of these established theories and Grothendieck's calculation, with their hypotheses made explicit, rather than as a priority claim.
+
+Recent integral weak Lefschetz results treat the full cohomology under additional positivity or lifting hypotheses; for example, \citet[Lemma~2.12, pp.~242--243]{BMS} gives a sufficiently ample form. Those hypotheses serve a different purpose from the Frobenius-stable argument below. \citet[Theorems~1.1.1 and~1.1.5, pp.~1850--1852]{CotnerZavyalov} prove flat and syntomic Lefschetz theorems for strongly ample divisors and for complete intersections in projective space. Their hypotheses control more than the stable part. The proof here applies to arbitrary smooth ample divisors but controls only the bijective part. It neither constructs a Lefschetz inverse as an algebraic correspondence nor establishes torsion-freeness of the full restriction quotient.
+
+A recent model-produced exposition of Alp\"oge's sketch presents a proof of Deligne's bounds for the complex absolute values of Frobenius eigenvalues \citep{AlpogeExposition}. Its scope concerns weights. The unit-root count here concerns their $p$-adic valuations and uses the established degreewise comparison of Katz and Messing. No result of that exposition is needed below.
+
+\paragraph{Why the proof works.}
+Frobenius replaces a negative ample twist by successively more negative twists. Serre duality turns this into positive-twist vanishing, so the offending coherent groups are Frobenius-nilpotent. On the de Rham complex Frobenius factors through functions, and hence its stable part sees only coherent cohomology. Finally, the universal coefficient sequence records exactly the crystalline torsion lost in reduction modulo $p$. Applying this mechanism also to the restriction cone proves the integral saturation needed for the unit-root count.
+
+\section{Stable parts and integral reduction}
+
+This section records the algebra that allows a mod-$p$ stable vanishing statement to control integral torsion.
+
+\begin{lemma}\label{lem:fitting}
+Stable extraction is exact on finite-length $W$-modules with semilinear Frobenius. For finite $W$-modules, $M\mapsto M^{\uF}$ is exact, is a functorial direct summand, and satisfies
+\[
+ (M^{\uF})/pM^{\uF}\simeq(M/pM)_{\st},\qquad
+ M^{\uF}[p]\simeq M[p]_{\st}.
+\]
+If $F$ is invertible on $M[1/p]$, then after inverting $p$ it is the slope-zero summand.
+\end{lemma}
+\begin{proof}
+Since $\sigma$ is an automorphism, the kernels and images of every iterate of $F$ are submodules. For a finite-length module their ascending and descending chains stabilize. For sufficiently large $r$ this gives the Fitting decomposition
+\[
+ M=\ker F^r\oplus\operatorname{im}F^r.
+\]
+On the second summand $F$ is bijective; on the first it is nilpotent. Every commuting homomorphism preserves these summands. In a surjection of Frobenius modules, lift a vector in the bijective quotient, apply a sufficiently large common iterate, and use the inverse iterate on that quotient. This proves surjectivity on stable parts; injectivity and exactness in the middle follow from the decomposition.
+
+Apply this construction to $M/p^aM$. The transition maps are surjective on both summands, so completeness gives a direct sum decomposition of $M$ into their inverse limits. To prove exactness for $N\subset M$, first use the induced filtration $N\cap p^aM$. The resulting finite-length sequences remain exact after stable extraction. Their transition maps are surjective, hence inverse limits are exact. Artin--Rees says the induced filtration is cofinal with the $p$-adic filtration on $N$, which identifies its inverse limit with $N^{\uF}$. This proves exactness for finite modules. Apply it to multiplication by $p$ and to its kernel and cokernel to obtain both displayed identities.
+
+Frobenius is bijective on $M^{\uF}$. On the complementary finite module a power of $F$ vanishes modulo $p$, so $F^rM\subset pM$ there for some $r>0$. Iteration makes all its rational slopes strictly positive; the bijective summand has slope zero. These are the needed forms of \citet[Lemma~4.8 and Remark~4.10]{Ogus}.
+\end{proof}
+
+\begin{lemma}[Stable integral vanishing]\label{lem:nakayama}
+Let $K$ be a bounded complex with finite $W$-cohomology and a semilinear Frobenius. If
+\[
+ H^j(K\otimes_W^{\mathbf L}k)_{\st}=0\qquad(j<s),
+\]
+then $H^j(K)^{\uF}=0$ for $j<s$, and $H^s(K)^{\uF}$ is torsion-free.
+\end{lemma}
+\begin{proof}
+The triangle for multiplication by $p$ gives natural Frobenius-equivariant exact sequences
+\[
+ 0\longrightarrow H^j(K)/p\longrightarrow
+ H^j(K\otimes_W^{\mathbf L}k)
+ \longrightarrow H^{j+1}(K)[p]\longrightarrow0.
+\]
+Lemma~\ref{lem:fitting} identifies the outer stable terms with
+$H^j(K)^{\uF}/p$ and $H^{j+1}(K)^{\uF}[p]$. For $j<s$, Nakayama's lemma therefore gives $H^j(K)^{\uF}=0$. At $j=s-1$, the right-hand term is zero as well. A finite module over the discrete valuation ring $W$ is torsion-free if and only if its $p$-torsion is zero, giving the assertion in degree $s$.
+\end{proof}
+
+\section{Frobenius and an ample divisor}
+
+The geometric part of the proof uses only Serre vanishing and the factorization of de Rham Frobenius through functions.
+
+\begin{lemma}\label{lem:coherent}
+Restriction on $H^j(-,\OO)_{\st}$ is an isomorphism for $j<n-1$ and is injective for $j=n-1$.
+\end{lemma}
+\begin{proof}
+Set $L=\OO_X(Y)$ and $I=L^{-1}$. The $r$th iterate of Frobenius on $I$ factors through $I^{p^r}=L^{-p^r}$. For $j<n$, Serre duality identifies the dual of $H^j(X,L^{-p^r})$ with
+\[
+ H^{n-j}(X,\omega_X\otimes L^{p^r}),
+\]
+which vanishes for large $r$ because $L$ is ample and $n-j>0$. Thus Frobenius is nilpotent on $H^j(X,I)$ for $j<n$. Extract stable parts from the cohomology sequence of
+\[
+ 0\longrightarrow I\longrightarrow\OO_X
+ \longrightarrow i_*\OO_Y\longrightarrow0.
+\]
+In degrees below $n-1$ both adjacent ideal-cohomology stable parts vanish; in degree $n-1$ the preceding one vanishes. This gives exactly the asserted range.
+\end{proof}
+
+\begin{lemma}\label{lem:edge}
+For every smooth proper $k$-scheme $Z$, the natural edge map induces an isomorphism
+\[
+ H^j_{\dR}(Z/k)_{\st}\xrightarrow{\sim}H^j(Z,\OO_Z)_{\st}.
+\]
+The isomorphisms are natural for pullbacks and also apply to the cohomology of the cones of such pullbacks.
+\end{lemma}
+\begin{proof}
+As complexes of abelian sheaves, there are maps
+\[
+ a:\Omega^\bullet_{Z/k}\longrightarrow\OO_Z[0],
+ \qquad b:\OO_Z[0]\longrightarrow\Omega^\bullet_{Z/k},
+ \quad f\longmapsto f^p.
+\]
+The first is the projection in degree zero and the second is semilinear. The second is a chain map because $d(f^p)=0$. Absolute Frobenius acts as $ba$ on the de Rham complex and as $ab$ on functions. On stable cohomology the inverse of $a$ is $bF^{-1}$. Indeed these identities give both compositions equal to the identity, with the appropriate scalar twists. Both maps commute with restriction. They therefore give maps on the two restriction cones with the same two composition identities. Applying the identical argument proves the cone assertion. No degeneration of the Hodge-to-de Rham spectral sequence is used.
+\end{proof}
+
+\begin{proof}[Proof of the integral assertion in Theorem~\ref{thm:exact}]
+Let
+\[
+ K=\Cone\bigl(R\Gamma_{\cris}(X/W)
+          \longrightarrow R\Gamma_{\cris}(Y/W)\bigr).
+\]
+Smooth proper crystalline cohomology is a perfect $W$-complex, and derived reduction of $K$ is the corresponding de Rham restriction cone. The stable cohomology of that cone agrees, by Lemma~\ref{lem:edge}, with the stable cohomology of the coherent restriction cone. Lemma~\ref{lem:coherent} and its long exact sequence show that this vanishes in every degree below $n-1$. Lemma~\ref{lem:nakayama} gives
+\[
+ H^j(K)^{\uF}=0\ (j<n-1),\qquad
+ H^{n-1}(K)^{\uF}\ \text{torsion-free}.
+\]
+Apply the exact functor of Lemma~\ref{lem:fitting} to the crystalline long exact sequence. The vanishings give the claimed isomorphisms and injectivity. They also identify $E^{\uF}$ with a submodule of $H^{n-1}(K)^{\uF}$. This proves that the cokernel is torsion-free.
+\end{proof}
+
+\section{The exact sequence and the root count}
+
+Here we identify the torsion term in Grothendieck's formula and then pass to Frobenius polynomials.
+
+\begin{proof}[Proof of \eqref{eq:main}]
+Derived crystalline reduction, followed by Lemmas~\ref{lem:fitting} and~\ref{lem:edge}, gives for every smooth proper $Z$ a natural exact sequence
+\begin{equation}\label{eq:uct}
+ 0\longrightarrow(C^j(Z)/p)_{\st}
+ \longrightarrow H^j(Z,\OO_Z)_{\st}
+ \longrightarrow C^{j+1}(Z)[p]_{\st}\longrightarrow0.
+\end{equation}
+If $j>\dim Z$, the middle term is zero, so $C^j(Z)^{\uF}/p=0$. Nakayama and Lemma~\ref{lem:fitting} give $C^j(Z)^{\uF}=0$ and $C^j(Z)[p]_{\st}=0$. In particular, $C^n(Y)[p]_{\st}=0$.
+
+Apply \eqref{eq:uct} to $X$ and $Y$ in degree $n-1$ and use restriction as the vertical maps. The middle vertical map is injective by Lemma~\ref{lem:coherent}; the lower row has zero right-hand term. Its first map is therefore an isomorphism. The snake lemma gives
+\[
+ 0\longrightarrow C^n(X)[p]_{\st}
+ \longrightarrow\coker\bigl((C^{n-1}(X)/p)_{\st}
+                    \longrightarrow(C^{n-1}(Y)/p)_{\st}\bigr)
+ \longrightarrow(E_{\OO})_{\st}\longrightarrow0.
+\]
+Right exactness of reduction modulo $p$ and exactness of stable extraction identify the central cokernel with $(E/pE)_{\st}$. Since $C^n(X)[p]=T^n(X)[p]$, this is \eqref{eq:main}. The dimension formula and the criterion for $\varphi$ follow immediately from exactness.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:units}]
+The integral assertion already proves that $E^{\uF}$ is torsion-free, hence finite free. Lemma~\ref{lem:fitting} gives
+\[
+ \operatorname{rank}_W E^{\uF}=\dim_k(E/pE)_{\st}.
+\]
+Its rank is the difference between the slope-zero dimensions of $C^{n-1}(Y)[1/p]$ and $C^{n-1}(X)[1/p]$, because restriction is injective on these stable summands.
+
+Write $q=p^a$. On crystalline cohomology the linear operator $F^a$ has the same characteristic polynomial as geometric Frobenius on $\ell$-adic cohomology, by \citet[Theorem~1, p.~74]{KatzMessing}. The $\ell$-adic weak Lefschetz theorem makes restriction injective in degree $n-1$. Indeed $U=(X\setminus Y)_{\bar k}$ is smooth affine of dimension $n$. Artin vanishing gives $H^j(U,\mathbf Q_\ell)=0$ for $j>n$ \citep[Expos\'e~XIV, Corollary~3.2, p.~160]{SGA4}. Poincar\'e duality gives $H_c^j(U,\mathbf Q_\ell)=0$ for $j<n$, and localization gives the desired injection. Consequently \eqref{eq:polynomial} is its quotient polynomial. A reciprocal root is a $p$-adic unit precisely when the corresponding crystalline slope is zero. Subtracting the two multiplicities proves the root count.
+
+Each degreewise polynomial belongs to $\mathbf Z[T]$ and is independent of $\ell$. Their quotient, known to be a polynomial over $\mathbf Q_\ell$, belongs to $\mathbf Q[T]$ by polynomial division over $\mathbf Q$. Its reciprocal roots are a submultiset of the algebraic-integer reciprocal roots of the numerator; hence its coefficients are algebraic integers. They are rational, so the quotient lies in $\mathbf Z[T]$. Any two embeddings of a splitting field into $\overline{\mathbf Q}_p$ give the same multiset of roots of this rational polynomial. The number of unit roots therefore agrees, although the unit status of a particular labelled algebraic root need not be embedding-independent.
+\end{proof}
+
+\section{Torsion transposes and the two dual stable sequences}
+
+Two other calculations on the same manuscript sheets clarify which operator is dual to Frobenius. Formula~(8.2.1), on archive sheet~3 (PDF image~4), identifies the transpose of torsion restriction with Gysin. The handwritten sheet headed~8.4.4, archive sheet~1 (PDF image~2), displays two sequences and comments: ``Sans doute $(*)$ et $(**)$ sont transpos\'ees l'une de l'autre'' \citep{GrothendieckNotes}. Both statements follow from integral duality, with an explicit convention for the adjoint operator.
+
+We use the integral crystalline trace pairing. For a smooth proper variety $Z$ of dimension $m$, it gives a self-duality of the perfect complex $R\Gamma_{\cris}(Z/W)$, shifted by $2m$. Its finite-level version and passage to the limit retain torsion. A modern statement, with the crystalline comparison made explicit, is \citet[Theorem~6.4 and Remark~6.6, p.~2362]{Tang}; the classical duality and Gysin formalism is recorded by \citet[\S2.4, p.~56]{Illusie}. The universal coefficient sequence for the derived dual gives perfect pairings
+\begin{align}
+ C^r(Z)_{\mathrm{free}}\times C^{2m-r}(Z)_{\mathrm{free}}
+ &\longrightarrow W,\label{eq:free-duality}\\
+ T^r(Z)\times T^{2m+1-r}(Z)&\longrightarrow W[1/p]/W.
+ \label{eq:linking}
+\end{align}
+Here $C^r_{\mathrm{free}}=C^r/T^r$. Indeed, the kernel of
+$C^r\to\operatorname{Hom}_W(C^{2m-r},W)$ is
+$\operatorname{Ext}^1_W(C^{2m+1-r},W)$; the latter is
+$\operatorname{Hom}_W(T^{2m+1-r},W[1/p]/W)$. This proves the torsion indices in \eqref{eq:linking}, as well as perfection of \eqref{eq:free-duality}.
+
+\begin{corollary}[The transpose of torsion restriction]\label{cor:transpose}
+Under the pairings induced by \eqref{eq:linking}, the transpose of
+\[
+ i^*:T^n(X)[p]\longrightarrow T^n(Y)[p]
+\]
+is the map
+\[
+ i_*:T^{n-1}(Y)/p\longrightarrow T^{n+1}(X)/p.
+\]
+If restriction $T^{n-1}(X)\to T^{n-1}(Y)$ is an isomorphism and
+$Y\in|\OO_X(d)|$, this becomes
+\[
+ T^{n-1}(X)/p\longrightarrow T^{n+1}(X)/p,
+ \qquad x\longmapsto d\,c_1^{\cris}(\OO_X(1))\smile x.
+\]
+Thus its kernel is independent of the smooth section at a fixed degree. Across degrees the map is zero when $p\mid d$, and otherwise has the same kernel as cup product with $c_1^{\cris}(\OO_X(1))$.
+\end{corollary}
+\begin{proof}
+If $A$ and $B$ are finite torsion $W$-modules in a perfect linking pairing, restriction to $A[p]$ factors through $B/pB$. Identifying $(W[1/p]/W)[p]$ with $k$ gives a perfect pairing $A[p]\times B/pB\to k$. Apply this with $r=n$, first on $X$ of dimension $n$, then on $Y$ of dimension $n-1$. The complementary degrees are $n+1$ and $n-1$, respectively.
+
+Pullback and Gysin are adjoint under the derived trace. They remain adjoint after the boundary map defining the linking pairing, because that boundary comes functorially from $W\to W[1/p]\to W[1/p]/W$. The asserted transpose follows. Under the additional torsion identification, the projection formula gives
+\[
+ i_*i^*x=i_*1\smile x=c_1^{\cris}(\OO_X(Y))\smile x
+             =d\,c_1^{\cris}(\OO_X(1))\smile x.
+\]
+Reduction modulo $p$ proves the degree assertions. The additional identification is a hypothesis on full torsion; the stable theorem alone does not supply it.
+\end{proof}
+
+For the next statement, define $V$ to be the $\sigma^{-1}$-semilinear Poincar\'e adjoint of $F$, so that
+\[
+ \langle Fx,y\rangle=\sigma\bigl(\langle x,Vy\rangle\bigr).
+\]
+The same convention is used on the linking groups and, by Serre duality, on $H^0(X,\omega_X)$, dual to $H^n(X,\OO_X)$. On top forms this is the Cartier trace. For a finite-dimensional space with this operator, write $M_{\st,V}=\bigcap_{r\ge0}V^rM$. On rational crystalline cohomology of $X$, the operator is Frobenius pushforward and $FV=VF=p^n$: this follows from the trace formula for the degree-$p^n$ Frobenius morphism. In particular its normalization depends on the dimension of $X$.
+
+\begin{corollary}[The starred sequences are dual]\label{cor:star-dual}
+There are dual exact sequences
+\begin{align}
+ 0&\longrightarrow(T^n(X)/p)_{\st}
+ \longrightarrow H^n(X,\OO_X)_{\st}
+ \longrightarrow(C^n(X)_{\mathrm{free}}/p)_{\st}
+ \longrightarrow0,\label{eq:star}\\
+ 0&\longrightarrow(C^n(X)_{\mathrm{free}}/p)_{\st,V}
+ \longrightarrow H^0(X,\omega_X)_{\st,V}
+ \longrightarrow T^{n+1}(X)[p]_{\st,V}
+ \longrightarrow0.\label{eq:star-dual}
+\end{align}
+The second uses the specified adjoint $V$, not an unaltered Frobenius on the dual groups.
+\end{corollary}
+\begin{proof}
+Since $H^{n+1}(X,\OO_X)=0$, \eqref{eq:uct} and Lemma~\ref{lem:fitting} give $C^{n+1}(X)^{\uF}=0$. In particular $C^{n+1}(X)[p]_{\st}=0$. The degree-$n$ instance of \eqref{eq:uct} therefore identifies $(C^n(X)/p)_{\st}$ with $H^n(X,\OO_X)_{\st}$. The torsion quotient sequence is exact modulo $p$, since $C^n(X)_{\mathrm{free}}$ is free. Its stable part is \eqref{eq:star}.
+
+For a perfect pairing and mutually adjoint semilinear operators, the nilpotent summand on one side is orthogonal to the bijective summand on the other: if $F^a x=0$ and $V$ is bijective on $y$, write $y=V^a z$ and use adjointness. The Fitting decomposition consequently identifies the dual of the $F$-stable part with the $V$-stable part. Apply this to Serre duality, the free middle-degree pairing \eqref{eq:free-duality}, and the linking pairing \eqref{eq:linking}. They identify the duals of the three terms of \eqref{eq:star}, in reverse order, with those of \eqref{eq:star-dual}. Functoriality of derived duality and its universal coefficient sequence identifies the arrows as well. This proves exactness and the claimed duality.
+\end{proof}
+
+\section{Two plane cubics and the boundary of the conclusion}
+
+A plane cubic gives a small example in which the unit-root count can be checked by hand. Take $X=\mathbf P^2_{\mathbf F_5}$ and let $Y$ be a smooth cubic. Then $C^1(X)=0$ and $T^2(X)=0$, so \eqref{eq:main} identifies the stable part of $H^1_{\cris}(Y)/5$ with that of $H^1(Y,\OO_Y)$. This common dimension is the $5$-rank of $Y$.
+
+For $Y_1:y^2=x^3+x+1$, the numbers of affine solutions above $x=0,1,2,3,4$ are $2,0,2,2,2$. Including the point at infinity gives $9$ points, so
+\[
+ P_{Y_1}(T)=1+3T+5T^2.
+\]
+The reciprocal roots have valuations $0$ and $1$: their product is $5$ and their sum is the unit $-3$. Thus the stable dimension is one. For $Y_2:y^2=x^3+1$, the corresponding counts are $2,0,2,0,1$, giving $6$ points and
+\[
+ P_{Y_2}(T)=1+5T^2.
+\]
+Both reciprocal roots have valuation $1/2$, so the stable dimension is zero. Both curves are smooth because their short Weierstrass discriminants are nonzero modulo $5$.
+
+The conclusions proved here settle the exact sequence and its unit-root interpretation for smooth ample divisors. They leave the positive-slope part of integral weak Lefschetz untouched. Determining when the entire crystalline restriction is saturated requires information beyond Frobenius-stable coherent vanishing; the obstruction is precisely that the argument discards every nilpotent contribution modulo $p$.
+
+\section*{Note on method and records}
+
+The mathematics and text were produced by GPT-6 Astra Pro in ChatGPT Pro mode. Earlier targeted proof checks were recorded by Claude Opus~5.5 at effort max. The principal exact-sequence and unit-root assertions were re-derived from their statements by a separate instance of the same model before it read their earlier proofs. The proof through the crystalline restriction cone was then checked step by step. The two companion duality calculations were reconstructed from their statements and then compared with the earlier arguments; that comparison is recorded separately from the principal statement-only re-proof. Published inputs were checked at the cited statements, and the two point counts were independently recomputed. These are model checks, not human refereeing; no human has checked the mathematics. The text is dedicated to the public domain under CC0~1.0. Editable sources and verification records belong to \url{\workbenchurl}; the permanent records address is \url{\recordurl}.
+
+\begin{thebibliography}{99}
+\bibitem[Artin, Grothendieck, and Verdier(1973)]{SGA4}
+Artin, M., Grothendieck, A., \& Verdier, J.-L. (1973). \emph{Th\'eorie des topos et cohomologie \'etale des sch\'emas, Tome~3 (SGA~4)}. Lecture Notes in Mathematics, Vol.~305. Springer. Expos\'e~XIV, Corollaries~3.2--3.3, pp.~160--161. \url{https://www.normalesup.org/~forgogozo/SGA4/tomes/tome3.pdf}
+\bibitem[Bhatt, Morrow, and Scholze(2018)]{BMS}
+Bhatt, B., Morrow, M., \& Scholze, P. (2018). Integral $p$-adic Hodge theory. \emph{Publications math\'ematiques de l'IH\'ES, 128}, 219--397. \url{https://doi.org/10.1007/s10240-019-00102-z}
+\bibitem[Cotner and Zavyalov(2024)]{CotnerZavyalov}
+Cotner, S., \& Zavyalov, B. (2024). Lefschetz theorems in flat cohomology and applications. \emph{Compositio Mathematica, 160}(8), 1850--1870. \url{https://doi.org/10.1112/S0010437X24007231}
+\bibitem[Grammatica(2026)]{Grammatica}
+Grammatica, L. (2026). \emph{Some applications of the Nygaard filtration and quasisyntomic descent in positive characteristic}. arXiv:2507.08568v2. \url{https://arxiv.org/abs/2507.08568v2}
+\bibitem[Grothendieck(n.d.)]{GrothendieckNotes}
+Grothendieck, A. (n.d.). \emph{Torsion en cohomologie cristalline}. Archives Grothendieck, Universit\'e de Montpellier, cote~4, sheets~1, 3, and~6--7, formulas~(8.2.1), (8.4.4), and~(8.5.1)--(8.5.7). \url{https://grothendieck.umontpellier.fr/4.pdf}
+\bibitem[Illusie(1976)]{Illusie}
+Illusie, L. (1976). Cohomologie cristalline, d'apr\`es P. Berthelot. \emph{S\'eminaire Bourbaki, 1974/75}, Expos\'e~456, 53--60. \url{https://www.numdam.org/item/SB_1974-1975__17__53_0.pdf}
+\bibitem[Katz and Messing(1974)]{KatzMessing}
+Katz, N. M., \& Messing, W. (1974). Some consequences of the Riemann hypothesis for varieties over finite fields. \emph{Inventiones mathematicae, 23}, 73--77. \url{https://doi.org/10.1007/BF01405225}
+\bibitem[Ogus(1975)]{Ogus}
+Ogus, A. (1975). Cohomology of the infinitesimal site. \emph{Annales scientifiques de l'\'Ecole Normale Sup\'erieure, 4e s\'erie, 8}(3), 295--318. \url{https://doi.org/10.24033/asens.1289}
+\bibitem[Short proof(2026)]{AlpogeExposition}
+\emph{A short proof of Deligne's bound for Frobenius eigenvalues, after Alp\"oge}. (2026). Hexagon preprint 2611.00789v1. Produced by GPT-6 Astra; text by Claude Fable~5.2, with the checks described in its provenance statement. \url{https://hexagonmath.org/2611.00789v1}
+\bibitem[Tang(2024)]{Tang}
+Tang, L. (2024). Syntomic cycle classes and prismatic Poincar\'e duality. \emph{Compositio Mathematica, 160}(10), 2322--2365. \url{https://doi.org/10.1112/S0010437X24007334}
+\bibitem[The Stacks Project Authors(2026)]{Stacks}
+The Stacks Project Authors. (2026). \emph{The Stacks Project}. Chapter~60: Crystalline cohomology. Tags~07MU, 07MW, 07MY, and~07N0. \url{https://stacks.math.columbia.edu/tag/07GI}
+\end{thebibliography}
+\end{document}

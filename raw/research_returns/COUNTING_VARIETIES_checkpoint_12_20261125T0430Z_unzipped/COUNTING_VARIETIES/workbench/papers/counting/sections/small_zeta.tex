@@ -1,0 +1,110 @@
+\section{The size of a zeta function and the limit of the invariants}
+\label{sec:small-zeta}
+The coherent line in the main theorem has the smallest possible positive dimension, but it does not make the whole zeta function small. This distinction can be quantified without a complexity assumption.
+
+The coefficient-counting argument below uses the usual boundedness of integral Weil polynomials. In the special setting of abelian varieties, \citet[Theorems~1.1--1.2]{root-dipippo-howe} obtain much sharper asymptotics for the number of isogeny classes at fixed dimension as the field grows. Here a coarse bound valid in every smooth projective dimension is enough to measure how many different witness counts the zeta function can distinguish.
+
+For a variety $X$ over a field $k$, let $\ell$ be a prime invertible in $k$. Its $i$th geometric Betti number is $b_i=\dim_{\mathbb Q_\ell}H^i_{\mathrm{\acute et}}(X_{\bar k},\mathbb Q_\ell)$, and its total Betti number is $\sum_i b_i$.
+
+\begin{proposition}\label{prop:ff-betti-finite}
+Fix a finite field $\mathbb F_q$ and an integer $B\geq1$. Among nonempty smooth geometrically connected projective varieties over $\mathbb F_q$ whose total geometric $\ell$-adic Betti number is at most $B$, the number of possible zeta functions is at most
+\[
+ \mathcal N(q,B)=(B+1)^{2B-1}3^B2^{B^2}q^{(B^3-B)/2}
+                 \leq 2^{6B^3\log_2q}.
+\]
+If the variety dimension is fixed at $a$, an alternative bound is
+\[
+ \mathcal N_a(q,B)=(B+1)^{2a+1}3^B2^{B^2}q^{aB(B+1)/2}.
+\]
+Consequently an unbounded exact witness count cannot be recovered from the zeta function alone on a family with fixed $q,B$. The assertion does not rule out encoding a fixed-prime residue or a decision problem by the choice among these finitely many zeta functions.
+\end{proposition}
+\begin{proof}
+Let $a=\dim X$ and let $h$ be the first Chern class of an ample line bundle. For every $0\leq j\leq a$, the class $h^j$ is nonzero: otherwise $h^a=h^jh^{a-j}$ would vanish, contrary to the positive degree of the ample top intersection. Thus $b_{2j}\geq1$ and $a+1\leq B$.
+
+Write
+\[
+ P_i(T)=\det(1-TF\mid H^i(X_{\overline{\mathbb F}_q},\mathbb Q_\ell)),
+ \qquad Z(X,T)=\prod_{i=0}^{2a}P_i(T)^{(-1)^{i+1}}.
+\]
+Deligne's integrality and purity theorem gives $P_i\in\mathbb Z[T]$ and complex absolute value $q^{i/2}$ for each reciprocal root \cite[Theorem~1.6, p.~276]{ff-deligne}. If $P_i(T)=\sum_j c_{ij}T^j$, expansion into elementary symmetric functions gives
+\[
+ |c_{ij}|\leq\binom{b_i}{j}q^{ij/2}
+          \leq 2^Bq^{B(B-1)}.
+\]
+Pad the Betti tuple with zeros through degree $2B-2$. There are at most $(B+1)^{2B-1}$ such tuples. For a fixed tuple, the coefficient $c_{ij}$ has at most $3\binom{b_i}{j}q^{ij/2}$ possible integral values: its absolute-value bound is at least one, so $2\lfloor A\rfloor+1\leq3A$. The constant coefficient is one and needs no choice. The base-two logarithm of the number of choices of all remaining coefficients is at most
+\begin{align*}
+ &\sum_i\sum_{j=1}^{b_i}
+   \left(\log_2 3+\log_2\binom{b_i}{j}
+                     +\frac{ij}{2}\log_2q\right)\\
+ &\qquad\leq B\log_2 3+\sum_i b_i^2
+             +\frac{\log_2q}{4}\sum_i i b_i(b_i+1)\\
+ &\qquad\leq B\log_2 3+B^2+\frac{B^3-B}{2}\log_2q.
+\end{align*}
+Here $\sum_i b_i\leq B$, $\sum_i b_i^2\leq B^2$, and $i\leq2B-2$. This proves the first bound. Its final estimate uses $\log_2(B+1)\leq B$ and $\log_2q\geq1$. If $a$ is fixed, retain only $2a+1$ tuple entries and use $i\leq2a$ in the same calculation to obtain $\mathcal N_a$. Multiple tuples may define the same zeta function, which only improves these upper bounds. A function on this finite set has finite image, so it cannot return arbitrary nonnegative integers. A finite-valued function can still be computationally hard to evaluate from a succinct input; the last sentence of the proposition therefore makes no contrary inference.
+\end{proof}
+
+\begin{corollary}\label{cor:ff-betti-information}
+Suppose a construction over $\mathbb F_q$ encodes every Boolean witness count on $n$ witness bits by a smooth geometrically connected projective variety of total Betti number at most $B_n$, and the exact count is a function of its zeta function alone (with $n,q$ allowed as known parameters). Then
+\[
+ B_n>\left(\frac{n}{6\log_2q}\right)^{1/3}.
+\]
+For fixed variety dimension $a$ and fixed $q$, the stronger asymptotic lower bound $B_n=\Omega(\sqrt n)$ holds. These statements already apply if the inputs are restricted to Boolean circuits of size $O(n)$, or their parsimonious three-CNF encodings of size $O(n)$.
+\end{corollary}
+\begin{proof}
+For each $0\leq s\leq2^n$, the comparator accepting the binary integers $x<s$ on $n$ bits has exactly $s$ accepting witnesses and a circuit with $O(n)$ gates. The endpoints use the constant rejecting and accepting circuits. Encoding each gate by a constant number of clauses gives a three-CNF formula of size $O(n)$; each legal input has a unique extension to gate variables, so its count remains $s$. Hence the output zeta functions must take at least $2^n+1$ distinct values. Proposition~\ref{prop:ff-betti-finite} gives
+\[
+ 2^n+1\leq\mathcal N(q,B_n)\leq2^{6B_n^3\log_2q},
+\]
+which proves the first assertion. At fixed $a,q$, the logarithm of $\mathcal N_a(q,B_n)$ is $O_{a,q}(B_n^2)$, giving the second. The requirement that decoding use only the zeta function is essential: permitting the original verifier as additional information would make this counting argument inapplicable. No analogous lower bound for a fixed finite residue range follows from the argument.
+\end{proof}
+
+\begin{proposition}\label{prop:ff-hypersurface-betti}
+For a smooth hypersurface of degree $d\geq3$ in $\mathbb P^{d-1}$ over any field, the primitive middle Betti number and the total Betti number are respectively
+\[
+ b_{d-2}^{\mathrm{prim}}
+   =\frac{(d-1)^d+(-1)^d(d-1)}d,
+ \qquad
+ B=d-1+\frac{(d-1)^d+(-1)^d(d-1)}d.
+\]
+In particular $B=\exp(\Theta(d\log d))$. This holds for every smooth member, independently of its coherent Frobenius scalar.
+\end{proposition}
+\begin{proof}
+For a smooth hypersurface of dimension $n$ and degree $\delta$, put $h=c_1(\mathcal O_X(1))$. Write $c(T_X)$ for the total Chern class of its tangent bundle and $\chi(X)=\sum_i(-1)^i b_i$ for its geometric Euler characteristic. Weak Lefschetz and duality leave only the primitive part in degree $n$ beyond the $n+1$ ambient projective-space classes. The Euler sequence and the normal sequence give
+\[
+ c(T_X)=\frac{(1+h)^{n+2}}{1+\delta h},
+ \qquad
+ \chi(X)=\delta[h^n]\frac{(1+h)^{n+2}}{1+\delta h}
+       =n+2+\frac{(1-\delta)^{n+2}-1}{\delta}.
+\]
+The coefficient identity follows by expanding the denominator as a finite geometric series through degree $n$ and applying the binomial theorem. Hence
+\[
+ b_n^{\mathrm{prim}}
+   =(-1)^n\bigl(\chi(X)-(n+1)\bigr)
+   =\frac{(-1)^n}{\delta}
+       \bigl((1-\delta)^{n+2}+\delta-1\bigr).
+\]
+This is the standard hypersurface formula; see Huybrechts, Chapter~1, Corollary~1.12, p.~18, and the discussion of positive characteristic in Section~1.6, p.~27 \cite{ff-huybrechts}. One can also pass from the complex calculation to positive characteristic by lifting the equation to characteristic zero: smoothness of the special projective fiber makes a neighborhood of it a smooth proper family, and smooth proper base change preserves the Betti numbers. Substituting $n=d-2$ and $\delta=d$ gives the asserted formulas. Their growth follows directly from the leading term $(d-1)^d/d$.
+\end{proof}
+
+The three constructions thus answer different optimization questions. The split finite schemes have total Betti number $K_*S$, and the smooth projective Artin--Schreier curves have total Betti number $2+2(p-1)(N-1-K_*S)$. The circuit hypersurfaces have one-dimensional top coherent cohomology, while their total \'etale Betti number is the formula above. None of these constructions gives a uniform constant bound for the total Betti number. The smallest total Betti number allowing a polynomial-size smooth projective encoding of a fixed-prime witness residue remains a separate question; Proposition~\ref{prop:ff-betti-finite} gives a finite list of possible outputs at any proposed constant bound, but no efficient method to classify succinct equations into that list.
+
+Bounds from the displayed geometry answer another question. For a projective zero locus in $\mathbb P^M$ defined by $r$ homogeneous equations of degrees at most $D$, \citet[Corollary~5.5.8, p.~38]{root-wz-betti} bound total compactly supported Betti number by
+\[
+ 3^r\binom{M+r-1}{r-1}(2D+2)^M.
+\]
+This controls cohomological size in terms of ambient dimension and ordinary degree. When those quantities grow, it gives no polynomial bound in a circuit encoding or in a sparse encoding with binary exponents. The explicit hypersurface formula makes this distinction sharp for the coherent-line construction.
+
+Nor can an arbitrary affine zeta function always reveal every cohomological eigenvalue, since factors can cancel between degrees. \citet[Theorem~1.3, p.~2 of the author manuscript]{root-wz-visibility} show that every compactly supported rigid-cohomology eigenvalue of an affine variety is visible up to a Tate twist among zeta functions of related toric intersections. For $r$ defining equations their family uses the $2^r$ subsets of the equation set. This is an eigenvalue-visibility theorem; it does not recover the unknown multiplicities here in polynomial time. For smooth projective varieties purity separates adjacent weights and prevents this cancellation, but leaves the multiplicities to be computed.
+
+\begin{proposition}\label{prop:coarse-invariant-collision}
+At every prime $p$ there is an explicit smooth projective family over $\mathbb A^1_{\mathbb F_p}$ whose top coherent Frobenius scalar is its parameter $a$, while its dimension, degree, polarized Hilbert polynomial, all Chern numbers, all geometric $\ell$-adic Betti numbers, and the dimensions of all coherent groups $H^i(\mathcal O)$ are constant. None of these invariants, separately or together, determines the scalar. On the circuit hypersurfaces of Theorem~\ref{thm:main}, each of these numerical data has a polynomial-time description or evaluation in the input length.
+\end{proposition}
+\begin{proof}
+Use the degree-$p+1$ family of Section~\ref{sec:entire-lines} at odd $p$, and the quintic family there at $p=2$. Every parameter is allowed, and its scalar is $a$. For a degree-$d$ hypersurface in $\mathbb P^{d-1}$ the Hilbert polynomial is
+\[
+ P_X(t)=\binom{t+d-1}{d-1}-\binom{t-1}{d-1}.
+\]
+The hypersurface sequence proves this identity and fixes the coherent dimensions. With $H=c_1(\mathcal O_X(1))$, the tangent and normal sequences give $c(T_X)=(1+H)^d/(1+dH)$, and $\int_XH^{d-2}=d$, so every Chern number depends only on $d$. Weak Lefschetz and Proposition~\ref{prop:ff-hypersurface-betti} fix the full Betti array. Thus the fibres $a=0$ and $a=1$ have identical stated invariants and different scalars. The formulas require polynomially many integer operations on integers of $O(d\log d)$ bits; an individual Chern number is specified by a partition of $d-2$ and can be evaluated by truncated polynomial multiplication. The Hilbert polynomial may be returned in the displayed binomial form, or expanded with polynomially many coefficients. In the counting construction $d$ is polynomially bounded in the input length at fixed $p$. Listing every Chern number at once is not asserted to have polynomial output size.
+\end{proof}
+
+There is also a precise limit for invariants that are already easy to calculate. In the varying-field curve family, the field, genus, and entire based coherent Frobenius operator depend only on the input sizes, as Proposition~\ref{prop:ff-coherent-limit} shows. They cannot determine the witness count even modulo a fixed odd prime. For the cubic, the known dimension and the two possible Frobenius weights are equally insufficient; the missing datum is their multiplicity. In the projective hypersurface family the dimension and degree fix all Betti numbers, yet the coherent scalar varies. An algorithm for any of these coarse invariants therefore supplies no recovery of the hard residue. This is an explicit loss of information, stronger than the observation that the available algorithms happen not to recover it.

@@ -1,0 +1,1074 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=27mm,headheight=14pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools,mathrsfs}
+\usepackage{microtype,booktabs,longtable,array,enumitem,xcolor,graphicx}
+\usepackage{xurl}
+\usepackage[colorlinks=true,allcolors=blue!45!black]{hyperref}
+\usepackage{bookmark,needspace}
+\setlength{\emergencystretch}{2em}
+\setlength{\parskip}{3pt}
+\setlist{itemsep=2pt,topsep=4pt}
+\allowdisplaybreaks[2]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{counterexample}[theorem]{Counterexample}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\Sh}{\operatorname{Sh}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Map}{\operatorname{Map}}
+\newcommand{\Pro}{\operatorname{Pro}}
+\newcommand{\colim}{\operatorname*{colim}}
+\newcommand{\limm}{\operatorname*{lim}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\F}{\mathbb F}
+\newcommand{\recordurl}{https://github.com/KokunoYumeto/mathematics-workbenches}
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/homotopy-and-categories-workbench}
+\title{Grothendieck's tensor divided-power categories\\ and cellwise dessins after Mulase and Penkava}
+\author{}
+\date{23 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Grothendieck's cote~137 proposes tensor divided-power data as a description of polynomial categories and asks for additional structure recovering cochains. We separate homogeneous substitution from the mixed-degree coherence needed for polynomial composition, give explicit counterexamples to the bare equivalence, and formulate a finite coherence repair. For the walking-complex construction over a commutative ring, whose equivalence for targets with kernels is known, we isolate the precise matrix kernels required in an arbitrary additive target. We recover the full cosimplicial ring of integral cochains from its natural divided-power action on finite test objects. We characterize bounded normalization by uniformly bounded polynomial fibre ranks and distinguish it from derived perfection. For clean dessins, we extend Mulase and Penkava's classification of edge-fixed ribbon symmetries to the full holomorphic group preserving every ordinary cell, including the low-valence sphere cases. We distinguish labelled-cell counts from rigidity and prove rigidity for noncompact cellular maps. Exact Kummer images describe the associated diagonal Fermat fibres. The mathematics and text were produced by GPT-6 Astra (ChatGPT Pro mode), whose checks are individually recorded; no human has checked the work.
+\end{abstract}
+
+\section{Polynomial information and the questions in the manuscripts}
+In cote~137, archive sheet~38 (PDF page~39), Grothendieck asks how the
+additional structure on cochains ``permet de reconstituer le type
+d'homotopie du $X_*$''. The preceding sheet calls it ``structure
+suppl\'ementaire''. We make the reading precise: it is the entire
+natural divided-power action on finite test objects. His later
+axioms for tensor divided-power categories are on archive
+sheets~80--85 (PDF pages~81--86). They raise a distinct question,
+whether homogeneous substitution already determines composition
+of arbitrary polynomial maps \cite{Groth}.
+
+This section explains the distinctions needed to state the results. A homogeneous polynomial law of degree $d$ from a $k$-module $V$ to a $k$-module $W$ is a family of maps $R\otimes_kV\to R\otimes_kW$, natural in commutative $k$-algebras $R$, and homogeneous of degree $d$. Its universal representing module is $\Gamma^dV$; this is Roby's divided-power construction \cite[Theorem~IV.1, p.~266]{Roby}. Naturality after scalar extension is part of the definition. Agreement at the points of a finite field alone is weaker.
+
+For finite projective modules the category used for strict polynomial functors has morphisms $\Gamma^d\Hom_k(V,W)$, with a fixed degree $d$. Its linear representations are the strict polynomial functors of degree $d$ \cite[Section~2, pp.~3--5]{Krause}. This category differs from the category with degree-$d$ polynomial laws $V\rightsquigarrow W$ as morphisms. The latter has morphisms $\Hom_k(\Gamma^dV,W)$, and degrees multiply under composition. The issue in cote~137, PDF pages~81--86, is how the homogeneous pieces fit together into this second, polynomial category.
+
+Call \emph{bare divided-power data} an additive $k$-linear symmetric monoidal category $\mathcal C$, a coherent exponential functor $G^*$ with $G^0=\mathbf1$, $G^1=\id$, the scalar rule $G^n(\lambda\id_X)=\lambda^n\id_{G^nX}$, and natural maps
+\[
+ \alpha_{p,q}:G^{pq}\longrightarrow G^pG^q
+\]
+satisfying
+\begin{equation}\label{eq:homogeneous}
+ G^p(\alpha_{q,r})\alpha_{p,qr}
+ =\alpha_{p,q}^{G^r}\alpha_{pq,r}.
+\end{equation}
+The one-index maps are identities and $\alpha_{0,q}$ is the identity of the unit. We state explicitly when the additional maps $\alpha_{q,0}$ are required to be invertible.
+
+\begin{theorem}[The two missing requirements]\label{thm:bare}
+Invertibility of $\alpha_{q,0}$ is independent of the other bare axioms. Even when all these maps are invertible, the bare axioms do not force polynomial composition compatible with the specified exponential and tensor-unit comparison maps. Both failures occur in finite-dimensional vector spaces, over $\F_2$ and $\F_3$ respectively.
+\end{theorem}
+
+The first counterexample concerns an omitted unit condition; the second concerns compatibility between different degrees. Their distinction is essential: adding the first condition does not repair the second failure. The next theorem gives a precise composition criterion using only finite sums, natural maps and equations; Section~3 proves it. Its associativity calculation is the finite-bound form of the classical co-Kleisli construction, dual to \cite[Definition~5.2.10, p.~194]{Riehl}; the extra point is the prescribed mixed-degree normalization.
+
+The precise coherence criterion uses only finite divided-power sums. Put $B_mX=\bigoplus_{i=0}^mG^iX$. For $d,m\ge0$, the exponential decomposition prescribes a map
+\[
+ D_{d,m}:B_{dm}X\longrightarrow B_d(B_mX).
+\]
+In the summand of $G^q(B_mX)$ indexed by $(\nu_0,\ldots,\nu_m)$ with $\sum\nu_i=q\le d$, its weight is $n=\sum i\nu_i$. It is zero on other source degrees; on $G^nX$ it is
+\[
+ G^nX\xrightarrow{\Delta}\bigotimes_iG^{i\nu_i}X
+ \xrightarrow{\otimes_i\alpha_{\nu_i,i}}\bigotimes_iG^{\nu_i}(G^iX),
+\]
+where $\Delta$ is the corresponding component of the exponential image of the additive diagonal. Write $\epsilon_X:B_1X\to X$ for projection onto degree one.
+
+For $X=\bigoplus_{j=1}^sX_j$, label a source exponential summand by its multidegree $\lambda\in\mathbb N^s$. A target summand is indexed by multiplicities $\nu_\beta$ of summands of multidegree $\beta$ in $B_mX$; its total multidegree is $w=\sum_\beta\nu_\beta\beta$. The phrase \emph{multigrading preservation} below requires every component from $\lambda$ to this target to vanish unless $\lambda=w$, for every finite list of objects and every bound.
+
+\begin{theorem}[Composition coherence]\label{prop:coherence}
+Suppose the $D_{d,m}$ commute with projections in the bounds and satisfy the counit equations
+\[
+ \epsilon_{B_mX}D_{1,m}=\id,
+ \qquad B_d(\epsilon_X)D_{d,1}=\id
+\]
+and the finite coassociativity equations
+\[
+ B_a(D_{b,c})D_{a,bc}=D_{a,b}^{B_cX}D_{ab,c}.
+\]
+Then bounded representatives $f:B_mX\to Y$ form a category, with representatives of higher bound identified by projection, identity $\epsilon_X$, and composition
+\[
+ g*f=g\,B_d(f)D_{d,m}\quad(g:B_dY\to Z).
+\]
+Conversely, if this formula is unital, associative and independent of the chosen degree bounds for all objects and representatives, the stated counit, coassociativity and projection equations hold. Compatibility with prescribed mixed-degree representations additionally requires multigrading preservation and, for $q$ objects $X_1,\ldots,X_q$ and $p\ge0$, the normalization
+\[
+ \operatorname{pr}_{(1,\ldots,1)}G^q((G^p\operatorname{pr}_j)_j)
+ \alpha_{q,p}^{\oplus_jX_j}
+ =\operatorname{pr}_{(p,\ldots,p)}.
+\]
+With these equations, the homogeneous and mixed representation maps are exactly the prescribed ones.
+\end{theorem}
+
+Here is the exactness statement. Let
+\[
+ \mathcal P_+(R)=\operatorname{Ch}^b_{\ge0}(\operatorname{Free}_{\mathrm{fg}}R)
+\]
+with degreewise split short exact sequences. Its disk $D_i$ has $R$ in homological degrees $i+1,i$ and identity differential. The map $u_i:D_i\to D_{i+1}$ is identity from the upper copy to the lower copy. An additive $R$-linear functor to an additive $R$-linear category $\mathcal B$ is called relatively left exact when it sends every distinguished short exact sequence to a kernel diagram.
+
+\begin{theorem}[The all-ring essential image]\label{thm:walking}
+For every commutative ring $R$, restriction $F\mapsto(F(D_i),F(u_i))$ is fully faithful on relatively left-exact functors. Its image consists exactly of the nonnegative cochain complexes $C$ in $\mathcal B$ for which, for every $L\in\mathcal P_+(R)$, the kernel of
+\begin{align*}
+ \delta_L(C):\bigoplus_i L_i\otimes_R C^i&\longrightarrow\bigoplus_iL_i\otimes_R C^{i+1},\\
+ (x_i)_i&\longmapsto\bigl((1\otimes d^i)x_i-(\partial_{i+1}\otimes1)x_{i+1}\bigr)_i
+\end{align*}
+exists. All sums are finite. The inverse is $T_C(L)=\ker\delta_L(C)$. If $\mathcal B$ has all kernels, every such complex is in the image.
+\end{theorem}
+Full faithfulness and the case in which $\mathcal B$ has all kernels are already proved in Hua's exposition of the manuscript \cite[pp.~165--166]{Hua}. The criterion here specifies exactly which kernels suffice when arbitrary kernels are unavailable. This statement includes rings with zero divisors and the zero ring. It concerns ordinary kernels; requiring admissible kernels in a specified exact structure adds a separate condition. It does not require the nonnegative source category to be Frobenius.
+
+Next, let $\mathcal T$ be the simplicial abelian groups whose normalized complex is bounded and finite free. For a simplicial set $X$ put
+\[
+ F_X(M)=\Hom_{s\mathsf{Ab}}(\Z[X],M).
+\]
+Evaluation defines natural linear maps $\rho_{p,M}:\Gamma^pF_X(M)\to F_X(\Gamma^pM)$.
+\begin{theorem}[The full divided-power action]\label{thm:reconstruction}
+On the image of $X\mapsto F_X$, the additive test functor with all its natural maps $\rho_{p,M}$ determines, and is determined by, the cosimplicial ring
+\[
+ A_X^n=\operatorname{Map}(X_n,\Z).
+\]
+Already $\rho_2$ and $\rho_0$ recover its tensor pairings and unit. This statement concerns the entire natural action on all test objects; operations on cohomology alone are not the asserted data.
+\end{theorem}
+
+The finiteness question has two different answers. Let $L$ be a
+simplicial module over a commutative ring $R$ and let $N=N(L)$ be
+its nonnegative normalized homological complex. A complex is
+\emph{perfect} if it is quasi-isomorphic to a bounded complex of
+finite projective modules, and \emph{pseudo-coherent} if it has a
+finite-free resolution bounded below in homological degrees, possibly
+unbounded above. The following criterion separates boundedness of
+the given normalization from perfection of its derived class.
+\begin{theorem}[Uniform rank bounds and derived fibres]\label{thm:rank-perfect}
+\begin{enumerate}
+\item Suppose every $L_n$ is finitely generated, and fix $D\ge0$.
+Then $N_i=0$ for all $i>D$ if and only if, for every prime
+$\mathfrak p$, the function
+$n\mapsto\dim_{\kappa(\mathfrak p)}(L_n\otimes_R\kappa(\mathfrak p))$
+is eventually a polynomial of degree at most $D$. The threshold may
+depend on $\mathfrak p$, but $D$ is common. Maximal ideals suffice.
+When the condition holds the exact formula, valid for every $n$, is
+\[
+ \dim_{\kappa(\mathfrak p)}(L_n\otimes_R\kappa(\mathfrak p))
+ =\sum_{i=0}^D
+ \dim_{\kappa(\mathfrak p)}(N_i\otimes_R\kappa(\mathfrak p))\binom ni.
+\]
+\item Suppose $R$ is noetherian and $N$ is pseudo-coherent.
+Then $N$ is perfect if and only if there is a common $D\ge0$ with
+\[
+ H_i(N\otimes_R^{\mathbf L}\kappa(\mathfrak p))=0
+ \quad\text{for every prime }\mathfrak p\text{ and every }i>D.
+\]
+Again maximal ideals suffice. This assertion uses derived fibres;
+it does not assert a bound on the terms of the given $N$.
+\end{enumerate}
+\end{theorem}
+The second assertion is the standard pseudo-coherent fibre criterion
+\cite[Lemma~15.79.2, Tag~068V]{StacksFibres}. Section~\ref{sec:perfection}
+gives the rank proof, the local mechanism of that criterion, and
+counterexamples to replacing its derived fibres by ordinary ranks.
+
+In cote~138, archive sheet~128 (PDF page~129), Grothendieck asks ``Unicit\'e d'un tel $\varphi$?'' for a clean holomorphic map with fixed embedded cells. The capstone about dessins answers the associated cellwise automorphism question. It uses the ordinary map obtained by suppressing the degree-two white vertices. A \emph{cellwise} automorphism fixes each black vertex, each resulting edge and each face setwise; it need not fix the white midpoint of an edge and need not commute with the Belyi map. The complete classification is the following.
+
+\begin{theorem}\label{thm:dessins}
+Let $X$ be a compact Riemann surface with a finite clean dessin. For holomorphic cellwise automorphisms of its ordinary map, the nontrivial groups are exactly these:
+\begin{enumerate}
+\item For the one-vertex one-loop sphere, in the model $K=\R\cup\{\infty\}$ with vertex $\infty$, the group is $z\mapsto az+b$ with $a>0$ and $b\in\R$.
+\item For the sphere with vertices $0,\infty$ and $n\ge1$ equally spaced rays as edges, the group is $z\mapsto az$ with $a>0$.
+\item For each $g\ge1$, the map with darts $\Z/(4g)$, vertex rotation $x\mapsto x+1$ and edge reversal $x\mapsto x+2g$ has group $C_2$.
+\end{enumerate}
+Every other connected finite clean map has trivial group. On a disconnected map the group is the product over components.
+\end{theorem}
+
+Mulase and Penkava classify ribbon graphs whose automorphism action on
+edges has a nontrivial kernel \cite[Definition~1.9 and classification,
+pp.~880--881]{MulasePenkava}. Requiring vertices and faces to be fixed
+selects their one-vertex family with an even number of edges, which
+is case~(3). That combinatorial classification is known. Here we
+identify the full holomorphic group, whose kernel on darts need not
+be trivial on the sphere, and include vertices of valence one and two.
+Section~\ref{sec:dessins} gives this analytic argument and explicit
+Belyi functions for every case.
+
+\input{opening_extensions}
+
+Classical divided powers already carry full composition relations.
+For reduced operads over a field, Ikonicoff describes their algebras
+by polynomial operations with an explicit substitution axiom
+\cite[Definition~3.1.4 and Theorem~3.1.8, pp.~12--13]{Ikonicoff}.
+His reduced hypothesis excludes nullary operations. The countermodels
+here concern the constant and mixed-degree comparisons of the
+manuscript's abstract tensor data.
+Richter transports the simplicial tensor structure across Dold--Kan
+and obtains divided-power chain algebras
+\cite[Theorems~7.1 and~7.5, pp.~248--250]{Richter}.
+Theorem~\ref{thm:reconstruction} instead specifies the natural action
+on finite test objects that recovers the cosimplicial ring itself.
+
+Recent formal work on polynomial laws by Chambert-Loir and de Frutos-Fern\'andez \cite[p.~75]{CLF} treats the classical universal constructions. The counterexamples above concern the extra abstract coherence asserted in the manuscript.
+Fantechi and Ricolfi's account of the support morphism to a symmetric
+product uses the classical polynomial-law and divided-power machinery
+\cite[Appendix~B, pp.~27--30 of the author version]{FantechiRicolfi};
+this geometric use also requires naturality under scalar extension.
+
+The exact-category argument below uses B\"uhler's embedding and
+cancellation theorems; its explicit matrix criterion applies over every
+commutative ring. The counterexample when pullback closure is omitted
+explains why that exact-category hypothesis is needed.
+
+\paragraph{Why the arguments work.}
+The homogeneous axioms see nested partitions but can miss constants interacting with two different degrees. A scalar twist preserves every homogeneous associativity equation while changing that interaction. The walking-complex theorem instead uses a canonical two-term copresentation by disks, so its only existence requirement is an explicit kernel. For cochains, divided powers recover cross terms, hence multiplication on evaluation objects; evaluation objects recover all cosimplicial degrees. In the dessin problem, an automorphism fixing one dart is forced to fix every dart by connectedness, leaving only one possible nonidentity permutation.
+
+\section{Two counterexamples to the bare equivalence}
+We give full models for both failures in Theorem~\ref{thm:bare}.
+
+For the first take $\mathcal C=\mathsf{Vect}_{\F_2}^{\mathrm{fd}}$ and $G^nV=\Lambda^nV$. Exterior powers are exponential, with their signs disappearing in characteristic two. For positive $p,q$, define $\alpha_{p,q}$ by summing over unordered partitions of $pq$ input labels into $p$ blocks of size $q$, taking the exterior product within each block and then among the resulting blocks. This expression is multilinear and alternating: when two vectors coincide, terms in which their labels lie in one block vanish, and the other terms pair under transposition of those labels and cancel. For $q=1$ the repeated outer factors give zero directly. Thus it descends to $\Lambda^{pq}V$ and is natural.
+
+Both sides of \eqref{eq:homogeneous} enumerate the same nested partitions into $p$ groups, each with $q$ blocks of $r$ labels. Every nested partition appears once, proving the equation. The one-index maps are identities. Put $\alpha_{0,q}=\id$ and put $\alpha_{p,0}:k\to\Lambda^pk$ equal to the canonical map, which is identity for $p=0,1$ and zero otherwise. Every zero-index equation is an identity or has both sides zero. Scalar degrees hold for the two scalars of $\F_2$. But $G^2(k)=0$, so $\alpha_{2,0}$ is not invertible.
+
+For the second model use standard divided powers over $\F_3$ with their standard exponential comparisons. Set $t_2=-1$ and $t_n=1$ for $n\ne2$, including $0,1$. Replace the standard substitution maps by
+\[
+ \alpha'_{p,q}=c_{p,q}\alpha_{p,q},\qquad
+ c_{p,q}=\frac{t_{pq}}{t_p t_q^p}.
+\]
+Cancellation gives $c_{p,qr}c_{q,r}^p=c_{pq,r}c_{p,q}$, so homogeneous associativity remains true. All one-index units and $\alpha'_{0,q}$ are unchanged, and all $\alpha'_{q,0}$ are invertible. Yet $\alpha'_{2,0}=-\alpha_{2,0}$.
+
+Suppose these structured data came from polynomial composition with the fixed mixed and tensor-unit comparisons. Let $e:0\to k$ be the constant one and let $m:k\oplus k\rightsquigarrow k$ be multiplication, represented by the mixed component of $\Gamma^2(k\oplus k)$. Mixed-degree compatibility gives $m(e,\id)=\id$, hence $m(e,e)=e$. The homogeneous degree-two formula with the degree-zero pair instead gives
+\[
+ m(e,e)=m\Gamma^2((1,1))\alpha'_{2,0}=-e.
+\]
+This is impossible over $\F_3$. Rescaling homogeneous representatives cannot remove the discrepancy while preserving the specified exponential maps: a monoidal rescaling would require $t_{a+b}=t_at_b$, whereas $t_2\ne t_1^2$. This proves the theorem for the structured data in question.
+
+\section{A finite coherence criterion for composition}\label{sec:coherence}
+We prove the finite coherence criterion of Theorem~\ref{prop:coherence}, with the maps $B_m$, $D_{d,m}$ and $\epsilon$ defined in Section~1.
+
+\begin{proof}
+Projection compatibility makes composition independent of increasing a degree bound. The two counit equations give the left and right identities. For a third representative $h:B_aZ\to W$, expand both parenthesizations using the formula. Naturality of $D$ moves the linear map $f$ through the occurrence of $D$; the remaining equality is precisely the displayed coassociativity equation. This proves sufficiency.
+
+For necessity choose the universal representatives given by identity maps on $B_mX$, then on $B_d(B_mX)$, and then on $B_aB_dB_mX$. Their identity and associativity equations read exactly as the equations for $D$; applying bound independence to these same universal representatives gives the projection equations. Increasing a bound is injective on representatives, since the projection onto the old bound has a section; equality after increasing bounds therefore gives these literal equations. Equality of maps can also be tested by all target maps, giving the Yoneda formulation. For a finite direct sum of source objects, expand both source and target into exponential summands. A target indexed by $(\nu_\beta)_\beta$ has multidegree $w_j=\sum_\beta\nu_\beta\beta_j$. Requiring the source component of multidegree $\lambda$ to vanish unless $\lambda=w$ is exactly multigrading preservation. The final equation says that the component representing a $q$-linear map in $q$ inputs of degree $p$ is its stipulated mixed component, with all other components zero. For inputs of unequal degrees, group the inputs of each degree $p$ in the exponential expansion and apply this normalization to that group. Coassociativity of the exponential diagonal combines the resulting groups, while multigrading eliminates the other components. Thus these equations are necessary and sufficient for the specified representation maps. Constants use $p=0$ and empty tensor products use $q=0$, so the missing mixed-unit case is included. All sums and tests are finite.
+\end{proof}
+
+This criterion records coherence rather than asserting that the bare homogeneous diagram implies it. Over a finite field the vanishing of off-diagonal multigraded components must be imposed explicitly; scalar eigenvalues alone do not separate all degrees.
+
+\begin{counterexample}[Scalar degrees do not provide strict polynomial enrichment]\label{ex:enrichment}
+Even with all unit maps invertible, the bare axioms do not force the maps
+$f\mapsto G^p(f)$ on Hom modules to be homogeneous polynomial laws of
+degree $p$, natural for composition.
+\end{counterexample}
+\begin{proof}
+Work with finite-dimensional nonnegatively internally graded
+$\F_2$-vector spaces and degree-zero maps. Let $T$ discard internal
+degree zero and let $D^a$ be the ordinary divided power. Define the
+external grading by
+\[
+ G^nX=\bigoplus_{a+3b=n}D^aX\otimes D^b(TX).
+\]
+The two gradings have different roles: internal degree is part of the
+object, while $n$ labels the functor. Additivity of $T$ and the
+exponential decomposition of divided powers give coherent exponential
+comparisons for $G$. Moreover $G^0=\mathbf1$, $G^1=\id$ and
+$G^n\mathbf1=\mathbf1$ for every $n$. The scalar-degree axiom holds
+for both scalars in $\F_2$.
+
+Let $i_n:D^n\to G^n$ and $\pi_n:G^n\to D^n$ be inclusion and
+projection of the summand $b=0$. For $p,q\ge2$ define
+\[
+ \alpha^G_{p,q}
+ =i_p^{G^qX}D^p(i_q^X)\alpha^D_{p,q}\pi_{pq}^X.
+\]
+Use identity maps for an index equal to one and the canonical unit
+maps for a zero index. For three indices at least two, expand either
+side of homogeneous associativity. Naturality moves each projection
+past the adjacent divided-power map, and each $\pi_j i_j$ cancels.
+Both sides become the standard threefold divided-power substitution,
+preceded by $\pi_{pqr}$ and followed by the same three inclusions.
+An index equal to one contributes an identity. If an index is zero,
+the remaining objects are divided powers of the unit and all maps
+are the identity of the unit. Thus these data satisfy every bare axiom.
+
+Now place $V$ in internal degree one. The internal-degree-one summand
+of $G^3V=D^3V\oplus V$ is $V$, and $G^3(f)$ restricts to $f$ on
+that summand. A natural cubic enrichment would therefore give a
+homogeneous cubic law $\ell$ on matrices agreeing with the identity
+at $\F_2$-points. On one-dimensional spaces the only such law is
+$r\mapsto r^3$: evaluation at $1$ fixes its coefficient. Coordinate
+inclusions and projections force entrywise cubing on every matrix.
+Postcomposition with $(x,y)\mapsto x+y$ then requires
+$(x+y)^3=x^3+y^3$ in every $\F_2$-algebra. In $\F_2[s,t]$ their
+difference is the nonzero polynomial $s^2t+st^2$. This contradiction
+proves the claim. It also has a finite witness: in
+$\F_4=\F_2[\omega]/(\omega^2+\omega+1)$, the two sides at
+$(1,\omega)$ are respectively $1$ and $0$.
+\end{proof}
+
+\input{positive_polynomial_laws}
+
+\subsection{Exactly what scalar weights can distinguish}
+The scalar-degree caveat has a precise arithmetic form. For an abelian
+ group $M$ write $M[d]=\{x:dx=0\}$.
+\begin{proposition}[Scalar-weight ambiguity]\label{prop:scalar-weights}
+Let $A=\bigoplus_{m\ge0}A_m$, with the scalar $\lambda\in\Z$ acting
+as $\lambda^m$ on $A_m$, and use $0^0=1$. Put
+\[
+ d_{n,m}=\gcd_{\lambda\in\Z}|\lambda^n-\lambda^m|\quad(n\ne m).
+\]
+The simultaneous weight-$n$ eigenspace is exactly
+\[
+ A_n\oplus\bigoplus_{m\ne n}A_m[d_{n,m}].
+\]
+If one index is zero then $d_{n,m}=1$. For positive distinct indices
+put $s=\min(n,m)$ and $h=|n-m|$. For an odd prime $\ell$,
+\[
+ v_\ell(d_{n,m})=
+ \begin{cases}
+ 0,&\ell-1\nmid h,\\
+ \min\{s,1+v_\ell(h)\},&\ell-1\mid h,
+ \end{cases}
+\]
+and
+\[
+ v_2(d_{n,m})=
+ \begin{cases}
+ \min\{s,1\},&h\text{ odd},\\
+ \min\{s,2+v_2(h)\},&h\text{ even}.
+ \end{cases}
+\]
+Over a commutative ring $k$, replace $(d_{n,m})$ by the ideal
+$I_{n,m}(k)=(\lambda^n-\lambda^m:\lambda\in k)$. For several
+scalar variables the corresponding ideal is
+$\sum_j I_{n_j,m_j}(k)$. Distinct positive weights over $\F_q$
+coincide on every scalar exactly when $q-1$ divides their difference;
+over an infinite field every pair of distinct weights is separated.
+Naturality after all commutative scalar extensions separates distinct
+weights over every ring, with no torsion hypothesis.
+\end{proposition}
+\begin{proof}
+Write $x=\sum_m x_m$. The weight equation holds exactly when
+$(\lambda^m-\lambda^n)x_m=0$ for every $m,\lambda$. The ideal of
+these integers is generated by their gcd, giving the eigenspace
+formula by B\'ezout. If one exponent is zero, evaluation at zero gives
+one. Otherwise the difference, up to sign, is
+$\lambda^s(\lambda^h-1)$.
+
+For a prime $\ell$, scalars divisible by $\ell$ have minimum valuation
+$s$, attained at $\lambda=\ell$. For odd $\ell$, the units modulo
+$\ell$ form a cyclic group of order $\ell-1$. If this order does
+not divide $h$, a unit gives valuation zero. If it does, write
+$h=(\ell-1)r$. Every unit satisfies
+$v_\ell(\lambda^h-1)\ge1+v_\ell(r)$: expand a power of
+$1+\ell a$ successively, first by an exponent prime to $\ell$ and
+then by powers of $\ell$. Equality is attained. Indeed, lift a
+primitive nonzero residue to an integer $u$ with
+$v_\ell(u^{\ell-1}-1)=1$. Such a lift exists because replacing $u$
+by $u+t\ell$ changes the next coefficient by the nonzero residue
+$(\ell-1)u^{\ell-2}t$. The same binomial expansion gives valuation
+$1+v_\ell(r)=1+v_\ell(h)$ for this lift. Taking the smaller of
+the unit and nonunit minima proves the odd-prime formula.
+
+For an odd integer $u$ and odd $h$, $u^h-1$ has valuation
+$v_2(u-1)$, whose minimum is one, attained at $u=3$. If
+$h=2^r h'$ with $h'$ odd and $r\ge1$, successive factorization of
+$u^{2^r}-1$ gives
+\[
+ v_2(u^h-1)=v_2(u-1)+v_2(u+1)+r-1.
+\]
+The first two valuations sum to at least three, with equality at
+$u=3$, so the unit minimum is $2+v_2(h)$. Comparison with $s$
+proves the remaining formula.
+
+The argument over $k$ is the same componentwise ideal-annihilator
+calculation. For multidegrees, setting all but one scalar equal to
+one gives each coordinate ideal; a telescoping expansion of the
+difference of two products gives the reverse inclusion. The finite
+field assertion follows from the exponent of $\F_q^\times$, and
+the infinite field assertion from the fact that a nonzero polynomial
+has only finitely many roots. Finally take the scalar $t$ in $k[t]$.
+For $n\ne m$, the two different coefficients of
+$(t^n-t^m)x$ force $x=0$ in $A\otimes_k k[t]$. This works even
+when $A$ has torsion or $k$ has zero divisors.
+\end{proof}
+The formula describes torsion ambiguity, not a demand to invert
+primes: a torsion-free abelian group already has no off-weight
+vectors. It also explains why scalar identities at the ground-ring
+points cannot substitute for polynomial-law naturality.
+
+\section{The walking complex over an arbitrary ring}\label{sec:walking}
+We prove Theorem~\ref{thm:walking} by a canonical copresentation. For a finite free module $V$, $V\otimes_R B$ means a finite copower in $\mathcal B$; a change of basis acts by its matrix, so the construction is independent of the basis.
+
+For $b\in\mathcal B$, set $C_b^i=\Hom_{\mathcal B}(b,C^i)$ and let $L^\vee$ be the cochain complex dual to $L$. The kernel formula gives naturally
+\[
+ \Hom_{\mathcal B}(b,T_C(L))
+ =\Hom_{\operatorname{Ch}(R)}(L^\vee,C_b).
+\]
+The right side denotes ordinary cochain maps, not derived maps. It proves functoriality. Dualizing a degreewise split exact sequence reverses it, and Hom into $C_b$ is left exact. Testing on every $b$ therefore proves relative left exactness of $T_C$. A map from $D_i^\vee$ is determined by its degree-$i$ component, giving $T_C(D_i)=C^i$ and $T_C(u_i)=d^i$.
+
+Conversely define
+\[
+ I(L)=\bigoplus_{i\ge0}D_i\otimes_RL_i.
+\]
+In degree $n$ this has $L_n\oplus L_{n-1}$, with differential $(x,y)\mapsto(y,0)$. The map $j_L(x)=(x,\partial x)$ is a degreewise split monomorphism. Its quotient is $Q(L)_n=L_{n-1}$ with differential $-\partial$, and its quotient map is $q_L(x,y)=y-\partial x$. Both
+\[
+ 0\to L\xrightarrow{j_L}I(L)\xrightarrow{q_L}Q(L)\to0
+\]
+and the analogous sequence for $Q(L)$ are distinguished. Relative left exactness makes $F(L)$ the kernel of
+\[
+ F(I(L))\xrightarrow{F(j_{Q(L)}q_L)}F(I(Q(L))).
+\]
+Additivity identifies this with $\delta_L(C)$ for $C=\rho F$: next-disk entries are $d^i$ and same-disk entries are $-\partial_{i+1}$. Thus $F\simeq T_{\rho F}$. A cochain map induces maps on these kernels; conversely every natural transformation is determined by its values on the disk copresentations. This proves full faithfulness and the essential-image statement.
+
+\begin{proposition}[Enough projectives and injectives, with a boundary]
+\label{prop:nonnegative}
+The category $\mathcal P_+(R)$ has enough projectives and injectives.
+For $R\ne0$ it is not Frobenius: the stalk $S_0$ in degree zero is
+projective and is not injective.
+\end{proposition}
+\begin{proof}
+A disk is projective because maps from $D_i\otimes V$ are determined
+by maps from $V$ to degree $i+1$; it is injective because maps into
+it are determined by maps from degree $i$ to $V$. Here $V$ is
+finite free and all sequences split degreewise. The copresentation
+$I(L)$ above therefore supplies enough injectives. For projectives,
+use
+\[
+ J(L)=(S_0\otimes L_0)\oplus
+       \bigoplus_{i\ge1}(D_{i-1}\otimes L_i).
+\]
+In degree $n$ the map to $L$ is
+$(x,y)\in L_n\oplus L_{n+1}\mapsto x+\partial y$.
+It is a degreewise split chain epimorphism, and its kernel has finite
+free terms isomorphic to $L_{n+1}$. The stalk $S_0$ is projective
+since $\Hom(S_0,L)=L_0$, so $J(L)$ is projective. Finally the
+inclusion $S_0\to D_0$ has no chain retraction: a map $D_0\to S_0$
+must vanish in degree zero by its chain-map equation. For $R\ne0$
+this proves the failure of injectivity and of the Frobenius property.
+\end{proof}
+
+\subsection{What changes for a principal ideal domain}
+The arbitrary-ring criterion simplifies over a principal ideal domain,
+but it does not reduce to the kernels of the individual differentials.
+\begin{proposition}\label{prop:pid}
+Let $R$ be a principal ideal domain. In Theorem~\ref{thm:walking} it
+suffices, and is necessary, that every $\ker d^i$ and every kernel
+\[
+ K_{i,a}=\ker\left[C^i\oplus C^{i+1}\longrightarrow
+ C^{i+1}\oplus C^{i+2},\quad
+ (x,y)\longmapsto(d^ix-ay,d^{i+1}y)\right]
+\]
+exist, for all nonzero nonunits $a\in R$. Over a field the second
+family is empty. For every nonfield principal ideal domain the
+first family alone is insufficient in general.
+\end{proposition}
+\begin{proof}
+For a bounded finite-free complex $L$, its cycles $Z_i$ and boundaries
+$B_i$ are finite free. Split $L_i\to B_{i-1}$, and put each inclusion
+$B_i\subset Z_i$ into Smith normal form. The resulting bases express
+$L$ as a finite direct sum of stalks and two-term complexes
+$R\xrightarrow{a}R$. A unit $a$ gives a disk. The matrix kernel of
+a stalk is $\ker d^i$, that of a disk is $C^i$, and that of the
+displayed two-term complex is $K_{i,a}$. Kernels of finite direct
+sums are their direct sums, proving the equivalence.
+
+For insufficiency choose a prime element $\pi$ of $R$ and let
+$\mathcal B$ be the category of finite free $S=R/(\pi^2)$-modules.
+Take $C^1=S$ and all other terms zero. All differential kernels
+exist in $\mathcal B$, but $K_{0,\pi}$ would represent the kernel
+of multiplication by $\pi$ on $S$. Evaluation of Hom at $S$ would
+identify its underlying $S$-module with $\pi S\simeq R/(\pi)$.
+That nonzero module is killed by $\pi$ and is not free over $S$.
+Thus the required kernel does not exist in $\mathcal B$.
+\end{proof}
+
+\subsection{Exact categories and admissible kernels}
+For a Quillen exact target the exact-functor statement has a useful
+form in terms of its admissible short exact sequences, or
+\emph{conflations}. The first nonzero arrow of a conflation is an
+\emph{inflation}, and the second is a \emph{deflation}.
+\begin{theorem}\label{thm:exact}
+Let $\mathcal E$ be an $R$-linear exact category. Restriction to the
+disks is fully faithful on exact functors from $\mathcal P_+(R)$.
+Its essential image consists of complexes admitting objects $Z_i$
+and conflations
+\[
+ 0\longrightarrow Z_i\xrightarrow{s_i}C^i
+ \xrightarrow{p_i}Z_{i+1}\longrightarrow0,
+ \qquad d^i=s_{i+1}p_i \quad(i\ge0).
+\]
+In an abelian target this means $H^i(C)=0$ for $i>0$; $H^0(C)$
+is unrestricted. For relatively left-exact functors additionally
+required to preserve inflations, the exact criterion is existence
+of the kernels of Theorem~\ref{thm:walking} and admissibility of
+every induced map $T_C(A)\to T_C(B)$ for a source inflation
+$A\to B$. If $\mathcal E$ is weakly idempotent complete, it is
+enough to require that every canonical kernel inclusion
+$T_C(L)\to\bigoplus_i L_i\otimes_R C^i$ be an inflation.
+\end{theorem}
+\begin{proof}
+The source conflation $0\to S_i\to D_i\to S_{i+1}\to0$
+shows necessity, with $Z_i=F(S_i)$. Full faithfulness follows from
+Theorem~\ref{thm:walking}.
+
+For sufficiency first work in an abelian target and form the internal
+Hom complex $\mathcal H_L=\operatorname{Hom}^{\bullet}(L^\vee,C)$,
+so that $\mathcal H_L^q=\bigoplus_i L_i\otimes_R C^{i+q}$ and
+$Z^0\mathcal H_L=T_C(L)$. Filtering $L^\vee$ by its finitely many
+degrees gives successive internal-Hom quotients that are finite
+sums of $C[i]$ with $i\ge0$. Their cohomology in degree $q>0$
+is zero. The long exact sequence of each filtration step gives
+$H^q(\mathcal H_L)=0$ for $q>0$. A source conflation gives a
+degreewise split short exact sequence of these Hom complexes.
+The obstruction to lifting a zero-cycle lies in
+$H^1(\mathcal H_A)=0$, so the sequence of zero-cycles is short
+exact. This proves exactness of $T_C$ in the abelian case.
+
+Use the exact fully faithful extension-closed abelian embedding of
+an exact category \cite[Theorem~A.1, p.~36]{Buehler}. Work in a universe
+containing the objects in question; the embedding preserves their
+central $R$-actions. It remains to show that each abelian kernel
+$T_C(L)$ lies in $\mathcal E$. Let $p$ be the least nonzero degree
+of $L$, put $V=L_p$, and let $L'$ be its quotient by the stalk
+$S_p\otimes_R V$. In complexes, $L$ is the pullback of
+$D_p\otimes_RV\to S_{p+1}\otimes_RV$ along the map from $L'$
+induced by $\partial_{p+1}$. This follows degree by degree: the
+only new coordinate is $V$ in degree $p$, and the compatibility
+equation in degree $p+1$ is exactly that differential. Applying
+the abelian construction identifies $T_C(L)$ with the pullback of
+the deflation $C^p\otimes_RV\to Z_{p+1}\otimes_RV$ along
+$T_C(L')\to Z_{p+1}\otimes_RV$. The Quillen pullback axiom and
+induction on the support of $L$ put this object in $\mathcal E$.
+Reflection of exactness by the embedding completes the proof.
+
+For the last assertion let $k_L$ denote the canonical kernel
+inclusion. Necessity follows by applying the functor to $j_L$.
+Conversely, for an inflation $a:A\to B$ in the source, $I(a)$
+is split since its degreewise maps split. The equation
+$k_BT_C(a)=T_C(I(a))k_A$ says that this composite is an inflation.
+Cancellation of inflations in a weakly idempotent complete exact
+category \cite[dual of Proposition~7.5, p.~17]{Buehler} makes $T_C(a)$
+an inflation. This proves the shorter test.
+\end{proof}
+
+The two elementary closure axioms on sequences do not suffice in
+place of Quillen exactness. Take $R=\Z$. In finite abelian groups let $\Sigma$
+consist of finite direct sums of split sequences and copies of
+\[
+ e:\quad0\longrightarrow\Z/4\xrightarrow{4}\Z/16
+ \longrightarrow\Z/4\longrightarrow0.
+\]
+This is a class of kernel--cokernel pairs closed under isomorphism
+and finite direct sum and containing every split sequence. The
+complex $C^0=\Z/16\to C^1=\Z/4$ given by reduction, with all
+other terms zero, is a resolution for this class. Any exact extension
+of its disk values would, by Theorem~\ref{thm:walking}, have to be
+$T_C$. Applied to $0\to S_0\to[R\xrightarrow{2}R]\to S_1\to0$,
+it has middle group
+\[
+ G=\{(x,y)\in\Z/16\oplus\Z/4:x\bmod4=2y\bmod4\}.
+\]
+This group has order sixteen and exponent eight: its first
+coordinates are even and $(2,1)$ has order eight. Its kernel and
+quotient under projection to $y$ both have order four and are
+cyclic. A sequence in $\Sigma$ with those two ends is either
+split, with middle exponent four, or is a copy of $e$, with middle
+exponent sixteen. Neither is possible. This explicitly isolates
+the missing pullback closure in the weaker axioms.
+
+\subsection{The two-sided Frobenius replacement}
+The obstruction at degree zero disappears when complexes may extend
+in both directions.
+\begin{proposition}\label{prop:frobenius}
+For every commutative ring $R$, give
+$\operatorname{Ch}^b(\operatorname{Free}_{\mathrm{fg}}R)$ in all
+integer degrees its degreewise split exact structure. It is a
+Frobenius category: its projective and injective objects coincide
+and are exactly the contractible complexes. Its quotient by maps
+factoring through these objects is
+$K^b(\operatorname{Free}_{\mathrm{fg}}R)$, the category of bounded
+finite-free complexes and chain-homotopy classes of maps.
+\end{proposition}
+\begin{proof}
+A disk in degrees $i+1,i$ with coefficients in a finite free module
+$V$ is projective and injective for this exact structure. Maps out
+of it are determined by a map from $V$ to degree $i+1$; maps into
+it are determined by a map from degree $i$ to $V$. Degreewise
+splittings lift or extend these maps.
+
+For a complex $C$, its cone on the identity is
+\[
+ P(C)_n=C_{n-1}\oplus C_n,\qquad
+ d(a,b)=(-d_Ca,a+d_Cb).
+\]
+The map $H(a,b)=(b,0)$ contracts it. There is a degreewise split
+sequence $0\to C\to P(C)\to C[1]\to0$; shifting it also gives
+a deflation from a contractible complex to $C$. Every contractible
+complex is projective and injective. To see this without assuming
+its cycles are free, use the disk sum
+$I(C)_n=C_n\oplus C_{n-1}$, with differential $(x,y)\mapsto(y,0)$.
+The usual inclusion $c\mapsto(c,d_Cc)$ has, for a contracting
+homotopy $h$ of $C$, the chain retraction
+\[
+ (x,y)\longmapsto d_Chx+hy.
+\]
+Thus $C$ is a retract of a finite sum of disks, and inherits their
+relative projectivity and injectivity. The cone sequences give enough
+of both. Conversely, an injective splits its inclusion in $P(C)$,
+and a projective splits the shifted cone deflation. Either is a
+retract of a contractible complex and hence contractible. This proves
+the Frobenius assertion, including rings with zero divisors.
+
+A map factoring through a contractible complex is null-homotopic,
+by composing its contracting homotopy with the two maps. Conversely,
+if $f:C\to D$ has $f=d_Dh+hd_C$, it factors through the cone above:
+\[
+ C\longrightarrow P(C)\longrightarrow D,\qquad
+ c\longmapsto(0,c),\quad (a,b)\longmapsto h(a)+f(b).
+\]
+The chain-map equation for the second arrow is exactly the displayed
+null-homotopy equation. Thus the ideal being quotiented out is
+precisely the chain-null-homotopic maps, proving the stable-quotient
+statement.
+\end{proof}
+
+\section{Reconstruction from the natural divided-power action}\label{sec:reconstruction}
+We construct both directions in Theorem~\ref{thm:reconstruction}. The category $\mathcal T$ is closed under degreewise tensor products and divided powers: Dold--Kan writes the rank in simplicial degree $m$ as a polynomial combination of $\binom mi$, and tensor products multiply these polynomials while $\Gamma^p$ replaces rank $r$ by $\binom{r+p-1}p$. Binomial inversion makes the normalized ranks zero in sufficiently high degree. Normalized groups are direct summands of finite free abelian groups and hence free.
+
+The exponential decomposition
+\[
+ \Gamma^2(P\oplus Q)=\Gamma^2P\oplus(P\otimes Q)\oplus\Gamma^2Q
+\]
+recovers a tensor pairing from $\rho_2$: include the middle summand of $\Gamma^2(F_X(M)\oplus F_X(N))$, apply $\rho_{2,M\oplus N}$, and project to $F_X(M\otimes N)$. Evaluation at a simplex gives exactly $f(x)\otimes g(x)$. The map $\rho_0:\Z\to F_X(\Z)$ gives the unit.
+
+Define $R_n$ in simplicial degree $m$ by
+\[
+ (R_n)_m=\Z^{\Hom_\Delta([n],[m])}.
+\]
+Its simplicial maps restrict functions along composition. Dold--Kan and Vandermonde's identity give
+\[
+ \operatorname{rank}(NR_n)_i=\binom{n+1}i\ (0\le i\le n+1),
+ \qquad (NR_n)_i=0\ (i>n+1).
+\]
+Thus $R_n\in\mathcal T$. Its normalization is in fact split
+acyclic. On the unnormalized chain complex define
+$h_m:(R_n)_m\to(R_n)_{m+1}$ by extending a function to be zero on
+maps $[n]\to[m+1]$ whose image contains $0$, and otherwise shifting
+all their values down by one. Then $d_0h=\id$ and
+$d_jh=hd_{j-1}$ for $j>0$, with $d_1h_0=0$ at the bottom.
+The alternating differential therefore satisfies $\partial h+h\partial=\id$.
+The normalized and degenerate complexes split naturally, and the
+degenerate complex is acyclic, so the normalization is acyclic as
+well. An acyclic bounded complex of finite free abelian groups splits,
+since its cycle groups are free and each sequence onto the next
+cycle group splits. This proves the split-acyclic assertion without
+using it to erase the nontrivial evaluation functor.
+
+The adjunction with degree-$n$ evaluation is explicit: a function $f:X_n\to\Z$ sends $x\in X_m$ to the function $\theta\mapsto f(X(\theta)x)$, and the inverse evaluates at $\id_{[n]}$. Hence $F_X(R_n)=\Z^{X_n}$. The maps $R_n\to R_{n'}$ recover every cosimplicial operator. Pointwise multiplication $R_n\otimes R_n\to R_n$, followed after the recovered tensor pairing, gives pointwise multiplication on $\Z^{X_n}$. This recovers the entire cosimplicial ring.
+
+Conversely, since $M_m$ is finite free,
+\[
+ A_X^m\otimes M_m\simeq\operatorname{Map}(X_m,M_m)
+\]
+without any assumption on the cardinality of $X_m$. The functor $F_X(M)$ is the equalizer of
+\[
+ \prod_m A_X^m\otimes M_m
+ \rightrightarrows\prod_{\theta:[m]\to[n]}A_X^n\otimes M_m,
+\]
+where the two arrows apply $A_X(\theta)$ and $M(\theta)$ respectively. Multiplication of the $A_X$ coefficients recovers tensor pairings. In a basis $e_1,\ldots,e_r$ of $M_m$, divided powers are recovered by
+\[
+ \gamma_p\left(\sum_jf_je_j\right)
+ =\sum_{\alpha_1+\cdots+\alpha_r=p}
+   \left(\prod_jf_j^{\alpha_j}\right)
+   \gamma_{\alpha_1}(e_1)\cdots\gamma_{\alpha_r}(e_r).
+\]
+The divided-power identities give basis independence and compatibility with simplicial operators; universal linearization gives $\rho_p$. All identities can be checked by evaluation at each simplex, so the two reconstructions are inverse. Normalizing the underlying cosimplicial abelian group gives the integral cochain complex. Cosimplicial Dold--Kan recovers that underlying group from the complex; its multiplication is retained by the full action above. This proves the stated reconstruction.
+
+\input{homotopy_recovery}
+
+\subsection{What weaker cochain data fail to recover}
+\begin{counterexample}\label{ex:lens}
+The connected nilpotent finite CW spaces $L(5,1)$ and $L(5,2)$ have
+quasi-isomorphic integral cochain complexes and isomorphic graded
+cohomology rings, including every degree-compatible divided power on
+the positive even cohomology ideal. They are not homotopy equivalent.
+\end{counterexample}
+\begin{proof}
+Use the convention
+\[
+ L(5,q)=S^3/\bigl((z,w)\sim(\zeta_5z,\zeta_5^qw)\bigr),
+ \qquad q=1,2.
+\]
+The action is free, so the fundamental group is $C_5$ and the
+universal cover is $S^3$. Every deck transformation is connected to
+the identity through coordinate rotations of $S^3$; it acts trivially
+on the higher homotopy groups. Thus these spaces are nilpotent.
+Their integral cohomology is
+\[
+ H^0=H^3=\Z,\qquad H^2=\Z/5,\qquad H^1=0,
+\]
+with no other groups. One obtains this from $H_1=C_5$, orientation,
+Poincar\'e duality and the universal coefficient theorem. All products
+of positive-degree classes vanish for degree reasons. On the positive
+even ideal $H^2$, every divided power of order at least two also
+vanishes for degree reasons. These are the same operations on both
+spaces; this assertion does not put the unit in a divided-power ideal.
+
+A finite cellular cochain complex over $\Z$ splits, by Smith normal
+form, into stalks, two-term multiplication blocks and contractible
+disks. The groups just listed therefore make either complex
+quasi-isomorphic to
+\[
+ \Z\xrightarrow{0}\Z\xrightarrow{5}\Z\xrightarrow{0}\Z
+ \quad\text{in cohomological degrees }0,1,2,3.
+\]
+This is a statement about complexes, without the full natural
+multiplicative action of Theorem~\ref{thm:reconstruction}.
+
+For the specified quotient orientation, the linking form is
+$\lambda_q(a,b)=-qab/5$ in $\Q/\Z$
+\cite[Proposition~1.2, p.~2]{CFH}. A homotopy equivalence carries
+this form to itself up to the degree $\pm1$: the defining Bockstein,
+cup product and evaluation on the fundamental class are natural.
+An isomorphism on $H_1=\Z/5$ is multiplication by a unit $u$.
+Consequently an equivalence between these two spaces would require
+$2\equiv\pm u^2\pmod5$. The nonzero squares modulo five are
+$1,4$, and changing the sign gives the same set. This is impossible.
+\end{proof}
+
+\begin{counterexample}[Binomial operations are a different structure]\label{ex:binomial}
+The operation $a\mapsto\binom a2$ on $\Z$ is not the point map
+of a polynomial law from the rank-one integral module to itself.
+Moreover, no divided-power ideal of $\Z$ contains $1$.
+\end{counterexample}
+\begin{proof}
+A law would be natural for the reduction $\Z\to\F_2$. The integers
+$0$ and $2$ have the same image there, whereas their proposed outputs
+are $0$ and $1$. Naturality is contradicted. Equivalently, its
+universal polynomial would be $t(t-1)/2$, which is not in $\Z[t]$.
+If a divided-power ideal contained $1$, the identity
+$1^2=2\gamma_2(1)$ would make $1$ divisible by $2$ in $\Z$.
+\end{proof}
+Thus binomial operations in homotopy-recovery theorems, an internal
+divided-power ideal, and the natural action on the entire test
+functor are distinct structures. The reconstruction theorem uses the
+last of these.
+
+\section{Simplicial ranks and derived perfection}\label{sec:perfection}
+Let $L$ be a simplicial module over a commutative ring $R$, with
+normalized homological complex $N=N(L)$ in degrees $i\ge0$.
+We call this particular normalized complex \emph{strictly perfect}
+when its terms are finite projective and zero in sufficiently high
+degree. We call it \emph{perfect} when it is quasi-isomorphic to a
+bounded complex of finite projective modules. The latter condition
+allows a different representative and ignores contractible summands.
+
+\subsection{The rank formula and its converse}
+The Dold--Kan decomposition has the concrete form
+\begin{equation}\label{eq:dold-kan-sum}
+ L_n\simeq\bigoplus_{i=0}^n N_i^{\oplus\binom ni}.
+\end{equation}
+The summands are indexed by increasing surjections $[n]\twoheadrightarrow[i]$;
+there are $\binom ni$ such maps, since their $i$ jumps can occur at
+any $i$ of the $n$ gaps. This is the denormalization formula in
+Dold--Puppe \cite[equation~(3.3), p.~219; Theorem~3.6 and
+Corollary~3.8, p.~220]{DoldPuppe}. In particular, $N_i$ is a natural
+direct summand of $L_i$. It follows in both directions that all
+$L_n$ are finitely generated, respectively finite projective, exactly
+when all $N_i$ have that property. The decomposition is compatible
+with arbitrary scalar extension: its splitting maps are made from
+faces and degeneracies. This also proves that normalization commutes
+with scalar extension, despite its possible description by kernels.
+
+For a prime $\mathfrak p$ write
+\[
+ a_i(\mathfrak p)=\dim_{\kappa(\mathfrak p)}
+       (N_i\otimes_R\kappa(\mathfrak p)),\qquad
+ r_{\mathfrak p}(n)=\dim_{\kappa(\mathfrak p)}
+       (L_n\otimes_R\kappa(\mathfrak p)).
+\]
+When the terms are finite, \eqref{eq:dold-kan-sum} gives the exact,
+nonnegative binomial expansion
+\begin{equation}\label{eq:fibre-rank}
+ r_{\mathfrak p}(n)=\sum_{i=0}^n a_i(\mathfrak p)\binom ni.
+\end{equation}
+\begin{proof}[Proof of the rank assertion in Theorem~\ref{thm:rank-perfect}]
+If $N_i=0$ for $i>D$, the displayed formula is a polynomial in $n$
+of degree at most $D$ for every prime, valid from $n=0$. Conversely,
+suppose the fibre ranks are eventually polynomials of degree at most
+$D$, with the threshold and coefficients allowed to depend on the
+prime. If $a_j(\mathfrak p)>0$ for some $j>D$, nonnegativity gives
+$r_{\mathfrak p}(n)\ge\binom nj$ for every $n\ge j$, contradicting
+that polynomial bound as $n$ tends to infinity. Thus all fibres of
+$N_j$ vanish for $j>D$. Each $N_j$ is finitely generated, so
+Nakayama's lemma at the maximal ideals implies $N_j=0$. Maximal
+ideals therefore suffice for the test. For a nonzero fibre the degree
+of its polynomial is the largest $i$ with $a_i(\mathfrak p)>0$,
+since its leading coefficient is positive. The zero polynomial has
+all coefficients zero. The statement also covers the zero ring.
+\end{proof}
+The common degree bound is essential; the starting index of eventual
+polynomial behavior need not be common. If the simplicial terms are
+finite projective, this theorem characterizes strict perfection.
+Without projectivity, it characterizes bounded normalization only.
+
+\subsection{Perfect complexes over regular rings}
+\begin{proposition}\label{prop:regular-perfect}
+Let $R$ be a regular noetherian ring, without a bound on its Krull
+dimension. Then $N(L)$ is perfect if and only if every $H_i(N(L))$
+is finitely generated and these groups vanish in sufficiently high
+degree. In particular, finite simplicial terms and the common degree
+bound in Theorem~\ref{thm:rank-perfect} imply perfection.
+\end{proposition}
+\begin{proof}
+This is the regular-ring perfectness criterion
+\cite[Lemma~15.76.14, Tag~066Z]{StacksRegular}. Its finite-global-
+bound point can be seen directly. For a finitely generated module
+$M$, choose a resolution with finite free terms; noetherianity keeps
+its syzygies finite. The loci where successive syzygies are locally
+free are increasing open sets. Each prime belongs to one of them,
+since its regular local ring has finite global dimension. Quasi-
+compactness of $\Spec R$ gives a single syzygy that is locally free
+everywhere, and hence finite projective. Thus this particular $M$
+has a finite projective resolution, even when there is no uniform
+bound valid for all finite modules.
+
+A complex with only finitely many nonzero finite homology modules
+is built in the derived category from their shifts by its finite
+truncation triangles. Each of these modules has just been shown
+perfect; taking a finite number of mapping cones preserves perfectness.
+Conversely, a bounded complex of finite projectives has bounded
+finitely generated homology over a noetherian ring. Finally, finite
+simplicial terms and a common rank degree bound make $N$ bounded
+with finite terms by \eqref{eq:dold-kan-sum} and the rank assertion;
+its homology has the required finiteness.
+\end{proof}
+
+\begin{counterexample}[Two different failures of a rank test]\label{ex:rank-tests}
+Over $\Z$, fibrewise eventual polynomial ranks with no common degree
+bound do not imply perfection. Perfection does not imply eventual
+polynomial ranks of a particular termwise finite simplicial model.
+\end{counterexample}
+\begin{proof}
+For the first assertion choose distinct primes $p_i$, $i\ge1$, and
+take the zero-differential complex $N_i=\Z/p_i$, $N_0=0$.
+Denormalize it. Every simplicial degree is a finite abelian group.
+At the prime $p_j$ its rank function is $\binom nj$, and at the
+generic point it is zero. Thus every fibre is eventually polynomial,
+but the degrees are unbounded. Its homology is nonzero in infinitely
+many degrees, so it cannot be perfect.
+
+For the second take the locally finite direct sum of the disks with
+$\Z$ in degrees $i+1,i$, for all $i\ge0$. Then $N_0$ has rank one
+and every $N_i$ for $i>0$ has rank two. The disk contractions sum
+degreewise, giving a contracting homotopy. Hence $N$ represents zero
+and is perfect. Its simplicial rank in degree $n$ is nevertheless
+\[
+ 1+2\sum_{i=1}^n\binom ni=2^{n+1}-1,
+\]
+which is not eventually polynomial. Each simplicial term is still
+finite free. The same example works over every nonzero ring.
+\end{proof}
+
+\subsection{The exact test uses derived fibres}
+Recall that a complex is \emph{pseudo-coherent} if it has a resolution
+by finite free modules bounded below in homological degrees, though
+possibly unbounded above. For a nonnegative complex over a noetherian
+ring, finite terms, or more generally finite homology in every degree,
+suffice: choose finitely many cycle representatives in the bottom
+degree, take a finite free module on them, and continue through the
+successive cones. At each step noetherianity makes the needed kernels
+and homology modules finite. This constructs the finite free resolution.
+
+\begin{proof}[Proof of the derived-fibre assertion in Theorem~\ref{thm:rank-perfect}]
+The exact external criterion is
+\cite[Lemma~15.79.2, Tag~068V]{StacksFibres}: a pseudo-coherent
+complex has finite projective amplitude in a fixed interval if and
+only if its derived residue-field fibres vanish outside that interval;
+maximal ideals suffice. Here $N$ is nonnegative, so its derived
+fibres have no negative homological degrees. The asserted common
+upper bound therefore gives the interval $[0,D]$.
+
+For completeness, the local mechanism behind the criterion in this
+case is elementary. Choose a finite-free resolution $P$ in nonnegative
+homological degrees, not necessarily bounded above. At a local ring,
+a unit entry in a differential splits off a contractible rank-one
+disk by row and column operations. Starting in the bottom degree,
+repeat this operation until all remaining differential entries are
+in the maximal ideal. Only finitely many operations affect each
+degree. The remaining minimal complex has zero differential after
+tensoring with the residue field. Vanishing of the derived fibre
+above $D$ therefore makes all its free terms above $D$ zero.
+Consequently $P$ is locally homotopy equivalent to a complex supported
+in $[0,D]$, and
+$\operatorname{coker}(P_{D+1}\to P_D)$ is locally finite free.
+This cokernel is finitely presented, so it is finite projective
+when the condition holds at all maximal ideals. Also $H_i(P)=0$
+for $i>D$, as can be tested by localization. Replacing degree $D$
+by that cokernel and removing all higher terms gives a bounded
+projective complex quasi-isomorphic to $P$. This proves sufficiency.
+Necessity follows by tensoring any bounded projective representative.
+The use of a common degree interval and of derived tensor products is
+essential.
+\end{proof}
+
+Even bounded normalization with constant ordinary fibre rank can fail.
+Let $R=\F_2[\epsilon]/(\epsilon^2)$, let $M=R/(\epsilon)$, and let
+$L$ be the constant simplicial module $M$. Its normalization is $M$
+in degree zero, and its ordinary residue-field rank is one in every
+simplicial degree. But
+\[
+ \cdots\xrightarrow{\epsilon}R\xrightarrow{\epsilon}R
+ \xrightarrow{\epsilon}R\longrightarrow M\longrightarrow0
+\]
+is a free resolution: the kernel and image of multiplication by
+$\epsilon$ are both $(\epsilon)$. Tensoring with $M$ makes every
+differential zero, so
+$\operatorname{Tor}^R_i(M,M)=M$ for every $i\ge0$. The derived
+fibres have no common upper bound, and $M$ is not perfect.
+
+\subsection{Constructible coefficients and the PID block formula}
+\begin{proposition}\label{prop:constructible-pid}
+If $R$ is noetherian and each $L_n$ is finite, every function
+$\mathfrak p\mapsto a_i(\mathfrak p)$ in
+\eqref{eq:fibre-rank} is constructible. If $R$ is a principal ideal
+domain and every normalized term is finite free, write $\mu_i$ for
+the number of unit differential blocks in degrees $i,i-1$, write
+$\beta_{i,a}$ for the number of blocks $R\xrightarrow{a}R$ there,
+with $a$ a nonzero nonunit up to associates, and write $\nu_i$ for
+the number of stalks in degree $i$. Put
+$\beta_i=\sum_a\beta_{i,a}$ and $\mu_0=\beta_0=0$. Then
+\begin{equation}\label{eq:pid-ranks}
+ \operatorname{rank}_R N_i
+ =\mu_i+\mu_{i+1}+\beta_i+\beta_{i+1}+\nu_i.
+\end{equation}
+The actual normalized complex is strictly perfect exactly when the
+three families $\mu,\beta,\nu$ have finite support. It is perfect
+exactly when $\beta,\nu$ have finite support; no finite-support
+condition on the contractible family $\mu$ is needed.
+\end{proposition}
+\begin{proof}
+The module $N_i$ is finite by \eqref{eq:dold-kan-sum}, hence finitely
+presented over the noetherian ring. In a presentation
+$R^s\xrightarrow{A}R^r\to N_i\to0$, its fibre dimension is
+$r-\operatorname{rank}A(\mathfrak p)$. The minors of $A$ describe
+each rank stratum as a locally closed set. There are finitely many
+possible ranks, proving constructibility.
+
+Over a PID, the cycles and boundaries of a degreewise finite-free
+complex are free. Split each surjection $N_i\to B_{i-1}$ and
+apply Smith normal form to each inclusion $B_i\subset Z_i$.
+As in Proposition~\ref{prop:pid}, this decomposes the complex into
+the stated two-term blocks and stalks. It works in unbounded
+nonnegative degrees as a locally finite sum: every term contains
+only finitely many blocks. A block with upper degree $i$ contributes
+to both degrees $i,i-1$, giving \eqref{eq:pid-ranks}; in particular
+the term $\mu_i$ cannot be omitted.
+
+Boundedness of the actual terms is exactly finite support of all
+three families. Unit blocks are contractible. A nonunit block with
+upper degree $i$ contributes $R/(a)$ to homology in degree $i-1$,
+and a stalk contributes $R$ in its own degree. There is no
+cancellation between these direct summands. Thus bounded homology is
+exactly finite support of $\beta,\nu$, which is equivalent to
+perfection over the regular noetherian PID by
+Proposition~\ref{prop:regular-perfect}. This proves both criteria.
+The block assertion requires free terms; it is not a classification
+of arbitrary complexes with torsion terms over a PID.
+\end{proof}
+
+\section{Holomorphic groups preserving the cells of a clean dessin}\label{sec:dessins}
+We now prove Theorem~\ref{thm:dessins}. Let $\beta:X\to\mathbf P^1$ be a nonconstant clean Belyi map on a connected compact Riemann surface, and suppress its white degree-two points as vertices. Let $G_{\rm cell}$ preserve each black vertex, edge and face, with the conventions of Section~1.
+
+
+\begin{proof}
+The combinatorial reduction is the vertex- and face-fixed
+specialization of Mulase--Penkava's exceptional-graph classification
+\cite[pp.~880--881]{MulasePenkava}. We give its dart form to include
+the low-valence maps in the statement. Let $\sigma$ and $\alpha$ be
+the vertex and edge permutations of the darts. Connectedness makes $\langle\sigma,\alpha\rangle$ transitive. An automorphism commuting with both and fixing one dart fixes every dart. If a nonidentity such permutation preserves each edge, it must therefore send every dart to its partner, so it equals $\alpha$. Preservation of each vertex and commutation with $\sigma$ force $\sigma$ to be one cycle. Write its length as $2m$; then $\alpha=\sigma^m$. The face permutation has $\gcd(2m,m-1)=\gcd(2,m-1)$ cycles. Its cycles are individually preserved by translation by $m$ exactly when $m$ is even. Thus $m=2g$, giving one vertex, $2g$ edges and one face, and genus $g$. Conversely these permutations give the stated cellwise involution.
+
+Every combinatorial automorphism of a dessin is realized by a unique Belyi automorphism: over the complement of the three branch values, lift it by the monodromy covering; local inverse branches make the lift holomorphic, and the local models $z\mapsto z^e$ extend it over branch points. Let $H$ be the subgroup of $G_{\rm cell}$ fixing every dart. At a black vertex its derivative is positive real, because it fixes each outgoing analytic ray. In positive genus the automorphism group fixing a point is finite. A finite-order holomorphic germ with positive derivative has derivative one and is the identity: averaging a local coordinate over its cyclic group produces an invariant coordinate with nonzero derivative. The identity theorem gives $H=1$. The combinatorial calculation therefore proves the positive-genus assertion.
+
+On the sphere every induced permutation of the darts is trivial. Three fixed vertices force a M\"obius transformation to be the identity. With exactly two vertices at $0,\infty$ an element is $z\mapsto az$ with $a>0$. If $a\ne1$, its iterates force every edge to join those vertices; invariance then forces every edge to be a ray: the iterates $a^{-k}z$ approach zero with constant argument, which must be the unique incident tangent direction (replace the element by its inverse if necessary). The local Belyi model makes the rays equally spaced. Conversely positive dilations preserve all rays and sectors.
+
+With one vertex at infinity an element is affine, $az+b$, with $a>0$. If $a\ne1$, translating its second fixed point to zero shows that the closure of every invariant edge contains zero. As zero is not a vertex, disjoint edge interiors force there to be only one edge. If $a=1,b\ne0$, all invariant edges approach infinity in the same two tangent directions; distinct darts have distinct tangents, again forcing one edge. Its clean model is $\beta(z)=1/(1+z^2)$ with the real-circle graph. Preserving its two faces forces exactly the stated real affine group. This proves the list. Cellwise preservation forbids permutations of connected components, giving the product assertion.
+\end{proof}
+
+The second family has explicit clean Belyi function
+\[
+ \beta_n(z)=-\frac{4z^n}{(z^n-1)^2}.
+\]
+Its graph is the union of rays $z^n\in\R_{\le0}$, and $\beta_n-1=-(z^n+1)^2/(z^n-1)^2$ verifies cleanliness. For the third family use
+\[
+ X_g:\ y^2=x^{2g+1}-x,\qquad\beta_g=x^{2g}.
+\]
+The polynomial is square-free. The double cover has $2g+2$ branch points and genus $g$; the Belyi map has degree $4g$, one black vertex, one face, and $2g$ white points of index two. The transformation $(x,y)\mapsto(\zeta_{4g}^2x,\zeta_{4g}y)$ generates a cyclic deck group; its $2g$th power is $(x,y)\mapsto(x,-y)$, the cellwise involution.
+
+\input{dessin_extensions}
+
+\input{kummer_images}
+
+\section{Scope and further questions}\label{sec:scope}
+The all-ring kernel criterion is an exact existence condition, not a finite terminating algorithm for arbitrary infinite ring presentations. The reconstruction theorem concerns the full natural action on finite tests and does not identify a cohomology ring with that information. In the dessin classification, fixing white points removes the dilation group of an orange but leaves positive dilations for the one-loop sphere; fixing face centres removes both continuous families. The sextic cubic is the classical one credited above. The noncompact assertion requires ordinary disk faces with finite attaching cycles; it makes no claim for arbitrary asymptotic tracts. The general Kummer bound requires multiplicative independence modulo roots of unity; repeated radicals instead give the diagonal restrictions calculated in Section~\ref{sec:kummer}.
+
+\section*{Method and records}
+The mathematics and text were produced by GPT-6 Astra (ChatGPT Pro mode).
+Separate instances of the same model reconstructed the main coherence,
+walking-complex, cochain and compact dessin results from statements
+before reading their proofs; effort settings were not exposed.
+Additional statement-derived and targeted checks, with their exact
+scopes and computational evidence, are listed in
+\href{\recordurl}{the records}. No human has checked the work.
+The text is dedicated to the public domain under CC0~1.0.
+The programs \emph{Divided-power certificates},
+\emph{Scalar forward-difference audit}, \emph{Sextic exact audit}
+and \emph{Kummer finite-image audit} accompany the proposed
+\href{\workbenchurl}{workbench}.
+\begin{thebibliography}{99}
+\small
+\bibitem{Groth} A. Grothendieck, Montpellier manuscripts, cotes~137--138. \url{https://grothendieck.umontpellier.fr/137.pdf}; \url{https://grothendieck.umontpellier.fr/138.pdf}.
+\bibitem{Buehler} T. B\"uhler, \emph{Exact Categories}, ESI preprint 2063 (14 November 2008), Theorem~A.1 p.~36 and Proposition~7.5 p.~17. \url{https://www.esi.ac.at/preprints/esi2063.pdf}.
+\bibitem{Roby} N. Roby, \emph{Lois polyn\^omes et lois formelles en th\'eorie des modules}, Ann. Sci. \'Ecole Norm. Sup. (3) 80 (1963), 213--348. Theorem~IV.1, p.~266 (PDF page~55). \url{https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf}.
+\bibitem{Krause} H. Krause, \emph{Koszul, Ringel and Serre duality for strict polynomial functors}, Compos. Math. 149 (2013). Author version, Section~2, pp.~3--5. \url{https://arxiv.org/abs/1203.0311}.
+\bibitem{Horel} G. Horel, \emph{Binomial rings and homotopy theory}, arXiv:2211.02349v2 (23 March 2025), Theorem~3.7 p.~7, Section~4 p.~9 and Theorem~5.4 p.~13. \url{https://arxiv.org/abs/2211.02349v2}.
+\bibitem{Hua} M. Hua, \emph{Grothendieck Montpellier. \'Enonc\'es des lectures modernis\'ees d\'emontr\'es}, version~2 (5 November 2026), pp.~165--168. \url{https://hexagonmath.org/2611.00125v2}.
+\bibitem{Riehl} E. Riehl, \emph{Category Theory in Context}, author online version, Definition~5.2.10, p.~194. \url{https://emilyriehl.github.io/files/context.pdf}.
+\bibitem{CLF} A. Chambert-Loir and M.~I. de Frutos-Fern\'andez, \emph{Formalizing Polynomial Laws and the Universal Divided Power Algebra}, CPP~2026, pp.~75--87. \url{https://doi.org/10.1145/3779031.3779108}.
+\bibitem{Schneps} L. Schneps, \emph{Dessins d'enfants on the Riemann sphere}, in The Grothendieck Theory of Dessins d'Enfants, LMS Lecture Note Series 200 (1994), 47--78. \url{https://webusers.imj-prg.fr/~leila.schneps/Fschneps.pdf}.
+\bibitem{DoldPuppe} A. Dold and D. Puppe, \emph{Homologie nicht-additiver Funktoren. Anwendungen}, Ann. Inst. Fourier \textbf{11} (1961), 201--312. Equation~(3.3), p.~219 (PDF p.~20); Theorem~3.6 and Corollary~3.8, p.~220 (PDF p.~21). \url{https://www.numdam.org/item/AIF_1961__11__201_0.pdf}.
+\bibitem{CFH} A. Conway, S. Friedl and G. Herrmann, \emph{Linking forms revisited}, author version of 26 February 2018. Quotient convention p.~1; Proposition~1.2, p.~2. \url{https://friedl.app.uni-regensburg.de/papers/linking-forms-february-26-2018.pdf}.
+\bibitem{StacksRegular} The Stacks Project Authors, \emph{The Stacks Project}, Lemma~15.76.14, Tag~066Z, regular noetherian rings and perfect complexes. Accessed 23 November 2026. \url{https://stacks.math.columbia.edu/tag/066Z}.
+\bibitem{StacksFibres} The Stacks Project Authors, \emph{The Stacks Project}, Lemma~15.79.2, Tag~068V, recognizing perfect complexes from residue-field fibres. Accessed 23 November 2026. \url{https://stacks.math.columbia.edu/tag/068V}.
+\bibitem{Mandell} M. A. Mandell, \emph{Cochains and homotopy type}, Publ. Math. IHES \textbf{103} (2006), 213--246. Main Theorem and Theorems~0.1--0.2, pp.~213--216. \url{https://www.numdam.org/article/PMIHES_2006__103__213_0.pdf}.
+\bibitem{Wendl} C. Wendl, \emph{Lectures on Holomorphic Curves in Symplectic and Contact Geometry}, version~3.3 (7 May 2015), Theorem~4.2.1 and quotient classification, printed pp.~152--153. \url{https://www2.mathematik.hu-berlin.de/~wendl/pub/jhol_bookv33_2.pdf}.
+\bibitem{Canas} J. Cañas, R. A. Hidalgo, F. J. Turiel and A. Viruel, \emph{Groups as automorphisms of dessins d'enfants}, Rev. R. Acad. Cienc. Exactas Fís. Nat. Ser. A Mat. \textbf{116} (2022), article~160. Theorems~1--2, article p.~3; definitions, p.~4. \url{https://doi.org/10.1007/s13398-022-01285-7}.
+\bibitem{MilneANT} J. S. Milne, \emph{Algebraic Number Theory}, version~3.08 (19 July 2020), Theorem~5.11, printed p.~90. \url{https://www.jmilne.org/math/CourseNotes/ANT.pdf}.
+\bibitem{PeruccaSgobba} A. Perucca and P. Sgobba, \emph{Kummer theory for number fields and the reductions of algebraic numbers}, Int. J. Number Theory \textbf{15} (2019), 1617--1633. Author version, Theorems~1, 13 and~15, pp.~1 and~6--8. \url{https://orbilu.uni.lu/bitstream/10993/35969/1/PeruccaSgobba-update.pdf}.
+\bibitem{Schinzel} A. Schinzel, \emph{Abelian binomials, power residues and exponential congruences}, Acta Arith. \textbf{32} (1977), 245--274. Theorem~2, p.~245; its radical form is stated in \cite[Theorem~15, p.~7]{PeruccaSgobba}. \url{https://doi.org/10.4064/aa-32-3-245-274}.
+\bibitem{Toen} B. To\"en, \emph{Le probl\`eme de la sch\'ematisation de Grothendieck revisit\'e}, Épijournal de Géométrie Algébrique \textbf{4} (2020), article~14. Theorem~4.1 p.~11; Corollaries~5.1, 5.4--5.5, pp.~14 and~16--17. \url{https://epiga.episciences.org/6822/pdf}.
+\bibitem{Perucca2026} A. Perucca, \emph{Linear relations among radicals}, arXiv:2511.02498v2 (9 November 2026), Theorem~26, pp.~13--14. \url{https://arxiv.org/abs/2511.02498v2}.
+\bibitem{FantechiRicolfi} B. Fantechi and A. T. Ricolfi, \emph{On the stack of 0-dimensional coherent sheaves: Motivic aspects}, Bull. London Math. Soc. \textbf{57} (2025), 1607--1649. Author version, Appendix~B, pp.~27--30. \url{https://arxiv.org/abs/2403.07859}.
+\bibitem{MulasePenkava} M. Mulase and M. Penkava,
+\emph{Ribbon graphs, quadratic differentials on Riemann surfaces,
+and algebraic curves defined over $\overline{\Q}$}, Asian J. Math.
+\textbf{2} (1998), 875--920. Definition~1.9 and classification,
+pp.~880--881 (author version pp.~7--8).
+\url{https://doi.org/10.4310/AJM.1998.v2.n4.a11}.
+\bibitem{Richter} B. Richter, \emph{Divided power structures and chain
+complexes}, Contemp. Math. \textbf{504} (2009), 237--254.
+Theorems~7.1 and~7.5, pp.~248--250.
+\url{https://doi.org/10.1090/conm/504/09882}.
+\bibitem{Ikonicoff} S. Ikonicoff, \emph{Divided power algebras over an
+operad}, Glasgow Math. J. \textbf{62} (2020), 477--517.
+Author version arXiv:1712.03694v2, Definition~3.1.4 and
+Theorem~3.1.8, pp.~12--13.
+\url{https://arxiv.org/abs/1712.03694v2}.
+\end{thebibliography}
+\end{document}

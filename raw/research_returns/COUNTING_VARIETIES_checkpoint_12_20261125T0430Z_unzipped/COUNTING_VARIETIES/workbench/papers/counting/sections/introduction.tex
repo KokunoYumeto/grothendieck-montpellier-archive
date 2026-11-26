@@ -1,0 +1,203 @@
+\section{The main statements}
+The starting point is a coefficient formula of Nicholas Katz. Katz's Algorithm (2.3.7.14) and Special Case (2.3.7.17), printed pages 35--36 of \citet{core-katz}, calculate the Frobenius action on a smooth hypersurface from its defining polynomial. The work here is an encoding of Boolean assignments into that coefficient, together with equations whose derivatives prove smoothness over the ground field for every Boolean input.
+
+\begin{theorem}[Counting on a coherent line]\label{thm:main}
+Fix a prime $p$. Given a Boolean formula $\Phi$ with an explicitly declared set of $n$ variables and $S$ satisfying assignments, one can construct in deterministic polynomial bit time a homogeneous arithmetic circuit over $\Fp$ for a degree-$d$ polynomial in $d$ variables, defining
+\[
+X\subset\PP^{d-1}_{\Fp},\qquad d\ge3,
+\]
+such that $X$ is smooth and geometrically integral, $\omega_X\simeq\OO_X$, and
+\[
+H^i(X,\OO_X)=
+\begin{cases}\Fp,&i=0,d-2,\\0,&0<i<d-2.\end{cases}
+\]
+On the top line the $p$-power Frobenius is multiplication by $S\bmod p$, and
+\[
+\#X(\Fp)\equiv1+S\pmod p.
+\]
+The construction is uniform in a varying prime with running time polynomial in $|\Phi|+p$. Evaluation of the scalar is complete for the function class consisting of accepting-path counts modulo $p$; deciding its nonvanishing is $\ModP$-complete under deterministic many-one reductions on the stated smoothness promise. Smoothness recognition is not required of either oracle.
+\end{theorem}
+
+The input representation is part of this statement. A circuit can multiply many short local polynomials without listing the resulting monomials. When the same equation is given by an explicit list of $t$ monomials, its coefficient can instead be computed in $t^{p-1}\operatorname{poly}(L)$ bit operations at a fixed prime, where $L$ is the sparse input length. The theorem therefore distinguishes presentations of a smooth variety, even when the requested coherent group has dimension one.
+
+\begin{theorem}[Stabilization over the coefficient space]\label{thm:stabilization-intro}
+Let $V_u$ be the affine space of homogeneous degree-$u$ polynomials in $u\ge1$ variables over $\Fp$. If $Q$ is any positive multiple of $p$ with $Q\ge u+2$, there is an explicit affine-linear embedding of $V_u$ into the coefficient chart of degree-$d$ forms in $d$ variables with one prescribed coefficient equal to one, where $d=Q+1$. Every geometric fibre is a smooth anticanonical hypersurface. The top coherent direct image is a canonically trivialized line, and its Frobenius coefficient pulls back to
+\[
+h_p(G)=[(x_1\cdots x_u)^{p-1}]G^{p-1}.
+\]
+The least admissible $Q$ gives $d\le u+p+2$. A sparse input gains only $O(d)$ terms; a circuit gains $O(d\log d)$ gates.
+\end{theorem}
+
+This theorem applies to singular and zero input forms. The input form itself is not being asserted to define a smooth variety. The universal family is smooth after adding coordinates. In this family the rational-point congruence is $1+(-1)^d h_p(G)$; the prime-power choice in Theorem~\ref{thm:main} makes this $1+S$.
+
+\input{sections/formal_introduction}
+
+\paragraph{Presentation boundaries.}
+For a fixed prime and a fixed number of homogeneous sparse equations, counting projective points modulo that prime is polynomial time, with no smoothness or reducedness assumption. A logarithmic number of trinomials also suffices for this algorithm. An arbitrary number of sparse equations can nevertheless present the smooth circuit hypersurface isomorphically. A second distinction concerns linear equations: over $\F_2$, any number of linear equations and a fixed number of sparse nonlinear equations admit polynomial-time counting modulo every fixed power of two. At odd primes the smooth anticanonical complete-intersection problem is already modular-counting complete with many trinomials that are linear and one sparse nonlinear equation. Its nonlinear monomial support matters: for fixed $p,c$, support at most $\sigma$ gives a counting bound $p^{c(p-1)\sigma}\operatorname{poly}(L)$ in the presence of arbitrary linear constraints.
+
+For a smooth anticanonical complete intersection on an $m$-dimensional linear solution space, a sharper bound uses the degree constraint. Let $c$ be the fixed number of nonlinear equations, and let $\sigma_i$ be the largest support of a monomial in the $i$th equation after discarding monomials with an individual coordinate exponent at least $p$. Put $K=(p-1)\sum_i\sigma_i-m$. The scalar is zero if $K<0$, and otherwise takes $T^{c(p-1)}p^K\operatorname{poly}(L)$ operations, where $T$ is the total number of displayed terms. Thus an excess of $O(\log L)$ over the minimum possible support permits a polynomial-time algorithm. The proof reduces each selected product to a weighted distribution on a vector space of dimension at most $K$.
+
+The support algorithm has a complementary hardness result. At each fixed odd prime and for every fixed $\eta>0$, the one-nonlinear-equation smooth family can be constructed with $K\le d^\eta$. In particular its largest monomial support can be at most $(1/(p-1)+\varepsilon)d$ for any fixed $\varepsilon>0$. Distributing the padding among the tagged permanent terms preserves both the scalar and the derivative proof of smoothness. The interval between logarithmic excess and arbitrarily small fixed powers of $d$ is not classified.
+
+\begin{theorem}[A small cofactor in a saturated presentation]\label{thm:saturation-intro}
+Fix a prime $p$ and a nonnegative integer $B$. Let $f_1,\ldots,f_s\in\Fp[x_0,\ldots,x_N]$ be explicit homogeneous sparse polynomials, with binary exponents, such that
+\[
+(f_1,\ldots,f_s):(x_0,\ldots,x_N)^\infty=(g),
+\]
+where $g$ defines a smooth geometrically integral hypersurface of degree $N+1$ and positive dimension. If at least one nonzero $f_j$ has degree at most $N+1+B$, its cofactor $f_j/g$ can be recovered up to a ground-field unit, and the scalar of Frobenius on $H^{N-1}(X,\OO_X)$ can be computed, in deterministic polynomial bit time. The degrees of the other inputs are unrestricted. Consequently the scalar is polynomial-time computable if every cofactor $f_i/g$ has individual degree at most $B$.
+\end{theorem}
+
+The saturation promise means that the cofactors have no common projective zero. On every affine line they therefore generate the unit ideal. Univariate gcd computations recover the values of the one small cofactor, while reducing all other equations modulo the low-degree selected input keeps their binary degrees affordable. A truncated quotient then gives the scalar without expanding $g$. A designated cofactor of polynomially bounded numerical degree and sparsity also suffices, by ordinary sparse interpolation. The remaining principal-ideal question allows every residual cofactor to lie outside these bounds.
+
+Before stating the higher-codimension result, fix the following sparse
+preprocessing rule on the displayed generating list of $K$.
+For a set $H$ of coordinate indices, repeatedly
+remove each row's full monomial content outside $H$, then apply the
+largest rank-one base-$p^r$ digit reduction $AB^{p^r}\mapsto AB$
+with $r\ge1$ and $B$ nonconstant, and then a minimum-degree
+replacement from Theorems~\ref{sp:thm:linearized-preprocessing},
+\ref{sp:thm:affine-preprocessing}, and~\ref{sp:thm:zero-sum-preprocessing}.
+The first recognizes
+$F=U^{p^e}+\sum_{i=0}^{s}a_i V^{p^e-p^i}U^{p^i}$, where
+$V$ is a monomial, $\deg U=\deg V=d\ge1$, $s<e$,
+$(d+1)p^s\le p^e$, and $1+\sum_i a_i\ne0$, and replaces $F$ by $U$.
+With the same degree gap, the second recognizes the additional term
+$\beta V^{p^e}$ when $1+\sum_i a_i=0$ and $\beta\ne0$, and replaces
+$F$ by $U,V$, after removing the $V$-term of $U$.
+The third treats the homogeneous zero-sum case without the additional
+term, requires $p^e>p$, and replaces $F$ by $U^p-V^{p-1}U$ after the
+same normalization. This retains every possible prime-field component.
+All coefficients lie in $\Fp$, and all these data are recovered from
+the row. Normalize each output by its first nonzero coefficient,
+skip zero rows, and repeat on the list until no step applies.
+Write $\mathcal P_H(K)$ for the resulting ideal. The recognition
+tests and their iteration have polynomial sparse-bit cost.
+
+\begin{theorem}[Bounded excess after certified sparse reduction]\label{thm:saturation-random-intro}
+Fix a prime $p$, a codimension $c\ge2$, and an integer $E\ge0$.
+Let $K\subset\Fp[x_0,\ldots,x_N]$ be given by an explicit
+homogeneous sparse list with binary exponents. Suppose that its
+saturation is the ideal $I_X$ of a smooth geometrically integral
+anticanonical global complete intersection
+$X\subset\PP^N_{\Fp}$ of dimension $N-c\ge1$.
+Set $H_X=\{j:x_j\in I_X\}$ and $K^\circ=\mathcal P_{H_X}(K)$.
+Suppose that, after a finite field extension, $K^\circ$ contains a
+homogeneous regular sequence of length $c$ whose degree sum is at
+most $N+1+E$. Neither $H_X$, the sequence, its profile, nor the
+extension need be given.
+For every positive integer $a$, a randomized algorithm of polynomial
+bit cost in the sparse input length and $a$ returns the Frobenius
+scalar on $H^{N-c}(X,\OO_X)$ or reports failure, with failure
+probability at most $2^{-a}$. Every returned scalar is correct on
+the promise. Repetition has expected polynomial bit cost, and the
+other input degrees are unrestricted. The only random choices are
+projection centres; all coordinate divisions are certified from the
+original equations, using a deterministic grid of at most $N+1$
+fibres for each tested tuple and centre.
+If $\dim(K^\circ)_1=c-1$, the scalar is computable deterministically
+in polynomial bit time.
+\end{theorem}
+
+The bound concerns a sequence in a computably processed input ideal,
+not merely the small generators of its saturation. Since
+$K\subseteq K^\circ$, bounded excess in the original ideal is a
+special case. The algorithm examines the polynomially many possible
+sets of at most $c-1$ vanishing coordinates. A nonzero coordinate
+class in a finite algebra obtained by imposing the original rows on a
+tested fibre certifies that the
+coordinate does not vanish identically on $X$, and hence that division
+by its powers is valid. For the correct branch a degree-one grid finds
+all these certificates. Theorem~\ref{sci:thm:certified-preprocessing}
+and Corollary~\ref{sci:cor:certified-linear} give the full proof.
+Example~\ref{sci:ex:certified-fermat} has unbounded least excess after
+digit reduction alone and excess zero after the certified divisions.
+Example~\ref{sp:ex:constant-field-family} survives both those
+operations and reaches excess zero through the prime-field relation.
+Example~\ref{sp:ex:zero-sum-family} survives all the earlier relation
+rules as well; retaining its prime-field components gives a cofactor
+of polynomial degree and support, so the designated sparse-cofactor
+algorithm applies.
+
+For a safely processed list, deterministic degree-profile candidates
+and a fixed finite-fibre grid recover the required annihilator once a
+good centre is known. The fibre algebras retain their nilpotents.
+A centre over an extension of polynomial degree coprime to $p-1$
+gives deterministic scalar recovery by
+Proposition~\ref{sci:prop:fibre-grid}. When the tuple itself is defined
+over $\Fp$, normalization of its colon line removes the coprimality
+requirement on the centre field.
+
+There is a further deterministic case under the same geometric
+hypotheses: if the input designates an original regular $c$-tuple
+of degree sum at most $N+1+E$, and gives factorizations of its first
+$c-1$ forms into nonzero $\Fp$-linear forms with binary multiplicities,
+Theorem~\ref{sci:thm:factored-prefix} constructs a centre and recovers
+the scalar in polynomial bit time. The factors need not belong to
+$K$, and $K_1$ may be zero. In both linear-prefix results $c$ is fixed;
+the odd-prime hard construction above has an unbounded number of
+independent linear equations.
+
+\begin{theorem}[A maximum-degree bound for saturation]\label{thm:saturation-ci-intro}
+Fix a prime $p$, a codimension $c\ge2$, and an integer $E\ge0$. Let an explicit homogeneous sparse list over $\Fp$, with binary exponents, have saturation equal to the ideal of a smooth geometrically integral anticanonical global complete intersection $X\subset\PP^N$, of dimension $N-c\ge1$. Let $\delta$ be the largest degree of a nonzero input. If
+\[
+0\le c\delta-(N+1)\le E,
+\]
+the Frobenius scalar on $H^{N-c}(X,\OO_X)$ is computable in deterministic polynomial bit time. Neither minimal generators nor a regular sublist need be given.
+\end{theorem}
+
+This deterministic proof constructs regular combinations over a finite
+extension of polynomial degree. A graded annihilator of bounded degree
+identifies the desired line inside the dual cohomology of that complete
+intersection, and its semilinear eigenvalue descends by a field norm.
+Wiebe's determinant identities and the Koszul coefficient formula carry
+the algebraic step. A deterministic algorithm also applies when a regular
+sublist of bounded total excess is given and all input degrees lie within
+a fixed gap above its smallest degree. The preceding randomized theorem
+removes that gap and discovers the regular sequence under its existential
+bounded-excess promise.
+
+\paragraph{Other counting presentations.}
+A smooth sparse cubic over $\mathbb Z$ carries the exact witness count as the multiplicity of a Tate motive; its Chow groups and algebraic K-theory give corresponding readouts. This affine construction complements the modular scalar on a projective coherent line. Explicit Boolean wiring can expose disjoint affine partitions and permit exact counting. Sparse Walsh presentations can permit witness recovery even when every coherent trace vanishes. Fixed-field sparse univariate constructions encode a count in the number of equal-length Frobenius orbits, and smooth Artin--Schreier curves turn the same count into genus and geometric $p$-rank. Smooth affine hyperplane complements admit parsimonious reductions over every fixed field with more than two elements. Each assertion requires its own input model; cohomological rank, number of equations, support size, and extension-field degree cannot be interchanged.
+
+A hidden presentation can sometimes be recovered. Over a fixed odd prime, suppose the base coordinates are marked and a designated quadratic subspace is exactly the span of $\ell_i^2-1$, where the private linear parts of the affine forms $\ell_i$ are independent. Two deterministically chosen quadratic combinations recover those forms, up to signs and permutation, in polynomial time. With a fixed number of further equations, fixed monomial support, and bounded rank of their coefficient-row powers, this gives a polynomial-time empty-fibre test. An arbitrary equation list need not exhibit the designated subspace, and general private permutations need not preserve the rank bound.
+
+\paragraph{Why the distinction matters.}
+The Weil conjectures control the absolute values of Frobenius eigenvalues. Recovering their multiplicities from a compact system of equations is a separate computational question. Our finite split examples isolate this distinction exactly, while the projective construction shows that even a single coherent Frobenius entry can carry modular counting. The reductions are unconditional. Their obstruction to a polynomial-time compression into a bounded number of sparse equations is conditional on $\ModP\not\subseteq\mathrm P$ at the fixed prime.
+
+\paragraph{Credit and scope.}
+Katz supplies the coherent coefficient formula. The binary incidence encoding predates the smoothing used here; the earlier smooth parity constructions over binary extensions, over $\F_4$, and by restriction of scalars to $\F_2$ are compared below with their precise coherent dimensions. Wan's modular sparse-counting theorem, Valiant's permanent reduction, the complete-intersection Picard theorem of SGA~2, and the coefficient calculations for regular sequences supply distinct ingredients of the presentation results. We give the proofs needed for the exact forms asserted here and state the unresolved saturation and compression problems separately.
+
+Recent work also distinguishes several meanings of circuit complexity. The OpenAI preprint \citep[Chapter~5, Theorems~1.1--1.3, pp.~115--116]{root-openai-permanent} reports lower bounds of $\Omega(n^2\log\log n)$ gates for division-free circuits computing the formal permanent over $\mathbb C$, and $\Omega(n^4/\log n)$ variable leaves for formulas, including valid divisions. These statements concern symbolic computation of a polynomial. Valiant's reduction used here concerns evaluation on finite-field matrices and transfers a Boolean count to geometry; neither assertion supplies the other. The geometric reductions below do not depend on those preprint lower bounds.
+
+\section{Proof overview}
+The Boolean part uses two variables for each clause-variable incidence. A local satisfying choice and a consistent variable choice together contribute a squarefree monomial precisely when they describe a satisfying assignment. Distinct auxiliary tags then force each designated summand to occur exactly once in a $(p-1)$st power. Wilson's theorem fixes the sign at odd primes.
+
+The geometric part pads the original form and adds pure powers with derivatives that are especially simple in characteristic $p$. Two derivatives force one coordinate to vanish. The remaining derivatives leave only a small possible gradient locus, on which the derivative in the first added coordinate is nonzero. This proves smoothness uniformly in every input coefficient. The hypersurface sequence identifies its top coherent group with a one-dimensional Laurent-monomial quotient, so the same coefficient becomes the Frobenius scalar. Summing a polynomial indicator over the affine cone independently checks the sign in the rational-point congruence.
+
+The formal-group argument first identifies multiplication by the prime on principal-unit cocycles with coherent Frobenius. Stienstra's integral logarithm then identifies every later height test with a successively more precise coefficient. For the second test, cyclic rotation of balanced collections has exactly the squared assignment count as its fixed locus, and the remaining orbits give an explicit counting function. Products in disjoint variable blocks amplify divisibility while the smoothing construction preserves every coefficient below its chosen scale. To realize every exact finite height over the prime field, we prescribe term multiplicities and use binary prefix vectors to force a unique multinomial contribution. Its factorial valuation gives the desired first nonzero height invariant, and smoothing preserves all coefficients needed for that test. A finite monomial operator from quasi-F-splitting supplies a stopping rule for infinite height; recursive access to its matrix powers keeps the working space polynomial. The derivative bounds follow from integral translation operators and a rescaled exponential, with separate witnesses for the slope and its affine error.
+
+The presentation results compare two different operations. Expanding a bounded number of sparse equations is cheap at a fixed prime. Expanding a circuit product can be exponential. To list the latter projectively we add coordinates for gate values and use several affine charts to prevent extra scheme structure at infinity. Many linear equations can also hide products of linear forms inside a single sparse monomial. In characteristic two each such monomial simply fixes some coordinates to one; at odd primes its values carry additional information. Restricting its coordinate support restores an explicit algorithm by projecting the linear solution space to that support.
+
+For saturation, a low-degree listed multiple becomes a modulus for every other equation. The absence of a common zero among the cofactors prevents an affine-line restriction from introducing an extra common factor, which is the usual difficulty in using projected gcds. The resulting quotient evaluates the small cofactor at arbitrary points. Total-degree interpolation and a determinant-one coordinate translation then reduce the desired Frobenius coefficient to a polynomial number of sparse term choices. This argument needs only one bounded-degree cofactor, because all other degrees enter through modular binary exponentiation.
+
+In higher codimension, the scalar is recovered from an annihilator line.
+A complete intersection whose degree sum exceeds the anticanonical sum by
+a fixed amount has a canonical section space of polynomial dimension.
+Multiplication relations identify in that space the line belonging to $X$,
+and the Frobenius adjoint is again given by sparse coefficient extraction.
+To handle other equations of arbitrarily large degree, a finite linear
+projection gives a common monomial basis for every fibre algebra, including
+its nilpotents. The residual quotient is free over the same projection
+base. Consequently the obstruction to annihilation has degree bounded by
+the excess, regardless of the degrees of the input equations, and a fixed
+Newton interpolation grid detects it exactly. Enumerating degree
+profiles and using prime-degree field extensions constructs a short
+candidate list deterministically: the chosen coefficients remain linearly
+independent over the function field of every unwanted component. The
+random step chooses a good projection centre for a regular candidate.
+A field norm and an inverse exponent remove the choice of basis and the
+coprime extension degree.
+
+Before this recovery, finite quotients of the original equations certify which coordinate factors can be removed. On the correct branch, the degree-one coordinates have affine-linear coefficients in a graded free basis, so a fixed degree-one grid detects every nonzero class. Wrong branches may fail to provide certificates but cannot certify a forbidden division. Geometric integrality also forces algebraic constants to lie in the prime field; a recognized linearized relation then permits further degree reduction. Their hidden factors are proposed by exponent sections and checked by complete identities. This reduces the remaining excess condition beyond coordinate and digit reduction. For a factored linear prefix, one finds a suitable point on each linear component by the fixed-parameter semidiagonal identity test, then merges those points by one-variable searches to construct a common centre.
+
+Finally, the structured examples make information loss visible. Walsh coefficients describe a function on a split Boolean fibre, while a trace sees only one aggregate. Private multipliers can erase several zeta coefficients without changing which fibres are empty. In the fixed-field univariate examples, purity leaves a whole orbit multiplicity undetermined. These examples motivate precise recovery questions instead of attributing computational power to smoothness alone.

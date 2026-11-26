@@ -1,0 +1,94 @@
+\section{Exact height: termination and complexity}
+We use division-free arithmetic circuits over $\mathbb F_p$, with the
+$d$ variables explicitly listed, for a homogeneous degree-$d$ equation
+of a promised smooth hypersurface $X\subset\mathbb P^{d-1}$, $d\ge3$.
+The output of the exact-height problem is a binary integer or $\infty$.
+The prime is fixed in the modular counting assertions; the polynomial-space
+assertion also permits a binary-encoded input prime.  Set $n=d-2$.
+
+\begin{proposition}[A finite stopping bound]
+Every finite height of $X$ is at most
+\begin{equation}
+ B_d=\begin{cases}
+ 2&d=3,\\
+ 36&d=4,\\
+ \binom{2d-1}{d-1}&d\ge5.
+ \end{cases}
+\label{eq:HC1}
+\end{equation}
+\end{proposition}
+\begin{proof}
+Van der Geer and Katsura (2003, Corollary~2.3, p.~100) prove
+$h\le h^{n-1}(\Omega_X^1)+1$ for finite $h$.  Serre duality and
+$\omega_X\simeq\mathcal O_X$ identify this dimension with $h^1(T_X)$.
+For $n\ge3$, the restricted Euler sequence and hypersurface line-bundle
+cohomology give $H^1(T_{\mathbb P^{d-1}}|_X)=0$: indeed
+$H^1(\mathcal O_X(1))=H^2(\mathcal O_X)=0$.  The normal sequence
+then gives
+\[
+ h^1(T_X)\le h^0(\mathcal O_X(d))
+ =\binom{2d-1}{d-1}-1.
+\]
+For $d=4$ the same Euler sequence gives
+$h^1(T_{\mathbb P^3}|_X)=h^2(\mathcal O_X)=1$, so that
+$h^1(T_X)\le34+1=35$.  For $d=3$,
+$h^0(\Omega_X^1)=1$.  This proves \eqref{eq:HC1}, without assuming that
+infinitesimal automorphisms vanish or that $p$ does not divide $d$.
+\end{proof}
+
+\begin{proposition}[Exact modular coefficient algorithm]
+Let $\widetilde F$ be any homogeneous integral lift and put
+\[
+ a_{p^j}=[(x_1\cdots x_d)^{p^j-1}]\widetilde F^{p^j-1}.
+\]
+Compute $a_{p^j}\bmod p^j$ successively for $1\le j\le B_d$.
+The first nonzero residue has index $h(X)$; if all residues vanish,
+$h(X)=\infty$.
+\end{proposition}
+\begin{proof}
+Lemma~\ref{lem:logarithm-height}
+says that conditional on $h\ge j$ one has
+$v_p(a_{p^j})\ge j-1$, with equality exactly when $h=j$.
+Thus the first nonzero residue has precisely the claimed meaning.
+If all residues vanish, a finite height would exceed \eqref{eq:HC1}, which is
+impossible.  Only precision $p^j$ is required at the $j$th step.
+
+For a circuit implementation, first form the homogeneous components
+through degree $d$ and keep the degree-$d$ output. Choose integer
+representatives of its scalar literals once and fix this homogeneous
+integral circuit lift for all steps. A literal lift of the original
+circuit need not be homogeneous, because cancellations in unwanted
+degrees may have occurred only modulo $p$.
+Evaluate the resulting circuit in the finite ring
+\[
+ (\mathbb Z/p^j\mathbb Z)[x_1,\ldots,x_d]/
+ (x_1^{p^j},\ldots,x_d^{p^j}),
+\]
+raise its value to $p^j-1$ by repeated squaring, and read the diagonal
+coefficient. Nonnegative exponents make truncation exact.
+\end{proof}
+
+\input{quasi}
+
+\input{uniform}
+
+\input{unary}
+
+\paragraph{What the lower bounds establish.}
+The counting construction makes height one
+$\mathrm{Mod}_p\mathrm P$-complete for every fixed prime.  Combined
+with the fixed-gadget reduction above, the preceding
+membership theorem makes height two $\mathrm{Mod}_p\mathrm P$-complete
+as well.  At each fixed characteristic, the full exact-height function is therefore
+$\mathrm{Mod}_p\mathrm P$-hard. With the characteristic as part of the
+input, Theorem~\ref{thm:uniform-counting} strengthens the lower bound
+to $\#\mathrm P$-hardness under nonadaptive polynomial-time oracle
+reductions. The full function lies in $\mathrm{FPSPACE}$, and hence in
+$\mathrm{FEXPTIME}$, the function class with deterministic running time
+$2^{\operatorname{poly}(L)}$ for input length $L$.
+These are distinct bounds; they do not constitute a complete complexity
+classification of the full function. A single height-one zero test
+does not determine the full residue of a counting function.
+Theorem~\ref{thm:unary-height} supplies uniform modular counting for
+unary height parameters, but does not decide infinite height in that
+class or extend the witness bound to binary height parameters.

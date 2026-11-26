@@ -1,0 +1,181 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools,microtype,booktabs}
+\usepackage[margin=27mm]{geometry}
+\usepackage[round,authoryear]{natbib}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/arithmetic-geometry-complexity-workbench}
+\newcommand{\recordurl}{https://github.com/KokunoYumeto/mathematics-workbenches}
+\newcommand{\N}{\mathbb N}
+\DeclareMathOperator{\Mon}{Mon}
+\DeclareMathOperator{\Arith}{Arith}
+\DeclareMathOperator{\Sup}{Sup}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\title{Monotone circuits for the edge functions of $C_4$-free graphs}
+\author{}
+\date{25 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Jukna's work on quadratic Boolean functions shows why circuit computation cannot in general be reduced without cost to a single product level. The public P versus NP programme asks whether the edge function of every graph of girth at least five requires exactly the number of edges plus the vertex-cover number minus one binary monotone gates. Starting from the established theorem for at most three missing quadratic witnesses, we prove that four missing induced edges require at least four deleted products, exclude both the optimal six-deletion and optimal seven-deletion cases, and prove the full lower bound whenever four missing witnesses increase the vertex-cover number by four. A full-graph safety argument handles the remaining quadratic circuit with excess one. At cover gain three, we prove the full bound for an optimal quadratic frame when the missing graph is a three-edge path and a disjoint edge and the ambient graph has girth at least five; we also exclude five deletions for a missing triangle and disjoint edge in a four-cycle-free graph. With only one deleted addition, we prove an exponential lower bound on the deletion count in terms of the cover gain. We also give a size-preserving normalization for a specified shared two-level bilinear class. Complete propositional certificates support the finite obstructions. We prove the earlier bounded-weight barrier and one-point constructions in full, and correct the negation budget in the fast convolution construction using Beals, Nishino and Tanaka. The unrestricted conjecture, the remaining four-witness cases and general syntactic bidegree two remain open. The mathematics and text were produced by GPT-6 Astra Pro; separate re-proofs by the same model and exact certificate checks are recorded, and no human has checked the paper.
+\end{abstract}
+
+\section{The question and the model}
+The purpose of this paper is to isolate the first unresolved witness configurations in a concrete monotone-circuit lower-bound problem.
+Let $G=(V,E)$ be a finite simple graph with $E\ne\varnothing$. Its edge function is
+\[
+ f_G(x)=\bigvee_{\{u,v\}\in E}(x_u\wedge x_v).
+\]
+Let $\tau(G)$ denote the minimum size of a vertex cover. A circuit is a finite acyclic directed graph of binary AND and OR gates, with variables at its inputs, one designated output, and unrestricted reuse of wires. Its size is the number of gates; inputs have cost zero. Constants are not part of the model. Write $\Mon(f_G)$ for its minimum size.
+
+The conjecture considered in the public P versus NP programme is
+\begin{equation}\label{eq:conjecture}
+ \Mon(f_G)=|E|+\tau(G)-1
+\end{equation}
+when $G$ has girth at least five. The proposed lower bound is also studied for all graphs without a four-cycle, including triangles. These are different hypotheses, and every theorem below states which it uses.
+
+\begin{proposition}\label{prop:upper}
+For every finite simple graph with at least one edge,
+$\Mon(f_G)\leq|E|+\tau(G)-1$.
+\end{proposition}
+\begin{proof}
+Choose a minimum cover $K$ and assign each edge to one of its endpoints in $K$. Every vertex of $K$ has an edge to a vertex outside $K$, since otherwise it could be removed from the cover; assign that edge to it. Thus every assigned star is nonempty. If its leaf set has size $d_v$, compute
+$x_v\wedge\bigvee_{u\text{ assigned to }v}x_u$ using $d_v-1$ OR gates and one AND gate. Finally combine the $|K|$ star outputs with $|K|-1$ OR gates. As $\sum_vd_v=|E|$, the total is the claimed bound, and the computed function is exactly $f_G$.
+\end{proof}
+
+The construction matters because an improvement must exploit Boolean identities absent from ordinary nonnegative polynomial computation. A square $x_u^2$ and a variable $x_u$ agree on Boolean inputs, while their formal degrees differ. The lower-bound problem must charge these identifications together with wire sharing.
+
+Jukna's counterexample to the general single-level conjecture \citep{JuknaSingle} prevents a cost-preserving flattening argument for arbitrary quadratic Boolean functions. Formula lower bounds also require care: a formula is a tree, whereas the circuits here can reuse a computation. Neither comparison settles \eqref{eq:conjecture}.
+
+\subsection{Main theorems and their meaning}
+For a positive arithmetic polynomial $P$, say $P\in\Sup(G)$ if every monomial support contains an edge of $G$ and each edge is the exact support of some monomial. Replacing the OR and AND labels of a variable-input circuit by addition and multiplication gives such a polynomial exactly when the circuit computes $f_G$, by Jukna's support criterion \citep[Lemma~1, p.~7]{JuknaRead}.
+Let $H$ be the graph of edges whose squarefree quadratic monomials occur in $P$. The minimum-degree construction of Section~\ref{sec:four} produces its quadratic circuit $C_2$ without adding gates. Put
+\[
+ d=\tau(G)-\tau(H),\quad D=|C|-|C_2|,\quad
+ e=|C_2|-\bigl(|E(H)|+\tau(H)-1\bigr).
+\]
+A deleted product or addition means a gate absent from this construction after unused gates have been removed.
+
+\begin{theorem}[The four-witness reductions]\label{thm:four-summary}
+Let $G$ be a finite simple graph with no four-cycle and let a positive variable-input binary circuit $C$ compute $P\in\Sup(G)$ with nonempty quadratic support $H$.
+If eight vertices induce four disjoint edges in $G$ and no edge in $H$, at least four product gates are deleted in forming $C_2$.
+If $|E(G)\setminus E(H)|=4$ and $|C|<|E(G)|+\tau(G)-1$, the only remaining numerical possibilities are
+\[
+\begin{array}{c|l}
+ d&(D,e)\\\hline
+ 2&(5,0)\\
+ 3&(5,0),(5,1),(6,0).
+\end{array}
+\]
+In particular, every circuit with four missing witnesses and cover gain four satisfies the full star lower bound. More generally, if the four missing edges form an induced matching and six gates are deleted, four of them products, then $\tau(G)\le K+2$, where $K$ is the number of products in $C_2$; this again implies the full star lower bound. In the row $(d,D,e)=(3,5,0)$, the missing-edge graph cannot be $P_4\sqcup K_2$ or $K_3\sqcup K_2$, where $P_4$ denotes the path with three edges. If $G$ has girth at least five, the shape $P_4\sqcup K_2$ is also excluded in the row $(d,D,e)=(3,6,0)$; hence that shape satisfies the full bound at cover gain three whenever its quadratic frame is optimal.
+\end{theorem}
+The inherited numerical alternatives are \citet[Corollary~5.34]{Companion}. The additional exclusions and the four-product obstruction are proved in Section~\ref{sec:four}. Thus a four-witness counterexample must satisfy the displayed strict restrictions; the theorem does not exclude every such counterexample. This narrows the first case beyond the established at-most-three theorem without asserting the full circuit conjecture.
+
+The restriction with one deleted addition does not require four missing witnesses or an optimal quadratic frame.
+\begin{theorem}[One deleted addition]\label{thm:pure-summary}
+Let $G$ be a finite simple graph without a four-cycle, and let a positive variable-input binary circuit computing $P\in\Sup(G)$ have nonempty quadratic support $H$. If exactly one deleted gate is an addition, then $G[V(G)\setminus Z]$ is a matching with possible isolated vertices for every vertex cover $Z$ of $H$, and $D\ge2^d-1$. If $G$ has girth at least five, the missing-edge graph itself is a matching.
+\end{theorem}
+The proof is Theorem~\ref{thm:purecut}. In particular, all remaining cover-gain-three alternatives require at least two deleted additions.
+
+\begin{theorem}[A class at two product levels]\label{thm:bilinear-summary}
+Let $G=(X\sqcup Y,E)$ be a nonempty bipartite graph without a four-cycle. Suppose a binary monotone circuit computing $f_G$ has first products $R_i=A_i(X)B_i(Y)$, where $A_i,B_i$ are pure-side linear disjunctions, second products multiplying disjunctions of the $R_i$, and an output disjunction of first and second products. All disjunction networks and operands may be shared. Call $R_i$ unsafe if $A_i\times B_i$ contains a nonedge. If every unsafe rectangle has at most one row $x\in A_i$ satisfying $B_i\subseteq N(x)$, the circuit has at least $|E|+\tau(G)-1$ gates. The conclusion also holds under the symmetric column condition.
+\end{theorem}
+The proof in Section~\ref{sec:degree-two} changes the shared circuit into a quadratic circuit without growth and then applies the established read-one theorem. It covers every such architecture whose unsafe rectangles all have at least two columns. General bidegree $(2,2)$ also allows mixed-degree operands and more shared intermediate expressions, and is not settled by this statement.
+
+The other results explain two limits of proposed approaches. Theorem~\ref{thm:weightbarrier} constructs small circuits correct on all edges and on every sufficiently small independent set, so a large lower bound must use larger negative inputs. In contrast, the convolution construction computes all projective-plane line outputs with nearly linear general-circuit size, and the checked negation-reduction theorem places this upper bound at a specified logarithmic NOT budget. These are statements about different input promises and different gate sets.
+
+\section{Proof overview}
+The lower-bound argument separates the quadratic polynomial carried to the output from the products and additions deleted by minimum-degree extraction. Earlier cover-exchange arguments reduce four missing witnesses to a short list of deletion counts. An induced matching then turns Boolean correctness into twenty decisive tests: four positive edges and sixteen maximal independent transversals. We describe a larger Boolean template than any circuit in the relevant configuration and exclude it by a complete reverse-unit-propagation certificate. For seven deletions, clause counting and a confinement argument remove the five-product case. Four products leave one, two or three visible cuts. A complete enumeration allowing all wire sharing gives at most thirteen CNF clauses for the one-cut branch, below the sixteen needed for a four-edge matching. The two- and three-cut branches reduce to separately verified finite obstructions. Together these arguments exclude the entire optimal seven-deletion case. For a quadratic frame with excess one, the final functional possibility has two quartic contributions. Full-graph safety and four-cycle-freeness force their entire insertion contexts to be disjoint pairs of missing endpoints. Those four vertices replace at least two quadratic star centers, giving a cover too small for cover gain four.
+
+With one deleted addition, the high branch is a conjunction of old linear clauses. A two-edge path outside an old cover would force a minimal-cover clause containing its two outer vertices, while four-cycle-freeness excludes that pair from every old clause and from the single context. The residual graph must therefore be a matching; counting its minimal covers gives the exponential deletion bound.
+
+For a missing three-edge path and a disjoint edge, all six endpoints lie outside every minimum old cover when the cover gain is three. An optimal quadratic frame then prevents any nonzero direct context from lying in a minimum cover of the missing graph. This restriction, together with the prohibition on old clauses containing the outer vertices of a missing two-edge path, excludes five deletions. For six deletions in girth at least five, distinct visible cuts satisfy a further common-neighbor restriction on the singleton assignments accepted by their high values. Seven explicit finite classes cover all remaining product and addition profiles and exclude them.
+
+At bidegree two the main difficulty is sharing: expanding products into rectangles can multiply the number of gates. The simultaneous replacement theorem keeps the existing linear wires, replaces each unsafe rectangle by its unique possible safe row, and changes the second products to disjunctions. Safety and preservation of every edge witness prove correctness without duplicating wires.
+
+The bounded-weight construction uses coordinate changes preserving affine incidence and takes the conjunction of several coordinate tests. Its probability estimate concerns independent sets, so it does not prove an exact circuit for the graph. The negation results use a different mechanism: cyclic convolution computes all Singer line outputs, while a general simulation theorem controls the NOT budget. Neither mechanism provides the missing monotone lower bound.
+
+\section{The polynomial witness condition}
+This section makes the distinction between a quadratic witness and a minimal Boolean support explicit.
+Replace every OR by addition and every AND by multiplication in a variable-input circuit $C$. The resulting polynomial $P_C\in\N[x_v:v\in V]$ has positive coefficients on all its occurring monomials. Define $\Sup(G)$ to be the class of such nonzero polynomials for which every monomial support contains an edge of $G$, and every edge is the exact support of some monomial.
+
+\begin{proposition}\label{prop:support}
+The Boolean circuit $C$ computes $f_G$ if and only if $P_C\in\Sup(G)$. Consequently
+\[
+ \Mon(f_G)=\min_{P\in\Sup(G)}\Arith(P),
+\]
+where $\Arith(P)$ is the minimum number of binary addition and multiplication gates in a variable-input circuit computing $P$ over $\N$.
+\end{proposition}
+This is the specialization of Jukna's support criterion to quadratic minimal true assignments \citep[Lemma~1, p.~7 of the arXiv manuscript]{JuknaRead}. The equality follows because changing the gate labels between the Boolean and nonnegative arithmetic interpretations preserves the circuit graph. We use this established criterion throughout.
+
+For $P\in\Sup(G)$, let $E_2(P)$ be the edges $uv$ whose quadratic monomial $x_ux_v$ occurs. An edge outside $E_2(P)$ has a witness $x_u^ax_v^b$ with $a,b\geq1$ and $a+b>2$. In the terminology of Jukna's witness model, a read-1 circuit for this quadratic function has $E_2(P_C)=E$. This does not mean that a variable has only one occurrence in the circuit.
+The one-edge polynomial $x_u^2x_v$ is the smallest example showing why an arbitrary witness cannot be recovered from its quadratic part.
+
+\section{Established exact cases and the remaining obstruction}
+This section specifies the lower bounds used as inputs to the four-witness analysis.
+The public proof graph's Lean theorem L-meta-2237 proves the read-1 lower bound for every nonempty finite simple graph without a four-cycle \citep{Fleet}.
+
+The corresponding formal statement is \mbox{\nolinkurl{PEqualNP.Outside.L_meta_2237}}.
+Combining it with the star circuit gives
+\[
+ \min_{c_e\in\mathbb N_{>0}}\Arith\!\left(\sum_{e=uv\in E}c_e x_ux_v\right)
+ =\Arith\!\left(\sum_{e=uv\in E}x_ux_v\right)
+ =\operatorname{Read}_1(f_G)=|E|+\tau(G)-1.
+\]
+Here read-1 means that every minimal true assignment has a squarefree witness, as in \citet[Definition~1, p.~8; Theorem~1]{JuknaRead}. It is distinct from a bound on wire fan-out.
+
+We also use the following two results from the companion paper \citep[Theorem~1.3]{Companion} and \citep[Theorem~1.1]{OneSidedCompanion}. They are mathematical theorems from those companion manuscripts; they are not asserted here to be Lean theorems.
+\begin{theorem}[Established witness and one-sided bounds]\label{thm:granted}
+Let $G$ be a finite simple graph with $E\ne\varnothing$ and no four-cycle.
+If a variable-input positive arithmetic circuit $C$ computes $P\in\Sup(G)$ and at most three edges lack their quadratic monomial in $P$, then
+$|C|\geq|E|+\tau(G)-1$.
+If $G=(X\sqcup Y,E)$ is bipartite and every monomial of $P$ contains at most one distinct variable from $X$, the same bound holds. In the latter case, the separate counts are at least $|E|-1$ additions and at least $\tau(G)$ products. The same assertion holds with $X$ and $Y$ exchanged.
+Both total bounds are attained by a star circuit.
+\end{theorem}
+These are inputs rather than new proofs. In particular, an improving circuit must miss at least four quadratic witnesses, and its output must contain a monomial mixing distinct variables from $X$ and a monomial mixing distinct variables from $Y$; the two monomials need not coincide.
+The syntactic degree-at-most-two condition on each side restricts a larger class than the one-sided theorem and remains a separate question.
+
+\input{private_products}
+\input{pure_cut}
+\input{two_cut}
+\input{three_cut}
+\input{one_cut}
+\input{two_visible}
+\input{one_excess}
+\input{lower_gain}
+\input{six_path}
+\input{components}
+\input{degree_two}
+\input{completion}
+\input{light_inputs}
+\input{searches}
+\input{threshold}
+\input{negation}
+\section{Open cases}
+The unrestricted conjecture remains open here. For exactly four missing quadratic witnesses, Theorem~\ref{thm:fourmaxgain} leaves only cover gain two with five deletions and an optimal quadratic frame, or cover gain three with $(D,e)=(5,0),(5,1),(6,0)$. Maximal cover gain four is settled, and every remaining gain-three case has at least two deleted additions. In the row $(d,D,e)=(3,5,0)$, Proposition~\ref{prop:pathfive} also excludes a missing $P_4\sqcup K_2$ or $K_3\sqcup K_2$. For girth at least five, Proposition~\ref{prop:pathsix} settles the missing $P_4\sqcup K_2$ shape for every optimal quadratic frame at gain three; only its excess-one case remains among the displayed alternatives. Other missing-edge shapes still require new arguments because the sixteen-transversal matching obstruction and the disjoint-context cover argument do not apply directly. General syntactic degree at most two in each side of a bipartition is also unresolved. The incidence graph of the projective plane of order three has $52$ edges and a minimum cover of size $13$, so the star construction uses $64$ gates; a circuit with $63$ gates would refute the proposed exact count for that graph. A search restricted to a symmetry class or a bounded set of monomials cannot rule out an unrestricted circuit.
+
+\section*{Method and records}
+The mathematics and text were produced by GPT-6 Astra Pro. Every accepted lower-bound argument and the scope of its separate checks are recorded at \url{\recordurl}; no human has checked the paper. Programs and certificates are available through the workbench at \url{\workbenchurl}. This text is dedicated to the public domain under CC0~1.0.
+
+\begin{thebibliography}{99}
+\bibitem[Beals et~al.(1998)]{BealsNishinoTanaka1998} Beals, R., Nishino, T., \& Tanaka, K. (1998). On the complexity of negation-limited Boolean networks. \emph{SIAM Journal on Computing, 27}(5), 1334--1347. \url{https://doi.org/10.1137/S0097539794275136}.
+\bibitem[Fischer(1975)]{Fischer1975} Fischer, M. J. (1975). The complexity of negation-limited networks: A brief survey. In \emph{Automata theory and formal languages} (LNCS 33, pp. 71--82). Springer. \url{https://doi.org/10.1007/3-540-07407-4_9}. Locators refer to MIT memorandum TM-065, Theorem~16 and Lemmas~18--19, pp. 8--10.
+\bibitem[Fable notes(2026)]{FableNotes} \emph{The hard links of the P versus NP programme: Connections, partial results and obstructions}; \emph{Implications for the proof graph}. (2026). Unpublished mathematical notes, 23 November 2026. Theorem~C, Section~3.3 of the first note; Theorem~D, Section~1.2 of the second. Proofs of these two statements are given in this paper.
+\bibitem[Jerrum and Snir(1982)]{JerrumSnir1982} Jerrum, M., \& Snir, M. (1982). Some exact complexity results for straight-line computations over semirings. \emph{Journal of the ACM, 29}(3), 874--897. \url{https://doi.org/10.1145/322326.322341}.
+\bibitem[Jukna(2005)]{JuknaSingle} Jukna, S. (2005). \emph{Disproving the single level conjecture}. Electronic Colloquium on Computational Complexity, TR05-021, revision~2. \url{https://eccc.weizmann.ac.il/report/2005/021/}.
+\bibitem[Jukna(2025)]{JuknaRead} Jukna, S. (2025). Notes on Boolean read-$k$ and multilinear circuits. \emph{Discrete Applied Mathematics, 360}, 307--327. \url{https://doi.org/10.1016/j.dam.2024.09.023}. Locators here refer to the arXiv manuscript \url{https://arxiv.org/abs/2207.08701}.
+\bibitem[One-sided companion paper(2026)]{OneSidedCompanion} \emph{The one-sided edge-circuit bound of pequalnp.com and circuit lifts to inverse semirings, after Faul, Goswami, Joubert and Manuell}. (2026). Unpublished companion manuscript, 24 November 2026, Theorem~1.1 and Sections~9--10. Records at \url{\recordurl}.
+\bibitem[Companion paper(2026)]{Companion} \emph{The P = NP? edge-circuit conjecture at degree one, and zero-adjoined rings after Faul, Goswami, Joubert and Manuell}. (2026). Unpublished companion manuscript, 24 November 2026. Records at \url{\recordurl}.
+\bibitem[P versus NP programme(2026)]{Fleet} P versus NP programme. (2026). \emph{Public proof graph and Lean repository}. \url{https://pequalnp.com}; \url{https://github.com/brilliant-hq/pequalnp-proofs}.
+\bibitem[Sch\"onhage and Strassen(1971)]{SchonhageStrassen1971} Sch\"onhage, A., \& Strassen, V. (1971). Schnelle Multiplikation gro{\ss}er Zahlen. \emph{Computing, 7}, 281--292. \url{https://doi.org/10.1007/BF02242355}.
+\bibitem[Singer(1938)]{Singer1938} Singer, J. (1938). A theorem in finite projective geometry and some applications to number theory. \emph{Transactions of the American Mathematical Society, 43}(3), 377--385. \url{https://doi.org/10.1090/S0002-9947-1938-1501951-4}.
+\end{thebibliography}
+\end{document}

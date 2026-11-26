@@ -1,0 +1,300 @@
+\section{Computing the full height in polynomial space}\label{fg:sec:space}
+Fixed thresholds use a constant number of Stienstra coefficients. Infinite
+height requires a finite stopping argument. A finite operator from the
+quasi-$F$-splitting criterion supplies one, and its entries can be computed
+from a circuit without storing its exponentially large matrix.
+
+We use the following theorem in its established geometric form.
+\citet[Theorem~C, p.~4, and Theorem~5.8]{fg-kty-one} give a Fedder type
+criterion for quasi-$F$-split height. For smooth Calabi--Yau varieties this
+height agrees with Artin--Mazur height by
+\citet[Theorem~4.5, pp.~9--10 of the preprint]{fg-yobuko}.
+That source assumes an algebraically closed ground field. Apply its
+comparison after extension to $\overline{\Fp}$: the first nonzero
+coefficient of a formal group's $p$-series is unchanged by field
+extension, and the coefficient recurrence below for an equation over
+$\Fp$ stays in $\Fp$. Its first nonzero index is therefore unchanged
+as well; see also \citet[Theorem~5.13]{fg-kty-one}.
+The concrete monomial formula and finite operator
+are given by \citet[Proposition~3.2, Remark~3.4 and Algorithms~2--4,
+pp.~5--7]{fg-bgp}. We recall the exact criterion and prove its complexity
+consequences for circuit input.
+
+Let $F\in\Fp[x_1,\ldots,x_d]$ be homogeneous of degree $d\ge3$, and
+assume its projective hypersurface is smooth and geometrically connected.
+Put
+\[
+ D=d(p-1),\qquad g=F^{p-1},\qquad
+ V=\Fp[x_1,\ldots,x_d]_D,\qquad
+ B=\dim V=\binom{pd-1}{d-1}.
+\]
+For the collected monomial expansion $g=\sum_\beta c_\beta x^\beta$,
+choose integer representatives $\widehat c_\beta\in\{0,\ldots,p-1\}$,
+set $G=\sum_\beta\widehat c_\beta x^\beta$, and define
+\begin{equation}\label{fg:eq:delta}
+ \Delta=\left(\frac{G^p-\sum_\beta
+                    (\widehat c_\beta x^\beta)^p}{p}\right)\bmod p.
+\end{equation}
+The numerator is coefficientwise divisible by $p$. Changing the integer
+representatives changes both $p$-th powers by multiples of $p^2$, so
+the result is well defined. Define the $\Fp$-linear extractor $u$ by
+\[
+ u(x^\gamma)=
+ \begin{cases}
+ x^{(\gamma-(p-1)\mathbf1)/p},
+       &\gamma\equiv(p-1)\mathbf1\pmod p,\\
+ 0,&\text{otherwise}.
+ \end{cases}
+\]
+Nonnegative exponents in the first case are automatic. Let
+$T(a)=u(\Delta a)$ and let $\ell$ select the coefficient with exponent
+$\tau=(p-1)\mathbf1$. Since $\deg\Delta=pD$, the operator $T$ preserves
+$V$: extracting from degree $(p+1)D$ subtracts $d(p-1)$ and divides by
+$p$, returning degree $D$.
+The cited criterion is
+\begin{equation}\label{fg:eq:finite-operator}
+ h(X)=\min\{j+1:\ell(T^jg)\ne0\},
+ \qquad \min\varnothing=\infty.
+\end{equation}
+Indeed, the unique degree-$D$ monomial outside
+$(x_1^p,\ldots,x_d^p)$ is $x^\tau$.
+
+The representative convention in \eqref{fg:eq:delta} is compatible with
+the Frobenius-image convention for $\Delta_1$ in the criterion.
+Grouping monomials with the same exponent residue modulo $p$ changes
+the divided difference only by a $p$-th-power polynomial. Replacing
+$\Delta$ by $\Delta+H^p$ changes $T(a)$ by $H u(a)$.
+For $a\in V$, $u(a)=\ell(a)$ is constant. Thus the two recurrences
+agree until their first nonzero target, and agree forever when every
+target is zero. This proves the required compatibility for both finite
+and infinite height.
+
+\begin{theorem}[A space bound for the full height]\label{fg:thm:space}
+Fix $p$. Let $L$ be the complete bit length of a division-free arithmetic
+circuit over $\Fp$, with addition, subtraction and multiplication gates,
+and with its declared variable count $d$ and all indices encoded in
+binary. Promise that it computes a homogeneous degree-$d$ equation in
+$d\ge3$ variables defining a smooth geometrically connected projective
+hypersurface. There is a deterministic algorithm which outputs its
+finite Artin--Mazur height in binary, or outputs infinity, using
+\[
+ O_p\bigl(L^2\log(L+2)\bigr)
+\]
+working bits. Every finite height is at most $B=\binom{pd-1}{d-1}$.
+The algorithm halts on all syntactically valid inputs and has arbitrary
+output outside the promise. Infinite-height decision, and finite-height
+or threshold queries with a binary-encoded queried height, therefore
+belong to polynomial space.
+\end{theorem}
+
+\begin{proof}
+Cayley--Hamilton gives a recurrence of order $B$ for
+$a_j=\ell(T^jg)$. If $a_0,\ldots,a_{B-1}$ all vanish, every subsequent
+term vanishes. Otherwise the first nonzero term has index below $B$.
+Together with \eqref{fg:eq:finite-operator}, this proves the height
+bound and the finite stopping rule. No characteristic polynomial needs
+to be computed.
+
+We give the storage analysis in detail. Every declared variable occurs
+on a promised input, by the singular-coordinate-vertex argument in
+Proposition~\ref{fg:prop:height-one}; hence $d=O(L)$. A total algorithm
+first rejects $d<3$ or a declared dimension larger than its number of
+variable occurrences. The bound $B\le2^{pd-1}$ gives $\log B=O_p(d)$. The integer
+$B$ can be computed by successive exact divisions in the binomial
+formula, using $O_p(d)$ bits. A degree-$D$ basis monomial is represented
+by $d$ exponents of size at most $D$, using $O_p(d\log(d+2))$ bits.
+Enumerate these weak compositions in a fixed order, with one such
+counter, whenever a sum over the basis is required.
+
+First compute one circuit coefficient. For a gate $v$ and exponent
+vector $\alpha$ of total degree $O_p(d)$, write $C(v,\alpha)$ for its
+coefficient modulo $p$. Constants, variables, sums and differences are
+immediate. At a product gate with predecessors $v_1,v_2$, use
+\[
+ C(v,\alpha)=\sum_{0\le\beta\le\alpha}
+           C(v_1,\beta)C(v_2,\alpha-\beta).
+\]
+Evaluate the summands and the two factors sequentially. Each recursive
+frame stores its gate index, a constant number of exponent vectors,
+the current summation vector and field elements. Its space is
+$O_p(d\log(d+2)+\log(L+2))$. Gate indices decrease along every recursive
+path, so at most $O(L)$ frames are active. The resulting space bound is
+\begin{equation}\label{fg:eq:coefficient-space}
+ O_p\bigl(Ld\log(d+2)+L\log(L+2)\bigr).
+\end{equation}
+This procedure is exact even if intermediate gates have very large
+formal degree: a term contributing to $x^\alpha$ at a product uses
+only componentwise smaller nonnegative exponents. Arithmetic remains
+modulo the fixed prime. Recomputed subcircuits cost time but no table
+of coefficients. A circuit for $g=F^{p-1}$ has $O_p(L)$ gates, so this
+also computes each $c_\beta$.
+
+Next compute one coefficient of $\Delta$. For $|\gamma|=pD$, enumerate
+the ordered $p$-tuples of degree-$D$ monomials whose exponents sum to
+$\gamma$. Accumulate their products of canonical coefficients
+$\widehat c_\beta$ modulo $p^2$. Subtract
+$\widehat c_{\gamma/p}^{p}$ if every coordinate of $\gamma$ is divisible
+by $p$, and subtract zero otherwise. The resulting canonical residue
+in $\{0,\ldots,p^2-1\}$ is divisible by $p$; divide it by $p$ and reduce
+modulo $p$. This is exactly \eqref{fg:eq:delta}. Since $p$ is fixed,
+the tuple counters add only $O_p(d\log(d+2))$ bits to
+\eqref{fg:eq:coefficient-space}. The computation uses the coefficients
+of the collected polynomial $g$, so no uncollected parse-tree
+multiplicity is mistaken for a monomial coefficient.
+
+Let $M$ be the matrix of $T$ in the degree-$D$ monomial basis. Its row
+$\alpha$, column $\beta$ entry is
+\begin{equation}\label{fg:eq:matrix-entry}
+ M_{\alpha\beta}
+ =[x^{p\alpha+(p-1)\mathbf1-\beta}]\Delta,
+\end{equation}
+with value zero if a coordinate is negative. The target has total
+degree $pD$, so the preceding procedure supplies this entry in the
+same space. The matrix itself is never stored. Its initial vector has
+component $c_\beta$, and its target functional selects row $\tau$.
+
+For $e\ge0$, compute an entry $P(e,\alpha,\beta)=(M^e)_{\alpha\beta}$
+by balanced recursion. At $e=0$ return the Kronecker delta, and at
+$e=1$ use \eqref{fg:eq:matrix-entry}. For $e\ge2$, put
+$a=\lfloor e/2\rfloor$ and $b=e-a$, and use
+\[
+ P(e,\alpha,\beta)=\sum_{|\eta|=D}
+                   P(a,\alpha,\eta)P(b,\eta,\beta).
+\]
+Again evaluate both factors and all summands sequentially. For $e<B$
+the recursion has depth $O_p(d)$, and each frame uses
+$O_p(d\log(d+2))$ bits. Its total stack is
+$O_p(d^2\log(d+2))$. At a leaf, the coefficient procedure adds its
+own stack from \eqref{fg:eq:coefficient-space}; these space costs add.
+
+For each $j=0,\ldots,B-1$, evaluate
+\[
+ a_j=\sum_{|\beta|=D}P(j,\tau,\beta)c_\beta.
+\]
+Output $j+1$ at the first nonzero value, and infinity if all $B$ tests
+vanish. The outer counters use only $O_p(d\log(d+2))$ further bits.
+Combining the bounds and $d=O(L)$ proves the asserted working space.
+The finite answer has $O_p(d)$ bits. A binary-specified query can first
+be compared with $B$ before this same algorithm is used.
+
+Every loop has an explicit finite endpoint, and recursive gate indices
+or power exponents decrease. On a nonhomogeneous off-promise input,
+the degree-$D$ coefficients of $F^{p-1}$ define the vector used in the
+same finite computation. Thus the algorithm halts without recognizing
+the geometric promise. Linearity here is over $\Fp$; no semilinear
+operator over an extension field has been silently substituted.
+\end{proof}
+
+The proof also gives a deterministic time bound
+$2^{O_p(L^2\log(L+2))}$. The coefficient recursion has depth $O(L)$
+and at most $2^{O_p(d\log(d+2))}$ children per frame, and balanced
+matrix powering has $2^{O_p(d^2)}$ leaves. Repeating for $B$ indices
+does not change the stated bound. The space conclusion is stronger than
+this exponential-time conclusion. It is an upper bound: no matching
+hardness classification for infinite height follows from it.
+
+\begin{corollary}[Polynomial time in sparse or fixed-dimensional input]
+\label{fg:cor:elementary-p}
+Fix $p$. Every fixed finite exact-height predicate and every fixed
+height-threshold predicate is decidable in deterministic polynomial time
+for an explicitly listed sparse equation in the geometric promise above.
+For a fixed number of variables, the full height is computable in
+deterministic polynomial time from a division-free circuit.
+\end{corollary}
+\begin{proof}
+For a fixed queried height, only a fixed finite list of coefficients
+$b_{p^j}$ and congruences modulo $p^j$ is needed, by
+\eqref{fg:eq:all-height} and \eqref{fg:eq:exact-height}. If the sparse
+equation has $t$ terms, expand its $(p^j-1)$-st power by enumerating
+ordered tuples of terms. There are $t^{p^j-1}$ tuples, a polynomial
+number because $p,j$ are fixed. Add exponent vectors in binary, retain
+the required diagonal exponent, and accumulate coefficients modulo
+$p^j$. First collect equal exponent vectors modulo $p$, remove zero
+coefficients, and lift the resulting homogeneous coefficients to
+$\{0,\ldots,p-1\}$; this fixes an integral homogeneous lift even if
+the input list originally had repeated or canceling terms.
+A promised smooth input has every variable present, so the
+number of variables is bounded by the length of the explicit input.
+All these operations therefore have polynomial bit cost.
+
+If $d$ is fixed, truncate the circuit at degree $d$ in its $d$ variables.
+The truncated ring has the constant number $\binom{2d}{d}$ of basis
+monomials. Evaluate its gates modulo $p$, then form the collected
+$g=F^{p-1}$ and the constant-size operator $T$ in
+\eqref{fg:eq:finite-operator}. All relevant degree bounds and the
+matrix size $B$ are constant. Test its first $B$ target coefficients
+by ordinary matrix-vector iteration. The total cost is polynomial in
+the circuit length. Both algorithms can reject the elementary size
+failures above and halt with arbitrary output outside the promise.
+\end{proof}
+
+\subsection{The cohomological and zeta-function comparison}
+There is an independent finite method through the zeta function.
+For $n=d-2>0$, rational Witt cohomology vanishes outside degrees zero
+and $n$. To see this, use the truncation sequences
+\[
+ 0\longrightarrow\OO_X\longrightarrow W_s\OO_X
+   \longrightarrow W_{s-1}\OO_X\longrightarrow0
+\]
+and the coherent vanishings. Induction gives the intermediate
+vanishings, while $H^0(X,W_s\OO_X)=W_s(\Fp)$.
+The degree-zero and degree-$n$ transition maps are surjective, the
+latter by $H^{n+1}(X,\OO_X)=0$. Their inverse systems satisfy the
+Mittag--Leffler condition, so passage to Witt vectors introduces no
+additional cohomology in adjacent degrees.
+
+The rational Dieudonn\'e module of $\Phi_X$ is
+$H^n(X,W\OO_X)[1/p]$
+\citep[II, Corollary~4.3, p.~110]{fg-artin-mazur}.
+It is zero at infinite height and has dimension $h$ at finite height;
+this dichotomy is stated explicitly in
+\citet[\S3, p.~6 of the preprint]{fg-yobuko}.
+The comparison with the slope interval $[0,1)$ in crystalline cohomology
+is \citet[II, Corollary~3.5, (3.5.3), p.~616]{fg-illusie}; see also
+\citet[Theorem~1.1 and (6.2)]{fg-bbe}. Consequently
+\begin{equation}\label{fg:eq:zeta-infinity}
+ h(X)=\infty\iff\bigl((1-T)Z(X,T)\bigr)^{<1}=1.
+\end{equation}
+The factor $1-T$ removes degree-zero cohomology. All remaining
+slope-less-than-one factors come from the top Witt group, with one
+parity, so they cannot cancel each other.
+
+For an exact algorithm, expand the input circuit modulo the ideal of
+all monomials of total degree greater than $d$. At most
+$\binom{2d}{d}\le4^d$ monomials occur; truncation is a ring
+homomorphism and is valid at every gate regardless of its formal
+degree. Partition projective space by the first nonzero coordinate,
+set it equal to one, and specialize the earlier coordinates to zero.
+This gives $d$ disjoint affine hypersurfaces with at most $d-1$
+variables and degree at most $d$. Zeta functions multiply across the
+partition. Zero and nonzero constant equations give affine spaces and
+empty sets and are handled directly. For each other chart,
+\citet[Theorem~37, p.~29 of the preprint]{ff-lauder-wan} give the
+deterministic bit bound
+\[
+ \widetilde O\left(2^{13r^2}a^{3r+7}
+                   e^{3r^2+9r}p^{2r+4}\right)
+\]
+for the full zeta function of a degree-$e$ polynomial in $r$ variables
+over $\F_{p^a}$, without a smoothness hypothesis. With $a=1$, $r<d$,
+$e\le d$, this is $2^{O_p(d^2\log(d+2))}$.
+
+Reduce $(1-T)Z(X,T)=A(T)/B(T)$ to coprime integer polynomials with
+constant coefficient one. Products, exact gcds and divisions have
+polynomial bit cost in the explicit zeta output. Coprimeness over
+$\Q$ persists over $\Q_p$. For
+$C(T)=1+\sum_i c_iT^i$, all reciprocal roots have valuation at least
+one exactly when $p^i\mid c_i$ for every $i$. One direction follows
+from elementary symmetric functions; for the other, $C(U/p)$ has
+integral coefficients, so its reciprocal polynomial is monic integral
+and its roots are integral. Apply this test to both $A$ and $B$ in
+\eqref{fg:eq:zeta-infinity}. This gives the same deterministic
+exponential-time bound, with an independent cohomological explanation
+of what the infinite-height predicate detects.
+
+The finite-height estimate
+$h\le\dim H^{n-1}(X,\Omega_X^1)+1$ of
+\citet[Corollary~2.3, p.~100]{fg-vdgk} gives another geometric stopping
+bound. The operator argument above supplies a bound directly from the
+degree and variable count, while controlling the storage needed for a
+succinct input.

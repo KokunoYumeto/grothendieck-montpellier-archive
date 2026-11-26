@@ -1,0 +1,99 @@
+\section{Four missing witnesses and a smaller list of cases}\label{sec:four}
+This section proves the full lower bound when four missing witnesses increase the cover number by four. The argument begins with a product-count obstruction, then treats the possible ways the higher-degree contributions enter the quadratic circuit. Let $H$ be the quadratic support graph, and let $C_2$ be the circuit obtained by minimum-degree extraction followed by pruning. Define
+\[
+ d=\tau(G)-\tau(H),\qquad D=|C|-|C_2|,\qquad
+ e=|C_2|-(|E(H)|+\tau(H)-1).
+\]
+Thus $d$ is the increase in cover number, $D$ counts deleted gates, and $e$ is the excess size of the quadratic circuit. In the four-witness case, the existing reduction leaves precisely the rows of \citet[Corollary~5.34]{Companion}. We remove the pair $(D,e)=(6,0)$ from its $d=4$ row.
+
+Here is the extraction used throughout the argument. The minimum degree
+$\delta$ is one at a variable, is the sum of the input degrees at a
+product, and is their minimum at an addition. Starting from the output,
+select both inputs at a product or an equal-degree addition, and only the
+lower-degree input at an unequal-degree addition. Bypass each selected
+unequal-degree addition and discard unused gates. The resulting circuit
+$C_2$, called the \emph{quadratic frame}, computes the degree-two part of
+$P$; positivity prevents cancellation. A \emph{private} gate is absent
+from this retained circuit. An unequal-degree addition is a
+\emph{cut}; its lower- and higher-degree operands are its low and high
+inputs. A cut is \emph{visible} if its own node belongs to the selected
+output subgraph before bypassing. Reuse of its low input elsewhere does
+not make the cut visible.
+
+For the Boolean arguments, a function is \emph{safe} for $G$ if every
+assignment on which it is true contains an edge of $G$. It
+\emph{witnesses} an edge if it is true on the assignment consisting of
+that edge's two endpoints. A positive clause is a disjunction of input
+variables; the empty clause is zero. An affine positive clause may also
+have a constant term, in which case a positive constant makes it one.
+A conjunctive normal form (CNF) is a conjunction of such clauses.
+These constants are permitted in the relaxed Boolean templates and in
+restricted circuits, even though the original circuit has only variable
+inputs. Positive arithmetic linear forms give these clauses on Boolean
+supports.
+
+
+The following finite lemma is proved by an explicit propositional certificate. It is used only as an obstruction on a larger class: the template deliberately omits the exact-frame, optimality and pruning restrictions that a circuit would satisfy. Thus it is not a counterexample search, and its unsatisfiability cannot discard a legitimate circuit.
+
+\begin{lemma}[A three-product Boolean template]\label{lem:threeprivatefinite}
+For $i=0,1,2$, let
+\[
+ g_i=A_i(x,g_0,\ldots,g_{i-1})\wedge B_i(x,g_0,\ldots,g_{i-1}),
+\]
+where $x=(x_0,\ldots,x_7)$ and $A_i,B_i$ are arbitrary disjunctions of subsets of the displayed arguments; the empty disjunction is allowed.
+Let $L_i$ be arbitrary affine positive clauses in $x$, including zero and one, and let $c_{ij}\in\{0,1\}$.
+Then
+\[
+ \bigvee_i(g_i\wedge L_i)\ \vee\!
+ \bigvee_{i<j:c_{ij}=1}(g_i\wedge g_j)
+ \ne\bigvee_{a=0}^3(x_{2a}\wedge x_{2a+1}).
+\]
+\end{lemma}
+\begin{proof}[Proof by finite certificate]
+Use one selector for each possible argument in each input clause, each possible variable or constant in each $L_i$, and each cross term. There are $54+27+3=84$ selectors. For fixed selectors the function is monotone, so equality with the matching is equivalent to truth on its four edge assignments and falsity on its sixteen maximal independent endpoint transversals.
+The program \emph{Private-product obstruction} expresses evaluations on these twenty assignments by exact Tseitin equivalences: a selected argument is the conjunction of its selector and its value, each input is their disjunction, and each product and output gate is encoded in both directions.
+The resulting CNF has $2{,}085$ variables and $7{,}421$ clauses.
+
+Its DRUP proof contains $43{,}308$ additions and $41{,}308$ deletions. An independent checker using only the C++ standard library verifies every addition by reverse unit propagation and derives the empty clause. Deletions are ignored, soundly retaining only original or already implied clauses. The check took $15.18$ seconds. The encoder, proof and standard-library checker are available through the workbench. Reverse unit propagation means that adjoining the negation of the proposed clause and propagating forced literals yields a contradiction. Therefore each accepted clause follows from the earlier clauses; induction ends in a proof of inconsistency. The complete check is a propositional certificate.
+\end{proof}
+
+\begin{proposition}[Four missing induced edges require four deleted products]\label{prop:fourprivateproducts}
+Let a positive variable-input binary circuit compute $P\in\Sup(G)$ with nonempty quadratic support $H$. Suppose eight vertices induce precisely four disjoint edges of $G$ and no edge of $H$. Minimum-degree extraction and pruning delete at least four product gates. There is no bound on deleted additions and no quadratic-optimality or cover-number hypothesis.
+\end{proposition}
+\begin{proof}
+Suppose at most three products are deleted. Apply the full-carrier erasure from \citet[proof of Lemma~5.26, first three paragraphs]{Companion}: protect the original minimum-degree-two nodes with addition-only output paths, and erase their off-carrier uses while their \emph{whole current values} still reach the output additively. The erased multiples are Boolean-absorbed. This preserves the exact extracted quadratic circuit, the Boolean output and the bound of three deleted products. It does not replace a carrier by its quadratic part.
+
+No carrier now feeds its complement. Every product in that complement is deleted, because a quadratic product that survives extraction has an addition-only output path and is itself protected. Order those private products as $g_0,g_1,g_2$, padding with unused zero expressions if necessary. Induction through the private addition gates shows that each input to product $i$ is a nonnegative linear combination of original variables and earlier $g_j$. Booleanly this is exactly the arbitrary input clause permitted by Lemma~\ref{lem:threeprivatefinite}; arbitrary sharing is included.
+
+The operands of a quadratic-frame product have the form
+\[
+ A+\sum_i a_i g_i,\qquad B+\sum_i b_i g_i,
+\]
+with $A,B$ linear forms and all coefficients nonnegative. Expand these quadratic-frame products, leaving the private products unexpanded. The protected output network uses additions alone, so summing gives
+\[
+ P_2+\sum_i g_iL_i+\sum_{i\leq j}c_{ij}g_ig_j,
+\]
+where $L_i$ are affine nonnegative linear forms in the original variables. Direct private-product contributions give their constant terms. No input variable can reach the output additively because the output has minimum degree two. The input-only contribution is precisely $P_2$: the quadratic-frame products multiply their original degree-one parts, and each private product has minimum degree at least two.
+
+Set every variable outside the specified eight vertices to zero. Then $P_2$ vanishes, and the Boolean output is exactly their four-edge matching. Boolean idempotence absorbs $g_i^2$ into the constant part of $L_i$, and positive coefficients become presence bits. The result is the forbidden template of Lemma~\ref{lem:threeprivatefinite}, a contradiction.
+\end{proof}
+
+\begin{corollary}[The optimal six-deletion case]
+Among the four-missing-witness alternatives, $(d,D,e)=(4,6,0)$ is impossible. The remaining necessary pairs are
+\[
+\begin{array}{c|l}
+d&(D,e)\\\hline
+2&(5,0)\\
+3&(5,0),(5,1),(6,0)\\
+4&(6,1),(7,0).
+\end{array}
+\]
+\end{corollary}
+\begin{proof}
+For $d=4$, the missing edges form an induced matching with no old edge on their endpoints. Full-carrier erasure preserves the optimal quadratic frame, and \citet[Lemma~5.33]{Companion} forces all six deleted gates to remain. Proposition~\ref{prop:fourprivateproducts} gives at least four private products. At least one deleted addition is an unequal-degree cut, since otherwise the useful circuit is homogeneous and its degree-two output has no missing witness. Thus the product/addition profile is $(4,2)$ or $(5,1)$.
+
+The four-product case is excluded by \citet[Lemma~5.35]{Companion}. In the five-product case there is a unique cut. Its high input is a connected multiplication DAG with at most five products and hence at most six distinct old linear boundary inputs: ten operand occurrences include at least four internal uses. Its scalar or linear direct quadratic-frame context adds at most one factor. After restriction and Boolean idempotence the matching would therefore be a conjunction of at most seven affine clauses.
+Such a representation requires at least sixteen clauses: every nonconstant clause meets each of the four edge assignments and rejects at most one independent endpoint transversal, whereas all sixteen transversals must be rejected. This contradiction completes the proof.
+\end{proof}
+
+The same argument leaves only four products and two additions when $(d,D,e)=(4,6,1)$, and only the product/addition profiles $(4,3)$ and $(5,2)$ when $(d,D,e)=(4,7,0)$. These restrictions do not assert the existence of any remaining circuit. The full four-missing-witness theorem remains open here.

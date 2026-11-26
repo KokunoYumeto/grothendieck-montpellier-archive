@@ -1,0 +1,380 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools,microtype,booktabs}
+\usepackage[margin=27mm]{geometry}
+\usepackage[round,authoryear]{natbib}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/arithmetic-geometry-complexity-workbench}
+\newcommand{\recordurl}{https://github.com/KokunoYumeto/mathematics-workbenches}
+\newcommand{\F}{\mathbb F}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\PP}{\mathbb P}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\title{\#SAT modulo $p$ and Artin--Mazur height,\protect\\after Katz and Stienstra}
+\author{}
+\date{25 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+A companion counting construction, following Katz's coefficient formula,
+realizes the number of satisfying assignments modulo a prime as the
+Hasse--Witt scalar of a smooth Calabi--Yau hypersurface.
+Starting from this construction and Stienstra's logarithm, we identify
+its second height test with a count of balanced local assignments,
+or equivalently with a count of cyclic orbits.
+The resulting height-two decision is modular-counting complete at every
+fixed prime, even on the locus where the first scalar vanishes.
+At a fixed prime, exact-height decision lies in modular counting with
+the requested height supplied in unary and allowed to grow.
+Logically equivalent formulas with the same integer satisfying count
+can have different height-two status. A binary example also gives
+parity-counting completeness at height three. When the prime is part
+of the input, even the promised height-two oracle recovers exact
+counting through polynomially many queries.
+We give exact point-count tests, including the extra precision needed
+at two, a finite stopping rule, and polynomial-space computation of
+unrestricted exact height. We analyze the existing quasi-Frobenius-splitting
+matrix criterion of Kawakami, Takamatsu and Yoshikawa and its implementation
+by Batubara, Garzella and Pan; a separate dense implementation takes time
+exponential in the number of variables times the logarithm of the prime. A matching complexity
+classification for the unrestricted function remains open.
+The mathematics and text were produced by GPT-6 Astra (ChatGPT Pro mode);
+separate readings by the same model and exact computations are recorded,
+and no human has checked the paper.
+\end{abstract}
+
+\section{Counting formulas and the height question}
+The first coherent Frobenius scalar of a Calabi--Yau hypersurface detects
+whether its one-dimensional Artin--Mazur formal group has height one.
+It does not determine what happens after that scalar vanishes.
+Our question is particularly concrete for the hypersurfaces associated
+to Boolean formulas by the companion counting construction
+\citep[Theorems~1.1--1.2, Sections~2--3]{Counting}.
+That construction gives a smooth geometrically integral hypersurface
+$X_\Phi$ over $\mathbb F_p$, with trivial canonical bundle and top
+coherent Frobenius scalar $S\bmod p$, where
+$S=\#\operatorname{SAT}(\Phi)$ is the number of satisfying truth assignments.
+The present paper studies the
+additional information in its height.
+For a one-dimensional formal group in characteristic $p$, its height
+is the integer $h\ge1$ for which the first nonzero term of its
+multiplication-by-$p$ series is $aT^{p^h}$, with $a\ne0$; the height
+is $\infty$ if that series is zero. The notation $h(X)$ refers to
+the Artin--Mazur group associated with the top coherent cohomology
+of $X$. Thus a height test distinguishes successive possible first
+terms of this intrinsic formal-group operation.
+
+A width-three formula is a conjunction of relations involving at most
+three distinct variables. Repeated clauses are separate relations;
+unused declared variables are given unary tautologies.
+For a positive integer $M$, define $T_M(\Phi)$ as follows.
+At each clause choose an ordered list of $M$ satisfying local
+assignments, and at each variable choose an ordered list of $M$ bits.
+For each incidence of a variable in a clause, require that the total
+number of ones in these two lists is $M$.
+The number of all such choices is $T_M(\Phi)$.
+In particular $T_1(\Phi)=S$. This condition imposes agreement of
+one-coordinate marginal counts; it need not impose agreement in
+each position. Section~\ref{sec:construction} gives the integral
+incidence polynomial, the explicit hypersurface equation, and the
+choice of its degree. These definitions specify $X_\Phi$ completely.
+
+Here $\#\mathrm P$ denotes functions counting the accepting branches of
+polynomial-time nondeterministic machines. The class
+$\mathrm{Mod}_p\mathrm P$ consists of languages accepted when such a
+count is nonzero modulo $p$; its binary instance is the parity class
+$\oplus\mathrm P$.
+
+\begin{theorem}[The second height stratum]\label{thm:intro-second}
+Fix a prime $p$ and use the counting hypersurface $X_\Phi$ defined in
+Section~\ref{sec:construction}. If $p\mid S$, then $p\mid T_{p+1}(\Phi)$
+and
+\[
+ h(X_\Phi)=2\quad\Longleftrightarrow\quad
+ T_{p+1}(\Phi)/p\not\equiv0\pmod p.
+\]
+More precisely, simultaneous rotation of the first $p$ positions in
+all the lists counted by $T_{p+1}$, leaving the last position fixed,
+has $S^2$ fixed points. If $O_p(\Phi)$ is the number of its nontrivial
+orbits, then
+\[
+ T_{p+1}(\Phi)=S^2+pO_p(\Phi),\qquad
+ h(X_\Phi)=2\Longleftrightarrow O_p(\Phi)\not\equiv0\pmod p.
+\]
+For fixed $p$, $O_p$ is a $\#\mathrm P$ function.
+Deciding height two on the promise $p\mid S$ is
+$\mathrm{Mod}_p\mathrm P$-complete under polynomial-time many-one reductions.
+For every prime, two logically equivalent formulas with equal exact
+satisfying count, and with the same hypersurface degree, can have
+height two and height at least three, respectively.
+\end{theorem}
+
+Thus the second arithmetic invariant is a count attached to the
+formula's incidence presentation. It cannot be recovered from
+$S\bmod p^2$, or even from the integer $S$ alone.
+The alternative to height two includes infinite height.
+These are completeness statements for counting problems, not
+unconditional separations of complexity classes.
+
+\begin{theorem}[A point-count criterion]\label{thm:intro-points}
+Let $X\subset\mathbb P^{d-1}_{\mathbb F_p}$ be smooth and geometrically
+integral of degree $d\ge4$, and assume its top Artin--Mazur height
+is at least two. Put $n=d-2$, $N_r=\#X(\mathbb F_{p^r})$, and
+$\tau_r=(-1)^n(N_r-\sum_{i=0}^n p^{ir})$.
+Then
+\[
+ h(X)=2\quad\Longleftrightarrow\quad
+ v_p\!\left(\frac{\tau_1^2-\tau_2}{2}\right)=1.
+\]
+For odd $p$ this is equivalent to $\tau_2/p\not\equiv0\pmod p$,
+so $N_2\bmod p^2$ suffices. For $p=2$ it is equivalent to
+$(\tau_1^2-\tau_2)/4\not\equiv0\pmod2$, determined by
+$N_1\bmod4$ and $N_2\bmod8$.
+There exist smooth quintic threefolds with identical $N_1$ and
+identical $N_2\bmod4$ but different height-two status.
+\end{theorem}
+
+\begin{theorem}[Exact height and its complexity]\label{thm:intro-complexity}
+Let $F$ be a division-free arithmetic circuit over $\mathbb F_p$,
+with its $d\ge3$ variables explicitly listed, promised to represent
+a homogeneous polynomial of degree $d$ defining a smooth hypersurface
+$X\subset\mathbb P^{d-1}$. For a homogeneous integral lift put
+\[
+ a_{p^j}=[(x_1\cdots x_d)^{p^j-1}]\widetilde F^{p^j-1},\qquad
+ B_d=\begin{cases}2,&d=3,\\36,&d=4,\\
+ \binom{2d-1}{d-1},&d\ge5.\end{cases}
+\]
+The first index $j\le B_d$ with $a_{p^j}\not\equiv0\pmod{p^j}$
+is $h(X)$. If there is no such index, then $h(X)=\infty$.
+For every fixed prime $p$ and fixed positive integer $r$, deciding
+$h(X)=r$ belongs to $\mathrm{Mod}_p\mathrm P$.
+The same membership holds with $r$ supplied in unary and allowed to
+grow with the input; the resulting variable-$r$ problem is complete.
+The cases $r=1,2$ are complete for that class, and at $p=2$ the
+case $r=3$ is $\oplus\mathrm P$-complete even under the promise
+$h(X)\ge3$.
+The exact-height function, including the output $\infty$, is
+computable deterministically with $\operatorname{poly}(L)$ work bits,
+where $L$ is the circuit input length, and therefore in
+$2^{\operatorname{poly}(L)}$ time. This upper bound also permits a
+binary-encoded input prime. A separate dense implementation uses
+$2^{O(d\log p)}\operatorname{poly}(s,d,\log p)$ bit operations,
+where $s$ is circuit size. Under this uniform
+convention the function is $\#\mathrm P$-hard by polynomially many
+nonadaptive oracle calls, even on inputs of height at least two. With
+a unary-encoded prime, promised height-two decision is oracle-equivalent
+to exact counting as stated in Theorem~\ref{thm:uniform-counting}.
+The same oracle equivalence holds for arbitrary unary requested heights,
+as in Theorem~\ref{thm:unary-height}.
+\end{theorem}
+
+The finite coefficient rule determines height in terms of the equation
+constructed from $\Phi$. The short replica formula applies only before
+the exceptional selections in the stabilizing equation become possible;
+we do not extrapolate it to all coefficient indices.
+The exact-counting lower bound varies the prime and uses shifted
+counting instances and Chinese remaindering. It makes no claim of
+$\#\mathrm P$-hardness at one fixed prime.
+The polynomial-space upper bound recomputes entries of a fixed-degree
+quasi-Frobenius-splitting matrix and treats infinite height explicitly. It does not establish a matching hardness
+class for the unbounded exact-height function, while the modular-counting membership for a growing unary height
+parameter does not extend to binary height parameters.
+
+\subsection{Classical inputs and the additional arithmetic questions}
+Artin and Mazur introduced the formal groups and related their rational
+Dieudonn\'e modules to crystalline slopes
+\citep[II, Corollaries~4.2--4.3, pp.~109--110; III, Corollaries~3.3--3.4,
+pp.~118--119]{AM}. Stienstra gives their logarithm coefficients for
+complete intersections \citep[Theorem~1, pp.~907--908]{Stienstra}.
+Vlasenko's general congruence theorem already characterizes height
+by valuations of those coefficients
+\citep[Theorem~2(i), arXiv version~5, p.~3]{Vlasenko2019}.
+Our coefficient-to-height lemma supplies the particular leading
+$p$-series quotient needed for the incidence count.
+The finite stopping bound uses van der Geer and Katsura's
+Corollary~2.3, p.~100 \citep{vdGK2003}; the deterministic complexity
+bound analyzes the criterion of Kawakami, Takamatsu and Yoshikawa
+\citep[Theorem~C, version~3, p.~4; already in version~2, p.~5]{KTY2025}
+and the fixed matrix algorithm of Batubara, Garzella and Pan
+\citep[Section~3.4 and Algorithm~4, p.~7]{BGP2025}.
+Yobuko's comparison identifies its quasi-Frobenius-split height with
+Artin--Mazur height \citep[Theorem~4.5, author version pp.~9--10]{Yobuko2019}.
+The operator and its iteration are these authors' results. We supply
+the uniform resource analysis for circuit inputs, including a finite
+matrix cutoff, and the counting interpretation of its coefficients
+that yields the unary-height classification. An alternative proof in Appendix~\ref{subsec:height-polynomial-space}
+uses Lauder and Wan's finite traces and Hesse, Allender and Barrington's
+uniform integer division
+\citep[Theorem~28, pp.~600--601]{LauderWan2008}
+\citep[Corollary~6.3, author manuscript p.~16]{HAB2002}.
+The representation of the coefficients as counts, the examples,
+and the promised reductions are proved below.
+For computational context, Batubara, Garzella, Huang, and Mellberg
+develop practical controlled-reduction implementations and exhibit
+explicit Newton strata, including quartic K3 surfaces of specified heights
+\citep[Section~1.5, pp.~4--5; Theorem~1.4, p.~5]{BGHM2026}.
+
+The later sections address separate arithmetic questions suggested
+by the same complexity programme. They identify the Fermat character
+and the correct first variation of coherent Frobenius; state precisely
+which succinct motive presentations admit bounded-rank hardness;
+prove almost-everywhere stability of orbit-closure witness degrees;
+refute the unrestricted class-group all-minors statement;
+compute factorial and repeated-root local valuation identities;
+and classify affine families of odd theta characteristics.
+Their scope is stated with each result. In particular, none gives a
+proof-complexity lower bound without an additional covering argument.
+
+\section{Proof overview}
+The initial scalar comes from the reciprocal-product generator in the
+standard affine cover of projective space. Stienstra's theorem extends
+that calculation to an integral logarithm. Comparing its value on the
+multiplication-by-$p$ series with $p$ times the logarithm isolates the
+first possible nonzero height coefficient. The denominator matters:
+after the first scalar vanishes, the next test is a coefficient divided
+by $p$, taken modulo $p$.
+
+For the counting equation, balancing the exponents of its two new
+coordinates excludes all exceptional selections at the first few
+indices. The tag variables then force a prescribed number of copies
+of each incidence factor. This gives the balanced-list count $T_M$.
+A cyclic action on the lists explains its divisibility, and constant
+formulas with a nonzero second quotient turn the identity into a
+promise-preserving hardness reduction. The binary third-height example
+uses an exact finite binomial sum.
+
+The point-count test follows from a different description of the same
+formal group. At height two there are precisely two slopes equal to
+one half. Their product is the unique term of valuation one in the
+second elementary symmetric coefficient. Higher and infinite heights
+force larger valuation. Newton's identity then yields the stated
+point-count precisions. Finally, a finite cohomological height bound
+makes the logarithm rule terminate. For polynomial space, the quasi-Frobenius-splitting criterion
+keeps every iterate in the same homogeneous polynomial space. Its
+matrix entries use only scalar residues modulo the prime and its square.
+Cayley--Hamilton supplies a finite stopping rule. Recursive coefficient
+convolutions and matrix powering compute any requested entry with a
+polynomial stack, while a separate dense implementation gives the
+stated sharper time bound. Finally, varying
+the prime, shifting satisfying counts and applying Chinese remaindering
+recovers exact counting from the promised height-two oracle.
+
+\section{The first scalar and the point-count congruence}
+This section fixes the normalization of the scalar before asking for higher-height information.
+For a degree-$d$ equation $F$ in $d$ variables, define its Hasse coefficient by
+\[
+ h_p(F)=[(x_1\cdots x_d)^{p-1}]F^{p-1}\in\mathbb F_p.
+\]
+Here $[m]A$ denotes the coefficient of the monomial $m$ in a polynomial $A$.
+
+\begin{proposition}\label{prop:scalar}
+For a degree-$d$ hypersurface as above, $H^{d-2}(X,\mathcal O_X)$ is one-dimensional over $\F_p$. On the basis induced by the reciprocal monomial $(x_1\cdots x_d)^{-1}$, absolute Frobenius acts by $h_p(F)$. Moreover
+\[
+ \#X(\F_p)\equiv1+(-1)^d h_p(F)\pmod p.
+\]
+\end{proposition}
+\begin{proof}
+Multiplication by $F$ gives the exact sequence
+\[
+ 0\longrightarrow\mathcal O_{\PP^{d-1}}(-d)
+ \xrightarrow{\ F\ }\mathcal O_{\PP^{d-1}}
+ \longrightarrow\mathcal O_X\longrightarrow0.
+\]
+On the standard cover $x_i\ne0$, the top cohomology of $\mathcal O(-d)$ is the degree-$-d$ part of the Laurent polynomial ring modulo the sum of subrings in which at least one exponent is nonnegative. Its only surviving monomial is $(x_1\cdots x_d)^{-1}$, so that cohomology is a line. The same cover gives zero intermediate cohomology of the two projective-space sheaves in the positions needed here. For $d=3$ this is the usual vanishing of $H^1(\PP^2,\mathcal O)$ and $H^2(\PP^2,\mathcal O)$; the same monomial computation proves it for every $d$. The connecting homomorphism therefore identifies $H^{d-2}(X,\mathcal O_X)$ with this line.
+
+The map on the left sheaf which makes Frobenius commute with multiplication by $F$ is $a\mapsto F^{p-1}a^p$, since $F(F^{p-1}a^p)=(Fa)^p$. Applied to the indicated generator it gives
+$F^{p-1}/(x_1\cdots x_d)^p$. A monomial of $F^{p-1}$ survives only if every exponent is at most $p-1$. Their sum is $d(p-1)$, so all must equal $p-1$. The surviving coefficient is precisely $h_p(F)$.
+
+For the point count, let $A$ be the number of affine zeros of $F$. Fermat's identity on $\F_p$ gives
+$A\equiv-\sum_{x\in\F_p^d}F(x)^{p-1}\pmod p$.
+For an exponent $m$, $\sum_{a\in\F_p}a^m$ is zero when $m=0$, zero when $m>0$ is not divisible by $p-1$, and $-1$ otherwise. Since the total degree is $d(p-1)$, exactly the coefficient defining $h_p(F)$ survives the product of these sums. Thus $A\equiv(-1)^{d+1}h_p(F)$.
+The affine cone satisfies $A=1+(p-1)\#X(\F_p)$, hence the claimed congruence. It has a plus sign when $d$ is even, and also in characteristic two. Keeping track of this parity is necessary when a counting construction identifies its scalar with a prescribed residue.
+\end{proof}
+
+\input{construction}
+\input{height}
+\input{counting_height}
+\input{height_three}
+\input{point_counts}
+\input{complexity}
+\input{deformation}
+\input{witness_degree}
+\input{class_groups}
+\input{div_discs}
+\input{theta}
+
+\section{What remains open}
+The second height stratum of the counting hypersurfaces is characterized
+and modular-counting complete at every fixed prime. The full height
+has a terminating coefficient rule and a polynomial-space upper bound.
+With the prime included in the input, it is also $\#\mathrm P$-hard
+under nonadaptive polynomial-time oracle reductions.
+A sharp complexity classification of the unbounded exact-height
+function remains open. Exact-height decision with a growing unary
+height parameter is modular-counting complete at a fixed prime; the
+proof gives no such classification for a binary height parameter or
+for infinite-height decision. The replica formula ceases to be the entire
+coefficient once $p^j-1\ge Q(Q+1)$; understanding those additional
+selections may lead to more economical tests or to further fixed-height
+gadgets. No determination of all higher strata from $S$ is asserted.
+
+The bounded-rank trace obstruction concerns the expressly stated
+succinct correspondence syntax. It does not decide polynomial trace
+complexity for every geometric presentation with an expanded basis
+or expanded correspondences. Witness-degree specialization supplies no
+polynomial bound as determinant and permanent sizes grow. The theta
+classification supplies a local dimension and cardinality bound,
+but the distributional covering step for arbitrary refutations is
+still required.
+
+\section*{Method and records}
+The mathematics and text were produced by GPT-6 Astra (ChatGPT Pro mode). Separate re-proofs by the same model, full mathematical readings, and exact integer and finite-field computations are distinguished in the check records at \url{\recordurl}. No human has checked this paper. The programs and certificates in the workbench at \url{\workbenchurl} include \emph{Replica coefficient verification}, \emph{Projective point-count precision}, \emph{Third-height inclusion--exclusion}, \emph{Witness-degree matrix checks}, \emph{Artin-rank checks}, \emph{Valuation disc calculations}, and \emph{Odd affine families}. This text is dedicated to the public domain under Creative Commons CC0~1.0.
+\appendix
+\input{space}
+
+\setlength{\bibsep}{3pt}
+\begin{thebibliography}{99}
+\bibitem[Artin and Mazur(1977)]{AM} Artin, M., \& Mazur, B. (1977). Formal groups arising from algebraic varieties. \emph{Annales scientifiques de l'\'Ecole Normale Sup\'erieure, 10}(1), 87--131. \url{https://doi.org/10.24033/asens.1322}.
+\bibitem[Atiyah(1971)]{Atiyah1971Spin} Atiyah, M. F. (1971). Riemann surfaces and spin structures. \emph{Annales scientifiques de l'\'Ecole Normale Sup\'erieure, 4}(1), 47--62. \url{https://doi.org/10.24033/asens.1205}.
+\bibitem[Batubara et~al.(2026)]{BGHM2026} Batubara, R., Garzella, J. J., Huang, Y., \& Mellberg, M. (2026). Newton strata realization for hypersurfaces via explicit $p$-adic cohomology. \emph{Research in Number Theory, 12}, Article 110. \url{https://doi.org/10.1007/s40993-026-00802-6}.
+\bibitem[Batubara et~al.(2025)]{BGP2025} Batubara, R., Garzella, J. J., \& Pan, A. (2025). \emph{K3 surfaces of any Artin--Mazur height over $\mathbb F_5$ and $\mathbb F_7$ via quasi-$F$-split singularities and GPU acceleration} (Version 3). arXiv. \url{https://arxiv.org/abs/2502.12428v3}.
+\bibitem[Beigel and Gill(1992)]{BeigelGill1992} Beigel, R., \& Gill, J. (1992). Counting classes: Thresholds, parity, mods, and fewness. \emph{Theoretical Computer Science, 103}(1), 3--23. \url{https://doi.org/10.1016/0304-3975(92)90084-S}. Author manuscript, Theorem~30, p.~15.
+\bibitem[Bernatska and Kopeliovich(2023)]{BernatskaKopeliovich2023} Bernatska, J., \& Kopeliovich, Y. (2023). \emph{Igusa's map on modular forms vanishing on the hyperelliptic locus}. arXiv:2306.14889v1, Section~2.6, p.~7. \url{https://arxiv.org/abs/2306.14889v1}.
+\bibitem[Consequences, corrected transfers, and remaining gates(2026)]{ParityCompanion} \emph{Consequences, corrected transfers, and remaining gates}. (2026). Unpublished manuscript, 22 November 2026; cited by subtitle. Complexity chapter, subsections ``Parity hardness persists when the coherent Frobenius matrix has only one entry'' and ``The parity gate survives smooth hypersurfaces and genuine finite Weil objects''. Records at \url{\recordurl}.
+\bibitem[Counting satisfying assignments(2026)]{Counting} \emph{Counting satisfying assignments on smooth projective varieties, after Katz}. (2026). Unpublished companion manuscript, 24 November, Theorems~1.1--1.2 and Sections~2--3. Records at \url{\recordurl}.
+\bibitem[Deligne(1974)]{Deligne1974} Deligne, P. (1974). La conjecture de Weil: I. \emph{Publications Math\'ematiques de l'IH\'ES, 43}, 273--307. \url{https://doi.org/10.1007/BF02684373}.
+\bibitem[Greni\'e and Molteni(2019)]{GrenieMolteni2019}
+Greni\'e, L., \& Molteni, G. (2019).
+An explicit Chebotarev density theorem under GRH.
+\emph{Journal of Number Theory, 200}, 441--485.
+\url{https://doi.org/10.1016/j.jnt.2018.12.005}.
+Corrected author version: arXiv:1709.07609v3,
+Theorem~1.1 and Corollary~1.2, pp.~2--3.
+\url{https://arxiv.org/abs/1709.07609v3}.
+\bibitem[Grothendieck and Dieudonn\'e(1964)]{EGAIV1} Grothendieck, A., \& Dieudonn\'e, J. (1964). \emph{\'El\'ements de g\'eom\'etrie alg\'ebrique: IV, premi\`ere partie}. Publications Math\'ematiques de l'IH\'ES, 20. Theorem~1.8.4, p.~239.
+\bibitem[Grothendieck and Dieudonn\'e(1966)]{EGAIV3} Grothendieck, A., \& Dieudonn\'e, J. (1966). \emph{\'El\'ements de g\'eom\'etrie alg\'ebrique: IV, troisi\`eme partie}. Publications Math\'ematiques de l'IH\'ES, 28. Theorem~9.7.7, pp.~79--81.
+\bibitem[Hesse et~al.(2002)]{HAB2002} Hesse, W., Allender, E., \& Barrington, D. A. M. (2002). Uniform constant-depth threshold circuits for division and iterated multiplication. \emph{Journal of Computer and System Sciences, 65}(4), 695--716. \url{https://doi.org/10.1016/S0022-0000(02)00025-9}. Corollary~6.3, author manuscript p.~16: \url{https://people.cs.rutgers.edu/~allender/papers/division.pdf}.
+\bibitem[Hesse et~al.(2014)]{HABCorr2014} Hesse, W., Allender, E., \& Barrington, D. A. M. (2014). Corrigendum to ``Uniform constant-depth threshold circuits for division and iterated multiplication.'' \emph{Journal of Computer and System Sciences, 80}(2), 496--497. \url{https://doi.org/10.1016/j.jcss.2013.09.002}. Author manuscript pp.~1--2: \url{https://people.cs.rutgers.edu/~allender/papers/hab.corrigendum.pdf}.
+\bibitem[Katz(1972)]{Katz1972} Katz, N. M. (1972). Algebraic solutions of differential equations ($p$-curvature and the Hodge filtration). \emph{Inventiones Mathematicae, 18}, 1--118. Algorithm~2.3.7.14 and Special Case~2.3.7.17, pp.~35--36.
+\bibitem[Katz and Messing(1974)]{KatzMessing1974} Katz, N. M., \& Messing, W. (1974). Some consequences of the Riemann hypothesis for varieties over finite fields. \emph{Inventiones Mathematicae, 23}, 73--77. Theorem~1, p.~74. \url{https://doi.org/10.1007/BF01405203}.
+\bibitem[Kawakami et~al.(2025)]{KTY2025} Kawakami, T., Takamatsu, T., \& Yoshikawa, S. (2025). \emph{Fedder type criteria for quasi-$F$-splitting I} (Version 3; original preprint 2022). arXiv. \url{https://arxiv.org/abs/2204.10076v3}. Theorem~C already appears in version~2, p.~5: \url{https://arxiv.org/abs/2204.10076v2}.
+\bibitem[Lauder and Wan(2008)]{LauderWan2008} Lauder, A. G. B., \& Wan, D. (2008). Counting points on varieties over finite fields of small characteristic. In J. P. Buhler \& P. Stevenhagen (Eds.), \emph{Algorithmic number theory: Lattices, number fields, curves and cryptography} (pp.~579--612). Cambridge University Press. \url{https://library.slmath.org/books/Book44/files/18lauder.pdf}.
+\bibitem[Milne(2013)]{MilneLEC2013} Milne, J. S. (2013). \emph{Lectures on \'etale cohomology} (Version~2.21). Theorems~15.1 and~24.1, pp.~105 and~144. \url{https://www.jmilne.org/math/CourseNotes/LEC.pdf}.
+\bibitem[Mumford(1971)]{Mumford1971Theta} Mumford, D. (1971). Theta characteristics of an algebraic curve. \emph{Annales scientifiques de l'\'Ecole Normale Sup\'erieure, 4}(2), 181--192. \url{https://doi.org/10.24033/asens.1209}.
+\bibitem[Stienstra(1987)]{Stienstra} Stienstra, J. (1987). Formal group laws arising from algebraic varieties. \emph{American Journal of Mathematics, 109}(5), 907--925. \url{https://doi.org/10.2307/2374494}.
+\bibitem[Tao(2005)]{Tao2005} Tao, T. (2005). An uncertainty principle for cyclic groups of prime order. \emph{Mathematical Research Letters, 12}(1), 121--127. Lemma~1.3. \url{https://doi.org/10.4310/MRL.2005.v12.n1.a11}.
+\bibitem[Valiant and Vazirani(1986)]{ValiantVazirani1986} Valiant, L. G., \& Vazirani, V. V. (1986). NP is as easy as detecting unique solutions. \emph{Theoretical Computer Science, 47}, 85--93. Theorem~1.1, Corollary~1.2, p.~87, and Lemma~2.1, p.~88.
+\bibitem[van der Geer and Katsura(2003)]{vdGK2003} van der Geer, G., \& Katsura, T. (2003). On the height of Calabi--Yau varieties in positive characteristic. \emph{Documenta Mathematica, 8}, 97--113. Corollary~2.3, p.~100. \url{https://doi.org/10.4171/DM/140}.
+\bibitem[Vlasenko(2019)]{Vlasenko2019} Vlasenko, M. (2019). Formal groups and congruences. \emph{Transactions of the American Mathematical Society, 371}(2), 883--902. Theorem~2(i), arXiv:1509.06002v5, p.~3. \url{https://doi.org/10.1090/tran/7283}.
+\bibitem[Wan(2008)]{Wan2008} Wan, D. (2008). Algorithmic theory of zeta functions over finite fields. In J. P. Buhler \& P. Stevenhagen (Eds.), \emph{Algorithmic number theory: Lattices, number fields, curves and cryptography} (pp.~551--578). Cambridge University Press. Theorem~6.3 and Corollary~6.4, p.~571. \url{https://library.slmath.org/books/Book44/files/17wan.pdf}.
+\bibitem[Yobuko(2019)]{Yobuko2019} Yobuko, F. (2019). Quasi-Frobenius splitting and lifting of Calabi--Yau varieties in characteristic $p$. \emph{Mathematische Zeitschrift, 292}(1--2), 307--316. \url{https://doi.org/10.1007/s00209-018-2198-7}. Author manuscript: \url{https://arxiv.org/abs/1704.05604v2}.
+\end{thebibliography}
+\end{document}

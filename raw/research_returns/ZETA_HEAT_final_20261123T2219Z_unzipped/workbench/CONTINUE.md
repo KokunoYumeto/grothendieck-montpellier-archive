@@ -1,0 +1,11 @@
+# Final continuation record
+
+This session ended its research at 2026-11-23T21:11:20.897484+00:00 during the review scheduled for 21:09:28 UTC on 23 November 2026, following two consecutive reviews without an open row closing or a strictly smaller main gate. Overall status: INCOMPLETE on all-zero simplicity. Final question counts: 9 proved, 2 refuted, 9 INCOMPLETE. FINAL_STATUS.md gives every approach, obstruction and next step; QUESTIONS.tsv gives the exact row states.
+
+The current authoritative paper is paper/main.tex with all 48 TeX inputs, paper/main.pdf and BUILD.md. Its 169-page fresh PDF SHA256 is 1c6183b2a61aa8d4290ec8cbb05dddb78f3b0abeeb4dd13664188f095925cd7e. All source and page checks are closed at the scopes in CHECK_EVENTS.tsv and versions/final_visual_complete.json. Named background, independent proof stages and later exposed audits are kept distinct.
+
+The strongest unresolved gate is sup_(N,k)(2/D_(N,k))^(1/(2k))=infinity, equivalently zero integer inertia deficit at unbounded zero-free heights. Both finite indices must be allowed to grow. Arithmetic-only certificates reach97.632, independent contour/probe certificates agree through 20, and contour certificates reach 45. The original prolate denominator margin, the signed endpoint estimate and the height/growing-order cutoff estimate remain unproved. The fixed-family cutoff calculation has been integrated with its full proof and independent checks.
+
+Six immutable scheduled checkpoint ZIPs were created at 45-minute intervals from 16:09:28 UTC, the last at 20:39:28 UTC. Checkpoint 06 SHA256 1eab2d230b6c71a7148765d36d77ee064dc0b31d1e0e74a64f25eac33a00225b. This final archive supersedes their mathematical state without modifying them. The original two attachments and all external source bodies are excluded; source citations/hashes/locators remain in SOURCES.tsv and LITERATURE.md. The original attachments remain necessary to audit historical source provenance, while the returned paper is independently editable and buildable.
+
+A future session should begin from FINAL_STATUS.md and the exact unresolved inequalities. Do not count equivalent reformulations, side estimates, verification or packaging as research movement. No future task or automation has been scheduled.

@@ -1,0 +1,1336 @@
+\section{Bounded excess for saturated complete intersections}
+\label{sci:sec}
+
+There is also a tractable higher-codimension saturation problem when the
+input ideal contains a regular sequence with bounded excess over the
+anticanonical degree. A bounded degree gap gives a deterministic
+coefficient algorithm. A finite projection and a deterministic interpolation
+grid remove the degree bounds on all other inputs. A search over degree
+profiles removes the need to supply the regular sequence; only the
+selection of a good projection centre remains randomized in the general
+bounded-excess algorithm. The input need not generate the saturated
+ideal. A small graded annihilator replaces the unknown regular generators.
+
+Write \(S=\Fp[x_0,\ldots,x_N]\) and \(\mathfrak m=(x_0,\ldots,x_N)\).
+Let \(S_d\) be its homogeneous degree-\(d\) part for \(d\geq0\), and
+put \(S_d=0\) for \(d<0\). All displayed inputs are explicit homogeneous
+sparse polynomials, with exponents and degrees encoded in binary.
+On the geometric promises below, every ambient coordinate occurs in
+the input list. If one did not, its coordinate vertex would be a cone
+vertex of \(X\). At that vertex the nonlinear minimal equations have
+zero gradient, so smoothness would force all \(c\) minimal degrees to
+be one, contrary to their anticanonical sum \(N+1>c\). Thus \(N+1\)
+is bounded by the written sparse length even when coordinate indices
+are encoded in binary.
+
+\begin{theorem}[Recovery from a regular sublist with a bounded degree gap]
+\label{sci:thm:gap}
+Fix a prime \(p\), a codimension \(c\geq2\), and integers \(e,B\geq0\).
+Let \(K=(u_1,\ldots,u_m)\), where the \(u_i\) are nonzero homogeneous
+sparse forms. Promise that \(K^{\mathrm{sat}}=I_X\), where
+\(X\subset\PP^N_{\Fp}\) is a smooth geometrically integral global
+complete intersection of codimension \(c\), dimension \(n=N-c\geq1\),
+and anticanonical multidegree. Give indices of a sublist
+\(f_1,\ldots,f_c\) which is a regular sequence, and suppose
+\[
+ D:=\sum_{j=1}^c\deg f_j=N+1+e,\qquad
+ \deg u_i\leq \min_j\deg f_j+B\quad(1\leq i\leq m).
+\]
+Then the scalar of Frobenius on \(H^n(X,\OO_X)\) is computable in
+deterministic polynomial sparse-bit time. The algorithm also constructs
+a homogeneous \(q\in S_e\) with
+\[
+ q\notin J,\qquad J:q=I_X,\qquad J=(f_1,\ldots,f_c).
+\]
+It does not recover the minimal generators of \(I_X\).
+Regularity of the indexed sublist is a separate promise, not a
+consequence of the saturation promise.
+\end{theorem}
+
+We first give the algebra and the Frobenius calculation used in the
+algorithm. The intermediate complete intersection \(Y=\Proj(S/J)\)
+may be singular, reducible, or nonreduced.
+
+\begin{lemma}[The degree-\(e\) annihilator line]
+\label{sci:lem:annihilator}
+Under the geometric and regularity hypotheses above,
+\[
+ J:K=J:I_X,\qquad
+ \dim_{\Fp}\bigl((J:K)_e/J_e\bigr)=1.
+\]
+Every \(q\in(J:K)_e\setminus J_e\) satisfies \(J:q=I_X\).
+\end{lemma}
+\begin{proof}
+The quotient \(S/J\) is Cohen--Macaulay of dimension \(n+1\geq2\), so
+\(J\) is saturated. If \(aK\subseteq J\) and \(v\in K^{\mathrm{sat}}\),
+then \(\mathfrak m^r v\subseteq K\) for some \(r\), whence
+\(\mathfrak m^r av\subseteq J\). Saturation gives \(av\in J\).
+This proves \(J:K=J:I_X\).
+
+Choose homogeneous regular generators \(g_1,\ldots,g_c\) of \(I_X\),
+of degrees \(d_j\) with \(\sum_jd_j=N+1\), only for the proof.
+Write \(f=Hg\) with homogeneous matrix entries of degrees
+\(\deg f_i-d_j\), using zero for a negative degree, and put
+\(\Delta=\det H\). Every nonzero determinant term has degree \(e\).
+Wiebe's annihilator identities give
+\[
+ J:I_X=J+(\Delta),\qquad J:\Delta=I_X.
+\]
+Here one may use \citet[Theorem~11 and Corollary~12, \S2--3]{sci-wiebe};
+their statement applies in an arbitrary ring when \(f\) is regular,
+without a locality assumption. In particular \(\Delta\notin J\),
+since \(I_X\ne S\). Taking degree \(e\) gives
+\((J:I_X)_e/J_e=\Fp\overline{\Delta}\).
+Any nonzero class is a ground-field unit times \(\overline{\Delta}\),
+and has the same annihilator.
+\end{proof}
+
+Write \(\mathbf1=(1,\ldots,1)\in\mathbb Z^{N+1}\).
+Define the \(\Fp\)-linear monomial operator
+\[
+ \mathcal T(x^a)=
+ \begin{cases}
+ x^{(a-(p-1)\mathbf1)/p},
+       &a_i\equiv p-1\pmod p\text{ for every }i,\\
+ 0,&\text{otherwise}.
+ \end{cases}
+\]
+In the first case each exponent is nonnegative. Thus
+\(\mathcal T(h^p v)=h\mathcal T(v)\).
+
+\begin{lemma}[The Frobenius adjoint on an arbitrary complete intersection]
+\label{sci:lem:trace}
+Let \(f_1,\ldots,f_c\) be a homogeneous regular sequence with
+\(d_j=\deg f_j\), let \(\sum_jd_j=N+1+e\) with \(e\geq0\), and
+suppose \(N-c\geq1\).
+The dual of \(H^{N-c}(Y,\OO_Y)\) is naturally \(S_e/J_e\). Under this
+identification the adjoint of Frobenius is
+\[
+ \mathcal C_Y(\bar h)
+ =\overline{\mathcal T\!\left(h(f_1\cdots f_c)^{p-1}\right)}.
+ \label{sci:eq:trace}
+\]
+If \(J\subseteq I_X\) as above, the line
+\((J:I_X)_e/J_e\) is invariant under this operator, and its eigenvalue
+is the Frobenius scalar \(\alpha\) of \(X\). In particular,
+\[
+ \mathcal T\!\left(q(f_1\cdots f_c)^{p-1}\right)
+       \equiv\alpha q\pmod{J_e}
+ \quad\text{for }q\in(J:I_X)_e\setminus J_e.
+\]
+This is the trace on a Gorenstein dualizing sheaf; smoothness of \(Y\)
+and a description by regular differential forms are not required.
+\end{lemma}
+\begin{proof}
+Put \(d_j=\deg f_j\) and \(D=\sum_jd_j\).
+The Koszul resolution and the cohomology of line bundles on
+\(\PP^N\) identify the top coherent group with
+\[
+ \ker\!\left(
+ H^N(\PP^N,\OO(-D))
+ \longrightarrow
+ \bigoplus_jH^N(\PP^N,\OO(-D+d_j))
+ \right).
+ \tag{\(\ast\)}
+\]
+Indeed the negative line bundles have cohomology only in row \(N\);
+the term \(\OO\) has its separate row-zero class. Since \(N-c\geq1\),
+no higher differential connects that row-zero term to the displayed
+leftmost kernel. The perfect Laurent coefficient pairing identifies
+\(H^N(\OO(-D))^\vee\) with \(S_e\). The dual of the displayed map
+is \((a_j)\mapsto\sum_j f_ja_j\), with
+\(a_j\in S_{e-d_j}\), so the dual of \((\ast)\) is exactly \(S_e/J_e\).
+
+Apply \(p\)th power to the Koszul resolution and compare the resolution
+of \((f_1^p,\ldots,f_c^p)\) with that of \(f\).
+On its last term the comparison multiplies by
+\((f_1\cdots f_c)^{p-1}\). Thus Frobenius on the ambient top
+cohomology is
+\[
+ v\longmapsto (f_1\cdots f_c)^{p-1}v^p,
+\]
+and restricts to \((\ast)\). Pair a Laurent basis element
+\(x^{-b-\mathbf1}\), \(|b|=e\), with a polynomial \(h\in S_e\).
+The adjoint coefficient at \(x^b\) is the coefficient at
+\(x^{pb+(p-1)\mathbf1}\) in \(h(f_1\cdots f_c)^{p-1}\).
+This is precisely \(\mathcal T\). The resulting polynomial has degree
+\[
+ \frac{e+(p-1)(N+1+e)-(p-1)(N+1)}p=e.
+ \]
+The formula also descends directly modulo \(J_e\): replacing \(h\)
+by \(h+f_j a\) changes the input by
+\(f_j^p a\prod_{k\ne j}f_k^{p-1}\), whose image under \(\mathcal T\)
+is divisible by \(f_j\). This derivation is the Koszul coefficient
+calculation of Proposition~\ref{sp:prop:ci-coefficient}, now retaining
+the possible nonzero groups from proper Koszul terms.
+
+For the last assertion, choose \(g\) and \(H\) as in
+Lemma~\ref{sci:lem:annihilator}. The map of Koszul resolutions
+inducing \(\OO_Y\to\OO_X\) has top term multiplication by
+\(\Delta=\det H\). On top ambient cohomology it sends
+\(v\) to \(\Delta v\). Consequently the dual map from
+\(H^n(X,\OO_X)^\vee=\Fp\) to \(S_e/J_e\) sends \(1\) to
+\(\bar\Delta\). This is nonzero by Wiebe's identity.
+Restriction \(\OO_Y\to\OO_X\) commutes with Frobenius.
+Its dual therefore identifies \(\Fp\bar\Delta\) as an invariant line
+with eigenvalue \(\alpha\). The ground field is \(\Fp\), so adjunction
+and rescaling the nonzero generator do not change that scalar.
+\end{proof}
+
+\begin{proof}[Algorithm and proof of Theorem~\ref{sci:thm:gap}]
+Introduce the coefficients of \(q\in S_e\) and, for every \(i,j\),
+the coefficients of
+\[
+ a_{ij}\in S_{e+\deg u_i-\deg f_j}.
+ \]
+Solve the homogeneous linear coefficient system
+\[
+ q u_i=\sum_{j=1}^c a_{ij}f_j\qquad(1\leq i\leq m).
+ \tag{\(\dagger\)}
+\]
+Projection of its solution space onto the \(q\)-coordinates is exactly
+\((J:K)_e\): homogeneous ideal membership at the displayed degree
+has precisely such coefficient forms. Every auxiliary degree is at
+most \(e+B\). Its full monomial space therefore has polynomial size
+for fixed \(e,B\). Products with sparse input forms generate the
+coefficient rows explicitly, with no dense high-degree expansion.
+
+Compute \(J_e=\sum_j f_jS_{e-\deg f_j}\) in the same way.
+Lemma~\ref{sci:lem:annihilator} guarantees that the projected solution
+space modulo \(J_e\) has dimension exactly one. Choose any projected
+solution outside \(J_e\), and call it \(q\).
+Next compute
+\[
+ r=\mathcal T\!\left(q(f_1\cdots f_c)^{p-1}\right)
+ \]
+by sparse term enumeration, and reduce \(q,r\) modulo the computed
+linear subspace \(J_e\). The nonzero vector \(\bar q\) and the vector
+\(\bar r\) satisfy \(\bar r=\alpha\bar q\).
+One nonzero coordinate of \(\bar q\) gives \(\alpha\), and the other
+coordinates verify the same relation.
+
+For an explicit size bound, put
+\[
+ A=\binom{N+e+B}{e+B},\qquad
+ A_0=\binom{N+e}{e}.
+ \]
+The system has at most \(A_0+mcA\) unknown coefficients and at most
+\(A_0T+mA\sum_jt_j\leq(m+1)TA\) coefficient rows before discarding repetitions,
+where \(T\) is the total input term count. Dense elimination is
+polynomial in these quantities and in the sparse input bit length.
+The quotient computation has at most \(A_0\) coordinates. If \(t_j\)
+is the term count of \(f_j\), the Frobenius step uses at most
+\[
+ A_0\prod_{j=1}^c t_j^{p-1}\leq A_0T^{c(p-1)}
+ \]
+ordered term choices. Exponent additions, congruence tests and
+divisions by \(p\) have polynomial bit cost. Thus the full algorithm
+is deterministic polynomial time for fixed \(p,c,e,B\).
+No verification of the geometric or regularity promises is asserted.
+\end{proof}
+
+\begin{corollary}[An explicit colon certificate without a degree gap]
+\label{sci:cor:certificate}
+Fix \(p,c,e\). In the same geometric setting, give a homogeneous sparse
+regular sequence \(f_1,\ldots,f_c\) with degree sum \(N+1+e\), and an
+explicit homogeneous \(q\in S_e\) promised to satisfy
+\[
+ (f_1,\ldots,f_c):q=I_X.
+ \]
+Then the Frobenius scalar of \(X\) is computable in deterministic
+polynomial sparse-bit time. Any additional equations whose saturation
+is \(I_X\) may have arbitrary binary-encoded degrees; they are not used
+in the scalar calculation. The condition on \(q\) is an annihilator
+condition modulo \(J\), not the condition \(q|_X\ne0\).
+\end{corollary}
+\begin{proof}
+The colon condition implies \(J\subseteq I_X\) and
+\(q\in(J:I_X)_e\setminus J_e\). Lemma~\ref{sci:lem:annihilator},
+applied directly to \(I_X\), identifies its nonzero class with the
+annihilator line. Compute \(J_e\), \(r\), and the scalar ratio exactly
+as above, omitting \((\dagger)\). Fixed \(e\) bounds the quotient
+space, while fixed \(p,c\) bounds the number of sparse product choices.
+\end{proof}
+
+\begin{example}[A nonreduced regular sublist]
+\label{sci:ex:double}
+Let \(E(x,y,z)\) be a smooth geometrically integral plane cubic over
+\(\Fp\), and work in \(S=\Fp[x,y,z,w]\). The list
+\[
+ wx,\quad wy,\quad wz,\quad w^2,\quad E
+ \]
+generates \(K=(\mathfrak m w,E)\), whose saturation is the
+anticanonical codimension-two ideal \(I_X=(w,E)\).
+It does not contain \(w\). Choose \(f_1=w^2,f_2=E\).
+This is a regular sequence with \(e=1\), and every input degree is at
+most \(\min(2,3)+1\), so \(B=1\).
+The intermediate scheme \(Y\) is nonreduced, and the recovered
+annihilator line is generated by \(q=w\), which vanishes on \(X\).
+The formula gives
+\[
+ \mathcal T\!\left(w(w^2E)^{p-1}\right)
+ =w\,[(xyz)^{p-1}]E^{p-1}.
+ \]
+This exhibits a saturation presentation covered by
+Theorem~\ref{sci:thm:gap} which does not generate \(I_X\) before
+saturation, including the case where a nonvanishing-point
+interpretation of \(q\) would be incorrect.
+\end{example}
+
+\begin{theorem}[A balanced maximum-degree bound]
+\label{sci:thm:balanced}
+Fix \(p,c\) and \(E\geq0\). Let a nonzero homogeneous sparse list
+\(u_1,\ldots,u_m\) have saturation \(I_X\) with the geometric promises
+of Theorem~\ref{sci:thm:gap}. Put \(\delta=\max_i\deg u_i\), and suppose
+\[
+ 0\leq c\delta-(N+1)\leq E.
+\]
+Then the coherent Frobenius scalar of \(X\) is computable in deterministic
+polynomial sparse-bit time, without a designated regular sublist or
+an input colon certificate. The algorithm constructs a regular
+\(c\)-tuple of linear combinations over an explicitly constructed
+finite extension, and descends the scalar to \(\Fp\).
+\end{theorem}
+\begin{proof}
+Replace each \(u_i\) by the \(N+1\) forms
+\[
+ x_j^{\delta-\deg u_i}u_i\qquad(0\leq j\leq N).
+ \]
+Write the resulting list as \(U_1,\ldots,U_s\), omitting duplicates
+if desired. It has \(s\leq(N+1)m\) and at most \((N+1)T\) terms.
+Its saturated ideal is unchanged: on the chart \(x_j\ne0\) the
+corresponding multiplier is a unit. All these forms have degree
+\(\delta\), whose numerical value is \(O(N+1)\) under the displayed
+bound.
+
+Choose a prime
+\[
+ k>\max(s,\delta^{c-1},p),\qquad D=k^c.
+ \]
+One may find such a prime of at most twice this threshold by trial
+division and Bertrand's bound, in polynomial time in the numerical
+threshold. Since \(c,p\) are fixed, \(D\) is polynomial in the input
+size. Construct an absolute field \(L=\mathbb F_{p^D}\).
+The deterministic fixed-characteristic construction of an irreducible
+polynomial of degree \(D\) has polynomial cost in \(D\);
+see \citet[Theorem~3.2, author manuscript p.~3]{sci-shoup}.
+
+All nested fields can be found inside this one representation:
+\[
+ K_r=\{a\in L:a^{p^{k^r}}=a\}
+       =\mathbb F_{p^{k^r}},\qquad 0\leq r\leq c.
+ \]
+Compute their \(\Fp\)-bases as kernels of the corresponding powers
+of the Frobenius matrix on \(L\). For \(r<c\), choose any basis
+element \(\gamma_r\in K_{r+1}\setminus K_r\). Since
+\([K_{r+1}:K_r]=k\) is prime, \(\gamma_r\) has degree exactly \(k\)
+over \(K_r\). This avoids any finite-field isomorphism or compatible
+tower construction.
+
+Inductively suppose \(f_1,\ldots,f_r\), defined over \(K_r\), are
+regular homogeneous forms of degree \(\delta\), each a linear
+combination of the \(U_l\). Set
+\[
+ f_{r+1}=\sum_{l=1}^s\gamma_r^{\,l-1}U_l.
+ \]
+We check regularity rather than assume a generic choice.
+The projective complete intersection cut out by the first \(r\)
+forms has degree \(\delta^r\), hence at most \(\delta^r\)
+geometric irreducible components. A geometric component has a field
+of definition of degree \(d\leq\delta^r<k\) over \(K_r\), because
+its Galois orbit has at most that many components. It is geometrically
+integral over this field of definition, and its function field is a
+regular extension of that finite field. Since \(\gcd(k,d)=1\),
+\(\gamma_r\) still has degree \(k\) over the component's function
+field. Choose a coordinate \(x_j\) not identically zero on the component
+and trivialize \(\OO(\delta)\) on this chart, replacing every section
+\(U_l\) by the rational function \(U_l/x_j^\delta\).
+The powers \(1,\gamma_r,\ldots,\gamma_r^{s-1}\) are linearly independent
+over this function field.
+
+Each such component has dimension \(N-r>N-c=\dim X\), and cannot
+lie in the common zero locus \(X\) of all the \(U_l\). At least one
+of their restrictions is consequently nonzero. Independence shows
+that \(f_{r+1}\) is nonzero on every geometric component. A quotient
+by a regular sequence is Cohen--Macaulay and has no embedded
+associated primes, so \(f_{r+1}\) is a nonzerodivisor after the field
+extension. This proves the induction, including \(r=0\).
+Regularity is preserved on extending further to \(L\).
+
+Adjoin the resulting \(f_1,\ldots,f_c\) to the list \(U_l\).
+They lie in its ideal, so its saturation remains \(I_{X_L}\).
+All forms have degree \(\delta\), and the indexed tuple has excess
+\(e=c\delta-(N+1)\leq E\). The linear annihilator construction of
+Theorem~\ref{sci:thm:gap} now applies over \(L\) with \(B=0\).
+Each \(f_j\) has at most the total number of terms of the \(U_l\);
+taking linear combinations has caused no multiplicative increase
+in sparse support.
+
+Over \(L\), replace \(\mathcal T\) by the inverse-Frobenius-semilinear
+operator which also sends each coefficient \(a\) to \(a^{1/p}\).
+The same Laurent pairing proof gives the adjoint Cartier operator.
+Find \(q\ne0\) modulo \(J_e\) and compute \(\beta\in L\) with
+\(\mathcal C_Y(q)=\beta q\) modulo \(J_e\). The canonical line of
+\(X\) is defined over \(\Fp\). If \(\eta\) is its ground-field
+generator and the corresponding chosen generator over \(L\) is
+\(\lambda\eta\), then
+\[
+ \beta=\alpha\,\lambda^{1/p}/\lambda,\qquad
+ \operatorname{N}_{L/\Fp}(\beta)=\alpha^D.
+ \]
+This is a norm of a semilinear eigenvalue, not the assertion
+\(\beta=\alpha\).
+If \(\beta=0\), return zero. Otherwise \(k>p\) implies
+\(\gcd(D,p-1)=1\), so exponentiation by the inverse of \(D\)
+modulo \(p-1\) recovers \(\alpha\) from the norm. For \(p=2\)
+the only nonzero answer is one.
+
+The field dimension \(D\), all subfield linear algebra, coefficient
+systems, and term enumerations are polynomial for fixed \(p,c,E\).
+Coefficient \(p\)th roots, field norms, and the final exponentiation
+also have polynomial bit cost in this explicit field representation.
+\end{proof}
+
+\subsection{Finite fibres without a degree gap}
+
+The degree gap bounds the coefficient spaces in \((\dagger)\). The next
+algorithm instead evaluates membership in finite algebras. Once a good
+projection centre is known, a fixed interpolation grid recovers the
+annihilator exactly. Saturation makes this grid independent of the
+degrees of the other input equations.
+
+\paragraph{Relation to finite-fibre elimination.}
+\citet[Theorem~1, author version p.~6; Definitions~3--4,
+pp.~16--17]{sci-gls} use projective Noether position and lifting fibres
+to compute geometric resolutions in characteristic zero, assuming reduced
+regular prefixes and an invertible fibre Jacobian.
+\citet[\S4, author pp.~34--39, especially Propositions~44--46]{sci-hmps}
+use Gorenstein duality for interpolation and division in reduced
+complete-intersection algebras over number fields. Here the output is
+a bounded-degree annihilator line at fixed positive characteristic.
+The finite algebras retain their nilpotents, and residual freeness makes
+every affine fibre valid.
+
+\begin{lemma}[A common basis for finite fibres]
+\label{sci:lem:fibres}
+Let \(k\) be a finite field and let \(f_1,\ldots,f_c\) be a homogeneous
+regular sequence in \(k[x_0,\ldots,x_N]\), of positive degrees
+\(d_1,\ldots,d_c\). Put
+\[
+ n=N-c\geq1,\qquad \Delta=\prod_jd_j,\qquad
+ \rho=\sum_j(d_j-1).
+\]
+Suppose an \((N+1)\times c\) matrix \(U\) has the property that the
+forms \(H_j(z)=f_j(Uz)\) have no common nonzero geometric zero.
+Complete its columns to an invertible matrix \([U\ V]\), and write
+\(x=Uz+Vt\), where \(t=(t_0,\ldots,t_n)\).
+There is a homogeneous monomial list \(\mathcal B\), of length
+\(\Delta\) and degrees at most \(\rho\), which is a basis of
+\[
+ k[x]/(f_1,\ldots,f_c)
+ \quad\text{over }k[t_0,\ldots,t_n].
+\]
+For every \(a\in k^n\), the same list is a \(k\)-basis of
+\[
+ A_a=k[z_1,\ldots,z_c]/
+ \bigl(f_j(Uz+V(1,a)):1\leq j\leq c\bigr).
+\]
+The basis and multiplication matrices of \(A_a\) can be constructed
+by linear algebra in polynomials in \(c\) variables of degrees at most
+\(\rho+1\). For fixed \(c\), the cost is polynomial in the numerical
+degrees, the displayed sparse size, and \(\log|k|\). This includes
+nonreduced fibres.
+\end{lemma}
+\begin{proof}
+The hypothesis implies that \(U\) has rank \(c\): a nonzero vector
+in its kernel would be a common zero of all the positive-degree
+\(H_j\). The quotient \(k[z]/(H_1,\ldots,H_c)\) is an Artinian
+complete intersection. Its Hilbert series is
+\[
+ \prod_{j=1}^c(1+T+\cdots+T^{d_j-1}),
+\]
+so it has dimension \(\Delta\) and vanishes in degrees above
+\(\rho\). Choose a monomial basis in each degree by coefficient
+elimination; their union is \(\mathcal B\).
+
+In the graded ring \(A=k[x]/(f)\), the forms \(t_0,\ldots,t_n\)
+are a homogeneous system of parameters. They form a regular sequence
+because \(A\) is Cohen--Macaulay. Graded Nakayama gives a surjection
+from the graded free \(k[t]\)-module with basis \(\mathcal B\) to
+\(A\). Regularity of the parameters gives the same Hilbert series
+for both modules, so the kernel is zero in every degree. In particular
+specialization at \(t=(1,a)\) gives the asserted basis for every fibre.
+
+To compute its multiplication matrices, put
+\(P_j(z)=f_j(Uz+V(1,a))\). Its top \(z\)-homogeneous part is
+\(H_j\). For a polynomial of degree \(s\), reduce its degree-\(s\)
+part modulo the \(H_j\) to the basis elements of degree \(s\).
+Replacing the resulting multiples of \(H_j\) by the same multiples
+of \(P_j\) leaves a remainder of smaller degree. Descending in degree
+therefore expresses every polynomial of degree at most \(\rho+1\)
+as a combination of \(\mathcal B\) and multiples \(a_jP_j\) with
+\(\deg a_j\leq\rho+1-d_j\). Apply this to each \(z_i b\),
+\(b\in\mathcal B\). The coefficients on \(\mathcal B\) are unique
+because it is a fibre basis. Thus one may obtain them by solving the
+displayed bounded-degree coefficient systems, without constructing
+polynomials in all the parameter variables. The relevant monomial
+space has dimension \(\binom{c+\rho+1}{c}\), polynomial for fixed
+\(c\). Expansion of the selected forms after substitution takes place
+only in these \(c\) variables and has the same polynomial bound.
+\end{proof}
+
+\begin{lemma}[A free residual quotient and its fibres]
+\label{sci:lem:residual-free}
+Work over a finite field \(k\). Let \(J=(f_1,\ldots,f_c)\subseteq I\)
+be homogeneous complete-intersection ideals of codimension \(c\) in
+\(S=k[x_0,\ldots,x_N]\). Let the degree sums of their regular
+generators differ by \(e\geq0\), and let \(U\) be a good centre
+for \(f\), as in Lemma~\ref{sci:lem:fibres}. With the same coordinates
+\(x=Uz+Vt\), put
+\[
+ A=k[t_0,\ldots,t_n],\qquad R=S/J,\qquad Q=J:I.
+\]
+For \(a\in k^n\), write
+\(k_a=A/(t_0-1,t_1-a_1,\ldots,t_n-a_n)\) and
+\(R_a=R\otimes_A k_a\), and let \(I_a,J_a\)
+denote the images of \(I,J\) in \(k[z]\) under this substitution.
+Then \(Q/J\) is a graded free direct summand of \(R\) over \(A\),
+and \(S/Q\) has a homogeneous free \(A\)-basis in nonnegative
+degrees. For every fibre \(t=(1,a)\),
+\[
+ \operatorname{Ann}_{R_a}(I_a/J_a)
+       =(Q/J)\otimes_A k_a.
+\]
+If \(K^{\mathrm{sat}}=I\), then \(K_a=I_a\) in every such fibre.
+These assertions include nonreduced fibres.
+\end{lemma}
+\begin{proof}
+Choose homogeneous regular generators \(g\) of \(I\), write
+\(f=Hg\), and put \(q_0=\det H\), of degree \(e\).
+Wiebe's identities give
+\[
+ Q=J+(q_0),\qquad J:q_0=I.
+\]
+Consequently multiplication by \(q_0\) identifies \(Q/J\) with
+\((S/I)(-e)\). The centre \(U\) is good for \(g\) as well:
+a common nonzero zero of \(g(Uz)\) would also annihilate \(f(Uz)\).
+Lemma~\ref{sci:lem:fibres} therefore makes both \(R\) and
+\(M=S/I\) graded free over \(A\).
+
+At \(t=0\), the tuples \(f(Uz)\) and \(g(Uz)\) are homogeneous
+regular sequences in \(k[z_1,\ldots,z_c]\). Wiebe's second identity
+in this Artinian complete intersection makes the induced map
+\[
+ M/(t)M\,(-e)\xrightarrow{\ q_0(Uz)\ } R/(t)R
+\]
+injective. Extend the image basis to a homogeneous basis of \(R/(t)R\)
+using monomial classes, and let \(\mathcal D\) be representatives
+of the added monomials. Lift a homogeneous monomial basis \(\mathcal B_M\)
+of \(M/(t)M\) to \(M\). The elements
+\(q_0\mathcal B_M\cup\mathcal D\) generate \(R\) over \(A\)
+by graded Nakayama. The free module on these homogeneous generators
+has the same Hilbert series as \(R\): modulo \((t)\), their degrees
+give exactly the Hilbert series of \(R/(t)R\), and \(R\) is free
+over \(A\). The resulting graded surjection is thus an isomorphism.
+The first group of basis elements spans \(Q/J\), and the second
+gives a free basis of \(S/Q\). Their degrees are nonnegative.
+
+On every affine fibre the two restricted tuples remain regular,
+by Lemma~\ref{sci:lem:fibres} applied to both \(f\) and \(g\).
+Applying Wiebe's identities to \(f_a=H_a g_a\) gives
+\[
+ \operatorname{Ann}_{R_a}(I_a/J_a)=q_{0,a}(S/I)_a.
+\]
+The direct-sum decomposition just proved identifies this with the
+base change of \(Q/J\). Finally, saturation gives an \(r\) with
+\(\mathfrak m^r I\subseteq K\). Since \(t_0\) is a linear form
+in the \(x_i\), one has \(t_0^r I\subseteq K\). Setting \(t_0=1\)
+proves \(I_a=K_a\) for every \(a\), as equality of ideals.
+\end{proof}
+
+\begin{proposition}[A deterministic grid from a good centre]
+\label{sci:prop:fibre-grid}
+Fix \(p,c,E\). Under the geometric saturation hypotheses of
+Theorem~\ref{sci:thm:gap}, give a
+regular sublist \(f_1,\ldots,f_c\) of total degree \(N+1+e\),
+where \(0\leq e\leq E\), and a good centre \(U\) over an explicitly
+represented finite extension \(k/\Fp\). Then the colon line and
+the original coherent Frobenius scalar are computable deterministically
+in polynomial sparse-bit time. All other input degrees may be arbitrary
+binary integers.
+
+More precisely, put \(n=N-c\), write \(u_1,\ldots,u_s\) for the
+original displayed rows of \(K\), and let \(R_a\) be the fibre of
+\(S_k/J_k\) at \(t=(1,a)\). The fibre kernel is that of the map
+\[
+ (S_e)_k\longrightarrow R_a^s,\qquad
+ v\longmapsto(v_a u_{1,a},\ldots,v_a u_{s,a}).
+\]
+After enlarging \(k\) if needed to contain \(e+1\)
+distinct elements \(\theta_0,\ldots,\theta_e\), these kernels from the
+\(\binom{n+e}{e}\) fibres indexed by
+\[
+ \Gamma_e=\{(\theta_{\nu_1},\ldots,\theta_{\nu_n}):
+          \nu\in\mathbb N^n,\ |\nu|\leq e\}
+\]
+intersect in exactly \(((J:K)_e)_k\), where \(J=(f_1,\ldots,f_c)\)
+and the subscript denotes scalar extension from \(\Fp\) to \(k\).
+The kernel-recovery assertion also holds when the tuple is defined
+over \(k\). Scalar recovery for such a tuple additionally requires
+\(\gcd([k:\Fp],p-1)=1\), and uses the semilinear descent below.
+\end{proposition}
+\begin{proof}
+Put \(Q=J:I_X\). Lemma~\ref{sci:lem:residual-free} gives a
+homogeneous free basis \(b_1,\ldots,b_\rho\) of \(S_k/Q_k\) over
+\(k[t_0,\ldots,t_n]\), with \(\deg b_j\geq0\), used only
+for this proof. A homogeneous \(v\in(S_e)_k\) has a unique image
+\[
+ \bar v=\sum_j P_j(t)b_j,
+ \qquad \deg P_j=e-\deg b_j,
+\]
+where a negative degree means \(P_j=0\). Thus
+\(P_j(1,t_1,\ldots,t_n)\) has total degree at most \(e\).
+Dehomogenization at \(t_0=1\) is injective on a fixed homogeneous
+degree. On every fibre, the same lemma and \(K_a=I_{X,a}\) show that
+\[
+ v u_i=0\text{ in }R_a\text{ for every }i
+ \quad\Longleftrightarrow\quad
+ \bar v=0\text{ in }(S_k/Q_k)\otimes_A k_a.
+\]
+
+Evaluation on \(\Gamma_e\) is injective for polynomials of total
+degree at most \(e\). Indeed the Newton polynomials
+\[
+ P_\mu(T)=\prod_{j=1}^n\prod_{r=0}^{\mu_j-1}(T_j-\theta_r),
+ \qquad |\mu|\leq e,
+\]
+form a basis of that polynomial space. Ordered by total degree, their
+evaluation matrix on \(\Gamma_e\) is triangular with nonzero diagonal:
+an entry vanishes whenever some \(\mu_j>\nu_j\), and the diagonal
+is a product of differences of distinct nodes. Consequently the fibre
+conditions for all \(a\in\Gamma_e\) hold exactly when every
+\(P_j\) above vanishes. Their intersection is therefore
+\((Q_e)_k=((J:K)_e)_k\), by Lemma~\ref{sci:lem:annihilator}.
+
+For the algorithm, construct each finite algebra \(R_a\) by
+Lemma~\ref{sci:lem:fibres}. Each original coordinate acts by a linear
+combination of its \(c\) multiplication matrices and the identity.
+Evaluate every sparse \(u_i\) by binary powering in this algebra.
+Multiplication by each of the \(M=\binom{N+e}{e}\) degree-\(e\)
+monomials gives a matrix with \(M\) columns and at most
+\(s\prod_j\deg f_j\) rows. Intersect these kernels over
+\(\Gamma_e\). No basis of the unknown residual quotient is computed.
+
+Compute \(J_e\) by bounded-degree multiplication and take the
+one-dimensional quotient of the recovered space by \(J_e\).
+When the tuple is defined over \(\Fp\), fix a prime-field linear
+complement of \(J_e\) in \(S_e\), project to it, and normalize
+one nonzero coordinate of a generator to one. The line is defined over
+\(\Fp\), so all normalized coordinates lie in \(\Fp\).
+This gives \(q\in S_e\setminus J_e\) with \(J:q=I_X\).
+Lemma~\ref{sci:lem:trace} computes its scalar.
+
+There are \(\binom{n+e}{e}\) fibres and \(M\) unknown coefficients,
+both polynomial for fixed \(E\). Each algebra has dimension
+\(\prod_j\deg f_j\leq(N+1+E)^c\). The fixed-\(c\) Macaulay
+systems, sparse evaluations by binary powering, kernel intersections,
+and final trace product have polynomial bit cost. If \(|k|\leq e\),
+then \(k\) has bounded size, and a bounded-degree field extension
+providing enough nodes can be constructed by exhaustive irreducibility
+testing. Its degree may be chosen congruent to one modulo \(p-1\),
+preserving coprimality with \(p-1\) whenever required. Otherwise no
+enlargement is required. High input degrees enter
+only through their written bit lengths, not through the grid size.
+For a tuple defined over an extension, the same kernel proof applies
+there; the semilinear norm step is given in
+Theorem~\ref{sci:thm:random-excess}.
+\end{proof}
+
+\begin{proposition}[A designated regular tuple with unrestricted other degrees]
+\label{sci:prop:random-designated}
+Fix \(p,c,E\), with \(c\geq2\) and \(E\geq0\). Let
+\(K=(u_1,\ldots,u_m)\) have the geometric saturation promise of
+Theorem~\ref{sci:thm:gap}. Give an indexed regular sublist
+\(f_1,\ldots,f_c\) with
+\[
+ \sum_j\deg f_j=N+1+e,\qquad 0\leq e\leq E.
+\]
+For every integer \(a\geq1\), a randomized algorithm of polynomial
+bit cost in the input length and \(a\) returns either a correct
+\(q\in S_e\setminus J_e\) with \(J:q=I_X\), together with the
+original prime-field Frobenius scalar, or failure. Its failure
+probability is at most \(2^{-a}\). It never returns an incorrect
+answer on the promise. No numerical-degree bound is imposed on any
+other input. Repetition gives a Las Vegas algorithm of expected
+polynomial bit cost.
+\end{proposition}
+\begin{proof}
+Put \(J=(f_1,\ldots,f_c)\), \(d_j=\deg f_j\),
+\(\Delta=\prod_jd_j\), and \(\varepsilon=2^{-a}\).
+Construct an extension \(k/\Fp\) with
+\[
+ |k|>\max\{E+1,4c\Delta/\varepsilon\}.
+\]
+Its degree is polynomial in the input length and \(a\), independently
+of the other input degrees. Use the deterministic fixed-characteristic
+irreducible construction of \citet[Theorem~3.2, author manuscript
+p.~3]{sci-shoup}. For bounded-bit sampling, index the elements of \(k\)
+by their coefficient vectors, sample \(\lceil\log_2|k|\rceil\) bits,
+and reduce the resulting integer index modulo \(|k|\). Every atom has
+probability at most \(2/|k|\). Induction on the number of independent
+coordinates gives a zero-probability bound \(2d/|k|\) for every
+nonzero polynomial of total degree at most \(d\).
+
+Sample an \((N+1)\times c\) matrix \(U\). The centre resultant
+\[
+ \Psi(U)=\operatorname{Res}_z(f_1(Uz),\ldots,f_c(Uz))
+\]
+is nonzero: a general \(\PP^{c-1}\) misses the projective complete
+intersection \(Y\) of dimension \(N-c\). Its degree in the
+coefficients of the \(j\)-th form is \(\Delta/d_j\), and those
+coefficients have degree \(d_j\) in \(U\). Thus
+\(\deg\Psi\leq c\Delta\), and the chance of a bad centre is at
+most \(2c\Delta/|k|<\varepsilon\). The resultant degree can also be
+read by fixing the other forms: their generic intersection has
+\(\Delta/d_j\) points, and vanishing of the remaining form contributes
+one linear factor at each point.
+
+The algorithm does not compute \(\Psi\) symbolically. Form the
+\(c\)-variable restrictions \(H_j=f_j(Uz)\), put
+\(\rho=\sum_j(d_j-1)\), and test whether
+\[
+ \sum_j H_j k[z]_{\rho+1-d_j}=k[z]_{\rho+1}.
+\]
+For a good centre, the Artinian Hilbert series of
+Lemma~\ref{sci:lem:fibres} proves this equality. Conversely, a common
+nonzero geometric zero would annihilate the left side but not every
+monomial on the right. The test is exact and has polynomial size for
+fixed \(c\). Report failure if it fails; otherwise apply
+Proposition~\ref{sci:prop:fibre-grid}. Its deterministic kernels give
+the exact colon line and the original scalar, with no further random
+choices or exceptional fibres. Every returned answer is correct.
+Repeating with \(a=1\) gives expected at most two runs.
+\end{proof}
+
+\begin{example}[Why a finite fibre must retain nilpotents]
+\label{sci:ex:slices}
+Let \(E(x,y,z)\) over \(\Fp\) be a smooth geometrically integral plane cubic with
+nonzero \(x^3\)-coefficient. For any binary integer \(M\geq1\), put
+\[
+ K_M=(w^2,E,wx^M,wy^M,wz^M),\qquad J=(w^2,E).
+\]
+Its saturation is \((w,E)\): on each of the charts \(x\ne0\),
+\(y\ne0\), and \(z\ne0\), an indicated power is a unit, while
+the chart \(w\ne0\) contains no zero of \(w^2\).
+The regular tuple has excess one, independently of \(M\).
+Choose parameters \(z=1,y=b\). Every fibre algebra has basis
+\[
+ 1,x,x^2,w,wx,wx^2,
+\]
+because it is \(\Fp[x,w]/(E(x,b,1),w^2)\) and the first equation is
+a cubic in \(x\). For
+\(q=A x+B y+C z+D w\), the equation \(q w=0\) in this algebra is
+equivalent to \(A=0\) and \(Bb+C=0\). It is already imposed by
+the row \(wz^M\); it then annihilates the other two power rows as
+well. One fibre therefore leaves the two-dimensional space spanned by
+\(w\) and \(y-bz\). The two fibres \(b=0,1\) leave exactly
+\(\Fp w\), the true annihilator line.
+Passing to the radical would instead set \(w=0\), making all the
+power rows vanish and leaving every degree-one \(q\) admissible.
+For instance, over \(\mathbb F_5\),
+\(E=y^2z-x^3-xz^2-z^3\) has nine projective points and scalar two;
+the recovered class \(w\) gives that scalar for every \(M\).
+\end{example}
+
+\subsection{A deterministic algorithm with a linear prefix}
+
+\begin{theorem}[A linear prefix in the actual input ideal]
+\label{sci:thm:linear-prefix}
+Fix \(p,c,E\), with \(c\geq2\) and \(E\geq0\).
+Let \(K=(u_1,\ldots,u_m)\)
+satisfy the geometric saturation hypotheses of
+Theorem~\ref{sci:thm:gap}. Suppose
+\[
+ \dim_{\Fp}K_1=c-1,
+\]
+and, after some finite scalar extension, the actual ideal \(K\)
+contains a homogeneous regular \(c\)-sequence of degree sum at most
+\(N+1+E\). Then the coherent Frobenius scalar is computable in
+deterministic polynomial sparse-bit time. No regular tuple or projection
+centre is supplied, the linear forms may involve every coordinate,
+and the other input degrees may be arbitrary binary integers.
+\end{theorem}
+\begin{proof}
+The displayed degree-one inputs span \(K_1\). Gaussian elimination
+gives independent forms \(L_1,\ldots,L_{c-1}\) over \(\Fp\).
+Put
+\[
+ P=(L_1,\ldots,L_{c-1}),\qquad W=V(P)\subset\mathbb A^{N+1},
+ \qquad \delta=N-c+2,\qquad D=\delta+E.
+\]
+Some displayed input of degree at most \(D\) lies outside \(P\).
+Indeed a regular \(c\)-sequence cannot be contained in the
+height-\((c-1)\) ideal \(P\). Choose one of its members outside
+\(P\). Its degree is at most \(N+1+E-(c-1)=D\), because the
+other \(c-1\) degrees are positive. Its homogeneous expression in
+the inputs uses only \(u_i\) of degree at most \(D\), and at least
+one of these must lie outside \(P\). The argument remains valid after
+scalar extension, since membership in \(P\) commutes with it.
+
+We find such an input without expanding its restriction to \(W\).
+Row reduction selects \(c-1\) pivot coordinates and expresses them
+as linear forms \(M_1(y),\ldots,M_{c-1}(y)\) in the remaining
+\(\delta\) coordinates \(y\). Each restricted input monomial is
+of the form
+\[
+ a y^\alpha\prod_{j=1}^{c-1}M_j(y)^{b_j}.
+\]
+For an input of degree at most \(D\), this is a semidiagonal circuit
+with at most \(c-1\) noncoordinate linear powers per product gate
+and formal degree at most \(D\). Its top fan-in is at most the
+original term count. The deterministic identity test of
+\citet[Definition~1.1, Corollary~3.3, and \S6, especially
+Theorems~6.3 and~6.5]{sci-sss} applies in every characteristic and
+also permits affine linear factors. Scan these low-degree inputs and
+select one with nonzero restriction, denoted \(f\).
+
+The source's small-characteristic algorithm has polynomial bit cost
+in the present setting. For \(k=\Fp[T]/(\mu)\) of degree \(h\),
+its lift uses
+\((\mathbb Z/p^{B+1}\mathbb Z)[T]/(\widetilde\mu)\), with
+\(\widetilde\mu\) the monic coefficientwise integer lift and
+\(B\) polynomial in the numerical degrees and number of variables.
+Its elements have \(h\) coefficients of \(O(B\log p)\) bits;
+arithmetic and inversion of elements nonzero modulo \(p\) are
+polynomial-time operations. The module-pruning algorithm keeps
+polynomially many coefficient rows. Since \(c-1\) is fixed, the
+resulting semidiagonal test is polynomial in the sparse size, \(D\),
+and \(h\). No unrestricted-degree input is submitted to this test.
+
+The tuple \(L_1,\ldots,L_{c-1},f\) is regular, since \(S/P\)
+is a polynomial domain and the image of \(f\) is nonzero. Its degree
+\(d=\deg f\) satisfies \(\delta\leq d\leq\delta+E\).
+For the lower bound, write the tuple in terms of anticanonical regular
+generators of \(I_X\). Wiebe's identity makes the coefficient
+determinant nonzero; its degree is \((c-1)+d-(N+1)=d-\delta\),
+which cannot be negative. Thus this tuple has excess
+\(e=d-\delta\leq E\).
+
+Construct \(k/\Fp\) with \(|k|>D\), taking the least suitable
+power of \(p\). Its cardinality is at most \(p(D+1)\), so exhaustive
+irreducible construction has polynomial cost at fixed \(p\).
+Find \(a\in W(k)\) with \(f(a)\ne0\) by specializing the free
+coordinates one at a time. At each stage try \(D+1\) distinct field
+values and retain one leaving a nonzero semidiagonal polynomial.
+At most \(D\) choices can annihilate the current nonzero polynomial:
+any one nonzero coefficient, viewed as a polynomial in the coordinate
+being specialized, has degree at most \(D\). Partial specialization
+keeps the monomial factor and at most \(c-1\) affine linear powers,
+so the same identity test applies. This needs at most
+\(\delta(D+1)\) tests. Homogeneity and \(f(a)\ne0\) imply \(a\ne0\).
+
+Choose vectors \(v_1,\ldots,v_{c-1}\) over \(\Fp\) with
+\(L_i(v_j)=\delta_{ij}\), using linear algebra, and let
+\[
+ U=[v_1\ \cdots\ v_{c-1}\ a].
+\]
+Its columns are independent. The restrictions of the first \(c-1\)
+equations are \(L_i(Uz)=z_i\). At their common zero the last is
+\(f(a)z_c^d\), which has no nonzero zero. Hence \(U\) is a good
+centre, constructed deterministically.
+
+Adjoin the \(L_i\) to the input list, without changing its ideal,
+and apply Proposition~\ref{sci:prop:fibre-grid} to this tuple and
+centre. The tuple is defined over \(\Fp\), so normalization descends
+the recovered colon line to \(\Fp\), even though the centre uses
+\(k\). The original sparse forms suffice for the Cartier calculation.
+All candidate degrees are numerically \(O(N+E)\); all other inputs
+are used only by binary powering in polynomial-dimensional fibre
+algebras. The preceding bounds prove deterministic polynomial bit cost.
+\end{proof}
+
+\subsection{A deterministic algorithm with a factored linear prefix}
+
+\begin{theorem}[A supplied factored prefix]
+\label{sci:thm:factored-prefix}
+Fix \(p,c,E\), with \(c\geq2\) and \(E\geq0\), and let \(K\)
+satisfy the geometric saturation hypotheses of
+Theorem~\ref{sci:thm:gap}. Suppose distinct supplied indices designate
+original input rows \(f_1,\ldots,f_c\) forming a homogeneous regular
+sequence with
+\[
+ \sum_{i=1}^c\deg f_i=N+1+e,\qquad 0\leq e\leq E.
+\]
+For each \(i<c\), also supply a promised exact factorization
+\[
+ f_i=a_i\prod_{t=1}^{s_i}L_{it}^{m_{it}},
+ \qquad a_i\in\Fp^*,\quad m_{it}\geq1,
+\]
+where the nonzero homogeneous linear forms \(L_{it}\) are given by
+their coefficient vectors over \(\Fp\), and the positive multiplicities
+are given in binary. Repeated factors are permitted. Then the coherent
+Frobenius scalar is computable in deterministic polynomial sparse-bit
+time. No centre, colon generator, or linear form in \(K\) is supplied,
+and all other input degrees may be arbitrary binary integers.
+No factorization algorithm or verification of the promised factorization
+equalities is assumed.
+\end{theorem}
+\begin{proof}
+Put \(r=c-1\), \(R=N+1+E\), and \(d=\deg f_c\). Choose one
+listed factor from each of \(f_1,\ldots,f_r\), and put their coefficient
+vectors into the rows of a matrix \(A\) of size \(r\times(N+1)\).
+There are
+\[
+ T=\prod_{i=1}^r s_i\leq\prod_{i=1}^r\deg f_i\leq R^r
+\]
+such choices; duplicate matrices or subspaces may be retained.
+Every \(A\) has rank \(r\). Indeed its linear ideal contains
+\((f_1,\ldots,f_r)\), which has height \(r\), so
+\(r\leq\operatorname{rank}A\leq r\).
+The spaces \(W_A=\ker A\) cover the geometric zero set of this prefix.
+Moreover
+\[
+ f_c|_{W_A}\ne0\qquad\hbox{for every }A.
+ \tag{\(\ddagger\)}
+\]
+Otherwise the full tuple would lie in the height-\(r\) prime ideal
+generated by the selected linear forms, contradicting its regularity.
+These statements concern the components of the supplied prefix; none
+of its individual factors is asserted to belong to \(K\).
+
+Choose an explicit extension \(k/\Fp\) whose cardinality is the least
+power of \(p\) exceeding
+\[
+ T(N+d)+d+E+2.
+\]
+Its cardinality is polynomial in the written input size at fixed
+\(p,c,E\), and its extension degree is logarithmic in that bound.
+Enumerating monic polynomials of this degree and applying deterministic
+irreducibility testing constructs \(k\) in polynomial time. This one
+field supplies every search below and the final degree-\(e\) grid.
+No coprimality restriction on \([k:\Fp]\) is necessary, because the
+original tuple remains defined over \(\Fp\).
+
+First construct an \((N+1)\times r\) matrix \(B\) for which every
+\(AB\) is invertible. Suppose \(j<r\) columns have been chosen and
+their image under each \(A\) has rank \(j\). For every \(A\),
+compute a nonzero row \(\lambda_A\) annihilating those image columns.
+Since \(A\) has full row rank, \(\lambda_AA\ne0\). On the vector
+\[
+ b(t)=(1,t,\ldots,t^N)^{\mathsf t},
+\]
+the polynomial \(\lambda_A A b(t)\) is nonzero and has degree at most
+\(N\). The union of its zeros over all \(T\) choices has at most
+\(TN\) elements. Testing \(TN+1\) distinct field values finds a
+column outside every forbidden span. Repeating this \(r\) times gives
+\[
+ AB\in\operatorname{GL}_r(k)\quad\hbox{for every }A.
+\]
+Only explicit linear algebra and univariate evaluations are used.
+
+Next find, separately for every \(A\), a point
+\[
+ a_A\in W_A(k),\qquad f_c(a_A)\ne0.
+\]
+Row reduction expresses \(r\) pivot coordinates as linear forms
+\(M_1(y),\ldots,M_r(y)\) in the other \(N-c+2\) coordinates.
+Substituting into a sparse monomial of \(f_c\) gives
+\[
+ \gamma y^\alpha\prod_{j=1}^r M_j(y)^{b_j}.
+\]
+The restriction is therefore a semidiagonal circuit with at most the
+original number of terms, at most \(r\) noncoordinate linear powers
+per term, and formal degree at most \(d\leq R\). It is nonzero by
+\((\ddagger)\). Apply the characteristic-independent test of
+\citet[Definition~1.1, Corollary~3.3, and \S6,
+Theorems~6.3 and~6.5]{sci-sss}. Specialize each free coordinate in
+turn, trying \(d+1\) distinct values and retaining one for which the
+remaining polynomial is nonzero. At most \(d\) values annihilate
+any one nonzero coefficient polynomial in that coordinate. Partial
+specialization preserves the semidiagonal form, with affine linear
+factors allowed. This gives \(a_A\) in at most
+\((N-c+2)(d+1)\) tests.
+
+The small-characteristic bit implementation is the one detailed in
+Theorem~\ref{sci:thm:linear-prefix}: over an explicit degree-\(h\)
+finite extension, the SSS lift uses a Galois ring represented by \(h\)
+coefficients modulo \(p^{B_0+1}\), with \(B_0\) polynomial in the
+numerical degree and variable bounds. Its duality and module-pruning
+steps have polynomial cost for the fixed parameter \(r\).
+Here \(h=O(\log(T(N+d)+d+E+2))\) and \(d\leq R\), so this is a
+polynomial bit bound at every fixed prime. None of the other,
+unrestricted-degree rows is used in these identity tests.
+
+For every \(A\), form the explicit projection
+\[
+ P_A=I_{N+1}-B(AB)^{-1}A.
+\]
+It maps onto \(W_A\), fixes \(W_A\), and kills the column span of
+\(B\). We combine the separate points into one vector \(v\) such
+that
+\[
+ f_c(P_Av)\ne0\qquad\hbox{for all }A.
+ \tag{\(\clubsuit\)}
+\]
+Order the matrices as \(A_1,\ldots,A_T\) and start with \(v=0\).
+At stage \(j\), replace \(v\) by \(v+t a_{A_j}\).
+For each already satisfied condition \(i<j\), the polynomial
+\[
+ f_c(P_{A_i}v+tP_{A_i}a_{A_j})
+\]
+is nonzero because its value at \(t=0\) is nonzero. For the new
+condition, the coefficient of \(t^d\) in
+\[
+ f_c(P_{A_j}v+t a_{A_j})
+\]
+is \(f_c(a_{A_j})\ne0\), by homogeneity. Each polynomial has degree
+at most \(d\), so the \(j\) conditions together forbid at most
+\(jd\leq Td\) values. Test \(Td+1\) values and keep one satisfying
+them all. These tests evaluate the original sparse \(f_c\) at explicit
+vectors; they do not expand any projected polynomial. After \(T\)
+stages, \((\clubsuit)\) holds. All loops have polynomial bounds.
+
+Set \(U=[B\ v]\). Its columns are independent: otherwise
+\(P_Av=0\) for every \(A\), contradicting \((\clubsuit)\) and
+\(d>0\). At a common geometric zero \(z=(z',z_c)\) of the restricted
+tuple, each product \(f_i(Uz)\), \(i<c\), supplies a vanishing
+listed linear factor. The resulting matrix \(A\) gives
+\[
+ ABz'+Avz_c=0,
+ \qquad Uz=z_cP_Av.
+\]
+Consequently
+\(f_c(Uz)=z_c^d f_c(P_Av)=0\) forces \(z_c=0\), and then
+\(z'=0\). Thus \(U\) is a good centre over the algebraic closure.
+Repeated factors have only been ignored for this set-theoretic centre
+argument; all original equations and multiplicities are retained below.
+
+Apply Proposition~\ref{sci:prop:fibre-grid} to the original designated
+prime-field tuple and the full original input list. Its colon line
+descends to \(\Fp\) by the prime-field normalization there. Equivalently,
+expand the extension-field kernel equations in a fixed \(\Fp\)-basis
+of \(k\), restrict the unknown coefficients to \(\Fp\), and select a
+class outside \(J_e\). The ensuing Cartier calculation therefore
+returns the original prime-field scalar without norm ambiguity.
+The finite algebras have dimension at most \(R^c\), the degree-\(e\)
+unknown space and fibre grid are polynomial for fixed \(E\), and the
+trace uses the original sparse tuple with fixed \(p,c\). All other
+rows enter only through binary powering in these finite algebras.
+This proves the full polynomial sparse-bit bound.
+\end{proof}
+
+\begin{example}[A split prefix without actual linear generators]
+\label{sci:ex:factored-prefix}
+Let \(I_X=(w,G(x_1,\ldots,x_N))\), where \(N\geq3\) and \(G\)
+is a sparse equation of a smooth geometrically integral degree-\(N\)
+hypersurface in \(\PP^{N-1}\). For a binary integer \(M\geq2\), put
+\[
+ K=(w(w+x_1),\ G,\ wx_1^M,\ldots,wx_N^M).
+\]
+On every chart \(x_i\ne0\), a cover row gives \(w\), so the localized
+ideal equals \(I_X\). On \(w\ne0\), the equations \(w+x_1=0\)
+and \(x_1^M=0\) give the unit ideal. Hence \(K^{\mathrm{sat}}=I_X\).
+The designated pair \((w(w+x_1),G)\) is regular: \(G\) is divisible
+by neither \(w\) nor \(w+x_1\). Its excess is one and its first
+factorization is supplied explicitly. Yet \(K_1=0\), so the actual
+linear-prefix hypothesis does not hold. Theorem~\ref{sci:thm:factored-prefix}
+applies with unrestricted binary \(M\).
+\end{example}
+
+\subsection{Discovering a bounded-excess sequence}
+
+\begin{lemma}[Deterministic candidates for unequal degree profiles]
+\label{sci:lem:profile-candidates}
+Fix \(p,c,E\), and let \(K\) satisfy the geometric saturation
+hypotheses above. Put \(R=N+1+E\). For every nondecreasing positive
+profile \(d_1\leq\cdots\leq d_c\) with sum in \([N+1,R]\),
+one can deterministically construct an explicitly sparse candidate tuple
+of the prescribed degrees over a common finite extension of polynomial
+degree. If \(K_{\leq d}\) denotes the ideal generated by the displayed
+inputs of degree at most \(d\), then every profile satisfying
+\[
+ \operatorname{ht}K_{\leq d_j}\geq j\qquad(1\leq j\leq c)
+ \tag{\(\star\)}
+\]
+produces a regular tuple. The extension degree may be chosen coprime to
+\(p-1\). If \(K\), after scalar extension, contains a regular tuple
+of degree sum at most \(R\), at least one candidate is regular.
+The lemma does not assert recognition of the successful candidates.
+\end{lemma}
+\begin{proof}
+Every regular \(c\)-tuple in \(K\) has degree sum at least \(N+1\).
+Indeed write it in terms of anticanonical regular generators of \(I_X\).
+Wiebe's identity makes the determinant of the coefficient matrix nonzero,
+and its degree is the difference of the two degree sums. A homogeneous
+polynomial of negative degree is zero, so that difference is nonnegative.
+One may sort the degrees: regular sequences in the polynomial ring
+remain regular after permutation, since each prefix has the required
+height and the ring is Cohen--Macaulay. A regular tuple of sorted
+profile \(d\) implies \((\star)\), because its first \(j\) forms
+use only generators of degrees at most \(d_j\).
+
+For each profile form the sparse lists
+\[
+ \mathcal W_j=
+ \{x_l^{d_j-\deg u_i}u_i:
+       \deg u_i\leq d_j,\ 0\leq l\leq N\}.
+\]
+Their projective base loci equal those of \(K_{\leq d_j}\): at a
+projective point at least one coordinate is nonzero. Each list has
+length at most \((N+1)m\) and total sparse size at most \((N+1)\)
+times that of the original input.
+
+Choose an integer prime
+\[
+ \ell>\max\{(N+1)m,R^{c-1},p\},\qquad h=\ell^c,
+\]
+and work in \(L=\mathbb F_{p^h}\). As in
+Theorem~\ref{sci:thm:balanced}, construct this absolute field
+deterministically, realize its nested subfields
+\(k_r=\mathbb F_{p^{\ell^r}}\) by Frobenius kernels, and choose
+\(\gamma_r\in k_{r+1}\setminus k_r\). Every \(\gamma_r\) has
+degree \(\ell\) over \(k_r\). Enumerating
+\(\mathcal W_j=(W_{j1},\ldots,W_{js_j})\), define
+\[
+ f_j=\sum_{l=1}^{s_j}\gamma_{j-1}^{\,l-1}W_{jl}.
+\]
+An empty list gives a zero candidate. All candidates are constructed
+without testing \((\star)\).
+
+Suppose now that \((\star)\) holds. Inductively, a regular prefix
+of length \(j-1\), defined over \(k_{j-1}\), has degree
+\(\prod_{r<j}d_r\leq R^{j-1}<\ell\). Each geometric component
+has field of definition of degree less than \(\ell\) over
+\(k_{j-1}\), since its Galois orbit has no more elements than the
+number of components. Its function field is a regular extension of
+that finite field. The prime degree \(\ell\) therefore remains
+the degree of \(\gamma_{j-1}\) over the component's function field.
+The component has codimension \(j-1\), whereas the base locus of
+\(\mathcal W_j\) has codimension at least \(j\). Some section
+in \(\mathcal W_j\) is nonzero on it. Trivialize these degree-\(d_j\)
+sections by dividing by \(x_v^{d_j}\) on a nonempty coordinate chart.
+Since \(s_j<\ell\), independence of
+\(1,\gamma_{j-1},\ldots,\gamma_{j-1}^{s_j-1}\) over the function
+field proves that \(f_j\) is nonzero on this component. The preceding
+complete intersection is Cohen--Macaulay with no embedded associated
+primes, so \(f_j\) is a nonzerodivisor. This proves regularity.
+Here every relevant cone component has nonempty projectivization,
+since \(j\leq c\leq N-1\).
+
+There are at most \(R^c\) profiles. Bertrand's bound and trial
+division find a suitable \(\ell\) of polynomial size, and any larger
+polynomially bounded threshold may be imposed on \(\ell\).
+The absolute extension degree \(h=\ell^c\), all subfield linear
+algebra, and all sparse combinations have polynomial size for fixed
+\(p,c,E\). Since \(\ell>p\), one has \(\gcd(h,p-1)=1\).
+The first paragraph shows that a promised regular tuple contributes
+at least one profile satisfying \((\star)\), completing the claim.
+\end{proof}
+
+\begin{theorem}[Bounded complete-intersection excess in the input ideal]
+\label{sci:thm:random-excess}
+Fix \(p,c,E\), with \(c\geq2\) and \(E\geq0\). Let a homogeneous
+sparse ideal \(K=(u_1,\ldots,u_m)\) have the geometric saturation
+promise of Theorem~\ref{sci:thm:gap}. Suppose that, after some finite
+scalar extension, the actual ideal \(K\) contains a homogeneous
+regular sequence of length \(c\) whose degree sum is at most
+\(N+1+E\). Neither the sequence, its degrees, nor the extension is
+supplied. Equivalently, such a sequence may be promised over
+\(\overline{\Fp}\).
+
+For every integer \(a\geq1\), a randomized algorithm of polynomial bit cost
+in the sparse input length and \(a\) returns the original
+\(\Fp\)-coherent Frobenius scalar or reports failure, with failure
+probability at most \(2^{-a}\). Every returned scalar is correct on
+the promise. It follows that scalar recovery has a Las Vegas algorithm
+of expected polynomial bit cost. All original input degrees may be
+arbitrary binary integers; the bounded-excess condition is imposed on
+a sequence in \(K\), not merely in \(K^{\mathrm{sat}}\).
+\end{theorem}
+\begin{proof}
+Put \(R=N+1+E\) and \(\varepsilon=2^{-a}\). Choose an integer prime
+\[
+ \ell>\max\!\left\{(N+1)m,R^{c-1},p,
+ \left\lceil\log_p(4cR^c/\varepsilon+E+2)\right\rceil\right\},
+ \qquad h=\ell^c,
+\]
+and construct \(L=\mathbb F_{p^h}\). This has polynomial degree in
+the sparse input length and \(a\), satisfies
+\[
+ |L|>\max\{E+1,4cR^c/\varepsilon\},
+ \qquad \gcd(h,p-1)=1,
+\]
+and supports all deterministic candidates of
+Lemma~\ref{sci:lem:profile-candidates}. Construct those candidates,
+one for every sorted positive profile of sum in \([N+1,R]\).
+The promise guarantees that at least one is regular. All their displayed
+forms belong to the extended actual ideal \(K_L\).
+
+For each candidate, sample only an \((N+1)\times c\) matrix \(U\),
+using the bounded-bit sampler of
+Proposition~\ref{sci:prop:random-designated}. Apply the exact
+Macaulay span test there to \(f_1(Uz),\ldots,f_c(Uz)\), in degree
+\(\rho+1=\sum_j(d_j-1)+1\). A passing test certifies global
+regularity as well as a good centre. Otherwise the common projective
+zero locus of the candidate tuple would have dimension at least
+\(N-c+1\) and would meet every \(\PP^{c-1}\), contradicting the
+test. Equivalently the global ideal has height \(c\), so its \(c\)
+generators form a regular sequence. This certifies every accepted
+candidate, even when its profile did not satisfy \((\star)\).
+
+For any one regular candidate, its centre resultant is a nonzero
+polynomial of degree at most \(c\prod_jd_j\leq cR^c\). The probability
+that this candidate's sampled centre fails is at most
+\(2cR^c/|L|<\varepsilon\). If an earlier candidate passes, it is
+already usable. Thus no union bound over the profiles is needed.
+If every test fails, report failure. The coefficients of the candidate
+tuples are deterministic; only their centres are sampled.
+
+On accepting a tuple and centre, put
+\(J=(f_1,\ldots,f_c)\) and \(e=\sum_jd_j-(N+1)\).
+Adjoin the tuple to the input list, which does not change its ideal.
+Apply Proposition~\ref{sci:prop:fibre-grid} over \(L\) to recover
+\((J:K_L)_e\) exactly. Its quotient by \(J_e\) is the annihilator
+line, and any nonzero class \(q\) on it satisfies \(J:q=I_{X_L}\).
+This step is deterministic and has no exceptional fibres, independently
+of the other input degrees.
+
+The newly constructed \(J\) and its displayed colon line need not
+be defined over \(\Fp\). Use the inverse-Frobenius-semilinear trace
+operator over \(L\), taking \(p\)th roots of coefficients as in
+Theorem~\ref{sci:thm:balanced}, and read
+\(\mathcal C_Y(q)=\beta q\) modulo \(J_e\).
+The line is the image of the canonical line of \(X_L\), whose
+prime-field generator has scalar \(\alpha\). If \(q\) is
+\(\lambda\) times that generator's image, then
+\[
+ \beta=\alpha\lambda^{1/p}/\lambda,
+ \qquad \operatorname{N}_{L/\Fp}(\beta)=\alpha^h.
+\]
+If \(\beta=0\), return zero. Otherwise, for \(p>2\), choose
+\(v\) with \(hv\equiv1\pmod{p-1}\), and return
+\(\operatorname{N}_{L/\Fp}(\beta)^v=\alpha\).
+For \(p=2\), return one in the nonzero case. This is exact descent
+of a semilinear eigenvalue; it does not require the chosen colon line
+itself to descend in its displayed coordinates.
+
+The candidate lemma bounds the profiles, sparse lists, and field
+representation polynomially. Every fixed-\(c\) Macaulay space is
+polynomial in \(R\); every degree-\(e\) coefficient space and
+interpolation grid is polynomial for fixed \(E\). High-degree original
+inputs are evaluated only by binary powering in the finite fibre
+algebras. They are never expanded after the full coordinate change,
+and their numerical degrees do not enter the centre probability bound.
+The final trace product has at most
+\(\binom{N+e}{e}T'^{c(p-1)}\) ordered term choices, where \(T'\)
+is the polynomially bounded total term count of the constructed tuple.
+Coefficient \(p\)th roots and the norm have polynomial bit cost in
+\(h\). Every successful output is correct, and repeating with \(a=1\)
+gives expected at most two runs.
+\end{proof}
+
+\subsection{Safe degree reduction before saturation recovery}
+
+\begin{lemma}[Digit deflation for a radical saturation]
+\label{sci:lem:deflation}
+Let a homogeneous sparse ideal \(K\) over \(\Fp\) have radical
+saturated ideal \(I=K^{\mathrm{sat}}\), and discard any zero rows.
+For \(P=p^r\) with \(r\geq1\), split each exponent vector of one
+remaining row as \(a+Pb\), with \(0\leq a_j<P\).
+If the sparse coefficient matrix indexed by \(a,b\) has rank one,
+write that row as \(UV^P\) and replace it by \(UV\), whenever
+\(V\) is nonconstant. Repeated application preserves the saturation,
+never increases term counts, and has deterministic polynomial sparse-bit
+cost. Whole Frobenius-power extraction is included. No individual
+monomial division is asserted.
+\end{lemma}
+\begin{proof}
+The rank-one reconstruction and homogeneity argument are those of
+Lemma~\ref{sp:lem:preprocessing}. Its nonzero support is Cartesian,
+so the number of term pairs in \(UV\) equals the old term count.
+Radicality gives
+\[
+ (UV)^P=U^{P-1}(UV^P)\in I\quad\Longrightarrow\quad UV\in I.
+\]
+The old row is a multiple of the new one. Thus every replacement
+satisfies \(K\subseteq K'\subseteq I\), and \((K')^{\mathrm{sat}}=I\).
+If the row uses \(v\) coordinates, put \(a=\deg U\) and
+\(b=\deg V\geq1\). Then \(a\leq v(P-1)\), and its old degree
+obeys \(a+Pb\leq(v+2)(P-1)b\). The decrease \((P-1)b\) is
+therefore at least the fraction \(1/(v+2)\) of the old degree.
+There are \(O(v\log(D+1))\) nontrivial steps from initial degree
+\(D\). Each step tests only \(O(\log D)\) digit scales by sparse
+rank-one tests, and no exponent bit length increases. This proves
+the complexity claim, with the largest scales tested first if a
+deterministic ordering is desired.
+\end{proof}
+
+For example, in the coordinate-hyperplane presentation of
+Example~\ref{sci:ex:double}, dividing the monomial row \(w^2\) by
+its entire monomial content would give \(1\notin I_X\).
+
+The hypotheses of Theorems~\ref{sci:thm:random-excess}
+and~\ref{sci:thm:linear-prefix} may consequently be imposed on the
+actual ideal after this preprocessing. This genuinely permits
+unbounded complete-intersection excess in the original ideal.
+For example, suppose \(I_X=(g_1,\ldots,g_c)\) has sparse regular
+generators of degrees \(d_1\leq\cdots\leq d_c\), and take the
+full list
+\[
+ \{x_j^{P}g_i:1\leq i\leq c,\ 0\leq j\leq N\},
+ \qquad P=p^r>\max_i d_i.
+\]
+Its saturation is \(I_X\), whereas every nonzero element of the
+actual ideal has degree at least \(P+\min_i d_i\).
+At digit scale \(P\), each row becomes \(x_jg_i\). For the profile
+\(d_i+1\), the first \(i\) groups have projective base locus
+\(V(g_1,\ldots,g_i)\). The height criterion in
+Lemma~\ref{sci:lem:profile-candidates} gives a regular tuple with
+degree sum \(N+1+c\). Thus Theorem~\ref{sci:thm:random-excess}
+applies after deflation with \(E=c\), regardless of \(r\).
+
+There is also a deterministic example. Suppose
+\(I_X=(L_1,\ldots,L_{c-1},F)\), where the \(L_i\) are independent
+linear forms and \(\deg F=\delta=N-c+2\), with the required
+smooth geometric properties. For \(P=p^r>\delta\), put
+\[
+ K=(F,\ L_i^P,\ x_j^P L_i:
+          1\leq i<c,\ 0\leq j\leq N).
+\]
+The cover rows on every coordinate chart prove \(K^{\mathrm{sat}}=I_X\).
+Whole-power extraction introduces the \(L_i\) into the actual ideal,
+so Theorem~\ref{sci:thm:linear-prefix} applies with excess zero.
+Originally all elements of degree less than \(P\) are multiples of
+\(F\). Any sorted regular \(c\)-profile therefore has its last
+\(c-1\) degrees at least \(P\), and its total excess is at least
+\((c-1)(P-1)\). The cover rows are essential: the pure-power rows
+and \(F\) alone generally define a nonreduced saturation.
+
+\paragraph{Limits of the results.}
+Theorem~\ref{sci:thm:random-excess} removes the indexed tuple and the
+all-input degree gap under a bounded-excess promise on the actual
+input ideal after scalar extension. Smooth anticanonical saturation
+alone does not supply that promise. If \(I_X=(g_1,\ldots,g_c)\), the
+full list \(x_j^M g_i\), for every \(0\leq j\leq N\) and
+\(1\leq i\leq c\), has saturation \(I_X\): on each coordinate
+chart the corresponding multiplier is a unit. Its least nonzero degree
+is at least \(M+\min_i\deg g_i\), so the least complete-intersection
+excess in the actual input ideal can grow without bound.
+The deterministic bounded-gap, balanced-maximum-degree, linear-prefix,
+and supplied factored-prefix theorems give stronger algorithmic
+conclusions on their respective subclasses. Without the gap, the direct coefficient system
+\((\dagger)\) may have large coefficient spaces; the deterministic
+fibre grid avoids those spaces without expanding them. The unequal-profile
+candidate lemma also removes random coefficient selection. In the
+bounded-excess range, the remaining derandomization problem is therefore
+to find a certified good centre for at least one candidate tuple.
+Providing such a centre gives a deterministic algorithm by
+Proposition~\ref{sci:prop:fibre-grid}. Without bounded
+excess, the degree-\(e\) annihilator calculation itself may be
+exponentially large. The explicit-certificate corollary is deterministic
+and does not require kernel discovery. None of these results settles
+unrestricted fixed-codimension saturation. The following results further
+enlarge the tractable class by prime-field relations and certified
+coordinate division; the
+remaining question concerns unbounded excess after all the stated
+safe preprocessing.

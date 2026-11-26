@@ -1,0 +1,463 @@
+\section{Selectors remove the scale in a sum identity}\label{sec:selectors}
+This section converts finite tensor identities into homogeneous inequalities for prices. Anthropic already proves the coarse terminal-selector estimate in Lemma E.7, page 35, by grouping tensor-power words by their multiplicities \cite{Anthropic2026}; the OpenAI preprint uses the same grouping for selector layouts \cite[Section 2, paragraphs after the definition of strict shortening]{OpenAI2026}. We give the version with arbitrary local output restrictions and its sharper sum bound, then derive normalization and the implication from strict shortening to failure of flatness. The resulting price inequality is stronger than the estimate obtained by applying subadditivity once.
+
+Let $I$ be a finite set of parties. Write $U_q(P)=\sum_{i=1}^q\bigotimes_{p\in P}e_i$ for the unit tensor on a nonempty subset $P\subseteq I$, with one-dimensional factors at parties outside $P$. A tensor is \emph{supported on $P$} if those outside factors are one-dimensional. We use the term \emph{relaxed spectral point} for Definition A.1 of \cite{Anthropic2026}: a nonnegative function $\phi$ on $I$-tensors, normalized by $\phi(1)=1$, multiplicative, and subadditive on covers by restrictions. Lemma A.2 of that preprint gives
+\[
+ \phi(U_q(P))=q^{g_\phi(P)},\qquad 0\leq g_\phi(P)\leq1.
+\]
+Here and below a zero member of a cover can be discarded. The logarithms are to base two.
+
+\begin{lemma}[A selector on the output parties]\label{lem:terminal-selector}
+Suppose that a nonzero tensor $C$ supported on $P$ is covered by nonzero tensors $T_1,\ldots,T_A$ on $I$. Put $a_j=\phi(T_j)$ and $g=g_\phi(P)$. If $g>0$, then
+\begin{equation}\label{eq:selector-sharp}
+ \phi(C)\leq\left(\sum_{j=1}^A a_j^{1/g}\right)^g.
+\end{equation}
+If $g=0$, the right side is replaced by $\max_j a_j$. In either case,
+\begin{equation}\label{eq:selector-coarse}
+ \log\phi(C)\leq\max_j\log\phi(T_j)+g_\phi(P)\log A.
+\end{equation}
+\end{lemma}
+\begin{proof}
+Write $C=\sum_j C_j$, where $C_j$ is a restriction of $T_j$ and has the same format as $C$. Fix a positive integer $n$. For a vector of nonnegative multiplicities $\nu=(\nu_1,\ldots,\nu_A)$ with $\sum_j\nu_j=n$, put
+\[
+ M_\nu=\frac{n!}{\nu_1!\cdots\nu_A!},\qquad
+ T_\nu=\prod_{j=1}^A T_j^{\nu_j}.
+\]
+The sum of the words $C_{j_1}\cdots C_{j_n}$ with these multiplicities is a restriction of $U_{M_\nu}(P)T_\nu$. Indeed, first restrict $T_\nu$ to the product of the $C_j$ in a fixed order. At every output party, the common index of $U_{M_\nu}(P)$ specifies one of the $M_\nu$ words, and the local linear map permutes that party's $n$ tensor factors to the specified order. Summing the common index sums exactly the required words. At parties outside $P$ all output factors are one-dimensional, so no selector is needed there. This construction uses permutation matrices and sums; it is valid over every field.
+
+There are at most $(n+1)^A$ multiplicity vectors. Subadditivity and multiplicativity give
+\[
+ \phi(C)^n\leq\sum_\nu M_\nu^g\prod_j a_j^{\nu_j}.
+\]
+For $g>0$, each summand is at most $(\sum_j a_j^{1/g})^{gn}$, by the multinomial theorem. Taking $n$th roots and letting $n$ tend to infinity proves \eqref{eq:selector-sharp}. When $g=0$, each summand is at most $(\max_j a_j)^n$, which proves the asserted limit case. Finally $\sum_j a_j^{1/g}\leq A(\max_j a_j)^{1/g}$ proves \eqref{eq:selector-coarse}.
+\end{proof}
+
+\begin{theorem}[Normalization of relaxed spectral points]\label{thm:normalization}
+Let $|I|\geq2$. Every nontrivial relaxed spectral point on $I$ has the form $\phi=\psi^g$, where $0<g\leq1$ and $\psi$ is a normalized point of Strassen's asymptotic spectrum: $\psi$ is multiplicative, additive under direct sums, monotone under restrictions, and $\psi(U_q(I))=q$. The only remaining relaxed point is $\phi(0)=0$ and $\phi(T)=1$ for every $T\ne0$. Conversely every such $\psi^g$ is a relaxed point.
+\end{theorem}
+\begin{proof}
+The empty cover gives $\phi(0)=0$. Put $g=g_\phi(I)$. If $g=0$, every nonzero tensor $T$ is a restriction of $U_R(I)$ for some finite tensor rank $R$, and $1$ is a restriction of $T$. Thus $1\leq\phi(T)\leq R^g=1$.
+
+Suppose $g>0$ and put $\psi=\phi^{1/g}$. Lemma~\ref{lem:terminal-selector} with $P=I$ gives subadditivity of $\psi$ on covers. Multiplicativity, restriction monotonicity, and normalization on unit tensors are immediate. A direct sum $S\oplus T$ is covered by $S,T$, so $\psi(S\oplus T)\leq\psi(S)+\psi(T)$.
+
+For the reverse inequality, the expansion of $(S\oplus T)^n$ is, up to local changes of basis, the direct sum of its $2^n$ tensor words. Selecting those with $k$ factors $S$, and permuting factors within each summand, shows that
+\[
+ U_{\binom nk}(I)S^kT^{n-k}
+ \quad\hbox{is a restriction of}\quad(S\oplus T)^n.
+\]
+Consequently $\psi(S\oplus T)^n\geq\binom nk\psi(S)^k\psi(T)^{n-k}$ for every $k$. The binomial theorem bounds $(\psi(S)+\psi(T))^n$ by $(n+1)$ times the largest of these terms. Taking $n$th roots proves the reverse inequality.
+
+Conversely a sum of restrictions of $T_1,\ldots,T_A$ is a restriction of their direct sum. A normalized spectral point therefore satisfies $\psi(C)\leq\sum_j\psi(T_j)$. The inequality $(\sum_j x_j)^g\leq\sum_jx_j^g$ for $x_j\geq0$ and $0<g\leq1$ proves cover subadditivity for $\psi^g$; its other axioms are immediate.
+\end{proof}
+
+\begin{corollary}[Finite prices are attained]\label{cor:price-attained}
+Every nonzero price $d$ on a finite set $I$, with $|I|\geq2$, is exactly $d=c\,d_\psi$ for a normalized spectral point $\psi$ and a number $c>0$. For every fixed spanning tree $\tau$ on $I$, one can choose this representation with
+\begin{equation}\label{eq:price-scale-bounds}
+ \operatorname{diam}(I,d)\leq c\leq\sum_{e\in E(\tau)}d(e).
+\end{equation}
+\end{corollary}
+\begin{proof}
+By Theorem~\ref{thm:normalization}, nonzero multiples of relaxed wire metrics are multiples of normalized ones. For a normalized point $\psi$, each wire exponent is at most one. Moreover $U_q(I)$ is a restriction of the product of the dimension-$q$ wires along any spanning tree: each vertex identifies all its incident wire indices. Hence
+\[
+ 1\leq\sum_{e\in E(\tau)}d_\psi(e).
+\]
+Write a sequence converging to $d$ as $c_n d_{\psi_n}$; terms with zero metric may be discarded. These two inequalities give
+\[
+ \operatorname{diam}(I,c_nd_{\psi_n})\leq c_n
+ \leq\sum_{e\in E(\tau)}c_nd_{\psi_n}(e).
+\]
+The scales therefore remain in a compact interval with positive lower endpoint after finitely many terms. The normalized spectrum is compact in the topology of pointwise convergence: it is the closed set defined by its axioms in the product of intervals $[0,R(T)]$, one for every tensor $T$ of finite format. Tensor rank $R(T)$ is a finite upper bound for every spectral value. Tychonoff's theorem gives a convergent subnet of $(c_n,\psi_n)$. Its limit $(c,\psi)$ has $c>0$ and $d=c\,d_\psi$, and the displayed inequalities pass to the limit. A subnet, rather than a subsequence, suffices here because the set of tensor coordinates need not be countable.
+\end{proof}
+
+\subsection{The homogeneous network inequality}
+The selector can be routed through any tree joining the output terminals. If $o$ is another party, then $U_q(P)$ is a restriction of $\prod_{p\in P}\langle q\rangle_{op}$. Thus
+\begin{equation}\label{eq:selector-star}
+ g_\phi(P)\leq\sum_{p\in P}d_\phi(o,p).
+\end{equation}
+More generally the same bound holds with the sum over a tree whose vertex set contains $P$ and any additional hubs.
+
+For a wire network $T$ with cables of integral widths $b_e\geq0$, define its cost in a pseudometric $d$ by $L_d(T)=\sum_e b_e d(e)$. Suppose a product of wires $C$, supported on $P$, is a sum of restrictions of wire networks $T_1,\ldots,T_A$ on the common party set $I$. Applying \eqref{eq:selector-coarse} and \eqref{eq:selector-star}, then taking limits of multiples of spectral metrics, gives the following inequality for every price on $I$:
+\begin{equation}\label{eq:homogeneous-network}
+ L_d(C)\leq\max_jL_d(T_j)+\log A\sum_{p\in P}d(o,p).
+\end{equation}
+Every term in this inequality has degree one in the distances. Thus it has no unknown scale. For comparison, applying cover subadditivity only once to a spectral metric $d=e/\lambda$ gives merely $L_e(C)\leq\max_jL_e(T_j)+\lambda\log A$. That estimate is correct, but the tensor-power selectors show why it is insufficient to analyze a price.
+
+The tensor in the strict-shortening problem is
+\[
+ C_{D,m}=\bigotimes_{i=1}^D\langle2^m\rangle_{+e_i,-e_i},
+\]
+with terminals at the antipodal unit vectors in $\mathbb R^D$.
+In the exact-cover form used here, there are $A$ alternative wire
+networks, each of Euclidean wire cost at most $w$, whose local
+restrictions cover $C_{D,m}$, and the strict-shortening condition is
+$w+2D\log_2 A<2Dm$; see \cite[Section 2]{OpenAI2026} for the
+layout convention. The closure form is treated immediately after
+the theorem.
+
+\begin{theorem}[Strict shortening excludes Euclidean prices]\label{thm:shortening-nonflat}
+Over any field, the existence of an OpenAI strict shortening in dimension $D$ implies that some finite subset of $\mathbb R^D$ with its Euclidean metric is not a price. Consequently the flat hypothesis excludes strict shortenings. Conditional on Theorem 2.2 of the Anthropic preprint, a strict shortening implies the contracting hypothesis.
+\end{theorem}
+\begin{proof}
+Let $P=\{\pm e_1,\ldots,\pm e_D\}$ and include the origin $o=0$ and every hub used in the finitely many networks in the party set. Repeated locations can be treated as distinct parties at distance zero. The tensor $C_{D,m}$ has Euclidean wire cost $2Dm$. Every alternative network has cost at most $w$, and the sum of the distances from the origin to the terminals is $2D$. If this finite Euclidean configuration were a price, \eqref{eq:homogeneous-network} would give
+\[
+ 2Dm\leq w+2D\log A,
+\]
+contrary to the definition of strict shortening. The final assertion is the contrapositive alternative in the cited theorem, not an assertion that its two hypotheses are exclusive.
+\end{proof}
+
+\begin{remark}[Closure versions]
+The same conclusion applies when $C_{D,m}$ belongs to the Zariski closure of sums on fixed finite layouts, over an algebraically closed field. To justify this without continuity of a spectral point, let $W$ be the fixed ambient output tensor space. The vector $C_{D,m}^{\otimes n}$ lies in the linear span of the $n$th tensor powers of members of those sums: every linear equation vanishing on these powers pulls back to a polynomial equation vanishing on the original set and hence on its closure. This span has dimension at most $\binom{n+\dim W-1}{\dim W-1}$. Choose a spanning expression of that length, expand each power, and apply the preceding selector construction. The extra number of summands is polynomial in $n$, so its logarithm divided by $n$ tends to zero. Scalar coefficients can be absorbed at one terminal. This proves the same homogeneous inequality and checks the closure reduction in \cite[Section 2]{OpenAI2026}.
+\end{remark}
+
+\subsection{The converse for the square}
+For the square, a compactness argument selects the two diagonal wires as the output of a saving certificate. Thus the prescribed shape of $C_{2,m}$ causes no further loss. The conclusion uses the price-space theorem and cover duality of \cite[Proposition C.3 and Theorem A.6]{Anthropic2026}; it does not decide whether a shortening exists.
+
+\begin{theorem}[Square nonprices are exactly planar strict shortenings]\label{thm:square-shortening-equivalence}
+Assume the cited price-space theorem and cover duality. The side-one Euclidean square $e$ is not a price if and only if an OpenAI strict shortening exists in dimension two.
+
+If $e$ is not a price, there is such a shortening whose alternative resource tensors use only wires along the four sides of the same square. Arbitrary local restrictions at a terminal can be implemented there, or at a duplicate-position hub connected by zero-length cables. In particular no positive-length hub cables are needed for this implication.
+\end{theorem}
+\begin{proof}
+Name the square's vertices $1,2,3,4$ in cyclic order. Every four-party price $d$ satisfies
+\begin{equation}\label{eq:price-quad-square}
+ d(1,3)^2+d(2,4)^2\leq
+ d(1,2)^2+d(2,3)^2+d(3,4)^2+d(4,1)^2.
+\end{equation}
+Here is a derivation from the stated source input. Embed the price into a complete $\cat$ price space, and let $p,q$ be the midpoints of the two diagonal segments. Apply the midpoint inequality first to each of the points $1,3$ and the segment $[2,4]$, and then to $q$ and the segment $[1,3]$. Adding the resulting inequalities gives
+\[
+ 4d(p,q)^2+d(1,3)^2+d(2,4)^2
+ \leq\sum_{i=1}^4d(i,i+1)^2,
+\]
+with cyclic indices, and dropping the first nonnegative term proves \eqref{eq:price-quad-square}.
+
+Let $K$ be the set of all four-party prices with each of the four side distances at most one. This is a nonempty compact set. It is closed by the definition of prices, and the triangle inequalities bound both diagonal distances by two, so it is bounded in its six real coordinates. For $d\in K$, Cauchy's inequality and \eqref{eq:price-quad-square} give
+\[
+ d(1,3)+d(2,4)\leq2\sqrt2.
+\]
+Equality is possible only at $d=e$: equality in Cauchy's inequality forces the diagonal distances to agree, equality in the sum-of-squares bound forces both to equal $\sqrt2$, and the sum of the four squared side distances must then be four. Since each side distance is at most one, all four sides equal one.
+
+Suppose now that $e$ is not a price. The continuous objective therefore attains on $K$ a maximum
+\[
+ r=\max_{d\in K}\bigl(d(1,3)+d(2,4)\bigr)<2\sqrt2.
+\]
+For every four-party price, scaling by the largest side distance yields the homogeneous inequality
+\begin{equation}\label{eq:strict-diagonal-side-gap}
+ d(1,3)+d(2,4)\leq
+ r\max\{d(1,2),d(2,3),d(3,4),d(4,1)\}.
+\end{equation}
+If the maximum side distance is zero, the triangle inequalities make every distance zero, and the same inequality still holds.
+
+Choose positive integers $h,m$ such that
+\[
+ r<h/m<2\sqrt2.
+\]
+Let $C=\langle2^m\rangle_{13}\langle2^m\rangle_{24}$, and let the four tensors $A_s$ be the single wires $\langle2^h\rangle_s$ on the four sides. At the other parties an $A_s$ has a one-dimensional factor. Applied to the wire metric of any relaxed spectral point, \eqref{eq:strict-diagonal-side-gap} implies
+\[
+ \log_2\phi(C)=m\bigl(d_\phi(1,3)+d_\phi(2,4)\bigr)
+ \leq h\max_s d_\phi(s)=\max_s\log_2\phi(A_s).
+\]
+Thus $\phi(C)\leq\max_s\phi(A_s)$ for every such point. By cover duality, for every $\varepsilon>0$ and all sufficiently large integers $N$, the tensor $C^N$ is covered by at most $2^{\varepsilon N}$ tensors, each a product of $N$ factors drawn from the four $A_s$.
+
+Place the four parties at $e_1,e_2,-e_1,-e_2$. The output is exactly $C_{2,mN}$, of cost $4mN$. Every alternative uses $N$ side wires of width $h$, and hence has cost $\sqrt2hN$. Local restriction maps are arbitrary local tables and add no length at a terminal, as allowed in the definition of a bit tensor network. Choose
+\[
+ 0<\varepsilon<\frac{4m-\sqrt2h}{4},
+\]
+which is possible because $h/m<2\sqrt2$. If $A$ is the number of cover terms, the complete cost estimate is
+\[
+ w+4\log_2 A\leq
+ (\sqrt2h+4\varepsilon)N<4mN.
+\]
+This is a strict shortening of the required form.
+
+Conversely, a strict shortening in dimension two contradicts the price property of the finite planar configuration containing its terminals, hubs, and origin, by Theorem~\ref{thm:shortening-nonflat}. If $e$ were a price, Theorem~\ref{thm:introplanar} would make every finite planar configuration a price. Therefore $e$ is not a price.
+\end{proof}
+
+The reduction is quantitative once a separation margin is known. Regard the six pairwise distances as coordinates in $\mathbb R^6$. For every $d\in K$, the elementary inequality $(1-s)^2\leq1-s^2$ for $0\leq s\leq1$, followed by \eqref{eq:price-quad-square}, gives
+\begin{align*}
+ \|d-e\|_2^2
+ &\leq4-\sum_{\text{sides }s}d(s)^2
+      +d(1,3)^2+d(2,4)^2+4
+      -2\sqrt2\bigl(d(1,3)+d(2,4)\bigr)\\
+ &\leq2\sqrt2\bigl(2\sqrt2-d(1,3)-d(2,4)\bigr).
+\end{align*}
+Consequently, if $\eta$ is the distance from $e$ to the closed four-party price cone, then
+\[
+ r\leq2\sqrt2-\frac{\eta^2}{2\sqrt2}.
+\]
+When $\eta>0$, choose any integer $m>4\sqrt2/\eta^2$ and then an integer $h$ with
+\[
+ r<h/m<2\sqrt2-\frac{\eta^2}{4\sqrt2}.
+\]
+Such an $h$ exists because the interval has length greater than $1/m$. The geometric margin is at least $m\eta^2/4$, so any $0<\varepsilon<m\eta^2/16$ pays for the selector. The nonprice hypothesis establishes positivity of $\eta$ by closedness; it supplies neither a numerical lower bound for it nor the local maps in the finite cover. Those remain essential data for an explicit shortening certificate.
+
+\subsection{The equivalence in every fixed dimension}
+The same extremal argument works for all coordinate diameters at once. Let $X_D=\{+1,-1,\ldots,+D,-D\}$, and let $q_D$ be the metric on these labels with nonantipodal distances one and antipodal distances $\sqrt2$. It is the Euclidean cross-polytope metric rescaled by $1/\sqrt2$.
+
+\begin{theorem}[Cross-polytopes and strict shortening]\label{thm:crosspolytope-shortening}
+Assume Anthropic's price-space theorem and cover duality. For every $D\geq2$, the following are equivalent:
+\begin{enumerate}
+\item $q_D$ is not a price;
+\item a strict shortening exists in dimension $D$.
+\end{enumerate}
+In the first implication the alternative resource tensors can use only nonantipodal wires on $X_D$. Consequently the flat hypothesis is equivalent to the nonexistence of strict shortenings in every dimension.
+\end{theorem}
+\begin{proof}
+Let $K_D$ be the set of prices on $X_D$ whose nonantipodal distances are at most one, and put $\ell_i=d(+i,-i)$. This set is compact: closedness is part of the definition of prices, and every antipodal pair can be joined through another label by two nonantipodal pairs, so its distance is at most two.
+
+For each pair $i<j$, apply \eqref{eq:price-quad-square} to the cyclic quadruple $+i,+j,-i,-j$. Summing these inequalities gives
+\begin{equation}\label{eq:crosspolytope-quads}
+ (D-1)\sum_{i=1}^D\ell_i^2
+ \leq\sum_{\{u,v\}\text{ nonantipodal}}d(u,v)^2
+ \leq2D(D-1).
+\end{equation}
+There are $2D(D-1)$ nonantipodal unordered pairs. Cauchy's inequality now gives
+\[
+ \sum_{i=1}^D\ell_i\leq D\sqrt2.
+\]
+Equality forces every $\ell_i=\sqrt2$ and equality at the right endpoint of \eqref{eq:crosspolytope-quads}; hence every nonantipodal distance equals one. Thus equality occurs only at $q_D$.
+
+If $q_D$ is not a price, compactness gives
+\[
+ r_D=\max_{d\in K_D}\sum_i\ell_i<D\sqrt2.
+\]
+After scaling, every price satisfies $\sum_i d(+i,-i)\leq r_D\max_{u\ne\pm v}d(u,v)$. If this maximum is zero, all distances are zero by the same two-edge paths, so the inequality remains true.
+
+Choose positive integers $h,m$ with $r_D<h/m<D\sqrt2$. Let $C$ be the product of the $D$ antipodal wires of dimension $2^m$, and take as alternatives the single dimension-$2^h$ wires on all nonantipodal pairs. The last homogeneous inequality gives $\phi(C)\leq\max_{u\ne\pm v}\phi(\langle2^h\rangle_{uv})$ for every relaxed spectral point. Cover duality therefore gives, for every $\varepsilon>0$ and all large $N$, a cover of $C^N$ by at most $2^{\varepsilon N}$ products of $N$ alternatives.
+
+At the unit-ball positions $\pm e_i$, the output is $C_{D,mN}$ and every alternative has cost $\sqrt2hN$. Choosing
+\[
+ 0<\varepsilon<\frac{2Dm-\sqrt2h}{2D}
+\]
+gives $\sqrt2hN+2D\log_2 A<2DmN$, which is strict shortening. Local output restrictions are implemented at the terminals as in the preceding theorem.
+
+For the converse, if $q_D$ were a price, Theorem~\ref{thm:cross-polytope-price-flat} would make every finite Euclidean $D$-configuration a price. This contradicts Theorem~\ref{thm:shortening-nonflat} for any shortening in dimension $D$.
+
+Finally, failure of the flat hypothesis supplies a finite nonprice in some Euclidean dimension. Every finite subset of the real line is a price: the two-point wire metric is a price, and the price-space theorem supplies a geodesic segment of arbitrary prescribed length whose metric is a price. The dimension may therefore be taken at least two. Theorem~\ref{thm:cross-polytope-price-flat} then implies that $q_D$ is not a price, and the forward implication gives a shortening. The reverse implication is already Theorem~\ref{thm:shortening-nonflat}.
+\end{proof}
+
+There is again an explicit stability estimate. On the vector space of distance coordinates define
+\[
+ \|x\|_D^2=
+ \sum_{\{u,v\}\text{ nonantipodal}}x(u,v)^2
+ +(D-1)\sum_{i=1}^Dx(+i,-i)^2.
+\]
+For $d\in K_D$, use $(1-s)^2\leq1-s^2$ on the nonantipodal distances and then \eqref{eq:crosspolytope-quads}. This gives
+\[
+ \|d-q_D\|_D^2\leq
+ 2\sqrt2(D-1)\left(D\sqrt2-\sum_i\ell_i\right).
+\]
+If $\eta$ is the distance from $q_D$ to the closed price cone in this norm, it follows that
+\[
+ r_D\leq D\sqrt2-\frac{\eta^2}{2\sqrt2(D-1)}.
+\]
+When $\eta>0$, any integer $m>4\sqrt2(D-1)/\eta^2$ permits an integer $h$ strictly between the required rational endpoints
+\[
+ r_D<h/m<D\sqrt2-\frac{\eta^2}{4\sqrt2(D-1)}.
+\]
+The geometric saving is at least $m\eta^2/[4(D-1)]$, and an overhead rate $\varepsilon<m\eta^2/[8D(D-1)]$ pays for the selector. Neither this estimate nor the existence equivalence produces a positive numerical $\eta$ for any $D$.
+
+\section{The exact cost of routing two crossing cables}\label{sec:two-hub-cost}
+This section determines the best geometry of the two-hub layouts used with the crossing identity in \cite[Appendix B]{Anthropic2026}. The calculation separates a tensor-rank question from the placement of its hubs.
+
+Let the four terminals, in cyclic order, be $a=e_1$, $b=e_2$, $c=-e_1$, $d=-e_2$. Attach $a,b$ to a hub $x$, attach $c,d$ to a hub $y$, give these four cables width $m>0$, and give the bridge $xy$ width $h\geq0$. All hub locations are allowed in any Euclidean space containing the terminals. Write $\rho=h/m$.
+
+\begin{proposition}[Optimal adjacent-pair hubs]\label{prop:optimal-crossing-hubs}
+The least cost of this layout is $mF(\rho)$, where
+\begin{equation}\label{eq:crossing-cost}
+ F(\rho)=
+ \begin{cases}
+ \sqrt2\bigl(\rho+\sqrt{4-\rho^2}\bigr),&0\leq\rho<\sqrt2,\\
+ 4,&\rho\geq\sqrt2.
+ \end{cases}
+\end{equation}
+A minimizer lies in the closed unit disc. For $\rho<\sqrt2$ its hubs can be chosen at
+\[
+ x=t\frac{e_1+e_2}{\sqrt2},\qquad y=-x,\qquad
+ t=\frac{1}{\sqrt2}\left(1-\frac{\rho}{\sqrt{4-\rho^2}}\right).
+\]
+For $\rho\geq\sqrt2$ both hubs may be placed at the origin.
+\end{proposition}
+\begin{proof}
+Orthogonal projection to the terminal plane does not increase any distance. The normalized cost
+\[
+ G(x,y)=|a-x|+|b-x|+|c-y|+|d-y|+\rho|x-y|
+\]
+is convex in the pair $(x,y)$. It is unchanged by $(x,y)\mapsto(-y,-x)$, and by interchanging the two coordinates of both hubs. Averaging first with the first symmetry, and then with the second, cannot increase $G$ and gives $x=t(e_1+e_2)/\sqrt2$, $y=-x$ for a real $t$. A negative $t$ increases the four terminal distances compared with $-t$ and leaves the bridge unchanged, so take $t\geq0$. The remaining objective is
+\[
+ f_\rho(t)=4\sqrt{1+t^2-\sqrt2t}+2\rho t.
+\]
+Its derivative at zero is $-2\sqrt2+2\rho$, and its derivative is increasing. If $\rho\geq\sqrt2$, the minimum is $f_\rho(0)=4$. Otherwise the unique zero of the derivative is the displayed $t$, found from
+\[
+ \frac{2(1/\sqrt2-t)}{\sqrt{(t-1/\sqrt2)^2+1/2}}=\rho.
+\]
+Substitution gives \eqref{eq:crossing-cost}. Since $0\leq t\leq1/\sqrt2$, these hubs lie in the unit disc.
+\end{proof}
+
+In particular, a bridge narrower than $\sqrt2m$ is necessary and sufficient for these four access cables and this bridge to have cost less than the original crossing cost $4m$. If an identity has $A$ summands, and each summand can be routed by one of the two adjacent-pair cuts with bridge width at most $\rho m$, then this construction yields a strict shortening precisely when its total bound satisfies
+\begin{equation}\label{eq:crossing-selector-test}
+ m\bigl(4-F(\rho)\bigr)>4\log A.
+\end{equation}
+This criterion concerns the indicated routing certificates; it does not claim a lower bound for all possible layouts of the same tensors.
+
+\begin{proposition}[How much bridge improvement the selector needs]\label{prop:bridge-deficit}
+For the adjacent-pair two-hub certificates, put $\delta=(\sqrt2m-h)_+$. Their geometric saving is at most $\delta^2/m$. Hence a strict shortening certified by these layouts with $A$ alternatives requires
+\[
+ \delta>2\sqrt{m\log_2 A}.
+\]
+In particular, consider a family indexed by an energy parameter $E\to\infty$ with $m=\Theta(\sqrt E)$, $A\geq2$, and assigned bridge width $h\geq\sqrt2m-O(\log E)$. These certificates cannot give strict shortening for all sufficiently large $E$, even if the number of alternatives is bounded.
+\end{proposition}
+\begin{proof}
+When $h\geq\sqrt2m$ the saving is zero. Otherwise set $\rho=h/m$. On $0\leq\rho\leq\sqrt2$ the function in \eqref{eq:crossing-cost} satisfies
+\[
+ F(\sqrt2)=4,\qquad F'(\sqrt2)=0,\qquad
+ -F''(\rho)=\frac{4\sqrt2}{(4-\rho^2)^{3/2}}\leq2.
+\]
+Integrating the last bound twice from $\sqrt2$ gives
+$4-F(\rho)\leq(\sqrt2-\rho)^2$. Multiplying by $m$ proves the saving bound. The strict test \eqref{eq:crossing-selector-test} then requires $\delta^2/m>4\log_2 A$. Under the stated asymptotic assumptions, the saving is at most $O((\log E)^2/\sqrt E)=o(1)$, whereas the selector charge is at least four.
+\end{proof}
+
+This explains a limitation of improving a critical bridge-rank estimate only by polynomial factors in $E$: its logarithmic improvement is $O(\log E)$, which is too small in this two-hub accounting. A different certificate could have a substantially smaller actual rank, a different layout, or a different way of supplying its selectors; the proposition does not exclude those possibilities.
+
+\subsection{Characteristic two and changes of mode energy}
+The characteristic-two polynomials in the crossing construction have a particularly simple binary structure. This is useful exact algebra, but does not itself estimate the adjacent flattening ranks of the final coefficient tensors.
+
+\begin{lemma}[Binary factors of the crossing polynomials]\label{lem:binary-crossing}
+Reduce the polynomials of \cite[Appendix B]{Anthropic2026} modulo two, and write
+\[
+ B_{r,n}(y)=\sum_j\binom r{n-j}\binom{r+j}j y^j,
+ \qquad C_{r,n}(y)=y^n B_{r,n}(1/y).
+\]
+For $\epsilon,\zeta\in\{0,1\}$,
+\[
+ B_{2a+\epsilon,2b+\zeta}(y)=B_{a,b}(y^2)
+ \begin{pmatrix}1&y\\1&1\end{pmatrix}_{\epsilon,\zeta},
+ \qquad
+ C_{2a+\epsilon,2b+\zeta}(y)=C_{a,b}(y^2)
+ \begin{pmatrix}1&1\\1&y\end{pmatrix}_{\epsilon,\zeta}.
+\]
+Thus a leading $2^k$ by $2^k$ truncation is a Kronecker product of the indicated two by two factors evaluated at $y,y^2,\ldots,y^{2^{k-1}}$.
+\end{lemma}
+\begin{proof}
+The negative-binomial expansion gives
+\[
+ G_r(t;y)=\sum_{n\geq0}B_{r,n}(y)t^n
+ =\frac{(1+t)^r}{(1+yt)^{r+1}}.
+\]
+Frobenius therefore gives
+$G_{2a+\epsilon}(t;y)=(1+t)^\epsilon(1+yt)^{1-\epsilon}G_a(t^2;y^2)$.
+Comparing even and odd coefficients proves the first identity. Substituting $1/y$ and multiplying by $y^{2b+\zeta}$ proves the second. Iteration proves the Kronecker statement.
+\end{proof}
+
+\begin{lemma}[Pascal factors]\label{lem:pascal-factorization}
+Over $\mathbb F_2[y]$, each leading $N$ by $N$ truncation satisfies
+\[
+ B=L\,\operatorname{diag}((1+y)^k)\,U,\qquad
+ C=L\,\operatorname{diag}((1+y)^k)\,L^{\mathsf T},
+\]
+where $L_{r,k}=\binom rk$ and $U_{k,n}=\binom nk y^{n-k}$. Both triangular factors have diagonal one. Thus the Smith factors are $(1+y)^k$, for $0\leq k<N$.
+\end{lemma}
+\begin{proof}
+Expand the generating function instead as
+\[
+ G_r(t;y)=\sum_k\binom rk(1+y)^kt^k(1+yt)^{-k-1}.
+\]
+Coefficient extraction gives the first factorization. Substituting $1/y$ and multiplying column $n$ by $y^n$ gives the second. The triangular matrices are unimodular, and the displayed diagonal entries form a divisibility chain.
+\end{proof}
+
+Taking a polynomial square in characteristic two can delete odd powers of the interpolation parameter, but replacing $X^2$ by $X$ then only renames its coefficient tensors. It does not change their ranks or the number of nonzero alternatives. Furthermore, the determinant in the source construction need not be a principal minor: the two sets in a Frobenius symbol need not coincide. A Pfaffian-square argument for principal alternating matrices cannot be applied to every symbol without a further restriction, whose reduced input dimension must also be charged.
+
+A possible way to beat the critical counting exponent would be to replace linear mode energies by superlinear ones. The following two tests delimit the most direct versions of that proposal.
+
+\begin{proposition}[Two failures of in-place reweighting]\label{prop:energy-reweighting}
+In the Meixner orthogonality identity, retaining the original polynomials and prefactor $1-y$ while replacing the exponents $r$ by strictly increasing nonnegative integers $w_r$ forces $w_r=r$.
+
+In the finite fermion kernel of \cite[Theorem 2]{Khoruzhii2026}, retaining the kernel and marked-mode formula while replacing mode energies $k+\tfrac12$ by $k^2+\tfrac12$ does not preserve the asserted identity. The failure already occurs for $\xi=\eta=t_0t_1$, acting on $t_0$, with at least three modes. Its two sides are $-8t_0$ and $t_0$, respectively; in particular they differ in characteristic two.
+\end{proposition}
+\begin{proof}
+For the first claim, $B_{r,0}=1$, so the vacuum case of orthogonality would read
+$(1-y)\sum_{r\geq0}y^{w_r}=1$. The coefficient of each nonnegative power of $y$ in the sum must therefore be one. Strict increase allows at most one occurrence of each power, and forces $w_r=r$. This argument works over every field.
+
+For the second claim we spell out the definitions being tested. Set
+\[
+ \theta_m=\sum_k\left(\binom km t_k+\binom{-k-1}m u_k\right),\qquad
+ K_\xi=\xi(\theta_0,\theta_1,\ldots)\prod_k(1+t_ku_k),
+\]
+in the exterior algebra on the $t$ and $u$ variables, and define
+$M(\xi)_{I,J}=(-1)^{|J|(|J|-1)/2}[t_Iu_J]K_\xi$.
+Let $M_r$ select entries whose output energy minus input energy equals $r$ under the proposed grading. For $\xi=\eta=t_0t_1$ we have $h=2$ and sign $(-1)^{2h}=1$. The marked coefficients for $r=-1,0,1,2$ are
+\[
+ c_r=(-1)^{2+r}\binom3{1+r}=(-1,3,-3,1).
+\]
+Direct expansion of $\theta_0\theta_1$ gives
+\[
+ M(\xi)_{\{1\},\{0\}}=M(\xi)_{\{0\},\{1\}}=-2,
+ \qquad M(\xi)_{\varnothing,\{0,1\}}=1.
+\]
+Every product $M_{-r}M_r$ preserves energy. Starting from $t_0$, the intermediate energy is at most $\tfrac12+h=\tfrac52$. Under the new grading, the only odd-cardinality states below that bound are $t_0$ and $t_1$, of energies $\tfrac12$ and $\tfrac32$. The zero-mode commutator vanishes, and the two nonzero contributions consequently sum to
+\[
+ (c_1-c_{-1})(-2)^2t_0=-8t_0.
+\]
+The vacuum pairing on the claimed right side is the displayed coefficient one. This proves the failure. It also identifies what was lost: with the original linear energies, $t_2$ has energy $\tfrac52$, and
+$M(\xi)_{\{2\},\{0\}}=M(\xi)_{\{0\},\{2\}}=-3$.
+The $r=2$ term contributes an additional $9t_0$, restoring the identity.
+\end{proof}
+
+\begin{proposition}[The characteristic-two kernel forces linear grading]\label{prop:fermion-grading-rigidity}
+Work over $\mathbb F_2$, and retain the finite fermion kernel and marked-mode formula just defined. Let $e_k\in\mathbb Z_{\geq0}+\tfrac12$ be strictly increasing, with $e_0=\tfrac12$ and $e_1=\tfrac32$. Suppose that, for each fixed one-particle state $t_i$, the identity for $\xi=\eta=t_0t_1$ holds on $t_i$ in every sufficiently large finite truncation. The truncation threshold may depend on $i$. Then $e_k=k+\tfrac12$ for every $k$.
+\end{proposition}
+\begin{proof}
+Write $Q=M(t_0t_1)$. Coefficient extraction from $\theta_0\theta_1$ gives
+$Q_{\{a\},\{b\}}=-(a+b+1)$; the creation and annihilation coefficients for a pair $a<b$ are both $b-a$. The kernel extends these quadratic operators to the exterior algebra: they either exchange one mode or create or annihilate a pair.
+
+The energy of $\xi$ is still two. Modulo two the four marked coefficients $(-1,3,-3,1)$ are all one. The zero-mode commutator vanishes, and the contributions at $r=1$ and $r=-1$ cancel. The asserted identity therefore requires
+\[
+ Q_{-2}Q_2+Q_2Q_{-2}=\operatorname{Id}
+\]
+on every fixed test state. Its vacuum pairing is one. Since the energies start at $\tfrac12,\tfrac32$ and increase strictly, the only pair of energy two is $\{0,1\}$. The pair terms in $Q_2,Q_{-2}$ thus create and annihilate this pair. The exchange terms join $a,b$ precisely when $|e_a-e_b|=2$ and $a,b$ have the same parity.
+
+Form the graph of these exchange pairs. Each vertex has at most one neighbour of higher energy and at most one of lower energy. The coefficient of $t_i$ in the left side of the last display is
+\[
+ \deg(i)+\mathbf1_{\{i\notin\{0,1\}\}}\quad\text{in }\mathbb F_2.
+\]
+Indeed, each incident exchange edge contributes one round trip. Pair creation followed by annihilation contributes one exactly when $t_i$ does not already occupy either mode in $\{0,1\}$. Cross terms change particle number and cannot contribute to this diagonal coefficient. It follows that vertices zero and one have degree one, and every other vertex has even degree.
+
+The first two vertices have no lower-energy neighbours, so they have successors at energies $\tfrac52$ and $\tfrac72$. Every later vertex reached along either path has a predecessor; its even degree, bounded by two, forces a successor. The two infinite paths therefore contain all energies $\tfrac12,\tfrac52,\tfrac92,\ldots$ and $\tfrac32,\tfrac72,\tfrac{11}2,\ldots$. Together these are every allowed half-integer. Strict ordering forces the claimed sequence. Every individual degree computation uses only finitely many modes, as permitted by the pointwise truncation hypothesis.
+\end{proof}
+
+\begin{lemma}[A lacunary vacuum has no rational normalizer]\label{lem:lacunary-normalizer}
+Let $w_r$ be strictly increasing nonnegative integers with unbounded consecutive gaps. Over any field, $F(y)=\sum_{r\geq0}y^{w_r}$ is not rational. Consequently no rational function $A(y)$ satisfies $A(y)F(y)=1$.
+\end{lemma}
+\begin{proof}
+If $F=P/Q$ is a rational power series, take $Q(0)\ne0$. Beyond the degree of $P$, its coefficients satisfy a recurrence of length $d=\deg Q$ in which each coefficient is determined by the preceding $d$ coefficients. A sufficiently late run of $d$ zeros would therefore force all later coefficients to vanish. Unbounded gaps supply such runs, but infinitely many later coefficients equal one. The case $d=0$ would make $F$ a polynomial and is equally impossible.
+\end{proof}
+
+The proposition tests unchanged kernels. It does not exclude a different orthogonal family or a new finite fermion identity adapted to superlinear energies. Such a construction would also have to preserve the two-cut decomposition and control every intermediate state; reduced label counts alone do not supply those properties.
+
+\subsection{A single layout cannot shorten a Euclidean wire graph}
+The obstruction for one network is a cut-rank argument, and it does not distinguish characteristic zero from positive characteristic.
+
+\begin{proposition}[Euclidean cost of a single realization]\label{prop:single-layout}
+Let $C$ be a product of wires placed at finitely many terminals in $\mathbb R^D$. If a single tensor network, with arbitrary extra hubs and local tensors, realizes $C$, then its Euclidean wire cost is at least that of the direct wires of $C$. The same holds for a degeneration on a fixed layout.
+\end{proposition}
+\begin{proof}
+For a unit vector $\theta$ and real number $t$, partition every node according to the sign of $\theta\cdot x-t$. Ignore the measure-zero set of parameters for which a node lies on the separating hyperplane. If the network has total cable width $b(\theta,t)$ crossing this partition, contraction of all nodes on each side factors the output flattening through a space of dimension $2^{b(\theta,t)}$. Its matrix rank is therefore at most that number. The output $C$ has flattening rank exactly $2^{c(\theta,t)}$, where $c(\theta,t)$ is the total width of its direct wires crossing the same hyperplane. Consequently $b(\theta,t)\geq c(\theta,t)$. The rank bound persists under degeneration because the relevant minors vanish identically on the fixed layout.
+
+For any endpoints $u,v$, the set of offsets $t$ separating them at fixed $\theta$ is an interval of length $|\theta\cdot(u-v)|$. Averaging over the rotation-invariant probability measure on the unit sphere gives
+\[
+ \int_{S^{D-1}}\int_{\mathbb R}
+ \mathbf1_{\{\theta\cdot u<t<\theta\cdot v\text{ or }\theta\cdot v<t<\theta\cdot u\}}
+ \,dt\,d\theta=\kappa_D\|u-v\|,
+\]
+where $\kappa_D=\int_{S^{D-1}}|\theta_1|\,d\theta>0$. Integrating $b\geq c$, summing the finitely many cables, and cancelling $\kappa_D$ proves the claim. For $D=1$ the same formula uses the two unit directions.
+\end{proof}
+
+For a sum of networks the corresponding estimate is only
+$2^{c(\theta,t)}\leq\sum_j2^{b_j(\theta,t)}$. The summand with the largest cut capacity can depend on the hyperplane. The preceding integration therefore gives no lower bound by the largest total cost of one summand. This is exactly the obstacle that a strict shortening would have to exploit.
+
+\subsection{The smallest crossing identity}
+There is a useful exact example over every field. Let $J$ be the alternating form on a two-dimensional space, with $J_{01}=1$, $J_{10}=-1$ and zero diagonal. The Pl\"ucker relation, verified by considering whether the four indices in $\{0,1\}$ contain two of each value, is
+\[
+ J_{ac}J_{bd}=J_{ab}J_{cd}+J_{ad}J_{bc}.
+\]
+Changing bases at $c$ and $d$ turns the left side into the two dimension-two crossing wires. Each term on the right is a pair of adjacent dimension-two wires, with invertible changes of basis at their ends. Its cost on the four unit-circle terminals is $2\sqrt2$. The OpenAI selector charge is $4\log2=4$, so the total bound is $2\sqrt2+4>4$. Its $m$th tensor power gives $2^m$ alternatives of cost $2\sqrt2m$ and selector charge $4m$; it still fails the strict-shortening test by the same ratio. No assertion about all identities is made by this example.
+

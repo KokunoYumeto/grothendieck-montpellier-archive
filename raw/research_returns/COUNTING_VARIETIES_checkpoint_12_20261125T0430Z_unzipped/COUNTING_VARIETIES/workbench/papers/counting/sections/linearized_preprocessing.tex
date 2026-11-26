@@ -1,0 +1,169 @@
+\subsection{Recognizing relations over the prime field}
+Geometric integrality permits degree reductions beyond those implied
+by radicality. An algebraic element of the function field must already
+belong to the prime field. A linearized polynomial relation can
+therefore force a hidden factor to vanish, provided its coefficient
+sum is nonzero. The following theorem recognizes such a relation with
+an unknown number of lower Frobenius blocks and unknown coefficients.
+Additive-polynomial composition and its skew-polynomial interpretation
+are classical. In particular, \citet[\S6, Theorem~6.1, pp.~22--24 of
+the author version]{sp-giesbrecht} gives deterministic decomposition
+in time polynomial in the Frobenius degree at fixed characteristic,
+including characteristic two. That input already specifies a
+univariate additive polynomial. Here the sparse homogeneous equation
+hides both its additive coefficients and its multivariate argument
+$U/V$; the exponent gap below permits their recovery.
+
+\begin{theorem}[Sparse recognition of a linearized relation]
+\label{sp:thm:linearized-preprocessing}
+Fix a prime $p$. Let a homogeneous sparse list with binary exponents
+generate $K\subset S=\Fp[x_0,\ldots,x_N]$, and suppose that
+$I=K^{\mathrm{sat}}$ has geometrically integral quotient $S/I$.
+Consider a nonzero row admitting the exact identity
+\begin{equation}
+ F=U^Q+\sum_{i=0}^{s}a_iV^{Q-p^i}U^{p^i},
+ \qquad Q=p^e,\quad 0\le s<e,
+ \label{sp:eq:linearized-relation}
+\end{equation}
+where $U\ne0$ is homogeneous of degree $d\ge1$, $V$ is any
+coefficient-one monomial of degree $d$, and $a_i\in\Fp$. Assume
+\begin{equation}
+ (d+1)p^s\le Q,\qquad
+ \lambda:=1+\sum_{i=0}^{s}a_i\ne0.
+ \label{sp:eq:linearized-gap}
+\end{equation}
+None of $U,V,e,s,d$ or the coefficient vector is given. The number
+$s$ is not fixed, and zero lower coefficients are allowed.
+
+There is a deterministic polynomial sparse-bit algorithm that finds
+and verifies such an identity whenever one exists and replaces $F$
+by $U$. Each accepted replacement satisfies
+\[
+ K\subseteq K'\subseteq I,\qquad (K')^{\mathrm{sat}}=I,
+\]
+introduces no coordinate index, does not increase the number of
+terms, and divides the numerical degree by $Q\ge p$.
+The algorithm may choose a minimum-degree replacement among its
+passing candidates. Repeated use, interleaved with rank-one digit
+reduction and batched valid coordinate-content division, terminates
+in polynomial sparse-bit time. An ordinary whole Frobenius power
+may also be handled by its existing root-extraction rule.
+\end{theorem}
+\begin{proof}
+Put $R=S/I$ and $E=\operatorname{Frac}(R)$. If $z\in E$ is
+algebraic over $\Fp$, then $\Fp(z)=\mathbb F_{p^b}$ for some $b$.
+Tensoring its inclusion in $E$ with $\overline{\Fp}$ preserves
+injectivity. For $b>1$ the source is a product of fields and has
+nonzero zero divisors, whereas the target is a localization of the
+domain $R\otimes_{\Fp}\overline{\Fp}$. Hence $b=1$.
+This is the usual geometric-integrality condition
+\citep[Definition~10.49.1 and Lemma~10.49.3]{sp-stacks-integral}.
+The saturated homogeneous coordinate ring of a geometrically
+integral projective scheme has this property: after base change,
+its punctured affine cone is a $\mathbb G_m$-torsor over the
+integral scheme, and its affine closure is integral.
+
+Reduce \eqref{sp:eq:linearized-relation} modulo $I$.
+If $V=0$, then $U^Q=0$ and $U=0$ in the domain $R$.
+Otherwise $z=U/V\in E$ satisfies
+\[
+ z^Q+\sum_{i=0}^{s}a_i z^{p^i}=0.
+\]
+It is algebraic over $\Fp$ and therefore lies in $\Fp$.
+The equation becomes $\lambda z=0$, forcing $z=0$.
+Thus $U\in I$. Every term of $F$ is divisible by $U$,
+which proves the ideal sandwich and equality of saturations.
+This safety argument does not require the gap or monomial hypotheses;
+those hypotheses will make the unknown relation recognizable.
+
+Write $D=\deg F$ and $T=|\operatorname{supp}F|$.
+Enumerate $Q=p^e\le D$ with $Q\mid D$, set $d=D/Q$, and
+enumerate $0\le s<e$ satisfying \eqref{sp:eq:linearized-gap}'s
+degree inequality. There are $O(\log^2(D+1))$ pairs $(e,s)$.
+For each pair, take the \emph{$Q$-section} $W$ of $F$: select
+the terms whose exponent vectors are coordinatewise divisible by
+$Q$, and divide those vectors by $Q$, retaining their coefficients.
+Reject a zero or wrong-degree section.
+
+To determine what a true relation gives, write
+$U=\sum_u c_u x^u$ and $V=x^v$, with $|u|=|v|=d$.
+A term of its $i$th lower block has exponent
+\[
+ (Q-p^i)v+p^iu=Qv+p^i(u-v).
+\]
+Every coordinate of $p^i(u-v)$ has absolute value at most
+$dp^s\le Q-p^s<Q$. It is coordinatewise divisible by $Q$
+only when $u=v$. If $c_v=0$ when $V$ is absent from $U$, then
+\begin{equation}
+ W=U+(\lambda-1)c_vV.
+ \label{sp:eq:leading-section}
+\end{equation}
+Because $\lambda\ne0$, $W$ has exactly the support of $U$.
+No membership in $I$ is inferred from taking a section alone.
+
+First suppose $V$ occurs in this support. Enumerate its at most
+$T$ possibilities and the $p-1$ possible nonzero values of
+$\lambda$. Leave all other coefficients of $W$ unchanged and
+divide its $V$ coefficient by $\lambda$ to propose $U$.
+For these fixed candidates form the sparse polynomials
+\[
+ B_i=V^{Q-p^i}U^{p^i}\quad(0\le i\le s),\qquad H=F-U^Q.
+\]
+Solve over $\Fp$ the coefficient equations
+\begin{equation}
+ H=\sum_{i=0}^{s}a_i B_i,
+ \qquad \sum_{i=0}^{s}a_i=\lambda-1.
+ \label{sp:eq:linearized-system}
+\end{equation}
+Use the union of the supports of $H$ and the $B_i$ as the row
+indices of this linear system. Its unknowns are only the $s+1$
+scalars $a_i$. A consistent system gives one coefficient vector;
+there is no enumeration of $p^{s+1}$ vectors. Verify the complete
+identity and every degree condition before accepting. The true
+support-present representation is among the candidates.
+
+For the other case set $U=W$ and again put $H=F-U^Q$.
+If $H=0$, ordinary whole-power extraction applies. It also admits
+a relation with all lower coefficients zero, $s=0$, and any
+support monomial of $U$ as $V$, when $d+1\le Q$.
+Otherwise select a surviving exponent vector $\alpha$ of $H$
+and put $q=p^s$, $M=Q-q$. In a true representation it has the form
+\[
+ \alpha=Mv+\beta,\qquad
+ \beta=(q-p^i)v+p^iu\ge0,\qquad |\beta|=qd\le M.
+\]
+Cancellation may delete terms but cannot produce a new exponent,
+so this description holds for any chosen surviving term.
+Consequently $\lfloor\alpha/M\rfloor$ equals either $v$ or
+$v+e_j$ for one coordinate unit vector $e_j$. The latter requires
+$qd=M$ and $\beta=Me_j$. Enumerate that quotient and the vectors
+obtained by subtracting one coordinate unit, retaining only
+nonnegative vectors of total degree $d$. There are at most $v_0+1$
+candidates, where $v_0$ is the number of active coordinates in
+the input row. For each candidate $V$ and each
+$\lambda\in\Fp^*$, solve \eqref{sp:eq:linearized-system} and
+verify the full identity. This includes the boundary case of
+equality in the degree gap and the true absent-support representation.
+
+The searches have polynomial sparse-bit cost. Each $B_i$ is obtained
+by multiplying exponent integers and adding a monomial shift;
+its support has at most $T$ terms. The coefficient matrix has at
+most $(s+2)T+T+1$ rows and $s+1\le\log_p D$ columns.
+Gaussian elimination, sparse collection, and exact verification
+are polynomial in the written input length. Intermediate exponent
+integers have polynomial bit length, since a candidate identity is
+homogeneous of degree $D$. Each positive coordinate exponent of
+$V$ in the nonzero-remainder case occurs in that remainder, because
+$M>0$. Thus absent coordinate identifiers need never be enumerated.
+
+Every accepted $U$ is a section with at most one coefficient changed,
+so it has no more than $T$ terms and introduces no coordinate.
+All passing candidate outputs can be compared by degree, with a
+fixed ordering to break ties. Each new step decreases degree by
+at least a factor two. The known digit operation decreases it by
+at least the fraction $1/(v_0+2)$ and also does not increase
+support or active coordinates. Batched eligible monomial content
+is removed at most once between such steps. Hence there are
+$O(v_0\log(D_0+1))$ successful degree-reducing steps from initial
+degree $D_0$, proving polynomial termination and the combined cost.
+\end{proof}

@@ -1,0 +1,118 @@
+\section{Affine hyperplane complements and the exact arity of OR}
+\label{sec:arrangements}
+Affine hyperplane complements provide a smooth family in which all possible reciprocal zeta roots are known but their multiplicities encode counting. The input explicitly lists its ambient coordinates and affine linear forms over a fixed finite field; it is substantially stronger than an arbitrary arithmetic circuit for their product.
+
+\begin{theorem}[A parsimonious affine complement]
+\label{ar:complement}
+For every fixed prime power $q>2$, a width-three Boolean formula with $n$ variables, $M$ clauses, and $S$ satisfying assignments determines in deterministic polynomial bit time nonzero affine forms $L_1,\ldots,L_m$ on $\mathbb A^v_{\mathbb F_q}$ such that
+\[
+ \#\operatorname{Spec}\mathbb F_q[x_1,\ldots,x_v,1/\prod_iL_i]
+                 (\mathbb F_q)=S.
+\]
+One may take $v\le n+2M$ and $m=O(q(n+M))$, with at most three variables and a constant in each form. The complement is isomorphic to the smooth geometrically integral affine complete intersection
+\[
+ w_i-L_i(x)=0\quad(1\le i\le m),\qquad
+                  y\prod_{i=1}^mw_i-1=0.
+\]
+Existence of an $\mathbb F_q$-rational point is NP-complete, and its integer point count is parsimoniously $\#\mathrm P$-complete. Over $\mathbb F_2$, the exact point count for every list of affine forms is computable by row reduction.
+\end{theorem}
+\begin{proof}
+Fix $\eta\in\mathbb F_q\setminus\{0,1\}$. Introduce one coordinate for each primary Boolean variable and for each gate output. For each coordinate $u$, include the $q-2$ inequations $u-c\ne0$, $c\in\mathbb F_q\setminus\{0,1\}$. These force its ground-field value to be a bit. A literal is $u$ or $1-u$. For a binary OR with inputs $a,b$ and a fresh output $z$, include
+\begin{equation}
+\label{ar:eq:twoforms}
+ b-1+\eta z\ne0,\qquad a-\eta b+z-1\ne0.
+\end{equation}
+When $z=0$, the first forces $b=0$ and the second then forces $a=0$. When $z=1$, the first is nonzero for both possible $b$; the second is $a-\eta b$, which is zero on the Boolean input square only at $(0,0)$. Thus the two inequations give exactly the OR graph, with one output for each input. Each form is a nonzero polynomial since $z$ is fresh.
+
+Build a clause of length $r\in\{1,2,3\}$ with $r-1$ binary OR gates and require its final literal or output to be nonzero. The number of new gate coordinates is $\sum(r-1)\le2M$, and the total number of inequations is exactly $(q-2)v+2\sum(r-1)+M$, before removing repetitions or harmless constants. Every satisfying primary assignment extends uniquely to all gate outputs, so the count is parsimonious. Free original variables still have two choices. For an empty clause use instead the one-dimensional arrangement $x-c\ne0$ for all $c\in\mathbb F_q$, which has no ground-field points and is geometrically nonempty. This handles the identically false case without a zero polynomial. No-clause formulas are handled by unary restrictions alone.
+
+Put $D=\prod_iL_i$. Eliminating $w_i$ identifies the displayed equations with $yD-1=0$. Projection to $x$ has inverse $(x,L_1(x),\ldots,L_m(x),D(x)^{-1})$, so it is an isomorphism to the complement. The independent linear equations followed by the nonzero polynomial $yD-1$ form a regular sequence. Since a product of nonzero affine forms remains nonzero over an algebraic closure, the complement is a nonempty open subset of affine space and is smooth and geometrically integral. The extra coordinates contribute no choices: the $m$ values $w_i$ and $y$ are uniquely determined. The codimension is $m+1$, which is not bounded.
+
+For fixed $q$, guessing a uniquely encoded field word and checking all forms proves the complexity memberships. If $q=2$, each inequation is $L_i(x)=1$. Gaussian elimination gives zero solutions if inconsistent and $2^{v-r}$ otherwise, where $r$ is the rank of the coefficient matrix. The exact integer has $O(v)$ bits.
+\end{proof}
+
+The support-three gate construction is a direct parsimonious realization. A support-two realization also follows from Barbanchon (2004, Proposition~5, p.~458, and the reference-palette constructions)~\cite{st-barbanchon}: his SAT reduction counts three-colourings modulo their six colour permutations. Pinning two distinguished adjacent palette vertices to two prescribed colours selects exactly one colouring in each orbit. Over any fixed $q>2$, restrict every other vertex to a chosen three-element palette with unary inequations and use $u-v\ne0$ on graph edges. This comparison credits the earlier parsimonious counting mechanism; the following arity statement concerns the smaller coordinate set consisting of a gate's input bits and output alone.
+
+\begin{theorem}[Exact arity on the input-output cube]
+\label{ar:arity}
+Let $q=p^d$ and $r\ge1$. On the Boolean cube with coordinates $x_1,\ldots,x_r,z$, the graph of $z=x_1\lor\cdots\lor x_r$ is the common nonvanishing set of affine forms over $\mathbb F_q$ if and only if
+\[
+                         r\le d(p-1).
+\]
+In this range the least number of forms is exactly $r$. Unary restrictions enforcing membership in the Boolean cube are not counted in this statement, and no additional coordinates are allowed.
+\end{theorem}
+\begin{proof}
+Restrict a proposed collection of $s$ forms to $z=0$ and multiply them. On $\{0,1\}^r$ the resulting polynomial is nonzero only at zero. Its multilinear reduction is therefore a nonzero multiple of $\prod_i(1-x_i)$, by uniqueness of interpolation on the cube. Reduction never raises degree, so $s\ge r$. This is the punctured-cube covering bound of Alon and F\"uredi (1993); the general finite-grid formulation appears as Bishnoi, Clark, Potukuchi, and Schmitt (2018, Theorem~6.1(c), p.~324)~\cite{st-af,st-bcps}.
+
+At the forbidden point $(0,1)$ some form vanishes. On the slice $z=1$ that form is $\sum_i a_ix_i$, and it is nonzero at every nonzero Boolean input. Express its value in an $\mathbb F_p$-basis of $\mathbb F_q$ as $d$ linear forms $\ell_1,\ldots,\ell_d$. Then
+\[
+                       \prod_{j=1}^d(1-\ell_j(x)^{p-1})
+\]
+is the point indicator of zero on the cube. Its degree is at most $d(p-1)$, so interpolation proves $r\le d(p-1)$. Equivalently, the coefficients $a_i$ form a sequence in the additive group $(\mathbb Z/p\mathbb Z)^d$ with no nonempty zero-sum subsequence. Its maximum length is $d(p-1)$, the elementary abelian Davenport constant minus one. The abelian $p$-group theorem was proved independently by Kruyswijk and Olson, as explicitly recorded by van Emde Boas (1969, Theorem~2.1, printed p.~18)~\cite{st-veb,st-olson}.
+
+For attainment, choose $r$ elements from an $\mathbb F_p$-basis repeated at most $p-1$ times each. No nonempty subcollection sums to zero, because each coordinate multiplicity is between zero and $p-1$. Rescale all coefficients to make $a_r=1$. If $r>1$, then $q>2$, so choose $\eta\notin\{0,1\}$ and use the $r$ forms
+\[
+ x_i-1+\eta z\quad(1\le i<r),\qquad
+                     \sum_{i=1}^ra_ix_i+z-1.
+\]
+At $z=0$, the first $r-1$ inequations force the corresponding inputs to zero and the last forces $x_r=0$. At $z=1$, the first forms are nonzero, while the last vanishes exactly on the all-zero input. For $r=1$, the last form alone proves the claim, even over $\mathbb F_2$.
+\end{proof}
+
+The threshold is one over $\mathbb F_2$, two over $\mathbb F_3$ and $\mathbb F_4$, four over $\mathbb F_5$ and $\mathbb F_9$, three over $\mathbb F_8$, and four over $\mathbb F_{16}$. Exhaustive enumeration of all normalized affine forms and exact set-cover search confirm the minimum for arities through three over $\mathbb F_2,\mathbb F_3,\mathbb F_4$, through five over $\mathbb F_5,\mathbb F_9$, and through four over $\mathbb F_8$. The exclusion test enumerates every coefficient tuple, so it also checks the first impossible arity in each listed case. The proof, rather than this finite check, establishes the bound for arbitrary fields and arities.
+
+\subsection{The zeta function and the central matroid}
+Let $U=\mathbb A^v\setminus\bigcup_iH_i$, where $H_i=V(L_i)$. For a subset $I$ of the form indices, its simultaneous zero locus $H_I$ is either empty or an affine linear space over $\mathbb F_q$. Consistency and rank of its linear system do not change under scalar extension. Hence
+\[
+ C(s)=\sum_{I:H_I\ne\varnothing}(-1)^{|I|}s^{\dim H_I}
+          =\sum_{j=0}^vc_js^j\in\mathbb Z[s]
+\]
+satisfies $\#U(\mathbb F_{q^e})=C(q^e)$ for every $e\ge1$. This is the finite-field method for arrangement characteristic polynomials; compare Athanasiadis (1996) and Bj\"orner and Ekedahl (1997, Proposition~3.2 and Theorem~3.6(i); preprint pp.~5, 7)~\cite{st-ath,st-be}. Directly from the definition of the zeta function,
+\begin{align*}
+ \log Z(U,T)
+ &=\sum_{e\ge1}\sum_jc_jq^{je}\frac{T^e}{e}
+   =-\sum_jc_j\log(1-q^jT),\\
+ Z(U,T)&=\prod_{j=0}^v(1-q^jT)^{-c_j}.
+\end{align*}
+The possible reciprocal zeros and poles are therefore integral powers of $q$. The counting problem concerns their signed multiplicities $c_j$. For the parsimonious instances, $c_0\equiv S\pmod q$. The Boolean bijection is a statement about the ground field: the unary exclusions remove the other ground-field elements, not all the non-Boolean elements in each extension.
+
+To compare with linear codes, homogenize each affine form with one new coordinate $t$ and add the form $t$. For the constructed arrangements, the linear map
+\[
+ \ell:\mathbb F_q^{v+1}\longrightarrow\mathbb F_q^{m+1},
+ \qquad (x,t)\longmapsto(t,\widetilde L_1(x,t),\ldots,
+                                     \widetilde L_m(x,t))
+\]
+is injective: $t$ and a unary restriction $x_j-ct$ for each original or gate coordinate recover all coordinates. Let $M$ be the column matroid of the generator matrix of its image code, of rank $v+1$. Every full-support codeword has $t\ne0$; its normalized word gives a point of $U$, and its scale is the nonzero scalar $t$. Inclusion and exclusion over all extensions gives the polynomial identity
+\begin{equation}
+\label{ar:eq:matroid}
+ \chi_M(s)=(s-1)C(s),\qquad
+ \chi_M(q)=(q-1)S,\qquad \chi_M(0)=-C(0)\equiv-S\pmod q.
+\end{equation}
+Here $\chi_M(s)=\sum_I(-1)^{|I|}s^{v+1-\operatorname{rank}(I)}$.
+For the column index set $\mathcal E=\{0,\ldots,m\}$, the Tutte polynomial is
+\[
+ T_M(u_1,u_2)=\sum_{I\subseteq\mathcal E}
+ (u_1-1)^{\operatorname{rank}M-\operatorname{rank}(I)}
+ (u_2-1)^{|I|-\operatorname{rank}(I)},
+\]
+where $u_1,u_2$ are formal variables.
+Björklund and Kaski (2020, \S1.3, Theorem~5, pp.~3--4)~\cite{st-bk} recall the Crapo--Rota critical theorem: the number of $e$-tuples of codewords with full combined support is $(-1)^{\operatorname{rank}M}T_M(1-q^e,0)$. The case $e=1$ gives the full-support interpretation above. The extension-field relation in their Lemma~6 concerns tuples over the base field; it does not assert that the SAT bijection persists after extension.
+
+\begin{example}[An asserted binary OR]
+\label{ar:example}
+Over $\mathbb F_3$, take $\eta=2$ and the six factors
+\[
+ a-2,\ b-2,\ z-2,\ b-1+2z,\ a-2b+z-1,\ z.
+\]
+Their complement has the three ground-field points $(1,0,1)$, $(0,1,1)$, $(1,1,1)$. Inclusion and exclusion yields
+\[
+ C(s)=s^3-6s^2+14s-12,
+\]
+so its zeta function is
+\[
+ Z(U,T)=\frac{(1-T)^{12}(1-9T)^6}
+                  {(1-3T)^{14}(1-27T)}.
+\]
+The central characteristic polynomial is $s^4-7s^3+20s^2-26s+12$. Over $\mathbb F_4$, use a root $\eta$ of $\eta^2+\eta+1$, the six unary factors excluding $\eta,\eta+1$, the same two gate factors, and $z$. The arrangement polynomial is $s^3-9s^2+30s-37$, giving three points over $\mathbb F_4$ and $2235$ over $\mathbb F_{16}$. The respective constant terms satisfy the asserted residue congruence.
+\end{example}
+
+The affine binomial $y\prod_iw_i-1$ thus realizes the full-support condition for the affine image code under its linear constraints. Its monomial support includes every $w_i$. The number of accompanying linear equations grows with the factor list. This presentation makes precise why a single sparse nonlinear equation can remain hard when many linear constraints and unbounded monomial support are permitted.

@@ -1,0 +1,80 @@
+\section{Uniform primes and a yes-or-no oracle}\label{sec:uniform}
+This section makes the assignment-count shifts parsimonious and removes a circularity in choosing primes for the sparse-list construction.
+
+\begin{lemma}[Unique gate extensions]\label{lem:tseitin}
+Any fan-in-two Boolean circuit can be converted in linear time to a width-three CNF whose satisfying assignments correspond bijectively to primary inputs on which the circuit outputs one.
+\end{lemma}
+\begin{proof}
+Give each gate a new output bit $t$. For an AND gate $t=u\wedge v$ use
+\[
+(\neg t\vee u),\quad(\neg t\vee v),\quad(t\vee\neg u\vee\neg v).
+\]
+For an OR gate $t=u\vee v$ use
+\[
+(t\vee\neg u),\quad(t\vee\neg v),\quad(\neg t\vee u\vee v).
+\]
+For $t=\neg u$ use $(t\vee u)$ and $(\neg t\vee\neg u)$. A constant is enforced by a unit clause. Inspecting the two or four input patterns proves that each collection forces exactly its indicated output. Induction in gate order gives one legal wire word for each primary input. A positive unit clause on the final output selects the accepted inputs. All clauses have width at most three.
+\end{proof}
+
+\begin{lemma}[An exact additive shift]\label{lem:shift}
+Given a formula $\Phi$ on $n$ primary bits with $S$ solutions and an integer $0\le a<p$, a width-three formula with exactly $S+a$ solutions can be constructed with $O(|\Phi|+\log p)$ variables and clauses.
+\end{lemma}
+\begin{proof}
+Let $k=\lceil\log_2p\rceil$, let $z$ be a $k$-bit word, and add a switch $b$. Build the Boolean circuit
+\[
+(\neg b\wedge\Phi(x)\wedge[z=0])\ \vee\
+(b\wedge[x=0]\wedge[z<a]).
+\]
+The first branch contributes precisely $S$ primary words and the second precisely $a$. Every bit unused in a branch is fixed there, so there is no spurious power-of-two factor. To compute $z<a$, read the bits from most significant to least. Maintain bits $E$ and $L$ meaning that the prefixes are equal or that the prefix of $z$ is smaller; initialize $(E,L)=(1,0)$. At a constant bit $a_j=0$, replace $E$ by $E\wedge\neg z_j$ and leave $L$ unchanged. At $a_j=1$, replace
+\[
+L\ \text{by}\ L\vee(E\wedge\neg z_j),\qquad
+E\ \text{by}\ E\wedge z_j,
+\]
+using the old $E$ in the first update. At most four elementary gates per bit suffice, including negation. This also handles $a=0$, when the final comparison is always false. Use binary trees for the conjunctions and apply Lemma~\ref{lem:tseitin}. All gate values remain uniquely determined even on an unselected branch, so the final CNF has exactly $S+a$ satisfying assignments.
+\end{proof}
+
+\begin{proposition}[Uniform reconstruction]\label{prop:uniform}
+A scalar-evaluation oracle for the smooth circuit hypersurfaces, uniform over polynomially bounded primes, computes $\SAT$ with $n+1$ queries and polynomial additional work. A uniform yes-or-no oracle for nonvanishing, or equivalently for Frobenius splitting on these inputs, decides satisfiability with $n+1$ queries and computes $\SAT$ with
+\[
+O(n^2\log(n+2))
+\]
+queries. The reductions use only primes of polynomial magnitude, and every query is a proved smooth instance.
+\end{proposition}
+\begin{proof}
+Take the first $n+1$ primes. Their product is strictly greater than $2^n$, and their largest is $O((n+1)\log(n+2))$, by \citet[Corollary to Theorem~3, (3.13), p.~69]{root-rosser-schoenfeld}. Deterministic sieving finds them in polynomial time. Theorem~\ref{thm:main} produces circuits in time polynomial in $|\Phi|+p$. Their residues determine the unique integer $S\in[0,2^n]$ by the Chinese remainder theorem.
+
+For decision alone, if $S=0$ every prime gives zero; if $0<S\le2^n$, not all of these primes can divide $S$. Thus the disjunction of the nonvanishing answers decides satisfiability. At one fixed prime a satisfiable formula may have zero residue, so one prime alone does not suffice for this argument.
+
+For exact reconstruction from a yes-or-no oracle, for each selected prime query the shifted formulas of Lemma~\ref{lem:shift} for all $0\le a<p$. Exactly one shift has zero scalar. If it is $a_0$, then $S\equiv-a_0\pmod p$. The number of calls is at most the sum of the first $n+1$ primes, bounded by $(n+1)$ times their largest, giving the displayed estimate. All shifted formulas have polynomial length. Chinese remainder arithmetic has polynomial bit cost since its total modulus has polynomial binary length.
+\end{proof}
+
+The uniformity here is in the numerical prime $p$, not merely in $\log p$. A uniform polynomial-time evaluator or decision algorithm in this model would compute $\#\mathrm P$ functions in deterministic polynomial time. The fixed-prime theorem makes the more limited modular-counting assertion.
+
+\begin{proposition}[Separate tags give sparse lists]\label{prop:sparse-tags}
+Let the local factors $P_f,Q_i$ in \eqref{eq:incidence} be $A_1,\ldots,A_s$, of degrees $k_i$ summing to $b$. If $p>s$, there is a polynomial-length explicit sparse polynomial whose smooth stabilization has coherent scalar $S\bmod p$. Both scalar and yes-or-no uniform reconstruction can be performed using only such sparse-list inputs at polynomially bounded primes.
+\end{proposition}
+\begin{proof}
+Pad the factor list to $p-1$ entries by constants one, of degree zero. Partition the $b$ incidence coordinate indices into sets $I_i$ of cardinalities $k_i$. For $Z=\prod_{j=1}^b w_j$, put $M_i=\prod_{j\notin I_i}w_j$. Give each factor a different tag and set
+\[
+G_{\mathrm{list}}=-t_1^{p-1}M_1A_1+
+             \sum_{i=2}^{p-1}t_i^{p-1}M_iA_i.
+\]
+Every summand has degree $b+p-1$, equal to the number of variables. Distinct tags force one choice of each summand in the $(p-1)$st power. Since each coordinate is omitted by exactly one $M_i$,
+\[
+\prod_iM_i=Z^{p-2},\qquad
+h_p(G_{\mathrm{list}})=-(p-1)![Z]\prod_iA_i=S.
+\]
+There are at most $8s+(p-1-s)$ displayed terms before combining equal exponents. Padding and stabilization add only polynomially many terms and binary exponent bits. The tag attached to a factor is essential: a common tag would not force the local factors to be chosen separately.
+
+For scalar queries, take the first $n+1$ primes greater than $s$. Their largest is at most the $(s+n+1)$st prime, so it is polynomially bounded and their product is greater than $2^n$.
+
+For yes-or-no queries the primes must exceed the factor counts of \emph{all} shifted formulas. Here is a bound chosen in advance. Let $L\ge2$ dominate the original variable and clause counts and circuit description length. The construction in Lemma~\ref{lem:shift} can be made with at most
+\[
+100(L+\lceil\log_2p\rceil+3)
+\]
+clause and variable factors combined; this follows by using at most six gates per original clause, two gates per bit for each zero test, four per comparison bit, and at most three clauses per gate. Set $B=10^6(L+2)^2$ and take the first $n+1$ primes greater than $B$. They occur among the first $B+n+1$ primes. The same cited bound implies $p_j<j^2$ for $j\ge6$, giving
+\[
+p<(B+n+1)^2=:P.
+\]
+Thus $\lceil\log_2p\rceil\le\lceil\log_2P\rceil$, and the displayed factor bound is strictly smaller than $B$ for every $L\ge2$. For example, $\log_2(B+L+1)\le21+2\log_2(L+2)$, and substitution makes the inequality immediate. Consequently \emph{every} shift at \emph{every} selected prime satisfies $p>s$. Sieving through $P$, constructing the queries, and making at most $(n+1)P$ calls all take polynomial time in $L$. The bound is deliberately coarse; its purpose is to make prime selection independent of the shifts. The same Chinese remainder argument completes reconstruction.
+\end{proof}

@@ -1,0 +1,541 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=28mm]{geometry}
+\usepackage{microtype,xcolor}
+\usepackage[authoryear,round]{natbib}
+\usepackage{xurl}
+\usepackage[colorlinks=true,allcolors=blue!50!black]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\ZZ}{\mathbf Z}
+\newcommand{\QQ}{\mathbf Q}
+\newcommand{\FF}{\mathbf F}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Lie}{\operatorname{Lie}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\cris}{\mathrm{cris}}
+\newcommand{\dR}{\mathrm{dR}}
+\newcommand{\act}{\mathrm{act}}
+\newcommand{\base}{\mathrm{base}}
+\newcommand{\PD}{\mathrm{PD}}
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/schemes-and-moduli-workbench}
+\newcommand{\recordurl}{https://github.com/KokunoYumeto/mathematics-workbenches}
+\title{Grothendieck's Lubin--Tate lattice question\\and the ramification threshold $e=p$}
+\author{}
+\date{23 November 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Grothendieck's crystalline notes ask how the tangent lattice and the full de Rham Dieudonn\'e lattice of a Lubin--Tate group compare with their special-fibre counterparts. For the ring of integers of every finite extension of $\QQ_p$, we prove that his normalized tangent exponent is zero. The two full integral lattices are equal precisely when the absolute ramification index is at most $p$. Both assertions include $p=2$, arbitrary residue degree, and arbitrary Eisenstein equations. The proof uses Lau's all-prime window classification and crystalline comparison, together with the Lubin--Tate characterization of the formal group. An explicit convergent comparison product makes the tangent equality visible; one coefficient of that product proves the necessity of the full-lattice threshold. Thus equality on the tangent quotient does not imply equality of the full integral structures. The mathematics and text were produced by GPT-6 Astra (ChatGPT Pro mode) and checked by the same model through separate reconstructions and complete proof and source readings; no human has checked them.
+\end{abstract}
+
+\section{Grothendieck's two lattice questions}\label{sec:introduction}
+
+This paper determines exactly when the rational crystalline comparison for a Lubin--Tate group preserves its tangent lattice and its full integral lattice. Grothendieck separates these questions in his crystalline notes. On printed archive sheet~47 of cote~8, he describes the rational tangent quotient. On printed sheet~49 he introduces an exponent $\alpha$ measuring its integral lattice and asks whether the two full lattices are equal: ``on peut se demander si ces sous-r\'eseaux sont les m\^emes'' \citep[cote~8, printed sheets~47 and~49, PDF images~48 and~50]{Grothendieck}. The answer to the tangent question is uniform in the ramification. The answer for the full lattice has a sharp boundary, including a boundary case beyond the usual small-ramification divided-power argument.
+
+Here is the precise setup. Let $p$ be any prime, let $K/\QQ_p$ be a finite extension, and let $A=\OO_K$. Write
+\[
+ k=\FF_q,\qquad q=p^f,\qquad W=W(k),\qquad
+ e=v_A(p),\qquad v_A(\pi)=1,
+\]
+where $\pi$ is a chosen uniformizer. Let $G$ be a Lubin--Tate formal $A$-module for $\pi$, regarded also as a $p$-divisible group of height $ef$ and dimension one. Thus the endomorphism $[\pi]$ has derivative $\pi$ and its reduction is the $q$-power Frobenius.
+
+We use the normalized rank-one $A$-lattice $\Omega$ of the special Dieudonn\'e module in Grothendieck's notation. More explicitly, its contravariant special module has the tensor presentation
+\begin{equation}\label{eq:omega}
+ M_0=\Omega\otimes_{\ZZ_p}W.
+\end{equation}
+The $f$ unramified factors are identified by their cyclic Frobenius maps, with the full cycle equal to multiplication by $\pi$. The single noninvertible step is fixed by the identity embedding of $W$ in $A$. Taking one factor and the other $f-1$ invertible steps gives \eqref{eq:omega}; changing an integral generator changes it by an $A$-unit. This is the normalization described on printed sheets~33--45 of the notes. Section~\ref{sec:window} realizes it explicitly, so the proof does not require choosing a rational generator of $\Omega$.
+
+Let $M_{\dR}$ be the integral contravariant de Rham Dieudonn\'e module of $G$, obtained by evaluating its crystal on the de Rham base. Its rank over $A$ is $ef$. The rational crystalline comparison identifies
+\begin{equation}\label{eq:comparison-intro}
+ M_{\dR}[1/p]\simeq M_0\otimes_W K.
+\end{equation}
+We normalize this comparison by the identity on the special module. Equivalently, on the divided-power presentation constructed below it is the $A$-linear Frobenius-compatible comparison whose value at the special lift is the identity. Its existence, uniqueness, and convergent formula are proved in Section~\ref{sec:comparison}. We compare inside the right side of \eqref{eq:comparison-intro} the transported lattice $M_{\dR}$ with
+\begin{equation}\label{eq:constant-lattice}
+ M_{\mathrm{const}}=M_0\otimes_W A
+   =\Omega\otimes_{\ZZ_p}A.
+\end{equation}
+An abstract isomorphism between free $A$-modules is not the comparison in this question: the embeddings into the common rational module matter.
+
+The dual convention is equally important. Put
+\begin{equation}\label{eq:L}
+ L=\Omega^\vee=\Hom_{\ZZ_p}(\Omega,\ZZ_p).
+\end{equation}
+This is a free rank-one $A$-module with the induced $A$-action. The rational tangent quotient of the covariant dual of \eqref{eq:comparison-intro} identifies $\Lie(G)\otimes_A K$ with $L\otimes_A K$. Let $t_G$ denote the image of the integral tangent module in that line. Grothendieck's exponent is defined by
+\begin{equation}\label{eq:alpha}
+ t_G=\pi^{-\alpha(A)}L.
+\end{equation}
+The dual in \eqref{eq:L} is over $\ZZ_p$. Replacing it by $\Hom_A(\Omega,A)$ would change the normalization by the different.
+
+\begin{theorem}[The tangent lattice]\label{thm:tangent}
+For every prime $p$, every finite extension $K/\QQ_p$, and every Lubin--Tate formal $A$-module for the chosen uniformizer $\pi$, the normalized rational comparison above satisfies
+\[
+ t_G=\Omega^\vee.
+\]
+Consequently $\alpha(A)=0$, with no restriction on the absolute ramification index or residue degree.
+\end{theorem}
+
+\begin{theorem}[The full integral lattices]\label{thm:threshold}
+Under the same hypotheses and the same normalization, the two full contravariant lattices in \eqref{eq:comparison-intro} satisfy
+\[
+ M_{\dR}=M_{\mathrm{const}}
+ \quad\Longleftrightarrow\quad e\le p.
+\]
+The equivalent assertion holds for their covariant duals. The criterion is independent of the residue degree and of the coefficients of an Eisenstein equation for $\pi$.
+\end{theorem}
+
+\begin{corollary}\label{cor:counterexample}
+For every prime $p$, the Eisenstein extension
+\[
+ A=\ZZ_p[\pi],\qquad \pi^{p+1}=p,
+\]
+has $\alpha(A)=0$ but unequal full integral de Rham and special-fibre lattices. The first possible absolute ramification index for this inequality is $p+1$.
+\end{corollary}
+
+These results answer different parts of Grothendieck's question. The tangent lattice is always the expected integral line. The full crystal carries more integral information, and that information first changes at ramification $p+1$. In particular, a calculation of the Hodge quotient alone cannot decide equality of the full lattices. The assertion at $e=p$ is included, and the examples in Section~\ref{sec:examples} show the change directly for $p=2$.
+
+\paragraph{Published inputs and the calculation here.}
+The general classification of $p$-divisible groups by windows and the evaluation of their crystals are known theorems. We use \citet[Remark~6.3 and Corollary~6.7, pp.~2245--2248; Proposition~7.1, pp.~2248--2249]{Lau}, in the version valid also at $p=2$. The comparison underlying that proposition is Theorem~7.2, pp.~2249--2254. We use \citet[Lemma~1 and Theorem~1, pp.~381--383, and the criterion following Theorem~1 on p.~383]{LubinTate} to identify the group of the explicit window with the Lubin--Tate group. These results, including perfect-field Dieudonn\'e theory and its duality conventions, are inputs. The explicit comparison product, its effect on the tangent quotient, and the coefficient calculation giving the exact threshold are proved here. No priority claim is made.
+
+\paragraph{Related integral comparisons.}
+The surrounding classification theory addresses several kinds of integral lattice. \citet[Theorem~(0.1), p.~442]{KisinRen} classify Galois-stable $\OO_L$-lattices in $L$-crystalline representations by analytic $(\varphi_q,\Gamma)$-modules under their Lubin--Tate extension hypotheses. \citet[Theorem~1 and introduction, author-version pp.~2--3]{CaisLau} give, for $p>2$ and cyclotomic base fields, a classification of $p$-divisible groups that also recovers their Dieudonn\'e crystals by a Frobenius base change. Their explanation of that base change is closely related to the distinction between $Q$ and $Q^{(\sigma)}$ used here.
+
+Prismatic formulations extend the representation-theoretic setting. \citet[Theorem~1.3, pp.~788--789]{Marks} identifies Laurent $F$-crystals on the $L$-typical prismatic site of a bounded formal $\OO_L$-scheme with $\OO_L$-local systems on its generic fibre. \citet[Theorem~1.5, version~2, p.~2]{Pham} identifies the corresponding prismatic $F$-crystals with lattices in $E$-crystalline representations. More specifically, \citet[Section~3.2, Proposition~3.2.1, p.~31]{SchneiderVenjakob} determine the determinant of a Galois--crystalline comparison relative to the lattice obtained from a Wach module. The two lattices in Theorem~\ref{thm:threshold} are instead the de Rham evaluation and the scalar extension of a fixed special-fibre lattice under their normalized comparison. The cited results provide context for that distinction; the proof inputs remain the window and crystalline theorems of Lau and the characterization of Lubin--Tate groups stated above.
+
+At the rational level, \citet[Theorem~1.1, pp.~1--2]{OpenAI} proves that pairing a specialized rational Hodge class with complementary products of divisor classes after good reduction of an abelian variety gives the same rational number in crystalline cohomology and in every prime-to-$p$ realization. That result is context only. The present question concerns the integral information that a rational comparison and its tangent quotient can leave undetermined.
+
+\paragraph{Why the proof works.}
+There are two copies of $A$: one acts by endomorphisms, and the other is the base ring. Keeping their uniformizers separate, the window has one factor $\pi_{\act}-u$ and is trivial on the other unramified factors. Lau's crystalline module is its Frobenius pullback. This is why the comparison product begins with $u^p/\pi_{\act}$, which places its integral boundary at $e=p$. On the tangent quotient the two copies of $A$ are multiplied together, and every factor becomes a unit. In the full tensor product, however, when $e>p$ the coefficient of $\pi_{\act}^{e-1}$ has valuation $p-e$. A bound on every remaining term shows that this coefficient cannot cancel, even for an arbitrary Eisenstein equation and arbitrary residue degree.
+
+\section{The two actions and the integral dual}\label{sec:normalization}
+
+We separate the two $A$-actions in order to identify exactly which quotient defines the tangent lattice. Write
+\[
+ a=\pi_{\act},\qquad b=\pi_{\base},\qquad
+ R=A_{\act}\otimes_{\ZZ_p}A_{\base}.
+\]
+The subscript records an action, not a different local field. The multiplication map is
+\begin{equation}\label{eq:mu}
+ \mu:R\longrightarrow A,\qquad x\otimes y\longmapsto xy.
+\end{equation}
+The constant covariant module is $L\otimes_{\ZZ_p}A$. Its identity quotient is
+\begin{equation}\label{eq:constant-quotient}
+ (L\otimes_{\ZZ_p}A)\otimes_{R,\mu}A=L.
+\end{equation}
+After inverting $p$, this is the rational line used in \eqref{eq:alpha}.
+
+The tensor duality in these formulas is literal. The perfect pairing
+\[
+ \Omega\times L\longrightarrow\ZZ_p
+\]
+extends to perfect pairings over $W$ and over $A_{\base}$. In particular, the covariant special module is $L\otimes_{\ZZ_p}W$, and the two full contravariant lattices are equal if and only if their perfect $A_{\base}$-duals are equal. This permits us to compute throughout with the covariant window.
+
+For clarity, the different explains why the choice of dual cannot be suppressed. Under the trace pairing, the $\ZZ_p$-dual of $A$ is the inverse different
+\[
+ A^\vee=\{x\in K:\operatorname{Tr}_{K/\QQ_p}(xA)\subseteq\ZZ_p\}
+       =\mathfrak D_{A/\ZZ_p}^{-1}.
+\]
+This is the trace-dual lattice and the definition of the inverse different in \citet[Chapter~III, Section~2, Proposition~4, p.~49; Section~3, p.~50]{Serre}.
+Thus an $A$-basis of $\Omega$ does not identify its $\ZZ_p$-dual with $A$ by the same pairing. On the other hand, the ordinary cotangent dual of the tangent $A$-line $L$ is $\Hom_A(L,A)$. The proof will use \eqref{eq:alpha} and \eqref{eq:constant-quotient} directly, so no change between these duals is implicit.
+
+Let $e_i$, for $i\in\ZZ/f\ZZ$, be the unramified idempotents of $A_{\act}\otimes_{\ZZ_p}W$. Choose their indexing so that $e_0$ is the identity factor and Witt Frobenius on the second factor satisfies
+\begin{equation}\label{eq:idempotents}
+ \sigma(e_i)=e_{i-1}.
+\end{equation}
+They extend to all the tensor algebras below. The multiplication map kills $e_i$ for $i\ne0$ and sends $e_0$ to one. In particular, it is only after applying $\mu$ that the symbols $a$ and $b$ may be identified.
+
+\section{A window for the Lubin--Tate group}\label{sec:window}
+
+We construct the integral window and verify that its group is the specified Lubin--Tate group. Let $E(u)$ be an Eisenstein equation for $\pi$ over $W$, multiplied by a $W$-unit so that its constant term is $p$. Write
+\begin{equation}\label{eq:E}
+ E(u)=p+\sum_{j=1}^{e-1}pc_j u^j+c_eu^e,
+ \qquad c_j\in W,\quad c_e\in W^\times.
+\end{equation}
+Set $\mathfrak S=W[[u]]$ and extend Witt Frobenius by $\sigma(u)=u^p$. On
+\[
+ \Lambda=A_{\act}\otimes_{\ZZ_p}\mathfrak S
+\]
+it acts as the identity on $A_{\act}$. Define
+\begin{equation}\label{eq:z}
+ z(u)=1-e_0+e_0(a-u),\qquad z_0=1-e_0+e_0a.
+\end{equation}
+In the identity factor $E(a)=0$, so $a-u$ divides $E(u)$. On the other factors $z=1$. Hence
+\begin{equation}\label{eq:Eoverz}
+ E(u)/z(u)\in\Lambda.
+\end{equation}
+
+Take
+\[
+ Q=L\otimes_{\ZZ_p}\mathfrak S.
+\]
+It is free of rank $ef$ over $\mathfrak S$ and invertible over $\Lambda$. The canonical tensor identification
+\[
+ Q^{(\sigma)}=\mathfrak S\otimes_{\sigma,\mathfrak S}Q
+       \simeq L\otimes_{\ZZ_p}\mathfrak S
+\]
+is $s\otimes(\ell\otimes t)\mapsto\ell\otimes s\sigma(t)$. Define the linear map
+\begin{equation}\label{eq:phi}
+ \varphi:Q\longrightarrow Q^{(\sigma)},\qquad x\longmapsto z(u)x.
+\end{equation}
+It is injective. Its cokernel is killed by $E$, since multiplication by $E/z$ is a complementary map, and it is the free rank-one $A$-module $L$. Indeed, the nonidentity factors vanish in the quotient, while the identity factor is quotiented by $a-u$. The quotient identifies the endomorphism action with the base action. These are the conditions for this pair to be a Breuil window.
+
+For this choice of $\sigma$, the hypotheses in \citet[Remark~6.3]{Lau} hold. His Corollary~6.7 consequently associates a $p$-divisible group to \eqref{eq:phi} for every prime, including $2$. We now check which group it is; the classification alone would not identify an arbitrarily chosen window with $G$.
+
+\begin{lemma}\label{lem:LT-identification}
+The group of \eqref{eq:phi} is a one-dimensional Lubin--Tate formal $A$-module for $\pi$. Its special covariant lattice is $L\otimes_{\ZZ_p}W$ with the tensor-dual normalization of Section~\ref{sec:normalization}.
+\end{lemma}
+
+\begin{proof}
+The height is $ef$, the rank of $Q$, and the tangent quotient has rank one. The action of $A$ on that quotient is its structural action, by the description of the cokernel above. At $u=0$, the covariant Frobenius provided by Lau's comparison is
+\begin{equation}\label{eq:F0}
+ F_0=\sigma(p/z_0)\,\sigma.
+\end{equation}
+In a full cycle the unramified factors of $z_0$ multiply to $a$. Since $\sigma^f$ is the identity on $W$, it follows that
+\[
+ F_0^f=p^f/a,\qquad V_0^f=a.
+\]
+Here $F_0V_0=p$, and the second formula uses the covariant convention. In that convention Verschiebung is the operator induced by the group Frobenius. Equivalently, on the contravariant module the full-cycle Frobenius is $a$. This has positive slope $1/(ef)$, so the special group is connected. The $p$-divisible group over the complete local ring $A$ is therefore formal. Its tangent rank is one, so it has one formal parameter.
+
+The equality $V_0^f=a$ and the faithfulness of perfect-field Dieudonn\'e theory identify $[\pi]$ on the special formal group with $q$-power Frobenius. In a formal parameter its reduction is $T^q$. Its derivative is $\pi$, since the $A$-action on the tangent line is structural. The criterion immediately following \citet[Theorem~1, p.~383]{LubinTate} now identifies the formal group with a Lubin--Tate group for $\pi$.
+
+The pairing between $L$ and $\Omega$ gives its contravariant special lattice $\Omega\otimes_{\ZZ_p}W$. In these tensor coordinates its Frobenius is $\sigma(z_0)\sigma$, so the cyclic normalization in \eqref{eq:omega} is exactly the one just calculated. A cyclic change of indexing can move the distinguished factor but cannot rescale the underlying lattice by a power of $\pi$. Finally, the integral isomorphisms between the Lubin--Tate groups for $\pi$ act on their normalized lines by $A$-units \citep[Lemma~1 and Theorem~1, pp.~381--383]{LubinTate}. Transporting the calculation to the chosen $G$ thus preserves both the tangent exponent and equality of the full lattices.
+\end{proof}
+
+Let $S$ be the $p$-adic completion of the divided-power envelope of $(E)$ in $\mathfrak S$, with divided powers compatible with the canonical ones on $(p)$. It has evaluation maps
+\[
+ S\longrightarrow W,\quad u\longmapsto0,
+ \qquad
+ S\longrightarrow A,\quad u\longmapsto b.
+\]
+The first is allowed because $E(0)=p$; the second because $E(b)=0$. Lau's Proposition~7.1 gives the following formulas, with their integral meaning:
+\begin{equation}\label{eq:P-F}
+ P=S\otimes_{\mathfrak S}Q^{(\sigma)},\qquad
+ F=B(u)\sigma,\qquad B(u)=\sigma\bigl(E(u)/z(u)\bigr).
+\end{equation}
+The Hodge submodule is generated by $\varphi(Q)$ and the kernel of $S\to A$. In particular,
+\begin{equation}\label{eq:Lie}
+ P_A=L\otimes_{\ZZ_p}A,
+ \qquad \Lie(G)=P_A/z(b)P_A=L,
+\end{equation}
+where the final quotient is \eqref{eq:constant-quotient}. Notice the Frobenius pullback $Q^{(\sigma)}$ in \eqref{eq:P-F}. The linear window map \eqref{eq:phi} and the semilinear crystalline Frobenius are different maps; the first Frobenius pullback is responsible for the first exponent $p$ in the comparison below.
+
+\section{The normalized crystalline comparison}\label{sec:comparison}
+
+We construct the comparison by a convergent Frobenius product and prove its normalization and uniqueness. Set
+\begin{equation}\label{eq:HU}
+ H(u)=E(u)/p,\qquad U(u)=z(u)/z_0=1-e_0u/a.
+\end{equation}
+These expressions are considered after $p$ is inverted. We will prove that
+\begin{equation}\label{eq:C}
+ C(u)=\prod_{n\ge1}\frac{\sigma^n(U(u))}{\sigma^n(H(u))}
+\end{equation}
+is an invertible element of $(A_{\act}\otimes_{\ZZ_p}S)[1/p]$. It will give the comparison from the covariant crystal to its constant special module. Thus the contravariant comparison has the dual orientation.
+
+\begin{lemma}[Convergence in the divided-power envelope]\label{lem:convergence}
+The product \eqref{eq:C} and its inverse converge with bounded denominators in $(A_{\act}\otimes_{\ZZ_p}S)[1/p]$. Its $n$th numerator factor is
+\begin{equation}\label{eq:numerator-factor}
+ 1-e_{-n}u^{p^n}/a.
+\end{equation}
+The value of the product at $u=0$ is one.
+\end{lemma}
+
+\begin{proof}
+The divided-power description gives $u^{em}/m!\in S$ for every $m\ge0$; see \citet[Remark~7.11, p.~2254]{Lau}. One can also see this from \eqref{eq:E}: $u^e$ belongs to the ideal generated by $E$ and $p$, which carries the divided powers. Consequently, for integers $N,r\ge0$,
+\begin{equation}\label{eq:PD-estimate}
+ \frac{u^N}{p^r}\in
+ p^{v_p(\lfloor N/e\rfloor!)-r}S.
+\end{equation}
+In particular, $u$ is topologically nilpotent in $S$.
+
+Equation~\eqref{eq:numerator-factor} follows from \eqref{eq:idempotents}. Since $a^{-1}\in p^{-1}A_{\act}$, its deviation from one tends to zero $p$-adically by \eqref{eq:PD-estimate}. Each element $T_n=u^{p^n}/a$ is itself topologically nilpotent after $p$ is inverted. Indeed, $a^e=p$ times an $A_{\act}$-unit, so
+\begin{equation}\label{eq:T-powers}
+ T_n^{em}\in
+ p^{v_p((p^nm)!)-m}(A_{\act}\otimes_{\ZZ_p}S).
+\end{equation}
+The exponent tends to infinity: by Legendre's formula it is
+$(p^n/(p-1)-1)m+O(\log m)$, with positive linear coefficient for $n\ge1$. The finitely many remaining residue classes of powers modulo $e$ do not change this conclusion. Thus \eqref{eq:numerator-factor} has an inverse given by its geometric series. The series has a bounded denominator because its terms tend to zero in a fixed integral lattice after multiplication by a sufficiently large power of $p$.
+
+For the denominator, \eqref{eq:E} gives
+\begin{equation}\label{eq:denom-factor}
+ \sigma^n(H(u))
+ =1+\sum_{j=1}^{e-1}\sigma^n(c_j)u^{jp^n}
+    +\sigma^n(c_e)u^{ep^n}/p.
+\end{equation}
+Each nonconstant term is topologically nilpotent. For the last one, the $m$th power lies in
+$p^{v_p((p^nm)!)-m}S$, again tending to zero. The other terms are powers of $u$. A finite sum of commuting topologically nilpotent elements is topologically nilpotent; this follows by expanding a high power and applying the multinomial formula. Hence each factor in \eqref{eq:denom-factor} is an $S$-unit. Its deviation from one tends to zero as $n\to\infty$, by \eqref{eq:PD-estimate}.
+
+All but finitely many numerator factors, their inverses, and the denominator factors belong to $1+p^m(A_{\act}\otimes S)$ for arbitrarily large $m$. The finite initial product and its inverse each have a bounded denominator. Completeness then proves convergence of both infinite products with a bounded denominator. Finally every factor has value one at $u=0$.
+\end{proof}
+
+\begin{proposition}\label{prop:comparison}
+Multiplication by $C(u)$ is the normalized covariant rational crystalline comparison. In particular it carries the integral de Rham lattice to
+\begin{equation}\label{eq:transported}
+ C(b)(L\otimes_{\ZZ_p}A)
+\end{equation}
+inside the constant rational module.
+\end{proposition}
+
+\begin{proof}
+Shifting the product indices in \eqref{eq:C} gives
+\begin{equation}\label{eq:functional}
+ \frac{C}{\sigma(C)}=\frac{\sigma(U)}{\sigma(H)}.
+\end{equation}
+Together with \eqref{eq:P-F} and \eqref{eq:F0}, this is exactly
+\begin{equation}\label{eq:F-compatible}
+ C(u)B(u)=B_0\sigma(C(u)),\qquad B_0=\sigma(p/z_0).
+\end{equation}
+Thus the map is $A_{\act}$-linear, Frobenius-compatible, and equal to the identity at $u=0$.
+
+These conditions determine it uniquely. The source and target are invertible modules over the same coefficient tensor algebra. The ratio of two such maps is multiplication by a unit $T(u)$ satisfying
+\[
+ T(u)=\sigma(T(u)),\qquad T(0)=1.
+\]
+The divided-power algebra embeds after inversion of $p$ in $K_0[[u]]$, where $K_0=\operatorname{Frac}(W)$; see \citet[Proposition~7.5, pp.~2250--2251]{Lau}. The same embedding holds after tensoring with $A_{\act}$. A first nonzero coefficient of positive degree in $T-1$ cannot equal its Frobenius transform: the latter first has that degree multiplied by $p$. Hence $T=1$.
+
+For completeness this identification respects the connection as well. Transport the crystalline connection by $C$ to the constant rank-one module over the coefficient tensor algebra. Its difference from the constant connection is a scalar one-form $\Gamma(u)\,du$, because it commutes with the $A$-action. Frobenius horizontality and \eqref{eq:F-compatible} give
+\[
+ \Gamma(u)=p u^{p-1}\sigma(\Gamma(u)).
+\]
+Inside the formal power-series algebra a first nonzero term of degree $r\ge0$ on the left would have degree $pr+p-1>r$ on the right. Thus $\Gamma=0$. The comparison is therefore the normalized crystalline one, not merely a comparison of abstract rational modules. Evaluating it at $u=b$ gives \eqref{eq:transported}.
+\end{proof}
+
+The convergence assertion is on the divided-power algebra and at the de Rham evaluation. It does not require a quotient of infinite products to be invertible on every point of the open $p$-adic unit disc. This distinction is useful because individual numerator factors can have zeros elsewhere on that disc.
+
+\section{The tangent quotient at every ramification index}\label{sec:tangent}
+
+We apply the multiplication quotient to the comparison product and show that its scalar is always a unit. To avoid ambiguity about Frobenius on the variable, let $E^{[n]}$ denote the polynomial obtained by applying Witt Frobenius $n$ times to its coefficients only. Then
+\begin{equation}\label{eq:delta}
+ \Delta=\prod_{n\ge1}\frac{E^{[n]}(b^{p^n})}{p}
+       \in A_{\base}^\times.
+\end{equation}
+Indeed, its $n$th factor is
+\begin{equation}\label{eq:delta-expand}
+ 1+\sum_{j=1}^{e-1}\sigma^n(c_j)b^{jp^n}
+   +\sigma^n(c_e)b^{ep^n}/p.
+\end{equation}
+Every nonconstant term has positive $b$-valuation. The last has valuation $e(p^n-1)>0$, and all these valuations tend to infinity. The product therefore converges to an $A$-unit for every $e$ and $f$.
+
+Set
+\begin{equation}\label{eq:N}
+ N=\prod_{n\ge1}(1-e_{-n}b^{p^n}/a).
+\end{equation}
+By Proposition~\ref{prop:comparison}, the evaluated comparison is
+\begin{equation}\label{eq:C-b}
+ C(b)=\Delta^{-1}N.
+\end{equation}
+The product converges in the finite-dimensional $K$-algebra $R[1/p]$. The quotient map $\mu$ sends the $n$th numerator factor to one unless $f\mid n$. If $f\mid n$, it sends that factor to $1-\pi^{p^n-1}$. Hence
+\begin{equation}\label{eq:tangent-product}
+ \mu(N)=\prod_{m\ge1}(1-\pi^{q^m-1})\in A^\times.
+\end{equation}
+The exponents are positive and tend to infinity, including when $p=2$ and $f=1$.
+
+\begin{proof}[Proof of Theorem~\ref{thm:tangent}]
+The kernel of the rational multiplication quotient is preserved by $C(b)$, since the comparison is linear over the commutative algebra $R[1/p]$. Equations~\eqref{eq:Lie}, \eqref{eq:transported}, and \eqref{eq:constant-quotient} therefore identify the transported tangent lattice with
+\[
+ t_G=\mu(C(b))L.
+\]
+Equations~\eqref{eq:delta} and \eqref{eq:tangent-product} show that its scalar is an $A$-unit. Thus $t_G=L=\Omega^\vee$, proving $\alpha(A)=0$.
+\end{proof}
+
+No divided powers on $\pi A$ have been used. The divided-power envelope $S$ in the comparison is a different ring and is available at every ramification index. This is why the argument for the tangent lattice has no small-ramification restriction.
+
+\section{The exact threshold for the full lattice}\label{sec:threshold}
+
+We now test integrality in the full tensor product and isolate a coefficient that detects every case $e>p$. Choose an $A_{\act}$-generator of $L$. The two covariant lattices become $C(b)R$ and $R$ in $R[1/p]$. Consequently
+\begin{equation}\label{eq:unit-test}
+ C(b)R=R
+ \quad\Longleftrightarrow\quad C(b)\in R^\times
+ \quad\Longleftrightarrow\quad N\in R^\times,
+\end{equation}
+where the last equivalence uses the $A_{\base}$-unit \eqref{eq:delta}. The tensor ring $R$ itself occurs in this test; replacing it by its normalization could discard the integral obstruction.
+
+\begin{lemma}\label{lem:sufficiency}
+If $e\le p$, then $N\in R^\times$.
+\end{lemma}
+
+\begin{proof}
+For every $n\ge1$,
+\begin{equation}\label{eq:split-integral}
+ \frac{b^{p^n}}a=\frac{b^{p^n}}p\frac pa.
+\end{equation}
+The second factor belongs to $A_{\act}$. The first belongs to $A_{\base}$ because $p^n\ge p\ge e$. Thus the product is integral in $R$.
+
+Both $a$ and $b$ belong to the Jacobson radical of $R$. In fact, $R$ is finite over the local ring $A_{\base}$, so every maximal ideal lies over $(b)$. The relation $a^e=p$ times an $A_{\act}$-unit makes $a$ nilpotent modulo $b$. If $p^n>e$, the first factor in \eqref{eq:split-integral} lies in $bA_{\base}$. If $p^n=e$, the assumptions force $n=1$ and $e=p\ge2$, and then $p/a$ lies in $aA_{\act}$. Thus $b^{p^n}/a$ belongs to the Jacobson radical in either case. Each factor of \eqref{eq:N} is consequently an $R$-unit.
+
+The valuations of $b^{p^n}/p$ tend to infinity. The product of these units and its inverse converge in the finite, $b$-adically complete algebra $R$. Therefore $N\in R^\times$. This proves the endpoint $e=p$ as well.
+\end{proof}
+
+For the converse, assume $e>p$ and project to the factor
+\[
+ R_*=e_{-1}R.
+\]
+It is $A_{\act}\otimes_{W,\tau}A_{\base}$ for one Frobenius automorphism $\tau$ of $W$. As an $A_{\base}$-module it is free with basis
+\begin{equation}\label{eq:acting-basis}
+ 1,a,a^2,\ldots,a^{e-1}.
+\end{equation}
+The twist applies a valuation-preserving automorphism to the coefficients of $E$ and preserves the unit property of its leading coefficient. We write $\widetilde c_j$ for their images. Let
+\[
+ \ell:R_*[1/p]\longrightarrow K
+\]
+select the coefficient of $a^{e-1}$ in \eqref{eq:acting-basis}. It is a continuous $K$-linear map. In this factor the numerator is
+\begin{equation}\label{eq:Nstar}
+ N_* =\prod_{n\in\mathcal S_f}(1-b^{p^n}/a),
+ \qquad \mathcal S_f=\{1,1+f,1+2f,\ldots\}.
+\end{equation}
+Thus the factor with exponent $p$ occurs for every residue degree.
+
+\begin{lemma}[The noncancelling coefficient]\label{lem:necessity}
+If $e>p$, then
+\begin{equation}\label{eq:exact-valuation}
+ v_b\bigl(\ell(N_*)\bigr)=p-e<0.
+\end{equation}
+In particular $N_*\notin R_*$ and $N\notin R$.
+\end{lemma}
+
+\begin{proof}
+Since $e>p\ge2$, we have $e\ge3$ and $\ell(1)=0$. Dividing the Eisenstein equation for $a$ by $pa$ gives
+\begin{equation}\label{eq:ainverse}
+ a^{-1}=-\sum_{j=1}^{e-1}\widetilde c_j a^{j-1}
+          -\frac{\widetilde c_e}{p}a^{e-1}.
+\end{equation}
+The contribution of the first nonconstant term in \eqref{eq:Nstar} is therefore
+\begin{equation}\label{eq:lead}
+ \ell(-b^p/a)=\widetilde c_e b^p/p,
+ \qquad v_b\bigl(\ell(-b^p/a)\bigr)=p-e.
+\end{equation}
+It remains to bound all other terms; the first factor being nonintegral alone would not exclude cancellation by the tail.
+
+For an integer $r\ge1$, put $h=\lceil r/e\rceil$. The element $p^ha^{-r}$ belongs to $A_{\act}$, because its $a$-valuation is $eh-r\ge0$. Expand it in the integral $W$-basis $1,a,\ldots,a^{e-1}$ and then apply the chosen embedding of $W$ into $A_{\base}$. Its coefficients remain integral. Hence
+\begin{equation}\label{eq:coeff-bound}
+ v_b\bigl(\ell(a^{-r})\bigr)\ge-e\lceil r/e\rceil.
+\end{equation}
+
+A nonempty finite subset $I\subset\mathcal S_f$ contributes the term
+\[
+ (-1)^r b^{s(I)}a^{-r},\qquad
+ r=|I|,\qquad s(I)=\sum_{n\in I}p^n.
+\]
+Its selected coefficient has valuation at least
+\begin{equation}\label{eq:term-bound}
+ s(I)-e\lceil r/e\rceil.
+\end{equation}
+The subset $I=\{1\}$ is the term in \eqref{eq:lead}. If $r=1$ and $I\ne\{1\}$, its index is at least two, so \eqref{eq:term-bound} is at least $p^2-e>p-e$. If $r\ge2$, use
+\[
+ e\bigl(\lceil r/e\rceil-1\bigr)\le r-1
+\]
+to obtain
+\begin{align}\label{eq:strict-bound}
+ s(I)-e\lceil r/e\rceil-(p-e)
+ &\ge s(I)-p-(r-1)\notag\\
+ &\ge(p-1)(r-1)>0.
+\end{align}
+Here every summand in $s(I)$ is at least $p$. The estimate also applies to arbitrarily large $r$ and does not require the lower Eisenstein coefficients to vanish.
+
+In each finite partial product containing the first factor, all other contributions to $\ell$ thus lie in $b^{p-e+1}A$. The partial products converge in $R_*[1/p]$, and $\ell$ is continuous. Since $b^{p-e+1}A$ is closed in $K$, we obtain
+\[
+ \ell(N_*)=\widetilde c_e b^p/p+z,
+ \qquad v_b(z)\ge p-e+1.
+\]
+The leading coefficient is a unit times $b^p/p$. The ultrametric inequality proves \eqref{eq:exact-valuation}. Membership in $R_*$ would require every coefficient in \eqref{eq:acting-basis} to be integral, so $N_*\notin R_*$. Projection of $R$ lands in $R_*$, giving $N\notin R$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:threshold} and Corollary~\ref{cor:counterexample}]
+For $e\le p$, Lemma~\ref{lem:sufficiency} and \eqref{eq:unit-test} give equality of the covariant lattices. For $e>p$, Lemma~\ref{lem:necessity} shows that $N$ is not even integral, so it cannot be a unit; the lattices are unequal. Perfect $A_{\base}$-duality gives the stated contravariant equivalence. This proves the theorem for all residue degrees and all Eisenstein coefficients. The ring in the corollary is Eisenstein of absolute ramification $p+1$, so the theorem gives inequality and Theorem~\ref{thm:tangent} gives $\alpha=0$.
+\end{proof}
+
+\section{The boundary in residue characteristic two}\label{sec:examples}
+
+We compute the two smallest boundary cases to exhibit the integral obstruction before and after the tangent quotient. More generally take $f=1$ and $A=\ZZ_p[b]$ with $b^e=p$. Then
+\[
+ E(u)=p-u^e,\qquad R=A[a]/(a^e-p),
+\]
+and the numerator and scalar denominator are
+\begin{equation}\label{eq:pure-products}
+ N=\prod_{n\ge1}(1-b^{p^n}/a),\qquad
+ \Delta=\prod_{n\ge1}(1-b^{e(p^n-1)}).
+\end{equation}
+The denominator is an $A$-unit. These formulas also make the general example at $e=p+1$ elementary: the first factor is
+\begin{equation}\label{eq:counter-first}
+ 1-b^p/a=1-b^{-1}a^p.
+\end{equation}
+Its coefficient of $a^p$ is not integral. Every later numerator factor is in $1+bR$, because
+\[
+ b^{p^n}/a=b^{p^n-(p+1)}a^p,
+ \qquad p^n-(p+1)\ge p^2-p-1\ge1
+ \quad(n\ge2).
+\]
+The tail is an $R$-unit and cannot repair the nonintegrality of \eqref{eq:counter-first}.
+
+\paragraph{Equality at $p=e=2$.}
+Let $A=\ZZ_2[b]$, $b^2=2$, and $R=A[a]/(a^2-2)$. Then
+\[
+ N=(1-a)(1-b^2a)(1-b^6a)\cdots,
+ \qquad
+ \Delta=(1-b^2)(1-b^6)(1-b^{14})\cdots.
+\]
+The first numerator factor is a unit because $a$ lies in the Jacobson radical. The remaining factors are in $1+bR$. The first denominator factor is $1-2=-1$, and the others are units converging to one. Hence $C(b)=\Delta^{-1}N$ is an $R$-unit: the full lattices are equal. On the tangent quotient,
+\[
+ \mu(N)=(1-b)(1-b^3)(1-b^7)\cdots\in A^\times,
+\]
+so the tangent exponent is zero as well.
+
+\paragraph{Inequality at $p=2$, $e=3$.}
+Now let $A=\ZZ_2[b]$, $b^3=2$, and $R=A[a]/(a^3-2)$. We obtain
+\[
+ N=(1-b^{-1}a^2)(1-ba^2)(1-b^5a^2)\cdots,
+ \qquad
+ \Delta=(1-b^3)(1-b^9)(1-b^{21})\cdots.
+\]
+In the $A$-basis $1,a,a^2$, the coefficient of $a^2$ in the first factor is $-b^{-1}$. The tail is an $R$-unit, and the denominator is an $A$-unit, so the full lattices are unequal. Nevertheless
+\[
+ \mu(1-b^{-1}a^2)=1-b\in A^\times,
+\]
+and the remaining tangent factors are also units. Thus $\alpha=0$. This example shows exactly where the nonintegral coefficient disappears: the multiplication quotient replaces $b^{-1}a^2$ by $b$.
+
+\section{Further integral information and method}\label{sec:scope}
+
+We distinguish the equality criterion proved here from the finer relative position of unequal lattices. Theorems~\ref{thm:tangent} and~\ref{thm:threshold} settle the tangent exponent and full-lattice equality for every finite local field in the stated Lubin--Tate setting. Formula~\eqref{eq:C-b} also describes the unequal lattices when $e>p$. A finer question is to determine all their elementary divisors. The proof isolates one coefficient of valuation $p-e$, which decides inequality, but does not determine every elementary divisor: the remaining coefficients involve further products and reductions by the Eisenstein equation. No general formula for those elementary divisors is asserted here. In higher-dimensional or higher-height formal-module problems, the comparison is no longer a scalar product over this tensor algebra, so the coefficient argument would require additional input.
+
+\paragraph{Method and availability.}
+The mathematics and text were produced by GPT-6 Astra (ChatGPT Pro mode). The main theorems were reconstructed from their statements before source comparison, with the exact preceding exposure recorded; the threshold also received a separate coefficient proof. The same model then compared the complete arguments and the cited primary inputs. The final manuscript received a complete expert reading, a complete exposition reading, and a check of every rendered page. These are same-model checks; the effort setting was not exposed, and no human has checked the mathematics. The all-prime proofs are symbolic and use no finite computation as a substitute for the general argument. This text is dedicated to the public domain under CC0~1.0. Editable sources, build instructions, and detailed check scopes are available in the \href{\workbenchurl}{schemes-and-moduli workbench}; the \href{\recordurl}{mathematics-workbenches index} records versions and their provenance.
+
+\begin{thebibliography}{99}
+\bibitem[Cais and Lau(2017)]{CaisLau}
+Cais, B., \& Lau, E. (2017). Dieudonn\'e crystals and Wach modules for $p$-divisible groups. \emph{Proceedings of the London Mathematical Society, 114}(4), 733--763. \url{https://doi.org/10.1112/plms.12021}. Introduction locators refer to \url{https://arxiv.org/abs/1412.3174v2}.
+
+\bibitem[Grothendieck(n.d.)]{Grothendieck}
+Grothendieck, A. (n.d.). \emph{Notes de cohomologie cristalline, cote 8} [Manuscript]. Institut Montpelli\'erain Alexander Grothendieck, Universit\'e de Montpellier. \url{https://grothendieck.umontpellier.fr/8.pdf}. The Lubin--Tate discussion is on printed archive sheets~33--49; the tangent and full-lattice questions are on printed sheets~47 and~49, PDF images~48 and~50.
+
+\bibitem[Kisin and Ren(2009)]{KisinRen}
+Kisin, M., \& Ren, W. (2009). Galois representations and Lubin--Tate groups. \emph{Documenta Mathematica, 14}, 441--461. \url{https://emis.de/ft/10201}.
+
+\bibitem[Lau(2014)]{Lau}
+Lau, E. (2014). Relations between Dieudonn\'e displays and crystalline Dieudonn\'e theory. \emph{Algebra \& Number Theory, 8}(9), 2201--2262. \url{https://doi.org/10.2140/ant.2014.8.2201}.
+
+\bibitem[Lubin and Tate(1965)]{LubinTate}
+Lubin, J., \& Tate, J. (1965). Formal complex multiplication in local fields. \emph{Annals of Mathematics, 81}(2), 380--387. \url{https://doi.org/10.2307/1970622}.
+
+\bibitem[Marks(2025)]{Marks}
+Marks, S. (2025). Prismatic $F$-crystals and Lubin--Tate $(\varphi_q,\Gamma)$-modules. \emph{Documenta Mathematica, 30}(4), 787--838. \url{https://doi.org/10.4171/DM/1009}.
+
+\bibitem[OpenAI(2026)]{OpenAI}
+OpenAI. (2026, October 7). \emph{Milne's rationality conjecture for abelian varieties} [Preprint]. \url{https://github.com/openai/math/tree/main/preprints/Milnes-rationality-conjecture-for-abelian-varieties-October-7-2026}.
+
+\bibitem[Pham(2025)]{Pham}
+Pham, D. (2025). Prismatic $F$-crystals and $E$-crystalline Galois representations. \emph{Publications math\'ematiques de Besan\c{c}on. Alg\`ebre et th\'eorie des nombres, 2025}, 59--96. \url{https://doi.org/10.5802/pmb.62}. Statement numbering refers to \url{https://arxiv.org/abs/2306.13205v2}.
+
+\bibitem[Schneider and Venjakob(2026)]{SchneiderVenjakob}
+Schneider, P., \& Venjakob, O. (2026). \emph{Reciprocity laws for $(\varphi_L,\Gamma_L)$-modules over Lubin--Tate extensions} (Memoirs of the European Mathematical Society, Vol.~24). EMS Press. \url{https://doi.org/10.4171/MEMS/24}.
+
+\bibitem[Serre(1979)]{Serre}
+Serre, J.-P. (1979). \emph{Local fields} (M. J. Greenberg, Trans.; Graduate Texts in Mathematics, Vol.~67). Springer. Chapter~III, pp.~49--50.
+\end{thebibliography}
+\end{document}

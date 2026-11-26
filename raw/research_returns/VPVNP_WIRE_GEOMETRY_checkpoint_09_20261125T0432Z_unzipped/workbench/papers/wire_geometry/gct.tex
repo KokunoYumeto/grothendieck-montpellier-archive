@@ -1,0 +1,514 @@
+\section{The precise conditional consequences for the padded permanent}
+\label{sec:gct}
+
+This section supplies the algebraic reductions that turn either claimed
+border-circuit lower bound into a statement about determinant orbit
+closures.  The reductions are unconditional; the lower bounds used in
+Theorem~\ref{thm:conditional-gct} remain the claims of the two preprints.
+The geometric formulation originates with Mulmuley and
+Sohoni~\cite{MulmuleySohoni2001}; see also
+\cite[arXiv version~3, Section~1(a), Conjecture~1.2, p.~2]
+{BurgisserIkenmeyerPanova2019}.
+
+Let $k$ be an algebraically closed field.  All closures in this section
+are Zariski closures over $k$.  For $N\geq m$, put
+\[
+ P_{m,N}=z^{N-m}\operatorname{perm}_m,
+ \qquad
+ \mathcal D_N=\overline{\operatorname{GL}_{N^2}(k)\cdot\det_N}.
+\]
+When $N>m$, $z$ is a variable independent of the $m^2$ permanent
+variables.  There is room for these $m^2+1$ variables among the $N^2$
+variables on which the group acts.  When $N=m$, the factor in $z$ is
+absent.  The border determinantal complexity $\underline{\operatorname{dc}}(p)$
+is the least $N$ for which $p$ belongs to the coefficientwise closure of
+determinants of $N$ by $N$ matrices of affine linear forms in its own
+variables.  Adjoining unused variables does not change this definition:
+one direction adjoins them, and the other sets them to zero.
+
+\begin{lemma}[Independent padding]\label{lem:padding}
+Let $p\in k[x_1,\ldots,x_r]$ be homogeneous of degree $m\leq N$.
+If $N>m$, assume $r+1\leq N^2$ and let $z$ be independent of the
+$x_i$.  Then
+\[
+ z^{N-m}p\in\mathcal D_N
+ \quad\Longleftrightarrow\quad
+ \underline{\operatorname{dc}}(p)\leq N.
+\]
+For $N=m$ the same assertion holds without $z$, assuming $r\leq N^2$.
+The result is valid in every characteristic.
+\end{lemma}
+
+\begin{proof}
+Write $\mathcal A_N$ for the set of determinants of affine linear
+$N$ by $N$ matrices in the $x_i$.  Homogenization to degree $N$ is the
+linear map
+\[
+ H_N:k[x_1,\ldots,x_r]_{\leq N}\longrightarrow
+ k[x_1,\ldots,x_r,z]_N,
+ \qquad H_N(q)=z^Nq(x_1/z,\ldots,x_r/z).
+\]
+It carries $\det(A_0+\sum_i x_iA_i)$ to
+$\det(zA_0+\sum_i x_iA_i)$.  Each entry of the latter matrix is a
+linear form in the ambient $N^2$ variables, so its determinant is
+obtained from $\det_N$ by a possibly singular linear substitution.
+Invertible endomorphisms are dense in all endomorphisms, and the map
+that substitutes an endomorphism into $\det_N$ is polynomial.
+Consequently every such determinant belongs to $\mathcal D_N$.
+Continuity of $H_N$ now gives
+$H_N(\overline{\mathcal A_N})\subseteq\mathcal D_N$.
+Since $H_N(p)=z^{N-m}p$, this proves the forward implication from
+border determinantal complexity to orbit closure membership.
+
+Conversely, set $z=1$ and all unused ambient variables to zero.  This
+is a linear map on coefficient spaces.  It carries every polynomial
+in the orbit of $\det_N$ to a determinant of an affine linear matrix,
+and carries $z^{N-m}p$ to $p$.  Continuity therefore gives
+$p\in\overline{\mathcal A_N}$.  If $N=m$, replace homogenization
+in the first argument by extraction of the homogeneous degree-$N$
+part: that part of an affine determinant is the determinant of its
+linear part.  For the converse simply set unused variables to zero.
+\end{proof}
+
+The familiar one-way padding lemma is the implication for an exact
+determinantal expression.  The proof also explains why an independent
+padding variable is useful: dehomogenization recovers the entire
+polynomial, not a specialization of one of its variables.
+
+\begin{lemma}[A division-free determinant circuit]\label{lem:det-circuit}
+Over every commutative ring, the determinant of an $N$ by $N$ matrix
+of affine linear forms in at most $N^2$ variables has a circuit with
+at most $8N^4$ binary addition, subtraction and multiplication gates,
+with free constants.  The same bound holds in the model with only
+addition and multiplication in which every variable and constant
+input is also counted as a gate.
+\end{lemma}
+
+\begin{proof}
+We use the Samuelson recurrence underlying Berkowitz's algorithm;
+the recurrence and its adjugate identity are
+\cite[Claims~1--2, p.~148]{Berkowitz1984}.
+The following elementary count suffices, without optimizing the
+parallel algorithm.  For a matrix of order $n$, write
+\[
+ A=\begin{pmatrix}a&R\\ S&M\end{pmatrix},\qquad
+ \chi_M(t)=\sum_{i=0}^{n-1}c_i t^{n-1-i},\quad c_0=1,
+ \qquad b_j=RM^jS\quad(0\leq j\leq n-2).
+\]
+Set $c_n=0$.  Cofactor expansion of the block determinant gives
+\[
+ \chi_A(t)=(t-a)\chi_M(t)-R\operatorname{adj}(tI-M)S.
+\]
+The identity
+\[
+ \operatorname{adj}(tI-M)
+ =\sum_{j=0}^{n-2}t^{n-2-j}
+       \sum_{i=0}^{j}c_i M^{j-i}
+\]
+follows by multiplying by $tI-M$: all intermediate powers cancel and
+the constant term is the Cayley--Hamilton identity for $M$.
+These are polynomial identities over $\mathbb Z$, so they hold over
+every commutative ring.  Thus, if
+$\chi_A(t)=\sum_{j=0}^n d_jt^{n-j}$, its coefficients satisfy
+\[
+ d_0=1,\qquad
+ d_j=c_j-ac_{j-1}-\sum_{i=0}^{j-2}c_i b_{j-2-i}
+       \quad(1\leq j\leq n),
+\]
+where an empty sum is zero.
+
+Compute the characteristic polynomial of $M$ recursively.  The
+vectors $S,MS,\ldots,M^{n-2}S$ require at most
+$2(n-2)(n-1)^2$ gates, and their products with $R$ at most
+$2(n-1)^2$ gates.  For the coefficient recurrence, first form
+$-a$ and each $-b_j$ by multiplication by the single constant $-1$.
+There are $n$ such multiplications.  The formula for $d_j$, written
+with these negative quantities, uses at most $j$ further
+multiplications and $j$ additions.  Thus the recurrence takes
+at most $n^2+2n$ gates, without a subtraction primitive.
+Including the trivial order-one case and
+the final sign, $4n^3$ gates per recursive order is a valid bound.
+Since $\sum_{n=1}^N n^3=N^2(N+1)^2/4\leq N^4$, a generic
+determinant costs at most $4N^4$ gates.  Computing each of the $N^2$
+affine entries in at most $N^2$ variables costs at most $2N^2$
+gates, or $2N^4$ in total.  If inputs are counted, the affine
+coefficients require at most $N^2(N^2+1)$ constant inputs, the
+variables at most $N^2$ inputs, and $0,1,-1$ at most three
+additional inputs.  For $N\geq2$, the total is bounded by
+\[
+ 7N^4+2N^2+3\leq8N^4.
+\]
+For $N=1$, a single affine form in at most one variable requires
+at most five gates including inputs.  This proves both versions.
+No division, interpolation or assumption on the characteristic was
+used.
+\end{proof}
+
+\begin{lemma}[Homogeneous components]\label{lem:homogeneous-components}
+If a circuit of size $s$ computes $q$, all homogeneous components of
+$q$ of degrees at most $d$ can be computed using at most
+$s(d+1)^2$ gates.  This assertion holds over every commutative ring
+and also for circuits whose constants are Laurent series.
+\end{lemma}
+
+\begin{proof}
+At each gate keep the list of components of degrees $0,\ldots,d$.
+Addition and subtraction act componentwise.  At a multiplication
+gate the component of degree $j$ is
+$\sum_{i=0}^j q_i r_{j-i}$; its computation needs at most $2j+1$
+gates.  The sum of these bounds for $j=0,\ldots,d$ is $(d+1)^2$.
+Inputs need no gates.  Induction over the original circuit proves
+the claim.  All formulas are identities over $\mathbb Z$.
+\end{proof}
+
+For completeness, the passage from geometric closure to Laurent
+approximation can be made without imposing an analytic topology.
+
+\begin{lemma}[Closure gives a Laurent approximation]
+\label{lem:laurent-closure}
+Let $k$ be algebraically closed and let $F:\mathbb A^a_k\to
+\mathbb A^b_k$ be a polynomial map.  If
+$y\in\overline{F(\mathbb A^a_k)}$, there are
+$u_1(t),\ldots,u_a(t)\in k((t))$ with
+$F(u(t))\in y+t k[[t]]^b$.
+\end{lemma}
+
+\begin{proof}
+Close the graph of $F$ in $\mathbb P^a_k\times\mathbb A^b_k$.
+Projection from this graph closure is proper, so its image is
+$\overline{F(\mathbb A^a_k)}$.  Choose a closed point $x$ above
+$y$.  If $x$ is on the original graph, a constant approximation
+suffices.  Otherwise choose an integral curve through $x$ whose
+generic point belongs to the original graph.  Here is the usual
+local construction of such a curve.  On an affine neighborhood of
+$x$, choose a nonzero regular function $f$ with $D(f)$ inside the
+original graph.  In the local domain of dimension $d$ at $x$, extend
+$f$ to a system of parameters $f,h_1,\ldots,h_{d-1}$.  A minimal
+prime of $(h_1,\ldots,h_{d-1})$ has positive-dimensional quotient
+by the height theorem.  It cannot contain $f$, since adjoining $f$
+gives an ideal whose radical is the maximal ideal.  The quotient
+has dimension one, again by the height theorem.  Its closure is
+the required curve.
+
+Normalize this curve and take a point over $x$.  Normalization is
+finite for a curve of finite type over a field, and the local ring
+at the chosen point is a discrete valuation ring; these are the
+standard curve facts in \cite[Section~33.43, Lemmas~33.43.6 and
+33.43.8]{StacksProject}.  Its residue field is $k$, since $k$ is
+algebraically closed.  Choosing a uniformizer $t$ identifies its
+completion with $k[[t]]$: successive subtraction of residue
+coefficients gives the power-series expansion.  The source
+coordinates of the graph are rational functions on the curve,
+hence belong to $k((t))$.  The target coordinates are regular at
+the chosen point and reduce to $y$, which proves the assertion.
+\end{proof}
+
+Apply this lemma to the map sending the coefficients of an affine
+matrix to the coefficients of its determinant.  Its Laurent
+approximation, followed by the division-free circuit of
+Lemma~\ref{lem:det-circuit}, is an approximating circuit with the
+same gate bound.  Conversely, any Laurent approximation satisfies
+every polynomial equation that vanishes on the parameterized
+family, by taking its constant term.  Thus this use of closure
+agrees with the approximation convention of
+\cite[Definitions~1.3 and N.1, pp.~2 and 62]{Anthropic2026}.
+Extraction of a homogeneous component is linear on coefficient
+spaces, and Lemma~\ref{lem:homogeneous-components} accounts for
+its circuit cost when a bound concerns one component only.
+
+\begin{theorem}[Conditional orbit-closure bounds]
+\label{thm:conditional-gct}
+Fix a characteristic $p\ne2$.  Suppose that, for every field of
+characteristic $p$ and all $m\geq m_0(p)$, every approximating
+circuit for $\operatorname{perm}_m$ has more than $B_p(m)$ gates.
+Then, over the algebraic closure of every such field,
+\begin{equation}\label{eq:gct-exact-range}
+ P_{m,N}\notin\mathcal D_N
+ \quad\hbox{whenever}\quad
+ m\geq m_0(p),\quad N\geq m,\quad 8N^4\leq B_p(m).
+\end{equation}
+In particular, granting the Anthropic preprint's Theorem~1.4,
+there is an absolute $a>0$ such that the conclusion holds for
+\[
+ m\leq N\leq
+ 2^{(a/8)(\log_2m)^{4/3}},
+ \qquad
+ m\geq m_0(p),\quad a(\log_2m)^{4/3}\geq6.
+\]
+Granting the OpenAI preprint's Corollary~1.2, it holds for
+\[
+ m\leq N\leq\exp\bigl(b_p(\log m)^{5/4}\bigr)
+\]
+for some $b_p>0$ and all sufficiently large $m$ of that
+characteristic.  The latter conclusion applies in every
+characteristic other than two, although the orbit-closure clause
+of that corollary is phrased in characteristic zero.
+In characteristic two, $P_{m,N}\in\mathcal D_N$ for every $N\geq m$.
+\end{theorem}
+
+\begin{proof}
+Membership in $\mathcal D_N$ gives a border determinantal
+expression by Lemma~\ref{lem:padding}, hence an approximating
+circuit of size at most $8N^4$ by the preceding two lemmas.
+This contradicts the stated lower bound whenever
+\eqref{eq:gct-exact-range} holds.
+
+For the Anthropic claim, put $L=\log_2m$ and
+$B_p(m)=2^{aL^{4/3}}$, as in
+\cite[Theorems~1.1 and 1.4, p.~2]{Anthropic2026}.
+If $N\leq2^{(a/8)L^{4/3}}$, then
+$8N^4\leq2^{3+(a/2)L^{4/3}}\leq2^{aL^{4/3}}$
+when $aL^{4/3}\geq6$.  This writes out the reduction mentioned
+in \cite[Remark~N.6, p.~64]{Anthropic2026}, with an explicit
+loss in its constant.  The input-counting version of
+Lemma~\ref{lem:det-circuit} matches the arithmetic-circuit model
+in \cite[Section~1.3, pp.~3--4]{Anthropic2026}.
+For the OpenAI claim, apply its
+all-field border determinantal conclusion directly and decrease
+the positive constant in its exponent, if necessary, to make the
+displayed upper range strictly smaller than the claimed lower
+bound.  Alternatively apply \eqref{eq:gct-exact-range} to its
+border-circuit conclusion; a fixed fourth power only changes
+that constant.  Its proof locates these reductions in
+\cite[Corollary~1.2 and its proof]{OpenAI2026}.
+
+In characteristic two the signs of permutations equal $1$,
+so $\operatorname{perm}_m=\det_m$ as formal polynomials.
+The block diagonal linear matrix
+$\operatorname{diag}(X,zI_{N-m})$ has determinant
+$z^{N-m}\det_m$.  The singular-substitution argument in
+Lemma~\ref{lem:padding} places it in $\mathcal D_N$.
+\end{proof}
+
+The statements are conditional in precisely one place: the assumed
+border-circuit lower bound.  Neither the reductions above nor the
+paper's use of them verifies the released Lean development of
+either preprint.  The Anthropic preprint explicitly excludes
+Remark~N.6 from its list of formalized statements
+\cite[Section~3, p.~10; Table~3, p.~67]{Anthropic2026}.
+
+\begin{corollary}[Every fixed padding exponent]
+\label{cor:fixed-padding}
+Suppose the hypothesis of Theorem~\ref{thm:conditional-gct}
+holds with $B_p(m)=2^{a(\log_2m)^\beta}$ for some $a>0$ and
+$\beta>1$.  For every real $c\geq1$, put
+$N=\lceil m^c\rceil+1$.  Then $P_{m,N}\notin\mathcal D_N$
+for all sufficiently large $m$.  It suffices that $m\geq m_0(p)$
+and
+\[
+ \log_2m\geq
+ \max\left\{1,
+       \left(\frac{4c+11}{a}\right)^{1/(\beta-1)}\right\}.
+\]
+\end{corollary}
+
+\begin{proof}
+For $m\geq2$ one has $N\leq m^c+2\leq3m^c$, and thus,
+writing $L=\log_2m\geq1$,
+\[
+ \log_2(8N^4)\leq3+4cL+4\log_2 3
+     \leq4cL+11\leq(4c+11)L.
+\]
+The displayed condition implies $aL^\beta\geq(4c+11)L$.
+Apply Theorem~\ref{thm:conditional-gct}.
+\end{proof}
+
+For integral $c$ this includes the degree $m^c+1$ formulation of
+the Mulmuley--Sohoni conjecture, and strengthens an
+infinitely-many-$m$ conclusion to all sufficiently large $m$.
+Both claimed bounds dominate every fixed polynomial.  They
+therefore conditionally imply a cubic border determinantal lower
+bound with any fixed positive constant for all sufficiently large
+$m$, and also
+$\underline{\operatorname{dc}}(\operatorname{perm}_m)
+\geq m^2/2+1$ for all sufficiently large $m$.
+An unspecified $m_0(p)$ supplies neither the stated numerical
+threshold of a separate cubic theorem nor the assertion for
+every $m\geq3$.  These are different quantifiers.  In particular
+the finite sizes below an unknown threshold cannot be declared
+checked.  The established quadratic result being compared here
+is \cite[Theorem~1.0.1]{LandsbergManivelRessayre2013}.
+
+\subsection{The stronger conditional consequence of nonflatness}
+
+The comparison of geometric hypotheses gives a further conditional
+consequence.  Its input is the OpenAI preprint's claimed stretch
+theorem, rather than just its claimed unconditional separation.
+The numerical constants below record the loss in passing through
+a polynomial projection; they do not specify the constants in
+that stretch theorem.
+
+\begin{corollary}[Stretched-exponential conditional GCT range]
+\label{cor:nonflat-stretched-gct}
+Assume the price-space and spectral-duality inputs used in
+Theorem~\ref{thm:crosspolytope-shortening}, and grant
+\cite[Theorem~1.3]{OpenAI2026}.  If the full flat hypothesis
+fails over a field $k$, then its homogeneous VNP family $f_n$
+has border arithmetic circuit cost greater than $2^{n^\sigma}$
+for some $\sigma>0$ and all integers $n\geq n_0$.
+In particular, nonprice of the unit square suffices.
+
+Suppose further that $\operatorname{char}k\ne2$, and choose
+constants $C\geq1$ and $a>0$ such that $f_n$ is a polynomial
+projection of $\operatorname{perm}_{q(n)}$, with
+$q(n)\leq Cn^a$, over the algebraic closure of $k$.
+Such constants exist by permanent projection completeness.
+Put
+\[
+ \tau=\frac{\sigma}{a},\qquad
+ c=(2C^{1/a})^{-\sigma},\qquad
+ m_1=C\max\{2,n_0+1\}^{a}.
+\]
+For every integer $m\geq m_1$, the border circuit cost of
+$\operatorname{perm}_m$ is greater than $2^{c m^\tau}$.
+Consequently, over the algebraic closure of $k$,
+\[
+ P_{m,N}\notin\mathcal D_N
+ \quad\hbox{if}\quad
+ m\geq m_1,\quad c m^\tau\geq6,\quad
+ m\leq N\leq2^{c m^\tau/8}.
+\]
+In particular every fixed padding
+$N=\lceil m^b\rceil+1$, $b\geq1$, is excluded for all
+sufficiently large $m$ under these hypotheses.
+\end{corollary}
+
+\begin{proof}
+Theorem~\ref{thm:crosspolytope-shortening} turns failure of
+flatness into a strict shortening in some fixed dimension.
+The square case already gives one in dimension two.
+Field-extension invariance in
+Theorem~\ref{thm:price-characteristic} allows passage to the
+algebraic closure.  The claimed stretch theorem then supplies
+$\sigma$ and $n_0$.  Its arithmetic-circuit convention has free
+inputs and constants and binary addition, subtraction and
+multiplication, and its lower bound even concerns approximation
+of the indicated homogeneous component.  We use only the
+resulting lower bound for full polynomial approximation.
+
+Permanent completeness over fields of characteristic different
+from two is \cite[Theorem~2]{Valiant1979}; it supplies a
+polynomial bound on the projection size.  Increase $C$ and
+$n_0$ if needed to put that bound in the displayed form.
+For $m\geq m_1$, set
+\[
+ n=\left\lfloor(m/C)^{1/a}\right\rfloor.
+\]
+Then $n\geq n_0$ and $q(n)\leq Cn^a\leq m$.
+Moreover $(m/C)^{1/a}\geq2$, so
+\[
+ n\geq\tfrac12(m/C)^{1/a},\qquad
+ n^\sigma\geq2^{-\sigma}C^{-\sigma/a}m^{\sigma/a}
+             =c m^\tau.
+\]
+The block-diagonal substitution
+$X\mapsto\operatorname{diag}(X,I_{m-q(n)})$ makes
+$\operatorname{perm}_{q(n)}$ a projection of
+$\operatorname{perm}_m$.  Compose it with the given projection
+to $f_n$.  Substitution of variables by variables or field
+constants does not increase the number of arithmetic operation
+gates.  It is linear on coefficient spaces and hence preserves
+border upper bounds.  A border circuit of cost at most
+$2^{c m^\tau}$ for $\operatorname{perm}_m$ would therefore
+contradict the cost strictly greater than $2^{n^\sigma}$ for
+$f_n$.
+
+Finally, if $N\leq2^{c m^\tau/8}$ and $c m^\tau\geq6$,
+\[
+ 8N^4\leq2^{3+c m^\tau/2}\leq2^{c m^\tau}.
+\]
+Lemmas~\ref{lem:padding} and \ref{lem:det-circuit} give the
+orbit-closure exclusion.  For a fixed $b$, the quantity
+$\log_2(8(\lceil m^b\rceil+1)^4)$ is $O_b(\log m)$,
+whereas $c m^\tau/\log m\longrightarrow\infty$;
+this proves the last assertion.
+\end{proof}
+
+The first assertion of this corollary concerns $f_n$ in every
+characteristic.  Its permanent and orbit-closure assertions
+exclude characteristic two, where the explicit determinant
+expression above gives containment.  All of $\sigma,n_0,C,a$
+remain input-dependent.  Thus the corollary strengthens the
+conditional asymptotic range without supplying an explicit
+small-size threshold or establishing nonflatness itself.
+
+\subsection{Highest weight equations and their limits}
+
+This subsection identifies the representation-theoretic existence
+statement that follows from noncontainment.  It does not turn it
+into a multiplicity comparison.
+
+\begin{proposition}[Highest weight separation]
+\label{prop:highest-weight}
+Let $G=\operatorname{GL}(V)$ act linearly on a finite-dimensional
+complex vector space $W$, and let $X,Y\subseteq W$ be
+$G$-stable closed affine cones.  If $Y\not\subseteq X$, then
+there is a homogeneous highest weight polynomial $h\in\mathbb C[W]$
+that vanishes on $X$ and does not vanish identically on $Y$.
+If $Y=\overline{G\cdot y}$, then $h(g\cdot y)\ne0$ for some
+$g\in G$.
+\end{proposition}
+
+\begin{proof}
+Choose $f\in I(X)\setminus I(Y)$.  Since $X$ and $Y$ are
+cones, their ideals are homogeneous, and one homogeneous
+component of $f$, of some degree $d$, still has this property.
+The restriction map from the finite-dimensional rational
+$G$-module $I(X)_d$ to $\mathbb C[Y]_d$ is nonzero and
+$G$-equivariant.  Complete reducibility over $\mathbb C$
+therefore gives an irreducible submodule on which restriction
+is nonzero.  Its kernel is a submodule, so restriction is
+injective on that irreducible submodule.  Choose a nonzero
+highest weight vector $h$ in it.  Then $h\in I(X)_d$ but
+$h\notin I(Y)_d$, as required.  If $h$ vanished on the
+whole orbit of $y$, it would vanish on its closure, a
+contradiction.  The complete reducibility and highest weight
+interpretation used here are the same representation-theoretic
+framework explained in
+\cite[Section~1(a)]{BurgisserIkenmeyerPanova2019}.
+\end{proof}
+
+Apply the proposition with $X=\mathcal D_N$ and
+$Y=\overline{G\cdot P_{m,N}}$.  The conditional bounds give
+existence of such an equation, but give no degree, weight,
+coefficients or algorithm for finding it.  Nor does the
+proposition require $h(P_{m,N})\ne0$ in the chosen coordinates:
+its assertion is nonvanishing at some point of the orbit.
+
+An occurrence obstruction would require a representation
+type present in $\mathbb C[Y]$ and absent from $\mathbb C[X]$.
+A multiplicity obstruction would require its multiplicity
+in $\mathbb C[Y]$ to exceed the multiplicity in
+$\mathbb C[X]$.  Neither follows from the proposition.
+Indeed, let $\mathbb G_m$ act by scalar multiplication on
+$\mathbb C^2$, and let $X$ and $Y$ be the two coordinate
+axes.  Both are orbit closures.  The polynomial given by
+the second coordinate vanishes on $X$ and not on $Y$,
+and is a weight vector.  Nevertheless their graded
+coordinate rings are isomorphic as $\mathbb G_m$-modules:
+each degree has one copy of the same character.  Thus
+even every multiplicity can agree while the cones differ.
+
+This is consistent with the no-occurrence theorem of
+B\"urgisser, Ikenmeyer and Panova: for their convention,
+which pads by the existing variable $X_{11}$, every
+representation type that occurs for the padded permanent
+also occurs for the determinant when $N\geq m^{25}$
+\cite[arXiv version~3, Theorem~1.4, p.~3]
+{BurgisserIkenmeyerPanova2019}.
+For our independent padding variable the same conclusion
+follows, for example, when $N\geq(m+1)^{25}$.  To see this,
+restrict the $(m+1)$ by $(m+1)$ matrix to
+$\operatorname{diag}(z,X)$.  Its permanent becomes
+$z\operatorname{perm}_m$, so its degree-$N$ padding by
+the existing first entry becomes $P_{m,N}$.  A singular
+linear substitution belongs to the closure of invertible
+ones, and therefore the orbit closure of $P_{m,N}$ is
+contained in this larger padded-permanent orbit closure.
+Restriction of coordinate rings is surjective, so every
+representation type of the former also occurs in the
+latter.  Apply their theorem with $m+1$ in place of $m$.
+Their theorem does not exclude multiplicity obstructions;
+the two claimed circuit lower bounds do not construct them.
+Complete reducibility was essential in the argument above,
+so it has not been asserted here in positive characteristic.

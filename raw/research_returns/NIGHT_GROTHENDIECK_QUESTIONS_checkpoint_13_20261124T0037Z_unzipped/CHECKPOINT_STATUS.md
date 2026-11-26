@@ -1,0 +1,9 @@
+# Checkpoint13
+
+Scheduled earliest freeze2026-11-23T23:37:47.391079UTC, exactly45minutes after actual checkpoint12. Actual archive creation is recorded separately. Active PartA. Three standalone editable projects: A133111pages,A12317pages,A1519pages. The changed A133 project has a fresh source-only three-pass build, SHA256359c720c6316e5cde65b143def1f678247d11401f13cb46ef6c1d0eadacb14da,1014909bytes. No warnings, undefined references, duplicate labels or overfull boxes; one underfull bibliography line. All111pages rendered. Actual complete visual coverage is recorded in the two separate page-range records if present; no completion is backdated.
+
+New closed results: arbitrary-unramified-DVR distinguished-monic theorem; complete Cohen principal-special-fibre regularity criterion; exact vertical order-p torsion and its relation to the standard mesh; arbitrary-DVR full-K0 completion injection/generic-kernel isomorphism; finite-free arbitrary-DVR principal p-special-fibre criterion, including all monogenic unramified-base algebras even with inseparable residue extension. Complete author proofs, frozen separate reconstructions, full comparisons and exact source audits are included. Earlier narrower arguments are preserved in checks. Full kernel and general singular-ring classifications remain open.
+
+Next progress review23:47UTC, performed only at its actual time. Previous review7 found movement, no-stall count0. Next checkpoint45minutes after this archive's actual freeze. PartsB/C remain inactive under sequential rule. The missed first-checkpoint six-draft requirement remains disclosed. Final expert/newcomer whole-paper readings remain due. Previous ZIPs, third-party sources and unchanged attachments are excluded.
+
+Complete111-page visual QA was actually finished23:36:27UTC; both page-range records are included. No layout failure was found.

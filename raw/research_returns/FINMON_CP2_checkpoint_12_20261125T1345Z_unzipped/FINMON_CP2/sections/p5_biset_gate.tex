@@ -1,0 +1,110 @@
+\subsection{Right band acts and the seven-state double-band gate}
+\begin{lemma}[Proved: complete right-$P_5$ act normal forms]
+\label{CP2:A-P5-normal-forms}
+Let $P_5=\{1,e_{00},e_{01},e_{10},e_{11}\}$, with
+$e_{ij}e_{kl}=e_{il}$. Every finite right $P_5$-set is determined,
+up to an equivariant bijection, by $a$ singleton core orbits,
+$b$ two-element core orbits with labelled columns, and a multiset
+of $t$ ordered pairs of these $a+b$ orbits. Its cardinality is
+$a+2b+t$. The only ambiguity is permutation of the singleton
+orbits, permutation of the double orbits, and permutation of
+equal-type transient points. Consequently the numbers on
+$1,\ldots,7$ points are $1,3,6,17,44,130,383$.
+\end{lemma}
+\begin{proof}
+For a right act $X$, put $Y=X\{e_{ij}\}$. If $y=xe_{ij}$,
+then $ye_{kl}=xe_{il}$ is independent of $k$. Thus its orbit
+consists of one point or of two points canonically labelled
+by the column $l$. Two such orbits meeting at a point coincide,
+since applying either column operation to that point recovers
+both labelled outputs. These are precisely the core orbits.
+For $x\in X\setminus Y$, each row $i$ selects the orbit
+$\{xe_{i0},xe_{i1}\}$, and the column selects its labelled
+point. These choices are unrestricted and satisfy every act
+equation. Transient points with the same ordered orbit pair
+are interchangeable; core orbit sizes are preserved. This
+proves both existence and completeness of the normal form.
+
+The producer \path{code/p5_right_acts.py} enumerates every
+$a,b,t$ with $a+2b+t=s$, all multisets of ordered orbit pairs,
+and their $S_a\times S_b$ orbits. An independent count uses
+Burnside's lemma. For a permutation of the orbit set, let its
+action on ordered pairs have cycle lengths $d_1,\ldots,d_r$.
+The fixed multisets of size $t$ are counted by the coefficient
+of $x^t$ in $\prod_i(1-x^{d_i})^{-1}$. The separate program
+\path{code/check_p5_normal_forms_burnside.py} averages these
+integer coefficients and checks every parameter case against
+the literal normal forms, as well as every action equation.
+It obtains the stated counts. The input tables, all parameter
+counts and digests are under \path{outputs/p5_bisets/}.
+\end{proof}
+
+\begin{proposition}[Proved: the $P_5$--$P_5$ seven-state case]
+\label{CP2:A-P5-P5-seven}
+No category with two objects, both corner monoids isomorphic
+to $P_5$, seven arrows in one direction between the objects,
+and no arrows in the reverse direction has type $\CP^2$.
+The total arrow count, including identities, is seventeen.
+\end{proposition}
+\begin{proof}
+Such a category is exactly a commuting left and right $P_5$
+action on seven states. Fix a representative of the right act
+from Lemma~\ref{CP2:A-P5-normal-forms}. The transpose of the
+band indices identifies $P_5^{\mathrm{op}}$ with $P_5$.
+Taking all state relabellings of all $383$ normal forms therefore
+gives every labelled left action. The new program
+\path{code/p5_bisets.cpp} constructs exactly $1038598$ such
+left actions. It verifies that the normal-form state orbits are
+disjoint and that their cardinality is
+$\sum 7!/|\operatorname{Aut}(X)|$.
+
+For each fixed right act it computes every transformation of
+the seven states commuting with its four band operations.
+It tries every labelled left action whose four maps are in
+that centralizer. The automorphism group of the right act
+acts on these choices; taking the least member of each orbit
+loses only an equivariant state relabelling. Its full group
+is obtained by testing every one of the $7!$ state permutations.
+The program separately verifies that the number of compatible
+labelled actions equals the sum of these orbit cardinalities.
+In the trivial-right-action case the already complete $383$
+left normal forms are used, with the same orbit-weight check.
+No monoid automorphism quotient, opposite-category quotient,
+retraction cut or conditional corner reduction is used.
+
+There are $1904633$ compatible labelled left actions over the
+right-act representatives and $56597$ resulting state orbits
+of bisets. Exactly $15606$ fail $H_1(-;\mathbb F_2)=0$;
+another $24704$ fail $\dim H_2(-;\mathbb F_2)=1$.
+Every remaining one of the $16287$ literal categories has a
+nonzero two-cocycle whose square is the coboundary of a supplied
+three-cochain. The independent program
+\path{code/check_p5_bisets.cpp}, which imports no producer
+code, reconstructs all typed tables and normalized chains.
+It checks $12622425$ associativity equations, $7557168$
+cocycle equations and $37525248$ square-primitive equations.
+All records pass. Since the nonzero class of $H^2(\CP^2;
+\mathbb F_2)$ has nonzero square, every case is excluded.
+The exact scope, complete literal stream, digests and checker
+receipt are in \path{outputs/p5_bisets_live/} in the checkpoint.
+This proposition asserts only the double-$P_5$ case; mixed
+order-five corner monoids remain a separate gate.
+\end{proof}
+
+\begin{corollary}[Proved: the double-$P_5$ cases through seventeen arrows]
+\label{CP2:A-P5-P5-through17}
+A two-object category with both corners $P_5$, arrows only in one
+cross direction, and at most seventeen total arrows cannot have
+classifying space $\mathbb{CP}^2$.
+\end{corollary}
+\begin{proof}
+The preceding construction and independent literal check apply unchanged
+with $s=1,\ldots,6$ states. The numbers of state-isomorphism orbits are,
+respectively, $1,6,32,181,1124,7667$. After the two mod-two homology
+filters, the retained counts are $0,4,10,60,360,2320$. Every retained
+category has a supplied and independently checked square primitive.
+The zero-state case is disconnected. Exact streams and independent
+receipts are in \path{outputs/p5_bisets_small/}; the separate checker
+is \path{code/check_p5_bisets_all_sizes.cpp}. Together with the
+seven-state proposition this covers every possible cross size.
+\end{proof}

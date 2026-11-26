@@ -1,0 +1,820 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[expansion=false]{microtype}
+\usepackage[margin=28mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,longtable,array}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\renewcommand{\labelitemi}{$\bullet$}
+\setlist{itemsep=3pt,topsep=5pt}
+\setlength{\emergencystretch}{2em}
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/geometric-complexity-theory-workbench}
+\newcommand{\recordurl}{https://github.com/KokunoYumeto/mathematics-workbenches}
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\F}{\mathbb F}
+\newcommand{\kk}{\Bbbk}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\rk}{\operatorname{rk}}
+\newcommand{\perm}{\operatorname{perm}}
+\newcommand{\dc}{\operatorname{dc}}
+\newcommand{\bdc}{\underline{\operatorname{dc}}}
+\newcommand{\cat}{\operatorname{CAT}(0)}
+\newcommand{\GHZ}{\operatorname{GHZ}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\VP}{\mathrm{VP}}
+\newcommand{\VNP}{\mathrm{VNP}}
+\newcommand{\Price}{\mathcal P}
+\newcommand{\wire}[3]{\langle #1\rangle_{#2#3}}
+\newcommand{\len}{\operatorname{len}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}[theorem]{Claim}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\title{Valiant's conjecture after the Anthropic and OpenAI preprints:\\
+the Euclidean square as a price, strict shortenings,\\
+and the padded permanent\\[6pt]
+\large Tree prices, strict shortening, and the Hurwitz exponent dichotomy}
+\author{}
+\date{25 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+The preprints of Claude at Anthropic and of OpenAI claim
+superpolynomial arithmetic circuit lower bounds over every field
+through tensor-network identities and spectral geometry.
+We study their unresolved question of whether a Euclidean square
+is a price, meaning a limit of scaled spectral wire metrics.
+Assuming the Anthropic price-space theorem, either every finite
+price is a tree pseudometric or every finite Euclidean planar metric is
+a price. Thus any strict violation of the tree four-point rule
+already answers the square question positively.
+The square and the square with its centre are equivalent tests.
+More generally, a Euclidean cross-polytope is a price exactly
+when every finite configuration in that dimension is a price,
+and exactly when no strict shortening exists in that dimension.
+With spectral cover duality, the asymptotic exponent of
+partial-transpose crossing rank always exists and is either
+$1$ or $\sqrt2$: the square is a price exactly in the second case.
+Over the complex numbers the same dichotomy holds for
+Hurwitz's bilinear sum-of-squares problem, and its exponent can
+be tested in a Temperley--Lieb centralizer with only a polynomial
+rank overhead in the number of tensor factors. An elementary weight-block
+restriction preserves the exponent over every field.
+Using Strassen duality and the terminal-selector argument of
+the Anthropic preprint, we prove that every finite failure of
+the price property has a finite algebraic certificate with a
+strict length gap. We show that price cones depend only on
+characteristic and that a finite complex nonprice remains a
+nonprice in all but finitely many characteristics.
+We classify the wire metrics of specified spectral families,
+exclude the ordered crossing-cut quantum expression even after
+tensor-power regularization, and prove
+that homogeneous linear inequalities cannot exclude any
+Euclidean metric.
+Thus failure of flatness is equivalent to strict shortening,
+and implies contraction if the Anthropic alternative is granted.
+Contraction itself is equivalent to the failure of one specified
+finite square-root-rank metric to be a price.
+We compare the two direct exponent calculations within their
+specified accounting rules and give explicit conditional
+reductions to the padded-permanent problem.
+The square-price question and the implication from contraction
+to strict shortening remain open.
+The mathematics and text were produced by GPT-6 Astra (ChatGPT Pro mode);
+the recorded checks are by the same model, and no human has checked them.
+\end{abstract}
+
+\section{Valiant's question and the geometric question}
+\label{sec:intro}
+
+Valiant's algebraic complexity programme asks whether the permanent can
+be computed by arithmetic circuits of polynomial size
+\cite[Section 1, pp.~249--250]{Valiant1979}. His conjecture
+$\VP\ne\VNP$ concerns formal polynomials and does not identify arithmetic
+computation with Boolean computation.
+Mulmuley and Sohoni reformulated a border version as an orbit-closure
+question: can a permanent, padded by a power of a variable, belong to
+the orbit closure of a determinant of polynomially bounded size
+\cite[Section 1]{MulmuleySohoni2001}?
+
+Two November 2026 preprints claim bounds that imply these separations.
+We treat their main results as claims, not as conclusions independently
+verified by this paper. Claude's Theorems 1.1 and 1.4 assert bounds
+$m^{c(\log_2m)^{1/3}}$ for exact and approximating circuits for the
+Hamiltonian cycle polynomial over every field, and for the permanent
+outside characteristic two, for sufficiently large $m$ in each
+characteristic \cite[pp.~2--3]{Anthropic2026}.
+OpenAI's Theorem 1.1 and Corollary 1.2 claim
+$\exp(\Omega((\log m)^{5/4}))$ for border computation and its
+determinantal consequences \cite{OpenAI2026}.
+The Anthropic release states a Lean formalization of both circuit
+claims, with its determinantal consequence excepted.
+OpenAI's scope note describes an exact superpolynomial separation.
+We have not rerun either complete Lean development.
+
+Both arguments compare directly joining terminals by wires with routing
+them through auxiliary parties, called hubs.
+A wire of dimension $q$ carries $\log_2q$ bits. A spectral point
+assigns it the value $q^{d(u,v)}$, giving logarithmic cost
+$d(u,v)\log_2q$. The function $d$ is a pseudometric.
+Tensor restrictions thus give length comparisons, but they do not make
+every metric a spectral metric.
+Euclidean length is the boundary tested by both preprints.
+Under flatness it gives the stated direct lower bounds; an identity
+that strictly lowers the geometric cost gives access to the stronger
+branch. The two branches are alternatives that cover all fields in
+the Anthropic claim, not alternatives proved to be mutually exclusive.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.90\linewidth]{wire_networks.pdf}
+\caption{The four black points are terminals; the two white points
+are hubs. Labels on wires are their bit widths. A crossing identity
+expresses the tensor on the left as a sum of alternatives of the
+form on the right, possibly using the other adjacent pairing.
+Choosing a summand also has a communication cost. The dotted
+outline only locates the square.}
+\label{fig:wires}
+\end{figure}
+
+Let $e$ be the metric on the cyclically ordered vertices $1,2,3,4$ of
+a unit square: adjacent distances are $1$ and opposite distances are
+$\sqrt2$. Let $e'$ also include the centre $0$, at distance $1/\sqrt2$
+from each vertex.
+
+\begin{question}\label{q:square}
+Over $\C$, are $e$ and $e'$ prices in the sense of
+Definition~\ref{def:price}?
+\end{question}
+
+\begin{theorem}[A non-tree price forces planar flatness]
+\label{thm:intro-tree-alternative}
+Fix a field $\kk$ and assume
+\cite[Proposition C.3, p.~28]{Anthropic2026}.
+Exactly one of the following alternatives holds:
+\begin{enumerate}
+\item every price on every finite party set is a tree pseudometric;
+\item every finite Euclidean planar metric is a price.
+\end{enumerate}
+The second alternative holds if and only if some four-party price
+$d$ satisfies
+\[
+d_{13}+d_{24}>
+\max\{d_{12}+d_{34},d_{14}+d_{23}\}.
+\]
+Over $\C$, the first alternative makes the finite price family
+equal to the family of all tree pseudometrics.
+\end{theorem}
+
+Here a tree pseudometric is a distance table obtained from points
+in a real tree, allowing different labels to have distance zero.
+Theorem~\ref{thm:tree-price-dichotomy} proves the statement.
+The geometric ingredient is classical: a non-tree CAT(0) space
+has finite planar Euclidean configurations as limits of rescaled
+finite subsets, by its spaces of directions and tangent cones.
+The essential source input is that Proposition C.3 realizes a
+price inside a CAT(0) space whose \emph{every} finite subset is
+a price. One strict four-point violation therefore suffices;
+one need not prescribe the square's six distances in advance.
+No such witness is constructed here over $\C$ or in
+characteristic two.
+
+\begin{theorem}[The square and planar flatness]\label{thm:introplanar}
+Fix a field $\kk$ and assume the price-space embedding theorem of
+\cite[Proposition C.3, p.~28]{Anthropic2026} over $\kk$.
+The following are equivalent:
+\begin{enumerate}
+\item the unit-square metric $e$ is a price;
+\item the square-with-centre metric $e'$ is a price;
+\item every finite subset of the Euclidean plane is a price.
+\end{enumerate}
+The square can be replaced by any nondegenerate Euclidean rectangle.
+\end{theorem}
+
+Adjoining the centre therefore introduces no separate obstruction once
+the geometric theorem is granted. A single planar Euclidean configuration
+that is not a price excludes the square. This does not decide either
+alternative and does not assert flatness in all dimensions.
+
+The higher-dimensional statement also settles the comparison with
+the OpenAI shortening condition.
+
+\begin{theorem}[Finite flatness and strict shortening]
+\label{thm:intro-flat-shortening}
+Fix a field $\kk$ and an integer $D\geq2$, and assume the
+price-space embedding theorem of
+\cite[Proposition C.3, p.~28]{Anthropic2026}.
+Let $X_D=\{\pm e_1,\ldots,\pm e_D\}\subset\mathbb R^D$,
+where the $e_i$ are the standard unit vectors.
+The following are equivalent:
+\begin{enumerate}
+\item the Euclidean metric of $X_D$ is a price;
+\item the Euclidean metric of $X_D\cup\{0\}$ is a price;
+\item every finite Euclidean configuration in $\mathbb R^D$ is a price;
+\item no strict shortening in dimension $D$ exists over $\kk$.
+\end{enumerate}
+If these conditions fail, a strict shortening can be chosen
+whose alternative networks use only the $2D$ terminals and
+wires between nonantipodal pairs of terminals.
+\end{theorem}
+
+The proof combines Theorem~\ref{thm:cross-polytope-price-flat}
+with Theorem~\ref{thm:crosspolytope-shortening}.
+In particular, failure of the full flat hypothesis is equivalent
+to the existence of a strict shortening in some finite dimension.
+For the unit square it is enough to search for identities on
+four terminals whose alternative wires run along the four sides.
+This equivalence gives an exact reduction of the open question;
+it does not exhibit a shortening.
+
+The planar question also has a formulation without tensor spectra.
+Let $\sigma_\C(q)$ be the least number of complex bilinear forms
+$f_\nu(x,y)$ in two blocks of $q$ variables for which
+\[
+ \left(\sum_{i=1}^q x_i^2\right)
+ \left(\sum_{j=1}^q y_j^2\right)=\sum_\nu f_\nu(x,y)^2.
+\]
+This is the complex form of Hurwitz's composition problem.
+The crossing construction already gives
+$\sigma_\C(q)\leq q^{\sqrt2+o(1)}$
+\cite[Corollary 3]{Khoruzhii2026}.
+
+\begin{theorem}[The square and the Hurwitz exponent dichotomy]
+\label{thm:intro-hurwitz-dichotomy}
+Assume the complex price-space theorem and spectral cover duality
+of \cite[Proposition C.3 and Theorem A.6]{Anthropic2026}.
+The following limit exists, with exactly the indicated alternatives:
+\[
+ \lim_{q\to\infty}\frac{\log\sigma_\C(q)}{\log q}
+ =
+ \begin{cases}
+ 1,&\text{if $e$ and $e'$ are not prices},\\
+ \sqrt2,&\text{if $e$ and $e'$ are prices}.
+ \end{cases}
+\]
+\end{theorem}
+
+The proof is Corollary~\ref{cor:hurwitz-exponent-dichotomy}.
+Theorem~\ref{thm:crossing-exponent-dichotomy} gives the same
+alternative over every field for partial-transpose crossing rank.
+A fixed improvement below the known upper exponent $\sqrt2$
+would force a near-linear asymptotic construction and a strict
+shortening. Conversely, any fixed superlinear lower exponent
+along an unbounded sequence would force the square to be a
+price and the exponent to equal $\sqrt2$. Neither bound is proved
+here.
+
+The matrix search in this criterion can be restricted by symmetry.
+For clarity, the following statement defines the restricted quantity
+without requiring a diagram convention.
+
+\begin{theorem}[The structured complex crossing dichotomy]
+\label{thm:intro-centralizer-dichotomy}
+For $k\geq1$ put $U=(\mathbb C^2)^{\otimes k}$,
+$J=\left(\begin{smallmatrix}0&1\\-1&0\end{smallmatrix}\right)^{\otimes k}$,
+and $\Gamma_J=\operatorname{id}\otimes(Y\mapsto J^{-1}Y^{\mathsf T}J)$
+on $\operatorname{End}(U\otimes U)$.
+Let $P_{\mathrm{TL}}(k)$ be the minimum of
+$\operatorname{rank}M+\operatorname{rank}N$ subject to
+$I=M+\Gamma_JN$, with $M,N$ commuting with the diagonal
+$\mathrm{SL}_2(\mathbb C)$ action on all $2k$ spinor factors.
+Assume the complex price-space theorem and spectral cover duality
+of \cite[Proposition C.3 and Theorem A.6]{Anthropic2026}.
+The following limit exists and has the indicated value:
+\[
+ \lim_{k\to\infty}\frac{\log_2P_{\mathrm{TL}}(k)}{k}
+ =\begin{cases}
+ 1,&\text{if the square and its centred version are not prices},\\
+ \sqrt2,&\text{if both are prices}.
+ \end{cases}
+\]
+\end{theorem}
+
+Proposition~\ref{prop:temperley-lieb-gate} proves that the restricted
+cost differs from the unrestricted partial-transpose cost by at most
+$\binom{4k+3}{3}$. Its base-two logarithm divided by $k$ tends to
+zero, so Theorem~\ref{thm:crossing-exponent-dichotomy} gives both
+limits in the statement. The commuting operators are linear combinations
+of Temperley--Lieb noncrossing pairing operators. This converts the
+unrestricted problem into a structured invariant-theory problem;
+the multiplicity spaces are still large, and no required rank saving
+is established.
+
+\subsection{The other principal results}
+
+The following statements specify the algebraic and geometric
+scope of the reductions. Their proofs are given in the indicated
+sections; none assumes either claimed circuit separation.
+
+\paragraph{Finite certificates.}
+For a finite party set $V$, write $E=\binom V2$ and let $G_u$
+be the product of binary wires with nonnegative integer load
+$u\in\N^E$. A tensor is covered by other tensors when it is a
+sum of their local linear restrictions.
+Over any field, a nonnegative function $e$ on $E$ fails to be
+a price if and only if there are loads $u,v_1,\ldots,v_r$,
+integers $N,M\geq1$, and a spanning tree $T$ on $V$, such that
+$G_u^N$ is covered by $M$ products of $N$ factors chosen from
+the $G_{v_j}$, and
+\[
+ N\bigl(\langle u,e\rangle-\max_j\langle v_j,e\rangle\bigr)
+   >\left(\sum_{ab\in T}e_{ab}\right)\log_2M .
+\]
+One can take $r\leq2|E|$.
+This is Theorem~\ref{thm:finitecertificate}.
+Every nonzero finite price is, moreover, exactly a positive
+multiple of the wire metric of an ordinary normalized spectral
+point, not merely a limit of such multiples
+(Corollary~\ref{cor:price-attained}).
+Strassen's spectral extension theorem applies to the semiring
+of direct sums and products of wires with its inherited
+restriction preorder. Verifying that preorder is the remaining
+compatibility problem.
+
+\paragraph{Named spectral families and their limitation.}
+Over $\C$, the closure of scaled wire metrics of singleton
+quantum functionals after arbitrary grouping is precisely the
+finite union of clustered-star cones in
+Theorem~\ref{thm:grouped-stars}.
+The laminar extensions of Botero, Christandl, Fraser, Leigh and
+Nieuwboer give precisely tree pseudometrics on wires
+(Theorem~\ref{thm:laminar-tree}).
+For both the square and the square with its centre, the exact
+sup-norm distance to each of these families is
+$(\sqrt2-1)/2$.
+This is a classification of named constructions, not of all
+spectral points. The generalized lower and ordered upper
+quantum candidates suggested by the square's cut decomposition
+fail the spectral axioms. More precisely, for any four-party cut
+weights with at least two positive crossing cuts, choose two matching
+wires whose internal cut is not applied first. The ordered upper
+expression attains the full ambient entropy bound on their product
+and strictly exceeds the product of its values on the two wires.
+This exact formula holds at every wire dimension, so positive powers
+and both limsup and liminf tensor-power regularizations retain the
+failure of multiplicativity
+(Proposition~\ref{prop:upper-matching-wires} and
+Corollaries~\ref{cor:upper-power-regularization-fails}--\ref{cor:centred-upper-power-fails}).
+It excludes those constructions, not a different spectral point
+with the same individual-wire values.
+
+Bug\'ar--Vrana operator geometric means offer a different construction.
+Section~\ref{sec:locc-boundary} proves their exact GHZ normalization
+for means supported on the three two-versus-two cuts, and gives a
+sufficient criterion involving just the two diagonals of the square.
+Their combined value need only exceed the tree four-point bound
+as the scalar order tends to zero. With two equally weighted
+crossing cuts, a fixed positive improvement over the tree
+threshold suffices; the logarithmic loss from the separate
+diagonal ceiling need only be strictly less than one
+(Corollary~\ref{cor:binary-mean-square-sufficient}).
+The equivalent lower bound must hold uniformly under GHZ factors
+and tensor powers. That estimate remains open for small positive
+scalar order. Exact attainment of the ceiling additionally fixes
+all six distances at the prescribed normalized scale.
+
+On the other hand every finite Euclidean metric is a
+nonnegative combination of cut metrics.
+Thus no homogeneous linear inequality valid on all prices
+can exclude a Euclidean configuration
+(Proposition~\ref{prop:no-linear-euclidean-obstruction}).
+
+\paragraph{Shortening and characteristic.}
+Over every field, a strict shortening in dimension $D$ excludes
+some finite Euclidean price in that same dimension
+(Theorem~\ref{thm:shortening-nonflat}).
+Together with the Anthropic alternative this implies
+contraction. The converse from nonflatness follows from the
+price-space theorem by Theorem~\ref{thm:intro-flat-shortening}.
+The implication from contraction to strict shortening remains
+unresolved: the Anthropic alternative does not assert that
+its two hypotheses are disjoint.
+More precisely, assuming the price-space theorem, contraction
+holds if and only if, for some integer $\mu\geq3$, the finite metric
+\[
+ \rho_\mu(A,B)=\sqrt{\operatorname{rank}(A-B)}
+ \quad\text{on }\operatorname{Mat}_\mu(\mathbb F_2)
+\]
+is not a price over the coefficient field
+(Proposition~\ref{prop:rank-price-contraction-gate}).
+The binary field here labels the matrices; it need not be the
+coefficient field. This metric embeds in a CAT(0) subspace complex,
+so its curvature alone cannot exclude it. In any CAT(0) realization
+all full-rank diameters have one common centre; a hypothetical
+spectral realization therefore fixes the full edge functional on
+every one of those three-party lines.
+The price cone is invariant under every field extension and
+therefore depends only on the characteristic
+(Theorem~\ref{thm:price-characteristic}).
+If a fixed finite metric is not a price over $\C$, there is a
+positive integer $D_0$ such that it is not a price over any
+field of characteristic $p\nmid D_0$
+(Theorem~\ref{thm:nonprice-specializes}).
+The integer comes from a finite certificate; its prime divisors
+cannot be listed before such a certificate is found.
+In particular the square question remains open here in
+characteristic two as well as in characteristic zero.
+
+\paragraph{The direct exponents.}
+For the quadratic hub-displacement argument with one label
+for every balanced cut and local bit budget $m\Delta\leq L$,
+orthogonal edge directions with origin-to-terminal selectors
+give optimal logarithmic exponent $5/4$.
+The oriented-coordinate placement with the Anthropic cube
+selector estimate gives optimal exponent $4/3$ under that
+charged estimate. Bounded-degree expanders attain both
+respective exponents; complete graphs also attain the second.
+Propositions~\ref{prop:parameter-exponent}
+and~\ref{prop:accounting-optimal} give the hypotheses,
+parameter formula, and matching ceilings.
+These are limits of the stated estimates, not of every
+possible geometric circuit argument.
+
+\paragraph{The padded permanent.}
+Let the algebraically closed ground field have characteristic
+different from two. Suppose, as a cited claim, that border
+circuits for $\perm_m$ require more than
+$B(m)=2^{a(\log_2m)^\beta}$ gates for $m\geq m_0$, where
+$a>0$ and $\beta>1$.
+For $N>m$ with $m^2+1\leq N^2$ and $8N^4\leq B(m)$,
+the independently padded form
+$z^{N-m}\perm_m$ lies outside
+$\overline{\GL_{N^2}\cdot\det_N}$.
+The corresponding statement for $N=m$ uses no extra variable.
+This is Theorem~\ref{thm:conditional-gct}.
+The claimed Anthropic and OpenAI bounds give $\beta=4/3$
+and $\beta=5/4$, respectively, and imply the
+Mulmuley--Sohoni conjecture for every fixed polynomial padding
+exponent once $m$ exceeds the threshold written in
+Corollary~\ref{cor:fixed-padding}.
+Over $\C$ there is then a homogeneous highest weight equation
+vanishing on the determinant cone and nonzero at some translate
+of the padded permanent. The conclusion does not supply an
+occurrence or multiplicity obstruction.
+If the square is not a price, the claimed OpenAI stretch theorem
+gives a stronger conditional conclusion: after an explicit
+polynomial projection to the permanent, there are $c,\tau>0$
+for which all $m\leq N\leq2^{c m^\tau/8}$ are excluded for
+sufficiently large $m$.
+Corollary~\ref{cor:nonflat-stretched-gct} states the constants
+and onset in terms of the projection and the cited stretch theorem.
+
+\subsection{Sources and nearby developments}
+
+Strassen's asymptotic spectrum provides the duality and
+extension framework \cite{Strassen1988,wz-spectra}.
+Christandl, Vrana and Zuiddam construct the quantum functionals
+\cite{cvz-universal}. Their wire values are computed here from
+the definitions.
+The recent equality of support and quantum functionals
+\cite[Theorem I.1]{sdw-support} expands the applicable domain
+of the support calculation but leaves those wire values unchanged.
+The higher-party results of \cite{bcfln-quantum,alp-edge}
+require a wider discussion than singleton functionals alone;
+their explicitly prescribed wire metrics and their
+nonconstructive extensions are distinguished below.
+Bug\'ar and Vrana's operator geometric means give subadditive,
+submultiplicative monotones for local operations and classical
+communication (LOCC) and a spectral regularization theorem
+\cite{BugarVrana2025}. Their exact flat-marginal evaluation applies
+for scalar order at least one half; the boundary argument below
+states the additional estimate needed to approach order zero.
+The flat-rectangle argument uses the nonpositive-curvature
+results of Bruhat and Tits and the standard CAT(0) literature
+\cite{BT1972,BH1999,BN2008}.
+The selector idea is already present in
+\cite[Lemma E.7, p.~35]{Anthropic2026};
+we use its sharp terminal form to obtain normalization,
+finite certificates, and the shortening implication.
+The geometric consequences for the permanent use the
+programme of Mulmuley and Sohoni, while their
+representation-theoretic scope is consistent with the
+no-occurrence theorem of B\"urgisser, Ikenmeyer and Panova
+\cite{MulmuleySohoni2001,BurgisserIkenmeyerPanova2019}.
+
+The neighbouring works of Li on semidirect sums and Zhou on
+weighted graph tensors provide further identity tests,
+and Liu applies the Anthropic geometry to asymptotic rank
+\cite{Li2026,Zhou2026,Liu2026}.
+The calculations below state where these inputs constrain
+normalization and where they leave an entire price ray possible.
+Rossman and Zhu's partial-transpose rank
+\cite[Definition 3.4]{RossmanZhu2026} gives the algebraic
+form of the square obstruction.
+Hrube\v{s}'s subquadratic Hurwitz construction and Khoruzhii's
+subsequent $\sqrt2$ crossing bound supply its upper-bound
+context \cite{Hrubes2026,Khoruzhii2026}.
+Liu's two-crossing-cut argument already gives the sharp complex
+Hurwitz exponent $\sqrt2$ when planar strict shortenings do not
+exist \cite[Section 2, Two crossing cuts, p.~3]{Liu2026noncommutative}.
+The price and tree equivalences below connect that alternative
+to square-price existence and identify the complementary
+exponent-one branch.
+
+\subsection*{Reading map}
+The main geometric and algebraic reductions can be read without the
+later searches in particular tensor families.
+\begin{center}
+\begin{tabular}{p{0.34\linewidth}p{0.59\linewidth}}
+Main equivalences and their inputs &
+Sections~\ref{sec:foundations}--\ref{sec:planar},
+\ref{sec:selectors}--\ref{sec:two-hub-cost}, and
+\ref{sec:crossing-rank}--\ref{sec:field}\\[3pt]
+Spectral constructions and contraction &
+Sections~\ref{sec:explicit-spectrum}--\ref{sec:mixed-lines} and
+\ref{sec:euclidean-contraction}\\[3pt]
+Circuit and permanent consequences &
+Sections~\ref{sec:graph-exponents}--\ref{sec:gct}\\[3pt]
+Structured construction attempts &
+Sections~\ref{sec:weight-block-gate}--\ref{sec:one-particle-digits}\\[3pt]
+Concrete identities and remaining scope &
+Sections~\ref{sec:identity-catalogue}--\ref{sec:open}
+\end{tabular}
+\end{center}
+
+\section{Proof overview}
+
+The sharper planar alternative comes from looking at a price
+space at small scales. If a CAT(0) space is not a real tree,
+two geodesics somewhere make an angle strictly between zero and
+$\pi$. The completed tangent cone then contains a Euclidean
+sector. Every finite planar configuration fits in that sector
+after translation and is approximated by rescaled finite subsets
+of the original space. The price-space theorem keeps all those
+subsets inside the price family, whose closure keeps their limit.
+Consequently a negative answer for the square forces every
+price to be a tree pseudometric. Its four-point rule is stronger
+than the CAT(0) quadrilateral inequality. Spectral cover duality
+turns that rule into side-wire products with total width twice
+the crossing width and only a subexponential number of terms.
+Each such product has small rank across one of the two adjacent
+cuts, giving crossing exponent one. The positive branch instead
+forces the known exponent $\sqrt2$ to be sharp.
+
+A finite sum identity first gives an additive term $\log_2A$, where
+$A$ is the number of summands. Scaling the spectral metric also scales
+this term, so it cannot simply be erased in a limit.
+We retain the scale in the elementary inequality and examine when
+selectors or families of identities make the comparison homogeneous.
+The terminal selector also converts each relaxed spectral point
+into a power of an ordinary additive one.
+Compactness then replaces a limiting finite price by an exact
+spectral realization. To exclude such a realization, a closed-cone
+separation argument supplies finitely many integer linear forms.
+Their maximum, rather than a single linear form, is needed
+because Euclidean metrics already lie in the cut cone.
+Strassen duality turns the separating inequality into an
+asymptotic cover, and the selector turns a sufficiently large
+member of that family into one finite certificate.
+For the four-side normal form, every side crosses exactly one
+of the two adjacent-pair cuts. Each alternative therefore has
+rank at most the exponential of half its total width across
+one of those cuts. Grouping by that cut yields an improved
+partial-transpose exponent. Conversely, an improved exponent
+routes two summands through hubs with a fixed geometric saving,
+which pays for their constant selector cost for large wire dimensions.
+Polarizing a bilinear sum-of-squares identity compares the two
+algebraic quantities within a fixed multiplicative factor.
+To impose diagonal symmetry, average each decomposition over a
+compact orthogonal or spinor group. The entries of its conjugation
+operator have degree linear in the number of copies but use a fixed
+number of variables. Its linear span consequently has polynomial
+dimension. The average is an exact linear combination of that many
+rank-preserving conjugations, which bounds its rank overhead.
+For spinors an explicit change in the transpose convention makes
+the average compatible with the partial-transpose equation.
+
+The exact Euclidean realizations use rigidity in nonpositive curvature.
+The Euclidean diagonal lengths force the geodesics filling a rectangle
+to have Euclidean distances. Filling in two directions yields an
+isometric square, which contains a scaled copy of every finite planar
+configuration. The field enters through the price-space theorem.
+For a cross-polytope, the pairwise flat squares give orthogonal
+lines in a tangent cone. Parallel-set splitting puts those lines
+in a common Euclidean flat, and the Kirszbraun extension theorem
+lifts the convex hull into the original space.
+For the converse shortening argument, normalize all
+nonantipodal distances to be at most one. The CAT(0)
+quadrilateral inequality makes the Euclidean cross-polytope
+the unique maximizer of the sum of antipodal distances.
+If that metric is absent from the closed price cone,
+compactness gives a strict gap. Cover duality converts the gap
+into side-wire alternatives with a subexponential number of
+selectors, which the strict geometric saving pays for.
+In contrast, the characteristic result uses finite algebra:
+specialize the coefficients of a certificate to a finite field
+extension, descend its tensor powers, and let the fixed
+extension-degree overhead be absorbed by the strict gap.
+
+The ordered quantum obstruction is representation-theoretic.
+A square Young diagram gives a one-dimensional determinant factor at
+each party and a self-conjugate symmetric-group representation.
+Its sign pairings have nonzero mutual overlaps, so successive crossing
+projectors keep a nonzero vector even at their largest possible
+entropies. Two separate wires cannot simultaneously account for that
+value. In the operator-mean construction a single product tests
+whether one dominated spectral point exceeds the tree bound
+on the diagonal sum. The non-tree criterion then supplies a
+square price. If the diagonal values attain their ceilings,
+the quadrilateral inequality also fixes the individual sides.
+Exact GHZ normalization follows by measuring one party when only
+two-versus-two cuts occur. More generally, the growth exponent on GHZ
+tensors normalizes a power-regularized upper functional.
+Compactness at scalar order zero removes the norm costs of arbitrary
+local linear maps.
+
+For geometric complexity theory, dehomogenization and homogenization
+of an affine matrix provide continuous maps that respect border
+limits. A division-free determinant circuit translates a border
+circuit bound into orbit-closure exclusion. The subsequent
+representation-theoretic argument requires characteristic zero and
+does not itself give an occurrence or multiplicity obstruction.
+
+\input{foundations.tex}
+\input{tree_dichotomy_geometry.tex}
+\input{tree_prices.tex}
+\input{planar.tex}
+\IfFileExists{explicit_spectrum.tex}{\input{explicit_spectrum.tex}}{}
+\input{locc_boundary.tex}
+\input{mixed_lines.tex}
+\IfFileExists{shortening.tex}{\input{shortening.tex}}{}
+\input{euclidean_contraction.tex}
+\input{cycle_search.tex}
+\input{crossing_exponent_gap.tex}
+\IfFileExists{duality.tex}{\input{duality.tex}}{}
+\IfFileExists{field.tex}{\input{field.tex}}{}
+\IfFileExists{exponents.tex}{\input{exponents.tex}}{}
+\IfFileExists{gct.tex}{\input{gct.tex}}{}
+\input{weight_block_gate.tex}
+\input{centralizer_gates.tex}
+\input{specht_barrier.tex}
+\input{hurwitz_amplification.tex}
+\input{full_flip_cup.tex}
+\input{deformed_crossing.tex}
+\input{fermat_curve_gate.tex}
+\input{digit_kernel_divisors.tex}
+\input{modular_multiplication.tex}
+\input{balanced_compound.tex}
+\input{higher_car.tex}
+\input{fock_smith.tex}
+\input{one_particle_digits.tex}
+\IfFileExists{catalogue.tex}{\input{catalogue.tex}}{}
+\input{curvature.tex}
+\IfFileExists{audit.tex}{\input{audit.tex}}{}
+
+\section{What remains open}\label{sec:open}
+
+We do not decide Question~\ref{q:square}: neither a realizing spectral
+point nor a violated homogeneous identity is constructed here.
+Nonpositive curvature is a necessary condition, not a construction
+of spectral points; Euclidean spaces already satisfy it.
+The distinction between explicit spectral families and the entire
+spectrum must be preserved.
+
+There is now one scalar threshold for the planar question. Put
+\[
+R_\square(\kk)=\max_{d\in\Price_\kk(\{1,2,3,4\}),\,
+                    \max(d_{12},d_{23},d_{34},d_{41})=1}
+                    (d_{13}+d_{24}).
+\]
+The maximum exists by compactness. Under the price-space theorem,
+Corollary~\ref{cor:tree-price-objective} sharpens its possible values to
+$R_\square(\kk)\in\{2,2\sqrt2\}$.
+The upper value is equivalent to the square being a price;
+the lower value means that every finite price is a tree pseudometric.
+One strict non-tree four-point witness would establish the upper
+value. No such witness, or proof of the lower value, is obtained
+over $\mathbb C$ or in characteristic two.
+Equivalently, the remaining algebraic question is whether
+$\log_qP_\kk(q)$ tends to $\sqrt2$ or to $1$;
+Theorem~\ref{thm:crossing-exponent-dichotomy} excludes every
+intermediate exponent and proves that the limit exists.
+Over $\C$ the same alternative holds for
+$\log_q\sigma_\C(q)$.
+It can also be tested using the full diagonal orthogonal centralizer
+or the Temperley--Lieb centralizer of
+Section~\ref{sec:centralizer-gates}. These algebras permit interactions
+between different copies. The bounds for fixed flip--cup and scalar-compound families,
+and the Hodge reformulation, do not settle that search.
+Over every field the search can also be restricted to matrices
+preserving the combined Hamming-weight blocks of
+Section~\ref{sec:weight-block-gate}, with subexponential rank
+overhead in the bit dimension. This includes characteristic two
+and does not use a modular averaging operator.
+The two-alternative side-wire obstruction and the exact hub
+calculation rule out specific small constructions, but neither
+settles this exponent.
+The operator-mean sufficient criterion has a separate remaining
+estimate: a uniform lower bound on the product of the two diagonal
+wires, with arbitrary GHZ factors, as the scalar order tends to zero.
+Normalization alone does not supply this lower bound.
+Conversely the cut decomposition of the square passes every
+homogeneous linear price inequality, so a realizing point must
+be tested on direct sums or other mixed tensors as well as wires.
+
+The normalization-preserving extension results show what a
+positive answer would require on collinear triples and on finite
+subsets of a filled square. Those compatibility conditions have
+not yet been extended to a spectral point on all tensors.
+The relation between contraction and flatness is also unresolved:
+flatness and strict shortening are complementary under the
+geometric input, but contraction may overlap the flat case.
+Its remaining finite test is whether one of the metrics $\rho_\mu$
+is a nonprice. The common-centre theorem gives simultaneous edge
+functionals on all its full-rank diameters, but no incompatibility
+with the other tensor values is proved.
+A sixteen-point submetric is not a nonnegative combination of cuts;
+this excludes that construction and does not exclude arbitrary prices.
+In characteristic two, dividing the explicit common divisor from
+the highest normalizer coefficient recovers a polynomial crossing
+with the exact required output. Its fixed-energy coefficient ranks,
+and the ranks of useful linear combinations of them, remain open.
+Finite two-cut witnesses at wire dimensions eight and thirty-two
+do not give an improving asymptotic sequence. The full pair-product
+algebra has a three-halves barrier, whereas coupled variables and
+larger modular centralizers remain outside that bound.
+Finally, characteristic-zero nonprice certificates specialize
+outside finitely many primes, while a price-specific failure
+of the converse at an exceptional prime has not been established.
+
+\section*{Method and records}
+
+The mathematics and text were produced by GPT-6 Astra (ChatGPT Pro mode).
+The records distinguish targeted proof checks, separate same-model
+re-proofs, exact computations, and background statements.
+The same-model checks used the inherited effort setting, whose
+value was not exposed by the system.
+No human has checked this text. Our original text and programs are
+dedicated to the public domain under CC0 1.0.
+The workbench is \url{\workbenchurl}; the permanent address of its
+records is \url{\recordurl}.
+\IfFileExists{release_identity.tex}{\input{release_identity.tex}}{}
+
+\begin{thebibliography}{99}
+\bibitem{Valiant1979}
+L. G. Valiant, \emph{Completeness classes in algebra},
+Proceedings of the 11th ACM Symposium on Theory of Computing
+(1979), 249--261.
+\url{https://doi.org/10.1145/800135.804419}.
+\bibitem{BT1972}
+F. Bruhat and J. Tits,
+\emph{Groupes r\'eductifs sur un corps local:
+I. Donn\'ees radicielles valu\'ees},
+Publications Math\'ematiques de l'IH\'ES \textbf{41}
+(1972), 5--251.
+\url{https://doi.org/10.1007/BF02715544}.
+\bibitem{Li2026}
+B. Li, \emph{Semidirect sums of tensors and the matrix
+multiplication exponent}, arXiv:2611.04175v1,
+3 November 2026.
+\url{https://arxiv.org/abs/2611.04175v1}.
+\bibitem{Zhou2026}
+H. Zhou, \emph{Asymptotic rank of weighted graph tensors
+via completely positive bounds}, arXiv:2610.34273v3,
+11 November 2026.
+\url{https://arxiv.org/abs/2610.34273v3}.
+\bibitem{Liu2026}
+Y. Liu, \emph{A uniform exponent bound for asymptotic
+tensor rank}, hexagon:2611.00972v1, 24 November 2026.
+\url{https://hexagonmath.org/2611.00972v1}.
+\bibitem{Anthropic2026}
+Claude (Anthropic), \emph{VP $\ne$ VNP over every field},
+23 November 2026, 70 pp.,
+\url{https://hexagonmath.org/2611.00954v1}.
+\url{https://github.com/anthropics/formal-math/tree/main/vp-vnp}.
+\bibitem{OpenAI2026}
+OpenAI, \emph{VP and VNP are different}, 23 November 2026.
+\url{https://github.com/openai/math/tree/main/preprints/VP-and-VNP-are-different-November-23-2026}.
+Formalization scope:
+\url{https://github.com/openai/math/blob/main/lean/docs/379.md}.
+\bibitem{Strassen1988}
+V. Strassen, \emph{The asymptotic spectrum of tensors},
+J. Reine Angew. Math. \textbf{384} (1988), 102--152.
+\bibitem{BH1999}
+M. R. Bridson and A. Haefliger,
+\emph{Metric Spaces of Non-Positive Curvature}, Springer, 1999.
+\bibitem{BN2008}
+I. D. Berg and I. G. Nikolaev,
+\emph{Quasilinearization and curvature of Alexandrov spaces},
+Geom. Dedicata \textbf{133} (2008), 195--218.
+\IfFileExists{extra_bibitems.tex}{\input{extra_bibitems.tex}}{}
+\bibitem{Kleiner1999}
+B. Kleiner, \emph{The local structure of length spaces with curvature bounded above},
+Mathematische Zeitschrift \textbf{231} (1999), 409--456.
+\url{https://doi.org/10.1007/PL00004738}.
+Theorem A(3), p.~2 in the author preprint dated 14 April 1998,
+\url{https://math.nyu.edu/~bkleiner/locstr.pdf}.
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,63 @@
+\subsection{One visible cut in the seven-deletion case}
+The case of a single visible cut reduces to a small Boolean circuit with unrestricted sharing. The following exact finite bound treats that sharing explicitly.
+
+\begin{lemma}[Four conjunctions and two disjunctions]\label{lem:fourandtwoor}
+A Boolean circuit with at most four binary AND gates and at most two binary OR gates, taking arbitrary positive clauses as boundary inputs, has a positive CNF with at most twelve clauses. Reuse of gate values is unrestricted, and the boundary clauses may be zero or one. The bound twelve is attained. Conjoining one further affine positive clause gives at most thirteen clauses.
+\end{lemma}
+\begin{proof}[Proof by complete finite enumeration]
+First remove gates not ancestral to the designated output. A circuit
+with no gate is already one clause. Otherwise append idempotent gates, using the previous output twice, until there are exactly four AND and two OR gates. This preserves the Boolean function. Place the output last in a topological ordering, and number the six gates from zero through five. At gate $i$, an operand is a previous gate or one free clause. Replace each free-clause input occurrence by a distinct formal atom. Recovering the original circuit means substituting a positive clause for each atom, including any repeated or overlapping old inputs. Such substitution maps one formal CNF clause to one positive clause; false atoms may make a clause empty, and true atoms may remove a clause. Thus it cannot increase the number of clauses.
+
+Represent a positive CNF by the inclusion-minimal sets of atoms occurring in its clauses. For clause families $\mathcal A,\mathcal B$, let $\min(\mathcal A)$ mean deletion of duplicate sets and of every strict superset of another set. The exact gate recurrences are
+\[
+ \mathcal A\mathbin{\mathrm{AND}}\mathcal B
+   =\min(\mathcal A\cup\mathcal B),\qquad
+ \mathcal A\mathbin{\mathrm{OR}}\mathcal B
+   =\min\{A\cup B:A\in\mathcal A,\ B\in\mathcal B\}.
+\]
+These are distributivity and absorption. A shared gate reuses its existing family, so shared values are not replaced by independent copies.
+
+There are $i+1$ input-source choices at gate $i$: its $i$ predecessors and the free-clause alternative. Since AND and OR are commutative, choose an unordered pair with repetition. If both sources are free clauses, use two different fresh atoms. Hence there are $\binom{i+2}{2}$ possibilities at gate $i$, and $\binom62=15$ operation patterns. The complete count is
+\[
+ 15\prod_{i=0}^5\binom{i+2}{2}
+ =15(1\cdot3\cdot6\cdot10\cdot15\cdot21)=850\,500.
+\]
+Every earlier-gate choice, repeated operand, free-clause occurrence and unused node is included; no semantic pruning is used.
+
+Two separately written enumerators evaluate the displayed set recurrences on this entire finite class. The maxima, grouped by the positions of the two OR gates, are
+\[
+\begin{array}{c|rrrrrrrr}
+\text{positions}&01&02&03&04&05&12&13&14\\\hline
+\text{maximum}&5&5&6&7&9&6&7&8
+\end{array}
+\qquad
+\begin{array}{c|rrrrrrr}
+\text{positions}&15&23&24&25&34&35&45\\\hline
+\text{maximum}&9&7&9&12&9&12&12.
+\end{array}
+\]
+The second enumerator and its universal reduction were completed from the statement alone before comparison with the first. Their exact source and output hashes, all counts, and maximizing circuits are recorded with the program \emph{Shared-circuit clause enumeration} in the workbench. The largest number is twelve.
+
+For an instructive sharp example, take seven distinct atoms and the function
+\[
+ (a_1\wedge a_2)\vee(b_1\wedge b_2)
+       \vee(c_1\wedge c_2\wedge c_3).
+\]
+It has four AND gates and two OR gates. Its clauses are exactly
+$a_i\vee b_j\vee c_k$, for $1\le i,j\le2$ and $1\le k\le3$; all twelve are indispensable. Finally, an additional conjunct appends at most one clause.
+\end{proof}
+
+\begin{proposition}[One visible cut]\label{prop:onevisible}
+Under the hypotheses of Proposition~\ref{prop:threevisible}, exactly one of the three deleted additions cannot be a visible cut.
+\end{proposition}
+\begin{proof}
+Apply full-carrier erasure to the original circuit. No private gate can disappear while preserving the exact quadratic extraction, since the resulting circuit would have at most six deletions in the excluded optimal-frame case. Every private node reaches the output and first enters the selected subgraph along the high-input edge of the unique visible cut. Therefore every private gate is ancestral to its high operand $g$. By acyclicity, $g$ does not depend on the visible cut's output.
+
+The high-input circuit consequently has four products and two private additions, and its boundary values are old linear clauses. Full-carrier erasure excludes old quadratic inputs. Booleanly its restricted value has the form covered by Lemma~\ref{lem:fourandtwoor}. All original nodes remain allowed even if some become zero or redundant after restriction.
+
+The independent-symbol quadratic-frame identity gives output $H\vee gL$, with one affine positive direct context $L$. The high symbol cannot enter both factors of a frame product: substituting its nonzero old linear low part would produce a square in the quadratic output. A degree-two insertion has only a scalar context. These observations cover both possible cut degrees.
+
+Set the assigned minimum cover $Z$ to zero. The quadratic output $H$ disappears, and the target is a four-edge matching with possible isolated variables. Yet $gL$ has a positive CNF with at most thirteen clauses. Every clause true on each of the four individual matching edges must contain an endpoint of each edge. It can therefore reject at most one of the sixteen maximal independent endpoint transversals, with all isolated variables set to one. Constant-one clauses reject none, and an empty clause would reject the required edge assignments. At least sixteen clauses are necessary, a contradiction.
+\end{proof}
+
+Only the two-visible-cut branch remains in this profile.

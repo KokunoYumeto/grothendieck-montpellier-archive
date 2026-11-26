@@ -1,0 +1,122 @@
+\section{A cycle with two pendant leaves}\label{sec:leaves}
+
+This section proves Theorem~\ref{thm:leaves}, using the same branch count
+and the equality case of the positive argument.
+
+\begin{lemma}[Restriction does not create branches]\label{lem:restriction}
+Fix some inputs of a normalized circuit to constants. Propagate constants,
+suppress resulting projections and repeated-operand gates, and remove
+dead gates. If the resulting function is nonconstant, its normalized
+circuit has no more branching wires than the original.
+\end{lemma}
+\begin{proof}
+Deleting a constant wire or a dead gate removes vertices and arcs and
+cannot increase an outdegree. The only other graph operation suppresses
+a gate $q$ whose remaining value is its single parent $p$. Redirect all
+uses of $q$ to $p$, including the selected output if necessary. Write
+$d$ for the number of consumers of $p$ other than $q$, and $t$ for the
+number of consumers of $q$. The new outdegree of $p$ is at most $d+t$;
+coincident uses may reduce it. If neither $p$ nor $q$ previously branched,
+then $d=0$ and $t\le1$, so the merged wire does not branch. Otherwise the
+one merged wire contributes at most the previous two branch indicators.
+All other outdegrees are unchanged or decrease. These operations implement
+the local normalization after restriction, proving the claim by induction
+on their number. Arbitrary resynthesis of the restricted function is not
+part of the operation asserted here.
+\end{proof}
+
+\begin{corollary}[An induced core]\label{cor:core}
+Let $G$ have $n$ vertices and no isolated vertex. Suppose an induced
+subgraph $H$ is nonempty, has minimum degree at least two, and has no
+four-cycle. Then
+every circuit for $F_G$ has at least $n-1+\tau(H)$ AND/OR gates.
+\end{corollary}
+\begin{proof}
+Normalize the circuit for $G$. Set every input outside $H$ to zero and
+use the local simplification of Lemma~\ref{lem:restriction}. The remaining
+function is exactly $F_H$. The proof of Theorem~\ref{thm:binary} requires
+at least $\tau(H)$ branches in that circuit, so at least as many were
+present in the original normalized DAG. Apply Lemma~\ref{lem:budget}
+there, with all $n$ original inputs essential.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:leaves}]
+The graph has $n=2k+2$ vertices and $2k+2$ edges. Its induced cycle has
+cover number $k$. Thus every normalized circuit satisfies
+\begin{equation}\label{eq:leafbudget}
+                   g\ge3k+1+t,
+\end{equation}
+where $t$ counts NOT gates.
+
+The only covers of the cycle of size $k$ are its two alternating
+bipartition classes. Indeed its complement would be an independent set
+of size $k$; around the cycle every gap between consecutive selected
+vertices must have exactly one omitted vertex. If the two roots have
+the same parity, that class covers the enlarged graph, so $\tau(G)=k$.
+If they have opposite parity, no cover of the enlarged graph has size
+$k$: its cycle part must already have size $k$, leaving neither leaf
+available, and would therefore need both roots. One alternating cover
+together with the other root is a cover of size $k+1$.
+
+For completeness, the cover construction assigns each edge to one of
+its endpoints in a minimum cover $S$. Every $v\in S$ has a neighbor
+outside $S$, since otherwise it could be removed from $S$, so it receives
+at least one edge regardless of how edges within $S$ are assigned.
+A star with $d$ assigned edges costs $d$ gates: $d-1$ OR gates on its
+neighbors and one AND with its center. Joining the $|S|$ stars uses
+$|S|-1$ further gates, for a total $|E|+|S|-1$.
+This gives upper bounds $3k+1$ and $3k+2$ in the two cases.
+Equation~\eqref{eq:leafbudget} settles the same-parity case.
+
+Now suppose the roots have opposite parity, and normalize a circuit of
+at most $3k+1$ gates. Equation~\eqref{eq:leafbudget} forces exactly
+$3k+1$ gates and $t=0$, so this normalized circuit is positive.
+Let $S$ be the eligible \emph{cycle} vertices. Every cycle edge has
+endpoints of degree at least two. Lemma~\ref{lem:carrier} therefore
+shows that $S$ covers the cycle, and that its first branching carriers
+are distinct with singleton supports. There are at least $k$ of them.
+Equality in the incidence budget permits only $k$ branches altogether.
+Consequently $|S|=k$, $S$ is one alternating class, and these are all the
+branches. Each has exactly two consumers. No leaf is eligible, because
+each branch carries only its selected cycle vertex.
+
+Exactly one root belongs to $S$; call it $v$. As in the proof of
+Lemma~\ref{lem:slots}, only the two exits of $b(v)$ can
+lead to gates consuming $v$, so at most two gates consume it. Its three
+incident edges each have a meeting AND gate consuming $v$.
+The meeting gate exists for any edge, including a leaf edge: take the
+first wire true on that pair and false on both singletons, as in the
+first paragraph of the proof of Lemma~\ref{lem:carrier}.
+These three gates are distinct. If two coincided, their parent not
+carrying $v$ would carry both other endpoints. Among any two of the
+three neighbors, at least one is an ineligible cycle vertex. Every
+carrier of that vertex is a cut carrier, so Lemma~\ref{lem:carrier}
+makes its support a singleton, a contradiction. Thus three gates
+consume $v$, which is impossible. The opposite-parity case requires
+$3k+2$ gates.
+\end{proof}
+
+The eight-cycle in Theorem~\ref{thm:leaves} uses opposite classes: vertices $0$ and $3$
+have different parity and are not adjacent. An explicit fourteen-gate
+witness, returning wire $23$ from primary wires $0,\ldots,9$, is
+\begin{center}
+\begin{minipage}{0.9\linewidth}
+\centering
+\begin{tabular}{rl@{\qquad}rl}
+\toprule
+Wire&Operation&Wire&Operation\\
+\midrule
+10&$1\OR7$&11&$10\OR8$\\
+12&$0\AND11$&13&$1\OR3$\\
+14&$2\AND13$&15&$4\OR9$\\
+16&$3\AND15$&17&$4\OR6$\\
+18&$5\AND17$&19&$6\AND7$\\
+20&$12\OR14$&21&$16\OR18$\\
+22&$20\OR21$&23&$22\OR19$\\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+Its five stars have centers $0,2,3,5,7$ and partition the ten edge terms.
+Thus distributivity proves correctness and the listed rows establish the
+gate count directly.

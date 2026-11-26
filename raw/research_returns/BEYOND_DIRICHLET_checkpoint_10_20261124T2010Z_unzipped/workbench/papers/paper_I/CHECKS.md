@@ -1,0 +1,45 @@
+# Checks and reproducibility scope
+
+The detailed event record is in the accompanying workbench review records. No human check or formal proof-assistant verification is claimed. All mathematical workers in this session used GPT-6 Astra; the model label is not evidence of independent human verification.
+
+| Check type | Scope | Result and limit |
+|---|---|---|
+| Statement-only partial reconstruction | Initial theorem attack before reading the attached K-theory proofs | Established the local splitting, ordinary 3-class vanishing, residual cyclicity and local correction; identified the necessary twist/control inputs. It did not independently reconstruct the whole finite-module proof. |
+| Statement-only complete algebraic reconstruction | Main theorem with the four finite arithmetic assertions explicitly granted | A second same-model worker reconstructed the whole proof without opening the paper or the attached proofs. Its ray-class argument and shorter J/H lemma were then target-checked separately. The grant covers only the four recorded finite arithmetic facts, which the standalone computations discharge. |
+| Source-based dependency audit | Every proof used in the every-degree formula, including strict descent, logarithmic control, genus dimensions and orientation; the earlier rank and small/large-component proof is preserved in the research material | Passed after checking the exact coefficient and dual-action conventions. The newly integrated ray genus and J/H proof were checked line by line, including the 3-splitting condition. This check is not labelled a blind reproof. |
+| Separate same-model targeted check | Parent checks of the original rank argument and of the later J/H specialization, ray genus and scalar orientation | Passed, as recorded by the parent. |
+| Fresh complete computation | Base cubic and normal-closure ordinary/logarithmic groups | Passed maximal-order and complete class/unit certification, then logarithmic computations. See `evidence/base_logarithmic.out`. |
+| Fresh complete computation | Degree-nine logarithmic action | Rebuilt and certified its number field and unit/class data, generated the logarithmic presentation, found the oriented automorphism, and checked all six primitive quotient characters at precisions 60 and 90. See `evidence/cyclotomic_action.out`. No binary number-field input is read. |
+| Fresh witness verification | Degree-eighteen upper bound | Uses only the printed algebraic witnesses, certified maximal order, exact ideals and discriminants, and logarithms at precisions 40 and 70. No completeness assumption about degree-eighteen class or unit data. See `evidence/logarithmic_bound.out`. |
+| Fresh finite cross-check | Genus start through level ten | Exact residue orders, unit norm indices and dimensions agree with the separate all-level algebraic proof. See `evidence/genus_start.out`. Finite agreement is not offered as proof at all levels. |
+| Fresh complete computation | Ray-class start at levels zero, one and two | Fully certified cyclotomic class/unit and maximal-order data; ray three-parts C9, C27² × C3 and C27⁸; the unique prime above three has trivial 3-primary ray class. See `evidence/ray_start.out`. This is a finite cross-check of the separate all-level ray argument. |
+| Independent arithmetic implementation | Ordinary class groups | Exact Sympy ideal relations and Arb interval bounds were authored/executed by a separate same-model worker; the elementary unit-index/S3 proof was then target-checked here. See `evidence/ordinary_classes.json`. |
+| Independent arithmetic implementation | Theta positivity | Two exact coefficient constructions, independent root-count checks, positive partial sums, integer tail bound, and rigorous value-at-one bounds were executed by separate same-model workers; the mathematical proof and completed/uncompleted distinction were target-checked here. See `evidence/cubic_theta_certificate.json`. |
+| Exact finite seven-primary certificate | Base cubic and degree-twenty-one first layer | Candidate units are checked exactly; residue characters prove seventh-power saturation; bounded L-values and regulator intervals isolate h/index=7. No conditional BNF class number or regulator is assumed. |
+| Independent coordinate implementation | Degree-twenty-one regulator and residue matrix | Expanded-root and tensor-coordinate implementations agree. Both use Arb; integer residue characters are also checked separately. |
+| Statement-only seven-adic reconstruction | Stability, faithful components and strict control from two finite class-group inputs | Separate same-model reconstruction completed before reading the proposed proof; then independently targeted here and by the coordinator. |
+| Packaged supplement verification | Portable exact and interval programs in the editable supplement | Both were replayed successfully from the supplement directory after adapting only their input paths. |
+| Whole-paper mathematical reading | Full source, proofs and appendices | Read as an expert looking for an error. Published comparison/descent/analytic theorems remain explicit named dependencies. |
+| Whole-paper explanatory reading | Full compiled paper | Read for definitions, order of explanation, meaning of results, credit and exact scope. |
+| Earlier three-primary source-only build | A fresh directory containing only the earlier `main.tex` | Three pdflatex passes; no overfull box or unresolved reference in the final log. The first trial caught a 22-point inline overflow, which was repaired and retained as a failed check in the event record. |
+| Rendered-page review | Every page of the delivered PDF | Inspected after rendering. The arithmetic witness tables and program appendix are legible; the final build log is the decisive box-width check. |
+
+## Failed attempts are retained
+
+Earlier degree-nine implementation attempts failed because of GP identifiers, syntax/closures, or ideal-representation normalization. A trailing success marker in a failed intermediate run was explicitly rejected. The final program was rerun completely, its output contains no GP error, and its final endpoint is present. A GP process exit status of zero alone is insufficient evidence of success.
+
+## Analytic scope
+
+The completed relative Hecke function is positive at every real argument. The uncompleted function is positive for positive real arguments and has its usual trivial zeros. The paper does not prove RH, a nonreal zero-free half-plane, or a square-root prime-character estimate.
+
+## Seven-primary addition and latest build
+
+Theorem 1.3 is stated in the main introduction; its proof follows the prose overview in Section 8.1 and is printed in full with all finite witnesses in Appendix D. The separate supplement is an editable extract. The main title and three-primary theorem remain central. The main paper and supplement each received three successful pdflatex passes, with no overfull or underfull boxes and no unresolved references. The earlier 36-page main paper and twelve-page extract were rendered and inspected. The current main paper has 43 pages; its fresh build and all-page inspection are recorded below. The exact all-prime budget consequence was separately target-checked in the workbench; it is not used as a claim about unknown remaining terms.
+
+## One-prime module and universal norms
+
+Theorem 1.4 and Appendix E contain the complete additional proof. The entire new fragment was read as a targeted mathematical audit: capitulation and its cohomological identification; zero norm transitions on the base capitulation terms; compact inverse-limit exactness and local control; global cyclicity and freeness; the exact first-layer local index; Weierstrass degree one; and the natural embedding V=7X all pass. The valuation formula is invariant under multiplication by a power-series unit, and the possible Iwasawa involution only changes the center's sign. No normalized Katz-function identification is asserted.
+
+Rubin's original printed pp.40–41 were visually inspected for Theorem 5.3(v) and its scope, in addition to the previously checked class-field sequence at p.36. The exact local-index verifier was replayed from `/tmp` using the packaged relative paths; both determinants are 28 and 7 modulo 49, and all unit coordinates reconstruct exactly. This replay is not a third independent implementation. The two independent arithmetic implementations are credited separately in the workbench.
+
+The main document was built in a fresh directory with three pdflatex passes. Its final log has no warnings, bad boxes, duplicate destinations, or unresolved references. All 43 pages were rendered and inspected. The expert reading focused on the full new proof and the unchanged dependencies in Appendix D; the explanatory reading checked the updated abstract, complete definitions and quantifiers in Theorem 1.4, proof overview, exact inclusion versus abstract module isomorphism, and the separation of strict and one-prime ramification conditions. This is targeted same-model review and document QA, not blind reconstruction or human review.

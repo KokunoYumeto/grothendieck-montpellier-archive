@@ -1,0 +1,157 @@
+\subsection{Height supplied in unary}
+The matrix criterion also permits modular counting when the requested
+height grows with the input. The relevant witness is a path in the
+matrix, rather than a coefficient of degree exponential in that height.
+
+\begin{theorem}[Unary height decisions]\label{thm:unary-height}
+Fix a prime $p$. On the smooth homogeneous circuit inputs specified
+above, with a positive integer $r$ supplied in unary, deciding
+$h(X)=r$ is $\mathrm{Mod}_p\mathrm P$-complete under polynomial-time
+many-one reductions. In particular, membership holds uniformly in $r$;
+the completeness assertion for this variable-$r$ problem already holds
+on its restriction $r=2$.
+
+Let $H_{\mathrm{unary}}$ denote the same decision problem with both
+$p$ and $r$ supplied in unary, and with $p$ promised prime. Then
+$H_{\mathrm{unary}}\in\mathrm P^{\#\mathrm P}$, using one exact
+counting query followed by a remainder computation. With
+promise-respecting oracle calls,
+\[
+ \mathrm{FP}^{H_{\mathrm{unary}}}=\mathrm{FP}^{\#\mathrm P}.
+\]
+\end{theorem}
+\begin{proof}
+We first construct nonnegative counts for the coefficients entering
+the operator in \eqref{eq:quasi-delta}. Homogenize the input circuit
+through degree $d$ and keep its degree-$d$ output. Evaluate each
+degree-zero subcircuit in $\mathbb F_p$ and replace it by its residue
+in $\{0,\ldots,p-1\}$. Rewrite subtraction as addition after
+multiplication by $p-1$. The resulting arithmetic circuit uses only
+addition, multiplication and nonnegative integer scalar literals;
+it represents an integral homogeneous lift $\widetilde F$ of $F$.
+Repeated squaring constructs a circuit for
+\[
+ G=\widetilde F^{p-1}=\sum_{|\beta|=D}c_\beta x^\beta,
+ \qquad D=d(p-1),\qquad c_\beta\ge0.
+\]
+Its size is polynomial in the input length, and $D$ is polynomial
+when $p$ is fixed or unary.
+
+A parse witness at an addition chooses one child, at a product takes
+both children, and at a scalar $b$ chooses one of $b$ labels. The
+exponent vector records the variable leaves. Thus the number of
+witnesses with vector $\beta$ is exactly $c_\beta$. These are
+polynomial-length witnesses even though the circuit may share
+subcomputations. After degree-zero gates have been collapsed, every
+positive-degree leaf contributes at least one to total degree. There
+are at most $D$ such leaves and at most $D-1$ product nodes having
+two positive-degree children. Between those branching nodes a chain
+has length at most the circuit size; scalar children add at most
+one leaf per node. Hence a parse has polynomially many nodes,
+bounded by the circuit size times $O(D)$. Choose a fixed-length
+encoding with unique padding, so each parse contributes exactly one
+accepting witness and the witnesses have a canonical lexical order.
+This proves that $c_\beta$ is a $\#\mathrm P$ count, uniformly in
+the indicated input parameters.
+
+Consider the integral polynomial
+\[
+ Q=\frac{G^p-\sum_{|\beta|=D}c_\beta^{\,p}x^{p\beta}}p.
+\]
+The sum is over distinct collected monomials. For an exponent vector
+$\gamma$, the numerator coefficient counts ordered $p$-tuples of
+parse witnesses whose vectors sum to $\gamma$, excluding tuples
+whose exponent vectors are all equal. The excluded number is
+precisely $\sum_{p\beta=\gamma}c_\beta^p$: it includes all parses
+of the same monomial, not only tuples of identical parses.
+
+Cyclic rotation acts freely on the remaining tuples. Indeed, since
+$p$ is prime, a tuple fixed by a nonidentity rotation has all its
+parse witnesses equal, and therefore has all exponent vectors equal.
+Consequently $[x^\gamma]Q$ is the number of these free orbits.
+A verifier guesses the $p$ parses, checks their exponent sum and
+that their vectors are not all equal, and accepts exactly the
+lexically least cyclic rotation. Both the witness and the comparison
+with all $p$ rotations have polynomial length and running time for
+fixed or unary $p$. Every coefficient of $Q$ is thus itself a
+$\#\mathrm P$ count. As a small example, if $G=cx^\beta+ex^\eta$
+with $\beta\ne\eta$ and $p=2$, then
+$Q=cex^{\beta+\eta}$: the two possible orders of one parse of
+each monomial form one orbit.
+
+By coefficient-lift independence in \eqref{eq:quasi-delta},
+$Q\bmod p=\Delta$. In particular a coefficient of $Q$ gives a
+nonnegative counting lift of each matrix entry
+\[
+ M_{\alpha\beta}=[x^{p\alpha+a-\beta}]\Delta.
+\]
+A negative component of $p\alpha+a-\beta$ gives zero witnesses.
+For $j\ge1$, expand the scalar
+\[
+ y_j=\ell(M^{j-1}g)
+\]
+as a sum over paths of $j-1$ matrix transitions ending at the
+monomial $x^a$. A path witness specifies all its degree-$D$
+monomial indices, a parse witnessing its initial coefficient of
+$G$, and an orbit witness for each transition. Each index has
+$O(d\log(D+1))$ bits. Therefore, for unary $j$, this is a
+polynomial-length witness, with a polynomial-time verifier.
+Let $N_j$ be its number of accepting witnesses. Summing over paths
+and multiplying the choices along each path proves
+\[
+ N_j\equiv y_j\pmod p.
+\]
+This construction includes $j=1$, when the path has no transitions
+and the count is the coefficient of $x^a$ in $G$.
+
+Nonnegative counting functions are closed under sums and under
+polynomially many products: a witness selects a summand or supplies
+one witness for each factor, respectively. Thus
+\begin{equation}\label{eq:unary-count}
+ Z_r=N_r^{p-1}\prod_{j=1}^{r-1}
+       \bigl(1+(p-1)N_j^{p-1}\bigr)
+\end{equation}
+is a $\#\mathrm P$ count when $p$ is fixed or unary and $r$ is
+unary. The sum of the path lengths in this product is $O(r^2)$,
+multiplied by polynomial factors in the unary prime and circuit
+length. Fermat's identity in $\mathbb F_p$ gives
+\[
+ Z_r\not\equiv0\pmod p
+ \quad\Longleftrightarrow\quad
+ y_1=\cdots=y_{r-1}=0\ \hbox{ and }\ y_r\ne0.
+\]
+The matrix criterion identifies this condition with $h(X)=r$.
+For fixed $p$ this proves $\mathrm{Mod}_p\mathrm P$ membership;
+the height-two reduction proves completeness of the variable-$r$
+problem. If both $p$ and $r$ are unary, an exact counting oracle
+computes $Z_r$, whose binary length is polynomial in the witness
+bound, and the remainder modulo $p$ decides the problem. This
+proves the claimed $\mathrm P^{\#\mathrm P}$ upper bound.
+Conversely, every query to the promised uniform height-two oracle
+in Theorem~\ref{thm:uniform-counting} is a valid query to
+$H_{\mathrm{unary}}$ with $r=2$. That theorem recovers every
+$\#\mathrm P$ function. Composing these two simulations proves
+the stated equality of function-oracle classes.
+\end{proof}
+
+\begin{corollary}[Unary thresholds]\label{cor:unary-threshold}
+For a fixed prime $p$ and unary $R$, deciding $h(X)\le R$ belongs
+to $\mathrm{Mod}_p\mathrm P$. If a specified polynomial $q$ is
+fixed and the input additionally promises that every finite height
+is at most $q(L)$, where $L$ is circuit input length, then the
+exact-height function, including $\infty$, belongs to
+$\mathrm{FP}^{\mathrm{Mod}_p\mathrm P}$ on that promise.
+\end{corollary}
+\begin{proof}
+Over $\mathbb F_p$, the expression
+$1-\prod_{j=1}^R(1-y_j^{p-1})$ is nonzero exactly when some
+$y_j$ is nonzero. Replace each negative scalar by its residue
+$p-1$ and use the counts just constructed; the result is a
+$\#\mathrm P$ count modulo $p$ with polynomial witness length.
+For the second assertion, query the exact-height predicate for
+$r=1,\ldots,q(L)$. Return its first positive answer or $\infty$
+if none occurs. The additional promise makes the latter conclusion
+valid. No polynomial bound on finite heights is assumed for
+general circuit inputs, and the argument does not allow a
+binary-encoded height parameter.
+\end{proof}

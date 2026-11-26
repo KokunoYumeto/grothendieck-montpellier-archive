@@ -1,0 +1,1201 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=27mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[authoryear,round]{natbib}
+\usepackage{enumitem,booktabs,longtable}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage{url}
+\emergencystretch=1.5em
+\setlength{\parskip}{3pt}
+\setlength{\parindent}{1.2em}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\F}{\mathbb F}
+\newcommand{\A}{\mathbb A}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\G}{\mathbb G}
+\newcommand{\Zhat}{\widehat{\Z}}
+\newcommand{\Qbar}{\overline{\Q}}
+\newcommand{\kbar}{\overline{k}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\et}{\'et}
+\newcommand{\ab}{\mathrm{ab}}
+\newcommand{\fcov}{\mathrm{f\text{-}cov}}
+\newcommand{\fab}{\mathrm{f\text{-}ab}}
+\newcommand{\Sel}{\mathrm{Sel}}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Sec}{Sec}
+\DeclareMathOperator{\Jac}{Jac}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ord}{ord}
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/k-theory-and-galois-groups-workbench}
+\newcommand{\recordurl}{https://github.com/KokunoYumeto/mathematics-workbenches}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\title{Fermat's theorem for Selmer sections\\[4pt]
+\large Grothendieck's question, after Steklov}
+\author{}
+\date{25 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Grothendieck proposed Fermat's theorem as a test of his section conjecture, and
+Steklov adapted the modular method to locally geometric sections of prime-exponent
+Fermat curves. We prove that, for every odd exponent at least three, every section
+which is locally a point section or a rational cusp section is globally cuspidal.
+The section set is exactly three disjoint cusp packets. The proof combines the
+refined theorem of Serre, Stoll's finite descent theorems, and Stix's description
+of cusp packets. It keeps the constant term in the cuspidal Tate parameter and
+uses a modular curve of level four times the exponent; these changes also cover
+exponents five and seven. Exponent three follows from the modular elliptic curve
+of conductor twenty-seven, and finite coverings give every odd exponent.
+We separate the statement about all sections, whose additional input is the
+proper local section theorem asserted in OpenAI's unrefereed preprint. We also
+treat positive-genus modular curves with a marked torsion point and the real
+obstruction for even Fermat exponents. The mathematics and text were produced
+by GPT-6 Astra Pro, with separate same-model proof checks and earlier
+Claude Opus 5.5 checks recorded below; no human has checked this paper.
+\end{abstract}
+
+\section{Grothendieck's question and the results}
+
+This paper determines the locally geometric part of the section set of an
+affine Fermat curve. Grothendieck's discussion in
+\emph{La Longue Marche \`a travers la th\'eorie de Galois}, \S51.16,
+asks for Fermat's theorem in the language of sections
+\citep[\S51.16, fols.~733--736v, especially fol.~734]{grothendieck}. The point is to recognize the evident boundary
+sections directly in the arithmetic fundamental group. Fermat's Last Theorem
+removes rational points from the affine curve; the section conjecture predicts
+that the boundary accounts for everything left.
+
+For an integer $n\geq3$, let
+\[
+ F_n:\ X^n+Y^n+Z^n=0\ \subset\mathbf P^2_{\Q},\qquad
+ U_n=F_n\setminus D_n,\qquad D_n=F_n\cap\{XYZ=0\}.
+\]
+The curve $F_n$ is smooth of genus $(n-1)(n-2)/2$, and $D_n$ has $3n$
+geometric points. In particular $U_n$ is hyperbolic. Write
+$G_k=\Gal(\kbar/k)$ for the absolute Galois group of a field $k$ of
+characteristic zero. A geometric base point gives an exact sequence
+\begin{equation}\label{eq:fundamental}
+ 1\longrightarrow\pi_1(U_{n,\Qbar})\longrightarrow\pi_1(U_n)
+ \longrightarrow G_{\Q}\longrightarrow1.
+\end{equation}
+Every section in this paper is continuous, and sections are identified up to
+conjugation by the geometric fundamental group.
+
+A rational point gives a section by functoriality. A rational boundary point
+$y$ gives a decomposition group $D_{\widetilde y}$, with exact sequence
+\begin{equation}\label{eq:cusp}
+ 1\longrightarrow I_{\widetilde y}\simeq\Zhat(1)
+ \longrightarrow D_{\widetilde y}\longrightarrow G_k\longrightarrow1.
+\end{equation}
+A section factoring through this group is \emph{cuspidal at $y$}. Its packet
+is the set of all such section classes. A nonzero rational tangent vector
+splits \eqref{eq:cusp}; arbitrary cuspidal sections need not come from an
+individual tangent vector.
+
+\begin{definition}\label{def:selmer}
+A section of a smooth affine hyperbolic curve $U/k$, with smooth proper
+compactification $X$, is \emph{Selmer} if at every finite place $v$ its
+restriction is the section of a point of $U(k_v)$ or a section in a
+decomposition group of a point of $(X\setminus U)(k_v)$. At a real place we
+require a real point section or a real cusp section. There is no additional
+condition at complex places. This definition uses the full profinite groups.
+\end{definition}
+
+\begin{theorem}[Fermat's theorem for Selmer sections]\label{thm:fermat}
+Let $n\geq3$ be odd. Every Selmer section of \eqref{eq:fundamental} is
+cuspidal. More precisely, if
+\[
+ y_1=(0:-1:1),\qquad y_2=(-1:0:1),\qquad y_3=(1:-1:0),
+\]
+then
+\begin{equation}\label{eq:packets}
+ \Sec(U_n/\Q)^{\Sel}=\mathcal P_{y_1}\ \coprod\
+ \mathcal P_{y_2}\ \coprod\ \mathcal P_{y_3}.
+\end{equation}
+Each packet is naturally a torsor under
+\[
+ H^1(\Q,\Zhat(1))\simeq\varprojlim_m\Q^\times/(\Q^\times)^m.
+\]
+The inputs are the refined form of Serre's modularity theorem,
+Stoll's Theorem~8.2 and Corollary~8.8 with his 2017 corrections,
+Mazur's torsion theorem, and Stix's cusp-packet theorem. No local section
+conjecture is an input to this assertion.
+\end{theorem}
+
+Thus the local point-or-cusp condition is enough to prove the prediction
+Grothendieck attached to Fermat's theorem. The statement concerns all
+cuspidal sections, including the entire Kummer completion of a tangent
+parameter. It does not identify each packet with just $\Q^\times$.
+
+The local assertion needed to remove the Selmer hypothesis is stated precisely
+because it is logically separate from the global proof.
+
+\begin{hypothesis}[Proper local section input]\label{hyp:local}
+For every prime $p$, every finite extension $k/\Q_p$, and every smooth proper
+geometrically connected curve $X/k$ of genus at least two, the point map
+\[
+ X(k)\longrightarrow\Sec(X/k)
+\]
+is bijective for the full profinite arithmetic fundamental group.
+\end{hypothesis}
+
+This is the statement of \citet[Theorem~1.1, p.~2]{openai}, in its
+6 October 2026 version. That preprint is unrefereed; we use its statement as
+an explicitly identified input and do not certify its proof here.
+
+\begin{corollary}[All sections, with its local input]\label{cor:all}
+Assume Hypothesis~\ref{hyp:local}. For every odd $n\geq3$, every section of
+\eqref{eq:fundamental} is Selmer and therefore cuspidal. Its entire section
+set is the disjoint union \eqref{eq:packets}. The only further local input
+is the established real section theorem.
+\end{corollary}
+
+\begin{theorem}[Two consequences of finite descent and the real place]
+\label{thm:other}
+If the smooth modular curve $X_1(N)/\Q$ has positive genus, every Selmer
+section of $Y_1(N)/\Q$ is cuspidal at a rational cusp. Under
+Hypothesis~\ref{hyp:local}, the same assertion holds for every full section.
+For every even integer $n\geq2$, $U_n/\Q$ has no Selmer section and, in
+fact, no full section. The latter assertion needs only the real section
+theorem, not Hypothesis~\ref{hyp:local}.
+\end{theorem}
+
+The modular-curve conclusion includes every level of genus at least two,
+as well as the positive-genus levels excluded from the list of possible
+rational torsion orders. It is a consequence of Stoll's theorem and
+Mazur's theorem, with the passage from finite support to cusp sections
+made explicit below.
+
+\subsection{Earlier results and the division of credit}
+
+Stoll proves that finite abelian descent cuts out the rational points on
+every positive-genus modular curve of the indicated types
+\citep[Corollary~8.8, pp.~385--386]{stoll}. His density-one finite-support
+theorem \citep[Theorem~8.2, pp.~383--384]{stoll} is what makes that result
+useful for section neighborhoods. Stix proves the disjointness and internal
+description of cusp packets \citep[Proposition~8 and Theorem~14,
+pp.~5--6]{stix}. These are independent arithmetic and anabelian inputs.
+
+Steklov associates a residual Legendre representation to a Fermat section,
+uses modularity in the irreducible case, and finite descent on a modular
+cover in the reducible case \citep[Theorem~A; \S5]{steklov}. This is the
+proof strategy followed here. His printed statement has prime exponent
+$\ell\geq7$. Two steps require correction: the asserted divisibility of
+the cuspidal Tate class in Proposition~4.6, used in Proposition~5.10,
+omits its leading constant; and the final appeal to
+$Y_1(7)(\Q)=\varnothing$ in Theorem~5.14 is false. Section~\ref{sec:corrections}
+gives the precise corrections. The local assertion required in
+Proposition~5.10 remains true, so the first defect does not destroy the
+conclusion for $\ell\geq11$ once that assertion is reproved. Exponent seven
+is unproved by the printed argument. The map to $X_0(4\ell)$ below and
+the full rational two-torsion give both five and seven.
+
+\citet[Theorems~A, C, and E]{bkl} relate locally geometric sections to
+finite descent and to Chabauty--Kim loci. Their affine integral conditions
+are different from allowing all cusp packets at every place. Their
+Theorem~E gives a finite algebraic support for Chabauty--Kim loci when a
+Jacobian has a rank-zero factor of dimension at least two with finite
+Tate--Shafarevich group; it does not by itself identify that support with
+rational cusps. The companion paper discusses this distinction for the
+Fermat quintic and for quotients of the geometric fundamental group.
+
+\citet[Theorems~1.1--1.2, pp.~1--2, and Theorem~2.2,
+pp.~3--4]{porowski} proves that a noncuspidal Selmer section is
+determined by its reductions on a density-one set of primes, and that
+a section which is locally cuspidal on such a set is globally cuspidal.
+These are results for the full fundamental group. They clarify why
+controlling the reductions of a section is a central step; the modular
+argument here produces the needed global support for Fermat curves.
+
+\subsection{Proof overview}
+
+The main difficulty is that a section is not a rational point. One cannot
+start by attaching an elliptic curve over $\Q$ to it. Instead the Legendre
+family gives a two-dimensional representation of the fundamental group,
+and composing with the section gives a Galois representation. Local
+geometry makes its twists satisfy the same small-conductor and
+finite-flat conditions that occur in the modular proof of Fermat's theorem.
+The constant in a Tate parameter must be kept at a cusp: ramification
+makes the variable part disappear modulo the exponent, but it leaves the
+constant $2^{-8}$.
+
+For a prime exponent $\ell\geq5$, a global quadratic twist of this
+representation has conductor two and Serre weight two. If it were
+irreducible, refined modularity would produce a weight-two cusp form of
+level two, which does not exist. An invariant line therefore gives a
+finite \et ale neighborhood of the section. The Legendre family's two
+independent rational two-torsion points turn its cyclic $\ell$-subgroup
+into a cyclic $4\ell$-subgroup on a two-isogenous curve. This produces a
+nonconstant map to $X_0(4\ell)$, whose genus is positive even for $\ell=5$.
+
+Stoll then forces the local points of the neighborhood into one finite
+fiber. Applying the same theorem throughout the section's neighborhood
+tower gives a compatible rational point in its compactified tower. Its
+stabilizer is a point or cusp decomposition group. Rational points are
+excluded using the same local representation, together with Mazur's
+torsion list. The cubic is handled by $X_0(27)$. A coordinate power map
+reduces every composite odd exponent to a prime exponent. Finally Stix's
+theorem identifies the packets without identifying any two of them.
+
+The Selmer condition is used twice: to control every local residual
+representation, and to place the compactification points in finite
+descent sets. Oddness is used to obtain the three rational cusps and in
+the coordinate-power reduction. The bound $\ell\geq5$ makes the
+two-adic $j$-invariant negative and $X_0(4\ell)$ of positive genus.
+Neither step is asserted for the cubic.
+
+\section{Finite support and section neighborhoods}\label{sec:finite}
+
+This section spells out the passage from finite adelic support to an
+arithmetic decomposition group. It is the mechanism of
+\citet[Lemma~3.16 and Proposition~3.17]{steklov}, based on Stoll's
+theorem. We give the argument in the form needed here, including its
+behavior at a ramified boundary point and at real places.
+
+For a smooth proper curve $X/k$ over a number field, set
+\[
+ X(\A_k)_\bullet=
+ \prod_{v\text{ finite}}X(k_v)\times
+ \prod_{v\text{ real}}\pi_0(X(k_v)).
+\]
+Complex factors are omitted, as required by
+\citet[\S1]{stollerrata}. The subsets
+$X(\A_k)_\bullet^{\fcov}$ and
+$X(\A_k)_\bullet^{\fab}$ consist of points surviving all torsors under
+finite \et ale $k$-group schemes, respectively all such abelian torsors.
+Survival means that some global twist of the torsor has local points
+above the specified adelic point at every place. In particular
+\begin{equation}\label{eq:descentinclusion}
+ X(k)\subset X(\A_k)_\bullet^{\fcov}
+ \subset X(\A_k)_\bullet^{\fab}.
+\end{equation}
+
+\begin{lemma}[Lifting local geometry]\label{lem:lifting}
+Let $U/k$ be a smooth geometrically connected affine curve, and let $s$
+be a Selmer section. A connected finite \et ale cover $V\to U$ to which
+$s$ lifts is geometrically connected, and the lifted section is Selmer.
+If $X_V$ is its smooth proper compactification, the local point-or-cusp
+centers give a point of $X_V(\A_k)_\bullet^{\fcov}$.
+\end{lemma}
+\begin{proof}
+Let $\Pi=\pi_1(U)$, $\Delta=\pi_1(U_{\kbar})$, and let the open subgroup
+$H\subset\Pi$ define $V$. Choose the lift so that $s(G_k)\subset H$.
+The image of $H$ in $G_k$ is therefore all of $G_k$, which is equivalent
+to geometric connectedness of $V$.
+
+Fix a place $v$. If $s_v$ is the section of an interior point, choose a
+prolongation whose decomposition group is $s_v(G_{k_v})$. That group
+lies in $H$, so its image on $V$ is a $k_v$-point and induces the lifted
+section. If $s_v$ is cuspidal, choose a prolongation $\widetilde c$
+whose decomposition group contains $s_v(G_{k_v})$. Its intersection
+with $H$ still maps onto $G_{k_v}$, because it contains the section.
+Consequently the boundary point below $\widetilde c$ on $X_V$ is
+$k_v$-rational, and the lifted section lies in its decomposition group.
+The same argument applies over $\R$.
+
+Compose the lifted section with $\pi_1(V)\to\pi_1(X_V)$. At a boundary
+point this kills inertia, so locally it is the point section of the
+center just obtained. For a torsor $T\to X_V$ under a finite \et ale
+$k$-group scheme $G$, pull its cohomology class back along this global
+section. The result is a single class $\alpha\in H^1(k,G)$. At every
+place its restriction is the class of the fiber over the local center.
+Twisting by this class, with the inverse convention if needed, makes
+all these fibers trivial. This proves survival of every finite torsor.
+Properness supplies the adelic condition at all finite places.
+\end{proof}
+
+\begin{lemma}[Finite support]\label{lem:finite-support}
+Let $U/k$ be a smooth geometrically connected affine curve whose smooth
+proper compactification $X$ has genus at least one. Let $s$ be Selmer.
+Suppose there is a finite reduced subscheme $Z\subset X$ such that its
+local centers belong to $Z(k_v)$ at a density-one set of finite places.
+Then $s$ is the section of a point of $U(k)$, or is cuspidal at a point
+of $(X\setminus U)(k)$.
+\end{lemma}
+\begin{proof}
+The geometric group $\Delta$ is topologically finitely generated.
+For every characteristic open subgroup $N\subset\Delta$, put
+$H_N=N\,s(G_k)$. This is an open subgroup of $\Pi$, and the corresponding
+cover $U_N\to U$ is geometrically connected. These covers are cofinal
+among the finite section neighborhoods: given an open subgroup
+containing $s(G_k)$, take a characteristic open subgroup inside its
+intersection with $\Delta$. Their compactifications $X_N$ have genus
+at least one by Riemann--Hurwitz.
+
+By Lemma~\ref{lem:lifting}, $X_N$ has an adelic point surviving finite
+descent. At the specified density-one set, its centers lie in the finite
+inverse image $Z_N$ of $Z$. Stoll's Theorem~8.2 therefore gives a
+$k$-point of $Z_N$. This application uses only finite places. In
+particular it makes no claim that a chosen real connected component
+has a point in a prescribed scheme-theoretic fiber; that is the issue
+corrected in \citet[\S3]{stollerrata}.
+
+The finite sets $Z_N(k)$ are nonempty and form an inverse system under
+the transition morphisms. Its inverse limit is nonempty. Indeed, for
+any finite collection of levels, a common refinement supplies a point
+compatible with all transition conditions involving those levels;
+compactness of the product of the finite sets then gives a point
+$(z_N)_N$ in the inverse limit. Its image $z$ on $X$ is rational.
+
+For completeness, interpret this limit in the geometric cover tower.
+The section $s$ identifies $\Pi$ with $\Delta\rtimes G_k$. The geometric
+cover with group $N$ acquires its $k$-structure from this action; its
+compactified fiber above $z$ consists of the $N$-orbits of geometric
+prolongations of $z$. A rational $z_N$ is an $s(G_k)$-fixed such orbit.
+A compatible system of these orbits is a prolongation $\widetilde z$
+in the full compactified geometric tower, fixed by $s(G_k)$. One may
+also see the last assertion by taking the inverse limit of the finite
+orbit sets: the action commutes with every transition map, and
+characteristic open subgroups form a basis at the identity.
+
+The stabilizer of $\widetilde z$ in $\Pi$ is its decomposition group
+$D_{\widetilde z}$. Thus
+$s(G_k)\subset D_{\widetilde z}$. If $z\in U(k)$, this decomposition
+group maps isomorphically to $G_k$ and the section is the point section.
+If $z\in X\setminus U$, it is a cusp section. At a cusp the conclusion
+is containment of the section in the decomposition group; the
+nontrivial cusp inertia is not contained in the section.
+\end{proof}
+
+\begin{corollary}[A map to a curve controlled by descent]\label{cor:descent-map}
+In the setting of Lemma~\ref{lem:finite-support}, suppose there is a
+nonconstant morphism $f:X\to W$ to a smooth proper curve such that
+\[
+ W(\A_k)_\bullet^{\fab}=W(k).
+\]
+Then every Selmer section of $U$ is a point section or a cusp section.
+\end{corollary}
+\begin{proof}
+The centers in $X(\A_k)_\bullet^{\fcov}$ from
+Lemma~\ref{lem:lifting} map into $W(\A_k)_\bullet^{\fab}$: pull back
+every torsor on $W$. They therefore map to a single point $w\in W(k)$.
+At each finite place their centers lie in the finite fiber $f^{-1}(w)$.
+Apply Lemma~\ref{lem:finite-support} to its reduction.
+\end{proof}
+
+\section{The Tate parameter at the boundary}\label{sec:cusp}
+
+The local calculation in this section retains the constant that ramification
+alone does not control. Let
+$T=\mathbf P^1\setminus\{0,1,\infty\}$ and let
+\[
+ E_\lambda:\quad y^2=x(x-1)(x-\lambda)
+\]
+be its Legendre elliptic scheme. Its invariants are
+\begin{equation}\label{eq:legendre}
+ \begin{split}
+ \Delta(E_\lambda)&=16\lambda^2(1-\lambda)^2,\\
+ c_4(E_\lambda)&=16(\lambda^2-\lambda+1),\\
+ j(\lambda)&=256\frac{(\lambda^2-\lambda+1)^3}
+                         {\lambda^2(1-\lambda)^2}.
+ \end{split}
+\end{equation}
+The morphism $U_n\to T$ used throughout is
+$\lambda=-(X/Z)^n$; the equation of $F_n$ gives
+$1-\lambda=-(Y/Z)^n$.
+
+\begin{lemma}[The constant in a formal Kummer class]\label{lem:kummer}
+Let $k$ have characteristic zero, let $t$ be a parameter at a rational
+boundary point, and suppose $q=a t^e h(t)$ with $a\in k^\times$,
+$e\in\Z$, and $h(t)\in1+t k[[t]]$. For any section $s$ of the
+punctured local fundamental group,
+\begin{equation}\label{eq:kummer}
+ \kappa(q)(s)=\kappa(a)+e\,\kappa(t)(s)
+       \quad\text{in }H^1(k,\Zhat(1)).
+\end{equation}
+Here $\kappa$ denotes the multiplicative Kummer map, written additively.
+\end{lemma}
+\begin{proof}
+For every positive integer $m$, the binomial expansion, equivalently
+Hensel's lemma, gives an $m$th root of $h(t)$ in $1+t k[[t]]$.
+Consequently $[q]=[a]+e[t]$ in the $m$th Kummer quotient.
+Pullback along $s$ and passage to the compatible inverse limit prove
+\eqref{eq:kummer}. The argument is equally valid in the punctured
+henselian local scheme, whose finite tame covers in characteristic
+zero have the same parameter and residue-field description.
+\end{proof}
+
+\begin{proposition}[Cuspidal Legendre class]\label{prop:cusp-class}
+At every geometric cusp of $F_n$, over any characteristic-zero field
+over which that cusp is rational, a parameter $t$ can be chosen so that
+\begin{equation}\label{eq:jinverse}
+ j^{-1}=2^{-8}t^{2n}
+       \frac{(1+t^n)^2}{(1+t^n+t^{2n})^3}.
+\end{equation}
+The Tate parameter satisfies $q=j^{-1}+O(j^{-2})$. Hence every cusp
+section satisfies
+\[
+ \kappa(q)(s)=\kappa(2^{-8})+2n\,\kappa(t)(s).
+\]
+In particular, for $n=\ell$ prime,
+\begin{equation}\label{eq:cuspresidual}
+ [q(s)]_\ell=[2^{-8}]_\ell\in H^1(k,\mu_\ell).
+\end{equation}
+The residual Legendre representation is a quadratic twist of the Tate
+extension with this class; the extension need not split.
+\end{proposition}
+\begin{proof}
+At a cusp with $X=0$, take $t=X/Z$, so $\lambda=-t^n$.
+At a cusp with $Y=0$, take $t=Y/Z$, so $\lambda=1+t^n$.
+At a cusp with $Z=0$, take $t=Z/X$, so $\lambda=-t^{-n}$.
+Substitution in \eqref{eq:legendre} gives \eqref{eq:jinverse} in all
+three cases. This does not require the other coordinate to be rational
+over the original field: the formula holds over the residue field of
+the chosen cusp.
+
+The inverse of the integral Tate $j$-series has leading term $j^{-1}$.
+Thus $q=2^{-8}t^{2n}h(t)$ with $h(0)=1$. Apply
+Lemma~\ref{lem:kummer}. The standard Tate uniformization identifies
+the $\ell$-torsion with an extension of $\Z/\ell$ by $\mu_\ell$
+classified by $[q]$, after the quadratic character that makes the
+reduction split multiplicative. Pulling back along the cusp section
+gives the stated extension and its possible quadratic twist.
+\end{proof}
+
+\begin{remark}[The cusp above infinity]\label{rem:infinity}
+The quadratic twist at infinity is not independent of the section.
+For the Legendre equation,
+$c_6=32(\lambda+1)(\lambda-2)(2\lambda-1)$, and with
+$\lambda=-t^{-\ell}$ one has
+\[
+ -c_4/c_6=\tfrac14t^\ell(1+O(t^\ell)).
+\]
+Its square class is ramified in the parameter for odd $\ell$.
+The local monodromy is $-T^{2\ell}$ rather than $T^{2\ell}$, where
+$T$ is a unipotent transvection. Pulling back the quadratic character
+along a cusp section can therefore depend on its tangent Kummer class.
+The global patching below permits arbitrary local quadratic inertia
+characters and includes precisely this possibility.
+\end{remark}
+
+The smallest relevant calculation already disproves divisibility by
+ramification. With unit tangent at $X=0$ and $n=5$,
+\[
+ \kappa(q)(s)=-8\kappa(2).
+\]
+Its two-adic valuation is $-8$, whose image modulo five is $2$, not
+zero. The order-ten ramification of the $j$-map does not remove that
+constant.
+
+\section{Local conditions and refined modularity}\label{sec:modularity}
+
+This section proves that the residual representation of a Selmer section
+has an invariant line. Fix a prime $\ell\geq5$, and let $s$ be a Selmer
+section of $U_\ell$. Pull back the $\ell$-torsion of the Legendre scheme
+and compose its monodromy with $s$:
+\[
+ \overline\rho_s:G_\Q\longrightarrow\GL_2(\F_\ell).
+\]
+The Weil pairing gives $\det\overline\rho_s=\overline\chi_\ell$, where
+$\overline\chi_\ell$ is the mod-$\ell$ cyclotomic character.
+
+\begin{lemma}[Local ordinary points]\label{lem:local-points}
+Let $(a,b)\in U_\ell(\Q_p)$, so $a^\ell+b^\ell+1=0$, and set
+$\lambda=-a^\ell$. At an odd prime $p$, the Legendre curve has good
+reduction or is, after a quadratic twist, a Tate curve with
+$\ell\mid v_p(q)$. At $p=2$ it is potentially multiplicative and
+\[
+ v_2(q)\equiv-8\pmod\ell.
+\]
+\end{lemma}
+\begin{proof}
+If $v_p(a)>0$, then $\lambda^2-\lambda+1$ and $1-\lambda$ are units,
+so \eqref{eq:legendre} gives
+\[
+ v_p(j)=8v_p(2)-2\ell v_p(a).
+\]
+If $v_p(a)<0$, then
+$v_p(1-\lambda)=v_p(\lambda)$ and
+$v_p(\lambda^2-\lambda+1)=2v_p(\lambda)$; hence in both cases
+\begin{equation}\label{eq:jvaluation}
+ v_p(j)=8v_p(2)-2\ell|v_p(a)|.
+\end{equation}
+If $a$ is a unit but $\lambda\equiv1\pmod p$, use
+$1-\lambda=-b^\ell$ instead. The remaining case at an odd prime has
+$\lambda$ and $1-\lambda$ both units, and the discriminant in
+\eqref{eq:legendre} is a unit, proving good reduction.
+
+At two the remaining case cannot occur: if $a,b$ were both two-adic
+units, $a^\ell+b^\ell+1$ would be odd. Thus
+$v_2(j)=8-2\ell m$ for an integer $m\geq1$, which is negative because
+$\ell\geq5$. At an odd prime every non-good case in
+\eqref{eq:jvaluation} also has negative $j$-valuation. Tate
+uniformization after a quadratic twist gives
+$v_p(q)=-v_p(j)$, proving all the divisibility and congruence claims.
+\end{proof}
+
+\begin{lemma}[Local residual conditions]\label{lem:local-residual}
+At every finite prime $p$ there is a quadratic character $\eps_p$ such
+that $\overline\rho_s\otimes\eps_p$ has the following properties:
+it is unramified if $p\neq2,\ell$; it is finite flat at $p=\ell$;
+and at $p=2$ it is tamely ramified with conductor exponent one.
+\end{lemma}
+\begin{proof}
+At an ordinary point choose the twist in Lemma~\ref{lem:local-points};
+at a cusp use Proposition~\ref{prop:cusp-class}. In the good reduction
+case the torsion of the smooth elliptic scheme has the asserted
+unramified or finite-flat property, and no twist is needed.
+
+In the Tate case the representation is
+\[
+ \begin{pmatrix}\overline\chi_\ell&c_q\\0&1\end{pmatrix},
+ \qquad[c_q]=[q]\in H^1(\Q_p,\mu_\ell).
+\]
+For odd $p\neq\ell$ the valuation of the class is divisible by
+$\ell$, both for points and for cusps, so it has a unit representative.
+Taking $\ell$th roots is an automorphism on principal units. A root of
+the residue-field unit lies in a finite residue-field extension and
+lifts in the corresponding unramified extension. The Kummer class
+and the cyclotomic character are therefore unramified.
+
+At $p=\ell$ the same valuation condition gives a unit representative
+$u\in\Z_\ell^\times$. Here the associated extension is finite flat.
+One explicit model has components
+\[
+ \Spec\bigl(\Z_\ell[z]/(z^\ell-u^a)\bigr),\qquad0\leq a<\ell,
+\]
+with product
+\[
+ (a,z)(b,w)=
+ \left(a+b-\ell\left\lfloor\frac{a+b}{\ell}\right\rfloor,
+ \frac{zw}{u^{\lfloor(a+b)/\ell\rfloor}}\right).
+\]
+The carry identity proves associativity. Its identity is $(0,1)$;
+inversion is obtained from the same formula. Every component is finite
+free of rank $\ell$, and the resulting group scheme is an extension
+of $\Z/\ell$ by $\mu_\ell$ whose fiber above $1$ is the Kummer torsor
+of $u$. This gives the required generic-fiber representation.
+
+At two the cyclotomic character is unramified and the inertia image
+after twisting is unipotent of order dividing $\ell$. Its restriction
+to wild inertia is trivial, since wild inertia is pro-two. The
+valuation of the Tate class is $-8$ modulo $\ell$, at an ordinary
+point by Lemma~\ref{lem:local-points} and at a cusp by
+\eqref{eq:cuspresidual}. It is nonzero. Tame inertia therefore has a
+nontrivial transvection, with a one-dimensional invariant subspace.
+The Swan conductor is zero and the Artin conductor exponent is one.
+\end{proof}
+
+\begin{proposition}[Reducibility]\label{prop:reducible}
+For every Selmer section $s$ of $U_\ell$, $\ell\geq5$ prime,
+$\overline\rho_s$ is reducible over $\F_\ell$.
+\end{proposition}
+\begin{proof}
+Only finitely many local inertia characters in
+Lemma~\ref{lem:local-residual} need be nontrivial. Indeed
+$\overline\rho_s$ has finite image and is ramified at finitely many
+primes. Away from $2,\ell$, a quadratic scalar cannot be canceled by
+a nontrivial unipotent matrix in odd characteristic, so the needed
+inertial twist is trivial wherever the original representation is
+unramified.
+
+The local quadratic inertia characters patch to a global character
+$\eps:G_\Q\to\{\pm1\}$. To see this precisely, use
+Kronecker--Weber to identify $G_\Q^{\ab}$ with
+$\Zhat^\times=\prod_p\Z_p^\times$. At the prime $p$, the restriction
+of a local abelian character to inertia is its character on
+$\Z_p^\times$ under local reciprocity. Put the prescribed character
+on each of the finitely many relevant factors and the trivial one on
+the others. Its restriction at $p$ differs from $\eps_p$ by an
+unramified character. Such a difference preserves unramifiedness,
+the conductor, and finite flatness; in the last case it is a twist by
+an \et ale rank-one group scheme over $\Z_\ell$.
+
+Set $r=\overline\rho_s\otimes\eps$. It has determinant
+$\overline\chi_\ell$, is unramified away from $2,\ell$, has
+prime-to-$\ell$ conductor $N(r)=2$, and is finite flat at $\ell$.
+Serre's finite-flat criterion
+\citep[\S2.8, Proposition~4, pp.~189--190]{serre} therefore gives $k(r)=2$.
+
+Suppose $r$ were irreducible over $\F_\ell$. It is absolutely
+irreducible. In fact complex conjugation has distinct eigenvalues
+$1,-1$ since the determinant is cyclotomic. Any invariant line over
+$\overline{\F}_\ell$ must be one of those eigenspaces, both of which
+are defined over $\F_\ell$; such a line would contradict
+irreducibility over $\F_\ell$.
+
+The refined Serre theorem now produces a weight-two cusp form of
+level $N(r)=2$. The modularity input is
+\citet[Theorem~9.1, author version p.~18]{kwone}, with the lifting
+results proved in \citet[\S10.2--10.3, author version pp.~92--94]{kwtwo}
+and hypothesis (H) established by
+\citet[Theorem~0.1 and Corollary~0.2, author version p.~2]{kisin}.
+For the refinement, Ribet's level-lowering theorem
+\citep[Theorem~1.1, p.~432]{ribet} begins with a weight-two modular
+representation, whereas Edixhoven's minimum-weight theorem
+\citep[Theorem~4.5, author version p.~11]{edixhoven} supplies the
+weight component. The combined refinement is Diamond's
+Theorem~6.4 \citep{diamond}. We use its precise sufficient formulation
+in \citet[Theorem~2.14, pp.~503--504]{wiles}: an odd absolutely
+irreducible modular representation in characteristic $\ell>3$,
+finite flat at $\ell$ with cyclotomic determinant there, occurs in
+weight two at its prime-to-$\ell$ Artin conductor. The theorem
+gives a character of order prime to $\ell$; determinant comparison
+makes its reduction trivial here, hence the character itself trivial.
+Thus the form lies in $S_2(\Gamma_0(2))$. Qualitative modularity
+alone would not give this conclusion.
+
+But $\Gamma_1(2)=\Gamma_0(2)$, and the modular curve $X_0(2)$ has
+genus zero. Weight-two cusp forms are its holomorphic differentials,
+so $S_2(\Gamma_1(2))=0$. This contradiction proves reducibility.
+Quadratic scalar twisting does not change invariant lines, so the
+same holds for $\overline\rho_s$.
+\end{proof}
+
+\section{A modular cover of level \texorpdfstring{$4\ell$}{four times the exponent}}\label{sec:modularcover}
+
+The invariant line now converts representation-theoretic information into
+a finite section neighborhood with a useful proper map.
+
+\begin{proposition}\label{prop:fourlevel}
+For a Selmer section of $U_\ell$, $\ell\geq5$ prime, there is a
+geometrically connected finite \et ale section neighborhood $V\to U_\ell$
+whose smooth proper compactification admits a nonconstant morphism
+to $X_0(4\ell)$.
+\end{proposition}
+\begin{proof}
+Let $Z_\ell\to T$ be the finite \et ale scheme of lines in the
+Legendre $\ell$-torsion. Its geometric fiber is
+$\mathbf P^1(\F_\ell)$. An invariant line for
+$\overline\rho_s$ is a fixed point of $s(G_\Q)$ in the fiber of
+$U_\ell\times_T Z_\ell\to U_\ell$. Its stabilizer is an open
+subgroup containing the section, hence defines a geometrically
+connected component $V$ to which the section lifts. On $V$ there is
+a Legendre elliptic curve $E$ with a tautological finite \et ale
+cyclic subgroup $C\subset E[\ell]$ of order $\ell$.
+
+The two sections $P=(0,0)$ and $Q=(1,0)$ are independent points of
+$E[2]$. Form $\phi:E\to E'=E/\langle P\rangle$, with dual isogeny
+$\phi':E'\to E$. The subgroup
+\[
+ C_4=(\phi')^{-1}(\langle Q\rangle)
+\]
+has order four and is cyclic. Indeed, for a geometric lift $R$ of
+$Q$ under $\phi'$, the identity $\phi\phi'=[2]_{E'}$ gives
+$2R=\phi(Q)\neq0$. Thus $R$ has order four and generates the
+whole inverse image. The definition makes $C_4$ Galois stable.
+
+Since $\ell$ is odd, $\phi(C)$ has order $\ell$ and intersects
+$C_4$ trivially. Their sum is a cyclic subgroup of $E'$ of order
+$4\ell$. The pair $(E',C_4+\phi(C))$ gives a morphism
+$V\to Y_0(4\ell)$ to the coarse modular curve. A coarse moduli map
+suffices; no choice of a generator or fine moduli interpretation
+of $Y_0(4\ell)$ is required.
+
+This map is nonconstant. Otherwise $j(E')$ would be constant. An
+elliptic curve over an algebraically closed field has only finitely
+many order-two subgroup schemes, so only finitely many two-isogenous
+$j$-invariants. The nonconstant function $j(E)=j(\lambda)$ could
+not then occur. A morphism of smooth curves into a proper curve
+extends across each missing point by the valuative criterion, giving
+a nonconstant, hence finite, map $X_V\to X_0(4\ell)$.
+\end{proof}
+
+\begin{lemma}\label{lem:modulargenus}
+For an odd prime $\ell$,
+\[
+ g(X_0(4\ell))=\frac{\ell-3}{2}.
+\]
+\end{lemma}
+\begin{proof}
+The index of $\Gamma_0(4\ell)$ is
+$4\ell(1+1/2)(1+1/\ell)=6(\ell+1)$. The cusp formula
+$\sum_{d\mid4\ell}\varphi(\gcd(d,4\ell/d))$ gives six: the six
+divisors are $1,2,4,\ell,2\ell,4\ell$, and each summand is one.
+There are no elliptic points of order two since $4\mid4\ell$, and
+none of order three since $x^2+x+1$ has no root modulo two.
+The standard modular genus formula gives
+$1+6(\ell+1)/12-6/2=(\ell-3)/2$.
+\end{proof}
+
+By \citet[Corollary~8.8, pp.~385--386]{stoll},
+\begin{equation}\label{eq:stollmodular}
+ X_0(4\ell)(\A_\Q)_\bullet^{\fab}=X_0(4\ell)(\Q)
+ \qquad(\ell\geq5).
+\end{equation}
+This is equality with the rational points, not merely their adelic
+closure. Stoll's Definition~6.1(6) is the definition of excellence
+used in his corollary. His erratum \citep[\S2(6)]{stollerrata}
+preserves the curve statements; its separate real-place correction
+is already incorporated in Lemma~\ref{lem:finite-support}.
+In particular no unproved assertion about connected components of
+twists is inserted in this use of the theorem.
+
+Apply Corollary~\ref{cor:descent-map} to $V$ and the map of
+Proposition~\ref{prop:fourlevel}. The compactification of $V$ has
+genus at least one because it covers $F_\ell$. Its lifted Selmer
+section is a point section or a cusp section, and its image on
+$U_\ell$ is of the same kind.
+
+\section{Excluding rational points and treating the cubic}\label{sec:points}
+
+This section completes the prime-exponent proof without assuming Fermat's
+Last Theorem as a separate input.
+
+\begin{lemma}[The rational torsion contradiction]\label{lem:torsion}
+For every prime $\ell\geq5$, $U_\ell(\Q)=\varnothing$.
+\end{lemma}
+\begin{proof}
+Suppose $x\in U_\ell(\Q)$. Its Legendre curve $E/\Q$ has full
+rational two-torsion, and Proposition~\ref{prop:reducible} applies
+to its point section. Use the global quadratic twist constructed in
+that proposition; since the representation comes from an elliptic
+curve in this case, it is the $\ell$-torsion of the corresponding
+quadratic twist $E^\eps$.
+
+Let $\alpha,\beta:G_\Q\to\F_\ell^\times$ be the diagonal characters
+of its reducible representation. At every prime different from
+$\ell$ their inertial restrictions are trivial: this follows from
+unramifiedness away from two and from unipotence at two. At $\ell$
+the semisimplified inertial characters are $1$ and
+$\overline\chi_\ell$. In the potentially multiplicative case this
+is the Tate description. In the good ordinary case it is the usual
+connected--\et ale description of $E[\ell]$. The good supersingular
+case cannot occur in a reducible representation over $\F_\ell$:
+its inertia characters have niveau two and have no invariant
+$\F_\ell$-line. An unramified quadratic twist leaves these statements
+unchanged.
+
+Choose the global diagonal character which is trivial on inertia
+at $\ell$. It is unramified at all finite primes. The finite
+extension cut out by this character is therefore unramified at all
+finite primes of $\Q$ and must be trivial by Minkowski's discriminant
+theorem. Hence $\{\alpha,\beta\}=\{1,\overline\chi_\ell\}$.
+
+If the invariant line has character $1$, $E^\eps$ has a rational
+point of order $\ell$. If its character is
+$\overline\chi_\ell$, its subgroup is $\mu_\ell$; quotienting by it
+gives an elliptic curve whose dual isogeny has kernel the Cartier
+dual $\Z/\ell$, and thus again a rational point of order $\ell$.
+Quadratic twisting acts trivially on two-torsion. An odd-degree
+isogeny induces a Galois-equivariant isomorphism on two-torsion.
+Consequently the resulting elliptic curve has a rational torsion
+subgroup
+\[
+ (\Z/2)\oplus(\Z/2\ell).
+\]
+Mazur's theorem permits a subgroup of this form only when
+$\ell\leq4$ \citep[Theorem~(8), p.~35]{mazur}.
+This contradicts $\ell\geq5$.
+\end{proof}
+
+The preceding section and Lemma~\ref{lem:torsion} prove
+Theorem~\ref{thm:fermat} for every prime exponent at least five.
+For example $X_0(20)$ has genus one and gives exponent five;
+$X_0(28)$ has genus two and gives exponent seven. The forbidden
+rational torsion groups in these cases are respectively
+$(\Z/2)\oplus(\Z/10)$ and $(\Z/2)\oplus(\Z/14)$.
+
+\begin{proposition}[The cubic]\label{prop:cubic}
+Every Selmer section of $U_3/\Q$ is cuspidal, and
+$F_3(\Q)=\{y_1,y_2,y_3\}$.
+\end{proposition}
+\begin{proof}
+On $X+Y\neq0$ put
+\[
+ u=-\frac{3Z}{X+Y},\qquad
+ v=\frac{9(X-Y)/(X+Y)-1}{2}.
+\]
+A direct calculation, valid before imposing the Fermat equation, is
+\begin{equation}\label{eq:cubicidentity}
+ v^2+v-u^3+7=
+ \frac{27(X^3+Y^3+Z^3)}{(X+Y)^3}.
+\end{equation}
+The inverse rational map is
+$(X:Y:Z)=(-v-5:v-4:3u)$. Thus the smooth proper curves are isomorphic,
+and the cubic is
+\[
+ E:\quad v^2+v=u^3-7.
+\]
+Under $x=4u$, $y=8v+4$, this becomes $y^2=x^3-432$.
+Its identification with $X_0(27)$ is recorded explicitly in
+\citet[\S10.1, p.~65]{krizli}. Therefore Stoll's
+Corollary~8.8 applies to $E$.
+
+For clarity, that equality also shows $E(\Q)$ is finite, without
+requiring a numerical analytic-rank computation. The finite-descent
+set on a proper variety is closed and compact
+\citep[discussion preceding Definition~5.4, p.~364]{stoll}. Its projection to
+$E(\Q_p)$ is therefore compact, and here it is exactly the injective
+image of the countable group $E(\Q)$. An infinite compact metrizable
+group is uncountable: otherwise the Baire theorem would give an
+isolated point, translations would make it discrete, and compactness
+would make it finite. Thus this image is finite.
+
+The discriminant of the displayed integral equation is $-3^9$, so
+it has good reduction at five and seven. Counting solutions gives
+$\#E(\F_5)=6$ and $\#E(\F_7)=9$. One can do the count by hand from
+the discriminant $4u^3-27$ of the quadratic in $v$. At five the
+numbers of affine points for $u=0,1,2,3,4$ are $0,0,1,2,2$; at seven
+they are $2,0,0,2,0,2,2$. Add the point at infinity in each case.
+Prime-to-$p$ rational torsion injects under good reduction at $p$;
+using both primes shows that $\#E(\Q)$ divides three.
+
+The three points $O,(3,-5),(3,4)$ are distinct and are the images
+of $y_3,y_1,y_2$, respectively. They therefore exhaust $E(\Q)$.
+Any Selmer section of $U_3$ has compactification centers in
+$E(\A_\Q)_\bullet^{\fab}=E(\Q)$. They lie in this finite set of
+cusps. Lemma~\ref{lem:finite-support} proves the assertion.
+\end{proof}
+
+\section{Every odd exponent and the three packets}\label{sec:allodd}
+
+Finite \et ale maps now transport cuspidality from prime exponent to any
+odd exponent. Let $\ell\mid n$ be prime and put $m=n/\ell$. The map
+\begin{equation}\label{eq:powercover}
+ U_n\longrightarrow U_\ell,\qquad
+ (X:Y:Z)\longmapsto(X^m:Y^m:Z^m)
+\end{equation}
+is finite \et ale. On the chart $Z=1$ it adjoins $m$th roots of
+two invertible functions, and $m$ is invertible in characteristic
+zero. Its compactification maps boundary to boundary.
+
+Let $s$ be Selmer on $U_n$. The image section on $U_\ell$ is Selmer,
+so by the prime cases it lies in a cusp decomposition group.
+Identify $\pi_1(U_n)$ with the open subgroup corresponding to
+\eqref{eq:powercover}. Choose the cusp prolongation downstairs so
+that its decomposition group contains the image of $s$. The cusp
+above it in the normalization has decomposition group equal to the
+intersection with this open subgroup. That intersection contains
+$s(G_\Q)$, hence maps onto $G_\Q$; its residue field is therefore
+$\Q$. Thus it is a rational cusp upstairs and $s$ is cuspidal.
+
+When $n$ is odd, a rational cusp with $X=0$ has $(Y/Z)^n=-1$, so
+$Y/Z=-1$. The same argument in the other two charts gives exactly
+$y_1,y_2,y_3$. Each has a rational parameter and a nonzero rational
+tangent. Stix's Proposition~8 identifies its local section set as a
+torsor under $H^1(\Q,\Zhat(1))$. Stix's Theorem~14 makes the maps
+from these three local section sets injective with pairwise disjoint
+images. Its hypothesis, the injectivity of the proper section map
+over finite extensions, holds over number fields by Mordell--Weil,
+as explained in Remark~15(2) and Appendix~B of that paper.
+
+Finally every global cusp section is Selmer: restriction to a
+completion remains a section in the decomposition group of the same
+rational cusp. This proves both inclusions in \eqref{eq:packets},
+and completes the proof of Theorem~\ref{thm:fermat}.
+
+\section{From proper local sections to affine sections}\label{sec:local}
+
+This section proves the additional implication needed in
+Corollary~\ref{cor:all}; the proper local input is not silently
+substituted for an affine assertion.
+
+\begin{lemma}[High-genus neighborhoods]\label{lem:highgenus}
+Let $U/k$ be a smooth affine hyperbolic curve in characteristic zero
+and let $s$ be a full section. The section neighborhoods whose smooth
+proper compactifications have genus at least two are cofinal.
+\end{lemma}
+\begin{proof}
+Let $g$ be the genus of the compactification and let $r$ be its
+number of geometric punctures. Each geometric cusp inertia group
+is an infinite procyclic subgroup of $\Delta=\pi_1(U_{\kbar})$.
+For each puncture choose a finite quotient in which its inertia
+image has order greater than an integer $M$; this is possible
+because the subgroup is infinite. Intersect the finitely many
+kernels and then take a characteristic open subgroup inside the
+intersection, using finite generation of $\Delta$. Intersect also
+with any preassigned characteristic open subgroup defining a
+section neighborhood.
+
+The resulting geometric cover has degree $d$, and inertia orders
+$e_i>M$ at the punctures. Since characteristic zero gives tame
+ramification, Riemann--Hurwitz reads
+\[
+ 2g'-2=d\left(2g-2+\sum_{i=1}^r(1-e_i^{-1})\right).
+\]
+Hyperbolicity means $2g-2+r>0$. Choose $M$ so that
+$r/M<2g-2+r$; then the displayed quantity is positive.
+The arithmetic subgroup $N\,s(G_k)$ defines the desired section
+neighborhood with this geometric cover.
+\end{proof}
+
+\begin{proposition}[Affine consequence of the proper local theorem]
+\label{prop:local-affine}
+Assume Hypothesis~\ref{hyp:local} over a fixed finite extension
+$k/\Q_p$. Every full section of a smooth affine hyperbolic curve
+$U/k$ is a point section or a section at a $k$-rational cusp.
+\end{proposition}
+\begin{proof}
+Use the cofinal neighborhood system of Lemma~\ref{lem:highgenus}.
+For each $U_N$, compose its lifted section with
+$\pi_1(U_N)\to\pi_1(X_N)$. By the proper local theorem it is the
+section of a unique point $x_N\in X_N(k)$.
+
+If $N'\subset N$, the finite map $U_{N'}\to U_N$ extends to
+$X_{N'}\to X_N$. Functoriality takes the section of $x_{N'}$ to
+the section of $x_N$. The injectivity assertion of the proper local
+theorem for $X_N$ implies that $x_{N'}$ maps to $x_N$. Thus the
+points form a compatible system. Their image on the original
+compactification is a point $x\in X(k)$.
+
+The geometric tower and its Galois descent action are those in the
+last paragraph of the proof of Lemma~\ref{lem:finite-support}.
+The compatible rational points therefore give a prolongation
+fixed by $s(G_k)$, so that $s(G_k)\subset D_{\widetilde x}$.
+If $x$ is interior this is its point section; otherwise it is a
+section at the rational cusp $x$.
+\end{proof}
+
+At a real place the real section theorem \citep[unnumbered Theorem, p.~2]{real} gives the corresponding
+point-or-cusp assertion for hyperbolic curves. One can also use its
+proper version and Lemma~\ref{lem:highgenus}: every compactified
+neighborhood has a nonempty compact real-point set. The inverse
+system has a point by compactness, since a common refinement
+satisfies each finite collection of compatibility conditions. The
+same stabilizer argument applies. Notice that this uses compact
+real-point sets, not a choice of a representative preserved by every
+map between real connected components.
+
+Applying Proposition~\ref{prop:local-affine} at every finite place
+and the real theorem at infinity makes every full section of $U_n$
+Selmer. Theorem~\ref{thm:fermat} proves Corollary~\ref{cor:all}.
+
+\section{Modular curves and even exponents}\label{sec:modulareven}
+
+The same finite-support mechanism explains the modular-curve assertion,
+whereas the even-exponent assertion is already forced by the real place.
+
+\begin{proof}[Proof of the modular-curve part of Theorem~\ref{thm:other}]
+Let $X_1(N)$ have positive genus. Stoll's Corollary~8.8 says
+\[
+ X_1(N)(\A_\Q)_\bullet^{\fab}=X_1(N)(\Q).
+\]
+For a Selmer section of $Y_1(N)$, its compactification centers
+therefore lie over a single rational point. Apply
+Lemma~\ref{lem:finite-support}, with that point as finite support,
+to conclude that the section is a point section or a cusp section.
+
+Mazur's Theorem~(7) states directly that all rational points of
+$X_1(N)$ are cusps when it has positive genus
+\citep[Theorem~(7), p.~35]{mazur}. Equivalently, these are the levels
+$N=11$ or $N\geq13$; Theorem~(8) on the same page is the torsion
+classification used in Lemma~\ref{lem:torsion}.
+The section must consequently be cuspidal at a rational cusp.
+
+Under Hypothesis~\ref{hyp:local},
+Proposition~\ref{prop:local-affine} and the real theorem make
+every full section Selmer and give the last assertion.
+\end{proof}
+
+\begin{proof}[Proof of the even-exponent part of Theorem~\ref{thm:other}]
+If $n$ is even, a real solution of
+$X^n+Y^n+Z^n=0$ has all three coordinates zero, so
+$F_n(\R)=\varnothing$. Neither an interior real point nor a real
+cusp exists. This already makes the Selmer condition impossible,
+also for any quotient if the local condition is defined as the
+image of an interior or cusp section.
+
+Suppose a full section existed. Restrict it to $G_\R$ and take a
+high-genus neighborhood over $\R$ as in
+Lemma~\ref{lem:highgenus}. Its compactification maps to $F_n$,
+so it too has no real point. But its induced proper section and
+the real section theorem imply a real point, a contradiction.
+This proof covers $n=2$, since $U_2$ is hyperbolic even though
+its compactification has genus zero.
+\end{proof}
+
+\section{The two corrections to Steklov}\label{sec:corrections}
+
+This section specifies which conclusions are and are not affected by the
+two defective steps in the printed proof.
+
+In \citet[Proposition~4.6]{steklov}, the extension at a point of
+ramification index $e$ is identified with
+$k((j^{-1/e}))/k((j^{-1}))$. A ramified parameter has instead the
+form $j^{-1}=a t^e h(t)$, and this identification over $k$ requires
+the relevant leading constant to be an $e$th power. It does not
+follow from the ramification index. Proposition~\ref{prop:cusp-class}
+gives $a=2^{-8}$ for the Fermat cusps. Unit tangent gives a class
+whose two-adic valuation is $-8$, so it is not divisible by any
+odd exponent $n\geq3$.
+
+Accordingly the split residual description used in the proof of
+Steklov's Proposition~5.10 is false. Its conclusion that cuspidal
+sections have the required local Fermat conditions remains true:
+Lemma~\ref{lem:local-residual} proves unramifiedness at odd
+$p\neq\ell$, finite flatness at $\ell$, and tame conductor exponent
+one at two. These imply the conductor bound in his Definition~5.8.
+With that proposition reproved, the conclusion for
+$\ell\geq11$ stands. Our proof does not assume that conclusion.
+
+The second error is independent. The last case of his Theorem~5.14
+claims that $Y_1(\ell)(\Q)$ is empty for $\ell\geq7$ by Mazur's
+torsion theorem. Mazur's list includes $\Z/7$. An explicit example is
+\[
+ E:\quad y^2-xy-4y=x^3-4x^2,
+ \qquad P=(0,0).
+\]
+Its discriminant is $-1664\neq0$, and the chord-and-tangent law gives
+\[
+ 2P=(4,8),\quad3P=(2,2),\quad4P=(2,4),\quad
+ 5P=(4,0),\quad6P=(0,4)=-P.
+\]
+Hence $P$ has exact order seven. The printed proof does not establish
+exponent seven. Lemma~\ref{lem:torsion} instead preserves full
+two-torsion and excludes $(\Z/2)\oplus(\Z/14)$, which is absent
+from Mazur's list. The same argument excludes
+$(\Z/2)\oplus(\Z/10)$ for exponent five.
+
+\section{Scope and further questions}\label{sec:scope}
+
+The global full-group Selmer theorem is proved for all odd exponents.
+Removing its local hypothesis requires the proper local input in
+Hypothesis~\ref{hyp:local}; the reduction from that precise statement
+is proved in Section~\ref{sec:local}. The unrefereed status of the
+asserted input is not changed by that deduction.
+
+For quotients of the geometric fundamental group, the modular
+representation used here need not factor through the quotient.
+In particular a full-group proof does not automatically prove a
+prosolvable, metabelian, or pro-$3$ theorem. Those questions, their
+proved reductions, and the distinction between arbitrary
+noncuspidal sections and Selmer sections are treated separately
+in the companion paper. No theorem for a smaller group is inferred
+merely by projecting the full section set.
+
+\subsection*{Method and records}
+
+The mathematics and text were produced by GPT-6 Astra Pro in ChatGPT
+Pro mode. Separate instances of the same model attempted the main
+statements from their statements before comparing proofs; this is
+same-model checking, not independent human verification. Earlier
+global arguments were examined by Claude Opus 5.5 at maximal effort
+on 25 November 2026, and selected earlier computations by that model
+at high effort on 24 November 2026. Those checks have their stated
+scope and do not certify the local preprint or every extension to
+smaller groups. No human has checked this paper.
+
+The original text, arguments, and programs are dedicated to the public
+domain under \href{https://creativecommons.org/publicdomain/zero/1.0/}{CC0~1.0}.
+The program \emph{Fermat arithmetic checks}, its expected output,
+and the detailed statement-by-statement checks are in the
+\href{\workbenchurl}{workbench}. The permanent address of the
+records is \url{\recordurl}. Published sources are cited there and
+are not redistributed.
+
+\IfFileExists{identity.tex}{\input{identity.tex}}{}
+
+\begin{thebibliography}{99}
+\bibitem[Betts et~al.(2026)]{bkl}
+Betts, L.~A., Kumpitsch, T., \& L\"udtke, M. (2026).
+\emph{Chabauty--Kim, finite descent, and the Section Conjecture for locally
+geometric sections}. arXiv:2305.09462v2.
+\url{https://arxiv.org/abs/2305.09462v2}.
+
+\bibitem[Bresciani and Vistoli(2020)]{real}
+Bresciani, G., \& Vistoli, A. (2020).
+\emph{An elementary approach to Stix's proof of the real section conjecture}.
+arXiv:2012.06278v2, unnumbered Theorem, p.~2.
+\url{https://arxiv.org/abs/2012.06278v2}.
+
+\bibitem[Diamond(1995)]{diamond}
+Diamond, F. (1995). The refined conjecture of Serre.
+In J. Coates \& S.-T. Yau (Eds.),
+\emph{Elliptic curves, modular forms, \& Fermat's last theorem}
+(pp.~22--37). International Press.
+
+\bibitem[Edixhoven(1992)]{edixhoven}
+Edixhoven, B. (1992). The weight in Serre's conjectures on modular forms.
+\emph{Inventiones Mathematicae, 109}, 563--594.
+\url{https://doi.org/10.1007/BF01232041}.
+
+\bibitem[Grothendieck(1981)]{grothendieck}
+Grothendieck, A. (1981). \emph{La Longue Marche \`a travers la th\'eorie
+de Galois}, \S51.16. Manuscript, Archives Grothendieck, Universit\'e de
+Montpellier, cote~140-4, fols.~733--736v.
+\url{https://grothendieck.umontpellier.fr/140-4.pdf}.
+
+\bibitem[Khare and Wintenberger(2009a)]{kwone}
+Khare, C., \& Wintenberger, J.-P. (2009a).
+Serre's modularity conjecture (I).
+\emph{Inventiones Mathematicae, 178}, 485--504.
+\url{https://doi.org/10.1007/s00222-009-0205-7}.
+
+\bibitem[Khare and Wintenberger(2009b)]{kwtwo}
+Khare, C., \& Wintenberger, J.-P. (2009b).
+Serre's modularity conjecture (II).
+\emph{Inventiones Mathematicae, 178}, 505--586.
+\url{https://doi.org/10.1007/s00222-009-0206-6}.
+
+\bibitem[Kisin(2009)]{kisin}
+Kisin, M. (2009). Modularity of 2-adic Barsotti--Tate representations.
+\emph{Inventiones Mathematicae, 178}, 587--634.
+\url{https://doi.org/10.1007/s00222-009-0207-5}.
+
+\bibitem[Kriz and Li(2019)]{krizli}
+Kriz, D., \& Li, C. (2019). Goldfeld's conjecture and congruences between
+Heegner points. \emph{Forum of Mathematics, Sigma, 7}, e15.
+\url{https://doi.org/10.1017/fms.2019.9}.
+
+\bibitem[Mazur(1977)]{mazur}
+Mazur, B. (1977). Modular curves and the Eisenstein ideal.
+\emph{Publications Math\'ematiques de l'IH\'ES, 47}, 33--186.
+\url{https://doi.org/10.1007/BF02684339}.
+
+\bibitem[OpenAI(2026)]{openai}
+OpenAI. (2026, October 6). \emph{The $p$-adic section conjecture}.
+Unrefereed preprint, Theorem~1.1, p.~2; first version September 24.
+\url{https://github.com/openai/math}.
+
+\bibitem[Porowski(2025)]{porowski}
+Porowski, W. (2025). \emph{On reductions of Selmer sections}.
+arXiv:2509.15660v1.
+\url{https://arxiv.org/abs/2509.15660v1}.
+
+\bibitem[Ribet(1990)]{ribet}
+Ribet, K.~A. (1990). On modular representations of
+$\Gal(\overline{\Q}/\Q)$ arising from modular forms.
+\emph{Inventiones Mathematicae, 100}, 431--476.
+\url{https://doi.org/10.1007/BF01231195}.
+
+\bibitem[Serre(1987)]{serre}
+Serre, J.-P. (1987). Sur les repr\'esentations modulaires de degr\'e~2
+de $\Gal(\overline{\Q}/\Q)$.
+\emph{Duke Mathematical Journal, 54}, 179--230.
+\url{https://doi.org/10.1215/S0012-7094-87-05413-5}.
+
+\bibitem[Steklov(2026)]{steklov}
+Steklov, B. (2026, March 3). \emph{Fermat's Last Theorem for Selmer
+sections}. arXiv:2602.17746v2.
+\url{https://arxiv.org/abs/2602.17746v2}.
+
+\bibitem[Stix(2008)]{stix}
+Stix, J. (2008). \emph{On cuspidal sections of algebraic fundamental
+groups}. arXiv:0809.0017; author PDF dated November 13, 2018.
+\url{https://arxiv.org/abs/0809.0017}.
+
+\bibitem[Stoll(2007)]{stoll}
+Stoll, M. (2007). Finite descent obstructions and rational points on
+curves. \emph{Algebra \& Number Theory, 1}(4), 349--391.
+\url{https://doi.org/10.2140/ant.2007.1.349}.
+
+\bibitem[Stoll(2017)]{stollerrata}
+Stoll, M. (2017, March 29). \emph{Errata: Finite descent obstructions
+and rational points on curves}.
+\url{https://msp.org/ant/2007/1-4/ant-v1-n4-x01-Errata-FiniteDescent.pdf}.
+
+\bibitem[Wiles(1995)]{wiles}
+Wiles, A. (1995). Modular elliptic curves and Fermat's Last Theorem.
+\emph{Annals of Mathematics, 141}(3), 443--551.
+\url{https://doi.org/10.2307/2118559}.
+\end{thebibliography}
+\end{document}

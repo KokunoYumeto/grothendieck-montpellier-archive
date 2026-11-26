@@ -1,0 +1,158 @@
+\section{Reductions at syntactic bidegree two}\label{sec:degree-two}
+
+This section gives replacements that preserve shared wires and do not
+increase the number of gates in two specified classes of circuits.
+Let $G=(X\sqcup Y,E)$ be bipartite.  A positive polynomial is
+\emph{safe} if every one of its monomials has support containing an
+edge of $G$. Syntactic bidegree bounds the formal degree separately in
+$X$ and $Y$: variable inputs have degrees $(1,0)$ or $(0,1)$, a product
+adds the two input pairs, and an addition takes their componentwise
+maximum. A useful gate with an addition-only route from that gate
+to the output of a circuit for $f_G$ is safe.  In a variable-input
+circuit of syntactic bidegree at most $(2,2)$, every useful gate of
+bidegree $(2,2)$ has only additions above it.
+
+\begin{lemma}[Four existing pure-side clauses]
+Suppose a useful safe gate of a monotone circuit computing $f_G$
+has Boolean value
+\[
+ g=A(X)B(X)C(Y)D(Y),
+\]
+where all four factors are existing nonempty linear disjunction wires.
+If $G$ is $C_4$-free, then $g$ can be replaced by zero or by a single
+star product using an existing factor wire and one variable, without
+increasing the circuit size or changing its output function $f_G$.
+Sharing of all four factor wires with the rest of the circuit is
+permitted.
+\end{lemma}
+\begin{proof}
+Write $A,B,C,D$ also for their variable supports, and put
+$I=A\cap B$, $J=C\cap D$.  The gate accepts the edge assignment
+$\{x,y\}$ exactly when $(x,y)\in I\times J$.  If either intersection
+is empty, $g$ is false on every edge assignment. Replacing it by zero
+leaves all these assignments unchanged and cannot create a false
+positive, so the output remains $f_G$.  Otherwise safety gives $I\times J\subseteq E$.
+The absence of a four-cycle implies $|I|=1$ or $|J|=1$.
+
+Suppose $I=\{x\}$.  If both $C$ and $D$ contain a nonneighbor of $x$,
+choose $y\in C\setminus N(x)$ and $z\in D\setminus N(x)$.
+The gate accepts $\{x,y,z\}$, an independent set, which is impossible.
+Hence $C\subseteq N(x)$ or $D\subseteq N(x)$.
+Replace $g$ by $xC$ or $xD$, respectively, reusing the gate and the
+specified factor wire.  This is a safe star and accepts every old
+edge witness because $J\subseteq C,D$.  The case $|J|=1$ is symmetric.
+The replacement is safe and still accepts every edge assignment
+accepted by $g$. Every new output monomial passing through the replacement
+therefore contains an edge, while all other output monomials are
+unchanged. On each edge assignment the replacement cannot change a true
+gate value to false, so monotonicity preserves every output edge witness.
+Thus the new output is safe and still accepts every edge, hence equals
+$f_G$. The pure-side linear factor wires cannot depend on $g$, whose
+value requires variables of both sides, so this rewiring creates no
+cycle. Zero propagation and pruning add no gates.
+\end{proof}
+
+The replacement uses the existing factor wires.  Merely expanding a sum
+of bilinear products into many four-clause products would not preserve
+the gate count.  The following simultaneous replacement avoids such
+an expansion for a larger, explicitly restricted architecture.
+
+\begin{theorem}[A shared bilinear two-level class]
+Suppose a binary monotone circuit has the following form:
+\begin{enumerate}
+\item Its first product gates are $R_i=A_i(X)B_i(Y)$, with pure-side
+linear disjunction operands, shared arbitrarily.
+\item Its second product gates multiply two disjunctions of the $R_i$.
+\item Its output is a disjunction of first and second product gates.
+\end{enumerate}
+All disjunction networks may have arbitrary fanout and sharing.
+Suppose the circuit computes $f_G$ for a nonempty $C_4$-free bipartite
+graph.  For every unsafe rectangle put
+\[
+ U_i=\{x\in A_i:B_i\subseteq N(x)\}.
+\]
+If $|U_i|\leq1$ for every unsafe rectangle, the circuit can be
+replaced without growth by a quadratic circuit with edge support $E$.
+In particular, $|B_i|\geq2$ for every unsafe rectangle is sufficient.  Consequently its size is at
+least $|E|+\tau(G)-1$, using the established exact quadratic theorem (Theorem~\ref{thm:granted}).
+The symmetric assertion holds with $X$ and $Y$ exchanged.
+\end{theorem}
+\begin{proof}
+Keep every safe rectangle.  For an unsafe rectangle $R_i$, the
+hypothesis gives at most one $x\in A_i$ with $B_i\subseteq N(x)$.
+If that $x$ exists, replace $R_i$ by $xB_i$, using its existing
+product gate and its existing $B_i$ wire.  If $U_i$ is empty, replace
+it by zero.  Replace every second product gate by a disjunction gate.
+All remaining first products are safe, so the resulting output is
+safe; the replacements introduce no gate and do not change any shared
+linear wire.
+
+We show that every old edge witness remains.  A first product with
+an addition-only route to the output was safe, and was kept.  If an
+edge $xy$ was witnessed at a second product, choose first rectangles
+$R_i=A_iB_i$ and $R_j=A_jB_j$ in its two operands which both accept
+$\{x,y\}$.  Their product is safe.  If either rectangle is safe,
+it was kept and still witnesses the edge at the new disjunction.
+Otherwise both rectangles are unsafe.
+Safety on assignments with sole $X$-variable $x$ implies
+\[
+ B_i\subseteq N(x)\quad\text{or}\quad B_j\subseteq N(x):
+\]
+if neither inclusion held, choosing one nonneighbor from each
+$Y$-support would make their product true on an independent set.
+In the first case the unique selected centre of $R_i$ is $x$;
+in the second the unique selected centre of $R_j$ is $x$.
+Thus the new disjunction accepts $xy$.  Every edge is preserved,
+and safety proves equality with $f_G$.
+
+Propagate the introduced zeros, bypass OR gates with a zero operand,
+and remove unused gates; no new constant gate need remain.
+The circuit is an OR of bilinear star products, hence
+its arithmetic polynomial is quadratic with exactly the required
+edge support.  Apply the exact quadratic theorem, cited in Theorem~\ref{thm:granted}.
+Finally, in a $C_4$-free graph two universal rows would force
+$|B_i|\leq1$, proving the stated sufficient condition.
+\end{proof}
+
+In particular, within this architecture a counterexample must contain
+an unsafe rectangle $A\times\{y\}$ with at least two vertices of
+$A$ adjacent to $y$, and, symmetrically, an unsafe rectangle
+$\{x\}\times B$ with at least two vertices of $B$ adjacent to $x$.
+Each of these rectangles also contains a nonneighbor, by unsafety.
+They are necessarily distinct.
+This theorem does not include mixed-degree operands or all circuits
+with two levels of AND gates.
+
+\begin{lemma}[Disjoint bad endpoint sets]
+Let $P,Q$ be positive bilinear polynomials and suppose $PQ$ is safe.
+The nonedge pairs occurring in $P$ and those occurring in $Q$ have
+disjoint endpoint sets on each side of the bipartition.
+\end{lemma}
+\begin{proof}
+If $xy$ occurs in $P$, $xz$ occurs in $Q$, and both pairs are
+nonedges, the product contains $x^2yz$, whose support is independent.
+This contradicts safety.  The argument on the other side is the same.
+No four-cycle assumption is needed.
+\end{proof}
+
+\begin{example}[Both factors can be unsafe]
+Let $G$ be the matching with edges $x_1y_1,x_2y_2$, and put
+\[
+ P=x_1y_1+x_1y_2+x_2y_2,\qquad
+ Q=x_1y_1+x_2y_1+x_2y_2.
+\]
+Both factors contain a nonedge monomial, but their product is safe
+and witnesses both matching edges.  Indeed,
+\[
+\begin{split}
+PQ={}&x_1^2y_1^2+x_1^2y_1y_2+x_1x_2y_1^2
+ +3x_1x_2y_1y_2\\
+ &+x_1x_2y_2^2+x_2^2y_1y_2+x_2^2y_2^2.
+\end{split}
+\]
+Every displayed term contains one of the matching edges.
+Thus safety of a bilinear product does not imply safety of an
+operand.  This is a counterexample to that proof shortcut, not to
+the circuit lower bound.
+\end{example}
+

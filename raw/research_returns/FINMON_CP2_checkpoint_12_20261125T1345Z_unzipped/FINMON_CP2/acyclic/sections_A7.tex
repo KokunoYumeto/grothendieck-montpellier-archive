@@ -1,0 +1,598 @@
+\subsection{Acyclic models: object count and an independently certified arrow bound}
+
+We use ``acyclic'' here in the sense of Part A.7: every endomorphism
+is an identity and the support relation is a partial order. Identities
+are included in every arrow count.
+
+\begin{proposition}[Proved]\label{A7:dimension-chain}
+A finite acyclic category with $k$ objects has a nerve of dimension
+at most $k-1$. Consequently $\nu(\mathbb{CP}^2)\ge5$. A five-object
+acyclic model of $\mathbb{CP}^2$ must have totally ordered support.
+\end{proposition}
+\begin{proof}
+Every nondegenerate simplex is a string of nonidentity arrows. Its
+objects strictly increase in the support partial order and are
+therefore distinct. Its dimension is at most $k-1$. Since
+$H_4(\mathbb{CP}^2;\mathbb Z)=\mathbb Z$, at least five objects are
+necessary. If there are exactly five objects, a nonzero fourth
+homology class requires a four-simplex. Its vertices exhaust the
+objects and order them $0<1<2<3<4$. Transitivity forces all ten
+forward hom-sets to be nonempty. Acyclicity excludes reverse arrows
+and nonidentity endomorphisms. This also independently confirms the
+application of Lemma~1.1 of~\cite{CP2-Carcacia2026}.
+\end{proof}
+
+\begin{proposition}[Proved]\label{A7:adjacent-homs}
+For a finite acyclic category on support $0<1<2<3<4$, if any one
+of $C(0,1),C(1,2),C(2,3),C(3,4)$ is a singleton, every degree-two
+square over any field is zero. Thus a five-object acyclic model
+of $\mathbb{CP}^2$ has each of these four hom-sets of size at least two.
+\end{proposition}
+\begin{proof}
+Suppose first that $C(0,1)$ is a singleton. In the full subcategory
+on $012$, the boundary of a two-simplex, projected to the summand
+of one-chains on $12$, determines that simplex uniquely. Thus its
+second homology is zero. If $C(1,2)$ is a singleton, use instead
+the projection to the $01$ one-chains. Over a field, second
+cohomology is therefore zero in either case. Given a two-cocycle
+$\alpha$ on $NC$, its restriction to $012$ is the coboundary of a
+one-cochain $\lambda$. Extend $\lambda$ by zero on all other edges.
+Subtracting its coboundary gives a representative of the same class
+that vanishes on every $012$ triangle. On a four-simplex its square
+is
+\[
+ (\alpha\smile\alpha)(a_{01},a_{12},a_{23},a_{34})
+ =\alpha(a_{01},a_{12})\alpha(a_{23},a_{34}),
+\]
+which is now zero. The same argument on $234$ handles the other two
+singletons. The square of the generator of the second cohomology
+of $\mathbb{CP}^2$ is nonzero, giving the final assertion.
+\end{proof}
+
+\begin{theorem}[Proved by complete finite computation]
+\label{A7:through24}
+No finite acyclic category with five objects and at most twenty-four
+arrows has classifying space of type $\mathbb{CP}^2$. If five objects
+suffice, its least arrow count is therefore at least twenty-five.
+\end{theorem}
+\begin{proof}
+By Propositions~\ref{A7:dimension-chain} and~\ref{A7:adjacent-homs}
+we need only consider ten-tuples $h_{ij}=|C(i,j)|$, $i<j$, of
+positive integers, with four adjacent entries at least two.
+They have sum $n-5$. In particular $n\ge19$.
+The number of nondegenerate $d$-simplices is
+\[
+ f_0=5,\qquad
+ f_d=\sum_{0\le i_0<\cdots<i_d\le4}
+       \prod_{j=1}^{d}h_{i_{j-1},i_j}\quad(1\le d\le4).
+\]
+This depends only on the profile, not on composition. We discard
+exactly those profiles whose alternating sum is not $3$. At $n=19$
+the only profile has $f=(5,14,25,28,16)$ and Euler characteristic
+$4$, so it is excluded.
+
+For $20\le n\le24$, our new program
+\path{acyclic/code/search_five.cpp} generates every remaining
+profile. It labels the identities $0,\ldots,4$ and then labels
+arrows hom-set by hom-set in lexicographic order of $(i,j)$.
+For each composable pair it permits every value in the required
+hom-set. Identity products and products into singleton hom-sets
+are fixed. For each composable triple it propagates
+$(c\circ b)\circ a=c\circ(b\circ a)$ when the relevant inner
+products are known, rejecting only unequal forced values. Each
+propagated equality is a necessary associativity condition. It then
+branches over the entire domain of an unassigned entry. Induction
+on the search tree proves that every labelled associative table
+in the profile occurs exactly once. There is no isomorphism,
+opposition, relabelling, or cache discard.
+
+The completed search counts are
+\[
+\begin{array}{r|r|r|r}
+ n&\text{profiles}&\text{labelled associative tables}
+   &\text{retained tables}\\\hline
+19&0&0&0\\
+20&2&18&0\\
+21&8&224&64\\
+22&16&13\,952&192\\
+23&65&128\,868&19\,632\\
+24&84&9\,250\,268&208\,896.
+\end{array}
+\]
+The retained tables have mod-two Betti numbers exactly
+$(1,0,1,0,1)$. All other tables are excluded by their computed
+homology. The finite nerve has no cells above degree four, so
+there is no uncomputed homology tail in this test. The search
+checks that every chain-space basis fits its 128-bit linear
+algebra representation and aborts if it does not; no truncation
+is performed. For the retained cases the independent program
+\path{acyclic/code/certify_five.py} reconstructs the typed table,
+checks associativity including identity arrows, and reconstructs
+the nerve and all boundary matrices without using generator code.
+It records a two-cocycle $\alpha$, a two-cycle $z$ with
+$\langle\alpha,z\rangle=1$, and a three-cochain $\beta$ satisfying
+$\delta\beta=\alpha\smile\alpha$.
+
+A further checker, \path{acyclic/code/verify_certificates.py},
+imports neither producer nor search code. It reads every literal
+table and cochain, rechecks typing and associativity, recomputes
+the four boundary ranks, verifies $\partial z=0$ and the nonzero
+pairing, verifies $\delta\alpha=0$, and verifies the square-primitive
+equation on every four-simplex. All $228\,784$ retained tables
+pass, with $53\,547\,280$ associativity checks. Their generators
+therefore have zero mod-two square, excluding $\mathbb{CP}^2$.
+
+Finally, \path{acyclic/code/audit_scope.py} independently generates
+the complete required profile set and checks equality with each
+completed profile log, not merely its cardinality. It checks
+completion markers, all profile-sum counts, literal stream lengths,
+and agreement of the producer and independent-checker digests.
+The resulting \path{acyclic/outputs/scope_through_24.json} has status
+\texttt{PASS}. The literal streams, cochains, full profile logs,
+run times, and SHA-256 digests are supplied in
+\path{acyclic/outputs/}. Large streams are stored as lossless gzip
+files; the compression manifest records both names and the digest
+of the uncompressed stream. This proves the asserted full scope.
+\end{proof}
+
+\begin{theorem}[Proved by complete finite computation]\label{A7:through25}
+No finite acyclic category with five objects and at most twenty-five
+arrows has classifying space of type $\mathbb{CP}^2$. If five objects
+suffice, the least arrow count is at least twenty-six.
+\end{theorem}
+\begin{proof}
+The preceding theorem handles at most twenty-four arrows. At
+twenty-five, the same complete profile calculation gives $327$
+Euler-compatible profiles. Exactly $40$ have all four adjacent
+hom-sets of size two and are excluded by
+Theorem~\ref{A7:four-double}. The program
+\path{acyclic/code/search_five_v3.cpp} uses the same complete typed
+table branching as before, with one additional exact homology
+discard that we now justify.
+
+Put $A_i=C(i,i+1)$ for $0\le i\le3$, and
+$K_i=\ker(\mathbb F_2[A_i]\xrightarrow{\epsilon}\mathbb F_2)$,
+where $\epsilon$ sends every arrow to $1$. The five face maps of
+a four-simplex land in different object-set summands of $C_3$,
+so a four-chain is a cycle precisely when each of its five faces
+is zero. The intersection of the kernels of the two outside faces
+is
+\[
+ K_0\otimes\mathbb F_2[A_1]\otimes
+       \mathbb F_2[A_2]\otimes K_3.
+\]
+Choose one distinguished arrow in each of $A_0,A_3$. Differences
+from these arrows give bases of $K_0,K_3$. The three remaining
+face maps on this displayed space depend only on the three
+adjacent composition tables
+$A_i\times A_{i+1}\to C(i,i+2)$.
+Their combined kernel is exactly $H_4(BC;\mathbb F_2)$, because
+there are no five-chains. Thus, as soon as those three tables
+are assigned, a branch whose kernel dimension differs from one
+can be discarded independently of all unassigned longer products.
+This discards $206\,618\,789$ partial branches. It neither
+identifies tables nor drops an unseen case whose fourth Betti
+number is one.
+
+After these two discards the search completes $9\,064\,416$
+labelled associative tables. Of these, $8\,877\,024$ have zero
+first mod-two Betti number, and $7\,165\,632$ also have second
+Betti number one. The Euler characteristic and fourth Betti
+number force their third Betti number to be zero. These are the
+retained cases; the table count here is explicitly after the
+top-homology and structural discards.
+
+The adapted producer \path{acyclic/code/certify_acyclic_cpp.cpp}
+records each full typed composition table, a nonzero generator
+$\alpha\in H^2(-;\mathbb F_2)$, and a three-cochain $\beta$.
+The separate \path{acyclic/code/check_acyclic_cpp.cpp} imports
+neither producer nor search code. It checks typing, identities,
+associativity, connectedness, the first and second boundary ranks,
+the cocycle condition, that $\alpha$ is not a coboundary, and
+the literal equation $\delta\beta=\alpha\smile\alpha$ on every
+four-simplex. Every retained case passes. The checker performs
+$1\,940\,730\,432$ associativity checks,
+$436\,573\,440$ cocycle checks, and $219\,424\,512$
+square-primitive checks.
+
+The independent \path{acyclic/code/link_acyclic_streams.cpp}
+reconstructs the original profile and product JSON from every
+full certificate table and compares each record byte for byte
+with the corresponding search record, checking both streams
+through their checked gzip ends. All $7\,165\,632$ records
+match. Finally \path{acyclic/code/audit_scope_v2.py} checks the
+entire required profile set, every profile count, the exact
+per-profile join counts, completion markers, and the stream
+digests. Its result is
+\path{acyclic/outputs/scope_through_25.json}, with status
+\texttt{PASS}. The complete literal tables and certificates are
+the corresponding \path{five_25.tables.jsonl.gz} and
+\path{five_25.certificates.tsv.gz}. The zero square excludes
+$\mathbb{CP}^2$ in every remaining case.
+\end{proof}
+
+\begin{theorem}[Proved by structural reductions and complete computation]
+\label{A7:through26}
+No finite acyclic category with five objects and at most twenty-six
+arrows has classifying space of type $\mathbb{CP}^2$. Thus a
+five-object model, if one exists, has at least twenty-seven arrows.
+\end{theorem}
+\begin{proof}
+At twenty-six arrows the complete Euler-profile formula gives
+$333$ profiles. Applying Propositions~\ref{A7:short-composite-gates}
+and~\ref{A7:long-composite-gates} and
+Theorem~\ref{A7:two-double-graph} leaves exactly the following six,
+in the hom-set order $01,02,03,04,12,13,14,23,24,34$:
+\[
+\begin{gathered}
+(2,2,1,2,3,2,2,2,2,3),\quad(2,2,1,2,3,2,2,3,2,2),\\
+(2,2,2,2,3,2,1,3,2,2),\quad(3,2,1,2,2,2,2,2,2,3),\\
+(3,2,2,2,2,2,1,2,2,3),\quad(3,2,2,2,2,2,1,3,2,2).
+\end{gathered}
+\]
+This is equality of explicit profile sets, checked by the
+independent program \path{acyclic/code/profile_gates.py}; there
+is no isomorphism or opposition discard.
+
+In these profiles enumerate all three maps
+\[
+ C(0,1)\times C(1,2)\to C(0,2),\quad
+ C(1,2)\times C(2,3)\to C(1,3),\quad
+ C(2,3)\times C(3,4)\to C(2,4).
+\]
+The independent \path{acyclic/code/check_adjacent_four_cycles.cpp}
+enumerates their entire Cartesian product, without imposing
+associativity. The numbers of map triples, in the order above,
+are $262\,144$, $2\,097\,152$, $2\,097\,152$, $65\,536$,
+$65\,536$, and $262\,144$. Among all $4\,849\,664$ triples,
+$4\,155\,200$ satisfy an explicit zero-product composition
+condition of Proposition~\ref{A7:short-composite-gates}.
+For each of the other $694\,464$, the program constructs the
+full fourth boundary: every four-arrow string contributes its
+five distinct faces, recorded in five separate object-subset
+summands. Direct Gaussian elimination over $\mathbb F_2$ gives
+kernel dimension at least two in every case. In particular it
+never gives dimension one. This implementation imports no
+generator or certificate code and uses the full boundary, rather
+than the reduced-kernel formula used by the table search.
+
+No actual associative category with one of these adjacent-map
+triples can therefore have the cohomology ring of
+$\mathbb{CP}^2$. This excludes even those triples admitting no
+associative completion, which is harmless. The complete table
+search \path{acyclic/code/search_five_v4.cpp} independently reaches
+the same exclusion. Its profile log accounts for all $333$
+profiles and $1\,614\,434$ search nodes, with no retained table.
+The scope join \path{acyclic/code/audit_scope_v4.py} checks the
+entire profile sets, every structural-skip flag, all counts, the
+adjacent-map checker totals, and stream digests. Its output
+\path{acyclic/outputs/five_26_v4.scope.json} is \texttt{PASS}.
+The lower counts were already excluded by
+Theorem~\ref{A7:through25}.
+\end{proof}
+
+\begin{theorem}[Proved by complete finite computation]\label{A7:through27}
+No finite acyclic category with five objects and at most twenty-seven
+arrows has classifying space of type $\mathbb{CP}^2$. A five-object
+model, if one exists, therefore has at least twenty-eight arrows.
+\end{theorem}
+\begin{proof}
+The preceding theorem handles at most twenty-six arrows. At
+$27$ arrows the independent profile formula gives $1126$ profiles.
+The same proved structural gates used there leave exactly eight.
+The complete typed-table generator
+\path{acyclic/code/search_five_v4.cpp} branches over every
+unforced product value and uses only necessary associativity
+propagation, the exact top-kernel test proved in
+Theorem~\ref{A7:through25}, and the explicit zero-product
+conditions of Proposition~\ref{A7:short-composite-gates}.
+No isomorphism, opposition, or cache discard is used.
+It completes $34\,810\,456$ nodes and $13\,305\,600$
+labelled associative tables after these discards. All have zero
+first mod-two Betti number; $2\,274\,048$ have second Betti
+number one and are retained. Their third and fourth Betti numbers
+are zero and one by the top test and Euler characteristic.
+
+For every retained table the independent C++ checker described
+in Theorem~\ref{A7:through25} verifies a nonzero two-cocycle
+and a literal three-cochain primitive of its square. Every case
+passes, with $724\,536\,576$ associativity checks,
+$168\,058\,368$ cocycle checks and $81\,865\,728$
+square-primitive checks. The literal table-to-certificate join
+matches all $2\,274\,048$ records byte for byte. The independent
+scope program verifies the entire profile set, every structural
+skip, all profile counts and certificate counts, and both stream
+digests. Its result is
+\path{acyclic/outputs/five_27_v4.scope.json}, with status
+\texttt{PASS}. Complete tables, cochains and full logs are
+\path{acyclic/outputs/five_27_v4.*}. Every retained generator
+has zero mod-two square, completing the exclusion.
+\end{proof}
+
+\begin{remark*}[Coverage of output-label normalization]
+The next search version orders unassigned product positions by increasing
+length of their target object interval. In a target hom-set $H=C(i,j)$,
+it branches over the labels already used as outputs of nonidentity
+products and the least unused label. Adjacent arrows stay labelled.
+This restriction preserves coverage up to permutations of the hom-sets.
+Indeed, when the current interval has length $L=j-i$, an arrow in $H$
+cannot be an input to any nonidentity product of target length at most
+$L$. No product into a longer non-singleton target has yet been
+assigned: branching has not reached it, and associativity propagation
+only copies an already assigned entry to an entry with the same target
+hom-set. Longer singleton targets are constant. Thus any permutation
+of $H$ fixing all previously used output labels preserves all assigned
+information, and acts transitively on the unused labels. The selected
+product position itself is fixed. Every completion using a new label
+therefore has an isomorphic completion using the least unused label.
+The rank and product-vanishing tests are invariant under these
+permutations. Induction over the search proves coverage. Counts from
+this version are counts of normalized tables, not isomorphism classes.
+
+An independent program applies the corresponding completed-table
+renaming to all $110592$ retained labelled twenty-seven-arrow tables
+that survive the binary-act profile test. Their exact normalized set
+is the set of $1152$ tables in the normalized run. The comparison,
+\path{acyclic/outputs/five_27_v6_normalization_comparison.json},
+has status \texttt{PASS}. This regression check supplements the
+coverage proof. The complete argument and source inspection are
+recorded in \path{acyclic/notes/output_label_normalization.md}.
+\end{remark*}
+
+\begin{theorem}[Proved: exclusion through twenty-eight arrows]
+\label{A7:through28}
+Every five-object acyclic category of type $\mathbb{CP}^2$ has
+at least twenty-nine arrows, identities included.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{A7:through27} treats smaller counts. At twenty-eight
+arrows the positive hom-set profiles with all four adjacent sizes
+at least two and Euler characteristic three number $1198$.
+The preceding structural gates, together with
+Lemma~\ref{CP2:A-high-affine}, leave $15$ profiles.
+The latter lemma applies when every hom-set out of object $0$
+has at most two arrows, or every hom-set into object $4$ does:
+the category is the corresponding objectwise binary act cone.
+
+The generator \path{acyclic/code/search_five_v6.cpp} searches
+all remaining associative tables with the normalization just proved.
+It visits $19914994$ nodes and finishes $6919488$ normalized
+associative tables after the exact fourth-homology and explicit
+product-vanishing tests. Of these, $5220288$ pass the first-homology
+test and $5069952$ also pass the second-homology test. These are
+counts of normalized tables, with repetitions up to isomorphism
+allowed. The complete literal table stream is
+\path{acyclic/outputs/five_28_v6.tables.jsonl.gz}.
+
+For each retained table the producer writes a nonzero degree-two
+mod-two cocycle and an explicit degree-three primitive of its square.
+The independent checker rebuilds all products and normalized chains,
+checks the cocycle's nontriviality, and verifies the primitive equation.
+All $5069952$ records pass, with $1819677312$ associativity equations,
+$486466560$ cocycle equations and $273590784$ primitive equations.
+No unexcluded record remains. The exact stream join checks, in order,
+that the table in each certificate is the corresponding generator table.
+The separate scope auditor reconstructs all $1198$ profiles, checks
+all theorem flags, sums every search counter, and joins these records
+to both independent certificate receipts and the exact stream hashes.
+Its result, \path{acyclic/outputs/five_28_v6.scope.json}, is
+\texttt{PASS}. Thus every remaining category has zero mod-two square,
+which excludes the cohomology ring of $\mathbb{CP}^2$.
+\end{proof}
+
+\begin{remark*}[Coverage of successive adjacent-map reductions]
+Write the three adjacent composition maps as
+$u:A\times B\to U$, $v:B\times C\to V$ and $w:C\times D\to W$,
+where $A,B,C,D$ are the four adjacent hom-sets.
+The next generator completes $u$, then $v$, then $w$, before
+branching on any longer target. We normalize each output table
+by first use as above.
+
+First retain the lexicographically least normalized $u$ under
+all permutations of $A$ and $B$. Store exactly those permutations
+$q$ of $B$ for which some permutation of $A$, followed by output
+normalization in $U$, fixes $u$. This is the projection to
+$\operatorname{Sym}(B)$ of the full stabilizer of $u$: the output
+permutation is forced on used labels and extends arbitrarily on
+unused ones. Next retain the least normalized $v$ under this
+projected group and $\operatorname{Sym}(C)$. Store the permutations
+of $C$ that can fix $v$ with one of the permitted $B$ permutations.
+This is exactly the projection of the stabilizer of $(u,v)$:
+the required $A$ and $U$ permutations exist by the first test and
+do not affect $v$. Finally retain the least normalized $w$ under
+that projected group and $\operatorname{Sym}(D)$.
+
+Every triple of maps can be made canonical successively in this
+way, first under the full group and then under the stabilizers
+of the preceding maps. Each permutation extends to the whole
+category. Longer non-singleton target tables remain unassigned;
+longer singleton tables remain constant. Thus every associative
+completion has an isomorphic completion surviving all prefix
+tests. The earlier first-use argument covers the remaining
+products. A cache miss performs the complete finite permutation
+test; the cache stores only its answer and projected stabilizer,
+and is cleared at every size profile. It drops no unseen prefix.
+Residual automorphisms of the completed triple are not used to
+identify longer tables, so the reported counts remain normalized
+leaf counts, with possible isomorphic repetitions.
+
+An independent program computes these prefix stabilizers directly
+from all $1152$ retained twenty-seven-arrow tables of the previous
+version. Exactly sixteen survive, and their complete table set
+equals the sixteen leaves of the new version. The exact comparison
+has status \texttt{PASS} in
+\path{acyclic/outputs/five_27_v7_normalization_comparison.json}.
+\end{remark*}
+
+\begin{theorem}[Proved: exclusion through twenty-nine arrows]
+\label{A7:through29}
+Every five-object acyclic category of type $\mathbb{CP}^2$ has
+at least thirty arrows, identities included.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{A7:through28} treats smaller counts. At twenty-nine
+arrows there are $3214$ positive hom-set profiles satisfying the
+adjacent-size and Euler-characteristic conditions. The proved
+profile gates leave $83$. The generator with the preceding
+stabilizer reduction visits $17860548$ nodes and finishes
+$1017270$ normalized associative tables after the exact fourth-homology
+and explicit product-vanishing tests. Of these, $919410$ pass the
+first-homology test and $256856$ also pass the second-homology test.
+
+Every retained table has a literal mod-two nonzero degree-two
+cocycle and a degree-three primitive of its square. The independent
+checker verifies all $256856$ certificates, including $96138292$
+associativity equations, $24374556$ cocycle equations and $12696780$
+primitive equations. The exact table-to-certificate stream join
+also passes. The separate scope auditor reconstructs all $3214$
+profiles, verifies every theorem flag, sums all counters including
+the new prefix-pruning counter, and joins the profile totals to
+the full certificate receipts and stream hashes. Its receipt is
+\path{acyclic/outputs/five_29_v7.scope.json}, with status
+\texttt{PASS}. The complete source, tables, certificates and
+independent checkers are retained. Every possible category is
+therefore excluded by a proved gate or a checked zero square.
+\end{proof}
+
+\begin{theorem}[Proved: exclusion through thirty arrows]
+\label{A7:through30}
+Every five-object acyclic category of type $\mathbb{CP}^2$ has
+at least thirty-one arrows, identities included.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{A7:through29} treats smaller counts. At thirty
+arrows there are $3086$ Euler-compatible profiles with the
+required adjacent sizes. Using the strengthened longest-arrow
+collapse gate, Proposition~\ref{A7:extreme-arrow-collapse},
+together with the preceding gates, leaves $62$ profiles.
+The fully checked first-use and adjacent-prefix reductions
+remain unchanged.
+
+The fourth-boundary calculation uses only its three internal
+face components. Put $F=\mathbb F_2$. To see that this is exact, write its domain
+as $F[A]\otimes F[B]\otimes F[C]\otimes F[D]$ for the four
+adjacent hom-sets. The first and last face components have
+supports $1234$ and $0123$. Their common kernel is
+$K_A\otimes F[B]\otimes F[C]\otimes K_D$, where $K$ denotes
+an augmentation kernel. On its usual tensor basis the exterior
+components vanish identically. The remaining rows have supports
+$0234,0134,0124$, hence are exactly the three-arrow chains from
+$0$ to $4$. Their number is
+\[
+\begin{aligned}
+ &|C(0,2)|\,|C(2,3)|\,|C(3,4)|\\
+ &\quad+|C(0,1)|\,|C(1,3)|\,|C(3,4)|\\
+ &\quad+|C(0,1)|\,|C(1,2)|\,|C(2,4)|.
+\end{aligned}
+\]
+Deleting identically zero exterior rows and renumbering these
+rows changes no kernel. The code checks the actual row capacities
+and aborts rather than truncating. An independent full-matrix
+comparison on the $59500$ distinct adjacent-map triples represented
+by all $256856$ retained twenty-nine-arrow tables agrees exactly;
+so do $8300$ additional arbitrary triples across all $83$ residual
+profiles. This comparison supplements the algebraic argument.
+
+The complete thirty-arrow run visits $18930744$ nodes and finishes
+$7312590$ normalized associative tables after the exact top-homology
+and product-vanishing tests. Of these, $5385994$ pass the first-homology
+test and $2024190$ also pass the second-homology test. Every retained
+table has a literal square-zero certificate. The independent checker
+verifies all records, including $681990294$ associativity equations,
+$153680124$ cocycle equations and $78111504$ primitive equations.
+The exact table-to-certificate join passes. The separate scope
+program reconstructs every size profile and theorem flag, verifies
+all counters, and matches the complete certificate stream and its
+hashes. The receipt \path{acyclic/outputs/five_30_v9.scope.json}
+has status \texttt{PASS}. This excludes every thirty-arrow case.
+\end{proof}
+
+\begin{theorem}[Proved: exclusion through thirty-one arrows]
+\label{A7:through31}
+Every five-object acyclic category of type $\mathbb{CP}^2$ has
+at least thirty-two arrows, identities included.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{A7:through30} treats all smaller counts. There are
+$8567$ positive thirty-one-arrow hom-set profiles satisfying the
+necessary Euler-characteristic and adjacent-size conditions.
+The preceding profile gates, including
+Proposition~\ref{A7:tree-stalk-profile}, leave exactly $110$.
+The complete version-fifteen search uses the proved output-label
+and adjacent-prefix normalizations without further identification
+of completed categories. It visits $80058405$ nodes. No complete
+associative table survives its obstruction tests.
+
+The universal-short tests of
+Theorem~\ref{A7:universal-short-model} account for $1067734$
+literal records: $422168$ have positive third mod-two homology,
+$165758$ have zero second mod-two homology, and $479808$ carry a
+complete degree-two cohomology basis together with an explicit
+degree-three primitive for the square of every basis element.
+A separately written checker reconstructs each full component-graph
+category and its normalized nerve, verifies associativity and
+every boundary-square equation, and computes the actual mod-two
+homology ranks. For the last class it also checks the basis modulo
+all coboundaries and every Alexander--Whitney square equation.
+All $1067734$ records pass.
+
+The partial long-graph obstruction of
+Proposition~\ref{A7:partial-long-graph} accounts for $13074446$
+additional prefix records: $890746$ use the $03$ graph and
+$12183700$ use the $14$ graph. A second independent checker
+retains every graph vertex, checks the known-edge connectedness,
+the global assignment prefix and first-use conditions, and the
+pairwise prefix-free ordering. It verifies the exact unrestricted
+short-map suffix counts using unbounded integer arithmetic. Their
+sum is $53716847483$; this is a count of literal short-map
+completions and is not reported as a count of categories. Every
+record passes. The remaining branches are covered by the proved
+profile, top-cycle and explicit product-vanishing tests described
+above.
+
+The independent scope auditor regenerates all $8567$ profiles in
+their exact order, checks every theorem flag, joins all per-profile
+counters to the complete run, and binds the closed universal and
+partial streams to their independent receipts. It also verifies
+that the partial-prefix cylinders are disjoint from every remaining
+full record. Its receipt
+\path{acyclic/outputs/five_31_v15.scope.json} has status
+\texttt{PASS}. The separate receipt
+\path{acyclic/outputs/five_31_v15.provenance.json}, with status
+\texttt{PASS\_COMPLETE\_V15\_SCOPE\_AND\_PROVENANCE}, binds the
+literal producer, the actual optimized binary and build manifests,
+the proof files, the scope auditor and its imported helper sources,
+and all complete streams and independent checkers by their hashes.
+Thus every thirty-one-arrow case is excluded; no incomplete earlier
+search is used as a complete census.
+\end{proof}
+
+\begin{remark*}[Exact unresolved state of A.7]
+The construction below proves that five objects suffice, so
+$\nu(\mathbb{CP}^2)=5$. The least arrow count at this object
+count remains unresolved. Its lower bound is thirty-two,
+and the explicit model below gives upper bound thirty-eight.
+The next undecided arrow count is thirty-two; no claim about
+that count is included in Theorem~\ref{A7:through31}.
+\end{remark*}
+
+\begin{remark*}[Constructions checked without success]
+The full directed five-level subcategories of the Karoubi envelope
+of the independently reconstructed twenty-three-element monoid were
+checked for every choice of its four idempotent isomorphism classes.
+Eight choices pass the Euler-characteristic and adjacent-size gates;
+none has nonzero fourth mod-two homology. The corresponding
+four-level corner-plus-act construction has no passing Euler profile.
+These tests cover full hom-sets only.
+
+We also constructed the categorical symmetric square of the
+three-object sphere category with hom-set sizes $(2,2,1)$.
+It has six objects and thirty arrows, but its mod-two Betti numbers
+are $(1,0,0,0,3)$. In a further exact family of $164$ canonical
+three-object sphere tables, with hom-set sizes $(2,q,q-1)$ for
+$2\le q\le5$, every categorical symmetric square again has zero
+second homology. Thus none provides the required model. In
+particular we do not identify the classifying space of a categorical
+orbit quotient with the topological symmetric square without proof.
+The complete tested quotient tables and results are included.
+\end{remark*}

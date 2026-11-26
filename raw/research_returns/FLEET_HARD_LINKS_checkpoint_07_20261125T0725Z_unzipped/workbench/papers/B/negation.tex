@@ -1,0 +1,127 @@
+\section{Singer convolution and the negation budget}
+This section computes all projective-plane line disjunctions by cyclic
+convolution and accounts for the negations needed to share that computation.
+Let $N=q^2+q+1$, and let $C_s(q)$ be the least size of a fan-in-two
+AND/OR/NOT circuit computing all line ORs of $\operatorname{PG}(2,q)$
+with at most $s$ NOT gates. Outputs and fan-out are free.
+
+\subsection{Singer coordinates}
+The cyclic incidence description has the following direct finite-field
+proof; historically it is Singer's construction \cite{Singer1938}.
+Put $K=\mathbb F_{q^3}$ and identify projective points with
+$K^\times/\mathbb F_q^\times$, a cyclic group of order $N$.
+Choose a generator $\alpha$ of $K^\times$.
+The lines are the projectivized kernels of
+$x\mapsto\operatorname{Tr}_{K/\mathbb F_q}(\beta x)$, for
+$\beta\in K^\times$. Indeed, trace is a nonzero linear functional:
+the nonzero polynomial $T+T^q+T^{q^2}$ has degree less than $q^3$,
+so it cannot vanish everywhere on $K$. Multiplication by nonzero
+$\beta$ is invertible; hence the trace pairing is nondegenerate and
+exhausts the three-dimensional dual space.
+Two nonzero functionals have the same kernel exactly when their
+ratio is a scalar in $\mathbb F_q^\times$.
+
+Let $D=\{d\in\mathbb Z/N:\operatorname{Tr}(\alpha^d)=0\}$.
+The trace kernel has $q^2-1$ nonzero vectors, so $|D|=q+1$.
+Multiplication by $\alpha$ acts regularly on points and lines,
+and the line sets are precisely $D+w$, $w\in\mathbb Z/N$.
+Distinct lines meet once; in particular
+$|D\cap(D+w)|=1$ for $w\ne0$.
+
+\subsection{Convolution and a shared input inverter}
+
+In Singer coordinates the outputs are
+$y_w=\bigvee_{d\in D}x_{w+d}$ on $\mathbb Z/N$, with $|D|=q+1$.
+For $L=\lceil\log_2(q+2)\rceil$ and $R=2^L$, form
+\[
+ X=\sum_{i=0}^{N-1}x_iR^i,\qquad B=\sum_{d\in D}R^{N-d}.
+\]
+Every base-$R$ coefficient of $XB$ is at most $q+1<R$, and the
+coefficients at positions $w$ and $w+N$ sum to the number of true
+inputs on line $w$. One integer multiplication followed by short
+additions and nonzero tests gives
+\[
+ \mathcal S_N=O(N\log^2N\log\log N)
+\]
+gates. The network form of the multiplication bound is explicitly
+part of Sch\"onhage--Strassen \cite[Summary]{SchonhageStrassen1971}.
+The factors have at most $(N+1)L$ bits; their logical-network
+multiplication bound is $O(t\log t\log\log t)$ for $t$-bit integers.
+The $N$ block additions and nonzero tests cost $O(NL)$ further
+gates. An arbitrary binary Boolean gate can be replaced by a
+constant number of gates in the AND/OR/NOT basis.
+
+Beals--Nishino--Tanaka \cite[Theorem~1.1, p.~1335;
+Corollary~1.2, p.~1336]{BealsNishinoTanaka1998}
+give an $m$-input inverter of size $O(m\log m)$ with
+$b(m)=\lceil\log_2(m+1)\rceil$ negations, and the simulation
+$C^{b(m)}(F)\leq2C(F)+O(m\log m)$ for arbitrary systems $F$.
+The dual-rail implementation is explicit. Supply each input
+$x_i$ and $\neg x_i$ using one shared $m$-input inverter.
+If $a^+,a^-$ and $b^+,b^-$ are complementary pairs, implement an AND
+by $(a^+\wedge b^+,a^-\vee b^-)$ and an OR by
+$(a^+\vee b^+,a^-\wedge b^-)$.
+A NOT merely interchanges two references.
+Every original AND or OR costs at most two gates, original NOT
+gates cost none, and positive wires at all outputs compute the
+whole system. Thus the negation count is solely that of the
+shared input inverter, independently of the number of outputs.
+Explicitly counted constant gates contribute at most a fixed
+additive allowance.
+
+Fischer's older simulation has the same structure but a larger
+inverter bound. His Theorem~16, printed p.~8 of the MIT memorandum
+\cite{Fischer1975}, gives
+\[
+ NC_{b(m)}(F)\le 2C^\Delta(F)+O(m^2\log^2m)
+              \le 6C(F)+O(m^2\log^2m),
+\]
+where $C^\Delta$ uses AND/OR/NOT and the second $C$ uses the full
+unary/binary basis. The sharper additive term used here belongs
+to Beals--Nishino--Tanaka.
+
+\subsection{An endpoint refinement}
+
+
+\begin{proposition}
+For every prime power $q\geq2$,
+\[
+ C_{\lceil\log_2(q^2)\rceil}(q)
+ \leq O(N\log^2N\log\log N).
+\]
+In particular, if $q=2^r$, the same bound holds with exactly the
+budget $s=2r=\lfloor\log_2N\rfloor$.
+\end{proposition}
+\begin{proof}
+Leave unprocessed a set $R_0$ consisting of one line and one point
+outside it. Its complement has $m=q^2-1$ points. Use the fast
+convolution circuit with all inputs in $R_0$ fixed to zero, and
+apply the inverter simulation only to the $m$ remaining inputs.
+This costs $2\mathcal S_N+O(m\log m)$ gates and
+$b(m)=\lceil\log_2(q^2)\rceil$ negations.
+
+The contributions from $R_0$ require $q$ OR gates on its complete
+line, and one OR gate on each of the $q+1$ lines through the extra
+point. All other contributions are single input wires.
+Joining these with the fast contributions uses $N-1$ further
+OR gates. The added cost is therefore $N+2q$, and no new negation
+is used.
+\end{proof}
+More generally, choosing any $1\leq m\leq\min(N,2^s-1)$ inputs for the fast
+part gives
+\[
+ C_s(q)\leq
+ \min\{Nq,\ 2\mathcal S_N+O(m\log(m+1))
+ +(N-m)(q+1)-\lambda(R_0)\},
+\]
+where $\lambda(R_0)$ counts the complete lines in the complementary
+point set. A constant additive allowance handles explicit constant
+gates. This is an upper envelope, not a determination of $C_s$.
+
+If a fixed $c>0$ satisfied $C_s(q)\geq c^s qN$ for all prime-power
+$q$ and all integer $s\leq\log_2N$, the proposition applied at
+$q=2^r$, $s=2r$ would imply
+$(2c^2)^r=O(r^2\log r)$. Hence $c\leq2^{-1/2}$.
+This argument respects the integer budget; the generic simulation
+at $\lceil\log_2(N+1)\rceil$ alone does not justify comparison with a
+lower bound assumed only through $\lfloor\log_2N\rfloor$.

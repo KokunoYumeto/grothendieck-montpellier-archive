@@ -1,0 +1,15 @@
+# Final mathematical and editorial state
+
+The two standalone manuscripts contain 66 and 88 pages. Each has been built three times from a fresh source-only copy, with zero overfull boxes, no unresolved references and no multiply defined labels. Every current page has both a full expert reading and a full newcomer reading. Earlier page readings carry forward only when the entire rendered image is byte-identical; changed pages were reread. The exact source, PDF, image and build identities are in `workbench/checks/page-review/FINAL_COVERAGE.json`.
+
+The register preserves all 89 inherited statement/research tags and now contains 113 distinct tags, with 29 numbered theorems. `workbench/checks/check_coverage/FINAL_RECONCILIATION.md` records complete proof coverage. Initial partial attempts, proof-aware targeted completions and later statement-only re-proofs remain separate historical events. The all-field sixfold theorem and the strengthened Gaussian volume theorem have explicitly composite independent dependency checks; they are not attributed to a fictitious single-worker whole re-proof.
+
+Q23 has a complete fresh K3/Clifford proof, including the stronger all-powers consequence of the specified algebraic quadratic Lie block. The claimed automatic factorwise half-twist transfer is refuted. Q24 has a complete fresh numerical source proof and a stronger target theorem: for integral Gaussian determinant class [-3], 3 divides the polarization volume Delta and the detector degree is at most (Delta/3) B. The reference and specified source bounds are B. Its declared unrefereed geometric premise remains explicit. Q32 has a complete fresh rational transfer and global graph-lift proof, with an independently built witness satisfying 8,960 unreduced exact equations. Its scope is the diagonal trace system.
+
+The background open rows remain Q06, Q07, Q08, Q19, Q22, Q25, Q26 and Q27. Each has a precise current gate and next mathematical step in `QUESTIONS.tsv`; the corresponding obstructions and hypotheses are printed in the papers. Neither the general Hodge conjecture nor a full eightfold deformation is claimed.
+
+The user requested one final ZIP. `continuation/README.md` explains how to resume the author workflow and reproduce the mathematical computations. External paper bodies, public certificate archives and unchanged attachment files are excluded. Initial frozen hashes remain historical; the export receipt chain records any later path/extension normalization without rewriting those hashes.
+
+Author lines are blank. The original text and programs are dedicated under CC0 1.0. No human has checked the work. Permanent WB numbers, individual public pages, actual commit/version seal and public filing remain with the user; no publication has occurred. The official format check is reported separately and must not be described as PASS while provisional UNFILED identities remain.
+
+The last immutable checkpoint is checkpoint 06, saved 2026-11-23 at16:49:57 UTC. It does not contain later final export records. The final packaging state is recorded in the final ledger entry and format/export reports.

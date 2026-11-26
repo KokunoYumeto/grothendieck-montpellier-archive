@@ -1,0 +1,181 @@
+\section{Replica counts and the second height stratum}
+The incidence factorization converts the logarithm coefficient into an exact finite counting problem.
+For a clause $f$ let $\mathcal A_f\subseteq\{0,1\}^{I_f}$ be its
+satisfying assignments, and define
+\[
+ C_{f,M}(r)=
+ [\prod_{i\in I_f}z_i^{r_i}]
+ \left(\sum_{a\in\mathcal A_f}\prod_{i\in I_f}z_i^{a_i}\right)^M.
+\]
+This counts ordered lists of $M$ satisfying local assignments with
+the specified one-coordinate marginals.  Expanding the variable
+factors $Q_i^M$ gives the exact formula
+\begin{equation}\label{eq:replica-marginals}
+ T_M(\Phi)=\sum_{r\in\{0,\ldots,M\}^{V(\Phi)}}
+       \prod_i\binom Mr_i\prod_f C_{f,M}(r|_{I_f}).
+\end{equation}
+Indeed, choosing the zero label $r_i$ times in $Q_i^M$ forces the
+adjacent clause lists to choose the one label $r_i$ times.  This is a
+marginal-consistency count, not a count of $M$ globally consistent
+satisfying assignments.
+
+\begin{proposition}[The second coefficient as a count of orbits]
+Write $S=\#\mathrm{SAT}(\Phi)$.  There is a nonnegative integer
+$O_p(\Phi)$, counting explicitly specified orbits, such that
+\begin{equation}\label{eq:replica-orbits}
+ T_{p+1}(\Phi)=S^2+pO_p(\Phi).
+\end{equation}
+For fixed $p$, $O_p$ is a \#P function.
+\end{proposition}
+\begin{proof}
+Use the ordered lists counted by \eqref{eq:replica-marginals}, including
+the $p+1$ choices at every variable factor.  Simultaneously rotate the
+first $p$ positions in every list and leave the last position fixed.
+This action preserves incidence balance.  A fixed configuration has
+constant first-$p$ choices at each factor.  At an incidence the one-label
+balance has the form
+\[
+ p(a+c)+(b+e)=p+1,\qquad a,b,c,e\in\{0,1\}.
+\]
+For every prime, including two, this forces $a+c=b+e=1$.
+The first block and the final position therefore specify two global
+satisfying assignments, and conversely each ordered pair gives one
+fixed configuration.  There are $S^2$ fixed points.  Every other orbit
+has size $p$, giving \eqref{eq:replica-orbits}.
+For fixed $p$, a nondeterministic polynomial-time machine guesses one
+configuration, checks all local constraints and balances, and accepts
+exactly when it is the lexicographically least member of a nonconstant
+rotation orbit.  This counts $O_p$.
+\end{proof}
+
+
+
+\begin{theorem}[Exact height-two criterion for the counting construction]
+For every fixed prime $p$, on the promise $S\equiv0\pmod p$,
+\[
+ h(X_\Phi)=2
+ \quad\Longleftrightarrow\quad
+ \frac{T_{p+1}(\Phi)}p\not\equiv0\pmod p
+ \quad\Longleftrightarrow\quad O_p(\Phi)\not\equiv0\pmod p.
+\]
+If these residues vanish, the height is at least three, with infinite
+height included.  The promised decision problem is
+$\mathrm{Mod}_p\mathrm P$-complete under polynomial-time many-one
+reductions.
+\end{theorem}
+\begin{proof}
+The coefficient formula, its unit congruent to one, and the preceding
+height test give the first equivalence.  Since $p\mid S$,
+$S^2/p\equiv0\pmod p$, and \eqref{eq:replica-orbits} gives the second.
+The orbit count proves membership.  The gadgets constructed below
+satisfy $p\mid S_\Psi$ and $v_p(T_{p+1}(\Psi))=1$ for every prime.
+For an arbitrary input $\Phi$, take its conjunction with $\Psi$ on
+disjoint variable sets.  The satisfying count and replica coefficients
+both multiply.  Its satisfying count is always divisible by $p$, and
+\[
+ \frac{T_{p+1}(\Phi\wedge\Psi)}p
+ \equiv S_\Phi^2\frac{T_{p+1}(\Psi)}p\pmod p.
+\]
+This is nonzero exactly when $S_\Phi\not\equiv0\pmod p$.
+The gadget is constant size for fixed $p$, and the counting
+construction has polynomial circuit size, completing the reduction.
+\end{proof}
+
+\subsection{Uniform gadgets and equal-count examples}
+For an odd prime let $n=p-1$ and let $\Theta_n$ consist of all binary
+clauses $\neg x_i\vee\neg x_j$, $1\leq i<j\leq n$.
+It has exactly $n+1=p$ satisfying assignments.  Let $\Theta_{n,j}$
+add $j$ copies of the unary tautological relation $x_1\vee\neg x_1$.
+Repeated clauses are retained as separate factors, exactly as in the
+input construction.
+
+\begin{proposition}[A uniform odd-prime calculation]
+For every odd prime,
+\begin{equation}\label{eq:generic-height-gadget}
+ T_{p+1}(\Theta_{p-1,j})\equiv(-6-2j)p\pmod {p^2}.
+\end{equation}
+Consequently $\Theta_{p-1,p-3}$ has height at least three and
+$\Theta_{p-1,p-2}$ has height two after stabilization, although both
+have exactly $p$ satisfying assignments and are logically equivalent.
+\end{proposition}
+\begin{proof}
+Put $M=p+1$ and $B=p+1$.  An intermediate marginal
+$2\leq r_i\leq p-1$ makes its variable binomial divisible by $p$.
+An incident clause histogram is also divisible by $p$: modulo $p$,
+its generating polynomial to the power $p+1$ is the product of that
+polynomial at $z^p$ and at $z$, whose possible individual exponents
+are only $0,1,p,p+1$.  Hence every term with an intermediate marginal
+vanishes modulo $p^2$.
+
+For a pair clause the local coefficient is
+\[
+ C(r_i,r_j)=
+ \begin{cases}
+ M!/(r_i!r_j!(M-r_i-r_j)!),&r_i+r_j\leq M,\\
+ 0,&r_i+r_j>M.
+ \end{cases}
+\]
+At boundary marginals, two entries equal to $1$ supply a factor
+$pB$.  Therefore three or more entries equal to $1$ already vanish
+modulo $p^2$.  At most one entry can equal $p$; an entry equal to
+$p+1$ forces all others to zero.  The complete list of surviving
+types for $j=0$ is
+\[
+\begin{array}{c|c|c}
+\text{type}&\text{multiplicity}&\text{weight modulo }p^2\\\hline
+\text{all zero}&1&1\\
+\text{one }1&n&B^n\\
+\text{two }1&\binom n2&p\\
+\text{one }p&n&B^n\\
+\text{one }p\text{ and one }1&n(n-1)&B^{2n-1}\\
+\text{one }p\text{ and two }1&n\binom{n-1}2&p\\
+\text{one }p+1&n&1.
+\end{array}
+\]
+Using $B^a\equiv1+ap\pmod{p^2}$, their sum is
+\[
+ (n+1)^2+p\frac{n(5n^2-4n+3)}2.
+\]
+For $n=p-1$ its correction is $-6p$ modulo $p^2$.
+
+One additional unary tautology multiplies the term with marginal
+$r_1$ by $\binom M{r_1}$.  Its change modulo $p^2$ is zero at
+$r_1=0,M$, equals $p$ times the old term at $r_1=1,p$, and
+intermediate terms already vanish.  Modulo $p$, boundary configurations
+are uniquely ordered pairs of satisfying assignments.  Exactly
+$2s_1(S-s_1)=2n$ such pairs disagree at $x_1$, where $s_1=1$.
+Thus each added tautology changes the coefficient by $2np=-2p$
+modulo $p^2$.  This proves \eqref{eq:generic-height-gadget}.
+The two chosen values of $j$ give residues $0$ and $-2p$.
+\end{proof}
+
+For $p\geq5$ the two displayed formulas have respectively
+$u=2p^2-3p-3$ and $u=2p^2-3p-1$, so the original least-power rule
+selects $Q=p^3$ for both.  They thus give equal-count, different-height
+examples even in the same ambient dimension.  For $p=3$, adjoining
+one forced dummy variable to both leaves $S,T_M$ unchanged and makes
+the original choice $Q=27$ for both.
+
+For $p=2$ take
+\[
+ \Psi_2=(\neg x_1\vee\neg x_2)\wedge
+        (\neg x_1\vee\neg x_3)\wedge
+        (\neg x_1\vee x_2\vee x_3).
+\]
+It is logically equivalent to $\neg x_1$, with $x_2,x_3$ free, so
+$S=4$.  Formula \eqref{eq:replica-marginals} gives
+$T_3(\Psi_2)=47362\equiv2\pmod4$, independently checked by expanding
+the incidence polynomial and summing triples of its monomials.
+It is therefore the required height-two gadget.  As an equal-count
+comparison take $\neg x_1$, four copies of $x_1\vee\neg x_1$, and
+one tautology in each of $x_2,x_3$.  Its forced marginal at $x_1$
+leaves
+\[
+ T_3=\binom63^2=400\equiv0\pmod4.
+\]
+Both formulas have seven incidences, $u=15$, and original $Q=32$.
+They define smooth hypersurfaces of degree $33$ in $33$ variables,
+with the same exact satisfying count and heights respectively two
+and at least three.  Thus even the full integer $S$, and hence
+$S\bmod p^2$, does not determine the height for this construction.
+

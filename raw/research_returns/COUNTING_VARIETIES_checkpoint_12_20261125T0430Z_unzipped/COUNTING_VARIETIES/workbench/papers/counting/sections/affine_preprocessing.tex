@@ -1,0 +1,120 @@
+\subsection{An affine relation with no prime-field root}
+A nonzero constant term can force both the inner polynomial and its
+monomial denominator to vanish. The resulting replacement has two
+rows, so its complexity must be measured by their total support.
+
+\begin{theorem}[Sparse recognition of an affine relation]
+\label{sp:thm:affine-preprocessing}
+Fix $p$ and let a homogeneous sparse binary-exponent list generate
+$K\subset S=\Fp[x_0,\ldots,x_N]$, with $I=K^{\mathrm{sat}}$ and
+$S/I$ geometrically integral. Suppose a nonzero row has a representation
+\begin{equation}
+ F=U^Q+\sum_{i=0}^s a_iV^{Q-p^i}U^{p^i}+\beta V^Q,
+ \qquad Q=p^e,\quad 0\le s<e,
+ \label{sp:eq:affine-relation}
+\end{equation}
+where $U$ is homogeneous, $V$ is a coefficient-one monomial of the
+same degree $d\ge1$, and
+\[
+ (d+1)p^s\le Q,\qquad a_i\in\Fp,\qquad
+ 1+\sum_i a_i=0,\qquad \beta\in\Fp^\times.
+\]
+None of these data is given. A deterministic polynomial sparse-bit
+algorithm finds and verifies a representation whenever one exists,
+normalizing $U$ so that $V$ is absent from its support, and replaces
+$F$ by the nonzero rows among $U,V$. Zero normalized $U$ is allowed.
+The generated ideals satisfy
+\[
+ K\subseteq K'\subseteq I,\qquad (K')^{\mathrm{sat}}=I.
+\]
+The total output support is at most the support of $F$, no coordinate
+index is introduced, and every output row has degree $\deg(F)/Q$.
+The algorithm can minimize this degree among its passing candidates.
+Its repeated use with the preceding support-nonincreasing operations
+has polynomial bit cost, including when the number of rows grows.
+\end{theorem}
+\begin{proof}
+The change $U\mapsto U-cV$, $c\in\Fp$, changes the right side of
+\eqref{sp:eq:affine-relation} by
+$-c(1+\sum_i a_i)V^Q=0$. Subtracting the coefficient of $V$ therefore
+gives the stated normalization without changing any other parameter.
+
+As in Theorem~\ref{sp:thm:linearized-preprocessing}, a lower-block
+exponent $Qv+p^i(u-v)$ is coordinatewise divisible by $Q$ only when
+$u=v$: the coordinates of $u-v$ have absolute value at most $d$, while
+$Q/p^i\ge d+1$. Thus the divided pure $Q$-section is exactly
+\[
+ W=E_Q(F)=U+\beta V.
+\]
+Its support is the disjoint union of that of $U$ and the monomial $V$.
+For each power $Q$ dividing $D=\deg F$, and each $s$ satisfying the
+gap, enumerate $V$ from the support of $W$. Its coefficient is the
+only possible $\beta$, and deleting that term gives $U$. Solve the
+sparse coefficient system
+\[
+ \sum_{i=0}^s a_i V^{Q-p^i}U^{p^i}
+       =F-U^Q-\beta V^Q,
+ \qquad \sum_{i=0}^s a_i=-1.
+\]
+There are $O(\log D)$ unknowns and $O(|\operatorname{supp}F|\log D)$
+coefficient equations. Deterministic elimination and an exact sparse
+identity check accept precisely the passing representations. The
+true normalized representation is among them. If $U=0$, all block
+columns are zero; the system accepts exactly when $F=\beta V^Q$,
+and the sum constraint still has a solution. Ordering $Q$
+decreasingly and fixing the monomial and pivot orders gives the
+minimum output degree with deterministic ties.
+
+For safety, suppose that the image of $V$ in $S/I$ were nonzero.
+Then $t=U/V$ in its fraction field would be algebraic over $\Fp$.
+Geometric integrality and the constant-field argument in
+Theorem~\ref{sp:thm:linearized-preprocessing} give $t\in\Fp$.
+The relation becomes
+\[
+ 0=t^Q+\sum_i a_it^{p^i}+\beta
+   =\left(1+\sum_i a_i\right)t+\beta=\beta,
+\]
+a contradiction. Hence $V\in I$, and the original relation gives
+$U^Q\in I$, so $U\in I$. Every term of $F$ belongs to $(U,V)$.
+The ideal sandwich and equality of saturations follow.
+
+The section identity gives
+\[
+ |\operatorname{supp}U|+|\operatorname{supp}V|
+   =|\operatorname{supp}W|\le|\operatorname{supp}F|.
+\]
+All output exponents are original section exponents divided by $Q$,
+so no coordinate index is added. The degree decreases by a factor
+$Q\ge p$. Every candidate block is obtained by a Frobenius power and
+a monomial shift; neither large numerical powers nor coefficient
+vectors are enumerated. This proves the cost of one recognition pass.
+
+For iteration, let $T_0$ be the original total support, $D_0$ the
+maximum original degree, and $v$ the number of occurring coordinates.
+Every intermediate nonzero list has at most $T_0$ rows. Use
+\[
+ \Phi=\sum_{H\text{ a nonzero row}}
+      |\operatorname{supp}H|\bigl(1+\log\deg H\bigr).
+\]
+An affine step decreases $\Phi$ by at least $\log p$, because its
+total output support does not increase and both outputs have the
+same smaller degree. A nontrivial rank-one step decreases it by at
+least $1/(v+2)$, using the degree estimate of
+Lemma~\ref{sci:lem:deflation}; the other preceding degree reductions
+have the same or a stronger bound. Thus the number of these steps
+is polynomial in $T_0,v,\log(D_0+1)$. Full eligible coordinate content
+is removed in maximal batches between them. Each batch has at most
+$v$ removals per row, since changing one coordinate does not alter
+the other coordinates' minimum exponents. This also has polynomial
+cost. Current supports, coefficient sizes, coordinate labels and
+exponent lengths stay bounded by the original input parameters, so
+all intervening recognition scans are polynomial.
+\end{proof}
+
+The conclusion forces a coordinate variable into $I$, since the
+positive-degree monomial $V$ belongs to the prime ideal. It therefore
+does not give an additional reduction on a projective scheme lying
+in no coordinate hyperplane. A homogeneous relation with
+$1+\sum_i a_i=0$ and $\beta=0$ needs a different output: the relation
+allows every prime-field value of $U/V$, and does not force $U$ or
+$V$ separately into $I$.

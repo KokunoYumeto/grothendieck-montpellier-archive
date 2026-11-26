@@ -1,0 +1,1 @@
+Start with workbench/README.md. All three editable paper projects and their PDFs are in workbench/papers/. Root records are exact convenience copies of the records inside the workbench. This is local research preparation, not a public deposit.

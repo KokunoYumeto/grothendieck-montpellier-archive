@@ -1,0 +1,487 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=28mm]{geometry}
+\usepackage{microtype,xcolor}
+\usepackage[authoryear,round]{natbib}
+\usepackage{xurl}
+\usepackage[colorlinks=true,allcolors=blue!50!black]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\FF}{\mathbf F}
+\newcommand{\PP}{\mathbf P}
+\newcommand{\ZZ}{\mathbf Z}
+\newcommand{\et}{\mathrm{et}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\rk}{\operatorname{rk}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/schemes-and-moduli-workbench}
+\newcommand{\recordurl}{https://github.com/KokunoYumeto/mathematics-workbenches}
+\title{Grothendieck's point-count residues for ample hypersurface sections, after Katz and Entin}
+\author{}
+\date{23 November 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Grothendieck's crystalline notes ask whether sufficiently high-degree hypersurface sections, in every nonempty parameter open, realize every point-count residue modulo the characteristic after finite extension of the ground field. We prove this for every smooth projective connected ambient variety of dimension at least two over a finite field, with an explicit degree bound. Geometric connectedness and generic relative ordinarity are unnecessary. The relative Frobenius monodromy has every trace in the prime field. Independent permutations of the intersection points in a normal-crossing degeneration provide the varying traces; an order comparison isolates one alternating factor from all other cohomological contributions. A cancellation in the error dimension and a prime-adic order estimate improve the sufficient bound. In characteristic two, a further calculation gives every plane degree at least four. We use Katz's congruence formula, the finite-cover monodromy criterion of Entin, and finite \'etale lifting over henselian pairs. The mathematics and text were produced by GPT-6 Astra (ChatGPT Pro mode); the checking scopes are stated at the end, and no human has checked the mathematics.
+\end{abstract}
+
+\section{The question and an explicit answer}\label{sec:intro}
+
+We answer the point-count question that Grothendieck derives from his proposed monodromy picture. In cote~4, \S8.6, archive sheet~11, PDF image~12, he asks for a section whose cardinality is ``congru mod $p$ \`a un \'el\'ement de $\underline F_p$ donn\'e \`a l'avance'' \citep{Grothendieck}. The same passage specifies every nonempty open in the hypersurface parameter space and permits a finite extension of the finite ground field. The result below establishes precisely these quantifiers for every fixed smooth projective ambient variety, once the degree exceeds a specified bound.
+
+Let $k$ be a finite field of characteristic $p$, and let
+\[
+ X\subset\PP^r_k,\qquad \dim X=n\ge2,
+ \qquad L=\OO_X(1)
+\]
+be smooth, projective, and connected. The ambient degree-$d$ parameter space is
+\[ S_d=\PP H^0(\PP^r,\OO(d)). \]
+We allow $X_{\bar k}$ to have several connected components. All cohomological dimensions below are over $\bar k$, and include every component. Write
+\[
+ D=\deg_LX,\qquad a_X=h^{n-1}(X,\OO_X),\qquad
+ P_\omega(z)=\chi(X,\omega_X\otimes L^z).
+\]
+Choose an integer $r_\omega$ for which $\omega_X$ is $r_\omega$-regular, meaning
+$H^i(X,\omega_X\otimes L^{r_\omega-i})=0$ for $i>0$, and set
+$d_{\mathrm{coh}}=\max(1,r_\omega-1)$. Choose any integer
+\begin{equation}\label{eq:e}
+ e\ge3,\qquad e^n\ge\max(5,p+2),\qquad N=De^n.
+\end{equation}
+For $1\le a\le n-1$ and $t\ge0$, put
+\begin{equation}\label{eq:B}
+ B_{a,t}=\sum_{j=0}^a\binom aj
+ \max_{\substack{v\in\ZZ\\je\le v\le j(2e-1)}}
+ h^{t+j}(X,L^{-v}).
+\end{equation}
+Cohomology in degree greater than $n$ is zero. Define
+\begin{equation}\label{eq:R}
+ R_X=a_X+\sum_{a=1}^{n-1}B_{a,n-a-1}.
+\end{equation}
+For $0\le\rho<e$, the polynomial
+\begin{equation}\label{eq:q}
+ q_\rho(z)=P_\omega(ez+\rho)-h^0(X,\omega_X)
+                         -N\binom{z-1}{n}
+\end{equation}
+has degree at most $n-1$. Let $H_X$ be the maximum of the sums of the absolute values of its coefficients, as $\rho$ varies, and set
+\begin{equation}\label{eq:C}
+ C_X=\left\lceil2R_X+H_X\right\rceil.
+\end{equation}
+Finally, for a prime $\ell$ let $v_\ell$ denote its usual valuation on positive integers, and put
+\begin{equation}\label{eq:kappa}
+ \kappa_2=\frac34,\qquad
+ \kappa_p=
+ \frac{v_2(p-1)+(v_2(p+1)+1)/2}{v_2((p+2)!)-1}\quad(p\text{ odd}).
+\end{equation}
+All the quantities in these formulas are finite numerical data of the fixed embedded variety and the chosen integer $e$.
+
+\begin{theorem}[Every residue in every open]\label{thm:residues}
+With the preceding hypotheses and definitions, set
+\begin{equation}\label{eq:degree-bound}
+ \begin{split}
+ M_X=\max\left\{2(n+1),\left\lceil d_{\mathrm{coh}}/e\right\rceil,
+       \left\lfloor2\cdot3^{n-1}n!\,\kappa_pC_X\right\rfloor+1\right\},
+ \qquad d_X=eM_X.
+ \end{split}
+\end{equation}
+For every $d\ge d_X$, every nonempty open $\mathcal U$ in the degree-$d$ ambient hypersurface parameter space, and every $a\in\FF_p$, there are a finite extension $k'/k$ and $H\in\mathcal U(k')$ such that $Y=X\cap H$ is smooth and
+\[
+                              \#Y(k')\equiv a\pmod p.
+\]
+Moreover, the geometric generic relative Hasse--Witt monodromy in this degree has all of $\FF_p$ as its set of traces.
+\end{theorem}
+
+\begin{corollary}[Plane sections in characteristic two]\label{cor:plane-two}
+Let $k$ be a finite field of characteristic two. For every integer $d\ge4$, every nonempty open $\mathcal U\subset\PP H^0(\PP^2_k,\OO(d))$, and every $a\in\FF_2$, there are a finite extension $k'/k$ and a smooth plane curve $Y\in\mathcal U(k')$ with
+\[
+                              \#Y(k')\equiv a\pmod2.
+\]
+The geometric relative Hasse--Witt monodromy has both traces in $\FF_2$ in every such degree. This assertion does not identify its full image.
+\end{corollary}
+
+Here is the relative system in the last assertion. For a section $Y$ of degree $d\ge d_{\mathrm{coh}}$, define
+\begin{equation}\label{eq:relative}
+ K_Y=\ker\bigl(H^n(X,L^{-d})\longrightarrow H^n(X,\OO_X)\bigr)
+     =H^{n-1}(Y,\OO_Y)/H^{n-1}(X,\OO_X).
+\end{equation}
+The first map is multiplication by the equation of $Y$. The induced semilinear Frobenius on the first cohomology group is $x\mapsto s^{p-1}F(x)$ in a local choice of equation $s$. The second description makes its independence of that choice intrinsic. On a dense open where its stable rank is constant and maximal, the fixed vectors form a finite $\FF_p$ local system $V$. Its fibre is
+\[
+ H^{n-1}_{\et}(Y_{\bar k},\FF_p)\big/
+                \im H^{n-1}_{\et}(X_{\bar k},\FF_p).
+\]
+Geometric monodromy means the image of the geometric fundamental group on this fibre. In particular the theorem concerns its traces, and does not assert that this image is the whole linear group.
+
+\paragraph{Credit and context.}
+Grothendieck proposes the residue conclusion through a full-image question; he does not claim a proof in the cited passage. Katz proves the congruence that converts Frobenius traces into point-count residues: \citet[Expos\'e~XXII, Theorem~3.1 and Corollary~3.2, pp.~410--411]{Katz}. His Proposition~2.0 and Corollary~2.1, pp.~406--407, identify characteristic-$p$ \'etale cohomology with the stable coherent Frobenius part. Entin's criterion gives simultaneous symmetric groups from doubly transitive incidence covers and separate simple collisions \citep[Proposition~3.1 and proof, arXiv version~3, pp.~7--8]{Entin}; his Theorem~3, pp.~9--11, supplies the finite-cover Chebotarev statement used here. We verify the geometric hypotheses explicitly, include the finite group argument, and account for the unit roots that may appear when a reducible divisor is smoothed. The explicit bound above combines these ingredients with a cancellation in the total error dimension.
+
+The recent OpenAI preprint \citep[Theorem~1.1 and Introduction, pp.~1--3]{OpenAI} states a rational comparison of specialized Hodge-class pairings with divisor products across crystalline and prime-to-$p$ realizations. That concerns rational cohomological traces on abelian varieties; the present question concerns finite-field-valued Frobenius traces in varying hypersurface families. It supplies no input here. A bounded literature search did not identify the precise explicit general-variety bound above as a previously stated theorem. No claim of priority is made for its formulation or proof.
+
+\paragraph{Meaning and mechanism.}
+The theorem settles the eventual residue question for a fixed projective embedding. It remains meaningful when the generic relative stable rank is smaller than the coherent dimension. The obstacle is that smoothing a normal-crossing divisor can introduce additional unit roots, whose traces cannot be ignored. We retain them in a finite error representation. The number of independent node permutation factors grows like the $n$th power of the number of components, whereas the error dimension grows at most like its $(n-1)$st power. An elementary group-order comparison then forces one alternating factor to act trivially on every error space. Its fixed-point counts vary through the prime field. The hypotheses $e\ge3$ and $n\ge2$ enter the collision and growth arguments respectively. The uniform bound is not asserted optimal. Corollary~\ref{cor:plane-two} gives a much smaller sufficient range for the projective plane in characteristic two, without a classification of its full generic monodromy group.
+
+\section{Stable Frobenius and the relative bundle}\label{sec:coherent}
+
+This section constructs the finite local systems whose traces occur in the theorem, including at reducible divisors.
+
+For a finite-dimensional vector space over a perfect field with a Frobenius-semilinear map $F$, its stable part is $\bigcap_{j\ge0}\im F^j$. The descending images stabilize, and the space decomposes as its stable part and a nilpotent part. On the former $F$ is bijective. Over an algebraically closed field, the Lang map $1-F$ is onto, and its fixed vectors span the stable part over the ground field. For clarity, surjectivity on the nilpotent part follows from the finite inverse $1+F+\cdots+F^{r-1}$. On the bijective part, Lang's basis theorem gives a basis of fixed vectors, reducing to $x\mapsto x-x^p$ in each coordinate. The full argument and its semilinear conventions are in \citet[Propositions~1.1--1.2, pp.~403--406]{Katz}.
+
+The stable-part functor is exact on finite-dimensional semilinear spaces. To see surjectivity in a short exact sequence, lift an element of the stable quotient and apply a sufficiently large Frobenius iterate: images have stabilized, and the nilpotent part of a lift can be removed using the direct-sum decomposition. Injectivity and exactness in the middle follow from the same decomposition. The Artin--Schreier sequence consequently gives, for every proper scheme $Z$ over an algebraically closed field,
+\begin{equation}\label{eq:AS}
+ H^i_{\et}(Z,\FF_p)\otimes_{\FF_p}\bar k
+       \simeq H^i(Z,\OO_Z)_{\mathrm{st}}.
+\end{equation}
+Indeed $1-F$ is onto on the preceding coherent cohomology group, and the kernel on $H^i(Z,\OO_Z)$ is exactly the \'etale group. This is valid for singular $Z$ as well \citep[Proposition~2.0 and Corollary~2.1, pp.~406--407]{Katz}.
+
+\begin{lemma}\label{lem:relative}
+For $d\ge d_{\mathrm{coh}}$, the spaces in \eqref{eq:relative} form a vector bundle on the parameter open of effective Cartier sections. Its rank is
+\begin{equation}\label{eq:rank}
+                     b_d=P_\omega(d)-h^0(X,\omega_X).
+\end{equation}
+For $i<n-1$, restriction identifies $H^i(X,\OO_X)$ with $H^i(Y,\OO_Y)$; in degree $n-1$ it is injective. These assertions commute with Frobenius. The same conclusions hold for the \'etale groups in \eqref{eq:AS}, after taking the indicated relative quotient.
+\end{lemma}
+
+\begin{proof}
+Persistence of regularity gives $H^i(X,\omega_X\otimes L^d)=0$ for all $i>0$ and $d\ge r_\omega-1$: the strongest of the inequalities $d\ge r_\omega-i$ is the one for $i=1$. Serre duality therefore gives $H^j(X,L^{-d})=0$ for $j<n$. Apply the divisor sequence
+\[
+             0\longrightarrow L^{-d}\xrightarrow{s}\OO_X
+                    \longrightarrow\OO_Y\longrightarrow0.
+\]
+Its cohomology gives all the restriction assertions and identifies the cokernel in degree $n-1$ with the kernel of $H^n(L^{-d})\to H^n(\OO_X)$. The last map is onto because $Y$ has dimension $n-1$. Equivalently, its dual is the injective multiplication map
+$H^0(\omega_X)\to H^0(\omega_X\otimes L^d)$, since $s$ is a nonzerodivisor on every component. Its rank is constant in a family of Cartier sections, so the kernel is a vector bundle. Duality and the same higher-cohomology vanishing give \eqref{eq:rank}. The Frobenius on $L^{-d}$ is $s^{p-1}F$ because multiplication by $s$ must commute with the Frobenius on $\OO_X$. Finally apply exactness of stable parts and \eqref{eq:AS}.
+\end{proof}
+
+We use regularity only through its elementary persistence and higher-cohomology vanishing; see \citet[\S33.35, Lemma~33.35.10]{StacksRegularity}. In the families of strata below, all required coherent cohomology groups become vector bundles with base change after shrinking the integral parameter space. One can obtain this by representing proper flat coherent cohomology by a perfect complex \citep[Lemma~30.22.1, full proof]{StacksBaseChange} and making the finitely many matrix ranks constant. Applying $1-F$ and shrinking further makes their fixed-vector sheaves finite locally constant. This also makes every kernel, image and quotient used below a finite local system.
+
+\section{Simultaneous permutation groups of intersection points}\label{sec:nodes}
+
+This section produces independent finite groups on the deepest intersections of a normal-crossing divisor.
+
+\begin{lemma}\label{lem:nodes}
+Let $X$ be smooth projective of pure dimension $n\ge2$ over an algebraically closed field, with connected components $X_\gamma$ of degrees $D_\gamma$. Take $m\ge n$ ordered ambient hypersurfaces of degrees $e_1,\ldots,e_m$, all at least three. On a nonempty open they cut out a simple normal-crossing divisor, every positive-dimensional intersection on each $X_\gamma$ is smooth and connected, and every zero-dimensional intersection is reduced. The joint monodromy of all node sets
+\[
+ Z_{\gamma,I}=X_\gamma\cap\bigcap_{i\in I}D_i,
+                    \qquad |I|=n,
+\]
+is the full product of symmetric groups of degrees
+$D_\gamma\prod_{i\in I}e_i$. It remains this product on every nonempty open of the parameter space just described.
+\end{lemma}
+
+\begin{proof}
+Ambient forms of any positive degree give an immersion and generate the line bundle on every smooth stratum. The smooth Bertini theorem, together with geometric connectedness of a general ample section of a smooth projective irreducible variety of dimension at least two, therefore applies successively. The precise forms used are \citet[Lemma~33.47.3 and Remark~37.32.4]{StacksBertini}. There are only finitely many subtuples, so their nonempty opens have a common nonempty intersection. General subtuples of length $n+1$ have empty intersection by dimension. This proves the asserted normal-crossing open.
+
+Fix $(\gamma,I)$ and let $N_{\gamma,I}=D_\gamma\prod_{i\in I}e_i$. The one-point incidence space over $X_\gamma$ is a product of projective bundles: each of the $n$ chosen equations must satisfy one independent linear evaluation condition, and the other equations are unrestricted. It is irreducible and smooth. For two distinct points of $X_\gamma$, evaluation of ambient forms at those points is onto. The ordered-pair incidence space off the diagonal is therefore a product of projective bundles over $X_\gamma^2\setminus\Delta$, hence is irreducible. After passage to the finite \'etale open, these two incidence statements say that the permutation action is transitive and doubly transitive.
+
+We next construct a collision affecting just this factor. Choose $n-1$ equations indexed by $I$ generally, giving a smooth connected curve $C$ on $X_\gamma$, and choose $P\in C$. Let $V_P$ be the linear space of ambient equations of the last degree whose restriction to $C$ vanishes to order at least two at $P$. In affine coordinates furnished by the embedding, the restrictions of $1,t,t^2$ occur among degree-at-most-two forms, homogenized by a linear form nonzero at $P$. Thus order exactly two is a nonempty open condition in $V_P$.
+
+At any $Q\ne P$, the system $V_P$ separates first-order jets on every smooth partial intersection under consideration. Indeed choose a linear form $\ell$ vanishing at $P$ but not at $Q$. The products $\ell^2g$, where $g$ runs through ambient forms of degree $e_i-2\ge1$, belong to $V_P$ and have arbitrary value and cotangent direction at $Q$. On the curve $C$, a second double zero at a specified $Q$ thus imposes two independent conditions. Allowing $Q$ to vary in a curve leaves a locus of codimension at least one in $V_P$. On a higher-dimensional smooth partial intersection, the same first-jet incidence count proves smoothness away from $P$: a singular section at a specified point imposes dimension-plus-one conditions. These statements require the length-two condition at $P$ together with first jets elsewhere; no simultaneous length-three and length-two separation is being assumed.
+
+At $P$, prescribe the differential of the last equation as a linear combination of the first $n-1$ independent differentials, with every coefficient nonzero. Prescribe a nonzero quadratic coefficient on the remaining tangent direction of $C$. Ambient quadratic jets realize these choices. Then every proper subtuple is transverse at $P$, while the full $n$-tuple has exactly one double intersection there. Choose the equations outside $I$ generally and not vanishing at $P$. All other node sets are transverse. The preceding nonempty open conditions can be imposed simultaneously.
+
+The point-incidence space is smooth at the colliding point. The chosen fibre has $N_{\gamma,I}-1$ geometric points, all except one \'etale, with the exceptional point of length two; every other node cover is \'etale there. These are precisely the hypotheses of \citet[Proposition~3.1, pp.~7--8]{Entin}. Its transposition assertion is also visible directly. Independent constant and linear coefficients give a quadratic local deformation. A transverse slice is $u^2-t$ in odd characteristic; in characteristic two use $u^2+tu+t$, which is separable and Eisenstein over $\bar k((t))$. Its two roots are exchanged, while the other points lie in \'etale sections.
+
+Thus the joint image contains a transposition supported only on the selected factor. Conjugating by its doubly transitive projection gives every transposition in that factor, so the whole symmetric factor lies in the joint image. Doing this for every $(\gamma,I)$ yields their direct product. Finally a connected finite \'etale cover of a normal integral parameter space remains connected over a dense open, so shrinking does not change this finite monodromy image.
+\end{proof}
+
+\section{The finite Lang part at a boundary}\label{sec:boundary}
+
+This section explains why the cohomology at the reducible boundary contributes a subrepresentation of generic monodromy even when the stable rank increases.
+
+\begin{lemma}\label{lem:boundary}
+Let $B$ be smooth integral over an algebraically closed field of characteristic $p$, with a vector bundle $\mathcal E$ and a Frobenius-semilinear endomorphism. Let $U\subset B$ be a dense open of maximal constant stable rank. Let $S$ be smooth connected affine, with a map $S\to B$, such that the pulled-back stable rank is constant. Given finitely many finite local systems on $S$, after shrinking $S$ there is a finite group $H$ acting on all of them, on the special fixed-vector space $W$, and on a generic fixed-vector space $V$, with an equivariant injection $W\hookrightarrow V$. Its image on the specified systems is their full joint monodromy on $S$, and its image on $V$ is a subgroup of the geometric generic monodromy on $U$.
+\end{lemma}
+
+\begin{proof}
+Shrink so that the map takes values in a smooth affine open $B_0$. Henselize $S\times B_0$ along the graph of $S\to B_0$, obtaining a henselian pair $(A,I)$ with closed subscheme $S=\Spec(A/I)$. Its spectrum $T$ is normal and Noetherian: it is the henselization of a smooth Noetherian scheme along a closed subscheme. It is connected, since every connected component meets the connected closed fibre and $I$ lies in the Jacobson radical. A connected normal scheme is integral here. The flat map from the ambient domain into this nonzero henselization is injective, so $T$ dominates $S\times B_0$. In particular $T_U$ is a nonempty dense open.
+
+In a trivialization, the fixed-vector scheme is defined by
+\[
+                            x-A_0x^{[p]}=0.
+\]
+Its Jacobian in $x$ is the identity, so it is \'etale; it is affine of finite presentation with finite fibres, hence quasi-finite and separated. Its closed-fibre restriction is finite \'etale after shrinking $S$. The finite-part theorem for henselian pairs \citep[Lemma~41.20.5, full proof]{StacksFinitePart} splits it over $T$ as a finite \'etale part and an open-and-closed part disjoint from $S$. The finite part is a subgroup: the preimage of the away part under addition or inversion is open and closed in a finite \'etale scheme and has empty closed fibre; the Jacobson-radical condition makes it empty. Its generic fibre therefore injects into $V$, and its closed fibre is exactly $W$.
+
+Finite \'etale covers, their morphisms and group laws lift uniquely from $S$ to $T$ \citep[Lemma~58.8.2]{StacksHenselian}. Extend every specified local system in this way. The map $\pi_1(T_U)\to\pi_1(T)\simeq\pi_1(S)$ is onto: a connected finite \'etale cover of normal integral $T$ remains connected after restriction to a dense open. Take $H$ to be the joint finite image on the extended systems and $V$. All schemes have been constructed over the algebraically closed field, so its generic image is geometric. Only the finite boundary part has been extended, not the whole generic-rank fixed-vector scheme.
+\end{proof}
+
+\section{Isolating an alternating factor}\label{sec:group}
+
+This section gives the finite group argument that makes the traces of all error terms constant while one permutation trace varies.
+
+\begin{lemma}\label{lem:simple}
+For $N\ge5$, the group $A_N$ is nonabelian simple. A nontrivial normal subgroup of a direct product of such groups contains an entire factor.
+\end{lemma}
+
+\begin{proof}
+We recall the elementary argument so that the group dependence is explicit. Let a nontrivial normal subgroup contain $\sigma\ne1$. If a cycle of $\sigma$ has consecutive entries $a,b,c,d$, its commutator with $(a\ b\ c)$ is
+$(b\ c\ d)(a\ c\ b)=(a\ d\ b)$, a three-cycle. If it has a three-cycle $(a\ b\ c)$ and moves another point $d$ to $e$, its commutator with $(a\ b\ d)$ is the five-cycle $(a\ d\ c\ e\ b)$, reducing to the first case. A single three-cycle already suffices. The remaining case is a product of disjoint transpositions. If it fixes $e$, its commutator with $(a\ b\ e)$, for one transposition $(a\ b)$, is a three-cycle. If it has no fixed point, use three transpositions $(a\ b),(c\ d),(e\ f)$; the commutator with $(a\ b\ e)$ is $(a\ e)(b\ f)$, which fixes $c,d$, reducing to the preceding case.
+
+Every three-cycle is conjugate to every other in $A_N$: an odd conjugating permutation can be made even by a transposition outside the target triple. Three-cycles generate $A_N$, since pairs of transpositions either form a three-cycle or satisfy
+$(a\ b)(c\ d)=(a\ c\ b)(a\ c\ d)$. This proves simplicity. For the product assertion, commute a normal element with an element supported on one nontrivial coordinate. The centre of that simple factor is trivial, so a nonidentity commutator supported on that factor exists. The intersection with the factor is then a nontrivial normal subgroup and is the whole factor.
+\end{proof}
+
+\begin{theorem}[An order test for all traces]\label{thm:isolation}
+Let a finite group $H$ act on $\FF_p$-spaces with equivariant exact sequences
+\begin{equation}\label{eq:three-sequences}
+ 0\to R\to P\to M\to0,\qquad
+ 0\to M\to W\to Q_0\to0,\qquad
+ 0\to W\to V\to Q_1\to0.
+\end{equation}
+Suppose the image on $P$ is $A=\prod_{\alpha=1}^tA_{N_\alpha}$, acting as the direct sum of its natural permutation representations, with
+$N_\alpha\ge\max(5,p+2)$. Put $c=\dim R+\dim Q_0+\dim Q_1$. If
+\begin{equation}\label{eq:order-test}
+                         |A|\nmid|\GL_c(\FF_p)|,
+\end{equation}
+the image on $V$ has every trace in $\FF_p$. In particular, the sufficient inequality $t>\kappa_pc$, with \eqref{eq:kappa}, implies this conclusion.
+\end{theorem}
+
+\begin{proof}
+Let $K$ be the kernel of the action on $R\oplus Q_0\oplus Q_1$. Its image $J$ in $A$ is normal. If $J=1$, then $A$ is a quotient of $H/K$, which embeds in $\GL_c(\FF_p)$, contradicting \eqref{eq:order-test}. By Lemma~\ref{lem:simple}, $J$ contains an entire alternating factor. For any even permutation $a$ in that factor, choose a lift $g\in K$ acting as $a$ there and identically on the other factors. Trace additivity gives
+\begin{equation}\label{eq:trace-isolation}
+             \Tr(g\mid V)=\dim V-N_\alpha+\#\operatorname{Fix}(a)
+                         \quad\text{in }\FF_p.
+\end{equation}
+Every $r\in\{0,\ldots,p-1\}$ is a fixed-point count for an even permutation on $N_\alpha$ letters. Fix $r$ letters and derange the remaining $q=N_\alpha-r\ge3$: use a $q$-cycle if $q$ is odd, and disjoint cycles of lengths $2$ and $q-2$ if $q$ is even. Thus \eqref{eq:trace-isolation} takes every value.
+
+For the numerical consequence, choosing independent columns gives
+\[
+ |\GL_c(\FF_p)|=p^{c(c-1)/2}\prod_{i=1}^c(p^i-1).
+\]
+If $p=2$ and $m=\lfloor c/2\rfloor$, then
+\begin{equation}\label{eq:valuation-two}
+ v_3(|\GL_c(\FF_2)|)=m+v_3(m!)<3c/4\quad(c>0).
+\end{equation}
+Indeed odd exponents contribute zero, while
+$v_3(4^j-1)=1+v_3(j)$; the factorial floor sum gives $v_3(m!)<m/2$ when $m>0$, and $c=1$ is immediate. Every alternating factor has order divisible by three. Thus $t>3c/4$ forces \eqref{eq:order-test}.
+
+For odd $p$, put $a=v_2(p-1)$, $b=v_2(p+1)$ and $m=\lfloor c/2\rfloor$. Odd exponents contribute $a$, and exponent $2j$ contributes $a+b+v_2(j)$, so
+\begin{equation}\label{eq:valuation-odd}
+ v_2(|\GL_c(\FF_p)|)=ca+mb+v_2(m!)
+                    <c\bigl(a+(b+1)/2\bigr)\quad(c>0).
+\end{equation}
+These valuation identities follow by separating the exponent into its prime-power part: raising a number congruent to one modulo the relevant prime to a coprime exponent preserves the valuation, while each subsequent multiplication of the exponent by that prime adds one. For the two-adic formula one first uses $p^2\equiv1\pmod8$.
+Every factor has two-adic order at least $v_2((p+2)!)-1$. The definition of $\kappa_p$ therefore forces a strict order-valuation inequality. If $c=0$, the hypothesis gives $t\ge1$ and the order obstruction is immediate.
+\end{proof}
+
+For example, $\kappa_3=5/4$, $\kappa_5=1$, $\kappa_7=1/2$, $\kappa_{11}=5/18$ and $\kappa_{13}=3/10$. The order test is stronger than this convenient linear estimate, and neither is asserted to be necessary for trace surjectivity.
+
+\section{The cohomological errors and their cancellation}\label{sec:errors}
+
+This section bounds the contribution that the isolated alternating factor must leave fixed.
+
+Write $d=em+\rho$ with $0\le\rho<e$. Use $m-1$ components of degree $e$ and one of degree $e+\rho$ as in Lemma~\ref{lem:nodes}. For the uniform bound, let $P$ include only the node sets omitting the last component. Then
+\begin{equation}\label{eq:P-dimension}
+                       \dim P=N\binom{m-1}{n}.
+\end{equation}
+We first work over $\bar k$ and shrink the arrangement parameter space so that the relevant finite systems have constant rank.
+
+\begin{lemma}\label{lem:koszul}
+If $Z$ is a proper complete intersection of $a$ components, with degrees in $[e,2e-1]$, then
+\[
+              \dim_{\FF_p}H^t_{\et}(Z,\FF_p)\le h^t(Z,\OO_Z)\le B_{a,t}.
+\]
+\end{lemma}
+
+\begin{proof}
+The Koszul resolution has, in degree $-j$, a direct sum of $\binom aj$ lines $L^{-v}$ with $je\le v\le j(2e-1)$. Its hypercohomology spectral sequence bounds the total dimension in degree $t$ by the sum of the dimensions $H^{t+j}(X,L^{-v})$, which is at most \eqref{eq:B}. The first inequality follows from \eqref{eq:AS}.
+\end{proof}
+
+\begin{proposition}\label{prop:errors}
+The special relative fixed-vector system $W$ and the generic one $V$ fit into \eqref{eq:three-sequences}, for one finite group whose image on $P$ is the full product of node symmetric groups. After restricting to the inverse image of their alternating product, the same exact sequences hold. If $d\ge d_{\mathrm{coh}}$, then
+\begin{equation}\label{eq:R-bound}
+ \dim R\le a_X+\sum_{a=1}^{n-1}\binom ma B_{a,n-a-1}
+                            \le R_X(m+1)^{n-1}.
+\end{equation}
+The total error dimension satisfies the identity and bound
+\begin{equation}\label{eq:error-cancellation}
+ \begin{split}
+ c&=\dim R+\dim Q_0+\dim Q_1
+       =\dim V-\dim P+2\dim R,\\
+ c&\le C_X(m+1)^{n-1}.
+ \end{split}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+For the normal-crossing union $Y_0=\bigcup_{i=1}^mD_i$, the alternating resolution of its constant sheaf by the constant sheaves on intersections is exact: at a geometric point it is the augmented cochain complex of a simplex. It gives a spectral sequence
+\begin{equation}\label{eq:cech}
+ E_1^{s,t}=\bigoplus_{|I|=s+1}H^t_{\et}(D_I,\FF_p)
+                  \Longrightarrow H^{s+t}_{\et}(Y_0,\FF_p).
+\end{equation}
+The last cochain term $E_1^{n-1,0}$ maps to the abutment in degree $n-1$: it has no outgoing differentials and its terminal term is the top filtration subspace. Restrict this map to $P$ and then take the quotient by the ambient $H^{n-1}_{\et}(X,\FF_p)$. By Lemma~\ref{lem:relative} the target is $W$. Let $R$ be the kernel and $M$ the image.
+
+The incoming differential on page $r$ starts at $(n-1-r,r-1)$. The sum of all possible ranks is therefore bounded by the $E_1$ terms of total degree $n-2$. Lemma~\ref{lem:koszul} bounds their sum by
+$\sum_{a=1}^{n-1}\binom ma B_{a,n-a-1}$. Passing to the ambient quotient adds at most $a_X$ to the kernel. This proves the first inequality in \eqref{eq:R-bound}; the second uses $\binom ma\le(m+1)^{n-1}$ for $1\le a\le n-1$. No vanishing of higher differentials is required.
+
+Set $Q_0=W/M$. All these objects are finite local systems after shrinking. Lemma~\ref{lem:boundary}, including the node covers among its specified systems, provides an injection $W\hookrightarrow V$ with the full joint node image. Put $Q_1=V/W$. This gives the three sequences. Their dimensions give
+\[
+ \dim M=\dim P-\dim R,\qquad
+ \dim Q_0=\dim W-\dim P+\dim R,
+ \qquad \dim Q_1=\dim V-\dim W.
+\]
+Adding cancels $\dim W$, proving the first line of \eqref{eq:error-cancellation}. Thus a separate upper bound for $Q_0$ is unnecessary, even though its representation is needed in the group argument.
+
+The generic fixed-vector rank is at most the coherent rank $b_d$. Equations \eqref{eq:rank}, \eqref{eq:q} and \eqref{eq:P-dimension} give
+\[
+        c\le q_\rho(m)+2\dim R
+          \le(H_X+2R_X)(m+1)^{n-1}.
+\]
+The leading terms of $P_\omega(ez+\rho)$ and $N\binom{z-1}{n}$ are both $De^nz^n/n!$; hence $q_\rho$ has degree at most $n-1$, and its coefficient absolute-sum bounds its absolute value by $H_X(m+1)^{n-1}$. The definition of $C_X$ finishes the proof.
+\end{proof}
+
+\section{Proof of the residue theorem and finer degree tests}\label{sec:main-proof}
+
+This section applies the isolated factor to generic monodromy and then to Frobenius elements over finite extensions.
+
+\begin{proof}[Proof of Theorem~\ref{thm:residues}]
+Write $d=em+\rho$. Since $d\ge eM_X$, we have $m\ge M_X$. The number of alternating factors from the node sets omitting the exceptional component is
+$c_X\binom{m-1}{n}\ge\binom{m-1}{n}$, where $c_X$ is the number of geometric connected components of $X$. Every permutation degree is at least $e^n\ge\max(5,p+2)$. For $m\ge2(n+1)$,
+\[
+ \binom{m-1}{n}\ge\frac{m^n}{2^n n!},
+                 \qquad (m+1)^{n-1}\le(3m/2)^{n-1}.
+\]
+The strict integer inequality in \eqref{eq:degree-bound} therefore gives
+\[
+               \binom{m-1}{n}>\kappa_pC_X(m+1)^{n-1}.
+\]
+Apply Theorem~\ref{thm:isolation} and Proposition~\ref{prop:errors}. The resulting subgroup of geometric generic monodromy has all traces, so the whole geometric image does too.
+
+For the point-count assertion, first extend the finite ground field to split the geometric components of $X$, kill its finite Frobenius actions on $H^i_{\et}(X_{\bar k},\FF_p)$ for $i\le n-1$, and kill the finite arithmetic quotient of the relative monodromy image. Such an extension preserves the desired existential assertion over extensions of the original field. The prescribed nonempty open remains nonempty and meets the dense smooth maximal-rank open.
+
+We use \emph{geometric} Frobenius on the \'etale fibres, namely the inverse of $x\mapsto x^{|k'|}$ in the absolute Galois group. With this convention its characteristic polynomial equals that of the coherent $|k'|$-power Frobenius on stable cohomology \citep[Propositions~2.2.4--2.2.5, pp.~407--409]{Katz}. Katz's congruence consequently gives
+\begin{equation}\label{eq:count}
+ \#Y(k')\equiv
+ \sum_{i=0}^{n-1}(-1)^i
+           \dim_{\FF_p}H^i_{\et}(X_{\bar k},\FF_p)
+       +(-1)^{n-1}\Tr(\operatorname{Frob}_{k'}\mid V)\pmod p.
+\end{equation}
+Here Lemma~\ref{lem:relative} supplies the lower-degree identifications and the top relative quotient. The first term is constant after the chosen extension. For any required trace, finite-cover Chebotarev realizes a conjugacy class with that trace over a further finite extension, inside the prescribed open \citep[Theorem~3 and proof, pp.~9--11]{Entin}. If Chebotarev is formulated using arithmetic Frobenius, choose the inverse conjugacy class; inversion permutes all classes. The trace term in \eqref{eq:count} thus attains every residue, as required.
+\end{proof}
+
+One can use the full order obstruction rather than its linear estimate. The next result also retains the node sets involving the exceptional component.
+
+\begin{proposition}[All-node degree test]\label{prop:all-nodes}
+Let $d=em+\rho\ge d_{\mathrm{coh}}$, with $m\ge n$ and $0\le\rho<e$. Define
+\begin{equation}\label{eq:all-node-data}
+ \begin{split}
+ P_m={}&De^n\binom{m-1}{n}
+       +De^{n-1}(e+\rho)\binom{m-1}{n-1},\\
+ R_m={}&a_X+\sum_{a=1}^{n-1}\binom ma B_{a,n-a-1},\\
+ c_m={}&\max\{0,b_d-P_m+2R_m\}.
+ \end{split}
+\end{equation}
+Let $A_m$ be the product, for each geometric component of degree $D_\gamma$, of
+$\binom{m-1}{n}$ copies of $A_{D_\gamma e^n}$ and
+$\binom{m-1}{n-1}$ copies of $A_{D_\gamma e^{n-1}(e+\rho)}$.
+If $|A_m|$ does not divide $|\GL_{c_m}(\FF_p)|$, the trace and every-open residue conclusions of Theorem~\ref{thm:residues} hold in degree $d$.
+\end{proposition}
+
+\begin{proof}
+Apply Lemma~\ref{lem:nodes} to all $n$-subsets of the $m$ components. Its proof uses only that every degree is at least three, so it applies to the exceptional component as well. The dimension of the full node permutation space is $P_m$. The incoming terms in \eqref{eq:cech} give the same bound $\dim R\le R_m$. The cancellation in \eqref{eq:error-cancellation} yields $c\le c_m$. The group $\GL_c(\FF_p)$ embeds block-diagonally in $\GL_{c_m}(\FF_p)$, so its order divides the latter order. Therefore the displayed nondivisibility implies the obstruction for the true error dimension. Theorem~\ref{thm:isolation} and the preceding arithmetic argument finish the proof.
+\end{proof}
+
+\paragraph{An explicit computation.}
+For $X=\PP^2$ in characteristic two, choose $e=3$. Then
+$d_{\mathrm{coh}}=2$, $a_X=0$, $B_{1,0}=1$, and $R_X=1$.
+Since $P_\omega(d)=\binom{d-1}{2}$ and $h^0(\omega_X)=0$, the three polynomials \eqref{eq:q} are
+\[
+               q_0(z)=9z-8,\qquad q_1(z)=12z-9,
+                         \qquad q_2(z)=15z-9.
+\]
+Their coefficient absolute-sums are $17,21,24$. Thus $H_X=24$, $C_X=26$, and the uniform formula gives
+\[
+                 M_X=12\cdot\frac34\cdot26+1=235,
+                          \qquad d_X=705.
+\]
+This deliberately coarse number illustrates how the inputs are computed; it is not a sharp plane-curve threshold. For example, Proposition~\ref{prop:all-nodes} already applies at $d=9$: take $m=3$, $\rho=0$. Then $P_m=27$, $b_9=28$, $R_m=3$, and $c_m=7$. There are three $A_9$ factors, so
+\[
+ v_3(|A_9^3|)=12,
+       \qquad v_3(|\GL_7(\FF_2)|)=3+v_3(3!)=4.
+\]
+The strict order inequality proves residue density in that degree. It also displays why a full group classification is unnecessary.
+
+\begin{proof}[Proof of Corollary~\ref{cor:plane-two}]
+First let $d=3m+\rho\ge6$, with $m\ge2$ and $\rho\in\{0,1,2\}$. Arrange $m-1$ smooth cubics and one smooth curve of degree $3+\rho$, with transverse pairwise intersections and no triple intersection. Lemma~\ref{lem:nodes} gives independent symmetric groups on all their node sets. For the full node representation, direct subtraction gives
+\[
+ \dim P=9\binom{m-1}{2}+3(3+\rho)(m-1),\qquad
+ b_d-\dim P=g_\rho,\qquad (g_0,g_1,g_2)=(1,3,6).
+\]
+The kernel bound in Proposition~\ref{prop:all-nodes} is $\dim R\le m$, so the total error satisfies $c\le2m+g_\rho\le2m+6$. There are $\binom m2$ alternating factors, each of degree at least nine. Consequently
+\[
+ v_3(|A_m|)\ge4\binom m2=2m(m-1),\qquad
+ v_3(|\GL_c(\FF_2)|)<\frac34(2m+6).
+\]
+The left quantity exceeds the right for every $m\ge3$: their difference is positive at $m=3$ and strictly increases thereafter. The all-node criterion proves all those degrees.
+
+For $m=2$, the node groups for $\rho=0,1,2$ have degrees $9,12,15$, with alternating-group three-adic valuations $4,5,6$. The coarse error bounds for the first two cases are $5,7$; the corresponding general-linear valuations are $2,4$. Thus degrees six and seven follow. In degree eight, the two connected components give an exact one-dimensional kernel: the map
+\[
+ H^0(D_1,\FF_2)\oplus H^0(D_2,\FF_2)
+              \longrightarrow H^0(D_1\cap D_2,\FF_2)
+\]
+is $(a,b)\mapsto(a-b)\mathbf1$. There are no higher incoming differentials for a curve, and $H^1(\PP^2,\OO)=0$. Hence $\dim R=1$ and the error cancellation gives $c\le6+2=8$. Now
+$v_3(|\GL_8(\FF_2)|)=5<6=v_3(|A_{15}|)$, proving degree eight as well.
+
+We handle degrees four and five with a fixed smooth conic $C$ and a moving curve of degree $q=2$ or $3$. Restriction gives the complete binary series of degree $2q$ on $C\simeq\PP^1$, since
+\[
+ 0\longrightarrow\OO_{\PP^2}(q-2)\longrightarrow
+ \OO_{\PP^2}(q)\longrightarrow\OO_C(2q)\longrightarrow0
+\]
+and $H^1(\PP^2,\OO(q-2))=0$. Over the open of distinct divisors the ordered-root cover is the integral open subset of $(\PP^1)^{2q}$ with distinct coordinates. It is an $S_{2q}$-torsor over the complete reduced-divisor series; therefore the unordered nodes have full symmetric monodromy. Pullback to the moving plane equations preserves this image: the surjective restriction of section spaces gives, away from its projective centre, an affine-space bundle over that series. Its generic field extension is purely transcendental, so an integral finite cover stays integral. Smoothness of the moving curve and transversality with $C$ cut out a nonempty open, and further shrinking preserves the finite image. This supplies the required node systems for the boundary construction.
+
+For degree five, the six nodes give $\dim P=6$, while the coherent genus is $b_5=6$. The preceding two-component calculation again gives $\dim R=1$. Thus $c\le2$; passing to $A_6$ gives
+\[
+                  v_3(|A_6|)=2>1=v_3(|\GL_2(\FF_2)|).
+\]
+Theorem~\ref{thm:isolation} supplies both traces.
+
+For degree four, the four nodes give $\dim P=4$, $b_4=3$ and $\dim R=1$, so $c\le1$. Every representation of total dimension at most one over $\FF_2$ is trivial. Thus the full $S_4$ node image acts trivially on all three error spaces. Trace additivity gives a constant plus its permutation trace. The identity fixes four letters and a three-cycle fixes one, yielding both residues. This argument does not invoke simplicity of $A_4$.
+
+In all cases Lemma~\ref{lem:boundary} places the boundary action inside generic geometric monodromy, while the coherent restriction statement applies because $d\ge4>d_{\mathrm{coh}}=2$. Finally use exactly the finite-extension and Chebotarev argument in the proof of Theorem~\ref{thm:residues}. It works inside every prescribed nonempty open and proves the stated point-count conclusions.
+\end{proof}
+
+\section{Scope, open questions, and method}\label{sec:scope}
+
+This section separates the residue theorem from stronger classification questions. The theorem proves eventual trace surjectivity and every-open residue density for every fixed smooth projective connected ambient variety of dimension at least two. Its finite extension may depend on both the prescribed open and the residue. The degree bound is explicit once a regularity bound and finitely many coherent cohomology dimensions are known. Neither the uniform bound nor the finer order test is asserted optimal.
+
+The full geometric monodromy image, its irreducibility, and the exact generic stable rank for arbitrary ambient varieties remain separate questions. The proof uses a subgroup extracted from a degeneration and leaves the rest of the representation uncontrolled; this is the precise obstruction to reading a full-image theorem from it. Corollary~\ref{cor:plane-two} supplies every plane degree at least four in characteristic two. For general ambient varieties, improving the explicit bound requires additional small-degree information. Trace surjectivity imposes no general irreducibility conclusion.
+
+The exact arithmetic supplement \emph{Factor-order and boundary checks}, available through the \href{\workbenchurl}{workbench}, checks the valuation identities and sufficient factor counts against direct group orders, independently enumerates small matrix groups by elimination, and recomputes the displayed error polynomials. It is finite corroboration of the displayed universal proofs. No finite collection of hypersurfaces or primes is used to establish the geometric theorem.
+
+\paragraph{Sources and method.}
+The mathematics and text were produced by GPT-6 Astra (ChatGPT Pro mode). Separate reconstructions by the same model verified the general-variety theorem, the characteristic-two plane consequence, and the finite-group lemmas. The proofs and the numerical computations were compared at their stated scopes; the records specify the prior mathematical inputs and the limits of each check. No human has checked the mathematics. Our text and original code are dedicated to the public domain under CC0~1.0. The editable paper and programs are at \url{\workbenchurl}; its records are at \url{\recordurl}.
+
+\begin{thebibliography}{99}
+\bibitem[Entin(2021)]{Entin}
+Entin, A. (2021). Monodromy of hyperplane sections of curves and decomposition statistics over finite fields. \emph{International Mathematics Research Notices, 2021}(14), 10409--10441. \url{https://doi.org/10.1093/imrn/rnz120}. Version used for the stated locators: arXiv:1805.05454v3, March~31, 2019, pp.~7--11. \url{https://arxiv.org/abs/1805.05454}.
+
+\bibitem[Grothendieck(n.d.)]{Grothendieck}
+Grothendieck, A. (n.d.). \emph{Notes on crystalline cohomology}, cote~4, \S8.6, archive sheet~11, PDF image~12. Archives Alexander Grothendieck, Universit\'e de Montpellier. \url{https://grothendieck.umontpellier.fr/4.pdf}.
+
+\bibitem[Katz(1973)]{Katz}
+Katz, N. M. (1973). Une formule de congruence pour la fonction $\zeta$. In P. Deligne and N. Katz (Eds.), \emph{Groupes de monodromie en g\'eom\'etrie alg\'ebrique, II}, Expos\'e~XXII (Lecture Notes in Mathematics, Vol.~340, pp.~401--438). Springer. \url{https://web.math.princeton.edu/~nmk/old/congzeta.pdf}.
+
+\bibitem[OpenAI(2026)]{OpenAI}
+OpenAI. (2026, October~7). \emph{Milne's rationality conjecture for abelian varieties} [Preprint]. \url{https://github.com/openai/math/tree/main/preprints/Milnes-rationality-conjecture-for-abelian-varieties-October-7-2026}.
+
+\bibitem[The Stacks Project Authors(2026a)]{StacksRegularity}
+The Stacks Project Authors. (2026a). \emph{The Stacks Project}, \S33.35, Coherent sheaves on projective space, especially Lemma~33.35.10 (Tag~08A6). \url{https://stacks.math.columbia.edu/tag/08A6}.
+
+\bibitem[The Stacks Project Authors(2026b)]{StacksBaseChange}
+The Stacks Project Authors. (2026b). \emph{The Stacks Project}, Lemma~30.22.1, Cohomology and base change, III (Tag~07VK). \url{https://stacks.math.columbia.edu/tag/07VK}.
+
+\bibitem[The Stacks Project Authors(2026c)]{StacksBertini}
+The Stacks Project Authors. (2026c). \emph{The Stacks Project}, Lemma~33.47.3 (Tag~0FD6) and Remark~37.32.4 (Tag~0G4G), Bertini theorems. \url{https://stacks.math.columbia.edu/tag/0FD6}; \url{https://stacks.math.columbia.edu/tag/0G4G}.
+
+\bibitem[The Stacks Project Authors(2026d)]{StacksFinitePart}
+The Stacks Project Authors. (2026d). \emph{The Stacks Project}, Lemma~41.20.5, Descending \'etale morphisms (Tag~0BTN). \url{https://stacks.math.columbia.edu/tag/0BTN}.
+
+\bibitem[The Stacks Project Authors(2026e)]{StacksHenselian}
+The Stacks Project Authors. (2026e). \emph{The Stacks Project}, Lemma~58.8.2, Topological invariance of the fundamental group (Tag~09ZS). \url{https://stacks.math.columbia.edu/tag/09ZS}.
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,450 @@
+\section{When a Boolean presentation makes the scalar computable}
+\label{sec:structured}
+This section identifies extra presentations from which an exact witness count, or its residue, can be read without expanding the hypersurface equation. The additional data are part of the input. A promise that the underlying variety admits such data is a different algorithmic problem.
+
+\subsection{Small-degree tests on groups of gate failures}
+Let $V$ be a binary affine space parametrized injectively by $n$ free bits. A gate has affine operands $a,b$ and declared affine output $c$ on $V$; its defect is $c+ab$. Partition the gates into $g\ge1$ groups of at most $b$ gates, and let $f_i$ be the Boolean OR of the defects in group $i$. The legal words are $f^{-1}(0)$. If there are no gates, all $2^n$ words are legal and the count is immediate. In a deterministic acyclic circuit, with primary inputs retained and the output pinned, a primary assignment has one legal wire word precisely when it satisfies the circuit. This assertion must be checked for the chosen representation: counting free wire words in a presentation with several legal completions counts those completions.
+
+\begin{theorem}[Recognizing a low-degree selector]
+\label{st:selector}
+For $t\ge1$, there is a deterministic algorithm which either constructs a multilinear $H\in\mathbb F_2[Y_1,\ldots,Y_g]$ of degree at most $t$ such that
+\[
+ H(0)=1,\qquad H(f(x))=\mathbf1_{f(x)=0}\quad(x\in V),
+\]
+or proves that no such $H$ exists. Its bit cost is
+\[
+ (g+1)^{O(t)}2^{O(b(t+1))}\operatorname{poly}(L),
+\]
+where $L$ is the written size of the affine wiring. When the selector exists, the same bound gives a disjoint affine partition of the legal words, their exact integer count, and a witness if one exists. Thus fixed $t$ and $b=O(\log L)$ give polynomial algorithms.
+\end{theorem}
+\begin{proof}
+Write $H=\sum_{|S|\le t}h_SY_S$. Besides $h_\varnothing=1$, the required conditions are precisely the functional identities
+\[
+ \sum_{|S|\le t}h_Sf_{S\cup\{i\}}=0\quad(1\le i\le g),
+ \qquad f_T=\prod_{j\in T}f_j.
+\]
+Indeed a nonzero failure vector has some coordinate one, which forces $H$ to vanish, whereas $H(0)=1$ handles the zero vector.
+
+For each $T$ of size at most $t+1$, the function $f_T$ depends on at most $3b(t+1)$ affine bits. Reading the free bits successively changes the vector of partial affine evaluations by a known translation. Represent each possible partial vector by its unit row vector, and take the direct sum over all $T$, including the empty set. After each input position, propagate a basis of the span of the reachable joint rows through both choices of the next bit and perform Gaussian elimination. Induction on the number of positions proves that this span equals the span of all reachable prefix rows: both transition maps are linear, so a basis suffices. Its dimension is at most
+\[
+ D=\sum_{j=0}^{t+1}\binom gj2^{3b(t+1)}.
+\]
+At the final position, the table for block $T$ is the linear functional returning $f_T$. Impose the displayed equations on the final row basis. They hold on that basis if and only if they hold on all words. Gaussian elimination over $\mathbb F_2$ solves this linear system in the $h_S$. This is a finite, position-dependent application of the forward-space construction for weighted automata; compare Kiefer (2020, Algorithms~1--2, p.~3, and Proposition~2.1, p.~4)~\cite{st-kiefer}.
+
+It remains to turn the certificate into an integer count. The Boolean function $P=H(f)$ has degree at most $h=2bt$, because
+\[
+ f_i=1+\prod_{\text{gate }(a,b,c)\text{ in }i}(1+c+ab).
+\]
+An illegal gate is the disjoint union of the two affine sets
+\[
+ a=\epsilon,\qquad c+\epsilon b=1\quad(\epsilon=0,1).
+\]
+Each has codimension at most two. On a current affine domain, test all these intersections by row reduction. If none is nonempty, the whole domain is legal. If an intersection has relative codimension zero, discard the domain. Otherwise its codimension is $s\in\{1,2\}$. Choose affine coordinates $v_1,\ldots,v_s$ defining that intersection by $v=0$. The restricted indicator vanishes identically there. In its unique multilinear expression, every surviving monomial therefore contains at least one $v_i$. On each of the $2^s-1$ other parallel slices its degree drops by at least one. Recurse only on those slices. There are at most $3^h$ leaves, and after $h$ restrictions any remaining indicator is constant. Evaluating the gates at one representative determines that constant. Every accepted leaf has size $2^{\dim W}$, where $W$ is its direction space. The leaves are disjoint because every step was a partition. Their sum is the exact count, and row reduction constructs their representatives. All integers have at most $n+1$ bits.
+\end{proof}
+
+Applying the rank-one hypersurface construction to a Boolean presentation satisfying the one-legal-word condition identifies its coherent scalar in every fixed characteristic with this integer count reduced modulo the characteristic. The selector algorithm does not need to manipulate coherent cohomology.
+
+\begin{proposition}[Unique primary input does not bound selector degree]
+\label{st:chain}
+For every $g\ge1$ there is an acyclic chain of $2g$ AND gates, grouped in consecutive pairs, with a unique accepting primary input but minimum group-selector degree $g$ over every field.
+\end{proposition}
+\begin{proof}
+Use $z_i=z_{i-1}b_i$ for $1\le i\le2g$ and require $z_{2g}=1$. The primaries are $z_0,b_1,\ldots,b_{2g}$, and the unique accepting primary word is all ones. On the affine section with this primary word, set $z_{2j}=1$ and $z_{2j-1}=1+s_j$. Both defects of pair $j$ equal $s_j$. The group map on the section is the identity on $\{0,1\}^g$. Its zero indicator is uniquely $\prod_j(1-s_j)$, of degree $g$. This is also an upper bound by testing all groups.
+\end{proof}
+More generally, on a fixed-primary fibre of affine dimension $r$ with one legal wire word, the indicator has Boolean degree $r$, so every degree-$t$ group selector satisfies $2bt\ge r$. Uniqueness of a satisfying primary input and simplicity of the legal-wire indicator are distinct conditions.
+
+\subsection{What a bounded collection of local moments can certify}
+For completeness, an exact integer count may sometimes be certified even when no low-degree selector exists. If there are no groups, every word in the affine domain is legal, and row reduction gives its exact count. Suppose henceforth that the number $g$ of groups is positive. Put $w=\sum_i f_i$ as an integer, and $m_T=\#\{x:f_i(x)=1\ (i\in T)\}$. Enumerating at most $3b|T|$ joint affine values and solving their affine equations computes $m_T$ in $2^{3b|T|}\operatorname{poly}(L)$ time. For rational multilinear $H$ of degree at most $t$ with $H(0)=1$, define
+\[
+ L_t=\max_H\sum_x(1-w)H(f)^2,
+ \qquad U_t=\min_H\sum_x(1-w/g)H(f)^2.
+\]
+Pointwise, $L_t\le\#f^{-1}(0)\le U_t$. These two rational quadratic optimizations use only $m_T$ with $|T|\le2t+1$. After fixing the constant coefficient, the upper Hessian and the negative lower Hessian are positive semidefinite. For the latter, variations vanish at zero, and $w-1\ge0$ at every nonzero failure vector. The objectives are bounded, so their linear terms annihilate the Hessian kernels; rational elimination solves the normal equations even when the matrices are singular. Determinant bounds give polynomial bit complexity for fixed $t$ and logarithmic $b$.
+
+These moments need not determine the count. On the even- and odd-parity affine hyperplanes in $\mathbb F_2^{2t+2}$, take $f_i=x_i$, realized by a gate with operands $1,x_i$ and declared output zero. Every proper intersection has the same size on both hyperplanes, but the zero counts are one and zero. Thus all moments of order at most $2t+1$ can coincide while the answer differs. The paired-chain obstruction likewise concerns the visible presentation rather than every possible elimination of its wires.
+
+\subsection{Reversible homogeneous two-bit registers}
+A different elimination removes all intermediate states of a reversible two-bit register. Let $x\in\mathbb F_2^n$ be the primary input, with each stage selected by an affine bit of $x$. The two alternatives belong to $\operatorname{GL}(2,2)$, and the initial vector is fixed and nonzero. The action on the three nonzero vectors identifies this group with the permutations of $\mathbb F_3$, namely $z\mapsto sz+c$, $s\in\{1,-1\}$. Label zero is a live vector, not the zero vector of the binary register. Put $\chi_a(x)=(-1)^{a\cdot x}\in\mathbb F_3$.
+
+\begin{theorem}[Sparse readout, witnesses and an exact-count separation]
+\label{st:register}
+For a length-$m$ reversible homogeneous two-bit program, the terminal label has an explicitly computable expression
+\[
+ z_m(x)=\sum_{a\in B}c_a\chi_a(x),\qquad |B|\le m+1.
+\]
+Given any accepted subset of the three terminal labels, existence, witness search, and the count modulo three are computable in polynomial bit time, on the full primary cube or any explicit affine restriction. Exact integer counting for this model is $\#\mathrm P$-complete under polynomial-time one-call metric reductions, already for rotations controlled by parities of at most two primary bits.
+\end{theorem}
+\begin{proof}
+Write the recurrence as $z_i=s_i(x)z_{i-1}+c_i(x)$. If the controlling affine bit has linear part $u_i$, then $s_i$ is a signed character of frequency $0$ or $u_i$, and $c_i$ is a linear combination of $1,\chi_{u_i}$. Expansion gives
+\[
+ z_m=z_0\prod_i s_i+\sum_i c_i\prod_{j>i}s_j.
+\]
+Read this formula backwards. With current suffix frequency $a$, the next summand has frequencies in $\{a,a+u_i\}$, and the next suffix frequency is one of those same two. Starting at zero, the accumulated candidate set gains at most one member per step. Collecting coefficients produces at most $m+1$ slots, in polynomial time including all mask operations.
+
+Interpolate the acceptance function as $h(z)=A+B_1z+Cz^2$. Because $\chi_a\chi_b=\chi_{a+b}$ and $0$ may be included in $B$, the indicator $h(z_m)$ has support contained in $B+B$, of cardinality at most $1+\binom{m+1}{2}$. Walsh characters are linearly independent over $\mathbb F_3$: their evaluation matrix times its transpose is $2^nI$. Consequently a collected sparse indicator is zero on the entire cube precisely when its coefficient dictionary is empty. To find a witness, restrict one bit at a time, collecting equal frequencies; at least one of the two restrictions of a nonzero function remains nonzero. This also works after substituting an injective affine parametrization.
+
+The sum over the cube kills every nonconstant character. Thus the population residue is
+\begin{equation}
+\label{st:eq:register-count}
+ 2^n\left(A+B_1c_0+C\sum_a c_a^2\right)\in\mathbb F_3.
+\end{equation}
+The full sparse indicator, rather than this single residue, gives the witness test when a positive population is divisible by three. In particular the characteristic-three coherent scalar of the associated rank-one hypersurface is the displayed expression.
+
+Here is a complete exact-count reduction. Encode a Boolean circuit using binary variables for its primaries and wires. An AND gate $z=ab$ is encoded with fresh binary $s,t$ by the two ternary linear equations
+\[
+ a+b-2z-s=0,\qquad z+s+t-1=0.
+\]
+The second equation forces exactly one of $z,s,t$ to equal one; the first is then equality between integers in $\{0,1,2\}$. They give a unique extension with $z=ab$. A NOT gate gives $a+z-1=0$, and the final output is pinned to one. Let the resulting forms be $L_1,\ldots,L_M$ on $N$ binary variables. Their common zero set has exactly $S$ elements.
+
+Choose the least $k$ with $B=4^k>2^N$, and introduce private bits $y_{jch}$ for $1\le j\le M$, $1\le c\le k$, $h\in\{1,2\}$. Let a cyclic register of order three accumulate the exponent
+\[
+ E=\sum_{j,c,h}h\,y_{jch}L_j(x)\pmod3.
+\]
+Each bilinear bit product can be implemented by a constant number of parity-controlled rotations, because the integer identity
+$2uv=u+v-(u\mathbin\oplus v)$ holds for binary $u,v$. All controls have support at most two. The construction has polynomial written length.
+
+For a complex primitive cube root $\omega$, summing the two private bits of a block gives four if $L_j(x)=0$ and
+$(1+\omega^{L_j(x)})(1+\omega^{2L_j(x)})=1$ otherwise. Therefore
+\[
+ Z:=\sum_{x,y}\omega^E=\sum_xB^{\#\{j:L_j(x)=0\}}.
+\]
+The nonzero-residue populations of $E$ agree, since swapping the indices $h=1,2$ negates $E$. If $W$ is its zero-residue population and $T=2^{N+2kM}$ is the total, then $Z=(3W-T)/2$. The contribution of all nonsolutions is strictly less than $B^M$, because it is at most $2^NB^{M-1}$. Hence
+\[
+ S=\left\lfloor\frac{3W-T}{2B^M}\right\rfloor.
+\]
+Selecting one terminal label gives $W$. All postprocessing integers have polynomial bit length. Direct simulation proves membership in $\#\mathrm P$. This is a metric reduction, not a parsimonious reduction; the distinction is essential to the coexistence with the polynomial-time residue algorithm.
+\end{proof}
+
+The character description is the rotation-reflection description used in the width-three group-program literature. Kahn and Meshulam (1991, Theorems 1--2, pp.~17--20)~\cite{st-km} prove the associated finite-field uncertainty inequality and the matching exponential order for mod-three parity representations. In the present notation, if a nonzero acceptance indicator has $s$ Walsh frequencies on a $d$-dimensional affine slice, then its support has size at least $2^d/s$. One elementary proof takes a basis from the translates of the indicator. Their supports cover the whole cube, while the translation span has dimension at most $s$. In particular a unique accepted word requires $m=\Omega(2^{n/2})$. Splitting the input into two balanced blocks, adding their two point indicators in $\mathbb F_3$, and accepting label two gives the matching $O(2^{n/2})$ construction.
+
+\subsection{Recognition costs from geometric equations}
+The preceding algorithms are algorithms on a marked Boolean or register presentation. For the gate method, a recovery procedure from a hypersurface must find free binary coordinates, affine operand and output forms, the gate grouping, and a verified bijection between legal words and the counted primary assignments. It must then produce the bounded-degree selector or an equivalent affine partition. For the register method it must recover the initial and terminal states, every controlled invertible matrix, and the affine tests on a common primary domain, or directly recover the sparse Walsh indicator. Its reconstruction time and the size of its output must be added to the readout time. Arithmetic-circuit equality, a change of projective coordinates, and an abstract isomorphism of varieties do not by themselves provide these data. No general polynomial-time recovery from an unmarked hypersurface is established here.
+
+\section{Empty fibres despite vanishing Frobenius traces}
+\label{sec:split-fibres}
+This section separates evaluation at a given base point from existential search across the base. The base is the split binary cube over $\mathbb F_3$. Give a joint ternary Walsh polynomial
+\[
+ F(x,z)=\sum_{\beta}\chi_\beta(z)Q_\beta(x),
+ \qquad x\in\mathbb F_2^n,\ z\in\mathbb F_2^t,
+\]
+by a sparse list of joint masks and nonzero coefficients. Let $Y_x=\{z:F(x,z)\ne0\}$ and $H(x)=|Y_x|$. Walsh independence gives
+\begin{equation}
+\label{st:eq:empty-rows}
+ Y_x=\varnothing\quad\Longleftrightarrow\quad
+ Q_\beta(x)=0\text{ for every }\beta.
+\end{equation}
+For a known $x$, collecting the private coefficients tests this condition and restriction finds a nonempty-fibre witness in polynomial time.
+
+\begin{theorem}[Empty-fibre hardness with zero traces]
+\label{st:empty-hard}
+From a width-three formula with $M\ge1$ clauses one can construct, in polynomial bit time, a split finite etale morphism over the split binary base such that its empty fibres are exactly the satisfying primary words and every positive Frobenius iterate has trace zero on every fibre's coherent $H^0$. Empty-fibre existence for the resulting presentations is NP-complete, and counting the empty base points is parsimoniously $\#\mathrm P$-complete.
+\end{theorem}
+\begin{proof}
+Let $V_i(x)$ be the zero-one indicator that clause $i$ is violated. A contradictory prescribed pattern on a repeated variable contributes zero; otherwise it is a point test on at most three bits and has at most eight ternary Walsh terms. Pair clauses, setting $Q_j=V_{2j-1}+V_{2j}$ with a final zero padding if needed. Since its integer values are $0,1,2$, this sum vanishes in $\mathbb F_3$ exactly when both clauses hold. Assign distinct private masks $\beta_j$ on
+$t=\lceil\log_2\lceil M/2\rceil\rceil$ bits and put $F=\sum_j\chi_{\beta_j}Q_j$. Each pair has at most fifteen terms because its constant frequencies combine, and the total is at most $8M-\lfloor M/2\rfloor$. Equation~\eqref{st:eq:empty-rows} proves the claimed bijection.
+
+Introduce two further private bits and multiply by their indicator of being different from $00$. In characteristic three that indicator is
+\[
+ P(a,b)=1-\frac{(1+\chi_a)(1+\chi_b)}4
+       =-(\chi_a+\chi_b+\chi_{a+b}),
+\]
+where the constant cancels because $4=1$ in $\mathbb F_3$. The new nonzero population is $3H(x)$, and the joint spectrum has at most three times as many terms.
+
+Use sign coordinates $X_i,Z_j$ for the primary and private bits, with $X_i^2=Z_j^2=1$, and impose $(FP)^2=1$. Every character is a squarefree monomial in these coordinates, so the complete equation list has polynomial sparse size. The coordinate algebra before the final equation is a product of copies of $\mathbb F_3$; the last equation selects some of its factors. Thus the total scheme is reduced and split, and its map to the split base is finite etale. The fibre over $x$ is a disjoint union of $3H(x)$ rational points. Its coherent $H^0$ is $\mathbb F_3^{3H(x)}$, and every positive Frobenius iterate is the identity. Its trace is therefore zero, including on the zero-dimensional vector space of an empty fibre.
+
+Membership in NP follows by guessing the base word and testing all private coefficients, not by enumerating private words. Membership in $\#\mathrm P$ for the base count uses the same verifier. Homogenizing all sign quadrics with one variable $W$ adds no points or scheme structure at infinity: $W=0$ forces the squares of every other homogeneous coordinate to vanish, so their radical contains the irrelevant ideal. The projective closure is exactly the finite scheme on $W\ne0$.
+\end{proof}
+The coherent rank here is the fibre population and grows with the instance; the base is finite and disconnected. This theorem does not give a connected projective family with a fixed coherent rank. Over $\mathbb F_3$, rank less than three would already exclude a positive zero trace in this split setting.
+
+\begin{proposition}[Recognizing when a trace or a rank bound suffices]
+\label{st:trace-cap}
+Given an $s$-term joint Walsh polynomial, one can test in polynomial time whether zero trace detects emptiness on every fibre. On failure the algorithm returns a nonempty zero-trace fibre and a point on it; on success it decides empty-fibre existence and finds a base word if one exists. For every fixed $C$, one can also test whether all fibre populations are at most $C$, returning $C+1$ completions over one base word on failure and an explicit empty-fibre indicator on success.
+\end{proposition}
+\begin{proof}
+With $q_0=2^t$, private orthogonality gives the residue polynomial
+\[
+ g(x)=\sum_zF(x,z)^2=q_0\sum_\beta Q_\beta(x)^2\in\mathbb F_3.
+\]
+Expand and collect $F(x,z)(1-g(x)^2)$. It vanishes as a function precisely when $g(x)=0$ never occurs on a nonempty fibre. Walsh independence tests this by its coefficients. A nonzero result yields a joint witness by restrictions. If it is zero, $1-g^2$ is the empty-fibre indicator, to which the same identity test and witness search apply.
+
+For the cap, handle $F=0$ immediately. Otherwise find one joint nonzero value. The uncertainty inequality on that private slice gives $H(x)\ge q_0/s$. If $q_0>Cs$, a traversal of the nonempty private-prefix subtrees produces $C+1$ different completions; each zero test uses coefficient collection. If $q_0\le Cs$, enumerate the private words. For every $(C+1)$-subset $A$ test $\prod_{z\in A}F(x,z)$ for zero as a primary Walsh polynomial. A nonzero product yields the required common base word. If all products vanish, the population bound holds and
+\[
+ E(x)=\sum_{j=0}^{\min(C,q_0)}(-1)^j
+       \sum_{\substack{A\subseteq\mathbb F_2^t\\|A|=j}}
+                   \prod_{z\in A}F(x,z)^2
+\]
+is the empty-fibre indicator: at a base word it is the complete binomial sum for its population. The bit cost is $(1+Cs)^{O(C+1)}\operatorname{poly}(L)$.
+\end{proof}
+
+\subsection{Erasing an arbitrarily long initial zeta segment}
+A split fibre of population $H$ has zeta function $(1-T)^{-H}$. If $H>0$, its first nonzero positive-degree reciprocal-zeta coefficient modulo three occurs in degree $3^{v_3(H)}$, because
+\[
+ (1-T)^H=(1-T^{3^{v_3(H)}})^{H/3^{v_3(H)}}
+ \quad\text{in }\mathbb F_3[T].
+\]
+The next construction makes that degree large at logarithmic cost in the requested vanishing range.
+
+\begin{theorem}[A short private multiplier]
+\label{st:multiplier}
+For every $a\ge1$, a deterministic construction polynomial in $a$ gives a ternary Walsh polynomial $P$ on $O(a)$ bits with $O(a)$ terms and positive support size $H_P$ satisfying $v_3(H_P)=a$. Conversely an $s$-term nonzero ternary Walsh polynomial satisfies
+\[
+ v_3(H_P)\le\lfloor(s-1)\log_3 2\rfloor.
+\]
+Consequently, for any $K\ge1$, an $s$-term joint presentation can preserve all its empty fibres while erasing reciprocal-zeta coefficients in degrees $1,\ldots,K$ modulo three, with $O(s\log(K+1))$ terms and $O(\log(K+1))$ fresh private bits.
+\end{theorem}
+\begin{proof}
+Take $N=2^r$ independent signs $X_0,\ldots,X_{N-1}$ and $r$ selector bits $y_0,\ldots,y_{r-1}$. Partition the signs other than $X_0$ into blocks $J_j$ of size $2^j$. For an arbitrary zero-one table $c(y)$, put
+\[
+ P_c=X_0+\sum_{j=0}^{r-1}y_j\sum_{i\in J_j}X_i+c(y).
+\]
+The identity $y_jX_i=(X_i-X_i\chi_{e_j}(y))/2$ and the Walsh transform of the $N$-entry table show that this uses at most $3N-1$ terms on $N+r$ bits.
+
+At selector $y$, exactly $k=1+\sum_j2^jy_j$ independent signs are active, so each $k\in\{1,\ldots,N\}$ occurs once. If $A_k$ and $B_k$ count sign words with sum zero and one in $\mathbb F_3$, negation gives the same count for sum two. Adding a sign gives $(A_{k+1},B_{k+1})=(2B_k,A_k+B_k)$, whence $A_k-B_k=(-1)^k$ and $A_k+2B_k=2^k$. Including inactive signs, the two possible support sizes are
+\[
+ b_k=\frac23(2^N-(-1)^k2^{N-k}),\qquad
+ b_k+d_k,\quad d_k=(-1)^k2^{N-k}.
+\]
+Both are positive. Choose the smaller at each selector and call their sum $L_0$. Switching a selector to the larger adds $2^{N-k}$, so every integer in $[L_0,L_0+2^N-1]$ is realized, by binary expansion of the desired increment.
+
+Choose the least power of two $N$ for which $2^N\ge3^{a+1}$. Then $N<2(a+1)\log_2 3$, and the interval contains an integer congruent to $3^a$ modulo $3^{a+1}$. Its binary digits specify $c$ and give the required polynomial in polynomial bit time.
+
+For the converse, multiply the polynomial by one of its characters. This does not change its support. Its translated frequencies span a binary space of dimension $d\le s-1$. Hence the support size is $2^{t-d}H'$ for an integer $1\le H'\le2^d$, which proves the valuation bound.
+
+Finally take $a=1+\lfloor\log_3K\rfloor$ and multiply the original joint polynomial by $P$ on fresh private bits. The nonzero population over $x$ becomes $H_PH(x)$; it vanishes exactly when $H(x)$ does. Disjoint masks concatenate, so sparsities multiply. The displayed Frobenius factorization of the reciprocal zeta polynomial proves the claimed vanishing. The converse also shows that a nonempty fibre with this vanishing range requires $\Omega(\log(K+1))$ Walsh terms.
+\end{proof}
+For $N=4$ the two branch support sizes, for $k=1,2,3,4$, are $(16,8)$, $(8,12)$, $(12,10)$, and $(10,11)$. The smaller choices sum to $36$. Choosing the larger for $k=1,4$ gives $45$, of valuation two, and the selector table $(0,0,1,1)$ is simply $y_1$; the resulting sum has nine terms.
+
+
+The multiplier can in addition have bounded monomial degree in the sign variables.
+\begin{proposition}[A private multiplier of degree five]
+\label{st:local-multiplier}
+For every $a\ge1$, one can construct in deterministic time polynomial in $a$ a
+ternary Walsh polynomial on $4(a+1)$ bits with at most $32a+16$ terms,
+every mask of weight at most five, whose positive nonzero population has
+$3$-adic valuation exactly $a$.
+\end{proposition}
+\begin{proof}
+Put $\omega=e^{2\pi i/3}$. For each integer
+$u\in\{-4,-1,2,5\}$, define a function
+$f_u:\mathbb F_2^3\to\mathbb F_3$ with respective value multiplicities
+\[
+ n_0(u)=\frac{8+2u}{3},\qquad
+ n_1(u)=n_2(u)=\frac{8-u}{3}.
+\]
+These are nonnegative integers summing to eight. An explicit truth table
+assigns value zero to the first $n_0(u)$ three-bit words in binary order,
+value one to the next $n_1(u)$ words, and value two to the rest. Thus
+\[
+ \sum_w\omega^{f_u(w)}=u.
+\]
+For $e\in\{-1,0,1\}$ set
+\[
+ T_e=\begin{pmatrix}3e-1&2-3e\\2+3e&-1-3e\end{pmatrix},
+ \qquad g_e(b,c,w)=f_{T_e[c,b]}(w),
+\]
+where the row is the current state $c$ and the column is the preceding
+state $b$, each ordered as $0,1$. All four matrix entries belong to the
+specified set, and summing $\omega^{g_e(b,c,w)}$ over $w$ gives that entry.
+
+Choose digits $e_1,\ldots,e_n$. With $b_0=0$ fixed, introduce the $n$
+state bits $b_1,\ldots,b_n$ and three fresh auxiliary bits $w_i$ per stage,
+and define
+\[
+ P=\sum_{i=1}^n g_{e_i}(b_{i-1},b_i,w_i)\quad\text{in }\mathbb F_3.
+\]
+There are $4n$ bits. Its complex phase sum is
+\[
+ Z=\sum_z\omega^{P(z)}
+   =(1,1)T_{e_n}\cdots T_{e_1}(1,0)^{\mathsf T}.
+\]
+The right vector fixes $b_0$ and the left vector sums the final state.
+For $R=\left(\begin{smallmatrix}1&1\\1&-1\end{smallmatrix}\right)$,
+\[
+ R^{-1}T_eR=\begin{pmatrix}1&6e\\0&-3\end{pmatrix}.
+\]
+Consequently, writing $A=\sum_{i=1}^n e_i(-3)^{i-1}$ and multiplying these
+triangular matrices in the displayed order gives
+\[
+ Z=1+6A.
+\]
+If $h_j$ is the population of value $j$, then this real phase sum implies
+$h_1=h_2$. Since $h_0+h_1+h_2=16^n$, the nonzero population is exactly
+\begin{equation}
+\label{st:eq:local-population}
+ H=h_1+h_2=\frac{2(16^n-1-6A)}3.
+\end{equation}
+
+Given $a$, take $n=a+1$ and $C=(16^n-1)/3$. Choose the unique representative
+\[
+ -\frac{3^n-1}{2}\le A\le\frac{3^n-1}{2},
+ \qquad 2A\equiv C-3^a\pmod{3^n}.
+\]
+Every integer in this interval has exactly one $n$-digit expansion in
+base $-3$ with digits $-1,0,1$. Indeed, two different digit words cannot
+have the same value: at their largest differing position the difference
+has magnitude at least $3^j$, whereas all earlier positions contribute
+at most $2\sum_{i<j}3^i=3^j-1$. The $3^n$ distinct values lie in the
+stated interval of $3^n$ integers. Successively choosing the digit
+congruent to the current integer modulo three, then dividing the
+remainder by $-3$, constructs the expansion.
+Equation~\eqref{st:eq:local-population} now gives
+\[
+ H=2(C-2A)\equiv2\cdot3^a\pmod{3^{a+1}}.
+\]
+Moreover $|Z|\le3^{n+1}-2<16^n$, so $H>0$. This proves the exact valuation.
+
+Each local function involves at most five bits, and the first involves
+only four because $b_0$ is fixed. For a function on $k$ bits, Walsh
+inversion over $\mathbb F_3$ gives the explicit coefficients
+\[
+ \widehat f(v)=2^{-k}\sum_{x\in\mathbb F_2^k}
+                         f(x)(-1)^{v\cdot x}.
+\]
+It is valid because the Walsh matrix has square $2^kI$ and $2$ is
+invertible. Expanding each local truth table, embedding its masks in
+the global coordinate set, and collecting equal masks gives at most
+$16+32(n-1)=32a+16$ terms. Every mask still has weight at most five.
+The integers specifying $A$ and its digits have $O(a)$ bits, and all
+local transforms have constant size. The complete mask list has
+$O(a^2)$ bits and is produced in polynomial bit time.
+\end{proof}
+For $a=1$, the digit word $(-1,1)$ gives $n=2$, $A=-4$, $Z=-23$ and
+$H=186=2\cdot3\cdot31$. Thus this eight-bit example has valuation one.
+The private-product conclusion of Theorem~\ref{st:multiplier} applies
+unchanged; the degree contributed by the fresh sign variables is at
+most five, independently of the requested zeta segment.
+
+\subsection{Recovering rows after the multiplier is hidden}
+For a nonzero primary Walsh row $Q=\sum_{a\in A}q_a\chi_a$, define its normalized representative as the lexicographically first coefficient list among $q_b^{-1}\chi_bQ$, $b\in A$, in fixed primary coordinates. The finite set of candidate lists is unchanged when $Q$ is multiplied by any nonzero scalar or primary character. It is computable with polynomially many mask operations.
+
+\begin{proposition}[Recovery without knowing the private multiplier]
+\label{st:row-recovery}
+The set of normalized nonzero primary rows is invariant when a joint Walsh polynomial is multiplied by a nonzero private Walsh polynomial on fresh bits and then subjected to an invertible binary private change
+\[
+ z\longmapsto Mz+Ax+c,
+\]
+with the primary coordinates fixed. From the transformed sparse spectrum one can recover that set without recovering the multiplier or the change. If its rows have rank $R$ over $\mathbb F_3$, empty-fibre existence and a witness can be computed in $(1+s)^{2R+O(1)}\operatorname{poly}(n+t)$ time.
+\end{proposition}
+\begin{proof}
+Before the change, a multiplier term with coefficient $p_\gamma\ne0$ creates the row $p_\gamma Q_\beta$ at the distinct private mask $(\beta,\gamma)$. The invertible private matrix permutes these masks. Translation multiplies their rows by a nonzero scalar and the character with primary mask $A^\top(\beta,\gamma)$. Normalization removes both. Conversely every original row appears because the multiplier is nonzero. Select a basis from the normalized rows by Gaussian elimination. Their common zero locus equals the common zero locus of all rows. If the basis is $Q_1,\ldots,Q_R$, its indicator is $\prod_i(1-Q_i^2)$. Expanding and collecting yields the claimed cost, and successive primary restrictions find a witness.
+\end{proof}
+The coordinate change in this proposition is affine on the binary exponents. In algebraic sign coordinates it is a monomial character substitution; it is not generally affine-linear on the surrounding affine space over $\mathbb F_3$.
+
+\begin{theorem}[Sparse equations in displayed split coordinates]
+\label{st:split-rank}
+Fix an odd prime $p$ and positive integers $e,r$. Give the base equations $x_i^2=x_i$, the private equations $Z_j^2=1$, and $e$ further sparse polynomial equations $P_l(x,Z)=0$ over $\mathbb F_p$, with binary exponents. Let $T$ count their terms and $L$ their input bits. In the reduced mixed basis write
+\[
+ B=\prod_{l=1}^e(1-P_l^{p-1})=\sum_\beta B_\beta(x)Z^\beta,
+ \qquad U_\beta=B_\beta^{p-1}.
+\]
+The rank $R$ of the nonzero reduced $U_\beta$ over $\mathbb F_p$ is computable in time $(1+T)^{O(e(p-1)^2)}\operatorname{poly}(L)$. If $R\le r$, empty-fibre existence and witness search take
+\[
+ (1+T)^{O(e(p-1)^2(r+1))}\operatorname{poly}(L).
+\]
+For $p=3$ these are the squared rows. Their set is invariant under a nonzero private indicator multiplier on fresh signs and the binary private changes of Proposition~\ref{st:row-recovery}. The same invariance holds for the $(p-1)$st-power rows at every odd $p$.
+\end{theorem}
+\begin{proof}
+Reduction sends every positive exponent of $x_i$ to one and every exponent of $Z_j$ to its parity. Multiplication in this basis takes the union of primary supports and the binary sum of private supports. Fermat's identity shows that $B$ is the zero-one characteristic function of the joint zero set on the displayed split coordinates. It can be expanded with at most $(1+T)^{e(p-1)}$ terms. Row powers, their coefficient matrix, and Gaussian elimination have the asserted polynomial bound.
+
+Both factors of the mixed basis are independent as functions on their respective cubes: multilinear interpolation works on $\{0,1\}^n$, and Walsh orthogonality works because $2$ is invertible in $\mathbb F_p$. Thus a fibre is empty exactly when all its rows vanish, equivalently when every $U_\beta$ vanishes. Select a basis $U_1,\ldots,U_R$ from the original rows. These selected functions take only values zero and one. Their product
+\[
+ E(x)=\prod_{i=1}^R(1-U_i(x))
+\]
+is therefore the empty-fibre indicator, whose sparse expansion and successive zero-one restrictions give the algorithm. If $R=0$, it is the constant one.
+
+The multiplier and private change replace each nonzero row by a scalar times a primary character times an old row. Raising to the $(p-1)$st power removes these pointwise units. The resulting reduced primary polynomials are equal because interpolation is unique. This proves invariance, including the converse inclusion since a nonzero multiplier has a nonzero Fourier coefficient. The running time is measured in the displayed equation list after the change; no assertion is made that every coordinate transformation keeps that list short.
+\end{proof}
+This theorem gives a recovery algorithm from equations without reconstructing gate wiring, provided the base/private split coordinates are displayed and $e,R$ are bounded. It also applies to the corresponding homogeneous presentation with standard split quadrics and a distinguished affine chart. Recovering the split coordinates and the finite map from arbitrary unmarked equations remains an additional problem. A degree or codimension promise alone does not furnish the needed coordinate algebra.
+
+\subsection{Recovering an affine-hidden split quadratic presentation}
+The displayed-coordinate hypothesis can be relaxed when the entire span of the split quadrics is marked in the input. The underlying linear-algebra method is simultaneous diagonalization of symmetric matrices by congruence. He and Kressner (2025, \S3, Algorithm~1, p.~7, and Theorem~7, p.~8)~\cite{st-he-kressner} use two random linear combinations over the reals. Here the full diagonal span permits a deterministic finite-field construction with an explicit auxiliary extension and descent back to the input field.
+
+\begin{theorem}[Recovery from a complete split-quadric span]
+\label{st:hidden-quadrics}
+Fix an odd prime $p$. Let $t\ge1$. The base coordinates $x_1,\ldots,x_n$ and their equations $x_i^2=x_i$ are displayed. In private coordinates $y_1,\ldots,y_t$, give a designated list of quadratic polynomials whose $\mathbb F_p$-linear span is
+\[
+ \operatorname{span}_{\mathbb F_p}
+ \{\ell_i(x,y)^2-1:1\le i\le t\},
+ \qquad \ell_i=A_i y+B_i x+c_i,
+\]
+where the unknown private coefficient matrix $A$ is invertible over $\mathbb F_p$. There is a deterministic polynomial-bit-time algorithm recovering these affine coordinates up to signs and permutation, together with polynomial identities verifying the recovered span. It uses an auxiliary field $K$ of size
+\[
+ t^3+1<|K|\le p(t^3+1),
+\]
+but all recovered affine coordinates are over $\mathbb F_p$.
+
+If, in addition, a fixed number $e$ of sparse equations is given and every input monomial involves at most $\sigma$ variables, then these equations can be converted to the recovered split coordinates with at most
+\[
+ T'=T(n+t+1)^{(p-1)\sigma}
+\]
+terms as functions on the split scheme. Theorem~\ref{st:split-rank} then applies with this term bound. In particular fixed $p,e,\sigma$ and bounded recovered row-power rank give a deterministic polynomial-time empty-fibre algorithm without knowing the hidden affine change.
+\end{theorem}
+\begin{proof}
+Extract the symmetric matrices of the homogeneous quadratic terms in the private $y$ variables, using division by two for cross terms. Their span has dimension $t$ and is $A^{\mathsf T}\operatorname{Diag}_t A$. Select a basis $H_1,\ldots,H_t$, remembering the corresponding full quadrics. Let $K/\mathbb F_p$ have the least degree with $|K|>t^3+1$. Since $p$ is fixed, enumerating monic polynomials of that degree and testing irreducibility by repeated powering and polynomial gcd constructs $K$ in polynomial time: its cardinality is polynomial in $t$.
+
+Consider
+\[
+ H(\lambda)=\sum_{j=1}^t\lambda^{j-1}H_j
+       =A^{\mathsf T}\operatorname{diag}
+          (h_1(\lambda),\ldots,h_t(\lambda))A.
+\]
+The polynomials $h_i$ form a basis of the polynomials of degree less than $t$, because the diagonal coefficient matrix of the $H_j$ is invertible. In particular each is nonzero, and no two are proportional. The determinant is a nonzero polynomial of degree at most $t(t-1)$. Enumerate $\lambda\in K$ until $H(\lambda)$ is invertible.
+
+For fixed such $\lambda$, put $J(\mu)=H(\mu)$. The matrix
+\[
+ H(\lambda)^{-1}J(\mu)
+ =A^{-1}\operatorname{diag}
+       \left(\frac{h_1(\mu)}{h_1(\lambda)},\ldots,
+             \frac{h_t(\mu)}{h_t(\lambda)}\right)A
+\]
+has distinct eigenvalues except when some nonzero polynomial
+$h_i(\mu)h_j(\lambda)-h_j(\mu)h_i(\lambda)$ vanishes. Each has degree at most $t-1$, so fewer than $t^3$ values of $\mu$ are excluded. Enumerating $K$ and testing the characteristic polynomial for squarefreeness finds a suitable $\mu$. All eigenvalues are in $K$; enumerating the field and solving the corresponding linear kernels recovers the eigenlines. Each is spanned by a column of $A^{-1}$, hence is defined over $\mathbb F_p$. Normalizing any nonzero coordinate to one gives an $\mathbb F_p$ vector. Let $P\in\operatorname{GL}_t(\mathbb F_p)$ have these vectors as columns.
+
+Substitute $y=Pu$. The private quadratic matrices are diagonal. Invert their diagonal coefficient matrix to isolate, in the full quadratic span, a polynomial $q_i$ whose private quadratic term is exactly $u_i^2$. The promise implies
+\[
+ q_i=u_i^2+b_i(x)u_i+c_i(x)
+     =\bigl(u_i+b_i(x)/2\bigr)^2-\Delta_i,
+\]
+where $b_i$ is affine in the base and $\Delta_i$ is a nonzero square constant in $\mathbb F_p$. Recover a square root by enumeration in the fixed field and divide $u_i+b_i/2$ by it. This yields $\ell_i$ up to sign and order. Polynomial coefficient comparison verifies the complete quadrics and their spans, including the terms involving only the base; diagonalizing the private quadratic parts alone would be insufficient.
+
+For the last assertion, every coordinate of the split scheme has values in $\mathbb F_p$, including the original $y_j$. A positive binary exponent $E$ can therefore be replaced, as a function on this scheme, by $1+((E-1)\bmod(p-1))$. An input monomial supported on at most $\sigma$ variables then has degree at most $(p-1)\sigma$. The inverse recovered affine substitution expresses each old coordinate as an affine form in the $n+t$ new ones, so expansion gives at most $(n+t+1)^{(p-1)\sigma}$ terms. These function identities are scheme identities on the split finite reduced algebra; they are not assertions that the unreduced ambient polynomials agree. Applying the row-power algorithm proves the stated bound and conclusion.
+\end{proof}
+
+The designated quadratic span and the monomial-support bound are effective hypotheses. If the private split equations are mixed into an arbitrary long ideal presentation, or if a monomial contains unboundedly many old coordinates, the above extraction or expansion cost is no longer polynomial by this argument.
+
+\begin{example}[Row rank is not an invariant of an unmarked finite map]
+\label{st:rank-counterexample}
+Take four base words, indexed by two bits, and eight private words, indexed by three bits. Let the four fibres be
+\[
+ \{0,1\},\quad\{2,3\},\quad\{4,5\},\quad\{6,7\},
+\]
+where integers denote their three-bit words. Their characteristic functions are translates of the same two-point set. In the private Walsh basis over $\mathbb F_3$, every nonzero squared row is the constant function one, so the squared-row rank is one.
+
+A fixed permutation of the eight private points sends these four pairs to
+\[
+ \{0,1\},\quad\{2,4\},\quad\{3,6\},\quad\{5,7\}.
+\]
+It is an automorphism of the ambient split finite scheme, independent of the base, and gives an isomorphic finite map. For a private mask $\beta$, the squared row on a pair $\{a,b\}$ is one if $\beta\cdot(a+b)=0$ and zero otherwise. This follows by squaring $2^{-3}(\chi_\beta(a)+\chi_\beta(b))$ in $\mathbb F_3$. The eight squared-row evaluation words are
+\[
+1111,\ 0101,\ 1010,\ 0000,\ 1001,\ 0011,\ 1100,\ 0110.
+\]
+Rows $1111,0101,1001,0011$ have determinant $-2$, nonzero modulo three, so the rank is four. Thus the row-rank parameter belongs to the marked character coordinates, even when all fibres have the same size two. An arbitrary geometric isomorphism cannot substitute for the coordinate-recovery hypothesis.
+\end{example}
+
+\begin{proposition}[One bilinear equation without the rank bound]
+\label{st:bilinear-hard}
+Over $\mathbb F_3$, empty-fibre existence is NP-complete for displayed split coordinates with one additional equation of bidegree $(1,1)$. In this reduction every specified fibre has a polynomial-time exact count, and every nonempty fibre has a nonzero reciprocal-zeta coefficient modulo three in degree at most the number of private signs.
+\end{proposition}
+\begin{proof}
+Use positive one-in-three satisfiability, an NP-complete relation by Schaefer (1978, problem NP1, p.~217, and Theorem~2.1 as applied on p.~218)~\cite{st-schaefer}. For clause $a,b,c$, put $L_j=x_a+x_b+x_c-1$ over $\mathbb F_3$. On binary inputs it vanishes exactly when one of the three bits is one: the possible integer sums are $0,1,2,3$. Introduce one private sign per clause and impose
+\[
+ \sum_{j=1}^{M}Z_jL_j(x)=1.
+\]
+At a known base word, let $k$ count the nonzero $L_j$. Absorb their values into their signs. The three-residue walk from the preceding theorem gives
+\[
+ H(x)=2^{M-k}\frac{2^k-(-1)^k}{3}.
+\]
+It is zero precisely when $k=0$, which proves the reduction. More generally, at a given base word any additional bilinear equation becomes an affine equation in the private signs. Dynamic programming on its three possible partial sums computes the exact number of solutions using $O(M)$ additions of integers with $O(M)$ bits. This gives the polynomial verifier needed for membership in NP. For $k>0$, the elementary lifting identity
+$v_3((-2)^k-1)=1+v_3(k)$ gives $v_3(H)=v_3(k)$. It follows by expanding $(1-3)^u$ for $3\nmid u$ and then repeatedly cubing, each cubing increasing the valuation of the difference from one by one. The first nonzero reciprocal coefficient has degree $3^{v_3(k)}\le k\le M$.
+\end{proof}
+This hardness does not conflict with Theorem~\ref{st:split-rank}: the rank parameter is unbounded. In the bilinear reduction the residual problem is a binary solution of $Ax=b$ over $\mathbb F_3$. If its rank is $r'$, dynamic programming on the $3^{r'}$ possible column sums, or enumeration of the $2^{n-r'}$ Boolean free-variable assignments followed by checking the pivots, gives the explicit bound $\min(3^{r'},2^{n-r'})\operatorname{poly}(L)$. These are algorithms over the given field and on the stated finite fibres.

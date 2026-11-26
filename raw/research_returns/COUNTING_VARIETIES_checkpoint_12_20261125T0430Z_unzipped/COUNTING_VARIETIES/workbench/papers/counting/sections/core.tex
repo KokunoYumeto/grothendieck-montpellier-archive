@@ -1,0 +1,226 @@
+\section{Boolean assignments as a homogeneous coefficient}
+This section gives the entire counting encoding, including its sign, before any geometry is imposed. A formula can first be converted to a Boolean circuit with fan-in at most two. Introducing a variable for the output of each gate and enforcing its truth table gives a width-three conjunctive normal form with a unique extension of each primary input. We give the exact gate clauses in Section~\ref{sec:uniform}; thus this conversion preserves the number of satisfying assignments, not merely satisfiability.
+
+Let $\Phi$ now be a width-three CNF. Treat a clause $f$ as a relation on its distinct variable scope $I_f$; repeated literals and opposite signs on the same variable are evaluated in that relation. For every declared variable that appears nowhere, add a tautological unary relation. If necessary add a fresh variable with a positive unit clause so that at least one incidence is present. These operations preserve $S$.
+
+For each incidence $e=(f,i)$, $i\in I_f$, introduce two variables $w_{e,0},w_{e,1}$. Write $\mathcal I$ for the incidence set and $b=2|\mathcal I|$. Define polynomials over $\Z$ by
+\begin{align}
+P_f&=\sum_{\substack{a\in\{0,1\}^{I_f}\\a\text{ satisfies }f}}
+                 \prod_{i\in I_f}w_{(f,i),a_i},\label{eq:local-clause}\\
+Q_i&=\prod_{f:i\in I_f}w_{(f,i),0}
+       +\prod_{f:i\in I_f}w_{(f,i),1},\nonumber\\
+P&=\prod_f P_f\prod_iQ_i,\qquad
+Z=\prod_{e\in\mathcal I}w_{e,0}w_{e,1}.\label{eq:incidence}
+\end{align}
+An empty clause contributes the zero polynomial, with its scope degree recorded formally. Both $P$ and $Z$ are homogeneous of degree $b$.
+
+\begin{lemma}[Incidence coefficient]\label{lem:incidence}
+The integer coefficient $[Z]P$ equals $S$. The factored expression for $P$ is a homogeneous arithmetic circuit of size polynomial in $|\Phi|$. Every clause factor has at most eight monomials and every variable factor has two.
+\end{lemma}
+\begin{proof}
+A term selected from $Q_i$ uses one common label at all incidences of $i$. To obtain $Z$, every adjacent clause factor must use the complementary label. These complementary labels give one consistent Boolean assignment. The available monomials in each $P_f$ say exactly that its local restriction satisfies $f$. Conversely a satisfying assignment selects its local clause monomials and the complementary variable monomials uniquely. All their coefficients are one, so this is a bijection with the contributions to the coefficient, including multiplicities. Each local scope has size at most three. Products for the variable factors, followed by the product of the local factors, require a number of multiplication gates linear in the incidence count. Balanced products give logarithmic depth.
+\end{proof}
+
+Now reduce coefficients modulo $p$, introduce $p-1$ further variables $t_1,\ldots,t_{p-1}$, and put $u=b+p-1$. The polynomial
+\begin{equation}\label{eq:normalization}
+G=-t_1^{p-1}P+\sum_{j=2}^{p-1}t_j^{p-1}Z
+\end{equation}
+has degree $u$ in exactly $u$ variables. It remains a compact homogeneous circuit even if the product $P$ has many monomials.
+
+\begin{lemma}[Odd-prime normalization]\label{lem:normalization}
+For $G$ in \eqref{eq:normalization},
+\[
+h_p(G)=[(Zt_1\cdots t_{p-1})^{p-1}]G^{p-1}=S\quad\text{in }\Fp.
+\]
+\end{lemma}
+\begin{proof}
+Each tag occurs in just one summand, with exponent $p-1$. Its target exponent forces that summand to be selected exactly once among the $p-1$ factors. There are $(p-1)!$ orderings. The remaining product is $-PZ^{p-2}$, and its target coefficient is $-[Z]P$. Wilson's theorem gives $-(p-1)!=1$ in $\Fp$. At $p=2$ there is one tag, the displayed sum is empty, and the same equality holds since minus equals plus. At an odd prime, replacing the first minus sign by a plus would give $-S$.
+\end{proof}
+
+\section{A smooth stabilization in families}
+This section proves smoothness by the derivative equations and shows that the coefficient identity survives arbitrary base change.
+
+\begin{theorem}[Explicit stabilization]\label{thm:stabilizer}
+Let $R$ be an $\Fp$-algebra, let $G\in R[x_1,\ldots,x_u]$ be homogeneous of degree $u\ge1$, and let $Q$ be a positive multiple of $p$ such that $Q\ge u+2$. Set $m=Q-1$ and $d=Q+1=m+2$. In $d$ variables define
+\begin{align}
+A_G&=G(x_1,\ldots,x_u)\prod_{i=u+1}^{m}x_i+x_1^m,\label{eq:padding}\\
+F_G&=yzA_G+y^{Q+1}+\sum_{i=1}^{m}x_i^{Q+1}-x_1z^Q.\label{eq:stabilizer}
+\end{align}
+Then $F_G$ is homogeneous of degree $d$, and
+\begin{equation}\label{eq:hasse-stabilizer}
+h_p(F_G)=h_p(G)
+\end{equation}
+as an identity in the coefficients of $G$. For the universal coefficient ring, \eqref{eq:stabilizer} defines a smooth projective family with geometrically integral fibres and a trivialized top coherent direct image. The map of coefficient spaces is affine-linear and injective into the chart in which the coefficient of $y^d$ is one.
+\end{theorem}
+\begin{proof}
+Both summands of $A_G$ have degree $m$, so every summand of $F_G$ has degree $m+2$. To contribute to $(x_1\cdots x_myz)^{p-1}$ in $F_G^{p-1}$, no factor can use $-x_1z^Q$, since $Q\ge p$. The only remaining source of $z$ is $yzA_G$. Therefore all $p-1$ factors must select it. The padding coordinate $x_{u+1}$ occurs with exponent one in the first summand of $A_G$ and not at all in $x_1^m$. Its target exponent forces the first summand in every factor. Removing the common padding gives exactly \eqref{eq:hasse-stabilizer}. This argument also works when $Q=p$ and $m=p-1$; one must not discard $x_1^m$ merely by claiming that $m\ge p$ in that case.
+
+Over an algebraic closure of any residue field, differentiation gives
+\[
+(F_G)_y=zA_G+y^Q,\qquad (F_G)_z=yA_G,
+\qquad y(F_G)_y-z(F_G)_z=y^{Q+1}.
+\]
+At a common zero of the partial derivatives, $y=0$. The other derivatives then become
+\[
+(F_G)_{x_i}=x_i^Q-\delta_{i1}z^Q.
+\]
+Consequently $x_2=\cdots=x_m=0$ and $x_1^Q=z^Q$. A projective point satisfying these equalities has both $x_1$ and $z$ nonzero. Because $m>u$, the padding product vanishes on the first coordinate axis and $A_G(x_1,0,\ldots,0)=x_1^m$. Hence
+\[
+(F_G)_y=z x_1^m\ne0,
+\]
+a contradiction. This proof is valid in characteristic two. For a general multiple $Q$ of $p$, it does not assert that $x_1^Q=z^Q$ implies $x_1=z$; that extra assertion is available only for a pure $p$-power and is unnecessary. Euler's identity has coefficient $d=1$ in $R$, so the entire projective gradient locus is empty.
+
+Let $R_0=\Fp[V_u]$ be the universal coefficient ring. The polynomial $F_G$ is monic in $y$, so $R_0[x,z,y]/(F_G)$ is free as an $R_0[x,z]$-module. It is therefore flat over $R_0$. Homogeneous localization is flat, and taking its degree-zero summand preserves flatness. The projective family is flat and finitely presented, and the calculation above proves that all geometric fibres are smooth. The fibrewise criterion for smoothness now proves relative smoothness.
+
+Distinct monomials of $G$ go to distinct monomials after multiplication by $yz\prod_{i>u}x_i$. Their exponent positions do not coincide with those of the fixed summands in \eqref{eq:stabilizer}. The input coefficients are therefore recovered by projecting onto these coefficient positions. This proves the affine-linear embedding. The coherent line and geometric integrality follow from the calculation in Lemma~\ref{lem:coherent} below, which is valid after every base change.
+\end{proof}
+
+The least multiple $Q\ge u+2$ satisfies $Q<u+2+p$, and therefore $d\le u+p+2$. A list of $T$ input terms gains at most $m+3$ terms. A circuit gains $O(d\log d)$ gates by balanced products and repeated squaring. Each gate index and exponent has polynomial binary length. The number of degree-$u$ monomials in $u$ variables can be exponential in $u$; the circuit statement does not materialize that coefficient space in the input.
+
+For Theorem~\ref{thm:main}, choose instead the least power $Q$ of $p$ with $Q-1>u$ and $Q-1\ge p$. It satisfies
+\[
+Q\le p\max\{u+2,p+1\}.
+\]
+At an odd prime this $Q$ is odd and $d=Q+1$ is even. This choice preserves the required sign in the rational-point formula without changing polynomial bit size. The sharper stabilization statement concerns the Hasse coefficient itself, so it does not require this parity restriction.
+
+\subsection{The coherent generator and the point-count check}
+\begin{lemma}[Katz's line in the hypersurface sequence]\label{lem:coherent}
+Let $F$ be a degree-$d$ homogeneous equation in $d\ge3$ variables $v_1,\ldots,v_d$, defining a smooth hypersurface $X$ over an $\Fp$-algebra as in Theorem~\ref{thm:stabilizer}. The top coherent line is trivialized, compatibly with base change, by the class corresponding to
+\[
+e=(v_1\cdots v_d)^{-1}\in H^{d-1}(\PP^{d-1},\OO(-d)).
+\]
+Absolute Frobenius sends $e$ to $h_p(F)e$; on a general base this means $ce\mapsto c^p h_p(F)e$.
+\end{lemma}
+\begin{proof}
+Write $R$ for the base algebra, and let
+$\pi:X\to\operatorname{Spec}R$ and
+$\operatorname{pr}:\PP^{d-1}_R\to\operatorname{Spec}R$ be the
+structure morphisms. Use the exact sequence
+\[
+0\longrightarrow\OO_{\PP}(-d)\xrightarrow{\ F\ }\OO_{\PP}
+\longrightarrow\OO_X\longrightarrow0.
+\]
+The cohomology of projective space gives $\pi_*\OO_X=\OO_{\mathrm{base}}$, vanishing of the intermediate direct images, and a connecting isomorphism
+\[
+R^{d-2}\pi_*\OO_X\simeq R^{d-1}\operatorname{pr}_*\OO_{\PP}(-d).
+\]
+These statements follow directly from the standard affine-cover complex and hold under arbitrary base change. Its top quotient has degree-$(-d)$ Laurent monomials modulo those with some nonnegative exponent. The sole surviving monomial is $e$, so it is a free rank-one module.
+
+The Frobenius map on the ideal lifts as $s\mapsto F^{p-1}s^p$, because $(Fs)^p=F(F^{p-1}s^p)$. Naturality of the connecting map therefore gives the class
+\[
+\frac{F^{p-1}}{(v_1\cdots v_d)^p}.
+\]
+Only a numerator monomial with every exponent $p-1$ survives the Laurent quotient. Its coefficient is $h_p(F)$. This is the rank-one specialization of Katz's Algorithm (2.3.7.14) and Special Case (2.3.7.17), pp. 35--36 \citep{core-katz}.
+
+On each geometric fibre, $H^0(\OO_X)$ is the ground field, so the fibre is connected. A smooth scheme is regular, and intersecting irreducible components would make a local ring have more than one minimal prime. Its irreducible components are thus disjoint; connectedness makes the fibre integral. Adjunction gives $\omega_X\simeq\OO_X$.
+\end{proof}
+
+For an independent check of the sign, sum the indicator $1-F(v)^{p-1}$ over $\Fp^d$. For $j\ge0$,
+\[
+\sum_{a\in\Fp}a^j=
+\begin{cases}-1,&j>0\text{ and }p-1\mid j,\\0,&\text{otherwise}\end{cases}
+\quad\text{in }\Fp,
+\]
+where $a^0=1$ also at $a=0$. The total degree of $F^{p-1}$ is $d(p-1)$, so the only contributing exponent vector is $(p-1,\ldots,p-1)$. If $C$ is the affine cone count, then
+\[
+C\equiv(-1)^{d+1}h_p(F),\qquad
+C=1+(p-1)\#X(\Fp).
+\]
+It follows that
+\begin{equation}\label{eq:point-sign}
+\#X(\Fp)\equiv1+(-1)^d h_p(F)\pmod p.
+\end{equation}
+The prime-power choice above yields $1+S$, and at $p=2$ the sign has no effect. Lemmas~\ref{lem:incidence}--\ref{lem:coherent} establish the geometric and arithmetic assertions of Theorem~\ref{thm:main}.
+
+\subsection{Entire parameter lines and quartic K3 surfaces}
+\label{sec:entire-lines}
+The gradient argument also works for any homogeneous degree-$m$ form $A$ with $A(1,0,\ldots,0)\ne0$. In that case the $z$-exponent argument gives $h_p(F)=h_p(A)$ without padding.
+
+For odd $p$, take $Q=p$, $m=p-1$, and
+\[
+A_a=x_1^{p-1}+\cdots+x_{p-2}^{p-1}-a x_{p-1}^{p-1}
+\quad(a\in\A^1_{\Fp}).
+\]
+Its first-axis value is one. Each of its $p-1$ terms must occur once in the target, giving $h_p(A_a)=-(p-1)!a=a$. Thus \eqref{eq:stabilizer} gives a smooth family over the entire affine line, of degree $p+1$ in $\PP^p$, with Hasse section $a$. In characteristic two take $G=ax_1$, $Q=4$, and $A_a=ax_1x_2x_3+x_1^3$ instead; the resulting quintics in $\PP^4$ have the same property.
+
+For $p=3$ write the variables as $r,s,y,z$. The family is
+\begin{equation}\label{eq:k3}
+yz(r^2-a s^2)+y^4+r^4+s^4-rz^3=0.
+\end{equation}
+It consists of smooth quartic surfaces in $\PP^3$, with trivial canonical sheaf and $H^1(\OO)=0$, hence K3 surfaces. Its top coherent generator corresponds to $(rsyz)^{-1}$, and Frobenius is multiplication by $a$.
+
+Here is an explicit count over $\F_3$. On the chart $r=1$, the equation becomes
+\[
+1+s^2+y^2+z\{y(1-a s^2)-1\}=0,
+\]
+because $t^4=t^2$ and $t^3=t$ for $t\in\F_3$. A nonzero coefficient of $z$ gives one solution; a zero coefficient gives three or zero according as the constant is zero or nonzero. For $s=0$ the contribution is $2$. For $s=1$ or $2$ the contribution per value of $s$ is $5,3,5$ for $a=0,1,2$, respectively. Thus this chart contributes $12,8,12$.
+
+On $r=0$, normalize the first nonzero coordinate among $s,y,z$ to one. If $s=1$, the equation is $1+y^2-a y z=0$: it contributes $0,2,2$ in the three parameter values. If $s=0$ and $y=1$, the equation is $1=0$ and contributes nothing. The final point $[0:0:0:1]$ always lies on the surface. The total counts are consequently
+\[
+\begin{array}{c|ccc}
+a&0&1&2\\\hline
+\#X_a(\F_3)&13&11&15\\
+1+a\pmod3&1&2&0
+\end{array}
+\]
+as required. The fibre at $a=0$ is smooth with zero coherent Frobenius. This computation alone does not determine its full crystalline Newton polygon or assert that it is supersingular.
+
+The construction gives entire lines in degree $p+1$ for odd $p$, in degree five for $p=2$, and in all larger degrees congruent to one modulo $p$ obtainable by stabilization with a padding variable. More explicitly, odd $p$ admits every $d\equiv1\pmod p$ with $d\ge p+1$: keep the degree-$p-1$ form $A_a$ above as input and use padding for $d\ge2p+1$. At $p=2$ every odd $d\ge5$ is obtained from $G=ax_1$. These are constructive sufficient degree classes, not a classification of all possible smooth pencils in other degrees.
+
+Katz's Dwork-pencil calculation, (2.3.7.18)--(2.3.7.23), p. 36, evaluates the same coefficient for $\sum X_i^d-d\lambda\prod X_i$ on its smooth parameter open set. In \eqref{eq:k3} and its higher-dimensional versions the gradient calculation proves smoothness at every finite parameter, including the zero of the Hasse section. Knutson's point-count and degeneration identities and Poonen's use of characteristic-$p$ powers for derivative control are related ingredients, with different hypotheses and conclusions \citep[Theorems 1--2]{core-knutson}\citep[\S2.3]{core-poonen}.
+
+\subsection{A unit clause through the whole construction}
+\label{sec:unit-clause}
+Take $p=3$ and the positive unit clause $(s)$, for which $S=1$. Let $a,b$ denote the incidence variables for zero and one, and let $c,e$ be the tags. Then
+\[
+P=b(a+b),\qquad Z=ab,\qquad
+G=-c^2b(a+b)+e^2ab.
+\]
+The sole contribution to $(abce)^2$ in $G^2$ is the cross product of $-abc^2$ and $abe^2$, with coefficient $-2=1$ in $\F_3$. Here $u=4$. Choose the original prime-power $Q=9$, so $m=8$ and $d=10$, and identify $(x_1,x_2,x_3,x_4)=(a,b,c,e)$. The equation is
+\[
+F=yz\{Gx_5x_6x_7x_8+a^8\}
+  +y^{10}+\sum_{i=1}^{8}x_i^{10}-az^9.
+\]
+It is smooth by the derivative argument. The connecting map carries the generator of $H^8(X,\OO_X)$ to
+\[
+\frac1{abcex_5x_6x_7x_8yz},
+\]
+and Frobenius multiplies this line by one. Over $\F_3$, put $A=Gx_5x_6x_7x_8+a^8$. The equation is linear in $z$:
+\[
+(yA-a)z+y^2+\sum_{i=1}^{8}x_i^2=0.
+\]
+Summing the contributions $1$, $3$, or $0$ over the $3^9$ values of $(x,y)$ gives $19\,907$ affine points, hence $(19\,907-1)/2=9\,953$ projective points. The reproducible finite count and the later two-variable cubic example use the same convention that a projective point has its first nonzero coordinate normalized to one.
+
+\section{Residue evaluation, nonvanishing, and sparse input}
+This section states the complexity claims as promise problems and proves their membership as well as their hardness.
+
+Write $\#_p\mathrm P$ for functions whose value is the least nonnegative residue modulo $p$ of the number of accepting paths of a polynomial-time nondeterministic machine. Write $\mathrm{Mod}_p\mathrm P$ for the corresponding decision class, with acceptance when that residue is nonzero. A promise algorithm need only agree with the specified problem on inputs satisfying its promise; membership below is witnessed by a total counting function that agrees there.
+
+The parsimonious gate clauses in Section~\ref{sec:uniform} reduce accepting-path counts to width-three CNF counts. Lemmas~\ref{lem:incidence} and \ref{lem:normalization}, followed by the proven smooth stabilization, give $\#_p\mathrm P$-hardness of scalar evaluation and $\mathrm{Mod}_p\mathrm P$-hardness of nonvanishing. The construction produces promised instances without a smoothness oracle.
+
+For membership, a nondeterministic machine guesses a point of $\PP^{d-1}(\Fp)$ in its unique representative with first nonzero coordinate one. It can guess the coordinate index and the later coordinates in fixed-width binary words, reject out-of-range encodings, and evaluate the circuit. It therefore has exactly $C_X=\#X(\Fp)$ accepting paths. A disjoint fixed-size nondeterministic gadget with $p-1$ accepting paths realizes $C_X-1$ modulo $p$. If needed, making $p-1$ copies realizes its negative. By \eqref{eq:point-sign}, this gives the scalar $(-1)^d(C_X-1)$ modulo $p$ on every promised input. The machine uses polynomial time for a fixed $p$. Nothing in this membership proof tests smoothness, checks a circuit identity, or expands the polynomial. This completes Theorem~\ref{thm:main}.
+
+\begin{proposition}[Frobenius splitting]\label{prop:splitting}
+For a smooth geometrically connected projective variety $X$ over $\Fp$ with $\omega_X\simeq\OO_X$ and $H^{\dim X}(X,\OO_X)$ a line, nonvanishing of its coherent Frobenius is equivalent to Frobenius splitting. Thus the nonvanishing hardness applies to Frobenius splitting on the same smooth circuit hypersurfaces.
+\end{proposition}
+\begin{proof}
+Here $F_X:X\to X$ denotes the absolute Frobenius morphism. A splitting of $\OO_X\to (F_X)_*\OO_X$ makes its map on top cohomology injective, hence nonzero. Conversely, Serre duality identifies the dual of this map with the map
+\[
+\operatorname{Hom}((F_X)_*\OO_X,\OO_X)\longrightarrow
+\operatorname{Hom}(\OO_X,\OO_X)
+\]
+given by composing with $\OO_X\to (F_X)_*\OO_X$, after choosing a trivialization of $\omega_X$. The target is $\Fp$, since $X$ is proper and geometrically connected. If coherent Frobenius is nonzero, this map is onto; a homomorphism mapping to $1$ is a splitting. This is the rank-one form of the criterion in \citet[Corollary 2.5 and Remark 2.6]{core-hlyy}.
+\end{proof}
+
+For comparison, let $F$ be listed as $t$ monomials with binary exponent vectors and binary coefficients reduced modulo $p$. Enumerate the $t^{p-1}$ ordered choices in $F^{p-1}$. For each, sum the exponent vectors, test equality with $(p-1,\ldots,p-1)$, and multiply the coefficients modulo $p$. If $E$ is the largest input exponent, each sum uses at most $O(\log(2+(p-1)E))$ bits per coordinate. With an explicit coordinate list of length $d$, the cost is
+\[
+O\bigl(t^{p-1}d(p-1)(\log(2+E)+\log p)^2\bigr)
+\]
+with elementary bit arithmetic, plus input parsing and coefficient reduction; a coarser $t^{p-1}\operatorname{poly}(L)$ bound accommodates compressed sparse exponent lists. At fixed $p$ this is polynomial. There is no inconsistency with circuit hardness: the incidence product $\prod_fP_f\prod_iQ_i$ is represented compactly by multiplication gates, and its expanded support need not be polynomial.
+
+\citet[Theorem 1.1, p. 3 of the author manuscript]{core-wan} gives, for one sparse affine polynomial in $n$ variables with $t$ monomials over $\F_{p^h}$, a deterministic computation of its zero count modulo $p^b$ in
+\[
+O\!\left(ntpb\left(\frac{3th}{(h+b)(p-1)}+3\right)^{(h+b)(p-1)}\right)
+\subseteq O\bigl(n(8t)^{(h+b)p}\bigr)
+\]
+bit operations after reducing each positive exponent to its equivalent value in $\{1,\ldots,p^h-1\}$. Binary exponent reduction adds polynomial input-reading cost. Thus fixed characteristic, fixed extension degree, and fixed precision give polynomial time in sparse input length. The theorem concerns one explicitly sparse equation; a circuit product is a different representation.

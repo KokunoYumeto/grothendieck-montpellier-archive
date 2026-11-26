@@ -1,0 +1,218 @@
+\section{An alternative polynomial-space proof from finite traces}
+\label{subsec:height-polynomial-space}
+The main resource theorem follows from the quasi-$F$-splitting matrix. This appendix gives a second proof from Lauder and Wan's finite traces. The finite coefficient rule settles termination, but its largest exponent is too large for a direct space bound. We instead compute the relevant Frobenius coefficients through point counts. Lauder and Wan's finite trace formula permits these counts to be represented by arithmetic circuits with polynomial depth. Uniform integer division then makes their bits accessible without storing the exponentially long integers themselves.
+
+\begin{theorem}[Exact height in polynomial space]
+\label{thm:height-polynomial-space}
+Let a binary-encoded prime $p$, a division-free arithmetic circuit over $\mathbb F_p$, and its $d\ge3$ explicitly listed variables be given. Promise that the circuit represents a homogeneous degree-$d$ polynomial defining a smooth hypersurface $X\subset\mathbb P^{d-1}$. The function returning its top Artin--Mazur height, as a binary integer or the symbol $\infty$, belongs to $\mathrm{FPSPACE}$.
+\end{theorem}
+
+Here $\mathrm{FPSPACE}$ means deterministic computation using a number of work bits polynomial in input length. We prove the theorem through three lemmas, including the numerical precision and the uniformity needed for this model.
+
+\begin{lemma}[The first nondivisible Frobenius coefficient]
+\label{lem:height-first-frobenius-coefficient}
+Let $d\ge4$, $n=d-2$, and let
+\[
+ P(T)=\det(1-T\operatorname{Frob}_p\mid H^n_{\mathrm{prim}}(X))
+      =\sum_{j\ge0}c_jT^j\in1+T\mathbb Z[T].
+\]
+Write $c_j=0$ beyond its degree. With $R=B_d$ as in \eqref{eq:HC1}, the height is the first $j\le R$ such that $p^j\nmid c_j$. If no such index exists, the height is infinite.
+\end{lemma}
+\begin{proof}
+Section~\ref{sec:point-count-height-two} identifies the reciprocal roots of $P$ with the primitive crystalline Frobenius eigenvalues and proves its integrality. If the finite height is $h$, exactly $h$ roots have valuation $(h-1)/h$ and every other root has valuation at least one. For $j<h$, every term of the $j$th elementary symmetric coefficient has valuation at least
+\[
+ j(1-1/h)>j-1.
+\]
+The integral coefficient therefore has valuation at least $j$. At $j=h$, the product of the $h$ small-slope roots is the unique term of valuation $h-1$; every other product includes a root of valuation at least one and has larger valuation. Thus $v_p(c_h)=h-1$. This also covers $h=1$. If height is infinite, all roots have valuation at least one and $p^j\mid c_j$ for every $j$. The finite-height bound makes the cutoff $R$ sufficient.
+\end{proof}
+
+\begin{lemma}[Arithmetic circuits and space]
+\label{lem:implicit-arithmetic-space}
+Suppose an integer-valued construction on inputs of length $L$ has Boolean circuits of size at most $2^{\operatorname{poly}(L)}$ and depth $\operatorname{poly}(L)$. Suppose also that a gate and its predecessors can be described using polynomially many bits and computed in polynomial space. Then any output bit is computable in polynomial space.
+
+The required circuit bounds hold for addition, subtraction, multiplication, comparison, integer quotient and remainder on operands with $2^{\operatorname{poly}(L)}$ bits. They also hold for balanced sums and products of exponentially many operands, and for repeated squaring with an exponent of polynomial binary length, provided all intermediate bit lengths remain exponentially bounded.
+\end{lemma}
+\begin{proof}
+Evaluate a gate recursively, recomputing predecessors when needed. For bounded fan-in, each stack level stores its gate identifier, which predecessor is being evaluated, and a bounded number of returned bits. Polynomial depth gives a polynomial stack. The space used to generate a predecessor is reused at each call. An unbounded threshold gate can instead be evaluated by scanning its predecessors and maintaining a counter of polynomial binary length.
+
+Carry-lookahead addition and balanced summation of partial products give uniform polynomial-size, polylogarithmic-depth circuits for ordinary integer arithmetic except division. Hesse, Allender and Barrington give division in DLOGTIME-uniform $\mathrm{TC}^0$, meaning constant-depth, polynomial-size threshold circuits whose local wiring is computable in deterministic logarithmic time \citep[Corollary~6.3, author manuscript p.~16; uniformity conventions pp.~4--6]{HAB2002}. A threshold gate can be replaced by balanced binary addition and comparison, so bounded-fan-in circuits of polylogarithmic depth suffice. Their corrigendum retracts two consequences in Corollary~6.6 and explicitly preserves the division theorem \citep[pp.~1--2]{HABCorr2014}. No retracted consequence is used here. Quotient gives remainder by multiplication and subtraction; signs are handled separately.
+
+The arithmetic circuit descriptions are locally computable in logarithmic space in the operand length. This is polynomial space when that length is exponentially bounded. Balanced products add logarithmically many arithmetic stages, and repeated squaring adds logarithmically many stages in the exponent. These are polynomially many stages under the stated hypotheses.
+\end{proof}
+
+\begin{lemma}[Point-count bits at bounded extension indices]
+\label{lem:point-count-bits-space}
+Under the hypotheses of Theorem~\ref{thm:height-polynomial-space}, every bit of
+\[
+ N_k=\#X(\mathbb F_{p^k}),\qquad 1\le k\le B_d,
+\]
+has an exponential-size, polynomial-depth Boolean circuit with polynomial-space access to its gates. The bounds are polynomial in the original input length, including the binary lengths of $p$ and $k$.
+\end{lemma}
+\begin{proof}
+Put $R=B_d$. Since $R\le\max(36,4^d)$, its binary length is $O(d)$. Partition projective space by its nonempty coordinate supports. On each support normalize its first nonzero coordinate to one. The resulting $2^d-1$ disjoint strata are tori of dimensions $m\le d-1$, with one restricted equation $f$ of degree at most $d$.
+
+Each coefficient of $f$ has the required circuit description. Substitute the prescribed zeros and one into the original circuit and evaluate in the polynomial ring over $\mathbb F_p$ modulo the ideal of monomials of total degree greater than $d$. There are at most $(d+1)^d$ coefficient positions. A product coefficient is a balanced convolution, and there are only as many successive stages as original circuit gates. Truncation is exact because all exponents are nonnegative. The promise identifies the output with the desired equation of degree at most $d$. Balanced tests of its coefficient array distinguish zero and constant equations and determine its degree $\delta$. Equivalently, construct the $d$ possible positive-degree branches and select the appropriate one. A zero equation contributes $(p^k-1)^m$, a nonzero constant contributes zero, and a zero-dimensional torus is immediate.
+
+\paragraph{The finite trace formula.}
+For a nonconstant equation of degree $\delta$ in $m\ge1$ torus variables, use Lauder and Wan's construction with unramified degree $a=1$. Thus its coefficient Frobenius automorphism is the identity. Set
+\[
+ N=(m+1)k,\qquad
+ R_N=(\mathbb Z/p^N\mathbb Z)[\pi]/(\pi^{p-1}+p),\qquad
+ t=\left\lceil\frac{p^2N}{(p-1)^2}\right\rceil-1<4N.
+\]
+Write $X_0f=\sum_j\bar a_jX^j$, let $a_j$ be the Teichm\"uller lift of $\bar a_j$ modulo $p^N$, and put
+\[
+ \theta(z)=\exp(\pi z-\pi z^p),\qquad
+ \mathcal F(X)=\prod_j\theta(a_jX^j).
+\]
+Here every $j_0=1$. Zero coefficients may be included, with their factors equal to one.
+
+For the degree-$\delta$ simplex, the matrix $A_N$ of Lauder--Wan's Theorem~28, pp.~600--601 \citep{LauderWan2008}, has indices
+\[
+ \mathcal U=\{u\in\mathbb Z_{\ge0}^{m+1}:u_0\le t,
+                         \ u_1+\cdots+u_m\le\delta u_0\}
+\]
+and entries
+\[
+ (A_N)_{u,v}=[X^{pu-v}]\mathcal F\pmod{p^N},
+\]
+with negative exponents giving zero. Let $N_k^*$ be the toric count. The theorem gives
+\[
+ (p^k-1)^{m+1}\operatorname{Tr}(A_N^k)
+ \equiv p^kN_k^*-(p^k-1)^m\pmod{p^N}.
+\]
+Consequently Algorithm~29, pp.~602--603, reconstructs it exactly as
+\begin{equation}\label{eq:space-toric-count}
+ N_k^*=\frac1{p^k}
+ \left[(p^k-1)^{m+1}\operatorname{Tr}(A_N^k)
+                         +(p^k-1)^m\right]_{[0,p^N)}.
+\end{equation}
+The bracket is the least nonnegative integer residue. The trace formula ensures that the ring expression is an integer residue: read its coefficient of $\pi^0$ in the basis $1,\pi,\ldots,\pi^{p-2}$. All other components vanish. Moreover
+\[
+ 0\le p^kN_k^*\le p^k(p^k-1)^m<p^{(m+1)k}=p^N,
+\]
+so the residue is the integer itself and the final division is exact. This specifies the precision; no reconstruction ambiguity remains.
+
+For regular addressing, pad the index set to
+\[
+ 0\le u_0\le t,\qquad 0\le u_i\le dt\quad(1\le i\le m),
+\]
+putting zero in every row and column outside $\mathcal U$. Zero padding preserves traces of positive powers. Its order is
+\[
+ W=(t+1)(dt+1)^m.
+\]
+All entries needed in the matrix have first exponent at most $K=pt$ and every other exponent at most $dK$. It therefore suffices to compute the coefficients of $\mathcal F$ in this rectangle. We do not need its entire power series.
+
+\paragraph{Lifting at polynomial depth.}
+The full representation of an element of $R_N$ can be exponentially long, but it has only $p-1$ components, each with $\lceil N\log_2p\rceil$ bits. Both component and bit addresses have polynomial length. Multiplication is a convolution in these components followed by $\pi^{p-1}=-p$ and reduction modulo $p^N$. The convolution sums are balanced.
+
+For a coefficient $c\in\mathbb F_p$, Newton-lift the equation
+\[
+ \phi(z)=z^p-z,
+ \qquad \phi'(z)=pz^{p-1}-1.
+\]
+Start with $g=c$ and $s=-1\pmod p$. If $\phi(g)=0\pmod{p^b}$ and $s\phi'(g)=1\pmod{p^b}$, define at doubled precision
+\[
+ g'=g-\phi(g)s,\qquad s'=2s-\phi'(g')s^2.
+\]
+Taylor expansion gives $\phi(g')=0\pmod{p^{2b}}$, and
+$1-s'\phi'(g')=(1-s\phi'(g'))^2$ gives the inverse-derivative invariant. Reduce at precision $p^{\min(2b,N)}$. After $O(\log N)$ rounds, uniqueness of the lift with the specified residue gives the Teichm\"uller coefficient. This includes $c=0$ and $p=2$. Each evaluation of $z^p$ requires only $O(\log p)$ multiplication stages. This is the quadratic-convergence method of Lauder--Wan Lemma~5, pp.~586--587, with its depth made explicit.
+
+\paragraph{Splitting coefficients without a long recurrence.}
+For $r\le K$ put
+\[
+ \alpha_r=v_p(r!)=\sum_{i\ge1}\lfloor r/p^i\rfloor,
+ \quad u_r=r!/p^{\alpha_r},
+ \quad e_r=r-(p-1)\alpha_r\ge0.
+\]
+The last expression is the base-$p$ digit sum of $r$. Thus
+\begin{equation}\label{eq:space-integral-exponential}
+ E_r:=\frac{\pi^r}{r!}
+       =(-1)^{\alpha_r}\pi^{e_r}u_r^{-1}\in\mathbb Z_p[\pi].
+\end{equation}
+Compute $r!$ by a balanced product, the valuation by its logarithmically many floor terms, and $u_r$ by exact integer division. The factorial has $O(K\log(K+1))$ bits. Since $u_r$ is a unit modulo $p$, its inverse modulo $p$ is obtained by powering to $p-2$. Precision doubling
+\[
+ v\longmapsto v(2-u_rv)
+\]
+then gives its inverse modulo $p^N$ in $O(\log N)$ rounds. Formula~\eqref{eq:space-integral-exponential} divides by no nonunit in $R_N$; powers of $\pi$ reduce using $\pi^{p-1}=-p$.
+
+Multiplication of the two formal exponentials gives the finite sum
+\[
+ \theta_r=[z^r]\theta(z)
+   =\sum_{j=0}^{\lfloor r/p\rfloor}(-1)^jE_{r-pj}E_j.
+\]
+Every summand is integral by \eqref{eq:space-integral-exponential}; the sum is balanced. This is the coefficient construction underlying Lauder--Wan Lemma~30, p.~604. It avoids a recurrence with $K$ successive stages. In characteristic two the ring has one basis component and $\pi=-2$, so the same formulas apply.
+
+For a factor $\theta(a_jX^j)$, each $a_j^r$ uses $O(\log(r+1))$ squaring stages. Multiply the at most $(d+1)^d$ factors in a balanced tree, with coordinate truncation at $K,dK,\ldots,dK$. Because exponents are nonnegative, a discarded term cannot affect a coefficient inside that rectangle. Its number of positions is
+\[
+ V=(K+1)(dK+1)^m.
+\]
+Each polynomial multiplication uses a balanced sum of at most $V$ ring products per coefficient. The matrix entries follow by index selection. Compute $A_N^k$ by repeated squaring, with balanced dot products, and take its trace by balanced summation. Formula~\eqref{eq:space-toric-count} then uses the arithmetic operations of Lemma~\ref{lem:implicit-arithmetic-space}.
+
+\paragraph{Uniform size and depth.}
+If $s$ is the input circuit size, set
+\[
+ A=2+d+s+\lceil\log_2p\rceil+\lceil\log_2(R+1)\rceil=O(L).
+\]
+The parameters $N,t,K$ and all integer bit widths above are $2^{O(A)}$; the array dimensions $V,W$ are $2^{O(A^2)}$. There are only polynomially many successive stages: the original $s$ circuit stages; $O(\log N)$ lifting rounds; logarithmically many powering, factor-product and summation stages; and $O(\log k)$ matrix-power stages. Each stage has polynomial Boolean depth in the logarithms of these dimensions and widths. The total size is $2^{\operatorname{poly}(L)}$ and depth is $\operatorname{poly}(L)$.
+
+Gate descriptions contain the support mask, degree branch, coefficient exponent vector or matrix indices, ramified basis index, arithmetic bit address, and balanced-tree or iteration index. There are polynomially many coordinates, each of polynomial binary length. Their predecessor descriptions use integer arithmetic on these addresses and the locally uniform circuits of Lemma~\ref{lem:implicit-arithmetic-space}. Zero and constant tests and the degree selection are Boolean gates, rather than unexplained preprocessing. Thus the required gate access is in polynomial space. Summing the toric counts over all supports adds exponentially many independent copies and only polynomial depth, proving the lemma.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:height-polynomial-space}]
+First assume $d\ge4$, put $n=d-2$, and set $R=B_d$. The primitive power sums are
+\[
+ \tau_k=(-1)^n\left(N_k-\sum_{i=0}^{n}p^{ik}\right),
+ \qquad 1\le k\le R.
+\]
+Lemma~\ref{lem:point-count-bits-space} gives their bit circuits. The ambient contribution, including its slope-zero term, has been removed. Their bit lengths are exponential at most, since
+\[
+ |\tau_k|\le 2d\,p^{(d-1)k}.
+\]
+We next obtain the coefficients of
+\[
+ P(T)\equiv\exp\left(-\sum_{k=1}^{R}\tau_kT^k/k\right)
+                  \pmod{T^{R+1}}
+\]
+without a sequential recurrence of length $R$.
+
+Put $B=R!$ and define integer polynomials
+\[
+ Q_k(T)=\sum_{r=0}^{\lfloor R/k\rfloor}
+        \frac{B(-\tau_k)^r}{k^r r!}T^{kr},
+ \qquad 1\le k\le R.
+\]
+Their coefficients are integral: $(kr)!/(k^rr!)$ counts permutations of $kr$ letters consisting of $r$ cycles of length $k$, so $k^rr!$ divides $(kr)!$ and hence divides $R!$. Compute
+\[
+ Q(T)=\prod_{k=1}^{R}Q_k(T)\pmod{T^{R+1}}
+\]
+in a balanced tree. The formal exponential identity gives
+\begin{equation}\label{eq:space-frobenius-reconstruction}
+ c_j=[T^j]Q/B^R\qquad(0\le j\le R).
+\end{equation}
+This division is exact because $P$ has integer coefficients. Factorials and powers in each $Q_k$ use balanced products and repeated squaring.
+
+For the bit bounds, $\log_2B\le R\log_2(R+1)$, and each coefficient of one $Q_k$ has
+\[
+ O\bigl(R^2d\log p+R\log(R+1)\bigr)
+\]
+bits. A coefficient of a product of at most $R$ such factors is a sum of at most $(R+1)^R$ products. Consequently all intermediate coefficients, and the denominator $B^R$, have at most
+\[
+ O\bigl(R^3d\log p+R^2\log(R+1)\bigr)=2^{\operatorname{poly}(L)}
+\]
+bits. There are only $O(\log R)$ polynomial-product stages. Thus \eqref{eq:space-frobenius-reconstruction}, integer division and reduction modulo $p^j$ give the same succinct circuit bounds for every desired remainder.
+
+Enumerate $j=1,\ldots,R$ with a polynomial-length counter. Test the remainder of $c_j$ modulo $p^j$ one bit at a time using Lemma~\ref{lem:implicit-arithmetic-space}. The modulus itself has an exponential number of bits, but its exponent $j$ has polynomial binary length and its bit circuit uses polynomially many squaring stages. Return the first nonzero remainder's index, or $\infty$ if all vanish. Lemma~\ref{lem:height-first-frobenius-coefficient} proves correctness. The counters, recursive circuit-evaluation stack and gate-generation workspace are all polynomially bounded.
+
+For $d=3$, use the coefficient-height test directly with $B_3=2$. Form the homogeneous integral component-circuit lift as above, compute $a_p\bmod p$ and, if it vanishes, $a_{p^2}\bmod p^2$. These distinguish heights one, two and infinity. For both powers, evaluate in the polynomial ring truncated at exponent $p^2$ in each of the three variables. Its array has at most $p^6$ positions; the scalar modulus is $p^2$ and the powers require $O(\log p)$ squaring stages. Balanced convolutions and the polynomial number of original circuit stages again give exponential size and polynomial depth. Hence the same polynomial-space bit evaluator handles this case without a separate crystalline comparison for curves.
+
+The output is at most $R$ or the single exceptional symbol, so it has polynomial length. This completes the uniform deterministic space bound.
+\end{proof}
+
+\begin{corollary}[Deterministic exponential time]
+\label{cor:height-exponential-time}
+The exact-height function, including infinite height and a binary-encoded input prime, belongs to $\mathrm{FEXPTIME}$.
+\end{corollary}
+\begin{proof}
+A halting deterministic polynomial-space computation with polynomial output length has at most exponentially many distinct configurations, after buffering that output in polynomial workspace. It cannot repeat a configuration. The preceding algorithm therefore runs in $2^{\operatorname{poly}(L)}$ time. Lauder and Wan's zeta algorithm also gives this time bound directly \citep[Theorems~1 and~37, pp.~580 and~610]{LauderWan2008}; the theorem above additionally controls space.
+\end{proof}

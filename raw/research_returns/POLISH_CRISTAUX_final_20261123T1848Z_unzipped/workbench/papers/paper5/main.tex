@@ -1,0 +1,466 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=28mm]{geometry}
+\usepackage{microtype,xcolor}
+\usepackage[authoryear,round]{natbib}
+\usepackage{xurl}
+\usepackage[colorlinks=true,allcolors=blue!50!black]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Lie}{\operatorname{Lie}}
+\newcommand{\Ab}{\operatorname{Ab}}
+\newcommand{\Ext}{\mathcal E}
+\newcommand{\workbenchurl}{https://github.com/KokunoYumeto/schemes-and-moduli-workbench}
+\newcommand{\recordurl}{https://github.com/KokunoYumeto/mathematics-workbenches}
+\title{Local families and formal extension of abelian schemes,\ after Grothendieck and Moret--Bailly}
+\author{}
+\date{23 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Grothendieck's notes on good reduction ask whether a compatible family of abelian schemes over the local rings of a noetherian scheme comes from a global abelian scheme, and mark the unrestricted assertion as doubtful. We construct an explicit counterexample over a countable one-dimensional integral ring whose closed points are split nodes. We prove effectivity under a local finite geometrically unibranch cover and prove that nilpotents create no further obstruction for an already specified local family. For an abelian scheme on an open set with a prescribed integral $p$-divisible group, we give exact extension criteria using Serre--Tate theory, finite nilpotent deformation theory, and Moret--Bailly's formal gluing theorems. The criteria distinguish algebraization from the required comparison of abelian schemes on the punctured completion; in relative dimension one only that comparison remains. The mathematics and text were produced and checked by GPT-6 Astra Pro; the extent of the separate statement-only checks is recorded below, and no human has checked the mathematics.
+\end{abstract}
+
+\section{Two effectivity questions in Grothendieck's notes}
+
+A collection of objects over local rings can fail to vary algebraically even when all its generizations agree. This is the issue behind a proposed lemma in Grothendieck's notes \emph{Bonne r\'eduction des vari\'et\'es ab\'eliennes via bonne r\'eduction de Barsotti--Tate}. On archive sheet~16 of cote~100 (handwritten page~16, PDF image~17), he writes of a ``syst local'' of abelian schemes that it ``provient d'un sch\'ema ab\'elien'', and adds in the margin: ``Douteux, sans doute faux'' \citep{GrothNotes}. We use the following precise meaning of the local data.
+
+\begin{definition}\label{def:family}
+A \emph{compatible local family} on a locally noetherian scheme $S$ consists of an abelian scheme $A_s$ over $S_s=\Spec\OO_{S,s}$ for every $s\in S$, and an isomorphism
+\[
+ \alpha_{s,t}:A_s\times_{S_s}S_t\xrightarrow{\sim}A_t
+\]
+for each generization $t$ of $s$. We require $\alpha_{s,s}=1$ and $\alpha_{t,u}\alpha_{s,t}=\alpha_{s,u}$ after base change whenever $u$ is a generization of $t$. A \emph{realization} is an abelian scheme over $S$ with isomorphisms to all $A_s$ inducing these identifications. Effectivity means existence of a realization.
+\end{definition}
+
+The first theorem confirms the marginal doubt, including over reduced bases.
+
+\begin{theorem}[Infinitely many nodes]\label{thm:nodes}
+There is an explicit countable, one-dimensional, noetherian integral $\mathbf Q$-algebra $R$ such that every closed local ring has completion
+\[
+ \kappa(s)[[a,b]]/(ab),
+\]
+and a compatible local family of elliptic schemes over $\Spec R$ which has no realization. The normalization of $R$ is not finite over $R$.
+\end{theorem}
+
+The example imposes a nonextendable generic identification at each of infinitely many nodes. Every nonempty open subset contains all but finitely many of them. Any global realization would extend its generic identification over such an open subset and would therefore contradict one of the prescribed local identifications. The construction uses countably many independent variables and Hochster's method for producing noetherian rings with infinitely many singular points \citep{Hochster}; a precise formulation of that method is given by \citet[Theorem~3, p.~1]{DattaMurayama}. The ring, its local equations, and the elliptic twists are proved directly here.
+
+There are useful positive statements without any excellence assumption.
+
+\begin{theorem}[Effectivity and reduction]\label{thm:positive}
+Let $S$ be locally noetherian and let a compatible local family be fixed.
+\begin{enumerate}
+\item The family is effective if and only if its restriction to $S_{\mathrm{red}}$ is effective.
+\item Every such family is effective if $S_{\mathrm{red}}$, locally on $S$, admits a finite surjective morphism from a geometrically unibranch scheme. In particular this holds when $S_{\mathrm{red}}$ is geometrically unibranch, and when it is normal.
+\end{enumerate}
+A realization is unique up to the unique isomorphism respecting all the prescribed local identifications. Finiteness of normalization is not assumed.
+\end{theorem}
+
+These assertions concern a specified compatible family, which already includes algebraic abelian schemes at all local rings. They do not assert that an arbitrary family of $p$-divisible groups algebraizes. The distinction becomes essential in the second question.
+
+Fix a prime $p$, a locally noetherian scheme $S$, a closed subset $T\subset V(p)$, and $U=S\setminus T$. An \emph{extension triple} is
+\begin{equation}\label{eq:triple}
+ (A_U,M,\varphi),\qquad \varphi:M|_U\xrightarrow{\sim}A_U[p^\infty],
+\end{equation}
+where $A_U/U$ is an abelian scheme and $M/S$ is a $p$-divisible group. A realization is an abelian scheme $A/S$ with isomorphisms $A|_U\simeq A_U$ and $A[p^\infty]\simeq M$ inducing $\varphi$. All comparisons below respect the given data. Choose a coherent ideal $\mathcal I$ containing $p$ and defining $T$ set-theoretically, and put $T_r=V(\mathcal I^r)$.
+
+\begin{theorem}[Formal models and compatible open charts]\label{thm:formal}
+The triple \eqref{eq:triple} is realizable if and only if the following data exist.
+\begin{enumerate}
+\item An abelian scheme $A_1/T_1$ with an isomorphism $A_1[p^\infty]\simeq M_{T_1}$. Let $(A_r)_{r\geq1}$ be its compatible Serre--Tate liftings to $T_r$ with the prescribed groups $M_{T_r}$.
+\item An affine cover $S=\bigcup_i V_i$, where $V_i=\Spec R_i$, and an abelian scheme $B_i$ over $\widehat V_i=\Spec\widehat{R_i}_{I_i}$, where $I_i=\mathcal I(V_i)$, whose reductions are the specified $A_r|_{T_r\cap V_i}$. The compatible formal group identifications then give a unique isomorphism
+\[
+ \widehat\eta_i:B_i[p^\infty]\xrightarrow{\sim}M_{\widehat V_i}.
+\]
+\item Writing $\widehat U_i=\widehat V_i\times_S U$, an isomorphism of abelian schemes
+\begin{equation}\label{eq:overlap}
+ \beta_i:B_i|_{\widehat U_i}\xrightarrow{\sim}A_U|_{\widehat U_i}
+\end{equation}
+whose induced map on $p$-divisible groups is $\varphi\widehat\eta_i$.
+\item Finite open covers $B_i=\bigcup_a W_{ia}$ and $A_U|_{U\cap V_i}=\bigcup_a Z_{ia}$ with the same index set, such that $W_{ia}\to\widehat V_i$ and $Z_{ia}\to U\cap V_i$ are quasi-affine and $\beta_i$ identifies their restrictions to $\widehat U_i$. Empty members are allowed.
+\end{enumerate}
+Existence for one choice of ideal and affine cover is equivalent to existence for every choice. No excellence or normalization hypothesis is required.
+\end{theorem}
+
+Here condition~2 is algebraization of a specified formal abelian scheme. Condition~3 is a comparison of abelian schemes, which is stronger than its induced comparison of torsion groups. Condition~4 is precisely a condition ensuring that the object obtained by gluing has scheme charts. Moret--Bailly's equivalence for quasi-affine schemes and his full faithfulness for schemes are the gluing inputs \citep[Theorems~1.1--1.2, p.~565]{MoretBailly}. The theorem applies these gluing results to the specified abelian and torsion data.
+
+Two situations simplify the criterion substantially.
+
+\begin{theorem}[A prescribed nilpotent reduction]\label{thm:nilpotent}
+Let $S_0\hookrightarrow S$ be a nilpotent closed immersion, and suppose a realization $A_0/S_0$ of the reduced triple has been specified. On each affine $V=\Spec R\subset S$, choose an ideal $I$ containing $p$ with $V(I)=T\cap V$. Over $\widehat V=\Spec\widehat R_I$ there is a unique abelian scheme $\widehat A$ lifting the specified $A_0$ with the prescribed group $M_{\widehat V}$, up to the unique isomorphism respecting both comparisons.
+
+The triple is realizable over $S$, inducing this $A_0$, if and only if, on an affine cover, there is an isomorphism
+\[
+ \widehat A|_{\widehat U}\simeq A_U|_{\widehat U},\qquad
+ \widehat U=\widehat V\times_S U,
+\]
+inducing the specified reduction and $p$-divisible-group comparisons. No polarization or additional algebraization hypothesis is needed.
+\end{theorem}
+
+\begin{corollary}[Elliptic schemes]\label{cor:elliptic}
+Suppose $A_U$ has relative dimension one and $M$ has height two. After choosing an elliptic scheme $A_1/T_1$ with $A_1[p^\infty]\simeq M_{T_1}$, its Serre--Tate tower has a unique algebraization on each affine completion. The triple extends if and only if these algebraizations admit the isomorphisms \eqref{eq:overlap}. Conditions~2 and~4 of Theorem~\ref{thm:formal} are automatic.
+\end{corollary}
+
+Theorem~\ref{thm:nilpotent} uses deformation theory across a finite nilpotent thickening of an existing abelian scheme. It does not assert algebraization of every infinite unpolarized formal deformation. Its proof reduces the gluing problem to a coherent module of first-order deformations. Corollary~\ref{cor:elliptic} has a different reason: three times the zero section supplies a canonical ample line bundle throughout the formal tower and on its overlap with $A_U$.
+
+The surrounding published inputs have distinct roles. Grothendieck's theorem on homomorphisms of abelian schemes supplies algebraicity and extension of homomorphisms \citep[Proposition~1.2 and Lemma~1.2.1, pp.~64--65]{GrothHom}. Messing proves existence of abelian-scheme liftings across a square-zero affine thickening \citep[Chapter~IV, Lemma~2.8.1, pp.~148--149]{Messing}; the deformation module is also explicit in the proof of \citet[Lemma~24, p.~590]{VasiuZink}. Serre--Tate theory identifies the liftings over a nilpotent characteristic-$p$ thickening with those of the $p$-divisible group \citep[Theorem~1.2.1, pp.~143--146]{Katz}. Moret--Bailly provides the formal patching equivalences. Bhatt gives a broader derived and algebraic-space formulation of formal gluing \citep[Theorem~1.4, preprint p.~2]{Bhatt}; the classical flat case used here still leaves the algebraization and scheme-chart questions stated above. In recent work on the same manuscripts, \citet[\S31, p.~138]{Hua} states the compatible-germs theorem for suitable sheaves and for the structure sheaf, following Grothendieck's cote~42. We use its coherent-module form and include an elementary proof. These ingredients are credited as known results. The explicit infinite-node family and the precise separation of the extension conditions are the assertions established here; no claim of priority is made.
+
+\section{Rigidity and descent of homomorphisms}
+
+We first justify the descent statement needed when a finite cover is not flat. On archive sheet~24 of cote~100 (handwritten page~24, PDF image~25), Grothendieck proposes descent of homomorphisms of $p$-divisible groups under a proper morphism that is injective on structure sheaves. He notes that infinitesimal rigidity of the Hom functor is the remaining issue \citep{GrothNotes}. The noetherian restriction matters.
+
+\begin{lemma}[Noetherian infinitesimal rigidity]\label{lem:rigidity}
+Let $R$ be noetherian, let $J\subset R$ be nilpotent, and let $G,H$ be $p$-divisible groups over $R$. The reduction map
+\[
+ \Hom_R(G,H)\longrightarrow\Hom_{R/J}(G_{R/J},H_{R/J})
+\]
+is injective.
+\end{lemma}
+\begin{proof}
+When $p$ is nilpotent in the base, reduce first to $J^2=0$. The kernel of reduction on points of a group scheme over a square-zero thickening is a subgroup of its tangent module with coefficients in $J$. A fixed power of $p$ kills this module. The same bound applies at every finite level of a $p$-divisible group. A homomorphism reducing to zero therefore has image killed by that power of $p$; since multiplication by that power is an epimorphism of fppf sheaves on $G$, the homomorphism is zero. Induction on the nilpotence exponent proves the assertion in this case.
+
+For general $R$, localize at a maximal ideal $\mathfrak m$. If $p\notin\mathfrak m$, all finite levels are finite \'etale, and nilpotent invariance of finite \'etale schemes gives injectivity. If $p\in\mathfrak m$, reduce modulo every $\mathfrak m^r$ and apply the preceding case. At a fixed finite level, the difference of two maps is detected by maps between finite free coordinate modules over the local ring. Their coefficients lie in $\bigcap_r\mathfrak m^r=0$, by Krull intersection. Thus the maps agree at every finite level, and hence on the $p$-divisible groups. Equality may be checked at the localizations at all maximal ideals.
+\end{proof}
+
+\begin{proposition}[Proper descent]\label{prop:proper}
+Let $S$ be noetherian, let $f:S'\to S$ be proper, and suppose $\OO_S\to f_*\OO_{S'}$ is injective. Put $S''=S'\times_S S'$. For $p$-divisible groups $G,H$ over $S$, the sequence
+\[
+ \Hom_S(G,H)\longrightarrow\Hom_{S'}(G_{S'},H_{S'})
+ \rightrightarrows\Hom_{S''}(G_{S''},H_{S''})
+\]
+is an equalizer.
+\end{proposition}
+\begin{proof}
+The assertion is local on $S$, so write $S=\Spec R$. The functor $\underline{\Hom}_S(G,H)$ is affine: finite-level homomorphisms are represented by affine schemes of finite presentation, and compatibility is imposed in their inverse limit. Write it as $\Spec C$; the algebra $C$ need not be finitely generated.
+
+Let $h'$ be a homomorphism over $S'$ whose two pullbacks agree. Set
+\[
+ R_0=\operatorname{Eq}\bigl(\Gamma(S',\OO_{S'})
+       \rightrightarrows\Gamma(S'',\OO_{S''})\bigr).
+\]
+Properness makes both modules finite over $R$, so $R_0$ is finite over $R$, and $R\hookrightarrow R_0$. The factorization $S'\to\Spec R_0\to S$ is proper, schematically dominant and surjective on its first map. Over an algebraically closed field, any two points of $S'$ above the same point of $S$ form a point of $S''$; an element of $R_0$ has the same value at the two points. Consequently $\Spec R_0\to S$ is radicial and surjective.
+
+The map $h'$ gives $C\to R_0$. Let $B$ be its image. Then $R\subset B\subset R_0$, so $B$ is finite over $R$; $\Spec B\to S$ is again radicial and surjective. The universal derivation gives two maps
+\[
+ B\rightrightarrows B\oplus\Omega_{B/R},\qquad
+ b\longmapsto(b,0),\quad b\longmapsto(b,db),
+\]
+where the second summand is square-zero. This is a noetherian ring. Composing with $C\twoheadrightarrow B$ gives two homomorphisms of $p$-divisible groups which agree modulo the square-zero ideal. Lemma~\ref{lem:rigidity} makes them equal. Surjectivity of $C\to B$ implies $\Omega_{B/R}=0$.
+
+Thus $\Spec B\to S$ is finite, radicial and unramified, hence a closed immersion. Since $R\hookrightarrow B$, that closed immersion is an isomorphism. Therefore $h'$ descends to $S$. Uniqueness follows from $R\hookrightarrow\Gamma(S',\OO_{S'})$, applied to the finite projective coordinate modules at each torsion level. Local uniqueness glues the descended maps.
+\end{proof}
+
+\begin{proposition}[Arbitrary test rings]\label{prop:nonnoetherian}
+The Hom functor of $p$-divisible groups over a mixed-characteristic base need not be formally unramified on arbitrary test rings.
+\end{proposition}
+\begin{proof}
+Let $J=\mathbf Q_p/\mathbf Z_p$ and let $R=\mathbf Z_p\oplus J$ with square-zero multiplication on $J$. If $a_n$ is the class of $p^{-n}$, then
+\[
+ \zeta_n=1+a_n\in R^\times,\qquad
+ \zeta_n^{p^n}=1,\qquad \zeta_{n+1}^{p}=\zeta_n.
+\]
+Sending the generator $p^{-n}$ of $p^{-n}\mathbf Z_p/\mathbf Z_p$ to $\zeta_n$ defines compatible maps
+\[
+ (\mathbf Z/p^n\mathbf Z)_R\longrightarrow\mu_{p^n,R}.
+\]
+They give a nonzero map $(\mathbf Q_p/\mathbf Z_p)_R\to\mu_{p^\infty,R}$ which becomes zero over $R/J$. The ring is not noetherian: $J$ is not a finitely generated $\mathbf Z_p$-module. This does not contradict Lemma~\ref{lem:rigidity}.
+\end{proof}
+
+\section{Effectivity of compatible local families}
+
+Two elementary facts convert generization compatibility into local constancy of algebraic data.
+
+\begin{lemma}[Compatible sections]\label{lem:sections}
+Let $X$ be locally noetherian and let $H\to X$ be separated, unramified and locally of finite presentation. Compatible sections over every $\Spec\OO_{X,x}$ are induced by a unique section over $X$.
+\end{lemma}
+\begin{proof}
+Fix $x$. Finite presentation spreads its section to a neighborhood $V$ of $x$. Shrink $V$ so that it meets no irreducible component not containing $x$; there are only finitely many components near $x$. At every generic point of $V$, the spread section agrees with the prescribed section by generization compatibility. For $y\in V$, compare the two sections over $\Spec\OO_{X,y}$. Their equalizer is closed because $H$ is separated and open because $H$ is unramified. It contains all generic points, so its complement, an open subset with no generic point, is empty. Thus the two sections agree. The locally constructed sections therefore agree on overlaps and glue. The same argument proves uniqueness.
+\end{proof}
+
+\begin{lemma}[Compatible coherent germs]\label{lem:germs}
+If $\mathcal F$ is coherent on a locally noetherian scheme $X$, every family $m_x\in\mathcal F_x$ compatible with generizations is the family of germs of a unique global section.
+\end{lemma}
+\begin{proof}
+Work on $X=\Spec A$, with finite module $N$. A finite prime filtration reduces existence to the assertion for $A/P$, with $P$ prime. Indeed, in an exact sequence $0\to N'\to N\to N''\to0$, realize the image family in $N''$, lift that global element to $N$, and apply the assertion for $N'$ to the difference.
+
+For $N=A/P$, the germs outside $V(P)$ vanish. The germ at $P$ is an element $q\in\operatorname{Frac}(A/P)$. Compatibility says that $q$ belongs to every localization $(A/P)_{\mathfrak m}$ at a maximal ideal. Their intersection in the fraction field is $A/P$: if $q\notin A/P$, the proper denominator ideal $\{a:aq\in A/P\}$ is contained in a maximal ideal at which $q$ is not regular. Thus $q$ is the required global element. Uniqueness follows because a module element vanishing at every localization is zero. Affine realizations consequently glue.
+\end{proof}
+
+For later use, recall the precise homomorphism input. The scheme $\underline{\Hom}_S(A,B)$ for abelian schemes is separated, unramified and locally of finite presentation. It satisfies the valuative criterion of properness. Faithfulness of $A\mapsto A[p^\infty]$ follows from schematic density of all the finite $p$-power torsion subgroups \citep[p.~60]{GrothHom}. Grothendieck proves, in the proof of Lemma~1.2.1, that the reduced closure of a section over a schematically dense open subset is finite and surjective over the base \citep[pp.~64--65]{GrothHom}. Finiteness of this closure is the input used in the following extension argument.
+
+\begin{lemma}[Geometrically unibranch extension]\label{lem:unibranch}
+Let $S$ be reduced, locally noetherian and geometrically unibranch. A homomorphism between the generic fibres of two abelian schemes over $S$ extends uniquely over $S$.
+\end{lemma}
+\begin{proof}
+The irreducible components are locally disjoint, so reduce to $S$ integral and noetherian. Spread the generic homomorphism to a dense open subset and take its reduced closure $Z$ in the Hom scheme. The cited result gives a finite birational map $Z\to S$. Locally its ring is an intermediate integral ring between $\OO_S$ and the normalization. Geometric unibranchness says that normalization has one point above each point, with purely inseparable residue-field extension. The same is therefore true of $Z\to S$, which is radicial. As a closed subscheme of the unramified Hom scheme, $Z$ is unramified. A finite radicial unramified map is a closed immersion; birationality and reducedness of $S$ make it an isomorphism. Uniqueness follows from separatedness and schematic density.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:positive}(2) over a geometrically unibranch reduced base]
+Near each $s$, spread $A_s$ to an abelian scheme on an open neighborhood. On an overlap, the local family identifies the generic fibres. Lemma~\ref{lem:unibranch} extends the generic isomorphism and its inverse. Uniqueness gives the cocycle condition and the prescribed identifications at every local ring. The schemes glue, and the same argument proves uniqueness.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:positive}(2) under a finite cover]
+The assertion is local, so let $S$ be reduced and noetherian and let $f:S'\to S$ be finite surjective with $S'$ geometrically unibranch. Replace $S'$ by its reduction. Pulling the local family back to local rings of $S'$ gives a compatible local family there, hence an abelian scheme $B'/S'$ by the preceding case.
+
+On $D=S'\times_S S'$, the two pullbacks of $B'$ have prescribed isomorphisms at every local ring: at a point above $s$, both are the pullback of $A_s$. These local isomorphisms are compatible with generization. Lemma~\ref{lem:sections}, applied to the Isom scheme, gives a global isomorphism. On the triple product the same lemma gives the cocycle identity.
+
+For each $s$, compare $B'$ over $S'\times_S\Spec\OO_{S,s}$ with the pullback of $A_s$. Again Lemma~\ref{lem:sections} gives the isomorphism. Finite presentation spreads $A_s$ and this isomorphism to a neighborhood $V_s$; because the cover is finite, the isomorphism and its compatibility with descent data can be spread simultaneously. We obtain abelian schemes $B_s/V_s$ identified with $B'$ after the finite cover.
+
+On $V_s\cap V_t$, the induced isomorphism after that cover has compatible descent data. Proposition~\ref{prop:proper} descends its map of $p$-divisible groups, for any fixed prime $p$. At every generic point it is algebraic, by faithfully flat descent along the finite surjective cover of the corresponding field. Grothendieck's Proposition~1.2 \citep[p.~64]{GrothHom}, with the specialization equal to the associated point itself, makes the descended group map algebraic over the entire reduced overlap; all its associated points are generic. Applying the same argument to the inverse gives an isomorphism $B_s\simeq B_t$. Faithfulness of $A\mapsto A[p^\infty]$ gives the cocycle identity. Thus the $B_s$ glue to the required realization. Its local identifications and uniqueness follow from Lemma~\ref{lem:sections}.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:positive}(1)]
+Necessity follows by reduction. Sufficiency is local on $S$, and a noetherian nilradical is nilpotent, so induction reduces to a square-zero immersion $S_0\hookrightarrow S$ with ideal $J$. Suppose $A_0/S_0$ realizes the reduced family.
+
+We use the standard deformation calculation for abelian schemes: the sheaf of isomorphism classes of liftings of $A_0$, with fixed reduction, is a torsor under the coherent module
+\begin{equation}\label{eq:deformation}
+ \mathcal F=\Lie(A_0)\otimes_{\OO_{S_0}}\Lie(A_0^\vee)\otimes_{\OO_{S_0}}J.
+\end{equation}
+There are no automorphisms inducing the identity on the reduction, by unramifiedness of the Hom scheme. The liftings are locally nonempty, and on an affine base they exist by Messing's Lemma~2.8.1 \citep[pp.~148--149]{Messing}. The torsor calculation follows from
+$R^1\pi_*\mathcal Hom(\Omega_{A_0/S_0},\pi^*J)$, as in \citet[proof of Lemma~24, p.~590]{VasiuZink}, using $R^1\pi_*\OO_{A_0}=\Lie(A_0^\vee)$.
+
+Choose one lifting $B$ on an affine open of $S$. The prescribed $A_s$ differ from $B_s$ by elements of $\mathcal F_s$. Their compatibility is exactly generization compatibility for these differences. Lemma~\ref{lem:germs} produces a global difference section; translating $B$ by it gives a lifting agreeing with all the prescribed local objects. On affine overlaps these liftings have compatible local isomorphisms, which glue by Lemma~\ref{lem:sections}. Repeating over the powers of the nilradical proves existence. The same section lemma proves uniqueness. No prime was required to be nilpotent on $S$.
+\end{proof}
+
+\section{An explicit infinite family of nodal twists}
+
+We construct the ring and every local elliptic scheme in Theorem~\ref{thm:nodes}; the obstruction is a coefficient of an invariant differential.
+
+Let
+\[
+ P=\mathbf Q[x_1,x_2,\ldots],\qquad K=\operatorname{Frac}(P),
+ \qquad P_{i,e}=(x_i-e)\quad(e=0,1).
+\]
+Let $\Sigma=P\setminus\bigcup_{i,e}P_{i,e}$ and $A=\Sigma^{-1}P$. A nonzero polynomial belongs to only finitely many of the displayed prime ideals. We first verify that these give every maximal ideal of $A$.
+
+If a nonzero prime $Q\subset P$ is disjoint from $\Sigma$, choose $0\ne f\in Q$. Only finitely many $P_{i,e}$ contain $f$. If $Q$ is contained in none of them, finite prime avoidance gives $g\in Q$ avoiding all of them. For each of the finitely many remaining coordinate primes involving a variable in $f$ or $g$, at most one rational number $c$ makes $f+cg$ vanish modulo that prime. Choose nonzero $c$ avoiding these exceptions and with $f+cg\ne0$. Coordinate primes in other variables cannot contain this nonzero polynomial. Thus $f+cg\in Q\cap\Sigma$, a contradiction. Hence $Q$ is contained in some $P_{i,e}$. Localizing there gives
+\[
+ A_{P_{i,e}A}=L_i[x_i]_{(x_i-e)},\qquad
+ L_i=\mathbf Q(x_j:j\ne i),
+\]
+a discrete valuation ring. It follows that all nonzero primes of $A$ are precisely these maximal ideals.
+
+The ring $A$ is noetherian. More generally, a domain of finite character whose maximal localizations are noetherian is noetherian: for a nonzero ideal choose $0\ne f$ in it; only finitely many maximal ideals contain $f$. Choose finitely many global elements generating the ideal at those localizations, and add $f$. They generate at every maximal localization, hence generate the ideal. This also shows that $A$ is a one-dimensional integrally closed domain.
+
+Define a subring by identifying the two residue values in each pair:
+\begin{equation}\label{eq:ring}
+ R=\{a\in A:a|_{x_i=0}=a|_{x_i=1}\text{ in }L_i\text{ for every }i\}.
+\end{equation}
+Put $t_i=x_i(x_i-1)$. Both $t_i$ and $x_it_i$ belong to $R$, so $x_i=(x_it_i)/t_i$ belongs to its fraction field. Consequently $\operatorname{Frac}(R)=K$. Each $x_i$ is integral over $R$, satisfying $X^2-X-t_i=0$. In fact $A$ is integral over $R$. To see this for denominators, take $q\in\Sigma$ and multiply all transforms of $q$ under the finitely many involutions $x_i\mapsto1-x_i$ in its variables. Their product $N(q)$ has equal values at $x_i=0,1$ for every $i$, lies in $\Sigma$, and is a unit of $R$. Thus
+\[
+ q^{-1}=N(q)^{-1}\prod_{\sigma\ne1}\sigma(q)
+\]
+is integral over $R$ as well.
+
+The two maximal ideals over $x_i=0,1$ contract to a single ideal $\mathfrak m_i$ of $R$. These ideals are distinct, since $t_i$ vanishes exactly at the $i$th pair. Integral lying over shows that the nonzero prime ideals of $R$ are exactly the $\mathfrak m_i$.
+
+\begin{lemma}\label{lem:nodal-local}
+The local ring $R_{\mathfrak m_i}$ is
+\[
+ B_i=\{f\in L_i(x_i):f\text{ is regular at }0,1, f(0)=f(1)\}.
+\]
+It has the presentation
+\begin{equation}\label{eq:node}
+ B_i\simeq
+ \left(L_i[t,u]/(u^2-tu-t^3)\right)_{(t,u)},
+ \qquad t=x_i(x_i-1),\quad u=x_i t.
+\end{equation}
+\end{lemma}
+\begin{proof}
+The inclusion $R_{\mathfrak m_i}\subset B_i$ is immediate. For the reverse inclusion, a rational function $f\in B_i$ has poles at only finitely many of the other coordinate primes and violates only finitely many other equal-residue conditions. Multiplication by a sufficiently high power of each $t_j$ for those finitely many $j\ne i$ removes the poles and makes both residues zero there. The multiplier $h$ belongs to $R\setminus\mathfrak m_i$, and $hf\in R$. Hence $f\in R_{\mathfrak m_i}$.
+
+Write $x=x_i$. Every polynomial in $x$ is uniquely $a(t)+xb(t)$ because $x^2=x+t$. Equality at $0,1$ says $b(0)=0$, so such polynomials form $L_i[t,xt]$. If a rational function is regular at $0,1$, multiply its denominator $q(x)$ by $q(1-x)$. The resulting invariant polynomial is in $L_i[t]$ and is a unit at $t=0$. When the rational function has equal residues, its new numerator lies in $L_i[t,xt]$. The only relation is $u^2-tu-t^3=0$: both sides define a free rank-two module over $L_i[t]$ with basis $1,u$. This proves \eqref{eq:node}.
+\end{proof}
+
+Each local ring $B_i$ is noetherian. Every nonzero element of $R$ is in only finitely many $\mathfrak m_i$, so the finite-character argument above proves that $R$ is noetherian of dimension one. It is countable, since it is a subring of the countable field $K$.
+
+The completed equation in \eqref{eq:node} factors as
+\[
+ u^2-tu-t^3=(u-th_+(t))(u-th_-(t)),\qquad
+ h_\pm(t)=\frac{1\pm\sqrt{1+4t}}2\in L_i[[t]].
+\]
+The two factors have independent linear terms $u-t$ and $u$. Formal change of coordinates therefore identifies the completion with $L_i[[a,b]]/(ab)$. Thus every closed point is an ordinary split node.
+
+Since $A$ is integral over $R$ and integrally closed in $K$, it is the normalization. It is not finite. Otherwise a common denominator of finitely many module generators would give $0\ne c\in R$ with $cA\subset R$. Choose $i$ not occurring in the rational expression for $c$. Then $cx_i$ has residues $0$ and $c\ne0$ at the $i$th pair, so does not lie in $R$, a contradiction.
+
+Now let $E/\mathbf Q$ be $y^2=x^3+x+1$. For each $i$ set
+\[
+ g_i=1-2x_i,\qquad d_i=g_i^2=1+4t_i\in R^\times.
+\]
+Over $B_i$ consider the elliptic scheme
+\begin{equation}\label{eq:twist}
+ E_i:\quad Y^2=X^3+d_i^2X+d_i^3.
+\end{equation}
+Its discriminant is $-496d_i^6$, a unit. The element $g_i$ belongs to $K^\times$, and the generic isomorphism
+\begin{equation}\label{eq:twist-iso}
+ \alpha_i:(E_i)_K\xrightarrow{\sim}E_K,
+ \qquad (X,Y)\longmapsto(X/g_i^2,Y/g_i^3)
+\end{equation}
+is specified as part of the local family. At the generic point take $E_K$ itself. There are no other nontrivial chains of generizations, so these data are compatible.
+
+\begin{proof}[Proof of Theorem~\ref{thm:nodes}]
+The ring assertions have been proved. Suppose an abelian scheme over $R$ realizes this family. Its prescribed generic isomorphism to $E_K$ spreads to an isomorphism on some $D(f)$ with $0\ne f\in R$. Only finitely many $\mathfrak m_i$ contain $f$, so choose $i$ with $\mathfrak m_i\in D(f)$. Compatibility with the local realization would extend \eqref{eq:twist-iso} over $B_i$.
+
+The invariant differentials $dx/(2y)$ on $E$ and $dX/(2Y)$ on $E_i$ freely generate their modules of invariant differentials. Formula \eqref{eq:twist-iso} gives
+\[
+ \alpha_i^*\left(\frac{dx}{2y}\right)
+       =g_i\frac{dX}{2Y}.
+\]
+An isomorphism over $B_i$ would therefore have $g_i\in B_i^\times$. But the two residues of $g_i$ are $1$ and $-1$, so $g_i\notin B_i$. This contradiction proves non-effectivity.
+\end{proof}
+
+\begin{remark}[One node and nilpotent thickenings]\label{rem:finite-nodes}
+A twist at just one specified node is effective: the equation \eqref{eq:twist} defines an elliptic scheme over all of $R$, and at every other node $g_i$ belongs to the local ring and trivializes it. Its twisting cover $R[z]/(z^2-d_i)$ is finite \'etale because $2d_i$ is invertible. The same construction, using a finite product of the $d_i$, treats finitely many nodes. Thus a single branch interchange is not a counterexample.
+
+Base-changing the ineffective family to $R[\epsilon]/(\epsilon^2)$ gives a nonreduced counterexample: a realization would reduce to one over $R$. Theorem~\ref{thm:positive} also shows that $\Spec R$ has no local finite surjective geometrically unibranch cover. These facts explain the precise scope of the example.
+\end{remark}
+
+\section{Finite nilpotent liftings over a complete base}
+
+The next lemma ensures that the nilpotent criterion concerns abelian schemes over completed rings, rather than only formal systems. We will use proper formal full faithfulness in its exact form: over a complete noetherian adic ring, completion induces a bijection on morphisms from a proper scheme to a separated scheme of finite type \citep[Theorem~5.4.1, pp.~156--157]{EGAIII}. All applications below have proper source and proper target.
+
+\begin{lemma}\label{lem:complete}
+Let $R$ be noetherian and $p$-adically complete, with $p$ in its Jacobson radical. Let $J\subset R$ be nilpotent and put $R_0=R/J$. Given an abelian scheme $A_0/R_0$, a $p$-divisible group $M/R$, and an isomorphism $A_0[p^\infty]\simeq M_{R_0}$, there exists an abelian scheme $A/R$ with these prescribed comparisons. It is unique up to the unique isomorphism respecting them.
+\end{lemma}
+\begin{proof}
+Induct on the nilpotence exponent, reducing first to $J^2=0$. By Messing's lifting lemma there is an abelian scheme $B/R$ lifting $A_0$. For each $n\geq1$, Serre--Tate theory over $R/p^nR$ gives a lifting $C_n$ of
+$A_0\bmod p^n$ with group $M\bmod p^n$. These liftings and their group identifications are compatible, uniquely with their fixed reductions.
+
+Let
+\[
+ J_n=J/(J\cap p^nR),\qquad
+ P=\Lie(A_0)\otimes_{R_0}\Lie(A_0^\vee),\qquad F=P\otimes_{R_0}J.
+\]
+The difference between $C_n$ and $B\bmod p^n$ is an element
+$d_n\in P\otimes_{R_0}J_n$, by \eqref{eq:deformation}. These elements are compatible. Since $P$ is finite projective and $J$ is finite, completeness and Artin--Rees give
+\[
+ F\xrightarrow{\sim}\varprojlim_n P\otimes_{R_0}J_n.
+\]
+Indeed the filtration $J\cap p^nR$ is cofinal with the $p$-adic filtration of $J$, and every finite module over a complete noetherian ring is complete. Let $d\in F$ lift the $d_n$, and translate the lifting $B$ by $d$. This is an abelian scheme $A/R$, by the deformation torsor, whose reductions are the $C_n$ with their given identifications.
+
+For fixed $r$, the coordinate modules of $A[p^r]$ and $M[p^r]$ are finite projective over $R$. Their compatible isomorphisms modulo every $p^n$ therefore lift uniquely to an isomorphism over $R$. Completeness also preserves multiplication, comultiplication and the transition maps in $r$. Thus $A[p^\infty]\simeq M$ with the specified reduction.
+
+If two liftings are given, Serre--Tate theory supplies compatible isomorphisms between their reductions modulo all $p^n$. Proper formal full faithfulness \citep[Theorem~5.4.1, pp.~156--157]{EGAIII} algebraizes them to a unique isomorphism. Its group structure and compatibility with $M$ follow from the same full faithfulness and from finite-module completeness. For a higher nilpotence exponent, apply the square-zero case successively to the quotients by powers of $J$. These quotients remain noetherian and $p$-adically complete.
+\end{proof}
+
+For an ideal $I$ containing $p$, the noetherian $I$-adic completion $\widehat R_I$ meets the hypotheses of this lemma. The ideal $I\widehat R_I$ lies in the Jacobson radical. A $p$-adic Cauchy sequence is $I$-adically Cauchy, and every ideal $p^n\widehat R_I$ is closed in the $I$-adic topology; thus its $I$-adic limit is also its $p$-adic limit. This proves $p$-adic completeness even when $I$ is not generated by $p$.
+
+We use the following exact published gluing input. If $R$ is noetherian, $I$ is finitely generated, $V=\Spec R$, $V^\wedge=\Spec\widehat R_I$, $U=V\setminus V(I)$, and $U^\wedge=V^\wedge\times_V U$, then restriction gives an equivalence
+\begin{equation}\label{eq:module-patching}
+ \operatorname{QCoh}(V)\simeq
+ \operatorname{QCoh}(U)\times_{\operatorname{QCoh}(U^\wedge)}
+ \operatorname{QCoh}(V^\wedge).
+\end{equation}
+This is Moret--Bailly's Theorem~0.3, whose proof is attributed there to Ferrand--Raynaud \citep[p.~561]{MoretBailly}. Its hypotheses hold because $R\to\widehat R_I$ is flat and induces an isomorphism modulo $I$. In particular, compatible sections of a coherent module on $U$ and $V^\wedge$ come from a unique section on $V$. The morphism $U\amalg V^\wedge\to V$ is faithfully flat and quasi-compact.
+
+\begin{proof}[Proof of Theorem~\ref{thm:nilpotent}]
+The completion lifting exists and is unique by Lemma~\ref{lem:complete}. Necessity of the overlap isomorphism follows by completing a realization.
+
+For sufficiency work first on an affine $V=\Spec R$ and assume the ideal $J$ of $S_0$ is square-zero. Choose an abelian-scheme lifting $B/R$ of $A_0$, using Messing's lemma. Relative to $B|_U$, the given $A_U$ is represented by a difference section $d_U$ of the deformation module $\mathcal F$ in \eqref{eq:deformation}. Relative to $B_{\widehat R_I}$, the canonical completed lifting $\widehat A$ is represented by a section $d_\wedge$ of $\mathcal F_{\widehat R_I}$. The assumed overlap isomorphism respects the reductions, so the two sections agree on $U^\wedge$. By \eqref{eq:module-patching} they come from $d\in\Gamma(V,\mathcal F)$. Translate $B$ by $d$ to obtain an abelian scheme $A/V$ whose open and completed restrictions are the required ones.
+
+The prescribed isomorphism $A[p^\infty]\simeq M$ glues as well. At each finite level the coordinate algebras are finite locally free; their comparison on $U$ and $V^\wedge$ agrees on $U^\wedge$. Full faithfulness in \eqref{eq:module-patching} glues the algebra maps and their inverses. It also glues the Hopf-algebra identities and compatibility in the level. The resulting group isomorphism has the specified reduction and induces $\varphi$.
+
+For a general nilpotent $J$, use successive square-zero quotients. At each stage the prescribed completed lifting is the unique one in Lemma~\ref{lem:complete}; hence the overlap comparisons descend compatibly to the quotient and lift at the next step. This proves existence on each affine open.
+
+To glue affine realizations, compare them on an affine open inside their intersection. Their restrictions to $U$ coincide. On its completion they are the unique liftings of the same reduced abelian scheme with the same group, so they have a unique comparison respecting these data. The two comparisons agree on the punctured completion: they have the same map on $p$-divisible groups, and the functor from abelian schemes to $p$-divisible groups is faithful. Moret--Bailly's full faithfulness for schemes \citep[Theorem~1.2, p.~565]{MoretBailly} glues the comparison. Uniqueness gives the cocycle identity. The realizations therefore glue on $S$ and induce the specified $A_0$.
+\end{proof}
+
+\begin{remark}\label{rem:nilpotent-scope}
+The overlap condition is an additional condition, even when the reduction is realized. For example, over $\mathbf Z_5[\epsilon]/(\epsilon^2)$ take the constant group of $y^2=x^3+x+1$ and, on $D(5)$, the elliptic curve $y^2=x^3+x+1+\epsilon$, with the unique torsion comparison reducing to the identity. Fix the constant elliptic scheme as the specified reduced realization. Any realization would have the constant first-order deformation by Serre--Tate modulo every $5^n$, whereas
+\[
+ j=\frac{6912}{31+54\epsilon}
+   =\frac{6912}{31}-\frac{373248}{961}\epsilon
+\]
+has nonzero first-order term. Completeness makes these incompatible. In this example the base is already complete, and Theorem~\ref{thm:nilpotent} identifies the failed overlap comparison directly.
+\end{remark}
+
+\section{Formal models and scheme gluing}
+
+We now prove the general criterion, where neither a reduced abelian scheme nor an ample class is available in advance.
+
+Serre--Tate theory applies successively to $T_r\hookrightarrow T_{r+1}$ because $p$ is nilpotent on each $T_r$. It gives the compatible tower in condition~1 of Theorem~\ref{thm:formal}, with uniqueness respecting the previous reduction and group comparison. If an algebraization $B_i$ exists, its formal comparisons give an isomorphism $B_i[p^n]\simeq M[p^n]$ for each $n$: take limits in the finite projective coordinate modules over $\widehat{R_i}_{I_i}$. The Hopf-algebra maps and their compatibilities are preserved by the limit. This proves the assertion about $\widehat\eta_i$.
+
+\begin{proof}[Proof of Theorem~\ref{thm:formal}]
+Suppose first that a realization $A/S$ exists. Its restrictions give $A_1$, the formal tower and the algebraizations $B_i$. Its restriction to the punctured completions gives $\beta_i$. On each affine base $V_i$, choose a finite affine open cover of $A|_{V_i}$ and restrict it to $\widehat V_i$ and $U\cap V_i$. These restrictions are affine over their respective bases and give condition~4. This also proves necessity for any choice of ideal and affine cover.
+
+Conversely, fix $i$ and abbreviate the open-completion pair by $(U,\widehat V,\widehat U)$ over $V_i$. Moret--Bailly's Theorem~1.1 \citep[p.~565]{MoretBailly} gives an equivalence for quasi-affine schemes on this pair. Thus each identified pair $(Z_{ia},W_{ia})$ glues to a quasi-affine scheme $Q_{ia}/V_i$.
+
+Intersections of two quasi-affine open subschemes in a separated scheme are quasi-affine. Apply the same equivalence to $Z_{ia}\cap Z_{ib}$ and $W_{ia}\cap W_{ib}$. Their maps to the corresponding $Q_{ia}$ and $Q_{ib}$ are open immersions, since this may be checked after the faithfully flat cover $U\amalg\widehat V\to V_i$. Full faithfulness gives the usual symmetry and triple-overlap identities. Hence the $Q_{ia}$ glue along these open subschemes to a scheme $A_i/V_i$. Its restrictions are $A_U|_U$ and $B_i$.
+
+Properness, smoothness and finite presentation are fpqc-local on the base, so they hold for $A_i$. The identity, multiplication and inverse maps glue by Moret--Bailly's full faithfulness for schemes, applied also to products. Their identities hold after the cover and hence globally. The fibres are geometrically connected because this holds after a faithfully flat field extension. Thus $A_i$ is an abelian scheme.
+
+The prescribed comparisons of the finite locally free group schemes $A_i[p^n]$ and $M[p^n]$ agree on $\widehat U$ by condition~3. The quasi-coherent gluing equivalence \eqref{eq:module-patching} glues their Hopf algebras and the isomorphisms, compatibly in $n$. Hence $A_i[p^\infty]\simeq M|_{V_i}$ with the required open identification.
+
+It remains to glue in the base index $i$. Let $V\subset V_i\cap V_j$ be affine and complete it along $\mathcal I|_V$. The completions of $A_i|_V$ and $A_j|_V$ have canonically isomorphic reductions at every level: both realize the specified Serre--Tate tower. Proper formal full faithfulness \citep[Theorem~5.4.1, pp.~156--157]{EGAIII} gives a unique isomorphism on this completion, with its group structure and torsion comparison. On $U\cap V$, use their given identifications with $A_U$. On the punctured completion these two isomorphisms agree by faithfulness of $A\mapsto A[p^\infty]$. Moret--Bailly's full faithfulness glues them over $V$. These comparisons are unique, agree on smaller affine opens, and satisfy the cocycle identity. The $A_i$ therefore glue to the desired $A/S$.
+
+Once a realization exists, the necessity argument applies to every ideal and every affine cover. This proves the last assertion.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:elliptic}]
+Let $e_r$ be the zero section of the elliptic scheme $A_r$. The line bundles
+\[
+ \mathcal L_r=\OO_{A_r}(3e_r)
+\]
+are compatible and relatively ample. On each affine closed base $T_1\cap V_i$ the line bundle $\mathcal L_1$ is ample. Grothendieck's algebraization theorem \citep[Theorem~5.4.5, pp.~157--158]{EGAIII} therefore algebraizes the formal scheme and its line bundle to a projective scheme $B_i/\widehat V_i$.
+
+Proper formal full faithfulness algebraizes the zero section and the group operations and verifies their identities. The local formal criterion for flatness applies at every point over $V(I_i)$, since all the reductions are flat. Their geometric fibres are smooth, so $B_i$ is smooth at these points. The complement of the smooth locus has closed image by properness. Every nonempty closed subset of $\Spec\widehat{R_i}_{I_i}$ meets $V(I_i)$, since $I_i$ lies in the Jacobson radical. Thus $B_i$ is smooth everywhere. Geometric connectedness follows from the finite \'etale component scheme of a proper smooth group, whose restriction along $V(I_i)$ is trivial. Consequently $B_i$ is an elliptic scheme. Its torsion comparison follows by finite-module completeness, and uniqueness follows by proper formal full faithfulness.
+
+Every group isomorphism $\beta_i$ preserves the zero section and therefore identifies $\OO(3e)$ on the two sides of the punctured completion. Moret--Bailly's equivalence for pairs consisting of a quasi-projective scheme and a relatively ample invertible sheaf \citep[Theorem~1.1, the category QPROJ, p.~565]{MoretBailly} glues them directly to a scheme over $V_i$. No additional choice of open charts is required. The group structure, properness, torsion comparison and gluing across the affine base cover follow exactly as in the preceding proof. Necessity follows by restriction.
+\end{proof}
+
+\section{What the criteria leave to decide}
+
+The infinite-node family refutes unrestricted effectivity of compatible local abelian schemes. The positive theorem explains why it cannot occur under a local finite geometrically unibranch cover, and why adding nilpotents does not change the effectivity of a family already specified at every local ring.
+
+For the extension triple, the formal criterion leaves two geometric questions in higher dimension: whether the prescribed Serre--Tate tower algebraizes, and whether its comparison with the open part has compatible scheme charts. Those are explicit conditions on the open and completed data. Theorem~\ref{thm:nilpotent} removes both when a finite nilpotent reduction is already realized; Corollary~\ref{cor:elliptic} removes both in relative dimension one. Neither statement removes the requirement for an isomorphism of abelian schemes on the punctured completion.
+
+A criterion for the essential image using only the integral $p$-divisible group and a reduced realization would need a further theorem forcing that overlap isomorphism. The mixed-characteristic example in Remark~\ref{rem:nilpotent-scope} shows that no such theorem holds without additional hypotheses. We do not classify the higher-dimensional unpolarized formal towers that algebraize, nor give intrinsic conditions on an arbitrary nonnormal base that force all compatible charts to exist.
+
+\section*{Note on method and records}
+
+The mathematics and text were produced by GPT-6 Astra Pro in ChatGPT Pro mode. Earlier proof checks were recorded by Claude Opus 5.5 at effort max, including re-derivations of proper descent and the infinite-node example. They are evidence separate from the checks made for this text. A separate GPT-6 Astra Pro worker reconstructed all the principal assertions from their statements and scoped published background, without seeing the earlier proofs. Its five derivations were frozen before comparison: the infinite-node counterexample, finite-nilpotent and completion criteria, formal and elliptic criteria, positive local-family theorems, and proper descent with its rigidity boundary. All five frozen derivations were subsequently read in full and compared with the proofs here; no mathematical defect was found. The effort setting of the current model is not exposed. These are checks by the same model, not independent human verification. The finite polynomial identities were recomputed by exact evaluation with degree bounds, independently of the earlier symbolic-expansion program, which was also rerun. The program \emph{Nodal twist identities} and its expected output are available through the workbench. No human has checked the mathematics. The text is dedicated to the public domain under CC0~1.0. Sources and verification records belong to \url{\workbenchurl}; their permanent records address is \url{\recordurl}.
+
+\begin{thebibliography}{20}
+\bibitem[Bhatt(2014)]{Bhatt}
+Bhatt, B. (2014). \emph{Algebraization and Tannaka duality}. arXiv:1404.7483v1. \url{https://arxiv.org/abs/1404.7483v1}
+
+\bibitem[Datta and Murayama(2020)]{DattaMurayama}
+Datta, R., \& Murayama, T. (2020). \emph{The property of being Japanese (aka N-2) is not local}. Author note, 22 February 2020. \url{https://www.math.purdue.edu/~murayama/Japanese%20is%20not%20local.pdf}
+
+\bibitem[Grothendieck(1961)]{EGAIII}
+Grothendieck, A. (1961). \'El\'ements de g\'eom\'etrie alg\'ebrique: III. \'Etude cohomologique des faisceaux coh\'erents, premi\`ere partie. \emph{Publications Math\'ematiques de l'IH\'ES, 11}, 5--167. \url{https://doi.org/10.1007/BF02684273}
+
+\bibitem[Grothendieck(1966)]{GrothHom}
+Grothendieck, A. (1966). Un th\'eor\`eme sur les homomorphismes de sch\'emas ab\'eliens. \emph{Inventiones Mathematicae, 2}, 59--78. \url{https://doi.org/10.1007/BF01403390}
+
+\bibitem[Grothendieck(n.d.)]{GrothNotes}
+Grothendieck, A. (n.d.). \emph{Bonne r\'eduction des vari\'et\'es ab\'eliennes via bonne r\'eduction de Barsotti--Tate}. Archives Grothendieck, Universit\'e de Montpellier, cote~100, archive sheets~16 and~24. \url{https://grothendieck.umontpellier.fr/100.pdf}
+
+\bibitem[Hochster(1973)]{Hochster}
+Hochster, M. (1973). Non-openness of loci in Noetherian rings. \emph{Duke Mathematical Journal, 40}(1), 215--219. \url{https://doi.org/10.1215/S0012-7094-73-04020-9}
+
+\bibitem[Hua(2026)]{Hua}
+Hua, M. (2026). \emph{\'Enonc\'es des notes de travail de Grothendieck d\'emontr\'es en Lean~4, et questions ouvertes}. Version~2, \S31, pp.~138--147. Hexagon preprint 2611.00125v2. \url{https://hexagonmath.org/2611.00125v2}
+
+\bibitem[Katz(1981)]{Katz}
+Katz, N. M. (1981). Serre--Tate local moduli. In \emph{Surfaces alg\'ebriques} (Lecture Notes in Mathematics, Vol.~868, pp.~138--202). Springer. \url{https://web.math.princeton.edu/~nmk/old/serretatelocmod.pdf}
+
+\bibitem[Messing(1972)]{Messing}
+Messing, W. (1972). \emph{The crystals associated to Barsotti--Tate groups: With applications to abelian schemes}. Lecture Notes in Mathematics, Vol.~264. Springer. \url{https://doi.org/10.1007/BFb0058301}
+
+\bibitem[Moret--Bailly(1996)]{MoretBailly}
+Moret--Bailly, L. (1996). Un probl\`eme de descente. \emph{Bulletin de la Soci\'et\'e Math\'ematique de France, 124}(4), 559--585. \url{https://doi.org/10.24033/bsmf.2293}
+
+\bibitem[Vasiu and Zink(2010)]{VasiuZink}
+Vasiu, A., \& Zink, T. (2010). Purity results for $p$-divisible groups and abelian schemes over regular bases of mixed characteristic. \emph{Documenta Mathematica, 15}, 571--599. \url{https://doi.org/10.4171/dm/307}
+\end{thebibliography}
+\end{document}
