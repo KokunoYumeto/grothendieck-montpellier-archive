@@ -1,7 +1,8 @@
 # The most recent return of each run
 
 The table marks the most recent checkpoint or final of each run. Returns added from 22 November 2026 hold
-their deliverables only, with their papers from 26 November 2026. Older checkpoints stay as they were pushed.
+their mathematics only (papers, results, registers, checks, cited programs), with their papers from 26
+November 2026. Older checkpoints stay as they were pushed.
 
 | Run | Most recent | Delivered (UTC) | Folders here |
 |---|---|---|---:|
@@ -20,10 +21,13 @@ their deliverables only, with their papers from 26 November 2026. Older checkpoi
 | CX_GRH | **[final](CX_GRH_final_20261121T0005Z_unzipped/)** | 2026-11-21 00:05 | 1 |
 | DEG_L | **[checkpoint 06](DEG_L_checkpoint_06_20261121T0517Z_unzipped/)** | 2026-11-21 05:17 | 5 |
 | DELTA23 | **[checkpoint 06](DELTA23_checkpoint_06_20261121T0329Z_unzipped/)** | 2026-11-21 03:29 | 3 |
+| DER_FOLLOWUP | **[checkpoint 03](DER_FOLLOWUP_checkpoint_03_20261117T0414Z_unzipped/)** | 2026-11-17 04:14 | 1 |
+| DER_LOCALIZERS | **[checkpoint 08](DER_LOCALIZERS_checkpoint_08_20261118T0954Z_unzipped/)** | 2026-11-18 09:54 | 1 |
 | DP_MULT | **[checkpoint 06](DP_MULT_checkpoint_06_20261121T0420Z_unzipped/)** | 2026-11-21 04:20 | 5 |
 | FERMAT_SECTIONS | **[final](FERMAT_SECTIONS_final_20261125T1724Z_unzipped/)** | 2026-11-25 17:24 | 2 |
 | FINMON_CP2 | **[checkpoint 12](FINMON_CP2_checkpoint_12_20261125T1345Z_unzipped/)** | 2026-11-25 13:45 | 1 |
 | FLEET_HARD_LINKS | **[checkpoint 07](FLEET_HARD_LINKS_checkpoint_07_20261125T0725Z_unzipped/)** | 2026-11-25 07:25 | 1 |
+| FREX | **[final](FREX_final_20261118T1235Z_unzipped/)** | 2026-11-18 12:35 | 1 |
 | GCT_GINEQ | **[final](GCT_GINEQ_final_20261120T2340Z_unzipped/)** | 2026-11-20 23:40 | 1 |
 | GCT_KRON | **[checkpoint 07](GCT_KRON_checkpoint_07_20261121T0415Z_unzipped/)** | 2026-11-21 04:15 | 5 |
 | GCT_NSRH | **[checkpoint 09](GCT_NSRH_checkpoint_09_20261121T0545Z_unzipped/)** | 2026-11-21 05:45 | 5 |
@@ -71,6 +75,8 @@ their deliverables only, with their papers from 26 November 2026. Older checkpoi
 | RESEARCH_SA22 | **[final](RESEARCH_SA22_final_20261119T1905Z_unzipped/)** | 2026-11-19 19:05 | 2 |
 | RESEARCH_SA22_run2 | **[final](RESEARCH_SA22_run2_final_20261119T2149Z_unzipped/)** | 2026-11-19 21:49 | 1 |
 | RESEARCH_SA23 | **[final](RESEARCH_SA23_final_20261120T0511Z_unzipped/)** | 2026-11-20 05:11 | 1 |
+| REVLOC | **[checkpoint 17](REVLOC_checkpoint_17_20261116T0257Z_unzipped/)** | 2026-11-16 02:57 | 1 |
+| S2COUNT | **[final](S2COUNT_final_20261116T0841Z_unzipped/)** | 2026-11-16 08:41 | 1 |
 | SIGN_NEXT | **[checkpoint 02](SIGN_NEXT_checkpoint_02_20261121T0430Z_unzipped/)** | 2026-11-21 04:30 | 1 |
 | SPLIT_ZERO_AFTER_FGJM | **[checkpoint 50](SPLIT_ZERO_AFTER_FGJM_checkpoint_50_20261126T0610Z_unzipped/)** | 2026-11-26 06:10 | 2 |
 | THETA3 | **[checkpoint 07](THETA3_checkpoint_07_20261121T0604Z_unzipped/)** | 2026-11-21 06:04 | 5 |
