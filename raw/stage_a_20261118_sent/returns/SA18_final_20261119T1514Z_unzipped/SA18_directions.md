@@ -1,0 +1,779 @@
+# SA18 — Ranked research directions
+
+Status:19November2026. These are future task specifications arising from the completed consolidation. The ordering is a comparative judgment about interest, source relevance and a realistic bounded outcome in one session of a few hours. It is not a claim of novelty or a prediction that a broad open theorem can be solved quickly. The necessary checks of existing statements are already in the dossier; the extensions proposed below were not developed as Stage6 work.
+
+**Scores:**5 is highest. Interest and likely yield are assessed separately. A yield score of5 can mean a definitive editorial proof, correction or exact comparison; it does not necessarily mean a new research theorem. Scan-dependent tasks require the original scans, absent from this run.
+
+| Rank | Task | Interest | Few-hour yield |
+|---:|---|---:|---:|
+| 1 | Complete the local Brauer/discriminant comparison | 5/5 | 4/5 |
+| 2 | Compare the two integral Lefschetz operator orders | 5/5 | 4/5 |
+| 3 | Arbitrary intersections of subcomodules under flatness | 5/5 | 4/5 |
+| 4 | Audit the actual unit-fibre comparison morphism | 5/5 | 4/5 |
+| 5 | Greatest abelian subscheme over a reduced base | 5/5 | 4/5 |
+| 6 | Relative Picard abelian part and p-primary kernel | 5/5 | 3/5 |
+| 7 | Separate symmetry from positivity for a cycle-induced isogeny | 5/5 | 3/5 |
+| 8 | Isolate the exceptional primes in integral Fourier duality | 5/5 | 3/5 |
+| 9 | Abstract Lemma B | 4/5 | 3/5 |
+| 10 | The valid semilocal Hilbert 90 theorem behind the deleted hypotheses | 4/5 | 5/5 |
+| 11 | The component quotient without quasi-separatedness | 4/5 | 4/5 |
+| 12 | Serre’s proposed pro-two construction | 4/5 | 5/5 |
+| 13 | Corrected nested-torus Weyl lemma | 4/5 | 5/5 |
+| 14 | Integral quadric and cone conventions | 4/5 | 5/5 |
+| 15 | Write a corrected projector-induction proof | 4/5 | 5/5 |
+| 16 | Abstract sheaf-equivalence criterion | 4/5 | 5/5 |
+| 17 | The α-only extension to algebras | 4/5 | 2/5 |
+| 18 | Singular Bertini in good reduction | 4/5 | 3/5 |
+| 19 | Settle the dimension4 orbit boundary | 4/5 | 4/5 |
+| 20 | Cancellative affine monoid schemes beyond reduced varieties | 4/5 | 3/5 |
+| 21 | Completion of local torsor obstruction groups | 4/5 | 3/5 |
+| 22 | Clifford normalization | 4/5 | 3/5 |
+| 23 | Recover the precise weak-Lefschetz formulation | 4/5 | 4/5 |
+| 24 | Logarithmic differentiation on normal singular schemes | 4/5 | 3/5 |
+| 25 | A fixed diagonal-ring presentation | 4/5 | 3/5 |
+| 26 | The Cartan-normalizer reduction | 4/5 | 4/5 |
+| 27 | Marked Torelli and the hyperelliptic fibre | 4/5 | 5/5 |
+| 28 | Coherent elimination | 4/5 | 5/5 |
+| 29 | Nonsplit elliptic extension | 4/5 | 5/5 |
+| 30 | Make the p-torsion/de Rham dictionary explicit | 4/5 | 5/5 |
+| 31 | Two purity statements | 4/5 | 5/5 |
+| 32 | The c48 fibre-functor compatibility diagram | 4/5 | 4/5 |
+| 33 | Degree-two quadratic-invariant chronology | 4/5 | 5/5 |
+| 34 | Relative Lie rigidity | 3/5 | 4/5 |
+| 35 | Which Picard descent steps survive removal of flatness? | 3/5 | 4/5 |
+| 36 | Nonsmooth restriction of scalars and the topology of torsors | 3/5 | 3/5 |
+| 37 | Specialization and support dictionary | 3/5 | 5/5 |
+| 38 | Relative tori and reductive centre | 3/5 | 4/5 |
+| 39 | Dimension and the EGA erratum | 3/5 | 5/5 |
+| 40 | Closed images and flatness beyond finite type | 3/5 | 4/5 |
+| 41 | Correct the cancelled root axioms economically | 3/5 | 5/5 |
+| 42 | The arithmetic F-prime diagram | 3/5 | 3/5 |
+| 43 | The meaning and scope of the doubtful pro-group functor κ | 3/5 | 3/5 |
+| 44 | Recovering the abstract Frobenius-topos converse and gluing setup | 3/5 | 3/5 |
+| 45 | GIT typescript | 3/5 | 5/5 |
+| 46 | Recover the remaining reused English and flatness fragments | 3/5 | 3/5 |
+| 47 | Scan decisions | 3/5 | 5/5 |
+
+The1961-to-modern degree-two comparison merges two owners’ task proposals into one direction. The literal all-rank Clifford normalization remains a different task. Other apparently nearby tasks are retained separately when their objects, quantifiers or intended outcomes differ.
+
+## 1. Complete the local Brauer/discriminant comparison
+
+**Task ID:** DIR-SA18-01. **Interest:** 5/5. **Few-hour yield:** 4/5.
+
+**Items:** SA18-16004, SA18-16005, SA18-16011, SA18-16012  
+**Claims:** CL-SA18-16004, CL-SA18-16005, CL-SA18-16011, CL-SA18-16012  
+**Problems:** MP-SA18-16007.
+
+**Source task:** `parts/agent16/SA18_directions.md`, local task1.
+
+**Interest: very high. One-run progress: high.** Sources: SA18-16004, SA18-16005, SA18-16011, SA18-16012; CL-SA18-16004, CL-SA18-16005, CL-SA18-16011, CL-SA18-16012; MP-SA18-16007.
+
+Establish an explicit commutative diagram identifying the local lattice discriminant form with the étale linking form, with a fixed boundary-map and sign convention. BrauerIII§8.4 supplies the group identification under its complete normal equicharacteristic surface hypotheses; Remark8.5 expressly leaves the compatibility unchecked. First step: select a cyclic quotient surface singularity, compute both pairings through one resolution, and then formulate the naturality statement needed for the blowup argument. A result would be a proof of the retained obligation, not a claim that all local duality remains open.
+
+## 2. Compare the two integral Lefschetz operator orders
+
+**Task ID:** DIR-SA18-02. **Interest:** 5/5. **Few-hour yield:** 4/5.
+
+**Items:** SA18-16001, SA18-16002, SA18-16026, SA18-16027, SA18-16029  
+**Claims:** CL-SA18-16001, CL-SA18-16002, CL-SA18-16026, CL-SA18-16027, CL-SA18-16029  
+**Problems:** MP-SA18-16001.
+
+**Source task:** `parts/agent16/SA18_directions.md`, local task2.
+
+**Interest: high. One-run progress: high.** Sources: SA18-16001, SA18-16002, SA18-16026, SA18-16027, SA18-16029; CL-SA18-16001, CL-SA18-16002, CL-SA18-16026, CL-SA18-16027, CL-SA18-16029; MP-SA18-16001.
+
+Determine the integral order generated by exterior multiplication and raw contraction, and compare it to the normalized product of matrix rings after rationalization. The factorial obstruction and the normalized algebra are already checked; the exact integral comparison was not found in the opened rational treatments. First step: compute Smith normal forms for the generated order in ranks4 and6, then identify a denominator formula consistent with the primitive-string coefficients. The result would make the manuscript’s normalization shift precise.
+
+## 3. Arbitrary intersections of subcomodules under flatness
+
+**Task ID:** DIR-SA18-03. **Interest:** 5/5. **Few-hour yield:** 4/5.
+
+**Items:** SA18-46066  
+**Claims:** CL-SA18-46130, CL-SA18-46131  
+**Problems:** MP-SA18-46038.
+
+**Source task:** `parts/agent46/directions.md`, local task1.
+
+**Origin.** On cote 53, scan 29, the word “finite” is deleted from the intersection assertion. The exact passage is `SA18_texts/codex/J53-05_transcription.tex`, absolute lines 31–51. The same page gives a stronger dual-module criterion when the coalgebra is a direct sum of finitely generated projective modules.
+
+**What the task would establish.** Decide whether an arbitrary intersection of underlying submodules of a comodule is again a subcomodule for every flat coalgebra over a commutative ring, or identify the necessary extra condition and a counterexample to the stated scope. The question concerns the underlying intersection, not merely the existence of a categorical infimum in a Grothendieck category.
+
+**Known boundary.** Wisbauer, *Coalgebras and Bialgebras*, Theorem 7.12, checks intersections of two subcomodules under flatness. The direct-sum-of-finite-projectives hypothesis on the manuscript page makes coefficient functionals detect stability. Datta–Epstein–Tucker, *Mittag-Leffler modules and intersection flatness*, Theorem 4.3.1, identifies flat Mittag-Leffler modules with intersection-flat modules. This is a theorem about modules and supplies a sufficient strengthened condition. It does not settle the coalgebra-specific flat-only statement. [WisbauerCoalgebras, §7.6 and Theorem 7.12; MittagLeffler2026, Definition 4.2.2 and Theorem 4.3.1.]
+
+**First concrete step.** Rewrite the desired inclusion using the equalizer defining a subcomodule, then compare it with intersection-flatness of the underlying coalgebra. Try to realize a failure of intersection-flatness inside an actual coaction, keeping coassociativity and counitality explicit. A tensor calculation with the flat module Q over Z is not by itself a coalgebra counterexample.
+
+**Expected bounded outcome.** A theorem with its exact hypotheses or a fully checked coalgebra/comodule example, together with a decision about whether deleting “finite” can be defended mathematically. Only the next scan run can determine the intended wording.
+
+## 4. Audit the actual unit-fibre comparison morphism
+
+**Task ID:** DIR-SA18-04. **Interest:** 5/5. **Few-hour yield:** 4/5.
+
+**Items:** SA18-16047, SA18-16049, SA18-16050, SA18-16051, SA18-16052  
+**Claims:** CL-SA18-16047, CL-SA18-16049, CL-SA18-16050, CL-SA18-16051, CL-SA18-16052  
+**Problems:** MP-SA18-16008.
+
+**Source task:** `parts/agent16/SA18_directions.md`, local task4.
+
+**Interest: high. One-run progress: high.** Sources: SA18-16047, SA18-16049, SA18-16050, SA18-16051, SA18-16052; CL-SA18-16047, CL-SA18-16049, CL-SA18-16050, CL-SA18-16051, CL-SA18-16052; MP-SA18-16008.
+
+Show that the manuscript’s chosen map to e_*τ[−g] agrees with the canonical kernel comparison under derived pullback. Mukai and Laumon establish the theorem; the existing Koszul calculation identifies only the fibre objects. First step: express the map by the edge morphism to top cohomology and trace it through the zero-section Koszul resolution. This would close the precise historical proof gap rather than reprove Fourier inversion under an unrelated normalization.
+
+## 5. Greatest abelian subscheme over a reduced base
+
+**Task ID:** DIR-SA18-05. **Interest:** 5/5. **Few-hour yield:** 4/5.
+
+**Items:** No indexed item; this direction comes from a directly read unindexed transcription passage.  
+**Claims:** CL-SA18-45206  
+**Problems:** MP-SA18-45044.
+
+**Source task:** `parts/agent45/directions.md`, local task1.
+
+**What it would establish.** A statement specifying when a proper group scheme over a reduced characteristic-zero base has a greatest abelian subscheme, and whether this construction commutes with base change. The field case is not the open issue: its connected identity component is an abelian variety.
+
+**Known boundary.** SGA3 VIB treats relative connected components under smoothness or flatness assumptions. The manuscript’s word “proper” does not supply those assumptions. Do not advertise the unrestricted question as an established open problem in modern group theory. [AG45-SGA3VIB; CL-SA18-45206]
+
+**First concrete step.** Write down the functor meant by “greatest” and test proper groups with jumping component dimension over a reduced curve. The useful output is either one counterexample satisfying every stated hypothesis or a corrected proposition with the missing flatness and dimension conditions visible.
+
+## 6. Relative Picard abelian part and p-primary kernel
+
+**Task ID:** DIR-SA18-06. **Interest:** 5/5. **Few-hour yield:** 3/5.
+
+**Items:** No indexed item; this direction comes from a directly read unindexed transcription passage.  
+**Claims:** CL-SA18-45180, CL-SA18-45181, CL-SA18-45182, CL-SA18-45183  
+**Problems:** MP-SA18-45047, MP-SA18-45048, MP-SA18-45049, MP-SA18-45050.
+
+**Source task:** `parts/agent45/directions.md`, local task2.
+
+**What it would establish.** The strongest valid statement behind c51:19–22, with normality, geometric integrality, smoothness in codimension one and characteristic specified individually.
+
+**Known boundary.** FGA VI and Kleiman give the smooth proper framework. The manuscript’s prime-to-p torsion argument leaves a p-primary kernel, and its own moving alpha-p lines show why that kernel cannot simply be discarded. [AG45-FGAVI; AG45-Kleiman2005; CL-SA18-45173, CL-SA18-45180, CL-SA18-45181, CL-SA18-45182, CL-SA18-45183]
+
+**First concrete step.** Recover which hypotheses survive the cancellations, then choose one positive-characteristic family in which the reduced Picard component changes. Compute the proposed kernel in that example before attempting a general theorem. The task should produce one sharply delimited lemma or obstruction, not a new theory of every singular Picard family.
+
+## 7. Separate symmetry from positivity for a cycle-induced isogeny
+
+**Task ID:** DIR-SA18-07. **Interest:** 5/5. **Few-hour yield:** 3/5.
+
+**Items:** SA18-16072, SA18-16077  
+**Claims:** CL-SA18-16072, CL-SA18-16077  
+**Problems:** MP-SA18-16014, MP-SA18-16016.
+
+**Source task:** `parts/agent16/SA18_directions.md`, local task6.
+
+**Interest: very high. One-run progress: medium.** Sources: SA18-16072, SA18-16077; CL-SA18-16072, CL-SA18-16077; MP-SA18-16014, MP-SA18-16016.
+
+Extract a theorem-sized special case of the c44 positivity question and compare it clause by clause with ACMV2025 Theorem12.12 and§13. First step: specify a threefold, its codimension-two representative, the cycle family giving the symmetric isogeny, and the exact lifting hypothesis needed to conclude ampleness. The negative of an ample class only refutes a weakened abstract implication; it is not a counterexample to all the cycle-origin hypotheses.
+
+## 8. Isolate the exceptional primes in integral Fourier duality
+
+**Task ID:** DIR-SA18-08. **Interest:** 5/5. **Few-hour yield:** 3/5.
+
+**Items:** SA18-16054, SA18-16055, SA18-16057, SA18-16058  
+**Claims:** CL-SA18-16054, CL-SA18-16055, CL-SA18-16057, CL-SA18-16058  
+**Problems:** MP-SA18-16010.
+
+**Source task:** `parts/agent16/SA18_directions.md`, local task5.
+
+**Interest: very high. One-run progress: medium.** Sources: SA18-16054, SA18-16055, SA18-16057, SA18-16058; CL-SA18-16054, CL-SA18-16055, CL-SA18-16057, CL-SA18-16058; MP-SA18-16010.
+
+For a fixed low-dimensional principally polarized abelian variety, compare the minimal-cycle condition of Beckmann–deGaayFortman with the explicit factorial localization in HHLLMM2025. First step: list the actual symmetric ample line-bundle and lifting assumptions, calculate which primes are inverted for that dimension/base, and identify one torsion-sensitive assertion left outside the theorem. The goal is a precise small case, not a promise to solve the general integral question.
+
+## 9. Abstract Lemma B
+
+**Task ID:** DIR-SA18-09. **Interest:** 4/5. **Few-hour yield:** 3/5.
+
+**Items:** SA18-11102  
+**Claims:** CL-SA18-11102  
+**Problems:** MP-SA18-11036.
+
+**Source task:** `parts/root/directions.md`, local task4.
+
+This is an actual remaining proof audit. The source’s hypothesis (v) is a local uniqueness condition on sections of coherent integral quotients. A chain stabilizing at a stalk need not yet stabilize for all later indices on one neighborhood. Begin by attempting to extend a local prime filtration to the coherent quotients covered by (v), explicitly tracking which ideals are global and which are only local. The run should end with either a proof under exactly the written hypotheses, a counterexample satisfying all of them, or the minimal additional extension/generation condition. Siu’s analytic criterion remains separately settled.
+
+## 10. The valid semilocal Hilbert 90 theorem behind the deleted hypotheses
+
+**Task ID:** DIR-SA18-10. **Interest:** 4/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-46058  
+**Claims:** CL-SA18-46081, CL-SA18-46082, CL-SA18-46083, CL-SA18-46084, CL-SA18-46085, CL-SA18-46086  
+**Problems:** MP-SA18-46022, MP-SA18-46023, MP-SA18-46024.
+
+**Source task:** `parts/agent46/directions.md`, local task2.
+
+**Origin.** Cote 46, scans 85–93, `SA18_texts/codex/K46-03_transcription.tex`, lines 179–543. The finiteness condition is deleted on scan 85; later steps use finite-module completion, noetherian invariants, residue lifting and additive Sylow arguments.
+
+**What the task would establish.** State and prove the strongest semilocal nonabelian H¹ detection theorem actually justified by this sequence, with separate hypotheses for the coefficient algebra, the invariant ring, completion, residue lifting and inertia. A corrected theorem should retain the author's objective while identifying exactly where his broadening fails.
+
+**Known boundary.** This consolidation supplies three distinct obstructions. The arbitrary algebra C[t,t⁻¹] with conjugation on C and t↦t⁻¹ has a nontrivial cocycle t and trivial inertia. A noetherian Artinian ring with a cyclic order-p action can have nonnoetherian invariants. Trivial action on the residue field does not force surjectivity from invariants. The last two are separate conditions, not interchangeable explanations of the first failure. The completed proofs are in `proofs.md` §§21–23 and the claim records CL-SA18-46081, CL-SA18-46083 and CL-SA18-46085. The opened Giokas–Singh paper gives an additional regular-local counterexample, Theorem 2.1. Flat completion and the additive transfer identity have exact opened comparators. [GiokasSingh2024, Theorem 2.1; StacksCompletion; Brown2010, §3.3, equation (3.12).]
+
+**First concrete step.** Make a dependency table for every arrow on scans 85–93. For each, list the ring/module hypotheses, the cohomology set or group used, and the place where twisting changes the action. Prove the finite-module version only after the invariant-base and residue-lifting assumptions have been stated explicitly.
+
+**Expected bounded outcome.** One usable corrected proposition and a table showing which manuscript steps establish it. The general counterexamples are already resolved and should not be rediscovered as new directions.
+
+## 11. The component quotient without quasi-separatedness
+
+**Task ID:** DIR-SA18-11. **Interest:** 4/5. **Few-hour yield:** 4/5.
+
+**Items:** SA18-46062  
+**Claims:** CL-SA18-46104, CL-SA18-46112  
+**Problems:** MP-SA18-46032.
+
+**Source task:** `parts/agent46/directions.md`, local task3.
+
+**Origin.** Cote 53, scans 10–11 and 15; `SA18_texts/codex/J53-02_transcription.tex`, lines 51–119 and 299–330. The text says quasi-compact and later flags continuity of the Galois action.
+
+**What the task would establish.** Determine whether the particular affine component quotient constructed from the maximal ind-étale algebra of global functions has the stated universal property for every quasi-compact scheme over a field, or whether quasi-separatedness or another condition is needed. Keep the topology on the component set explicit.
+
+**Known boundary.** Stacks Lemma 5.23.9 concerns spectral spaces. Tarizadeh's version 6, Corollary 3.4 and Theorem 3.13, gives the comparison for qcqs schemes. SGA 1, Exposé V, §5, Proposition 5.2, gives the profinite Galois dictionary. These statements support the qcqs case; none of the opened passages alone establishes the manuscript's quasi-compact-only wording. This is an unresolved identification in this dossier, not a declaration of a new open problem. [Stacks0906; Tarizadeh2026; SGA1V.]
+
+**First concrete step.** Choose one explicitly quasi-compact, non-quasi-separated gluing example. Compute its global idempotents, connected components, component topology and maximal ind-étale subalgebra, then compare each of the manuscript's universal-property assertions. Verify the Galois-continuity statement separately from the existence of an affine quotient.
+
+**Expected bounded outcome.** A decisive test example or a proof that the relevant part of the qcqs argument extends. If the first example is inconclusive, report precisely which property remains untested.
+
+## 12. Serre’s proposed pro-two construction
+
+**Task ID:** DIR-SA18-12. **Interest:** 4/5. **Few-hour yield:** 5/5.
+
+**Items:** No indexed item; this direction comes from a directly read unindexed transcription passage.  
+**Claims:** CL-SA18-45123  
+**Problems:** MP-SA18-45027.
+
+**Source task:** `parts/agent45/directions.md`, local task3.
+
+**What it would establish.** Whether the letter means a maximal pro-two Galois extension, a closure under arbitrary two-power-degree extensions, or another construction.
+
+**Known boundary.** For the standard maximal pro-two quotient, inflation on mod-two Galois cohomology is an isomorphism; it does not produce a finer H². The opened modern statement is MPQT Remark1.4. The literal union described in the letter is not identified with that quotient without checking the Galois conditions. [AG45-MPQT2021; CL-SA18-45123]
+
+**First concrete step.** Read the scan and any directly relevant correspondence, then test closure under composita for the literal degree condition using a small nonabelian Galois group. The output should distinguish the constructions and explain exactly which one admits the modern comparison.
+
+## 13. Corrected nested-torus Weyl lemma
+
+**Task ID:** DIR-SA18-13. **Interest:** 4/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-11064  
+**Claims:** CL-SA18-11064  
+**Problems:** MP-SA18-11025.
+
+**Source task:** `parts/root/directions.md`, local task1.
+
+The deliverable would be an erratum-quality statement with the maximality assumption made explicit and the complete SL4 counterexample to the broader wording. The exact normalizer calculation already distinguishes the Weyl groups of the two nested tori, and the opened SGA3 XII 2.3 proof uses maximality despite its wider statement. The first step is to collate the draft, the original 1970 printing, and the Gille–Polo edition at this one lemma, recording every change. This is a correction and exposition task, not a claim of a new structure theorem.
+
+## 14. Integral quadric and cone conventions
+
+**Task ID:** DIR-SA18-14. **Interest:** 4/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-11037, SA18-11038, SA18-11042, SA18-11045, SA18-11047, SA18-11050  
+**Claims:** CL-SA18-11037, CL-SA18-11038, CL-SA18-11042, CL-SA18-11045, CL-SA18-11047, CL-SA18-11050  
+**Problems:** MP-SA18-11015, MP-SA18-11018, MP-SA18-11019, MP-SA18-11020, MP-SA18-11021.
+
+**Source task:** `parts/root/directions.md`, local task2.
+
+The deliverable would be one companion table in a fixed integral ruling basis, with ordinary, compactly supported, vertex-supported and reduced cohomology kept separate. SGA7 XII 3.3/3.7 and XV 2.1/2.2 determine the groups and maps; the present certificates expose the two degree slips, the parity sign and the index-two sublattice. Begin with Q0, Q1 and Q2, then express the general Gysin sequence without changing bases mid-calculation. Reduction modulo 2 must retain the universal-coefficient Tor terms.
+
+## 15. Write a corrected projector-induction proof
+
+**Task ID:** DIR-SA18-15. **Interest:** 4/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-16086, SA18-16102, SA18-16120  
+**Claims:** CL-SA18-16086, CL-SA18-16102, CL-SA18-16120  
+**Problems:** MP-SA18-16003.
+
+**Source task:** `parts/agent16/SA18_directions.md`, local task3.
+
+**Interest: high for the edition. One-run progress: very high.** Sources: SA18-16086, SA18-16102, SA18-16120; CL-SA18-16086, CL-SA18-16102, CL-SA18-16120; MP-SA18-16003.
+
+Produce a short proof with the target cuts present at both stages of the induction, retaining the original false line alongside its counterexample. The repaired degree isolation has been proved in this run, while the source remains unchanged. First step: write the induction on k and then on primitive position with all source/target degrees in a two-column formula table. This would be an editorial proof completion, not a newly claimed standard-conjecture theorem.
+
+## 16. Abstract sheaf-equivalence criterion
+
+**Task ID:** DIR-SA18-16. **Interest:** 4/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-11095, SA18-11096, SA18-11097, SA18-11098  
+**Claims:** CL-SA18-11096, CL-SA18-11097, CL-SA18-11098a, CL-SA18-11098b  
+**Problems:** MP-SA18-11033.
+
+**Source task:** `parts/root/directions.md`, local task3.
+
+The target is a precise proposition separating full faithfulness on globally presented objects, generation of all coherent objects, coherence of the section ring, and flatness of stalks. The RP2 local-system example refutes the written H1-only lemma; the repaired generation criterion is proved in the dossier. Begin by comparing the source’s α and β with the exact adjunction unit and counit. The analytic Cartan-type cases and Benoist’s globally presented formulation provide verified boundaries, not a license to drop generation.
+
+## 17. The α-only extension to algebras
+
+**Task ID:** DIR-SA18-17. **Interest:** 4/5. **Few-hour yield:** 2/5.
+
+**Items:** SA18-11101  
+**Claims:** CL-SA18-11101a, CL-SA18-11101b, CL-SA18-11101c  
+**Problems:** MP-SA18-11035.
+
+**Source task:** `parts/root/directions.md`, local task9.
+
+The target is a theorem with sufficient and checkable hypotheses for passing from globally presented modules to finitely presented algebras and their modules. The unresolved issue is the passage through polynomial degree filtrations, coherence and filtered colimits of sections. Begin with the exact α definition and an affine or Stein case where every commutation is available. A few hours should isolate a minimal hypothesis package, rather than attempt an unrestricted generalization of the false Lemma A.
+
+## 18. Singular Bertini in good reduction
+
+**Task ID:** DIR-SA18-18. **Interest:** 4/5. **Few-hour yield:** 3/5.
+
+**Items:** No indexed item; this direction comes from a directly read unindexed transcription passage.  
+**Claims:** CL-SA18-45178, CL-SA18-45179  
+**Problems:** MP-SA18-45046.
+
+**Source task:** `parts/agent45/directions.md`, local task6.
+
+**What it would establish.** A justified construction of the relative generating curve used in c51:17, with its regularity and geometric-integrality assumptions stated precisely.
+
+**Known boundary.** Koizumi–Shimura Theorem4 proves good reduction of a quotient once a suitable curve and its good Jacobian exist. It does not prove the manuscript’s weakened singular Bertini step. The Koizumi1960 article is a bibliographic lead whose full text was inaccessible in this run. [AG45-KS1959; AG45-Koizumi1960; MP-SA18-45046]
+
+**First concrete step.** Separate construction, generation, field extension and descent into four obligations. Attempt the construction only for a fixed relative dimension and a controlled singular locus.
+
+## 19. Settle the dimension4 orbit boundary
+
+**Task ID:** DIR-SA18-19. **Interest:** 4/5. **Few-hour yield:** 4/5.
+
+**Items:** SA18-16080, SA18-16081, SA18-16082, SA18-16083, SA18-16084, SA18-16119  
+**Claims:** CL-SA18-16080, CL-SA18-16081, CL-SA18-16082, CL-SA18-16083, CL-SA18-16084, CL-SA18-16119  
+**Problems:** MP-SA18-16019, MP-SA18-16020.
+
+**Source task:** `parts/agent16/SA18_directions.md`, local task7.
+
+**Interest: high. One-run progress: high.** Sources: SA18-16080, SA18-16081, SA18-16082, SA18-16083, SA18-16084, SA18-16119; CL-SA18-16080, CL-SA18-16081, CL-SA18-16082, CL-SA18-16083, CL-SA18-16084, CL-SA18-16119; MP-SA18-16019, MP-SA18-16020.
+
+Decide whether the exact normalized tensor operator in the source admits the claimed infinite orbit or cyclic-span behavior already in dimension4. The dimension6 witness and an unbounded family are available, with explicit normalization; minimality remains unproved. First step: parameterize Λ⁴(V*) in dimension4, derive the induced operator symbolically, and impose Q(ξ,ξ)=1 together with nondegeneracy ofφ. Track infinite orbit and cyclic rank separately, and retain the base-field square-class restriction.
+
+## 20. Cancellative affine monoid schemes beyond reduced varieties
+
+**Task ID:** DIR-SA18-20. **Interest:** 4/5. **Few-hour yield:** 3/5.
+
+**Items:** SA18-46064  
+**Claims:** CL-SA18-46120  
+**Problems:** MP-SA18-46035.
+
+**Source task:** `parts/agent46/directions.md`, local task4.
+
+**Origin.** Cote 53, scans 17–22, with the corrected matrix embedding proved on scan 31; SA18-46064. The false GL_n embedding is already refuted within the text by the two-point monoid and replaced by an M_n embedding. The further cancellation statement is distinct.
+
+**What the task would establish.** Determine the exact hypotheses under which a finitely presented affine monoid scheme with left, or two-sided, cancellation is a group scheme, including nonreduced fibres and base change. Cancellation must be specified as a scheme-theoretic condition or as a condition on all test-ring points; cancellation only on geometric points is weaker.
+
+**Known boundary.** Brion's conventions are reduced separated finite-type varieties over an algebraically closed field. Proposition 3(iii) gives the unique-idempotent criterion in that category; left cancellation forces every idempotent to equal the identity. This does not certify a nonreduced or arbitrary-base extension. [Brion2014, conventions on p. 3 and Proposition 3(iii), p. 11.]
+
+**First concrete step.** Translate cancellation into the morphisms (x,y)↦(x,xy) and (x,y)↦(xy,y). Test finite infinitesimal monoids and one family over a nonfield base before attempting a general theorem. Keep the corrected M_n embedding as an input, not as evidence that the image lands in GL_n.
+
+**Expected bounded outcome.** A clean separation of geometric-point, functorial and scheme-theoretic cancellation, with either a finite-presentation theorem or a counterexample to one stronger formulation.
+
+## 21. Completion of local torsor obstruction groups
+
+**Task ID:** DIR-SA18-21. **Interest:** 4/5. **Few-hour yield:** 3/5.
+
+**Items:** No indexed item; this direction comes from a directly read unindexed transcription passage.  
+**Claims:** CL-SA18-45204  
+**Problems:** MP-SA18-45060.
+
+**Source task:** `parts/agent45/directions.md`, local task4.
+
+**What it would establish.** A precise theorem for the quotient H¹(K,A)/H¹(R,A), including the topology and the choice of integral model.
+
+**Known boundary.** Milne ADT I Remark3.10(a) proves H¹ invariance for an excellent henselian DVR with finite residue field. For an abelian scheme, the integral H¹ then vanishes. The more general completion statements for smooth quasi-affine groups and finite flat coefficients have different hypotheses, and torsor purity across a codimension-two subset is a different operation. [AG45-MilneADT; AG45-Cesnavicius2020; AG45-BCS2025]
+
+**First concrete step.** Draw the completion square of pointed cohomology sets and list exactly which arrows are known to be injective or surjective under each local hypothesis. Investigate one extension beyond the finite-residue-field case, rather than treating the unrestricted margin as settled.
+
+## 22. Clifford normalization
+
+**Task ID:** DIR-SA18-22. **Interest:** 4/5. **Few-hour yield:** 3/5.
+
+**Items:** SA18-11082, SA18-11085, SA18-11086  
+**Claims:** CL-SA18-11082, CL-SA18-45121, CL-SA18-11086  
+**Problems:** MP-SA18-45021, MP-SA18-11032.
+
+**Source task:** `parts/root/directions.md`, local task6.
+
+The target is an exact dictionary between Delzant’s u, Hasse–Witt w2, and the graded or ungraded Clifford obstruction. The raw Brauer-difference interpretation is already refuted by a real rank-four calculation. Begin by obtaining the relevant Springer1959 pages and collating the descent convention in the offprint; that primary passage was not successfully opened here. A successful short run should decide the normalization, not announce that Delzant’s properly normalized theorem is false.
+
+## 23. Recover the precise weak-Lefschetz formulation
+
+**Task ID:** DIR-SA18-23. **Interest:** 4/5. **Few-hour yield:** 4/5.
+
+**Items:** SA18-16024, SA18-16032, SA18-16033, SA18-16035  
+**Claims:** CL-SA18-16024, CL-SA18-16032, CL-SA18-16033, CL-SA18-16035  
+**Problems:** MP-SA18-16004, MP-SA18-16005.
+
+**Source task:** `parts/agent16/SA18_directions.md`, local task8.
+
+**Interest: high. One-run progress: high.** Sources: SA18-16024, SA18-16032, SA18-16033, SA18-16035; CL-SA18-16024, CL-SA18-16032, CL-SA18-16033, CL-SA18-16035; MP-SA18-16004, MP-SA18-16005.
+
+Reconstruct A′ and A″ with explicit cycle codimensions and cohomological degrees, then determine which implication is actually proved by the hyperplane formulas. First step: make a degree table for even and odd dimX, using the current second-pass indices and the confirmed allπ_i surface reading. The secure C→B dictionary should remain partial until the ambiguous B/D and ℓ|χ notation is resolved on scans.
+
+## 24. Logarithmic differentiation on normal singular schemes
+
+**Task ID:** DIR-SA18-24. **Interest:** 4/5. **Few-hour yield:** 3/5.
+
+**Items:** SA18-46024, SA18-46025, SA18-46026, SA18-46027, SA18-46028, SA18-46029, SA18-46030  
+**Claims:** CL-SA18-46019, CL-SA18-46020, CL-SA18-46021, CL-SA18-46022, CL-SA18-46023, CL-SA18-46024, CL-SA18-46025  
+**Problems:** MP-SA18-46004, MP-SA18-46005, MP-SA18-46006.
+
+**Source task:** `parts/agent46/directions.md`, local task5.
+
+**Origin.** Cote 46, scans 20–22, `SA18_texts/pro/MPL_46_002-048_transcription.tex`, lines 583–691. The text passes from a normal local ring toward a regular calculation and asks for the image of p-torsion line bundles under dlog.
+
+**What the task would establish.** Formulate the correct singular-normal version, if one is useful, with the differential object specified: Kähler differentials, a torsion-free quotient, or a reflexive extension from the smooth locus. Distinguish the group of p-torsion invertible sheaves from the full Picard p-torsion group scheme.
+
+**Known boundary.** Cartier's logarithmic criterion is available in the smooth/regular setting. Oda's Corollary 5.11 concerns an abelian variety over a perfect field; Corollary 5.12 concerns proper smooth X over a perfect field, assumes X(k) is nonempty, and has an iterated-Cartier-stable image. The literal injection of K*/O* into differentials is false because dlog(t^p)=0. None of these points justifies replacing a normal singular local ring by a regular one. [Cartier1958, printed pp. 200–203; Oda1969, §5, Corollaries 5.11–5.12, p. 131.]
+
+**First concrete step.** Read the local-ring passage and the final transpose word on the scans, then work out one normal singular surface in characteristic p with an explicit p-torsion line bundle or local class. Compare the relevant differential modules and the Cartier condition.
+
+**Expected bounded outcome.** A precise formulation and one diagnostic example. A general singular theorem is not promised by the present evidence.
+
+## 25. A fixed diagonal-ring presentation
+
+**Task ID:** DIR-SA18-25. **Interest:** 4/5. **Few-hour yield:** 3/5.
+
+**Items:** SA18-11009, SA18-11010, SA18-11011, SA18-11012, SA18-11015  
+**Claims:** CL-SA18-11009, CL-SA18-11011, CL-SA18-11012, CL-SA18-11015  
+**Problems:** MP-SA18-11004, MP-SA18-11006.
+
+**Source task:** `parts/root/directions.md`, local task8.
+
+The target is a complete presentation for a specified X, coefficient ring and realization, such as X=P1 or a fixed smooth curve. The manuscript gives generators and some products but not a universal independence theorem. Begin by choosing that one realization and writing the incidence-graph excess rule in its Chow ring. The first session should settle a bounded number of factors and identify exactly which relations use geometry beyond the formal diagonal calculus.
+
+## 26. The Cartan-normalizer reduction
+
+**Task ID:** DIR-SA18-26. **Interest:** 4/5. **Few-hour yield:** 4/5.
+
+**Items:** No indexed item; this direction comes from a directly read unindexed transcription passage.  
+**Claims:** CL-SA18-45089, CL-SA18-45090, CL-SA18-45091, CL-SA18-45092, CL-SA18-45093, CL-SA18-45094, CL-SA18-45095, CL-SA18-45096, CL-SA18-45097, CL-SA18-45098, CL-SA18-45099, CL-SA18-45100, CL-SA18-45101  
+**Problems:** MP-SA18-45030, MP-SA18-45031, MP-SA18-45032, MP-SA18-45033.
+
+**Source task:** `parts/agent45/directions.md`, local task5.
+
+**What it would establish.** A corrected proof route from commutative degree-two vanishing to the intended nonabelian lifting result, or a precise explanation of why that draft route cannot work.
+
+**Known boundary.** The Grothendieck–Springer theorem has a developed perfect-field formulation with continuous algebraic kernels. Conjugacy under G does not imply conjugacy under a chosen infinitesimal normal subgroup K. The counterexample to the draft equality N_G(h)K=G is already recorded; it is not a counterexample to the published theorem. [AG45-FSS1998; CL-SA18-45095]
+
+**First concrete step.** Compare the draft induction, line by line, with the exact hypotheses of FSS §3. Stop at the first place where a smoothness, perfection or twisting condition is essential, and formulate that missing lemma separately.
+
+## 27. Marked Torelli and the hyperelliptic fibre
+
+**Task ID:** DIR-SA18-27. **Interest:** 4/5. **Few-hour yield:** 5/5.
+
+**Items:** No indexed item; this direction comes from a directly read unindexed transcription passage.  
+**Claims:** CL-SA18-45192, CL-SA18-45193, CL-SA18-45194, CL-SA18-45195, CL-SA18-45196, CL-SA18-45197, CL-SA18-45198, CL-SA18-45199, CL-SA18-45203  
+**Problems:** MP-SA18-45055, MP-SA18-45056, MP-SA18-45057, MP-SA18-45059.
+
+**Source task:** `parts/agent45/directions.md`, local task7.
+
+**What it would establish.** A corrected version of the author’s withdrawn Corollary2, with the prescribed polarization isomorphism, the sign ambiguity and the infinitesimal fibre all visible.
+
+**Known boundary.** In characteristic different from two, the hyperelliptic fibre has coordinate ring k[s₁,…,s_(g−2)]/(s₁,…,s_(g−2))². The single dual-number direction is the genus-three case. Strong Torelli includes the separate sign distinction. [AG45-Ricolfi2020, Theorem3.6; AG45-MilneJac, Theorem12.1]
+
+**First concrete step.** Specify the marked functor and its involution before drawing the descent diagram. A successful run would supply the exact corrected corollary and explain which clause the scan’s “faux sous cette forme” could invalidate.
+
+## 28. Coherent elimination
+
+**Task ID:** DIR-SA18-28. **Interest:** 4/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-11100  
+**Claims:** CL-SA18-11100  
+**Problems:** MP-SA18-11034.
+
+**Source task:** `parts/root/directions.md`, local task5.
+
+The target is a short definitive answer to the manuscript’s question, with a reusable explanation of why coherence alone is insufficient. The dossier supplies the coherent product ring and its two-generated polynomial ideal; LSY Theorems 3–4 locate the monic-ideal positive case and the valuation-domain boundary. Begin by rendering the existing proof as an ideal-contraction calculation with the uniform generator bound made explicit. Do not substitute polynomial-ring noncoherence for the stronger contraction conclusion.
+
+## 29. Nonsplit elliptic extension
+
+**Task ID:** DIR-SA18-29. **Interest:** 4/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-11110  
+**Claims:** CL-SA18-11110a, CL-SA18-11110b  
+**Problems:** MP-SA18-11039.
+
+**Source task:** `parts/root/directions.md`, local task7.
+
+The target is a scan-based correction or confirmation of the lattice, accompanied by an Ext description. The literal lattice splits; the alternate lattice is a nonalgebraic extension and matches the exact Oort–Zarhin/Rosen–Shnidman parametrization. Begin with the fourth lattice generator and the zero-first-coordinate case in the argument on the following sheet. The alternate example must remain labelled as a reconstruction unless the ink supports it.
+
+## 30. Make the p-torsion/de Rham dictionary explicit
+
+**Task ID:** DIR-SA18-30. **Interest:** 4/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-16065, SA18-16066, SA18-16067, SA18-16068, SA18-16069  
+**Claims:** CL-SA18-16065, CL-SA18-16066, CL-SA18-16067, CL-SA18-16068, CL-SA18-16069  
+**Problems:** MP-SA18-16012, MP-SA18-16013.
+
+**Source task:** `parts/agent16/SA18_directions.md`, local task9.
+
+**Interest: high historically. One-run progress: very high.** Sources: SA18-16065, SA18-16066, SA18-16067, SA18-16068, SA18-16069; CL-SA18-16065, CL-SA18-16066, CL-SA18-16067, CL-SA18-16068, CL-SA18-16069; MP-SA18-16012, MP-SA18-16013.
+
+Write the exact functorial diagram from A[p] through its Dieudonné module to H¹_dR(A), with Hodge filtration and Cartier-dual F/V maps. Oda Corollary5.11 already settles the perfect-field case, and Coleman supplies a separate base-qualified duality comparison. First step: compute ordinary and supersingular elliptic examples and label each group scheme, restricted Lie algebra and filtration. This is an exposition/attribution task with no general-base theorem presumed.
+
+## 31. Two purity statements
+
+**Task ID:** DIR-SA18-31. **Interest:** 4/5. **Few-hour yield:** 5/5.
+
+**Items:** No indexed item; this direction comes from a directly read unindexed transcription passage.  
+**Claims:** CL-SA18-45185, CL-SA18-45186, CL-SA18-45187  
+**Problems:** MP-SA18-45052, MP-SA18-45053.
+
+**Source task:** `parts/agent45/directions.md`, local task8.
+
+**What it would establish.** An accessible theorem-level comparison explaining why the fixed-group torsor theorem and the model-extension counterexamples coexist.
+
+**Known boundary.** BCS §4.2 gives equivalence of torsor categories across a closed subset of codimension at least two on a regular base, for an abelian scheme already defined there. Vasiu–Zink gives additional mixed-characteristic hypotheses and counterexamples for extending the abelian scheme itself. [AG45-BCS2025; AG45-VasiuZink2010]
+
+**First concrete step.** Put the two restriction functors beside each other and annotate their inputs. Trace the finite-flat purity ingredient in the first proof and the ramification obstruction in one example for the second. This is a completed-theorem commentary task.
+
+## 32. The c48 fibre-functor compatibility diagram
+
+**Task ID:** DIR-SA18-32. **Interest:** 4/5. **Few-hour yield:** 4/5.
+
+**Items:** No indexed item; this direction comes from a directly read unindexed transcription passage.  
+**Claims:** CL-SA18-45133, CL-SA18-45135  
+**Problems:** MP-SA18-45061.
+
+**Source task:** `parts/agent45/directions.md`, local task13.
+
+**What it would establish.** The explicit agreement of the two limit-colimit Hom bijections with the designated specialization transformation, including identity, composition and contravariant direction. Sources: CL-SA18-45133, CL-SA18-45135 and MP-SA18-45061; this Codex passage has no indexed item.
+
+**Known boundary.** SGA4 VIII 7.9(a) publishes the full-faithfulness theorem and the same calculations, but retains the compatibility check as a reader exercise. This is not a currently open theorem and is not the separate c47 Fourier unit-fibre obligation. [AG45-SGA4VIII]
+
+**First concrete step.** Represent a germ by a map from an étale neighbourhood, write its image under a morphism of strict-localisation pro-objects, and compare the two routes through the displayed bijections. A short run should produce a complete commuting diagram with its variance conventions and refinement independence explicit.
+
+## 33. Degree-two quadratic-invariant chronology
+
+**Task ID:** DIR-SA18-33. **Interest:** 4/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-11080, SA18-11085, SA18-11086  
+**Claims:** CL-SA18-11080, CL-SA18-45121, CL-SA18-11086, CL-SA18-45120, CL-SA18-45122, CL-SA18-45124  
+**Problems:** MP-SA18-45021, MP-SA18-11032, MP-SA18-45022, MP-SA18-45023.
+
+**Source task:** `parts/root/directions.md`, local task12.
+
+The target is a precise history of the 1961 letter and 1962 offprint question through Milnor’s s2 and Merkurjev’s norm-residue theorem. Begin with the two distinct isomorphisms and the J²/J³ to I²/I³ comparison; then verify first-circulation dates from original records. The opened 2006 Merkurjev article proves the required theorem and cites1981, but it does not by itself establish an earlier prepublication date.
+
+### Additional source-specific requirements from the1961 letter
+
+**What it would establish.** A precise account of how the July1961 injectivity question is settled, preserving its difference from Delzant’s separate quaternion-generation question.
+
+**Known boundary.** The chain is rank-zero GW filtration to the Witt filtration, then I²/I³ to Milnor K₂/2, then the degree-two norm-residue map to Br[2]. Ordinary Stiefel–Whitney indices and an unnormalized all-rank Clifford invariant do not replace this chain. [AG45-Zibrowius2018, Proposition4.1 and Remark4.2; AG45-EKM2008, Proposition5.3 and Theorem44.1]
+
+**First concrete step.** Write the three maps with their normalizations and trace exactly where each theorem enters. Preserve Grothendieck’s1961 letter and Delzant’s1962 offprint as separate historical occurrences. This is a solved-problem exposition, not a new conjecture.
+
+## 34. Relative Lie rigidity
+
+**Task ID:** DIR-SA18-34. **Interest:** 3/5. **Few-hour yield:** 4/5.
+
+**Items:** SA18-45012, SA18-45013, SA18-45014, SA18-45015  
+**Claims:** CL-SA18-45009, CL-SA18-45010, CL-SA18-45011, CL-SA18-45012, CL-SA18-45013  
+**Problems:** MP-SA18-45002, MP-SA18-45003, MP-SA18-45004, MP-SA18-45005.
+
+**Source task:** `parts/agent45/directions.md`, local task11.
+
+**What it would establish.** A square-zero lifting lemma with the correct coefficient module in H² and a separate statement of the degree-three obstruction and degree-two ambiguity.
+
+**Known boundary.** The opened modern source supplies complex finite-dimensional rigidity from H²=0. The relative Artinian-base claim needs its own coefficient and base-change assumptions; small-characteristic adjoint vanishing is false in general. [AG45-Abdulkareem2017; CL-SA18-45009, CL-SA18-45010, CL-SA18-45011, CL-SA18-45012, CL-SA18-45013]
+
+**First concrete step.** State the functor being lifted and write its bracket defect in the relative Chevalley–Eilenberg complex. Prove one finite-free lemma, including the change of a preliminary lift, rather than importing the field theorem unchanged.
+
+## 35. Which Picard descent steps survive removal of flatness?
+
+**Task ID:** DIR-SA18-35. **Interest:** 3/5. **Few-hour yield:** 4/5.
+
+**Items:** SA18-46041, SA18-46042, SA18-46043  
+**Claims:** CL-SA18-46048, CL-SA18-46049, CL-SA18-46050, CL-SA18-46051  
+**Problems:** MP-SA18-46012.
+
+**Source task:** `parts/agent46/directions.md`, local task6.
+
+**Origin.** Cote 46, scan 47, lines 1124–1126 of the Pro transcription, continued on scan 49, lines 2–13 of K46-01. The line-bundle continuation is now supplied; the earlier note could not inspect it.
+
+**What the task would establish.** Separate the descent of an individual invertible sheaf, the splitting furnished by a section, the construction of a family of linear systems, and representability of the Picard functor. Find the exact sufficient hypotheses for each in the manuscript's argument.
+
+**Known boundary.** Stacks Lemmas 99.11.3–4 use the universal condition O_T≅f_*O_X for the Picard exact sequence and section splitting without imposing flatness there. Proposition 99.11.8 retains properness, flatness and finite presentation for representability. The continuation therefore settles a narrower descent step and does not establish the whole suggested weakening. [Stacks0D24, Lemmas 99.11.3–4 and Proposition 99.11.8; FGA236.]
+
+**First concrete step.** Turn scans 45–49 into a diagram of functors and maps, with the base-change hypothesis written beside each direct image. Identify which arrows can be proved using only universal functions and which use cohomological flatness or proper flat representability.
+
+**Expected bounded outcome.** An exact corrected commentary and possibly one minimal lemma. The task is not to announce a new general representability theorem.
+
+## 36. Nonsmooth restriction of scalars and the topology of torsors
+
+**Task ID:** DIR-SA18-36. **Interest:** 3/5. **Few-hour yield:** 3/5.
+
+**Items:** SA18-46055  
+**Claims:** CL-SA18-46069, CL-SA18-46070, CL-SA18-46071, CL-SA18-46072, CL-SA18-46073  
+**Problems:** MP-SA18-46018.
+
+**Source task:** `parts/agent46/directions.md`, local task8.
+
+**Origin.** Cote 46, scans 68–71, K46-02 lines 62–187. The smooth H¹ comparison is followed by purely inseparable norm kernels and a question about extending beyond smooth groups.
+
+**What the task would establish.** State the exact comparison for the indicated finite inseparable extension and nonsmooth coefficient group, with the cohomology topology made explicit. Decide what survives by fppf descent and what in the written smooth proof is unusable.
+
+**Known boundary.** Milne's Algebraic Groups, Lemma 3.44, proves the smooth finite-extension comparison. The degree-p norm formula must not be extended to an arbitrary exponent-one extension: the norm then has exponent equal to the extension degree. Reduced nonsmooth group schemes over imperfect fields are explicitly present in SGA 3. [MilneAG2017, Lemma 3.44, p. 79; SGA3VI_A, §1; CL-SA18-46072, CL-SA18-46073 and `proofs.md` §17.]
+
+**First concrete step.** Compute a torsor and its restriction of scalars for one degree-p purely inseparable extension and a finite infinitesimal coefficient group. Compare the fppf and étale classifications and check the norm kernel directly from a basis.
+
+**Expected bounded outcome.** A fully specified example and an exact comparison statement. This avoids extrapolating the smooth proof to a different topology.
+
+## 37. Specialization and support dictionary
+
+**Task ID:** DIR-SA18-37. **Interest:** 3/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-11032, SA18-11033, SA18-11034, SA18-11039, SA18-11041  
+**Claims:** CL-SA18-11032, CL-SA18-11033, CL-SA18-11034, CL-SA18-11039, CL-SA18-11041  
+**Problems:** MP-SA18-11011, MP-SA18-11012, MP-SA18-11013, MP-SA18-11016, MP-SA18-11017.
+
+**Source task:** `parts/root/directions.md`, local task10.
+
+The target is a source-to-SGA7 concordance with all Φ shifts, twists and endpoint exceptions recorded. The affine-cone support question is already answered by XV 2.1.2; the weak degeneration hypotheses do not force nontrivial quadratic monodromy. Begin by mapping the draft’s symbols to the ordinary-quadratic local model and checking the n=0,1 cases. The unfinished purity phrase should stay unidentified until a further source page or scan makes its statement recoverable.
+
+## 38. Relative tori and reductive centre
+
+**Task ID:** DIR-SA18-38. **Interest:** 3/5. **Few-hour yield:** 4/5.
+
+**Items:** SA18-11058, SA18-11061, SA18-11068, SA18-11074, SA18-11075, SA18-11093  
+**Claims:** CL-SA18-11058b, CL-SA18-11061, CL-SA18-11068, CL-SA18-11074, CL-SA18-11075, CL-SA18-11093  
+**Problems:** MP-SA18-11022, MP-SA18-11023, MP-SA18-11026, MP-SA18-11027, MP-SA18-11028, MP-SA18-11030.
+
+**Source task:** `parts/root/directions.md`, local task11.
+
+The target is a dependency map in the author’s order: ranks, maximal tori, parameter spaces, Weyl groups, centre and quotient. The deferred results are now matched to XII and XIV, with artinian and reductive hypotheses separated. Begin by reassembling the broken proof leaves and annotating each deferral with the exact published locator. The task should explain what the draft actually finishes and which arguments are imported from the later publication.
+
+## 39. Dimension and the EGA erratum
+
+**Task ID:** DIR-SA18-39. **Interest:** 3/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-11103, SA18-11104, SA18-11105, SA18-11109  
+**Claims:** CL-SA18-11103a, CL-SA18-11103b, CL-SA18-11103c, CL-SA18-11104d, CL-SA18-11105c, CL-SA18-11109a  
+**Problems:** MP-SA18-11037, MP-SA18-11038.
+
+**Source task:** `parts/root/directions.md`, local task13.
+
+The target is a compact companion separating local-ring dimension, neighborhood dimension, codimension and residue transcendence degree. Begin with the two faulty proof phrases on c55:3 and the exact parameters proof of EGA 0IV 16.3.9. Then present the semilocal biequidimensionality counterexample and the componentwise correction documented by Pilloni–Stroh. The coincidence of a false formula with its later printed form is historically significant; it does not make the formula correct.
+
+## 40. Closed images and flatness beyond finite type
+
+**Task ID:** DIR-SA18-40. **Interest:** 3/5. **Few-hour yield:** 4/5.
+
+**Items:** SA18-46060  
+**Claims:** CL-SA18-46093, CL-SA18-46094, CL-SA18-46095  
+**Problems:** MP-SA18-46028, MP-SA18-46029.
+
+**Source task:** `parts/agent46/directions.md`, local task9.
+
+**Origin.** Cote 53, scans 5–6 and 9–11, within SA18-46060. Translation, specialization and generic-point arguments are used to motivate closed image and flatness assertions.
+
+**What the task would establish.** Give the strongest image/quotient theorem applicable to the arbitrary or quasi-compact group schemes actually under discussion, distinguishing a topological image from a scheme-theoretic image and flatness from faithful flatness onto that image.
+
+**Known boundary.** SGA 3, Exposé VI_A, §2.5 supplies finite-type results. Perrin supplies quasi-compact approximation and quotient results with their own hypotheses. These sources do not license replacing a universal base-change argument by one generic-point translation. [SGA3VI_A, §2.5; Perrin1976, Theorems 4.1.4 and 4.2.1.]
+
+**First concrete step.** Write a hypothesis table matching each manuscript sentence to the finite-type or approximation theorem, then resolve the source/target generic-point slip against the scan. Test any proposed generalization on an inverse limit of finite-type groups.
+
+**Expected bounded outcome.** A usable exact theorem and a precise statement of any remaining scope gap, rather than a broad claim that all group morphisms have the same image behavior.
+
+## 41. Correct the cancelled root axioms economically
+
+**Task ID:** DIR-SA18-41. **Interest:** 3/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-16115, SA18-16116  
+**Claims:** CL-SA18-16115, CL-SA18-16116  
+**Problems:** MP-SA18-16022.
+
+**Source task:** `parts/agent16/SA18_directions.md`, local task11.
+
+**Interest: medium. One-run progress: very high.** Sources: SA18-16115, SA18-16116; CL-SA18-16115, CL-SA18-16116; MP-SA18-16022.
+
+Determine the weakest additional condition that excludes the exact eight-root counterexample while preserving the intended lattice formulation. Modern definitions explicitly impose integrality; reflection uniqueness already holds. First step: compare primitivity of every root, the crystallographic pairing condition, and perfectness of the paired lattices in rank2. Keep the manuscript’s cancellation as historical evidence, not as an invitation to rehabilitate its false implication unchanged.
+
+## 42. The arithmetic F-prime diagram
+
+**Task ID:** DIR-SA18-42. **Interest:** 3/5. **Few-hour yield:** 3/5.
+
+**Items:** SA18-45056, SA18-45057, SA18-45058  
+**Claims:** CL-SA18-45063, CL-SA18-45064, CL-SA18-45065  
+**Problems:** MP-SA18-45020.
+
+**Source task:** `parts/agent45/directions.md`, local task9.
+
+**What it would establish.** The definition of the draft’s F′(A), the exact Pic(A)/2 arrow, and whether the cancelled completed-DVR sum has a modern precise counterpart.
+
+**Known boundary.** Kummer supplies the Pic/2 term, and modern hermitian K-theory gives Dedekind localization results. Neither determines an undefined manuscript symbol. [AG45-StacksKummer; AG45-CDHH2026]
+
+**First concrete step.** Recover the definitions and cancelled labels from scans before testing exactness. The first useful output is a typed diagram with every map defined; no broad localization conjecture should be invented from it.
+
+## 43. The meaning and scope of the doubtful pro-group functor κ
+
+**Task ID:** DIR-SA18-43. **Interest:** 3/5. **Few-hour yield:** 3/5.
+
+**Items:** SA18-46052  
+**Claims:** CL-SA18-46054, CL-SA18-46055, CL-SA18-46056  
+**Problems:** MP-SA18-46013.
+
+**Source task:** `parts/agent46/directions.md`, local task7.
+
+**Origin.** Cote 46, scans 51–54, K46-01 lines 20–145. The manuscript compares proobjects in groups with groups in proobjects and marks the κ-equivalence “douteux”.
+
+**What the task would establish.** Recover the categories C and C′, the transition-morphism conditions, and the distinction between full faithfulness and essential surjectivity. Then determine whether the essentially affine argument on scan 54 proves precisely the intended restricted equivalence.
+
+**Known boundary.** Serre's 1960 category of commutative pro-quasi-algebraic groups over an algebraically closed field uses perfection. Perrin's Theorem 2.4.1 and §4 concern quasi-compact group-scheme approximation and quotients. These are exact related theories, but their categories cannot be substituted for the illegible C,C′. [Serre1960, §2; Perrin1976, Theorem 2.4.1, Theorems 4.1.4 and 4.2.1.]
+
+**First concrete step.** Read the category labels and universal-epimorphism margin on the scans; write the lim-colim expression on scan 53 with all index categories and arrows. Test essential surjectivity on an affine inverse system satisfying the recovered conditions.
+
+**Expected bounded outcome.** A well-posed theorem or a documented obstruction. Until the categories are recovered, the task is source reconstruction rather than a claim of a modern unsolved equivalence.
+
+## 44. Recovering the abstract Frobenius-topos converse and gluing setup
+
+**Task ID:** DIR-SA18-44. **Interest:** 3/5. **Few-hour yield:** 3/5.
+
+**Items:** SA18-46032, SA18-46033  
+**Claims:** CL-SA18-46033, CL-SA18-46034, CL-SA18-46035, CL-SA18-46036  
+**Problems:** MP-SA18-46008, MP-SA18-46009.
+
+**Source task:** `parts/agent46/directions.md`, local task10.
+
+**Origin.** Cote 46, scans 34–38, with complementary C46-01 pages. The text labels two Frobenius conditions, proves one implication, asks about a converse, and gives an incomplete sheaf-gluing setup.
+
+**What the task would establish.** Recover the ambient fibred category, designated étale morphisms, topology and representability assumptions, and state the strongest converse actually supported. For the gluing fragment, identify the morphism and the topology before claiming a cohomological descent result.
+
+**Known boundary.** Stacks §64.3 and Houzel's SGA 5, Exposé XV, §2 establish the scheme-theoretic Frobenius/coefficient comparison. The opened proper-surjective descent result, Stacks Lemma 84.4.1, is a comparator for a specified situation, not a solution of the unidentified manuscript setup. SGA 5 XV is Houzel's exposé; this dossier does not count it as Grothendieck's own later authored theorem. [Stacks03SL; SGA5XV; Stacks0DFX.]
+
+**First concrete step.** Read the uncertain category labels and the cancelled topology-independence phrase on the scans. Produce a complete definition list and diagrams for conditions (a) and (b), then test the converse in one precisely stated category.
+
+**Expected bounded outcome.** A theorem-ready formulation or a clear reason the surviving words do not determine one. No abstract-topos theorem should be assigned from the scheme case by analogy.
+
+## 45. GIT typescript
+
+**Task ID:** DIR-SA18-45. **Interest:** 3/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-11020, SA18-11021, SA18-11022, SA18-11023, SA18-11024, SA18-11026  
+**Claims:** CL-SA18-11020, CL-SA18-11021, CL-SA18-11023, CL-SA18-11024  
+**Problems:** MP-SA18-11008, MP-SA18-11009, MP-SA18-11010.
+
+**Source task:** `parts/root/directions.md`, local task14.
+
+The target is a pagination and authorship concordance for the selected reused leaves, alongside a readable chart proof. The second-edition GIT text identifies Proposition3.1, Corollary3.2 and Theorem3.8; the first-edition wording has not been collated. Begin by ordering the printed pages and distinguishing the regular/prestable chart from the stable quotient. This prevents the physical interleaving with Grothendieck’s notes from becoming a false authorship attribution.
+
+## 46. Recover the remaining reused English and flatness fragments
+
+**Task ID:** DIR-SA18-46. **Interest:** 3/5. **Few-hour yield:** 3/5.
+
+**Items:** SA18-16020, SA18-16021, SA18-16108, SA18-16109, SA18-16118  
+**Claims:** CL-SA18-16020, CL-SA18-16021, CL-SA18-16108, CL-SA18-16109, CL-SA18-16118  
+**Problems:** MP-SA18-16021.
+
+**Source task:** `parts/agent16/SA18_directions.md`, local task10.
+
+**Interest: medium. One-run progress: medium.** Sources: SA18-16020, SA18-16021, SA18-16108, SA18-16109, SA18-16118; CL-SA18-16020, CL-SA18-16021, CL-SA18-16108, CL-SA18-16109, CL-SA18-16118; MP-SA18-16021.
+
+The c16:43 local EGA publication comparison is now complete: the retained paragraph matches Remark18.11.6 p176, and draft(ii) is absent immediately before Corollary18.11.7. Preserve the completed power-series ring and do not infer a motive or mathematical refutation from the omission. Remaining work is to identify the English cohomology fragment and the c54 marginal flatness criterion, recover their missing antecedents, and finish the residual SGA3 galley collation. The JSTOR source still supplied only a wrapper. First step: obtain the missing English full text and compare its bibliography and propositions in sequence; use the independently identified EGA passage as a completed provenance anchor. The unrelated marginal criterion remains MP-SA18-16021 and is not settled by EGA18.11.6.
+
+## 47. Scan decisions
+
+**Task ID:** DIR-SA18-47. **Interest:** 3/5. **Few-hour yield:** 5/5.
+
+**Items:** SA18-45024, SA18-45025, SA18-45035, SA18-45060, SA18-45063  
+**Claims:** CL-SA18-45026, CL-SA18-45027, CL-SA18-45036, CL-SA18-45079, CL-SA18-45205  
+**Problems:** MP-SA18-45008, MP-SA18-45010, MP-SA18-45029.
+
+**Source task:** `parts/agent45/directions.md`, local task12.
+
+**What it would establish.** Readings that decide whether several apparent mathematical errors are in the manuscript or its transcription.
+
+**Known boundary.** The semilocal Borel and compatible-pair statements are settled by Demazure’s SGA3 XXVI. The split-normalizer assertion still depends on the group label; injectif/bijectif changes the cohomological statement. The hermitian plus sign conflicts with an earlier displayed equation, and EGA I replaces the draft basis wording by a generating-family statement. [AG45-SGA3XXVI; AG45-EGAI; readings.tsv]
+
+**First concrete step.** Review only the decisive labels and signs against the scans, preserving all cancellations. This dossier does not decide any ink reading.
