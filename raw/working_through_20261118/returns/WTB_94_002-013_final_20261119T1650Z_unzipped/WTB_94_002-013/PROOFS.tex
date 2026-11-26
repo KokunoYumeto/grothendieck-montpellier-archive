@@ -1,0 +1,951 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools,hyperref}
+\usepackage[margin=25mm]{geometry}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\im}{\operatorname{Im}}
+\newcommand{\coker}{\operatorname{Coker}}
+\newcommand{\rk}{\operatorname{rk}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\colim}{\mathop{\rm colim}}
+\newcommand{\m}{\mathfrak m}
+\newcommand{\p}{\mathfrak p}
+\newcommand{\q}{\mathfrak q}
+\title{WTB\_94\_002--013: proofs, corrections, and certified background}
+\author{GPT-6 Astra Pro; single mathematical stream}
+\date{19 November 2026}
+\begin{document}
+\maketitle
+
+\section*{Conventions and separation of evidence}
+Manuscript locators use scan numbers, followed where useful by lines of witness C.
+The scan is authoritative. A quotation in this file is only a short anchor;
+the complete modern statement is explicitly a formalization.
+Rings are commutative with identity, modules unital. \emph{Exact à gauche}
+for the initially set-valued functor means preservation of finite limits.
+Such a functor has canonical additive and $A$-linear structures: transport
+the zero, addition, inverse, and scalar-operation diagrams through its
+preserved finite products. Naturality supplies these structures on maps.
+Finite means finitely generated unless length is expressly specified.
+Direct limits in these criteria mean filtered colimits; this is explicit on
+scans 3, 4 and 6 and reconstructed on scan 5, where only the arrow is written.
+
+Statements identified as SETTLED are certified input, carried without a new
+proof as the prompt requires. A prior run's discarded status is not the
+settled verdict. A section that cites this input does not claim that the
+current run independently proved it. New proofs are labeled ours; separate
+verification records identify the actual second checks.
+
+\section{94.C01: change of rings}
+\label{C01}
+\textbf{His anchor:} scan 3, C:8--15, \emph{$F_B$ l'est par $P_B$}.
+\textbf{Modern statement (ours):} if $F(M)=\Hom_A(P,M)$ and $A\to B$
+is a ring map, its restriction to $B$-modules is represented by $B\otimes_A P$.
+No flatness or finiteness is needed.
+
+\textbf{Proof (ours).}
+Send a $B$-linear map $g:B\otimes_A P\to M$ to $p\mapsto g(1\otimes p)$.
+The inverse sends $u:P\to M$ to $b\otimes p\mapsto bu(p)$.
+The balancing identity proves well-definedness, and the two composites
+are identities. Both maps are natural in $M$. Localization is the
+special case $B=A_f$. This also proves compatibility under successive
+base changes, which will provide the descent cocycle below.
+
+\section{94.C02: Lemme 1, faithful-flat descent}
+\label{C02}
+\textbf{His anchor:} scan 3, C:17--24, \emph{$F$ exact à gauche}.
+\textbf{Modern statement (ours):} for faithfully flat $A\to B$,
+$F:\mathrm{Mod}(A)\to\mathrm{Set}$ is representable if and only if it is
+left exact and $F_B$ is representable. The equivalence remains true with
+represented by a finite module, or by a finitely presented module,
+on both sides.
+
+\textbf{Proof (ours, using the verified descent theorem).}
+The forward implication follows from C01 and preservation of limits by
+$\Hom(P,-)$. Conversely let $Q$ represent $F_B$. Put $C=B\otimes_A B$.
+The two base changes of $Q$ to $C$ both represent exactly the restriction
+of $F$ to $C$-modules. Yoneda gives a unique isomorphism compatible with
+these identifications. Over $B\otimes_A B\otimes_A B$ the two possible
+composites induce the same identity transformation of $F$; hence they
+are equal. This is a descent datum, effective by
+Stacks Proposition 35.3.9, Tag 023N \cite{Stacks023N}. Thus
+$Q\simeq B\otimes_A P$ compatibly with descent for an $A$-module $P$.
+
+For every $M$, faithful flatness gives the equalizer
+\[
+ M\longrightarrow B\otimes_A M
+ \rightrightarrows B\otimes_A B\otimes_A M .
+\]
+Applying $F$ preserves it. Under the representing identifications the
+two arrows become the descent arrows for $\Hom_A(P,M)$, so their
+equalizer is $\Hom_A(P,M)$. This constructs the required natural
+isomorphism, rather than just an object with the right scalar extension.
+
+For completeness, finiteness descends as follows. A finite set of
+generators of $B\otimes P$ uses only finitely many elements of $P$.
+Their span $P_0$ has $B\otimes(P/P_0)=0$ and hence $P=P_0$.
+If $B\otimes P$ is finitely presented, choose $A^r\twoheadrightarrow P$
+with kernel $K$. Flatness identifies $B\otimes K$ with the kernel of
+$B^r\to B\otimes P$, which is finite; the preceding argument makes $K$
+finite. The converse ascents follow from tensoring a presentation.
+These two descent facts also match Stacks Lemma 10.83.2, Tag 03C4
+\cite{Stacks03C4}.
+
+\section{94.C03: Lemme 2, principal completion and localization}
+\label{C03}
+\textbf{His anchor:} scans 3--4, \emph{$M$ un $\widehat A$-module}.
+\textbf{Modern statement (ours):} let $A$ be noetherian, $f\in A$,
+$R=\varprojlim_n A/f^n A$. Then $F$ is represented by a finite $A$-module
+if and only if:
+(i) $F$ is left exact;
+(ii) for every finite $R$-module $M$ the canonical map
+$F(M)\to\varprojlim_n F(M/f^nM)$ is bijective;
+(iii) $F$ commutes with filtered colimits;
+(iv) $F_{A_f}$ is representable; and
+(v) each $F_{A/f^nA}$ is representable, $n\geq1$.
+The hat on the argument of $F$ in the earlier wording of (ii) is canceled
+on scan 3; the completed coefficient ring is not canceled.
+
+\textbf{Necessity (ours).}
+A finite module over a noetherian ring is finitely presented.
+Its Hom functor preserves filtered colimits, as is seen by applying
+$\ker(M^r\to M^s)$ to a finite presentation and using the commutation
+of filtered colimits with finite limits. It preserves all limits, and
+a finite $R$-module is $f$-adically complete. C01 supplies (iv)--(v).
+
+\textbf{Sufficiency (ours).}
+Choose a representing finite module $Q_n$ for $F_{A/f^nA}$.
+It is finite because its Hom functor commutes with filtered colimits:
+write $Q_n$ as the filtered union of its finite submodules, and factor
+its identity through one of them. Yoneda and C01 give compatible
+isomorphisms $Q_{n+1}/f^n Q_{n+1}\simeq Q_n$.
+The finite formal-module equivalence, Stacks Lemma 30.23.1, Tag 087W
+\cite{Stacks087W}, yields a finite $R$-module $Q=\varprojlim Q_n$
+with $Q/f^nQ\simeq Q_n$. Explicitly, lift generators of $Q_1$
+compatibly; they generate every $Q_n$ by Nakayama. The kernels of the
+resulting maps $(A/f^n)^r\to Q_n$ have surjective transitions. Taking
+limits gives a quotient of $R^r$ with precisely these reductions.
+
+For finite $R$-modules $M$ we consequently have, naturally,
+\[
+ F(M)\simeq\varprojlim_n\Hom_{A/f^n}(Q_n,M/f^nM)
+ \simeq\Hom_R(Q,M).
+\]
+The second bijection follows by taking compatible maps into the
+complete module $M$; $R$-linearity follows at every finite quotient.
+Since $R$ is noetherian, $Q$ is finitely presented. Both sides preserve
+filtered colimits, so the isomorphism extends to all $R$-modules.
+
+The ring map $A\to R\times A_f$ is faithfully flat. Flatness of $A\to R$
+is Stacks Lemma 10.97.2 \cite{StacksCompletion}. Every prime containing
+$f$ lifts through $R/fR=A/fA$; primes not containing $f$ are covered by
+$\Spec A_f$. Thus the flat map is surjective on spectra.
+Its restricted functor is represented by the pair consisting of $Q$
+and the representative on $A_f$; preservation of products is used here.
+C02 descends it. Finally (iii), applied to the filtered union of finite
+submodules of the descended representative, makes that representative
+finite. This also handles nilpotent or invertible $f$ and the zero ring.
+
+\section{94.C03b: a local wording slip in the proof}
+\label{C03b}
+Scan 4, C:4 writes \emph{$A$-modules de t.f.} without a visible hat.
+The preceding construction only proves representation on finite
+$\widehat A$-modules; these are exactly the objects used in (ii).
+The correct bridge to all $\widehat A$-modules is their filtered union
+of finite $\widehat A$-submodules. The two categories cannot be
+identified: for $A=\mathbb Z$ and $f=p$, $\mathbb Z_p$ is cyclic over
+itself but not finite over $\mathbb Z$ (a finite $\mathbb Z$-module is
+countable; $\mathbb Z_p$ has distinct expansions for all infinite
+$p$-adic digit strings). This is an authorial shorthand/slip, not a
+transcription correction. The proof just given supplies the bridge.
+
+\section{94.C04: Proposition 3 --- certified background}
+\label{C04}
+\textbf{His anchor:} scans 4--5, \emph{quotient non nul}.
+With $A$ noetherian, finite representability is equivalent to
+left exactness, commutation with filtered colimits, the completion
+comparison of C03 for every $f\in A$, and the following condition:
+for every nonzero quotient $B$ of $A$, some nonnilpotent $g\in B$
+makes $F_{B_g}$ representable.
+
+This is SETTLED statement H035.5, carried as proved background, not
+reproved here. The prior label \emph{false as written} was explicitly
+refuted by the supplied check: the nonzero qualifier is in the ink.
+Our new image check confirms the leader attaching it to $B$.
+The written proof uses noetherian induction on quotient ideals and
+C03; the step $g^{n+1}\ne0$ is visible on scan 5.
+There is no missing nonzero hypothesis to add to this proposition.
+
+\section{94.C05: Proposition 4 and its Artinian step}
+\label{C05}
+\textbf{His anchor:} scans 5--6, \emph{l'injectif indécomposable $I_n$}.
+\textbf{Modern statement (ours):} for a noetherian local $(A,\m)$,
+$F$ is represented by a finite $A$-module iff it is left exact,
+preserves filtered colimits, satisfies
+\[
+ F(M)\simeq\varprojlim_n F(M/\m^{n+1}M)
+\]
+for each finite $\widehat A$-module $M$, and takes such modules to finite
+$\widehat A$-modules. It suffices to impose the last condition on
+modules finite over $A$, as his parenthesis says. In fact finite length
+modules, and even the single module $A/\m$, suffice (RD01 below).
+The live $\widehat M$ in the formula is harmless: $M$ is already complete.
+
+\textbf{Artinian step (ours).}
+Let $(R,\m,k)$ be Artinian local, $E=E_R(k)$, and
+$D=\Hom_R(-,E)$. The verified finite-length duality gives finite $E$,
+$D^2\simeq1$, and $\operatorname{End}_R(E)=R$
+(Stacks Lemmas 47.6.1--3 \cite{StacksArtinDuality}).
+Suppose $G$ is $R$-linear and left exact on finite $R$-modules, with
+the canonical scalar structure described above, and $G(E)$ is
+finite. Set $P=D(G(E))$. There is a natural map
+\[
+ G(M)\longrightarrow\Hom_R(DM,G(E)),\qquad
+ x\longmapsto\bigl(\lambda\mapsto G(\lambda)(x)\bigr).
+\]
+It is an isomorphism for $M=E^r$, since $\operatorname{End}(E)=R$.
+Every finite $M$ has an exact copresentation
+$0\to M\to E^r\to E^s$: dualize a finite free presentation of $DM$.
+Apply both left-exact functors to this copresentation. The two
+isomorphisms at $E^r,E^s$ identify their kernels, proving the displayed
+map is an isomorphism for $M$. Duality changes its target to
+$\Hom_R(P,M)$. This proves representability, including naturality.
+
+\textbf{Local proof (ours).}
+Restriction to $\widehat A$ preserves all the stated assumptions
+needed below: finite $A/\m^{n+1}$-modules are finite over $A$.
+The completion is faithfully flat (Stacks Lemma 10.97.3).
+For $A_n=A/\m^{n+1}$ the Artinian step gives a finite representative
+$P_n$; (iv) applies to its finite injective cogenerator $E_n$.
+Restriction and Yoneda give
+$P_{n+1}/\m^{n+1}P_{n+1}\simeq P_n$.
+As in C03, $P=\varprojlim P_n$ is finite over $\widehat A$ and represents
+the restriction of $F$ on finite $\widehat A$-modules by the assumed
+completion comparison, then on all such modules by filtered colimits.
+C02 descends a finite representative to $A$. Necessity is exactly
+Hom left exactness, finite presentation, completeness, and
+$\Hom_{\widehat A}(P_{\widehat A},M)\subset M^r$ for a finite generating
+set of $P_{\widehat A}$.
+
+\section{94.C05b: the preliminary Artinian prorepresentability step}
+\label{C05b}
+\textbf{His anchor:} scan 6, \emph{En vertu de (i)} and
+\emph{prorepr\'esentable}. Let $R$ be Artinian local and $G$ a
+left-exact functor on finite $R$-modules, with its canonical
+$R$-linear structure. It is strictly prorepresented there by finite
+$R$-modules, without assuming that $G(E)$ is finite. If $G$ is defined
+on all modules and preserves filtered colimits, this representation
+holds on all modules.
+
+\textbf{Proof (ours).} Put $D=\Hom_R(-,E)$ and $N=G(E)$, possibly
+infinite. For finite $M$, the map
+$G(M)\to\Hom_R(DM,N)$ sends $x$ to
+$(\lambda\mapsto G(\lambda)x)$. It is an isomorphism for every
+$E^r$ by $\End(E)=R$. A copresentation $0\to M\to E^r\to E^s$
+then shows it is an isomorphism for every finite $M$, by comparing
+kernels. Write $N$ as the directed union of its finite submodules
+$N_j$. The module $DM$ is finite over the Artinian, hence noetherian,
+ring $R$, and is finitely presented. Therefore
+\[
+ G(M)=\Hom_R(DM,N)=\colim_j\Hom_R(DM,N_j)
+       =\colim_j\Hom_R(DN_j,M).
+\]
+The last equality is finite Artinian duality. Inclusions $N_j\subset
+N_k$ dualize to surjections $DN_k\twoheadrightarrow DN_j$; thus the
+prorepresentation is strict and all its terms are finite. If filtered
+colimits are preserved, both functors extend this equality from finite
+to arbitrary modules. When $N$ is finite the single representative
+$DN$ gives C05. This verifies the manuscript's preliminary assertion,
+not only the stronger conclusion obtained after the finiteness test.
+
+\section{94.RD01: the smallest finiteness test in Proposition 4}
+\label{RD01}
+\textbf{Origin:} the parenthesis on scan 5 and the changed finite-length
+condition on scan 6. This strengthening is ours, not attributed to him.
+Under left exactness, filtered-colimit preservation and the completion
+comparison of C05, finite representability is equivalent simply to
+$\dim_k F(k)<\infty$.
+
+\textbf{Proof (ours).}
+For $0\to L'\to L\to k\to0$, left exactness gives
+$0\to F(L')\to F(L)\to F(k)$, so finite length of the outside terms
+implies finite length of $F(L)$, with
+$\ell(F(L))\leq\ell(F(L'))+\ell(F(k))$.
+A composition series therefore gives
+$\ell(F(L))\leq\ell(L)\dim_k F(k)$ for every finite-length $L$.
+In particular $F(E_n)$ is finite for every Artinian quotient's
+injective cogenerator. The Artinian step and completion argument of
+C05 now apply without further finiteness tests. Necessity follows
+from $F(k)=\Hom_A(P,k)$ for finite $P$.
+No open extension is asserted: the direction is completely settled.
+
+\section{94.C06: Lemme 5 --- certified background}
+\label{C06}
+\textbf{His anchor:} scans 6--7, \emph{Alors}, replacing the deleted
+claim of equivalence. For a noetherian ring $A$, assume left exactness,
+filtered-colimit preservation, the completion comparison at every
+$A_\p$ for finite $\widehat{A_\p}$-modules, finiteness on finite-length
+$A_\p$-modules, and generic representability on every integral quotient.
+The last condition must mean: for every prime $\p$, there is a
+\emph{nonzero} $f\in A/\p$ such that $F_{(A/\p)_f}$ is representable.
+Then $F$ is strictly prorepresented by finite modules $(P_i)$, and
+for every $\p$ the localized pro-object is stationary and represents
+$F_\p$. Here strict means that the transition maps of the representing
+modules can be chosen surjective. Stationarity is an assertion about
+the pro-object, not an assertion that one uniform index works on all
+of $\Spec A$.
+
+SETTLED H035.8 certifies this corrected sufficient criterion and its
+minimal-support argument; it is carried, not independently reworked.
+The manuscript does not write $f\ne0$ in (v). Without it, (v) is empty
+of content, since one can take $f=0$ and the zero ring. This is his
+omission, not permission to insert words into the transcription.
+The certified proof uses the finite local representatives from C05,
+their image submodules for a given element of $F(M)$, spreading at a
+generic point of the remaining closed set, and Nakayama to extend the
+open where this image is coherent. The boxed and left-margin additions
+on scan 7 provide the intermediate containments and the reduction
+$N'=M$. These are accounted for in \texttt{SCAN\_CHECKS.tsv}.
+
+\section{94.C06b: why the missing nonzero qualification is essential}
+\label{C06b}
+\textbf{Origin:} Lemme 5(v), scan 6. The correction $f\ne0$ is certified
+in H035.8. Here is our additional proof that dropping it actually
+falsifies the stated sufficiency, rather than merely damaging the
+written argument. Use the certified example of C07:
+$A=\mathbb Z$, $L=\sum_{p\text{ prime}}p^{-1}\mathbb Z\subset\mathbb Q$,
+and $F=L\otimes_{\mathbb Z}-$; all of (i)--(iv) hold by H035.10.
+With $f=0$, condition (v) says only that the restriction to modules
+over the zero ring is representable. That category has one object,
+and $F(0)=0$, so it is representable by zero.
+
+A strict prorepresentation by finite modules would give
+$F(M)=\colim_i\Hom(P_i,M)$ with surjective transition maps
+$P_j\twoheadrightarrow P_i$. Any element $\alpha$ represented by
+$u:P_i\to M$ would then have a smallest supporting submodule,
+namely $\im u$. Indeed it is supported there. If it is also supported
+on $N\subset M$, represent that element by $v:P_j\to N$; at a common
+later index the two maps into $M$ agree. Surjectivity onto $P_i$
+forces $\im u\subset N$. This proves minimality and also its
+independence of the chosen representation.
+
+Apply this to $M=\mathbb Z$ and $\alpha=1\in L=F(\mathbb Z)$.
+For every prime $p$, the image of $F(p\mathbb Z)$ in $F(\mathbb Z)$
+is $pL$ and contains $1$, since $1/p\in L$. A smallest supporting
+submodule would therefore be contained in
+$\bigcap_{p\text{ prime}}p\mathbb Z=0$; but $1$ is not in the image
+of $F(0)=0$. This contradiction rules out even a strict finite
+prorepresentation, before imposing local stationarity. Thus the
+literal theorem is false. The nonzero repair is the corrected theorem
+C06, whose sufficiency is carried from H035.8 as instructed.
+
+\section{94.C07: Remarque 5 bis --- certified refutation and repair}
+\label{C07}
+\textbf{His anchor:} scan 8, \emph{$F(N)$ est de type fini}.
+Under C06(i)--(iv), and assuming that every integral quotient $B$ has
+a nonempty open normal locus, he asserts equivalence between C06(v)
+and constructibility of
+$\p\mapsto\dim_{k(\p)}F(k(\p))$.
+SETTLED H035.10 certifies the forward implication, refutes the
+converse, and certifies its repair. The following is the supplied
+counterexample, recorded as background, not claimed as a new proof:
+\[
+ A=\mathbb Z,\qquad L=\sum_{p\text{ prime}}\tfrac1p\mathbb Z
+ \subset\mathbb Q,\qquad F(M)=L\otimes_{\mathbb Z}M.
+\]
+$L$ is torsion-free and hence flat; at a prime $(p)$ its localization
+is $p^{-1}\mathbb Z_{(p)}$, free of rank one. At the generic point it
+is $\mathbb Q$. Thus the local restrictions of $F$ are all represented
+by a free rank-one module. In particular all local completion and
+finite-length conditions hold, and its residue-field rank is constantly
+one. Every integral quotient of $\mathbb Z$ has the required normal
+open. Yet no $L[1/n]$ is finite over $\mathbb Z[1/n]$: finitely many
+generators involve only finitely many denominator primes, whereas
+$1/q$ occurs for every prime $q\nmid n$. If its tensor functor were
+represented by a finite module on that open, evaluation on the ring
+would make $L[1/n]$ finite. The missing condition is consequently
+substantive.
+
+\textbf{Certified correction.} Impose also finiteness of $F(B)$ for
+every integral quotient $B$ (it is enough on a dense localization of
+each such $B$). Then the converse holds; the normal-locus assumption
+is unnecessary for this repair. The argument recorded in SETTLED is
+that on a constant-rank open in an integral quotient, each finite local
+representative $Q_\p$ has its number of generators equal to its generic
+rank. A surjection from a free module of that rank has torsion kernel
+inside a free module over a domain, hence zero kernel. Thus $Q_\p$ is
+free. The natural map $F(B)\otimes_B-\to F(-)$ is an isomorphism on
+these localizations. The added finiteness makes this a finite, locally
+free tensor functor on the open, represented by the dual of $F(B)$.
+This is the certified repair, not an alteration of his written
+hypotheses. His simultaneous lattice inclusions are informal local
+notation; our formulation avoids identifying an $A_\p$-module with
+a finite global lattice.
+
+\section{94.C08: Lemme 6, generic regular-sequence acyclicity}
+\label{C08}
+\textbf{His anchor:} scan 9, \emph{$\operatorname{gr}_J(F)$ loc. libres}.
+\textbf{Modern statement (ours):} if $S$ is locally noetherian and
+$\mathcal F$ coherent, there is a dense open $U\subset S$ on which
+both $\operatorname{gr}_J\mathcal O_S$ and
+$\operatorname{gr}_J\mathcal F$ are locally free of finite rank over
+$\mathcal O_{S_{\rm red}}$, where $J$ is the nilradical. For every
+$s\in U$ and every $A$-regular sequence $f_1,\ldots,f_n$ in the
+maximal ideal of $A=\mathcal O_{S,s}$,
+\[
+ \Tor_i^A(\mathcal F_s,A/(f_1,\ldots,f_n))=0\quad(i>0).
+\]
+The local freeness concerns the finite direct sum of graded pieces;
+the nilradical is nilpotent locally. No reducedness of $S$ is assumed.
+
+\textbf{Existence of $U$ (ours).}
+For a reduced noetherian affine scheme and finitely many finite
+modules, there is a dense open on which they are locally free.
+Indeed, near each of the finitely many generic points remove the
+other components; this leaves a domain. Choose a vector-space basis
+of each module over its fraction field. Lifting it to the module
+and inverting finitely many nonzero elements makes both the kernel
+and cokernel of the resulting free-module map zero. The union of
+these opens contains all generic points. Apply this to the finitely
+many graded pieces of $J$ and $\mathcal F$. For a locally noetherian
+scheme, the locus where both graded objects are locally free is open
+and is dense on every noetherian affine chart by this argument; hence
+it is dense in $S$.
+
+\textbf{Filtered algebra lemma and proof (ours).}
+Let $A$ be noetherian local, $J$ a nilpotent ideal, $A_0=A/J$.
+Suppose every graded piece of $A$ and a finite module $M$ is free over
+$A_0$. If $f$ is a nonzerodivisor on $A$, its image $f_0$ is a
+nonzerodivisor on $A_0$: choose the largest $r$ with $J^r\ne0$.
+Then $J^r=\operatorname{gr}_J^r A$ is a nonzero free $A_0$-module
+inside $A$, and multiplication by $f$ on it is multiplication by
+$f_0$. Injectivity forces injectivity on $A_0$.
+It follows that $f$ is injective on every finite filtration quotient
+$M/J^qM$ as well as on $M$: if a nonzero class were killed, its first
+nonzero graded class would be killed by $f_0$. Consequently
+$fM\cap J^qM=fJ^qM$ for every $q$, and
+\[
+ \operatorname{gr}_{J'}(M/fM)
+ =\operatorname{gr}_J M/f_0\operatorname{gr}_J M,
+ \qquad J'=(J+fA)/fA.
+\]
+The same holds for $A/fA$. These graded modules are free over
+$A_0/f_0A_0$. Repeating the argument proves that any $A$-regular
+sequence is $M$-regular. It also identifies the graded module of the
+successive quotient as a free module over
+$A_0/(f_{10},\ldots,f_{n0})$. This induction uses only nilpotence of
+$J'$; it does not require $A_0/(f_{10},\ldots,f_{n0})$ to remain reduced.
+
+Finally the Koszul complex of an $A$-regular sequence is a free
+resolution of its quotient: for one element this is the injective
+two-term multiplication complex; inductively its tensor product with
+the next two-term complex is the mapping cone of multiplication on
+the previous resolution, whose sole homology is killed with zero
+kernel by regularity. Tensoring with $M$ gives the same acyclicity
+because the sequence is $M$-regular. This proves the Tor assertion in
+all positive degrees, not just degree one.
+
+\section{94.C08b: the shorthand in the proof of Lemme 6}
+\label{C08b}
+The live $M$ on scan 9 is not defined in the live statement; the
+displayed definition of a different $M$ is struck out. Our proof
+explicitly sets $M=\mathcal F_s$. His images $f_{i0}$ act on graded
+modules, while the lifts $f_i$ act on $M$; these actions must not be
+identified. Likewise the final assertion that
+$\operatorname{gr}_J(N)$ is free needs the quotient coefficient ring
+$A_0/(f_{10},\ldots,f_{n0})$. Over $A_0$ itself it is false: take
+$A=k[t]_{(t)}$, $J=0$, $M=A$, $f=t$. Then $N=k$ is not free over
+$A_0=A$ since it is nonzero and annihilated by $t$.
+The filtered lemma in C08 proves the corrected statement completely.
+These are explicit reconstructions of shorthand, not scan changes.
+
+\section{94.C09: Corollaire 7 --- certified background}
+\label{C09}
+\textbf{His anchor:} scans 9--10, \emph{l'hom. naturel}.
+For coherent $P,\Omega$ on a noetherian scheme $S$, there exists a
+dense open $U$ such that for every $s\in U$ and every regular sequence
+$\mathbf f$ in $A=\mathcal O_{S,s}$, the natural map
+\[
+ \Hom_A(P_s,\Omega_s)\otimes_A A/(\mathbf f)
+ \longrightarrow\Hom_A(P_s,\Omega_s/(\mathbf f)\Omega_s)
+\]
+is an isomorphism. This conclusion is certified by SETTLED H035.15
+and its Corollaire 7 note verdict. The two errors in its written proof
+are separately recorded in C10 and C11; they do not refute the
+corollary. With the corrected Hom complex, apply C08 to its finite
+boundary and first-cohomology modules, and use the corrected
+base-change criterion below. This records the certified dependency
+without redoing the certified result.
+
+\section{94.C10: the Hom-complex slip --- certified correction}
+\label{C10}
+\textbf{His anchor:} scan 10, the two factors \emph{$\otimes P$}.
+SETTLED H035.14 confirms the ink and the error. For a finite free
+presentation $L_1\to L_0\to P\to0$, the correct complex is
+\[
+ [L_0^\vee\otimes Q\longrightarrow L_1^\vee\otimes Q]
+\]
+in degrees zero and one; its zeroth cohomology is $\Hom(P,Q)$.
+This follows by applying the left-exact Hom functor to the presentation
+and identifying $\Hom(L_i,Q)=L_i^\vee\otimes Q$ for finite free $L_i$.
+The supplied counterexample to his written factors is $A=k$, $P=k$,
+$Q=k^2$, $L_0=k$, $L_1=0$: his complex has $H^0=k$, whereas
+$\Hom(P,Q)=k^2$. Witness H silently makes the mathematical repair;
+\texttt{SCAN\_CHECKS.tsv} restores the written $P$ in H. The corrected formula is
+stated here, not smuggled into the reading.
+
+\section{94.C11: the $Z^1$ criterion --- certified refutation}
+\label{C11}
+\textbf{His anchor:} scan 10, \emph{$Z^1(K)$}.
+For a two-term complex $K=[K^0\to K^1]$, the two vanishings
+$\Tor_1(M,H^1K)=\Tor_1(M,Z^1K)=0$ do \emph{not} imply that
+$H^0(K)\otimes M\to H^0(K\otimes M)$ is an isomorphism.
+SETTLED H035.15 supplies and certifies the counterexample
+\[
+ A=k[x,y]/(xy),\quad M=A/(x),\quad K=[A\xrightarrow{y}A].
+\]
+Here $Z^1=A$, $H^1=A/(y)$ and
+$\Tor_1(A/(x),A/(y))=0$, but $H^0(K)=(x)$ and
+$(x)\otimes A/(x)\simeq k$, whereas multiplication by $y$ is
+injective on $A/(x)=k[y]$, so the target is zero. The Tor vanishing
+can be read from the supplied periodic resolution with alternating
+maps $x,y$: after tensoring with $A/(y)=k[x]$, the relevant kernel
+of multiplication by $x$ is zero. All these checks are carried as
+certified background. Replacing $Z^1$ by $B^1=\im(K^0\to K^1)$
+gives the certified sufficient criterion. The next section supplies
+an exact, necessary-and-sufficient refinement of that correction.
+
+\section{94.RD02: exact obstructions to this base change}
+\label{RD02}
+\textbf{Origin:} the false sufficient criterion in C11. The refinement
+here is ours. Let $K=[U\xrightarrow d V]$ be any two-term complex of
+$A$-modules, let $H=\ker d$, $I=\im d$, $C=\coker d$, and let $M$
+be any $A$-module. No flatness or finiteness assumption is required.
+There is a natural exact sequence
+\[
+ 0\to T_0\to H\otimes M\longrightarrow H^0(K\otimes M)
+ \to T_1\to0,
+\]
+where
+\[
+ T_0=\coker[\Tor_1(M,U)\to\Tor_1(M,I)],\qquad
+ T_1=\coker[\Tor_1(M,V)\to\Tor_1(M,C)].
+\]
+Thus the comparison is an isomorphism \emph{exactly} when both
+indicated Tor maps are surjective. Vanishing of
+$\Tor_1(M,I)$ and $\Tor_1(M,C)$ is sufficient, and is the corrected
+version closest to his statement. This exact criterion is stronger
+than merely substituting one letter.
+
+\textbf{Proof (ours).}
+Tensor $0\to H\to U\to I\to0$. Its long exact sequence identifies
+the kernel of $H\otimes M\to U\otimes M$ with $T_0$ and its image
+with the kernel of the surjection $U\otimes M\to I\otimes M$.
+Tensor $0\to I\to V\to C\to0$. Its long exact sequence identifies
+the kernel of $I\otimes M\to V\otimes M$ with $T_1$.
+The kernel of the composite $U\otimes M\to V\otimes M$ maps
+surjectively onto this last kernel because the first map is
+surjective. Its own kernel is exactly the preceding image of
+$H\otimes M$. These three observations give the displayed sequence,
+including the endpoint zeroes and its naturality.
+If $U,V$ are flat, this specializes to
+\[
+ 0\to\Tor_2(M,C)\to H\otimes M\to H^0(K\otimes M)
+ \to\Tor_1(M,C)\to0,
+\]
+by dimension shifting through $0\to I\to V\to C\to0$.
+In the counterexample of C11 the failure is precisely the nonzero
+left obstruction; checking only the right obstruction misses it.
+The direction is settled; no open extension is asserted.
+
+\section{94.C12: the preliminary equivalence on scan 11}
+\label{C12}
+\textbf{His anchor:} \emph{module de diff\'erentielles pour un C.M.}.
+The ink really says this; it is not silently replaced by
+\emph{dualizing module}. No coefficient field or differential degree
+is given. The neighboring Lemme 8 and Corollaire 9 concern a
+\emph{faisceau fondamental}. Our precise interpretation of the
+equivalence is therefore the following local canonical-module
+statement, with its missing quantifiers explicitly supplied by us.
+
+Let $(A,\m,k)$ be a noetherian Cohen--Macaulay local ring and $W$ a
+finite $A$-module. Then $W$ is a dualizing module if and only if for
+every system of parameters $\mathbf x$, the module
+$W/(\mathbf x)W$ is the injective hull of $k$ over $A/(\mathbf x)$.
+It is enough to require this for the powers
+$(x_1^n,\ldots,x_d^n)$, $n\ge1$, of a single fixed system of parameters.
+Here dualizing module means that $W[0]$ is a dualizing complex;
+the normalized complex is then $W[d]$, $d=\dim A$.
+
+\textbf{Proof of this reconstruction (ours).}
+The forward implication is C13--C14 below. For the converse put
+$\mathfrak q_n=(x_1^n,\ldots,x_d^n)$ and $R=\widehat A$.
+The complete local ring $R$ has a dualizing complex
+(Stacks Lemma 47.22.4, \cite{StacksDualizingComplete}), and is CM,
+so it has a dualizing module $V$ (Lemma 47.20.2,
+\cite{StacksDualizingCM}). By the forward implication,
+$V/\mathfrak q_nV$ and $W/\mathfrak q_nW$ are both injective hulls
+over $A/\mathfrak q_n$. Choose an isomorphism between them for $n=1$.
+Given one for $n$, an arbitrary isomorphism at level $n+1$ induces
+another at level $n$. The ratio is an automorphism of the injective
+hull at level $n$. Its endomorphism ring is $A/\mathfrak q_n$
+(Artinian duality, \cite{StacksArtinDuality}), so this ratio is
+multiplication by a unit. That unit lifts to a unit modulo
+$\mathfrak q_{n+1}$, since these are local rings. Multiplying the
+chosen next isomorphism by that lift makes it compatible. Induction
+produces a compatible system.
+
+The ideals $\mathfrak q_n$ are cofinal with the $\m$-adic powers:
+they are contained in $(\mathbf x)^n$, and
+$(\mathbf x)^{d(n-1)+1}\subset\mathfrak q_n$, while $(\mathbf x)$
+is $\m$-primary. Taking inverse limits therefore gives
+$\widehat W\simeq V$. Faithfully flat descent of a dualizing complex
+(Stacks Lemma 47.26.1, Tag 0E4A, PDF pp. 51--52,
+\cite{StacksDualizingDescent}) applied to $W[0]$ shows that $W$ is
+dualizing over $A$. For $d=0$ the empty parameter system gives the
+assertion directly by Artinian duality; no power argument is needed.
+This proof supplies compatible choices rather than assuming that
+unrelated quotient isomorphisms automatically pass to the limit.
+
+\textbf{Literal K\"ahler-differential interpretation (refuted).}
+If the heading were instead read as a claim about $\Omega^1_{A/k}$,
+it would be false. For $A=k[t,u]_{(t,u)}$, a regular CM local ring,
+$\Omega^1_{A/k}$ is free of rank two. Modulo the parameter ideal
+$(t,u)$ it is $k^2$, whereas the indecomposable injective over the
+residue field is $k$. The canonical module is rank one instead.
+This counterexample decides the literal modern interpretation;
+it is not evidence for changing the historical wording. The
+canonical-module reconstruction above is fully proved.
+
+\section{94.C13: Lemme 8, quotient of a fundamental sheaf}
+\label{C13}
+\textbf{His anchor:} scan 11, \emph{faisceau fondamental}.
+Our modern definition of that term here is a coherent sheaf whose
+stalk at every point is a dualizing module over the CM local ring.
+Let $X$ be locally noetherian and CM, with such a sheaf $\Omega$,
+and let $\mathbf f=(f_1,\ldots,f_r)$ be an
+$\mathcal O_X$-regular sequence of sections. Then
+$Y=V(\mathbf f)$ is CM and $\Omega/(\mathbf f)\Omega$ is a
+fundamental sheaf on $Y$. The assertion is stalkwise and is vacuous
+off $Y$.
+
+\textbf{Literature match and calculation.}
+At a stalk $(A,\m)$, the normalized dualizing complex is
+$\omega_A[d]$ with $\omega_A$ maximal CM by Stacks Lemma 47.20.2
+(Tag 0AWS; dualizing chapter p. 36). A regular sequence in the
+CM ring is a partial parameter system and is regular on this
+maximal CM module. The Koszul calculation therefore gives
+\[
+ R\Hom_A(A/(\mathbf f),\omega_A[d])
+ \simeq (\omega_A/(\mathbf f)\omega_A)[d-r].
+\]
+By Stacks Lemma 47.16.2 (Tag 0A7N) this is the normalized dualizing
+complex of $A/(\mathbf f)$; the single-element form is Lemma
+47.16.10 (Tag 0A7T, chapter p. 32). All these sources were opened
+\cite{StacksDualizingLocal,StacksDualizingCM}.
+Iteration proves the stated quotient property. The ordered global
+sequence supplies the usual Koszul orientation; no global dualizing
+complex or unmentioned choice of a base field is assumed.
+
+\section{94.C14: Corollaire 9, the Artinian quotient}
+\label{C14}
+\textbf{His anchor:} scan 11, \emph{l'injectif ind\'ecomposable}.
+For $x\in X$ as in C13 and a full system of parameters $\mathbf f$
+of $A=\mathcal O_{X,x}$, the quotient
+$\Omega_x/(\mathbf f)\Omega_x$ is the injective hull of $k(x)$ over
+the Artinian local ring $A/(\mathbf f)$.
+In a CM local ring a full parameter system is regular; C13 makes
+this module dualizing. Stacks Lemma 47.16.8 (Tag 0A7R, chapter p. 32)
+identifies the normalized dualizing complex of a zero-dimensional
+local ring with that injective hull \cite{StacksDualizingLocal}.
+This verifies the exact claim and all its hypotheses. The stalk
+subscript omitted in his quotient notation is supplied explicitly.
+
+\section{94.C15: Corollaire 10(a),(b), existence on a dense open}
+\label{C15}
+\textbf{His anchor:} scans 11 and 13, \emph{localemt immergeable dans un r\'egulier}.
+Let $X$ be a locally noetherian scheme, locally isomorphic to a locally
+closed subscheme of a regular locally noetherian scheme. There exist a
+dense open $U\subset X$ and a coherent $\mathcal O_X$-module $\Omega$
+such that $U$ is CM and, for every $x\in U$ and every full parameter
+system $\mathbf f$ of $A=\mathcal O_{X,x}$,
+$\Omega_x/(\mathbf f)\Omega_x$ is the injective hull of $k(x)$ over
+$A/(\mathbf f)$. In particular $\Omega$ is on all of $X$, as his
+statement requires, not just on $U$. The proof below is ours; it does
+not assume that $X$ is quasi-compact or that all of $X$ has a global
+dualizing complex.
+
+\textbf{Proof.} First work near the generic point $\eta$ of one
+irreducible component, after removing the other components. A locally
+closed immersion can be made closed by shrinking its ambient scheme,
+so choose an affine neighborhood $\operatorname{Spec}B$ of $\eta$,
+$B=R/I$, with $R$ noetherian regular. Let $\mathfrak p\subset R$ be
+the inverse image of $\eta$. The local ring $B_{\mathfrak p}$ is
+Artinian. The regular local ring $R_{\mathfrak p}$ has dimension $c$
+and global dimension at most $c$ (Stacks Proposition 10.110.1,
+\cite{StacksRegularResolution}).
+It is Gorenstein (Lemma 47.21.3, \cite{StacksRegularGorenstein}), and local duality for the finite
+quotient gives
+\[
+ \Ext^i_{R_{\mathfrak p}}(B_{\mathfrak p},R_{\mathfrak p})=0
+ \quad(i\ne c),
+\]
+while the degree-$c$ module is a dualizing module of $B_{\mathfrak p}$.
+These are the exact local statements of Lemmas 47.16.2 and 47.20.2
+already used in C13--C14.
+
+A finite free resolution at $\mathfrak p$ spreads to a neighborhood:
+take the first $c$ steps of a finite free resolution over $R$; its
+last finite syzygy is free at $\mathfrak p$, and a basis and its inverse
+spread after inverting one element outside $\mathfrak p$. Thus $B$
+has a finite free resolution there of length $c$. Its finitely many
+Ext modules in degrees different from $c$ vanish at $\mathfrak p$;
+shrinking again kills all of them. Put $W=\Ext^c_R(B,R)$ on this
+neighborhood. At any point of its intersection with $\operatorname{Spec}B$,
+the local ambient ring is regular, hence dualizing over itself;
+$R\Hom(B,R)$ is dualizing for the finite quotient and is concentrated
+in degree $c$. Lemma 47.20.2 consequently makes that quotient ring
+CM and $W$ its dualizing module. This argument uses no bound on the
+dimensions of ambient points away from the chosen neighborhood.
+
+The irreducible components of a locally noetherian scheme form a
+locally finite family: a noetherian affine open meets only the finitely
+many components whose generic points it contains. Thus, for each
+component $Z_i$, the complement of the union of all $Z_j$, $j\ne i$,
+is open and contains its generic point. Choose the preceding
+neighborhood $V_i$ inside this complement. The $V_i$ are pairwise
+disjoint. Their union $U$ is dense, and the modules $W_i$ therefore
+define a coherent sheaf $W$ on $U$, with no gluing obstruction.
+
+For completeness, $W$ extends coherently to $X$. On an affine
+noetherian scheme $T$ a coherent sheaf $G$ on an open $T'$ has such
+an extension: $T'$ is quasi-compact, so $j_*G=\widetilde M$ is
+quasi-coherent (Stacks Lemma 28.23.1, \cite{StacksSheafExtension}). Cover $T'$ by finitely many
+principal opens and choose finitely many numerators in $M$ that
+generate the localizations on each; their finite submodule $N$
+satisfies $\widetilde N|_{T'}=G$. Noetherianity makes $\widetilde N$
+coherent. Well-order an affine open covering of $X$. Successively
+extend the sheaf from the intersection with the next affine by this
+construction, and glue; at a limit stage take the compatible union
+on the union of the preceding opens. Coherence is local, so every
+stage remains coherent. This gives a coherent extension $\Omega$
+on $X$. Finally C14 supplies all parameter-quotient properties on
+$U$. The empty scheme case is immediate. This proves the full stated
+scope, including the global extension of the sheaf.
+
+\section{94.C16: the marginal weakening of Corollaire 10 --- certified verdict}
+\label{C16}
+\textbf{His anchor:} scan 11 margin, \emph{ou seulement} and
+\emph{EGA IV 6.11.8}. The supplied SETTLED H035.21 certifies that
+excellent schemes remain allowed, but the further CMU weakening
+is false. CMU here means that every closed integral subscheme has
+a nonempty CM open; it does not supply a coherent canonical module
+on a dense open. The certified counterexample is the localization
+of
+\[
+ k[t_i^3,t_i^4,t_i^5\mid i\ge1]
+\]
+away from the union of the block ideals. The settled record
+checks that it is a one-dimensional noetherian CM domain and that
+non-Gorenstein points meet every nonempty open. A finite canonical
+module would have generic rank one and become free on a smaller
+nonempty open, forcing that open to be Gorenstein, a contradiction.
+The construction's noetherianity and the semigroup calculation are
+\emph{carried as certified background}; they have not been recomputed
+or promoted to an independent proof here. The closest corrected
+margin keeps the excellent clause and removes the asserted CMU
+sufficiency. C15 supplies a complete independent proof under the
+main text's original immersion hypothesis. This does not identify
+excellence with that hypothesis or infer one from the other.
+
+\section{94.C17: the definition of absolute value --- certified correction}
+\label{C17}
+\textbf{His anchor:} scan 12, \emph{$f(x)=0$ entra\^ine $x=0$}.
+The printed definition requires multiplicativity, the ordinary triangle
+inequality, and only that implication. SETTLED H035.22 certifies that
+$f\equiv1$ satisfies every written axiom, but $f(x-x)=1$, so the
+asserted distance is not a distance. The closest corrected definition
+adds $f(0)=0$; then $f(x)=0$ exactly at zero. With that correction
+$d(x,y)=f(x-y)$ is a metric and gives a field topology. This corrected
+result, including continuity of addition, multiplication and inversion,
+is carried as the certified background H035.22, not independently
+re-proved here. All later claims on this leaf are interpreted with that
+normalization. Its absence is an authorial slip, not a scan error.
+
+\section{94.C18: exponentiating a real valuation}
+\label{C18}
+\textbf{His anchor:} scan 12, \emph{$e^{-v(x)}$}.
+His word \emph{archim\'edien} is immediately defined to mean an ordered
+value group isomorphic to an additive ordered subgroup of $\mathbb R$.
+Choose such an order-preserving embedding. Our explicit conventions
+are $v(0)=+\infty$ and $e^{-\infty}=0$; on $K^\times$, $v$ is
+additive and $v(x+y)\ge\min(v(x),v(y))$ whenever the sum is nonzero.
+Then $f(x)=e^{-v(x)}$ is a normalized absolute value, satisfying the
+strong triangle inequality. Conversely every normalized absolute
+value with that inequality arises this way.
+
+\textbf{Proof (ours).} For nonzero $x,y$, exponentiation changes
+$v(xy)=v(x)+v(y)$ into multiplicativity. The valuation inequality
+changes into $f(x+y)\le\max(f(x),f(y))\le f(x)+f(y)$; the cases
+involving zero follow from the conventions. Nonzero values are
+strictly positive. Conversely set $v(x)=-\log f(x)$ on $K^\times$.
+Multiplicativity gives additivity, and the strong triangle inequality
+gives the valuation inequality after applying the decreasing function
+$-\log$. Its value group is the image subgroup of $\mathbb R$ with
+the induced order. The trivial absolute value corresponds to the
+zero group. No stronger embedding theorem is being assumed: the
+embedding is part of his explicit definition on this sheet.
+
+\section{94.C19: Proposition 1, the binomial criterion}
+\label{C19}
+\textbf{His anchor:} scan 12, \emph{l'une ou l'autre des conditions}.
+For a \emph{normalized} absolute value $f$ on a field, the following
+are equivalent: it arises from the real valuation in C18; it satisfies
+$f(x+y)\le\max(f(x),f(y))$; and $f(n\cdot1)\le1$ for every natural
+integer $n$. Without the normalization from C17 the literal proposition
+also fails for $f\equiv1$, which satisfies (a) and (b) but cannot be
+$e^{-v}$ at zero.
+
+\textbf{Proof of the corrected statement (ours).} C18 proves the
+first equivalence. Multiplicativity and positivity give $f(1)=1$.
+Repeated use of the strong triangle inequality gives $f(n\cdot1)\le1$;
+$n=0$ uses normalization. Conversely, let $R=\max(f(a),f(b))$.
+If $R=0$ then $a=b=0$ and the desired inequality holds. For $R>0$
+and any integer $n\ge1$, expand $(a+b)^n$. Each binomial coefficient
+is a natural integer acting through the prime subring, so its value
+is at most one. Each of the $n+1$ summands has absolute value at most
+$R^n$. The ordinary triangle inequality therefore gives
+\[
+ f(a+b)^n=f((a+b)^n)\le(n+1)R^n.
+\]
+Taking positive $n$th roots and using
+$\log(n+1)/n\to0$ gives $f(a+b)\le R$. This checks both the
+printed coefficient $n+1$ and its limiting use, in every characteristic.
+
+\section{94.C20: the positive-characteristic corollary --- certified correction}
+\label{C20}
+\textbf{His anchor:} scan 12, \emph{tout \'el\'ement $n.1$}.
+The corollary for normalized absolute values is true. Its stated reason
+that every $n\cdot1$ is a root of unity is false at $n=p$ in
+characteristic $p$. SETTLED H035.24 certifies the correction: every
+\emph{nonzero} element of the prime field has finite multiplicative
+order; hence its absolute value is one, and zero has value zero.
+Condition (b) of C19 follows. The statement and counterexample are
+carried from that settled result; the ink was separately checked.
+
+\section{94.C21: equivalence of absolute values --- certified correction}
+\label{C21}
+\textbf{His anchor:} scan 12, \emph{un nombre r\'eel $s$}.
+SETTLED H035.25 certifies the missing restriction: equivalence of
+normalized absolute values is $f=g^s$ with $s>0$, and is equivalent
+to equality of their field topologies. At zero a negative exponent
+is not defined as a finite value; exponent zero either leaves $0^0$
+undefined or, if values on $K^\times$ are extended by zero, turns any
+nontrivial absolute value into the trivial one. For example on
+$\mathbb Q$ the ordinary absolute value has $1/n\to0$, whereas the
+trivial value gives the discrete topology. Thus zero is not an allowed
+equivalence exponent. The fully corrected topological equivalence
+is certified background, not an independently claimed proof here.
+The Bourbaki citation is transcribed as a historical reference; no
+unopened edition is used to certify this result.
+
+\section{94.C22: Proposition 2 on $\mathbb Q$ --- certified correction}
+\label{C22}
+\textbf{His anchor:} scan 12, \emph{$p$-adique, ou ... ordinaire}.
+The trivial normalized absolute value is missing. It is neither a
+positive power of a $p$-adic value (evaluate at $p$) nor a positive
+power of the ordinary one (evaluate at $2$). SETTLED H035.26 certifies
+the full corrected classification: a normalized absolute value on
+$\mathbb Q$ is trivial, or $|\cdot|_p^s$ for a unique prime $p$ and
+$s>0$, or $|\cdot|_\infty^s$ with $0<s\le1$. The restriction $s\le1$
+in the last case is required by the ordinary triangle inequality,
+as $2^s\le2$; the classification and its corrected proof are carried
+from the supplied settled record, as instructed.
+
+His unfinished proof on this leaf begins with integers $a,b>1$ and
+the base-$b$ expansion $a^h=\sum_{i=0}^q a_i b^i$,
+$0\le a_i\le b-1$. This is valid by Euclidean division. In the
+non-valuative case C19 ensures an integer $n$ with $f(n)>1$.
+The printed last words have no following estimate on this scan.
+No continuation is supplied as his: scan 13 resumes Corollaire 10,
+not this proof. The settled classification decides the mathematical
+item without reconstructing an absent page or redoing its certified proof.
+
+\section{94.C23: Corollaire 10(c), detection by parameter-quotient duals}
+\label{C23}
+\textbf{His anchor:} scan 13, \emph{pour tt syst. de param\`etres}.
+Let $(A,\m,k)$ be noetherian CM local and let $\Omega$ be finite with
+$E_{\mathfrak q}=\Omega/\mathfrak q\Omega$ the injective hull of $k$
+over $A/\mathfrak q$ for every parameter ideal $\mathfrak q$.
+If $u:R\twoheadrightarrow R'$ is a surjection of finite modules
+such that
+\[
+ \Hom_A(R',E_{\mathfrak q})\longrightarrow
+ \Hom_A(R,E_{\mathfrak q})
+\]
+is an isomorphism for every such ideal, then $u$ is an isomorphism.
+This is his written claim with stalks made explicit. Our stronger
+form drops the assumed surjectivity and tests only
+$\mathfrak q_n=(x_1^n,\ldots,x_d^n)$ for one full parameter system
+and all $n\ge1$.
+
+\textbf{Proof (ours).} Every map to $E_{\mathfrak q_n}$ factors through
+the corresponding quotient of its source. Artinian duality over
+$A/\mathfrak q_n$ is a faithful exact duality on finite modules
+(C14 and Stacks Lemmas 47.6.2--47.6.3), so the assumed dual comparison
+is an isomorphism if and only if
+$R/\mathfrak q_nR\to R'/\mathfrak q_nR'$ is an isomorphism.
+For $n=1$, right exactness and Nakayama applied to the finite cokernel
+show that $u$ is surjective even if that was not assumed. If
+$z\in\ker u$, injectivity of every quotient comparison implies
+$z\in\mathfrak q_nR$ for every $n$. These ideals are cofinal with
+the powers of $\m$ as proved in C12, so Krull intersection for the
+finite module $R$ gives $z=0$. One elementary form of that last step
+is Artin--Rees: for $N=\bigcap_n\m^nR$, finite by noetherianity,
+Artin--Rees implies $N=\m N$, and Nakayama gives $N=0$.
+If $d=0$, the empty parameter ideal is zero and the single Artinian
+duality test already proves the assertion. This also shows why testing
+only one nonzero parameter ideal would be insufficient: over a DVR,
+$A\to A/(t)$ induces an isomorphism modulo $(t)$ but is not injective.
+The cofinal family, not a single test, is used by the proof.
+
+\section{94.C24: the canceled Corollaire 11}
+\label{C24}
+\textbf{His anchor:} scan 13, \emph{Sous ces conditions}; the entire
+draft is canceled. With $A$, $\Omega$ as in C23, let
+$u:R\twoheadrightarrow R'$ be a map of finite $A$-modules. Define
+$\Phi_R(M)=\Hom_A(R,M)$, as in his rewritten formulas, and similarly
+for $R'$. Suppose, for every $A$-regular sequence $\mathbf f$ in the
+maximal ideal and $T=R,R'$, that
+\[
+ \Hom_A(T,\Omega)\otimes A/(\mathbf f)
+ \longrightarrow\Hom_A(T,\Omega/(\mathbf f)\Omega)
+\]
+is an isomorphism. Suppose also that the map induced by $u$,
+$\Hom_A(R',\Omega)\to\Hom_A(R,\Omega)$, is an isomorphism.
+Then $u$ is an isomorphism. Our weaker sufficient hypotheses require
+the base-change comparisons only for the cofinal parameter powers
+of C23 and do not require surjectivity in advance.
+
+\textbf{Proof (ours).} Tensor the second assumed isomorphism with
+$A/\mathfrak q_n$. Naturality of the two base-change comparisons
+identifies this tensor map with
+$\Hom_A(R',E_{\mathfrak q_n})\to\Hom_A(R,E_{\mathfrak q_n})$.
+Both vertical maps and the tensor map are isomorphisms; therefore
+the latter Hom map is an isomorphism. Parameter powers are regular
+because $A$ is CM. Apply C23. This proof is independent of whether
+the canceled earlier functors contained $D\otimes M$ or
+$\Omega\otimes M$: only the clearly rewritten final $\Hom(T,M)$
+formulas are used. Cancellation is not a mathematical counterexample,
+and the marginal request for a different exposition is not treated
+as a proof or an unresolved theorem.
+
+\bibliographystyle{plain}
+\nocite{EGAIV2,BourbakiHistorical}
+\bibliography{references}
+\end{document}

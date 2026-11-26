@@ -1,0 +1,25 @@
+# Opened references and exact matches
+
+All URLs below were opened in this run on 19 November 2026. `note = {verified}` in the BibTeX file means the cited work or catalogue was actually opened; it does not assert independent proof of every statement in that work. Our proofs and the manuscript readings remain separately labelled. Printed page numbers are used unless explicitly identified as PDF indices or retypeset pagination.
+
+| Key | Opened passage | Match and limit |
+|---|---|---|
+| GrothendieckMS1 | [Official cote 1 PDF](https://grothendieck.umontpellier.fr/1.pdf), scans 71,79–80,107–122,129–132,137–138; supplied scans also used | Direct source for statements. Official PDF has 150 pages; scan number is one plus its zero-based PDF index. The archive sheet number and printed PDF footer can differ from scan number. No manuscript OCR was used. |
+| MontpellierCatalogue | [Archive catalogue](https://grothendieck.umontpellier.fr/archives-grothendieck/), cote 1 | The catalogue describes undated functional-analysis notes and a 1953 letter. It does not date all analytic leaves to 1953. |
+| Valiron1925 | [Original volume](https://www.numdam.org/item/MSM_1925__2__1_0.pdf), §1 pp.1–2; §13 Theorem XXVI p.22; §14 Theorems XXVII–XXIX pp.23–24 | Exact historical canonical-factorization, zero-exponent and genus/order comparison. The paragraph after XXIX defines genus using the maximum of the two degrees, matching this manuscript. |
+| Hadamard1893 | [Original paper](https://www.numdam.org/item/JMPA_1893_4_9__171_0.pdf), introduction pp.171–172; §33 p.209 | Historical coefficient/genus result and its integer-boundary distinction. Used as historical context, while H0DT.20 has a direct complete proof. The old typeface/OCR ambiguity of the section number was checked against the consecutive sections. |
+| Poincare1883 | [Original paper](https://www.numdam.org/article/BSMF_1883__11__136_0.pdf), pp.136–138 | Early genus-zero growth and coefficient context. No priority claim beyond the actual dated paper is inferred. |
+| Grothendieck1956Fredholm | [Original paper](https://www.numdam.org/article/BSMF_1956__84__319_0.pdf), Introduction §2 pp.323–324, (11)–(14); Theorem 4 p.359 | Norms of homogeneous terms and the historical stronger meaning of analytic entire; zero multiplicity for Fredholm determinants. Printed pages 324 and 359 visually checked. |
+| Grothendieck1954_1957 | [Exposé 91](https://www.numdam.org/item/SB_1951-1954__2__377_0.pdf), §2 p.380 and Theorem 2 p.381; §4(c) p.383; date p.384 | Exact Hilbert trace-class genus-zero product and summable eigenvalues. Talk is March 1954, but the scanned text ends “Juin 1957” and cites the 1956 paper. The two dates are not conflated. |
+| Grothendieck1956Suites | [Retypeset paper](https://webusers.imj-prg.fr/~leila.schneps/grothendieckcircle/AG/AG-26.pdf), §2 pp.3–6 of that copy, especially Propositions 3–5 | Related scalar/absolute summability and tensor descriptions. Original publication pagination is 81–110; the cited local locators belong to the opened 23-page retypesetting. This does not establish that our p<1 programme completion is a definition given by him on scan 115. |
+| McMullen2025 | [Author’s course notes](https://people.math.harvard.edu/~ctm/papers/home/text/class/harvard/213a/course/course.pdf), Theorem 3.3 pp.82–83; Corollary 3.14 p.86; Theorems 3.15 pp.87–88 and 3.16 p.89 | Modern exact formulation of the main theorem. Its genus denotes the primary-factor degree; this manuscript uses the maximum with the residual polynomial degree. The normalized origin factor and multiplicities were matched. Version dated 2 December 2025. |
+| KoutsonikosLesch2024 | [Version 2 PDF](https://arxiv.org/pdf/2202.12923v2), §1.2 p.2, (1.1) and following paragraph; p.3, (1.4)–(1.5) | Modern trace-class determinant product and regularized extension. Separability causes no loss for a single trace-class operator: restrict to the separable joint range of A and A*. No statement for all Banach nuclear operators is substituted for the Hilbert theorem. |
+| CSGBibliography | [Collected works bibliography](https://csg.igrothendieck.org/published-works/), entries CSG14, CSG16, CSG19 | Bibliographical leads and dates; not a proof source. |
+
+## Negative and unsuccessful retrievals
+
+The zbMATH record linked by Numdam is 0073.10101. Its direct page and linked query were attempted; the service returned an internal failure/403. No review text was read or quoted. The bibliographical identifier is corroborated by Numdam, but no unseen zbMATH content is used as evidence.
+
+Searches in EGA/SGA contexts and the Grothendieck Circle published-text index did not yield an exact corresponding algebraic-geometric passage. This is a bounded search result, not an assertion that every volume has been exhaustively checked. The directly verified publication match is Fredholm theory. No EGA/SGA reference is invented to fit the archive’s broad topic label.
+
+The MathOverflow discussion of order one and type zero was used as a lead toward classical entire-function literature, not as a theorem source. Unopened works mentioned there are not cited as verified proofs.
