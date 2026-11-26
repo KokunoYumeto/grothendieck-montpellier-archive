@@ -1,0 +1,193 @@
+\subsection{Exact arrow minima for the three-dimensional lens examples}
+
+\begin{lemma}[Reduction to labelled acyclic categories]
+\label{C:lens-labelled-reduction}
+Suppose that $C$ is a connected finite category of finite CW type with
+$\pi_1(BC)\cong C_p$, where $p=2$ or $3$. There is a connected acyclic
+category $D$ with at most as many arrows as $C$, with objects admitting
+a linear order, and with
+\[
+ \operatorname{Hom}_D(i,j)=S_{ij}\subseteq C_p\quad(i<j),
+ \qquad S_{ij}+S_{jk}\subseteq S_{ik}.
+\]
+Its only endomorphisms are identities, composition is addition of
+labels, and $BC\to BD\to BC_p$ induces the classifying map of the
+universal cover of $BC$.
+\end{lemma}
+\begin{proof}
+Take the image category of $C$ in its fundamental groupoid as in
+Lemma~\ref{A:groupoid-image}. Theorem~\ref{A:bounded-categories} makes
+every endomorphism image an identity. Pass to a skeleton; the resulting
+category $D$ is acyclic. Indeed arrows in both directions in a groupoid
+are mutually inverse when all endomorphism images are identities, so
+their endpoints were already isomorphic. Both taking the image and
+passing to a skeleton weakly decrease the number of arrows.
+
+Choose a base object and paths in the fundamental groupoid to each
+object. They identify each ambient groupoid hom set with $C_p$ and
+composition with addition. Since $D$ is a subcategory of this groupoid,
+its hom sets are subsets, with the indicated closure property. The
+factorization is the localization functor on classifying spaces, so
+its composite is the universal-cover classifying map. A linear
+extension of the object order gives the displayed indexing.
+\end{proof}
+
+
+
+\begin{lemma}[The exhaustive small-arrow calculation]
+\label{C:lens-exhaustion}
+Every connected acyclic $C_2$-labelled category with at most $15$ arrows
+has zero pullback of $u^3\in H^3(BC_2;\mathbb F_2)$, where
+$u\in H^1(BC_2;\mathbb F_2)$ is the nonzero class.
+\end{lemma}
+\begin{proof}
+We describe a finite exhaustive calculation, including the reduction
+that makes its search complete. A nonzero degree-three class requires
+a chain of four objects. If there are $n$ objects and $m$ nonempty
+strict hom sets, that chain contributes six comparisons on four
+vertices. Connectedness requires at least $n-4$ further comparisons
+to connect the other vertices. Hence
+\[
+ m\geq n+2,\qquad \#\operatorname{Mor}(D)\geq n+m\geq2n+2.
+\]
+Thus the $15$-arrow search needs only $4\leq n\leq6$. Categories
+without a four-object chain have no nondegenerate three-simplices and
+need no calculation.
+
+For each $n$, the program \texttt{a\_lens\_lower.py} generates every
+strict upper triangular transitive relation with at most $15-n$
+comparisons. It does so by adjoining the vertices in order: the
+predecessor set of each new vertex is every possible down-set of the
+earlier relation. This generates every underlying poset exactly once
+for its chosen linear order. It discards disconnected relations and
+those without a four-object chain.
+
+For a remaining relation, process its pairs $(i,j)$ in increasing
+$j-i$. Every pair used to form a two-step composite has then already
+been processed. If their assigned hom sets are $S_{ik},S_{kj}$, the
+new hom set is allowed to be every nonempty subset of $C_2$ containing
+\[
+ \bigcup_{i<k<j}(S_{ik}+S_{kj}).
+\]
+The total cardinality of the hom sets is bounded by $15-n$. These
+conditions are exactly the identity-free composition closure conditions;
+associativity follows from addition in $C_2$.
+
+An object gauge changes arrow labels by $a\mapsto a+c_j-c_i$.
+When a processed comparison joins two components of the graph of
+previously processed comparisons, choose the gauge constant on each
+component so that the new hom set is the standard representative of
+its translation orbit. Previous hom sets are unchanged. For $C_2$ the
+representatives are $\{0\}$ and $C_2$; for later reference, the same
+argument for $C_3$ has representatives $\{0\},\{0,1\},C_3$.
+For either prime every nonempty subset of a fixed size lies in the
+same translation orbit. The comparisons used in this normalization
+form a spanning forest. At every other comparison the program allows
+all subsets satisfying the closure condition. Consequently every
+labelled category is gauge isomorphic to at least one category tested;
+the normalization removes no possible cohomology class.
+
+The calculation uses the normalized finite nerve. A $d$-simplex is an
+increasing sequence of $d+1$ objects together with labels on its $d$
+successive arrows. Its inner faces add the adjacent labels modulo $p$.
+For labels in $\{0,\ldots,p-1\}$ the integral-lift formula for the
+Bockstein is
+\[
+ b(a,b)=\left\lfloor\frac{a+b}{p}\right\rfloor\pmod p.
+\]
+For $p=2$, this is $ab$, and the degree-three cocycle representing
+$u\beta u=u^3$ is $a\lfloor(b+c)/2\rfloor=abc$.
+Exact Gaussian elimination first tests whether $b$ is a coboundary.
+If it is, the degree-three product is zero. Otherwise the same exact
+calculation tests whether $abc$ lies in the image of the coboundary
+$C^2\to C^3$. No degree cutoff approximation is involved: both
+cochain spaces and their full differential are finite and enumerated.
+
+The complete output is
+\[
+\begin{array}{c|r|r|r|r}
+ n&\text{underlying posets}&\text{categories tested}
+   &\beta u\ne0&u^3\ne0\\\hline
+ 4&1&13&5&0\\
+ 5&22&171&0&0\\
+ 6&212&426&0&0
+\end{array}
+\]
+The full code and result are supplied in
+\path{code/a_lens_lower.py} and
+\path{code/outputs/a_RP3_lower.json}; the companion output records
+the counts and a SHA-256 digest of every tested labelled category and
+its two decisions. As a positive control, the four-object category
+with every strict hom set equal to $C_2$ has nonzero $u^3$, as expected
+from its $\mathbb RP^3$ covering model in
+Proposition~\ref{prop:C-lens-uppers}.
+\end{proof}
+
+\begin{theorem}[The exact minimum for $\mathbb RP^3$]
+\label{C:RP3-minimum}
+The least number of arrows in a finite category whose classifying space
+is homotopy equivalent to $\mathbb RP^3$ is $16$.
+\end{theorem}
+\begin{proof}
+The universal-cover classifying map
+$\mathbb RP^3\to BC_2=\mathbb RP^\infty$ pulls $u^3$ back nontrivially.
+For any category of this type, Lemma~\ref{C:lens-labelled-reduction}
+factors this map through an acyclic labelled category with no more
+arrows. Lemma~\ref{C:lens-exhaustion} excludes $15$ or fewer arrows.
+Proposition~\ref{prop:C-lens-uppers} supplies the $16$-arrow category,
+including its complete composition table and antipodal $S^3$ covering
+poset.
+\end{proof}
+
+\begin{theorem}[The exact minimum for $L(3,1)$]
+\label{C:L31-minimum}
+The least number of arrows in a finite category whose classifying space
+is homotopy equivalent to $L(3,1)$ is $20$.
+\end{theorem}
+\begin{proof}
+Let $u\in H^1(BC_3;\mathbb F_3)$ be a generator. Its pullback to
+$L(3,1)$ is nonzero. The Bockstein $\beta u$ is also nonzero: in the
+coefficient sequence
+$0\to\mathbb Z/3\to\mathbb Z/9\to\mathbb Z/3\to0$, the map
+\[
+ H^1(L(3,1);\mathbb Z/9)\longrightarrow
+ H^1(L(3,1);\mathbb Z/3)
+\]
+is zero, because every homomorphism $C_3\to\mathbb Z/9$ takes values
+in the subgroup $3\mathbb Z/9$. Both $H^1$ and $H^2$ over
+$\mathbb F_3$ are one-dimensional. Poincar\'e duality for the oriented
+closed three-manifold $L(3,1)$ therefore gives $u\beta u\ne0$ in
+degree three.
+
+Apply Lemma~\ref{C:lens-labelled-reduction}. A hypothetical category
+with at most $19$ arrows gives a labelled acyclic category with that
+bound and nonzero $u\beta u$. The same chain and connectedness count
+as in Lemma~\ref{C:lens-exhaustion} gives $4\leq n\leq8$.
+Run the exhaustive algorithm proved complete there with $p=3$ and
+arrow budget $19$. All nonempty subsets of $C_3$ of a fixed cardinality
+are translates, so its gauge-normalization proof applies unchanged.
+Exact elimination over $\mathbb F_3$ tests the cochains
+\[
+ b(a,b)=\left\lfloor\frac{a+b}{3}\right\rfloor,
+ \qquad c(a,b,c)=a\left\lfloor\frac{b+c}{3}\right\rfloor.
+\]
+The full result is
+\[
+\begin{array}{c|r|r|r|r}
+ n&\text{underlying posets}&\text{categories tested}
+   &\beta u\ne0&u\beta u\ne0\\\hline
+ 4&1&76&26&0\\
+ 5&22&4001&183&0\\
+ 6&539&54346&0&0\\
+ 7&9890&170653&0&0\\
+ 8&37905&97739&0&0
+\end{array}
+\]
+The supplied output \path{code/outputs/a_L31_lower.json} records
+all counts, the zero-counterexample result, and the deterministic
+enumeration digest. The same program verifies nonzero $u\beta u$ on
+the $20$-arrow positive control from
+Proposition~\ref{prop:C-lens-uppers}. Thus $19$ arrows are impossible,
+and that proposition supplies a $20$-arrow category together with its
+explicit $C_3$ covering poset homeomorphic to $S^3$.
+\end{proof}

@@ -1,0 +1,437 @@
+\subsection{An executed finite composition table with nonzero Wall class}
+\label{D:final-table}
+
+The following table is specified by integer indices and total lookup
+formulas. Its size makes a rectangular printed array impractical; the
+index formulas specify every entry, including every typed composite.
+There is no unspecified triangulation or search for a subdivision in
+this definition.
+
+\begin{theorem}[An explicit negative answer to D1]
+\label{D:Q8-final-table}
+There is a connected finite category $\mathcal W_8$ with
+\[
+\begin{split}
+ |\operatorname{Ob}\mathcal W_8|
+   &=489\,754\,140\,643\,145\,442,\\
+ |\operatorname{Mor}\mathcal W_8|
+   &=337\,126\,384\,361\,511\,151\,079\,802.
+\end{split}
+\]
+Its classifying space is finitely dominated and has a CW model of
+dimension at most eight. Its fundamental group is $Q_8$, and
+\[
+ w(B\mathcal W_8)=[\operatorname{im}e_8]\ne0
+ \quad\text{in }\widetilde K_0(\mathbb ZQ_8).
+\]
+Consequently $B\mathcal W_8$ is not homotopy equivalent to a finite
+CW complex. The complete indexed table is implemented in
+\path{code/d_final_wall_category.py}.
+The function \texttt{build\_final\_category()} returns it as
+\texttt{Final}; its four operations are
+\texttt{source}, \texttt{target}, \texttt{identity}, and
+\texttt{compose}.
+\end{theorem}
+
+\begin{proof}
+We give the finite inputs, all table constructors, and the homotopy and
+chain calculations. The implementation is a literal indexing of these
+formulas, rather than a criterion used to infer a homotopy type from
+a finite homology range.
+
+\paragraph{The group, base, and projector.}
+Number $Q_8$ as $2a+s$, where $a=0,1,2,3$ denotes $1,i,j,k$ and
+$s=0,1$ is the sign. Multiply signs modulo two; equal nonzero axes
+have product $-1$, and $(i,j),(j,k),(k,i)$ have respectively products
+$k,i,j$, with the reversed products negative. This specifies all
+64 products. Let $L$ be the boundary of the four-dimensional cross
+polytope with these eight vertices, the opposite pairs being
+$\{g,-g\}$. Left multiplication acts freely on $L$.
+Choose the lexicographically least face in each orbit. The category
+$K_8$ has these ten representatives as objects and arrows
+\[
+ (F,H,g):F\longrightarrow H\qquad(gF\subseteq H).
+\]
+Its identity is $(F,F,1)$ and its composition is
+\[
+ (H,J,h)(F,H,g)=(F,J,hg).
+\]
+There are 68 arrows. Its nerve is the orbit of the face-poset nerve
+of $L$; hence $BK_8\cong|\operatorname{sd}L|/Q_8$ and has
+fundamental group $Q_8$ and universal cover $S^3$. Its nondegenerate
+simplex counts are $(10,58,96,48)$ in dimensions zero through three.
+
+Put $R=\mathbb ZQ_8$, $N=\sum_g g$, and use the unimodular change
+of basis
+\[
+ P=\begin{pmatrix}2&5\\1&2\end{pmatrix},\qquad
+ e=P^{-1}e_8P=
+ \begin{pmatrix}-4&N-10\\N+2&5\end{pmatrix},\qquad q=1-e.
+\]
+Direct multiplication gives
+$eq=qe=(8N-N^2)I=0$ and $e^2=e$. Thus
+$[\operatorname{im}e]=[\operatorname{im}e_8]\ne0$ by
+Proposition~\ref{D:Q8-projector}.
+Each of $e,q$ is a sum of 35 signed matrix units with group labels.
+
+\paragraph{Finite coefficient sets and their exact maps.}
+Let $J_n$ have vertices $v_0,\ldots,v_n$ and edges
+$u_1,\ldots,u_n$, with the two nonidentity arrows
+$v_{i-1}\to u_i\leftarrow v_i$. Put
+$A_n=NJ_n/\{v_0,v_n\}$. The quotient identifies the two endpoint
+constant simplicial subsets with the basepoint. In degree $k$ it has
+$2n(k+1)$ simplices, including the basepoint; monotone pullback acts
+on its vertex strings. Take $S=A_1^{\wedge5}$ and
+$Y=|NK_8|\vee S\vee S$, using the actual finite simplicial nerve
+of $K_8$ as the base and literal pointed simplicial quotients for
+the spheres. All spaces below are finite simplicial sets with this
+base as a simplicial subset.
+
+A group label $g$ uses the vertex path $(1,g)$, except that $1$ uses
+$(1,1)$ and $-1$ uses $(1,i,-1)$. Its interval face category maps
+to $K_8$ by face-orbit normalization. A label map from sphere $j$
+to sphere $i$ is represented by the cospan whose $i$-th target sphere
+has its attachment point transported along this interval. The left
+leg uses its initial endpoint, the right leg its final endpoint, and
+all unused source spheres collapse to the base. The right leg is a
+weak equivalence since the transport interval is contractible.
+A negative sign reflects suspension coordinate four, numbered from
+zero. All additive pinches initially use coordinate zero, so signed
+elementary maps commute strictly with these pinches.
+
+The full endpoint functors, including their projections to $K_8$,
+are given by the following finite rule. For a path or disk face $F$
+with labelled vertices let $\bar F$ be its least orbit representative,
+and choose the least $t_F\in Q_8$ satisfying $t_F\bar F=F$.
+Send an inclusion $F\subseteq H$ to
+$(\bar F,\bar H,t_H^{-1}t_F)$. Identity and composition follow by
+cancellation of the adjacent $t$'s. Each multiplication disk has
+boundary the concatenated paths for $h$, $g$, and $(hg)^{-1}$,
+and is coned to the least cross-polytope vertex whose opposite is
+absent from that boundary. The resulting face-poset disk and its
+projection use the same rule. There are exactly 64 fixed disks.
+The inner label is used first: an inner $h$ followed by an outer
+$g$ uses the disk $(h,g)$.
+
+We spell out the finite homotopy operations combining these data.
+The map $A_n\to A_1$ retaining only its last edge has degree one,
+while collapsing all subdivision vertices gives
+$A_n\to\bigvee_n A_1$. Together they give the nary pinch roof.
+For retained-edge collapses $q_a,q_b:J_n\to J_1$, assume $a<b$.
+There is a common upper functor $h_{ab}$: vertices below $a$ go
+to the left endpoint, vertices from $a$ through $b-1$ to the
+edge, and vertices at least $b$ to the right endpoint; edges from
+$a$ through $b$ go to the edge, and the remaining edges to the
+corresponding endpoint. Thus
+$q_a\Rightarrow h_{ab}\Leftarrow q_b$, fixing both endpoints.
+Apply these functors independently to branches of an
+$n$-by-$n$ suspension grid. Moving all retained edges at once,
+reinterpreting the resulting sparse matching by columns, and
+reversing the procedure gives any prescribed permutation in four
+prism stages. The same construction compares addition in
+coordinates zero and four in two prism stages.
+
+Successive pinches of arities $n,m$ are compared to the flat
+$nm$ pinch by retaining edges $m,2m,\ldots,nm$ and splitting
+$J_{nm}$ into its $n$ consecutive blocks of $m$ edges. These maps
+satisfy literally
+\[
+ q_ns=q_{nm},\qquad p_ns=(\bigvee q_m)t,\qquad
+ (\bigvee p_m)t=p_{nm}.
+\]
+A three-edge mapping cylinder realizes the comparison without
+inverting a simplicial map. Finally adjacent opposite terms fold
+their two edges into one based $J_1$; the pointed contraction
+$\operatorname{id}\Rightarrow\mathrm{peak}\Leftarrow\mathrm{constant}$
+contracts every pair simultaneously. A zero tail is sent directly
+to the common basepoint. Different coefficient apices are kept in
+a target-star mapping cylinder, so this operation never assumes a
+strict inverse to a weak equivalence.
+
+All mapping cylinders have explicit simplices: besides endpoint
+simplices, a nonconstant cylinder simplex is a pair $(x,c)$ with
+$1\leq c\leq k$, representing the monotone map $[k]\to[1]$ whose
+first $c$ values are zero. Pullback counts how many selected
+vertices lie before $c$; zero or $k+1$ selected zeros use the
+specified endpoint map. Relative cylinders identify the base
+cylinder with the base. This gives an exact finite normal form
+and its pullback function. A chain of cylinders uses an additional
+finite factor index. Products, pointed quotients, and wedges act
+coordinatewise, retaining the summand tag unless the simplex
+hits the base. These are the complete simplicial lookup rules
+in the coefficient compiler.
+
+Expanding the two 35-term matrices gives 1225 elementary products
+for each order. A mismatched matrix index gives zero; a matched
+index uses its fixed group disk. Sorting by matrix entry and group
+label, with positive and negative terms adjacent, gives 294 inverse
+pairs and 637 zero terms for $eq$, and 300 inverse pairs and 625
+zeros for $qe$. The preceding fixed operations give exactly 50
+coefficient roofs and 49 actual weak comparison maps for each
+nullhomotopy. Every comparison preserves both true $Y$ endpoint
+maps. All of this finite input has been executed, including the
+two orders and all group/sign/index combinations.
+
+Take the relative mapping-cylinder homotopy colimit $Z_{eq}$ or
+$Z_{qe}$ of the corresponding 50-term zigzag. It contains its
+initial composite apex and is weakly equivalent to $Y$. The left
+legs give an actual map
+\[
+ H:(Y\times I)/((k,t)\sim k)\longrightarrow Z,\qquad
+ H|_0=f'c',\quad H|_1=i_Zr_Y.
+\]
+Here $I$ is the finite oriented path supplied by the zigzag.
+The base collapse is justified: before collapse $K\times I$ is
+a simplicial subcomplex of the ordinary mapping cylinder.
+Its projection to $K$ is a homotopy equivalence, and pushout along
+that subcomplex inclusion preserves the equivalence.
+Both endpoint inclusions of the relative domain are weak
+equivalences. All coefficient apices have dimension at most
+seven; this last path cylinder has dimension at most eight.
+
+\paragraph{The finite category table constructors.}
+For each coefficient simplicial set $X$ use the opposite truncated
+simplex category
+\[
+ O_8(X)=(\Delta_{\leq8}\mathbin{\downarrow}X)^{\rm op}.
+\]
+An object is $(k,x)$, $0\leq k\leq8$, $x\in X_k$. An arrow
+from $(k,x)$ to $(l,y)$ is a monotone map
+$\theta:[l]\to[k]$ with $y=\theta^*x$. Identity is the identity
+ordinal map; composition is composition of ordinal maps. Its
+object and arrow counts are respectively
+\[
+ \sum_{k=0}^8|X_k|,\qquad
+ \sum_{k,l=0}^8|X_k|\binom{k+l+1}{l+1}.
+\]
+Order objects by degree and then by the simplex normal forms;
+order outgoing arrows by target degree and the lexicographic
+ordinal map. These rules give unique integer indices. The
+truncated-simplex comparison of Lemma~\ref{lem:B-prelim} gives
+$BO_8(X)\simeq|X|$. To recall the relevant proof, in the comma
+category from a simplex to the truncated simplex category,
+ordered-image factorization retracts to the surjective ordinal
+maps; the unique nondegenerate ancestor is terminal there and
+has dimension at most eight. Quillen's Theorem~A compares the
+truncated and full simplex categories. The full simplicial
+replacement has the homotopy type of $|X|$. Passing to the
+opposite category preserves realization. Our convention makes
+the number of arrows out of an object depend only on its degree.
+
+Products use ordered pairs and coordinatewise composition.
+For a span $A\xleftarrow{F}D\xrightarrow{G}B$, the Grothendieck
+category has the three tagged object sets $D,A,B$. Besides
+internal arrows it has crossing arrows $(x,a)$ from $x\in D$
+to $a_1\in A$ for $a:F(x)\to a_1$, and analogous $B$ arrows.
+Composition after a crossing is target composition; composition
+before a crossing replaces $(x,a)$ and $u:x'\to x$ by
+$(x',aF(u))$. There are no two successive crossings.
+The same formulas apply to the four crossings of the two
+five-stage pinch diagrams. Identity and associativity therefore
+follow from the input laws and functor equations. This is a
+universal proof of the table laws, independent of numerical checks.
+
+For exact indexing, partition objects into the finite types used
+by these constructors. If a type contains $n_t$ objects and has
+$a_t$ outgoing arrows per object, enumerate its objects
+consecutively and each object's outgoing arrows in the displayed
+internal/crossing order. The block has $n_ta_t$ arrows.
+Product types are pairs; span types add their stage tag.
+On a crossing, the target arrow is enumerated in the outgoing
+block of the image of the source under the given functor.
+Decoding these finite mixed-radix indices and applying the
+composition rule gives a total lookup for every typed pair.
+The table for $\mathcal W_8$ has 3897 such types.
+
+\paragraph{The final finite construction.}
+Apply the relative tensor of Lemma~\ref{D:finite-coefficient-tensor}
+to the coefficient objects with the two nine-element monoids
+$M_0,M_1$. Its two finite Grothendieck spans are strictly
+functorial. Form the relative wedge $V$ of the two $Y$ tensors.
+Let $W$ be the wedge of the $q$-apex tensor in parity zero and
+the $e$-apex tensor in parity one, and let $Z$ be the wedge of
+the $Z_{eq},Z_{qe}$ tensors. The initial three factors of each
+composite coefficient chain give actual functors
+\[
+ c':V\longrightarrow W,\qquad f':W\longrightarrow Z.
+\]
+There are weak right-leg functors $V\to W$ and $V\to Z$.
+Under them $c'$ has coefficients $q,e$ and $f'$ has coefficients
+$e,q$. The latter assertion uses the explicit junction cylinder
+between the two coefficient blocks; its two endpoint maps are
+not asserted literally equal.
+
+Tensor the actual $H$ above and form the relative cones
+$C=\operatorname{Cof}_K(f')$, $C_{fc}$, and $C_H$.
+The endpoint inclusions give equivalences
+\[
+ C_{fc}\longrightarrow C_H\longleftarrow C_{\mathrm{tensor}(0)}.
+\]
+The tensor of a coefficient zero is not literally the section
+followed by retraction. It factors through $T_K(M_\epsilon)$.
+In that base tensor a finite middle functor moves the outer
+product stage into the central boundary stage, and has natural
+transformations to both the identity and the section--retraction
+functor. On the boundary span the middle functor fixes the
+product stage and sends its two copies of $K$ to the central
+copy. The transformation components are its canonical span
+arrows. Both transformations are over $K$ and identity on the
+chosen section. Composing with the coefficient retraction and
+section gives the further cone equivalences
+\[
+ C_{\mathrm{tensor}(0)}\longrightarrow C_{\mathrm{middle}}
+ \longleftarrow C_0.
+\]
+For $a\Rightarrow b$, the cone comparison runs
+$\operatorname{Cone}(b)\to\operatorname{Cone}(a)$; on a crossing
+it sends $t:b(x)\to y$ to $t\eta_x:a(x)\to y$.
+These are the directions used here.
+
+The suspension-summand inclusion $\Sigma_KV\to C_0$, these
+comparisons, and the strict square $(c',1)$ from $C_{fc}$ to $C$
+give a finite cospan representing $\ell:\Sigma_KV\to C$.
+A second represents $\psi=jf^c\sigma$. Here $\sigma$ uses the
+31-arrow parity shifts of Theorem~\ref{D:parity-shifts}, the
+natural finite suspension--tensor comparison, and the relative
+wedge; $f^c$ is the complementary coefficient roof.
+The implementation retains all base paths. Composition uses
+a span homotopy colimit, appending its two canonical natural
+transformations to the base path.
+
+The intrinsic pinch uses the height-one diagrams
+\[
+ K\longleftarrow V\longrightarrow V\longleftarrow V
+       \longrightarrow K,\qquad
+ K\longleftarrow V\longrightarrow K\longleftarrow V
+       \longrightarrow K.
+\]
+In the first the two middle arrows are identities; all remaining
+arrows are retractions. Collapse its first half to obtain a weak
+map to $\Sigma_KV$, and retract its middle $V$ to obtain a map
+to the second diagram. The ordinary wedge of two suspensions
+maps weakly to the second diagram, reversing the ends of the
+second suspension. This gives a finite pinch cospan with branch
+degrees $(1,-1)$. The wedge/fold construction, with collars on
+the stored base paths, gives
+\[
+ \Sigma_KV\xrightarrow{g_l}G\xleftarrow[\simeq]{g_r}C
+\]
+representing $g=\ell-\psi$ in this convention.
+Every map is strictly over $K$; base paths are retained when a
+section is preserved only up to homotopy.
+Define $\mathcal W_8$ as the finite Grothendieck construction
+of $G\xleftarrow{g_l}\Sigma_KV\to K$. Since $g_r$ is a weak
+equivalence over $K$, its realization is the required relative
+homotopy cofiber of $g$.
+
+\paragraph{Universal-cover chains and the obstruction.}
+The relative universal-cover complex of $V$ is chain-homotopy
+equivalent to one free $R^2$ in every degree $n\geq7$, with
+zero differential. The coefficient $S^5$ supplies the shift
+by five; the parity generators start in degrees two and three.
+On this model $f_n$ alternates $e,q$, while its complement
+alternates $q,e$. The coefficient nullhomotopies have zero
+degree-six cellular chain homotopy after transfer to
+$K\vee2S^5$, which has no six-cells. Tensoring with the unchanged
+parity factor preserves this zero homotopy.
+
+The additional tensor-zero contraction has the same property
+for a functorial reason. It is obtained by first applying the
+coefficient retraction $Y\to K$, then the contraction in
+$T_K(M)$, and then the coefficient section. On relative
+coefficient chains the first map is the zero map from the two
+five-sphere cells. The relative tensor chain functor is the
+tensor product of this coefficient complex and the reduced
+parity complex; hence the entire resulting chain homotopy is
+zero on that model. The contraction's naturality, rather than
+merely the acyclicity of its intermediate target, justifies
+this assertion. Base collars factor through the base and
+likewise contribute nothing to the relative complex.
+
+Renumber degree seven as zero and put $E=R^2$. The first cone
+has $K_n=E\oplus E$ for $n>0$, $K_0=E$, and
+$d(a,b)=(f_{n-1}b,0)$. The lower coordinate of $\ell_n$ is
+$1-f_{n-1}=f_n$, and its upper coordinate is zero.
+The second summand has upper coordinate
+$\epsilon_n(1-f_n)$ and lower coordinate zero, where
+$\epsilon_n=\pm1$ includes the parity-shift and pinch
+orientations. Therefore $g$ induces the isomorphism
+\[
+ E\longrightarrow H_n(K)=(1-f_n)E\oplus f_nE,\qquad
+ x\longmapsto(\epsilon_n(1-f_n)x,f_nx)\quad(n>0),
+\]
+with inverse $(u,v)\mapsto\epsilon_nu+v$.
+Here is an explicit chain deformation retraction, so this is
+stronger than a homology calculation. Write $p_n=f_n$ and
+$q_n=1-f_n$, so $p_{n-1}=q_n$. Project the first cone onto its
+zero-differential homology summand by
+$\pi_n(a,b)=(q_na,p_nb)$, with $H_0=q_0E$.
+The evident inclusion $\iota$ and the degree-one map
+\[
+ s_n(a,b)=(0,p_na)\in K_{n+1}
+\]
+satisfy $ds+sd=1-\iota\pi$, including the bottom degree.
+The attaching map lands in this chosen homology summand.
+Its cone therefore splits into contractible two-term pairs in
+every positive degree and leaves exactly $(1-e)E$ at the bottom.
+Restoring the shift gives the claimed contraction onto
+$(1-e)E[7]$. Independent signs on both coordinates would have
+the same proof, using inverse $(u,v)\mapsto\alpha_nu+\beta_nv$.
+
+All relative pieces are simply connected above the base, and
+the two cones apply van Kampen to maps inducing the identity
+on $\pi_1K$. Thus $\pi_1(B\mathcal W_8)=Q_8$.
+The finite base has universal-cover free chain ranks
+$(10,58,96,48)$ in degrees zero through three. The connecting
+chain map from the relative projective module in degree seven
+to its suspension vanishes for dimension reasons. Consequently
+\[
+ C_*(\widetilde{B\mathcal W_8})\simeq
+ C_*(\widetilde{BK_8})\oplus(1-e)R^2[7]
+\]
+over $R$. For completeness there is a direct domination argument.
+The nerve has finitely many cells in each degree, so its
+seven-skeleton $L_7$ is a finite CW complex. The inclusion into
+$B\mathcal W_8$ is seven-connected. Replace it by a fibration;
+its fibre is six-connected. Every obstruction to a homotopy
+section lies in $H^j(B\mathcal W_8;\mathcal A)$ for a local
+coefficient system $\mathcal A$ and $j\geq8$.
+These groups all vanish by the bounded projective chain model
+just computed. Inductive obstruction theory gives a homotopy
+section, so $L_7$ dominates $B\mathcal W_8$.
+The mapping telescope of the resulting homotopy idempotent
+on $L_7$ is a CW model of dimension at most eight.
+This also verifies directly the hypotheses in Wall's
+finite-domination criterion \cite{wall1965D}.
+Its reduced projective Euler class is
+\[
+ (-1)^7[(1-e)R^2]=[eR^2]=[\operatorname{im}e_8]\ne0.
+\]
+Wall's obstruction theorem \cite[Theorem F]{wall1965D}
+excludes a finite CW model.
+
+\paragraph{Verification and exact size.}
+The ordinal, product, span, and height-one composition rules
+prove all category laws universally. Complete small tables
+independently check those formulas. The nary flattening audit
+checks 6\,765\,548 simplex/pullback equations, 3424 endpoint
+equations, and 12\,280 inverse equations in a nontrivial small
+instance. The actual $Q_8$ coefficient paths check all 64 group
+disks and 512 group/sign/index cases. The final run checks 558
+base-retraction equations, 468 base-transformation equations,
+and 15\,588 identity/associativity equations at the two integer
+ends of every final type block. The last checks sample the
+enormous table; they are not an exhaustive enumeration.
+The exact type-count recursion gives the counts in the theorem,
+and also
+\[
+\begin{split}
+ \#\{\text{typed pairs}\}&=
+ 138\,512\,978\,818\,954\,605\,575\,263\,121\,838,\\
+ \#\{\text{typed triples}\}&=
+ 52\,322\,049\,455\,781\,789\,059\,845\,756\,837\,400\,964.
+\end{split}
+\]
+The machine-readable record is
+\texttt{outputs/d\_final\_wall\_category\_summary.json}.
+\end{proof}

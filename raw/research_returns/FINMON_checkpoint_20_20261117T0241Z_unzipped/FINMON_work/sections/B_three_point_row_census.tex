@@ -1,0 +1,209 @@
+\subsubsection{The complete three-point row-module reduction}
+
+\begin{lemma}\label{B:three-point-triangular-target}
+Let a finite monoid act on a three-element set, and suppose the
+algebra generated on its rational augmentation module is the full
+triangular two-by-two matrix algebra.  After relabeling the set as
+$\{0,1,2\}$, every acting transformation $s$ satisfies
+\[
+ s(0)=s(1)\quad\hbox{or}\quad\{s(0),s(1)\}=\{0,1\}.
+\]
+Collapsing the three constant maps gives a thirteen-element monoid
+$S_{13}$.  The induced augmentation representation factors through
+this monoid.  The only remaining relabeling that preserves the
+unique invariant line is the transposition of $0$ and $1$.
+\end{lemma}
+\begin{proof}
+The full triangular algebra has a unique invariant rational line.
+If all nonconstant acting maps were permutations, their finite
+multiplicative image would be a group; adjoining the zero
+augmentation operator would not change its semisimple rational
+representation.  Thus some nonconstant, nonpermutation map acts.
+Its augmentation operator has rank one.  Any line invariant under
+a rank-one operator is either its kernel or its image.  For a
+three-point transformation of rank two, its kernel is the line
+spanned by the difference of the two identified points, and its
+image is the difference line of its two image points.  The common
+invariant line is therefore a difference line of two points.
+Relabel them $0,1$.
+
+The displayed condition is exactly preservation of
+$\mathbb Q([1]-[0])$.  There are twelve nonconstant transformations
+satisfying it: six identify $0,1$ and six permute them.  The three
+constant transformations form an ideal, so their contraction gives
+$S_{13}$ with twelve nonzero elements and a zero.  The difference
+line determines the unordered pair $\{0,1\}$, proving the last
+assertion.
+\end{proof}
+
+\begin{lemma}\label{B:split-syzygy-persistence}
+Let $A$ be a finite-dimensional algebra, $V$ a left module, and
+let $K$ be a first syzygy of $V$ after removal of projective direct
+summands.  Suppose that for some $d\geq1$, $K$ is a direct summand
+of a $d$th syzygy of $K$, up to projective direct summands.
+If $\operatorname{Tor}_2^A(W,V)\ne0$, then
+$\operatorname{Tor}_n^A(W,V)\ne0$ for arbitrarily large $n$.
+\end{lemma}
+\begin{proof}
+Dimension shifting identifies
+$\operatorname{Tor}_2(W,V)$ with $\operatorname{Tor}_1(W,K)$.
+The split inclusion and retraction, followed by dimension
+shifting, make $\operatorname{Tor}_n(W,K)$ a direct summand of
+$\operatorname{Tor}_{n+d}(W,K)$ for every $n\geq1$.
+Projective summands contribute zero in those degrees.  Iterating
+from $n=1$ proves the claim.
+\end{proof}
+
+\begin{proposition}[Complete six-dimensional triangular-row reduction]
+\label{B:six-row-census}
+Let $A$ be a six-dimensional contracted finite-monoid algebra over
+$\mathbb Q$.  Let $V$ be the two-dimensional augmentation module
+of an action on three points, with full triangular action algebra,
+and let $\dim W=5$.  Suppose
+\[
+ (\dim\operatorname{Tor}_0^A(W,V),
+   \dim\operatorname{Tor}_1^A(W,V),
+   \dim\operatorname{Tor}_2^A(W,V))=(2,0,1)
+\]
+and the Tor groups vanish in all sufficiently large degrees.
+Up to isomorphism of the actual contracted monoid and rational
+isomorphism of $V$, the pair $(A,V)$ belongs to one of the
+following two explicitly enumerated lists:
+\[
+\begin{array}{c|r}
+\text{type}&\text{row-module records}\\\hline
+ J^2=0,\ \text{two parallel arrows followed by one arrow}&280\\
+ J^2=0,\ \text{oriented triangle with zero length-two products}&178\\
+ \text{Nakayama algebra of dimension five times }\mathbb Q&104\\
+ x^2=ab=c\text{ with the thin }b\text{-module}&20.
+\end{array}
+\]
+Here the first two entries have three vertices and three arrows;
+in the oriented triangle one arrow is the direct bypass of the
+other two.  The last two entries are those of
+Lemma~\ref{B:six-pd2-row-pairs}.
+\end{proposition}
+\begin{proof}
+We give the complete finite calculation and its independent checks.
+Contracting a minimal ideal leaves a monoid with seven elements,
+including its zero.  The source census
+\path{code/outputs/d_zero_monoids_7.tsv}
+contains $10115$ classes up to isomorphism and opposite.
+The independent program \path{code/c_verify_zero7.cpp} uses a
+different associativity search, with diagonal-first and then
+column-major branching.  It counts exactly $1725414$ labeled
+tables with prescribed identity and zero.  Expanding every source
+class under all $120$ permutations of the other five elements and
+opposition gives disjoint orbits with exactly that union; it also
+verifies every source associativity equation.
+The audit is recorded in
+\path{code/outputs/c_zero7_independent_verified.json}.
+Thus this step includes reducible monoids, monoids with one-sided
+zeros, and nonfaithful action possibilities.
+
+Adding distinct literal opposite tables gives $18344$ oriented
+source tables.  The regular trace form, exact rational characters,
+and nilpotent radical checks separate them into $227$ semisimple,
+$5420$ local, $12475$ nonlocal split-basic, and $222$ remaining
+algebras.  Semisimple algebras have zero higher Tor.  A local algebra
+cannot have a quotient equal to the triangular algebra, which has
+two nonisomorphic simple modules.  This leaves $12697$ source
+algebras for the row search.
+
+For each source table, enumerate all zero-preserving unital
+homomorphisms to $S_{13}$ from
+Lemma~\ref{B:three-point-triangular-target}.  The target matrices
+in the basis $[1]-[0],[2]-[0]$ are given explicitly by
+\[
+ A_s(i,j)=\mathbf1_{s(j)=i}-\mathbf1_{s(0)=i},
+ \qquad i,j\in\{1,2\}.
+\]
+Every target product is literal composition, with a constant
+composite replaced by zero.  The search
+\path{code/b_three_point_row_homs.cpp}
+uses multiplication constraints and checks every completed map.
+The independent program
+\path{code/b_verify_three_point_row_homs.py}
+instead chooses actual generators of each source, assigns their
+possible images, and extends by multiplication until either a
+collision or a complete homomorphism occurs.  The two algorithms
+agree on every one of the $12697$ sources.  Up to the transposition
+of $0,1$, there are $57888$ nonsemisimple row types: $24196$ have
+dual-number image and $33692$ have triangular image.  Only the
+latter are under consideration here.
+
+For precision, write their operators as
+$\left(\begin{smallmatrix}\alpha_m&c_m\\0&\beta_m\end{smallmatrix}\right)$.
+The characters $\alpha,\beta$ are distinct.  An upper triangular
+change of basis changes $c$ by a nonzero scalar and a multiple of
+$\alpha-\beta$; the unique invariant line shows that these are
+exactly the possible rational module isomorphisms.  Normalizing
+this extension vector gives $20730$ rational module records.
+The independent verifier also constructs and checks an actual
+invertible intertwining matrix for every literal type and checks
+that every one of the $33692$ types occurs exactly once in this
+partition.
+
+There are $138$ records over nonsplit or nonbasic algebras;
+Lemma~\ref{B:six-nonsplit-triangular-row} excludes them.  For the
+remaining split-basic records, the program constructs the actual
+left projectives $Ae_i$, an epimorphism onto $V$, and its rational
+kernel.  Exactly $8545$ records are projective and $5166$ have
+projective dimension one, so their degree-two Tor vanishes.
+The remaining $6881$ first syzygies are treated as follows:
+\[
+\begin{array}{c|r}
+\text{verified outcome}&\text{records}\\\hline
+ J^2=0,\ \operatorname{Tor}_2\ne0\text{ forces unbounded Tor}&4921\\
+ J^2=0,\ \text{the two acyclic quivers in the statement}&458\\
+ J^2\ne0,\ \text{explicit split syzygy recurrence}&1324\\
+ J^2\ne0,\ \text{projective dimension two}&124\\
+ J^2\ne0,\ \text{four-dimensional local corner with one arrow}&54.
+\end{array}
+\]
+
+Here is the exact reason for the first line.  When $J^2=0$, the
+first syzygies on both sides are semisimple.  A vertex contributing
+to $\operatorname{Tor}_2(W,V)=\Omega W\otimes_A\Omega V$
+must occur in $\Omega V$ and have an incoming arrow, since
+$\Omega W$ lies in the radical of a right projective.  If every
+such possible common vertex lies on a directed cycle, the
+path description of the resolution of a simple module gives
+nonzero Tor in arbitrarily large degrees.  The exact reachability
+check gives $4921$ such records.  Every other square-zero record
+has one of the two displayed acyclic three-arrow quivers, with
+counts $280$ and $178$.
+
+For the $1502$ records with $J^2\ne0$, the computation uses actual
+projective covers and exact rational kernels.  A projective direct
+summand is removed only when explicit module maps $F,G$ satisfy
+$GF=1$; the next module is the invariant complement $\ker G$.
+In $1324$ cases, within at most four further syzygies the initial
+stable kernel is a split summand of the new one.  The saved
+inclusion and retraction are actual matrices, so
+Lemma~\ref{B:split-syzygy-persistence} excludes these cases.
+A search failure is never treated as an exclusion.
+In $124$ cases the next kernel is projective, giving the two
+finite-projective-dimension families in the statement.
+The $54$ remaining records all have the actual triangular algebra
+$\left(\begin{smallmatrix}\mathbb Q&\mathbb Q\\0&B\end{smallmatrix}\right)$
+with $B$ local of dimension four and the thin cross-arrow module.
+Their corner multiplication and row action are checked explicitly;
+Lemma~\ref{B:six-local-corner-odd-Euler} excludes them.
+
+The complete matrix records are in
+\path{code/outputs/b_three_point_row_syzygies.json} and
+\path{code/outputs/b_three_point_higher_syzygies.json}.
+The standalone checker
+\path{code/b_verify_six_row_reduction.py}
+imports none of the search, cover, or syzygy implementations.
+It reconstructs the target transformations and every oriented
+source table, verifies the regular trace ranks, the radical and
+orthogonal idempotents, the row-module partition, every exact
+kernel and projective cover, every split inclusion and retraction,
+and the complete square-zero path filter.  All $20730$ records
+pass; the eight outcome counts above sum to $20730$.
+The final audit is
+\path{code/outputs/b_six_row_reduction_verified.json}.
+This proves the stated exhaustive reduction.
+\end{proof}

@@ -1,0 +1,159 @@
+\subsection{The complete twelve-arrow triangular exclusion}
+
+\begin{lemma}[A singleton return hom-set]\label{C:singleton-return}
+Let $C$ be a category with two objects $a,b$, with
+$\Hom(b,a)=\{t\}$ and $\Hom(a,b)\ne\varnothing$.
+Then $BC$ is contractible. More generally, the same conclusion holds
+for any category with an object $a$ such that every
+$\Hom(b,a)$, $b\ne a$, is a singleton and at least one
+$\Hom(a,b)$, $b\ne a$, is nonempty. The opposite criterion also holds.
+\end{lemma}
+\begin{proof}
+Put $M=\End(a)$ and choose $s:a\to b$, where $b\ne a$.
+If $t:b\to a$ is the unique return arrow, every $m\in M$
+satisfies $mt=t$. Thus $e=ts$ satisfies $me=e$ for all $m$.
+It is the component of a natural transformation from the constant
+functor to the identity functor on $M$, so $BM$ is contractible.
+For the full inclusion $i:\{a\}\to C$, the comma category
+$(a\downarrow i)$ has initial object $1_a$. For $b\ne a$,
+$(b\downarrow i)$ has its single object $t$ and endomorphism
+monoid $M$, since $mt=t$. Every comma category is therefore
+contractible. Quillen's Theorem A gives $BM\simeq BC$.
+Applying the same proof to $C^{\mathrm{op}}$ gives the dual assertion.
+No finiteness assumption is needed.
+\end{proof}
+
+\begin{remark}[Retract pruning in a twelve-arrow search]\label{C:twelve-retract-pruning}
+If $u:x\to y$ and $v:y\to x$, $x\ne y$, satisfy $vu=1_x$,
+the full subcategory obtained by deleting $x$ is Cauchy dense.
+Adding or removing a retract preserves the classifying space, as in
+Lemma~\ref{C:two-object-cup-pruning}. At twelve arrows this smaller
+category has at most eleven arrows, so the completed eleven-arrow
+exclusion rules out $\mathbb CP^2$. In particular a trivial
+endomorphism vertex with arrows both ways can be pruned before any
+composition is chosen. There is one further deletion.  Suppose a vertex $x$ has exactly
+one arrow from $x$ to any of the other vertices combined, say
+$x\to y$, and $\End(y)=\{1_y\}$.  Its own endomorphisms and
+incoming arrows are unrestricted.  For the full inclusion deleting
+$x$, the comma category $(x\downarrow i)$ is the single arrow
+$x\to y$ with endomorphism monoid $\End(y)=\{1_y\}$.
+Retained vertices have identity initial objects in their comma
+categories.  Quillen's Theorem A therefore permits deletion of $x$.
+The criterion with incoming arrows is dual.  The file
+\texttt{c\_categories12\_cofinal.cpp} uses precisely this stronger
+deletion; the preceding \texttt{reduced} version used only its
+special case for a leaf with trivial endomorphisms.
+The other reductions are used in the new
+\texttt{c\_categories12\_minimal.cpp} search; they do not alter the
+recorded scopes or counts of the earlier enumerations.
+\end{remark}
+
+\begin{lemma}\label{C:twelve-triangular}
+No triangular two-object category with at most twelve arrows has
+classifying space homotopy equivalent to $\mathbb CP^2$.
+\end{lemma}
+\begin{proof}
+Let $(m,n,s)$ denote the two endomorphism orders and the nonzero
+cross-hom cardinality, with $m\geq n$. The preceding eleven-arrow
+proof and Lemma~\ref{C:two-object-cup-pruning} leave, at twelve arrows,
+only
+\[
+ (8,1,3),\ (7,2,3),\ (6,3,3),\ (5,4,3),\
+ (5,3,4),\ (5,5,2),
+\]
+or act-cone cases over at most seven elements. To see that this list
+is exhaustive, singleton cross-hom sets are excluded by the join
+description. For two cross arrows a vertex of order at most four
+is rationally acyclic and the two-point argument applies; the only
+remaining endomorphism split is $(5,5)$. For $s\geq3$, two vertex
+orders at most four again give zero rational products. One may
+therefore assume $m\geq5$, and enumerate $m+n+s=12$ with $m\geq n$.
+All cases with $n=1,m\leq7$ are covered for arbitrary $s$ by
+Proposition~\ref{C:seven-act-cones}. That proposition also covers
+$(7,2,3)$, because each two-element monoid algebra is semisimple
+over $\mathbb Q$.
+
+Here is an independent complete enumeration for $(8,1,3)$.
+If $H^2(BM;\mathbb Q)=0$, the relative-cup argument already
+excludes the act cone. Otherwise the minimal ideal has at least
+two rows and two columns. Its local group must be trivial: a
+nontrivial group would require at least eight ideal elements and
+a further global identity. Its band is consequently $2\times2$,
+$2\times3$, or $3\times2$.
+
+For a $2\times2$ band, label its elements $x_{ij}$ and write the
+other elements as $1,a,b,c$. Each extra element specifies a row
+and column transformation on two points. The balanced presentation
+for rational $H_2$ forces equality of their augmentation characters.
+There are exactly six such translation pairs. Choose their types
+in nondecreasing order; this removes only permutations of $a,b,c$.
+There are $\binom{8}{3}=56$ type profiles. The nine products among
+$a,b,c$ may be any of the eight elements with the prescribed
+composite translations. Exhaustive associativity propagation on
+these choices leaves 4032 associative tables and 492 ordinary
+isomorphism classes. Isomorphism recognition uses exactly the
+permutations of the two rows, two columns, and three extra elements;
+the minimal ideal is characteristic, so this is the complete
+isomorphism test in the chosen coordinates.
+
+For a $2\times3$ band there is one extra element. There are
+$4\cdot27=108$ translation pairs, and its square is tried at
+every compatible table entry. This gives 56 associative tables
+and twelve ordinary isomorphism classes. The opposite orientation
+gives another twelve classes. Thus the complete list has 516
+tables. The program \path{code/c_eight_H2_targets.cpp} constructs
+this list without using a published census. The independent Python
+check verifies every identity and all $8^3$ associativity equations
+of each table. Its exact rational balanced-module ranks discard
+six tables with $H_2(BM;\mathbb Q)=0$, leaving 510 targets.
+
+For each of the 510 targets, enumerate all right actions on three
+points. Choose a generating set, assign every transformation to
+each generator subject only to its exact power relations, extend
+along generator words, and verify all multiplication equations.
+State permutations remove precisely isomorphic actions. Because
+ordinary opposite tables are included, both arrow orientations
+are covered. There are 8828 action classes. The exact normalized
+category computation excludes 2266 by $b_1(-;\mathbb F_2)$ and
+3321 by $b_2(-;\mathbb F_2)$. Of the others, 3226 have an explicit
+degree-three primitive for the degree-two generator's square.
+The remaining fifteen have third mod-two Betti number one, and
+therefore are not $\mathbb CP^2$. The tables, actions, cocycles,
+primitives, and complete residual ranks are retained in
+\path{code/outputs/c_eight_all_act_cones.json}.
+
+It remains to treat the other four profiles in the displayed list.
+For $(6,3,3)$, the relative-cup argument again restricts the larger
+monoid to those with nonzero rational $H^2$. Its minimal band is
+$2\times2$ with one extra element. The same translation-pair and
+square enumeration gives exactly five ordinary isomorphism classes.
+For $(5,4,3)$ and $(5,3,4)$, the larger monoid must be the
+five-element sphere monoid. In $(5,5,2)$, both monoids must be that
+monoid: every other five-element monoid has rationally acyclic
+classifying space and is covered by the two-point reduction.
+
+The own three- and four-element monoid censuses, with opposites
+restored, supply respectively seven and 35 ordinary isomorphism
+classes for the smaller vertex. The program
+\path{code/c_twelve_triangular_bisets.py} enumerates every right
+action of the larger monoid up to state permutation and \emph{all}
+conjugates of every left action of the smaller monoid. It retains
+exactly the commuting pairs, checking commutation first on
+generators and then on every pair of elements. Thus no relative
+position of the two actions is lost. Its complete counts are
+\[
+\begin{array}{c|r|r|r|r|r}
+(m,n,s)&\text{bisets}&b_1\ne0&b_2\ne1&x^2=0&x^2\ne0\\\hline
+(6,3,3)&1740&460&890&390&0\\
+(5,4,3)&2264&572&1244&448&0\\
+(5,3,4)&2102&851&759&491&1\\
+(5,5,2)&8&1&1&6&0.
+\end{array}
+\]
+The tests are applied in the indicated order, so the columns are
+disjoint and sum to the biset count. The sole nonzero-square
+residual has third mod-two Betti number one. Every asserted zero
+square has a full cochain primitive checked on all normalized
+four-simplices. All four profiles are therefore excluded, which
+completes the proof.
+\end{proof}

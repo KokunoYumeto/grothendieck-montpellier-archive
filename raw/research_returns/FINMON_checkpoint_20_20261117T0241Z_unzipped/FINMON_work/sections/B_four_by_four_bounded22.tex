@@ -1,0 +1,136 @@
+\subsubsection{The bounded action images in the three remaining four-by-four hulls}
+
+\begin{proposition}\label{B:four-by-four-bounded22}
+No finite monoid of order at most twenty-two, with a
+$4\times4$ rectangular-band minimal ideal, has classifying
+space homotopy equivalent to $\mathbb{CP}^2$.
+\end{proposition}
+\begin{proof}
+By Proposition~\ref{B:four-by-four-CP2-hulls}, it remains to treat
+the three maximal balanced-form hulls numbered $217,216,221$.
+We give the complete bounded-image calculation, including the
+reason it applies to a possibly nonfaithful action homomorphism.
+
+Let $M$ be a putative source and let $H$ be its image in the
+monoid of row and column transformation pairs.  The image
+contains all sixteen distinct constant pairs and the identity.
+It has at most five further actors.  The natural balanced
+presentation of $H_2$ shows that
+\[
+ H_2(BM;\mathbb Q)\longrightarrow H_2(BH;\mathbb Q)
+\]
+is an isomorphism: both presentations have the same row and
+column augmentation spaces and exactly the same action
+relations.  Thus every rational degree-two source class is
+pulled back from the image.
+
+An actor whose eventual cyclic group has a nonzero restriction
+of the integral hull cocycle cannot occur in $H$.  Indeed its
+preimage in $M$ has an eventual finite cyclic group mapping
+onto that group.  Inflation of its nonzero integral character
+remains nonzero.  Miller's theorem makes the map from this
+finite local group into the finite CW type $BM$ null-homotopic,
+a contradiction.  This is exactly the local-character test used
+in Proposition~\ref{B:four-by-four-CP2-hulls}; the test is imposed
+on the original source and does not assume that $BH$ has
+finite homotopy type.
+
+The remaining search is finite and completely exhaustive.
+Starting with the sixteen constants and the identity, adjoin
+one allowed actor and close under literal multiplication.
+Reject a closure if it contains a forbidden actor or more than
+five additional actors.  Repeat from every new closed set.
+Every desired image is reached: adjoining any generating set
+of that image produces only intermediate closures contained
+in the image.  Products involving a constant remain constants,
+so closure only needs the products of the additional actors.
+The executable implementation is
+\path{code/d_bounded_actor_closure.cpp}; its full inputs are
+\path{code/outputs/d_bounded_hull_217.txt},
+\path{code/outputs/d_bounded_hull_216.txt}, and
+\path{code/outputs/d_bounded_hull_221.txt}.
+
+The rational relation-rank filter is exact, not a test at an
+uncontrolled prime.  Each raw balancing row in the nine form
+coordinates has integral squared norm at most eight.  Hadamard's
+inequality bounds the absolute value of every nonzero minor by
+$8^{9/2}<65521$.  Since $65521$ is prime, reduction modulo this
+prime preserves the rank of every such relation matrix.  Rank
+eight is precisely the required rational $H_2$-rank one.
+
+We quotient the output lists by all row and column permutations
+that preserve the hull, also allowing the opposite operation
+when it preserves that hull.  Every orbit is explicitly generated
+and checked against the original complete list.  The counts are
+\[
+\begin{array}{c|r|r|r|rrr}
+ \text{hull}&\text{closed sets}&H_2\text{-rank-one sets}
+ &\text{orbits}&|H|=20&|H|=21&|H|=22\\\hline
+ 217&55363&37138&2360&52&519&1789\\
+ 216&8589&4866&2434&68&630&1736\\
+ 221&16686&10440&2636&76&659&1901
+\end{array}
+\]
+There are no smaller rank-one images in these three hulls.
+The complete lists, permutation maps and representatives are
+the files with prefixes
+\path{code/outputs/d_bounded_hull_217},
+\path{code/outputs/d_bounded_hull_216}, and
+\path{code/outputs/d_bounded_hull_221}.
+
+For each of these $7430$ orbit representatives, the exact binary
+two-sided bar calculation in
+\path{code/d_bounded_hull_binary.cpp} computes $H_3$ and $H_4$.
+If $q=|H|-17$, its degree-$k$ term before the band shift has
+dimension $9q^k$.  Every composite of consecutive boundary
+matrices is checked to be zero, and ranks are computed by
+finite bit-vector Gaussian elimination.  Every image of order
+twenty or twenty-one has $H_4(BH;\mathbb F_2)=0$.
+The same is true of all order-twenty-two images except thirty-nine:
+fourteen from hull $217$, ten from $216$, and fifteen from
+$221$.  Each exception has binary Betti numbers $(1,0,1)$ in
+degrees two, three and four.  In particular no image of order
+less than twenty-two is discarded on the basis of a third- or
+higher-homology mismatch alone.
+
+Vanishing of binary fourth homology implies vanishing of
+rational fourth homology, so the square is zero in all the
+nonexceptional images.  For the remaining thirty-nine tables,
+\path{code/d_bounded_hull_residual_cups.py} constructs an integral
+projective resolution prefix and an actual comparison to the
+normalized left bar resolution.  The independently implemented
+checker \path{code/d_verify_bounded_cups.py} imports neither
+construction.  It reconstructs every idempotent projective,
+checks the multiplication and transformation actions, and uses
+Smith normal forms to check saturation and exactness of
+\[
+ P_4\longrightarrow P_3\longrightarrow P_2
+ \longrightarrow P_1\longrightarrow P_0
+ \longrightarrow\mathbb Z\longrightarrow0
+\]
+at $P_3,P_2,P_1,P_0,\mathbb Z$.  It then checks every chain
+square and every $\mathbb ZH$-equivariance equation of the
+supplied comparison in degrees zero through four.
+
+In each of the thirty-nine cases the coinvariant prefix has
+terms $\mathbb Z,0,\mathbb Z,0,\mathbb Z$ in degrees zero
+through four.  Evaluation of the integral hull cocycle on the
+degree-two comparison generator is $1$ or $-1$.  Evaluation
+of its cup square is zero on \emph{every} degree-four
+projective basis vector.  Hence this is a primitive
+degree-two class whose square vanishes, independently of
+any assertion about the later resolution tail.  A projective
+resolution prefix can always be extended, and the checked
+comparison extends to the acyclic bar resolution, so this
+degree-four cochain calculation proves the claimed
+cohomological vanishing.
+
+The full thirty-nine tables, cocycles and comparison images are
+in \path{code/outputs/d_bounded_hull_residual_cups.json} and the
+thirty-nine accompanying compressed cup certificates.  The
+standalone verification record is
+\path{code/outputs/d_bounded_hull_cups_independently_verified.json}.
+Thus the square is zero in every possible bounded image $H$,
+and its pullback to $M$ is zero.  This contradicts the
+cohomology ring of $\mathbb{CP}^2$.
+\end{proof}

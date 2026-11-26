@@ -1,0 +1,134 @@
+\subsection{A certified small-order obstruction for $\Sigma\CP^\infty$}
+\label{E:sigma-small-section}
+
+\begin{proposition}[Published homology prefilter and independently checked operations]
+\label{E:sigma-small}
+Using the complete corner-irreducible monoid census and its published
+integral homology through degree seven in orders at most nine and
+through degree five in order ten, no monoid of order at most ten
+has classifying space homotopy equivalent to $\Sigma\CP^\infty$.
+The first monoid order not excluded by this calculation is eleven.
+The general exclusion in Corollary~\ref{E:Sigma-CP-infty-excluded}
+below is independent of this published prefilter and covers arbitrary
+finite monoids and categories.
+\end{proposition}
+
+\begin{proof}
+Corner reduction preserves the classifying space and does not increase
+the order, as in Proposition~\ref{prop:B-Moore-minimum}. Passing to the
+opposite monoid also preserves the classifying space: reverse each
+simplex of its nerve. Consequently it suffices to examine the complete
+corner-irreducible representatives, up to isomorphism and opposition,
+in the source census \cite{SweeneyEnumeration2026B}.
+
+\textbf{The source-dependent prefilter.}
+The published file \path{fetched/Sweeney_maxorder9_maxdim7.hdf5}
+contains the integral homology profiles through degree seven for all
+3960 representatives of orders one through nine. Its index counts by
+order are
+\[
+ 1,1,1,2,2,7,25,256,3665.
+\]
+There are no entries marked uncomputed. A necessary profile for
+$\Sigma\CP^\infty$ is
+\[
+ (H_0,H_1,\ldots,H_7)
+   =(\Z,0,0,\Z,0,\Z,0,\Z).
+\]
+Exactly seven order-eight tables and 66 order-nine tables have this
+published profile; none of the smaller tables does. The zero-based
+order-eight indices are $24,51,59,69,106,135,148$.
+The 66 order-nine indices and all 73 multiplication tables are saved
+in \path{code/outputs/a_sigma_CP_infty_candidates9.json}.
+The reproducible extraction check
+\path{code/a_sigma_CP_prefilter.py} checks every source index, the
+absence of unknown profiles, exact equality of the extracted tables
+with the subsequent operation certificates, and SHA-256 hashes of
+the three source files used. Completeness of the census and correctness
+of the published integral homology used to discard the other 3887
+tables are external source dependencies; they are not reclassified
+as independent computations here.
+
+The separate published file
+\path{fetched/Sweeney_maxorder10_maxdim5.hdf5} provides integral
+homology through degree five for all 71\,916 order-ten core
+representatives, again with no uncomputed entries. The necessary
+profile $(\Z,0,0,\Z,0,\Z)$ retains exactly 2407 tables. The program
+\path{code/a_sigma_CP_steenrod10.py} reproduces this full prefilter,
+records its complete selected-index list and both source-file hashes
+in \path{code/outputs/a_sigma_CP_prefilter10.json}, and checks all
+retained tables. The homology source was also matched to the exact
+Git blob recorded in the fetched upstream repository tree; this
+provenance check is saved in
+\path{code/outputs/a_sigma_CP_source10.json}. These published order-ten
+homology values and census completeness are additional explicit
+source dependencies.
+
+\textbf{The independently computed obstruction.}
+For every retained table the program
+\path{code/a_sigma_CP_steenrod.py} first checks the identity and all
+associativity equations, then uses the normalized bar differential
+over $\mathbb F_2$ to compute $H^3$ independently. It has dimension
+one in every case. The same checks in the order-ten runner give
+dimension one for all 2407 additional tables. All 73 smaller monoids
+and 2316 of the order-ten monoids are independently checked to be
+aperiodic, although aperiodicity is not required for the obstruction.
+Choose a normalized three-cocycle $x$ representing the unique
+nonzero class.
+
+For this computation we use algebraic bar order, so the internal
+face replaces consecutive entries $a,b$ by $ab$. This is the reverse
+of chronological nerve order used in Theorem~\ref{thm:E-wedge};
+reversal identifies the two conventions. Extend $x$ by zero whenever
+one argument is the identity. The normalized cup-one formula gives
+\[
+\begin{split}
+ (x\smile_1x)(a,b,c,d,e)
+   ={}&x(abc,d,e)x(a,b,c)\\
+      &+x(a,bcd,e)x(b,c,d)\\
+      &+x(a,b,cde)x(c,d,e).
+\end{split}
+\]
+This cocycle represents $\mathrm{Sq}^2[x]$; the displayed insertion
+formula is also the bar formula in \cite[Theorem~3.7 and its preceding
+definition]{lodder2018}. Exact binary linear algebra produces a
+normalized four-cochain $v$ satisfying
+\[
+                 \delta v=x\smile_1x
+\]
+for every one of the 2480 retained tables. The output retains $x$, $x\smile_1x$, and
+$v$ as complete bit vectors in the lexicographic normalized-word
+bases. The program verifies the equality on every normalized
+five-tuple: $7^5$ equations for each order-eight table and $8^5$
+for each order-nine table, for a total of 2\,280\,337 equations in
+those orders. The order-ten run checks another
+$2407\cdot9^5=142\,130\,943$ equations. Its complete per-table
+certificates are saved in
+\path{code/outputs/a_sigma_CP_steenrod10.jsonl}; the completed summary
+records all 2407 distinct source indices and no nonzero operation.
+The combined computation checks 144\,411\,280 primitive identities.
+Thus $\mathrm{Sq}^2:H^3(BM;\mathbb F_2)\to H^5(BM;\mathbb F_2)$
+is zero in all 2480 cases. As an additional control the same code
+recovers $\mathrm{Sq}^2(w^3)=w^5\ne0$ for $BC_2$.
+
+Finally, if $c\in H^2(\CP^\infty;\mathbb F_2)$ is the standard
+generator and $\sigma$ denotes cohomological suspension, stability
+and the top-square identity give
+\[
+ \mathrm{Sq}^2(\sigma c)
+       =\sigma\mathrm{Sq}^2(c)=\sigma(c^2)\ne0.
+\]
+This contradicts the independently certified vanishing for every
+candidate and proves the stated exclusion with precisely the
+source dependencies recorded above.
+\end{proof}
+
+\begin{remark}\label{E:sigma-open}
+Cup-product nilpotence does not obstruct a suspension, whose
+positive-degree products vanish.  The finite operation certificates
+above do not by themselves establish an all-order assertion.
+Corollary~\ref{E:general-good-prime-LF} supplies the separate general
+Steenrod-module theorem, and
+Corollary~\ref{E:Sigma-CP-infty-excluded} settles the realization
+question negatively for both finite monoids and finite categories.
+\end{remark}

@@ -1,0 +1,136 @@
+\subsection{Five and six objects with sixteen arrows}
+
+\begin{theorem}\label{C:sixteen-five-six-objects}
+No finite category with five or six objects and at most sixteen
+arrows has classifying space homotopy equivalent to
+$\mathbb {CP}^2$.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{C:CP2-lower16} treats at most fifteen arrows.
+We may assume that the category is connected and has exactly
+sixteen arrows.  The following enumeration uses complete
+ordinary corner-monoid catalogs, including both orientations;
+it does not identify a monoid with its opposite when that
+would omit an actual corner choice.
+
+First enumerate the underlying simple undirected support:
+an edge records that at least one of the two cross hom-sets
+is nonempty.  For $k$ objects this is a connected graph with
+at most $16-k$ edges.  Enumerate every graph on $k$ labeled
+vertices, and retain one representative of each orbit under
+all $k!$ vertex permutations.  The exact inventories are
+\[
+\begin{array}{c|r|r|r}
+ k&\text{labeled supports}&\text{support orbits}&
+ \text{raw cardinality decorations}\\ \hline
+ 5&728&21&9\,039\,898\\
+ 6&24\,763&94&7\,492\,422
+\end{array}
+\]
+The raw decoration count is before any structural or symmetry
+prune.  To explain its completeness, each vertex receives a
+positive corner size, and an undirected edge receives an
+ordered pair $(a,b)$ of nonnegative cross cardinalities with
+$a+b>0$.  Subject only to total arrow count sixteen, all such
+choices are tried.  For a fixed support with $e$ edges their
+number is the coefficient of $x^{16-k-e}$ in
+\[
+ (2-x)^e(1-x)^{-k-2e}.
+\]
+Indeed, a corner's excess contributes $(1-x)^{-1}$ and an
+edge's excess contributes
+$\sum_{j\geq0}(j+2)x^j=(2-x)/(1-x)^2$.
+The full automorphism group of the support, together with
+opposition, removes duplicate decorations.  No additional
+vertex permutation is needed: any isomorphism of decorated
+categories must already be an automorphism of the underlying
+support representative.
+
+Apply the previously proved initial/terminal, retract,
+singleton cofinal-deletion, and singleton-core prunes.
+A five-object corner of order eight forces the remaining
+cross support to be a singleton tree and is excluded by
+Lemma~\ref{C:tree-singleton-core-cups}; a larger corner,
+or an order-eight corner with six objects, cannot fit the
+connected arrow budget.  Thus every remaining corner has
+order at most seven.  Acyclic choices with semisimple
+rational diagonal are excluded by
+Lemma~\ref{C:sixteen-high-semisimple}.  The program uses a
+nonzero regular-trace determinant modulo $32003$ only as a
+sufficient certificate for rational semisimplicity; a zero
+determinant never excludes a corner.
+
+For every remaining decoration, insert every literal corner
+multiplication table from the complete ordinary catalogs.
+Every cross product is then a variable whose possible values
+are exactly its target hom-set.  Associativity propagation
+assigns a variable only when an already known associativity
+equation forces it, and rejects only contradictory equations.
+The depth-first search tries every remaining allowed value.
+Consequently every category in the retained scope appears.
+Permutations inside cross hom-sets remove duplicate finished
+tables; omitting corner permutations at this stage can only
+retain additional representatives.  An exact normalized-bar
+calculation first retains the tables with mod-two homology
+$H_1=0$, $H_2=\mathbb F_2$.
+
+The completed searches and their independent literal bar gates
+have the following counts:
+\[
+\begin{array}{c|r|r|r|r}
+ k&\text{finished corner-representative tables}&
+ \text{retained rows}&u^2=0&H_3(\mathbb F_2)\ne0\\ \hline
+ 5&8\,301\,658&411\,909&411\,734&175\\
+ 6&51\,458&4\,022&4\,022&0
+\end{array}
+\]
+For every retained row the bar gate checks all typed category
+axioms, computes a nonzero degree-two cocycle, and either
+exhibits a degree-three primitive for its square or computes
+positive third mod-two homology.  Neither alternative is
+compatible with $\mathbb {CP}^2$.  This proves the theorem.
+\end{proof}
+
+\begin{remark}[Scope and independent verification]
+\label{C:sixteen-five-six-verification}
+The producer is \path{c_categories16_support_high.cpp}.
+The completed source stems are
+\path{c_categories_16_5_support_CP2} and
+\path{c_categories_16_6_support_CP2}.
+The independent program \path{d_sixteen_support_graph_audit.py}
+constructs graph orbits by expanding every orbit, rather than
+using the producer's minimum-representative test.  It verifies
+all $21$ and $94$ support representatives, their full
+automorphism groups, every formal decoration count, and the
+complete start/finish support logs.  The earlier
+\path{d_sixteen_generator_scope_audit.py} records the
+structural-prune and code-difference audit.
+
+The literal normalized-bar verifier
+\path{c_category_tsv16_cups.cpp} imports neither the category
+generator nor its homology filter.  Its mathematical routines
+are the previously independently audited fifteen-arrow
+verifier; the sixteen-arrow specialization changes only the
+two input-size guards.  Its completed output stems are
+\path{c_category_tsv_16_5_support_complete} and
+\path{c_category_tsv_16_6_support_complete}.
+It checks respectively $124\,599\,941$ and $633\,948$ typed
+associativity equations, $63\,327\,254$ and $227\,919$
+cocycle equations, and $298\,082\,532$ and $675\,597$
+square-primitive equations.
+
+The separate checker \path{d_verify_sixteen_high_linkage.py}
+compares every literal source, target, and multiplication table
+with its certificate, requires complete source and certificate
+EOFs and final producer counts, and hashes the entire source.
+It additionally reconstructs the category and normalized bars
+from scratch in Python for all $4\,022$ six-object rows and
+all $175$ five-object positive-$H_3$ rows, recomputing the
+ranks, the nonzero cocycle, and every applicable primitive.
+This additional Python check is not claimed for the remaining
+five-object rows: their complete independent check is the
+C++ bar verifier just described.  The combined exact-linkage
+record is \path{d_sixteen_high_linkage_verified.json}.
+No partial sixteen-arrow three- or four-object search is used
+in this theorem.
+\end{remark}
